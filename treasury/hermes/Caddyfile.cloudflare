@@ -1,0 +1,49 @@
+# Caddy configuration with Cloudflare DNS challenge
+# Automatic HTTPS without opening ports 80/443 to the public
+
+{
+    # Use Cloudflare DNS challenge for Let's Encrypt
+    acme_dns cloudflare {env.CF_API_TOKEN}
+    email {env.CF_EMAIL}
+}
+
+# Main domain
+{$DOMAIN} {
+    # Reverse proxy to FastAPI app
+    reverse_proxy hermes-dashboard:8080 {
+        health_uri /health
+        health_interval 30s
+        health_timeout 5s
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+    }
+    
+    # Security headers
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Frame-Options "DENY"
+        X-Content-Type-Options "nosniff"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+    
+    # Compression
+    encode gzip zstd
+    
+    # Logging
+    log {
+        output file /data/logs/caddy.log {
+            roll_size 10mb
+            roll_keep 5
+        }
+        format json
+        level INFO
+    }
+}
+
+# Wildcard for subdomains (optional)
+*.{$DOMAIN} {
+    reverse_proxy hermes-dashboard:8080
+}

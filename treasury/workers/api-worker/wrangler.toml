@@ -1,0 +1,20 @@
+name = "api-worker"
+main = "src/index.ts"
+compatibility_date = "2026-09-12"
+
+# D1 database
+[[d1_databases]]
+binding = "DB"
+database_name = "shit-token"
+database_id = "YOUR_D1_DATABASE_ID"
+account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"
+
+# R2 bucket for connectome brain data
+[[r2_buckets]]
+binding = "BRAIN_BUCKET"
+bucket_name = "shit-token-weights"
+
+[vars]
+FLYAI_TOKEN = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C"
+TREASURY_VALUATION = ""
+# Secret: npx wrangler secret put ROBINHOOD_RPC_URL

@@ -1,0 +1,51 @@
+
+[Unit]
+Description=Hermes Cross-DEX Arbitrage Monitor
+Documentation=file:/home/terexitarius/.hermes/arbitrage_monitor/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Environment="ALCHEMY_WSS_ETH=wss://eth-mainnet.g.alchemy.com/v2/DbRpGYbLsNo-hOI40cfh8"
+Environment="ALCHEMY_WSS_BASE=wss://base-mainnet.g.alchemy.com/v2/DbRpGYbLsNo-hOI40cfh8"
+Environment="ALCHEMY_WSS_ARB=wss://arb-mainnet.g.alchemy.com/v2/DbRpGYbLsNo-hOI40cfh8"
+Environment="QUICKNODE_WSS_ETH=wss://api.quicknode.com/v1/QN_9a2d68943d664e7bb3a3966791bfb4b3/ws"
+Environment="QUICKNODE_WSS_BASE=wss://api.quicknode.com/v1/QN_9a2d68943d664e7bb3a3966791bfb4b3/ws"
+Environment="BLOCKNATIVE_API_KEY=7140c11c-3e34-489a-bf86-d7e49c2c1d20"
+Environment="ANKR_MULTICHAIN_RPC=https://rpc.ankr.com/multichain/0e8c5d238f6a82f29d32988cccc7094b7435463936045a913be32563e16b5792"
+Environment="ENABLE_MEMPOOL=true"
+Environment="INFURA_PROJECT_ID=7f25df3fee614c3b977bafedbf880279"
+Environment="CHAINBASE_API_KEY=3Ck8KN75At0PHIMR9Z3t6MOtT07"
+Environment="EXECUTION_WALLET=0x2B6686cd8A8d1dF66A1C05E0C67c6d4F2e38"
+Type=simple
+User=terexitarius
+Group=terexitarius
+WorkingDirectory=/home/terexitarius/.hermes/hermes-token-screener/trading/arbitrage_monitor
+Environment="PATH=/home/terexitarius/.local/bin:/home/terexitarius/.pyenv/bin:/usr/local/bin:/usr/bin:/bin"
+EnvironmentFile=/home/terexitarius/.hermes/arbitrage.env  # optional per-daemon env
+# Core polling parameters (can be overridden by EnvironmentFile)
+Environment="ARBITRAGE_CHAINS=base,ethereum,arbitrum"
+Environment="ARBITRAGE_MIN_PROFIT_ETH=0.015"
+Environment="ARBITRAGE_POLL_INTERVAL=30"
+Environment="ARBITRAGE_QUOTE_AMOUNT_ETH=1.0"
+# Database + execution (disabled by default — enable explicitly)
+Environment="ARBITRAGE_DB_PATH=/home/terexitarius/.hermes/data/arbitrage_opportunities.db"
+Environment="ARBITRAGE_EXECUTION_ENABLED=false"
+Environment="ARBITRAGE_MIN_PROFIT_EXEC=0.02"
+# Telegram (optional)
+Environment="ARBITRAGE_TELEGRAM_BOT_TOKEN="
+Environment="ARBITRAGE_TELEGRAM_CHAT_ID="
+ExecStart=/home/terexitarius/.local/bin/python run_arbitrage_monitor.py
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Resource limits (lightweight polling daemon)
+MemoryMax=300M
+CPUQuota=50%
+# Avoid slowdown under memory pressure
+OOMScoreAdjust=1000
+
+[Install]
+WantedBy=multi-user.target

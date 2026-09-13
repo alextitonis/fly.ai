@@ -1,0 +1,55 @@
+# Security scan on every push and PR — same tools as the wrangler deploy gate.
+# Blocks the PR if HIGH/CRITICAL secrets, vulns, or misconfigs are found.
+# Tools: TruffleHog (secrets in git history), Trivy (secrets+vulns+misconfig),
+#        Semgrep (SAST), Gitleaks (fast secret scan).
+name: Security Scan
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history for TruffleHog git scan
+
+      # --- Gitleaks: fast secret scan (~5s) ---
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # --- TruffleHog: secrets in git history (live verification) ---
+      - name: TruffleHog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_arguments: --json --no-verification --results=verified,unknown --fail-on-verified
+
+      # --- Trivy: secrets + vulns + misconfig ---
+      - name: Trivy FS scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: secret,vuln,misconfig
+          severity: HIGH,CRITICAL
+          exit-code: "1"
+          ignore-unfixed: true
+          skip-dirs: node_modules,.venv,contracts/lib,contracts/out,contracts/cache,frontend/node_modules,frontend/dist,loxley/vendor
+
+      # --- Semgrep: SAST (OWASP top 10, TypeScript, React, Solidity, Python) ---
+      - name: Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: p/owasp-top-10
+        env:
+          SEMGREP_RULES: p/typescript p/react p/solidity p/python

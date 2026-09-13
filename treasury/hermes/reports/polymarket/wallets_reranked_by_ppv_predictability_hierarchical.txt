@@ -1,0 +1,1552 @@
+CATEGORY #1: Macro/Business | profit_per_volume=2.998023 | total_pnl=87533669.277856 | total_volume=29197131.940000 | predictability_score=0.822 | composite_score=0.764
+  Category example question: Games Total: O/U 2.5
+  SUBCATEGORY #1: General | profit_per_volume=67.236552 | total_pnl=5406370.129300 | total_volume=80408.200000 | predictability_score=0.620 | predictability_band=easy | composite_score=0.810
+    Subcategory example question: Will Big AI be out as #1 Free App in the US Apple Store by March 13?
+     1. 0x12d57e25d495a9c818a78024d0767554652cc8d6  pnl_per_volume=997.994935  pnl=497919.632950  volume=498.920000
+     2. 0x453be77f6a71a34e355bca2bde0b9df739bd5ecc  pnl_per_volume=477.560332  pnl=307071.293400  volume=643.000000
+     3. 0xf865533cd53fa3a1e0df2902ba7461aaa44e5a27  pnl_per_volume=413.791710  pnl=269407.368900  volume=651.070000
+     4. 0x5f8d00f1ffc63263367e9c4e71e826d4f0c16f61  pnl_per_volume=371.987603  pnl=769660.950755  volume=2069.050000
+     5. 0xc4f19911c2fa24cd9b5510f926230e5dfd04ce98  pnl_per_volume=335.954917  pnl=500095.770051  volume=1488.580000
+     6. 0x37a5c2a13e6fc3c19f776f12a68d29d2c817e5f0  pnl_per_volume=250.543760  pnl=701319.587071  volume=2799.190000
+     7. 0x917922a77f6f6fdae09cda2fa218627833794096  pnl_per_volume=229.438383  pnl=524679.694770  volume=2286.800000
+     8. 0x0ade2de4b29bbc9c081df962b4de63f45cb86706  pnl_per_volume=213.223497  pnl=680121.121399  volume=3189.710000
+     9. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=24.856984  pnl=771448.919788  volume=31035.500000
+    10. 0xe9ca93b821166e6f60c5b128254758145821e8d0  pnl_per_volume=10.760412  pnl=384645.790216  volume=35746.380000
+  SUBCATEGORY #2: Hardware/Semiconductors | profit_per_volume=18.826452 | total_pnl=1505903.081432 | total_volume=79988.680000 | predictability_score=0.730 | predictability_band=easy | composite_score=0.510
+    Subcategory example question: Will "Nvidia" be said during the next episode of the All-In Podcast?
+     1. 0x12d57e25d495a9c818a78024d0767554652cc8d6  pnl_per_volume=998.959902  pnl=499499.930070  volume=500.020000
+     2. 0x3329cfc2b8d8ceb8d198f081bdf4262f421f43a6  pnl_per_volume=348.055631  pnl=33726.590640  volume=96.900000
+     3. 0xef2a2e5397a610a01040212974b53cff7799bd7e  pnl_per_volume=289.168991  pnl=43612.467270  volume=150.820000
+     4. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=265.800407  pnl=91610.768110  volume=344.660000
+     5. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=212.489620  pnl=56687.980730  volume=266.780000
+     6. 0xee6712ea09d6a9c86793bb6dde10ea59040e67a6  pnl_per_volume=80.439189  pnl=45433.662770  volume=564.820000
+     7. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=38.155151  pnl=587510.347936  volume=15397.930000
+     8. 0x87650b9f63563f7c456d9bbcceee5f9faf06ed81  pnl_per_volume=16.043136  pnl=30177.781133  volume=1881.040000
+     9. 0x51b817854f52e74ff0259b4d828ddcd36131cf16  pnl_per_volume=8.733138  pnl=57521.250302  volume=6586.550000
+    10. 0x8936214e1dab02e74e5469d76b4c55cfe99cd010  pnl_per_volume=1.109285  pnl=60122.302470  volume=54199.160000
+  SUBCATEGORY #3: US Presidential | profit_per_volume=15.143902 | total_pnl=151117.059113 | total_volume=9978.740000 | predictability_score=0.780 | predictability_band=easiest | composite_score=0.508
+    Subcategory example question: Will Kamala Harris say "inflation" 5 or more times during her Pennsylvania speech?
+     1. 0xf29699f144df644c88105d06a1f8f0177ac29839  pnl_per_volume=158.232156  pnl=22109.779130  volume=139.730000
+     2. 0xba32b44c37cc9cd8b90292f7e50f5dcae96edeaa  pnl_per_volume=157.682965  pnl=14032.207046  volume=88.990000
+     3. 0x8f6287a005b61b759b05c7e7a2f804d4cd7702ef  pnl_per_volume=131.757218  pnl=7919.926359  volume=60.110000
+     4. 0xeb884fecdfbbd8963ef16bb766d696d6c9e00e56  pnl_per_volume=101.339181  pnl=3465.800000  volume=34.200000
+     5. 0x8bd4a3f87a62a5db2449aac6bb1ede2e7f0aa66d  pnl_per_volume=91.082534  pnl=24802.684950  volume=272.310000
+     6. 0xb10047d6a254b2ebb306d7a7d13bf59171ab6461  pnl_per_volume=28.596176  pnl=3172.173800  volume=110.930000
+     7. 0xe274eed0e6e2c168094856a85c07efc747d8ee86  pnl_per_volume=27.983577  pnl=8826.580000  volume=315.420000
+     8. 0x30e443872ddf63b2908a49f92cd690c304a55102  pnl_per_volume=22.975693  pnl=54845.046799  volume=2387.090000
+     9. 0xc970f482ed085fa8cbc3ba822f7160dd35ffb063  pnl_per_volume=9.006402  pnl=5629.902200  volume=625.100000
+    10. 0xd1acd3925d895de9aec98ff95f3a30c5279d08d5  pnl_per_volume=1.061919  pnl=6312.958830  volume=5944.860000
+  SUBCATEGORY #4: Commodities | profit_per_volume=16.474851 | total_pnl=15862974.349372 | total_volume=962859.930000 | predictability_score=0.750 | predictability_band=easiest | composite_score=0.503
+    Subcategory example question: Games Total: O/U 2.5
+     1. 0x46f1fa480ba16d894d8574f8c25c74d25e9fc686  pnl_per_volume=743.015113  pnl=743015.113060  volume=1000.000000
+     2. 0x6bd89699e2007c446109cbb8f7a7723804e4e6d0  pnl_per_volume=365.216894  pnl=715832.416585  volume=1960.020000
+     3. 0xf39651f0addaad0221806d828197064b97feed0d  pnl_per_volume=284.398586  pnl=3076569.868851  volume=10817.810000
+     4. 0x74324902f30f1e01476bae506a0974f902dbc16a  pnl_per_volume=202.706032  pnl=602397.733199  volume=2971.780000
+     5. 0x25d4a70640380ca518d2c2a1a3e91af10b8d8d71  pnl_per_volume=160.194599  pnl=2312449.078600  volume=14435.250000
+     6. 0xaed106fd603b8a16c1bcb727590ad18b7d7284e5  pnl_per_volume=113.702399  pnl=858068.798843  volume=7546.620000
+     7. 0x9182ab8157689aa8fdb58aeca518e3fbed0b3368  pnl_per_volume=45.753283  pnl=1374007.240836  volume=30030.790000
+     8. 0x972e4f1c403f58f5dbd16c18ce07594458164665  pnl_per_volume=42.502030  pnl=1022199.324931  volume=24050.600000
+     9. 0x264cbb7263b0c336c58fb5a5de1773896e6bbaca  pnl_per_volume=15.639278  pnl=4286473.466157  volume=274083.840000
+    10. 0xe734e7bf7cfb9e464681f71822f6c2f6be514f0c  pnl_per_volume=1.463113  pnl=871961.308310  volume=595963.220000
+  SUBCATEGORY #5: Fed Rates | profit_per_volume=2.245228 | total_pnl=54788490.777816 | total_volume=24402200.040000 | predictability_score=0.840 | predictability_band=easiest | composite_score=0.444
+    Subcategory example question: Fed rate cut by January 2026 meeting?
+     1. 0xadb4e00b535ae36532764ddfcdbafe48a23f3214  pnl_per_volume=47.911404  pnl=5158682.195561  volume=107671.280000
+     2. 0xbec8cdd436f4ada2621865f613dad0e6aed0d919  pnl_per_volume=42.474977  pnl=3626176.736770  volume=85372.070000
+     3. 0xc92ae9626bedee9e83387ccb6c0f0dabe2c435fb  pnl_per_volume=40.099244  pnl=4905720.259411  volume=122339.470000
+     4. 0x2d58182d23f73967a9eff97a6020b73b7b891aea  pnl_per_volume=33.546000  pnl=3658242.587976  volume=109051.530000
+     5. 0x2373809dadc2c73d05038df89e9399560f445b7f  pnl_per_volume=18.640098  pnl=4387814.781648  volume=235396.550000
+     6. 0x216509be5332c6037105b4f871966eb97240f598  pnl_per_volume=9.944958  pnl=3884089.457940  volume=390558.660000
+     7. 0x05374492e37f036fb751d708fe487aeca60b5b0f  pnl_per_volume=5.766293  pnl=3374786.690138  volume=585261.060000
+     8. 0x386819f3c86b123f6c42a874331dedcd3a9e5683  pnl_per_volume=4.616655  pnl=6817036.321508  volume=1476617.960000
+     9. 0xa61ef8773ec2e821962306ca87d4b57e39ff0abd  pnl_per_volume=1.019191  pnl=7446457.634355  volume=7306243.010000
+    10. 0xfbfd14dd4bb607373119de95f1d4b21c3b6c0029  pnl_per_volume=0.824495  pnl=11529484.112510  volume=13983688.450000
+  SUBCATEGORY #6: Product Events | profit_per_volume=5.402935 | total_pnl=129632.728113 | total_volume=23993.020000 | predictability_score=0.750 | predictability_band=easiest | composite_score=0.422
+    Subcategory example question: Will "Most Advanced" or "Most Powerful" be said during the NYC Apple event on March 4?
+     1. 0x983cc0f8d60b1d0a2f8bc8453862a6aafa9a385d  pnl_per_volume=284.981875  pnl=9347.405490  volume=32.800000
+     2. 0x9aeb534c42b58b21673d5e03e9da14fbd15b2729  pnl_per_volume=219.804200  pnl=8875.693613  volume=40.380000
+     3. 0x97eb7ddf9139a3db0be99e81217e20546e219fbe  pnl_per_volume=162.279247  pnl=25265.256030  volume=155.690000
+     4. 0x08458f7e9d2858027de579e4c3ca305475496b6f  pnl_per_volume=130.578862  pnl=12901.191573  volume=98.800000
+     5. 0x2d99e29c4f066ba32098c65e4c7454b277d94ca3  pnl_per_volume=69.493855  pnl=10935.552950  volume=157.360000
+     6. 0xe598435df0cdf5d22bdd5082d557f75f9180a0a8  pnl_per_volume=46.795033  pnl=17576.682341  volume=375.610000
+     7. 0x0a7aaf83341b52df34e8ffef52aa295538d6df1b  pnl_per_volume=24.820999  pnl=6007.922876  volume=242.050000
+     8. 0x1c1e841584db14084e10e7dca2ad0ab7b60dbfe7  pnl_per_volume=5.846355  pnl=16317.410820  volume=2791.040000
+     9. 0xfa394a598dbf573202a8286b45f512c7a383977f  pnl_per_volume=3.642420  pnl=11105.409533  volume=3048.910000
+    10. 0x95074f700f93bdf6e62fc965e0832064c0877b04  pnl_per_volume=0.662754  pnl=11300.202887  volume=17050.380000
+  SUBCATEGORY #7: Basketball | profit_per_volume=4.673400 | total_pnl=19582.387264 | total_volume=4190.180000 | predictability_score=0.760 | predictability_band=easiest | composite_score=0.422
+    Subcategory example question: Games Total: O/U 2.5
+     1. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=903.827698  pnl=7953.683740  volume=8.800000
+     2. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=520.936929  pnl=2849.525000  volume=5.470000
+     3. 0xe9b42acb8cf9b3ce94d70c7400acabcbb942f03a  pnl_per_volume=517.924775  pnl=1149.793000  volume=2.220000
+     4. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=455.249500  pnl=1820.998000  volume=4.000000
+     5. 0xef2a2e5397a610a01040212974b53cff7799bd7e  pnl_per_volume=451.893947  pnl=1717.197000  volume=3.800000
+     6. 0x161f2db0e40c59b2f29e898efb63cc415228b075  pnl_per_volume=408.169721  pnl=1024.506000  volume=2.510000
+     7. 0x35420f83f93ebec748ec8d5b90c5438853b8c3c8  pnl_per_volume=4.104244  pnl=1680.072400  volume=409.350000
+     8. 0x338c044253af7a66e18f6f8dbad6cbb256ee1b33  pnl_per_volume=1.980562  pnl=759.703844  volume=383.580000
+     9. 0x9eb9133542965213982f3db49097f6cc4184cb5d  pnl_per_volume=0.771488  pnl=292.725680  volume=379.430000
+    10. 0x24189b6c233a6b9a5365fe99b380673e900766c8  pnl_per_volume=0.111729  pnl=334.182600  volume=2991.020000
+  SUBCATEGORY #8: Inflation/Growth | profit_per_volume=1.894635 | total_pnl=958832.918566 | total_volume=506078.030000 | predictability_score=0.790 | predictability_band=easiest | composite_score=0.416
+    Subcategory example question: Will "Recession" be said during the next episode of the All-In Podcast?
+     1. 0x9966597083668631291b6f32d85dae8898ddc10b  pnl_per_volume=5.250000  pnl=140328.720000  volume=26729.280000
+     2. 0x7a2c31f6344275fc4e736020f09813055bf8b3fb  pnl_per_volume=4.882353  pnl=131496.900000  volume=26933.100000
+     3. 0x29f7bc36680b0404a61d6e2d614c3025bd9ac2e2  pnl_per_volume=2.997901  pnl=76536.100570  volume=25529.900000
+     4. 0x6086c6fa589bb179df005198cbaf86b5a475c78a  pnl_per_volume=2.278307  pnl=74654.482920  volume=32767.520000
+     5. 0x5e1198a5043dfe36156c02e4ac199137458efddc  pnl_per_volume=2.173383  pnl=74577.818780  volume=34314.170000
+     6. 0xffc7bc33404487245e8abfff16b8fccf97b19eca  pnl_per_volume=2.029972  pnl=77212.668240  volume=38036.330000
+     7. 0x4a5d19273894e439b8c741a0e99457434354b8e7  pnl_per_volume=1.897869  pnl=74981.008040  volume=39507.990000
+     8. 0x8067e5477ea42f25a7bd9445701971d033135cc2  pnl_per_volume=1.631464  pnl=136808.623416  volume=83856.340000
+     9. 0x571c6a7efdc105bc04b766267915ae188f891f49  pnl_per_volume=1.435002  pnl=88398.395900  volume=61601.600000
+    10. 0xfdc1456bf98cdce455c93df0ffef0dd663cd6217  pnl_per_volume=0.612844  pnl=83838.200700  volume=136801.800000
+  SUBCATEGORY #9: Streaming/TV | profit_per_volume=4.156848 | total_pnl=1033.807993 | total_volume=248.700000 | predictability_score=0.740 | predictability_band=easy | composite_score=0.408
+    Subcategory example question: Will "Tesla" be said during the next episode of the All-In Podcast?
+     1. 0x6dbaac4a5fcf80482dcf534423d1283287e689bc  pnl_per_volume=570.414457  pnl=199.645060  volume=0.350000
+     2. 0x475a58906a8ec2b0cc20b1a5be1c4c72e46886ab  pnl_per_volume=499.000000  pnl=24.950000  volume=0.050000
+     3. 0x0061f603a457754bae0241f1fb34f0ce6a5e8fd6  pnl_per_volume=362.636364  pnl=199.450000  volume=0.550000
+     4. 0x46b353667fd7d846af3bbeda6584b0e5b883d3de  pnl_per_volume=49.239043  pnl=102.909600  volume=2.090000
+     5. 0xa24d3122ecad883b0fe1ff7b9b2d9967e23d3065  pnl_per_volume=48.291648  pnl=342.870700  volume=7.100000
+     6. 0x50b977391c4b3dd88b0a0bef03c3434fe4284298  pnl_per_volume=30.250625  pnl=9.680200  volume=0.320000
+     7. 0x4247c89f4a9236a6b5fb24502023bcc98ab1455f  pnl_per_volume=28.143291  pnl=112.010300  volume=3.980000
+     8. 0x2d6285018577f431f8ce340f4cc9f5991ce8144d  pnl_per_volume=1.242425  pnl=12.498800  volume=10.060000
+     9. 0x62d65b7daf6ef4c96b1e184baebbe5783a9254e8  pnl_per_volume=0.417330  pnl=14.723395  volume=35.280000
+    10. 0x7238d476ec130b6388161e2f5e3234470b2713dd  pnl_per_volume=0.079769  pnl=15.069938  volume=188.920000
+  SUBCATEGORY #10: Primaries & Polls | profit_per_volume=3.781027 | total_pnl=38109.959019 | total_volume=10079.260000 | predictability_score=0.730 | predictability_band=easy | composite_score=0.400
+    Subcategory example question: Will "inflation" be said 10 or more times in the 2nd RNC primary debate?
+     1. 0x4b284723fa3c53a46d5217394840ec3b70c615df  pnl_per_volume=98.990327  pnl=8003.367900  volume=80.850000
+     2. 0x7c3db723f1d4d8cb9c550095203b686cb11e5c6b  pnl_per_volume=14.720242  pnl=1573.005020  volume=106.860000
+     3. 0xf0b0ef1d6320c6be896b4c9c54dd74407e7f8cab  pnl_per_volume=9.078135  pnl=1241.071900  volume=136.710000
+     4. 0x108ece6e24a84a40616ab71aec496e3ce03bd5d0  pnl_per_volume=8.073114  pnl=3508.333200  volume=434.570000
+     5. 0x62d2bcd198bb6eab8b7eeb9d2061815dc02b9eb7  pnl_per_volume=7.131836  pnl=1315.538500  volume=184.460000
+     6. 0x7bda5bceac127c3fc41d7fe7ac335593aaaa121b  pnl_per_volume=5.083881  pnl=11965.982200  volume=2353.710000
+     7. 0xf8ba34bf0e95d952d05b578bfbc0833f9242a286  pnl_per_volume=4.989649  pnl=1419.305700  volume=284.450000
+     8. 0x4987ea1f1cdfeeb2df6ce1d2d4e680edf3cb804b  pnl_per_volume=4.882353  pnl=1450.840000  volume=297.160000
+     9. 0x9d84ce0306f8551e02efef1680475fc0f1dc1344  pnl_per_volume=1.690561  pnl=5510.789399  volume=3259.740000
+    10. 0xa1d75a199ef084ee3ec9ae60dc986b439fe6e17e  pnl_per_volume=0.721491  pnl=2121.725200  volume=2940.750000
+  SUBCATEGORY #11: US Congress/Government | profit_per_volume=0.959760 | total_pnl=224.766168 | total_volume=234.190000 | predictability_score=0.770 | predictability_band=easiest | composite_score=0.400
+    Subcategory example question: Will United Airlines say "Shutdown" or "Shut Down" during earnings call?
+     1. 0xfcf0a49aa7df97cccc5e56ddea3567b72de488f7  pnl_per_volume=49.000000  pnl=98.000000  volume=2.000000
+     2. 0x4210a55de70f48a7eb6beef74886ec87dbc97e30  pnl_per_volume=48.990100  pnl=48.990100  volume=1.000000
+     3. 0xab12c41e6f7c6bb2ad7f22fefdd734f62b353a2d  pnl_per_volume=33.782609  pnl=7.770000  volume=0.230000
+     4. 0x8301ba6b12c7872de2966375960ef12d628e3bdc  pnl_per_volume=32.320133  pnl=48.480200  volume=1.500000
+     5. 0x50b977391c4b3dd88b0a0bef03c3434fe4284298  pnl_per_volume=22.062308  pnl=14.340500  volume=0.650000
+     6. 0x10168282ebf0cae1caf2f5b62c7d42fcc3c5c866  pnl_per_volume=0.940063  pnl=3.638042  volume=3.870000
+     7. 0xa802d3769e7ee00e24e774c90a4e2f74accb23df  pnl_per_volume=0.075367  pnl=0.226100  volume=3.000000
+     8. 0xac8c9660e12ec9a710b4c5a558b638c8c2ce415c  pnl_per_volume=0.020875  pnl=2.091626  volume=100.200000
+     9. 0xf800b5b02e3f9c0bc0238e2e281f97494e94bdba  pnl_per_volume=0.010101  pnl=0.219600  volume=21.740000
+    10. 0x30b9f1e52d2c768494fca50d5fbf4a1c9089a775  pnl_per_volume=0.010100  pnl=1.010000  volume=100.000000
+  SUBCATEGORY #12: Equities/Indices | profit_per_volume=2.293227 | total_pnl=3909843.992971 | total_volume=1704953.010000 | predictability_score=0.740 | predictability_band=easy | composite_score=0.394
+    Subcategory example question: Will United Natural Foods (UNFI) beat quarterly earnings?
+     1. 0x91151ca2d119cacfe46208ef9f4374f31896a92f  pnl_per_volume=999.000000  pnl=200699.100000  volume=200.900000
+     2. 0x6b94ecd19f3c464ee41725f4c5fabdf6b249ed07  pnl_per_volume=851.784303  pnl=247119.661891  volume=290.120000
+     3. 0x08bff07116d1f197f249088ef30f99a90a1e30b0  pnl_per_volume=610.097987  pnl=260572.850070  volume=427.100000
+     4. 0x42b3cd5ab7eb9fe4087e029fe5e60df2f5c825ba  pnl_per_volume=496.221853  pnl=233159.762300  volume=469.870000
+     5. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=301.578137  pnl=377476.306270  volume=1251.670000
+     6. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=19.343098  pnl=818576.889331  volume=42318.810000
+     7. 0x44c1dfe43260c94ed4f1d00de2e1f80fb113ebc1  pnl_per_volume=9.204389  pnl=783248.222860  volume=85095.080000
+     8. 0xf9f207b77137caa79c6c4516abdef3133db45cba  pnl_per_volume=1.393226  pnl=373063.344538  volume=267769.460000
+     9. 0xbb015bb4009b6a48bfb9363d9c9b1d54e9ab02e5  pnl_per_volume=1.275302  pnl=252450.091186  volume=197953.240000
+    10. 0x9f5620469af32b5d21e7298dcf2a415df5e45cd2  pnl_per_volume=0.327700  pnl=363477.764525  volume=1109176.760000
+  SUBCATEGORY #13: Combat Sports | profit_per_volume=1.535342 | total_pnl=37617.073327 | total_volume=24500.770000 | predictability_score=0.740 | predictability_band=easy | composite_score=0.389
+    Subcategory example question: Will Busenaz Surmeneli (TUR) win Gold in Women’s 66kg Boxing at the 2024 Summer Olympics?
+     1. 0x07d4245464dc4fa05d0b3f084d82482462dc8991  pnl_per_volume=18.842156  pnl=3798.390200  volume=201.590000
+     2. 0x856f95bfdbb9b1401cfe56274c9a08df1e8ae1d7  pnl_per_volume=9.532294  pnl=2343.991100  volume=245.900000
+     3. 0xcb1474d415238ff51a65a0ab3c05120ff791bcc9  pnl_per_volume=3.907560  pnl=2991.354600  volume=765.530000
+     4. 0x0f1a5c4e6aec79cb6e83a150465f02b4389c6dc0  pnl_per_volume=3.879114  pnl=2207.836723  volume=569.160000
+     5. 0x361361da1313e396077d39ec8031d25568bf79e1  pnl_per_volume=3.339950  pnl=3386.141541  volume=1013.830000
+     6. 0x39f21d8b54ab5b2d55bf035231282c9d655c146e  pnl_per_volume=2.700800  pnl=8363.028000  volume=3096.500000
+     7. 0xf374fa0b42e22a1571bb51758798e03e8a59ce1a  pnl_per_volume=1.402986  pnl=2636.771600  volume=1879.400000
+     8. 0x037cb640ae37d90c611a9f7328114a29fe220919  pnl_per_volume=1.079004  pnl=5412.672992  volume=5016.360000
+     9. 0x98cb3f63879dfbc62157b5d190d9ddf40abbbd72  pnl_per_volume=0.570093  pnl=1829.993140  volume=3209.990000
+    10. 0x2d6eb6ebb9d68428ab521e63fba041be857e96ff  pnl_per_volume=0.546532  pnl=4646.893431  volume=8502.510000
+  SUBCATEGORY #14: Awards | profit_per_volume=-1.025733 | total_pnl=-1.230880 | total_volume=1.200000 | predictability_score=0.770 | predictability_band=easiest | composite_score=0.385
+    Subcategory example question: Will Kaitlyn Dever (Apple Cider Vinegar) win Best Actress – Limited Series at the 83rd Golden Globes?
+     1. 0xf66ceb07affeed8b86737de32ef3fbec02bf4ab1  pnl_per_volume=-0.991750  pnl=-0.158680  volume=0.160000
+     2. 0x9422f0e5a2c4358bdd2a901aa2a31f58e04ef273  pnl_per_volume=-1.000000  pnl=-0.080000  volume=0.080000
+     3. 0xf8b720c031833a879ffe538c7e040fad542114de  pnl_per_volume=-1.008333  pnl=-0.242000  volume=0.240000
+     4. 0xd90cc01d0ea0431ea926d30780677029ba2f60a9  pnl_per_volume=-1.010000  pnl=-0.020200  volume=0.020000
+     5. 0xef2a2e5397a610a01040212974b53cff7799bd7e  pnl_per_volume=-1.025000  pnl=-0.287000  volume=0.280000
+     6. 0x161f2db0e40c59b2f29e898efb63cc415228b075  pnl_per_volume=-1.037500  pnl=-0.166000  volume=0.160000
+     7. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=-1.037500  pnl=-0.249000  volume=0.240000
+     8. 0x75cbe506ceec7bb80331954e9a47212ea62f1556  pnl_per_volume=-1.400000  pnl=-0.014000  volume=0.010000
+     9. 0xeab7b0a830a1755f1296fee950b3080e3529b389  pnl_per_volume=-1.400000  pnl=-0.014000  volume=0.010000
+
+  SUBCATEGORY #15: Airdrops & Launches | profit_per_volume=4.439300 | total_pnl=3884902.082113 | total_volume=875115.860000 | predictability_score=0.680 | predictability_band=easy | composite_score=0.380
+    Subcategory example question: Will NVIDIA be the largest company in the world by market cap on December 31?
+     1. 0x74324902f30f1e01476bae506a0974f902dbc16a  pnl_per_volume=788.545002  pnl=261867.909740  volume=332.090000
+     2. 0xc87561dce56c377f5526a96a86ea3f549b66f8a7  pnl_per_volume=541.590510  pnl=324954.305984  volume=600.000000
+     3. 0x216509be5332c6037105b4f871966eb97240f598  pnl_per_volume=510.464755  pnl=311980.744340  volume=611.170000
+     4. 0x122907732925187eb3ef746b542d58b5f43c7432  pnl_per_volume=244.146415  pnl=313481.555837  volume=1283.990000
+     5. 0x674afc4cc21d9acaaa1d9926284714744e01d582  pnl_per_volume=186.357105  pnl=506690.058727  volume=2718.920000
+     6. 0xf8ccb567e89c3240359217ebd0b5b5fe7fce5a82  pnl_per_volume=8.685595  pnl=452090.666081  volume=52050.630000
+     7. 0x7ab6ac0f0d6ca5a15ec57abeaf413d31c8cdfa77  pnl_per_volume=6.723653  pnl=322431.091401  volume=47954.750000
+     8. 0xf0ca28d5b0141f0a8e7b251dea80fd881cb166ed  pnl_per_volume=2.548996  pnl=732206.536525  volume=287252.920000
+     9. 0x6d7776a0f954be1a7c975a1e8244de6268f7b72c  pnl_per_volume=1.479784  pnl=317378.823589  volume=214476.430000
+    10. 0x714a685b5454ea4d52979563bbafa77b8168ab2f  pnl_per_volume=1.276235  pnl=341820.389888  volume=267834.960000
+  SUBCATEGORY #16: Weather/Natural Events | profit_per_volume=-1.024127 | total_pnl=-0.645200 | total_volume=0.630000 | predictability_score=0.760 | predictability_band=easiest | composite_score=0.380
+    Subcategory example question: Will NOAA Weather Radio be #1 Paid App in the US Apple App Store on March 20?
+     1. 0xc5403a67309b34f5936e429568bccf02726df00d  pnl_per_volume=-0.937500  pnl=-0.075000  volume=0.080000
+     2. 0xeab7b0a830a1755f1296fee950b3080e3529b389  pnl_per_volume=-1.000000  pnl=-0.030000  volume=0.030000
+     3. 0x46b353667fd7d846af3bbeda6584b0e5b883d3de  pnl_per_volume=-1.000000  pnl=-0.050000  volume=0.050000
+     4. 0x50b977391c4b3dd88b0a0bef03c3434fe4284298  pnl_per_volume=-1.000000  pnl=-0.050000  volume=0.050000
+     5. 0x9422f0e5a2c4358bdd2a901aa2a31f58e04ef273  pnl_per_volume=-1.000000  pnl=-0.100000  volume=0.100000
+     6. 0xe1a49dc01ede5492fbd27a6dcae20dddf719a4ba  pnl_per_volume=-1.020706  pnl=-0.173520  volume=0.170000
+     7. 0xe3726a1b9c6ba2f06585d1c9e01d00afaedaeb38  pnl_per_volume=-1.083429  pnl=-0.151680  volume=0.140000
+     8. 0x29367d86ef1432bfbbeb266bec3b72f1ce090a12  pnl_per_volume=-1.500000  pnl=-0.015000  volume=0.010000
+  SUBCATEGORY #17: AI Models/Companies | profit_per_volume=1.637804 | total_pnl=839041.060201 | total_volume=512296.470000 | predictability_score=0.710 | predictability_band=easy | composite_score=0.375
+    Subcategory example question: Will ChatGPT be out as the #1 Free App in the US Apple Store by February 22?
+     1. 0xa2711d1d311a0b2fa7f88d5c7cb760a3fa062727  pnl_per_volume=67.591132  pnl=48386.463961  volume=715.870000
+     2. 0xa67685fa5213fd8167977bfb7b3f50c06d511c22  pnl_per_volume=45.268393  pnl=43269.793490  volume=955.850000
+     3. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=12.189634  pnl=96736.690205  volume=7935.980000
+     4. 0x842b82e773264005a8efcc2fac1f05335338b366  pnl_per_volume=5.385436  pnl=84878.677601  volume=15760.780000
+     5. 0x4a2be7a7e6e3b41dc2de00706b4c09660ca9af20  pnl_per_volume=4.793902  pnl=71845.437495  volume=14986.840000
+     6. 0x805a922574d7d6b158b7bbb49a6fa8925eb60635  pnl_per_volume=2.776902  pnl=154350.556924  volume=55583.730000
+     7. 0xf0ed9e68e6cd3ee712260abeaec32de56a7d47d8  pnl_per_volume=1.418199  pnl=79345.856888  volume=55948.330000
+     8. 0xedc0f2cd1743914c4533368e15489c1a7a3d99f3  pnl_per_volume=1.150487  pnl=97275.353874  volume=84551.460000
+     9. 0x3c593aeb73ebdadbc9ce76d4264a6a2af4011766  pnl_per_volume=0.738875  pnl=68325.147521  volume=92471.810000
+    10. 0x48afe8fbde091ff3e616901dc92ef20862c289cc  pnl_per_volume=0.516000  pnl=94627.082244  volume=183385.820000
+  SUBCATEGORY #18: US-China/Taiwan | profit_per_volume=-1.000496 | total_pnl=-4.862410 | total_volume=4.860000 | predictability_score=0.650 | predictability_band=easy | composite_score=0.325
+    Subcategory example question: Will Jensen Huang say "Taiwan" during NVIDIA keynote?
+     1. 0x74f8ec4963b0dad3fc1a0d798d0fb82b80eeda22  pnl_per_volume=-0.997920  pnl=-0.997920  volume=1.000000
+     2. 0xd18f968b35ec880b8ec73567148ba3b2f9111ffc  pnl_per_volume=-0.999100  pnl=-0.999100  volume=1.000000
+     3. 0x50b977391c4b3dd88b0a0bef03c3434fe4284298  pnl_per_volume=-0.999333  pnl=-0.149900  volume=0.150000
+     4. 0x118f6e00031b33b997dee28a09a89e8e45180021  pnl_per_volume=-1.000000  pnl=-0.050000  volume=0.050000
+     5. 0x46b353667fd7d846af3bbeda6584b0e5b883d3de  pnl_per_volume=-1.000000  pnl=-0.050000  volume=0.050000
+     6. 0x0061f603a457754bae0241f1fb34f0ce6a5e8fd6  pnl_per_volume=-1.000000  pnl=-0.150000  volume=0.150000
+     7. 0x29ab15c6b6b16604e1cbd9a2f9580cf403336c4d  pnl_per_volume=-1.000000  pnl=-0.500000  volume=0.500000
+     8. 0x8301ba6b12c7872de2966375960ef12d628e3bdc  pnl_per_volume=-1.000000  pnl=-0.500000  volume=0.500000
+     9. 0x4210a55de70f48a7eb6beef74886ec87dbc97e30  pnl_per_volume=-1.000000  pnl=-0.500000  volume=0.500000
+    10. 0xa2711d1d311a0b2fa7f88d5c7cb760a3fa062727  pnl_per_volume=-1.005719  pnl=-0.965490  volume=0.960000
+  SUBCATEGORY #19: Internet/Memes | profit_per_volume=-0.920118 | total_pnl=-0.156420 | total_volume=0.170000 | predictability_score=0.600 | predictability_band=medium | composite_score=0.301
+    Subcategory example question: Will TikTok - Videos, Shop & LIVE be #2 Free App in the US Apple App Store on March 10?
+     1. 0x29367d86ef1432bfbbeb266bec3b72f1ce090a12  pnl_per_volume=-0.750000  pnl=-0.030000  volume=0.040000
+     2. 0xf66ceb07affeed8b86737de32ef3fbec02bf4ab1  pnl_per_volume=-0.771000  pnl=-0.015420  volume=0.020000
+     3. 0xbbc63aee290b51c965ed2406f1ba2018fa850c70  pnl_per_volume=-0.800000  pnl=-0.008000  volume=0.010000
+     4. 0xbe89fef40bca036bbe5c986f93fa94109087dbd5  pnl_per_volume=-1.000000  pnl=-0.020000  volume=0.020000
+     5. 0x9a9d1444ea0ae93c75a5a88ad10b30e7748724fd  pnl_per_volume=-1.000000  pnl=-0.020000  volume=0.020000
+     6. 0x613b668ef24d3a37417cb5756c5943cae761da44  pnl_per_volume=-1.000000  pnl=-0.020000  volume=0.020000
+     7. 0xeab7b0a830a1755f1296fee950b3080e3529b389  pnl_per_volume=-1.000000  pnl=-0.030000  volume=0.030000
+     8. 0xc5403a67309b34f5936e429568bccf02726df00d  pnl_per_volume=-1.300000  pnl=-0.013000  volume=0.010000
+CATEGORY #2: Geopolitics | profit_per_volume=4.137542 | total_pnl=98301178.530743 | total_volume=23758350.760000 | predictability_score=0.512 | composite_score=0.756
+  Category example question: Games Total: O/U 2.5
+  SUBCATEGORY #1: Airdrops & Launches | profit_per_volume=606.610060 | total_pnl=28161920.545940 | total_volume=46425.080000 | predictability_score=0.550 | predictability_band=medium | composite_score=0.775
+    Subcategory example question: Will Israel launch a major ground offensive in Gaza by Friday?
+     1. 0xb245ed8a627164a3b34845d31878940eacee48d0  pnl_per_volume=999.000000  pnl=999000.000000  volume=1000.000000
+     2. 0x52557cc9c06cb9d3dad8df47e6b20c904483d94a  pnl_per_volume=999.000000  pnl=996992.010000  volume=997.990000
+     3. 0x2ab5efd5db33dfeff7ccb3b7bf480793d4f435f5  pnl_per_volume=832.964136  pnl=1133672.518820  volume=1361.010000
+     4. 0xc0c59cc7901ba0731cb4e261e3ed27abe0cf4adf  pnl_per_volume=829.052217  pnl=1278108.350000  volume=1541.650000
+     5. 0x3e0ea83889fd83c119b45c5baba90c4cfb0840b5  pnl_per_volume=752.866969  pnl=2284220.970000  volume=3034.030000
+     6. 0x2fb3bf23b4ab3083aa38f2c6cf48efc2fe8b8a1d  pnl_per_volume=735.207825  pnl=778136.610000  volume=1058.390000
+     7. 0x5d05b1f588780423488a09d9aefeb64df54d6320  pnl_per_volume=682.734819  pnl=11932682.136976  volume=17477.770000
+     8. 0x6480542954b70a674a74bd1a6015dec362dc8dc5  pnl_per_volume=631.674054  pnl=6288113.075110  volume=9954.680000
+     9. 0xdf09e669f4fc3ea5d815c34aa76f1c5900a6074f  pnl_per_volume=528.104136  pnl=1054439.124125  volume=1996.650000
+    10. 0x4a41ab9ccfa65105118453b65bfe8cb943a1242a  pnl_per_volume=177.005083  pnl=1416555.750909  volume=8002.910000
+  SUBCATEGORY #2: Fed Rates | profit_per_volume=0.879187 | total_pnl=12971.601487 | total_volume=14754.080000 | predictability_score=0.710 | predictability_band=easy | composite_score=0.357
+    Subcategory example question: Will the Bank of Israel make no change to the Bank of Israel Interest Rate after the February decision?
+     1. 0x22b8173c696ba3d223fb2834986c5fb382123a8d  pnl_per_volume=999.000000  pnl=1998.000000  volume=2.000000
+     2. 0xce305d7fc93e0e1f2271e55b5f03e63748b63760  pnl_per_volume=26.279780  pnl=886.679770  volume=33.740000
+     3. 0x87650b9f63563f7c456d9bbcceee5f9faf06ed81  pnl_per_volume=10.713782  pnl=754.571659  volume=70.430000
+     4. 0xec6745e0983326afec4fbde989e40cc6493f86b9  pnl_per_volume=5.182914  pnl=2347.134302  volume=452.860000
+     5. 0x1b4b6a8b8612833c6f418667eebf8a188cbbb93c  pnl_per_volume=3.248068  pnl=764.595200  volume=235.400000
+     6. 0x3a8651c42ac19aa3e3141531a298abc72f51dea8  pnl_per_volume=1.029255  pnl=1278.458265  volume=1242.120000
+     7. 0xc602e34792d9a5e129f3404daef2df43d1d37fc1  pnl_per_volume=1.016266  pnl=959.812501  volume=944.450000
+     8. 0x595ab808788674df15f84e560721d7c5f35bbca8  pnl_per_volume=0.418387  pnl=704.584473  volume=1684.050000
+     9. 0x4a57e2255ea1a7519d240b76a653c50d308a14a1  pnl_per_volume=0.347002  pnl=2551.660397  volume=7353.440000
+    10. 0x4959175440b8f38229b32f2f036057f6893ea6f5  pnl_per_volume=0.265429  pnl=726.104921  volume=2735.590000
+  SUBCATEGORY #3: US Presidential | profit_per_volume=1.154068 | total_pnl=174967.447620 | total_volume=151609.240000 | predictability_score=0.650 | predictability_band=easy | composite_score=0.327
+    Subcategory example question: Will Kamala Harris say "China" 3 or more times during her Pennsylvania speech?
+     1. 0xfd13172de98a7dff6fb054107765470c30e1e6f1  pnl_per_volume=65.462446  pnl=17532.806800  volume=267.830000
+     2. 0x8e821bca20661e8d2c295ef2bcad1be8c17364ab  pnl_per_volume=2.693455  pnl=13192.864193  volume=4898.120000
+     3. 0x6139c42e48cf190e67a0a85d492413b499336b7a  pnl_per_volume=2.507738  pnl=16976.608296  volume=6769.690000
+     4. 0x3cf3e8d5427aed066a7a5926980600f6c3cf87b3  pnl_per_volume=1.125902  pnl=11140.736840  volume=9894.940000
+     5. 0x7bb244d0c70293e66dee84f3d0623fbbbf7d682c  pnl_per_volume=1.104476  pnl=13286.566300  volume=12029.750000
+     6. 0x85b8b010ac6e24a23625621724a15513c80d6b6a  pnl_per_volume=1.037282  pnl=17007.507600  volume=16396.230000
+     7. 0xf8ba34bf0e95d952d05b578bfbc0833f9242a286  pnl_per_volume=0.938176  pnl=8375.414900  volume=8927.340000
+     8. 0x7bda5bceac127c3fc41d7fe7ac335593aaaa121b  pnl_per_volume=0.861875  pnl=53857.753347  volume=62489.060000
+     9. 0x18566a94b6983fe9d2537c0316aa0b6c89601964  pnl_per_volume=0.816568  pnl=12074.864084  volume=14787.330000
+    10. 0xaa0f214be65585b906becd79444e281591392433  pnl_per_volume=0.760602  pnl=11522.325260  volume=15148.950000
+  SUBCATEGORY #4: US Congress/Government | profit_per_volume=-1.007381 | total_pnl=-0.211550 | total_volume=0.210000 | predictability_score=0.640 | predictability_band=easy | composite_score=0.320
+    Subcategory example question: Congress authorizes military force against Iran before August?
+     1. 0x45335cc9338f58f120c33078aa2b6861f7dc00bf  pnl_per_volume=-0.875000  pnl=-0.035000  volume=0.040000
+     2. 0xd2818af38ecf10a546758d077f95941d1112d750  pnl_per_volume=-0.909750  pnl=-0.036390  volume=0.040000
+     3. 0xce5bec63b40392845a9a504915f607c8e03a047a  pnl_per_volume=-0.963000  pnl=-0.038520  volume=0.040000
+     4. 0x405809651dae4e0556e8f3740b1e16a7df2d35b5  pnl_per_volume=-1.000000  pnl=-0.010000  volume=0.010000
+     5. 0x118f6e00031b33b997dee28a09a89e8e45180021  pnl_per_volume=-1.000000  pnl=-0.010000  volume=0.010000
+     6. 0xc1a5da684d99100f835d557afa1f22f6b0b73199  pnl_per_volume=-1.000000  pnl=-0.020000  volume=0.020000
+     7. 0x82e6090c2e85651949381f7ac14efd85f191c1bf  pnl_per_volume=-1.116667  pnl=-0.033500  volume=0.030000
+     8. 0x641de459cdee22747846ddc9b62000c7ed580e96  pnl_per_volume=-1.407000  pnl=-0.028140  volume=0.020000
+
+  SUBCATEGORY #5: Basketball | profit_per_volume=2.809811 | total_pnl=270034.581993 | total_volume=96104.180000 | predictability_score=0.630 | predictability_band=easy | composite_score=0.318
+    Subcategory example question: Games Total: O/U 2.5
+     1. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=531.653107  pnl=53914.941610  volume=101.410000
+     2. 0xef2a2e5397a610a01040212974b53cff7799bd7e  pnl_per_volume=527.904143  pnl=38441.979660  volume=72.820000
+     3. 0xe9b42acb8cf9b3ce94d70c7400acabcbb942f03a  pnl_per_volume=523.344421  pnl=19368.977010  volume=37.010000
+     4. 0x161f2db0e40c59b2f29e898efb63cc415228b075  pnl_per_volume=511.457380  pnl=14448.670980  volume=28.250000
+     5. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=475.385811  pnl=42147.705960  volume=88.660000
+     6. 0x17f1e5dee3de2a585ea990fce56dd6ed57f6af18  pnl_per_volume=357.339682  pnl=25385.410980  volume=71.040000
+     7. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=4.423554  pnl=15479.430874  volume=3499.320000
+     8. 0x6c64f2e78954316707feaaa32a4315ddf0e636e2  pnl_per_volume=1.710072  pnl=25997.449990  volume=15202.550000
+     9. 0x962a851031fb9debc36027aac1c8bcaee3b7f14f  pnl_per_volume=0.587302  pnl=15096.000000  volume=25704.000000
+    10. 0xc65ca4755436f82d8eb461e65781584b8cadea39  pnl_per_volume=0.385075  pnl=19754.014929  volume=51299.120000
+  SUBCATEGORY #6: Product Events | profit_per_volume=1.342349 | total_pnl=203299.698187 | total_volume=151450.700000 | predictability_score=0.620 | predictability_band=easy | composite_score=0.312
+    Subcategory example question: Will Jerome Powell say "Tariff" 10 or more times during the March meeting?
+     1. 0x47e1168219c28a6eaf03473fcaae1cd1e31b95c0  pnl_per_volume=74.147751  pnl=15120.209435  volume=203.920000
+     2. 0xe2b1fc269d0c2e27da11fadd1d9596fe28227d2a  pnl_per_volume=27.660983  pnl=7119.107196  volume=257.370000
+     3. 0x93f85976016270923cad0a96361122551997f5c3  pnl_per_volume=23.835502  pnl=4767.100389  volume=200.000000
+     4. 0xc390fa385403669645a20d81fc672a25d1ad28bd  pnl_per_volume=15.380193  pnl=16133.207660  volume=1048.960000
+     5. 0xd426adbc3c4461c86099c26221c877f20e42334a  pnl_per_volume=10.421458  pnl=13550.188420  volume=1300.220000
+     6. 0xd04eeb36f9123f60473baf31ea621c9a9490560d  pnl_per_volume=1.739725  pnl=43963.580000  volume=25270.420000
+     7. 0x4e8cd74360bc24422ac87e43bbf5e7374545e305  pnl_per_volume=1.597402  pnl=44170.520000  volume=27651.480000
+     8. 0xf0b0ef1d6320c6be896b4c9c54dd74407e7f8cab  pnl_per_volume=0.752128  pnl=5553.885087  volume=7384.230000
+     9. 0xc2107345f0995a0e13be988d64830e2c26e94666  pnl_per_volume=0.626017  pnl=27651.480000  volume=44170.520000
+    10. 0x272cb18f98c89bfc5629e65f4dc89aea5baa2c93  pnl_per_volume=0.574804  pnl=25270.420000  volume=43963.580000
+  SUBCATEGORY #7: Soccer | profit_per_volume=0.887005 | total_pnl=48328.733621 | total_volume=54485.310000 | predictability_score=0.620 | predictability_band=easy | composite_score=0.312
+    Subcategory example question: Will Georgia beat Ukraine?
+     1. 0x69d77110aff018fac20e67cf267926024b86b367  pnl_per_volume=381.415942  pnl=4474.009000  volume=11.730000
+     2. 0x945137f60670dd5a44b86340ddc95fb03991e186  pnl_per_volume=311.500000  pnl=9968.000010  volume=32.000000
+     3. 0x5308f42d24fcb82184de18fab9cadacdcb513221  pnl_per_volume=6.852802  pnl=2429.592500  volume=354.540000
+     4. 0x0f502bf431d8afa0124e172d80a4d461be4f4db9  pnl_per_volume=3.611135  pnl=3376.049800  volume=934.900000
+     5. 0x8b3234f9027f4e994e949df4b48b90ab79015950  pnl_per_volume=2.199438  pnl=7968.872701  volume=3623.140000
+     6. 0x86a23f3d2841fdf28e26f8dd801a7a190564be38  pnl_per_volume=1.765510  pnl=1595.985800  volume=903.980000
+     7. 0x3168a74556b9b552267cfc9995183491c90c6734  pnl_per_volume=0.858732  pnl=1423.323100  volume=1657.470000
+     8. 0x026985b67ade7ba199698b9d7d0451a22214cb2d  pnl_per_volume=0.564262  pnl=13117.418018  volume=23247.030000
+     9. 0x07670fd4b75b8b056501d9c1aae323d53b310901  pnl_per_volume=0.192917  pnl=2238.000792  volume=11600.840000
+    10. 0x4a64afa45a44a01890c2161be88d2b44751d4430  pnl_per_volume=0.143360  pnl=1737.481900  volume=12119.680000
+  SUBCATEGORY #8: Streaming/TV | profit_per_volume=1.384646 | total_pnl=4101.932159 | total_volume=2962.440000 | predictability_score=0.610 | predictability_band=medium | composite_score=0.307
+    Subcategory example question: Will "Tariff" be said during the next episode of the All-In Podcast?
+     1. 0x1c266db0f8529b1f25b77123e9c0c918ac2f6e31  pnl_per_volume=89.909091  pnl=197.800000  volume=2.200000
+     2. 0xfcf0a49aa7df97cccc5e56ddea3567b72de488f7  pnl_per_volume=41.857143  pnl=293.000000  volume=7.000000
+     3. 0x20e00af6c6064835842524ce6abc08a0a3dc8501  pnl_per_volume=26.360096  pnl=235.659259  volume=8.940000
+     4. 0x229c0a7d92977a9934e5ac2348d507988996b966  pnl_per_volume=13.984294  pnl=335.762900  volume=24.010000
+     5. 0x0278936fa1ea5e351ac24403401bee290ec900e6  pnl_per_volume=2.438395  pnl=1072.260000  volume=439.740000
+     6. 0x965d6391cdad5ad9e6ca4ac8e51b43d3f9f07773  pnl_per_volume=2.372458  pnl=574.040000  volume=241.960000
+     7. 0x2a10d11f982ac8488cfb50f2b3408fdb0155e442  pnl_per_volume=2.333333  pnl=555.800000  volume=238.200000
+     8. 0x118418e8af3a8441ea5e0268ad4ae8b6cb761b67  pnl_per_volume=0.428571  pnl=397.800000  volume=928.200000
+     9. 0xe1cb5999dfa7b76526039976f8fe13f0bc85933e  pnl_per_volume=0.411490  pnl=253.630000  volume=616.370000
+    10. 0x4bb8a43e2c461ff666565782b521b15555b8eea6  pnl_per_volume=0.408451  pnl=186.180000  volume=455.820000
+  SUBCATEGORY #9: Primaries & Polls | profit_per_volume=2.231508 | total_pnl=67381.286878 | total_volume=30195.410000 | predictability_score=0.600 | predictability_band=medium | composite_score=0.303
+    Subcategory example question: Will anyone say "War Crime" or "War Criminal" during 1st NYC mayoral debate on October 16?
+     1. 0x574e3aa34743c81f8f9e65c38599e4da95e83ef1  pnl_per_volume=33.296902  pnl=7844.417055  volume=235.590000
+     2. 0xb35bd7b8f71b99317cc4987d9ae34631c48cfc08  pnl_per_volume=31.152271  pnl=6890.882300  volume=221.200000
+     3. 0xf2964d66dbb330ca0e1993ae216cf1f919e45638  pnl_per_volume=10.532380  pnl=6800.862800  volume=645.710000
+     4. 0xc970f482ed085fa8cbc3ba822f7160dd35ffb063  pnl_per_volume=8.682027  pnl=10820.323900  volume=1246.290000
+     5. 0xb74711992caf6d04fa55eecc46b8efc95311b050  pnl_per_volume=5.777030  pnl=3867.086084  volume=669.390000
+     6. 0xd668da7973f6dded7524d5f7670208939f14ede0  pnl_per_volume=3.451759  pnl=2919.256270  volume=845.730000
+     7. 0x6b7ec4ba079c0a258435ea36025f6190cd424562  pnl_per_volume=1.636768  pnl=3861.037300  volume=2358.940000
+     8. 0xf8ba34bf0e95d952d05b578bfbc0833f9242a286  pnl_per_volume=1.148961  pnl=5112.795700  volume=4449.930000
+     9. 0x62d2bcd198bb6eab8b7eeb9d2061815dc02b9eb7  pnl_per_volume=1.068234  pnl=3529.166169  volume=3303.740000
+    10. 0x7bda5bceac127c3fc41d7fe7ac335593aaaa121b  pnl_per_volume=0.970193  pnl=15735.459300  volume=16218.890000
+  SUBCATEGORY #10: US-China/Taiwan | profit_per_volume=1.332580 | total_pnl=1237441.980489 | total_volume=928605.900000 | predictability_score=0.520 | predictability_band=medium | composite_score=0.262
+    Subcategory example question: Games Total: O/U 2.5
+     1. 0x3098b4aa5c7730d356c593ae76ab9ac974e7f905  pnl_per_volume=999.000000  pnl=99000.900000  volume=99.100000
+     2. 0x8f53b316112a5cd721ad37d966b8d537a13caaf4  pnl_per_volume=358.804303  pnl=170898.489598  volume=476.300000
+     3. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=22.730897  pnl=218568.485656  volume=9615.480000
+     4. 0xa3d3da79775f534629a920bfd1c6e4f5fb6fd424  pnl_per_volume=8.790170  pnl=106769.359647  volume=12146.450000
+     5. 0xa9b44dca52ed35e59ac2a6f49d1203b8155464ed  pnl_per_volume=4.379504  pnl=106898.171820  volume=24408.740000
+     6. 0xdb38fc28f56b059124e324a65461cd0db50ece37  pnl_per_volume=2.664957  pnl=141169.510844  volume=52972.530000
+     7. 0xd189664c5308903476f9f079820431e4fd7d06f4  pnl_per_volume=1.295316  pnl=115304.624012  volume=89016.620000
+     8. 0x540d5e7016dab719104b1954003e72810c73235b  pnl_per_volume=1.077173  pnl=96258.646245  volume=89362.280000
+     9. 0x6cbbdaf7e3e780ecbfa0048bf0e1f35c57db89ab  pnl_per_volume=0.380046  pnl=101566.287841  volume=267247.560000
+    10. 0x7c3db723f1d4d8cb9c550095203b686cb11e5c6b  pnl_per_volume=0.211364  pnl=81007.504827  volume=383260.840000
+  SUBCATEGORY #11: Middle East | profit_per_volume=3.106683 | total_pnl=64144765.575440 | total_volume=20647350.590000 | predictability_score=0.510 | predictability_band=medium | composite_score=0.258
+    Subcategory example question: Will the US strike Iran next?
+     1. 0x0b9a472b2cd2f3dcebd381058a5f664ba2290a63  pnl_per_volume=998.999923  pnl=5084909.610390  volume=5090.000000
+     2. 0x43e98f912cd6ddadaad88d3297e78c0648e688e5  pnl_per_volume=688.135112  pnl=5125932.215590  volume=7449.020000
+     3. 0x0d75e1d093ae1eb0b215dc8a17c1da1d76f3396f  pnl_per_volume=665.666667  pnl=4792800.000000  volume=7200.000000
+     4. 0x6480542954b70a674a74bd1a6015dec362dc8dc5  pnl_per_volume=604.936750  pnl=20482547.382470  volume=33858.990000
+     5. 0x4685b16fb6ae77a013b4b371947b080d83874de3  pnl_per_volume=457.153757  pnl=4918087.544829  volume=10758.060000
+     6. 0x4c2966a198cd7ac982110d0219b037afa9997570  pnl_per_volume=312.533052  pnl=8350923.791240  volume=26720.130000
+     7. 0x2ee04b8b6ec338d7dc52e019dabdcaa456eaf57b  pnl_per_volume=221.368717  pnl=3010289.134145  volume=13598.530000
+     8. 0x5d05b1f588780423488a09d9aefeb64df54d6320  pnl_per_volume=20.886361  pnl=4055460.291545  volume=194167.870000
+     9. 0x7b02b2bac2a30ed5e40b7094e734f4c3dc2a4991  pnl_per_volume=0.882598  pnl=4893778.800174  volume=5544741.130000
+    10. 0x44c1dfe43260c94ed4f1d00de2e1f80fb113ebc1  pnl_per_volume=0.231700  pnl=3430036.805056  volume=14803766.860000
+  SUBCATEGORY #12: General | profit_per_volume=13.390674 | total_pnl=113634.596915 | total_volume=8486.100000 | predictability_score=0.490 | predictability_band=medium | composite_score=0.257
+    Subcategory example question: Will JD Vance say "Trade" or "Tariff" 2+ times during remarks in Wisconsin on August 28?
+     1. 0xe281c69c91b8e77a95e7ce5fc14c804ea452e7bf  pnl_per_volume=388.162469  pnl=9704.061720  volume=25.000000
+     2. 0x15a9b742e5c4f38dad710e1bd7602f0203c36b43  pnl_per_volume=108.374876  pnl=8669.990100  volume=80.000000
+     3. 0x66a1db98713015330a82f08273b682bee77e80d9  pnl_per_volume=58.770489  pnl=7704.811128  volume=131.100000
+     4. 0x6919e123baa9a38cb9b5f86a6b8c7217b2909ae7  pnl_per_volume=33.990157  pnl=12011.101811  volume=353.370000
+     5. 0x9453a389c73df7991249d9f2c6e2c854157b1a48  pnl_per_volume=15.968269  pnl=8510.927868  volume=532.990000
+     6. 0x34ab676b682e8132484a1c041f2c67706f063eb5  pnl_per_volume=15.481765  pnl=22785.133021  volume=1471.740000
+     7. 0xc680ec7bd5bd12af22f90464b47ff3affbd3e94c  pnl_per_volume=12.979604  pnl=17745.455523  volume=1367.180000
+     8. 0x79add3f87e377b0899b935472c07d2c3816ba9f1  pnl_per_volume=7.876290  pnl=9781.722198  volume=1241.920000
+     9. 0xa58d4f278d7953cd38eeb929f7e242bfc7c0b9b8  pnl_per_volume=7.866605  pnl=8817.205885  volume=1120.840000
+    10. 0xf2aa8381a08ec33467fbcdd0843aa31cb8d521fb  pnl_per_volume=3.656029  pnl=7904.187661  volume=2161.960000
+  SUBCATEGORY #13: Conflict & Diplomacy | profit_per_volume=1.847911 | total_pnl=321248.482638 | total_volume=173844.120000 | predictability_score=0.500 | predictability_band=medium | composite_score=0.252
+    Subcategory example question: Will "War Machine" be the top global Netflix movie this week?
+     1. 0x9899e473f16befffa597b279be850becc69a698e  pnl_per_volume=999.000000  pnl=38961.000000  volume=39.000000
+     2. 0x7a6192ea6815d3177e978dd3f8c38be5f575af24  pnl_per_volume=26.960960  pnl=35795.257900  volume=1327.670000
+     3. 0xd189664c5308903476f9f079820431e4fd7d06f4  pnl_per_volume=15.747256  pnl=20028.147900  volume=1271.850000
+     4. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=8.971502  pnl=20470.814731  volume=2281.760000
+     5. 0x5967ca9ae9d1e46dbcffd6f396c2f326683e750d  pnl_per_volume=2.796645  pnl=18933.172974  volume=6769.960000
+     6. 0xd42f6a1634a3707e27cbae14ca966068e5d1047d  pnl_per_volume=1.348075  pnl=18661.776865  volume=13843.280000
+     7. 0x77a4ba69bfd3a388bce7031900a3fabc105fc84f  pnl_per_volume=1.229938  pnl=68559.957106  volume=55742.600000
+     8. 0x91f5fbb619660862f4f407512128366c35fab7e4  pnl_per_volume=1.214528  pnl=45011.556146  volume=37060.950000
+     9. 0xd2b8e73e3bd41432ef7ad3de1bde60b50efd9d3b  pnl_per_volume=1.101059  pnl=28590.634443  volume=25966.490000
+    10. 0x076ca0207aaa48365da2eb6a917edcbdee5e4e7b  pnl_per_volume=0.888140  pnl=26236.164573  volume=29540.560000
+  SUBCATEGORY #14: Russia/Ukraine | profit_per_volume=2.438632 | total_pnl=3541082.278927 | total_volume=1452077.400000 | predictability_score=0.490 | predictability_band=medium | composite_score=0.248
+    Subcategory example question: Will the match be a draw?
+     1. 0x96f99abca598ab790430c4296fb0d9afd37209c7  pnl_per_volume=832.333334  pnl=499400.000608  volume=600.000000
+     2. 0xd61e22734b257afc0710f6b530a0abc244eac34f  pnl_per_volume=643.472737  pnl=1164499.046393  volume=1809.710000
+     3. 0x68722f6d6e51947c88724c3f382b60f4f8cc876f  pnl_per_volume=61.709089  pnl=138834.960188  volume=2249.830000
+     4. 0x0f5801f1fe7dbadb5c1e92a310c9871447d90ff0  pnl_per_volume=13.961557  pnl=309883.029593  volume=22195.450000
+     5. 0x7ab6ac0f0d6ca5a15ec57abeaf413d31c8cdfa77  pnl_per_volume=11.350911  pnl=284430.554284  volume=25057.950000
+     6. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=6.268334  pnl=231658.512027  volume=36956.950000
+     7. 0x551e72eda42a5ab39d6d78239a1d9bbb5db6b0e0  pnl_per_volume=2.930476  pnl=393070.653683  volume=134132.010000
+     8. 0x4518b0847bdf19e357e818575cced1ff024a7180  pnl_per_volume=1.096127  pnl=174249.547022  volume=158968.320000
+     9. 0xc3c3b3ef304ddbea39fa2246e683a71da5d0eec8  pnl_per_volume=0.639526  pnl=198044.862035  volume=309674.230000
+    10. 0xe64ffa7621459172ad81960762d5760e65d444a5  pnl_per_volume=0.193326  pnl=147011.113094  volume=760432.950000
+CATEGORY #3: Entertainment/Culture | profit_per_volume=2.869941 | total_pnl=5288328.970101 | total_volume=1842661.080000 | predictability_score=0.644 | composite_score=0.658
+  Category example question: Will "The Fate of Ophelia - Taylor Swift" be the #1 song on Spotify this week?
+  SUBCATEGORY #1: Streaming/TV | profit_per_volume=8.535275 | total_pnl=847862.261453 | total_volume=99336.260000 | predictability_score=0.660 | predictability_band=easy | composite_score=0.830
+    Subcategory example question: Will "Bridgerton: Season 4" be the top global Netflix show this week?
+     1. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=171.434237  pnl=44910.626980  volume=261.970000
+     2. 0xef2a2e5397a610a01040212974b53cff7799bd7e  pnl_per_volume=155.471736  pnl=35791.148420  volume=230.210000
+     3. 0xf82ab3edf9cd9ddfe927aefecec742989123d221  pnl_per_volume=136.596762  pnl=63949.140154  volume=468.160000
+     4. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=113.060353  pnl=97556.387120  volume=862.870000
+     5. 0xf66ceb07affeed8b86737de32ef3fbec02bf4ab1  pnl_per_volume=48.108747  pnl=47574.258553  volume=988.890000
+     6. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=25.641732  pnl=404543.202050  volume=15776.750000
+     7. 0x87650b9f63563f7c456d9bbcceee5f9faf06ed81  pnl_per_volume=13.806390  pnl=40765.023781  volume=2952.620000
+     8. 0xbf216238277f1ba267a7f3bae1a336fd6cb5be19  pnl_per_volume=6.352676  pnl=34931.777140  volume=5498.750000
+     9. 0x53bffcbff36055113b8775ae488e9bda0988bc10  pnl_per_volume=1.422674  pnl=42296.918076  volume=29730.580000
+    10. 0x6c7d9ce7d08fbe1bf872fa825916802866a8d6eb  pnl_per_volume=0.835038  pnl=35543.779180  volume=42565.460000
+  SUBCATEGORY #2: Box Office | profit_per_volume=5.853644 | total_pnl=2401268.607135 | total_volume=410217.710000 | predictability_score=0.720 | predictability_band=easy | composite_score=0.678
+    Subcategory example question: Will "Kpop Demon Hunters" be the top global Netflix movie this week?
+     1. 0x6c16abad96d6989efe1b0333cb9af9158f548bfa  pnl_per_volume=833.565279  pnl=256671.420630  volume=307.920000
+     2. 0x9a153aeaa841fec33874f88fedb3144dd5678393  pnl_per_volume=205.900550  pnl=252880.879085  volume=1228.170000
+     3. 0xb3f15cc1478d529862282c40c1e91399724dbdc6  pnl_per_volume=172.937051  pnl=299615.171038  volume=1732.510000
+     4. 0x9d5f3edd84b5f84b6a8fa14f3df4bf614e0d82cf  pnl_per_volume=158.643730  pnl=277169.634090  volume=1747.120000
+     5. 0x55b4af6a1cff148a307cad8ad098206a028e80ea  pnl_per_volume=87.411361  pnl=263483.191270  volume=3014.290000
+     6. 0x07e78f5f58f8fa839f298cfe3fefd258883aa343  pnl_per_volume=7.253170  pnl=230809.576289  volume=31821.890000
+     7. 0xa9f9c0ca31912bee7ecd8aa25bfad07adcd6b3de  pnl_per_volume=4.366312  pnl=160494.319244  volume=36757.410000
+     8. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=2.491010  pnl=158460.903253  volume=63613.110000
+     9. 0x74e370fe15db834a66d1205d7cf48a7dbedb9d1a  pnl_per_volume=2.030303  pnl=138897.700000  volume=68412.300000
+    10. 0x51fd8f0358cc9e8a1ee5f87a0c7e3b07ed634272  pnl_per_volume=1.799685  pnl=362785.812236  volume=201582.990000
+  SUBCATEGORY #3: Awards | profit_per_volume=2.852291 | total_pnl=464420.561028 | total_volume=162823.690000 | predictability_score=0.690 | predictability_band=easy | composite_score=0.459
+    Subcategory example question: Will "Star Wars Outlaws: Wild Card & A Pirate's Fortune - Cody Matthew Johnson & Wilbert Roget, II" win Best Score Soundtrack for Video Games and Other Interactive Media at the 68th annual GRAMMY Awards?
+     1. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=159.727149  pnl=31253.811312  volume=195.670000
+     2. 0xe154165732b79548f7533fc45168b102dd7a0b7f  pnl_per_volume=63.355046  pnl=59210.358660  volume=934.580000
+     3. 0xcea30c00dfb92098ad109775c524ff159c23d844  pnl_per_volume=8.154288  pnl=70090.750741  volume=8595.570000
+     4. 0xfe175c90c4152392978fa402ed871657881298e9  pnl_per_volume=7.357632  pnl=90636.171428  volume=12318.660000
+     5. 0xd3a6e523c440f94f9259398fbcf7b5cc5ccffd55  pnl_per_volume=6.173274  pnl=27838.438774  volume=4509.510000
+     6. 0xd031d3fe2dfaade3d832de8216688b91c19b7d2e  pnl_per_volume=6.067055  pnl=34858.689314  volume=5745.570000
+     7. 0xe8a4190e8047bb35c344388b48d330a25f5b8611  pnl_per_volume=4.769603  pnl=23441.690892  volume=4914.810000
+     8. 0xe84109fe8ecf60c88cf22ef08e4d5d9c67aed8a4  pnl_per_volume=1.597403  pnl=64042.410000  volume=40091.590000
+     9. 0x3126ec3e15c1fdc8587a01a3a62bcec275014ff7  pnl_per_volume=1.068978  pnl=22956.649908  volume=21475.320000
+    10. 0x57bc129e23fdf76dfd4b0b0aef0eb080d727ec65  pnl_per_volume=0.626016  pnl=40091.590000  volume=64042.410000
+  SUBCATEGORY #4: Music/Celebrities | profit_per_volume=1.980827 | total_pnl=424886.833703 | total_volume=214499.750000 | predictability_score=0.620 | predictability_band=easy | composite_score=0.365
+    Subcategory example question: Will "The Fate of Ophelia - Taylor Swift" be the #1 song on Spotify this week?
+     1. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=158.522202  pnl=30433.092430  volume=191.980000
+     2. 0xf8ccc51356ad11e3d884f4beeaca81bb08fe028a  pnl_per_volume=70.008384  pnl=51379.153204  volume=733.900000
+     3. 0x41eacf5aaa4c7fc883a098635b981050715d7a3d  pnl_per_volume=50.102848  pnl=40001.612800  volume=798.390000
+     4. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=6.159497  pnl=51563.979930  volume=8371.460000
+     5. 0xe9c2421c22121fc519f334edfbd3edcdab432b38  pnl_per_volume=1.739727  pnl=74475.990000  volume=42809.010000
+     6. 0x0562e01b3c3e65bb93bf0de32f02cec238a79d66  pnl_per_volume=1.715725  pnl=33804.977672  volume=19703.030000
+     7. 0xfde61db51b60faccbbafc88bc3590584e1bc1f5c  pnl_per_volume=1.531647  pnl=33668.870000  volume=21982.130000
+     8. 0xb43b093a8051a2af5c5241d27a4ec476dedb62b4  pnl_per_volume=1.531647  pnl=33978.630000  volume=22184.370000
+     9. 0x5992fc75b0d4e83a762f21ef94e924e6f571c50c  pnl_per_volume=1.409638  pnl=32772.280000  volume=23248.720000
+    10. 0x96e882359883590b2cf8828d46200b0ab099d139  pnl_per_volume=0.574787  pnl=42808.247667  volume=74476.760000
+  SUBCATEGORY #5: US Presidential | profit_per_volume=1.210992 | total_pnl=205433.977058 | total_volume=169641.040000 | predictability_score=0.700 | predictability_band=easy | composite_score=0.353
+    Subcategory example question: Will Taylor Swift endorse Kamala Harris?
+     1. 0x20c4e059e07200ee9a6210925ecc13f1b68dd5a1  pnl_per_volume=6.182726  pnl=10140.968777  volume=1640.210000
+     2. 0xe6e3495bf3c69dc42f844468c2c997f80e4d246b  pnl_per_volume=4.909211  pnl=14462.731400  volume=2946.040000
+     3. 0xa1fe6ccb33402cc9878ed348fa086564bad7c728  pnl_per_volume=4.543628  pnl=18784.539436  volume=4134.260000
+     4. 0xe64ffa7621459172ad81960762d5760e65d444a5  pnl_per_volume=3.973707  pnl=61197.311427  volume=15400.560000
+     5. 0x69bc24c9de2a28bc60ade389b6d66c785c71577d  pnl_per_volume=3.910108  pnl=16857.334500  volume=4311.220000
+     6. 0x3306f5dee2a5c536c941160fdffec1446e1e7258  pnl_per_volume=3.698509  pnl=17809.135500  volume=4815.220000
+     7. 0xf35d54bc14cb3918352d404ff33cfb43dba52ace  pnl_per_volume=3.097539  pnl=19780.172592  volume=6385.770000
+     8. 0x9d84ce0306f8551e02efef1680475fc0f1dc1344  pnl_per_volume=0.752739  pnl=11708.406997  volume=15554.400000
+     9. 0x7bda5bceac127c3fc41d7fe7ac335593aaaa121b  pnl_per_volume=0.369051  pnl=22440.939997  volume=60807.100000
+    10. 0xc6587b11a2209e46dfe3928b31c5514a8e33b784  pnl_per_volume=0.228393  pnl=12252.436432  volume=53646.260000
+  SUBCATEGORY #6: Product Events | profit_per_volume=1.172023 | total_pnl=639400.320853 | total_volume=545552.550000 | predictability_score=0.670 | predictability_band=easy | composite_score=0.335
+    Subcategory example question: Which will sell more album units in its first week of release: Kanye’s Donda or Drake’s Certified Lover Boy?
+     1. 0x0dedae6a02ea2ff8018ba5f277632919ed1c9025  pnl_per_volume=319.166681  pnl=37722.309980  volume=118.190000
+     2. 0x90e189d508a59329fdf4320b480e106fe598b0ba  pnl_per_volume=279.237708  pnl=56406.017002  volume=202.000000
+     3. 0x33b2f3b3d5f6eb83c5035c5f83c6f3c0eea657b9  pnl_per_volume=1.898581  pnl=73623.060000  volume=38777.940000
+     4. 0x737a7e98e3ff588481d6e0fa6a14bd16a2a61699  pnl_per_volume=1.222222  pnl=110278.300000  volume=90227.700000
+     5. 0xf39f95171dbdf94756129d7f35fd7685132d1070  pnl_per_volume=1.105263  pnl=89264.700000  volume=80763.300000
+     6. 0x07d6520615eff3d1724739791d2cd5e3f4bb3a90  pnl_per_volume=1.020202  pnl=31417.458000  volume=30795.340000
+     7. 0x561980da1d2d808c406b14d4a3cdf8bc621bee5b  pnl_per_volume=0.981484  pnl=30919.135871  volume=31502.420000
+     8. 0x88050e487a41a00557201dcbc2abe9da749b90ea  pnl_per_volume=0.904762  pnl=80763.300000  volume=89264.700000
+     9. 0xcd7365c4ffe524aadab233d5f3761796e8ef7e48  pnl_per_volume=0.818182  pnl=90227.700000  volume=110278.300000
+    10. 0x6bba94c88ec20b49f6a488fe3e6a84d344473174  pnl_per_volume=0.526717  pnl=38778.340000  volume=73622.660000
+
+  SUBCATEGORY #7: Micro Up/Down | profit_per_volume=1.267951 | total_pnl=305056.408870 | total_volume=240590.080000 | predictability_score=0.400 | predictability_band=hard | composite_score=0.207
+    Subcategory example question: Will "The Spongebob Movie: Search for SquarePants" Opening Weekend Box Office be between 15m and 18m?
+     1. 0x38d67848d323a73df272643c94a09abf4ee2220c  pnl_per_volume=998.907951  pnl=51603.584760  volume=51.660000
+     2. 0xf66ceb07affeed8b86737de32ef3fbec02bf4ab1  pnl_per_volume=63.477231  pnl=19557.969661  volume=308.110000
+     3. 0x4fadc974fb701b133055866022c89c5e0f7a1480  pnl_per_volume=34.739109  pnl=18118.876839  volume=521.570000
+     4. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=3.144982  pnl=18310.554862  volume=5822.150000
+     5. 0x86244df57fc69c7a551030cd4f044b6182f3b804  pnl_per_volume=1.985075  pnl=45021.830000  volume=22680.170000
+     6. 0x682dbb961b8b4c4c99d9d56557d5ad68847e4cd6  pnl_per_volume=1.907839  pnl=25236.223392  volume=13227.650000
+     7. 0xd04eeb36f9123f60473baf31ea621c9a9490560d  pnl_per_volume=1.469137  pnl=37470.730000  volume=25505.270000
+     8. 0x9cb0b32b37a745be5f8f22b38915da57ec64d6b0  pnl_per_volume=0.680672  pnl=25505.270000  volume=37470.730000
+     9. 0xf030e27fb8ee3dd3aff8baed327f96de0fe5e725  pnl_per_volume=0.503759  pnl=22680.170000  volume=45021.830000
+    10. 0x5095e97281f28d4d8549fd3834802c24cbb793ee  pnl_per_volume=0.461778  pnl=41551.199355  volume=89980.940000
+CATEGORY #4: Tech/AI | profit_per_volume=2.216732 | total_pnl=22884736.845429 | total_volume=10323635.290000 | predictability_score=0.580 | composite_score=0.542
+  Category example question: North Korea missile launch by November 15?
+  SUBCATEGORY #1: Hardware/Semiconductors | profit_per_volume=10.515569 | total_pnl=27283.275210 | total_volume=2594.560000 | predictability_score=0.630 | predictability_band=easy | composite_score=0.815
+    Subcategory example question: Will the Silicon Data H100 Index (SDH100RT) hit $2.40 (HIGH) by February 28, 2026?
+     1. 0x93847920ecc650e93d56d7a1033d8d44693645e0  pnl_per_volume=999.000000  pnl=2997.000000  volume=3.000000
+     2. 0xabc289f7cc507d93316cd7c62b69aabf13a846c4  pnl_per_volume=999.000000  pnl=1998.000000  volume=2.000000
+     3. 0x0fe03fa6f3b1a3f26d9f569d3855c7af44695c77  pnl_per_volume=998.994980  pnl=1988.000010  volume=1.990000
+     4. 0x58fd45d701b93e76d6c04a0983ee5b3cc29d43a6  pnl_per_volume=984.915504  pnl=3496.450040  volume=3.550000
+     5. 0x634beaca542ff2ad549a73036355ff17f3e36de2  pnl_per_volume=773.522880  pnl=2003.424260  volume=2.590000
+     6. 0x864669913a04d249f41770221bfc62c10812ed78  pnl_per_volume=519.150874  pnl=3992.270220  volume=7.690000
+     7. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=22.115125  pnl=3662.264680  volume=165.600000
+     8. 0x036f37c95edba41413b57c46fd08f62a6a2331a9  pnl_per_volume=8.691111  pnl=2112.896000  volume=243.110000
+     9. 0x5ad872306a03db06e0ebb8367823b13a4dd59756  pnl_per_volume=2.832041  pnl=3064.070000  volume=1081.930000
+    10. 0x70d52210d7e1da7a00ef9a8e080e65b31cf43a73  pnl_per_volume=1.817838  pnl=1968.900000  volume=1083.100000
+  SUBCATEGORY #2: US Presidential | profit_per_volume=7.687609 | total_pnl=22260.471012 | total_volume=2895.630000 | predictability_score=0.680 | predictability_band=easy | composite_score=0.717
+    Subcategory example question: Will Kamala Harris say  "AI" or "Artificial Intelligence" during CNN interview?
+     1. 0xa3c0c7c6e8879eaa2ba8714551b08850efe5f6d8  pnl_per_volume=999.000000  pnl=2127.870000  volume=2.130000
+     2. 0xc682d875148263fb37757bf3057c8852c2d9a1d1  pnl_per_volume=249.000000  pnl=249.000000  volume=1.000000
+     3. 0xfd13172de98a7dff6fb054107765470c30e1e6f1  pnl_per_volume=99.000000  pnl=3465.000000  volume=35.000000
+     4. 0x1a20ee68ba7320a0e410de266661460e33b9101c  pnl_per_volume=99.000000  pnl=2475.000000  volume=25.000000
+     5. 0xd4df65233acbe3cfbfcbe7a5bb6d6f1c70937f8e  pnl_per_volume=22.324246  pnl=11943.471677  volume=535.000000
+     6. 0x1ad9c3be29554f4ba13b24d79206d3d2371d4760  pnl_per_volume=6.387560  pnl=393.409835  volume=61.590000
+     7. 0xea2f794a7f0ce05e4bbd357b3ccbb3bd2048a8ef  pnl_per_volume=1.816240  pnl=722.700200  volume=397.910000
+     8. 0x56d78525be0054d31b00182edb39c7056ee93d6b  pnl_per_volume=0.612903  pnl=190.000000  volume=310.000000
+     9. 0xf1f9a438f2697381b4ac8eb283d6f4dd772d1245  pnl_per_volume=0.492537  pnl=217.800000  volume=442.200000
+    10. 0x22271273b28d0d198a8e5ff9e7f9f75d0c24b572  pnl_per_volume=0.438588  pnl=476.219300  volume=1085.800000
+  SUBCATEGORY #3: AI Models/Companies | profit_per_volume=5.007067 | total_pnl=5879207.487090 | total_volume=1174181.990000 | predictability_score=0.610 | predictability_band=medium | composite_score=0.566
+    Subcategory example question: Will Anthropic have the top AI model on September 30?
+     1. 0x69b461a7e2d19cb0b1611896c099770df33c6322  pnl_per_volume=999.000000  pnl=399600.000000  volume=400.000000
+     2. 0x7d903516102b1a3e7bf5bad0591147708cddca3e  pnl_per_volume=998.166892  pnl=1207053.277460  volume=1209.270000
+     3. 0x741f6623a4b611179efebf72298f8a28e84036d1  pnl_per_volume=668.506327  pnl=848855.964490  volume=1269.780000
+     4. 0x8003a30ae173b574799320871f640d4db5b025c3  pnl_per_volume=70.622595  pnl=448635.684530  volume=6352.580000
+     5. 0x905790476ecb8f5408a0e41871126837c8efc47e  pnl_per_volume=20.431832  pnl=364952.559991  volume=17861.960000
+     6. 0x5c5f8b4e6c0b7803cfc78cd4b304e60b55631d86  pnl_per_volume=7.949017  pnl=673502.458360  volume=84727.770000
+     7. 0x414b394fbf7a06d3efc58934bd1602ff08c80d3f  pnl_per_volume=3.252991  pnl=525114.604964  volume=161425.160000
+     8. 0x6b0ebbef2630b9a0da35594bf7ddd1911246e3ea  pnl_per_volume=3.187968  pnl=404637.005098  volume=126926.300000
+     9. 0x9604b357e8307b0ccc8eb5812725d2b112c6fc1d  pnl_per_volume=1.787373  pnl=674394.139768  volume=377310.200000
+    10. 0xe103707480b4f1625bce4084795f91ac503459fd  pnl_per_volume=0.838071  pnl=332461.792429  volume=396698.970000
+  SUBCATEGORY #4: Streaming/TV | profit_per_volume=2.008619 | total_pnl=21078.708230 | total_volume=10494.130000 | predictability_score=0.640 | predictability_band=easy | composite_score=0.451
+    Subcategory example question: Will "Reality Check: Inside America's Next Top Model" be the top global Netflix show this week?
+     1. 0x0061f603a457754bae0241f1fb34f0ce6a5e8fd6  pnl_per_volume=514.692879  pnl=720.570030  volume=1.400000
+     2. 0xe8fb9cdc277d9ece37144a19b1b332680f063fad  pnl_per_volume=487.234010  pnl=1934.319020  volume=3.970000
+     3. 0xc7b8b9ec19b3ee743a2df077390cddc0404b5d96  pnl_per_volume=332.333333  pnl=997.000000  volume=3.000000
+     4. 0x475a58906a8ec2b0cc20b1a5be1c4c72e46886ab  pnl_per_volume=132.112806  pnl=1022.553120  volume=7.740000
+     5. 0xfcf0a49aa7df97cccc5e56ddea3567b72de488f7  pnl_per_volume=116.647059  pnl=793.200000  volume=6.800000
+     6. 0xa24d3122ecad883b0fe1ff7b9b2d9967e23d3065  pnl_per_volume=94.119585  pnl=771.780600  volume=8.200000
+     7. 0x8929a63143fba9416c8e0d3c96388b429c47733e  pnl_per_volume=6.095122  pnl=712.336900  volume=116.870000
+     8. 0xd6eef76188c7068719ac881460b7431e1ae137a2  pnl_per_volume=3.079092  pnl=671.888560  volume=218.210000
+     9. 0xe6c2f9a87392b2af5b95d8e4bac6653a459b7f19  pnl_per_volume=1.985075  pnl=828.590000  volume=417.410000
+    10. 0x3fc09b86798a78c64d8f2ed160afe32b2237cebc  pnl_per_volume=1.300286  pnl=12626.470000  volume=9710.530000
+  SUBCATEGORY #5: Product Events | profit_per_volume=1.582614 | total_pnl=28138.341384 | total_volume=17779.660000 | predictability_score=0.650 | predictability_band=easy | composite_score=0.438
+    Subcategory example question: Will Melania say "AI" or "Artificial Intelligence" during Fostering the Future Together event on March 24?
+     1. 0xd3989ba133ab48b5b3a81e3dba9b37b5966a46d7  pnl_per_volume=99.000000  pnl=1980.000000  volume=20.000000
+     2. 0xfb81f27f1c8758d477332f8e751322c424da1cf3  pnl_per_volume=74.999386  pnl=4687.461600  volume=62.500000
+     3. 0xa3d3da79775f534629a920bfd1c6e4f5fb6fd424  pnl_per_volume=4.104422  pnl=4237.118400  volume=1032.330000
+     4. 0x28ca4e9a04531f2eac0c2770f95db4e1c6a65d19  pnl_per_volume=3.327298  pnl=1742.672087  volume=523.750000
+     5. 0xf7c8e1e79015033fe361c9150ecc67f323675aba  pnl_per_volume=1.435852  pnl=1674.088800  volume=1165.920000
+     6. 0x75acf1aa88a3f5c613f2214486b91fa9fc1f33d7  pnl_per_volume=1.311350  pnl=3244.621677  volume=2474.260000
+     7. 0xec88a3747a420b7a75b57a77a8fffc97754c09ce  pnl_per_volume=1.094241  pnl=2090.000000  volume=1910.000000
+     8. 0x3d41aa029ebc9354d51cad86512d5faf5b7e7675  pnl_per_volume=0.906532  pnl=1901.950000  volume=2098.050000
+     9. 0xf797d4d1c038d1eb0593edae0e66bf8e4b2e0bf2  pnl_per_volume=0.855912  pnl=4783.008200  volume=5588.200000
+    10. 0xaec0bf01dbdb9e874ba26afad77c42386c885a19  pnl_per_volume=0.618808  pnl=1797.420620  volume=2904.650000
+  SUBCATEGORY #6: Primaries & Polls | profit_per_volume=1.394282 | total_pnl=3352.815450 | total_volume=2404.690000 | predictability_score=0.630 | predictability_band=easy | composite_score=0.420
+    Subcategory example question: Will anyone say "AI" or "Artificial Intelligence" during the 2nd Democratic Mayoral Primary on June 12?
+     1. 0xfb81f27f1c8758d477332f8e751322c424da1cf3  pnl_per_volume=99.000000  pnl=1237.500000  volume=12.500000
+     2. 0xc468b3b8564017fcf2bf9ede2608a0ea24b1009d  pnl_per_volume=1.807840  pnl=163.681800  volume=90.540000
+     3. 0x22cc117eebcd6a07379f26cb345687f5def1ef97  pnl_per_volume=1.394643  pnl=141.486500  volume=101.450000
+     4. 0xbf5470fd67e3840933554e2528abfdcc6f995abb  pnl_per_volume=1.083333  pnl=520.000000  volume=480.000000
+     5. 0x45922e2cb42cbdd2b93838fcd1de128a154777ae  pnl_per_volume=1.039803  pnl=112.985000  volume=108.660000
+     6. 0x6ae85ac7a359c17d51a23fbb294afb32812fb41a  pnl_per_volume=0.925698  pnl=468.690300  volume=506.310000
+     7. 0x9304c4a06dbf0893ee8bc556697a92374a80f693  pnl_per_volume=0.906697  pnl=178.129700  volume=196.460000
+     8. 0x086412d985d5fd6af5864c278ef35aba38e2b3d0  pnl_per_volume=0.781328  pnl=230.257446  volume=294.700000
+     9. 0x2a740d2ede94c38c85d555f5bdf2ab6e398ba3cb  pnl_per_volume=0.512226  pnl=163.912367  volume=320.000000
+    10. 0xbe89905ca9a689f5129621b62fcf715b5a45b88c  pnl_per_volume=0.463061  pnl=136.172337  volume=294.070000
+  SUBCATEGORY #7: US Congress/Government | profit_per_volume=0.861268 | total_pnl=3675.281068 | total_volume=4267.290000 | predictability_score=0.670 | predictability_band=easy | composite_score=0.417
+    Subcategory example question: Will Melania say "Congress" during AI talk on Friday?
+     1. 0x209c21d489b3154458937072e2fd37a0bb87d319  pnl_per_volume=5.964766  pnl=799.040000  volume=133.960000
+     2. 0xd42f6a1634a3707e27cbae14ca966068e5d1047d  pnl_per_volume=4.741937  pnl=441.901100  volume=93.190000
+     3. 0x30e443872ddf63b2908a49f92cd690c304a55102  pnl_per_volume=2.670499  pnl=1170.640000  volume=438.360000
+     4. 0x84fee50c947fbc7ae1c1698ddf9ef41470a770a6  pnl_per_volume=1.061840  pnl=81.751100  volume=76.990000
+     5. 0xff4f053a93187a1d6af8f7a6b864ee8a5e70b0ff  pnl_per_volume=0.818100  pnl=4.090500  volume=5.000000
+     6. 0x817ccaea51628c20cbda3bb1e1bb3514d1bc81f9  pnl_per_volume=0.612990  pnl=6.908400  volume=11.270000
+     7. 0x9d84ce0306f8551e02efef1680475fc0f1dc1344  pnl_per_volume=0.397307  pnl=962.615167  volume=2422.850000
+     8. 0x7789806c754eb0af4c3abeb026c218b4ba78f823  pnl_per_volume=0.303207  pnl=153.853300  volume=507.420000
+     9. 0xcb14f61711d913773f4b982af340fa7eae175358  pnl_per_volume=0.250000  pnl=3.000000  volume=12.000000
+    10. 0xe25b9180f5687aa85bd94ee309bb72a464320f1b  pnl_per_volume=0.090917  pnl=51.481501  volume=566.250000
+  SUBCATEGORY #8: Airdrops & Launches | profit_per_volume=1.817555 | total_pnl=15513797.212368 | total_volume=8535532.950000 | predictability_score=0.580 | predictability_band=medium | composite_score=0.413
+    Subcategory example question: North Korea missile launch by November 15?
+     1. 0xdf6da574f8b0c0ce5e01ddb1c5a49b87993e9c5c  pnl_per_volume=22.520385  pnl=1199952.115551  volume=53282.930000
+     2. 0x867ffb38566a66015e0ea998dc69910eebc03281  pnl_per_volume=9.160805  pnl=3072506.104777  volume=335396.940000
+     3. 0x7072dd52161bae614bec6905846a53c9a3a53413  pnl_per_volume=7.950098  pnl=979055.632330  volume=123150.130000
+     4. 0x51fd8f0358cc9e8a1ee5f87a0c7e3b07ed634272  pnl_per_volume=5.810940  pnl=1087053.530860  volume=187070.160000
+     5. 0x636d348f800fe0c584278adbb29807c213076468  pnl_per_volume=4.109425  pnl=960716.751748  volume=233783.740000
+     6. 0xce5bec63b40392845a9a504915f607c8e03a047a  pnl_per_volume=3.892127  pnl=2561008.411820  volume=657997.160000
+     7. 0x1c5e20fa4f160fb26f9687ebd9b7d607025c2f92  pnl_per_volume=3.585821  pnl=1955594.350837  volume=545368.600000
+     8. 0xc5fa48b547b2fccc480e8699fc2b160d0cac5b59  pnl_per_volume=0.994559  pnl=833588.918751  volume=838149.150000
+     9. 0x0a3502758e5df134ce95212b7c3388ac64d20d46  pnl_per_volume=0.588890  pnl=1073752.250895  volume=1823348.670000
+    10. 0x05ab749a8554fb7c852238c271d384bae6798145  pnl_per_volume=0.479020  pnl=1790569.144801  volume=3737985.470000
+  SUBCATEGORY #9: General | profit_per_volume=2.416807 | total_pnl=1385960.177093 | total_volume=573467.490000 | predictability_score=0.520 | predictability_band=medium | composite_score=0.409
+    Subcategory example question: Will Mistral AI have the top AI model on September 30?
+     1. 0x2d27e4d20f3b8a2ee3bc861d9b83752f338676d8  pnl_per_volume=22.114688  pnl=96268.998441  volume=4353.170000
+     2. 0xca8f0374e3fc79b485499cc0b038d4f7e783d963  pnl_per_volume=6.946426  pnl=95750.509970  volume=13784.140000
+     3. 0x682c92615993fd1f75cdfe101efdc1a8adcb17ae  pnl_per_volume=6.132043  pnl=131700.094169  volume=21477.360000
+     4. 0xc390fa385403669645a20d81fc672a25d1ad28bd  pnl_per_volume=5.487926  pnl=115141.566966  volume=20980.890000
+     5. 0x7ab6ac0f0d6ca5a15ec57abeaf413d31c8cdfa77  pnl_per_volume=5.266789  pnl=178338.386675  volume=33860.930000
+     6. 0x1ae161110f1c318f934da049af32787d7d88bab3  pnl_per_volume=3.998996  pnl=150297.691731  volume=37583.860000
+     7. 0x6b0ebbef2630b9a0da35594bf7ddd1911246e3ea  pnl_per_volume=3.642713  pnl=100453.105944  volume=27576.450000
+     8. 0x07d4245464dc4fa05d0b3f084d82482462dc8991  pnl_per_volume=2.530507  pnl=178734.188482  volume=70631.770000
+     9. 0x5235578efe24555b0c98e7dc10a902b09089c04a  pnl_per_volume=2.503264  pnl=140288.750330  volume=56042.330000
+    10. 0x17ce7c9a7f768bfa98946caf7d64c9e051f5beec  pnl_per_volume=0.692908  pnl=198986.884386  volume=287176.590000
+  SUBCATEGORY #10: Awards | profit_per_volume=-1.019346 | total_pnl=-0.795090 | total_volume=0.780000 | predictability_score=0.670 | predictability_band=easy | composite_score=0.335
+    Subcategory example question: Will Role Model be nominated for Best New Artist at the 68th Annual GRAMMY Awards?
+     1. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=-0.980000  pnl=-0.098000  volume=0.100000
+     2. 0xe9b42acb8cf9b3ce94d70c7400acabcbb942f03a  pnl_per_volume=-0.985714  pnl=-0.069000  volume=0.070000
+     3. 0x46b353667fd7d846af3bbeda6584b0e5b883d3de  pnl_per_volume=-1.000000  pnl=-0.050000  volume=0.050000
+     4. 0x481c3bd8df4c4d5286d24eb54a009c47cba83da8  pnl_per_volume=-1.000000  pnl=-0.100000  volume=0.100000
+     5. 0x50b977391c4b3dd88b0a0bef03c3434fe4284298  pnl_per_volume=-1.000000  pnl=-0.150000  volume=0.150000
+     6. 0x89bd2d7fd71c763673bb8fad3525dc3d311301bf  pnl_per_volume=-1.000000  pnl=-0.200000  volume=0.200000
+     7. 0xef2a2e5397a610a01040212974b53cff7799bd7e  pnl_per_volume=-1.042857  pnl=-0.073000  volume=0.070000
+     8. 0x241d5fa5b224fab29a6bd5289b126e6a0c0cf11d  pnl_per_volume=-1.309000  pnl=-0.013090  volume=0.010000
+     9. 0xf03a6e075131f8a012e15e66988bc33a98ee7a9a  pnl_per_volume=-1.400000  pnl=-0.014000  volume=0.010000
+    10. 0x75cbe506ceec7bb80331954e9a47212ea62f1556  pnl_per_volume=-1.400000  pnl=-0.028000  volume=0.020000
+
+  SUBCATEGORY #11: Music/Celebrities | profit_per_volume=-1.000416 | total_pnl=-12.945387 | total_volume=12.940000 | predictability_score=0.600 | predictability_band=medium | composite_score=0.301
+    Subcategory example question: Will Taylor Swift say "AI" on The Late Show on December 10?
+     1. 0x6620dcebb344c7eafc3de90c73024b3fdf618a10  pnl_per_volume=-0.999000  pnl=-0.999000  volume=1.000000
+     2. 0xc8773301f25228a280e12c6387c588fd3c0c05b4  pnl_per_volume=-0.999310  pnl=-2.028600  volume=2.030000
+     3. 0x355e5ae20cc1a3a2164f818e4bac8d22dd72a038  pnl_per_volume=-0.999551  pnl=-1.779200  volume=1.780000
+     4. 0x248a410308754e857a85f167a9f5f5bbddcae4c5  pnl_per_volume=-0.999698  pnl=-0.999698  volume=1.000000
+     5. 0xdeed98b0d90aa5d910216571bfb2b00e1bb5a865  pnl_per_volume=-0.999990  pnl=-0.999990  volume=1.000000
+     6. 0x50b977391c4b3dd88b0a0bef03c3434fe4284298  pnl_per_volume=-1.000000  pnl=-0.120000  volume=0.120000
+     7. 0xca82e91a4739206c769a4d02fc64b589955d997b  pnl_per_volume=-1.000027  pnl=-4.000109  volume=4.000000
+     8. 0x5503ad6b6c99fb7a08d49e38d27ad46d746ce9a1  pnl_per_volume=-1.000800  pnl=-1.000800  volume=1.000000
+     9. 0xd18f968b35ec880b8ec73567148ba3b2f9111ffc  pnl_per_volume=-1.002999  pnl=-1.002999  volume=1.000000
+    10. 0xeab7b0a830a1755f1296fee950b3080e3529b389  pnl_per_volume=-1.499000  pnl=-0.014990  volume=0.010000
+  SUBCATEGORY #12: Internet/Memes | profit_per_volume=-1.000943 | total_pnl=-3.183000 | total_volume=3.180000 | predictability_score=0.500 | predictability_band=medium | composite_score=0.251
+    Subcategory example question: Will Brian Armstrong say AI/Artificial Intelligence times during his X space?
+     1. 0x4cee35edb3c2ca2e7a87f0d07a5abc894afca307  pnl_per_volume=-0.972222  pnl=-0.350000  volume=0.360000
+     2. 0x6d71437225a22a574182c6e7ad60c37ab530af7a  pnl_per_volume=-0.987308  pnl=-0.128350  volume=0.130000
+     3. 0x3a3a87070fb30da908f7d6e25c9451814c7eee52  pnl_per_volume=-0.994783  pnl=-0.228800  volume=0.230000
+     4. 0x74f1b8944c7b10f7239e3dda0de6b8ee42e816a8  pnl_per_volume=-0.996324  pnl=-0.737280  volume=0.740000
+     5. 0x73a8a526894cbb699c43952d798edc591944d800  pnl_per_volume=-1.000000  pnl=-0.020000  volume=0.020000
+     6. 0xde264f5e8340592f43e565c520958b53ffd70972  pnl_per_volume=-1.000000  pnl=-0.800000  volume=0.800000
+     7. 0xc613e6707bd115e5c04d303d944568232697662b  pnl_per_volume=-1.007964  pnl=-0.836610  volume=0.830000
+     8. 0xf8b720c031833a879ffe538c7e040fad542114de  pnl_per_volume=-1.066667  pnl=-0.032000  volume=0.030000
+     9. 0x655ed553ce390e2a207a76f9861f620b9217b4be  pnl_per_volume=-1.249000  pnl=-0.049960  volume=0.040000
+CATEGORY #5: Politics/Elections | profit_per_volume=1.215313 | total_pnl=301617111.986143 | total_volume=248180624.880000 | predictability_score=0.722 | composite_score=0.483
+  Category example question: Trump approval Up or Down this week?
+  SUBCATEGORY #1: Russia/Ukraine | profit_per_volume=9.479677 | total_pnl=2099228.535331 | total_volume=221445.150000 | predictability_score=0.570 | predictability_band=medium | composite_score=0.785
+    Subcategory example question: Will the Liberal Democratic Party of Russia (LDPR) win the most seats in the next Russian parliamentary election?
+     1. 0xbcee2864c3abae6fe161fc0ded38559efa35dd25  pnl_per_volume=190.428505  pnl=397909.882716  volume=2089.550000
+     2. 0xb4f2f0c858566fef705edf8efc1a5e9fba307862  pnl_per_volume=127.253140  pnl=55538.360400  volume=436.440000
+     3. 0x151275ec1be5ba83bb15fc9df34aa43f7e4b68f3  pnl_per_volume=80.580307  pnl=88951.795421  volume=1103.890000
+     4. 0x99a18b3de03fc7bf03bfbfb13f827ef6d018b0c3  pnl_per_volume=78.997232  pnl=65965.848820  volume=835.040000
+     5. 0x442341108629af784b50eedcb7c00047b1eb5d17  pnl_per_volume=53.844080  pnl=805938.195127  volume=14968.000000
+     6. 0x95a44b284cc20c755592319e0579a08740a01b1c  pnl_per_volume=47.480858  pnl=278386.443611  volume=5863.130000
+     7. 0x29705e5c09678a97e54e03282b8ee5b4bbabe1c9  pnl_per_volume=24.392266  pnl=99581.671230  volume=4082.510000
+     8. 0x4d4635d072b6b2a16c1d691326a602cd099378bf  pnl_per_volume=15.538758  pnl=55523.399820  volume=3573.220000
+     9. 0x209c21d489b3154458937072e2fd37a0bb87d319  pnl_per_volume=4.635207  pnl=80416.119114  volume=17348.980000
+    10. 0x9d84ce0306f8551e02efef1680475fc0f1dc1344  pnl_per_volume=0.999255  pnl=171016.819072  volume=171144.390000
+  SUBCATEGORY #2: International Politics | profit_per_volume=7.058910 | total_pnl=5382238.721491 | total_volume=762474.490000 | predictability_score=0.660 | predictability_band=easy | composite_score=0.715
+    Subcategory example question: Will Keir Starmer say "United Kingdom" during the next Prime Minister's Questions?
+     1. 0x0c5037aee2bb1642dd593caa20503cfa7dcd3e65  pnl_per_volume=276.673245  pnl=229685.828000  volume=830.170000
+     2. 0x4ec32bd82b5f3259ff0c34bcc59b64cdb6a2f757  pnl_per_volume=33.959945  pnl=912890.193746  volume=26881.380000
+     3. 0xa3d3da79775f534629a920bfd1c6e4f5fb6fd424  pnl_per_volume=33.681057  pnl=1223735.541601  volume=36333.050000
+     4. 0x21f90e5ff30c12f52fbb2fb220aa268f22faed12  pnl_per_volume=27.298932  pnl=400489.532013  volume=14670.520000
+     5. 0xe6c9eee27de792a9fdcdd322822452625d0f975e  pnl_per_volume=10.549019  pnl=299494.447012  volume=28390.740000
+     6. 0x003022318cb838c980f8fdc2f61bdd1a66005fb5  pnl_per_volume=9.314190  pnl=423046.409880  volume=45419.560000
+     7. 0x7ab6ac0f0d6ca5a15ec57abeaf413d31c8cdfa77  pnl_per_volume=6.473893  pnl=499898.084188  volume=77217.540000
+     8. 0x4e6b21aedc11c66d2b340d918a9934a61d6cb0fa  pnl_per_volume=5.506557  pnl=213442.832200  volume=38761.580000
+     9. 0xaec7dc6d317e45ccd02b358c37ebf050ef66f646  pnl_per_volume=2.894028  pnl=689482.609434  volume=238243.270000
+    10. 0x2d27e4d20f3b8a2ee3bc861d9b83752f338676d8  pnl_per_volume=1.916395  pnl=490073.243416  volume=255726.680000
+  SUBCATEGORY #3: American Football | profit_per_volume=5.539051 | total_pnl=148163.864818 | total_volume=26748.960000 | predictability_score=0.710 | predictability_band=easy | composite_score=0.668
+    Subcategory example question: Will "President" be said at the Super Bowl?
+     1. 0x6186b9300e8c8c6d81d5c50724a6b835f1b5c98a  pnl_per_volume=999.000000  pnl=3296.700000  volume=3.300000
+     2. 0xd423cfb80a4392bb7f383bfd7e09e420109980a3  pnl_per_volume=999.000000  pnl=1998.000000  volume=2.000000
+     3. 0xe2c9047045eab6579c31eabc94d1b46bb1c279b1  pnl_per_volume=499.000000  pnl=6586.800000  volume=13.200000
+     4. 0x438ed5bed99bc6b517e9b5a22ad3ee9e21d9e08e  pnl_per_volume=98.988994  pnl=1869.902100  volume=18.890000
+     5. 0xeba4f0b5eea60bfe6df14e2297e58d8c152a69fb  pnl_per_volume=15.522423  pnl=1972.900000  volume=127.100000
+     6. 0xdacf9f8d0341fa3770fae5c7ccd9dcfed23e3c74  pnl_per_volume=9.315998  pnl=5100.695300  volume=547.520000
+     7. 0x9e157de7e84f6038032d087cb55aaa7949877531  pnl_per_volume=9.038346  pnl=24767.960068  volume=2740.320000
+     8. 0x35420f83f93ebec748ec8d5b90c5438853b8c3c8  pnl_per_volume=6.810012  pnl=95490.665722  volume=14022.100000
+     9. 0xbd3159fee50dcd5b3efe437879b3eaef2e998004  pnl_per_volume=0.960976  pnl=2499.296050  volume=2600.790000
+    10. 0x38f50488b14a87769e0c5cd6c514b6c2e8ec6824  pnl_per_volume=0.686414  pnl=4580.945578  volume=6673.740000
+  SUBCATEGORY #4: Fed Rates | profit_per_volume=3.115446 | total_pnl=112289.371852 | total_volume=36042.790000 | predictability_score=0.790 | predictability_band=easiest | composite_score=0.592
+    Subcategory example question: Will Kevin Warsh be formally nominated to be Chair of the Federal Reserve by February 18, 2026?
+     1. 0xbd2617cb476e280be0d7394f6a3be7145858d137  pnl_per_volume=445.441662  pnl=24445.838387  volume=54.880000
+     2. 0x6b1024aa4d5afff6e2cbb2a32264ac5effe82f7e  pnl_per_volume=99.330356  pnl=11314.720845  volume=113.910000
+     3. 0xd1acd3925d895de9aec98ff95f3a30c5279d08d5  pnl_per_volume=9.775367  pnl=10198.738429  volume=1043.310000
+     4. 0xc680ec7bd5bd12af22f90464b47ff3affbd3e94c  pnl_per_volume=5.138567  pnl=11836.792842  volume=2303.520000
+     5. 0x1ad9a2f348eaa6b6326af9c1fea382dd455e7bf6  pnl_per_volume=2.870109  pnl=5704.628838  volume=1987.600000
+     6. 0x57ae6ad85aa10e5f66a2997983fa7b91b634e386  pnl_per_volume=2.783140  pnl=6249.151385  volume=2245.360000
+     7. 0xc2413b981047493af94b3f48f2d719810c341487  pnl_per_volume=1.921841  pnl=6021.126463  volume=3133.000000
+     8. 0xeb22f4735df6bd5d14e1b5fd10faefa7757d808a  pnl_per_volume=1.892931  pnl=16189.974346  volume=8552.860000
+     9. 0x5c6e54a0657d0159b993d17470c749dec1bb0617  pnl_per_volume=1.801757  pnl=10378.443580  volume=5760.180000
+    10. 0x955c9661bf6e010beff0ba896a49f715a8c8990f  pnl_per_volume=0.917201  pnl=9949.956736  volume=10848.170000
+  SUBCATEGORY #5: Primaries & Polls | profit_per_volume=3.393004 | total_pnl=2510198.500394 | total_volume=739816.010000 | predictability_score=0.680 | predictability_band=easy | composite_score=0.551
+    Subcategory example question: Will another candidate not listed win the Democratic Primary for the Arizona's 7th congressional district special election?
+     1. 0x3ec4bd333591854a7de79102b0bca8d46b5fbf73  pnl_per_volume=867.435956  pnl=1078665.285620  volume=1243.510000
+     2. 0xe85c588f288e7e7b50152c2815940f0c8aa642da  pnl_per_volume=166.318921  pnl=196354.454701  volume=1180.590000
+     3. 0x0f50a317131f6d8b1d8494411baef3da11b24861  pnl_per_volume=82.165541  pnl=262946.984926  volume=3200.210000
+     4. 0xad8f08e0b5f4208cc34235cbe654d87320b02c60  pnl_per_volume=58.685622  pnl=144974.612274  volume=2470.360000
+     5. 0x2370d48501dbbe1974b6cf228e77d459f4870e10  pnl_per_volume=49.819537  pnl=97694.119890  volume=1960.960000
+     6. 0x24ae4e2bee4afbd04c5fd871fd3a7987e4d8a7fd  pnl_per_volume=11.070624  pnl=159900.776547  volume=14443.700000
+     7. 0x4e56f1ddaa8f5328036c449b89e731ec748cdee1  pnl_per_volume=3.930702  pnl=200529.826176  volume=51016.290000
+     8. 0x44c298af043b2a3b707037b4939d2c01996a7a21  pnl_per_volume=0.984594  pnl=121053.234835  volume=122947.390000
+     9. 0xad90bbc65ee54c9b0754ad8a659bafaa6ea623d8  pnl_per_volume=0.951166  pnl=145031.034660  volume=152477.130000
+    10. 0x01552054e1d4518ae7bb8712e8ec0574c468b6ca  pnl_per_volume=0.264990  pnl=103048.170765  volume=388875.870000
+  SUBCATEGORY #6: Middle East | profit_per_volume=4.254529 | total_pnl=153256.431776 | total_volume=36021.950000 | predictability_score=0.590 | predictability_band=medium | composite_score=0.547
+    Subcategory example question: Another Israeli military action against Iran before the election?
+     1. 0x09b3c21036a30cfe1d65074e82080c0ef7a855c7  pnl_per_volume=52.600690  pnl=10247.140425  volume=194.810000
+     2. 0x30e443872ddf63b2908a49f92cd690c304a55102  pnl_per_volume=48.431261  pnl=81717.098082  volume=1687.280000
+     3. 0x1e1f17412069c0736adfaadf8ee7f46e5612c855  pnl_per_volume=10.887869  pnl=22118.487462  volume=2031.480000
+     4. 0xb078f87a78a729bb7f1df1f263ec77ae85980752  pnl_per_volume=9.824507  pnl=7499.635837  volume=763.360000
+     5. 0x574e3aa34743c81f8f9e65c38599e4da95e83ef1  pnl_per_volume=2.076085  pnl=6706.480800  volume=3230.350000
+     6. 0xcdbfdac42aeac5837d105e255c1131e7bf751926  pnl_per_volume=2.066304  pnl=5547.840080  volume=2684.910000
+     7. 0x042880c9425b80e3982805c0a11f1dc1836d9b44  pnl_per_volume=1.713569  pnl=4353.184648  volume=2540.420000
+     8. 0x1dbd30000dd7dd051e8fc803fac38e8246d9af92  pnl_per_volume=1.674302  pnl=4467.021850  volume=2667.990000
+     9. 0x617738e85a3b0ff3f853c453c17e1ab3d59a1de0  pnl_per_volume=0.603136  pnl=4929.525702  volume=8173.160000
+    10. 0xd42f6a1634a3707e27cbae14ca966068e5d1047d  pnl_per_volume=0.470612  pnl=5670.016890  volume=12048.190000
+  SUBCATEGORY #7: General | profit_per_volume=3.922830 | total_pnl=42631135.791998 | total_volume=10867444.030000 | predictability_score=0.570 | predictability_band=medium | composite_score=0.521
+    Subcategory example question: JD Vance replaced as Republican VP nominee?
+     1. 0x99a18b3de03fc7bf03bfbfb13f827ef6d018b0c3  pnl_per_volume=37.318635  pnl=2534502.573397  volume=67915.200000
+     2. 0x2d27e4d20f3b8a2ee3bc861d9b83752f338676d8  pnl_per_volume=11.014071  pnl=5334058.391904  volume=484294.880000
+     3. 0x0daf9707397575b67dc9eb152c9e6e3f7621662b  pnl_per_volume=10.911859  pnl=15711302.930510  volume=1439837.380000
+     4. 0x3b5d93e768e79c0974ac0f7d210237988120cc80  pnl_per_volume=9.935592  pnl=2756246.239735  volume=277411.380000
+     5. 0xa58d4f278d7953cd38eeb929f7e242bfc7c0b9b8  pnl_per_volume=3.073571  pnl=3143356.018609  volume=1022704.860000
+     6. 0x30e443872ddf63b2908a49f92cd690c304a55102  pnl_per_volume=2.625339  pnl=4528154.060952  volume=1724788.600000
+     7. 0x08ce2678c929934de9edea698a998aea9dbc295e  pnl_per_volume=2.451939  pnl=2453331.790571  volume=1000568.140000
+     8. 0x00eca75f93d2dba8cd7c7e58cc1f0c26f1b78240  pnl_per_volume=2.056658  pnl=2108673.529632  volume=1025291.210000
+     9. 0x2c6beef88b52b92b83f5bc604daa257fb0b1adce  pnl_per_volume=1.090814  pnl=2278509.498343  volume=2088816.480000
+    10. 0x1e75baf375ac3a352f7e7f4f18b16fa454bf305e  pnl_per_volume=1.027183  pnl=1783000.758346  volume=1735815.900000
+  SUBCATEGORY #8: US Congress/Government | profit_per_volume=2.195800 | total_pnl=3000376.578531 | total_volume=1366416.370000 | predictability_score=0.720 | predictability_band=easy | composite_score=0.514
+    Subcategory example question: Map 2: Odd/Even Total Rounds?
+     1. 0x7f2de588e3d990d66fef63bf2378dacc87a139a8  pnl_per_volume=82.333735  pnl=444598.877470  volume=5399.960000
+     2. 0xc8eff1d3538c3da5cae961fd95d1386f02df5232  pnl_per_volume=39.512518  pnl=246558.109744  volume=6240.000000
+     3. 0xc970f482ed085fa8cbc3ba822f7160dd35ffb063  pnl_per_volume=11.491906  pnl=244231.740105  volume=21252.500000
+     4. 0xd4df65233acbe3cfbfcbe7a5bb6d6f1c70937f8e  pnl_per_volume=6.694476  pnl=245275.958455  volume=36638.560000
+     5. 0x072afc0a066adc5b75c989de372adb952268cee6  pnl_per_volume=5.250163  pnl=237451.712559  volume=45227.490000
+     6. 0x3389c2d527304f3944988ffe22f4ede0e408bd71  pnl_per_volume=3.371875  pnl=353586.072245  volume=104863.330000
+     7. 0x1a5c09d9a082aaf2a543b1fc7bce36c41dd8a375  pnl_per_volume=2.375299  pnl=248771.887788  volume=104732.890000
+     8. 0x21f90e5ff30c12f52fbb2fb220aa268f22faed12  pnl_per_volume=1.318891  pnl=313723.790680  volume=237869.380000
+     9. 0x0562c423912e325f83fa79df55085979e1f5594f  pnl_per_volume=1.143007  pnl=391274.502518  volume=342320.330000
+    10. 0x629bc4a1e53e1d475beb7ea3d388791e96dd995a  pnl_per_volume=0.595195  pnl=274903.926965  volume=461871.930000
+  SUBCATEGORY #9: Streaming/TV | profit_per_volume=1.939464 | total_pnl=8081.108520 | total_volume=4166.670000 | predictability_score=0.690 | predictability_band=easy | composite_score=0.487
+    Subcategory example question: Will "President" or "Administration" be said 3+ times on the first Joe Rogan Experience episode of the week? (March 1)
+     1. 0x3329cfc2b8d8ceb8d198f081bdf4262f421f43a6  pnl_per_volume=989.108911  pnl=999.000000  volume=1.010000
+     2. 0x87046cc15301a1eb23a62d5a53d44301c4963b94  pnl_per_volume=225.337787  pnl=802.202520  volume=3.560000
+     3. 0xd907e51e54fb0259b7c46b067451cf9cf3c8f15f  pnl_per_volume=10.627516  pnl=1731.116000  volume=162.890000
+     4. 0x22f27959816eedf20f5b965797dafa09a4ca90d7  pnl_per_volume=3.000000  pnl=361.500000  volume=120.500000
+     5. 0xaa8d8adf77ce386bf167fea25e5924c6c1fafc01  pnl_per_volume=2.174603  pnl=1800.180000  volume=827.820000
+     6. 0xf8aefc61e80b7a57c3f2b22a9286c2dded27bb88  pnl_per_volume=2.174603  pnl=741.170000  volume=340.830000
+     7. 0xa9bd8e44b603a61ec1aa40981835e028858c4d4c  pnl_per_volume=2.174603  pnl=506.900000  volume=233.100000
+     8. 0x3a37b4d476c35b481276b31b8989487fa311141a  pnl_per_volume=0.459854  pnl=342.090000  volume=743.910000
+     9. 0xd1373135de8c0e051e4f71723d75c9445d45ceac  pnl_per_volume=0.459854  pnl=479.430000  volume=1042.570000
+    10. 0x6eaca320d9d07c8c7e43926ee934624defe892ca  pnl_per_volume=0.459854  pnl=317.520000  volume=690.480000
+  SUBCATEGORY #10: Regulation/Legal | profit_per_volume=1.961328 | total_pnl=1710152.362736 | total_volume=871936.150000 | predictability_score=0.670 | predictability_band=easy | composite_score=0.478
+    Subcategory example question: Will Lindsey Graham vote to confirm Ketanji Brown Jackson to the Supreme Court by December 31, 2022?
+     1. 0xf4d6dd1afa834badf76d25c08c84e0a770f14973  pnl_per_volume=20.721681  pnl=188773.892076  volume=9109.970000
+     2. 0x9d540c80a951687f3c11252337edfb3515424cdd  pnl_per_volume=11.423163  pnl=114231.627685  volume=10000.000000
+     3. 0xc886d95800f729c18e973f9519d48247c2da5837  pnl_per_volume=6.567555  pnl=371668.530644  volume=56591.610000
+     4. 0x33a9cdf4350941c7f07f73aa120563c483c74d96  pnl_per_volume=5.551415  pnl=228510.802721  volume=41162.620000
+     5. 0xc78bf95ec6533d3278beb6a6bfed17973b3337f7  pnl_per_volume=5.498853  pnl=131855.412000  volume=23978.710000
+     6. 0x008aab39521901ea08a8c55474740547a11921a8  pnl_per_volume=4.799323  pnl=128606.450222  volume=26796.790000
+     7. 0xded7ef2bbceca28b893ae47f830c633f75618741  pnl_per_volume=1.568074  pnl=146469.327200  volume=93407.140000
+     8. 0x173c823f11162a88ae36a380366b03d7068cbf6f  pnl_per_volume=1.197334  pnl=138222.477770  volume=115441.880000
+     9. 0x7702028f87deda0ceefea619209ece9630669791  pnl_per_volume=0.770053  pnl=121217.807575  volume=157414.940000
+    10. 0x2326812917a7bfecb485bb768007c910ea31ab0e  pnl_per_volume=0.415925  pnl=140596.034844  volume=338032.490000
+  SUBCATEGORY #11: BTC Price Levels | profit_per_volume=1.797479 | total_pnl=117846.741132 | total_volume=65562.240000 | predictability_score=0.680 | predictability_band=easy | composite_score=0.475
+    Subcategory example question: Will Kamala say "crypto" or "Bitcoin" in her speech after the election is called?
+     1. 0xb94b4d478314a8648310e46b7c9abd4bca7795db  pnl_per_volume=101.456981  pnl=15089.696830  volume=148.730000
+     2. 0x6550ff2e1e4d72d985df4dbcdce09b63fa9eb49e  pnl_per_volume=43.247701  pnl=19547.960800  volume=452.000000
+     3. 0xcb2d5679b36447e69cfc30221846cac3fda1dde5  pnl_per_volume=6.912324  pnl=8986.021214  volume=1300.000000
+     4. 0x50a5b79f86e2eff3601c758d212a06f2bdf8bafe  pnl_per_volume=6.448172  pnl=17373.955512  volume=2694.400000
+     5. 0xe9e3cf60b4b5afb006df62d403fec6af3f9f13ad  pnl_per_volume=4.417607  pnl=9785.000000  volume=2215.000000
+     6. 0xc98a4b135e1ce593bf679e44fe575ebeb6ba2a0c  pnl_per_volume=3.708724  pnl=10595.120197  volume=2856.810000
+     7. 0x013dfc13ce1fdfac5e32568f9d03fd2a904a3e88  pnl_per_volume=3.501184  pnl=8238.356100  volume=2353.020000
+     8. 0x712031da5ab751227e926c561363c00fd761201b  pnl_per_volume=1.341538  pnl=15781.186651  volume=11763.500000
+     9. 0x0983edf273d7bce1bbdf17fe609dcfc87db87adb  pnl_per_volume=1.188556  pnl=5199.110711  volume=4374.310000
+    10. 0x301c69f2049f1229d751fd92db27297864def253  pnl_per_volume=0.193836  pnl=7250.333118  volume=37404.470000
+  SUBCATEGORY #12: US Presidential | profit_per_volume=1.044378 | total_pnl=243228212.580062 | total_volume=232893000.940000 | predictability_score=0.730 | predictability_band=easy | composite_score=0.464
+    Subcategory example question: Trump approval Up or Down this week?
+     1. 0x395d901222ddf4e393e6ac3ca9c3043f88d521eb  pnl_per_volume=295.000780  pnl=9319726.599084  volume=31592.210000
+     2. 0x3d0b1da57130cf26686c58bbee43466dcc134f4d  pnl_per_volume=47.175073  pnl=12452245.568524  volume=263958.160000
+     3. 0x55b4af6a1cff148a307cad8ad098206a028e80ea  pnl_per_volume=19.823078  pnl=25122552.150976  volume=1267338.590000
+     4. 0x2d27e4d20f3b8a2ee3bc861d9b83752f338676d8  pnl_per_volume=8.345343  pnl=11760729.037221  volume=1409256.440000
+     5. 0x482bf5accdecfaffa67c14d4d4fbb59f428a3266  pnl_per_volume=4.793940  pnl=103466338.929259  volume=21582736.270000
+     6. 0x59ce25a63a7b4f3d03f25976f9cb3b2625f5cc34  pnl_per_volume=1.708034  pnl=11758342.990901  volume=6884137.780000
+     7. 0xd0bfb8270d9f3a8c3312a5c9c6e2cd5b647340aa  pnl_per_volume=0.694891  pnl=9177616.400812  volume=13207282.600000
+     8. 0xd235973291b2b75ff4070e9c0b01728c520b0f29  pnl_per_volume=0.625728  pnl=11343923.886025  volume=18129147.270000
+     9. 0x5bffcf561bcae83af680ad600cb99f1184d6ffbe  pnl_per_volume=0.346340  pnl=35599917.417557  volume=102789051.760000
+    10. 0xa1d75a199ef084ee3ec9ae60dc986b439fe6e17e  pnl_per_volume=0.196452  pnl=13226819.599705  volume=67328499.860000
+  SUBCATEGORY #13: US-China/Taiwan | profit_per_volume=1.782229 | total_pnl=515971.489549 | total_volume=289509.090000 | predictability_score=0.600 | predictability_band=medium | composite_score=0.434
+    Subcategory example question: Who will get more votes in Taiwan Election: Hou Yu-ih (侯友宜) or Ko Wen-je (柯文哲)?
+     1. 0x9c88c0ad88b0c7dd929b0cf040abc9a46b2bc405  pnl_per_volume=6.573560  pnl=23684.275100  volume=3602.960000
+     2. 0x56057220b1337c921376c819185a2b140c0a5754  pnl_per_volume=4.468147  pnl=68869.113375  volume=15413.350000
+     3. 0x4e8dccd03151df9936995966bd75b3a2cc23dbd7  pnl_per_volume=2.409468  pnl=104544.422103  volume=43389.010000
+     4. 0x8698edbefd013db6d087e3d09eefa08e40bc35c1  pnl_per_volume=2.118666  pnl=68701.150909  volume=32426.610000
+     5. 0x9d84ce0306f8551e02efef1680475fc0f1dc1344  pnl_per_volume=1.704360  pnl=99953.230195  volume=58645.610000
+     6. 0x98b618baca9f283011a4c08b2c9ecf5d6b04260e  pnl_per_volume=1.617340  pnl=30484.415600  volume=18848.490000
+     7. 0xacc3237c3a8a81484a2f3fa98f825c613d6a6630  pnl_per_volume=1.410211  pnl=23763.556366  volume=16851.060000
+     8. 0x7a83ca14f8b83e78fe348b0ca45887ab24d40e2f  pnl_per_volume=1.170099  pnl=25579.915800  volume=21861.330000
+     9. 0x629bc4a1e53e1d475beb7ea3d388791e96dd995a  pnl_per_volume=0.913391  pnl=25031.318600  volume=27404.810000
+    10. 0x7789806c754eb0af4c3abeb026c218b4ba78f823  pnl_per_volume=0.888266  pnl=45360.091500  volume=51065.860000
+  SUBCATEGORY #14: Box Office | profit_per_volume=-1.033843 | total_pnl=-0.920120 | total_volume=0.890000 | predictability_score=0.750 | predictability_band=easiest | composite_score=0.375
+    Subcategory example question: Will Hasan Hadi - The President's Cake win Best First-Time Director of a Theatrical Feature Film at the 78th DGA Awards?
+     1. 0x89bd2d7fd71c763673bb8fad3525dc3d311301bf  pnl_per_volume=-0.952286  pnl=-0.199980  volume=0.210000
+     2. 0x0f130bfb163a75bf085334631319abefa4e5fe87  pnl_per_volume=-1.000000  pnl=-0.010000  volume=0.010000
+     3. 0xeab7b0a830a1755f1296fee950b3080e3529b389  pnl_per_volume=-1.000000  pnl=-0.030000  volume=0.030000
+     4. 0x50b977391c4b3dd88b0a0bef03c3434fe4284298  pnl_per_volume=-1.000000  pnl=-0.150000  volume=0.150000
+     5. 0x5b603ef028a8374b13cdedfd8bc3ab3b6a5c76d5  pnl_per_volume=-1.039143  pnl=-0.072740  volume=0.070000
+     6. 0x912a58103662ebe2e30328a305bc33131eca0f92  pnl_per_volume=-1.063810  pnl=-0.223400  volume=0.210000
+     7. 0x3329cfc2b8d8ceb8d198f081bdf4262f421f43a6  pnl_per_volume=-1.111111  pnl=-0.200000  volume=0.180000
+     8. 0x75cbe506ceec7bb80331954e9a47212ea62f1556  pnl_per_volume=-1.133333  pnl=-0.034000  volume=0.030000
+  SUBCATEGORY #15: Inflation/Growth | profit_per_volume=-0.990929 | total_pnl=-0.138730 | total_volume=0.140000 | predictability_score=0.740 | predictability_band=easy | composite_score=0.372
+    Subcategory example question: Will the Communist Party of India (Marxist) (CPI(M)) win the most seats in the 2026 West Bengal Legislative Assembly election?
+     1. 0xeab7b0a830a1755f1296fee950b3080e3529b389  pnl_per_volume=-0.749500  pnl=-0.014990  volume=0.020000
+     2. 0xef2a2e5397a610a01040212974b53cff7799bd7e  pnl_per_volume=-0.891000  pnl=-0.017820  volume=0.020000
+     3. 0x4bc5ce1dfcd865352480d6094fb4b947e7b1a968  pnl_per_volume=-0.937500  pnl=-0.037500  volume=0.040000
+     4. 0xb41ead279375742d6c2a1a2239bdce56376411fd  pnl_per_volume=-1.000000  pnl=-0.020000  volume=0.020000
+     5. 0x118f6e00031b33b997dee28a09a89e8e45180021  pnl_per_volume=-1.144000  pnl=-0.022880  volume=0.020000
+     6. 0x6dbaac4a5fcf80482dcf534423d1283287e689bc  pnl_per_volume=-1.277000  pnl=-0.025540  volume=0.020000
+  SUBCATEGORY #16: Awards | profit_per_volume=-1.002273 | total_pnl=-0.441000 | total_volume=0.440000 | predictability_score=0.720 | predictability_band=easy | composite_score=0.362
+    Subcategory example question: Will Oscar Vargas win the 2026 Santa Cruz de la Sierra mayoral election?
+     1. 0x14393c5e8ff270e1569b3c44ce986009715fc73c  pnl_per_volume=-0.910400  pnl=-0.045520  volume=0.050000
+     2. 0x6dbaac4a5fcf80482dcf534423d1283287e689bc  pnl_per_volume=-0.928571  pnl=-0.065000  volume=0.070000
+     3. 0x405809651dae4e0556e8f3740b1e16a7df2d35b5  pnl_per_volume=-0.999500  pnl=-0.019990  volume=0.020000
+     4. 0x9630df5234bf9d9cdf60136645d97b9538394005  pnl_per_volume=-1.000000  pnl=-0.040000  volume=0.040000
+     5. 0xd0849fd4d1ab888cfd9dc2e2ac066bd41ad76027  pnl_per_volume=-1.000000  pnl=-0.070000  volume=0.070000
+     6. 0x9422f0e5a2c4358bdd2a901aa2a31f58e04ef273  pnl_per_volume=-1.003500  pnl=-0.140490  volume=0.140000
+     7. 0x2a3be3e61e7bcbf35e86163a4bdf467c20dfe03f  pnl_per_volume=-1.200000  pnl=-0.060000  volume=0.050000
+  SUBCATEGORY #17: Weather/Natural Events | profit_per_volume=-0.990546 | total_pnl=-0.178298 | total_volume=0.180000 | predictability_score=0.710 | predictability_band=easy | composite_score=0.357
+    Subcategory example question: Category 5 hurricane hits US before election?
+     1. 0xfa346b853116084fb9930ea41d0a02388647c5b0  pnl_per_volume=-0.960000  pnl=-0.028800  volume=0.030000
+     2. 0xecf2fad893f8956c154954e2346f0b882fee247c  pnl_per_volume=-0.971498  pnl=-0.019430  volume=0.020000
+     3. 0xcae57afca11f0b193d246c19e3d5f28fa87926b1  pnl_per_volume=-0.990000  pnl=-0.009900  volume=0.010000
+     4. 0x8ce27068dc0fbdbe8a710791fe569eb40a3323f3  pnl_per_volume=-0.996909  pnl=-0.009969  volume=0.010000
+     5. 0x59dd18b9190d078734b127c985e2b6b6dcddad3c  pnl_per_volume=-0.999000  pnl=-0.029970  volume=0.030000
+     6. 0x4dbebccaec9c5d1b0633df2089a69019d6166e54  pnl_per_volume=-1.000000  pnl=-0.030000  volume=0.030000
+     7. 0x01b47eb0df3caafbc8ddb3945b4a3e80ffd19716  pnl_per_volume=-1.000000  pnl=-0.030000  volume=0.030000
+     8. 0xb9aa831bca45a121e7d2dcc18325f2d20261d465  pnl_per_volume=-1.003000  pnl=-0.010030  volume=0.010000
+     9. 0xa7f9788dab1ae59a54ecc66e9e041672641062a2  pnl_per_volume=-1.019922  pnl=-0.010199  volume=0.010000
+  SUBCATEGORY #18: Product Events | profit_per_volume=-1.000012 | total_pnl=-8.090100 | total_volume=8.090000 | predictability_score=0.700 | predictability_band=easy | composite_score=0.352
+    Subcategory example question: Will Bill Ackman say "Election" during the X Space event on November 18?
+     1. 0xb94f0ea2ddde1779122834ec827b56afe82804d8  pnl_per_volume=-0.997111  pnl=-0.897400  volume=0.900000
+     2. 0xcfb1fcb463f3a32ab5bff4f0a7320e07fe0d9bdf  pnl_per_volume=-0.998400  pnl=-0.998400  volume=1.000000
+     3. 0x93b584e4f0d3aae3bb1496e93cb2900bf7790f43  pnl_per_volume=-0.999000  pnl=-0.999000  volume=1.000000
+     4. 0xba80010a3bc14cfa8eabe874233bc6997ea26518  pnl_per_volume=-0.999000  pnl=-0.999000  volume=1.000000
+     5. 0x50b977391c4b3dd88b0a0bef03c3434fe4284298  pnl_per_volume=-1.000000  pnl=-0.050000  volume=0.050000
+     6. 0x0061f603a457754bae0241f1fb34f0ce6a5e8fd6  pnl_per_volume=-1.000000  pnl=-0.100000  volume=0.100000
+     7. 0x96998b06715374f4a528137c2927e57f8c2e7ae7  pnl_per_volume=-1.000588  pnl=-1.020600  volume=1.020000
+     8. 0xee4f643e4812e8fcd8da6fd9dbb1e11114d16f59  pnl_per_volume=-1.000588  pnl=-1.020600  volume=1.020000
+     9. 0xd18f968b35ec880b8ec73567148ba3b2f9111ffc  pnl_per_volume=-1.001900  pnl=-1.001900  volume=1.000000
+    10. 0x2997b926c5cd9fe03ddc3aa3bc21305dc3f0f19e  pnl_per_volume=-1.003200  pnl=-1.003200  volume=1.000000
+  SUBCATEGORY #19: Equities/Indices | profit_per_volume=-1.000000 | total_pnl=-29.670000 | total_volume=29.670000 | predictability_score=0.690 | predictability_band=easy | composite_score=0.347
+    Subcategory example question: Will Reddit say "Election" during earnings call?
+     1. 0x77e595582f4509ff3672c58c143e44bddcc2ec41  pnl_per_volume=-0.999989  pnl=-26.999700  volume=27.000000
+     2. 0x081688cdfa52f2edcc3c2e56c02399314d99377a  pnl_per_volume=-1.000112  pnl=-2.670300  volume=2.670000
+  SUBCATEGORY #20: Internet/Memes | profit_per_volume=-1.037778 | total_pnl=-0.653800 | total_volume=0.630000 | predictability_score=0.550 | predictability_band=medium | composite_score=0.275
+    Subcategory example question: NYC Election: Sliwa drops out and Cuomo wins?
+     1. 0xb165ef0d14899558eb91dc8692be40133e81c51c  pnl_per_volume=-0.996000  pnl=-0.199200  volume=0.200000
+     2. 0x38b99d13159604652b13d7f5dbb32cd8592ffc71  pnl_per_volume=-0.998000  pnl=-0.199600  volume=0.200000
+     3. 0xf8b720c031833a879ffe538c7e040fad542114de  pnl_per_volume=-1.007143  pnl=-0.141000  volume=0.140000
+     4. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=-1.083333  pnl=-0.065000  volume=0.060000
+     5. 0x161f2db0e40c59b2f29e898efb63cc415228b075  pnl_per_volume=-1.100000  pnl=-0.011000  volume=0.010000
+     6. 0x75cbe506ceec7bb80331954e9a47212ea62f1556  pnl_per_volume=-1.400000  pnl=-0.014000  volume=0.010000
+     7. 0xe9b42acb8cf9b3ce94d70c7400acabcbb942f03a  pnl_per_volume=-2.400000  pnl=-0.024000  volume=0.010000
+
+CATEGORY #6: Other | profit_per_volume=1.908912 | total_pnl=227170595.558989 | total_volume=119005268.513300 | predictability_score=0.455 | composite_score=0.440
+  Category example question: Games Total: O/U 2.5
+  SUBCATEGORY #1: US Congress/Government | profit_per_volume=30.807510 | total_pnl=68066509.849998 | total_volume=2209412.900000 | predictability_score=0.560 | predictability_band=medium | composite_score=0.780
+    Subcategory example question: Will the government shutdown last 30 days or more?
+     1. 0x7bc335402de4d150b583c64513f37134d836d183  pnl_per_volume=603.387724  pnl=4133984.277000  volume=6851.290000
+     2. 0xaec3f1f5948c9ab61d1d8e27ed987a4e6e32ffe2  pnl_per_volume=581.670273  pnl=4890375.370343  volume=8407.470000
+     3. 0x4c2966a198cd7ac982110d0219b037afa9997570  pnl_per_volume=453.496010  pnl=5230110.531180  volume=11532.870000
+     4. 0x6480542954b70a674a74bd1a6015dec362dc8dc5  pnl_per_volume=361.615521  pnl=18331986.736760  volume=50694.690000
+     5. 0xd15202e4bd3134114b4612753ddbaead8b68f201  pnl_per_volume=326.072923  pnl=6852601.813734  volume=21015.550000
+     6. 0xf0ec554fe75d57fef3f2404fce070b5c71d46064  pnl_per_volume=321.271931  pnl=3389447.787060  volume=10550.090000
+     7. 0xec445c8bee160281558ebb9b083ac0025006c92b  pnl_per_volume=254.908194  pnl=8565231.395019  volume=33601.240000
+     8. 0x397b0530e54aa4c46be0adc98478b62f4f2ba667  pnl_per_volume=156.337117  pnl=6905512.064949  volume=44170.650000
+     9. 0xc9b6227a295985591fe576ff2e054267a78a9b6a  pnl_per_volume=50.917227  pnl=4547246.423631  volume=89306.640000
+    10. 0x96a45b19604cd6238a38e5b818fa166f5a5d4d01  pnl_per_volume=2.700078  pnl=5220013.450322  volume=1933282.410000
+  SUBCATEGORY #2: Fed Rates | profit_per_volume=10.119280 | total_pnl=1061671.496093 | total_volume=104915.720000 | predictability_score=0.630 | predictability_band=easy | composite_score=0.490
+    Subcategory example question: Will "Interest Rate" be said during the next episode of the All-In Podcast?
+     1. 0xcb6aaac027d17ff654583778e3c63165bf1d9836  pnl_per_volume=271.076494  pnl=144020.230335  volume=531.290000
+     2. 0x22d1db42706e8ccb53be3cb58720da0ca02eb52b  pnl_per_volume=70.410735  pnl=97969.497255  volume=1391.400000
+     3. 0x0914c946a8e2843113494be5676c0c82c02b9c93  pnl_per_volume=49.727777  pnl=198222.378050  volume=3986.150000
+     4. 0xf8ccc51356ad11e3d884f4beeaca81bb08fe028a  pnl_per_volume=41.044357  pnl=56974.903852  volume=1388.130000
+     5. 0x7ab6ac0f0d6ca5a15ec57abeaf413d31c8cdfa77  pnl_per_volume=21.932010  pnl=233292.322691  volume=10637.070000
+     6. 0xca8f0374e3fc79b485499cc0b038d4f7e783d963  pnl_per_volume=17.939761  pnl=50520.518913  volume=2816.120000
+     7. 0x4fadc974fb701b133055866022c89c5e0f7a1480  pnl_per_volume=17.814638  pnl=43672.229296  volume=2451.480000
+     8. 0x53757615de1c42b83f893b79d4241a009dc2aeea  pnl_per_volume=6.563508  pnl=46065.916381  volume=7018.490000
+     9. 0x727bfdcb0ae1a00eca35c4d0a9b85f4e42d4d1a2  pnl_per_volume=4.451928  pnl=147868.338105  volume=33214.450000
+    10. 0x22d33cd798450c3e6e3b971e58f8a26a8710c969  pnl_per_volume=1.038187  pnl=43065.161215  volume=41481.140000
+  SUBCATEGORY #3: AI Models/Companies | profit_per_volume=10.979809 | total_pnl=3340.387209 | total_volume=304.230000 | predictability_score=0.500 | predictability_band=medium | composite_score=0.438
+    Subcategory example question: Will "Anthropic" be said during the next episode of the All-In Podcast?
+     1. 0x0061f603a457754bae0241f1fb34f0ce6a5e8fd6  pnl_per_volume=999.000000  pnl=199.800000  volume=0.200000
+     2. 0xa732572eb195113b423c1cfccfb0ffd20a05e7ba  pnl_per_volume=468.040007  pnl=468.040007  volume=1.000000
+     3. 0x45348124bdefb0192a326e8bd5e0a1228d7725b6  pnl_per_volume=249.000000  pnl=249.000000  volume=1.000000
+     4. 0xa24d3122ecad883b0fe1ff7b9b2d9967e23d3065  pnl_per_volume=52.923082  pnl=343.470800  volume=6.490000
+     5. 0xfcf0a49aa7df97cccc5e56ddea3567b72de488f7  pnl_per_volume=49.000000  pnl=294.000000  volume=6.000000
+     6. 0x727e819c79ac4eb555518cccdfd424d2d4cf8b9d  pnl_per_volume=15.768411  pnl=1039.295972  volume=65.910000
+     7. 0x6ffdf781b9fabc368137c1d835644f12b9a6a637  pnl_per_volume=7.546783  pnl=264.892100  volume=35.100000
+     8. 0xa3dbeafd48aa1dae608364476f5b2dff5d7a1959  pnl_per_volume=5.214564  pnl=136.047982  volume=26.090000
+     9. 0xe36cbe8ff4a774f7ee29de2db65ec8436a4ca6f0  pnl_per_volume=2.225806  pnl=173.880000  volume=78.120000
+    10. 0x5ae75bcb9c848482defa43543cd2e17063133e12  pnl_per_volume=2.039378  pnl=171.960349  volume=84.320000
+  SUBCATEGORY #4: Awards | profit_per_volume=5.634064 | total_pnl=96910.239920 | total_volume=17200.770000 | predictability_score=0.560 | predictability_band=medium | composite_score=0.384
+    Subcategory example question: Will Jeremy Strong (Springsteen: Deliver Me from Nowhere) win Best Supporting Actor – Motion Picture at the 83rd Golden Globes?
+     1. 0xea3fce23b411f87a50aeeef3d71385a10dea2ab6  pnl_per_volume=539.102293  pnl=7008.329804  volume=13.000000
+     2. 0x3329cfc2b8d8ceb8d198f081bdf4262f421f43a6  pnl_per_volume=457.905300  pnl=10975.990050  volume=23.970000
+     3. 0x026ba3ff5fd86026cfb64dbfc6f3038fa027f975  pnl_per_volume=70.345405  pnl=7612.779770  volume=108.220000
+     4. 0xaaf7948cec26d8b164934b9da65f8ff15a5c2e27  pnl_per_volume=17.540929  pnl=7064.609130  volume=402.750000
+     5. 0xe154165732b79548f7533fc45168b102dd7a0b7f  pnl_per_volume=16.152522  pnl=9946.238243  volume=615.770000
+     6. 0xf66ceb07affeed8b86737de32ef3fbec02bf4ab1  pnl_per_volume=14.976242  pnl=7648.816321  volume=510.730000
+     7. 0x5bb8313c5664685d8df28854a76f4cb5098969ed  pnl_per_volume=12.537618  pnl=11020.691500  volume=879.010000
+     8. 0x991a4d823a31b341239ba2b1b16d60b1336e2411  pnl_per_volume=5.855902  pnl=11048.856796  volume=1886.790000
+     9. 0xb04e67dd3d70afada02473067dbd5c8028cfd4aa  pnl_per_volume=4.993741  pnl=14125.795366  volume=2828.700000
+    10. 0x6f679c4a78330853ac7762a1cda0a469333f102c  pnl_per_volume=1.052992  pnl=10458.132941  volume=9931.830000
+  SUBCATEGORY #5: Weather/Natural Events | profit_per_volume=4.467214 | total_pnl=4128002.218471 | total_volume=924066.410000 | predictability_score=0.550 | predictability_band=medium | composite_score=0.361
+    Subcategory example question: Games Total: O/U 2.5
+     1. 0x100a50d9f27bc1a884f8a47accad209a9188c6ce  pnl_per_volume=227.742214  pnl=1436862.067370  volume=6309.160000
+     2. 0xe3e47233c71ccebab5885d1953d0beade45b8087  pnl_per_volume=138.346368  pnl=257250.920803  volume=1859.470000
+     3. 0x3329cfc2b8d8ceb8d198f081bdf4262f421f43a6  pnl_per_volume=80.347470  pnl=362907.826732  volume=4516.730000
+     4. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=44.909567  pnl=293468.298836  volume=6534.650000
+     5. 0xa2711d1d311a0b2fa7f88d5c7cb760a3fa062727  pnl_per_volume=30.416330  pnl=441176.694052  volume=14504.600000
+     6. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=3.432359  pnl=411900.404016  volume=120005.030000
+     7. 0xd8f8c13644ea84d62e1ec88c5d1215e436eb0f11  pnl_per_volume=1.800747  pnl=232143.820819  volume=128915.260000
+     8. 0x57ee70867b4e387de9de34fd62bc685aa02a8112  pnl_per_volume=1.438599  pnl=261015.214957  volume=181437.120000
+     9. 0x2635b7fb040d817f4c7e7f45fdd116bf476d5408  pnl_per_volume=0.985271  pnl=208205.550704  volume=211318.140000
+    10. 0x492442eab586f242b53bda933fd5de859c8a3782  pnl_per_volume=0.897072  pnl=223071.420183  volume=248666.250000
+  SUBCATEGORY #6: Box Office | profit_per_volume=2.500915 | total_pnl=1647405.634406 | total_volume=658721.093300 | predictability_score=0.590 | predictability_band=medium | composite_score=0.350
+    Subcategory example question: Will Vow of Silence: The Assassination of Annie Mae win Best New Non-Scripted or Documentary Series at the 41st Film Independent Spirit Awards?
+     1. 0x19ed8c03dea31c78cd7a30c78025548b101a6feb  pnl_per_volume=219.873753  pnl=144485.639293  volume=657.130000
+     2. 0x2cde80346eed526242e266476cfcc65073635b98  pnl_per_volume=199.293160  pnl=82118.746740  volume=412.050000
+     3. 0x51158621284d3321ec2130aa132c9bc9c0f3b61d  pnl_per_volume=120.054743  pnl=436365.375147  volume=3634.720000
+     4. 0x51fd8f0358cc9e8a1ee5f87a0c7e3b07ed634272  pnl_per_volume=104.177411  pnl=140150.912780  volume=1345.310000
+     5. 0x0d0370bc2021976c4367cf5b4aef119c150f289a  pnl_per_volume=17.388936  pnl=79648.281637  volume=4580.400000
+     6. 0x1327a0e75565e2c26ca36891b7004b283a829237  pnl_per_volume=16.236450  pnl=282206.394323  volume=17381.040000
+     7. 0xb028b82a80c2d1e855ab4f3cd3a18ecf76838686  pnl_per_volume=5.869266  pnl=78162.125046  volume=13317.190000
+     8. 0xb46ef1a548751c6b7398af601f5a555505668a4e  pnl_per_volume=5.538198  pnl=120458.916540  volume=21750.560000
+     9. 0x20e8c78c532f835766b7652d5c693720962db663  pnl_per_volume=2.030305  pnl=126276.290000  volume=62195.710000
+    10. 0x9d84ce0306f8551e02efef1680475fc0f1dc1344  pnl_per_volume=0.295311  pnl=157532.952901  volume=533446.983300
+  SUBCATEGORY #7: Airdrops & Launches | profit_per_volume=5.862424 | total_pnl=1949437.348196 | total_volume=332530.920000 | predictability_score=0.470 | predictability_band=hard | composite_score=0.343
+    Subcategory example question: Will Microsoft be the largest company in the world by market cap on December 31?
+     1. 0xa6ea028639279651bb5abf570a2de1412ec7b02a  pnl_per_volume=804.194704  pnl=589539.053250  volume=733.080000
+     2. 0x4c2966a198cd7ac982110d0219b037afa9997570  pnl_per_volume=582.917849  pnl=241642.764980  volume=414.540000
+     3. 0x765fa4c18dd7c3607cdcee7a87681747c2d51508  pnl_per_volume=50.947116  pnl=111749.441700  volume=2193.440000
+     4. 0x8bb5b97612dd67f259c3b1a24ecb68c51090b365  pnl_per_volume=47.717826  pnl=160209.738814  volume=3357.440000
+     5. 0xf603219b7f91da5f0d6926260d678ea9c31482f1  pnl_per_volume=15.612594  pnl=107261.796694  volume=6870.210000
+     6. 0xacd943c52e0ba8efcabfeaddfa3ca17c1a5a3d87  pnl_per_volume=9.693923  pnl=150292.932936  volume=15503.830000
+     7. 0x44c1dfe43260c94ed4f1d00de2e1f80fb113ebc1  pnl_per_volume=3.685251  pnl=172915.463537  volume=46920.940000
+     8. 0xf956e30d094129ece0c07aa64584d2acca5e0ff2  pnl_per_volume=2.199403  pnl=171633.069438  volume=78036.200000
+     9. 0x2e554d5301fbbff3b32487fca971a9730389e3b9  pnl_per_volume=1.439024  pnl=135700.000000  volume=94300.000000
+    10. 0xee324b84546110f1fa5d4b2558edb179c3a4463a  pnl_per_volume=1.288497  pnl=108493.086845  volume=84201.240000
+  SUBCATEGORY #8: US-China/Taiwan | profit_per_volume=6.602269 | total_pnl=106811.045627 | total_volume=16177.930000 | predictability_score=0.440 | predictability_band=hard | composite_score=0.340
+    Subcategory example question: Games Total: O/U 2.5
+     1. 0xe863eb935bf5a4f5327a6556a1b5168c6923fa87  pnl_per_volume=999.000000  pnl=9990.000000  volume=10.000000
+     2. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=457.443051  pnl=5063.894570  volume=11.070000
+     3. 0xa7f27ebe50089ea1636474780500ba8c9cd8f023  pnl_per_volume=360.060728  pnl=27879.502200  volume=77.430000
+     4. 0x870a150763136919c1f30be751c54df6a1bcbd43  pnl_per_volume=143.659963  pnl=8065.070341  volume=56.140000
+     5. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=23.453317  pnl=7780.168990  volume=331.730000
+     6. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=18.471173  pnl=20687.713240  volume=1120.000000
+     7. 0x7e80fca8bf7a3e61fd8d2bd7f5e585fec457f17a  pnl_per_volume=12.686424  pnl=5175.172800  volume=407.930000
+     8. 0x679c71689b9d7ade08ea5768a4390d94d5ddf8dd  pnl_per_volume=9.308058  pnl=8969.523486  volume=963.630000
+     9. 0xc9f8c69e4e40e6d078363d068d160f13bcd646bb  pnl_per_volume=1.020202  pnl=6666.000000  volume=6534.000000
+    10. 0x4dd5d031e22a6b10a6ddef3360931ee47d82b038  pnl_per_volume=0.980198  pnl=6534.000000  volume=6666.000000
+  SUBCATEGORY #9: Internet/Memes | profit_per_volume=8.155758 | total_pnl=27829936.534419 | total_volume=3412305.300000 | predictability_score=0.390 | predictability_band=hard | composite_score=0.339
+    Subcategory example question: Games Total: O/U 2.5
+     1. 0xff01afa30455a764a55bf093f33b34c66f1273cc  pnl_per_volume=185.790742  pnl=2025505.534350  volume=10902.080000
+     2. 0xef525de831c06aae231090f2baac39ba7623cd4b  pnl_per_volume=183.394099  pnl=1822051.546066  volume=9935.170000
+     3. 0x7f8382ea75f482f41e7cb6d69ce1e5f072bdc71c  pnl_per_volume=175.219646  pnl=2557374.540171  volume=14595.250000
+     4. 0x627a0123bef3dfa869183b806a39c91cf9afcdc2  pnl_per_volume=139.730203  pnl=3862288.122120  volume=27641.040000
+     5. 0x0cf5bb1939b9c20299fd0f401e481ae6c6ce9a7e  pnl_per_volume=126.932886  pnl=3009965.860830  volume=23713.050000
+     6. 0xebf765c5db4007ffd065754a547edeec83040741  pnl_per_volume=111.279850  pnl=1811111.827685  volume=16275.290000
+     7. 0x716f28329a2b9c2001a050c759793974c0de9798  pnl_per_volume=74.585780  pnl=4337806.757436  volume=58158.630000
+     8. 0xfd3da6e061496839faef9da8a6b41c6efcff06ed  pnl_per_volume=68.001356  pnl=2038895.531541  volume=29983.160000
+     9. 0xd1acd3925d895de9aec98ff95f3a30c5279d08d5  pnl_per_volume=3.730614  pnl=2782185.688335  volume=745771.540000
+    10. 0x48185887c8dc95de60ee89722f1d0ee7894cbf0b  pnl_per_volume=1.447383  pnl=3582751.125884  volume=2475330.090000
+  SUBCATEGORY #10: Product Events | profit_per_volume=2.940506 | total_pnl=1405051.472006 | total_volume=477826.450000 | predictability_score=0.540 | predictability_band=medium | composite_score=0.332
+    Subcategory example question: Will Melania say "Foster" or "Fostering" 7+ times during Fostering the Future Together event on March 24?
+     1. 0x1f226ef6b66e4ea2dc2a8e8d0e172667c8126909  pnl_per_volume=880.786624  pnl=101290.461715  volume=115.000000
+     2. 0x7ab6ac0f0d6ca5a15ec57abeaf413d31c8cdfa77  pnl_per_volume=35.008464  pnl=106611.626231  volume=3045.310000
+     3. 0x91784d82fbe4543459ee85fc9809be185d70a2b2  pnl_per_volume=28.624521  pnl=217538.343839  volume=7599.720000
+     4. 0x0aae5c4ec45339a64a1dd2fe4ba98c2a19eb251c  pnl_per_volume=22.472384  pnl=104274.781950  volume=4640.130000
+     5. 0x75acf1aa88a3f5c613f2214486b91fa9fc1f33d7  pnl_per_volume=8.234438  pnl=258240.298257  volume=31361.010000
+     6. 0xf797d4d1c038d1eb0593edae0e66bf8e4b2e0bf2  pnl_per_volume=4.232100  pnl=116397.217199  volume=27503.420000
+     7. 0xe07a4a3c177f8e81f990ce5a843b5fba36146adb  pnl_per_volume=2.961764  pnl=108392.579037  volume=36597.310000
+     8. 0xbacd00c9080a82ded56f504ee8810af732b0ab35  pnl_per_volume=1.266853  pnl=120306.163778  volume=94964.550000
+     9. 0xd12463cb1de2a9f6bf9e0c4aec0b6466010be0ba  pnl_per_volume=1.247191  pnl=150960.000000  volume=121040.000000
+    10. 0xa304b06136bbf482cf54c2f9dfb7181e322bb674  pnl_per_volume=0.801802  pnl=121040.000000  volume=150960.000000
+  SUBCATEGORY #11: Primaries & Polls | profit_per_volume=3.543209 | total_pnl=5959490.910025 | total_volume=1681947.500000 | predictability_score=0.520 | predictability_band=medium | composite_score=0.331
+    Subcategory example question: Who is asked the first debate question?
+     1. 0x191c2bac9e34117d57766c82ec095c92d31936ef  pnl_per_volume=999.000000  pnl=515364.120000  volume=515.880000
+     2. 0x09f4449bed52c8e2606c087bb26ed04c7986b7cf  pnl_per_volume=799.016822  pnl=2233387.851430  volume=2795.170000
+     3. 0x2d46c05c7b4d5abce3e93ce6766d8d4b158bcefb  pnl_per_volume=77.139617  pnl=343303.693436  volume=4450.420000
+     4. 0x542aae10712e812bd71d792861ec5a570aa8a81b  pnl_per_volume=7.388346  pnl=245482.965609  volume=33225.700000
+     5. 0xd42f6a1634a3707e27cbae14ca966068e5d1047d  pnl_per_volume=3.482304  pnl=616448.683751  volume=177023.210000
+     6. 0x6b3d278a0a62230364f55f1684ad24c1c12d76dd  pnl_per_volume=3.031564  pnl=454444.663584  volume=149904.370000
+     7. 0x98511fc5bd3bd0d55342063a477eb07ab500b49f  pnl_per_volume=1.384507  pnl=411740.249650  volume=297391.150000
+     8. 0x551e72eda42a5ab39d6d78239a1d9bbb5db6b0e0  pnl_per_volume=1.168265  pnl=308006.550073  volume=263644.360000
+     9. 0x14a1147ae7d206b835c1ee8f901e4e2eec111149  pnl_per_volume=1.138356  pnl=537511.968490  volume=472182.490000
+    10. 0x1bfdf7224c358405a486b5fd8489f13c2adcb5f3  pnl_per_volume=1.046242  pnl=293800.164002  volume=280814.750000
+  SUBCATEGORY #12: Music/Celebrities | profit_per_volume=4.062534 | total_pnl=852197.921750 | total_volume=209770.030000 | predictability_score=0.490 | predictability_band=medium | composite_score=0.325
+    Subcategory example question: Will Kendrick Lamar have the greatest number of monthly Spotify listeners this month?
+     1. 0x0a62c133f3f7bef3dbe432277b9c48d72c9608af  pnl_per_volume=998.999236  pnl=78421.440060  volume=78.500000
+     2. 0xa7e06a79fb490de4bb290078d0dd81b49095f075  pnl_per_volume=581.250576  pnl=58125.057623  volume=100.000000
+     3. 0x51727cf649ff35f254a7975f90800dea4b290581  pnl_per_volume=249.010400  pnl=59760.006000  volume=239.990000
+     4. 0x4247c89f4a9236a6b5fb24502023bcc98ab1455f  pnl_per_volume=137.601181  pnl=77205.270600  volume=561.080000
+     5. 0x90c59ee300bc911f274f1394b7b3f48581d4534c  pnl_per_volume=70.547231  pnl=96948.120990  volume=1374.230000
+     6. 0xa372a14fcc6eb98ebf73ba6febe0d5538c1e1b3e  pnl_per_volume=64.312086  pnl=45909.182560  volume=713.850000
+     7. 0x0f5801f1fe7dbadb5c1e92a310c9871447d90ff0  pnl_per_volume=44.832923  pnl=217156.334420  volume=4843.680000
+     8. 0xd1e6189cdcaa868da64c76052d37103a31941dc1  pnl_per_volume=2.404968  pnl=63722.154320  volume=26496.050000
+     9. 0x3503b37fefc017154e96164cf2166b12bfe1b8ba  pnl_per_volume=0.919718  pnl=80774.103292  volume=87824.900000
+    10. 0xf14f76c1405eb86cbe1d1befa8a2d5645f2eab58  pnl_per_volume=0.847363  pnl=74176.251884  volume=87537.750000
+  SUBCATEGORY #13: US Presidential | profit_per_volume=1.229557 | total_pnl=5900077.421778 | total_volume=4798540.050000 | predictability_score=0.570 | predictability_band=medium | composite_score=0.320
+    Subcategory example question: Aleksandar Vukic vs. Billy Harris: Total Sets O/U 2.5
+     1. 0x611c20bf7fdc4e88ec4f0172c99efcaa30d5c982  pnl_per_volume=13.276838  pnl=450645.606118  volume=33942.240000
+     2. 0xe4f5305ba3cc55013196ad7888e427c06e239663  pnl_per_volume=11.705143  pnl=1002885.407512  volume=85679.040000
+     3. 0x8ce6bc2c4641cbe50676422d1092d5d98bb626bd  pnl_per_volume=6.280316  pnl=681885.262913  volume=108574.990000
+     4. 0x25ce639cbcacfadb47eb4053f645cd4ac28c3128  pnl_per_volume=5.204463  pnl=466387.005244  volume=89612.900000
+     5. 0x1d04d5b13ba31ca6f3b9526ded9cfe43519ced05  pnl_per_volume=2.578960  pnl=369226.339454  volume=143168.700000
+     6. 0x93b33614739613d8faba18b027da20d5074b6436  pnl_per_volume=1.531308  pnl=401947.524172  volume=262486.390000
+     7. 0x27aed7b479101b7436dcf04cd4a26f3d6bd8bf32  pnl_per_volume=1.382193  pnl=416979.096877  volume=301679.280000
+     8. 0xa1da37f329911afdced09cc4f4a8ec8afb2c8f6a  pnl_per_volume=1.337780  pnl=362322.177938  volume=270838.310000
+     9. 0x9f47f1fcb1701bf9eaf31236ad39875e5d60af93  pnl_per_volume=0.690391  pnl=858108.081922  volume=1242931.450000
+    10. 0x40324412290b9d311f03b707467c61d88cf141a2  pnl_per_volume=0.393734  pnl=889690.919628  volume=2259626.750000
+  SUBCATEGORY #14: Basketball | profit_per_volume=0.800069 | total_pnl=10065021.864818 | total_volume=12580191.750000 | predictability_score=0.550 | predictability_band=medium | composite_score=0.303
+    Subcategory example question: Games Total: O/U 2.5
+     1. 0xef2a2e5397a610a01040212974b53cff7799bd7e  pnl_per_volume=410.147755  pnl=871051.295610  volume=2123.750000
+     2. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=409.482761  pnl=997127.377430  volume=2435.090000
+     3. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=368.138537  pnl=998914.467780  volume=2713.420000
+     4. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=31.888325  pnl=1576200.672102  volume=49428.770000
+     5. 0x467ecfc0c6265683e90899c41881c0431bdee2ed  pnl_per_volume=3.308968  pnl=961316.834959  volume=290518.630000
+     6. 0xc19b9c0eda9e5f615afeff1876bf2c402103a935  pnl_per_volume=1.541253  pnl=789262.244377  volume=512091.160000
+     7. 0x1b4d7cbd8dce8a56dd2c51e952cccbf55f78e246  pnl_per_volume=0.775387  pnl=678146.159302  volume=874590.240000
+     8. 0x8c0b024c17831a0dde038547b7e791ae6a0d7aa5  pnl_per_volume=0.617956  pnl=1297142.876719  volume=2099086.510000
+     9. 0x13414a77a4be48988851c73dfd824d0168e70853  pnl_per_volume=0.241185  pnl=839135.090318  volume=3479222.410000
+    10. 0x507e52ef684ca2dd91f90a9d26d149dd3288beae  pnl_per_volume=0.200594  pnl=1056724.846221  volume=5267981.770000
+  SUBCATEGORY #15: Soccer | profit_per_volume=1.058128 | total_pnl=4462965.723607 | total_volume=4217795.430000 | predictability_score=0.540 | predictability_band=medium | composite_score=0.302
+    Subcategory example question: Will the match end in a draw?
+     1. 0x198fa74120438fb7cabccb61aa824c6720dfc419  pnl_per_volume=2.271830  pnl=340795.938700  volume=150009.450000
+     2. 0x490e807c5a431752bee1a5b48cbfbcb4a45773ad  pnl_per_volume=2.052490  pnl=365434.274200  volume=178044.320000
+     3. 0x9f47f1fcb1701bf9eaf31236ad39875e5d60af93  pnl_per_volume=1.584435  pnl=375161.173002  volume=236779.160000
+     4. 0x4a3d9401153b513cb6b7391ba74ef5f288704841  pnl_per_volume=1.317278  pnl=266782.038450  volume=202525.210000
+     5. 0xb506415b65ffab876ce6ad0010626d7a87e88f79  pnl_per_volume=1.129473  pnl=1102644.842827  volume=976247.340000
+     6. 0xef51ebb7ed5c84e5049fc76e1ae4db3b5799c0d3  pnl_per_volume=1.108713  pnl=517060.863465  volume=466361.180000
+     7. 0x48149000228793e3199da4a5aab867c633871968  pnl_per_volume=1.020178  pnl=269289.979468  volume=263963.660000
+     8. 0xe6bedba507d4c69aee650d220e60cfda1f4ee346  pnl_per_volume=0.846557  pnl=184129.109848  volume=217503.420000
+     9. 0xa8e0f6cd46306617f7b9d0897fef215fb02f1dd2  pnl_per_volume=0.699081  pnl=785157.007927  volume=1123126.910000
+    10. 0x5372be4d38a84645bbb3981b9da296e89ac4d2f9  pnl_per_volume=0.636132  pnl=256510.495721  volume=403234.780000
+  SUBCATEGORY #16: Streaming/TV | profit_per_volume=1.323335 | total_pnl=5092455.934718 | total_volume=3848199.900000 | predictability_score=0.530 | predictability_band=medium | composite_score=0.302
+    Subcategory example question: Games Total: O/U 2.5
+     1. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=305.222107  pnl=358019.427470  volume=1172.980000
+     2. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=295.392651  pnl=369048.808490  volume=1249.350000
+     3. 0xef2a2e5397a610a01040212974b53cff7799bd7e  pnl_per_volume=287.652991  pnl=284106.229210  volume=987.670000
+     4. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=20.271370  pnl=745424.507301  volume=36772.280000
+     5. 0x4dbe11fc252748b990b90c9b76d61b5e1183af34  pnl_per_volume=2.159526  pnl=321175.034300  volume=148724.810000
+     6. 0xb744f56635b537e859152d14b022af5afe485210  pnl_per_volume=1.498550  pnl=1870258.576230  volume=1248045.430000
+     7. 0xead152b855effa6b5b5837f53b24c0756830c76a  pnl_per_volume=1.044307  pnl=202800.481656  volume=194196.300000
+     8. 0x2e25b222e2080c377fc1fb2b9f926315f0f4d49e  pnl_per_volume=0.449275  pnl=449275.426700  volume=1000000.140000
+     9. 0x490e807c5a431752bee1a5b48cbfbcb4a45773ad  pnl_per_volume=0.422417  pnl=292102.382938  volume=691501.770000
+    10. 0x4a3d9401153b513cb6b7391ba74ef5f288704841  pnl_per_volume=0.381021  pnl=200245.060422  volume=525549.170000
+  SUBCATEGORY #17: Combat Sports | profit_per_volume=0.658589 | total_pnl=4733647.544093 | total_volume=7187562.060000 | predictability_score=0.530 | predictability_band=medium | composite_score=0.291
+    Subcategory example question: Will "MMA" be said on the first Joe Rogan Experience episode of the week? (March 15)
+     1. 0x5350afcd8bd8ceffdf4da32420d6d31be0822fda  pnl_per_volume=5.046928  pnl=625970.170735  volume=124029.930000
+     2. 0x0a7ed19909e9b4c6cd0fc1d59c1d481415a1fce4  pnl_per_volume=2.387509  pnl=379360.647622  volume=158893.880000
+     3. 0x05374492e37f036fb751d708fe487aeca60b5b0f  pnl_per_volume=2.055144  pnl=410606.983650  volume=199794.760000
+     4. 0x16b29c50f2439faf627209b2ac0c7bbddaa8a881  pnl_per_volume=1.623226  pnl=337547.392100  volume=207948.470000
+     5. 0x4cc3522b689a6bf1fb4a2444c523e7776db47552  pnl_per_volume=1.585947  pnl=287901.733538  volume=181533.060000
+     6. 0xe613b515bd46b1585a8b137a4d291d9b80bd540e  pnl_per_volume=1.054263  pnl=910136.322875  volume=863291.900000
+     7. 0xe60a9b0be459d9849bc2339dac20517639ae6a47  pnl_per_volume=0.702020  pnl=580583.120298  volume=827018.020000
+     8. 0xcbba64cddd05171925ffd05d8f8abd38c83fdbff  pnl_per_volume=0.497854  pnl=673418.634710  volume=1352643.880000
+     9. 0xa49becb692927d455924583b5e3e5788246f4c40  pnl_per_volume=0.468215  pnl=261700.097412  volume=558931.890000
+    10. 0x8c80d213c0cbad777d06ee3f58f6ca4bc03102c3  pnl_per_volume=0.098185  pnl=266422.441153  volume=2713476.270000
+  SUBCATEGORY #18: Regulation/Legal | profit_per_volume=0.798883 | total_pnl=1394472.387570 | total_volume=1745527.390000 | predictability_score=0.510 | predictability_band=medium | composite_score=0.283
+    Subcategory example question: Games Total: O/U 2.5
+     1. 0x865f2f2d68647baf20ec9fd92eaa0fc48bd7e88e  pnl_per_volume=349.602224  pnl=64819.748290  volume=185.410000
+     2. 0x507e52ef684ca2dd91f90a9d26d149dd3288beae  pnl_per_volume=1.236098  pnl=307854.779180  volume=249053.640000
+     3. 0x036c159d5a348058a81066a76b89f35926d4178d  pnl_per_volume=1.220729  pnl=126199.862800  volume=103380.770000
+     4. 0xd6a3f0ec6c4a8ad680d580610c82ca57ff139489  pnl_per_volume=1.096332  pnl=261023.883789  volume=238088.260000
+     5. 0xe20a1538293903b746ffe6c4ce2d5c3c0300e469  pnl_per_volume=1.040878  pnl=102078.582000  volume=98069.700000
+     6. 0xe90bec87d9ef430f27f9dcfe72c34b76967d5da2  pnl_per_volume=0.962124  pnl=115999.957924  volume=120566.550000
+     7. 0xf5f92940519a72da460b1c2a606bc1230f0e87b0  pnl_per_volume=0.819949  pnl=112353.271000  volume=137024.780000
+     8. 0x68146921df11eab44296dc4e58025ca84741a9e7  pnl_per_volume=0.558607  pnl=65670.923443  volume=117561.860000
+     9. 0x2005d16a84ceefa912d4e380cd32e7ff827875ea  pnl_per_volume=0.410884  pnl=140498.900665  volume=341942.840000
+    10. 0x204f72f35326db932158cba6adff0b9a1da95e14  pnl_per_volume=0.288448  pnl=97972.478479  volume=339653.580000
+  SUBCATEGORY #19: Middle East | profit_per_volume=3.200744 | total_pnl=898050.486745 | total_volume=280575.560000 | predictability_score=0.430 | predictability_band=hard | composite_score=0.281
+    Subcategory example question: Will Netanyahu say "Hamas" 15+ times during address to UN General Assembly on Sept 26?
+     1. 0x4b8473d2d4b69def813bbb194c9e61f257c148e3  pnl_per_volume=224.379117  pnl=162102.693164  volume=722.450000
+     2. 0x7fed363c4af3b67b316fb2f5e9c3f253c9ff981c  pnl_per_volume=105.992435  pnl=51394.671709  volume=484.890000
+     3. 0xbefa95c276ee8ef6ff3ef43d1c1c454f52bc300d  pnl_per_volume=65.391302  pnl=45214.161760  volume=691.440000
+     4. 0x011f2d377e56119fb09196dffb0948ae55711122  pnl_per_volume=34.597888  pnl=75436.196520  volume=2180.370000
+     5. 0xf7a302c48b8d0598987a5b99e603fc8d74bcd8ae  pnl_per_volume=30.369982  pnl=84608.037102  volume=2785.910000
+     6. 0x06ecb7e739f5455922ce57e83284f132c7f0f845  pnl_per_volume=9.673270  pnl=78986.605731  volume=8165.450000
+     7. 0x12d6cccfc7470a3f4bafc53599a4779cbf2cf2a8  pnl_per_volume=1.835289  pnl=167108.445874  volume=91052.910000
+     8. 0x579a830f55239dde6999335f9b803dc9200e46d5  pnl_per_volume=1.769238  pnl=49821.039914  volume=28159.600000
+     9. 0x03030fa948db8dfaa8384ae910359bcbb4e3fcd1  pnl_per_volume=1.459154  pnl=50882.037828  volume=34870.910000
+    10. 0x3cf3e8d5427aed066a7a5926980600f6c3cf87b3  pnl_per_volume=1.188719  pnl=132496.597142  volume=111461.630000
+  SUBCATEGORY #20: Commodities | profit_per_volume=-0.999479 | total_pnl=-7.286200 | total_volume=7.290000 | predictability_score=0.540 | predictability_band=medium | composite_score=0.270
+    Subcategory example question: Will Armed Only with a Camera: The Life and Death of Brent Renaud win Best Documentary Short Film at the 98th Academy Awards?
+     1. 0xf86c606c8a360c38037cdab2f81fb5ed2e94ba99  pnl_per_volume=-0.997579  pnl=-0.947700  volume=0.950000
+     2. 0x6c1cda5055bd5e6d6268eef3b223e86f57da5650  pnl_per_volume=-0.997600  pnl=-0.997600  volume=1.000000
+     3. 0x8253dfdf143f3f7567ee32b54791fd43e017ddae  pnl_per_volume=-0.999400  pnl=-0.999400  volume=1.000000
+     4. 0xc8589b763b0b0e5085bb23e39fcb1d99182cc66a  pnl_per_volume=-0.999600  pnl=-0.999600  volume=1.000000
+     5. 0xa36d5c089d7dc73f671c8ca96ed83ec67f5e3654  pnl_per_volume=-0.999750  pnl=-0.399900  volume=0.400000
+     6. 0xbb903061899b72a6a7c7990eb3a1f07b08bc8dd8  pnl_per_volume=-1.000000  pnl=-0.050000  volume=0.050000
+     7. 0xbe0e2ccaba04e1cff6328df819aba5648578d429  pnl_per_volume=-1.000000  pnl=-0.480000  volume=0.480000
+     8. 0x476c1e85d5798b6d6e28dea0b34306017eadce52  pnl_per_volume=-1.000000  pnl=-0.960000  volume=0.960000
+     9. 0x140891ee5c1214859198b80f0a5a4880ba57b4f8  pnl_per_volume=-1.000000  pnl=-1.000000  volume=1.000000
+    10. 0x59fee6ccaca4793228f09c83868df3442a8714fd  pnl_per_volume=-1.004444  pnl=-0.452000  volume=0.450000
+  SUBCATEGORY #21: Hardware/Semiconductors | profit_per_volume=-0.999088 | total_pnl=-1.698449 | total_volume=1.700000 | predictability_score=0.520 | predictability_band=medium | composite_score=0.260
+    Subcategory example question: Will Buffett say "Semiconductor" during May 3 Shareholders Meeting?
+     1. 0x9c8d9cfbad1b9fb53df300e21828763c0194f297  pnl_per_volume=-0.750000  pnl=-0.007500  volume=0.010000
+     2. 0xec35c2d685c73bd472c82c87f4b6ca10e3e3d3d9  pnl_per_volume=-0.977143  pnl=-0.136800  volume=0.140000
+     3. 0x4104dfa0327c01704cb34a2360b5651042b95c45  pnl_per_volume=-0.989961  pnl=-0.019799  volume=0.020000
+     4. 0xce20665dadd8bb0f0efeba25bdd1ed3ef30f9ae3  pnl_per_volume=-0.991536  pnl=-0.277630  volume=0.280000
+     5. 0xad09b7f5350d47aa727b854a521119b91c2d9c0c  pnl_per_volume=-0.996000  pnl=-0.249000  volume=0.250000
+     6. 0xd9dde44ddeababae222bf7aec96c85cbdab6b525  pnl_per_volume=-0.996429  pnl=-0.279000  volume=0.280000
+     7. 0x5cbc865ccec367f559bd5b37e023020495e301b3  pnl_per_volume=-0.997500  pnl=-0.159600  volume=0.160000
+     8. 0x1d9f719da81cc9ddcc68109522aac482260ac9c6  pnl_per_volume=-1.006067  pnl=-0.301820  volume=0.300000
+     9. 0x2cde80346eed526242e266476cfcc65073635b98  pnl_per_volume=-1.020000  pnl=-0.183600  volume=0.180000
+    10. 0x9e8f9cb1837a7b97871b78456d6864f5674a8b63  pnl_per_volume=-1.046250  pnl=-0.083700  volume=0.080000
+  SUBCATEGORY #22: Russia/Ukraine | profit_per_volume=1.292599 | total_pnl=757536.309546 | total_volume=586056.700000 | predictability_score=0.410 | predictability_band=hard | composite_score=0.241
+    Subcategory example question: Will Vladimir Putin be the next leader out before 2027?
+     1. 0x44e4f039585857074f683092a246e92cd803552e  pnl_per_volume=68.058759  pnl=22400.860000  volume=329.140000
+     2. 0x542aae10712e812bd71d792861ec5a570aa8a81b  pnl_per_volume=54.790431  pnl=156509.963169  volume=2856.520000
+     3. 0xa3572980fcd8346f25b068144cff358eb3c01045  pnl_per_volume=49.600106  pnl=33605.063670  volume=677.520000
+     4. 0x04902c7046da0f93f29d070b00f9366a165ac81f  pnl_per_volume=6.851368  pnl=46854.179458  volume=6838.660000
+     5. 0x2f185f498901838e656521cee8e03b8e1f16a7e4  pnl_per_volume=4.915799  pnl=17381.774000  volume=3535.900000
+     6. 0xd42f6a1634a3707e27cbae14ca966068e5d1047d  pnl_per_volume=1.278039  pnl=26842.986407  volume=21003.260000
+     7. 0x9d84ce0306f8551e02efef1680475fc0f1dc1344  pnl_per_volume=1.121678  pnl=324092.082813  volume=288935.050000
+     8. 0x8a4c788f043023b8b28a762216d037e9f148532b  pnl_per_volume=0.994074  pnl=56980.444500  volume=57320.140000
+     9. 0x579a830f55239dde6999335f9b803dc9200e46d5  pnl_per_volume=0.533948  pnl=24694.481325  volume=46248.880000
+    10. 0x3cf3e8d5427aed066a7a5926980600f6c3cf87b3  pnl_per_volume=0.304302  pnl=48174.474205  volume=158311.630000
+  SUBCATEGORY #23: General | profit_per_volume=1.085942 | total_pnl=79739651.263207 | total_volume=73429000.710000 | predictability_score=0.410 | predictability_band=hard | composite_score=0.238
+    Subcategory example question: Games Total: O/U 2.5
+     1. 0x395d901222ddf4e393e6ac3ca9c3043f88d521eb  pnl_per_volume=196.611295  pnl=6918472.266082  volume=35188.580000
+     2. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=196.171657  pnl=7648966.364362  volume=38991.190000
+     3. 0x6480542954b70a674a74bd1a6015dec362dc8dc5  pnl_per_volume=43.758778  pnl=7449793.683014  volume=170246.840000
+     4. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=14.015443  pnl=15181301.892425  volume=1083183.840000
+     5. 0x0764a6f5e2f3c62bd3686c50b0b0b95279f1e01f  pnl_per_volume=1.229947  pnl=6638113.012527  volume=5397070.490000
+     6. 0x0d3b10b8eac8b089c6e4a695e65d8e044167c46b  pnl_per_volume=0.827359  pnl=7067301.470284  volume=8542001.530000
+     7. 0x2635b7fb040d817f4c7e7f45fdd116bf476d5408  pnl_per_volume=0.740462  pnl=9440908.298058  volume=12750032.090000
+     8. 0x9cb990f1862568a63d8601efeebe0304225c32f2  pnl_per_volume=0.574773  pnl=6794933.467112  volume=11821939.020000
+     9. 0xb90494d9a5d8f71f1930b2aa4b599f95c344c255  pnl_per_volume=0.408688  pnl=6243528.518963  volume=15277007.470000
+    10. 0xdb27bf2ac5d428a9c63dbc914611036855a6c56e  pnl_per_volume=0.347088  pnl=6356332.290380  volume=18313339.660000
+  SUBCATEGORY #24: Conflict & Diplomacy | profit_per_volume=-1.002841 | total_pnl=-1.273609 | total_volume=1.270000 | predictability_score=0.420 | predictability_band=hard | composite_score=0.210
+    Subcategory example question: Will Melania say "UN" or "United Nations" during Fostering the Future Together event on March 24?
+     1. 0x2c1a7a67e6f71bd61a616841f54ae0df8e8d42d8  pnl_per_volume=-0.972000  pnl=-0.126360  volume=0.130000
+     2. 0xe979c7baa2817f9620cae3ed7054755bb10c0c8b  pnl_per_volume=-0.999950  pnl=-0.199990  volume=0.200000
+     3. 0x50b977391c4b3dd88b0a0bef03c3434fe4284298  pnl_per_volume=-1.000000  pnl=-0.050000  volume=0.050000
+     4. 0x46b353667fd7d846af3bbeda6584b0e5b883d3de  pnl_per_volume=-1.000000  pnl=-0.050000  volume=0.050000
+     5. 0xd6eef76188c7068719ac881460b7431e1ae137a2  pnl_per_volume=-1.000000  pnl=-0.080000  volume=0.080000
+     6. 0x3b1a8b39f8d3a4ce3fe7c1e752cf14c386834221  pnl_per_volume=-1.000000  pnl=-0.150000  volume=0.150000
+     7. 0x0061f603a457754bae0241f1fb34f0ce6a5e8fd6  pnl_per_volume=-1.000000  pnl=-0.200000  volume=0.200000
+     8. 0x3329cfc2b8d8ceb8d198f081bdf4262f421f43a6  pnl_per_volume=-1.009195  pnl=-0.302759  volume=0.300000
+     9. 0x43857162c8a68c6b876bb8268a95b1d5eb6bf4b1  pnl_per_volume=-1.018000  pnl=-0.050900  volume=0.050000
+    10. 0x2d6285018577f431f8ce340f4cc9f5991ce8144d  pnl_per_volume=-1.060000  pnl=-0.063600  volume=0.060000
+
+  SUBCATEGORY #25: Micro Up/Down | profit_per_volume=3.558468 | total_pnl=1019961.823046 | total_volume=286629.450000 | predictability_score=0.270 | predictability_band=hardest | composite_score=0.207
+    Subcategory example question: Will Edward Hopper's “Two Puritans” (Lot 39C) sell for more than $15m at Christie’s on November 11?
+     1. 0x90f4609faca0ad11e25315767d2d925a6b9be93d  pnl_per_volume=254.435583  pnl=81678.911010  volume=321.020000
+     2. 0xdff5c22c592aeea88db6131860ba7cfdc0a30bce  pnl_per_volume=118.236174  pnl=159664.946420  volume=1350.390000
+     3. 0x1a090610aedb4f378e07c4526904b4dc91d1af0f  pnl_per_volume=62.164941  pnl=70422.931888  volume=1132.840000
+     4. 0xc5594aa8d5dee81a168577ab2330f0823345e384  pnl_per_volume=38.384917  pnl=95770.368798  volume=2495.000000
+     5. 0xe3b674cd19b79ab59462b87b9ceaa4b4879b86ab  pnl_per_volume=14.790824  pnl=163620.085793  volume=11062.270000
+     6. 0x7cc71d0919eab16e11bf3afd022e577d5afac424  pnl_per_volume=9.632131  pnl=65551.661614  volume=6805.520000
+     7. 0xfa151a787528b0560cdf4fbe7baf934804403963  pnl_per_volume=2.634922  pnl=145221.353607  volume=55114.090000
+     8. 0x2f4ad5b6f519118f3d968fbbdbe5c6a7b9227c9f  pnl_per_volume=1.892273  pnl=87650.039081  volume=46319.970000
+     9. 0x6eda78646f0c61e2cf1ce808bd26dc5d854475dd  pnl_per_volume=1.421036  pnl=83543.463063  volume=58790.550000
+    10. 0xd7eee5e918dc59fa32386a4ad8a89655946e9597  pnl_per_volume=0.647419  pnl=66838.061773  volume=103237.800000
+CATEGORY #7: Sports | profit_per_volume=0.268106 | total_pnl=104428585.880490 | total_volume=389505410.390000 | predictability_score=0.677 | composite_score=0.339
+  Category example question: Will the fight be won by submission?
+  SUBCATEGORY #1: Equities/Indices | profit_per_volume=11.268445 | total_pnl=876.459637 | total_volume=77.780000 | predictability_score=0.680 | predictability_band=easy | composite_score=0.840
+    Subcategory example question: Will Apple say "Formula 1 / F1" during earnings call?
+     1. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=990.437143  pnl=346.653000  volume=0.350000
+     2. 0xf8b720c031833a879ffe538c7e040fad542114de  pnl_per_volume=936.562500  pnl=74.925000  volume=0.080000
+     3. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=749.250000  pnl=14.985000  volume=0.020000
+     4. 0x5b603ef028a8374b13cdedfd8bc3ab3b6a5c76d5  pnl_per_volume=99.000000  pnl=201.960000  volume=2.040000
+     5. 0x081688cdfa52f2edcc3c2e56c02399314d99377a  pnl_per_volume=11.611240  pnl=56.198400  volume=4.840000
+     6. 0x8d94d73df8096f8380a5939459b5091d039c3617  pnl_per_volume=6.032577  pnl=51.880160  volume=8.600000
+     7. 0xfc1256ffd62e293a02929961afbd53400de2eb59  pnl_per_volume=5.010440  pnl=22.797500  volume=4.550000
+     8. 0xe6c9eee27de792a9fdcdd322822452625d0f975e  pnl_per_volume=4.458356  pnl=62.639900  volume=14.050000
+     9. 0xd9ec713265e98722d8dec55a02a1475b9d4f13ac  pnl_per_volume=2.517068  pnl=25.170677  volume=10.000000
+    10. 0x61837ce7e447a35cafd173dec3e0815326003834  pnl_per_volume=0.578947  pnl=19.250000  volume=33.250000
+  SUBCATEGORY #2: Music/Celebrities | profit_per_volume=6.595967 | total_pnl=9618.568504 | total_volume=1458.250000 | predictability_score=0.640 | predictability_band=easy | composite_score=0.631
+    Subcategory example question: Will Hikaru Nakamura win the 2025 Freestyle Chess Grand Slam Tour?
+     1. 0xe9b42acb8cf9b3ce94d70c7400acabcbb942f03a  pnl_per_volume=268.909381  pnl=303.867600  volume=1.130000
+     2. 0xef2a2e5397a610a01040212974b53cff7799bd7e  pnl_per_volume=255.259375  pnl=245.049000  volume=0.960000
+     3. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=244.506417  pnl=381.430010  volume=1.560000
+     4. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=242.805088  pnl=1097.479000  volume=4.520000
+     5. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=147.650762  pnl=4185.899100  volume=28.350000
+     6. 0xb94f0ea2ddde1779122834ec827b56afe82804d8  pnl_per_volume=84.608184  pnl=704.786170  volume=8.330000
+     7. 0x0a7aaf83341b52df34e8ffef52aa295538d6df1b  pnl_per_volume=49.000000  pnl=490.000000  volume=10.000000
+     8. 0xd151456a00a40389f61af70bd2942377a5240a8a  pnl_per_volume=13.627587  pnl=340.689676  volume=25.000000
+     9. 0x705d3110b0b4d33fba025f6b36adb2d35c2bf3a9  pnl_per_volume=9.676133  pnl=351.533920  volume=36.330000
+    10. 0x0a7ed19909e9b4c6cd0fc1d59c1d481415a1fce4  pnl_per_volume=1.130965  pnl=1517.834028  volume=1342.070000
+  SUBCATEGORY #3: US-China/Taiwan | profit_per_volume=5.602972 | total_pnl=188845.992233 | total_volume=33704.610000 | predictability_score=0.590 | predictability_band=medium | composite_score=0.566
+    Subcategory example question: Will Aston Martin have the highest Constructor score at the Chinese GP?
+     1. 0xb8a529088ae14ceee9639660be5e7ef45ac9735f  pnl_per_volume=93.877461  pnl=2744.976947  volume=29.240000
+     2. 0x805a922574d7d6b158b7bbb49a6fa8925eb60635  pnl_per_volume=70.428132  pnl=168077.441980  volume=2386.510000
+     3. 0x74f1b8944c7b10f7239e3dda0de6b8ee42e816a8  pnl_per_volume=3.994639  pnl=2699.177445  volume=675.700000
+     4. 0x7ab6ac0f0d6ca5a15ec57abeaf413d31c8cdfa77  pnl_per_volume=2.611867  pnl=1535.620850  volume=587.940000
+     5. 0xe9326a286a4d830758c8db6b251787c523fa0f05  pnl_per_volume=0.863359  pnl=1897.636119  volume=2197.970000
+     6. 0x9dd9e18b9dcc393705e73966bc79eccbbd9108bd  pnl_per_volume=0.738312  pnl=4611.710000  volume=6246.290000
+     7. 0xcc3e87226912d35893b678eaa8a39d57b6fe37ef  pnl_per_volume=0.636895  pnl=1167.313973  volume=1832.820000
+     8. 0x3b8889ed7c9ac6af79401df35fd1df620d38d628  pnl_per_volume=0.409185  pnl=1791.515610  volume=4378.250000
+     9. 0x93bc1f104bc72c9141fc41c2acb2265f54a28ca3  pnl_per_volume=0.402875  pnl=3062.636510  volume=7601.960000
+    10. 0x85b8b010ac6e24a23625621724a15513c80d6b6a  pnl_per_volume=0.161943  pnl=1257.962800  volume=7767.930000
+  SUBCATEGORY #4: Commodities | profit_per_volume=3.658653 | total_pnl=36998.784835 | total_volume=10112.680000 | predictability_score=0.690 | predictability_band=easy | composite_score=0.538
+    Subcategory example question: Will Linda Nosková / Karolína Muchová (Czech Republic) win Gold in Women’s Doubles Tennis?
+     1. 0xee8d26b92a0ea017fe24d530c42d16613eaf94b2  pnl_per_volume=98.991483  pnl=2876.692500  volume=29.060000
+     2. 0x5230e2e9ad509376f82946120c94f0559eed58f5  pnl_per_volume=24.122206  pnl=5820.688400  volume=241.300000
+     3. 0x241e0c1636cfa553b090645bac67ca28c390c7bf  pnl_per_volume=19.697625  pnl=12604.116000  volume=639.880000
+     4. 0x00034663f8c94440fc8e1d0466fb244ef54c857a  pnl_per_volume=4.629093  pnl=5193.981602  volume=1122.030000
+     5. 0x8942f23fdde28346d9422415fab3d896ade0c195  pnl_per_volume=3.158448  pnl=1607.839600  volume=509.060000
+     6. 0x51b5c0882229862e6c68d38977f87263a56f4870  pnl_per_volume=2.448276  pnl=1420.000000  volume=580.000000
+     7. 0xf9fe29004c5a905c7b78bbb930ac57feea67366b  pnl_per_volume=2.430487  pnl=1391.211000  volume=572.400000
+     8. 0x415c3009ba582ee5d126ec7460fb2b64a0ba3c94  pnl_per_volume=2.042887  pnl=1459.663079  volume=714.510000
+     9. 0xf4c85e5c3cd75ea48e99162a9bfcbfe467f23e97  pnl_per_volume=1.274187  pnl=3298.629299  volume=2588.810000
+    10. 0x01c211b8dffac254dda698d20632ee170dea0a62  pnl_per_volume=0.425584  pnl=1325.963355  volume=3115.630000
+  SUBCATEGORY #5: Box Office | profit_per_volume=2.428547 | total_pnl=44582.326761 | total_volume=18357.610000 | predictability_score=0.740 | predictability_band=easy | composite_score=0.513
+    Subcategory example question: Will Hurricane Katrina: Race Against Time win Best New Non-Scripted or Documentary Series at the 41st Film Independent Spirit Awards?
+     1. 0xfd66d7ed45d7962ad009e669cdaec9319e38fb6d  pnl_per_volume=21.692489  pnl=3823.735000  volume=176.270000
+     2. 0x7ab6ac0f0d6ca5a15ec57abeaf413d31c8cdfa77  pnl_per_volume=17.275958  pnl=5064.101490  volume=293.130000
+     3. 0x51fd8f0358cc9e8a1ee5f87a0c7e3b07ed634272  pnl_per_volume=9.725165  pnl=4292.007200  volume=441.330000
+     4. 0xbfd8463ef064029a573bc6f3fb5a35500dd00fe9  pnl_per_volume=5.420687  pnl=5279.478032  volume=973.950000
+     5. 0x9c67804fa9fc98be3bfb277a05cf149426f78b76  pnl_per_volume=3.321271  pnl=3371.721400  volume=1015.190000
+     6. 0xa8f16d8d3236e1c84c0c5749ceff7f1ccd45fee6  pnl_per_volume=2.908879  pnl=5636.855033  volume=1937.810000
+     7. 0x9199ba070c49a78d7b1eb029b5c03d0b2972dd2d  pnl_per_volume=2.448334  pnl=8942.883625  volume=3652.640000
+     8. 0xe2b1fc269d0c2e27da11fadd1d9596fe28227d2a  pnl_per_volume=1.292554  pnl=2330.177982  volume=1802.770000
+     9. 0x490f66ea703fc8fae19fd231c9921e3f4c0c17e5  pnl_per_volume=0.987498  pnl=2818.476660  volume=2854.160000
+    10. 0xecaa8806a9a05049d7d5260a33dc924220e377a9  pnl_per_volume=0.580169  pnl=3022.890339  volume=5210.360000
+  SUBCATEGORY #6: Weather/Natural Events | profit_per_volume=2.904512 | total_pnl=12214.924439 | total_volume=4205.500000 | predictability_score=0.700 | predictability_band=easy | composite_score=0.512
+    Subcategory example question: Dubai Duty Free Tennis Championships, Qualification: Sonay Kartal vs Storm Hunter
+     1. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=1008.990000  pnl=605.394000  volume=0.600000
+     2. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=999.000000  pnl=3656.340000  volume=3.660000
+     3. 0x588ba2cfc9052c686d9cb3b582f32a3d72d48593  pnl_per_volume=24.000000  pnl=480.000000  volume=20.000000
+     4. 0xf4a4eab0af4fa0c94ffcc05b9df184edb4193117  pnl_per_volume=17.814519  pnl=908.540452  volume=51.000000
+     5. 0x46996fc536f8828aadbb6bd7f9065b4e10175051  pnl_per_volume=17.143327  pnl=2005.769286  volume=117.000000
+     6. 0x1624231bb94bb0b8152281a58cbb18c3f565bf63  pnl_per_volume=15.999524  pnl=813.575800  volume=50.850000
+     7. 0xee613b3fc183ee44f9da9c05f53e2da107e3debf  pnl_per_volume=1.344833  pnl=1111.908300  volume=826.800000
+     8. 0xd6a3f0ec6c4a8ad680d580610c82ca57ff139489  pnl_per_volume=1.136652  pnl=1007.448700  volume=886.330000
+     9. 0x68146921df11eab44296dc4e58025ca84741a9e7  pnl_per_volume=0.854766  pnl=1095.998201  volume=1282.220000
+    10. 0x972bf37cae72a169e17ae0e6179821d5778b78ba  pnl_per_volume=0.548012  pnl=529.949700  volume=967.040000
+  SUBCATEGORY #7: Streaming/TV | profit_per_volume=2.622009 | total_pnl=55323.756398 | total_volume=21099.760000 | predictability_score=0.680 | predictability_band=easy | composite_score=0.491
+    Subcategory example question: NL Division Series: Phillies vs. Braves
+     1. 0x957f691adbd03039025f06d285a5c3e5384499c8  pnl_per_volume=85.175909  pnl=4573.946310  volume=53.700000
+     2. 0xc613e6707bd115e5c04d303d944568232697662b  pnl_per_volume=37.041015  pnl=1316.437670  volume=35.540000
+     3. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=32.438307  pnl=36812.613260  volume=1134.850000
+     4. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=25.419533  pnl=1218.104020  volume=47.920000
+     5. 0xfb81f27f1c8758d477332f8e751322c424da1cf3  pnl_per_volume=9.000000  pnl=1260.000000  volume=140.000000
+     6. 0x6e3902d8b63a6fc1d259fd3987822d11619d3122  pnl_per_volume=2.893226  pnl=1186.222654  volume=410.000000
+     7. 0x53ecc53e7a69aad0e6dda60264cc2e363092df91  pnl_per_volume=1.694925  pnl=3941.852044  volume=2325.680000
+     8. 0x6a72f61820b26b1fe4d956e17b6dc2a1ea3033ee  pnl_per_volume=1.325584  pnl=1922.997600  volume=1450.680000
+     9. 0xf5201f998333d228dafba270d01d8ff82b2c0637  pnl_per_volume=0.976854  pnl=1203.445202  volume=1231.960000
+    10. 0x2707f2e693b3d20b5a17b603c532571108140afa  pnl_per_volume=0.132320  pnl=1888.137638  volume=14269.430000
+  SUBCATEGORY #8: Soccer | profit_per_volume=1.674794 | total_pnl=7935007.237694 | total_volume=4737899.110000 | predictability_score=0.690 | predictability_band=easy | composite_score=0.458
+    Subcategory example question: Total Kills Over/Under 33.5 in Game 1?
+     1. 0x17f1e5dee3de2a585ea990fce56dd6ed57f6af18  pnl_per_volume=24.510276  pnl=475771.415511  volume=19411.100000
+     2. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=18.874962  pnl=512507.873279  volume=27152.790000
+     3. 0x9d5f3edd84b5f84b6a8fa14f3df4bf614e0d82cf  pnl_per_volume=12.194439  pnl=1069513.161210  volume=87704.990000
+     4. 0x562a954d476c89e7dae30cae55d1176a9d2d3d9c  pnl_per_volume=6.769982  pnl=463666.725932  volume=68488.620000
+     5. 0xa58d4f278d7953cd38eeb929f7e242bfc7c0b9b8  pnl_per_volume=3.788046  pnl=1255600.130292  volume=331463.820000
+     6. 0x54525ee78bd513b0bf75f94e560158f6fc35d448  pnl_per_volume=3.672254  pnl=512457.400691  volume=139548.460000
+     7. 0x55b4af6a1cff148a307cad8ad098206a028e80ea  pnl_per_volume=2.146380  pnl=1735284.648552  volume=808470.340000
+     8. 0x24c8cf69a0e0a17eee21f69d29752bfa32e823e1  pnl_per_volume=1.005790  pnl=1180742.223789  volume=1173944.670000
+     9. 0x6e021a82c12e01886444ab3e918114faaf11d70a  pnl_per_volume=0.519901  pnl=372883.005289  volume=717219.370000
+    10. 0x490e807c5a431752bee1a5b48cbfbcb4a45773ad  pnl_per_volume=0.261328  pnl=356580.653148  volume=1364494.950000
+  SUBCATEGORY #9: Product Events | profit_per_volume=1.462906 | total_pnl=488550.838083 | total_volume=333959.090000 | predictability_score=0.690 | predictability_band=easy | composite_score=0.449
+    Subcategory example question: Will the Nashville Predators win the Western Conference?
+     1. 0xa2f1fecf1cc7db65a46588f764b6691533052d22  pnl_per_volume=6.490480  pnl=35691.146780  volume=5499.000000
+     2. 0xe83cc0c82d009a1c349c1a89feaadfcee9655e8f  pnl_per_volume=6.079726  pnl=37888.548613  volume=6231.950000
+     3. 0x0c7caeaf3ca02b3813540464274dd17d7b20ead5  pnl_per_volume=2.333333  pnl=50845.900000  volume=21791.100000
+     4. 0x951114909dfe7c75594d771fe10e6e9af4073520  pnl_per_volume=2.225806  pnl=44607.810000  volume=20041.190000
+     5. 0xfde61db51b60faccbbafc88bc3590584e1bc1f5c  pnl_per_volume=1.666664  pnl=37471.230000  volume=22482.770000
+     6. 0x86793ad1e8f33ae23bcaf93200ec5c7bd2664659  pnl_per_volume=1.549648  pnl=104488.993960  volume=67427.560000
+     7. 0x3cf2836aac4fc58b7bfa40151e9f2d4c02911fac  pnl_per_volume=1.247192  pnl=42266.040000  volume=33888.960000
+     8. 0x7d607701278238ed55b82f6bc06536343b6203d8  pnl_per_volume=0.887199  pnl=32251.367230  volume=36351.900000
+     9. 0xbb066c718991a5e70236e8ae7864732a1b24d915  pnl_per_volume=0.886792  pnl=69150.841500  volume=77978.620000
+    10. 0xec0ca6fa056bd9304ae8a553a51dcfb86b77077c  pnl_per_volume=0.801801  pnl=33888.960000  volume=42266.040000
+  SUBCATEGORY #10: US Presidential | profit_per_volume=1.064105 | total_pnl=28133.595761 | total_volume=26438.740000 | predictability_score=0.720 | predictability_band=easy | composite_score=0.448
+    Subcategory example question: Tobias Harris: Assists O/U 2.5
+     1. 0xcb6ffcd138ea263162d731c3daedf9e194d4f414  pnl_per_volume=210.197158  pnl=3379.970300  volume=16.080000
+     2. 0x2cde80346eed526242e266476cfcc65073635b98  pnl_per_volume=32.333333  pnl=3233.010000  volume=99.990000
+     3. 0xfb81f27f1c8758d477332f8e751322c424da1cf3  pnl_per_volume=32.333333  pnl=3233.010000  volume=99.990000
+     4. 0x33bcb6e9bd44be709122b2940c55e34f1a7e37dc  pnl_per_volume=1.325593  pnl=1994.937900  volume=1504.940000
+     5. 0x5d4bb2e4d5480874a646544a7db8a7211b08559c  pnl_per_volume=1.123992  pnl=2116.747100  volume=1883.240000
+     6. 0xd42f6a1634a3707e27cbae14ca966068e5d1047d  pnl_per_volume=0.929715  pnl=2484.449570  volume=2672.270000
+     7. 0x7bfc70b10611468ba128413dfaa8911e12572515  pnl_per_volume=0.902327  pnl=3890.562433  volume=4311.700000
+     8. 0x70adf357542ce6d11da0da9cb2ed7b51d3edae4b  pnl_per_volume=0.751810  pnl=3460.759920  volume=4603.240000
+     9. 0xe40172522c7c64afa2d052ddae6c92cd0f417b88  pnl_per_volume=0.507580  pnl=2170.698300  volume=4276.560000
+    10. 0x975be0173dbbc98c457dedd6f5dacec77e852d5f  pnl_per_volume=0.311223  pnl=2169.450238  volume=6970.730000
+  SUBCATEGORY #11: Airdrops & Launches | profit_per_volume=2.105052 | total_pnl=146840.972578 | total_volume=69756.460000 | predictability_score=0.620 | predictability_band=medium | composite_score=0.440
+    Subcategory example question: Football.Fun FDV above $500M one day after launch?
+     1. 0x1161a33d3863b5d479b1c5038d758283e1d2729a  pnl_per_volume=38.215039  pnl=19466.358630  volume=509.390000
+     2. 0x42c4cfa8eab349e7f8cbe5b866ebfd612a2493a7  pnl_per_volume=9.090407  pnl=26834.426251  volume=2951.950000
+     3. 0x1eddec0454654b3abf8f7d59544623838783be0f  pnl_per_volume=4.557937  pnl=10501.805987  volume=2304.070000
+     4. 0x9f9ceb0a88a198562d1aec9aa7d3ba727fef34d9  pnl_per_volume=4.404806  pnl=16299.590000  volume=3700.410000
+     5. 0x5a4074a7e688892779cb0ca392f3508ac0764093  pnl_per_volume=3.450082  pnl=12585.589581  volume=3647.910000
+     6. 0x51fd8f0358cc9e8a1ee5f87a0c7e3b07ed634272  pnl_per_volume=2.944000  pnl=12871.344800  volume=4372.060000
+     7. 0x0a9a67f2b0b5d472baaeed626f2c5f0c7263467b  pnl_per_volume=2.596418  pnl=14363.018192  volume=5531.860000
+     8. 0x5f2415bccf46327d081e67a142b44adfbb41c911  pnl_per_volume=2.530971  pnl=8955.589126  volume=3538.400000
+     9. 0x84d7b7a1d571534fbad757dfafdf9e604726298f  pnl_per_volume=1.313796  pnl=10350.567080  volume=7878.370000
+    10. 0xc4567fe2a835b23f40db07f567ba0efbbdc98996  pnl_per_volume=0.413699  pnl=14612.682930  volume=35322.040000
+  SUBCATEGORY #12: Awards | profit_per_volume=0.945579 | total_pnl=184547.067657 | total_volume=195168.260000 | predictability_score=0.710 | predictability_band=easy | composite_score=0.438
+    Subcategory example question: Will "F1® The Album" win Best Compilation Soundtrack For Visual Media at the 68th annual GRAMMY Awards?
+     1. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=48.556421  pnl=8509.998430  volume=175.260000
+     2. 0xf1f06f49be8ce5681752ae80e660aeaace6858df  pnl_per_volume=8.212412  pnl=7844.741900  volume=955.230000
+     3. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=4.039183  pnl=17595.406932  volume=4356.180000
+     4. 0x25a70adc7a3bba135fd043ca2e2d7c84ea8b2f87  pnl_per_volume=1.720768  pnl=86258.838658  volume=50128.100000
+     5. 0x30eead8be2dbf57303b78eb9e7404d37c9bca587  pnl_per_volume=1.222035  pnl=7453.885870  volume=6099.570000
+     6. 0x12d693e52701abf02785355c5cb060f16500dbbc  pnl_per_volume=1.143013  pnl=4252.087900  volume=3720.070000
+     7. 0xe65f64a953dc76d6c0c00f90eeb1fc083ea7a749  pnl_per_volume=0.634721  pnl=7296.022480  volume=11494.850000
+     8. 0x197f604d565d5b3c62ec77cad2a8a19fbb36dc8d  pnl_per_volume=0.576593  pnl=15718.630658  volume=27261.210000
+     9. 0xea64572947a01f9938fd5474dc3b7d219352f2a2  pnl_per_volume=0.402590  pnl=25713.274637  volume=63869.600000
+    10. 0x4dbe11fc252748b990b90c9b76d61b5e1183af34  pnl_per_volume=0.144022  pnl=3904.180192  volume=27108.190000
+  SUBCATEGORY #13: Primaries & Polls | profit_per_volume=1.063193 | total_pnl=41817.672989 | total_volume=39332.170000 | predictability_score=0.670 | predictability_band=easy | composite_score=0.423
+    Subcategory example question: Will Tim Walz say "Football" during the debate?
+     1. 0xb35bd7b8f71b99317cc4987d9ae34631c48cfc08  pnl_per_volume=33.199708  pnl=12231.436300  volume=368.420000
+     2. 0x108ece6e24a84a40616ab71aec496e3ce03bd5d0  pnl_per_volume=2.136355  pnl=2733.486970  volume=1279.510000
+     3. 0xef6d2ec75b883df2fc0308390393f90791b09bd2  pnl_per_volume=2.063366  pnl=1229.250000  volume=595.750000
+     4. 0x18566a94b6983fe9d2537c0316aa0b6c89601964  pnl_per_volume=1.703548  pnl=4006.897200  volume=2352.090000
+     5. 0x22271273b28d0d198a8e5ff9e7f9f75d0c24b572  pnl_per_volume=1.507007  pnl=1661.641200  volume=1102.610000
+     6. 0x876407a068471a1edebdf6227b87ba5010fc6d8f  pnl_per_volume=1.222224  pnl=2043.998000  volume=1672.360000
+     7. 0x7bda5bceac127c3fc41d7fe7ac335593aaaa121b  pnl_per_volume=0.932333  pnl=9566.189500  volume=10260.490000
+     8. 0xf8ba34bf0e95d952d05b578bfbc0833f9242a286  pnl_per_volume=0.868634  pnl=1497.724700  volume=1724.230000
+     9. 0xb74711992caf6d04fa55eecc46b8efc95311b050  pnl_per_volume=0.588554  pnl=1793.334956  volume=3047.020000
+    10. 0x03626d34381b0337387b0e8464c898f772009661  pnl_per_volume=0.298512  pnl=5053.714163  volume=16929.690000
+  SUBCATEGORY #14: Basketball | profit_per_volume=0.332613 | total_pnl=49192340.802474 | total_volume=147896594.280000 | predictability_score=0.700 | predictability_band=easy | composite_score=0.408
+    Subcategory example question: Over 228.5
+     1. 0x8b9ae3350d24ff84c9ce297cd8a7664f500f5f69  pnl_per_volume=21.731499  pnl=2731675.310981  volume=125701.190000
+     2. 0x19d8b01c0e003f2199b1eb200146784fa5ec1691  pnl_per_volume=1.710652  pnl=2864971.889678  volume=1674783.310000
+     3. 0x9f053c597d80780e09cad5087b0d687614bf8937  pnl_per_volume=1.329310  pnl=2818549.277702  volume=2120309.650000
+     4. 0x27cb4e127fbfd433122ff801efc10954f33b169e  pnl_per_volume=0.561665  pnl=3344991.096373  volume=5955492.160000
+     5. 0x8e433d051bfb5cc6a1f7e5a0452029b7ffb4a3cd  pnl_per_volume=0.513425  pnl=8070409.623139  volume=15718767.420000
+     6. 0x1bc0d88ca86b9049cf05d642e634836d5ddf4429  pnl_per_volume=0.318976  pnl=4990994.486974  volume=15646921.960000
+     7. 0x39871d481a332c4fd8f19e8ae35c9e17438b259e  pnl_per_volume=0.293018  pnl=3683939.469754  volume=12572400.960000
+     8. 0xcd9bc2939f0dac121f6ccde59cca5e0b6a91414d  pnl_per_volume=0.278827  pnl=6013580.985519  volume=21567421.810000
+     9. 0xb744f56635b537e859152d14b022af5afe485210  pnl_per_volume=0.208036  pnl=4086811.192848  volume=19644766.810000
+    10. 0xdb27bf2ac5d428a9c63dbc914611036855a6c56e  pnl_per_volume=0.200235  pnl=10586417.469505  volume=52870029.010000
+  SUBCATEGORY #15: American Football | profit_per_volume=0.157749 | total_pnl=25049389.378649 | total_volume=158792984.810000 | predictability_score=0.700 | predictability_band=easy | composite_score=0.401
+    Subcategory example question: Spread: Seahawks (-3.5)
+     1. 0xa0f21e6d351baa9185716b5c00c2925ed9621848  pnl_per_volume=1.368482  pnl=2257576.793711  volume=1649694.500000
+     2. 0x5646d644660933e9c2d46f2dacba95f442283819  pnl_per_volume=0.845825  pnl=2097354.157881  volume=2479656.000000
+     3. 0x27cb4e127fbfd433122ff801efc10954f33b169e  pnl_per_volume=0.705215  pnl=1698426.063724  volume=2408381.840000
+     4. 0x5350afcd8bd8ceffdf4da32420d6d31be0822fda  pnl_per_volume=0.396828  pnl=2313123.541886  volume=5829030.000000
+     5. 0xdc876e6873772d38716fda7f2452a78d426d7ab6  pnl_per_volume=0.308817  pnl=3513826.001896  volume=11378336.220000
+     6. 0xdf2e12c6a53671d0b08f29d0391728097029ddec  pnl_per_volume=0.210292  pnl=1625903.509664  volume=7731659.330000
+     7. 0x0d3b10b8eac8b089c6e4a695e65d8e044167c46b  pnl_per_volume=0.116436  pnl=2647058.639483  volume=22734018.280000
+     8. 0x14964aefa2cd7caff7878b3820a690a03c5aa429  pnl_per_volume=0.096716  pnl=2627173.061985  volume=27163668.770000
+     9. 0xb744f56635b537e859152d14b022af5afe485210  pnl_per_volume=0.093556  pnl=4461263.363402  volume=47685506.350000
+    10. 0x6a72f61820b26b1fe4d956e17b6dc2a1ea3033ee  pnl_per_volume=0.060797  pnl=1807684.245017  volume=29733033.520000
+  SUBCATEGORY #16: Combat Sports | profit_per_volume=0.360036 | total_pnl=6137804.539125 | total_volume=17047744.640000 | predictability_score=0.680 | predictability_band=easy | composite_score=0.399
+    Subcategory example question: Will the fight be won by submission?
+     1. 0x8c80d213c0cbad777d06ee3f58f6ca4bc03102c3  pnl_per_volume=1.621449  pnl=588382.209200  volume=362874.420000
+     2. 0x3cdaf931c538750ffa43b4de25366401d7446e17  pnl_per_volume=1.210967  pnl=784288.801700  volume=647654.800000
+     3. 0x9708fd9556116218fd29c778e9d81d255b61925b  pnl_per_volume=0.529621  pnl=523059.305058  volume=987610.960000
+     4. 0x5edb28cf53861b9bdeaa88641277df94a6f26ff1  pnl_per_volume=0.459194  pnl=382669.459483  volume=833350.540000
+     5. 0x1af1dfc2c523af1d7551597c985277cd11b30f7b  pnl_per_volume=0.450543  pnl=584347.637060  volume=1296985.490000
+     6. 0xe60a9b0be459d9849bc2339dac20517639ae6a47  pnl_per_volume=0.301789  pnl=409999.777936  volume=1358562.360000
+     7. 0x07b8e44b90cc3e91b8d5fe60ea810d2534638e25  pnl_per_volume=0.297646  pnl=1123795.359421  volume=3775604.170000
+     8. 0xe90bec87d9ef430f27f9dcfe72c34b76967d5da2  pnl_per_volume=0.258820  pnl=830819.104957  volume=3210021.290000
+     9. 0x03ac67436f169bb5348653f991d498bcb4944f55  pnl_per_volume=0.234403  pnl=374625.504419  volume=1598213.570000
+    10. 0x1117eade222413335b7ec959e5b48c1d3dbc3532  pnl_per_volume=0.179994  pnl=535817.379891  volume=2976867.040000
+  SUBCATEGORY #17: General | profit_per_volume=0.246791 | total_pnl=14875693.183153 | total_volume=60276516.430000 | predictability_score=0.560 | predictability_band=medium | composite_score=0.335
+    Subcategory example question: Spread: Avalanche (-1.5)
+     1. 0xcacf2bf1906bb3c74a0e0453bfb91f1374e335ff  pnl_per_volume=18.902284  pnl=939349.577639  volume=49695.030000
+     2. 0x977ac477cb8d2f3c9d357afed779ad7570acf2ca  pnl_per_volume=9.390759  pnl=1423480.777225  volume=151583.140000
+     3. 0xb744f56635b537e859152d14b022af5afe485210  pnl_per_volume=0.574432  pnl=2485123.613969  volume=4326226.930000
+     4. 0x2e25b222e2080c377fc1fb2b9f926315f0f4d49e  pnl_per_volume=0.509583  pnl=1042928.508100  volume=2046630.810000
+     5. 0xf195721ad850377c96cd634457c70cd9e8308057  pnl_per_volume=0.275467  pnl=1302535.455221  volume=4728466.310000
+     6. 0x0d3b10b8eac8b089c6e4a695e65d8e044167c46b  pnl_per_volume=0.266502  pnl=1069395.626002  volume=4012714.190000
+     7. 0xc35049bc7b6bd28a49a40b261466ca91aad63669  pnl_per_volume=0.177512  pnl=989534.764421  volume=5574466.680000
+     8. 0x65e4246d770fd503ea97caa47e84db7fb5aba3bd  pnl_per_volume=0.165463  pnl=2149080.263371  volume=12988273.220000
+     9. 0x9708fd9556116218fd29c778e9d81d255b61925b  pnl_per_volume=0.140243  pnl=1810619.579813  volume=12910577.340000
+    10. 0xa6a856a8c8a7f14fd9be6ae11c367c7cbb755009  pnl_per_volume=0.123344  pnl=1663645.017393  volume=13487882.780000
+  SUBCATEGORY #18: AI Models/Companies | profit_per_volume=-1.004083 | total_pnl=-0.120490 | total_volume=0.120000 | predictability_score=0.650 | predictability_band=easy | composite_score=0.329
+    Subcategory example question: Will Claude Giroux win the 2025–2026 NHL Hart Memorial Trophy?
+     1. 0x4f5b795a0f78e665f3afebf5641eb5a196119602  pnl_per_volume=-0.883000  pnl=-0.026490  volume=0.030000
+     2. 0x090af6fd2aeb04202abc97370aa86c1b81d90fa6  pnl_per_volume=-1.000000  pnl=-0.010000  volume=0.010000
+     3. 0xa88c23a9eb1ff0219c4937cf374a1ab617a43fc6  pnl_per_volume=-1.000000  pnl=-0.010000  volume=0.010000
+     4. 0x1e69b81f0c69d3ecf8b721c58a3625d67599e777  pnl_per_volume=-1.000000  pnl=-0.020000  volume=0.020000
+     5. 0xc1a5da684d99100f835d557afa1f22f6b0b73199  pnl_per_volume=-1.000000  pnl=-0.020000  volume=0.020000
+     6. 0x75cbe506ceec7bb80331954e9a47212ea62f1556  pnl_per_volume=-1.133333  pnl=-0.034000  volume=0.030000
+  SUBCATEGORY #19: Middle East | profit_per_volume=-1.111000 | total_pnl=-0.099990 | total_volume=0.090000 | predictability_score=0.580 | predictability_band=medium | composite_score=0.290
+    Subcategory example question: Will Israel advance to the Knockout Stages of the 2026 World Baseball Classic final?
+     1. 0xf8b720c031833a879ffe538c7e040fad542114de  pnl_per_volume=-0.750000  pnl=-0.015000  volume=0.020000
+     2. 0x45335cc9338f58f120c33078aa2b6861f7dc00bf  pnl_per_volume=-1.000000  pnl=-0.010000  volume=0.010000
+     3. 0x7a4126074ece8dffeb2178f68d4ff0e8bf5a2562  pnl_per_volume=-1.000000  pnl=-0.020000  volume=0.020000
+     4. 0x83f54d70b393ee84d5487a75d80ceba56ea84ae3  pnl_per_volume=-1.250000  pnl=-0.025000  volume=0.020000
+     5. 0xeab7b0a830a1755f1296fee950b3080e3529b389  pnl_per_volume=-1.499000  pnl=-0.014990  volume=0.010000
+     6. 0xa39fe164c54030b5f3dc3d93ac550a8bed83fbdb  pnl_per_volume=-1.500000  pnl=-0.015000  volume=0.010000
+
+CATEGORY #8: Crypto | profit_per_volume=0.536359 | total_pnl=131279222.639120 | total_volume=244759770.150000 | predictability_score=0.592 | composite_score=0.331
+  Category example question: Games Total: O/U 3.5
+  SUBCATEGORY #1: Airdrops & Launches | profit_per_volume=3.292604 | total_pnl=7176144.440771 | total_volume=2179473.750000 | predictability_score=0.550 | predictability_band=medium | composite_score=0.755
+    Subcategory example question: No token launch by March 31
+     1. 0x86c0c26a31cdb02d6ebc934baa4169668e5db5e6  pnl_per_volume=998.983094  pnl=746170.442640  volume=746.930000
+     2. 0xbefa95c276ee8ef6ff3ef43d1c1c454f52bc300d  pnl_per_volume=82.808182  pnl=937648.636562  volume=11323.140000
+     3. 0xac646ccf77e161522e8a6d2bc7b8e9d9185277d9  pnl_per_volume=30.502811  pnl=714316.652332  volume=23418.060000
+     4. 0xbca69be5edef416ba701f9a3a2983efdf58273e3  pnl_per_volume=29.296863  pnl=517621.658129  volume=17668.160000
+     5. 0xe3b674cd19b79ab59462b87b9ceaa4b4879b86ab  pnl_per_volume=19.121285  pnl=653685.399740  volume=34186.270000
+     6. 0xe9d2da95c70bd13b83ecd1cbce1ce540cd0dc168  pnl_per_volume=8.643433  pnl=515376.631990  volume=59626.380000
+     7. 0x1a090610aedb4f378e07c4526904b4dc91d1af0f  pnl_per_volume=5.275867  pnl=1279335.185556  volume=242488.150000
+     8. 0xf2b6d922dc212c5f6ff3444350a2b9b85c5580b9  pnl_per_volume=3.386510  pnl=803186.913314  volume=237172.470000
+     9. 0x05ab749a8554fb7c852238c271d384bae6798145  pnl_per_volume=0.675326  pnl=512533.851547  volume=758942.510000
+    10. 0x7744bfd749a70020d16a1fcbac1d064761c9999e  pnl_per_volume=0.625101  pnl=496269.068962  volume=793901.680000
+  SUBCATEGORY #2: General | profit_per_volume=3.478491 | total_pnl=5999175.127800 | total_volume=1724648.970000 | predictability_score=0.490 | predictability_band=medium | composite_score=0.745
+    Subcategory example question: Another crypto hack over $100m in 2025?
+     1. 0x76253f66a637c072df60d476a43fcc738d5e3594  pnl_per_volume=999.000000  pnl=403715.880000  volume=404.120000
+     2. 0xc4d168af5ee98bd0cbba42d0bb89361051fa1376  pnl_per_volume=897.461976  pnl=447833.525905  volume=499.000000
+     3. 0xc4c93694ebdc532959b9c6702860d18e68c4a08e  pnl_per_volume=818.495285  pnl=414977.109520  volume=507.000000
+     4. 0x38a7af6ada247b9371b5c3caca5900139e30e476  pnl_per_volume=549.430754  pnl=1997180.789900  volume=3635.000000
+     5. 0xa7ca6eeddb68e0afe7ee1590290663957c6d9d85  pnl_per_volume=479.745794  pnl=397349.454156  volume=828.250000
+     6. 0x068162f52e8534620c419c174be1aa5337dff713  pnl_per_volume=314.220709  pnl=466765.436477  volume=1485.470000
+     7. 0x1d9af60c679cd0b577c3c4ccb4b1a4be4174426d  pnl_per_volume=5.580052  pnl=404860.298093  volume=72554.930000
+     8. 0xe31b852756937aef6a047b8de0d36196804b3fb7  pnl_per_volume=3.781577  pnl=531029.268126  volume=140425.340000
+     9. 0x7744bfd749a70020d16a1fcbac1d064761c9999e  pnl_per_volume=0.930465  pnl=341931.058017  volume=367484.170000
+    10. 0x054ec2f0ccfdae941886a3ed306635068c716639  pnl_per_volume=0.522096  pnl=593532.307606  volume=1136825.690000
+  SUBCATEGORY #3: Streaming/TV | profit_per_volume=1.877004 | total_pnl=11481.295250 | total_volume=6116.820000 | predictability_score=0.610 | predictability_band=medium | composite_score=0.629
+    Subcategory example question: Will Fabiano Caruana or Ian Nepomniachtchi win their Quarterfinals Series of the FTX Crypto Cup?
+     1. 0xde71cb1b32196575da8f8ace492db0b6e9644308  pnl_per_volume=999.000000  pnl=1998.000000  volume=2.000000
+     2. 0xf38336af2314bbf6d6eef5063866f3df281d5de4  pnl_per_volume=999.000000  pnl=1998.000000  volume=2.000000
+     3. 0x0dedae6a02ea2ff8018ba5f277632919ed1c9025  pnl_per_volume=234.294118  pnl=796.600000  volume=3.400000
+     4. 0x4210a55de70f48a7eb6beef74886ec87dbc97e30  pnl_per_volume=99.000000  pnl=99.000000  volume=1.000000
+     5. 0xfcf0a49aa7df97cccc5e56ddea3567b72de488f7  pnl_per_volume=30.250000  pnl=157.300000  volume=5.200000
+     6. 0x0ad7f3411bc87f0b5362155e638f04ef05700971  pnl_per_volume=25.676516  pnl=235.453650  volume=9.170000
+     7. 0xd6ddc6559313bcc819f1df1b3647f3930da998ee  pnl_per_volume=5.249527  pnl=93.231600  volume=17.760000
+     8. 0x44a070fd4cb4385ede1fc78ed72b824becc573f7  pnl_per_volume=1.500000  pnl=3600.000000  volume=2400.000000
+     9. 0xdc0a6bf4b19f1bbedc8477cf74e8b375b98dccdc  pnl_per_volume=1.359418  pnl=103.710000  volume=76.290000
+    10. 0xb15f47c5b8c342685dbab26590157ff82182925f  pnl_per_volume=0.666667  pnl=2400.000000  volume=3600.000000
+  SUBCATEGORY #4: Equities/Indices | profit_per_volume=1.241489 | total_pnl=80869.731394 | total_volume=65139.310000 | predictability_score=0.610 | predictability_band=medium | composite_score=0.560
+    Subcategory example question: Will Michael Saylor say "Crypto" 7+ times during the Q1 2025 Strategy earnings call?
+     1. 0x78f419061b96d41de5db4adcad5a5ddec84bbe72  pnl_per_volume=999.000000  pnl=4995.000000  volume=5.000000
+     2. 0xe0b83a346f08ff7c55117c77f9105ec367f50646  pnl_per_volume=549.061987  pnl=5490.619873  volume=10.000000
+     3. 0x84c2bf9e97084ac241442dfda5e1ba12e009c73c  pnl_per_volume=94.238095  pnl=3958.000000  volume=42.000000
+     4. 0xc229141fb731ac041257caf4421987b71c562643  pnl_per_volume=1.172527  pnl=6136.956900  volume=5233.960000
+     5. 0x6a95619f47b968155ee2ced5af33e2a84d653ac7  pnl_per_volume=1.127660  pnl=5215.200000  volume=4624.800000
+     6. 0x9f5620469af32b5d21e7298dcf2a415df5e45cd2  pnl_per_volume=1.021233  pnl=27282.238908  volume=26715.000000
+     7. 0x9903cc92a0cea0772d6765fb2c5e3e551a7109b6  pnl_per_volume=1.003818  pnl=7179.656705  volume=7152.350000
+     8. 0xafaf88799fd79726afe7f307ba18009676295570  pnl_per_volume=1.003220  pnl=7098.390000  volume=7075.610000
+     9. 0x0cdebc82ed2475c1309687fae0660b152ef5a05d  pnl_per_volume=0.980528  pnl=8888.869008  volume=9065.390000
+    10. 0x98c78f5224c418afd06d0e2191cdc548e90d455c  pnl_per_volume=0.886792  pnl=4624.800000  volume=5215.200000
+  SUBCATEGORY #5: Internet/Memes | profit_per_volume=1.325931 | total_pnl=9718.900885 | total_volume=7329.870000 | predictability_score=0.470 | predictability_band=hard | composite_score=0.499
+    Subcategory example question: Will Brian Armstrong say Crypto/Cryptocurrency 50+ times during his X space?
+     1. 0x2b5c71495f094c8718fa796d95e0a34f12328ce5  pnl_per_volume=999.000000  pnl=499.500000  volume=0.500000
+     2. 0x87650b9f63563f7c456d9bbcceee5f9faf06ed81  pnl_per_volume=144.403306  pnl=518.407870  volume=3.590000
+     3. 0xe154165732b79548f7533fc45168b102dd7a0b7f  pnl_per_volume=49.000000  pnl=490.000000  volume=10.000000
+     4. 0x47bc4b50a8d0c4a07b22bfd949f9c6afb8aec043  pnl_per_volume=6.500000  pnl=1300.000000  volume=200.000000
+     5. 0xacb3776cd20b77891f6c5d824834842638d5feef  pnl_per_volume=3.391191  pnl=617.807100  volume=182.180000
+     6. 0xac27e2c20e16cf08a148303c433543ee10fbbff0  pnl_per_volume=1.197175  pnl=598.587635  volume=500.000000
+     7. 0x44d9200a6b0106d041f9460fa84d054736c14c1a  pnl_per_volume=1.127660  pnl=2120.000000  volume=1880.000000
+     8. 0xa8ae407b570b278b7c0958ce18dc615665ba47e9  pnl_per_volume=1.000000  pnl=500.000000  volume=500.000000
+     9. 0x438a8c9518f39f95b5c79d5db12bc5d3626f330f  pnl_per_volume=0.886792  pnl=1880.000000  volume=2120.000000
+    10. 0x4cc3522b689a6bf1fb4a2444c523e7776db47552  pnl_per_volume=0.617810  pnl=1194.598280  volume=1933.600000
+  SUBCATEGORY #6: Regulation/Legal | profit_per_volume=0.719318 | total_pnl=41912.270562 | total_volume=58266.670000 | predictability_score=0.590 | predictability_band=medium | composite_score=0.493
+    Subcategory example question: Elizabeth Warren crypto bill become law by June?
+     1. 0x0e0b354c0efa39e5e2ef6daa7e17221a054b106f  pnl_per_volume=621.411314  pnl=7146.230116  volume=11.500000
+     2. 0xc613e6707bd115e5c04d303d944568232697662b  pnl_per_volume=126.157565  pnl=3346.960192  volume=26.530000
+     3. 0xfe198ad3523b88a007639d7e1d0f09eca2c75786  pnl_per_volume=19.000000  pnl=2935.880000  volume=154.520000
+     4. 0x98c6660e38339d35cfa7a625b7b6efc67e173d1e  pnl_per_volume=10.649903  pnl=6376.097118  volume=598.700000
+     5. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=10.322756  pnl=3269.423170  volume=316.720000
+     6. 0xaaf5ea56eb7c5f438ebd944ab1f15840099895ad  pnl_per_volume=7.202498  pnl=2802.779900  volume=389.140000
+     7. 0x5d4bb2e4d5480874a646544a7db8a7211b08559c  pnl_per_volume=2.014146  pnl=4076.208000  volume=2023.790000
+     8. 0x540d5e7016dab719104b1954003e72810c73235b  pnl_per_volume=1.122280  pnl=4111.170095  volume=3663.230000
+     9. 0x04ec75cbba2a7f2407eb0a48a8468d25ee14580f  pnl_per_volume=0.770999  pnl=3026.362041  volume=3925.250000
+    10. 0x7c3db723f1d4d8cb9c550095203b686cb11e5c6b  pnl_per_volume=0.102236  pnl=4821.159931  volume=47157.290000
+  SUBCATEGORY #7: ETH/SOL/XRP Majors | profit_per_volume=0.577581 | total_pnl=50773000.254666 | total_volume=87906319.100000 | predictability_score=0.590 | predictability_band=medium | composite_score=0.477
+    Subcategory example question: Games Total: O/U 3.5
+     1. 0x285af1872ac997dd54367a799cb2fd9cb0d5fd1b  pnl_per_volume=180.471337  pnl=3436840.191140  volume=19043.690000
+     2. 0x35c0732e069faea97c11aa9cab045562eaab81d6  pnl_per_volume=170.634715  pnl=3909498.970832  volume=22911.510000
+     3. 0x71528368bdff0a0b58493b71832c34c373c5faac  pnl_per_volume=95.669160  pnl=3411829.176745  volume=35662.790000
+     4. 0xf49a30eeba44edc98c104bd9830be7a5c140f9ba  pnl_per_volume=36.305880  pnl=5963410.394700  volume=164254.670000
+     5. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=15.187492  pnl=12336001.634271  volume=812247.430000
+     6. 0x589222a5124a96765443b97a3498d89ffd824ad2  pnl_per_volume=0.380501  pnl=7314036.904469  volume=19222109.590000
+     7. 0x5248313731287b61d714ab9df655442d6ed28aa2  pnl_per_volume=0.366832  pnl=4040819.226830  volume=11015456.040000
+     8. 0x961afce6bd9aec79c5cf09d2d4dac2b434b23361  pnl_per_volume=0.352831  pnl=4230910.983340  volume=11991310.490000
+     9. 0xd0d6053c3c37e727402d84c14069780d360993aa  pnl_per_volume=0.151188  pnl=3468766.980885  volume=22943340.680000
+    10. 0xe594336603f4fb5d3ba4125a67021ab3b4347052  pnl_per_volume=0.122735  pnl=2660885.791455  volume=21679982.210000
+  SUBCATEGORY #8: BTC Price Levels | profit_per_volume=0.421747 | total_pnl=63106301.411839 | total_volume=149630672.980000 | predictability_score=0.600 | predictability_band=medium | composite_score=0.465
+    Subcategory example question: Games Total: O/U 2.5
+     1. 0xff4eec9e20a562c2b74a450249d568305b335502  pnl_per_volume=292.306302  pnl=5390780.058370  volume=18442.230000
+     2. 0x285af1872ac997dd54367a799cb2fd9cb0d5fd1b  pnl_per_volume=202.349351  pnl=6190107.450311  volume=30591.190000
+     3. 0xa92d65bed9e4b4c2a7c820b4dbb6022037e14e71  pnl_per_volume=192.471110  pnl=5121015.321076  volume=26606.670000
+     4. 0x71528368bdff0a0b58493b71832c34c373c5faac  pnl_per_volume=187.401115  pnl=5357301.254655  volume=28587.350000
+     5. 0xf49a30eeba44edc98c104bd9830be7a5c140f9ba  pnl_per_volume=37.008325  pnl=5209539.450200  volume=140766.690000
+     6. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=12.199026  pnl=6793763.252282  volume=556910.310000
+     7. 0x1f1d38f54a615d1c43c77e3b109bd01f56e163d9  pnl_per_volume=3.125171  pnl=6390019.749352  volume=2044694.350000
+     8. 0x589222a5124a96765443b97a3498d89ffd824ad2  pnl_per_volume=0.278065  pnl=7439232.705548  volume=26753599.740000
+     9. 0xd0d6053c3c37e727402d84c14069780d360993aa  pnl_per_volume=0.142054  pnl=8305662.147065  volume=58468416.770000
+    10. 0x63ce342161250d705dc0b16df89036c8e5f9ba9a  pnl_per_volume=0.112226  pnl=6908880.022982  volume=61562057.680000
+  SUBCATEGORY #9: Primaries & Polls | profit_per_volume=0.363982 | total_pnl=2101.921724 | total_volume=5774.800000 | predictability_score=0.600 | predictability_band=medium | composite_score=0.459
+    Subcategory example question: Will anyone say "Crypto" or "Bitcoin" during the 2nd Democratic Mayoral Primary on June 12?
+     1. 0xf50f98e64f2eaf6a6124ac663ddbc6c352f7a78c  pnl_per_volume=99.000000  pnl=99.000000  volume=1.000000
+     2. 0xe6b051d21f4b9622881ca03e9826592c3d73b8f1  pnl_per_volume=12.218029  pnl=244.360573  volume=20.000000
+     3. 0x780545d9607389599ad1db7f244d041d8e9adec0  pnl_per_volume=7.790809  pnl=18.308401  volume=2.350000
+     4. 0x539fe89abd5b959ffecf4f8d42919eff358ccdcf  pnl_per_volume=1.227999  pnl=454.359800  volume=370.000000
+     5. 0x42692cd713b7ac598cbde4c9812f1dd2d8ad8960  pnl_per_volume=1.105263  pnl=21.000000  volume=19.000000
+     6. 0x0b644e443a404159a7b5ca4650cf2444b13549bd  pnl_per_volume=0.909548  pnl=452.500000  volume=497.500000
+     7. 0x43ca835f64709ed3c2b005f08bfc388a18630a6e  pnl_per_volume=0.710419  pnl=169.918000  volume=239.180000
+     8. 0xaa98a4d9f524d1076b071dce22a3b6c753c24a57  pnl_per_volume=0.651225  pnl=354.950200  volume=545.050000
+     9. 0xd42f6a1634a3707e27cbae14ca966068e5d1047d  pnl_per_volume=0.072415  pnl=251.074750  volume=3467.170000
+    10. 0x9f664b0b15e7942f4e569269f85357394d582a38  pnl_per_volume=0.059408  pnl=36.450000  volume=613.550000
+  SUBCATEGORY #10: Micro Up/Down | profit_per_volume=1.284159 | total_pnl=4078521.011895 | total_volume=3176024.170000 | predictability_score=0.350 | predictability_band=hard | composite_score=0.434
+    Subcategory example question: Cracker Barrel Old Country Store (CBRL) Up or Down After Earnings?
+     1. 0x3329cfc2b8d8ceb8d198f081bdf4262f421f43a6  pnl_per_volume=458.891701  pnl=389254.885550  volume=848.250000
+     2. 0x5419e884f24b06b4f56e23ed0b45d6d3ca5dfcb2  pnl_per_volume=62.543895  pnl=153154.362791  volume=2448.750000
+     3. 0x4ffe49ba2a4cae123536a8af4fda48faeb609f71  pnl_per_volume=22.714270  pnl=1339954.565452  volume=58991.750000
+     4. 0xa97e43db0a4a6007899abf75817c452d5a7224ff  pnl_per_volume=8.365905  pnl=157561.441667  volume=18833.760000
+     5. 0xe5f0ae9cc9aef77ae3c2a64c9e69caa3f335dc1d  pnl_per_volume=7.363061  pnl=157735.683977  volume=21422.570000
+     6. 0x91784d82fbe4543459ee85fc9809be185d70a2b2  pnl_per_volume=3.359148  pnl=300743.692491  volume=89529.760000
+     7. 0xf2597bf72c85a3e8baf98f2b2f106359ec617592  pnl_per_volume=2.365702  pnl=173649.915695  volume=73403.120000
+     8. 0x90c23cb846d4c78b59096bae855161d92ea28c24  pnl_per_volume=1.538420  pnl=866931.756821  volume=563521.010000
+     9. 0x38d812aff0b79f3bf5da2a477f780bcc163eea7c  pnl_per_volume=0.947055  pnl=251876.362726  volume=265957.550000
+    10. 0x17559efac103ac7f361be37ec0b93888d4c55aac  pnl_per_volume=0.138226  pnl=287658.344724  volume=2081067.650000
+  SUBCATEGORY #11: US Presidential | profit_per_volume=-0.976664 | total_pnl=-0.156266 | total_volume=0.160000 | predictability_score=0.650 | predictability_band=easy | composite_score=0.337
+    Subcategory example question: Will Kamala Harris say "Bitcoin" or "Crypto" on the Rachel Maddow Show on September 22?
+     1. 0x719deef5e24cd1cd14f1025e581e275b567d4e73  pnl_per_volume=-0.572000  pnl=-0.005720  volume=0.010000
+     2. 0x8fe2964e4e43b8a811654f3428ce7ec8f17bd00a  pnl_per_volume=-0.909993  pnl=-0.009100  volume=0.010000
+     3. 0x06485c7ebeb1a5d42f61f48485d0698934ae386a  pnl_per_volume=-0.909998  pnl=-0.027300  volume=0.030000
+     4. 0x85821fb17b83a59fd53990b47618ca13d7b5572a  pnl_per_volume=-0.974909  pnl=-0.009749  volume=0.010000
+     5. 0x10775a8d643ccb0ac112d75d1a7edfde77653352  pnl_per_volume=-0.989912  pnl=-0.009899  volume=0.010000
+     6. 0x0fadd9e8250be795dd590ed936f50e8853784222  pnl_per_volume=-0.989950  pnl=-0.019799  volume=0.020000
+     7. 0x7c9ae13cd315501b1190b02a0fbbfd02b1b6c463  pnl_per_volume=-1.000000  pnl=-0.010000  volume=0.010000
+     8. 0x0078ddb3b78b7c8b6ac17b6987c1d398238940f2  pnl_per_volume=-1.000000  pnl=-0.020000  volume=0.020000
+     9. 0x3c505f628fbe7358fe6d44f3043b93460efd9280  pnl_per_volume=-1.000500  pnl=-0.020010  volume=0.020000
+    10. 0x9660f0ad8a52eaf301f70900e21b397e064c32a7  pnl_per_volume=-1.234457  pnl=-0.024689  volume=0.020000
+  SUBCATEGORY #12: Awards | profit_per_volume=-0.999260 | total_pnl=-1.458920 | total_volume=1.460000 | predictability_score=0.640 | predictability_band=easy | composite_score=0.329
+    Subcategory example question: Will "Emergence - Sleep Token" win Best Metal Performance at the 68th annual GRAMMY Awards?
+     1. 0x4018f2f161d54790cdb00e4257494d68d37dd14a  pnl_per_volume=-0.980000  pnl=-0.098000  volume=0.100000
+     2. 0xe9b42acb8cf9b3ce94d70c7400acabcbb942f03a  pnl_per_volume=-0.985714  pnl=-0.069000  volume=0.070000
+     3. 0xc684828f6b03487759ced2ebdd975f91f3532228  pnl_per_volume=-0.990000  pnl=-0.297000  volume=0.300000
+     4. 0xf8b720c031833a879ffe538c7e040fad542114de  pnl_per_volume=-0.990323  pnl=-0.307000  volume=0.310000
+     5. 0xc613e6707bd115e5c04d303d944568232697662b  pnl_per_volume=-0.990941  pnl=-0.336920  volume=0.340000
+     6. 0x832aaf3042b03fd43576f45bfa14fbca319adb9d  pnl_per_volume=-1.000000  pnl=-0.100000  volume=0.100000
+     7. 0x50b977391c4b3dd88b0a0bef03c3434fe4284298  pnl_per_volume=-1.000000  pnl=-0.150000  volume=0.150000
+     8. 0xef2a2e5397a610a01040212974b53cff7799bd7e  pnl_per_volume=-1.042857  pnl=-0.073000  volume=0.070000
+     9. 0xf03a6e075131f8a012e15e66988bc33a98ee7a9a  pnl_per_volume=-1.400000  pnl=-0.014000  volume=0.010000
+    10. 0x75cbe506ceec7bb80331954e9a47212ea62f1556  pnl_per_volume=-1.400000  pnl=-0.014000  volume=0.010000
+  SUBCATEGORY #13: American Football | profit_per_volume=-1.003225 | total_pnl=-1.424580 | total_volume=1.420000 | predictability_score=0.630 | predictability_band=easy | composite_score=0.324
+    Subcategory example question: Will Crypto.com run an Ad during Super Bowl LIX?
+     1. 0x3329cfc2b8d8ceb8d198f081bdf4262f421f43a6  pnl_per_volume=-0.999900  pnl=-0.199980  volume=0.200000
+     2. 0xeab7b0a830a1755f1296fee950b3080e3529b389  pnl_per_volume=-1.000000  pnl=-0.030000  volume=0.030000
+     3. 0xb92449f0f035e2e9de00f1f9a8f19e0158af0803  pnl_per_volume=-1.000000  pnl=-0.040000  volume=0.040000
+     4. 0xa86f687d7eed8760decdbf3dd6d7ed59c1e8022c  pnl_per_volume=-1.000000  pnl=-0.100000  volume=0.100000
+     5. 0x0061f603a457754bae0241f1fb34f0ce6a5e8fd6  pnl_per_volume=-1.000000  pnl=-0.150000  volume=0.150000
+     6. 0x50b977391c4b3dd88b0a0bef03c3434fe4284298  pnl_per_volume=-1.000000  pnl=-0.300000  volume=0.300000
+     7. 0x46b353667fd7d846af3bbeda6584b0e5b883d3de  pnl_per_volume=-1.000000  pnl=-0.500000  volume=0.500000
+     8. 0x9422f0e5a2c4358bdd2a901aa2a31f58e04ef273  pnl_per_volume=-1.010000  pnl=-0.060600  volume=0.060000
+     9. 0x8e8d8163c34d90ce063c7438637a0e5c3ffa5a27  pnl_per_volume=-1.100000  pnl=-0.044000  volume=0.040000
+  SUBCATEGORY #14: Commodities | profit_per_volume=-1.083056 | total_pnl=-0.389900 | total_volume=0.360000 | predictability_score=0.620 | predictability_band=easy | composite_score=0.310
+    Subcategory example question: Will Gold Tribe be the Crypto the Game Season 3 winner?
+     1. 0x118f6e00031b33b997dee28a09a89e8e45180021  pnl_per_volume=-1.000000  pnl=-0.010000  volume=0.010000
+     2. 0x46b353667fd7d846af3bbeda6584b0e5b883d3de  pnl_per_volume=-1.000000  pnl=-0.050000  volume=0.050000
+     3. 0xca8f0374e3fc79b485499cc0b038d4f7e783d963  pnl_per_volume=-1.000000  pnl=-0.100000  volume=0.100000
+     4. 0x0f130bfb163a75bf085334631319abefa4e5fe87  pnl_per_volume=-1.075200  pnl=-0.053760  volume=0.050000
+     5. 0x5fe50c22621779e031322c5becb110d1fa0d8b99  pnl_per_volume=-1.110000  pnl=-0.044400  volume=0.040000
+     6. 0xad5353afe30c2da57709e2704ef3ccdcf67eef24  pnl_per_volume=-1.114800  pnl=-0.055740  volume=0.050000
+     7. 0x75cbe506ceec7bb80331954e9a47212ea62f1556  pnl_per_volume=-1.133333  pnl=-0.034000  volume=0.030000
+     8. 0xeab7b0a830a1755f1296fee950b3080e3529b389  pnl_per_volume=-1.400000  pnl=-0.014000  volume=0.010000
+     9. 0xe8d0e6f73b49ef07078562db4b12974eef365542  pnl_per_volume=-1.400000  pnl=-0.028000  volume=0.020000
+
+  SUBCATEGORY #15: AI Models/Companies | profit_per_volume=-0.961290 | total_pnl=-0.298000 | total_volume=0.310000 | predictability_score=0.580 | predictability_band=medium | composite_score=0.303
+    Subcategory example question: Will Gemini be accused of insider trading?
+     1. 0xb3fe2aeb7f5c6a2dc0cb3d9dbb009fa7c7b54a24  pnl_per_volume=-0.937500  pnl=-0.075000  volume=0.080000
+     2. 0xde7b9684c451e308f3f436566b8f215018f63032  pnl_per_volume=-0.937500  pnl=-0.075000  volume=0.080000
+     3. 0x768a663f18532874ab04b974f75d7570c2424f50  pnl_per_volume=-0.960000  pnl=-0.048000  volume=0.050000
+     4. 0x4e5a795c6194d4de183bfc86d91553c1e1297032  pnl_per_volume=-1.000000  pnl=-0.050000  volume=0.050000
+     5. 0xffbc3633a51838f0ce176ba01f2ae8864b75b889  pnl_per_volume=-1.000000  pnl=-0.050000  volume=0.050000

@@ -1,0 +1,52 @@
+{
+  "address": "BQLd9giHvKHSZSm6ThQntbMAenJjdiPiWTioHiVzpump",
+  "chain": "solana",
+  "symbol": "GOAT",
+  "status": "exited",
+  "entry_time": 1776274202.1138625,
+  "entry_time_iso": "2026-04-15T17:30:02.113863+00:00",
+  "entry_score": 15.34,
+  "entry_fdv": 2421,
+  "entry_price": null,
+  "snapshots": [
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    }
+  ],
+  "snapshot_count": 9,
+  "exit_time": 1776335402.3253407,
+  "exit_score": 18.84,
+  "exit_price": null,
+  "price_change_pct": null,
+  "days_tracked": 0.3,
+  "current_score": 18.84,
+  "current_fdv": 2421,
+  "exit_time_iso": "2026-04-16T10:30:02.325341+00:00",
+  "final_snapshot": {
+    "error": "no pool found"
+  }
+}

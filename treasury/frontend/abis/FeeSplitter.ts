@@ -1,0 +1,120 @@
+export const FEE_SPLITTER_ABI = [
+  {
+    type: "function",
+    name: "split",
+    inputs: [{ name: "token", type: "address" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "releaseToken",
+    inputs: [
+      { name: "token", type: "address" },
+      { name: "account", type: "address" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "setRatio",
+    inputs: [{ name: "_treasuryRatio", type: "uint256" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "setRecipients",
+    inputs: [
+      { name: "_treasury", type: "address" },
+      { name: "_stakingRewards", type: "address" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "treasury",
+    inputs: [],
+    outputs: [{ name: "", type: "address" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "stakingRewards",
+    inputs: [],
+    outputs: [{ name: "", type: "address" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "treasuryRatio",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "totalReleased",
+    inputs: [{ name: "token", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "released",
+    inputs: [
+      { name: "token", type: "address" },
+      { name: "account", type: "address" },
+    ],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "releasable",
+    inputs: [
+      { name: "token", type: "address" },
+      { name: "account", type: "address" },
+    ],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "MANAGER_ROLE",
+    inputs: [],
+    outputs: [{ name: "", type: "bytes32" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "BASIS_POINTS",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "event",
+    name: "FeesSplit",
+    inputs: [
+      { name: "token", type: "address", indexed: true },
+      { name: "treasuryAmount", type: "uint256", indexed: false },
+      { name: "stakingAmount", type: "uint256", indexed: false },
+    ],
+  },
+  {
+    type: "event",
+    name: "RatioUpdated",
+    inputs: [{ name: "newTreasuryRatio", type: "uint256", indexed: true }],
+  },
+  {
+    type: "event",
+    name: "RecipientUpdated",
+    inputs: [
+      { name: "treasury", type: "address", indexed: true },
+      { name: "stakingRewards", type: "address", indexed: true },
+    ],
+  },
+] as const;

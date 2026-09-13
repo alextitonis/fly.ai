@@ -1,0 +1,66 @@
+{
+  "address": "5",
+  "chain": "solana",
+  "symbol": "aDOT",
+  "status": "active",
+  "entry_time": 1776317402.6587188,
+  "entry_time_iso": "2026-04-16T05:30:02.658719+00:00",
+  "entry_score": 12.0,
+  "entry_fdv": 8467010,
+  "entry_price": null,
+  "snapshots": [
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    }
+  ],
+  "snapshot_count": 15,
+  "exit_time": null,
+  "exit_score": null,
+  "exit_price": null,
+  "price_change_pct": null,
+  "days_tracked": 0.6,
+  "current_score": 12.0,
+  "current_fdv": 8467010
+}

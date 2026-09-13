@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+
+  --color-neuro-50: #f0f9ff;
+  --color-neuro-300: #7dd3fc;
+  --color-neuro-400: #38bdf8;
+  --color-neuro-500: #0ea5e9;
+  --color-neuro-600: #0284c7;
+  --color-neuro-700: #0369a1;
+  --color-neuro-800: #075985;
+  --color-neuro-900: #0c4a6e;
+
+  --color-pharma-300: #f0abfc;
+  --color-pharma-400: #e879f9;
+  --color-pharma-500: #d946ef;
+  --color-pharma-600: #c026d3;
+  --color-pharma-700: #a21caf;
+  --color-pharma-800: #86198f;
+  --color-pharma-900: #701a75;
+
+  --color-gene-300: #6ee7b7;
+  --color-gene-400: #34d399;
+  --color-gene-500: #10b981;
+  --color-gene-600: #059669;
+  --color-gene-700: #047857;
+  --color-gene-800: #065f46;
+  --color-gene-900: #064e3b;
+
+  /* Design system from ui-ux-pro-max: academic dark research tool */
+  --font-sans: 'Atkinson Hyperlegible', system-ui, -apple-system, sans-serif;
+  --font-display: 'Crimson Pro', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* ── Design Tokens ───────────────────────────────────────── */
+:root {
+  --bg-deep:      #05090f;
+  --bg-base:      #07101f;
+  --bg-elevated:  #0a1628;
+  --surface:      rgba(255, 255, 255, 0.04);
+  --surface-hover:rgba(255, 255, 255, 0.07);
+  --border:       rgba(255, 255, 255, 0.08);
+  --border-strong:rgba(255, 255, 255, 0.14);
+  --fg:           #f0f4f8;
+  --fg-muted:     #8a9ab0;
+  --fg-subtle:    #4a5568;
+  --radius-card:  16px;
+  --radius-sm:    10px;
+
+  /* expo-out easing — premium spring feel from skill recommendation */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-expo:  cubic-bezier(0.7, 0, 0.84, 0);
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 350ms;
+}
+
+/* ── Animations ──────────────────────────────────────────── */
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(28px, -18px) scale(1.04); }
+  66%       { transform: translate(-18px, 14px) scale(0.97); }
+}
+
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Respect user motion preference (skill: reduced-motion rule) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Base ────────────────────────────────────────────────── */
+body {
+  margin: 0;
+  background-color: var(--bg-base);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 15% 40%, rgba(14, 165, 233, 0.055) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 85% 15%, rgba(217, 70, 239, 0.045) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 50% 90%, rgba(16, 185, 129, 0.035) 0%, transparent 70%);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 16px; /* base 16px per skill: readable-font-size */
+  line-height: 1.6; /* skill: line-height 1.5-1.75 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100dvh; /* skill: viewport-units — prefer dvh over vh */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Display font for headings */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* ── Focus states (skill: focus-states — CRITICAL) ──────── */
+:focus-visible {
+  outline: 2px solid rgba(14, 165, 233, 0.7);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ── Glass utility ───────────────────────────────────────── */
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+}
+
+.glass-strong {
+  background: var(--surface-hover);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-strong);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.18);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.32);
+}
+
+/* ── Text selection ──────────────────────────────────────── */
+::selection {
+  background: rgba(14, 165, 233, 0.28);
+  color: #fff;
+}

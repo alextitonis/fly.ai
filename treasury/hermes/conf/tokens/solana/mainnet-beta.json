@@ -1,0 +1,16 @@
+[
+  {
+    "symbol": "SOL",
+    "name": "Solana",
+    "address": "So11111111111111111111111111111111111111112",
+    "decimals": 9,
+    "chain": "solana"
+  },
+  {
+    "symbol": "USDC",
+    "name": "USD Circle",
+    "address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "decimals": 6,
+    "chain": "solana"
+  }
+]
