@@ -1,0 +1,45 @@
+blockExoticSubdeps: true
+engineStrict: true
+minimumReleaseAge: 10080
+allowBuilds:
+  "@posthog/cli@0.7.11": true
+  '@reown/appkit': false
+  "@swc/core": false
+  "bufferutil@4.1.0": true
+  "core-js@3.49.0": true
+  "esbuild": false
+  "keccak@3.0.4": true
+  "protobufjs@7.6.5": true
+  "utf-8-validate@5.0.10": true
+overrides:
+  "@babel/core@<7.29.6": "^7.29.6"
+  "@opentelemetry/core@<2.8.0": "^2.8.0"
+  "@protobufjs/utf8@<1.1.1": "^1.1.1"
+  "axios@<1.18.0": "^1.18.0"
+  "brace-expansion@<5.0.9": "^5.0.9"
+  "defu@<6.1.5": "6.1.5"
+  "dompurify@<3.4.13": "3.4.13"
+  "esbuild@<0.28.1": "0.28.1"
+  "form-data@<4.0.6": "^4.0.6"
+  "fast-uri@<3.1.5": "^3.1.5"
+  "h3@<1.15.11": "1.15.11"
+  "hono@<4.12.34": "^4.12.34"
+  "js-yaml@<4.3.1": "^4.3.1"
+  "linkify-it@<5.0.2": "^5.0.2"
+  "lodash@<4.18.1": "4.18.1"
+  "markdown-it@<14.2.0": "14.2.0"
+  "nanoid@<3.3.18": "^3.3.18"
+  "picomatch@<2.3.2": "2.3.2"
+  "picomatch@>=4.0.0 <4.0.4": "4.0.4"
+  "postcss@<8.5.23": "^8.5.23"
+  "protobufjs@<7.6.3": "^7.6.3"
+  "react-router@<8.3.0": "^8.3.0"
+  "rollup@<4.59.0": "4.59.0"
+  "socket.io-parser@<4.2.7": "^4.2.7"
+  "undici@<7.29.0": "^7.29.0"
+  "uuid@<11.1.1": "^11.1.1"
+  "vite@<7.3.5": "7.3.5"
+  "ws@<8.21.0": "^8.21.0"
+  "yaml@<2.8.3": "2.8.3"
+preferFrozenLockfile: true
+strictDepBuilds: true

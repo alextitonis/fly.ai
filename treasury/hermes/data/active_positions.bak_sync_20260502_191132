@@ -1,0 +1,20 @@
+{
+  "positions": [
+    {
+      "symbol": "SOL",
+      "address": "",
+      "chain": "solana",
+      "current_balance": 0.009540596,
+      "status": "active",
+      "entry_time": 1777747921.190852,
+      "entry_price": 0.0,
+      "position_pct": 1.0,
+      "stop_loss_pct": 10,
+      "take_profit_pct": 50,
+      "ai_confidence": 0,
+      "ai_reason": "Added via wallet synchronization",
+      "last_synced": 1777748486.235534
+    }
+  ],
+  "updated_at": 1777748487.85588
+}

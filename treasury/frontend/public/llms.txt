@@ -1,0 +1,323 @@
+# SHIT Protocol
+
+> SHIT Protocol is a decentralized treasury protocol on Base. Deposit, stake, and your position compounds automatically — backed by real assets, not promises. Featuring impact tokens, climate-backed reserves, vote markets, and governance.
+
+## What is SHIT Protocol?
+
+SHIT Protocol is a DeFi protocol that creates a sustainable treasury backed by real-world assets, including climate-positive impact tokens. The protocol features:
+
+- **Staking & Yield**: Stake SHIT tokens to earn auto-compounding yield from treasury revenue
+- **Impact Tokens**: Environmentally-focused ERC20 tokens (Solarcoin, Treegens, Regen, DOVU, KVCM, CEN) whitelisted as reserve assets, channeling treasury backing toward climate-positive initiatives
+- **Vote Markets**: Protocol participates in Curve, Balancer, and Aerodrome vote bribing markets to maximize yield for stakers
+- **Governance**: On-chain governance with SHIT Governor for protocol decisions
+- **Treasury Management**: Decentralized treasury with POL (Protocol-Owned Liquidity), fee splitting, and vesting
+- **Bonds & Premium**: Bonding mechanism and premium seller for protocol revenue generation
+- **Pendle Integration**: stSHIT SY token for yield splitting (PT/YT)
+- **Floor Market**: Monotone redemption floor with Uniswap v4 hooks for price stability
+
+## Technology
+
+- **Blockchain**: Base (Coinbase's L2)
+- **Frontend**: React 19, TypeScript 5.8, Vite 7, Tailwind CSS 4, wagmi 2, viem 2, RainbowKit 2, TanStack React Query 5, React Router 7 (hash-based), CVA
+- **Smart Contracts**: Solidity, Foundry
+- **Analytics**: Google Analytics 4, PostHog
+- **Consent**: Cookiebot (GDPR/CCPA compliant)
+- **Deployment**: Cloudflare Pages
+
+## Monorepo Structure
+
+```
+shit-finance/
+├── apps/
+│   ├── frontend/              # React 19 + Vite 7 + wagmi 2 + Tailwind 4
+│   └── impact-clarity-map/    # Mapbox-based impact visualization app
+├── services/
+│   ├── analytics-worker/      # Cloudflare Worker — analytics aggregation
+│   ├── eth-faucet-worker/     # Cloudflare Worker — testnet ETH faucet
+│   ├── wallet-verify-worker/  # Cloudflare Worker — wallet verification
+│   └── api-worker/            # Cloudflare Worker — REST API + D1 database
+├── protocols/
+│   └── contracts/             # Foundry Solidity project (AGPL-3.0)
+│       ├── src/               # Protocol source contracts
+│       ├── script/            # Foundry deployment scripts
+│       ├── test/              # Solidity test contracts
+│       ├── lib/               # Git submodule dependencies
+│       ├── foundry.toml       # Foundry config with remappings
+│       └── DEPENDENCIES.md    # Upstream OSS repo inventory
+├── tools/
+│   ├── scripts/               # Off-chain utility scripts (TypeScript)
+│   └── tokenomics/            # Tokenomics simulation dashboard (Pyodide + Plotly)
+├── subgraph/                  # The Graph subgraph for on-chain indexing
+└── README.md                  # Full technical documentation
+```
+
+## Protocol Architecture
+
+The protocol uses the **SHIT Protocol V3 Kernel & Policy** pattern:
+
+- **Kernel** — Central module registry. Modules register and expose functions that Policies can request permission to call.
+- **Policies** — Contracts that configure and interact with Kernel modules. Each declares dependencies via `configureDependencies()` and `requestPermissions()`.
+
+### Key Design Principles
+
+1. **RFV Invariant** — SHIT minting is gated by `ITreasuryPolicy.enforceRfvInvariant()`. Cannot mint more SHIT than treasury backing supports at floor price.
+2. **Haircuts** — Treasury RFV applies conservative haircuts: 2% on Morpho, 50% on impact tokens, 50% on POL (double slippage).
+3. **Idle Caps** — ≤30% idle USDC, ≤10% idle impact tokens, 0% idle POL (all must be deployed).
+4. **Multisig Control** — All privileged operations across every contract are gated by `MultisigGuard` with `onlyMultisig` modifier. No single-key access.
+5. **Permissionless Automation** — Many contracts implement permissionless `execute()` functions triggered by a keeper role.
+6. **Reentrancy Protection** — All state-changing token-transfer functions use `ReentrancyGuard`.
+7. **Circuit Breaker** — Staking supplemental emissions auto-halt when TWAP < floor for 3 consecutive epochs.
+8. **Timelocked Parameters** — Critical parameter changes require a propose→wait→execute cycle.
+9. **Team Compensation Cap** — Annual cap on team compensation withdrawals, enforced on-chain.
+10. **Dissolution Mechanism** — Formal 7-day timelocked dissolution with permissionless USDC redemption at floor price.
+11. **Pausable** — Staking and premium seller can be paused in emergencies.
+
+## Smart Contracts
+
+All contracts are in `protocols/contracts/src/`, built with Foundry, licensed AGPL-3.0-only unless noted.
+
+### Token (`src/token/`)
+- **ShitToken.sol** — ERC20 with permit, burnable. 100M max supply. RFV invariant enforcement on mint. Floor hook integration.
+- **ShitV1Migrator.sol** — Merkle-claim V1→V2 migration.
+
+### Staking (`src/staking/`)
+- **ShitStaking.sol** — Rebasing stSHIT, 8-hour epochs. Permissionless `rebase()` and `harvest()`. Circuit breaker. Pausable.
+- **ShitWstSHIT.sol** — Non-rebasing wrapper (Lido wstETH pattern).
+
+### Bonding (`src/bonding/`)
+- **ShitBonding.sol** — Bond Protocol integration. Discounted SHIT for USDC.
+- **ShitInverseBond.sol** — Buyback bid at NAV × (1 - 1.5%). Burns received SHIT.
+
+### DEX — Uniswap V4 Hooks (`src/dex/`)
+- **ShitFloorHook.sol** — Monotone redemption floor, USDC backing.
+- **FeeHook.sol** — Dynamic buy/sell LP fees.
+- **LoyaltyHook.sol** — LP loyalty rewards with lockup periods.
+- **VolumeRewardsHook.sol** — Rewards high-volume traders with stSHIT.
+- **FeeSplitter.sol** — OZ PaymentSplitter, adjustable treasury/staking ratios.
+- **FeeDecaySplitter.sol** — 30-day linear decay from management→treasury.
+
+### Stablecoin (`src/stablecoin/`)
+- **ShitPsm.sol** — Multi-collateral overcollateralized PSM. Mint Bucky with approved impact assets.
+- **ShitPegKeeper.sol** — Curve PegKeeper wrapper for peg defense.
+- **ShitLendingAMO.sol** — Deploys Bucky into Morpho lending markets.
+- **ShitUniswapV4AMO.sol** — Bucky liquidity with protocol-controlled V4 hooks.
+
+### Kernel — SHIT Protocol V3 Policies (`src/kernel/`)
+- **ShitTreasuryPolicy.sol** — RFV/NAV tracking, Morpho yield deployment, idle caps, haircuts, team compensation cap, dissolution mechanism.
+- **ShitPOLPolicy.sol** — POL management (V4/Curve/Balancer).
+- **ShitStakingPolicy.sol** — Staking module configuration.
+
+### Protocol-Owned Liquidity (`src/pol/`)
+- **ShitPOLManager.sol** — Multi-pool POL manager. All operations via multisig.
+- **CurveGaugeAdapter.sol** / **BalancerGaugeAdapter.sol** — Gauge adapters.
+- **YieldRouter.sol** — Multi-adapter yield harvesting router.
+
+### Vaults (`src/vaults/`)
+- **VaultRegistry.sol** — ERC-4626 vault registry.
+- **AutoCompoundAdapter.sol** — Yearn V3 auto-compounder.
+- **LeverageLoopAdapter.sol** — 3x leverage loop.
+- **LiquidityAdapter.sol** — LP management adapter.
+
+### Meta-Vaults (`src/meta-vaults/`)
+- **ShitVaultCurator.sol** — Morpho Vault V2 allocation management.
+- **ShitWithdrawalQueue.sol** — Sequential redemptions.
+- **ShitFeeManager.sol** — Performance/management fees.
+
+### Governance (`src/governance/`)
+- **ShitGovernor.sol** — OZ Governor with stSHIT voting. 4% quorum, timelocked execution.
+
+### Lending (`src/lending/`)
+- **ShitCoolerConfig.sol** — Cooler loans configuration.
+- **MorphoMarketCreator.sol** — Morpho V2 market creation.
+
+### Perps (`src/perps/`)
+- **ShitPerpVault.sol** — Position management, PnL settlement in Bucky.
+- **ShitFundingRateOracle.sol** — Funding rate calculations.
+- **ShitSwapLiquidator.sol** — Flash-loan based liquidations.
+
+### Oracle (`src/oracle/`)
+- **ShitPriceFeed.sol** — Chainlink-compatible with TWAP aggregation.
+
+### Vote Markets (`src/votemarkets/`)
+- **VoteMarketRouter.sol** — Multi-protocol bribe claiming.
+- Adapters: StakeDAO, Paladin, yBribe, Votium, Hidden Hand, Aerodrome.
+
+### Treasury (`src/treasury/`)
+- **ShitBurner.sol** — Burns SHIT, rescues non-SHIT tokens to treasury.
+
+### Automation (`src/automation/`)
+- **ShitHeartKeeper.sol** — Heart keeper resolver for keeper-triggered automation.
+
+### Token Management (`src/token-management/`)
+- **TokenRegistry.sol** — OZ AccessControlEnumerable whitelist.
+- **TokenOnboardingManager.sol** — 2-day timelock governance-gated onboarding.
+
+### Build & Test
+
+```bash
+cd protocols/contracts
+forge build
+forge test
+forge test --coverage
+```
+
+## Frontend
+
+**Directory:** `apps/frontend/`
+
+### Tech Stack
+
+React 19, TypeScript 5.8, Vite 7 (SWC), Tailwind CSS 4, wagmi 2, viem 2, RainbowKit 2, TanStack React Query 5, React Router 7 (hash-based), Radix UI, CVA, Biome (linting + formatting).
+
+### Chains
+
+The app uses **Base** (chain ID 8453) for production and **Base Sepolia** (chain ID 84532) for testnet. No other chains are supported. Chain config lives in `src/lib/chains.ts`. Toggle testnet mode with `VITE_TESTNET_MODE=true`.
+
+### Frontend Architecture
+
+```
+src/
+├── abis/                 # Smart contract ABIs (TypeScript, `as const` for viem)
+├── api/                  # HTTP client (auth + fetch wrapper)
+├── css/                  # Design system (OKLCH tokens, Tailwind @theme inline)
+├── generated/            # Auto-generated from OpenAPI spec — do not edit
+├── icons/                # SVG icons including chain icons
+├── lib/                  # Utilities, config, hooks
+│   ├── contracts.ts      #   Contract address registry
+│   ├── tokens.ts         #   Token definitions
+│   ├── chains.ts         #   Chain configs (Base + Base Sepolia)
+│   ├── navigation.tsx    #   Nav data model & helpers
+│   ├── hooks/            #   Generic hooks (balance, allowance, approval)
+│   ├── hooks/cds/        #   CD-specific hooks
+│   └── hooks/cooler/     #   Cooler loan hooks
+├── components/           # Shared components + modals + UI primitives
+├── layouts/              # AppLayout, IconSidebar, SubNav, Header, MobileNav
+├── modules/              # Feature-organized modules
+├── routes.tsx            # Hash router definition
+└── main.tsx              # Entry point
+```
+
+### Frontend Modules
+
+- **protocol/** — Main landing page, protocol widgets (treasury, floor hook, price feed, peg keeper, POL, fee splitter)
+- **admin/** — Token registry, fee splitter, team vesting, burner, POL management (multisig-gated)
+- **bonds/** — Bond marketplace (standard + inverse bonds)
+- **cds/** — Convertible Deposits
+- **cooler/** — Cooler Loans (borrow, repay, clearing house)
+- **governance/** — Full proposal lifecycle
+- **shit/** — Balance, wrap, bridge, utility. V1 migration with Merkle proof
+- **strategies/** — Vault list, deposit/withdraw, vote markets
+- **rbs/** — Range stability price bands
+- **psm/** — Mint/redeem Bucky with USDC
+- **impact/** — Impact tokens, leaderboard, clarity dashboard
+- **pulse/** — Protocol pulse dashboard
+- **izipay/** — Card vaults, deposits, withdrawals
+
+### Frontend Setup
+
+```bash
+cd apps/frontend
+pnpm install
+cp .env.example .env   # Fill in required values
+pnpm codegen           # Generate API client (required)
+pnpm dev
+pnpm build             # Production build
+pnpm lint              # Run Biome linter
+pnpm format            # Format all files
+```
+
+Requires Node.js 24+ and pnpm.
+
+> **Important:** Run `pnpm codegen` after initial install and whenever the API spec changes. It generates `src/generated/shit-protocolUnits.ts` — typed React Query hooks for the SHIT Protocol Units API. The app will not compile without this file. Config lives in `orval.config.ts`; spec URL controlled by `SHIT_API_URL` env var.
+
+Lockfile installs are frozen by default. If you intentionally need to re-generate `pnpm-lock.yaml`, run `pnpm install --no-frozen-lockfile`.
+
+### Biome Configuration (`biome.json`)
+
+Biome is the single tool for linting and formatting. Key settings:
+
+- **Formatter**: 2-space indent, 100 char line width, double quotes, semicolons, trailing commas
+- **Linter**: recommended rules + `noExplicitAny: error`, `noUnusedVariables: warn`, `useExhaustiveDependencies: warn`, `noArrayIndexKey: warn`
+- **Excluded**: `dist/`, `node_modules/`, `public/`, `src/assets/animations/*.json`, `src/generated/`
+- **CSS parser**: CSS modules + Tailwind directives enabled
+
+### Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `VITE_WALLETCONNECT_PROJECT_ID` | Yes | WalletConnect Cloud project ID |
+| `VITE_THEGRAPH_API_KEY` | Yes | The Graph Gateway API key |
+| `VITE_TESTNET_MODE` | No | Enable Base Sepolia testnet mode |
+
+### Static Files (`public/`)
+
+- `_headers` — Cloudflare Pages security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, cache rules)
+- `_redirects` — Cloudflare Pages SPA fallback (`/* → /index.html 200`)
+- `site.webmanifest` — PWA manifest (name, icons, theme color)
+- `robots.txt` — Allows all crawlers, references sitemap
+- `sitemap.xml` — Sitemap for search engines
+- `llms.txt` — This file, for LLM crawlers
+
+## Subgraph
+
+**Directory:** `subgraph/`
+
+The Graph subgraph for indexing on-chain data. Data sources: ShitToken (Transfer events), ShitGovernor (ProposalCreated, VoteCast, ProposalExecuted).
+
+```bash
+cd subgraph
+pnpm install && pnpm codegen && pnpm build && pnpm deploy
+```
+
+## Deployment
+
+### Frontend (Cloudflare Pages)
+
+```bash
+cd apps/frontend
+pnpm build
+# Deploy dist/ via Cloudflare Pages
+```
+
+### Contracts
+
+```bash
+cd protocols/contracts
+cp .env.example .env   # Fill in values
+forge script script/DeployShitCore.s.sol --rpc-url $ETH_RPC_URL --broadcast
+forge script script/DeployShitDEX.s.sol --rpc-url $ETH_RPC_URL --broadcast
+forge script script/DeployShitStablecoin.s.sol --rpc-url $ETH_RPC_URL --broadcast
+```
+
+## Token
+
+- **SHIT**: The native governance and staking token (100M max supply, 18 decimals)
+- **stSHIT**: Staked SHIT (yield-bearing, rebasing, 8-hour epochs)
+- **wstSHIT**: Wrapped staked SHIT (non-rebasing, DeFi composable)
+- **Bucky**: USD-pegged overcollateralized stablecoin
+- **RIDX**: Reserve index token
+
+## Security
+
+- All contracts use `MultisigGuard` for privileged operations — no single-key access
+- Reentrancy guards on all state-changing functions that transfer tokens
+- Pausable on critical paths (Staking, PremiumSeller, PSM, PegKeeper)
+- No hardcoded private keys — all deployer keys read from environment variables
+- Fuzz testing and formal verification
+- Frontend: pnpm enforcement, frozen lockfile, CI lint/build/test, dependency audit
+
+## License
+
+- **Smart contracts** — AGPL-3.0-only (see each file header)
+- **Frontend** — See `apps/frontend/LICENSE`
+- **External dependencies** — Various (MIT, GPL, AGPL, BUSL) — see `protocols/contracts/DEPENDENCIES.md`
+
+## Contact
+
+- Website: https://shit-token-frontend.pages.dev
+- Twitter: https://twitter.com/shitfinance
+- GitHub: https://github.com/shit-finance
+
+## Privacy & Consent
+
+This website uses Cookiebot for GDPR/CCPA-compliant consent management and Google Analytics 4 with Consent Mode v2. Analytics storage is denied until user consent is given.

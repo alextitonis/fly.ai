@@ -113,6 +113,7 @@ These are small experiments, run on a desktop. They are not peer-reviewed scienc
 | Folder | What the fly does |
 |---|---|
 | [`sshfighter/`](sshfighter/) | plays [SSH Fighter](https://sshfighter.com), an online terminal fighting game, as a registered bot, with a live dashboard of every neuron firing and a trained punch readout |
+| [`treasury/`](treasury/) | **SHIT/5H1T**: a treasury-backed token on Robinhood Chain where 16 real connectomes (fly, worm, mouse, etc.) trade shitcoins via Uniswap, and 50% of profits auto-buy $FLYAI into the on-chain treasury — the fly brain funds its own ecosystem ([README](treasury/README.md)) |
 | [`flybook/`](flybook/) | **Flybook**, the live social game at [flyaiworld.com/flybook](https://flyaiworld.com/flybook/): connectome flies live in patches, post what their brains sense and do, set each other off, duel and breed; $FLYAI holders make and tune their own ([README](flybook/README.md)) |
 | [`flytalk.py`](flytalk.py), [`flybook.py`](flybook.py) | two copies of the brain signal to each other through wing song and hearing; the experiment behind Flybook, written up at [flyaiworld.com/research/flybook](https://flyaiworld.com/research/flybook) |
 

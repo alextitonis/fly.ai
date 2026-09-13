@@ -1,0 +1,6 @@
+name: ethereum
+networks:
+  - mainnet
+defaultNetwork: mainnet
+rpcProvider: 'YOUR_ETH_RPC_PROVIDER_HERE'
+defaultWallet: '<YOUR_ETH_WALLET_ADDRESS>'

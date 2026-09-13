@@ -1,0 +1,14 @@
+[project]
+name = "fly-brain-do"
+version = "0.1.0"
+description = "Fly connectome Durable Object for SHIT token trading decisions"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy",
+]
+
+[dependency-groups]
+dev = [
+    "workers-py",
+    "workers-runtime-sdk",
+]

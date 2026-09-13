@@ -1,0 +1,288 @@
+Ethereum
+Arbitrum
+Base
+Binance
+Optimism
+Polygon
+Solana
+Avalanche
+Plasma
+Mantle
+xDai
+Bitcoin
+Monad
+Terra
+Hyperliquid L1
+Moonbeam
+Moonriver
+Katana
+Unichain
+Sei
+Plume Mainnet
+Ripple
+Flare
+Aptos
+Tron
+World Chain
+Celo
+Sui
+zkSync Era
+Cardano
+Noble
+Ink
+Berachain
+Doge
+Litecoin
+X Layer
+Near
+Stellar
+Sonic
+Scroll
+Linea
+Op_Bnb
+Fraxtal
+Etherlink
+Fantom
+BOB
+Blast
+Mode
+Polygon zkEVM
+Zircuit
+Corn
+Swellchain
+Starknet
+Ronin
+Merlin
+BSquared
+Stable
+Hemi
+Soneium
+Bitlayer
+Mezo
+Cronos
+Klaytn
+EthereumClassic
+Manta
+Hedera
+CORE
+PGN
+RSK
+Zkfair
+Botanix
+TAC
+Metis
+Terra2
+MegaETH
+BounceBit
+Eclipse
+Kroma
+Algorand
+Story
+Babylon Genesis
+TON
+edgeX L1
+XRPL EVM
+Kava
+Stacks
+Lisk
+Pulse
+Kujira
+Regen
+Filecoin
+dYdX
+XDC
+Aurora
+Chiliz
+Immutable zkEVM
+Boba
+AILayer
+Cronos zkEVM
+Mantra
+Heco
+ThunderCore
+zkLink
+ICP
+Thorchain
+Kucoin
+HydraDX
+Bitcoincash
+Flow
+Injective
+Somnia
+Astar
+EOS
+Nibiru
+NEO
+Dogechain
+WEMIX
+Arbitrum Nova
+ApeChain
+Sophon
+Reya Network
+Neo3
+Superseed
+Proton
+re.al
+Osmosis
+Abstract
+Taiko
+Telos
+HashKey Chain
+Zcash
+Mixin
+LaChain Network
+Echelon Chain
+K2
+Tezos
+Bifrost
+EDU Chain
+Rari
+Superposition
+XION
+Xai
+DuckChain
+Gravity
+Omax
+Bifrost Network
+Polkadot
+Kusama
+Canto
+Verus
+Shiden
+Conflux
+WINR
+OKExChain
+Astar zkEVM
+Elrond
+Supra
+Goat
+Bittensor
+Movement
+Neutron
+Waves
+Venom
+Silicon zkEVM
+GravityBridge
+Songbird
+0G
+Ultra
+Rollux
+Cosmos
+Fusion
+Radix
+IOTA EVM
+IOTA
+ZIGChain
+IoTeX
+Morph
+Chainflip
+Juno
+Kinto
+Map
+Mayachain
+Dash
+Evmos
+Coti
+Q Protocol
+Shibarium
+HAQQ
+Celestia
+BandChain
+Gala
+Velas
+Oasis
+Harmony
+Acala
+Fuse
+Initia
+HeLa
+Archway
+Icon
+Shape
+Zero Network
+Mint
+OntologyEVM
+Ontology
+aelf
+Polynomial
+Bittorrent
+Milkomeda
+Vite
+ZetaChain
+LUKSO
+Stafi
+Manta Atlantic
+Meter
+Milkomeda A1
+Alephium
+Wanchain
+Swan
+Fluence
+Ergo
+Chihuahua
+Dexalot
+Endurance
+Bitkub
+Redstone
+Milkyway
+Stratis
+Empire
+Cabal
+MilkyWay Rollup
+Citrea
+MultiVAC
+Echelon
+Cyber
+UNIT0
+Sapphire
+TomoChain
+Namada
+Horizen EON
+ShimmerEVM
+DefiChain
+Theta
+Equilibrium
+Titan
+Shido
+Obyte
+Wax
+Migaloo
+Union
+Zora
+Nolus
+Comdex
+smartBCH
+Orai
+Everscale
+CSC
+inEVM
+Syscoin
+Canton
+Constellation
+Interlay
+Elastos
+Umee
+Odyssey
+Perennial
+Persistence
+Voi Network
+Neon
+Bittensor EVM
+CLV
+DeFiChain EVM
+Electroneum
+Grove
+Quicksilver
+Chia
+Pego
+Ancient8
+REI
+DFS Network
+EnergyWeb
+Polkadex
+RENEC
+Tombchain
+Taraxa
+Crescent
+Loop
+Bitgert

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://shit-token-frontend.pages.dev/sitemap.xml

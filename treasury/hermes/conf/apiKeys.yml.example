@@ -1,0 +1,18 @@
+# Jupiter API Key (get from https://portal.jup.ag)
+jupiter:
+  apiKey: 'YOUR_JUPITER_API_KEY_HERE'
+
+# Helius RPC (get from https://www.helius.xyz)
+solana:
+  rpcProvider: 'YOUR_HELIUS_API_KEY_HERE'
+
+# Etherscan (get from https://etherscan.io)
+ethereum:
+  rpcProvider: 'YOUR_ETHERSCAN_API_KEY_HERE'
+
+# Other API keys...
+coinGecko:
+  apiKey: 'YOUR_COINGECKO_API_KEY_HERE'
+
+defiLlama:
+  apiKey: 'YOUR_DEFILLAMA_API_KEY_HERE'

@@ -1,0 +1,27 @@
+[Unit]
+Description=Hermes Token Screener - Polymarket Complete-Set Daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Adjust these two if your repo/user differ
+User=root
+WorkingDirectory=/root/workspace/hermes-token-screener
+Environment=PYTHONUNBUFFERED=1
+Environment=DAEMON_ENV_FILE=/etc/default/hermes-polymarket-daemon
+ExecStart=/usr/bin/env bash /root/workspace/hermes-token-screener/scripts/run_polymarket_daemon.sh
+Restart=always
+RestartSec=10
+TimeoutStopSec=30
+KillSignal=SIGINT
+
+# Hardening (safe defaults)
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=false
+ReadWritePaths=/root/workspace/hermes-token-screener /root/.hermes /tmp
+
+[Install]
+WantedBy=multi-user.target

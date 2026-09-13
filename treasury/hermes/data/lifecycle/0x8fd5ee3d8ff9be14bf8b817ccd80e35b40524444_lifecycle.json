@@ -1,0 +1,73 @@
+{
+  "address": "0x8fd5ee3d8ff9be14bf8b817ccd80e35b40524444",
+  "chain": "ethereum",
+  "symbol": "EINSTEIN",
+  "status": "exited",
+  "entry_time": 1776317402.6587188,
+  "entry_time_iso": "2026-04-16T05:30:02.658719+00:00",
+  "entry_score": 11.9,
+  "entry_fdv": 50905,
+  "entry_price": null,
+  "snapshots": [
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    }
+  ],
+  "snapshot_count": 16,
+  "exit_time": 1776382203.0694928,
+  "exit_score": 0.0,
+  "exit_price": null,
+  "price_change_pct": null,
+  "days_tracked": 0.6,
+  "current_score": 0.0,
+  "current_fdv": 50905,
+  "exit_time_iso": "2026-04-16T23:30:03.069493+00:00",
+  "final_snapshot": {
+    "error": "no pool found"
+  }
+}

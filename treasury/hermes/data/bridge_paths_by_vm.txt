@@ -1,0 +1,339 @@
+# Bridge Paths: EVM <-> Non-EVM Chains
+# 36 chains documented
+# Generated: April 16, 2026
+
+## Algorand VM (1 chains)
+
+### Algorand
+ETH → Algorand:
+  - Wormhole Portal: https://portalbridge.com — ETH → Algorand
+  - Algomint: https://app.algomint.io — BTC/ETH → goBTC/goETH on Algorand
+Algorand → ETH:
+  - Wormhole Portal: https://portalbridge.com — Algorand → ETH
+
+## Bitcoin UTXO (4 chains)
+
+### Bitcoin
+ETH → Bitcoin:
+  - Wormhole Portal: https://portalbridge.com — Lock BTC → wBTC on ETH
+  - tBTC: https://tbtc.network — Trustless BTC → tBTC on ETH
+  - Threshold: via tBTC — Decentralized BTC bridge
+  - RenBridge: https://bridge.renproject.io — BTC → renBTC
+Bitcoin → ETH:
+  - Wormhole Portal: https://portalbridge.com — Burn wBTC → BTC
+  - tBTC: https://tbtc.network — Redeem tBTC → native BTC
+
+### Doge
+ETH → Doge:
+  - Mayachain: https://mayaswap.org — DOGE ↔ ETH via Maya
+  - Portal Bridge: https://portalbridge.com — DOGE → wDOGE on ETH
+Doge → ETH:
+  - Mayachain: https://mayaswap.org — Reverse swap
+  - Portal Bridge: https://portalbridge.com — wDOGE → DOGE
+
+### Dash
+ETH → Dash:
+  - Mayachain: https://mayaswap.org — DASH ↔ ETH via Maya Protocol
+Dash → ETH:
+  - Mayachain: https://mayaswap.org — Reverse swap DASH → ETH
+
+### Zcash
+ETH → Zcash:
+  - Mayachain: https://mayaswap.org — ZEC ↔ ETH via Maya Protocol
+Zcash → ETH:
+  - Mayachain: https://mayaswap.org — Reverse swap ZEC → ETH
+
+## Cadence/FVM (1 chains)
+
+### Flow
+ETH → Flow:
+  - deBridge: https://app.debridge.finance — ETH → Flow
+  - Celer cBridge: https://cbridge.celer.network — ETH ↔ Flow
+Flow → ETH:
+  - deBridge: https://app.debridge.finance — Flow → ETH
+
+## Cosmos SDK (6 chains)
+
+### Osmosis
+ETH → Osmosis:
+  - IBC + Axelar: https://satellite.money — ETH → Axelar → IBC → Osmosis
+  - Squid Router: https://app.squidrouter.com — Direct ETH → Osmosis
+  - IBC + Gravity Bridge: https://bridge.blockscape.network — ETH → Gravity → IBC → Osmosis
+Osmosis → ETH:
+  - IBC + Axelar: https://satellite.money — Osmosis → IBC → Axelar → ETH
+  - Squid Router: https://app.squidrouter.com — Direct reverse
+
+### Celestia
+ETH → Celestia:
+  - IBC + Skip: https://skip.money — ETH → Celestia via Skip/IBC
+  - Squid Router: https://app.squidrouter.com — Direct route
+Celestia → ETH:
+  - IBC + Skip: https://skip.money — Celestia → ETH via IBC
+
+### dYdX
+ETH → dYdX:
+  - dYdX Bridge: https://dydx.trade — Native bridge from ETH
+  - IBC + Axelar: https://satellite.money — ETH → Axelar → IBC → dYdX
+dYdX → ETH:
+  - dYdX Bridge: https://dydx.trade — Withdraw to ETH
+
+### Thorchain
+ETH → Thorchain:
+  - THORSwap: https://app.thorswap.finance — Native swap ETH → RUNE
+  - Asgardex: https://app.asgardex.com — Decentralized exchange
+Thorchain → ETH:
+  - THORSwap: https://app.thorswap.finance — RUNE → ETH native swap
+
+### Mayachain
+ETH → Mayachain:
+  - MayaSwap: https://mayaswap.org — Native swap ETH → CACAO
+Mayachain → ETH:
+  - MayaSwap: https://mayaswap.org — CACAO → ETH native swap
+
+### Initia
+ETH → Initia:
+  - Initia Bridge: https://bridge.initia.xyz — Direct ETH bridge
+Initia → ETH:
+  - Initia Bridge: https://bridge.initia.xyz — Withdraw to ETH
+
+## DAG (1 chains)
+
+### Vite
+ETH → Vite:
+  - ViteX Bridge: https://x.vite.net — ETH → Vite
+Vite → ETH:
+  - ViteX Bridge: https://x.vite.net — Vite → ETH
+
+## EUTXO/Plutus (1 chains)
+
+### Cardano
+ETH → Cardano:
+  - Wormhole Portal: https://portalbridge.com — ETH → wADA on Cardano
+  - Milkomeda Bridge: https://bridge.milkomeda.com — ETH → Milkomeda (Cardano L2)
+Cardano → ETH:
+  - Wormhole Portal: https://portalbridge.com — wADA → ETH
+
+## EVM + Cosmos SDK (3 chains)
+
+### Injective
+ETH → Injective:
+  - Injective Bridge: https://bridge.injective.network — Direct ETH bridge
+  - IBC + Axelar: https://satellite.money — ETH → Axelar → IBC → Injective
+Injective → ETH:
+  - Injective Bridge: https://bridge.injective.network — Withdraw to ETH
+
+### Kava
+ETH → Kava:
+  - Kava Bridge: https://app.kava.io/bridge — Direct ETH bridge
+  - IBC + Axelar: via Satellite — ETH → Axelar → IBC → Kava
+Kava → ETH:
+  - Kava Bridge: https://app.kava.io/bridge — Withdraw to ETH
+
+### Sei
+ETH → Sei:
+  - Sei Bridge: https://app.sei.io/bridge — Direct ETH bridge
+  - Wormhole Portal: https://portalbridge.com — ETH ↔ Sei
+Sei → ETH:
+  - Sei Bridge: https://app.sei.io/bridge — Withdraw to ETH
+
+## ErgoScript/EUTXO (1 chains)
+
+### Ergo
+ETH → Ergo:
+  - Spectrum Bridge: https://spectrum.fi — ETH → Ergo via Rosen
+  - Rosen Bridge: https://app.rosen.tech — Decentralized bridge
+Ergo → ETH:
+  - Rosen Bridge: https://app.rosen.tech — Ergo → ETH
+
+## Filecoin FVM (1 chains)
+
+### Filecoin
+ETH → Filecoin:
+  - Axelar Satellite: https://satellite.money — ETH → Filecoin via Axelar
+  - Celer cBridge: https://cbridge.celer.network — ETH ↔ Filecoin
+Filecoin → ETH:
+  - Axelar Satellite: https://satellite.money — Filecoin → ETH
+
+## Hedera Consensus (1 chains)
+
+### Hedera
+ETH → Hedera:
+  - Hashport: https://app.hashport.network — ETH → Hedera
+  - SaucerSwap Bridge: https://saucerswap.finance — Cross-chain bridge
+Hedera → ETH:
+  - Hashport: https://app.hashport.network — Hedera → ETH
+
+## ICON VM (1 chains)
+
+### Icon
+ETH → Icon:
+  - ICON BTP Bridge: https://bridge.icon.community — ETH → ICX via BTP
+Icon → ETH:
+  - ICON BTP Bridge: https://bridge.icon.community — ICX → ETH
+
+## IOTA Tangle (1 chains)
+
+### IOTA
+ETH → IOTA:
+  - IOTA EVM Bridge: https://evm-bridge.iota.org — IOTA L1 ↔ IOTA EVM
+  - Stargate: https://stargate.finance — ETH → IOTA EVM
+IOTA → ETH:
+  - IOTA EVM Bridge: https://evm-bridge.iota.org — IOTA EVM → ETH
+
+## Internet Computer (1 chains)
+
+### ICP
+ETH → ICP:
+  - ICP Bridge: https://nns.ic0.app — ETH → ICP via ckETH
+  - Chain Fusion: via ICP native — Direct ETH integration
+ICP → ETH:
+  - ICP Bridge: https://nns.ic0.app — ckETH → ETH
+
+## Michelson/LIGO (1 chains)
+
+### Tezos
+ETH → Tezos:
+  - Plenty Bridge: https://bridge.plenty.network — ETH → Tezos
+  - Etherlink Bridge: https://bridge.etherlink.com — ETH → Etherlink (Tezos L2)
+Tezos → ETH:
+  - Plenty Bridge: https://bridge.plenty.network — Tezos → ETH
+
+## Move VM (3 chains)
+
+### Sui
+ETH → Sui:
+  - Wormhole Portal: https://portalbridge.com — Lock/mint from ETH to Sui
+  - Sui Official Bridge: https://bridge.sui.io — ETH/USDC direct bridge
+  - LayerZero: https://stargate.finance — Cross-chain stables
+Sui → ETH:
+  - Wormhole Portal: https://portalbridge.com — Burn/mint Sui to ETH
+  - Sui Official Bridge: https://bridge.sui.io — Reverse bridge
+
+### Aptos
+ETH → Aptos:
+  - Wormhole Portal: https://portalbridge.com — Lock/mint from ETH to Aptos
+  - LayerZero: https://stargate.finance — Cross-chain stables
+  - Celer cBridge: https://cbridge.celer.network — ETH ↔ Aptos
+Aptos → ETH:
+  - Wormhole Portal: https://portalbridge.com — Burn/mint Aptos to ETH
+  - Celer cBridge: https://cbridge.celer.network — Reverse bridge
+
+### Movement
+ETH → Movement:
+  - Movement Official Bridge: https://bridge.movementnetwork.xyz — ETH/USDC to Movement
+  - LayerZero: via official bridge — Powered by LayerZero
+Movement → ETH:
+  - Movement Official Bridge: https://bridge.movementnetwork.xyz — Reverse bridge
+
+## MultiversX VM (1 chains)
+
+### Elrond
+ETH → Elrond:
+  - MultiversX Bridge: https://bridge.multiversx.com — Direct ETH bridge
+Elrond → ETH:
+  - MultiversX Bridge: https://bridge.multiversx.com — Withdraw to ETH
+
+## Near VM (1 chains)
+
+### Near
+ETH → Near:
+  - Rainbow Bridge: https://rainbowbridge.app — Direct ETH ↔ Near
+Near → ETH:
+  - Rainbow Bridge: https://rainbowbridge.app — Near → ETH
+
+## Radix Engine (1 chains)
+
+### Radix
+ETH → Radix:
+  - Astrolescent: https://astrolescent.com — Cross-chain swaps to Radix
+Radix → ETH:
+  - Astrolescent: https://astrolescent.com — Radix → ETH
+
+## SVM (1 chains)
+
+### Solana
+ETH → Solana:
+  - Wormhole Portal: https://portalbridge.com — Lock ETH → Wormhole → Solana
+  - deBridge: https://app.debridge.finance — Direct ETH → Solana
+  - Allbridge: https://allbridge.io — ETH ↔ SOL
+  - Mayan Finance: https://mayan.finance — Cross-chain swaps
+Solana → ETH:
+  - Wormhole Portal: https://portalbridge.com — Burn → unlock on ETH
+  - deBridge: https://app.debridge.finance — Direct reverse
+
+## Stacks VM (1 chains)
+
+### Stacks
+ETH → Stacks:
+  - Allbridge: https://allbridge.io — ETH → Stacks (STX)
+  - ALEX Bridge: https://alexgo.io — Cross-chain bridge
+Stacks → ETH:
+  - Allbridge: https://allbridge.io — STX → ETH
+
+## Stellar Protocol (1 chains)
+
+### Stellar
+ETH → Stellar:
+  - Allbridge: https://allbridge.io — ETH ↔ Stellar
+  - Wormhole: https://portalbridge.com — ETH → Stellar
+Stellar → ETH:
+  - Allbridge: https://allbridge.io — Stellar → ETH
+
+## Subtensor (1 chains)
+
+### Bittensor
+ETH → Bittensor:
+  - Tao Bridge: https://tao.app/bridge — ETH → TAO (EVM ↔ native)
+  - Hyperlane: via bridge — ETH/Base → Bittensor EVM
+  - Tensorplex: https://tensorplex.ai — Cross-chain TAO flows
+Bittensor → ETH:
+  - Tao Bridge: https://tao.app/bridge — TAO → ETH
+
+## TON VM (1 chains)
+
+### TON
+ETH → TON:
+  - TON Bridge: https://bridge.ton.org — ETH/USDT → TON
+  - LayerZero: via official bridge — Cross-chain stables
+TON → ETH:
+  - TON Bridge: https://bridge.ton.org — TON → ETH/USDT
+
+## XRPL (1 chains)
+
+### Ripple
+ETH → Ripple:
+  - Wormhole Portal: https://portalbridge.com — ETH → XRP
+  - Allbridge: https://allbridge.io — ETH ↔ XRP
+Ripple → ETH:
+  - Wormhole Portal: https://portalbridge.com — XRP → ETH
+
+## SUMMARY
+
+VM Type                    Chains
+----------------------------------
+Algorand VM                     1
+Bitcoin UTXO                    4
+Cadence/FVM                     1
+Cosmos SDK                      6
+DAG                             1
+EUTXO/Plutus                    1
+EVM + Cosmos SDK                3
+ErgoScript/EUTXO                1
+Filecoin FVM                    1
+Hedera Consensus                1
+ICON VM                         1
+IOTA Tangle                     1
+Internet Computer               1
+Michelson/LIGO                  1
+Move VM                         3
+MultiversX VM                   1
+Near VM                         1
+Radix Engine                    1
+SVM                             1
+Stacks VM                       1
+Stellar Protocol                1
+Subtensor                       1
+TON VM                          1
+XRPL                            1
+
+Total: 36 non-EVM chains with bridge paths documented

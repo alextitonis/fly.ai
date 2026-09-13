@@ -1,0 +1,38 @@
+name = "fly-brain-do"
+main = "src/worker.py"
+compatibility_date = "2026-09-12"
+compatibility_flags = ["python_workers"]
+account_id = "f6aff821e92502a4c148dfdcbc082a14"
+
+# D1 database
+[[d1_databases]]
+binding = "DB"
+database_name = "shit-token"
+database_id = "7ec0a323-997d-44cc-9a84-ba4092e501c4"
+
+# R2 bucket for connectome weights
+[[r2_buckets]]
+binding = "WEIGHTS"
+bucket_name = "shit-token-weights"
+
+# Durable Object for connectome brains (supports 16 connectomes)
+[[durable_objects.bindings]]
+name = "FLY_BRAIN"
+class_name = "ConnectomeDO"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["FlyBrainDO"]
+
+[[migrations]]
+tag = "v2"
+renamed_classes = [{ from = "FlyBrainDO", to = "ConnectomeDO" }]
+
+[vars]
+BUY_THRESHOLD_HZ = "5.0"
+SELL_THRESHOLD_HZ = "3.0"
+
+# Cron trigger — kick all 16 connectome DOs every 1 minute
+# This ensures DOs restart even if their alarms stop (crash, memory limit, etc.)
+[triggers]
+crons = ["* * * * *"]
