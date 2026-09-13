@@ -1,0 +1,4 @@
+/verify  /index.html  200
+/verify/*  /index.html  200
+/tokenomics/*  /tokenomics/:splat  200
+/*    /index.html   200

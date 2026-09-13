@@ -1,0 +1,17 @@
+[Unit]
+Description=Hermes Trading Daemon
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=terexitarius
+WorkingDirectory=/home/terexitarius/.hermes/scripts
+Environment="PATH=/home/terexitarius/.hermes/hermes-agent/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+Environment="PYTHONPATH=/home/terexitarius/.hermes"
+ExecStart=/usr/bin/python3 /home/terexitarius/.hermes/scripts/trading_daemon.py
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target

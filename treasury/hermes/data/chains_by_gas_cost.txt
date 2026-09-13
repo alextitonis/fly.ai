@@ -1,0 +1,70 @@
+  #  Chain                        Gas(gwei)       Liquidity  Pairs Tier  V  DEXes
+---------------------------------------------------------------------------------------------------------
+  1  algorand                       unknown              $0     10    D     tinyman
+  2  aurora                         unknown  $      139,050      6    B     wannaswap, auroraswap, trisolaris
+  3  fuse                           unknown  $       78,852      6    C     voltagefinance
+  4  hedera                         unknown  $        9,878      1    D     saucerswap
+  5  megaeth                        unknown  $        8,896      1    D     noxa
+  6  multiversx                     unknown  $          159      2    D     onedex, xexchange
+  7  worldchain                     unknown  $          172      3    D     uniswap, worldswap
+  8  solana                        0.000005  $   12,570,630      6    A     raydium, pumpswap
+  9  starknet                      0.000010  $    6,792,434      6    A     ekubo
+ 10  xrpl                          0.000010  $    2,196,579      6    A     xrpl
+ 11  aptos                         0.000100  $    2,440,262      6    A     cellana, thala, liquidswap
+ 12  conflux                       0.000100  $    1,143,152      6    A     swappi, 0x50cADdC77c6727Bdd3c78B428c149BF110b4f595
+ 13  pulsechain                    0.000100  $       10,807      6    C     pulsex
+ 14  apechain                      0.001000  $    1,083,284     12    B  Y  camelot
+ 15  berachain                     0.001000  $      252,213      5    B     bulla, memeswap, beraswap
+ 16  canto                         0.001000              $0      0    D  Y  canto-dex
+ 17  elastos                       0.001000  $       69,138      6    C     elkfinance, glidefinance
+ 18  flare                         0.001000  $    2,030,907      6    A     enosys, sparkdex, blazeswap
+ 19  injective                     0.001000              $0     10    D     helix
+ 20  monad                         0.001000  $    2,594,495      6    A     uniswap, traderjoe, pancakeswap
+ 21  movement                      0.001000  $       33,594      2    C     yuzu
+ 22  optimism                      0.001000  $    1,233,728      6    A     uniswap, velodrome
+ 23  sui                           0.001000  $    7,580,543      2    A     bluefin, cetus
+ 24  tron                          0.001000  $  114,932,283      6    A     sunswap
+ 25  unichain                      0.001000  $   27,000,000      8    A  Y  uniswap, velodrome
+ 26  venom                         0.001000  $      519,440      6    B     web3world
+ 27  base                          0.006000  $      206,102      6    B     uniswap, swapbased
+ 28  abstract                      0.010000  $      101,987      6    B     kona, abstractswap
+ 29  arbitrum                      0.010000  $    7,203,889      6    A     uniswap, camelot
+ 30  arbitrumnova                  0.010000  $      242,013      6    B     rcpswap, sushiswap, 0xaa26771d497814E81D305c511Efbb3ceD90BF5bd
+ 31  blast                         0.010000  $      118,263      6    B     uniswap, thruster
+ 32  boba                          0.010000  $      232,920      6    B     0x39135bD1FD3A04381C1094AB0Dd35c7bbe61b3C5, oolongswap, sushiswap
+ 33  celo                          0.010000  $      136,736      6    B     uniswap, ubeswap, velodrome
+ 34  dogechain                     0.010000  $       24,257      6    C     kibbleswap, fraxswap, dogeshrek
+ 35  energi                        0.010000  $        2,023      6    D     energiswap
+ 36  fraxtal                       0.010000              $0    424    B  Y  fraxswap, velodrome
+ 37  ink                           0.010000  $       93,497      1    C     inkyswap
+ 38  katana                        0.010000  $      785,451      6    B     sushiswap
+ 39  linea                         0.010000  $      557,927      6    B     lynex, syncswap, etherex
+ 40  manta                         0.010000  $       12,139      6    C     quickswap, gullnetwork, iziswap
+ 41  mantle                        0.010000  $    8,946,762      6    A     agni, oku, merchantmoe
+ 42  metis                         0.010000  $      472,688      6    B     uni-maia, netswap, tethys
+ 43  mode                          0.010000  $        9,965      6    D     velodrome, kim, swapmode
+ 44  osmosis                       0.010000  $    2,420,288      6    A     osmosis
+ 45  polkadot                      0.010000  $    5,499,180      6    A     hydration
+ 46  polygonzkevm                  0.010000              $0      4    D     Balancer V2, Curve, PancakeSwap V3
+ 47  scroll                        0.010000  $       28,721      6    C     0xB11042007e78bE92dc1c79DA1e7eF499b4B31838, 0x1d25AF2b0992bf227b350860Ea80Bad47382CAf6, syncswap
+ 48  soneium                       0.010000  $      491,755      6    B     velodrome, kyo-finance
+ 49  sonic                         0.010000  $      633,404      6    B     wagmi, beets, equalizer
+ 50  stacks                        0.010000  $    2,106,611      6    A     velar, alex, bitflow
+ 51  story                         0.010000  $       14,345      2    C     storyhunt
+ 52  taiko                         0.010000  $    4,586,449      6    A     0x826D713e30f0bF09Dd3219494A508E6B30327d4f, 0x2EA9051d5a48eA2350b26306f2b959D262cf67e1, kodo
+ 53  ton                           0.010000  $      927,042      3    B     stonfi
+ 54  zksync                        0.010000  $    1,263,167      6    A     syncswap, oku, zkswap
+ 55  kava                          0.025000  $      737,241      6    B     wagmi, 0xD6E4170C9097A5B5C85E8A39111bF37E47C90076, elkfinance
+ 56  astar                         1.000000  $       68,926      6    C     arthswap, zenlink, versa
+ 57  harmony                       1.000000  $        1,176      2    D     swap
+ 58  iotex                         1.000000  $      214,235      6    B     mimo
+ 59  moonriver                     1.000000  $       30,800      6    C     0xC05A5aA56DF0Dc97D6B9849A06627a079790014f, elkfinance, 0xdD9EFCbDf9f422e2fc159eFe77aDD3730d48056d
+ 60  gnosis                        2.000000              $0      0    D  Y  curve, balancer-v3, sushiswap
+ 61  ethereum                      2.500000  $      131,175      2    B     uniswap
+ 62  bsc                           3.000000  $      142,388      6    B     apeswap, pancakeswap
+ 63  ethereumpow                  20.000000  $       12,297      4    C     lfgswap, 0xaBC4325bAD182076EAa5877c68437833d596D3Ee
+ 64  fantom                       20.000000  $      304,171      6    B     spookyswap, beethovenx, spiritswap
+ 65  avalanche                    25.000000  $   15,428,472      6    A     pharaoh, uniswap, blackhole
+ 66  polygon                      30.000000  $    1,236,434      6    A     quickswap, uniswap
+ 67  moonbeam                    100.000000              $0      5    D     Beamswap V2, StellaSwap V2, StellaSwap V3
+ 68  cronos                     5000.000000  $    7,595,964      6    B     mmfinance, 0xDdcf30c1A85e5a60d85310d6b0D3952A75a00db4, cronaswap

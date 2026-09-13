@@ -1,0 +1,33 @@
+{
+  "filter_paths": "lib|test|script",
+  "solc_remaps": [
+    "@openzeppelin/contracts/=lib/openzeppelin/contracts/",
+    "@openzeppelin-v4/contracts/=lib/openzeppelin-v4/contracts/",
+    "@uniswap/v2-periphery/=lib/v2-periphery/contracts/",
+    "@uniswap/v2-core/=lib/v2-core/contracts/",
+    "@shit-v3/=lib/shit-v3/src/",
+    "@bond-protocol/=lib/bond-protocol/src/",
+    "@dss/=lib/dss/src/",
+    "@gmx/=lib/gmx-contracts/contracts/",
+    "@oz-hooks/=lib/uniswap-hooks/src/",
+    "@openzeppelin-upgradeable/contracts/=lib/openzeppelin-contracts-upgradeable/contracts/",
+    "src/Kernel.sol=lib/shit-v3/src/Kernel.sol",
+    "src/interfaces/IPSM3.sol=lib/spark-psm/src/interfaces/IPSM3.sol",
+    "src/interfaces/IRateProviderLike.sol=lib/spark-psm/src/interfaces/IRateProviderLike.sol"
+  ],
+  "detectors_to_exclude": [
+    "solc-version",
+    "naming-convention",
+    "external-function",
+    "reentrancy-benign",
+    "reentrancy-events",
+    "timestamp",
+    "block-timestamp",
+    "assembly-cfg"
+  ],
+  "exclude_informational": false,
+  "exclude_low": false,
+  "exclude_medium": false,
+  "exclude_high": false,
+  "fail_on": "none"
+}

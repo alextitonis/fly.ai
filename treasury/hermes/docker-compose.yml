@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # FastAPI application
+  hermes-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hermes-dashboard
+    restart: unless-stopped
+    environment:
+      - HERMES_HOME=/app
+      - PYTHONPATH=/app
+      - PORT=8080
+    volumes:
+      - ./data:/app/.hermes/data
+      - ./logs:/app/.hermes/logs
+    networks:
+      - hermes-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  hermes-caddy:
+    image: caddy:2-alpine
+    container_name: hermes-caddy
+    restart: unless-stopped
+    ports:
+      - "8280:80"
+      - "8243:443"
+      - "8243:443/udp"  # HTTP/3
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy-data:/data
+      - ./caddy-config:/config
+    environment:
+      - DOMAIN=${DOMAIN:-localhost}
+      - CF_API_TOKEN=***
+      - CF_EMAIL=${CF_EMAIL:-}
+    networks:
+      - hermes-network
+    depends_on:
+      hermes-dashboard:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hermes.rule=Host(`trading.templeearth.cc`) || Host(`wxycsvcwxolmbydp3duqeiyp.98.97.106.157.sslip.io`)"
+      - "traefik.http.routers.hermes.entrypoints=websecure"
+      - "traefik.http.routers.hermes.tls.certresolver=default"
+      - "traefik.http.services.hermes.loadbalancer.server.port=80"
+
+networks:
+  hermes-network:
+    driver: bridge
+
+volumes:
+  data:
+  logs:
+  caddy-data:
+  caddy-config:

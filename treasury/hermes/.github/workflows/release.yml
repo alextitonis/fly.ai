@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build release notes from CHANGELOG
+        shell: bash
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION_NO_V="${TAG#v}"
+          python - << 'PY'
+          from pathlib import Path
+          import os
+          import re
+
+          changelog = Path('CHANGELOG.md')
+          tag = os.environ['GITHUB_REF_NAME']
+          version = tag[1:] if tag.startswith('v') else tag
+
+          if not changelog.exists():
+          raise SystemExit('CHANGELOG.md not found')
+
+          text = changelog.read_text(encoding='utf-8')
+          patterns = [
+          rf"^## \[{re.escape(version)}\].*?$",
+          rf"^## \[{re.escape(tag)}\].*?$",
+          ]
+
+          lines = text.splitlines()
+          start = None
+          for i, line in enumerate(lines):
+          if any(re.match(p, line) for p in patterns):
+          start = i
+          break
+
+          if start is None:
+          raise SystemExit(f'No CHANGELOG section found for {tag} / {version}')
+
+          end = len(lines)
+          for j in range(start + 1, len(lines)):
+          if lines[j].startswith('## '):
+          end = j
+          break
+
+          section = '\n'.join(lines[start:end]).strip() + '\n'
+          Path('release_body.md').write_text(section, encoding='utf-8')
+          print('Wrote release_body.md')
+PY
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: release_body.md
+          generate_release_notes: true

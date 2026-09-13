@@ -1,0 +1,16 @@
+No files changed, compilation skipped
+Script ran successfully.
+
+== Logs ==
+  Deploying from: 0x4b39D7EE758332a43772f4192B9b864C2Cc4A6eE
+  MockUSD deployed at: 0x8fFE219d74A9a4dCdF559ad6bd97d8cf731C7793
+  Router deployed at: 0x1Ce361b7f6cd755dae61a7991851CB418d57a787
+  Minted 10000 mUSD to deployer
+  Sample market deployed at: 0x3A041Df74448F7805FB1567f56FAdBC7f7D3ceA2
+  
+=== DEPLOYMENT COMPLETE ===
+  NEXT_PUBLIC_MUSD_ADDRESS= 0x8fFE219d74A9a4dCdF559ad6bd97d8cf731C7793
+  NEXT_PUBLIC_ROUTER_ADDRESS= 0x1Ce361b7f6cd755dae61a7991851CB418d57a787
+  NEXT_PUBLIC_SAMPLE_MARKET= 0x3A041Df74448F7805FB1567f56FAdBC7f7D3ceA2
+Error: `Unknown0` is above the contract size limit (37418 > 24576).
+Error: IO error: not a terminal

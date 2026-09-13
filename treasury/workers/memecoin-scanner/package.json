@@ -1,0 +1,17 @@
+{
+  "name": "memecoin-scanner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Real-time memecoin / new-token detector for EVM and Solana. Watches new pair creation across Uniswap V2/V3 forks and Solana DEXes via WebSocket, applies safety heuristics, and emits structured alerts.",
+  "scripts": {
+    "start": "node --enable-source-maps src/index.js",
+    "watch:base": "CHAIN=base node --enable-source-maps src/index.js",
+    "watch:bsc":  "CHAIN=bsc  node --enable-source-maps src/index.js",
+    "watch:eth":  "CHAIN=eth  node --enable-source-maps src/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "viem": "^2.21.0"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "shit-finance-contracts",
+  "version": "0.1.0",
+  "license": "AGPL-3.0-only",
+  "scripts": {
+    "build": "forge build",
+    "test": "forge test",
+    "test:vv": "forge test -vvv",
+    "deploy:core": "forge script script/DeployshitCore.s.sol --broadcast --verify",
+    "deploy:phase2": "forge script script/DeployshitPhase2.s.sol --broadcast --verify",
+    "mine-vanity": "npx tsx scripts/mine-vanity-salt.ts",
+    "harvest-pol": "npx tsx scripts/harvest-pol.ts",
+    "setup-gelato": "npx tsx scripts/setup-gelato-tasks.ts",
+    "fmt": "forge fmt",
+    "clean": "forge clean"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.0",
+    "viem": "^2.21.0"
+  },
+  "dependencies": {
+    "@gelatonetwork/automate-sdk": "^4.0.0",
+    "ethers": "^6.13.0"
+  }
+}

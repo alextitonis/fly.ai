@@ -1,0 +1,297 @@
+/** @import must precede all other statements */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-success: hsl(var(--success));
+  --color-danger: hsl(var(--danger));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+
+@layer base {
+
+  /**
+   * Tailwind CSS theme
+   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
+   * A different format will require also updating the theme in tailwind.config.ts.
+   *
+   * Premium Flat Dark Theme for LVR Markets
+   */
+  :root {
+    /* Deep Zinc/Slate dark backgrounds */
+    --background: 210 87% 3%;
+    --foreground: 210 40% 98%;
+
+    /* Card: Flat dark with minimal elevation */
+    --card: 220 50% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 50% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Primary action - Indigo */
+    --primary: 226 71% 60%;
+    --primary-foreground: 220 50% 11%;
+
+    /* Secondary - muted backgrounds */
+    --secondary: 220 45% 15%;
+    --secondary-foreground: 210 40% 98%;
+
+    /* Muted text */
+    --muted: 220 45% 15%;
+    --muted-foreground: 215 16% 47%;
+
+    /* Accent - primary action */
+    --accent: 226 71% 60%;
+    --accent-foreground: 220 50% 11%;
+
+    /* Danger/Error - Red */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Success/YES - Emerald */
+    --success: 160 84% 39%;
+    --success-foreground: 210 40% 98%;
+
+    /* Danger/NO - Red */
+    --danger: 0 84% 60%;
+    --danger-foreground: 210 40% 98%;
+
+    /* Borders - razor thin */
+    --border: 220 40% 15%;
+    --input: 220 50% 11%;
+    --ring: 226 71% 60%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 210 87% 3%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 226 71% 60%;
+    --sidebar-primary-foreground: 220 50% 11%;
+    --sidebar-accent: 220 45% 15%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 220 40% 15%;
+    --sidebar-ring: 226 71% 60%;
+  }
+
+  .dark {
+    --background: 210 87% 3%;
+    --foreground: 210 40% 98%;
+    --card: 220 50% 11%;
+    --card-foreground: 210 40% 98%;
+    --popover: 220 50% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 226 71% 60%;
+    --primary-foreground: 220 50% 11%;
+    --secondary: 220 45% 15%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 220 45% 15%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 226 71% 60%;
+    --accent-foreground: 220 50% 11%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --success: 160 84% 39%;
+    --success-foreground: 210 40% 98%;
+    --danger: 0 84% 60%;
+    --danger-foreground: 210 40% 98%;
+    --border: 220 40% 15%;
+    --input: 220 50% 11%;
+    --ring: 226 71% 60%;
+    --sidebar-background: 210 87% 3%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 226 71% 60%;
+    --sidebar-primary-foreground: 220 50% 11%;
+    --sidebar-accent: 220 45% 15%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 220 40% 15%;
+    --sidebar-ring: 226 71% 60%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  :where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  pre,
+  code {
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-white font-semibold;
+  }
+
+  p,
+  body {
+    @apply text-slate-400;
+  }
+}
+
+@layer components {
+
+  /* Glass header effect */
+  .glass-header {
+    @apply backdrop-blur-md bg-black/30;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* Premium flat card with hover lift */
+  .market-card {
+    @apply relative bg-card rounded-lg p-4 cursor-pointer transition-all duration-200;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .market-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    @apply shadow-lg;
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.05);
+    transform: translateY(-2px);
+  }
+
+  /* Probability bar */
+  .probability-bar {
+    @apply relative w-full h-2 bg-secondary rounded-full overflow-hidden;
+  }
+
+  /* Status badge */
+  .status-badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium;
+  }
+
+  .status-open {
+    @apply bg-success/10 text-success;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+
+  .status-resolved {
+    @apply bg-muted/50 text-muted-foreground;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* Outcome button - YES/NO */
+  .outcome-btn {
+    @apply relative flex-1 py-3 px-4 rounded-lg font-semibold text-center transition-all duration-200;
+    border: 1px solid currentColor;
+  }
+
+  .outcome-yes {
+    @apply bg-success/10 text-success hover:bg-success/20;
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+
+  .outcome-no {
+    @apply bg-danger/10 text-danger hover:bg-danger/20;
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+
+  .outcome-btn.active {
+    border-color: currentColor;
+  }
+
+  /* Input field - minimal style */
+  .min-input {
+    @apply w-full bg-secondary rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none transition-all;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .min-input:focus {
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.2);
+  }
+
+  /* Pill button */
+  .pill-btn {
+    @apply px-4 py-2 rounded-full text-sm font-medium transition-all;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .pill-btn:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .pill-btn-primary {
+    @apply bg-primary text-black hover:opacity-90;
+  }
+
+  /* Stats grid card */
+  .stat-card {
+    @apply bg-card rounded-lg p-4;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* Smooth fade and slide animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+}

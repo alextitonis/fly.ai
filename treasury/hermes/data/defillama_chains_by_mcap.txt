@@ -1,0 +1,219 @@
+# DeFiLlama Chains sorted by Market Cap
+# 243 chains
+# Generated: April 16, 2026
+
+1. Bitcoin (BTC) — MCap: $1503.24B, TVL: $5.1B
+2. Ethereum (ETH) — MCap: $283.38B, TVL: $55.4B
+3. Binance (BNB) — MCap: $85.47B, TVL: $0
+4. Solana (SOL) — MCap: $51.62B, TVL: $5.9B
+5. Tron (TRON) — MCap: $30.94B, TVL: $5.1B
+6. Doge (DOGE) — MCap: $15.12B, TVL: $11M
+7. Hyperliquid L1 (HYPE) — MCap: $10.40B, TVL: $1.7B
+8. Cardano (ADA) — MCap: $9.54B, TVL: $136M
+9. smartBCH (BCH) — MCap: $8.93B, TVL: $46K
+10. Bitcoincash (BCH) — MCap: $8.93B, TVL: $7M
+11. Zcash (ZEC) — MCap: $5.70B, TVL: $2M
+12. Stellar (XLM) — MCap: $5.55B, TVL: $190M
+13. Avalanche (AVAX) — MCap: $4.19B, TVL: $745M
+14. Hedera (HBAR) — MCap: $3.94B, TVL: $59M
+15. Sui (SUI) — MCap: $3.93B, TVL: $602M
+16. TON (TON) — MCap: $3.53B, TVL: $60M
+17. Proton (TON) — MCap: $3.53B, TVL: $60M
+18. Cronos (CRO) — MCap: $3.00B, TVL: $305M
+19. Bittensor (TAO) — MCap: $2.34B, TVL: $0
+20. Mantle (MNT) — MCap: $2.21B, TVL: $688M
+21. Near (NEAR) — MCap: $1.85B, TVL: $114M
+22. ICP (ICP) — MCap: $1.44B, TVL: $11M
+23. EthereumClassic (ETC) — MCap: $1.37B, TVL: $91K
+24. World Chain (WLD) — MCap: $1.04B, TVL: $27M
+25. Algorand (ALGO) — MCap: $1.02B, TVL: $41M
+26. Polygon (POL) — MCap: $955.1M, TVL: $1.2B
+27. Aptos (APT) — MCap: $795.3M, TVL: $291M
+28. Arbitrum (ARB) — MCap: $792.0M, TVL: $2.0B
+29. Filecoin (FIL) — MCap: $769.6M, TVL: $5M
+30. Flare (FLR) — MCap: $705.0M, TVL: $173M
+31. XDC (XDC) — MCap: $626.9M, TVL: $5M
+32. Stable (STABLE) — MCap: $574.7M, TVL: $7M
+33. Dash (DASH) — MCap: $467.7M, TVL: $79K
+34. Stacks (STX) — MCap: $450.2M, TVL: $115M
+35. Chiliz (CHZ) — MCap: $440.8M, TVL: $5M
+36. Monad (MON) — MCap: $403.9M, TVL: $414M
+37. Tezos (XTZ) — MCap: $403.1M, TVL: $29M
+38. Sei (SEI) — MCap: $396.6M, TVL: $64M
+39. Injective (INJ) — MCap: $341.3M, TVL: $16M
+40. Conflux (CFX) — MCap: $339.0M, TVL: $8M
+41. Plasma (XPL) — MCap: $335.3M, TVL: $2.1B
+42. Bittorrent (BTT) — MCap: $322.9M, TVL: $351K
+43. Optimism (OP) — MCap: $280.9M, TVL: $0
+44. IOTA EVM (IOTA) — MCap: $259.8M, TVL: $1M
+45. IOTA (IOTA) — MCap: $259.8M, TVL: $7M
+46. Terra (LUNC) — MCap: $242.4M, TVL: $692K
+47. Starknet (STRK) — MCap: $215.6M, TVL: $241M
+48. NEO (NEO) — MCap: $208.3M, TVL: $3M
+49. Neo3 (NEO) — MCap: $208.3M, TVL: $3M
+50. Story (IP) — MCap: $199.4M, TVL: $444K
+51. Theta (THETA) — MCap: $198.3M, TVL: $385K
+52. Sonic (S) — MCap: $175.1M, TVL: $37M
+53. Gala (GALA) — MCap: $161.4M, TVL: $8M
+54. zkSync Era (ZK) — MCap: $158.4M, TVL: $23M
+55. Thorchain (RUNE) — MCap: $146.3M, TVL: $36M
+56. Immutable zkEVM (IMX) — MCap: $140.4M, TVL: $11M
+57. 0G (0G) — MCap: $129.6M, TVL: $2M
+58. dYdX (dYdX) — MCap: $110.1M, TVL: $107M
+59. WEMIX (WEMIX) — MCap: $110.0M, TVL: $8M
+60. Horizen EON (ZEN) — MCap: $107.3M, TVL: $0
+61. Berachain (BERA) — MCap: $102.8M, TVL: $75M
+62. ApeChain (APE) — MCap: $102.0M, TVL: $3M
+63. Oasis (ROSE) — MCap: $89.4M, TVL: $215K
+64. Linea (LINEA) — MCap: $86.4M, TVL: $93M
+65. CSC (CET) — MCap: $75.5M, TVL: $307K
+66. ZetaChain (ZETA) — MCap: $73.0M, TVL: $890K
+67. Astar (ASTR) — MCap: $69.4M, TVL: $2M
+68. Movement (MOVE) — MCap: $68.4M, TVL: $159M
+69. aelf (ELF) — MCap: $65.3M, TVL: $5M
+70. Flow (FLOW) — MCap: $61.0M, TVL: $18M
+71. Kava (KAVA) — MCap: $60.6M, TVL: $74M
+72. Plume Mainnet (PLUME) — MCap: $60.6M, TVL: $9M
+73. Verus (VRSC) — MCap: $60.6M, TVL: $22M
+74. Bitkub (KUB) — MCap: $58.9M, TVL: $2M
+75. HashKey Chain (HSK) — MCap: $53.0M, TVL: $2M
+76. Celo (CELO) — MCap: $51.7M, TVL: $28M
+77. IoTeX (IOTX) — MCap: $45.4M, TVL: $2M
+78. Icon (ICX) — MCap: $43.3M, TVL: $2M
+79. Waves (WAVES) — MCap: $42.2M, TVL: $9M
+80. Venom (VENOM) — MCap: $41.8M, TVL: $754K
+81. Coti (COTI) — MCap: $40.9M, TVL: $912K
+82. ZIGChain (ZIG) — MCap: $40.6M, TVL: $6M
+83. OntologyEVM (ONG) — MCap: $38.0M, TVL: $3K
+84. CORE (CORE) — MCap: $35.5M, TVL: $5M
+85. EDU Chain (EDU) — MCap: $35.0M, TVL: $1M
+86. Harmony (ONE) — MCap: $33.6M, TVL: $304K
+87. Manta (MANTA) — MCap: $32.0M, TVL: $6M
+88. Lisk (LSK) — MCap: $30.3M, TVL: $938K
+89. Stratis (STRAX) — MCap: $29.1M, TVL: $24K
+90. Gravity (G) — MCap: $28.9M, TVL: $3M
+91. Somnia (SOMI) — MCap: $28.6M, TVL: $1M
+92. Sophon (SOPH) — MCap: $28.4M, TVL: $1M
+93. Ergo (ERG) — MCap: $26.8M, TVL: $1M
+94. EnergyWeb (EWT) — MCap: $26.1M, TVL: $75K
+95. Osmosis (OSMO) — MCap: $24.9M, TVL: $17M
+96. Metis (METIS) — MCap: $24.4M, TVL: $7M
+97. Bifrost Network (BFC) — MCap: $22.8M, TVL: $13M
+98. Map (MAP) — MCap: $20.7M, TVL: $6M
+99. Xai (XAI) — MCap: $20.7M, TVL: $49K
+100. Aurora (AURORA) — MCap: $19.1M, TVL: $3M
+101. Heco (HT) — MCap: $18.7M, TVL: $98K
+102. Electroneum (ETN) — MCap: $18.1M, TVL: $151K
+103. Chainflip (FLIP) — MCap: $18.0M, TVL: $12M
+104. Radix (XRD) — MCap: $16.8M, TVL: $2M
+105. TAC (TAC) — MCap: $16.4M, TVL: $3M
+106. Initia (INIT) — MCap: $16.0M, TVL: $4M
+107. Moonriver (MOVR) — MCap: $15.9M, TVL: $2M
+108. Moonbeam (GLMR) — MCap: $13.1M, TVL: $2M
+109. ThunderCore (TT) — MCap: $12.2M, TVL: $283K
+110. Supra (SUPRA) — MCap: $12.1M, TVL: $2M
+111. Songbird (SGB) — MCap: $12.0M, TVL: $190K
+112. BounceBit (BB) — MCap: $11.9M, TVL: $718K
+113. Endurance (ACE) — MCap: $11.7M, TVL: $0
+114. Boba (BOBA) — MCap: $11.3M, TVL: $2M
+115. Wanchain (WAN) — MCap: $11.2M, TVL: $3M
+116. Mayachain (CACAO) — MCap: $10.8M, TVL: $5M
+117. Bitgert (BRISE) — MCap: $9.6M, TVL: $0
+118. Syscoin (SYS) — MCap: $9.2M, TVL: $0
+119. Orai (ORAI) — MCap: $9.2M, TVL: $221K
+120. XION (XION) — MCap: $9.0M, TVL: $4K
+121. Scroll (SCR) — MCap: $8.8M, TVL: $24M
+122. LUKSO (LYX) — MCap: $7.8M, TVL: $13K
+123. Everscale (EVER) — MCap: $7.7M, TVL: $136K
+124. Neon (NEON) — MCap: $7.7M, TVL: $96K
+125. RENEC (RENEC) — MCap: $6.2M, TVL: $69K
+126. CLV (CLV) — MCap: $4.3M, TVL: $0
+127. Zircuit (ZRC) — MCap: $3.3M, TVL: $417K
+128. Shido (SHIDO) — MCap: $3.1M, TVL: $1M
+129. REI (REI) — MCap: $2.9M, TVL: $1K
+130. Dexalot (ALOT) — MCap: $2.6M, TVL: $2M
+131. OKExChain (IDEX) — MCap: $2.4M, TVL: $11K
+132. Goat (GOATED) — MCap: $2.0M, TVL: $570K
+133. Nibiru (NIBI) — MCap: $1.9M, TVL: $3M
+134. Velas (VLX) — MCap: $1.9M, TVL: $213K
+135. Bifrost (BNC) — MCap: $1.2M, TVL: $5M
+136. Odyssey (DIONE) — MCap: $1.1M, TVL: $225K
+137. MultiVAC (MTV) — MCap: $977K, TVL: $8K
+138. HydraDX (HYDRA) — MCap: $945K, TVL: $19K
+139. Fuse (FUSE) — MCap: $934K, TVL: $271K
+140. Mode (MODE) — MCap: $910K, TVL: $2M
+141. Taraxa (TARA) — MCap: $848K, TVL: $3K
+142. Canto (CANTO) — MCap: $826K, TVL: $3M
+143. Canton (CANTO) — MCap: $826K, TVL: $3M
+144. WINR (WINR) — MCap: $771K, TVL: $743K
+145. Meter (MTRG) — MCap: $727K, TVL: $324K
+146. Shiden (SDN) — MCap: $657K, TVL: $24K
+147. Archway (ARCH) — MCap: $634K, TVL: $185K
+148. Evmos (EVMOS) — MCap: $456K, TVL: $170K
+149. Chihuahua (HUAHUA) — MCap: $400K, TVL: $17K
+150. Voi Network (VOI) — MCap: $349K, TVL: $95K
+151. Omax (OMAX) — MCap: $274K, TVL: $14K
+152. Superseed (SUPR) — MCap: $250K, TVL: $74K
+153. Kroma (KRO) — MCap: $229K, TVL: $0
+154. Vite (VITE) — MCap: $225K, TVL: $5M
+155. Fusion (FSN) — MCap: $221K, TVL: $0
+156. Dogechain (DG) — MCap: $209K, TVL: $968K
+157. Tombchain (TOMB) — MCap: $135K, TVL: $19K
+158. Polkadex (PDEX) — MCap: $75K, TVL: $72K
+159. Interlay (INTR) — MCap: $63K, TVL: $149K
+160. Crescent (CRE) — MCap: $48K, TVL: $56K
+161. Migaloo (WHALE) — MCap: $43K, TVL: $0
+162. Comdex (CMDX) — MCap: $18K, TVL: $16K
+163. Base (None) — MCap: N/A, TVL: $4.5B
+164. Fantom (FTM) — MCap: N/A, TVL: $5M
+165. Blast (None) — MCap: N/A, TVL: $35M
+166. Unichain (-) — MCap: N/A, TVL: $37M
+167. Polygon zkEVM (None) — MCap: N/A, TVL: $472K
+168. X Layer (None) — MCap: N/A, TVL: $25M
+169. Pulse (PLS) — MCap: N/A, TVL: $66M
+170. BOB (None) — MCap: N/A, TVL: $11M
+171. Taiko (None) — MCap: N/A, TVL: $7M
+172. Fraxtal (FXTL) — MCap: N/A, TVL: $26M
+173. Katana (None) — MCap: N/A, TVL: $346M
+174. Soneium (None) — MCap: N/A, TVL: $10M
+175. BSquared (None) — MCap: N/A, TVL: $18M
+176. Ink (None) — MCap: N/A, TVL: $478M
+177. Bitlayer (None) — MCap: N/A, TVL: $818K
+178. Merlin (None) — MCap: N/A, TVL: $9M
+179. Abstract (None) — MCap: N/A, TVL: $19M
+180. Etherlink (None) — MCap: N/A, TVL: $24M
+181. MegaETH (MEGA) — MCap: N/A, TVL: $111M
+182. Swellchain (None) — MCap: N/A, TVL: $828K
+183. zkLink (None) — MCap: N/A, TVL: $478M
+184. Cronos zkEVM (None) — MCap: N/A, TVL: $7M
+185. Morph (-) — MCap: N/A, TVL: $5M
+186. Botanix (None) — MCap: N/A, TVL: $4M
+187. Ronin (RON) — MCap: N/A, TVL: $14M
+188. Sapphire (ROSE) — MCap: N/A, TVL: $285K
+189. Arbitrum Nova (None) — MCap: N/A, TVL: $471K
+190. ShimmerEVM (SMR) — MCap: N/A, TVL: $633K
+191. Zkfair (None) — MCap: N/A, TVL: $80K
+192. Corn (None) — MCap: N/A, TVL: $53K
+193. AILayer (None) — MCap: N/A, TVL: $87K
+194. XRPL EVM (XRP) — MCap: N/A, TVL: $33K
+195. Q Protocol (QGOV) — MCap: N/A, TVL: $54K
+196. Cyber (None) — MCap: N/A, TVL: $16K
+197. Rari (None) — MCap: N/A, TVL: $9K
+198. DuckChain (None) — MCap: N/A, TVL: $2K
+199. Shape (None) — MCap: N/A, TVL: $68K
+200. Superposition (None) — MCap: N/A, TVL: $86K
+201. Rollux (None) — MCap: N/A, TVL: $13M
+202. Silicon zkEVM (-) — MCap: N/A, TVL: $6K
+203. Zora (None) — MCap: N/A, TVL: $44K
+204. Manta Atlantic (MANTA) — MCap: N/A, TVL: $2K
+205. Zero Network (None) — MCap: N/A, TVL: $161K
+206. Ancient8 (None) — MCap: N/A, TVL: $42K
+207. Titan (TKX) — MCap: N/A, TVL: $749K
+208. Redstone (None) — MCap: N/A, TVL: $30K
+209. Bittensor EVM (TAO) — MCap: $2,357M, TVL: $185K
+210. Bittensor EVM (TAO) — MCap: $2,357M, TVL: $185K
+211. Citrea (None) — MCap: N/A, TVL: $2M
+212. Elastos (ELA) — MCap: $10M, TVL: $249K
+213. Hemi (None) — MCap: N/A, TVL: $8M
+214. Telos (TLOS) — MCap: $4M, TVL: $2M
+215. inEVM (INJ) — MCap: $341M, TVL: $0

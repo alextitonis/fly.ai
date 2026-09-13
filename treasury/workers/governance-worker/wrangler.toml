@@ -1,0 +1,20 @@
+name = "governance-worker"
+main = "src/index.ts"
+compatibility_date = "2026-09-12"
+
+# D1 database
+[[d1_databases]]
+binding = "DB"
+database_name = "shit-token"
+database_id = "YOUR_D1_DATABASE_ID"
+
+# Durable Object binding to fly-brain-do (cross-worker reference)
+[[durable_objects.bindings]]
+name = "FLY_BRAIN"
+class_name = "ConnectomeDO"
+script_name = "fly-brain-do"
+
+# Triggers every 2 minutes
+[triggers]
+crons = ["*/2 * * * *"]
+account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"

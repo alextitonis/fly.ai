@@ -1,0 +1,86 @@
+[submodule "lib/forge-std"]
+	path = lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+
+[submodule "lib/openzeppelin"]
+	path = lib/openzeppelin
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts.git
+
+[submodule "lib/olympus-v3"]
+	path = lib/olympus-v3
+	url = https://github.com/OlympusDAO/olympus-v3.git
+
+[submodule "lib/v4-hooks-public"]
+	path = lib/v4-hooks-public
+	url = https://github.com/Uniswap/v4-hooks-public.git
+
+[submodule "lib/bond-protocol"]
+	path = lib/bond-protocol
+	url = https://github.com/Bond-Protocol/bond-contracts.git
+
+[submodule "lib/createx"]
+	path = lib/createx
+	url = https://github.com/pcaversaccio/createx.git
+[submodule "lib/reserve-index-dtf"]
+	path = lib/reserve-index-dtf
+	url = https://github.com/reserve-protocol/reserve-index-dtf.git
+[submodule "lib/openzeppelin-contracts-upgradeable"]
+	path = lib/openzeppelin-contracts-upgradeable
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable.git
+[submodule "lib/trusted-fillers"]
+	path = lib/trusted-fillers
+	url = https://github.com/reserve-protocol/trusted-fillers.git
+[submodule "lib/reserve-governor"]
+	path = lib/reserve-governor
+	url = https://github.com/reserve-protocol/reserve-governor.git
+[submodule "lib/prb-math"]
+	path = lib/prb-math
+	url = https://github.com/PaulRBerg/prb-math.git
+[submodule "lib/vault-v2"]
+	path = lib/vault-v2
+	url = https://github.com/morpho-org/vault-v2
+[submodule "lib/tokenized-strategy"]
+	path = lib/tokenized-strategy
+	url = https://github.com/yearn/tokenized-strategy
+[submodule "lib/dss"]
+	path = lib/dss
+	url = https://github.com/makerdao/dss
+[submodule "lib/gmx-contracts"]
+	path = lib/gmx-contracts
+	url = https://github.com/gmx-io/gmx-contracts
+[submodule "lib/core"]
+	path = lib/core
+	url = https://github.com/lidofinance/core
+[submodule "lib/v2-periphery"]
+	path = lib/v2-periphery
+	url = https://github.com/Uniswap/v2-periphery
+[submodule "lib/euler-price-oracle"]
+	path = lib/euler-price-oracle
+	url = https://github.com/euler-xyz/euler-price-oracle
+[submodule "lib/openzeppelin-v4"]
+	path = lib/openzeppelin-v4
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "lib/v2-core"]
+	path = lib/v2-core
+	url = https://github.com/Uniswap/v2-core
+[submodule "lib/uniswap-hooks"]
+	path = lib/uniswap-hooks
+	url = https://github.com/OpenZeppelin/uniswap-hooks
+[submodule "lib/balancer-v2-monorepo"]
+	path = lib/balancer-v2-monorepo
+	url = https://github.com/balancer/balancer-v2-monorepo
+[submodule "lib/oz-v4.8.0"]
+	path = lib/oz-v4.8.0
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "lib/oz-v5.3.0"]
+	path = lib/oz-v5.3.0
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "lib/pendle-core-v2-public"]
+	path = lib/pendle-core-v2-public
+	url = https://github.com/pendle-finance/pendle-core-v2-public
+[submodule "lib/pendle-sy"]
+	path = lib/pendle-sy
+	url = https://github.com/pendle-finance/pendle-sy-contracts-public
+[submodule "lib/spark-psm"]
+	path = lib/spark-psm
+	url = https://github.com/sparkdotfi/spark-psm
