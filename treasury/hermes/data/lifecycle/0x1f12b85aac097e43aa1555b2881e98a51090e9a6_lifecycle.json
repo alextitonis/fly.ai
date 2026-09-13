@@ -1,0 +1,73 @@
+{
+  "address": "0x1f12b85aac097e43aa1555b2881e98a51090e9a6",
+  "chain": "ethereum",
+  "symbol": "GENIUS",
+  "status": "exited",
+  "entry_time": 1776317402.6587188,
+  "entry_time_iso": "2026-04-16T05:30:02.658719+00:00",
+  "entry_score": 12.35,
+  "entry_fdv": 525150889,
+  "entry_price": null,
+  "snapshots": [
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    }
+  ],
+  "snapshot_count": 16,
+  "exit_time": 1776382203.0694928,
+  "exit_score": 2.9,
+  "exit_price": null,
+  "price_change_pct": null,
+  "days_tracked": 0.6,
+  "current_score": 2.9,
+  "current_fdv": 525150889,
+  "exit_time_iso": "2026-04-16T23:30:03.069493+00:00",
+  "final_snapshot": {
+    "error": "no pool found"
+  }
+}

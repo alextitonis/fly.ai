@@ -1,0 +1,84 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+*.egg-info/
+.venv/
+env/
+.venv-cfg/
+venv3/
+pyvenv/
+.venv/
+
+# Node
+node_modules/
+npm-debug.log
+.pnpm/
+.pnpm-debug.log
+dist/
+build/
+coverage/
+.nyc_output
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Logs
+*.log
+*.log.*
+log/
+logs/
+*.log.gz
+
+# Credentials
+conf/apiKeys.yml
+conf/wallets/
+*.key
+*.pem
+*.crt
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker
+docker-compose.override.yml
+
+# Temporary files
+*~
+*.tmp
+*.temp
+
+# Hermes specific
+~/.hermes/
+packages/gateway/certs/
+packages/gateway/logs/
+packages/gateway/.env
+packages/gateway/node_modules/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Test coverage
+.coverage
+coverage.xml
+htmlcov/
+
+# Build artifacts
+*.egg
+*.whl
+*.tar.gz
+*.zip

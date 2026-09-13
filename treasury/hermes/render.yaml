@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: hermes-token-screener
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn hermes_screener.dashboard.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: HERMES_HOME
+        value: /opt/render/project/src
+      - key: PORT
+        value: 8081
+    disk:
+      name: data
+      mountPath: /opt/render/project/src/.hermes/data
+      sizeGB: 1

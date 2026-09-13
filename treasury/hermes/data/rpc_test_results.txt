@@ -1,0 +1,242 @@
+# RPC Test Results - All 261 Filtered Chains
+# Tested: April 16, 2026
+# Method: eth_blockNumber (EVM), getSlot (Solana), getblockcount (BTC)
+
+## WORKING (137 chains)
+  0G
+  AILayer
+  Abstract
+  Algorand
+  Ancient8
+  ApeChain
+  Aptos
+  Arbitrum
+  Arbitrum Nova
+  Archway
+  Astar
+  Aurora
+  Avalanche
+  BOB
+  BSquared
+  Base
+  Berachain
+  Binance
+  Bitcoin
+  Bitcoincash
+  Bitkub
+  Bitlayer
+  Bittensor
+  Blast
+  Boba
+  Botanix
+  BounceBit
+  CORE
+  CSC
+  Canto
+  Celo
+  Chihuahua
+  Conflux
+  Corn
+  Coti
+  Cronos
+  Cronos zkEVM
+  Cyber
+  Dexalot
+  Dogechain
+  DuckChain
+  EDU Chain
+  EnergyWeb
+  EthereumClassic
+  Etherlink
+  Filecoin
+  Flare
+  Flow
+  Fraxtal
+  Fuse
+  Goat
+  Gravity
+  Harmony
+  HashKey Chain
+  Hedera
+  Hyperliquid L1
+  IOTA
+  IOTA EVM
+  Immutable zkEVM
+  Ink
+  Interlay
+  IoTeX
+  Katana
+  Kava
+  LUKSO
+  Linea
+  Lisk
+  Manta
+  Manta Atlantic
+  Mantle
+  Map
+  MegaETH
+  Merlin
+  Meter
+  Metis
+  Mode
+  Moonbeam
+  Moonriver
+  Morph
+  MultiVAC
+  Neon
+  Nibiru
+  OKExChain
+  Oasis
+  Omax
+  Optimism
+  Osmosis
+  Plasma
+  Plume Mainnet
+  Polygon zkEVM
+  Proton
+  Pulse
+  Q Protocol
+  REI
+  Rari
+  Redstone
+  Rollux
+  Ronin
+  Sapphire
+  Scroll
+  Sei
+  Shape
+  Shiden
+  ShimmerEVM
+  Silicon zkEVM
+  Solana
+  Somnia
+  Soneium
+  Songbird
+  Sonic
+  Sophon
+  Stellar
+  Stratis
+  Sui
+  Superposition
+  Superseed
+  Swellchain
+  TAC
+  TON
+  Taiko
+  Theta
+  ThunderCore
+  Titan
+  Tombchain
+  Unichain
+  Velas
+  WEMIX
+  WINR
+  World Chain
+  XRPL EVM
+  Xai
+  Zero Network
+  Zkfair
+  Zora
+  smartBCH
+  zkLink
+  zkSync Era
+
+## GENUINELY DEAD / NO WORKING RPC (26 chains)
+  Alephium
+  Astar zkEVM
+  Bittensor EVM
+  Citrea
+  DFS Network
+  DeFiChain EVM
+  DefiChain
+  EOS
+  Eclipse
+  Elastos
+  Empire
+  HeLa
+  Hemi
+  Loop
+  Mezo
+  Milkomeda
+  Milkomeda A1
+  Mint
+  Mixin
+  Obyte
+  Pego
+  Polynomial
+  Shibarium
+  Telos
+  inEVM
+  re.al
+
+## DNS/NETWORK ISSUES on this server - chain likely alive (40 chains)
+  Babylon Genesis
+  Bifrost
+  Bifrost Network
+  Bittorrent
+  Canton
+  Chainflip
+  Comdex
+  Doge
+  Electroneum
+  Ergo
+  Everscale
+  Evmos
+  Fantom
+  Fusion
+  Gala
+  Heco
+  Horizen EON
+  HydraDX
+  Injective
+  Juno
+  Kroma
+  Kujira
+  Migaloo
+  Odyssey
+  Persistence
+  Polygon
+  RENEC
+  Shido
+  Story
+  Supra
+  Terra2
+  Tron
+  Verus
+  Vite
+  Voi Network
+  XION
+  ZetaChain
+  Zircuit
+  aelf
+  dYdX
+
+## WRONG METHOD/ENDPOINT - needs different RPC test (24 chains)
+  CLV
+  Cardano
+  ICP
+  Icon
+  Initia
+  Litecoin
+  Mantra
+  Mayachain
+  Movement
+  NEO
+  Near
+  Neo3
+  OntologyEVM
+  Orai
+  Radix
+  Starknet
+  Sui
+  Terra
+  Thorchain
+  Venom
+  Waves
+  Wax
+  X Layer
+  ZIGChain
+
+## RATE LIMITED (2 chains)
+  Ethereum
+  Polynomial

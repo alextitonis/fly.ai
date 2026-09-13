@@ -1,0 +1,51 @@
+# Environment variables
+.env.local
+.env
+.env*.local
+config.json
+
+# Next.js
+/.next/
+/out/
+
+# Dependencies
+/node_modules
+
+# Production
+/build
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local development
+.DS_Store
+*.pem
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Trading data (contains sensitive logs)
+decision_logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+
+# Testing
+/coverage
+.nyc_output
+
+# Misc
+.vercel
+.turbo
+.cache/

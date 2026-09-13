@@ -1,0 +1,83 @@
+{
+  "address": "W6wjBw8HJ65PyyHr9RkTXK7dKvrP1CNkgPWVEHDbrrr",
+  "chain": "solana",
+  "symbol": "Patapim",
+  "status": "active",
+  "entry_time": 1776317402.6587188,
+  "entry_time_iso": "2026-04-16T05:30:02.658719+00:00",
+  "entry_score": 17.91,
+  "entry_fdv": 52641,
+  "entry_price": null,
+  "snapshots": [
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "timestamp": 1776364206.4365582,
+      "timestamp_iso": "2026-04-16T18:30:06.436558+00:00",
+      "chain": "solana",
+      "address": "W6wjBw8HJ65PyyHr9RkTXK7dKvrP1CNkgPWVEHDbrrr",
+      "pool": "AaGdvy1y3oPHaeqecBx9c2hc22fzAQKNypAKMpyg2Qxj",
+      "candles_h1": [],
+      "candles_m15": [],
+      "candles_d1": [],
+      "candle_count": {
+        "h1": 0,
+        "m15": 0,
+        "d1": 0
+      },
+      "entry_price": null,
+      "current_price": null,
+      "token_data": {
+        "symbol": "Patapim",
+        "score": 11.91,
+        "fdv": 52641,
+        "volume_h24": 76806.72
+      }
+    }
+  ],
+  "snapshot_count": 14,
+  "exit_time": null,
+  "exit_score": null,
+  "exit_price": null,
+  "price_change_pct": null,
+  "days_tracked": 0.5,
+  "current_score": 11.91,
+  "current_fdv": 52641
+}

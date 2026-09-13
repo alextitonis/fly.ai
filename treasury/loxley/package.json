@@ -1,0 +1,67 @@
+{
+  "name": "loxley",
+  "version": "1.3.7",
+  "description": "the exit desk for Robinhood Chain · a browser desk and a terminal · reads by default, trades when you arm it · no install",
+  "license": "MIT",
+  "private": true,
+  "bin": {
+    "loxley": "bin/loxley.js"
+  },
+  "main": "cli/main.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test test/engine.test.js test/cli.test.js test/trade.test.js test/market.test.js",
+    "test:desk": "node test/desk.test.js",
+    "tour": "node bin/loxley.js tour",
+    "mock": "node test/mock-chain.js",
+    "serve": "python3 -m http.server 4664",
+    "hunt": "node bin/loxley.js hunt",
+    "radar": "node bin/loxley.js radar",
+    "snipe": "node bin/loxley.js snipe",
+    "doctor": "node bin/loxley.js doctor",
+    "test:trade": "node --test test/trade.test.js",
+    "wallet": "node bin/loxley.js wallet",
+    "positions": "node bin/loxley.js positions",
+    "vendor": "esbuild vendor/entry.js --bundle --platform=node --target=node18 --format=cjs --outfile=vendor/viem.js --legal-comments=none"
+  },
+  "files": [
+    "bin",
+    "cli",
+    "vendor",
+    "index.html",
+    "recordings",
+    "test/mock-chain.js",
+    "test/dex-fixture.js",
+    "scripts/sample.js",
+    "scripts/marks.js",
+    "scripts/embed-banner.js",
+    "start",
+    "docs",
+    "README.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    ".env.example"
+  ],
+  "devDependencies": {
+    "esbuild": "^0.28.0",
+    "playwright": "^1.47.0",
+    "viem": "^2.56.3"
+  },
+  "keywords": [
+    "robinhood-chain",
+    "pons",
+    "launchpad",
+    "sniper",
+    "exit",
+    "rug",
+    "terminal",
+    "wallet",
+    "uniswap-v4",
+    "dashboard"
+  ],
+  "dependencies": {}
+}

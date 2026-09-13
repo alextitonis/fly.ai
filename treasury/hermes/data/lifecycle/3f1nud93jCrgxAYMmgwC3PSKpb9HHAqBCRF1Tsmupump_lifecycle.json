@@ -1,0 +1,66 @@
+{
+  "address": "3f1nud93jCrgxAYMmgwC3PSKpb9HHAqBCRF1Tsmupump",
+  "chain": "solana",
+  "symbol": "JIT",
+  "status": "exited",
+  "entry_time": 1776274202.1138625,
+  "entry_time_iso": "2026-04-15T17:30:02.113863+00:00",
+  "entry_score": 16.1,
+  "entry_fdv": 8886,
+  "entry_price": null,
+  "snapshots": [
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "timestamp": 1776292208.7585037,
+      "timestamp_iso": "2026-04-15T22:30:08.758504+00:00",
+      "chain": "solana",
+      "address": "3f1nud93jCrgxAYMmgwC3PSKpb9HHAqBCRF1Tsmupump",
+      "pool": "86b2GBxrPXwhdDs5XyybeqcKMMEPEVR2cELDRk8ADyzQ",
+      "candles_h1": [],
+      "candles_m15": [],
+      "candles_d1": [],
+      "candle_count": {
+        "h1": 0,
+        "m15": 0,
+        "d1": 0
+      },
+      "entry_price": null,
+      "current_price": null,
+      "token_data": {
+        "symbol": "JIT",
+        "score": 16.1,
+        "fdv": 8886,
+        "volume_h24": 153708.49
+      }
+    },
+    {
+      "error": "no pool found"
+    }
+  ],
+  "snapshot_count": 7,
+  "exit_time": 1776339002.6626778,
+  "exit_score": 16.1,
+  "exit_price": null,
+  "price_change_pct": null,
+  "days_tracked": 0.2,
+  "current_score": 16.1,
+  "current_fdv": 8886,
+  "exit_time_iso": "2026-04-16T11:30:02.662678+00:00",
+  "final_snapshot": {
+    "error": "no pool found"
+  }
+}

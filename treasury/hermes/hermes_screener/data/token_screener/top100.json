@@ -1,0 +1,1269 @@
+{
+  "generated_at": "2026-04-20T18:04:34.855953",
+  "total_tokens": 50,
+  "top_tokens": [
+    {
+      "rank": 1,
+      "address": "bxnus5vnfnvnjy2hlx6ucycgh5vvmw8hkc9qfae2pump",
+      "chain": "solana",
+      "name": "INCOME",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 105,
+      "priority_reason": "High liquidity (Rick): $111,785; High volume (Rick): $4,659,618; Price data available (Rick); Listed on pumpswap (Rick); Telegram mentions: 1; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 0.001641,
+        "liquidity": 111784.57,
+        "volume_24h": 4659618.3
+      },
+      "telegram_data": {
+        "mentions": 1,
+        "channels": "discovery:dexscreener_profile:NO INCOME? SKILL ISSUE,discovery:dexscreener_profile:Will you receive a Mysterious Source of Income?",
+        "last_message": ""
+      },
+      "enrichment_data": {
+        "lore_data": {
+          "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_lore": false,
+          "lore_source": "rick_burp_bot"
+        }
+      },
+      "lore_data": {
+        "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_lore": false,
+        "lore_source": "rick_burp_bot"
+      },
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 2,
+      "address": "0x85eac631c800af804476b140f87039f742c28ba3",
+      "chain": "base",
+      "name": "WOON",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 105,
+      "priority_reason": "High liquidity (Rick): $338,050; High volume (Rick): $903,211; Price data available (Rick); Listed on uniswap (Rick); Telegram mentions: 2; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "uniswap",
+        "price": 1.124e-05,
+        "liquidity": 338049.63,
+        "volume_24h": 903210.59
+      },
+      "telegram_data": {
+        "mentions": 2,
+        "channels": "-1001523523939,-1002049726578",
+        "last_message": "$WOON ran to 2.2m on the suspicion that it was launched by @peaq \n\nhttps://x.com/peaq/status/2044300621482705079\n\nthey confirmed it 37mins ago and i guess noone realized lmfao\n\nhttps://x.com/Woon_agent/status/2044490683956772901\n\nPEAQ is fucking huge in the robotics industry like giagantic. \n\nhttps://www.peaq.xyz/\n\ncheck them out\n\ntheir token is sitting at 1.7m thats severely undervalued.\n\n0xdeployer aped yesterday too.\n\n`0x85EAC631c800af804476b140F87039f742c28BA3`"
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 3,
+      "address": "29cwsqh84tykhddwa6dtetutxqpukbvgkcmxtkbsbrrr",
+      "chain": "sol",
+      "name": "BELIEF",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 105,
+      "priority_reason": "High liquidity (Rick): $396,409; High volume (Rick): $3,317,312; Price data available (Rick); Listed on meteora (Rick); Telegram mentions: 2; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "meteora",
+        "price": 0.0114,
+        "liquidity": 396409.16,
+        "volume_24h": 3317311.74
+      },
+      "telegram_data": {
+        "mentions": 2,
+        "channels": "-1002587001587",
+        "last_message": "\ud83c\udfaf +406% PROFIT FROM PREMIUM \ud83c\udfaf\n\n\ud83d\ude80 5X RUNNER ALERT \ud83d\ude80\n\n\u251c $BELIEF\n\u251c `29CWsqH84TykHDDwA6DtETUtXQPuKbVgKCmxtkBsbrrr`\n\u2514| \u23f3 9m | \ud83d\udc41\ufe0f 1100\n\n\ud83d\udcca Token details\n\u251c PRICE:    $0.00444806\n\u251c MC:       $4.2M /5.1X from premium/\n\u251c Vol:      $2.7M\n\u251c Liq:      $248.4K\n\n\ud83d\udc65 Activity\n\u251c Holders:  1.4K\n\n\ud83d\udd12 Security\n\u251c Dev S:    \ud83d\udfe2\n\u251c Dex P:    \ud83d\udfe2\n\u251c Risk:     only available for Premium users\n\n\ud83d\udcca [BullX](https://neo.bullx.io/terminal?chainId=1399811149&address=29CWsqH84TykHDDwA6DtETUtXQPuKbVgKCmxtkBsbrrr) \u2022 [Axiom](https://axiom.tr"
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 4,
+      "address": "actfuwtgvaxrqgnmiohtusi5jcx5rjf5zwu9aaxkpump",
+      "chain": "solana",
+      "name": "unc",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 105,
+      "priority_reason": "High liquidity (Rick): $215,633; High volume (Rick): $2,965,353; Price data available (Rick); Listed on pumpswap (Rick); Telegram mentions: 2; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 0.005633,
+        "liquidity": 215633.46,
+        "volume_24h": 2965353.2
+      },
+      "telegram_data": {
+        "mentions": 2,
+        "channels": "-1003435139579",
+        "last_message": "/lore actfuwtgvaxrqgnmiohtusi5jcx5rjf5zwu9aaxkpump"
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 5,
+      "address": "82mtcmshws9uhggqgs5to46mbkih8pmhjnardypyvcat",
+      "chain": "sol",
+      "name": "AGC",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 105,
+      "priority_reason": "High liquidity (Rick): $244,777; High volume (Rick): $918,861; Price data available (Rick); Listed on meteora (Rick); Telegram mentions: 3; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "meteora",
+        "price": 0.007339,
+        "liquidity": 244777.31,
+        "volume_24h": 918860.81
+      },
+      "telegram_data": {
+        "mentions": 3,
+        "channels": "discovery:dexscreener_boost,discovery:dexscreener_trending_solana",
+        "last_message": ""
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 6,
+      "address": "0x44b28991b167582f18ba0259e0173176ca125505",
+      "chain": "eth",
+      "name": "UPEG",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 105,
+      "priority_reason": "High liquidity (Rick): $100,028; High volume (Rick): $595,064; Price data available (Rick); Listed on uniswap (Rick); Telegram mentions: 1; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "uniswap",
+        "price": 63.12,
+        "liquidity": 100028.18,
+        "volume_24h": 595064.42
+      },
+      "telegram_data": {
+        "mentions": 1,
+        "channels": "-1001758611100",
+        "last_message": "Update (ETH) uPEG\n\nNew tech launch on ETH gamble. Pinned in chat [earlier](https://t.me/mad_apes/7616067). Risky degen, dyor. [__Disclaimer__](https://t.me/mad_apes_gambles/201)\n0x44b28991B167582F18BA0259e0173176ca125505"
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 7,
+      "address": "0x44449ba264dffdcf903128c6800d9e4d3998adaf",
+      "chain": "bsc",
+      "name": "\u5b89\u5c0f\u5c06",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 105,
+      "priority_reason": "High liquidity (Rick): $111,866; High volume (Rick): $1,337,491; Price data available (Rick); Listed on pancakeswap (Rick); Telegram mentions: 1; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pancakeswap",
+        "price": 0.0004098,
+        "liquidity": 111866.5,
+        "volume_24h": 1337490.98
+      },
+      "telegram_data": {
+        "mentions": 1,
+        "channels": "[\"smart_money_bsc\"]",
+        "last_message": "Smart money wallet buying \u5b89\u5c0f\u5c06"
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 8,
+      "address": "0xb29de8455acd47bb10755a133c54d0e595c6ffff",
+      "chain": "bsc",
+      "name": "PP",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 95,
+      "priority_reason": "Good liquidity (Rick): $72,077; High volume (Rick): $1,010,823; Price data available (Rick); Listed on pancakeswap (Rick); Telegram mentions: 4; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pancakeswap",
+        "price": 0.0003974,
+        "liquidity": 72076.62,
+        "volume_24h": 1010822.59
+      },
+      "telegram_data": {
+        "mentions": 4,
+        "channels": "-1001541757109,-1001763265784",
+        "last_message": "He is going to bring CZ on his podcast/ interview \n\n0xb29de8455acd47bb10755a133c54d0e595c6ffff\n\n2.9m ath it\u2019s just getting started"
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 9,
+      "address": "hcbsqqc3sn2lmwbjvafied8nj2atzhh2wxh4xqv2pump",
+      "chain": "sol",
+      "name": "PEACE",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 95,
+      "priority_reason": "High liquidity (Rick): $162,830; High volume (Rick): $1,537,558; Price data available (Rick); Listed on pumpswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 0.003505,
+        "liquidity": 162830.33,
+        "volume_24h": 1537558.23
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 10,
+      "address": "0x60e9f9e8ccc7507651b5c97dc79ade40daac9af4",
+      "chain": "base",
+      "name": "AURUM",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 95,
+      "priority_reason": "High liquidity (Rick): $233,558; High volume (Rick): $365,208; Price data available (Rick); Listed on uniswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "uniswap",
+        "price": 0.03731,
+        "liquidity": 233558.22,
+        "volume_24h": 365208.41
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 11,
+      "address": "0xcf6bb5389c92bdda8a3747ddb454cb7a64626c63",
+      "chain": "bsc",
+      "name": "VENUS",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 95,
+      "priority_reason": "High liquidity (Rick): $150,967; High volume (Rick): $594,203; Price data available (Rick); Listed on pancakeswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pancakeswap",
+        "price": 3.081,
+        "liquidity": 150966.57,
+        "volume_24h": 594203.39
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 12,
+      "address": "0xf786a61afdab4769997f10576f8a2f63c7297777",
+      "chain": "bsc",
+      "name": "\u9f99\u5934",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 95,
+      "priority_reason": "High liquidity (Rick): $113,701; High volume (Rick): $555,799; Price data available (Rick); Listed on pancakeswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pancakeswap",
+        "price": 0.001014,
+        "liquidity": 113701.48,
+        "volume_24h": 555798.68
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 13,
+      "address": "5w3sm6ymmfmbocv3frn3hwktctukzwjcwp5wgsgrpump",
+      "chain": "solana",
+      "name": "YN",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 95,
+      "priority_reason": "High liquidity (Rick): $197,480; High volume (Rick): $2,192,651; Price data available (Rick); Listed on pumpswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 0.005935,
+        "liquidity": 197480.05,
+        "volume_24h": 2192650.77
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 14,
+      "address": "0x0bb85346534b55c90fb4d6fb6cf0ac8f50764444",
+      "chain": "bsc",
+      "name": "\u62c9\u54ea",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 85,
+      "priority_reason": "Moderate liquidity (Rick): $17,332; High volume (Rick): $274,790; Price data available (Rick); Listed on pancakeswap (Rick); Telegram mentions: 1; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pancakeswap",
+        "price": 2.593e-05,
+        "liquidity": 17332.23,
+        "volume_24h": 274789.79
+      },
+      "telegram_data": {
+        "mentions": 1,
+        "channels": "-1001541757109",
+        "last_message": "\u5e01\u9053AI\u7b56\u7565\u4fe1\u53f7\n\ud83d\udd14 \u4ee3\u5e01\u540d\u79f0: \u62c9\u54ea\n\ud83d\udcb0 \u4ee3\u5e01\u5730\u5740: `0x0bb85346534b55c90fb4d6fb6cf0ac8f50764444`\n\ud83d\udd17 \u6240\u5728\u94fe: BSC\n\u2139\ufe0f \u57fa\u672c\u4fe1\u606f: \n\n\ud83d\udcca\u5e02\u503c: $161.14 K\n\ud83d\udca6\u6d41\u52a8\u6027: $41.20 K\n\ud83d\udcac\u5b98\u65b9\u793e\u4ea4:  [\u2705\u7f51\u7ad9](https://app.binance.com/uni-qr/cpro/lanaai?l=zh-CN&r=G2QKVGHN&uc=app_square_share_link&us=copylink)\n\ud83d\udd10 \u4ee3\u5e01\u5b89\u5168\u9879\u68c0\u6d4b: [GoPlus](https://gopluslabs.io/token-security/56/0x0bb85346534b55c90fb4d6fb6cf0ac8f50764444)\n\ud83d\udcd6\u4ee3\u5e01\u53d9\u4e8b: \n\u62c9\u54ea\uff08lana\u7206\u706b\u4ea4\u6613bot\uff09\u7684\u540d\u79f0\u6765\u6e90\u4e8e\u68cd\u54e5\u4f7f\u7528\u5e76\u7206\u8d5a2000\u500d\u7684\u4ea4\u6613\u673a\u5668\u4eba\u3002\u8be5\u4ee3\u5e01\u901a\u8fc7\u793e\u533a\u9a71\u52a8\u7684\u6d3b\u52a8\u548c\u8ff7\u56e0\u6587\u5316\u8fdb\u884c\u63a8\u5e7f\u3002\n\n\u26a0\ufe0f\u98ce\u9669\u63d0\u793a\uff1a\u4ec5\u4e3a\u793e\u533a\u63d0\u4f9b\u4fe1\u606f\u53c2\u8003\uff0c\u4e0d\u4ee3\u8868\u4efb\u4f55\u6295\u8d44\u5efa\u8bae\uff0c\u98ce\u9669\u81ea\u62c5\uff0c\u76c8\u4e8f\u81ea\u8d1f\nPowered by [ChainInsight](https://chaininsight."
+      },
+      "enrichment_data": {
+        "lore_data": {
+          "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_lore": false,
+          "lore_source": "rick_burp_bot"
+        },
+        "chaingpt_data": {
+          "chaingpt_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_analysis": false,
+          "analysis_source": "chaingpt_bot"
+        }
+      },
+      "lore_data": {
+        "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_lore": false,
+        "lore_source": "rick_burp_bot"
+      },
+      "chaingpt_data": {
+        "chaingpt_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_analysis": false,
+        "analysis_source": "chaingpt_bot"
+      }
+    },
+    {
+      "rank": 15,
+      "address": "0x10c56f005a379f8eafc88ff5c3f40d30f0031ac9",
+      "chain": "base",
+      "name": "SR",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 85,
+      "priority_reason": "High liquidity (Rick): $141,967; Moderate volume (Rick): $15,810; Price data available (Rick); Listed on uniswap (Rick); Telegram mentions: 1; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "uniswap",
+        "price": 0.002223,
+        "liquidity": 141967.42,
+        "volume_24h": 15809.51
+      },
+      "telegram_data": {
+        "mentions": 1,
+        "channels": "discovery:dexscreener_boost",
+        "last_message": ""
+      },
+      "enrichment_data": {
+        "lore_data": {
+          "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_lore": false,
+          "lore_source": "rick_burp_bot"
+        }
+      },
+      "lore_data": {
+        "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_lore": false,
+        "lore_source": "rick_burp_bot"
+      },
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 16,
+      "address": "3e7nd9oom8wdvc6jdhwrslhpz6kymd8oyxt5zau2pump",
+      "chain": "solana",
+      "name": "M2M",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 85,
+      "priority_reason": "Moderate liquidity (Rick): $32,345; High volume (Rick): $304,592; Price data available (Rick); Listed on pumpswap (Rick); Telegram mentions: 1; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 0.0001725,
+        "liquidity": 32345.19,
+        "volume_24h": 304592.3
+      },
+      "telegram_data": {
+        "mentions": 1,
+        "channels": "discovery:dexscreener_boost",
+        "last_message": ""
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 17,
+      "address": "6bo24bcyfelfkjjksvnrwphqwyxji48prwq3r1fmpump",
+      "chain": "sol",
+      "name": "WCOIN",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 85,
+      "priority_reason": "Moderate liquidity (Rick): $33,745; High volume (Rick): $275,130; Price data available (Rick); Listed on pumpswap (Rick); Telegram mentions: 1; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 0.001815,
+        "liquidity": 33745.18,
+        "volume_24h": 275130.09
+      },
+      "telegram_data": {
+        "mentions": 1,
+        "channels": "discovery:dexscreener_boost",
+        "last_message": ""
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 18,
+      "address": "ccphryarnk9mpuoxatvr5gtqhxdt22uchsx165elsaxp",
+      "chain": "solana",
+      "name": "NAMDUONG",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 75,
+      "priority_reason": "Moderate liquidity (Rick): $11,519; High volume (Rick): $11,018,222; Price data available (Rick); Listed on meteora (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "meteora",
+        "price": 1.104e-05,
+        "liquidity": 11519.28,
+        "volume_24h": 11018221.62
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 19,
+      "address": "4z4km3oyjbndyvcc3enpta1iz4keqwvg8su3deywstgs",
+      "chain": "solana",
+      "name": "NAMDUONG",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 75,
+      "priority_reason": "Moderate liquidity (Rick): $11,878; High volume (Rick): $11,004,471; Price data available (Rick); Listed on meteora (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "meteora",
+        "price": 1.1e-05,
+        "liquidity": 11877.89,
+        "volume_24h": 11004471.16
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 20,
+      "address": "cn86af3eherngn4dabomwmqcgvld4peorrd5bzv27xwk",
+      "chain": "sol",
+      "name": "NAMDUONG",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 75,
+      "priority_reason": "Moderate liquidity (Rick): $11,860; High volume (Rick): $11,074,416; Price data available (Rick); Listed on meteora (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "meteora",
+        "price": 1.123e-05,
+        "liquidity": 11860.13,
+        "volume_24h": 11074415.86
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 21,
+      "address": "0xdc685acc53ca2a760029cab2f6a587482aa9cf57",
+      "chain": "polygon",
+      "name": "SNI",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 65,
+      "priority_reason": "High liquidity (Rick): $133,793; Price data available (Rick); Listed on uniswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "uniswap",
+        "price": 0.1696,
+        "liquidity": 133792.83,
+        "volume_24h": 435.82
+      },
+      "telegram_data": {},
+      "enrichment_data": {
+        "lore_data": {
+          "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_lore": false,
+          "lore_source": "rick_burp_bot"
+        },
+        "chaingpt_data": {
+          "chaingpt_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_analysis": false,
+          "analysis_source": "chaingpt_bot"
+        }
+      },
+      "lore_data": {
+        "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_lore": false,
+        "lore_source": "rick_burp_bot"
+      },
+      "chaingpt_data": {
+        "chaingpt_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_analysis": false,
+        "analysis_source": "chaingpt_bot"
+      }
+    },
+    {
+      "rank": 22,
+      "address": "33qcxb8mb5xvrbkvejddrhbfuzqdlgxjec5nfvuretha",
+      "chain": "solana",
+      "name": "VENUS",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 65,
+      "priority_reason": "High liquidity (Rick): $87,183,141; Price data available (Rick); Listed on orca (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "orca",
+        "price": 5.4,
+        "liquidity": 87183141.09,
+        "volume_24h": 3.99
+      },
+      "telegram_data": {},
+      "enrichment_data": {
+        "lore_data": {
+          "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_lore": false,
+          "lore_source": "rick_burp_bot"
+        },
+        "chaingpt_data": {
+          "chaingpt_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_analysis": false,
+          "analysis_source": "chaingpt_bot"
+        }
+      },
+      "lore_data": {
+        "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_lore": false,
+        "lore_source": "rick_burp_bot"
+      },
+      "chaingpt_data": {
+        "chaingpt_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_analysis": false,
+        "analysis_source": "chaingpt_bot"
+      }
+    },
+    {
+      "rank": 23,
+      "address": "8vruakxjxrmwbso1mhexl4zbs7pzqsaim6nsgw5kmdgc",
+      "chain": "solana",
+      "name": "MILK",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 65,
+      "priority_reason": "High liquidity (Rick): $47,678,567; Price data available (Rick); Listed on orca (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "orca",
+        "price": 0.04057,
+        "liquidity": 47678566.66,
+        "volume_24h": 3.99
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 24,
+      "address": "8zttbuf7xsywhdvrt41wqpwwbe6wncprmevokzyyyj99",
+      "chain": "sol",
+      "name": "BULLCOIN",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 65,
+      "priority_reason": "High liquidity (Rick): $763,897; Price data available (Rick); Listed on orca (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "orca",
+        "price": 0.0001909,
+        "liquidity": 763897.49,
+        "volume_24h": 2.99
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 25,
+      "address": "0x44444d628a21d5c86d1da876c1e7813c096aa479",
+      "chain": "bsc",
+      "name": "\u62c9\u54ea",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 65,
+      "priority_reason": "High volume (Rick): $143,201; Price data available (Rick); Listed on fourmeme (Rick); Telegram mentions: 1; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "fourmeme",
+        "price": 2.355e-05,
+        "liquidity": "",
+        "volume_24h": 143200.92
+      },
+      "telegram_data": {
+        "mentions": 1,
+        "channels": "[\"smart_money_bsc\"]",
+        "last_message": "Smart money wallet buying \u62c9\u54ea"
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 26,
+      "address": "0xfa2e4ec5a818c2d2c352f4b152c06338d476b646",
+      "chain": "bsc",
+      "name": "XPX",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 55,
+      "priority_reason": "Good liquidity (Rick): $52,014; Price data available (Rick); Listed on pancakeswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pancakeswap",
+        "price": 1.392e-06,
+        "liquidity": 52013.89,
+        "volume_24h": 667.77
+      },
+      "telegram_data": {},
+      "enrichment_data": {
+        "lore_data": {
+          "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_lore": false,
+          "lore_source": "rick_burp_bot"
+        }
+      },
+      "lore_data": {
+        "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_lore": false,
+        "lore_source": "rick_burp_bot"
+      },
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 27,
+      "address": "mkvctykrcqq7ephkatvqvh4x9cfudxigmzmwfiwpump",
+      "chain": "solana",
+      "name": "DRTRUMP",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 55,
+      "priority_reason": "Moderate liquidity (Rick): $27,646; Moderate volume (Rick): $39,210; Price data available (Rick); Listed on pumpswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 0.0001295,
+        "liquidity": 27645.95,
+        "volume_24h": 39209.94
+      },
+      "telegram_data": {},
+      "enrichment_data": {
+        "lore_data": {
+          "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_lore": false,
+          "lore_source": "rick_burp_bot"
+        }
+      },
+      "lore_data": {
+        "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_lore": false,
+        "lore_source": "rick_burp_bot"
+      },
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 28,
+      "address": "gujedavxx47kzyad74xd4okvbujzstefhtedq7lr1ib8",
+      "chain": "solana",
+      "name": "NAMDUONG",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 55,
+      "priority_reason": "High volume (Rick): $11,046,027; Price data available (Rick); Listed on meteora (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "meteora",
+        "price": 1.116e-05,
+        "liquidity": 141.12,
+        "volume_24h": 11046026.52
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 29,
+      "address": "0xfe69bc93b936b34d371defa873686c116c8488c2",
+      "chain": "base",
+      "name": "MILK",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 55,
+      "priority_reason": "Good liquidity (Rick): $62,313; Price data available (Rick); Listed on hyperswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "hyperswap",
+        "price": 5.903e-05,
+        "liquidity": 62313.02,
+        "volume_24h": 0.04
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 30,
+      "address": "7tf6fmmfloxpckmuznpocthjehdppqvm2ppqjccnpump",
+      "chain": "solana",
+      "name": "HERM",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 45,
+      "priority_reason": "Moderate liquidity (Rick): $19,690; Price data available (Rick); Listed on pumpswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 4.069e-05,
+        "liquidity": 19690.13,
+        "volume_24h": 2047.91
+      },
+      "telegram_data": {},
+      "enrichment_data": {
+        "lore_data": {
+          "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_lore": false,
+          "lore_source": "rick_burp_bot"
+        }
+      },
+      "lore_data": {
+        "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_lore": false,
+        "lore_source": "rick_burp_bot"
+      },
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 31,
+      "address": "9rpoav7xe1ucyygrfmzex8fa8kevp3xdsdwypc5qpump",
+      "chain": "solana",
+      "name": "YN",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 45,
+      "priority_reason": "Moderate volume (Rick): $46,860; Price data available (Rick); Listed on pumpfun (Rick); Telegram mentions: 1; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpfun",
+        "price": 2.641e-05,
+        "liquidity": "",
+        "volume_24h": 46860.07
+      },
+      "telegram_data": {
+        "mentions": 1,
+        "channels": "discovery:dexscreener_profile:yn take over",
+        "last_message": ""
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 32,
+      "address": "0x6147e74d0031041523352de6388bec538e0c5405",
+      "chain": "bsc",
+      "name": "SADIE",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 45,
+      "priority_reason": "Moderate liquidity (Rick): $39,810; Price data available (Rick); Listed on pancakeswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pancakeswap",
+        "price": 1.747e-05,
+        "liquidity": 39810.35,
+        "volume_24h": 8.64
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 33,
+      "address": "gepge4yrvlaj9sflavfhrppusc49sncfvyhut6qopump",
+      "chain": "solana",
+      "name": "SADIE",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 35,
+      "priority_reason": "Price data available (Rick); Listed on pumpswap (Rick); Telegram mentions: 1; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 2.551e-06,
+        "liquidity": 4839.59,
+        "volume_24h": 15.25
+      },
+      "telegram_data": {
+        "mentions": 1,
+        "channels": "discovery:dexscreener_boost",
+        "last_message": ""
+      },
+      "enrichment_data": {
+        "lore_data": {
+          "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_lore": false,
+          "lore_source": "rick_burp_bot"
+        },
+        "chaingpt_data": {
+          "chaingpt_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_analysis": false,
+          "analysis_source": "chaingpt_bot"
+        }
+      },
+      "lore_data": {
+        "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_lore": false,
+        "lore_source": "rick_burp_bot"
+      },
+      "chaingpt_data": {
+        "chaingpt_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_analysis": false,
+        "analysis_source": "chaingpt_bot"
+      }
+    },
+    {
+      "rank": 34,
+      "address": "ccso5apbwexgyqxzqx5ejs8vgvbxzmcqfd6hmnfbpump",
+      "chain": "solana",
+      "name": "UNCSHEIKH",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 35,
+      "priority_reason": "Price data available (Rick); Listed on pumpswap (Rick); Telegram mentions: 1; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 3.835e-06,
+        "liquidity": 6347.93,
+        "volume_24h": 1059.35
+      },
+      "telegram_data": {
+        "mentions": 1,
+        "channels": "-1002170989480",
+        "last_message": "$uncsheikh\n`CCSo5aPBWEXgyqxzQX5ejS8VGVbxZMCQFd6hmnfbpump`\n \nMKT Cap: $591.41K\nHype Speed: 2 posts/5min\nTotal Posts: 13\nTotal Views: 37\n \nUsers Analytics:\nTotal Average Views per Post: 229593\nTotal Followers: 9051\n \nLinks:\n**Web: ****https://gmgn.ai/sol/token/6IOnGHk4_CCSo5aPBWEXgyqxzQX5ejS8VGVbxZMCQFd6hmnfbpump**\n \n**TG_Bot: ****https://t.me/GMGN_sol_bot?start=i_6IOnGHk4_c_CCSo5aPBWEXgyqxzQX5ejS8VGVbxZMCQFd6hmnfbpump**\n \n**X: ****https://x.com/search?q=CCSo5aPBWEXgyqxzQX5ejS8VGVbxZMCQFd6hmnfbpum"
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 35,
+      "address": "filykhdjyyo4yiarpy5t3vnwcibshaxxgpyduevjpump",
+      "chain": "solana",
+      "name": "TRUNC",
+      "symbol": "",
+      "source": "both",
+      "priority_score": 35,
+      "priority_reason": "Price data available (Rick); Listed on pumpswap (Rick); Telegram mentions: 1; From multiple sources (Rick + Telegram)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 1.532e-06,
+        "liquidity": 3044.76,
+        "volume_24h": 1.01
+      },
+      "telegram_data": {
+        "mentions": 1,
+        "channels": "-1002115686230",
+        "last_message": "\ud83d\udc8a\ud83d\udc8a\ud83d\udc8a PUMP\u5df2\u6ee1 \ud83d\udc8a\ud83d\udc8a\ud83d\udc8a\n\n**trunc (trunc)**\n\n\ud83c\udfb2 CA:\n`FiLykHDjyYo4YiaRpY5t3VnWCiBSHAXXgpydueVJpump`\n\nCheck \u7acb\u5373\u7814\u7a76 [FiLykHDjyYo4YiaRpY5t3VnWCiBSHAXXgpydueVJpump](https://gmgn.ai/sol/token/FiLykHDjyYo4YiaRpY5t3VnWCiBSHAXXgpydueVJpump)\n\n\ud83d\udc65 Holder\u6301\u6709\u4eba: **126**\n\ud83d\udc65 Reply\u8bc4\u8bba: **0**\n\ud83d\udc511/2 Process\u8fdb\u5ea6\u8017\u65f6: **2m 25s**\n\ufe0f\ud83d\ude802/2 Process\u8fdb\u5ea6\u8017\u65f6: **18m 5s**\n\n\ud83d\udc68\ud83c\udffb\u200d\ud83d\udcbb Dev Wallet \u4f5c\u8005\u94b1\u5305:\n  - Balance SOL:  \u26a0\ufe0f **5.55 SOL**\n  - Balance USD: $469.222\n- \ud83d\udfe1 Almost Poor Dev\u4f5c\u8005\u6709\u70b9\u7a77\n\n[\ud83d\udc26  Twitter](https://twitter.com/trunconsol) | [\ud83c\udf0f  website](https://trunc."
+      },
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 36,
+      "address": "8kxafnbi4dbnwliybdo7frzhihd8pvbjfc16vbrtpump",
+      "chain": "solana",
+      "name": "TRUNC",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 35,
+      "priority_reason": "Moderate volume (Rick): $14,804; Price data available (Rick); Listed on pumpfun (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpfun",
+        "price": 2.458e-06,
+        "liquidity": "",
+        "volume_24h": 14803.98
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 37,
+      "address": "0x6562ccb983fc927788626d914cd4f1d584597777",
+      "chain": "bsc",
+      "name": "\u9f99\u5934",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on pancakeswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pancakeswap",
+        "price": 9.808e-06,
+        "liquidity": 9109.24,
+        "volume_24h": 10.02
+      },
+      "telegram_data": {},
+      "enrichment_data": {
+        "lore_data": {
+          "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_lore": false,
+          "lore_source": "rick_burp_bot"
+        },
+        "chaingpt_data": {
+          "chaingpt_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+          "has_analysis": false,
+          "analysis_source": "chaingpt_bot"
+        }
+      },
+      "lore_data": {
+        "lore_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_lore": false,
+        "lore_source": "rick_burp_bot"
+      },
+      "chaingpt_data": {
+        "chaingpt_response": "Error: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)",
+        "has_analysis": false,
+        "analysis_source": "chaingpt_bot"
+      }
+    },
+    {
+      "rank": 38,
+      "address": "1bna2nimxewpayzmttu34aknqpt8onxh5pvu8hapump",
+      "chain": "solana",
+      "name": "CHSN",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on pumpswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 3.81e-06,
+        "liquidity": 6118.5,
+        "volume_24h": 449.03
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 39,
+      "address": "h2zjwdyg6bfnw5ute13tw7qbzvkucp1hmwk3kwn7pump",
+      "chain": "sol",
+      "name": "UNCPEPE",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on pumpswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 2.833e-06,
+        "liquidity": 5235.85,
+        "volume_24h": 651.9
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 40,
+      "address": "d3dmeyc5p7llkvemtqx58ewgk5lmjqrjvnrmulrlpump",
+      "chain": "solana",
+      "name": "BULLCOIN",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on pumpswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 5.038e-06,
+        "liquidity": 7010.3,
+        "volume_24h": 79.88
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 41,
+      "address": "hsp58y8nmgo4j8lgpvissnekhncrnjhqbmve87utpump",
+      "chain": "solana",
+      "name": "BFH",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on pumpfun (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpfun",
+        "price": 6.957e-07,
+        "liquidity": "",
+        "volume_24h": 0.13
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 42,
+      "address": "hohuefa7h6zf38lj2pyn3di4a62g75bzw1b2yvjrpump",
+      "chain": "solana",
+      "name": "TRUNC",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on pumpswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 1.859e-06,
+        "liquidity": 3351.8,
+        "volume_24h": 478.92
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 43,
+      "address": "7mf2ezx9b471vgnqk7owbb845wiulmpdjjz2kinxpump",
+      "chain": "solana",
+      "name": "MILK",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on pumpfun (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpfun",
+        "price": 1.026e-05,
+        "liquidity": "",
+        "volume_24h": 1254.94
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 44,
+      "address": "6hvpj1resy7n2lrkwxijqh9cgr4cdtug6qwsu8b9wpqb",
+      "chain": "solana",
+      "name": "BFH",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on pumpswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 2.16,
+        "liquidity": 0.0,
+        "volume_24h": 0.02
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 45,
+      "address": "2qbmnyrgykcxrjmdya2riuxyera8ramzgunpgdnepump",
+      "chain": "solana",
+      "name": "YN",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on pumpfun (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpfun",
+        "price": 2.374e-06,
+        "liquidity": "",
+        "volume_24h": 88.45
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 46,
+      "address": "cq23y3ibznsjfztbqzx7n9iue3ztmadihsmyitfvpump",
+      "chain": "solana",
+      "name": "DRTRUMP",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on pumpswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 1.8e-06,
+        "liquidity": 3429.72,
+        "volume_24h": 14.99
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 47,
+      "address": "0x8c9e622d81f98ddd9cadb9af459888035fee4444",
+      "chain": "bsc",
+      "name": "CHSN",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on fourmeme (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "fourmeme",
+        "price": 3.687e-06,
+        "liquidity": "",
+        "volume_24h": 38.16
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 48,
+      "address": "1j5bnmgrbnhkyzgm3ta5hepymxcfsjkpkpo1s99pump",
+      "chain": "solana",
+      "name": "BFH",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on pumpswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 1.589e-06,
+        "liquidity": 3187.32,
+        "volume_24h": 0.65
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 49,
+      "address": "etnyicvjeheekwh4wvvlcdxj4v6cjz1edug7scnppump",
+      "chain": "solana",
+      "name": "DRTRUMP",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on pumpswap (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "pumpswap",
+        "price": 1.79e-06,
+        "liquidity": 3507.15,
+        "volume_24h": 4.54
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    },
+    {
+      "rank": 50,
+      "address": "fksq9zdhpfdypdpfuopsguen7dgs6vkekm8qjkjdnvip",
+      "chain": "sol",
+      "name": "CHSN",
+      "symbol": "",
+      "source": "rick_burp",
+      "priority_score": 25,
+      "priority_reason": "Price data available (Rick); Listed on orca (Rick); From Rick Burp bot (curated)",
+      "rick_burp_data": {
+        "discovery_method": "rick_burp_bot",
+        "dex": "orca",
+        "price": 0.000885,
+        "liquidity": 3.01,
+        "volume_24h": 0.18
+      },
+      "telegram_data": {},
+      "enrichment_data": {},
+      "lore_data": {},
+      "chaingpt_data": {}
+    }
+  ]
+}

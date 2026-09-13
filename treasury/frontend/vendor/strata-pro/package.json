@@ -1,0 +1,54 @@
+{
+  "name": "strata-pro-crypto-ui",
+  "private": false,
+  "version": "0.1.0",
+  "description": "Open-source React crypto market dashboard UI with premium dark styling, charts, and token analytics components.",
+  "license": "MIT",
+  "author": "Milon <https://github.com/bymilon>",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bymilon/strata-pro-crypto-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bymilon/strata-pro-crypto-ui/issues"
+  },
+  "homepage": "https://github.com/bymilon/strata-pro-crypto-ui#readme",
+  "packageManager": "bun@1.3.14",
+  "keywords": [
+    "react",
+    "vite",
+    "typescript",
+    "crypto-dashboard",
+    "trading-ui",
+    "tailwindcss",
+    "lightweight-charts"
+  ],
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "powershell -NoProfile -Command \"if (Test-Path dist) { Remove-Item -LiteralPath dist -Recurse -Force }\"",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@tanstack/react-table": "^8.21.3",
+    "clsx": "^2.1.1",
+    "lightweight-charts": "^5.2.0",
+    "lucide-react": "^0.546.0",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "tailwind-merge": "^3.6.0",
+    "zustand": "^5.0.13"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "autoprefixer": "^10.4.21",
+    "esbuild": "^0.25.0",
+    "tailwindcss": "^4.1.14",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.3"
+  }
+}

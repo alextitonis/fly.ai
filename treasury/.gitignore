@@ -1,0 +1,73 @@
+# Treasury Trader — SHIT/5H1T token with fly connectome trader
+# Same monorepo pattern as sshfighter/
+
+# Node.js
+node_modules/
+.pnpm-store/
+
+# Python
+.venv/
+.venv-workers/
+python_modules/
+__pycache__/
+*.pyc
+
+# Cloudflare
+.wrangler/
+.dev.vars
+
+# Foundry / Solidity
+contracts/lib/
+contracts/out/
+contracts/cache/
+
+# Build artifacts
+frontend/dist/
+*.npz
+*.feather
+
+# Data files (downloaded at setup, not committed)
+fly-data/
+*.db
+*.db-journal
+
+# Logs
+logs/
+recordings*/
+
+# Connectome data (large, downloaded by build_brain.py)
+workers/fly-brain-do/src/celegans_*_data/
+workers/fly-brain-do/src/ciona_data/
+workers/fly-brain-do/src/fly_larva_data/
+workers/fly-brain-do/src/heavy_tailed_connectivity/
+workers/fly-brain-do/src/conn2res/
+workers/fly-brain-do/src/connectome_interpreter/
+workers/fly-brain-do/src/*.zip
+workers/fly-brain-do/src/*.csv
+workers/fly-brain-do/src/*.gz
+
+# Hermes data (large, re-downloadable)
+hermes/data/dex_pools/
+hermes/data/*.json
+hermes/data/*.csv
+hermes/data/*.db
+
+# Loxley assets (images, not needed for swap encoding)
+loxley/assets/
+loxley/recordings/
+
+# Frontend large data
+frontend/public/media-*.mp4
+frontend/public/data-leaderboard-full.json
+frontend/public/data-airdrop-eligible.json
+
+# Secrets — NEVER commit
+*.pem
+*.key
+.env
+.env.local
+.dev.vars
+
+# OS files
+.DS_Store
+Thumbs.db
