@@ -1,0 +1,7 @@
+name: solana
+networks:
+  - mainnet-beta
+defaultNetwork: mainnet-beta
+rpcProvider: 'YOUR_RPC_PROVIDER_HERE'  # e.g., 'https://api.mainnet-beta.solana.com'
+wsProvider: 'YOUR_WS_PROVIDER_HERE'    # e.g., 'wss://api.mainnet-beta.solana.com'
+defaultWallet: '<YOUR_SOLANA_WALLET_ADDRESS>'

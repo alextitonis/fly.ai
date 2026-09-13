@@ -1,0 +1,23 @@
+{
+  "lib/bond-protocol": {
+    "rev": "eebeef2ef6100ec13556c6a003139932ea724cfe"
+  },
+  "lib/createx": {
+    "rev": "8372c77c7932cf74cec8272f727bfb013fefc250"
+  },
+  "lib/forge-std": {
+    "tag": {
+      "name": "v1.16.2",
+      "rev": "bf647bd6046f2f7da30d0c2bf435e5c76a780c1b"
+    }
+  },
+  "lib/shit-v3": {
+    "rev": "75476de003b47be099a5725eca41809032c9d3f2"
+  },
+  "lib/openzeppelin": {
+    "rev": "cebdf7bf38f6bd8c3bd83beb1395bd069e3c04c9"
+  },
+  "lib/v4-hooks-public": {
+    "rev": "f2aa843e266f8f9b34fdaf94ffb72eda5d9204f9"
+  }
+}

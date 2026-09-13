@@ -1,0 +1,386 @@
+# Wallet Requirements by Chain
+# 233 chains
+# Generated: April 16, 2026
+
+## EVM_0x (191 chains)
+  Address format: 0x...
+  Wallets: MetaMask, Rabby, Rainbow, Coinbase Wallet, Trust Wallet
+  Chains:
+    0G
+    AILayer
+    Abstract
+    Ancient8
+    ApeChain
+    Arbitrum
+    Arbitrum Nova
+    Astar
+    Aurora
+    Avalanche
+    BOB
+    BSquared
+    Base
+    Berachain
+    Bifrost
+    Bifrost Network
+    Binance
+    Bitcoincash
+    Bitgert
+    Bitkub
+    Bitlayer
+    Bittensor EVM
+    Bittorrent
+    Blast
+    Boba
+    Botanix
+    BounceBit
+    CLV
+    CORE
+    CSC
+    Canto
+    Canton
+    Celo
+    Chainflip
+    Chiliz
+    Citrea
+    Comdex
+    Conflux
+    Constellation
+    Corn
+    Coti
+    Crescent
+    Cronos
+    Cronos zkEVM
+    Cyber
+    Dexalot
+    Dogechain
+    DuckChain
+    EDU Chain
+    Elastos
+    Electroneum
+    Endurance
+    EnergyWeb
+    Ethereum
+    EthereumClassic
+    Etherlink
+    Everscale
+    Fantom
+    Flare
+    Fraxtal
+    Fuse
+    Fusion
+    Gala
+    Goat
+    Gravity
+    GravityBridge
+    Harmony
+    HashKey Chain
+    Heco
+    Hemi
+    Horizen EON
+    HydraDX
+    Hyperliquid L1
+    IOTA EVM
+    Immutable zkEVM
+    Ink
+    Interlay
+    IoTeX
+    Katana
+    Kinto
+    Klaytn
+    Kroma
+    Kucoin
+    LUKSO
+    Linea
+    Lisk
+    Manta
+    Manta Atlantic
+    Mantle
+    Map
+    MegaETH
+    Merlin
+    Meter
+    Metis
+    Migaloo
+    Mode
+    Monad
+    Moonbeam
+    Moonriver
+    Morph
+    MultiVAC
+    NEO
+    Neo3
+    Neon
+    Noble
+    OKExChain
+    Oasis
+    Odyssey
+    Omax
+    OntologyEVM
+    Op_Bnb
+    Optimism
+    Orai
+    Plasma
+    Plume Mainnet
+    Polkadex
+    Polkadot
+    Polygon
+    Polygon zkEVM
+    Proton
+    Pulse
+    Q Protocol
+    REI
+    RENEC
+    RSK
+    Rari
+    Redstone
+    Regen
+    Reya Network
+    Rollux
+    Ronin
+    Sapphire
+    Scroll
+    Shape
+    Shiden
+    Shido
+    ShimmerEVM
+    Silicon zkEVM
+    Somnia
+    Soneium
+    Songbird
+    Sonic
+    Sophon
+    Stable
+    Starknet
+    Story
+    Stratis
+    Superposition
+    Superseed
+    Supra
+    Swellchain
+    Syscoin
+    TAC
+    Taiko
+    Taraxa
+    Telos
+    Terra
+    Theta
+    ThunderCore
+    Titan
+    Tombchain
+    TomoChain
+    Tron
+    UNIT0
+    Ultra
+    Unichain
+    Velas
+    Venom
+    Verus
+    Voi Network
+    WEMIX
+    WINR
+    Wanchain
+    Waves
+    World Chain
+    X Layer
+    XDC
+    XRPL EVM
+    Xai
+    Zero Network
+    ZetaChain
+    Zircuit
+    Zkfair
+    Zora
+    aelf
+    edgeX L1
+    inEVM
+    smartBCH
+    xDai
+    zkLink
+    zkSync Era
+
+## Cosmos_Bech32 (14 chains)
+  Address format: cosmos1... / osmo1... / inj1... / sei1...
+  Wallets: Keplr, Leap, Cosmostation
+  Chains:
+    Archway
+    Chihuahua
+    Evmos
+    Initia
+    Injective
+    Kava
+    Mayachain
+    Nibiru
+    Osmosis
+    Sei
+    Thorchain
+    XION
+    ZIGChain
+    dYdX
+
+## Bitcoin_Legacy (4 chains)
+  Address format: bc1... / 1... / 3... / ltc1... / D... / t1...
+  Wallets: Electrum, Sparrow, Ledger, Trezor, Unisat (BTC)
+  Chains:
+    Bitcoin
+    Dash
+    Doge
+    Zcash
+
+## Move_Hex (3 chains)
+  Address format: 0x... (64 hex chars, longer than EVM)
+  Wallets: Sui Wallet, Martian, Pontem, Petra (Aptos), Nightly
+  Chains:
+    Aptos
+    Movement
+    Sui
+
+## Solana_Base58 (1 chains)
+  Address format: base58 (e.g., HaDbEJ...)
+  Wallets: Phantom, Solflare, Backpack, Ledger
+  Chains:
+    Solana
+
+## TON_Base64 (1 chains)
+  Address format: EQ... / UQ... (base64url, 48 chars)
+  Wallets: Tonkeeper, Tonhub, MyTonWallet, OpenMask
+  Chains:
+    TON
+
+## Near_Account (1 chains)
+  Address format: name.near / name.testnet
+  Wallets: Meteor Wallet, Sender, Here Wallet, Ledger
+  Chains:
+    Near
+
+## Algorand_58 (1 chains)
+  Address format: 58-char alphanumeric
+  Wallets: Pera Wallet, Defly, Exodus, Ledger
+  Chains:
+    Algorand
+
+## Stellar_G (1 chains)
+  Address format: G... (56 chars, base32)
+  Wallets: Lobstr, Freighter, Albedo, Rabet
+  Chains:
+    Stellar
+
+## XRPL_R (1 chains)
+  Address format: r... (25-35 chars)
+  Wallets: XUMM, Ledger, Trust Wallet
+  Chains:
+    Ripple
+
+## Cardano_Bech32 (1 chains)
+  Address format: addr1... (bech32)
+  Wallets: Nami, Eternl, Yoroi, Flint, Lace
+  Chains:
+    Cardano
+
+## Tezos_TZ (1 chains)
+  Address format: tz1... / tz2... / tz3... / KT1...
+  Wallets: Temple, Kukai, Umami, Ledger
+  Chains:
+    Tezos
+
+## Flow_Hex16 (1 chains)
+  Address format: 0x... (16 hex chars)
+  Wallets: Blocto, Lilico, Ledger
+  Chains:
+    Flow
+
+## Hedera_Dot (1 chains)
+  Address format: 0.0.XXXX (shard.realm.num)
+  Wallets: HashPack, Blade, Kabila, WallaWallet
+  Chains:
+    Hedera
+
+## MultiversX_Bech32 (1 chains)
+  Address format: erd1... (bech32)
+  Wallets: xPortal, DeFi Wallet, Ledger
+  Chains:
+    Elrond
+
+## Filecoin_F (1 chains)
+  Address format: f1... / f3... / t1...
+  Wallets: Glif, FoxWallet, Ledger
+  Chains:
+    Filecoin
+
+## Stacks_SP (1 chains)
+  Address format: SP... / SM... (c32check)
+  Wallets: Leather, Xverse, Asigna
+  Chains:
+    Stacks
+
+## ICP_Principal (1 chains)
+  Address format: Principal ID (text) or Account ID (hex)
+  Wallets: NNS Dapp, Stoic, Plug, OISY
+  Chains:
+    ICP
+
+## Ergo_9 (1 chains)
+  Address format: 9... (base58check)
+  Wallets: Nautilus, SAFEW, Ergo Wallet
+  Chains:
+    Ergo
+
+## Icon_HX (1 chains)
+  Address format: hx... (42 chars)
+  Wallets: Hana, ICONex, Ledger
+  Chains:
+    Icon
+
+## IOTA_Bech32 (1 chains)
+  Address format: iota1... / smr1... (bech32)
+  Wallets: Firefly, Bloom, TanglePay
+  Chains:
+    IOTA
+
+## Radix_Bech32 (1 chains)
+  Address format: rdx1... (bech32)
+  Wallets: Radix Wallet, Ledger
+  Chains:
+    Radix
+
+## Subtensor_SS58 (1 chains)
+  Address format: 5... (SS58, Substrate format)
+  Wallets: Polkadot.js, Bittensor Wallet, Ledger
+  Chains:
+    Bittensor
+
+## Vite_Vite (1 chains)
+  Address format: vite_... (50 chars)
+  Wallets: ViteX, web wallet
+  Chains:
+    Vite
+
+## SUMMARY
+
+Wallet Type                Chains
+----------------------------------
+EVM_0x                        191
+Cosmos_Bech32                  14
+Bitcoin_Legacy                  4
+Move_Hex                        3
+Solana_Base58                   1
+TON_Base64                      1
+Near_Account                    1
+Algorand_58                     1
+Stellar_G                       1
+XRPL_R                          1
+Cardano_Bech32                  1
+Tezos_TZ                        1
+Flow_Hex16                      1
+Hedera_Dot                      1
+MultiversX_Bech32               1
+Filecoin_F                      1
+Stacks_SP                       1
+ICP_Principal                   1
+Ergo_9                          1
+Icon_HX                         1
+IOTA_Bech32                     1
+Radix_Bech32                    1
+Subtensor_SS58                  1
+Vite_Vite                       1
+
+Total: 233 chains

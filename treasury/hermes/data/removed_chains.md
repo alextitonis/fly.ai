@@ -1,0 +1,405 @@
+# Removed Chains & Protocols
+
+Reasons for removal:
+1. TVL < $50K total across all protocols on the chain
+2. No bridge connectivity (no bridge protocol AND no multi-chain protocol connecting out)
+
+**Chains removed:** 158
+**Protocols removed:** 226
+
+---
+
+## Chains Removed for TVL < $50K (50 chains)
+
+- **JBC** — $46K — CMswap, JIBSWAP
+- **REIchain** — $45K — Foodcourt
+- **Hydra** — $42K — Hydradex V3, Hydradex V2
+- **Findora** — $42K — FairySwap V1, FairySwap V2, forlend
+- **svmBNB** — $38K — CobaltX
+- **soonBase** — $38K — CobaltX
+- **Soon Network** — $38K — CobaltX
+- **Pepu** — $37K — Pepu V3
+- **Massa** — $35K — Dusa Protocol, EagleFi
+- **Genesys** — $32K — PowaDAP
+- **Mind Network** — $32K — Mind Network
+- **Step** — $27K — Step Exchange
+- **AO** — $26K — LiquidOps
+- **Pokt** — $25K — ThunderPOKT
+- **Hydra Chain** — $23K — Hydradex V3
+- **DChain** — $21K — OpenBiSea
+- **Sora** — $20K — Polkaswap
+- **Aura Network** — $19K — HaloTrade Cosmos
+- **GANchain** — $19K — GVEX
+- **Matchain** — $19K — MSwap
+- **Areon Network** — $18K — hyperswap on Areon Network
+- **ALV** — $17K — AmpleSwap
+- **DSC** — $17K — AmpleSwap
+- **Lachain** — $17K — Ladex Exchange
+- **VirBiCoin** — $16K — VirBiCoin DEX
+- **Kintsugi** — $15K — Kintsugi
+- **Althea** — $15K — Althea DEX
+- **Parex** — $15K — RaccoonSwap
+- **BCHyper** — $13K — BCSwap
+- **IDEX** — $11K — Kuma Perpetuals DEX
+- **Penumbra** — $11K — Penumbra Dex
+- **Neo X Mainnet** — $8K — Carrot Swap, Asteroneo
+- **Xone Chain** — $7K — SwapX Xone Chain
+- **Haven1** — $7K — Haven1 hSwap
+- **VinuChain** — $7K — VinuSwap
+- **GoChain** — $7K — GoSwap
+- **Darwinia** — $7K — SnowSwap AMM
+- **Crab** — $7K — SnowSwap AMM
+- **Moonchain** — $7K — Moonchain Swap
+- **Joltify** — $6K — Joltify Lend
+- **Planq** — $5K — Ciento Exchange, Physica Finance
+- **Callisto** — $4K — Soy Finance
+- **Ham** — $3K — BBQSwap
+- **zkSync** — $3K — ZigZag
+- **Aleph Zero EVM** — $2K — Common
+- **Bostrom** — $2K — Warp Dex
+- **Concordium** — $1K — Concordex
+- **Curio** — $1K — CapitalDEX
+- **Bitcichain** — $1K — SimitciSwap
+- **Elys** — $1K — Elys DEX
+
+## Chains Removed for No Bridge Connectivity (108 chains)
+
+- **Tempo** — $10888.2M — Morpho V1, Uniswap V3, Uniswap V2, Uniswap V4, Symbiosis, Tempo Stablecoin Dex, Skate AMM
+- **Saga** — $1914.4M — Uniswap V3, Beefy, Steer Protocol, YieldFi
+- **LightLink** — $1840.9M — Uniswap V3, Stargate V2, Sablier Lockup, Sablier Flow, IcecreamSwap V2, Elektrik
+- **XPLA** — $1818.6M — Portal, Axelar, Dezswap
+- **Redbelly** — $1726.7M — Uniswap V3, reddex
+- **Lens** — $1726.7M — Uniswap V3
+- **Karura** — $1679.0M — Portal, Karura Liquid Staking, Taiga Karura
+- **Provenance** — $1655.3M — Figure Markets Exchange, Figure Markets Democratized Prime
+- **Carbon** — $185.3M — Axelar, Poly Network, Demex Perp, Nitron
+- **Stargaze** — $148.3M — Axelar, Stride, Stargaze
+- **Dymension** — $148.2M — Axelar, Stride, Dymension DEX
+- **Stride** — $148.1M — Axelar, Stride
+- **Secret** — $144.1M — Axelar, stkd-SCRT, ShadeSwap, ShadeLend, SecretSwap, ShadeX, SiennaSwap, BtnGroup
+- **Agoric** — $140.1M — Axelar, Inter Protocol
+- **Europa** — $128.9M — SushiSwap V3, SushiSwap, Meson, Ruby.Exchange Yield, Ruby.Exchange Stable
+- **Vana** — $108.2M — Hyperlane, DataDex
+- **ENI** — $100.0M — Dswap, EGAS swap
+- **BEVM** — $99.3M — River Omni-CDP, Meson, Pell Network, BSwap Dex, Blend Finance
+- **Hoo** — $90.8M — Multichain, Poly Network, Elk
+- **HydraDX** — $73.4M — Hydration Lending, Hydration DEX
+- **Dexit** — $71.0M — Poly Network, DxSale
+- **GodwokenV1** — $46.8M — Multichain, Hadouken Lend, Hadouken AMM, YokaiSwap, StableKoi
+- **DFK** — $46.7M — Multichain, Crystalvale
+- **EthereumPoW** — $46.5M — Multichain, NerveBridge, LFGSwap EthereumPoW
+- **Ethereal** — $45.9M — Ethereal DEX
+- **Cube** — $45.9M — Multichain
+- **Kardia** — $45.9M — Multichain
+- **Starcoin** — $45.4M — Poly Network, Starswap Starcoin, BFly Finance
+- **Zilliqa** — $45.3M — Poly Network, ZilSwap, PlunderSwap V3, PlunderSwap V2, Avely Staking, Ionise, Pillar
+- **Palm** — $45.3M — SushiSwap
+- **Boba_Bnb** — $45.3M — SushiSwap
+- **Bytomsidechain** — $44.7M — Poly Network
+- **Proton** — $43.5M — MetalX Lending, MetalX Swap, MetalX Dex, SimpleDEX
+- **Tezos** — $29.1M — Youves, Sirius, Kolibri, QuipuSwap V1, KordFi, ctez, Crunchy, QuipuSwap V3
+- **Energi** — $28.5M — Wan Bridge, Energiswap
+- **FunctionX** — $28.4M — Wan Bridge, Baklava Space, MarginX DEX
+- **Bitrock** — $28.4M — Wan Bridge
+- **XION** — $26.9M — XION Finance, Blaze Swap
+- **Qubic** — $24.6M — Qearn, QX
+- **Verus** — $23.1M — Verus Market
+- **Movement** — $16.9M — Meridian AMM, Canopy, MovePosition, Yuzu Finance, Mosaic AMM, Arche Protocol
+- **Meta** — $16.0M — Orbit Bridge
+- **Goerli** — $11.0M — Stargate V1
+- **exSat** — $10.5M — DeSyn Basis Trading, DeSyn Safe
+- **Nuls** — $9.8M — Nuls, NerveSwap, NerveBridge, Nerve Staking
+- **Bahamut** — $9.6M — Symbiosis
+- **Boba_Avax** — $9.6M — Symbiosis
+- **VeChain** — $8.1M — StarGate, veDelegate, BetterSwap, Vexchange, TurtleSwap, VeRocket
+- **Sommelier** — $8.0M — Stride
+- **Gala** — $7.6M — Gala Swap
+- **Fogo** — $6.5M — Ignition LST, Brasa Finance, Valiant Trade
+- **Form Network** — $6.4M — Sablier Lockup, Sablier Flow, Roll Fun, Fibonacci Dex
+- **aelf** — $5.3M — Awaken Swap
+- **Fuel** — $5.1M — O2 Exchange, Reactor DEX, Swaylend, The Rig, Microchain, Moor, Fluid Protocol, V12
+- **Vite** — $5.0M — ViteX, Viva, BeefStake, VITCSwap
+- **Manta Atlantic** — $4.5M — Manta Atlantic Stake, MantaDEX
+- **Degen** — $2.9M — DyorSwap AMM, Mint Club V2
+- **GateLayer** — $2.6M — Gate Swap, Gate Fun, WoofSwap GateLayer
+- **Stratis** — $2.5M — Stratis mSTRAX, Stratis Liquid Staking, StraxSwap
+- **Capx Chain** — $2.2M — Capx AI
+- **GRX Chain** — $2.2M — GRXswap
+- **Ultron** — $2.1M — iZiSwap, UltronSwap
+- **EOS EVM** — $2.1M — Meson, NerveBridge
+- **Namada** — $1.5M — Namada Shielded Pools
+- **Equilibrium** — $1.1M — Equilibrium Lending
+- **Artela** — $1.1M — Accumulated Finance Liquid Staking, Meridian Finance
+- **Beam** — $1.1M — Beam Swap
+- **Shido** — $1.0M — Shido Dex V3, Shido Dex V2
+- **Eventum** — $869K — Evedex
+- **Yominet** — $853K — Kamigotchi
+- **Prom** — $769K — savmSwap, v60
+- **ENULS** — $670K — NerveBridge
+- **Doma** — $668K — Doma DEX V3, Doma
+- **Igra** — $654K — ZealousSwap, KaspaCom Dex, KaspaCom LFG
+- **Kasplex** — $654K — ZealousSwap, KaspaCom Dex, KaspaCom LFG
+- **Orai** — $638K — Orchai LST, OraiDEX, Orchai Money Market, OraiDEX Pool V3
+- **SX Rollup** — $637K — SX Bet
+- **SatoshiVM** — $632K — savmSwap
+- **Peaq** — $532K — MachineX CL, MachineX Legacy
+- **Newton** — $421K — Newswap
+- **Reef** — $384K — Knit Finance
+- **BESC Hyperchain** — $310K — BESCSWAP DEX
+- **Chromia** — $289K — ColorPool, Udon Staking, UdonFi Lending
+- **Elysium** — $286K — ElysiumSwap
+- **Onus** — $285K — USDO
+- **Asset Chain** — $212K — Asset Chain Swap
+- **SXnetwork** — $210K — SharkSwap
+- **Oasys** — $208K — Gaming DEX, Neptune LSD, Palmy Finance, Tealswap V3, OAS Jumbo, Tealswap V2
+- **Bittensor EVM** — $187K — TaoFi
+- **DeFiVerse** — $176K — Gaming DEX
+- **Inertia** — $176K — INERTIA
+- **Keeta** — $154K — Alpaca Dex, Murphy
+- **Electroneum** — $153K — ElectroSwap V3, ElectroSwap V2
+- **Quicksilver** — $130K — Quicksilver Protocol
+- **Chia** — $129K — Circuit
+- **Libre** — $125K — Libre Swap
+- **QIE** — $108K — QIEDex, QIELend
+- **MVC** — $96K — MVCSwap
+- **Naka** — $88K — Naka Dex
+- **Saakuru** — $84K — Taffy Finance
+- **OpenGPU** — $78K — TAKOSWAP
+- **EnergyWeb** — $76K — CarbonSwap
+- **Polkadex** — $72K — Polkadex
+- **Civitia** — $58K — Civitia Game
+- **Crescent** — $56K — Crescent Dex
+- **Godwoken** — $55K — YokaiSwap, StableKoi
+- **Nahmii** — $54K — NiiFi
+- **CrossFi** — $54K — xSwap DEX, xAssets
+
+---
+
+## All Removed Protocols
+
+- **Figure Markets Exchange** (OTC Marketplace) — $1611.4M — Provenance
+- **Flying Tulip** (Services) — $92.2M — 
+- **Dswap** (Dexs) — $85.1M — ENI
+- **Bwatch** (Indexes) — $58.3M — 
+- **Ethereal DEX** (Derivatives) — $45.9M — Ethereal
+- **Figure Markets Democratized Prime** (RWA Lending) — $43.9M — Provenance
+- **Hydration Lending** (Lending) — $38.1M — HydraDX
+- **Hydration DEX** (Dexs) — $35.3M — HydraDX
+- **MetalX Lending** (Lending) — $31.1M — Proton
+- **XION Finance** (Chain) — $26.9M — XION
+- **Qearn** (Staking Pool) — $24.4M — Qubic
+- **Verus Market** (Dexs) — $23.1M — Verus
+- **Youves** (Synthetics) — $22.4M — Tezos
+- **EGAS swap** (Dexs) — $14.9M — ENI
+- **Meridian AMM** (Dexs) — $9.5M — Movement
+- **MetalX Swap** (Dexs) — $7.9M — Proton
+- **Gala Swap** (Dexs) — $7.6M — Gala
+- **Nuls** (Chain) — $7.3M — Nuls
+- **StarGate** (Farm) — $6.8M — VeChain
+- **Awaken Swap** (Dexs) — $5.3M — aelf
+- **ViteX** (Dexs) — $4.9M — Vite
+- **Sirius** (Dexs) — $4.6M — Tezos
+- **Manta Atlantic Stake** (Chain) — $4.5M — Manta Atlantic
+- **Canopy** (Yield Aggregator) — $4.4M — Movement
+- **MetalX Dex** (Dexs) — $4.3M — Proton
+- **Ignition LST** (Liquid Staking) — $3.5M — Fogo
+- **Tempo Stablecoin Dex** (Dexs) — $2.9M — Tempo
+- **Gate Swap** (Dexs) — $2.5M — GateLayer
+- **O2 Exchange** (Dexs) — $2.4M — Fuel
+- **Capx AI** (AI Agents) — $2.2M — Capx Chain
+- **GRXswap** (Dexs) — $2.2M — GRX Chain
+- **Stratis mSTRAX** (Liquid Staking) — $2.1M — Stratis
+- **Brasa Finance** (Liquid Staking) — $1.9M — Fogo
+- **MovePosition** (Lending) — $1.8M — Movement
+- **NerveSwap** (Dexs) — $1.7M — Nuls
+- **stkd-SCRT** (Liquid Staking) — $1.5M — Secret
+- **Namada Shielded Pools** (Privacy) — $1.5M — Namada
+- **Valiant Trade** (Dexs) — $1.1M — Fogo
+- **Equilibrium Lending** (Lending) — $1.1M — Equilibrium
+- **Beam Swap** (Dexs) — $1.1M — Beam
+- **Reactor DEX** (Dexs) — $1.1M — Fuel
+- **Kolibri** (CDP) — $992K — Tezos
+- **Yuzu Finance** (Dexs) — $940K — Movement
+- **veDelegate** (Governance Incentives) — $877K — VeChain
+- **Evedex** (Derivatives) — $869K — Eventum
+- **Swaylend** (Lending) — $854K — Fuel
+- **Kamigotchi** (Gaming) — $853K — Yominet
+- **ShadeSwap** (Dexs) — $809K — Secret
+- **Crystalvale** (Dexs) — $798K — DFK
+- **Hadouken Lend** (Lending) — $737K — GodwokenV1
+- **DataDex** (Dexs) — $688K — Vana
+- **Doma DEX V3** (Dexs) — $649K — Doma
+- **Karura Liquid Staking** (Liquid Staking) — $648K — Karura
+- **SX Bet** (Prediction Market) — $637K — SX Rollup
+- **savmSwap** (Dexs) — $632K — Prom, SatoshiVM
+- **Shido Dex V3** (Dexs) — $548K — Shido
+- **ZealousSwap** (Dexs) — $539K — Igra, Kasplex
+- **Starswap Starcoin** (Dexs) — $532K — Starcoin
+- **The Rig** (Liquid Staking) — $509K — Fuel
+- **MachineX CL** (Dexs) — $495K — Peaq
+- **ShadeLend** (Lending) — $493K — Secret
+- **Shido Dex V2** (Dexs) — $482K — Shido
+- **Demex Perp** (Derivatives) — $462K — Carbon
+- **Stratis Liquid Staking** (Liquid Staking) — $446K — Stratis
+- **Mayan DEX Aggregator** (DEX Aggregator) — $428K — 
+- **Newswap** (Dexs) — $421K — Newton
+- **QuipuSwap V1** (Dexs) — $416K — Tezos
+- **Orchai LST** (Liquid Staking) — $412K — Orai
+- **SecretSwap** (Dexs) — $373K — Secret
+- **ShadeX** (Lending) — $329K — Secret
+- **BESCSWAP DEX** (Dexs) — $310K — BESC Hyperchain
+- **ElysiumSwap** (Dexs) — $286K — Elysium
+- **USDO** (CDP) — $285K — Onus
+- **ColorPool** (Dexs) — $279K — Chromia
+- **BetterSwap** (Dexs) — $250K — VeChain
+- **SiennaSwap** (Dexs) — $235K — Secret
+- **ZilSwap** (Dexs) — $233K — Zilliqa
+- **Dezswap** (Dexs) — $232K — XPLA
+- **SimpleDEX** (Dexs) — $218K — Proton
+- **Microchain** (Dexs) — $213K — Fuel
+- **Asset Chain Swap** (Dexs) — $212K — Asset Chain
+- **SharkSwap** (Dexs) — $210K — SXnetwork
+- **Mosaic AMM** (Dexs) — $197K — Movement
+- **TaoFi** (Dexs) — $187K — Bittensor EVM
+- **Gaming DEX** (Dexs) — $176K — Oasys, DeFiVerse
+- **INERTIA** (Lending) — $176K — Inertia
+- **UltronSwap** (Dexs) — $172K — Ultron
+- **BtnGroup** (Yield) — $165K — Secret
+- **Stargaze** (NFT Marketplace) — $158K — Stargaze
+- **Energiswap** (Dexs) — $154K — Energi
+- **Ruby.Exchange Yield** (Yield) — $150K — Europa
+- **PlunderSwap V3** (Dexs) — $149K — Zilliqa
+- **OraiDEX** (Dexs) — $145K — Orai
+- **BFly Finance** (Lending) — $141K — Starcoin
+- **KordFi** (Yield) — $140K — Tezos
+- **QX** (Dexs) — $137K — Qubic
+- **v60** (Dexs) — $137K — Prom
+- **ElectroSwap V3** (Dexs) — $137K — Electroneum
+- **SiennaLend** (Lending) — $136K — Secret
+- **Hadouken AMM** (Dexs) — $134K — GodwokenV1
+- **PlunderSwap V2** (Dexs) — $131K — Zilliqa
+- **ctez** (Dexs) — $130K — Tezos
+- **Quicksilver Protocol** (Liquid Staking) — $130K — Quicksilver
+- **Circuit** (CDP) — $129K — Chia
+- **Dymension DEX** (Dexs) — $127K — Dymension
+- **Nerve Staking** (Dexs) — $127K — Nuls
+- **Libre Swap** (Dexs) — $125K — Libre
+- **KaspaCom Dex** (Dexs) — $106K — Kasplex, Igra
+- **Definitive** (DEX Aggregator) — $101K — 
+- **Alpaca Dex** (Dexs) — $96K — Keeta
+- **MVCSwap** (Dexs) — $96K — MVC
+- **Naka Dex** (Dexs) — $88K — Naka
+- **Crunchy** (Yield Aggregator) — $88K — Tezos
+- **Inter Protocol** (CDP) — $87K — Agoric
+- **Taffy Finance** (Dexs) — $84K — Saakuru
+- **Nitron** (CDP) — $82K — Carbon
+- **Viva** (Yield) — $81K — Vite
+- **TAKOSWAP** (Dexs) — $78K — OpenGPU
+- **QuipuSwap V3** (Dexs) — $77K — Tezos
+- **CarbonSwap** (Dexs) — $76K — EnergyWeb
+- **Vexchange** (Dexs) — $73K — VeChain
+- **Polkadex** (Dexs) — $72K — Polkadex
+- **Moor** (CDP) — $71K — Fuel
+- **Plenty** (Dexs) — $66K — Tezos
+- **Gate Fun** (Launchpad) — $64K — GateLayer
+- **SpicySwap** (Dexs) — $64K — Tezos
+- **Avely Staking** (Liquid Staking) — $59K — Zilliqa
+- **Civitia Game** (Gaming) — $58K — Civitia
+- **Murphy** (Dexs) — $58K — Keeta
+- **Orchai Money Market** (Lending) — $57K — Orai
+- **Crescent Dex** (Dexs) — $56K — Crescent
+- **QIEDex** (Dexs) — $55K — QIE
+- **NiiFi** (Dexs) — $54K — Nahmii
+- **QIELend** (Lending) — $53K — QIE
+- **Fluid Protocol** (CDP) — $45K — Fuel
+- **xSwap DEX** (Dexs) — $39K — CrossFi
+- **CobaltX** (Dexs) — $38K — Soon Network, svmBNB, soonBase
+- **QuipuSwap Stableswap** (Dexs) — $38K — Tezos
+- **FairySwap V1** (Dexs) — $38K — Findora
+- **Taiga Karura** (Synthetics) — $37K — Karura
+- **Pepu V3** (Dexs) — $37K — Pepu
+- **MachineX Legacy** (Dexs) — $36K — Peaq
+- **QuipuSwap V2** (Dexs) — $35K — Tezos
+- **BSwap Dex** (Dexs) — $34K — BEVM
+- **TurtleSwap** (Dexs) — $30K — VeChain
+- **Yupana** (Lending) — $29K — Tezos
+- **YokaiSwap** (Dexs) — $29K — Godwoken, GodwokenV1
+- **Meteora Dynamic Bonding Curve** (Launchpad) — $28K — 
+- **VeRocket** (Dexs) — $28K — VeChain
+- **Matter Defi** (Yield) — $27K — Tezos
+- **Step Exchange** (Dexs) — $27K — Step
+- **LiquidOps** (Lending) — $26K — AO
+- **StableKoi** (Dexs) — $26K — Godwoken, GodwokenV1
+- **ThunderPOKT** (Liquid Staking) — $25K — Pokt
+- **OraiDEX Pool V3** (Dexs) — $24K — Orai
+- **StraxSwap** (Dexs) — $24K — Stratis
+- **TezFin** (Lending) — $23K — Tezos
+- **Dusa Protocol** (Dexs) — $23K — Massa
+- **Titan Aggregator** (DEX Aggregator) — $23K — 
+- **Hydradex V3** (Dexs) — $23K — Hydra Chain, Hydra
+- **Elektrik** (Dexs) — $22K — LightLink
+- **Polkaswap** (Dexs) — $20K — Sora
+- **Hydradex V2** (Dexs) — $19K — Hydra
+- **HaloTrade Cosmos** (Dexs) — $19K — Aura Network
+- **GVEX** (DEX Aggregator) — $19K — GANchain
+- **Doma** (Yield) — $19K — Doma
+- **MSwap** (Dexs) — $19K — Matchain
+- **hyperswap on Areon Network** (Dexs) — $18K — Areon Network
+- **Dexter Exchange** (Dexs) — $17K — Tezos
+- **Ladex Exchange** (Dexs) — $17K — Lachain
+- **ElectroSwap V2** (Dexs) — $17K — Electroneum
+- **VirBiCoin DEX** (Dexs) — $16K — VirBiCoin
+- **xAssets** (RWA) — $16K — CrossFi
+- **Kintsugi** (Cross Chain Bridge) — $15K — Kintsugi
+- **Althea DEX** (Dexs) — $15K — Althea
+- **RaccoonSwap** (Dexs) — $15K — Parex
+- **Neptune LSD** (Liquid Staking) — $14K — Oasys
+- **Palmy Finance** (Lending) — $13K — Oasys
+- **BCSwap** (Dexs) — $13K — BCHyper
+- **EagleFi** (Dexs) — $12K — Massa
+- **V12** (Dexs) — $11K — Fuel
+- **Kuma Perpetuals DEX** (Derivatives) — $11K — IDEX
+- **LFGSwap EthereumPoW** (Dexs) — $11K — EthereumPoW
+- **Penumbra Dex** (Dexs) — $11K — Penumbra
+- **BeefStake** (Yield) — $10K — Vite
+- **Udon Staking** (Liquid Staking) — $10K — Chromia
+- **KaspaCom LFG** (Launchpad) — $9K — Kasplex, Igra
+- **Diesel Dex** (Dexs) — $9K — Fuel
+- **Arche Protocol** (CDP) — $9K — Movement
+- **Vortex Protocol** (Dexs) — $9K — Tezos
+- **SwapX Xone Chain** (Dexs) — $7K — Xone Chain
+- **Haven1 hSwap** (Dexs) — $7K — Haven1
+- **VinuSwap** (Dexs) — $7K — VinuChain
+- **GoSwap** (Dexs) — $7K — GoChain
+- **Carrot Swap** (Dexs) — $7K — Neo X Mainnet
+- **SnowSwap AMM** (Dexs) — $7K — Darwinia, Crab
+- **Moonchain Swap** (Dexs) — $7K — Moonchain
+- **WoofSwap GateLayer** (Dexs) — $6K — GateLayer
+- **Ruby.Exchange Stable** (Dexs) — $6K — Europa
+- **Joltify Lend** (Lending) — $6K — Joltify
+- **VITCSwap** (Dexs) — $5K — Vite
+- **Ruscet** (Derivatives) — $5K — Fuel
+- **Blaze Swap** (Dexs) — $4K — XION
+- **Roll Fun** (Launchpad) — $4K — Form Network
+- **MarginX DEX** (Dexs) — $3K — FunctionX
+- **Ciento Exchange** (Dexs) — $3K — Planq
+- **BBQSwap** (Dexs) — $3K — Ham
+- **JIBSWAP** (Dexs) — $2K — JBC
+- **FairySwap V2** (Dexs) — $2K — Findora
+- **Physica Finance** (Dexs) — $2K — Planq
+- **Tealswap V3** (Dexs) — $2K — Oasys
+- **Ionise** (Lending) — $2K — Zilliqa
+- **forlend** (Lending) — $2K — Findora
+- **MantaDEX** (Dexs) — $2K — Manta Atlantic
+- **Warp Dex** (Dexs) — $2K — Bostrom
+- **OAS Jumbo** (Farm) — $2K — Oasys
+- **Fibonacci Dex** (Dexs) — $2K — Form Network
+- **Asteroneo** (Dexs) — $2K — Neo X Mainnet
+- **Concordex** (Dexs) — $1K — Concordium
+- **Flame DeFi** (Yield) — $1K — Tezos
+- **AliensFarm** (Dexs) — $1K — Tezos
+- **Pillar** (Algo-Stables) — $1K — Zilliqa
+- **Tealswap V2** (Dexs) — $1K — Oasys
+- **UdonFi Lending** (Lending) — $1K — Chromia
+- **SimitciSwap** (Dexs) — $1K — Bitcichain
+- **Elys DEX** (Dexs) — $1K — Elys

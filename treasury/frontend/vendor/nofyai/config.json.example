@@ -1,0 +1,209 @@
+{
+  // ========================================
+  // Admin Authentication Configuration
+  // ========================================
+  // 用于保护启动、停止、平仓等敏感操作
+  //
+  // 安全建议：
+  // 1. 开发环境：可以使用明文密码，例如 "admin123"
+  // 2. 生产环境：强烈建议使用 bcrypt 哈希值
+  //
+  // 生成 bcrypt 哈希的方法：
+  //   npx tsx -e "import bcrypt from 'bcrypt'; bcrypt.hash('your-password', 10).then(console.log)"
+  //
+  // 工作原理：
+  // - 用户输入密码后，系统会生成一个 JWT session token
+  // - Token 存储在 httpOnly cookie 中（防止 XSS 攻击）
+  // - Token 会在配置的时间后自动过期
+  // - 前端会检查认证状态，未认证时隐藏敏感操作按钮
+  // - 后端 API 会验证 token，未认证的请求返回 401
+  "admin": {
+    // 管理员密码
+    // 支持两种格式：
+    // 1. 明文密码（开发环境）: "admin123"
+    // 2. bcrypt 哈希（生产环境）: "$2b$10$..."
+    "password": "change-me-in-production",
+
+    // 会话超时时间（分钟）
+    // 建议值：30-120 分钟
+    // 超时后需要重新登录
+    "session_timeout_minutes": 60
+  },
+
+  // ========================================
+  // Traders Configuration
+  // ========================================
+  "traders": [
+    {
+      "id": "aster_deepseek",
+      "name": "Aster DeepSeek Trader",
+      "enabled": true,
+      "ai_model": "deepseek",
+      "exchange": "aster",
+
+      // Aster Exchange Configuration
+      // Visit https://www.asterdex.com/en/api-wallet -> Professional API -> Create New API
+      // user: Main wallet address (login address/connected wallet)
+      // signer: API wallet address (generated address)
+      // private_key: API wallet private key (without 0x prefix)
+
+      "aster_user": "0x082D68d29433498F4B8335d6Ee1E55079f55616a",
+      "aster_signer": "0x...",
+      "aster_private_key": "your_aster_api_wallet_private_key_without_0x_prefix",
+
+      // AI Configuration
+      "deepseek_key": "sk-...",
+
+      // Trading Configuration
+      "initial_balance": 1000.0,
+      "scan_interval_minutes": 3,
+
+      // Prompt Template (optional, default: "adaptive")
+      // Options: "adaptive", "default", "nof1", "taro"
+      "prompt_template": "adaptive"
+    },
+    {
+      "id": "aster_qwen",
+      "name": "Aster Qwen Trader",
+      "enabled": false,
+      "ai_model": "qwen",
+      "exchange": "aster",
+
+      // Aster Exchange Configuration (separate account)
+      "aster_user": "0x...",
+      "aster_signer": "0x...",
+      "aster_private_key": "your_aster_api_wallet_private_key_without_0x_prefix",
+
+      // AI Configuration
+      "qwen_key": "sk-...",
+
+      // Trading Configuration
+      "initial_balance": 1000.0,
+      "scan_interval_minutes": 3,
+
+      // Prompt Template (optional, default: "adaptive")
+      "prompt_template": "default"
+    },
+    {
+      "id": "aster_kimi",
+      "name": "Aster Kimi Trader",
+      "enabled": false,
+      "ai_model": "kimi",
+      "exchange": "aster",
+
+      // Aster Exchange Configuration
+      "aster_user": "0x...",
+      "aster_signer": "0x...",
+      "aster_private_key": "your_aster_api_wallet_private_key_without_0x_prefix",
+
+      // Kimi AI Configuration (Moonshot AI)
+      // Get your API key from: https://platform.moonshot.cn/
+      // Available models:
+      // - kimi-k2-turbo-preview (recommended: Latest K2, 4x faster, best performance)
+      // - moonshot-v1-8k (V1 series: 8K context, cost-effective)
+      // - moonshot-v1-32k (V1 series: 32K context)
+      // - moonshot-v1-128k (V1 series: 128K context)
+      "kimi_api_key": "sk-...",
+      "kimi_model_name": "kimi-k2-turbo-preview",
+
+      // Trading Configuration
+      "initial_balance": 1000.0,
+      "scan_interval_minutes": 3,
+
+      // Prompt Template (optional, default: "adaptive")
+      "prompt_template": "adaptive"
+    },
+    {
+      "id": "aster_custom",
+      "name": "Aster Custom AI Trader",
+      "enabled": false,
+      "ai_model": "custom",
+      "exchange": "aster",
+
+      // Aster Exchange Configuration
+      "aster_user": "0x...",
+      "aster_signer": "0x...",
+      "aster_private_key": "your_aster_api_wallet_private_key_without_0x_prefix",
+
+      // Custom AI Configuration
+      "custom_api_url": "https://api.openai.com/v1",
+      "custom_api_key": "sk-your-api-key",
+      "custom_model_name": "gpt-4o",
+
+      // Trading Configuration
+      "initial_balance": 1000.0,
+      "scan_interval_minutes": 3,
+
+      // Prompt Template (optional, default: "adaptive")
+      "prompt_template": "nof1"
+    }
+  ],
+
+  // Global Leverage Settings
+  "leverage": {
+    "btc_eth_leverage": 5,
+    "altcoin_leverage": 5
+  },
+
+  // Telegram Notification Configuration
+  // Get bot_token from @BotFather on Telegram
+  // Get chat_id by messaging your bot and visiting: https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
+  "telegram": {
+    "enabled": false,
+    "bot_token": "1234567890:ABCdefGHIjklMNOpqrsTUVwxyz",
+    "chat_id": "123456789",
+    "notify_on_trade": true,
+    "notify_on_error": true,
+    "notify_on_daily_summary": true,
+    "notify_on_performance_warning": true
+  },
+
+  // Coin Pool Configuration
+  "use_default_coins": true,
+  "default_coins": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "BNBUSDT",
+    "XRPUSDT",
+    "DOGEUSDT",
+    "ADAUSDT",
+    "HYPEUSDT"
+  ],
+
+  // Optional: External APIs
+  "coin_pool_api_url": "",
+  "oi_top_api_url": "",
+
+  // Risk Management
+  "max_daily_loss": 10.0,
+  "max_drawdown": 20.0,
+  "stop_trading_minutes": 60,
+
+  // ========================================
+  // Market Data Configuration
+  // ========================================
+  // Binance API Region Selection
+  //
+  // IMPORTANT: Different regions use different API endpoints and paths
+  //
+  // Option 1: "global" (default)
+  //   - URL: https://fapi.binance.com
+  //   - Type: Futures market (合约市场)
+  //   - K-lines path: /fapi/v1/klines
+  //   - Features: Open Interest, Funding Rate, Leverage Trading
+  //   - Use for: Most regions worldwide
+  //
+  // Option 2: "us"
+  //   - URL: https://api.binance.us
+  //   - Type: Spot market (现货市场)
+  //   - K-lines path: /api/v3/klines
+  //   - Features: Basic trading only (no OI, no funding rate)
+  //   - Use for: US users (fapi.binance.com is blocked in the US)
+  //
+  // Note: System automatically handles API path differences
+  "binance_region": "global",
+
+  // API Server Configuration
+  "api_server_port": 8000
+}

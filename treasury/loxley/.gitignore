@@ -1,0 +1,20 @@
+# secrets: never in the tree
+.env
+.env.*
+!.env.example
+wallet.json
+positions.json
+.loxley/
+
+# recordings and sessions you make yourself
+recordings/*.json
+!recordings/sample-drill.json
+*.session.json
+box*.json
+
+# the usual
+node_modules/
+test-results/
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,26 @@
+symbols:
+  - BTC/USDT:USDT
+  - ETH/USDT:USDT
+
+exchanges:
+  - hyperliquid
+  - dydx
+  - vertex
+
+dry_run: true
+min_net_apr: 0.12
+taker_fee_bps: 4.0
+slippage_bps: 1.0
+max_fill_mismatch_ratio: 0.05
+loop_interval_sec: 45
+
+risk_limits:
+  max_notional_per_trade: 2000
+  max_total_notional: 10000
+  max_open_positions: 5
+  max_delta_usd: 30
+
+rebalance_targets_usd:
+  hyperliquid: 1500
+  dydx: 1500
+  vertex: 1500

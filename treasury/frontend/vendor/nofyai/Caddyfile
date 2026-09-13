@@ -1,0 +1,85 @@
+# ========================================
+# Caddy 反向代理配置示例
+# ========================================
+#
+# 用途：为 NofyAI 提供 HTTPS 支持
+# 功能：
+#   - 自动申请和续期 Let's Encrypt SSL 证书
+#   - 自动 HTTP 到 HTTPS 重定向
+#   - 反向代理到 Docker 容器
+#
+# 使用方法：
+#   1. 安装 Caddy（参见 docs/DEPLOYMENT.md）
+#   2. 复制此文件到 /etc/caddy/Caddyfile
+#   3. 修改域名为你的实际域名
+#   4. 重启 Caddy: sudo systemctl reload caddy
+#
+# ========================================
+
+# 将 nofyai.example.com 替换为你的域名
+nofyai.top {
+    # 反向代理到 Docker 容器
+    reverse_proxy localhost:3000
+
+    # 可选：启用访问日志
+    log {
+        output file /var/log/caddy/nofyai_access.log
+    }
+
+    # 可选：添加响应头（安全加固）
+    header {
+        # 移除服务器信息泄露
+        -Server
+
+        # 安全相关头部
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+
+    # 可选：IP 白名单（仅允许特定 IP 访问）
+    # @blocked not remote_ip 1.2.3.4 5.6.7.8
+    # handle @blocked {
+    #     respond "Access Denied" 403
+    # }
+}
+
+# ========================================
+# 高级配置示例
+# ========================================
+
+# 示例 1: 多域名支持
+# nofyai.com, www.nofyai.com {
+#     reverse_proxy localhost:3000
+# }
+
+# 示例 2: 自动重定向 www 到非 www
+# www.nofyai.com {
+#     redir https://nofyai.com{uri} permanent
+# }
+#
+# nofyai.com {
+#     reverse_proxy localhost:3000
+# }
+
+# 示例 3: 基本认证保护
+# nofyai.example.com {
+#     basicauth {
+#         # 用户名: admin, 密码: password
+#         # 生成密码: caddy hash-password --plaintext 'password'
+#         admin $2a$14$...哈希密码...
+#     }
+#     reverse_proxy localhost:3000
+# }
+
+# 示例 4: API 速率限制
+# nofyai.example.com {
+#     rate_limit {
+#         zone dynamic {
+#             key {remote_ip}
+#             events 100
+#             window 1m
+#         }
+#     }
+#     reverse_proxy localhost:3000
+# }
