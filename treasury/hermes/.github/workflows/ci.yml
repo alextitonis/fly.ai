@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install dev dependencies
+        run: python -m pip install -e ".[dev,trading]"
+      - run: ruff check hermes_screener/ tests/ scripts/
+      - run: black --check --target-version py312 hermes_screener/ tests/ scripts/
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install package + dev extras
+        run: python -m pip install -e ".[dev,trading]"
+      - name: Run tests
+        run: python -m pytest tests/ -v --tb=short
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install package + dev extras
+        run: python -m pip install -e ".[dev,trading]"
+      - name: Run tests with coverage gate
+        run: python -m pytest tests/ --cov=hermes_screener --cov-report=term-missing --cov-report=xml --cov-fail-under=10
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: coverage.xml
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install package + dev extras
+        run: python -m pip install -e ".[dev,trading]"
+      - run: mypy hermes_screener/ --ignore-missing-imports
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install package + dev extras
+        run: python -m pip install -e ".[dev,trading]"
+      - name: Static security scan (bandit, non-blocking report)
+        run: |
+          bandit -q -r hermes_screener scripts -x tests -f txt -o bandit-report.txt || true
+          test -f bandit-report.txt || echo "No findings or scan failed before report generation" > bandit-report.txt
+      - name: Dependency vulnerability audit (pip-audit, non-blocking report)
+        run: |
+          pip-audit -f json -o pip-audit-report.json || true
+          test -f pip-audit-report.json || echo "[]" > pip-audit-report.json
+      - name: Upload security reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: |
+            bandit-report.txt
+            pip-audit-report.json

@@ -1,0 +1,73 @@
+{
+  "address": "8cHzQHUS2s2h8TzCmfqPKYiM4dSt4roa3n7MyRLApump",
+  "chain": "solana",
+  "symbol": "CLAWD",
+  "status": "exited",
+  "entry_time": 1776317402.6587188,
+  "entry_time_iso": "2026-04-16T05:30:02.658719+00:00",
+  "entry_score": 17.6,
+  "entry_fdv": 83894,
+  "entry_price": null,
+  "snapshots": [
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    },
+    {
+      "error": "no pool found"
+    }
+  ],
+  "snapshot_count": 16,
+  "exit_time": 1776378602.5584834,
+  "exit_score": 1.5,
+  "exit_price": null,
+  "price_change_pct": null,
+  "days_tracked": 0.6,
+  "current_score": 1.5,
+  "current_fdv": 83894,
+  "exit_time_iso": "2026-04-16T22:30:02.558483+00:00",
+  "final_snapshot": {
+    "error": "no pool found"
+  }
+}

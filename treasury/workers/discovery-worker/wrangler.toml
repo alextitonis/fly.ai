@@ -1,0 +1,23 @@
+name = "discovery-worker"
+main = "src/index.ts"
+compatibility_date = "2026-09-12"
+
+# D1 database
+[[d1_databases]]
+binding = "DB"
+database_name = "shit-token"
+database_id = "YOUR_D1_DATABASE_ID"
+
+# KV for caching
+[[kv_namespaces]]
+binding = "CACHE"
+id = "YOUR_KV_NAMESPACE_ID"
+
+# Cron trigger — every 1 minute (free: 3/Worker)
+[triggers]
+crons = ["* * * * *"]
+
+[vars]
+ROBINHOOD_RPC = "https://rpc.mainnet.chain.robinhood.com/"
+PONS_FACTORY_ADDRESS = "0xREPLACE_WITH_PONS_FACTORY"
+account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"

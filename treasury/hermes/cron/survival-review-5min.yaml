@@ -1,0 +1,11 @@
+name: survival-review-5min
+schedule: "every 5m"
+prompt: |
+  Run the 5-minute survival review for the Hermes economic system:
+
+  1. Check ~/.hermes/logs/trading_bot.log for any errors
+  2. Verify Gateway is responding on port 15888
+  3. Check system resource usage
+  4. Send alert if any critical issues found
+model: Bonsai-8B.gguf
+deliver: local

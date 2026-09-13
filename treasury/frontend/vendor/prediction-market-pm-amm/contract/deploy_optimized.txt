@@ -1,0 +1,38 @@
+No files changed, compilation skipped
+Script ran successfully.
+
+== Logs ==
+  Deploying from: 0x4b39D7EE758332a43772f4192B9b864C2Cc4A6eE
+  MockUSD deployed at: 0xE2EeCEF7A06206B7330a4f88f7633EC2e4A1C737
+  Router deployed at: 0x4C5d0CAFF2f3af626C016F777aF9F80e8202f029
+  Minted 10000 mUSD to deployer
+  Sample market deployed at: 0xf034e93cC2B4d7D062E94AdF0217A985d42f3E70
+  
+=== DEPLOYMENT COMPLETE ===
+  NEXT_PUBLIC_MUSD_ADDRESS= 0xE2EeCEF7A06206B7330a4f88f7633EC2e4A1C737
+  NEXT_PUBLIC_ROUTER_ADDRESS= 0x4C5d0CAFF2f3af626C016F777aF9F80e8202f029
+  NEXT_PUBLIC_SAMPLE_MARKET= 0xf034e93cC2B4d7D062E94AdF0217A985d42f3E70
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 11155111
+
+Estimated gas price: 1.836775407 gwei
+
+Estimated total gas used for script: 14448708
+
+Estimated amount required: 0.026539031517324156 ETH
+
+==========================
+
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+
+Transactions saved to: C:/PC/Codes/stack2deep/LvrAMM/contract/broadcast\Deploy.s.sol\11155111\run-latest.json
+
+Sensitive values saved to: C:/PC/Codes/stack2deep/LvrAMM/contract/cache\Deploy.s.sol\11155111\run-latest.json
+

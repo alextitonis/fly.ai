@@ -1,0 +1,319 @@
+# Cross-Chain Bridge Network Map
+# 769 bridge protocols connecting 120 chains
+# Generated: April 16, 2026
+
+## TIER 1: BRIDGE HUBS (15 chains, 20+ connections)
+# These chains are deeply connected to the broader ecosystem
+
+  Ethereum (104 connections)
+    Connected to: AILayer, Abstract, Algorand, Arbitrum, Arbitrum Nova, Aurora, Avalanche, BOB, BSquared, Base, Berachain, Binance, Bitcoin, Blast, Boba, BounceBit, CORE, Canto, Cardano, Celo
+    ... +84 more
+    Bridges: USDT0, Arbitrum Bridge, Base Bridge, Portal, Aster Bridge
+
+  Binance (90 connections)
+    Connected to: AILayer, Abstract, Algorand, Arbitrum, Aurora, Avalanche, BOB, BSquared, Base, Berachain, Bitcoin, Blast, Boba, BounceBit, CORE, Canto, Cardano, Celo, Cronos, Doge
+    ... +70 more
+    Bridges: Portal, Aster Bridge, SolvBTC, Free Protocol, B2 Buzz
+
+  Arbitrum (70 connections)
+    Connected to: Abstract, Algorand, Arbitrum Nova, Aurora, Avalanche, BOB, BSquared, Base, Berachain, Binance, Bitcoin, Blast, Boba, Canto, Cardano, Cronos, Doge, EOS, Ethereum, Fantom
+    ... +50 more
+    Bridges: Hyperliquid Bridge, Portal, Aster Bridge, Lighter Bridge, SolvBTC
+
+  Polygon (58 connections)
+    Connected to: Algorand, Arbitrum, Arbitrum Nova, Aurora, Avalanche, BOB, BSquared, Base, Binance, Bitcoin, Blast, BounceBit, Cardano, Cronos, Doge, Ethereum, Everscale, Fantom, Fraxtal, Harmony
+    ... +38 more
+    Bridges: Portal, SolvBTC, Free Protocol, B2 Buzz, Connext
+
+  Base (47 connections)
+    Connected to: Algorand, Arbitrum, Arbitrum Nova, Avalanche, BOB, Berachain, Binance, Bitcoin, Blast, Canto, Cardano, Cronos, Doge, Ethereum, Fantom, Fraxtal, Hedera, Hyperliquid L1, ICP, Ink
+    ... +27 more
+    Bridges: Optimism Bridge, SolvBTC, Connext, Axelar, Hyperlane
+
+  Avalanche (44 connections)
+    Connected to: Abstract, Algorand, Arbitrum, Aurora, Base, Berachain, Binance, Bitcoin, Blast, Boba, Canto, Cardano, Cronos, Doge, Ethereum, Everscale, Fantom, Harmony, Heco, Hedera
+    ... +24 more
+    Bridges: Portal, Stargate V2, Multichain, Wan Bridge, cBridge
+
+  Optimism (42 connections)
+    Connected to: Abstract, Algorand, Arbitrum, Arbitrum Nova, Aurora, Avalanche, Base, Berachain, Binance, Bitcoin, Blast, Canto, Cardano, Cronos, Ethereum, Fantom, Fraxtal, Harmony, Hedera, Hyperliquid L1
+    ... +22 more
+    Bridges: Connext, Axelar, Hyperlane, Stargate V2, Multichain
+
+  Bitcoin (41 connections)
+    Connected to: AILayer, Arbitrum, Avalanche, BOB, BSquared, Base, Binance, BounceBit, CORE, Cardano, Dash, Doge, Ergo, Ethereum, Hyperliquid L1, Kujira, Litecoin, Mantle, Mayachain, Merlin
+    ... +21 more
+    Bridges: WBTC, Coinbase Bridge, Binance Bitcoin, Function FBTC, Lorenzo enzoBTC
+
+  Solana (37 connections)
+    Connected to: Abstract, Arbitrum, Aurora, Avalanche, Base, Berachain, Binance, Bitcoin, Botanix, Cardano, Citrea, Doge, Ethereum, Fantom, Fuse, Harmony, Mantle, Merlin, Monad, Near
+    ... +17 more
+    Bridges: Portal, Aster Bridge, SolvBTC, Unit, NEAR Intents
+
+  Tron (27 connections)
+    Connected to: Arbitrum, Avalanche, BSquared, Base, Binance, Bitcoin, Blast, Ethereum, EthereumClassic, Hyperliquid L1, Linea, Mantle, Map, Merlin, Near, Optimism, Polygon, Ripple, Scroll, Solana
+    ... +7 more
+    Bridges: JustCryptos, NEAR Intents, SunX Bridge, Allbridge Core, Symbiosis
+
+  Blast (26 connections)
+    Connected to: Arbitrum, Aurora, Avalanche, Base, Binance, Boba, Canto, Ethereum, EthereumClassic, Fantom, Fraxtal, Hyperliquid L1, Linea, Mantle, Mode, Optimism, Polygon, Ronin, Scroll, Sonic
+    ... +6 more
+    Bridges: Ring Few, Synapse, NerveBridge, CrossCurve, Catalyst
+
+  Fantom (26 connections)
+    Connected to: Arbitrum, Aurora, Avalanche, Base, Binance, Blast, Cardano, Ethereum, Everscale, Heco, Kava, Linea, Manta, Mantle, NEO, Near, Neo3, OKExChain, Optimism, Polygon
+    ... +6 more
+    Bridges: Portal, Axelar, Multichain, Poly Network, Stargate V1
+
+  Ripple (25 connections)
+    Connected to: Arbitrum, Avalanche, Base, Binance, Bitcoin, Cardano, Celo, Doge, Ethereum, Fantom, Flare, Heco, Klaytn, Kujira, Litecoin, Near, Optimism, Polkadot, Polygon, Regen
+    ... +5 more
+    Bridges: Coinbase Bridge, FAssets, Axelar, NEAR Intents, SoDEX Bridge
+
+  Linea (23 connections)
+    Connected to: Arbitrum, Avalanche, Base, Binance, Blast, Ethereum, EthereumClassic, Fantom, Manta, Mantle, Metis, Mode, Optimism, Polygon, Ronin, Scroll, Sonic, Taiko, Tron, Unichain
+    ... +3 more
+    Bridges: Connext, cBridge, Stargate V1, Butter Network, NerveBridge
+
+  Heco (22 connections)
+    Connected to: Arbitrum, Avalanche, Binance, Boba, Ethereum, Fantom, Harmony, Kava, Klaytn, Kucoin, Metis, Moonriver, NEO, Neo3, OKExChain, Polygon, Ripple, Sei, Silicon zkEVM, Syscoin
+    ... +2 more
+    Bridges: Poly Network, Orbit Bridge, deBridge, Knit Finance, SWFT
+
+
+## TIER 2: WELL CONNECTED (30 chains, 10-19 connections)
+
+  zkSync Era (18): Arbitrum, Base, Binance, Bitcoin, Blast, Ethereum, Linea, Manta, Mantle, Mode
+  Near (17): Abstract, Arbitrum, Aurora, Avalanche, Berachain, Binance, Bitcoin, Ethereum, Fantom, Fuse
+  Metis (16): Arbitrum, Avalanche, Base, Berachain, Binance, Ethereum, Harmony, Heco, Linea, Moonriver
+  Mode (16): Arbitrum, BOB, Base, Binance, Bitcoin, Blast, Ethereum, Linea, Mantle, Polygon
+  Doge (16): Arbitrum, Avalanche, Base, Binance, Bitcoin, Cardano, Ergo, Ethereum, IoTeX, Kucoin
+  xDai (16): Algorand, Arbitrum, Base, Binance, Bitcoin, Blast, Ethereum, Fraxtal, Linea, Near
+  Kava (16): Aurora, Avalanche, Binance, Ethereum, Fantom, Harmony, Heco, Kucoin, Moonriver, NEO
+  Taiko (16): Arbitrum, Base, Binance, Blast, Ethereum, Fraxtal, Linea, Mantle, Mode, Optimism
+  Mantle (16): Arbitrum, Avalanche, Base, Binance, Bitcoin, Blast, Ethereum, Fantom, Linea, Mode
+  Aurora (15): Arbitrum, Avalanche, Binance, Blast, Canto, Cronos, Ethereum, Fantom, Hedera, Kava
+  Cardano (15): Arbitrum, Avalanche, Base, Binance, Bitcoin, Doge, Ergo, Ethereum, Fantom, Litecoin
+  Hyperliquid L1 (14): Arbitrum, Avalanche, Base, Binance, Bitcoin, Blast, Ethereum, Ink, Optimism, Plasma
+  Harmony (14): Arbitrum, Avalanche, Binance, Cronos, Ethereum, Heco, Kava, Metis, Moonriver, Near
+  Manta (14): Arbitrum, Base, Binance, Ethereum, Fantom, Hemi, Kroma, Linea, Merlin, Op_Bnb
+  Moonriver (14): Arbitrum, Avalanche, Binance, Cronos, Ethereum, Harmony, Heco, Kava, Meter, Metis
+  Merlin (14): Arbitrum, BSquared, Base, Binance, Bitcoin, Ethereum, Hemi, Kroma, Manta, Optimism
+  TON (14): Arbitrum, Base, Binance, Bitcoin, Ethereum, Hyperliquid L1, Klaytn, Polygon, Ripple, Silicon zkEVM
+  Terra (12): Arbitrum, Aurora, Avalanche, Binance, Ethereum, Fantom, Fuse, Harmony, Near, Polygon
+  Cronos (12): Algorand, Arbitrum, Aurora, Avalanche, Base, Binance, Ethereum, Harmony, Hedera, Moonriver
+  Scroll (12): Arbitrum, Base, Binance, Blast, Ethereum, Fantom, Linea, Manta, Optimism, Solana
+  Algorand (12): Arbitrum, Avalanche, Base, Binance, Cronos, EOS, Ethereum, Optimism, Polygon, Telos
+  BOB (12): AILayer, Arbitrum, BSquared, Base, Binance, Bitcoin, CORE, Ethereum, Mode, Polygon
+  Sonic (11): Arbitrum, Base, Binance, Blast, Ethereum, Linea, Metis, Mode, Optimism, Taiko
+  Berachain (11): Abstract, Arbitrum, Avalanche, Base, Binance, Ethereum, Metis, Near, Optimism, Solana
+  Klaytn (11): Arbitrum, Binance, Celo, Ethereum, Heco, Optimism, Polygon, Ripple, Silicon zkEVM, TON
+  Litecoin (11): Avalanche, Binance, Bitcoin, Cardano, Doge, Ethereum, IoTeX, Kucoin, OKExChain, Polygon
+  OKExChain (10): Avalanche, Binance, Doge, Ethereum, Fantom, Heco, Kava, Litecoin, Moonbeam, Polygon
+  X Layer (10): Arbitrum, BOB, Base, Binance, Bitcoin, Ethereum, Merlin, Solana, Stacks, Tron
+  Kucoin (10): Arbitrum, Avalanche, Binance, Doge, Ethereum, Heco, Kava, Litecoin, Optimism, Polygon
+  Unichain (10): Arbitrum, Base, Binance, Blast, Ethereum, Hyperliquid L1, Linea, Mode, Taiko, zkSync Era
+
+## TIER 3: LIGHTLY CONNECTED (67 chains, 1-9 connections)
+
+  Kujira (9): Arbitrum, Binance, Bitcoin, Ethereum, Mayachain, Optimism, Ripple, Thorchain, Zcash
+  Neo3 (9): Arbitrum, Binance, Boba, Ethereum, Fantom, Heco, Kava, Metis, NEO
+  WEMIX (9): Binance, Celo, Ethereum, Heco, Klaytn, Polygon, Ripple, Silicon zkEVM, TON
+  Canto (9): Arbitrum, Aurora, Avalanche, Base, Binance, Blast, Boba, Ethereum, Optimism
+  NEO (9): Arbitrum, Binance, Boba, Ethereum, Fantom, Heco, Kava, Metis, Neo3
+  BSquared (9): Arbitrum, BOB, Binance, Bitcoin, Ethereum, Merlin, Polygon, Stacks, Tron
+  Fraxtal (9): Arbitrum, Base, Binance, Blast, Ethereum, Optimism, Polygon, Taiko, xDai
+  zkLink (9): Base, Binance, Blast, Ethereum, Fantom, Linea, Manta, Optimism, Scroll
+  Abstract (9): Arbitrum, Avalanche, Berachain, Binance, Ethereum, Near, Optimism, Solana, Story
+  Telos (9): Algorand, Arbitrum, Avalanche, Binance, Ethereum, Heco, Kava, Polygon, Ultra
+  Silicon zkEVM (9): Binance, Celo, Ethereum, Heco, Klaytn, Polygon, Ripple, TON, WEMIX
+  Boba (9): Arbitrum, Avalanche, Binance, Blast, Canto, Ethereum, Heco, NEO, Neo3
+  Hedera (9): Arbitrum, Aurora, Avalanche, Base, Binance, Cronos, Ethereum, Optimism, Polygon
+  Stacks (9): AILayer, BOB, BSquared, Binance, Bitcoin, CORE, Ethereum, Mode, X Layer
+  Thorchain (8): Arbitrum, Bitcoin, Dash, Ethereum, Kujira, Mayachain, Radix, Zcash
+  Zcash (8): Arbitrum, Bitcoin, Dash, Ethereum, Kujira, Mayachain, Radix, Thorchain
+  Plasma (8): Arbitrum, Base, Binance, Bitcoin, Ethereum, Hyperliquid L1, Monad, Solana
+  Moonbeam (8): Avalanche, Binance, Ethereum, Evmos, Meter, Moonriver, OKExChain, Theta
+  Ultra (8): Algorand, Arbitrum, Binance, EOS, Ethereum, Polygon, Telos, xDai
+  Mayachain (8): Arbitrum, Bitcoin, Dash, Ethereum, Kujira, Radix, Thorchain, Zcash
+  Sui (7): Base, Binance, Ethereum, Polygon, Solana, Terra, Tron
+  Sei (7): Arbitrum, Base, Binance, Bitcoin, Ethereum, Heco, Polygon
+  Meter (7): Avalanche, Binance, Ethereum, Moonbeam, Moonriver, Polygon, Theta
+  Theta (7): Avalanche, Binance, Ethereum, Meter, Moonbeam, Moonriver, Polygon
+  IoTeX (6): Avalanche, Binance, Doge, Ethereum, Litecoin, Polygon
+  Waves (6): Binance, Ethereum, Polygon, Solana, Tron, UNIT0
+  Celo (6): Binance, Ethereum, Klaytn, Ripple, Silicon zkEVM, WEMIX
+  Radix (5): Bitcoin, Ethereum, Mayachain, Thorchain, Zcash
+  EthereumClassic (5): Binance, Blast, Ethereum, Linea, Tron
+  Polkadot (5): Binance, Bitcoin, Cardano, Doge, Ripple
+  Op_Bnb (5): Arbitrum, Base, Binance, Ethereum, Manta
+  Ink (5): Arbitrum, Base, Binance, Ethereum, Hyperliquid L1
+  AILayer (5): BOB, Binance, Bitcoin, Ethereum, Stacks
+  Ronin (5): Blast, Linea, Mode, Taiko, zkSync Era
+  Fuse (5): Binance, Ethereum, Near, Solana, Terra
+  Swellchain (5): Base, Binance, Ethereum, Metis, Optimism
+  Hemi (5): Arbitrum, Binance, Ethereum, Manta, Merlin
+  Everscale (5): Avalanche, Binance, Ethereum, Fantom, Polygon
+  Stellar (5): Base, Binance, Ethereum, Solana, Tron
+  Kroma (5): Arbitrum, Binance, Ethereum, Manta, Merlin
+  Syscoin (5): Avalanche, Ethereum, Heco, Kava, Polygon
+  Map (5): Arbitrum, Base, Binance, Ethereum, Tron
+  Shiden (5): Arbitrum, Binance, Ethereum, Optimism, Polygon
+  Dash (5): Bitcoin, Ethereum, Mayachain, Thorchain, Zcash
+  CORE (5): BOB, Binance, Bitcoin, Ethereum, Stacks
+  Ergo (5): Binance, Bitcoin, Cardano, Doge, Ethereum
+  EOS (5): Algorand, Arbitrum, Binance, Ethereum, Ultra
+  Regen (5): Arbitrum, Binance, Ethereum, Optimism, Ripple
+  Story (5): Abstract, Arbitrum, Berachain, Binance, Solana
+  Arbitrum Nova (5): Arbitrum, Base, Ethereum, Optimism, Polygon
+  Venom (5): Avalanche, Binance, Ethereum, Fantom, Polygon
+  UNIT0 (4): Binance, Ethereum, Solana, Waves
+  BounceBit (4): Binance, Bitcoin, Ethereum, Polygon
+  Monad (4): Bitcoin, Ethereum, Plasma, Solana
+  edgeX L1 (3): Arbitrum, Binance, Ethereum
+  Starknet (3): Botanix, Citrea, Solana
+  ICP (3): Arbitrum, Base, Ethereum
+  Zkfair (3): Arbitrum, Bitcoin, Ethereum
+  Botanix (3): Citrea, Solana, Starknet
+  Citrea (3): Botanix, Solana, Starknet
+  Evmos (2): Ethereum, Moonbeam
+  Horizen EON (2): Avalanche, Ethereum
+  Titan (2): Ethereum, Solana
+  RSK (2): Bitcoin, Ethereum
+  XDC (1): Ethereum
+  Flare (1): Ripple
+  GravityBridge (1): Ethereum
+
+## ISOLATED CHAINS (130 chains, no bridge connections)
+# These chains have NO bridge protocols connecting them to other chains
+
+  0G
+  Ancient8
+  ApeChain
+  Aptos
+  Archway
+  Astar
+  Babylon Genesis
+  Bifrost
+  Bifrost Network
+  Bitcoincash
+  Bitgert
+  Bitkub
+  Bitlayer
+  Bittensor
+  Bittensor EVM
+  Bittorrent
+  CLV
+  CSC
+  Canton
+  Chainflip
+  Chihuahua
+  Chiliz
+  Comdex
+  Conflux
+  Constellation
+  Corn
+  Coti
+  Crescent
+  Cronos zkEVM
+  Cyber
+  Dexalot
+  Dogechain
+  DuckChain
+  EDU Chain
+  Elastos
+  Electroneum
+  Elrond
+  Endurance
+  EnergyWeb
+  Etherlink
+  Filecoin
+  Flow
+  Fusion
+  Gala
+  Goat
+  Gravity
+  HashKey Chain
+  HydraDX
+  IOTA
+  IOTA EVM
+  Icon
+  Immutable zkEVM
+  Initia
+  Injective
+  Interlay
+  Juno
+  Katana
+  Kinto
+  LUKSO
+  Lisk
+  Manta Atlantic
+  Mantra
+  MegaETH
+  Migaloo
+  Morph
+  Movement
+  MultiVAC
+  Neon
+  Neutron
+  Nibiru
+  Noble
+  Oasis
+  Odyssey
+  Omax
+  OntologyEVM
+  Orai
+  Osmosis
+  Persistence
+  Plume Mainnet
+  Polkadex
+  Polygon zkEVM
+  Proton
+  Pulse
+  Q Protocol
+  REI
+  RENEC
+  Rari
+  Redstone
+  Reya Network
+  Rollux
+  Sapphire
+  Shape
+  Shido
+  ShimmerEVM
+  Somnia
+  Soneium
+  Songbird
+  Sophon
+  Stable
+  Stratis
+  Superposition
+  Superseed
+  Supra
+  TAC
+  Taraxa
+  Terra2
+  Tezos
+  ThunderCore
+  Tombchain
+  TomoChain
+  Velas
+  Verus
+  Vite
+  Voi Network
+  WINR
+  Wanchain
+  Wax
+  World Chain
+  XION
+  XRPL EVM
+  Xai
+  ZIGChain
+  Zero Network
+  ZetaChain
+  Zircuit
+  Zora
+  aelf
+  dYdX
+  inEVM
+  smartBCH

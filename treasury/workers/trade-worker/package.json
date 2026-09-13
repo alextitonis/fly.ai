@@ -1,0 +1,7 @@
+{
+  "name": "trade-worker",
+  "private": true,
+  "dependencies": {
+    "viem": "^2.46.3"
+  }
+}

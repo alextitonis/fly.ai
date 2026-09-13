@@ -1,0 +1,422 @@
+# Blockchains Grouped by Virtual Machine
+# 244 chains across 28 VM types
+# Generated: April 16, 2026
+
+## EVM (186 chains, 7066 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Ethereum                       1290
+  Arbitrum                        713
+  Binance                         708
+  Base                            553
+  Polygon                         458
+  Avalanche                       344
+  Optimism                        267
+  Fantom                          156
+  Hyperliquid L1                  115
+  Sonic                           113
+  Linea                           105
+  Blast                           101
+  zkSync Era                       90
+  Mantle                           86
+  Monad                            79
+  Scroll                           72
+  Berachain                        65
+  xDai                             58
+  Plasma                           52
+  Klaytn                           52
+  Mode                             47
+  Manta                            43
+  Celo                             41
+  Starknet                         38
+  Unichain                         37
+  Moonbeam                         37
+  Polygon zkEVM                    35
+  Aurora                           35
+  X Layer                          34
+  Plume Mainnet                    33
+  Metis                            33
+  CORE                             32
+  Tron                             32
+  Flare                            31
+  Pulse                            31
+  Astar                            30
+  Moonriver                        29
+  Heco                             28
+  Harmony                          25
+  BOB                              24
+  Taiko                            24
+  Fraxtal                          24
+  Katana                           23
+  Dogechain                        23
+  Soneium                          22
+  IoTeX                            22
+  RSK                              21
+  BSquared                         20
+  Op_Bnb                           20
+  Ink                              20
+  Bitlayer                         19
+  XDC                              18
+  ZetaChain                        18
+  Merlin                           18
+  Abstract                         17
+  Boba                             17
+  OKExChain                        16
+  Kucoin                           15
+  Fuse                             14
+  Etherlink                        13
+  Zircuit                          13
+  MegaETH                          13
+  Swellchain                       13
+  ApeChain                         12
+  Story                            12
+  zkLink                           12
+  Cronos zkEVM                     11
+  World Chain                      11
+  Bittorrent                       11
+  Waves                            10
+  TAC                              10
+  IOTA EVM                         10
+  Morph                             9
+  Conflux                           9
+  Meter                             9
+  WEMIX                             9
+  Botanix                           9
+  Somnia                            9
+  Supra                             8
+  Goat                              8
+  Velas                             8
+  Neon                              8
+  Ronin                             8
+  EthereumClassic                   7
+  Arbitrum Nova                     7
+  smartBCH                          7
+  ShimmerEVM                        7
+  Bitkub                            6
+  EDU Chain                         6
+  Chiliz                            6
+  Shiden                            6
+  Zkfair                            6
+  Map                               5
+  NEO                               5
+  BounceBit                         5
+  Corn                              5
+  AILayer                           5
+  Lisk                              5
+  ThunderCore                       5
+  XRPL EVM                          5
+  Songbird                          5
+  Wanchain                          5
+  Superseed                         4
+  TomoChain                         4
+  Taraxa                            4
+  Orai                              4
+  UNIT0                             4
+  Bitcoincash                       4
+  Q Protocol                        4
+  Bifrost Network                   4
+  0G                                4
+  HashKey Chain                     4
+  LUKSO                             4
+  ZIGChain                          4
+  Sophon                            4
+  Coti                              4
+  Proton                            4
+  Theta                             4
+  Bifrost                           3
+  Cyber                             3
+  Immutable zkEVM                   3
+  Rari                              3
+  Interlay                          3
+  DuckChain                         3
+  Stratis                           3
+  Shape                             3
+  Superposition                     3
+  Rollux                            3
+  Stable                            3
+  Noble                             3
+  Silicon zkEVM                     3
+  Reya Network                      3
+  Zora                              3
+  Venom                             3
+  Xai                               3
+  Horizen EON                       2
+  CLV                               2
+  HydraDX                           2
+  Manta Atlantic                    2
+  Chainflip                         2
+  WINR                              2
+  Electroneum                       2
+  Migaloo                           2
+  Endurance                         2
+  OntologyEVM                       2
+  MultiVAC                          2
+  Gravity                           2
+  CSC                               2
+  Everscale                         2
+  Polkadot                          2
+  Shido                             2
+  Voi Network                       2
+  Omax                              2
+  RENEC                             2
+  Zero Network                      2
+  Kroma                             2
+  Ancient8                          2
+  REI                               2
+  Titan                             2
+  Polkadex                          1
+  Gala                              1
+  GravityBridge                     1
+  Canton                            1
+  Crescent                          1
+  Tombchain                         1
+  Redstone                          1
+  Kinto                             1
+  Ultra                             1
+  Verus                             1
+  Constellation                     1
+  edgeX L1                          1
+  Odyssey                           1
+  Bitgert                           1
+  Fusion                            1
+  EnergyWeb                         1
+  aelf                              1
+  Neo3                              1
+  Dexalot                           1
+  Syscoin                           1
+  Bittensor EVM                     1
+  Bittensor EVM                     1
+  Citrea                            1
+  Elastos                           1
+  Hemi                              1
+  Telos                             1
+  inEVM                             1
+
+## Cosmos SDK (19 chains, 125 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Terra                            17
+  Osmosis                          16
+  Neutron                          16
+  Terra2                           13
+  Nibiru                           10
+  Kujira                            9
+  Juno                              6
+  Archway                           6
+  Initia                            5
+  Babylon Genesis                   5
+  Mantra                            4
+  Chihuahua                         3
+  Thorchain                         3
+  Comdex                            3
+  Persistence                       2
+  dYdX                              2
+  XION                              2
+  Regen                             2
+  Mayachain                         1
+
+## EVM + Cosmos SDK (6 chains, 217 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Cronos                           77
+  Kava                             46
+  Sei                              44
+  Injective                        23
+  Evmos                            14
+  Canto                            13
+
+## Bitcoin UTXO (5 chains, 85 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Bitcoin                          69
+  Doge                              8
+  Litecoin                          4
+  Zcash                             3
+  Dash                              1
+
+## Move VM (3 chains, 149 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Sui                              84
+  Aptos                            59
+  Movement                          6
+
+## Antelope (3 chains, 25 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  EOS                              14
+  Wax                              10
+  EOS                               1
+
+## SVM (1 chains, 254 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Solana                          254
+
+## TON VM (1 chains, 46 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  TON                              46
+
+## EUTXO/Plutus (1 chains, 43 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Cardano                          43
+
+## Near VM (1 chains, 30 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Near                             30
+
+## Algorand VM (1 chains, 26 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Algorand                         26
+
+## Stellar Protocol (1 chains, 20 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Stellar                          20
+
+## Radix Engine (1 chains, 20 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Radix                            20
+
+## Michelson/LIGO (1 chains, 19 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Tezos                            19
+
+## MultiversX VM (1 chains, 18 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Elrond                           18
+
+## XRPL (1 chains, 17 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Ripple                           17
+
+## Cadence/FVM (1 chains, 17 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Flow                             17
+
+## Hedera Consensus (1 chains, 17 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Hedera                           17
+
+## Filecoin FVM (1 chains, 16 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Filecoin                         16
+
+## Stacks VM (1 chains, 16 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Stacks                           16
+
+## Internet Computer (1 chains, 15 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  ICP                              15
+
+## ErgoScript/EUTXO (1 chains, 9 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Ergo                              9
+
+## EVM (Emerald) (1 chains, 8 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Oasis                             8
+
+## EVM (Sapphire) (1 chains, 7 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Sapphire                          7
+
+## ICON VM (1 chains, 5 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Icon                              5
+
+## IOTA Tangle (1 chains, 5 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  IOTA                              5
+
+## DAG (1 chains, 4 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Vite                              4
+
+## Subtensor (1 chains, 1 protocols)
+
+  Chain                     Protocols
+  -----------------------------------
+  Bittensor                         1
+
+## SUMMARY
+
+VM Type                    Chains Protocols
+--------------------------------------------
+EVM                           186      7066
+Cosmos SDK                     19       125
+EVM + Cosmos SDK                6       217
+Bitcoin UTXO                    5        85
+Move VM                         3       149
+Antelope                        3        25
+SVM                             1       254
+TON VM                          1        46
+EUTXO/Plutus                    1        43
+Near VM                         1        30
+Algorand VM                     1        26
+Stellar Protocol                1        20
+Radix Engine                    1        20
+Michelson/LIGO                  1        19
+MultiversX VM                   1        18
+XRPL                            1        17
+Cadence/FVM                     1        17
+Hedera Consensus                1        17
+Filecoin FVM                    1        16
+Stacks VM                       1        16
+Internet Computer               1        15
+ErgoScript/EUTXO                1         9
+EVM (Emerald)                   1         8
+EVM (Sapphire)                  1         7
+ICON VM                         1         5
+IOTA Tangle                     1         5
+DAG                             1         4
+Subtensor                       1         1
+
+Total: 244 chains, 8280 protocols

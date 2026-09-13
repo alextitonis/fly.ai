@@ -1,0 +1,32 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Build artifacts
+out/
+cache/
+broadcast/
+crytic-export/
+lcov.info
+work_dir/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Radicle
+.radicle/
+
+# Vendored libs (not submodules, available upstream)
+lib/curve-stable-peg/
+lib/dss-interfaces/
+lib/frax-bamm/
+lib/pendle-sy/
+lib/spark-psm/
+lib/v3-core/
+lib/v3-periphery/

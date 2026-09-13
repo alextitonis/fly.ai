@@ -1,0 +1,33 @@
+name = "fly-brain-do"
+main = "src/worker.py"
+compatibility_date = "2026-09-12"
+compatibility_flags = ["python_workers"]
+account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"
+
+# D1 database
+[[d1_databases]]
+binding = "DB"
+database_name = "shit-token"
+database_id = "YOUR_D1_DATABASE_ID"
+
+# R2 bucket for connectome weights
+[[r2_buckets]]
+binding = "WEIGHTS"
+bucket_name = "shit-token-weights"
+
+# Durable Object for connectome brains (supports 16 connectomes)
+[[durable_objects.bindings]]
+name = "FLY_BRAIN"
+class_name = "ConnectomeDO"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["FlyBrainDO"]
+
+[[migrations]]
+tag = "v2"
+renamed_classes = [{ from = "FlyBrainDO", to = "ConnectomeDO" }]
+
+[vars]
+BUY_THRESHOLD_HZ = "5.0"
+SELL_THRESHOLD_HZ = "3.0"

@@ -1,0 +1,93 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc_version = "0.8.24"
+auto_detect_solc = false
+optimizer = true
+optimizer_runs = 10000
+via_ir = true
+bytecode_hash = "none"
+evm_version = "cancun"
+
+remappings = [
+  "@openzeppelin/contracts/=lib/openzeppelin/contracts/",
+  "@openzeppelin/=lib/openzeppelin/",
+  "@openzeppelin-v4/contracts/=lib/openzeppelin-v4/contracts/",
+  "@openzeppelin-5.3.0/=lib/oz-v5.3.0/contracts/",
+  "@openzeppelin-4.8.0/=lib/oz-v4.8.0/contracts/",
+  "@shit/=src/",
+  "@solmate-6.2.0/=lib/bond-protocol/lib/solmate/src/",
+  "@clones-with-immutable-args-1.1.2/=lib/bond-protocol/lib/clones-with-immutable-args/src/",
+  "@createx/=lib/createx/",
+  "@uniswap/v2-periphery/=lib/v2-periphery/contracts/",
+  "@uniswap/v2-core/=lib/v2-core/contracts/",
+  "@shit-v3/=lib/shit-v3/src/",
+  "@bond-protocol/=lib/bond-protocol/src/",
+  "@dss/=lib/dss/src/",
+  "@gmx/=lib/gmx-contracts/contracts/",
+  "@gmx-contracts/=lib/gmx-contracts/contracts/",
+  "@oz-hooks/=lib/uniswap-hooks/src/",
+  "@openzeppelin-upgradeable/contracts/=lib/openzeppelin-contracts-upgradeable/contracts/",
+  "@v4-hooks-public/=lib/uniswap-v4-hooks/src/",
+  "@uniswap/v4-core/=lib/uniswap/v4-core/src/",
+  "@uniswap/v4-periphery/=lib/uniswap/v4-periphery/src/",
+  "@deployer/=lib/reserve-index-dtf/contracts/deployer/",
+  "@src/=lib/reserve-index-dtf/contracts/",
+  "@interfaces/=lib/reserve-index-dtf/contracts/interfaces/",
+  "@reserve-protocol/trusted-fillers/=lib/trusted-fillers/contracts/",
+  "@pendle-sy/=lib/pendle-sy/contracts/",
+  "@pendle-core-v2/=lib/pendle-core-v2-public/contracts/",
+  "@yearn-strategy/=lib/tokenized-strategy/src/",
+  "@spark-psm/=lib/spark-psm/src/",
+  "erc20-helpers/=lib/spark-psm/lib/erc20-helpers/src/",
+  "openzeppelin-contracts/=lib/spark-psm/lib/openzeppelin-contracts/",
+  "openzeppelin/=lib/openzeppelin/contracts/",
+  "clones/=lib/bond-protocol/lib/clones-with-immutable-args/src/",
+  "@prb/math/=lib/prb-math/",
+  "@reserve-protocol/reserve-governor/=lib/reserve-governor/",
+  "@balancer-v2/=lib/balancer-v2-monorepo/pkg/",
+  "@lido-core/=lib/core/contracts/",
+  "solmate/=lib/bond-protocol/lib/solmate/src/",
+  "forge-std/=lib/forge-std/src/",
+  "lib/shit-v3/src/:src/=lib/shit-v3/src/",
+  "lib/shit-v3/src/:interfaces/=lib/shit-v3/src/interfaces/",
+  "lib/shit-v3/src/:modules/=lib/shit-v3/src/modules/",
+  "lib/shit-v3/src/:policies/=lib/shit-v3/src/policies/",
+  "lib/shit-v3/src/:libraries/=lib/shit-v3/src/libraries/",
+  "lib/shit-v3/src/:test/=lib/shit-v3/src/test/",
+  "lib/bond-protocol/src/:src/=lib/bond-protocol/src/",
+  "lib/bond-protocol/src/:interfaces/=lib/bond-protocol/src/interfaces/",
+]
+
+[lint]
+exclude_lints = ["solar"]
+lint_on_build = false
+
+[vyper]
+path = "vyper"
+
+[profile.default.fuzz]
+runs = 256
+
+[profile.default.invariant]
+runs = 64
+
+[profile.deploy]
+via_ir = true
+optimizer = true
+optimizer_runs = 200
+bytecode_hash = "none"
+evm_version = "cancun"
+
+[profile.coverage]
+via_ir = true
+optimizer = true
+optimizer_runs = 1
+
+[fmt]
+line_length = 100
+tab_width = 2
+bracket_spacing = true
+int_types = "long"
+

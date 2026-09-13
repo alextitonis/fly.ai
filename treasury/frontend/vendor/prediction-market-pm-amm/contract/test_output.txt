@@ -1,0 +1,15 @@
+No files changed, compilation skipped
+
+Ran 9 tests for test/RouterTest.sol:RouterTest
+[PASS] test_AdminResolve() (gas: 7920937)
+[PASS] test_BuyNo() (gas: 7958538)
+[PASS] test_BuyYes() (gas: 7962884)
+[PASS] test_CreateMarket() (gas: 7867155)
+[PASS] test_GetAllMarkets() (gas: 7855715)
+[PASS] test_GetMarketDetails() (gas: 7876041)
+[PASS] test_PriceChangesAfterTrade() (gas: 7977727)
+[PASS] test_PriceYesPlusNoEqualsOne() (gas: 7869950)
+[PASS] test_RedeemAfterResolution() (gas: 7992100)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 2.85ms (9.30ms CPU time)
+
+Ran 1 test suite in 9.51ms (2.85ms CPU time): 9 tests passed, 0 failed, 0 skipped (9 total tests)

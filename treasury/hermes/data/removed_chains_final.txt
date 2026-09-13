@@ -1,0 +1,20 @@
+# Final Removed Chains
+# 11 chains removed
+# Generated: April 16, 2026
+
+## Bridge Test Failures
+  Mantra
+  Litecoin
+  Babylon Genesis
+  EOS
+  Juno
+  Kujira
+  Neutron
+  Persistence
+  Terra2
+  Wax
+
+## RPC Test Failures (Genuinely Dead)
+
+## Kept Override
+  Bittensor (user override)

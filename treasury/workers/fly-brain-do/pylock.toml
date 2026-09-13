@@ -1,0 +1,13 @@
+lock-version = "1.0"
+created-by = "uv"
+requires-python = ">=3.14.2"
+
+[[packages]]
+name = "numpy"
+version = "2.4.6"
+wheels = [{ url = "https://cdn.jsdelivr.net/pyodide/v314.0.6/full/numpy-2.4.6-cp314-cp314-pyemscripten_2026_0_wasm32.whl", hashes = { sha256 = "32959d4137cec8143d75016d029281df3d2e80a232896ed903c2b59e1c44ee9f" } }]
+
+[[packages]]
+name = "workers-runtime-sdk"
+version = "1.8.4"
+wheels = [{ url = "https://files.pythonhosted.org/packages/d2/9f/545247f39e9b11ec71438a34e4d37e8c214c717acd883559a71ed79b7c9f/workers_runtime_sdk-1.8.4-py3-none-any.whl", upload-time = 2026-09-08T05:59:10Z, size = 35892, hashes = { sha256 = "d4dce17c041c052f3da46938511ede264c5aa28b9033f32adcb26b429bab1936" } }]

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>SHIT Protocol Tokenomics Lab</title>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --muted: #8b949e;
+            --accent: #58a6ff;
+            --green: #3fb950;
+            --red: #f85149;
+            --orange: #d29922;
+            --purple: #bc8cff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        #loading {
+            position: fixed; inset: 0; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 9999;
+            background: var(--bg);
+        }
+        .spinner {
+            width: 48px; height: 48px; border: 4px solid var(--border);
+            border-top-color: var(--accent); border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #loading p { margin-top: 16px; color: var(--muted); font-size: 14px; }
+        #loading .progress { margin-top: 8px; color: var(--accent); font-size: 12px; font-family: monospace; }
+
+        .header {
+            padding: 16px 24px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 16px;
+        }
+        .header h1 { font-size: 20px; font-weight: 600; }
+        .header .badge {
+            font-size: 11px; padding: 2px 8px; border-radius: 12px;
+            background: var(--border); color: var(--muted);
+        }
+        .header .badge.live { background: rgba(63,185,80,0.15); color: var(--green); }
+
+        .layout { display: flex; min-height: calc(100vh - 57px); }
+        .sidebar {
+            width: 280px; border-right: 1px solid var(--border);
+            padding: 16px; overflow-y: auto; flex-shrink: 0;
+        }
+        .sidebar h3 { font-size: 12px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.5px; }
+        .sidebar select, .sidebar input[type="range"] { width: 100%; }
+        .sidebar select {
+            background: var(--card); color: var(--text); border: 1px solid var(--border);
+            border-radius: 6px; padding: 8px 12px; font-size: 14px; margin-bottom: 16px;
+        }
+        .param-group { margin-bottom: 16px; }
+        .param-group label {
+            display: flex; justify-content: space-between; font-size: 12px;
+            color: var(--muted); margin-bottom: 4px;
+        }
+        .param-group label .val { color: var(--accent); font-family: monospace; }
+        input[type="range"] {
+            -webkit-appearance: none; height: 4px; background: var(--border);
+            border-radius: 2px; outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 16px; height: 16px;
+            background: var(--accent); border-radius: 50%; cursor: pointer;
+        }
+        .btn {
+            width: 100%; padding: 10px 16px; border: none; border-radius: 6px;
+            font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px;
+        }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: #4c9aff; }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .main { flex: 1; padding: 24px; overflow-y: auto; }
+        .tabs {
+            display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 24px;
+        }
+        .tab {
+            padding: 8px 16px; font-size: 14px; color: var(--muted);
+            border-bottom: 2px solid transparent; cursor: pointer;
+        }
+        .tab.active { color: var(--text); border-bottom-color: var(--accent); }
+        .tab:hover { color: var(--text); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .chart-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        .chart-card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 16px;
+        }
+        .chart-card h3 { font-size: 14px; margin-bottom: 12px; color: var(--muted); }
+        .chart-card.full { grid-column: 1; }
+        .chart { width: 100%; height: 320px; }
+
+        .stats-row { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+        .stat-card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 16px; min-width: 160px; flex: 1;
+        }
+        .stat-card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card .value { font-size: 24px; font-weight: 700; margin-top: 4px; }
+        .stat-card .value.green { color: var(--green); }
+        .stat-card .value.red { color: var(--red); }
+        .stat-card .value.orange { color: var(--orange); }
+        .stat-card .sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+        .alert {
+            padding: 12px 16px; border-radius: 6px; margin-bottom: 16px;
+            font-size: 13px; display: flex; align-items: center; gap: 8px;
+        }
+        .alert.danger { background: rgba(248,81,73,0.1); border: 1px solid rgba(248,81,73,0.3); color: var(--red); }
+        .alert.warning { background: rgba(210,153,34,0.1); border: 1px solid rgba(210,153,34,0.3); color: var(--orange); }
+        .alert.success { background: rgba(63,185,80,0.1); border: 1px solid rgba(63,185,80,0.3); color: var(--green); }
+
+        .comparison-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .comparison-table th, .comparison-table td {
+            padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: right;
+        }
+        .comparison-table th { color: var(--muted); font-weight: 500; text-align: right; }
+        .comparison-table td:first-child, .comparison-table th:first-child { text-align: left; }
+        .comparison-table tr:hover { background: rgba(255,255,255,0.03); }
+
+        #report-content { font-size: 14px; line-height: 1.6; }
+        #report-content h2 { font-size: 18px; margin: 24px 0 12px; }
+        #report-content h3 { font-size: 15px; margin: 16px 0 8px; color: var(--accent); }
+        #report-content ul { padding-left: 20px; margin: 8px 0; }
+        #report-content li { margin: 4px 0; }
+        #report-content code { background: var(--card); padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+
+        .disclaimer-banner {
+            background: rgba(210,153,34,0.08); border: 1px solid rgba(210,153,34,0.3);
+            border-radius: 6px; padding: 12px 16px; margin: 0 24px 16px;
+            font-size: 12px; color: var(--muted); line-height: 1.6;
+        }
+        .disclaimer-banner strong { color: var(--orange); }
+        .disclaimer-banner ul { padding-left: 18px; margin: 6px 0 0; }
+        .disclaimer-banner li { margin: 2px 0; }
+
+        .chart-disclaimer {
+            font-size: 10px; color: var(--muted); margin-top: 8px;
+            font-style: italic; line-height: 1.4;
+        }
+
+        .disclaimer-footer {
+            border-top: 1px solid var(--border); padding: 16px 24px;
+            font-size: 11px; color: var(--muted); line-height: 1.6;
+        }
+        .disclaimer-footer strong { color: var(--text); }
+        .disclaimer-footer ul { padding-left: 18px; margin: 8px 0; }
+        .disclaimer-footer li { margin: 3px 0; }
+        .disclaimer-footer a { color: var(--accent); text-decoration: none; }
+
+        .param-desc { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.3; }
+        .chart-desc { font-size: 11px; color: var(--muted); margin-bottom: 8px; line-height: 1.4; }
+        .scenario-desc { font-size: 11px; color: var(--muted); margin-bottom: 12px; line-height: 1.4; }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .header { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+            .header h1 { font-size: 16px; }
+            .header .badge { font-size: 10px; }
+
+            .disclaimer-banner { margin: 0 12px 12px; padding: 10px 12px; font-size: 11px; }
+            .disclaimer-banner ul { padding-left: 14px; }
+
+            .layout { flex-direction: column; min-height: auto; }
+            .sidebar {
+                width: 100%; border-right: none; border-bottom: 1px solid var(--border);
+                padding: 12px 16px; max-height: 50vh; overflow-y: auto;
+            }
+            .main { padding: 16px 12px; overflow-y: visible; }
+
+            .tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 0; }
+            .tab { padding: 8px 12px; font-size: 13px; white-space: nowrap; flex-shrink: 0; }
+
+            .chart-grid { grid-template-columns: 1fr; gap: 12px; }
+            .chart-card { padding: 12px; }
+            .chart-card h3 { font-size: 13px; }
+            .chart { height: 260px; }
+            .chart-desc { font-size: 10px; }
+
+            .stats-row { gap: 8px; margin-bottom: 16px; }
+            .stat-card { min-width: 130px; padding: 12px; }
+            .stat-card .value { font-size: 20px; }
+            .stat-card .label { font-size: 10px; }
+            .stat-card .sub { font-size: 10px; }
+
+            .comparison-table { font-size: 12px; }
+            .comparison-table th, .comparison-table td { padding: 6px 8px; }
+
+            .disclaimer-footer { padding: 12px 16px; font-size: 10px; }
+            .disclaimer-footer ul { padding-left: 14px; }
+
+            #report-content { font-size: 13px; }
+            #report-content h2 { font-size: 16px; }
+            #report-content h3 { font-size: 14px; }
+
+            .param-group label { font-size: 11px; }
+            .param-desc { font-size: 10px; }
+            .btn { padding: 12px 16px; font-size: 15px; }
+        }
+
+        @media (max-width: 380px) {
+            .header h1 { font-size: 14px; }
+            .stat-card { min-width: 110px; padding: 10px; }
+            .stat-card .value { font-size: 18px; }
+            .chart { height: 220px; }
+            .tab { padding: 6px 10px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">
+        <div class="spinner"></div>
+        <p>Loading Pyodide (Python in WASM)...</p>
+        <div class="progress" id="load-progress">Initializing</div>
+    </div>
+
+    <div id="app" style="display:none;">
+        <div class="header">
+            <h1>SHIT Protocol Tokenomics Lab</h1>
+            <span class="badge live">Pyodide</span>
+            <span class="badge" id="py-version"></span>
+        </div>
+
+        <div class="disclaimer-banner">
+            <strong>⚠ Hypothetical Simulation — Educational Model Only</strong>
+            <ul>
+                <li>This is a hypothetical simulation / educational model only. Not financial, investment, legal, or tax advice.</li>
+                <li>Past or simulated performance is not indicative of future results.</li>
+                <li>Results depend on assumptions you choose and do not predict actual outcomes.</li>
+                <li>The model is illustrative and may contain simplifications or errors.</li>
+            </ul>
+        </div>
+
+        <div class="layout">
+            <div class="sidebar">
+                <h3>Scenario</h3>
+                <select id="scenario-select">
+                    <option value="bull">Bull Market — Rising prices, high demand</option>
+                    <option value="bear">Bear Market — Falling prices, low demand</option>
+                    <option value="stress">Stress Test — Extreme volatility, sell pressure</option>
+                    <option value="depeg">Stablecoin Depeg — Bucky loses peg from $1</option>
+                    <option value="governance_attack">Governance Attack — Adversarial proposal attempts</option>
+                </select>
+                <div class="scenario-desc">Choose a market scenario to simulate different economic conditions for the SHIT protocol.</div>
+
+                <h3>Staking Parameters</h3>
+                <div class="param-group">
+                    <label>Max Supplemental Rate (R_MAX) <span class="val" id="r_max-val">55</span></label>
+                    <input type="range" id="r_max" min="10" max="100" value="55">
+                    <div class="param-desc">Maximum supplemental emission rate in basis points. Higher = more SHIT minted to stakers when price is above NAV.</div>
+                </div>
+                <div class="param-group">
+                    <label>Premium Threshold (K_BPS) <span class="val" id="k_bps-val">14000</span></label>
+                    <input type="range" id="k_bps" min="10000" max="30000" value="14000" step="500">
+                    <div class="param-desc">Price-to-NAV ratio at which supplemental emissions reach maximum. 14000 = 1.4x NAV. Lower = emissions ramp up faster.</div>
+                </div>
+                <div class="param-group">
+                    <label>Circuit Breaker Threshold <span class="val" id="cb_threshold-val">21</span></label>
+                    <input type="range" id="cb_threshold" min="1" max="50" value="21">
+                    <div class="param-desc">Consecutive epochs price must stay below floor before supplemental emissions are halted to prevent death spiral.</div>
+                </div>
+                <div class="param-group">
+                    <label>Price Volatility <span class="val" id="price_vol-val">5%</span></label>
+                    <input type="range" id="price_vol" min="1" max="20" value="5" step="1">
+                    <div class="param-desc">Random price fluctuation per epoch. Higher = more realistic but less predictable price action.</div>
+                </div>
+                <div class="param-group">
+                    <label>Simulation Length (Epochs) <span class="val" id="num_epochs-val">90</span></label>
+                    <input type="range" id="num_epochs" min="30" max="365" value="90" step="30">
+                    <div class="param-desc">Number of time steps to simulate. 1 epoch = 1 day. More epochs = longer forecast but slower computation.</div>
+                </div>
+
+                <h3>Treasury Parameters</h3>
+                <div class="param-group">
+                    <label>Impact Token Haircut <span class="val" id="impact_haircut-val">5000</span></label>
+                    <input type="range" id="impact_haircut" min="0" max="9000" value="5000" step="500">
+                    <div class="param-desc">Discount applied to impact token / yield-strategy value when calculating Risk-Free Value (RFV). 5000 bps = 50% haircut (per whitepaper). Higher = more conservative floor price.</div>
+                </div>
+                <div class="param-group">
+                    <label>Protocol Owned Liquidity Haircut <span class="val" id="pol_haircut-val">5000</span></label>
+                    <input type="range" id="pol_haircut" min="0" max="9000" value="5000" step="500">
+                    <div class="param-desc">Discount applied to POL value when calculating RFV. 5000 bps = 50% haircut (per whitepaper), accounting for double-slippage risk if liquidity must be sold.</div>
+                </div>
+
+                <h3>Floor Hook Parameters</h3>
+                <div class="param-group">
+                    <label>Redemption Probability <span class="val" id="redemption_prob-val">10%</span></label>
+                    <input type="range" id="redemption_prob" min="0" max="80" value="10" step="5">
+                    <div class="param-desc">Chance per epoch that a holder redeems SHIT for treasury assets. Higher = more sell pressure and floor reserve depletion.</div>
+                </div>
+                <div class="param-group">
+                    <label>Redemption Size (% of supply) <span class="val" id="redemption_size-val">5%</span></label>
+                    <input type="range" id="redemption_size" min="1" max="30" value="5" step="1">
+                    <div class="param-desc">How much of total SHIT supply is redeemed when a redemption event occurs. Larger = bigger impact on floor reserve.</div>
+                </div>
+
+                <button class="btn btn-primary" id="run-btn" onclick="runSimulation()">Run Simulation</button>
+            </div>
+
+            <div class="main">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('overview')">Overview</div>
+                    <div class="tab" onclick="switchTab('staking')">Staking</div>
+                    <div class="tab" onclick="switchTab('treasury')">Treasury & Floor</div>
+                    <div class="tab" onclick="switchTab('bonding')">Bonding</div>
+                    <div class="tab" onclick="switchTab('report')">Audit Report</div>
+                </div>
+
+                <div id="tab-overview" class="tab-content active">
+                    <div class="stats-row" id="overview-stats"></div>
+                    <div id="overview-alerts"></div>
+                    <div class="chart-grid">
+                        <div class="chart-card full">
+                            <h3>SHIT Price vs Floor vs NAV</h3>
+                            <div class="chart-desc">Market price of SHIT compared to the Floor Price (intrinsic backing from treasury) and NAV per SHIT (total treasury value per token). Price above NAV = protocol is healthy.</div>
+                            <div class="chart" id="chart-price"></div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>SHIT Supply Growth</h3>
+                            <div class="chart-desc">Total SHIT token supply and staked SHIT (stSHIT) supply over time. Supply grows from supplemental emissions; staking ratio increases as more holders stake.</div>
+                            <div class="chart" id="chart-supply"></div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Staking Ratio & APY</h3>
+                            <div class="chart-desc">Percentage of SHIT that are staked (left axis) and the annualized staking APY yield (right axis). APY is driven by supplemental emissions which scale with price premium to NAV.</div>
+                            <div class="chart" id="chart-staking"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-staking" class="tab-content">
+                    <div class="chart-grid">
+                        <div class="chart-card full">
+                            <h3>Staking Ratio & APY (Inverse Relationship)</h3>
+                            <div class="chart-desc">Staking ratio (left axis) and APY (right axis) over time. As more holders stake, supplemental emissions are spread across more stSHIT, reducing per-token APY.</div>
+                            <div class="chart" id="chart-staking-detail"></div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Staking Index (Rebase Accumulation)</h3>
+                            <div class="chart-desc">Growth of 1 stSHIT over time via rebase rewards. A staking index of 2.0 means 1 stSHIT has grown to 2 SHIT worth of value through emissions.</div>
+                            <div class="chart" id="chart-staking-index"></div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Staked Supply Growth</h3>
+                            <div class="chart-desc">stSHIT supply (staked tokens) compared to total SHIT supply. The gap between the lines shows the unstaked (floating) supply.</div>
+                            <div class="chart" id="chart-staked-supply"></div>
+                        </div>
+                        <div class="chart-card full">
+                            <h3>Circuit Breaker Status</h3>
+                            <div class="chart-desc">Tracks how many consecutive epochs the market price has been near or below the floor price. If the count reaches the threshold (default 21), supplemental emissions are halted to prevent a death spiral.</div>
+                            <div class="chart" id="chart-circuit-breaker"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-treasury" class="tab-content">
+                    <div class="chart-grid">
+                        <div class="chart-card full">
+                            <h3>Price vs Floor vs NAV (Per SHIT)</h3>
+                            <div class="chart-desc">Same data as the Overview tab: Market Price, Floor Price (RFV per SHIT), and NAV per SHIT. Floor Price is the intrinsic backing value; NAV is the full treasury value per token.</div>
+                            <div class="chart" id="chart-rfv-nav"></div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Treasury Composition</h3>
+                            <div class="chart-desc">Stacked breakdown of treasury assets over time: Floor Reserve, Band Reserve, Protocol Owned Liquidity, Yield Capital, and Backing Reserves. All grow from protocol fee revenue.</div>
+                            <div class="chart" id="chart-treasury-comp"></div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Floor Reserve & Redeemable Supply</h3>
+                            <div class="chart-desc">Floor Reserve (treasury assets backing the floor price, left axis) and Redeemable Supply (SHIT eligible for redemption, right axis). Floor reserve should grow faster than redeemable supply for a healthy floor.</div>
+                            <div class="chart" id="chart-floor-reserve"></div>
+                        </div>
+                        <div class="chart-card full">
+                            <h3>Market Price vs Floor Price (Premium/Discount)</h3>
+                            <div class="chart-desc">Market price compared to the floor price. When market price is above floor, SHIT trades at a premium. When below, it trades at a discount to intrinsic value.</div>
+                            <div class="chart" id="chart-premium-floor"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-bonding" class="tab-content">
+                    <div class="chart-grid">
+                        <div class="chart-card full">
+                            <h3>Price vs NAV (Premium Seller Zone)</h3>
+                            <div class="chart-desc">Market Price, Floor Price, NAV per SHIT, and 2x NAV threshold. When price exceeds 2x NAV, the Premium Seller activates and mints SHIT (in small clips) to capture the premium and pull price back toward NAV.</div>
+                            <div class="chart" id="chart-bond-price"></div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>SHIT Burned (Inverse Bonds)</h3>
+                            <div class="chart-desc">Cumulative SHIT burned through inverse bonds. Holders burn SHIT in exchange for treasury assets, reducing supply. Burn rate increases when price is weak (near or below floor).</div>
+                            <div class="chart" id="chart-inverse-burn"></div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>SHIT Sold (Premium Seller)</h3>
+                            <div class="chart-desc">Cumulative SHIT minted and sold by the Premium Seller when price exceeds 2x NAV. This dilutes supply to pull price back down, capturing value for the treasury.</div>
+                            <div class="chart" id="chart-premium-sold"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-report" class="tab-content">
+                    <div id="report-content"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="disclaimer-footer">
+            <strong>Disclaimer & Model Transparency</strong>
+            <ul>
+                <li>This is a hypothetical simulation / educational model only. Not financial, investment, legal, or tax advice.</li>
+                <li>Past or simulated performance is not indicative of future results.</li>
+                <li>Results depend on assumptions you choose and do not predict actual outcomes.</li>
+                <li>The model is illustrative and may contain simplifications or errors.</li>
+                <li>Model assumptions, parameters, and key equations are open-source and available for community audit.</li>
+                <li>This tool is intended to explore possible dynamics under user-defined scenarios, not to predict or guarantee any specific outcome.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script>
+    <script src="app.js?v=45"></script>
+</body>
+</html>

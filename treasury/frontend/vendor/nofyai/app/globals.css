@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-text-primary antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Custom scrollbar for light theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border-dark rounded;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-text-tertiary;
+  }
+}
+
+@layer components {
+  /* Card styles - CoinMarketCap light theme */
+  .cmc-card {
+    @apply bg-surface rounded-card border border-border shadow-card transition-all duration-300;
+  }
+
+  .cmc-card:hover {
+    @apply shadow-card-hover;
+  }
+
+  /* Button styles */
+  .btn-primary {
+    @apply bg-primary text-white px-4 py-2 rounded-lg font-medium transition-colors hover:bg-primary-hover active:bg-primary-light;
+  }
+
+  .btn-secondary {
+    @apply bg-background-secondary text-text-primary px-4 py-2 rounded-lg font-medium border border-border transition-colors hover:bg-surface-hover;
+  }
+
+  /* Badge styles */
+  .badge-success {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-success-bg text-success border border-success/20;
+  }
+
+  .badge-danger {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-danger-bg text-danger border border-danger/20;
+  }
+
+  .badge-warning {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-warning-bg text-warning border border-warning/20;
+  }
+
+  .badge-primary {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-primary/10 text-primary border border-primary/20;
+  }
+
+  /* Skeleton loader */
+  .skeleton {
+    @apply bg-background-secondary animate-pulse rounded;
+  }
+
+  /* Status indicators */
+  .status-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+
+  .status-dot-success {
+    @apply status-dot bg-success shadow-[0_0_8px_rgba(22,199,132,0.3)];
+  }
+
+  .status-dot-danger {
+    @apply status-dot bg-danger shadow-[0_0_8px_rgba(234,57,67,0.3)];
+  }
+
+  /* Table styles */
+  .data-table {
+    @apply w-full text-sm;
+  }
+
+  .data-table thead {
+    @apply border-b border-border;
+  }
+
+  .data-table th {
+    @apply text-left font-semibold text-text-secondary py-3 px-4;
+  }
+
+  .data-table td {
+    @apply py-3 px-4 border-b border-border;
+  }
+
+  .data-table tbody tr {
+    @apply transition-colors hover:bg-background-secondary;
+  }
+
+  /* Number styles */
+  .number-positive {
+    @apply text-success font-semibold;
+  }
+
+  .number-negative {
+    @apply text-danger font-semibold;
+  }
+}
+
+@layer utilities {
+  /* Text gradients */
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-primary to-accent-purple bg-clip-text text-transparent;
+  }
+
+  .text-gradient-success {
+    @apply bg-gradient-to-r from-success to-accent-cyan bg-clip-text text-transparent;
+  }
+
+  /* Animations */
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 10px rgba(56, 97, 251, 0.15);
+    }
+    to {
+      box-shadow: 0 0 20px rgba(56, 97, 251, 0.25);
+    }
+  }
+}

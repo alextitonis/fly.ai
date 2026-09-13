@@ -1,0 +1,38 @@
+name = "trade-worker"
+main = "src/index.ts"
+compatibility_date = "2026-09-12"
+
+# D1 database
+[[d1_databases]]
+binding = "DB"
+database_name = "shit-token"
+database_id = "YOUR_D1_DATABASE_ID"
+
+# KV for caching
+[[kv_namespaces]]
+binding = "CACHE"
+id = "YOUR_KV_NAMESPACE_ID"
+
+# Cron trigger — every 1 minute
+[triggers]
+crons = ["* * * * *"]
+
+[vars]
+FLYAI_TOKEN = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C"
+FLYAI_PAIR = "0x04f9f653f1692bbffeda87a5436aded3e9c0bc65e0bd929747a3a64b67c1312e"
+WETH = "0x0Bd7D308f3E1639FAb988df18A8011f41EAcAD73"
+PROFIT_TO_FLYAI_PERCENT = "50"
+MAX_ETH_PER_TRADE = "0.01"
+COOLDOWN_SECONDS = "60"
+# Real trading mode (set to "true" to enable real swaps)
+REAL_TRADING = "false"
+# SHIT token and TreasuryValuation contract addresses (set after deployment)
+SHIT_TOKEN = ""
+TREASURY_VALUATION = ""
+
+# Secrets:
+# npx wrangler secret put ROBINHOOD_RPC_URL
+# npx wrangler secret put EXECUTOR_PRIVATE_KEY
+# npx wrangler secret put DISCORD_WEBHOOK_URL
+# npx wrangler secret put EMERGENCY_STOP  (set to "1" to halt real trading)
+account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"
