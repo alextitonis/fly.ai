@@ -6,7 +6,7 @@ connectome's descending neurons (`flybrain.FlyBrain`), measured right after
 strongest reading. Nothing here is fit, trained, or scripted -- it's a
 straight measurement, each time you run it.
 
-    python valentfly/season.py --episodes 8 --seed 1 --html-out valentfly/site.html
+    python valentfly/season.py --seasons 8 --seed 1 --html-out valentfly/site.html
 """
 from __future__ import annotations
 
@@ -57,7 +57,7 @@ def stimulate_and_read(brain, trace, encoder, seat, compat_value, steps=STEPS_PE
     return float(activity[-READING_WINDOW:].mean())
 
 
-def run_episode(brain, trace, encoder, rng):
+def run_season(brain, trace, encoder, rng):
     compat = env.random_problem(rng)
     brain.reset(seed=rng.randrange(1 << 30))
     trace.reset()
@@ -99,8 +99,8 @@ def run_episode(brain, trace, encoder, rng):
 HOST_A, HOST_B = "Buzz", "Fizzy"
 
 
-def narrate_season(season, episode_num, seat_types):
-    lines = [f"--- Episode {episode_num} ---"]
+def narrate_season(season, season_num, seat_types):
+    lines = [f"--- Season {season_num} ---"]
     lines.append(f"{HOST_A}: {env.NUM_CANDIDATES} candidates. No model, no training -- "
                  f"just the real 166,700-neuron connectome, live.")
     for r in season["rounds"]:
@@ -128,7 +128,7 @@ def narrate_season(season, episode_num, seat_types):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--episodes", type=int, default=8)
+    parser.add_argument("--seasons", type=int, default=8)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--device", default="auto", help="cpu, cuda, or auto (FlyBrain device)")
     parser.add_argument("--json-out", default=None)
@@ -144,8 +144,8 @@ def main():
 
     rng = random.Random(args.seed)
     seasons = []
-    for i in range(1, args.episodes + 1):
-        season = run_episode(brain, trace, encoder, rng)
+    for i in range(1, args.seasons + 1):
+        season = run_season(brain, trace, encoder, rng)
         seasons.append(season)
         for line in narrate_season(season, i, encoder.types):
             print(line)

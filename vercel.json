@@ -27,6 +27,11 @@
       "permanent": false
     },
     {
+      "source": "/valentfly",
+      "destination": "/valentfly/",
+      "permanent": false
+    },
+    {
       "source": "/shop",
       "destination": "https://shop.flyaiworld.com",
       "permanent": false

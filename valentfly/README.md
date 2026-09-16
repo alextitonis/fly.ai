@@ -10,7 +10,7 @@ training, no checkpoint: this is the "frozen connectome + readout" pattern
 [`sshfighter/`](../sshfighter/) and
 [`flyreservoir_example.py`](../flyreservoir_example.py) use, taken to its
 simplest possible form. There's no fitted readout here at all — just a live
-measurement, fresh every episode.
+measurement, fresh every season.
 
 ## The rules (same shape as the show)
 
@@ -49,11 +49,27 @@ feelings, just a spiking neural network standing in for one. End to end:
    the settled mean spike trace across that population is read off as a
    plain scalar. That reading is not a prediction of anything — it's
    measured, nothing more.
-5. **State carries across dates within an episode.** The brain is *not*
+5. **State carries across dates within a season.** The brain is *not*
    reset between the 5 dates — one date's activity can genuinely leave
    residual buzz into the next, exactly as it would in one continuous
-   simulation. It *is* reset (fresh seed) between episodes.
-6. **Decision = argmax.** The proposal goes to whichever candidate produced
+   simulation. It *is* reset (fresh seed) between seasons.
+6. **The seats stay fixed across seasons; the compatibility doesn't.**
+   `Encoder(brain, ...)` runs once, before the season loop (`season.py`),
+   so "Seat 1"–"Seat 5" map to the *same* 5 real neuron types for every
+   season in that run — that's why a seat's icon/color is stable across
+   the recap page's season tabs. But `env.random_problem()` draws a brand
+   new, independent hidden compatibility score per seat at the top of
+   *every* season, and the brain itself is reset to a fresh seed with it
+   (point 5) — so each season is a fully independent problem, a new lead
+   dating the same 5-seat pool with no carried-over identity or memory
+   from the last one. This is deliberate: aggregating
+   the season record over several independent random draws is a more
+   meaningful accuracy signal than repeating one fixed draw, and it's why
+   the page labels seats by number rather than by name — contrast
+   [`radio/channels.py`](../radio/channels.py), where a persistent name
+   *is* warranted because each cast member reuses the same fixed
+   `flytalk.CONTEXTS` stimulus every time the station runs.
+7. **Decision = argmax.** The proposal goes to whichever candidate produced
    the **highest reading**. That's the entire decision procedure: no value
    function, no Q-values, no cross-validated readout fit on training data —
    comparing five raw measurements *is* the decision. Deliberately dumber
@@ -72,7 +88,7 @@ the real thing flies use to judge a mate."
 |---|---|
 | `env.py` | The domain: hidden compatibility draw, proposal scoring. Self-test via `python valentfly/env.py`. |
 | `encode.py` | Picks the 5 real neuron populations, one per seat. |
-| `season.py` | Runs real episodes, narrates them, and writes a JSON trace and/or a standalone HTML recap page. |
+| `season.py` | Runs real seasons, narrates them, and writes a JSON trace and/or a standalone HTML recap page. |
 | `site_template.html` | The recap page's HTML/CSS/JS, with a `__SEASONS_JSON__` placeholder — `season.py --html-out` fills it in. |
 
 ## Commands
@@ -81,7 +97,7 @@ Run from the repo root (`fly.ai/`):
 
 ```
 python valentfly/env.py                                            # rules self-test, no brain needed
-python valentfly/season.py --episodes 8 --seed 1 --html-out valentfly/site.html
+python valentfly/season.py --seasons 8 --seed 1 --html-out valentfly/site.html
 ```
 
 The first run downloads the prebuilt connectome (~260 MB, once, into
@@ -90,7 +106,7 @@ Needs `numpy`, `scipy`, `numba` installed (`pip install -r
 ../requirements.txt` from this folder, or `pip install numpy scipy numba`).
 
 Add `--json-out valentfly/seasons.json` too if you want the raw trace data
-on its own. `--episodes`/`--seed` control how many episodes run and which
+on its own. `--seasons`/`--seed` control how many seasons run and which
 compatibility draws they use (same seed → same draws, not the same
 readings — the brain's own noise means readings still vary run to run).
 
