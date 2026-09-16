@@ -1,30 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Be My ValentFLY</title>
+<meta name="description" content="The Bachelor, run by an actual fly brain: 5 candidates, one lead, a hidden compatibility score nobody sees, every date and the final proposal decided live by a real 166,700-neuron connectome.">
+<meta property="og:title" content="Be My ValentFLY">
+<meta property="og:description" content="The Bachelor, run by an actual fly brain — every date and the final proposal decided live by a real fly connectome.">
+<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#D81B72">
+<link rel="canonical" href="https://flyaiworld.com/valentfly/">
+<link rel="icon" href="/assets/logo.webp" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* ---- fly.ai site tokens (docs/assets/site.css), same values as every docs/*.html page and /radio/,
+     so this page renders in the same dark theme as the rest of the site instead of its own palette.
+     --gold/--crimson stay page-specific: "correct"/"wrong" verdict color, not a site brand color. ---- */
   :root{
-    --ground:#EEEAF3; --surface:#FFFFFF; --surface-2:#F5F1FA; --line:#DAD3E6;
-    --ink:#201A2B; --muted:#6C6578;
-    --accent:#D81B72; --accent-ink:#FFFFFF;
-    --gold:#9C6A00; --gold-bg:#F7ECD2;
-    --crimson:#B4302B; --crimson-bg:#F8E2E0;
-    --shadow: 0 1px 2px rgba(32,26,43,.06), 0 8px 24px -12px rgba(32,26,43,.18);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --ground:#14121A; --surface:#1E1A28; --surface-2:#241F30; --line:#362F44;
-      --ink:#F4EFF8; --muted:#9B95AC;
-      --accent:#FF3E8C; --accent-ink:#1A0A12;
-      --gold:#E8B84B; --gold-bg:#332A17;
-      --crimson:#FF6259; --crimson-bg:#3A1917;
-      --shadow: 0 1px 0 rgba(0,0,0,.4), 0 12px 32px -16px rgba(0,0,0,.6);
-    }
-  }
-  :root[data-theme="dark"]{
-    --ground:#14121A; --surface:#1E1A28; --surface-2:#241F30; --line:#362F44;
-    --ink:#F4EFF8; --muted:#9B95AC;
-    --accent:#FF3E8C; --accent-ink:#1A0A12;
+    --ground:#07090c; --surface:#11161e; --surface-2:#0d1117; --line:#222a35;
+    --ink:#eef1f5; --muted:#95a0ae; --dim:#5f6b7a;
+    --accent:#e0342c; --accent-hi:#ff5b4f; --accent-ink:#ffffff;
     --gold:#E8B84B; --gold-bg:#332A17;
     --crimson:#FF6259; --crimson-bg:#3A1917;
     --shadow: 0 1px 0 rgba(0,0,0,.4), 0 12px 32px -16px rgba(0,0,0,.6);
@@ -34,10 +33,63 @@
   body{
     margin:0; background:var(--ground); color:var(--ink);
     font-family:'Manrope',system-ui,-apple-system,Segoe UI,sans-serif;
-    padding:0 20px; padding-block:28px 56px;
   }
-  .wrap{max-width:960px; margin:0 auto;}
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:960px; margin:0 auto; padding-inline:20px;}
+  .page{padding-block:28px 56px;}
   .display{font-family:'Big Shoulders Display',system-ui,sans-serif; font-weight:800; letter-spacing:.01em; text-wrap:balance;}
+
+  /* nav */
+  nav{position:sticky; top:0; z-index:10; background:color-mix(in srgb, var(--ground) 85%, transparent);
+      backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; height:58px;
+            max-width:1120px; margin:0 auto; padding-inline:24px;}
+  .brand{display:flex; align-items:center; gap:10px; font:700 18px 'Big Shoulders Display',sans-serif;
+         text-decoration:none; color:var(--ink);}
+  .brand .logo{height:34px; width:auto; margin:-6px -8px;}
+  nav ul{display:flex; gap:22px; list-style:none; margin:0; padding:0; font-size:14px; align-items:center;}
+  nav ul a{color:var(--muted); text-decoration:none;}
+  nav ul a:hover{color:var(--ink);}
+  nav ul a.on{color:var(--ink);}
+  nav ul a.on::after{content:""; display:block; height:2px; background:var(--accent); margin-top:4px;}
+  nav li.dd{position:relative; display:flex; align-items:center; gap:2px;}
+  nav .ddbtn{all:unset; cursor:pointer; color:var(--muted); font-size:11px; line-height:1; padding:5px 4px; border-radius:4px;}
+  nav .ddbtn:hover{color:var(--ink);}
+  nav .ddmenu{position:absolute; top:calc(100% + 12px); left:-12px; min-width:240px; margin:0; padding:6px;
+              display:none; flex-direction:column; gap:2px; background:var(--surface); border:1px solid var(--line);
+              border-radius:10px; box-shadow:var(--shadow); z-index:20; list-style:none;}
+  nav .ddmenu::before{content:""; position:absolute; left:0; right:0; top:-14px; height:14px;}
+  nav li.dd:hover .ddmenu, nav li.dd:focus-within .ddmenu, nav li.dd.open .ddmenu{display:flex;}
+  nav .ddmenu li{display:block;}
+  nav .ddmenu a{display:block; padding:9px 11px; border-radius:7px; color:var(--ink); font-size:14px; white-space:nowrap;}
+  nav .ddmenu a:hover{background:var(--surface-2);}
+  nav .ddmenu a.on{background:var(--surface-2);}
+  nav .ddmenu a.on::after{display:none;}
+  nav .ddmenu small{display:block; color:var(--muted); font:12px/1.4 'JetBrains Mono',monospace; margin-top:2px; white-space:normal;}
+  @media (max-width:1080px){ nav ul{gap:14px; font-size:13px;} }
+  @media (max-width:760px){
+    nav .wrap{height:auto; padding-block:10px; flex-wrap:wrap; gap:8px 14px;}
+    nav ul{gap:14px; font-size:13px; flex-wrap:wrap;}
+  }
+  @media (max-width:520px){
+    nav ul{gap:12px; font-size:12px; width:100%; justify-content:space-between;}
+    nav ul li:last-child{display:none;}
+    nav .ddmenu{left:-40px; min-width:220px;}
+    .brand{font-size:16px;}
+  }
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:13px 20px; border-radius:10px; font-weight:600;
+       font-size:15px; text-decoration:none; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer;}
+  .btn:hover{border-color:var(--muted);}
+  .btn.sm{padding:8px 14px; font-size:13px; border-radius:8px;}
+
+  /* footer */
+  footer{border-top:1px solid var(--line); padding-block:40px; color:var(--muted); font-size:13px;}
+  footer .wrap{max-width:1120px; margin:0 auto; padding-inline:24px;}
+  footer .links{display:flex; flex-wrap:wrap; gap:18px; margin-bottom:18px;}
+  footer .links a{color:var(--muted); text-decoration:none;}
+  footer .links a:hover{color:var(--ink);}
+  footer p{max-width:820px; margin:0;}
   .mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-variant-numeric:tabular-nums;}
 
   /* ---- broadcast header ---- */
@@ -70,7 +122,7 @@
   }
   .record-chip b{color:var(--accent); font-size:17px;}
 
-  /* ---- episode tabs ---- */
+  /* ---- season tabs ---- */
   .tabs{
     display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:22px;
     scrollbar-width:thin;
@@ -165,14 +217,44 @@
   .reveal-chip.best{border-color:var(--gold); color:var(--gold);}
   .reveal-chip.chosen{border-color:var(--accent); color:var(--accent);}
 
-  footer{
-    margin-top:30px; font-size:12px; color:var(--muted); line-height:1.6; max-width:62ch;
+  .note-footer{
+    margin-top:30px; font-size:12px; color:var(--muted); line-height:1.6;
     border-top:1px solid var(--line); padding-top:16px;
   }
-  footer code{font-family:'JetBrains Mono',monospace; font-size:11.5px;}
+  .note-footer code{font-family:'JetBrains Mono',monospace; font-size:11.5px;}
 </style>
+</head>
+<body>
 
-<div class="wrap">
+<nav aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="/"><img class="logo" src="/assets/logo.webp" alt="fly.ai" width="1774" height="887">$FLYAI</a>
+    <ul>
+      <li class="opt"><a href="/">Home</a></li>
+      <li class="opt dd"><a href="/research.html">Research</a><button class="ddbtn" type="button" aria-expanded="false" aria-controls="dd-research" aria-label="More research pages">&#9662;</button>
+        <ul class="ddmenu" id="dd-research">
+          <li><a href="/research.html">All findings<small>Fighting, the 3-D world, what failed</small></a></li>
+          <li><a href="/research/flybook.html">Talking flies<small>Flybook: can two brains signal?</small></a></li>
+          <li><a href="/flybook/">Flybook<small>The live feed written by fly brains</small></a></li>
+          <li><a href="/research/radio.html">On air<small>Fly Radio: How a radio station run by a real fly brain works</small></a></li>
+          <li><a href="/radio/">Fly Radio<small>The live station, played by a real fly brain</small></a></li>
+          <li><a href="/research/valentfly.html">Behind the rose<small>Be My ValentFly: how a fly brain plays The Bachelor</small></a></li>
+          <li><a href="/valentfly/">Be My ValentFly<small>The Bachelor, decided live by a real fly brain</small></a></li>
+        </ul></li>
+      <li class="opt"><a href="/roadmap.html">Roadmap</a></li>
+      <li class="opt"><a href="/token.html">$FLYAI</a></li>
+      <li class="opt"><a href="/simulation/">Simulation</a></li>
+      <li class="opt"><a href="/flybook/">Flybook</a></li>
+      <li class="opt"><a href="/radio/">Radio</a></li>
+      <li class="opt"><a class="on" href="/valentfly/">ValentFly</a></li>
+      <li class="opt"><a href="/shop" target="_blank" rel="noopener">Merch</a></li>
+      <li class="opt"><a href="/agents.html">For Agents</a></li>
+      <li><a class="btn sm" href="https://x.com/flydotai" target="_blank" rel="noopener">Follow @flydotai</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap page">
   <div class="broadcast-bar">
     <div class="wordmark">
       <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
@@ -198,7 +280,7 @@
     </div>
   </div>
 
-  <div class="tabs" id="tabs" role="tablist" aria-label="Episodes"></div>
+  <div class="tabs" id="tabs" role="tablist" aria-label="Seasons"></div>
 
   <div class="stage">
     <section class="panel" aria-label="Contestant roster">
@@ -213,7 +295,7 @@
 
   <div id="verdict"></div>
 
-  <footer>
+  <footer class="note-footer">
     Every date, every reading, and the final proposal above is the real output of
     <code>flybrain.FlyBrain</code> — the actual 166,700-neuron MaleCNS connectome,
     simulated spike by spike. There is no model and nothing is trained: each
@@ -227,9 +309,20 @@
   </footer>
 </div>
 
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+
 <script>
 const SEASONS = __SEASONS_JSON__;
-// No character names: every episode is an INDEPENDENT random problem (a
+// No character names: every season is an INDEPENDENT random problem (a
 // fresh compatibility draw for all 5 seats each time) -- there is no
 // persistent contestant identity for a name to legitimately attach to, so
 // seats are labeled generically.
@@ -281,7 +374,7 @@ function buildTabs(){
     b.setAttribute('role','tab');
     b.setAttribute('data-verdict', s.correct ? 'correct' : 'wrong');
     b.setAttribute('aria-selected', i === active ? 'true' : 'false');
-    b.innerHTML = 'Ep ' + String(i+1).padStart(2,'0') + '<span class="badge"></span>';
+    b.innerHTML = 'S' + String(i+1).padStart(2,'0') + '<span class="badge"></span>';
     b.addEventListener('click', () => { active = i; render(); });
     tabsEl.appendChild(b);
   });
@@ -371,7 +464,7 @@ function renderVerdict(season){
 
 function renderRecord(){
   const correct = SEASONS.filter(s => s.correct).length;
-  recordEl.innerHTML = 'Season record <b>' + correct + ' / ' + SEASONS.length + '</b> correct';
+  recordEl.innerHTML = 'Correct proposals: <b>' + correct + ' / ' + SEASONS.length + '</b> seasons';
 }
 
 function render(){
@@ -386,3 +479,5 @@ buildTabs();
 renderRecord();
 render();
 </script>
+</body>
+</html>

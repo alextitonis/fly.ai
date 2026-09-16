@@ -10,7 +10,7 @@ Candidates are also matched by POPULATION SIZE (closest to the candidate
 pool's median neuron count, tie-broken by sorted name for determinism): an
 early version of this picked types with wildly different sizes (down to one
 neuron with no identified type at all), and the biggest population won
-essentially every episode regardless of compatibility -- more neurons means
+essentially every season regardless of compatibility -- more neurons means
 more spikes reaching the descending-neuron readout no matter what they're
 being told. Matching sizes doesn't eliminate every difference in how
 strongly a type talks to the descending neurons, but it removes the most

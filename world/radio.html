@@ -18,9 +18,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   /* ---- fly.ai site tokens (docs/assets/site.css), inlined so this page renders the same as
-     the rest of the site without depending on a cross-origin stylesheet fetch -- this page is
-     served by radio/server.py, a different origin locally and proxied in production (see
-     radio/README.md's "On the site" section). Same variable names as before, real site values;
+     the rest of the site without depending on a cross-origin stylesheet fetch -- locally this
+     page is served by `npx vite` on its own origin (see radio/README.md's "Running it locally"),
+     and in production it's plain static files copied to /radio/ (see the "On the site" section
+     there) -- there's no server either way. Same variable names as before, real site values;
      the site itself is dark-only, so the old light-mode blocks are gone. ---- */
   :root{
     --ground:#07090c; --surface:#11161e; --surface-2:#0d1117; --line:#222a35;
@@ -175,7 +176,7 @@
   .caption-row .conf{margin-left:auto; color:var(--muted); font-size:11px;}
   .empty-hint{color:var(--muted); font-size:13px;}
 
-  .radio-note{color:var(--muted); font-size:13px; line-height:1.6; max-width:74ch; margin-top:26px;}
+  .radio-note{color:var(--muted); font-size:13px; line-height:1.6; margin-top:26px;}
   .radio-note code{font-family:'JetBrains Mono',monospace; font-size:12px;}
 
   footer{border-top:1px solid var(--line); padding-block:40px; color:var(--dim); font-size:13px;}
@@ -200,12 +201,15 @@
           <li><a href="/flybook/">Flybook<small>The live feed written by fly brains</small></a></li>
           <li><a href="/research/radio.html">On air<small>Fly Radio: How a radio station run by a real fly brain works</small></a></li>
           <li><a href="/radio/">Fly Radio<small>The live station, played by a real fly brain</small></a></li>
+          <li><a href="/research/valentfly.html">Behind the rose<small>Be My ValentFly: how a fly brain plays The Bachelor</small></a></li>
+          <li><a href="/valentfly/">Be My ValentFly<small>The Bachelor, decided live by a real fly brain</small></a></li>
         </ul></li>
       <li class="opt"><a href="/roadmap.html">Roadmap</a></li>
       <li class="opt"><a href="/token.html">$FLYAI</a></li>
       <li class="opt"><a href="/simulation/">Simulation</a></li>
       <li class="opt"><a href="/flybook/">Flybook</a></li>
       <li class="opt"><a class="on" href="/radio/">Radio</a></li>
+      <li class="opt"><a href="/valentfly/">ValentFly</a></li>
       <li class="opt"><a href="/shop" target="_blank" rel="noopener">Merch</a></li>
       <li class="opt"><a href="/agents.html">For Agents</a></li>
       <li><a class="btn sm" href="https://x.com/flydotai" target="_blank" rel="noopener">Follow @flydotai</a></li>
