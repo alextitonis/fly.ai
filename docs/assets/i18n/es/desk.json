@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "title": "The Fly Desk — cerebros de mosca de la fruta operan en papel",
+    "description": "Conectomas reales de mosca de la fruta operan en papel tokens de acciones de Robinhood Chain, memes de Pons y agentes de Virtuals. El fondo en vivo, la cartera de cada mosca, sus posiciones y cada operación."
+  },
+  "head": {
+    "eyebrow": "Mesa de papel · Robinhood Chain · cerebros fuera de cadena",
+    "title": "The Fly Desk",
+    "tagline": "Cerebros de mosca de la fruta operan un libro de papel.",
+    "lede": "Cada mosca es un conectoma real de mosca de la fruta que corre en una CPU. Cada 15 minutos huele el mercado y su cerebro decide: comprar, mantener o vender. Las operaciones se valoran con los pools en vivo de Robinhood Chain.",
+    "paperTitle": "Solo en papel",
+    "paper": "Sin billetera, sin claves, sin órdenes reales. El dinero es simulado; los precios son reales."
+  },
+  "chip": {
+    "connecting": "Conectando",
+    "live": "En vivo",
+    "stalled": "Detenido",
+    "offline": "Sin conexión",
+    "paper": "Solo en papel"
+  },
+  "jump": {
+    "pot": "El fondo",
+    "eye": "El ojo de la mosca",
+    "books": "Libros",
+    "positions": "Posiciones",
+    "tape": "La cinta",
+    "how": "Cómo opera",
+    "launches": "Lanzamientos"
+  },
+  "sys": {
+    "mode": "modo",
+    "bars": "barras",
+    "tokens": "tokens",
+    "updated": "actualizado",
+    "flies": "moscas",
+    "trades": "operaciones"
+  },
+  "pot": {
+    "title": "El fondo",
+    "lede": "Todo lo que tienen las moscas, valorado a los últimos precios, barra a barra. La línea gruesa son todas las moscas juntas, cada línea fina una mosca; la discontinua es donde empezaron.",
+    "value": "Fondo",
+    "pnl": "P&L",
+    "seriesPot": "Todas las moscas",
+    "seriesStart": "Inicio",
+    "table": "Vista en tabla de la curva",
+    "thTime": "Hora",
+    "none": "Aún no hay barras.",
+    "modeReturn": "Retorno %",
+    "modeUsd": "Fondo en $",
+    "best": "Mejor mosca",
+    "median": "Mosca mediana"
+  },
+  "stats": {
+    "high24": "Máximo 24h",
+    "low24": "Mínimo 24h",
+    "change24": "Cambio 24h",
+    "ath": "Máximo {when}",
+    "sinceStart": "desde el inicio",
+    "week": "esta semana"
+  },
+  "eye": {
+    "title": "El ojo de la mosca",
+    "lede": "La repetición de la última barra de una mosca. Las cartas son los tokens de su campo de visión, y la mosca las recorre del movimiento más tranquilo al más fuerte. Su sentido de objetivo se fija en la mayor subida; su sentido de amenaza, en la peor caída que tiene, y las barras de abajo muestran con qué fuerza se activó cada acción motora. La que gana se convierte en la operación.",
+    "replay": "Repetir",
+    "kTarget": "sentido de objetivo",
+    "kThreat": "sentido de amenaza",
+    "kHeld": "en cartera",
+    "kAct": "la acción ganadora",
+    "none": "Esperando la próxima barra de las moscas…",
+    "held": "en cartera",
+    "target": "objetivo",
+    "threat": "amenaza",
+    "hold": "mantener",
+    "passed": "quería {what} {sym}, se contuvo",
+    "capQuiet": "no se activó nada: mantuvo",
+    "capFired": "{act} se activó con más fuerza ({z}σ)",
+    "capHeld": "no bastó para operar",
+    "capSkipped": "se contuvo: {why}",
+    "act": {
+      "turned": "girar hacia",
+      "buzzed": "zumbar",
+      "groomed": "acicalarse",
+      "backed_up": "retroceder",
+      "jumped": "saltar"
+    }
+  },
+  "books": {
+    "title": "Los libros",
+    "lede": "Una fila por mosca. La línea es su valor en la ventana de la curva.",
+    "thBook": "Mosca",
+    "thValue": "Valor",
+    "thReturn": "Retorno",
+    "thTrades": "Operaciones",
+    "thHolds": "Retenciones",
+    "thCurve": "Curva",
+    "cash": "efectivo"
+  },
+  "pos": {
+    "title": "Posiciones",
+    "lede": "Lo que tiene cada mosca ahora mismo, de mayor a menor, al último precio.",
+    "cash": "Efectivo libre",
+    "thSymbol": "Token",
+    "thQty": "Cant. @ costo",
+    "thPrice": "Precio",
+    "thValue": "Valor",
+    "thPnl": "P&L",
+    "empty": "Todo en efectivo."
+  },
+  "tape": {
+    "title": "La cinta",
+    "lede": "Cada operación, la más reciente primero.",
+    "thTime": "Hora",
+    "thBook": "Mosca",
+    "thSide": "Lado",
+    "thToken": "Token",
+    "thUsd": "USD",
+    "none": "Aún no hay operaciones.",
+    "side": {
+      "buy": "compra",
+      "sell": "venta",
+      "take_profit": "take profit",
+      "panic_sell": "venta de pánico",
+      "buy_call": "compra de call",
+      "exercise": "ejercicio",
+      "arb": "arbitraje"
+    }
+  },
+  "how": {
+    "title": "Cómo opera",
+    "p1": "<b>El cerebro decide.</b> Cada token que ve la mosca se convierte en un olor en sus neuronas receptoras olfativas; su cuerpo fungiforme aprende con dopamina qué le dio resultado. Lo que hacen sus neuronas motoras en esa barra se traduce en comprar, mantener o vender.",
+    "p3": "<b>Precios reales, rutas reales.</b> Tokens de acciones de Robinhood, memes de Pons y tokens de agentes de Virtuals, cada uno operado por la ruta de Uniswap que realmente tomaría, cobrando comisiones del pool, impacto en el precio e impuestos del token.",
+    "p4": "<b>Dinero de papel.</b> Nada de esto se envía a la cadena. Cuando una operación sería real, se cotiza de la misma forma."
+  },
+  "t": {
+    "ago": "hace {n}",
+    "never": "—",
+    "error": "No se pudo cargar la mesa. Reintentando…"
+  },
+  "launch": {
+    "title": "Lanzamientos",
+    "lede": "Cuando suficientes moscas quieren lo mismo en el mismo momento, el enjambre lanza su propio token en Pons. En papel, el lanzamiento se simula en la cadena y nunca se envía.",
+    "none": "El enjambre aún no ha lanzado nada.",
+    "simulated": "simulado",
+    "sent": "en cadena"
+  }
+}

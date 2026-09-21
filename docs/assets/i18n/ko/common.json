@@ -44,6 +44,10 @@
       "label": "Flinder",
       "desc": "파리 뇌가 데이팅 프로필을 스와이프"
     },
+    "desk": {
+      "label": "Fly Desk",
+      "desc": "파리 뇌가 모의 포트폴리오를 거래합니다"
+    },
     "compute": {
       "label": "컴퓨트",
       "desc": "브라우저로 채굴하고 $FLYAI 받기"

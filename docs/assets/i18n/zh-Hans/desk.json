@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "title": "The Fly Desk — 果蝇大脑模拟交易",
+    "description": "真实的果蝇连接组在 Robinhood Chain 上模拟交易股票代币、Pons 迷因币和 Virtuals 代理代币。实时资金池、每只果蝇的账户、持仓和每一笔成交。"
+  },
+  "head": {
+    "eyebrow": "模拟交易台 · Robinhood Chain · 链下大脑",
+    "title": "The Fly Desk",
+    "tagline": "果蝇大脑在模拟盘上交易。",
+    "lede": "每只果蝇都是在 CPU 上运行的真实果蝇连接组。每 15 分钟，它嗅一嗅市场，由大脑决定：买入、持有或卖出。成交价取自 Robinhood Chain 上的实时资金池。",
+    "paperTitle": "仅限模拟",
+    "paper": "没有钱包，没有私钥，没有真实订单。钱是假的，价格是真的。"
+  },
+  "chip": {
+    "connecting": "连接中",
+    "live": "实时",
+    "stalled": "已停滞",
+    "offline": "离线",
+    "paper": "仅限模拟"
+  },
+  "jump": {
+    "pot": "资金池",
+    "eye": "果蝇之眼",
+    "books": "账本",
+    "positions": "持仓",
+    "tape": "成交流",
+    "how": "交易原理",
+    "launches": "发币"
+  },
+  "sys": {
+    "mode": "模式",
+    "bars": "K 线",
+    "tokens": "代币",
+    "updated": "更新于",
+    "flies": "果蝇",
+    "trades": "交易"
+  },
+  "pot": {
+    "title": "资金池",
+    "lede": "果蝇持有的一切，按最新价格逐根 K 线计值。粗线是所有果蝇的合计，每条细线是一只果蝇；虚线是它们的起点。",
+    "value": "资金池",
+    "pnl": "盈亏",
+    "seriesPot": "所有果蝇",
+    "seriesStart": "起点",
+    "table": "曲线的表格视图",
+    "thTime": "时间",
+    "none": "还没有 K 线数据。",
+    "modeReturn": "回报率 %",
+    "modeUsd": "资金池（美元）",
+    "best": "最佳果蝇",
+    "median": "中位数果蝇"
+  },
+  "stats": {
+    "high24": "24小时最高",
+    "low24": "24小时最低",
+    "change24": "24小时变动",
+    "ath": "最高（{when}）",
+    "sinceStart": "自开始以来",
+    "week": "本周"
+  },
+  "eye": {
+    "title": "果蝇之眼",
+    "lede": "重放一只果蝇的最近一根 K 线。卡片是它视野里的代币，果蝇从波动最小的飞到波动最大的。它的目标感觉锁定涨得最猛的那个，威胁感觉锁定它持有的跌得最惨的那个；下方的条形显示每个运动动作放电有多强。胜出的动作就变成交易。",
+    "replay": "重放",
+    "kTarget": "目标感觉",
+    "kThreat": "威胁感觉",
+    "kHeld": "持有",
+    "kAct": "胜出的动作",
+    "none": "等待果蝇的下一根 K 线…",
+    "held": "持有",
+    "target": "目标",
+    "threat": "威胁",
+    "hold": "持有",
+    "passed": "想要{what} {sym}，忍住了",
+    "capQuiet": "什么都没放电：持有",
+    "capFired": "{act}放电最强（{z}σ）",
+    "capHeld": "不足以交易",
+    "capSkipped": "忍住了：{why}",
+    "act": {
+      "turned": "转向",
+      "buzzed": "振翅",
+      "groomed": "梳理",
+      "backed_up": "后退",
+      "jumped": "跳起"
+    }
+  },
+  "books": {
+    "title": "账本",
+    "lede": "每只果蝇一行。折线是它在曲线时间窗口内的价值。",
+    "thBook": "果蝇",
+    "thValue": "价值",
+    "thReturn": "回报率",
+    "thTrades": "交易数",
+    "thHolds": "持有数",
+    "thCurve": "曲线",
+    "cash": "现金"
+  },
+  "pos": {
+    "title": "持仓",
+    "lede": "每只果蝇此刻的持仓，从大到小，按最新价格。",
+    "cash": "可用现金",
+    "thSymbol": "代币",
+    "thQty": "数量 @ 成本",
+    "thPrice": "价格",
+    "thValue": "价值",
+    "thPnl": "盈亏",
+    "empty": "全部是现金。"
+  },
+  "tape": {
+    "title": "成交流",
+    "lede": "每一笔成交，最新的在最上面。",
+    "thTime": "时间",
+    "thBook": "果蝇",
+    "thSide": "方向",
+    "thToken": "代币",
+    "thUsd": "美元",
+    "none": "还没有成交。",
+    "side": {
+      "buy": "买入",
+      "sell": "卖出",
+      "take_profit": "止盈",
+      "panic_sell": "恐慌卖出",
+      "buy_call": "买入看涨期权",
+      "exercise": "行权",
+      "arb": "套利"
+    }
+  },
+  "how": {
+    "title": "交易原理",
+    "p1": "<b>大脑做决定。</b> 果蝇看到的每一个代币都变成它嗅觉感受神经元上的一种气味；它的蘑菇体从多巴胺中学习什么是有回报的。它的运动神经元在这根 K 线里的输出会被转译成买入、持有或卖出。",
+    "p3": "<b>真实价格，真实路径。</b> Robinhood 股票代币、Pons meme 币和 Virtuals 智能体代币，都通过它们实际会走的 Uniswap 路径交易，计入池子手续费、价格冲击和代币税。",
+    "p4": "<b>模拟资金。</b> 这里的一切都不会发送到链上。当一笔交易本该是真实的，它也会按同样的方式定价。"
+  },
+  "t": {
+    "ago": "{n}前",
+    "never": "—",
+    "error": "无法加载交易台，正在重试…"
+  },
+  "launch": {
+    "title": "发币",
+    "lede": "当足够多的果蝇在同一时刻想要同一件事，蜂群就会在 Pons 上发行自己的代币。模拟模式下只在链上模拟，从不发送。",
+    "none": "蜂群还没有发行过任何代币。",
+    "simulated": "模拟",
+    "sent": "已上链"
+  }
+}

@@ -44,6 +44,10 @@
       "label": "Flinder",
       "desc": "Bir sinek beyni flört profillerini kaydırıyor"
     },
+    "desk": {
+      "label": "Fly Desk",
+      "desc": "Sinek beyinleri kağıt üzerinde işlem yapıyor"
+    },
     "compute": {
       "label": "Hesaplama",
       "desc": "Tarayıcınla madencilik yap, $FLYAI kazan"

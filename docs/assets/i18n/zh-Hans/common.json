@@ -44,6 +44,10 @@
       "label": "Flinder",
       "desc": "果蝇大脑在约会资料上左滑右滑"
     },
+    "desk": {
+      "label": "Fly Desk",
+      "desc": "果蝇大脑在模拟账户里交易"
+    },
     "compute": {
       "label": "算力",
       "desc": "用浏览器挖矿，赚取 $FLYAI"

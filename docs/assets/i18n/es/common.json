@@ -44,6 +44,10 @@
       "label": "Flinder",
       "desc": "Un cerebro de mosca desliza perfiles de citas"
     },
+    "desk": {
+      "label": "Fly Desk",
+      "desc": "Cerebros de mosca operan una cartera de papel"
+    },
     "compute": {
       "label": "Cómputo",
       "desc": "Mina con tu navegador, gana $FLYAI"

@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "title": "The Fly Desk — fruit-fly brains trade a paper book",
+    "description": "Real fruit-fly connectomes trade Robinhood Chain stock tokens, Pons memes and Virtuals agents on paper. Live pot, every fly's book, positions and every fill."
+  },
+  "head": {
+    "eyebrow": "Paper desk · Robinhood Chain · off-chain brains",
+    "title": "The Fly Desk",
+    "tagline": "Fruit-fly brains trade a paper book.",
+    "lede": "Each fly is a real fruit-fly connectome running on a CPU. Every 15 minutes it smells the market and its brain decides: buy, hold or sell. Fills are priced from the live pools on Robinhood Chain.",
+    "paperTitle": "Paper only",
+    "paper": "No wallet, no keys, no real orders. The money is pretend; the prices are real."
+  },
+  "chip": {
+    "connecting": "Connecting",
+    "live": "Live",
+    "stalled": "Stalled",
+    "offline": "Offline",
+    "paper": "Paper only"
+  },
+  "jump": {
+    "pot": "The pot",
+    "eye": "The fly's eye",
+    "books": "Books",
+    "positions": "Positions",
+    "tape": "Tape",
+    "how": "How it trades",
+    "launches": "Launches"
+  },
+  "sys": {
+    "mode": "mode",
+    "bars": "bars",
+    "tokens": "tokens",
+    "updated": "updated",
+    "flies": "flies",
+    "trades": "trades"
+  },
+  "pot": {
+    "title": "The pot",
+    "lede": "Everything the flies hold, marked at the latest prices, bar by bar. The thick line is all the flies together, each thin line one fly; the dashed line is where they started.",
+    "value": "Pot",
+    "pnl": "P&L",
+    "seriesPot": "All flies",
+    "seriesStart": "Start",
+    "table": "Table view of the curve",
+    "thTime": "Time",
+    "none": "No bars yet.",
+    "modeReturn": "Return %",
+    "modeUsd": "Pot in $",
+    "best": "Best fly",
+    "median": "Median fly"
+  },
+  "stats": {
+    "high24": "24h high",
+    "low24": "24h low",
+    "change24": "24h change",
+    "ath": "High {when}",
+    "sinceStart": "since start",
+    "week": "this week"
+  },
+  "eye": {
+    "title": "The fly's eye",
+    "lede": "A replay of one fly's last bar. The cards are the tokens in its field of view, and the fly visits them from the quietest move to the loudest. Its target sense locks on the strongest rise, its threat sense on the worst fall it holds, and the bars underneath show how hard each of its motor actions fired. The one that wins becomes the trade.",
+    "replay": "Replay",
+    "kTarget": "target sense",
+    "kThreat": "threat sense",
+    "kHeld": "held",
+    "kAct": "the action that won",
+    "none": "Waiting for the flies' next bar…",
+    "held": "held",
+    "target": "target",
+    "threat": "threat",
+    "hold": "hold",
+    "passed": "wanted to {what} {sym}, held back",
+    "capQuiet": "nothing fired: it held",
+    "capFired": "{act} fired hardest ({z}σ)",
+    "capHeld": "not enough to trade",
+    "capSkipped": "held back: {why}",
+    "act": {
+      "turned": "turn toward",
+      "buzzed": "buzz",
+      "groomed": "groom",
+      "backed_up": "back up",
+      "jumped": "jump"
+    }
+  },
+  "books": {
+    "title": "The books",
+    "lede": "One row per fly. The line is its value over the curve's window.",
+    "thBook": "Fly",
+    "thValue": "Value",
+    "thReturn": "Return",
+    "thTrades": "Trades",
+    "thHolds": "Holds",
+    "thCurve": "Curve",
+    "cash": "cash"
+  },
+  "pos": {
+    "title": "Positions",
+    "lede": "What each fly holds right now, biggest first, at the latest price.",
+    "cash": "Free cash",
+    "thSymbol": "Token",
+    "thQty": "Qty @ cost",
+    "thPrice": "Price",
+    "thValue": "Value",
+    "thPnl": "P&L",
+    "empty": "All cash."
+  },
+  "tape": {
+    "title": "The tape",
+    "lede": "Every fill, newest first.",
+    "thTime": "Time",
+    "thBook": "Fly",
+    "thSide": "Side",
+    "thToken": "Token",
+    "thUsd": "USD",
+    "none": "No fills yet.",
+    "side": {
+      "buy": "buy",
+      "sell": "sell",
+      "take_profit": "take profit",
+      "panic_sell": "panic sell",
+      "buy_call": "buy call",
+      "exercise": "exercise",
+      "arb": "arbitrage"
+    }
+  },
+  "how": {
+    "title": "How it trades",
+    "p1": "<b>The brain decides.</b> Each token the fly sees becomes a smell on its olfactory receptor neurons; its mushroom body learns from dopamine what paid. What its motor neurons do in that bar is turned into buy, hold or sell.",
+    "p3": "<b>Real prices, real routes.</b> Robinhood stock tokens, Pons memes and Virtuals agent tokens, each traded through the Uniswap route it would really take, with pool fees, price impact and token taxes charged.",
+    "p4": "<b>Paper money.</b> Nothing here is sent to the chain. When a trade would be real, it is priced the same way."
+  },
+  "t": {
+    "ago": "{n} ago",
+    "never": "—",
+    "error": "Couldn't load the desk. Retrying…"
+  },
+  "launch": {
+    "title": "Launches",
+    "lede": "When enough of the flies want the same thing in the same moment, the swarm launches a token of its own on Pons. On paper the launch is simulated on the chain, never sent.",
+    "none": "The swarm hasn't launched anything yet.",
+    "simulated": "simulated",
+    "sent": "on chain"
+  }
+}

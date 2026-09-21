@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "title": "The Fly Desk — meyve sineği beyinleri kağıt üzerinde işlem yapıyor",
+    "description": "Gerçek meyve sineği konektomları Robinhood Chain hisse tokenlarını, Pons memelerini ve Virtuals ajanlarını kağıt üzerinde alıp satıyor. Canlı kasa, her sineğin hesabı, pozisyonlar ve her işlem."
+  },
+  "head": {
+    "eyebrow": "Kağıt masa · Robinhood Chain · zincir dışı beyinler",
+    "title": "The Fly Desk",
+    "tagline": "Meyve sineği beyinleri kağıt bir defter işletiyor.",
+    "lede": "Her sinek, bir CPU'da çalışan gerçek bir meyve sineği konektomu. Her 15 dakikada piyasayı koklar ve beyni karar verir: al, tut ya da sat. İşlemler Robinhood Chain'deki canlı havuzlardan fiyatlanır.",
+    "paperTitle": "Sadece kağıt üzerinde",
+    "paper": "Cüzdan yok, anahtar yok, gerçek emir yok. Para hayali, fiyatlar gerçek."
+  },
+  "chip": {
+    "connecting": "Bağlanıyor",
+    "live": "Canlı",
+    "stalled": "Durdu",
+    "offline": "Çevrimdışı",
+    "paper": "Sadece kağıt üzerinde"
+  },
+  "jump": {
+    "pot": "Fon",
+    "eye": "Sineğin gözü",
+    "books": "Defterler",
+    "positions": "Pozisyonlar",
+    "tape": "İşlem akışı",
+    "how": "Nasıl işlem yapıyor",
+    "launches": "Lansmanlar"
+  },
+  "sys": {
+    "mode": "mod",
+    "bars": "bar",
+    "tokens": "token",
+    "updated": "güncellendi",
+    "flies": "sinek",
+    "trades": "işlem"
+  },
+  "pot": {
+    "title": "Fon",
+    "lede": "Sineklerin elindeki her şey, son fiyatlarla, bar bar. Kalın çizgi tüm sinekler birlikte, her ince çizgi bir sinek; kesikli çizgi başladıkları yer.",
+    "value": "Fon",
+    "pnl": "K/Z",
+    "seriesPot": "Tüm sinekler",
+    "seriesStart": "Başlangıç",
+    "table": "Eğrinin tablo görünümü",
+    "thTime": "Zaman",
+    "none": "Henüz bar yok.",
+    "modeReturn": "Getiri %",
+    "modeUsd": "Fon ($)",
+    "best": "En iyi sinek",
+    "median": "Medyan sinek"
+  },
+  "stats": {
+    "high24": "24s en yüksek",
+    "low24": "24s en düşük",
+    "change24": "24s değişim",
+    "ath": "En yüksek ({when})",
+    "sinceStart": "başlangıçtan beri",
+    "week": "bu hafta"
+  },
+  "eye": {
+    "title": "Sineğin gözü",
+    "lede": "Bir sineğin son barının tekrarı. Kartlar görüş alanındaki tokenlar; sinek onları en sakin hareketten en sert olana doğru dolaşır. Hedef duyusu en güçlü yükselişe, tehdit duyusu elindeki en kötü düşüşe kilitlenir; alttaki çubuklar her motor eyleminin ne kadar güçlü ateşlendiğini gösterir. Kazanan eylem işleme dönüşür.",
+    "replay": "Tekrar",
+    "kTarget": "hedef duyusu",
+    "kThreat": "tehdit duyusu",
+    "kHeld": "elde",
+    "kAct": "kazanan eylem",
+    "none": "Sineklerin bir sonraki barı bekleniyor…",
+    "held": "elde",
+    "target": "hedef",
+    "threat": "tehdit",
+    "hold": "tut",
+    "passed": "{sym} için {what} istedi, vazgeçti",
+    "capQuiet": "hiçbir şey ateşlenmedi: tuttu",
+    "capFired": "en güçlü {act} ateşlendi ({z}σ)",
+    "capHeld": "işlem için yetmedi",
+    "capSkipped": "vazgeçti: {why}",
+    "act": {
+      "turned": "yönel",
+      "buzzed": "vızılda",
+      "groomed": "temizlen",
+      "backed_up": "geri çekil",
+      "jumped": "zıpla"
+    }
+  },
+  "books": {
+    "title": "Defterler",
+    "lede": "Her sinek için bir satır. Çizgi, eğri penceresindeki değeridir.",
+    "thBook": "Sinek",
+    "thValue": "Değer",
+    "thReturn": "Getiri",
+    "thTrades": "İşlem",
+    "thHolds": "Tutma",
+    "thCurve": "Eğri",
+    "cash": "nakit"
+  },
+  "pos": {
+    "title": "Pozisyonlar",
+    "lede": "Her sineğin şu anda elinde tuttukları, büyükten küçüğe, son fiyatla.",
+    "cash": "Serbest nakit",
+    "thSymbol": "Token",
+    "thQty": "Adet @ maliyet",
+    "thPrice": "Fiyat",
+    "thValue": "Değer",
+    "thPnl": "K/Z",
+    "empty": "Hepsi nakit."
+  },
+  "tape": {
+    "title": "İşlem akışı",
+    "lede": "Her gerçekleşme, en yeni önde.",
+    "thTime": "Zaman",
+    "thBook": "Sinek",
+    "thSide": "Yön",
+    "thToken": "Token",
+    "thUsd": "USD",
+    "none": "Henüz gerçekleşme yok.",
+    "side": {
+      "buy": "alış",
+      "sell": "satış",
+      "take_profit": "kâr al",
+      "panic_sell": "panik satışı",
+      "buy_call": "call alımı",
+      "exercise": "kullanım",
+      "arb": "arbitraj"
+    }
+  },
+  "how": {
+    "title": "Nasıl işlem yapıyor",
+    "p1": "<b>Karar beyne ait.</b> Sineğin gördüğü her token, koku alma reseptör nöronlarında bir koku hâline gelir; mantar cismi dopamin sayesinde neyin kazandırdığını öğrenir. Motor nöronlarının o barda yaptığı şey al, tut ya da sat'a çevrilir.",
+    "p3": "<b>Gerçek fiyatlar, gerçek rotalar.</b> Robinhood hisse token'ları, Pons meme'leri ve Virtuals ajan token'ları, gerçekte izleyecekleri Uniswap rotasından işlem görür; havuz ücretleri, fiyat etkisi ve token vergileri hesaba katılır.",
+    "p4": "<b>Kağıt para.</b> Buradaki hiçbir şey zincire gönderilmez. Bir işlem gerçek olsaydı, yine aynı şekilde fiyatlanırdı."
+  },
+  "t": {
+    "ago": "{n} önce",
+    "never": "—",
+    "error": "Masa yüklenemedi. Yeniden deneniyor…"
+  },
+  "launch": {
+    "title": "Lansmanlar",
+    "lede": "Yeterince sinek aynı anda aynı şeyi istediğinde sürü Pons'ta kendi tokenını çıkarır. Kağıt üzerinde lansman zincirde simüle edilir, asla gönderilmez.",
+    "none": "Sürü henüz bir şey çıkarmadı.",
+    "simulated": "simüle",
+    "sent": "zincirde"
+  }
+}

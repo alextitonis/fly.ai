@@ -44,6 +44,10 @@
       "label": "Flinder",
       "desc": "A fly brain swipes on dating profiles"
     },
+    "desk": {
+      "label": "Fly Desk",
+      "desc": "Fly brains trade a paper book"
+    },
     "compute": {
       "label": "Compute",
       "desc": "Mine with your browser, earn $FLYAI"

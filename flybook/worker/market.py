@@ -296,6 +296,9 @@ def felt(portfolio: dict, prices: dict, history: list[dict], settings: dict, min
                    "z": round(z["move"].get(worst, 0.0), 3) if worst else 0.0,
                    "amount": amount("threat", th_strength) if worst else 0.0},
         "wind": {"chop": round(chop, 4), "z": round(z["chop"], 3), "amount": amount("wind", w_strength)},
+        # what was in its field of view and how hard each moved (z): read by nothing in the brain, kept for the
+        # desk's replay of the fly's look (flyaiworld.com/desk)
+        "seen": {s: round(z["move"].get(s, 0.0), 3) for s in prices},
     }
     social_hit = launches.social_strength if v2 else (lambda trust: min(1.0, launches.SOCIAL_TARGET * trust))
     if social and social["target"]:

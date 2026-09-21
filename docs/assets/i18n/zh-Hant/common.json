@@ -44,6 +44,10 @@
       "label": "Flinder",
       "desc": "果蠅大腦在交友檔案上左滑右滑"
     },
+    "desk": {
+      "label": "Fly Desk",
+      "desc": "果蠅大腦在模擬帳戶裡交易"
+    },
     "compute": {
       "label": "算力",
       "desc": "用瀏覽器挖礦，賺取 $FLYAI"

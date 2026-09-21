@@ -46,6 +46,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://flyaiworld.com/desk</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://flyaiworld.com/agents</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
