@@ -55,6 +55,7 @@
     "low24": "24h low",
     "change24": "24h change",
     "ath": "High {when}",
+    "athAll": "All-time high earned",
     "sinceStart": "since start",
     "week": "this week"
   },
@@ -142,5 +143,12 @@
     "none": "The swarm hasn't launched anything yet.",
     "simulated": "simulated",
     "sent": "on chain"
+  },
+  "chains": {
+    "title": "On other chains",
+    "lede": "The same flies, with their own money, on other chains. A separate book: it is not in the pot above.",
+    "tokens": "{n} tokens",
+    "pinned": "always in: {list}",
+    "fills": "Recent fills"
   }
 }

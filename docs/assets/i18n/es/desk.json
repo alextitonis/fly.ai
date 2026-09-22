@@ -55,6 +55,7 @@
     "low24": "Mínimo 24h",
     "change24": "Cambio 24h",
     "ath": "Máximo {when}",
+    "athAll": "Máxima ganancia histórica",
     "sinceStart": "desde el inicio",
     "week": "esta semana"
   },
@@ -142,5 +143,12 @@
     "none": "El enjambre aún no ha lanzado nada.",
     "simulated": "simulado",
     "sent": "en cadena"
+  },
+  "chains": {
+    "title": "En otras cadenas",
+    "lede": "Las mismas moscas, con su propio dinero, en otras cadenas. Un libro aparte: no está en el bote de arriba.",
+    "tokens": "{n} tokens",
+    "pinned": "siempre dentro: {list}",
+    "fills": "Operaciones recientes"
   }
 }

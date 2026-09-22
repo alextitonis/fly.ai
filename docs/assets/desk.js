@@ -202,6 +202,14 @@
     return FLY_COLORS[Number.isFinite(n) ? (n - 1) % FLY_COLORS.length : 0];
   };
   const bookLabel = (name) => String(name).replace(/^fly:/, "Fly #");
+  /** Which chain a token is on: "base:BRETT" is Base, a bare ticker is Robinhood Chain (the desk's home). */
+  const CHAIN_NAMES = { robinhood: "Robinhood", base: "Base" };
+  const chainOf = (sym) => {
+    const m = /^([a-z]+):(.+)$/.exec(String(sym));
+    return m && CHAIN_NAMES[m[1]] ? [m[1], m[2]] : ["robinhood", String(sym)];
+  };
+  const chainTag = (c) => `<span class="tag chain ${c}">${esc(CHAIN_NAMES[c])}</span>`;
+  const tok = (sym) => { const [c, name] = chainOf(sym); return `${esc(name)}${chainTag(c)}`; };
   const VAR_COLORS = ["var(--s-v1)", "var(--s-v2)", "var(--s-v3)", "var(--s-v4)"];
   const table = (id, head, rows, empty) => {
     $(id).innerHTML = `<thead><tr>${head.map(([h, r]) => `<th${r ? ' class="r"' : ""}>${esc(h)}</th>`).join("")}</tr></thead><tbody>` +
@@ -231,13 +239,50 @@
       cell(t("stats.high24"), s.pot[h], vs(s.pot[h]), hhmm(s.times[h])) +
       cell(t("stats.low24"), s.pot[l], vs(s.pot[l]), hhmm(s.times[l])) +
       `<div class="st"><span class="k">${esc(t("stats.change24"))}</span><b class="${cls(chg)}">${susd(chg)}</b> <span class="${cls(chg)}">${pct(s.pot[first] ? (100 * chg) / s.pot[first] : 0)}</span></div>` +
-      cell(t("stats.ath", { when: since }), s.pot[ath], vs(s.pot[ath]), time(s.times[ath]));
+      athCell(s.pot[ath], s.times[ath], since);
+  }
+  /** The all-time high: the desk's best bar ever and what it had earned then, kept by the server (engine.all_time_high)
+   * so it outlives the chart's week; before the server has one, the high of the curve on hand. */
+  function athCell(curveHi, curveAt, since) {
+    const a = board && board.ath, start = board && board.capital_usd;
+    if (!a || !a.at || !start) return `<div class="st"><span class="k">${esc(t("stats.ath", { when: since }))}</span><b>${usd(curveHi)}</b> ` +
+      `<span class="${cls(curveHi - start)}">${pct((100 * (curveHi - start)) / start)}</span><span class="when">${esc(time(curveAt))}</span></div>`;
+    const p = (100 * a.earned_usd) / start;
+    return `<div class="st"><span class="k">${esc(t("stats.athAll"))}</span><b class="${cls(a.earned_usd)}">${susd(a.earned_usd)}</b> ` +
+      `<span class="${cls(p)}">${pct(p)}</span><span class="when">${esc(usd(a.pot_usd) + " · " + time(a.at))}</span></div>`;
   }
   const starts = () => {
     const books = {};
     board.books.forEach((x) => (books[x.book] = x.start_usd));
     return { pot: board.capital_usd || board.books.reduce((a, x) => a + x.start_usd, 0), books };
   };
+
+  /** 06: the flies' books on other chains (paper, outside the pot): per chain its flies, their holdings, recent fills. */
+  function renderChains(cs) {
+    const keys = Object.keys(cs).filter((k) => cs[k] && (cs[k].books || []).length);
+    $("chains").hidden = !keys.length;
+    const head = (cols) => `<thead><tr>${cols.map(([h, r]) => `<th${r ? ' class="r"' : ""}>${esc(h)}</th>`).join("")}</tr></thead>`;
+    $("chains-body").innerHTML = keys.map((k) => {
+      const c = cs[k];
+      const books = c.books.map((x) =>
+        `<tr><td class="strong"><span class="swatch" style="background:${flyColor(x.book)}"></span>${esc(bookLabel(x.book))}</td>
+         <td class="r strong">${usd(x.value_usd)}</td><td class="r"><span class="${cls(x.return_pct)}">${pct(x.return_pct)}</span></td>
+         <td class="r">${nf(0).format(x.trades)}</td>
+         <td>${x.holdings.length ? x.holdings.slice(0, 4).map(tok).join(", ") : `<span class="dim">${esc(t("books.cash"))}</span>`}</td></tr>`).join("");
+      const tape = (c.tape || []).slice(0, 12).map((r) => {
+        const sell = /sell|profit|arb|exercise/.test(r.side);
+        return `<tr><td>${esc(time(r.at))}</td><td><span class="swatch" style="background:${flyColor(r.book)}"></span>${esc(bookLabel(r.book))}</td>
+          <td class="${sell ? "up" : ""}">${esc(sideName(r.side))}</td><td class="strong">${tok(r.symbol)}</td><td class="r">${usd(r.usd)}</td></tr>`;
+      }).join("");
+      const pinned = (c.pinned || []).map((p) => esc(chainOf(p)[1])).join(", ");
+      return `<h3 class="chain-h">${chainTag(k)} ${esc(t("chains.tokens", { n: nf(0).format(c.tokens || 0) }))}` +
+        (pinned ? ` <span class="dim">· ${esc(t("chains.pinned", { list: pinned }))}</span>` : "") + `</h3>` +
+        `<div class="scroll"><table class="tbl">${head([[t("books.thBook")], [t("books.thValue"), 1], [t("books.thReturn"), 1], [t("books.thTrades"), 1], [t("books.thHolds")]])}<tbody>${books}</tbody></table></div>` +
+        `<h3 class="chain-h">${esc(t("chains.fills"))}</h3>` +
+        `<div class="scroll"><table class="tbl">${head([[t("tape.thTime")], [t("tape.thBook")], [t("tape.thSide")], [t("tape.thToken")], [t("tape.thUsd"), 1]])}` +
+        `<tbody>${tape || `<tr class="empty"><td colspan="5">${esc(t("tape.none"))}</td></tr>`}</tbody></table></div>`;
+    }).join("");
+  }
 
   function render() {
     const b = board;
@@ -284,7 +329,7 @@
       b.books.map((x) => {
         const w = (Math.abs(x.return_pct) / maxAbs) * 50;
         const bar = `<span class="bar"><span style="${x.return_pct >= 0 ? "left:50%" : `left:${50 - w}%`};width:${w}%;background:${x.return_pct >= 0 ? "var(--up)" : "var(--down)"}"></span></span>`;
-        const holds = x.holdings.length ? x.holdings.slice(0, 4).map(esc).join(", ") + (x.holdings.length > 4 ? " …" : "") : `<span class="dim">${esc(t("books.cash"))}</span>`;
+        const holds = x.holdings.length ? x.holdings.slice(0, 4).map((h) => esc(chainOf(h)[1])).join(", ") + (x.holdings.length > 4 ? " …" : "") : `<span class="dim">${esc(t("books.cash"))}</span>`;
         return `<tr><td class="strong"><span class="swatch" style="background:${flyColor(x.book)}"></span>${esc(bookLabel(x.book))}</td>
           <td class="r strong">${usd(x.value_usd)}</td><td class="r"><span class="${cls(x.return_pct)}">${pct(x.return_pct)}</span>${bar}</td>
           <td class="r">${nf(0).format(x.trades)}</td><td>${holds}</td><td>${spark((s.books[x.book] || []), flyColor(x.book))}</td></tr>`;
@@ -300,7 +345,7 @@
     $("pos-cash").innerHTML = P ? `${esc(t("pos.cash"))}: <b>${usd(P.cash_usd)}</b>` : "";
     table("pos-tbl", [[t("pos.thSymbol")], [t("pos.thQty"), 1], [t("pos.thPrice"), 1], [t("pos.thValue"), 1], [t("pos.thPnl"), 1]],
       ((P && P.rows) || []).map((r) =>
-        `<tr><td class="strong">${esc(r.symbol)}</td><td class="r">${qty(r.qty)} <span class="dim">@ ${usd(r.cost_usd)}</span></td>
+        `<tr><td class="strong">${tok(r.symbol)}</td><td class="r">${qty(r.qty)} <span class="dim">@ ${usd(r.cost_usd)}</span></td>
          <td class="r">${price(r.price)}</td><td class="r strong">${usd(r.value_usd)}</td>
          <td class="r"><span class="${cls(r.pnl_pct)}">${pct(r.pnl_pct)}</span></td></tr>`),
       t("pos.empty"));
@@ -310,8 +355,9 @@
       (b.recent_trades || []).map((r) => {
         const sell = /sell|profit|arb|exercise/.test(r.side);
         return `<tr><td>${esc(time(r.at))}</td><td><span class="swatch" style="background:${flyColor(r.book)}"></span>${esc(bookLabel(r.book))}</td>
-          <td class="${sell ? "up" : ""}">${esc(sideName(r.side))}</td><td class="strong">${esc(r.symbol)}</td><td class="r">${usd(r.usd)}</td></tr>`;
+          <td class="${sell ? "up" : ""}">${esc(sideName(r.side))}</td><td class="strong">${tok(r.symbol)}</td><td class="r">${usd(r.usd)}</td></tr>`;
       }), t("tape.none"));
+    renderChains(b.chains || {});
 
     // launches
     const launches = b.launches || [];
@@ -645,7 +691,7 @@
     if (!rows.length) { box.hidden = true; return; }
     const item = (r) => {
       const buy = r.side === "buy";
-      return `<span class="tk"><span class="swatch" style="background:${flyColor(r.book)}"></span>${esc(bookLabel(r.book))} <b class="${buy ? "up" : "amber"}">${esc(sideName(r.side))}</b> ${esc(r.symbol)} <span class="dim">${usd(r.usd)}</span></span>`;
+      return `<span class="tk"><span class="swatch" style="background:${flyColor(r.book)}"></span>${esc(bookLabel(r.book))} <b class="${buy ? "up" : "amber"}">${esc(sideName(r.side))}</b> ${tok(r.symbol)} <span class="dim">${usd(r.usd)}</span></span>`;
     };
     const html = rows.map(item).join("");
     const k = rows.map((r) => r.at + r.symbol).join("|");

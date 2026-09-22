@@ -136,6 +136,11 @@ body.desk .wrap { max-width: 1240px; }
   border-radius: 3px; border: 1px solid var(--line-2); }
 .desk .tag.brain { color: var(--s-fly); border-color: rgba(34,163,196,.45); }
 .desk .tag.rule { color: #9d97f0; border-color: rgba(106,98,224,.5); }
+/* which chain a token is on (desk.js tok): Robinhood Chain is home, Base is the paper book on another chain */
+.desk .tag.chain { margin-left: 6px; padding: 2px 4px; font-size: 9px; vertical-align: 1px; }
+.desk .tag.chain.robinhood { color: #6fdca6; border-color: rgba(111,220,166,.4); }
+.desk .tag.chain.base { color: #7fa6ff; border-color: rgba(92,134,255,.5); }
+.desk .chain-h { font: 500 13px/1.4 var(--mono); color: var(--ink-dim); margin: 18px 0 8px; }
 .desk .swatch { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: 1px; }
 .desk .bar { position: relative; display: inline-block; width: 64px; height: 6px; background: var(--line); border-radius: 3px; margin-left: 10px; vertical-align: 1px; }
 .desk .bar span { position: absolute; top: 0; bottom: 0; border-radius: 3px; }

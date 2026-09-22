@@ -55,6 +55,7 @@
     "low24": "24s en düşük",
     "change24": "24s değişim",
     "ath": "En yüksek ({when})",
+    "athAll": "Tüm zamanların en yüksek kazancı",
     "sinceStart": "başlangıçtan beri",
     "week": "bu hafta"
   },
@@ -142,5 +143,12 @@
     "none": "Sürü henüz bir şey çıkarmadı.",
     "simulated": "simüle",
     "sent": "zincirde"
+  },
+  "chains": {
+    "title": "Diğer zincirlerde",
+    "lede": "Aynı sinekler, kendi paralarıyla diğer zincirlerde. Ayrı bir defter: yukarıdaki kasaya dahil değil.",
+    "tokens": "{n} token",
+    "pinned": "her zaman listede: {list}",
+    "fills": "Son işlemler"
   }
 }
