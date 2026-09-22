@@ -83,7 +83,8 @@
       "groomed": "acicalarse",
       "backed_up": "retroceder",
       "jumped": "saltar"
-    }
+    },
+    "soldAt": "{pct} al vender"
   },
   "books": {
     "title": "Los libros",
@@ -146,10 +147,12 @@
   },
   "chains": {
     "title": "En otras cadenas",
-    "lede": "Las mismas moscas, con su propio dinero, en otras cadenas. Un libro aparte: no está en el bote de arriba.",
+    "lede": "Las mismas moscas operan en otras cadenas con el mismo dinero de arriba. Lo que cada mosca tiene en cada cadena y sus últimas operaciones allí.",
     "tokens": "{n} tokens",
     "pinned": "siempre dentro: {list}",
     "fills": "Operaciones recientes",
-    "house": "Casa"
+    "house": "Casa",
+    "bonding": "{n} en curvas de bonding",
+    "thHeld": "En esta cadena"
   }
 }

@@ -258,7 +258,8 @@
     return { pot: board.capital_usd || board.books.reduce((a, x) => a + x.start_usd, 0), books };
   };
 
-  /** 06: the flies' books on other chains (paper, outside the pot): per chain its flies, their holdings, recent fills. */
+  /** 06: the flies on other chains - the same books as above, one wallet across every chain: per chain what each fly
+   * holds there and what it is worth, its fills there, and the chain's token list. */
   function renderChains(cs) {
     const keys = Object.keys(cs).filter((k) => cs[k] && (cs[k].books || []).length);
     $("chains").hidden = !keys.length;
@@ -267,7 +268,7 @@
       const c = cs[k];
       const books = c.books.map((x) =>
         `<tr><td class="strong"><span class="swatch" style="background:${flyColor(x.book)}"></span>${esc(bookLabel(x.book))}</td>
-         <td class="r strong">${usd(x.value_usd)}</td><td class="r"><span class="${cls(x.return_pct)}">${pct(x.return_pct)}</span></td>
+         <td class="r strong">${usd(x.value_usd)}</td>
          <td class="r">${nf(0).format(x.trades)}</td>
          <td>${x.holdings.length ? x.holdings.slice(0, 4).map(tok).join(", ") : `<span class="dim">${esc(t("books.cash"))}</span>`}</td></tr>`).join("");
       const tape = (c.tape || []).slice(0, 12).map((r) => {
@@ -277,8 +278,9 @@
       }).join("");
       const pinned = (c.pinned || []).map((p) => esc(chainOf(p)[1])).join(", ");
       return `<h3 class="chain-h">${chainTag(k)} ${esc(t("chains.tokens", { n: nf(0).format(c.tokens || 0) }))}` +
+        (c.bonding ? ` <span class="dim">· ${esc(t("chains.bonding", { n: nf(0).format(c.bonding) }))}</span>` : "") +
         (pinned ? ` <span class="dim">· ${esc(t("chains.pinned", { list: pinned }))}</span>` : "") + `</h3>` +
-        `<div class="scroll"><table class="tbl">${head([[t("books.thBook")], [t("books.thValue"), 1], [t("books.thReturn"), 1], [t("books.thTrades"), 1], [t("books.thHolds")]])}<tbody>${books}</tbody></table></div>` +
+        `<div class="scroll"><table class="tbl">${head([[t("books.thBook")], [t("chains.thHeld"), 1], [t("books.thTrades"), 1], [t("books.thHolds")]])}<tbody>${books}</tbody></table></div>` +
         `<h3 class="chain-h">${esc(t("chains.fills"))}</h3>` +
         `<div class="scroll"><table class="tbl">${head([[t("tape.thTime")], [t("tape.thBook")], [t("tape.thSide")], [t("tape.thToken")], [t("tape.thUsd"), 1]])}` +
         `<tbody>${tape || `<tr class="empty"><td colspan="5">${esc(t("tape.none"))}</td></tr>`}</tbody></table></div>`;
@@ -385,9 +387,17 @@
   };
   const flyOrder = (a, b) => parseInt(a.replace(/\D/g, ""), 10) - parseInt(b.replace(/\D/g, ""), 10);
 
+  // ?clip=4:81 plays fly #4's bar 81 once and shows nothing else: a clip for marketing/clips.py to record
+  const CLIP = new URLSearchParams(location.search).get("clip");
   function looksBy() {
-    const by = {};
-    (board.looks || []).forEach((l) => (by["fly:" + l.fly] = by["fly:" + l.fly] || []).push(l));
+    const by = {}, seen = {};
+    (CLIP ? (board.highlights || []).concat(board.looks || []) : board.looks || []).forEach((l) => {   // a highlight
+    // carries its outcome, so in a clip it wins over the plain look of the same bar
+      const k = l.fly + ":" + l.bar;
+      if (seen[k]) return;
+      seen[k] = 1;
+      (by["fly:" + l.fly] = by["fly:" + l.fly] || []).push(l);
+    });
     Object.values(by).forEach((a) => a.sort((x, y) => x.bar - y.bar));
     return by;
   }
@@ -600,6 +610,7 @@
     cv.setAttribute("aria-label", eyeCaption(l));
     renderActs(l, el >= scanEnd);
     const done = el >= flashAt + FLASH_MS && !eye.sparks.length;
+    if (CLIP && done) window.__clipDone = true;             // marketing/clips.py stops recording here
     if (eye.visible && !reduced) eye.raf = requestAnimationFrame(drawEye);   // keeps hovering and buzzing
     if (done && eye.auto && !eye.queued) {
       eye.queued = true;
@@ -642,6 +653,14 @@
 
   function playEye(restart) {
     const by = looksBy();
+    if (CLIP && !eye.clipped) {
+      const [f, bar] = CLIP.split(":");
+      eye.fly = "fly:" + f;
+      eye.idx = (by[eye.fly] || []).findIndex((l) => String(l.bar) === bar);
+      eye.auto = false;
+      eye.clipped = true;
+      restart = true;
+    }
     const flies = Object.keys(by).sort(flyOrder);
     if (!eye.fly || !by[eye.fly]) eye.fly = flies[0] || null;
     const list = by[eye.fly] || [];
@@ -653,7 +672,7 @@
     $("eye-bar").textContent = l ? time(l.at) : "—";
     $("eye-prev").disabled = eye.idx <= 0;
     $("eye-next").disabled = eye.idx >= list.length - 1;
-    $("eye-caption").textContent = l ? eyeCaption(l) : "";
+    $("eye-caption").textContent = l ? eyeCaption(l) + (l.outcome ? " · " + t("eye.soldAt", { pct: pct(l.outcome.pnl_pct, 1) }) : "") : "";
     if (restart || key !== eye.key) { eye.key = key; eye.t0 = performance.now(); eye.queued = false; }
     cancelAnimationFrame(eye.raf);
     eye.raf = requestAnimationFrame(drawEye);
@@ -731,7 +750,18 @@
   let rz;
   window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { if (board) { drawChart($("chart"), curve, starts()); eye.sparks = []; } }, 120); });
 
+  function clipLayout() {
+    // everything but the fly's eye goes: the section, then each ancestor's other children
+    let el = $("eye");
+    while (el && el.parentElement) {
+      [...el.parentElement.children].forEach((c) => { if (c !== el && c.tagName !== "SCRIPT") c.style.display = "none"; });
+      el = el.parentElement;
+    }
+    document.body.classList.add("clip");
+  }
+
   async function start() {
+    if (CLIP) clipLayout();
     if (!window.flyI18n) {
       try { en = await (await fetch("assets/i18n/en/desk.json")).json(); } catch { en = {}; }
     }

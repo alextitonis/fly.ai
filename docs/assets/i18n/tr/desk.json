@@ -83,7 +83,8 @@
       "groomed": "temizlen",
       "backed_up": "geri çekil",
       "jumped": "zıpla"
-    }
+    },
+    "soldAt": "satarken {pct}"
   },
   "books": {
     "title": "Defterler",
@@ -146,10 +147,12 @@
   },
   "chains": {
     "title": "Diğer zincirlerde",
-    "lede": "Aynı sinekler, kendi paralarıyla diğer zincirlerde. Ayrı bir defter: yukarıdaki kasaya dahil değil.",
+    "lede": "Aynı sinekler yukarıdaki aynı parayla diğer zincirlerde de işlem yapar. Her sineğin her zincirde tuttukları ve oradaki son işlemleri.",
     "tokens": "{n} token",
     "pinned": "her zaman listede: {list}",
     "fills": "Son işlemler",
-    "house": "Kasa"
+    "house": "Kasa",
+    "bonding": "{n} bonding eğrisinde",
+    "thHeld": "Bu zincirde"
   }
 }

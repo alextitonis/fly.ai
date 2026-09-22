@@ -83,7 +83,8 @@
       "groomed": "groom",
       "backed_up": "back up",
       "jumped": "jump"
-    }
+    },
+    "soldAt": "{pct} when it sold"
   },
   "books": {
     "title": "The books",
@@ -146,10 +147,12 @@
   },
   "chains": {
     "title": "On other chains",
-    "lede": "The same flies, with their own money, on other chains. A separate book: it is not in the pot above.",
+    "lede": "The same flies trade other chains from the same money as above. What each fly holds on each chain, and its latest fills there.",
     "tokens": "{n} tokens",
     "pinned": "always in: {list}",
     "fills": "Recent fills",
-    "house": "House"
+    "house": "House",
+    "bonding": "{n} on bonding curves",
+    "thHeld": "Held here"
   }
 }
