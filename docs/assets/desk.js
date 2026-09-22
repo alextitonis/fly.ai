@@ -204,7 +204,7 @@
   };
   const bookLabel = (name) => (name === "house" ? t("chains.house") : String(name).replace(/^fly:/, "Fly #"));
   /** Which chain a token is on: "base:BRETT" is Base, a bare ticker is Robinhood Chain (the desk's home). */
-  const CHAIN_NAMES = { robinhood: "Robinhood", base: "Base" };
+  const CHAIN_NAMES = { robinhood: "Robinhood", base: "Base", bsc: "BNB", solana: "Solana" };
   const chainOf = (sym) => {
     const m = /^([a-z]+):(.+)$/.exec(String(sym));
     return m && CHAIN_NAMES[m[1]] ? [m[1], m[2]] : ["robinhood", String(sym)];
