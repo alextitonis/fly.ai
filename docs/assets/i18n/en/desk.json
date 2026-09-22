@@ -149,6 +149,7 @@
     "lede": "The same flies, with their own money, on other chains. A separate book: it is not in the pot above.",
     "tokens": "{n} tokens",
     "pinned": "always in: {list}",
-    "fills": "Recent fills"
+    "fills": "Recent fills",
+    "house": "House"
   }
 }

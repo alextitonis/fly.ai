@@ -149,6 +149,7 @@
     "lede": "Aynı sinekler, kendi paralarıyla diğer zincirlerde. Ayrı bir defter: yukarıdaki kasaya dahil değil.",
     "tokens": "{n} token",
     "pinned": "her zaman listede: {list}",
-    "fills": "Son işlemler"
+    "fills": "Son işlemler",
+    "house": "Kasa"
   }
 }

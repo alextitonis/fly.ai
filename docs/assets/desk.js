@@ -198,10 +198,11 @@
   // ------------------------------------------------------------------ sections
   const FLY_COLORS = ["var(--f1)", "var(--f2)", "var(--f3)", "var(--f4)", "var(--f5)", "var(--f6)"];
   const flyColor = (name) => {
+    if (name === "house") return "var(--ink-dim)";                // the house's own buys, never a fly's
     const n = parseInt(String(name).replace(/\D/g, ""), 10);
     return FLY_COLORS[Number.isFinite(n) ? (n - 1) % FLY_COLORS.length : 0];
   };
-  const bookLabel = (name) => String(name).replace(/^fly:/, "Fly #");
+  const bookLabel = (name) => (name === "house" ? t("chains.house") : String(name).replace(/^fly:/, "Fly #"));
   /** Which chain a token is on: "base:BRETT" is Base, a bare ticker is Robinhood Chain (the desk's home). */
   const CHAIN_NAMES = { robinhood: "Robinhood", base: "Base" };
   const chainOf = (sym) => {

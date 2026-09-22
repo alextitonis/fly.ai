@@ -149,6 +149,7 @@
     "lede": "Las mismas moscas, con su propio dinero, en otras cadenas. Un libro aparte: no está en el bote de arriba.",
     "tokens": "{n} tokens",
     "pinned": "siempre dentro: {list}",
-    "fills": "Operaciones recientes"
+    "fills": "Operaciones recientes",
+    "house": "Casa"
   }
 }
