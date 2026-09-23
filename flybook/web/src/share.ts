@@ -54,21 +54,21 @@ export async function saveCard(card: Card) {
   c.width = 1200;
   c.height = 630;
   const g = c.getContext("2d")!;
-  const display = '"Space Grotesk", Inter, system-ui, sans-serif';
+  const display = '"Outfit", Inter, system-ui, sans-serif';
   const mono = '"JetBrains Mono", ui-monospace, monospace';
 
-  g.fillStyle = "#07090c";
+  g.fillStyle = "#000000";
   g.fillRect(0, 0, 1200, 630);
   const glow = g.createRadialGradient(1050, 40, 0, 1050, 40, 520);
-  glow.addColorStop(0, "rgba(224,52,44,0.30)");
-  glow.addColorStop(1, "rgba(224,52,44,0)");
+  glow.addColorStop(0, "rgba(94,242,204,0.22)");
+  glow.addColorStop(1, "rgba(94,242,204,0)");
   g.fillStyle = glow;
   g.fillRect(0, 0, 1200, 630);
 
-  g.fillStyle = "#eef1f5";
+  g.fillStyle = "#f4f7f6";
   g.font = `700 34px ${display}`;
   g.fillText("flybook", 64, 92);
-  g.fillStyle = "#ff5b4f";
+  g.fillStyle = "#5ef2cc";
   g.font = `500 18px ${mono}`;
   g.fillText("DECODED FROM A REAL FRUIT-FLY BRAIN", 214, 90);
 
@@ -76,18 +76,18 @@ export async function saveCard(card: Card) {
   g.arc(78, 170, 12, 0, Math.PI * 2);
   g.fillStyle = card.color;
   g.fill();
-  g.fillStyle = "#eef1f5";
+  g.fillStyle = "#f4f7f6";
   g.font = `600 30px ${display}`;
   g.fillText(card.name, 102, 181);
-  g.fillStyle = "#95a0ae";
+  g.fillStyle = "#9ba5a1";
   g.font = `400 24px ${display}`;
   g.fillText(`in ${card.patch}`, 110 + g.measureText(card.name).width + 40, 181);
 
-  g.fillStyle = "#eef1f5";
+  g.fillStyle = "#f4f7f6";
   g.font = `700 60px ${display}`;
   wrap(g, card.headline, 1070, 3).forEach((l, i) => g.fillText(l, 64, 280 + i * 72));
 
-  g.fillStyle = "#6cc4d8";
+  g.fillStyle = "#a4fbe6";
   g.font = `400 26px ${display}`;
   wrap(g, card.detail, 1070, 2).forEach((l, i) => g.fillText(l, 64, 470 + i * 36));
 
@@ -96,18 +96,18 @@ export async function saveCard(card: Card) {
   for (const chip of card.chips.slice(0, 5)) {
     const w = g.measureText(chip).width + 28;
     if (x + w > 1136) break;
-    g.fillStyle = "#11161e";
-    g.strokeStyle = "#222a35";
+    g.fillStyle = "#0a0b0b";
+    g.strokeStyle = "#1a1d1c";
     g.beginPath();
     g.roundRect(x, 540, w, 40, 8);
     g.fill();
     g.stroke();
-    g.fillStyle = "#3ddc84";
+    g.fillStyle = "#5ef2cc";
     g.fillText(chip, x + 14, 567);
     x += w + 10;
   }
 
-  g.fillStyle = "#5f6b7a";
+  g.fillStyle = "#5f6865";
   g.font = `400 18px ${mono}`;
   g.fillText("flyaiworld.com/flybook", 900, 610);
 

@@ -21,7 +21,7 @@ export function Spark({ values }: { values: number[] }) {
   const up = values[values.length - 1] >= values[0];
   return (
     <svg className="spark" viewBox="0 0 100 28" preserveAspectRatio="none" aria-hidden="true">
-      <polyline points={pts} fill="none" stroke={up ? "#3ddc84" : "#ff5b4f"} strokeWidth="2" vectorEffect="non-scaling-stroke" />
+      <polyline points={pts} fill="none" stroke={up ? "#5ef2cc" : "#ff5b4f"} strokeWidth="2" vectorEffect="non-scaling-stroke" />
     </svg>
   );
 }

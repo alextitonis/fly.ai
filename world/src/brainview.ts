@@ -90,7 +90,7 @@ export class BrainView {
       raster.width = RASTER_W;
       raster.height = 120;
       this.rctx = raster.getContext("2d")!;
-      this.rctx.fillStyle = "#0a0d12";
+      this.rctx.fillStyle = "#060707";
       this.rctx.fillRect(0, 0, RASTER_W, 120);
     } else {
       this.rctx = null;
@@ -161,7 +161,7 @@ export class BrainView {
     for (let k = 0; k < brain.firedCount; k++) this.pending.push(brain.fired[k]);
     if (this.rctx) {
       const r = this.rctx;
-      r.fillStyle = "#0a0d12";
+      r.fillStyle = "#060707";
       r.fillRect(this.rasterCol, 0, 2, 120);
       for (let k = 0; k < brain.firedCount; k++) {
         const i = brain.fired[k];
@@ -196,7 +196,7 @@ export class BrainView {
     this.pending.length = 0;
 
     const c = this.ctx;
-    c.fillStyle = "#0a0d12";
+    c.fillStyle = "#060707";
     c.fillRect(0, 0, W, H);
     c.drawImage(this.base, 0, 0);
     c.globalCompositeOperation = "lighter";

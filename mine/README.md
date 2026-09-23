@@ -268,7 +268,7 @@ limits and ideas is `web/compute-api.md`, downloadable at `/compute/compute-api.
   - **Storage:** blobs sit in `BLOBS_DIR` (default next to the database, `/data/blobs` on Fly), at most
     `BLOB_MAX_MB` (8) each.
   - **Rate:** 600 uploads and 2 GB an hour per IP.
-  - **Total:** capped at `STORE_MAX_MB` (400 on Fly, alongside the database on the 10 GB volume), counted in whole 4 KB blocks as the disk stores them.
+  - **Total:** capped at `STORE_MAX_MB` (2000 on Fly, alongside the database on the 10 GB volume), counted in whole 4 KB blocks as the disk stores them.
   - **Cleanup:** deleted after `BLOB_TTL_DAYS` (14) unused, unless an unpaid or live order needs them.
   - **Serving:** as sandboxed downloads.
 - **Price:** the lowest bid is `MIN_BID` per started 30 s of the job's time limit.
@@ -634,7 +634,8 @@ Live at **https://flyai-mine.fly.dev**: app `flyai-mine` in the Treasure org (`t
 `cdg`.
 
 - **Machine:** one shared-cpu-2x machine with 2 GB of memory.
-- **Database:** SQLite on the encrypted 1 GB volume `mine_data`, mounted at `/data`, with daily snapshots
+- **Database:** SQLite on the encrypted 10 GB volume `mine_data` (1 GB at first; it filled on 09-19 and again at
+  5 GB on 09-23, before finished screen jobs were pruned), mounted at `/data`, with daily snapshots
   kept for 5 days.
 - **Scaling:** the database lives on the volume, so there is one machine and it never auto-stops.
 
@@ -654,7 +655,7 @@ First-time setup, including the IP allocation that failed automatically, is at t
 
 The database upgraded itself each time, keeping its jobs and miners. The secrets `ADMIN_TOKEN`,
 `CLAIMS_CONTRACT`, `STAKING_CONTRACT` and `STAKE_TIERS` are set. `fly.toml` carries `PAY_TO` (the dev wallet),
-`MIN_BID` 20, `CACHED_PRICE` 5, `POOL_SHARE` 0.8 and `STORE_MAX_MB` 400. Uploads live in `/data/blobs` on the
+`MIN_BID` 20, `CACHED_PRICE` 5, `POOL_SHARE` 0.8 and `STORE_MAX_MB` 2000. Uploads live in `/data/blobs` on the
 volume.
 
 `deploy.sh` is run by the operator. Claude Code's auto mode blocks production deploys, so a session asks

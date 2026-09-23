@@ -10,7 +10,7 @@
 <meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@flydotai">
-<meta name="theme-color" content="#07090c">
+<meta name="theme-color" content="#000000">
 <link rel="canonical" href="https://flyaiworld.com/">
 <meta property="og:url" content="https://flyaiworld.com/">
 <meta property="og:type" content="website">
@@ -31,14 +31,14 @@
 <link rel="icon" href="assets/logo.webp" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 </head>
-<body>
+<body class="home">
 
 <nav aria-label="Main">
   <div class="wrap">
-    <a class="brand" href="index.html"><img class="logo" src="assets/logo.webp" alt="fly.ai" width="1774" height="887">$FLYAI</a>
+    <a class="brand" href="index.html"><img class="logo" src="assets/logo-t.webp" alt="fly.ai" width="988" height="439">$FLYAI</a>
     <ul>
       <li><a class="on" href="index.html">Home</a></li>
       <li class="dd"><button class="ddbtn ddlabel" type="button" aria-expanded="false" aria-controls="dd-research">Research <span aria-hidden="true">&#9662;</span></button>
@@ -70,20 +70,22 @@
 </nav>
 <header class="hero" id="top">
   <div class="wrap">
-    <div>
-      <img class="logo hero-logo" src="assets/logo.webp" alt="fly.ai" width="1774" height="887">
+    <div class="hero-main">
+      <img class="logo hero-logo" src="assets/logo-t.webp" alt="fly.ai" width="988" height="439">
       <p class="eyebrow" data-i18n="index.hero.eyebrow">Live on Pons &middot; Robinhood Chain</p>
       <h1 class="ticker"><span>$</span>FLYAI</h1>
       <p class="tagline" data-i18n="index.hero.tagline">A real fruit fly's brain. Every neuron. Open source.</p>
       <p class="sub" data-i18n="index.hero.sub">Not a model trained to look like a fly. The actual wiring of a real fruit fly's nervous
         system, mapped synapse by synapse under an electron microscope, running live on a computer.
         $FLYAI funds fly.ai, the open-source project that runs it.</p>
-      <div class="cta buylinks">
-        <a class="btn red" href="https://x.com/flydotai" target="_blank" rel="noopener" data-i18n="index.hero.a1">Follow @flydotai on X</a>
-        <a class="btn" href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
-        <a class="btn" href="/simulation/" data-i18n="index.hero.a2">Open the simulation</a>
-        <a class="btn" href="#demo" data-i18n="index.hero.a3">Watch it fight</a>
-      </div>
+      <!-- site.js puts "Buy $FLYAI on Pons" (primary) and "View on explorer" here -->
+      <div class="cta buylinks"></div>
+      <p class="quiet">
+        <a href="/simulation/" data-i18n="index.hero.a2">Open the simulation</a>
+        <a href="#demo" data-i18n="index.hero.a3">Watch it fight</a>
+        <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://x.com/flydotai" target="_blank" rel="noopener" data-i18n="index.hero.a1">Follow @flydotai on X</a>
+      </p>
       <div class="ca" id="ca-box">
         <span class="label" data-i18n="index.hero.label">CA</span>
         <code id="ca">Not deployed yet</code>
@@ -91,7 +93,7 @@
       </div>
     </div>
 
-    <div class="card specimen" aria-label="Specimen card" data-i18n-attr="aria-label:index.hero.arialabel">
+    <div class="spec" aria-label="Specimen card" data-i18n-attr="aria-label:index.hero.arialabel">
       <div class="head"><span data-i18n="index.hero.span">Specimen</span><span>fly.ai / 001</span></div>
       <div class="row"><span class="k" data-i18n="index.hero.k1">species</span><span class="v"><i>Drosophila melanogaster</i></span></div>
       <div class="row"><span class="k" data-i18n="index.hero.k2">sex</span><span class="v" data-i18n="index.hero.v1">male, adult</span></div>

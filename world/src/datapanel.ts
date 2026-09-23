@@ -13,15 +13,15 @@ const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as 
 const W = 470, H = 110;
 
 const STYLE = `
-.datacard canvas{width:100%;height:auto;display:block;background:#0a0d12;border-radius:6px;margin:4px 0 2px}
+.datacard canvas{width:100%;height:auto;display:block;background:#060707;border-radius:10px;margin:4px 0 2px}
 .datacard .learn{display:flex;flex-wrap:wrap;gap:6px 14px;margin:2px 0 8px;font-size:12px}
 .datacard .learn label{display:flex;align-items:center;gap:5px;cursor:pointer}
 .datacard .fates div{display:grid;grid-template-columns:120px 1fr 34px;gap:6px;align-items:center;font-size:11px;margin:2px 0}
 .datacard .fates i{display:block;height:8px;border-radius:3px}
-.datacard .pairs div{display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:2px 0;border-bottom:1px dashed #1b222c}
-.datacard select{background:#0a0d12;color:inherit;border:1px solid #232b36;border-radius:5px;font-size:11px;padding:2px 4px}
-.datacard .kv{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11px;color:#9aa7b5}
-.datacard .kv b{color:#e6ebf1}
+.datacard .pairs div{display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:2px 0;border-bottom:1px dashed #1a1d1c}
+.datacard select{background:#060707;color:inherit;border:1px solid #1a1d1c;border-radius:999px;font-size:11px;padding:2px 8px}
+.datacard .kv{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11px;color:#9ba5a1}
+.datacard .kv b{color:#f4f7f6}
 `;
 
 function canvas(id: string): CanvasRenderingContext2D {
@@ -34,7 +34,7 @@ function canvas(id: string): CanvasRenderingContext2D {
 interface Series { values: number[]; color: string; label: string }
 
 function lines(g: CanvasRenderingContext2D, series: Series[], min: number, max: number, ref?: { at: number; label: string }): void {
-  g.fillStyle = "#0a0d12";
+  g.fillStyle = "#060707";
   g.fillRect(0, 0, W, H);
   g.font = "9px ui-monospace, monospace";
   const n = Math.max(...series.map((s) => s.values.length));
@@ -185,7 +185,7 @@ export class DataPanel {
     const g = this.herit;
     const trait = TRAITS.find((x) => x.key === this.trait)!;
     const pts = regression(this.world, trait.key);
-    g.fillStyle = "#0a0d12";
+    g.fillStyle = "#060707";
     g.fillRect(0, 0, W, H);
     g.font = "9px ui-monospace, monospace";
     if (pts.n < 3) {

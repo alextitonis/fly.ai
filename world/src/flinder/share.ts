@@ -60,7 +60,7 @@ export async function statsCard(p: Profile, s: Stats, pic: string): Promise<Blob
   g.fillStyle = bg; g.fillRect(0, 0, W, H);
   g.fillStyle = "#fff";
   g.textAlign = "center";
-  g.font = "700 84px 'Space Grotesk', sans-serif";
+  g.font = "700 84px 'Outfit', sans-serif";
   g.fillText("flinder🔥", W / 2, 130);
   const img = await new Promise<HTMLImageElement>((r) => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(i); i.src = pic; });
   const ph = 520, pw = ph * 0.8, px = (W - pw) / 2, py = 180;
@@ -70,7 +70,7 @@ export async function statsCard(p: Profile, s: Stats, pic: string): Promise<Blob
   g.restore();
   g.lineWidth = 12; g.strokeStyle = "#fff";
   g.beginPath(); g.roundRect(px, py, pw, ph, 40); g.stroke();
-  g.font = "700 72px 'Space Grotesk', sans-serif";
+  g.font = "700 72px 'Outfit', sans-serif";
   g.fillText(p.name, W / 2, 800);
   g.font = "600 44px Inter, sans-serif";
   g.fillText(rizz(s.swipes, s.matches, s.dates), W / 2, 870);
@@ -80,7 +80,7 @@ export async function statsCard(p: Profile, s: Stats, pic: string): Promise<Blob
     g.fillStyle = "rgba(255,255,255,.18)";
     g.beginPath(); g.roundRect(x - 150, y - 90, 300, 150, 24); g.fill();
     g.fillStyle = "#fff";
-    g.font = "700 64px 'Space Grotesk', sans-serif";
+    g.font = "700 64px 'Outfit', sans-serif";
     g.fillText(String(n), x, y);
     g.font = "500 30px Inter, sans-serif";
     g.fillText(t(`flinder.share.${label}`), x, y + 44);

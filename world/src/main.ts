@@ -542,7 +542,7 @@ const popCtx = popCanvas.getContext("2d")!;
 function drawPopulation(): void {
   const h = world.history;
   const g = popCtx;
-  g.fillStyle = "#0a0d12";
+  g.fillStyle = "#060707";
   g.fillRect(0, 0, POP_W, POP_H);
 
   let peak = 4;

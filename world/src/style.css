@@ -1,13 +1,19 @@
+/* fly.ai brand (docs/assets/site.css): pure black, white, the logo fly's mint. --accent is page chrome only;
+   the world, the brain view and the charts keep their own colours. */
 :root {
-  --bg: #07090c;
-  --panel: #11161e;
-  --line: #222a35;
-  --text: #e7ecf1;
-  --muted: #9aa7b5;
-  --dim: #6d7a88;
-  --accent: #3ed8ff;
+  --bg: #000000;
+  --bg-2: #060707;
+  --panel: #0a0b0b;
+  --line: #1a1d1c;
+  --text: #f4f7f6;
+  --muted: #9ba5a1;
+  --dim: #5f6865;
+  --accent: #5ef2cc;
+  --accent-hi: #a4fbe6;
+  --glow: rgba(94, 242, 204, 0.28);
   --green: #6cf08a;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --display: "Outfit", "Inter", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 * { box-sizing: border-box; }
@@ -42,33 +48,40 @@ body {
 
 #back {
   pointer-events: auto;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   margin-bottom: 8px;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(8, 11, 16, 0.72);
+  background: rgba(0, 0, 0, 0.72);
   color: var(--muted);
   font-size: 11px;
   letter-spacing: 0.06em;
   text-decoration: none;
+  transition: border-color 0.15s;
 }
 
-#back:hover { color: var(--text); border-color: var(--muted); }
+/* logo-t.webp: the logo on transparency, served by the site at /assets/ */
+#back .logo { display: block; height: 16px; width: auto; }
+
+#back:hover { color: var(--text); border-color: var(--accent); }
+#back:focus-visible, button:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
 
 /* the language menu, beside the back link */
 #langmenu { pointer-events: auto; display: inline-block; margin-left: 6px; vertical-align: top; }
-#langmenu .langpick { font-size: 11px; padding: 3px 6px; border-radius: 999px; background: rgba(8, 11, 16, 0.72); }
+#langmenu .langpick { font-size: 11px; padding: 3px 8px; border-radius: 999px; color: var(--muted); border: 1px solid var(--line); background: rgba(0, 0, 0, 0.72); }
+#langmenu .langpick:hover { color: var(--text); border-color: var(--accent); }
+#langmenu .langpick option { background: var(--panel); color: var(--text); }
 
 h1 {
   margin: 0;
-  font-size: 17px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-weight: 500;
+  font: 600 22px/1.1 var(--display);
+  letter-spacing: -0.01em;
 }
 
-h1 b { color: var(--accent); }
+h1 b { color: var(--accent); font-weight: 600; text-shadow: 0 0 24px var(--glow); }
 
 #top .sub {
   color: var(--dim);
@@ -88,7 +101,7 @@ h1 b { color: var(--accent); }
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: linear-gradient(to left, rgba(7, 9, 12, 0.92), rgba(7, 9, 12, 0.72));
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.72));
   backdrop-filter: blur(8px);
   border-left: 1px solid var(--line);
   scrollbar-width: thin;
@@ -98,8 +111,8 @@ h1 b { color: var(--accent); }
 .card {
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 10px 11px 11px;
+  border-radius: 16px;
+  padding: 12px 13px 13px;
 }
 
 .card h2 {
@@ -108,7 +121,7 @@ h1 b { color: var(--accent); }
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--dim);
+  color: var(--accent);
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -160,7 +173,7 @@ h1 b { color: var(--accent); }
   font-size: 10px;
   letter-spacing: 0.02em;
   color: var(--text);
-  background: rgba(8, 11, 16, 0.78);
+  background: rgba(0, 0, 0, 0.78);
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 2px 8px;
@@ -194,8 +207,8 @@ h1 b { color: var(--accent); }
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 6px;
-  background: #0a0d12;
+  border-radius: 10px;
+  background: var(--bg-2);
 }
 
 #popstats {
@@ -213,8 +226,8 @@ h1 b { color: var(--accent); }
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 6px;
-  background: #0a0d12;
+  border-radius: 10px;
+  background: var(--bg-2);
 }
 
 .legend {
@@ -264,7 +277,7 @@ h1 b { color: var(--accent); }
 
 .bar {
   height: 9px;
-  background: #0a0d12;
+  background: var(--bg-2);
   border: 1px solid var(--line);
   border-radius: 3px;
   overflow: hidden;
@@ -307,21 +320,25 @@ h1 b { color: var(--accent); }
 button {
   font: inherit;
   font-size: 11px;
-  padding: 5px 10px;
-  border-radius: 5px;
+  padding: 5px 12px;
+  border-radius: 999px;
   border: 1px solid var(--line);
-  background: #0d1219;
+  background: transparent;
   color: var(--muted);
   cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
 }
 
-button:hover { border-color: var(--dim); color: var(--text); }
+button:hover { border-color: var(--accent); color: var(--text); }
 
 button.on {
   background: var(--accent);
   border-color: var(--accent);
-  color: #04222c;
+  color: #000;
+  box-shadow: 0 0 18px -6px var(--glow);
 }
+
+button.on:hover { background: var(--accent-hi); border-color: var(--accent-hi); }
 
 .link { cursor: pointer; text-decoration: underline dotted; }
 
@@ -340,6 +357,7 @@ button.on {
   right: 12px;
   display: none;
   z-index: 5;
+  background: rgba(0, 0, 0, 0.72);
 }
 
 @media (max-width: 860px) {
@@ -376,7 +394,7 @@ button.on {
   font: 9px/1.25 var(--mono);
   letter-spacing: 0.06em;
   color: var(--muted);
-  background: rgba(7, 9, 12, 0.66);
+  background: rgba(0, 0, 0, 0.66);
   border: 1px solid var(--line);
   border-radius: 4px;
   padding: 1px 4px;

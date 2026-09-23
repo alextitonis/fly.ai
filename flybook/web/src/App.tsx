@@ -892,7 +892,7 @@ function Shell({ children, live }: { children: React.ReactNode; live?: boolean }
       <nav>
         <div className="wrap">
           <a className="brand" href={BASE}>
-            <img className="logo" src={`${BASE}logo.webp`} alt="" />
+            <img className="logo" src={`${BASE}logo-t.webp`} width="988" height="439" alt="" />
             flybook
             {live !== undefined && <span className={`status ${live ? "live" : ""}`}>{t(live ? "flybook.shell.live" : "flybook.shell.demo")}</span>}
           </a>

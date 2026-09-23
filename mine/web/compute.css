@@ -3,8 +3,8 @@
 .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 0; }
 .tabs a { font: 500 13px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-decoration: none;
           padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg-2); }
-.tabs a:hover { color: var(--text); border-color: var(--muted); }
-.tabs a.on { color: var(--text); border-color: var(--red); box-shadow: inset 0 0 0 1px var(--red); }
+.tabs a:hover { color: var(--text); border-color: var(--mint); }
+.tabs a.on { color: var(--mint); border-color: var(--mint); box-shadow: inset 0 0 0 1px var(--mint), 0 0 18px -6px var(--glow); }
 
 .stack { display: grid; gap: 18px; }
 .card h3 { margin-bottom: 14px; }
@@ -19,7 +19,7 @@
 .controls label[hidden] { display: none; }
 input, select { font: 15px var(--sans); color: var(--text); background: var(--bg-2); border: 1px solid var(--line);
                 border-radius: 10px; padding: 11px 12px; min-width: 0; }
-input:focus-visible, select:focus-visible, .btn:focus-visible { outline: 2px solid var(--cool); outline-offset: 2px; }
+input:focus-visible, select:focus-visible, .btn:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
 button.btn { font-family: var(--sans); }
 
 .lanes { display: grid; gap: 8px; margin-top: 14px; }
@@ -27,7 +27,7 @@ button.btn { font-family: var(--sans); }
 .lane .name { color: var(--dim); }
 .lane .text { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
-.bar > div { height: 100%; width: 0; background: var(--red); transition: width .3s; }
+.bar > div { height: 100%; width: 0; background: var(--mint); transition: width .3s; }
 
 .band b { font-variant-numeric: tabular-nums; }
 
@@ -35,7 +35,7 @@ button.btn { font-family: var(--sans); }
 [data-standing="unchecked"] { color: #f0bc5f; }
 [data-standing="zeroed"] { color: var(--red-hi); }
 
-.hint { margin: 16px 0 0; padding: 12px 14px; border: 1px dashed #3a4454; border-radius: 12px; background: rgba(13,17,23,.7);
+.hint { margin: 16px 0 0; padding: 12px 14px; border: 1px dashed #2a2f2d; border-radius: 12px; background: rgba(6,7,7,.7);
         color: var(--muted); font-size: 14px; }
 .hint b { color: var(--text); }
 
@@ -51,7 +51,7 @@ button.btn { font-family: var(--sans); }
 .board-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
 .board-head h2 { margin: 0; font-size: clamp(24px, 4vw, 34px); }
 .board-nav { display: flex; gap: 8px; }
-table.data tr.me td { color: var(--text); background: rgba(224,52,44,.08); }
+table.data tr.me td { color: var(--text); background: rgba(94,242,204,.08); }
 table.data td.r { text-align: right; }
 
 .codeline { font: 13px var(--mono); color: var(--dim); overflow-wrap: anywhere; }
@@ -66,8 +66,8 @@ table.data td.r { text-align: right; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 16px; }
 .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px;
         background: var(--bg-2); font: 13px var(--mono); color: var(--muted); cursor: pointer; }
-.chip:has(input:checked) { color: var(--text); border-color: var(--red); }
-.chip input { accent-color: var(--red); margin: 0; }
+.chip:has(input:checked) { color: var(--text); border-color: var(--mint); }
+.chip input { accent-color: var(--mint); margin: 0; }
 .btn[hidden] { display: none; }
 
 /* buy compute: preset choices, summary, advanced */
@@ -77,8 +77,8 @@ table.data td.r { text-align: right; }
           color: var(--muted); cursor: pointer; font: 14px/1.45 var(--sans); }
 .choice b { display: block; color: var(--text); font: 600 16px var(--sans); margin-bottom: 4px; }
 .choice small { display: block; margin-top: 6px; font: 12px var(--mono); color: var(--dim); }
-.choice:hover { border-color: var(--muted); }
-.choice[aria-pressed="true"] { border-color: var(--red); box-shadow: inset 0 0 0 1px var(--red); }
+.choice:hover { border-color: var(--mint); }
+.choice[aria-pressed="true"] { border-color: var(--mint); box-shadow: inset 0 0 0 1px var(--mint); }
 .summary { font: 500 clamp(18px, 2.4vw, 22px)/1.45 var(--sans); color: var(--text); margin: 6px 0 14px; }
 .summary b { font-variant-numeric: tabular-nums; }
 details.advanced { margin-top: 20px; border-top: 1px solid var(--line); padding-top: 14px; }
@@ -91,7 +91,7 @@ details.advanced[open] summary { margin-bottom: 12px; }
 .acct { margin-left: auto; display: flex; align-items: center; gap: 10px; }
 .acct-who { font-size: 13px; color: var(--muted); }
 .acct-sheet { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 16px;
-              background: rgba(7, 9, 12, .72); backdrop-filter: blur(4px); }
+              background: rgba(0, 0, 0, .72); backdrop-filter: blur(4px); }
 .acct-sheet[hidden] { display: none; }
 .acct-panel { width: min(420px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto; background: var(--panel); }
 .acct-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -99,8 +99,8 @@ details.advanced[open] summary { margin-bottom: 12px; }
 .acct-list { display: grid; gap: 8px; margin: 14px 0 4px; }
 .acct-wallet { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; text-align: left; cursor: pointer;
                border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); color: var(--text); font: 15px var(--sans); }
-.acct-wallet:hover { border-color: var(--muted); }
-.acct-wallet:focus-visible { outline: 2px solid var(--cool); outline-offset: 2px; }
+.acct-wallet:hover { border-color: var(--mint); }
+.acct-wallet:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
 .acct-wallet img, .acct-icon { width: 28px; height: 28px; border-radius: 7px; flex: none; }
 .acct-icon { display: grid; place-items: center; background: var(--line); color: var(--muted); }
 .acct-wallet b { display: block; font-weight: 600; }

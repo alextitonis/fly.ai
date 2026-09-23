@@ -55,8 +55,8 @@ export default function PatchView({ flies, replay, tickId, waiting, armed, onPok
       const px = (x: number) => ox + x * size;
       const py = (y: number) => oy + y * size;
 
-      g.fillStyle = "#0b0f15";
-      g.strokeStyle = "#222a35";
+      g.fillStyle = "#060707";
+      g.strokeStyle = "#1a1d1c";
       g.beginPath();
       g.roundRect(ox, oy, size, size, 14);
       g.fill();
@@ -160,7 +160,7 @@ export default function PatchView({ flies, replay, tickId, waiting, armed, onPok
         g.moveTo(cx, cy);
         g.lineTo(cx + Math.cos(heading) * 12, cy + Math.sin(heading) * 12);
         g.stroke();
-        g.fillStyle = "#95a0ae";
+        g.fillStyle = "#9ba5a1";
         g.font = "12px Inter, system-ui, sans-serif";
         const name = f.name.length > 14 ? `${f.name.slice(0, 13)}…` : f.name;
         g.fillText(name, cx - g.measureText(name).width / 2, cy + 22);

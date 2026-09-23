@@ -3,11 +3,11 @@
    green/red = the sign of a number (always with a + or - too). */
 
 body.desk {
-  --ground: #06070a; --plate: #0b0d12; --plate-2: #10141b; --card: #11151d;
-  --line: #1b212b; --line-2: #2a3340;
+  --ground: #000000; --plate: #060707; --plate-2: #0a0b0b; --card: #0b0c0c;
+  --line: #1a1d1c; --line-2: #272b2a;
   --ink: #e2eaf1; --ink-dim: #a3b0bc; --ink-faint: #8793a0;
-  --accent: #7deaff; --amber: #f0bc5f; --up: #6fdca6; --down: #ff8a8a;
-  --s-pot: #7deaff; --s-fly: #22a3c4; --s-rule: #6a62e0;
+  --accent: #5ef2cc; --amber: #f0bc5f; --up: #6fdca6; --down: #ff8a8a;
+  --s-pot: #5ef2cc; --s-fly: #22a3c4; --s-rule: #6a62e0;
   --f1: #22a3c4; --f2: #d55181; --f3: #f0bc5f; --f4: #6fdca6; --f5: #c08bff; --f6: #ff9f6b;
   --s-v1: #d55181; --s-v2: #f0bc5f; --s-v3: #6fdca6; --s-v4: #c08bff;
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
@@ -31,7 +31,7 @@ body.desk .wrap { max-width: 1240px; }
 
 /* ------------------------------------------------------------------ masthead */
 .desk .mast { padding: 34px 0 8px; border-bottom: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(11,13,18,.92), rgba(6,7,10,0)); }
+  background: linear-gradient(180deg, rgba(10,11,11,.92), rgba(0,0,0,0)); }
 .desk .mast .eyebrow { color: var(--ink-faint); font-size: 11px; letter-spacing: .14em; margin-bottom: 10px; }
 .desk .mast-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 24px; }
 .desk h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(38px, 5.6vw, 60px); line-height: 1.04; letter-spacing: -.01em; }

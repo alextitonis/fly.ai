@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#07090c" />
+    <meta name="theme-color" content="#000000" />
     <link rel="canonical" href="https://flyaiworld.com/simulation/" />
     <meta property="og:title" content="fly.ai world — a field of flies with spiking brains" />
     <meta property="og:description" content="Dozens of fruit flies, each running its own spiking neural network, foraging, tracking odour plumes, mating and dying. Nothing in their behaviour is scripted." />
@@ -21,14 +21,17 @@
       data-i18n-attr="content:sim.meta.description"
     />
     <script src="/assets/i18n/boot.js"></script>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%233ed8ff'/%3E%3C/svg%3E" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%235ef2cc'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   </head>
   <body>
     <canvas id="view"></canvas>
     <div id="labels"></div>
 
     <header id="top">
-      <a id="back" href="/">&larr; fly.ai</a>
+      <a id="back" href="/">&larr; <img class="logo" src="/assets/logo-t.webp" alt="fly.ai" width="988" height="439" /></a>
       <h1 data-i18n-html="sim.top.title">fly.ai <b>world</b></h1>
       <div class="sub" id="stats" data-i18n="sim.top.starting">starting…</div>
     </header>

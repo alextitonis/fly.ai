@@ -38,7 +38,7 @@ function textTexture(text: string, fg: string, bg: string, w = 256, h = 128): TH
   const g = c.getContext("2d")!;
   g.fillStyle = bg; g.fillRect(0, 0, w, h);
   g.strokeStyle = "#111"; g.lineWidth = 10; g.strokeRect(5, 5, w - 10, h - 10);
-  g.fillStyle = fg; g.font = `900 ${Math.round(h * 0.55)}px 'Space Grotesk', Impact, sans-serif`;
+  g.fillStyle = fg; g.font = `900 ${Math.round(h * 0.55)}px 'Outfit', Impact, sans-serif`;
   g.textAlign = "center"; g.textBaseline = "middle";
   g.fillText(text, w / 2, h / 2 + 4);
   const t = new THREE.CanvasTexture(c);

@@ -10,40 +10,44 @@
 <meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@flydotai">
-<meta name="theme-color" content="#07090c">
+<meta name="theme-color" content="#000000">
 <link rel="canonical" href="https://flyaiworld.com/roulette/">
 <script src="/assets/i18n/boot.js"></script>
 <link rel="icon" href="/assets/logo.webp" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ground:#07090c; --surface:#11161e; --surface-2:#0d1117; --line:#222a35;
-    --ink:#eef1f5; --muted:#95a0ae; --dim:#5f6b7a;
-    --accent:#e0342c; --accent-hi:#ff5b4f; --live:#3ddc84; --gold:#ffc83d;
+    /* fly.ai brand (docs/assets/site.css): pure black, white, the logo fly's mint; red only for losses and danger */
+    --ground:#000000; --surface:#0a0b0b; --surface-2:#060707; --line:#1a1d1c;
+    --ink:#f4f7f6; --muted:#9ba5a1; --dim:#5f6865;
+    --glow:rgba(94,242,204,.28); --red:#ff5b4f;
+    --display:'Outfit','Inter',system-ui,sans-serif;
+    --accent:#5ef2cc; --accent-hi:#a4fbe6; --live:#3ddc84; --gold:#ffc83d;
   }
   *{box-sizing:border-box;}
   body{margin:0; background:var(--ground); color:var(--ink); font:15px/1.5 'Inter',system-ui,sans-serif; overflow-x:hidden;}
   a{color:inherit;}
   .mono{font-family:'JetBrains Mono',ui-monospace,monospace; font-variant-numeric:tabular-nums;}
   /* nav (same markup/classes as every docs/*.html page) */
-  nav{position:sticky; top:0; z-index:10; background:rgba(7,9,12,.85); backdrop-filter:blur(10px);
+  nav{position:sticky; top:0; z-index:10; background:rgba(0,0,0,.78); backdrop-filter:blur(10px);
       -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
   nav .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; height:58px; max-width:1120px; margin:0 auto; padding-inline:24px;}
-  .brand{display:flex; align-items:center; gap:10px; font:700 18px 'Space Grotesk',sans-serif; text-decoration:none;}
-  .brand .logo{height:34px; width:auto; margin:-6px -8px; mix-blend-mode:screen;}
+  .brand{display:flex; align-items:center; gap:10px; font:700 18px var(--display); text-decoration:none;}
+  .brand .logo{display:block; height:24px; width:auto;}   /* logo-t.webp: the logo on transparency */
   nav ul{display:flex; gap:22px; list-style:none; margin:0; padding:0; font-size:14px; align-items:center;}
   nav ul a{color:var(--muted); text-decoration:none;}
   nav ul a:hover{color:var(--ink);}
   nav ul a.on{color:var(--ink);}
-  nav ul a.on::after{content:""; display:block; height:2px; background:var(--accent); margin-top:4px;}
+  nav ul a.on::after{content:""; display:block; height:2px; border-radius:2px; background:var(--accent); margin-top:4px; box-shadow:0 0 8px var(--glow);}
   nav li.dd{position:relative; display:flex; align-items:center; gap:2px;}
   nav .ddbtn{all:unset; cursor:pointer; color:var(--muted); font-size:11px; line-height:1; padding:5px 4px; border-radius:4px;}
   nav .ddbtn:hover{color:var(--ink);}
+  nav .ddbtn:focus-visible, nav a:focus-visible{outline:2px solid var(--accent-hi); outline-offset:2px;}
   nav .ddmenu{position:absolute; top:calc(100% + 12px); left:-12px; min-width:240px; margin:0; padding:6px;
               display:none; flex-direction:column; gap:2px; background:var(--surface); border:1px solid var(--line);
-              border-radius:10px; box-shadow:0 14px 34px rgba(0,0,0,.5); z-index:20; list-style:none;}
+              border-radius:14px; box-shadow:0 14px 34px rgba(0,0,0,.7); z-index:20; list-style:none;}
   nav .ddmenu::before{content:""; position:absolute; left:0; right:0; top:-14px; height:14px;}
   nav li.dd:hover .ddmenu, nav li.dd:focus-within .ddmenu, nav li.dd.open .ddmenu{display:flex;}
   nav .ddmenu li{display:block;}
@@ -55,9 +59,13 @@
   nav .ddlabel{font-size:inherit; color:var(--muted); padding:4px 2px;}
   nav .ddlabel span{font-size:10px; margin-left:2px;}
   nav .ddlabel:hover, nav li.dd.open .ddlabel, nav .ddlabel.on{color:var(--ink);}
-  nav .ddlabel.on::after{content:""; display:block; height:2px; background:var(--accent); margin-top:4px;}
+  nav .ddlabel.on::after{content:""; display:block; height:2px; border-radius:2px; background:var(--accent); margin-top:4px; box-shadow:0 0 8px var(--glow);}
   nav .ddmenu.right{left:auto; right:-12px;}
   nav .ddmenu{align-items:stretch;}
+  /* the language menu (i18n.js injects a neutral default under :where; this matches the site's) */
+  nav .langpick{font:500 13px/1.2 'Inter',system-ui,sans-serif; color:var(--muted); background:transparent; border:1px solid var(--line); border-radius:999px; padding:6px 10px;}
+  nav .langpick:hover{color:var(--ink); border-color:var(--accent);}
+  nav .langpick option{background:var(--surface); color:var(--ink);}
   @media (max-width:1080px){
     nav ul{gap:14px; font-size:13px;}
   }
@@ -73,16 +81,17 @@
     .brand{font-size:16px;}
   }
 
-  .btn{display:inline-flex; align-items:center; gap:8px; padding:13px 20px; border-radius:10px; font-weight:600;
-       font-size:15px; text-decoration:none; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer;}
-  .btn.sm{padding:8px 14px; font-size:13px; border-radius:8px;}
-  .btn:hover{border-color:var(--muted);}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:12px 22px; border-radius:999px; font-weight:600;
+       font-size:15px; text-decoration:none; border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer;
+       transition:border-color .15s, background .15s, box-shadow .15s;}
+  .btn.sm{padding:7px 14px; font-size:13px;}
+  .btn:hover{border-color:var(--accent);}
 
   main{max-width:1120px; margin:0 auto; padding:16px 24px;}
   @media (max-width:640px){ main{padding:16px;} }
   .head{display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px 20px; margin-bottom:12px;}
-  h1{font:700 clamp(28px,5vw,44px)/1 'Space Grotesk',sans-serif; letter-spacing:-.02em; margin:0;}
-  h1 span{color:var(--accent-hi);}
+  h1{font:700 clamp(28px,5vw,44px)/1 var(--display); letter-spacing:-.02em; margin:0;}
+  h1 span{color:var(--accent); text-shadow:0 0 36px var(--glow);}
   .sub{color:var(--muted); margin:6px 0 0; max-width:620px;}
   #status{color:var(--dim); font-size:12px;}
   .game{display:grid; grid-template-columns:minmax(0,1fr) 330px; gap:16px;}
@@ -101,7 +110,7 @@
   .tag.turn{box-shadow:0 0 0 4px rgba(255,255,255,.25);}
   .tag.out{opacity:.45;}
   .pop{position:absolute; transform:translate(-50%,-100%) rotate(var(--tilt)); pointer-events:none; white-space:nowrap;
-       font:700 18px/1 'Space Grotesk',sans-serif; color:#111; background:#fff; border:3px solid #111; border-radius:12px;
+       font:700 18px/1 var(--display); color:#111; background:#fff; border:3px solid #111; border-radius:12px;
        padding:5px 10px; box-shadow:3px 3px 0 #111; animation:floatpop 1.4s ease-out forwards;}
   .pop.bang{background:#e0342c; color:#fff6d5; font-size:28px;}
   .pop.click{background:#fff6d5;}
@@ -118,34 +127,36 @@
   }
   #pick-hint{position:absolute; left:50%; top:14px; transform:translateX(-50%); background:rgba(0,0,0,.6); border-radius:999px; padding:6px 14px; font-size:13px; color:var(--muted); pointer-events:none;}
   #banner{position:absolute; left:50%; top:40%; transform:translate(-50%,-50%) rotate(-3deg); background:var(--gold); color:#1a1200; border:4px solid #111;
-          box-shadow:6px 6px 0 #111; border-radius:14px; padding:14px 26px; font:700 clamp(24px,4vw,40px)/1.1 'Space Grotesk',sans-serif; text-align:center; pointer-events:none;
+          box-shadow:6px 6px 0 #111; border-radius:14px; padding:14px 26px; font:700 clamp(24px,4vw,40px)/1.1 var(--display); text-align:center; pointer-events:none;
           animation:pop .5s cubic-bezier(.3,1.6,.5,1);}
   #banner small{display:block; font:500 14px 'Inter',sans-serif; margin-top:6px;}
   @keyframes pop{from{transform:translate(-50%,-50%) rotate(-3deg) scale(.2);}}
 
   .panel{display:flex; flex-direction:column; gap:12px;}
-  .card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px;}
-  .card h2{font:500 11px 'JetBrains Mono',monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-hi); margin:0 0 10px;}
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:14px;}
+  .card h2{font:500 11px 'JetBrains Mono',monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 10px;}
   .controls{display:flex; flex-wrap:wrap; gap:8px;}
-  button.btn, select{font:600 14px 'Inter',sans-serif; border-radius:10px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink); padding:9px 12px; cursor:pointer;}
-  button.btn.primary{background:var(--accent); border-color:var(--accent); color:#fff; flex:1 1 100%; font-size:16px; padding:12px;}
+  button.btn, select{font:600 14px 'Inter',sans-serif; border-radius:999px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink); padding:9px 14px; cursor:pointer;}
+  button.btn:hover:not(:disabled), select:hover:not(:disabled){border-color:var(--accent);}
+  button.btn:focus-visible, select:focus-visible{outline:2px solid var(--accent-hi); outline-offset:2px;}
+  button.btn.primary{background:var(--accent); border-color:var(--accent); color:#000; flex:1 1 100%; font-size:16px; padding:12px; box-shadow:0 0 24px -6px var(--glow);}
   button.btn.primary:hover:not(:disabled){background:var(--accent-hi);}
   button.btn:disabled, select:disabled{opacity:.5; cursor:not-allowed;}
-  .who{font:700 18px 'Space Grotesk',sans-serif; margin-bottom:8px;}
+  .who{font:700 18px var(--display); margin-bottom:8px;}
   .row{display:grid; grid-template-columns:1fr auto; gap:2px 8px; margin:8px 0 2px; font-size:13px; color:var(--muted);}
   .bar{grid-column:1 / -1; height:10px; background:var(--surface-2); border-radius:6px; overflow:hidden; position:relative;}
   .bar i{display:block; height:100%; width:0; background:var(--live); border-radius:6px; transition:width .08s linear;}
   #wing-bar{background:#8fd3ff;}
-  #wing-bar.hot{background:var(--accent-hi);}
+  #wing-bar.hot{background:var(--red);}
   .bar .line{position:absolute; top:-2px; bottom:-2px; width:2px; background:var(--ink); opacity:.6; left:62.5%;}
-  #verdict{margin-top:10px; font:700 20px 'Space Grotesk',sans-serif; min-height:26px;}
+  #verdict{margin-top:10px; font:700 20px var(--display); min-height:26px;}
   #verdict.fly{color:#8fd3ff;} #verdict.pull{color:var(--gold);}
   .note{font-size:12px; color:var(--dim); margin:8px 0 0;}
   #log{list-style:none; margin:0; padding:0; max-height:230px; overflow:auto; font-size:13px;}
   #log li{padding:6px 0; border-bottom:1px solid var(--line);}
   #log li.win{color:var(--gold);}
   #log .dim{color:var(--dim); font-size:11px;}
-  #log .bang{color:var(--accent-hi);}
+  #log .bang{color:var(--red);}
   #tally{font-size:12px; color:var(--dim); margin-top:8px;}
 
   /* Play for $FLYAI */
@@ -155,7 +166,7 @@
   .bet{overflow-wrap:anywhere;}
   #bet-commit, .bet-result dd{word-break:break-all;}
   .bet-acct{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;}
-  .bet-acct b{font:700 18px 'Space Grotesk',sans-serif; white-space:nowrap;}
+  .bet-acct b{font:700 18px var(--display); white-space:nowrap;}
   #bet-who{white-space:nowrap;}
   .bet-how{font-size:12px; color:var(--muted); margin-top:10px;}
   .bet-how summary{cursor:pointer; color:var(--ink); font-weight:600;}
@@ -167,23 +178,24 @@
   .bet-box label, .bet-stake{display:block; font-size:13px; color:var(--muted);}
   .bet-row{display:flex; gap:8px; align-items:center; margin-top:6px;}
   .bet-row input{flex:1; min-width:0; font:600 15px 'JetBrains Mono',monospace; background:var(--ground); color:var(--ink);
-                 border:1px solid var(--line); border-radius:8px; padding:8px 10px;}
+                 border:1px solid var(--line); border-radius:10px; padding:8px 10px;}
+  .bet-row input:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--glow);}
   .bet-line{font-size:13px; margin:8px 0; color:var(--ink);}
   .bet-line .dot{display:inline-block; width:10px; height:10px; border-radius:50%; vertical-align:middle;}
   .dim{color:var(--dim);}
   #bet-go{margin-top:4px;}
-  #bet-msg.bad{color:var(--accent-hi);}
+  #bet-msg.bad{color:var(--red);}
   .bet-result{border-top:1px solid var(--line); margin-top:12px; padding-top:10px;}
   .bet-result dl{font-size:11px; margin:8px 0; word-break:break-all;}
   .bet-result dt{color:var(--dim);}
   .bet-result dd{margin:0 0 6px; color:var(--muted);}
   .bet-history{list-style:none; margin:0; padding:0; font-size:12px; max-height:160px; overflow:auto;}
   .bet-history li{display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid var(--line);}
-  .bet-history .won{color:var(--live);} .bet-history .lost{color:var(--accent-hi);}
+  .bet-history .won{color:var(--accent);} .bet-history .lost{color:var(--red);}
   #banner .betwin{color:#0c5a2c; font-weight:700;} #banner .betloss{color:#7a1410; font-weight:700;}
-  dialog.terms{background:var(--surface); color:var(--ink); border:1px solid var(--line); border-radius:14px; max-width:460px; width:calc(100% - 32px); padding:20px;}
+  dialog.terms{background:var(--surface); color:var(--ink); border:1px solid var(--line); border-radius:16px; max-width:460px; width:calc(100% - 32px); padding:20px;}
   dialog.terms::backdrop{background:rgba(0,0,0,.6);}
-  dialog.terms h3{font:700 20px 'Space Grotesk',sans-serif; margin:0 0 10px;}
+  dialog.terms h3{font:700 20px var(--display); margin:0 0 10px;}
   dialog.terms ul{padding-left:18px; color:var(--muted); font-size:14px;}
   dialog.terms label{display:flex; gap:8px; align-items:center; margin:8px 0; font-size:14px;}
   .terms-btns{display:flex; gap:8px; justify-content:flex-end; margin-top:12px;}
@@ -191,13 +203,13 @@
   /* the compute site's wallet picker (mine/web/account.ts builds it) */
   .acct-sheet{position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; padding:16px; background:rgba(0,0,0,.6);}
   .acct-sheet[hidden]{display:none;}
-  .acct-panel{width:min(420px,100%); max-height:calc(100dvh - 32px); overflow-y:auto; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px;}
+  .acct-panel{width:min(420px,100%); max-height:calc(100dvh - 32px); overflow-y:auto; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px;}
   .acct-head{display:flex; align-items:center; justify-content:space-between; gap:12px;}
-  .acct-head h3{margin:0; font:700 18px 'Space Grotesk',sans-serif;}
+  .acct-head h3{margin:0; font:700 18px var(--display);}
   .acct-list{display:grid; gap:8px; margin:14px 0 4px;}
   .acct-wallet{display:flex; align-items:center; gap:12px; width:100%; padding:12px 14px; text-align:left; cursor:pointer;
                background:var(--surface-2); border:1px solid var(--line); border-radius:10px; color:var(--ink); font:inherit;}
-  .acct-wallet:hover{border-color:var(--muted);}
+  .acct-wallet:hover{border-color:var(--accent);}
   .acct-wallet img, .acct-icon{width:28px; height:28px; border-radius:7px; flex:none;}
   .acct-icon{display:grid; place-items:center; background:var(--line); color:var(--muted);}
   .acct-wallet b{display:block; font-weight:600;}
@@ -212,7 +224,7 @@
 <body>
 <nav aria-label="Main">
   <div class="wrap">
-    <a class="brand" href="/"><img class="logo" src="/assets/logo.webp" alt="fly.ai" width="1774" height="887">$FLYAI</a>
+    <a class="brand" href="/"><img class="logo" src="/assets/logo-t.webp" alt="fly.ai" width="988" height="439">$FLYAI</a>
     <ul>
       <li><a href="/">Home</a></li>
       <li class="dd"><button class="ddbtn ddlabel" type="button" aria-expanded="false" aria-controls="dd-research">Research <span aria-hidden="true">&#9662;</span></button>

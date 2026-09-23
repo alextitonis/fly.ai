@@ -16,7 +16,7 @@ primary_region = "cdg"
   MIN_BID = "20"          # $FLYAI per job, ~$0.001 at $0.00005092 (2026-09-16)
   CACHED_PRICE = "5"      # already-settled jobs, ~$0.00025
   POOL_SHARE = "0.8"
-  STORE_MAX_MB = "400"    # buyers' uploads and program outputs, on the 1 GB volume next to the database
+  STORE_MAX_MB = "2000"   # buyers' uploads and program outputs, on the 10 GB volume; counted in 4 KB blocks (09-23)
   # Fly Roulette bets (src/roulette.ts; whole tokens): small bets, 10 to 2,000 FLYAI (the biggest win, 10 flies, is 19,000)
   ROULETTE_ON = "1"
   ROULETTE_EDGE = "0.05"

@@ -228,7 +228,7 @@ function drawVu(): void {
   let peak = 0;
   for (const x of data) peak = Math.max(peak, Math.abs(x - 128));
   const level = Math.min(1, peak / 100);
-  vuCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#e0342c";
+  vuCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#5ef2cc";
   const bars = 22;
   for (let i = 0; i < bars; i++) {
     vuCtx.globalAlpha = i / bars < level ? 1 : 0.15;

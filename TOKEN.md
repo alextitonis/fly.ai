@@ -176,6 +176,8 @@ whether or not anything is announced.
 
 At launch this section will list the fee address, the burn address and the running total burned.
 As of launch day (12 September 2026): **deployed; nothing collected and nothing burned yet.**
+As of 23 September 2026: the weekly creator-fee buyback has **not run yet**. The one burn so far is from the dev
+wallet, below.
 
 ### Burns
 
