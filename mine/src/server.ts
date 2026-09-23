@@ -34,6 +34,7 @@ import { fileURLToPath } from "node:url";
 import { Worker } from "node:worker_threads";
 import { CHANNELS } from "./model.ts";
 import type { TaskParams, TaskResult } from "./runner.ts";
+import { screenKey, screenRates } from "./screensum.ts";
 import { ADDRESS, checksumAddress, recoverAddress, siweMessage } from "./wallet.ts";
 import { createRoulette } from "./roulette.ts";
 import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, merkleTree, monthCalldata, monthId, toWei } from "./payouts.ts";
@@ -68,6 +69,8 @@ const OPEN_TARGET = Number(env("OPEN_TARGET", "3000"));
 const CANARY_POOL = Number(env("CANARY_POOL", "100000")); // idle verifiers stop adding known answers here
 /** idle verifiers also work open paid brain jobs (a second answer can be slow with few miners); 0 leaves them to miners */
 const SEED_PAID = env("SEED_PAID", "1") !== "0";
+/** finished screen jobs untouched this long are summed into screen_sums and deleted (canaries and paid jobs stay) */
+const PRUNE_AFTER_MS = Number(env("PRUNE_AFTER_HOURS", "24")) * 3_600_000;
 /**
  * Points multiplier for jobs miners opt into with "also run programs" (world runs, probes, WASM, shaders).
  *
@@ -172,7 +175,7 @@ function round(r: number): TaskParams[] {
 }
 
 // ---- storage -----------------------------------------------------------------------------------------
-const SCHEMA = 15; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01; created below for new and old databases alike
+const SCHEMA = 16; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned); created below for new and old databases alike
 /** PROGRAM_BONUS before schema 15, and the factor stored program units are scaled by so credit keeps its value. */
 const OLD_PROGRAM_BONUS = 1.25;
 mkdirSync(dirname(DB_PATH), { recursive: true });
@@ -348,11 +351,8 @@ db.exec(`
       on conflict (day, miner) do update set units = units + excluded.units, program_units = program_units + excluded.program_units,
         accepted = accepted + excluded.accepted, pending = pending + excluded.pending, rejected = rejected + excluded.rejected;
   end;
-  create trigger if not exists day_credit_delete after delete on assignments when old.day is not null begin
-    update day_credit set units = units - (case when old.status in ('accepted', 'pending') then coalesce((select units from tasks where id = old.task and kind = 'connectome'), 0) else 0 end), program_units = program_units - (case when old.status in ('accepted', 'pending') then coalesce((select units from tasks where id = old.task and kind != 'connectome'), 0) else 0 end),
-      accepted = accepted - (old.status = 'accepted'), pending = pending - (old.status = 'pending'), rejected = rejected - (old.status = 'rejected')
-      where day = old.day and miner = old.miner;
-  end;
+  -- 16: no delete trigger. Assignments are only ever deleted by pruning, and a pruned job's credit must stay earned.
+  drop trigger if exists day_credit_delete;
   -- a wallet signed in once on the site: links miners, spends its balance and stops its orders without signing again
   create table if not exists sessions (
     token_hash text primary key,
@@ -562,6 +562,16 @@ db.exec(`
     tx text
   );
   create index if not exists withdraw_requests_open on withdraw_requests (wallet) where status = 'open';
+  -- 16: finished screen jobs are deleted after PRUNE_AFTER_HOURS (their rows filled /data twice). Their answers live
+  -- on here, summed per stimulus in the unit /api/results reports; counters keeps the job totals the stats show.
+  create table if not exists screen_sums (
+    key text primary key,             -- the job's params without the seed (src/screensum.ts)
+    seeds integer not null,
+    base text not null,               -- JSON: per output group, spikes per neuron per second summed over seeds
+    stim text not null
+  ) without rowid;
+  create table if not exists counters (name text primary key, n integer not null) without rowid;
+  create index if not exists order_tasks_by_task on order_tasks (task);
 `);
 if (hasTables && !hadDayCredit) {
   // 13: one pass over every assignment so far; from here on the triggers keep it
@@ -1517,8 +1527,8 @@ function me(miner: string) {
 const stats = cached(10_000, (_: null) => ({
   miners_online: count("select count(*) as n from miners where last_seen > ?", Date.now() - 10 * 60_000),
   jobs_today: count("select coalesce(sum(accepted + pending + rejected), 0) as n from day_credit where day = ?", today()),
-  tasks: count("select count(*) as n from tasks"),
-  tasks_done: count("select count(*) as n from tasks where state = 'done'"),
+  tasks: count("select count(*) as n from tasks") + counter("pruned_tasks"),
+  tasks_done: count("select count(*) as n from tasks where state = 'done'") + counter("pruned_tasks"),
   tasks_checked: count("select count(*) as n from tasks where truth is not null"),
   rounds: count("select coalesce(max(round) + 1, 0) as n from tasks"),
   verifiers: pool.filter((v) => v.ready).length,
@@ -1527,7 +1537,7 @@ const stats = cached(10_000, (_: null) => ({
   orders_open: !!ORDERS.payTo,
   orders_live: count("select count(*) as n from orders where status = 'live'"),
   paid_jobs_waiting: count("select count(*) as n from tasks where priority > 0"),
-  blobs_mb: Math.round((one<{ s: number | null }>("select sum(size) as s from blobs").s ?? 0) / 1e6),
+  blobs_mb: Math.round(blobBytes() / 1e6),
 }));
 
 /**
@@ -2459,6 +2469,9 @@ function loadedRef(): Reference {
 // match earn nothing, and a job nobody agrees on after redundancy + 2 answers goes to the buyer as disputed.
 mkdirSync(BLOBS_DIR, { recursive: true });
 const blobPath = (hash: string) => join(BLOBS_DIR, hash);
+/** What a file really takes: whole 4 KB blocks. By size alone, 167k small outputs came to 837 MB under a 600 MB cap. */
+const onDisk = (size: number) => Math.ceil(size / 4096) * 4096;
+const blobBytes = () => one<{ s: number | null }>("select sum((size + 4095) / 4096 * 4096) as s from blobs").s ?? 0;
 
 /** Store bytes by sha256 (once); returns the hash. */
 function putBlob(bytes: Uint8Array): string {
@@ -2468,8 +2481,7 @@ function putBlob(bytes: Uint8Array): string {
     db.prepare("update blobs set used_at = ? where hash = ?").run(now, hash);
     return hash;
   }
-  const used = one<{ s: number | null }>("select sum(size) as s from blobs").s ?? 0;
-  if (used + bytes.length > STORE_MAX_BYTES) throw new HttpError(507, "storage is full right now; try again later");
+  if (blobBytes() + onDisk(bytes.length) > STORE_MAX_BYTES) throw new HttpError(507, "storage is full right now; try again later");
   const tmp = `${blobPath(hash)}.${randomBytes(4).toString("hex")}.tmp`;
   writeFileSync(tmp, bytes);
   renameSync(tmp, blobPath(hash));
@@ -2584,6 +2596,80 @@ function collectBlobs(): void {
     n++;
   }
   if (n) console.log(`deleted ${n} unused uploads`);
+}
+
+// ---- pruning ------------------------------------------------------------------------------------------
+// Every screen job leaves a task row and an assignment row holding its answer: 1.7M a day by 2026-09-22, which
+// filled /data twice (09-19, 09-23). Once a finished job has sat untouched for PRUNE_AFTER_HOURS its answer is
+// added to screen_sums (what /api/results reports) and both rows go. Credit is already in day_credit, so nothing a
+// miner earned changes. Never pruned: canaries (the server's own answers), paid jobs, buyers' programs, house jobs,
+// and jobs a verifier holds. A miner struck later can no longer take back answers older than the window.
+const PRUNE_BATCH = 250; // task ids per transaction; after each, a pause twice as long so requests keep flowing
+let pruneFloor = 0; // every task id below this is pruned or kept for good
+let lastPrune = 0;
+let pruning = false;
+const counter = (name: string) => one<{ n: number } | undefined>("select n from counters where name = ?", name)?.n ?? 0;
+
+async function pruneScreen(): Promise<void> {
+  const ref = reference;
+  if (pruning || !ref) return;
+  pruning = true;
+  lastPrune = Date.now();
+  const started = Date.now();
+  const top = one<{ n: number | null }>("select max(id) as n from tasks").n ?? 0;
+  // the unary + keeps SQLite on the id range: left to itself it took tasks_open (state = 'done') and read every
+  // finished job for each batch of 1000, which froze the server on its first run (2026-09-23)
+  const pick = db.prepare(`select t.id, t.params, (select a.result from assignments a join miners m on m.id = a.miner
+      where a.task = t.id and (a.status = 'accepted' or (a.status = 'pending' and m.strikes = 0)) limit 1) as result
+    from tasks t where t.id >= ? and t.id < ? and +t.kind = 'connectome' and +t.state = 'done' and t.truth is null
+      and not exists (select 1 from order_tasks ot where ot.task = t.id)
+      and not exists (select 1 from assignments a where a.task = t.id and (a.status = 'issued' or coalesce(a.submitted_at, a.issued_at) >= ?))`);
+  const getSum = db.prepare("select seeds, base, stim from screen_sums where key = ?");
+  const putSum = db.prepare("insert into screen_sums (key, seeds, base, stim) values (?, ?, ?, ?) on conflict (key) do update set seeds = excluded.seeds, base = excluded.base, stim = excluded.stim");
+  const dropAssignments = db.prepare("delete from assignments where task = ?");
+  const dropTask = db.prepare("delete from tasks where id = ?");
+  const addCount = db.prepare("insert into counters (name, n) values ('pruned_tasks', ?) on conflict (name) do update set n = n + excluded.n");
+  let pruned = 0;
+  try {
+    for (let from = pruneFloor; from <= top; from += PRUNE_BATCH) {
+      // at full speed the first run (4.5M jobs, 2026-09-23) left requests 25 ms in every 400 and the health check failed
+      const batchStart = Date.now();
+      const cutoff = batchStart - PRUNE_AFTER_MS;
+      const rows = (pick.all(from, from + PRUNE_BATCH, cutoff) as { id: number; params: string; result: string | null }[])
+        .filter((row) => !queued.has(row.id));
+      if (rows.length) transaction(() => {
+        const sums = new Map<string, { seeds: number; base: number[]; stim: number[] }>();
+        for (const row of rows) {
+          if (row.result) {
+            const { key, params } = screenKey(JSON.parse(row.params) as TaskParams);
+            const r = screenRates(params, JSON.parse(row.result) as TaskResult, ref.outputSizes, ref.dt);
+            let s = sums.get(key);
+            if (!s) {
+              const old = getSum.get(key) as { seeds: number; base: string; stim: string } | undefined;
+              s = old ? { seeds: old.seeds, base: JSON.parse(old.base), stim: JSON.parse(old.stim) } : { seeds: 0, base: r.base.map(() => 0), stim: r.stim.map(() => 0) };
+              sums.set(key, s);
+            }
+            s.seeds++;
+            r.base.forEach((x, g) => { s.base[g] += x; });
+            r.stim.forEach((x, g) => { s.stim[g] += x; });
+          }
+          dropAssignments.run(row.id);
+          dropTask.run(row.id);
+        }
+        for (const [key, s] of sums) putSum.run(key, s.seeds, JSON.stringify(s.base), JSON.stringify(s.stim));
+        addCount.run(rows.length);
+      });
+      pruned += rows.length;
+      await new Promise((resolve) => setTimeout(resolve, Math.max(5, 2 * (Date.now() - batchStart))));
+    }
+    pruneFloor = one<{ n: number | null }>(`select min(t.id) as n from tasks t where t.id >= ? and +t.kind = 'connectome' and t.truth is null
+      and not exists (select 1 from order_tasks ot where ot.task = t.id)`, pruneFloor).n ?? top + 1;
+    if (pruned) console.log(`pruned ${pruned} finished screen jobs in ${Math.round((Date.now() - started) / 1000)} s`);
+  } catch (err) {
+    console.error(`pruning stopped: ${(err as Error).message}`);
+  } finally {
+    pruning = false;
+  }
 }
 
 /** In a transaction. */
@@ -3142,6 +3228,7 @@ setInterval(() => {
   // time limits, and anything a missed refill left waiting
   for (const { id } of db.prepare("select id from orders where status = 'live'").all() as { id: string }[]) transaction(() => refill(id));
   if (Date.now() - lastGc > 3_600_000) collectBlobs();
+  if (Date.now() - lastPrune > 3_600_000) void pruneScreen();
   pump(); // paid jobs waiting on a second answer get the idle verifiers
 }, 15_000).unref();
 setInterval(() => void deliverWebhooks().catch((err) => console.error("webhooks:", err)), 5_000).unref();

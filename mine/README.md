@@ -72,6 +72,7 @@ brings in dev types for `npm run typecheck`. GPU mining needs WebGPU (desktop Ch
 | `AUDITS` | 3 | an answer is re-run with chance `AUDITS / (miner's jobs today + AUDITS)` |
 | `CANARY_RATE` | 0.15 | share of handed-out jobs whose answer the server already knows |
 | `CANARY_POOL` | 100000 | idle verifiers work open jobs until this many answers are known |
+| `PRUNE_AFTER_HOURS` | 24 | finished screen jobs untouched this long are summed into `screen_sums` and deleted; credit, `/api/results` and the job totals are unchanged, and canaries, paid, program and house jobs are never pruned |
 | `MIN_CHECKED` | 2 | checked answers a miner needs in a day before its credit counts |
 | `AUDIT_QUEUE_MAX` | 500 | re-runs waiting beyond this are skipped (canaries still apply) |
 | `OPEN_TARGET` | 3000 | when fewer jobs are open, the next round of the screen is added |
@@ -267,7 +268,7 @@ limits and ideas is `web/compute-api.md`, downloadable at `/compute/compute-api.
   - **Storage:** blobs sit in `BLOBS_DIR` (default next to the database, `/data/blobs` on Fly), at most
     `BLOB_MAX_MB` (8) each.
   - **Rate:** 600 uploads and 2 GB an hour per IP.
-  - **Total:** capped at `STORE_MAX_MB` (400 on Fly, alongside the 1 GB volume's database).
+  - **Total:** capped at `STORE_MAX_MB` (400 on Fly, alongside the database on the 10 GB volume), counted in whole 4 KB blocks as the disk stores them.
   - **Cleanup:** deleted after `BLOB_TTL_DAYS` (14) unused, unless an unpaid or live order needs them.
   - **Serving:** as sandboxed downloads.
 - **Price:** the lowest bid is `MIN_BID` per started 30 s of the job's time limit.

@@ -21,6 +21,7 @@
     "test:release": "node --disable-warning=ExperimentalWarning src/releasetest.ts",
     "test:house": "node --disable-warning=ExperimentalWarning src/housetest.ts",
     "test:roulette": "node --disable-warning=ExperimentalWarning src/roulettetest.ts",
+    "test:prune": "node --disable-warning=ExperimentalWarning src/prunetest.ts",
     "test:btc-pool": "node --disable-warning=ExperimentalWarning examples/btc-pool/test.ts",
     "test:yespower": "node --disable-warning=ExperimentalWarning examples/yespower-pool/test.ts",
     "test:kaspa": "node --disable-warning=ExperimentalWarning examples/kaspa/test.ts",

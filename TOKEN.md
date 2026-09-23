@@ -14,7 +14,7 @@ repository where the token is described; the rest of the repo is about the fly.
 | launchpad | [Pons](https://www.ponsfamily.com/launchpad/0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C) |
 | explorer | [Blockscout](https://robinhoodchain.blockscout.com/token/0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C) |
 | contract | `0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C` |
-| supply | 1,000,000,000 |
+| supply | 995,000,000 (1,000,000,000 minted; 5,000,000 burned, see [Burns](#burns)) |
 | pair | NVDA (bonding curve, then Uniswap V4) |
 | liquidity | bonding curve -> Uniswap V4; the pool position is locked permanently by Pons |
 | locker | `0x267444d099b10fb5ed7c3cc7b7c767adca574952` (Pons launch locker; also holds 81,632,653 FLYAI, 4/49 of supply, permanently) |
@@ -176,6 +176,17 @@ whether or not anything is announced.
 
 At launch this section will list the fee address, the burn address and the running total burned.
 As of launch day (12 September 2026): **deployed; nothing collected and nothing burned yet.**
+
+### Burns
+
+Every burn calls the token's own `burn()`, so it lowers `totalSupply` on chain rather than parking tokens at a dead
+address.
+
+| date | from | amount | tx |
+|---|---|---|---|
+| 23 September 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 5,000,000 FLYAI (0.5% of supply) | [`0xace4b7bb…d8ec8d8b17`](https://robinhoodchain.blockscout.com/tx/0xace4b7bb85df07347c6102f1c8a0218e4a282a7f57756837ade452d8ec8d8b17) |
+
+**Total burned: 5,000,000 FLYAI. Supply now 995,000,000.**
 
 ## Funding the work
 
