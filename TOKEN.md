@@ -14,7 +14,7 @@ repository where the token is described; the rest of the repo is about the fly.
 | launchpad | [Pons](https://www.ponsfamily.com/launchpad/0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C) |
 | explorer | [Blockscout](https://robinhoodchain.blockscout.com/token/0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C) |
 | contract | `0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C` |
-| supply | 995,000,000 (1,000,000,000 minted; 5,000,000 burned, see [Burns](#burns)) |
+| supply | 990,000,000 (1,000,000,000 minted; 10,000,000 burned, see [Burns](#burns)) |
 | pair | NVDA (bonding curve, then Uniswap V4) |
 | liquidity | bonding curve -> Uniswap V4; the pool position is locked permanently by Pons |
 | locker | `0x267444d099b10fb5ed7c3cc7b7c767adca574952` (Pons launch locker; also holds 81,632,653 FLYAI, 4/49 of supply, permanently) |
@@ -176,7 +176,7 @@ whether or not anything is announced.
 
 At launch this section will list the fee address, the burn address and the running total burned.
 As of launch day (12 September 2026): **deployed; nothing collected and nothing burned yet.**
-As of 23 September 2026: the weekly creator-fee buyback has **not run yet**. The one burn so far is from the dev
+As of 23 September 2026: the weekly creator-fee buyback has **not run yet**. The burns so far are from the dev
 wallet, below.
 
 ### Burns
@@ -187,8 +187,10 @@ address.
 | date | from | amount | tx |
 |---|---|---|---|
 | 23 September 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 5,000,000 FLYAI (0.5% of supply) | [`0xace4b7bb…d8ec8d8b17`](https://robinhoodchain.blockscout.com/tx/0xace4b7bb85df07347c6102f1c8a0218e4a282a7f57756837ade452d8ec8d8b17) |
+| 23 September 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 0.000000005 FLYAI (amount entered in base units by mistake) | [`0xfcb180ff…0dcbc557`](https://robinhoodchain.blockscout.com/tx/0xfcb180ffdd82039f4c960510fba3a01577b27527d3cddd9f440e612d0dcbc557) |
+| 23 September 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 5,000,000 FLYAI (0.5% of supply) | [`0xd5348aaf…ce9eba75e`](https://robinhoodchain.blockscout.com/tx/0xd5348aafee1d2876d09606cfc0d09973f0d4fbc2c9b104f05083aafce9eba75e) |
 
-**Total burned: 5,000,000 FLYAI. Supply now 995,000,000.**
+**Total burned: 10,000,000 FLYAI (1% of supply). Supply now 990,000,000.**
 
 ## Funding the work
 
