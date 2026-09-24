@@ -154,5 +154,19 @@
     "house": "Casa",
     "bonding": "{n} en curvas de bonding",
     "thHeld": "En esta cadena"
+  },
+  "rec": {
+    "title": "Récords históricos",
+    "lede": "Las mejores operaciones desde que las moscas empezaron a operar, antes y después de cada reinicio. Dinero de prueba a precios reales de Robinhood Chain. Récords, no promesas.",
+    "best": "Mejor operación",
+    "biggest": "Mayor ganancia",
+    "fastest": "Duplicó más rápido",
+    "doubles": "Operaciones que duplicaron",
+    "over50": "{n} ganaron +50% o más",
+    "trades": "Operaciones",
+    "flies": "Moscas que operaron",
+    "since": "Operando desde",
+    "hours": "{n} h",
+    "min": "{n} min"
   }
 }

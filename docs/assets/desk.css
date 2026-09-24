@@ -238,3 +238,9 @@ body.clip #eye .eye-nav, body.clip #eye .prose { display: none; }
 .desk .st .k { display: block; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); }
 .desk .st b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
 .desk .st .when { display: block; font-size: 11px; color: var(--ink-faint); }
+
+/* 02 all-time records */
+.desk .rec-cards .kpi b .up { color: var(--up, inherit); }
+.desk .rec-sub { display: block; margin-top: 6px; font: 12px/1.45 var(--mono); color: var(--ink-dim); overflow-wrap: anywhere; }
+.desk #rec-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 700px) { .desk #rec-stats { grid-template-columns: 1fr; } }

@@ -154,5 +154,19 @@
     "house": "Kasa",
     "bonding": "{n} bonding eğrisinde",
     "thHeld": "Bu zincirde"
+  },
+  "rec": {
+    "title": "Tüm zamanların rekorları",
+    "lede": "Sinekler işlem yapmaya başladığından beri, her sıfırlamadan önce ve sonra en iyi işlemler. Gerçek Robinhood Chain fiyatlarıyla kâğıt para. Vaat değil, rekor.",
+    "best": "En iyi tek işlem",
+    "biggest": "En büyük kazanç",
+    "fastest": "En hızlı ikiye katlama",
+    "doubles": "İkiye katlanan işlemler",
+    "over50": "{n} işlem +%50 veya fazlası",
+    "trades": "İşlemler",
+    "flies": "İşlem yapan sinekler",
+    "since": "İşlem başlangıcı",
+    "hours": "{n} sa",
+    "min": "{n} dk"
   }
 }

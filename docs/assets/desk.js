@@ -258,6 +258,28 @@
     return { pot: board.capital_usd || board.books.reduce((a, x) => a + x.start_usd, 0), books };
   };
 
+  /** 02: all-time records - the history before the resets plus every trade closed since (records.py on the server). */
+  function renderRecords(r) {
+    const sec = $("records");
+    if (!r || !r.best) { sec.hidden = true; return; }
+    sec.hidden = false;
+    const dur = (h) => (h < 1 ? t("rec.min", { n: Math.max(1, Math.round(h * 60)) }) : t("rec.hours", { n: nf(h < 10 ? 1 : 0).format(h) }));
+    const tok = (c) => "$" + String(c.symbol).split(".")[0];
+    const card = (label, big, sub) =>
+      `<div class="kpi"><span class="k">${esc(label)}</span><b>${big}</b><span class="rec-sub">${esc(sub)}</span></div>`;
+    const cards = [card(t("rec.best"), `<span class="up">${pct(r.best.pct)}</span>`,
+      `${tok(r.best)} · ${usd(r.best.cost_usd)} → ${usd(r.best.got_usd)} · ${dur(r.best.hours)}`)];
+    if (r.biggest) cards.push(card(t("rec.biggest"), `<span class="up">${susd(r.biggest.got_usd - r.biggest.cost_usd)}</span>`,
+      `${tok(r.biggest)} · ${usd(r.biggest.cost_usd)} → ${usd(r.biggest.got_usd)}`));
+    if (r.fastest_double) cards.push(card(t("rec.fastest"), `<span class="up">${esc(dur(r.fastest_double.hours))}</span>`,
+      `${tok(r.fastest_double)} · ${pct(r.fastest_double.pct)}`));
+    cards.push(card(t("rec.doubles"), esc(nf(0).format(r.doubles || 0)), t("rec.over50", { n: nf(0).format(r.over50 || 0) })));
+    $("rec-cards").innerHTML = cards.join("");
+    $("rec-stats").innerHTML = [[t("rec.trades"), nf(0).format(r.trades || 0)], [t("rec.flies"), nf(0).format(r.flies || 0)],
+      r.since ? [t("rec.since"), r.since] : null].filter(Boolean)
+      .map(([k, v]) => `<div class="st"><span class="k">${esc(k)}</span> <b>${esc(v)}</b></div>`).join("");
+  }
+
   /** 06: the flies on other chains - the same books as above, one wallet across every chain: per chain what each fly
    * holds there and what it is worth, its fills there, and the chain's token list. */
   function renderChains(cs) {
@@ -318,6 +340,7 @@
     const mv = med(b.books.map((x) => x.value_usd)), mr = med(b.books.map((x) => x.return_pct));
     $("k-median").innerHTML = mv == null ? "—" : `${usd(mv)} <span class="sub ${cls(mr)}">${pct(mr)}</span>`;
     renderStats(s, start);
+    renderRecords(b.records);
     drawChart($("chart"), s, starts());
     const flyNames = Object.keys(s.books);
     table("curve-tbl", [[t("pot.thTime")], [t("pot.seriesPot"), 1]].concat(flyNames.map((n) => [bookLabel(n), 1])),

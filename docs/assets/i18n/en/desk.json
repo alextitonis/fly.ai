@@ -154,5 +154,19 @@
     "house": "House",
     "bonding": "{n} on bonding curves",
     "thHeld": "Held here"
+  },
+  "rec": {
+    "title": "All-time records",
+    "lede": "The best trades since the flies started trading, before and after every reset. Paper money at real Robinhood Chain prices. Records, not promises.",
+    "best": "Best single trade",
+    "biggest": "Biggest win",
+    "fastest": "Fastest double",
+    "doubles": "Trades that doubled",
+    "over50": "{n} made +50% or more",
+    "trades": "Trades",
+    "flies": "Flies that traded",
+    "since": "Trading since",
+    "hours": "{n} h",
+    "min": "{n} min"
   }
 }
