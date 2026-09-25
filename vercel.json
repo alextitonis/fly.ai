@@ -37,6 +37,16 @@
       "permanent": false
     },
     {
+      "source": "/traderflies",
+      "destination": "/traderflies/",
+      "permanent": false
+    },
+    {
+      "source": "/mint",
+      "destination": "/traderflies/",
+      "permanent": false
+    },
+    {
       "source": "/compute",
       "destination": "/compute/",
       "permanent": false
@@ -55,6 +65,15 @@
   "headers": [
     {
       "source": "/roulette/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/traderflies/assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
