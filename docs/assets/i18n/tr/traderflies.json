@@ -110,7 +110,7 @@
   },
   "shop": {
     "title": "Mağaza",
-    "text": "Mint'ten kalan sinekler. Her birinin fiyatı mint fiyatı çarpı nadirlik ağırlığı (Efsanevi 5x); USDG ile ya da %{pct} indirimli $FLYAI ile ödenir (yukarıdan seç). Para mint gibi bölünür: %80 sineklerin işlem havuzuna gider.",
+    "text": "Mint'ten kalan sinekler. Her birinin fiyatı mint fiyatı çarpı nadirlik ağırlığı (Efsanevi 3x); USDG ile ya da %{pct} indirimli $FLYAI ile ödenir (yukarıdan seç). Para mint gibi bölünür: %80 sineklerin işlem havuzuna gider.",
     "step2": "Adım 2/2: satın almayı cüzdanında onayla.",
     "yours": "Trader Fly #{id} artık senin. Masaya koymak için aşağıdan aktif et.",
     "connectToBuy": "Satın almak için bağlan",
@@ -132,7 +132,7 @@
   "how": {
     "mint": "<b>Mint</b> USDG ile ya da %{pct} indirimle $FLYAI ile. Mint açıkken tüm sinekler aynı görünür, bu yüzden kimse nadir olanları seçemez.",
     "reveal": "<b>Açılış.</b> Mint bitince gelecekteki bir bloğun hash'i, sözleşmenin içinde her sineğin özelliklerini belirler: nadirlik (Sıradan, Nadir olmayan, Nadir ya da Efsanevi), poz, renk, arka plan ve ekipman. Herkes zincirde kontrol edebilir.",
-    "activate": "<b>Aktif et</b>: USDG ya da $FLYAI ile. Aktif sinekler masada birlikte işlem yapar. Her mint ve her aktivasyon aynı şekilde bölünür: %80 sineklerin işlem havuzuna, %20 ekibe. Bir hafta havuzun önceki zirvesinin üstünde biterse, o kârın %95'i $FLYAI olarak aktif sineklere gider (%5 ekibe); nadirliğe ve ne kadar süre aktif kaldıklarına göre ağırlıklandırılır. Kayıtlı FLYAI evcil hayvanları (fiziksel tamagotchi'lerimiz) da 6x ile pay alır. Bir sineği satarsan durur; yeni sahibi tekrar aktif eder.",
+    "activate": "<b>Aktif et</b>: USDG ya da $FLYAI ile. Aktif sinekler masada birlikte işlem yapar. Her mint ve her aktivasyon aynı şekilde bölünür: %80 sineklerin işlem havuzuna, %20 ekibe. Bir hafta havuzun önceki zirvesinin üstünde biterse, o kârın %95'i $FLYAI olarak aktif sineklere gider (%5 ekibe); nadirliğe ve ne kadar süre aktif kaldıklarına göre ağırlıklandırılır. Kayıtlı FLYAI evcil hayvanları (fiziksel tamagotchi'lerimiz) da 3.5x ile pay alır. Bir sineği satarsan durur; yeni sahibi tekrar aktif eder.",
     "risk": "İşlem yapmak para kaybettirebilir ve kârsız bir hafta hiçbir şey ödemez. Buradaki hiçbir şey getiri vaat etmez."
   }
 }

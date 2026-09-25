@@ -110,7 +110,7 @@
   },
   "shop": {
     "title": "The shop",
-    "text": "Flies left over from the mint. Each costs the mint price times its rarity weight (Legendary 5x), in USDG or in $FLYAI at {pct}% off (pick above). The money splits like the mint: 80% to the flies' trading pool.",
+    "text": "Flies left over from the mint. Each costs the mint price times its rarity weight (Legendary 3x), in USDG or in $FLYAI at {pct}% off (pick above). The money splits like the mint: 80% to the flies' trading pool.",
     "step2": "Step 2 of 2: confirm the purchase in your wallet.",
     "yours": "Trader Fly #{id} is yours. Activate it below to put it on the desk.",
     "connectToBuy": "Connect to buy",
@@ -132,7 +132,7 @@
   "how": {
     "mint": "<b>Mint</b> in USDG, or in $FLYAI for {pct}% off. While minting is open every fly looks the same, so nobody can pick the rare ones.",
     "reveal": "<b>Reveal.</b> When minting ends, a future block's hash rolls every fly's traits in the contract itself: rarity (Common, Uncommon, Rare or Legendary), pose, colorway, background and gear. Anyone can check them on chain.",
-    "activate": "<b>Activate</b> in USDG or $FLYAI. Active flies trade together on the desk. Every mint and every activation splits the same way: 80% into the flies' trading pool, 20% to the team. When a week ends above the pool's previous high, 95% of that profit goes to active flies in $FLYAI (5% to the team), weighted by rarity and by how long they were active. Registered FLYAI pets, our physical tamagotchis, share it too at 6x. Sell a fly and it stops; the new holder activates it again.",
+    "activate": "<b>Activate</b> in USDG or $FLYAI. Active flies trade together on the desk. Every mint and every activation splits the same way: 80% into the flies' trading pool, 20% to the team. When a week ends above the pool's previous high, 95% of that profit goes to active flies in $FLYAI (5% to the team), weighted by rarity and by how long they were active. Registered FLYAI pets, our physical tamagotchis, share it too at 3.5x. Sell a fly and it stops; the new holder activates it again.",
     "risk": "Trading can lose money, and a week without profit pays nothing. Nothing here promises a return."
   }
 }

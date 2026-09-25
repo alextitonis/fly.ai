@@ -110,7 +110,7 @@
   },
   "shop": {
     "title": "La tienda",
-    "text": "Moscas que sobraron del mint. Cada una cuesta el precio de mint por su peso de rareza (Legendaria 5x), en USDG o en $FLYAI con {pct}% de descuento (elige arriba). El dinero se reparte como el mint: 80% al pool de trading de las moscas.",
+    "text": "Moscas que sobraron del mint. Cada una cuesta el precio de mint por su peso de rareza (Legendaria 3x), en USDG o en $FLYAI con {pct}% de descuento (elige arriba). El dinero se reparte como el mint: 80% al pool de trading de las moscas.",
     "step2": "Paso 2 de 2: confirma la compra en tu billetera.",
     "yours": "Trader Fly #{id} es tuya. Actívala abajo para ponerla en la mesa.",
     "connectToBuy": "Conecta para comprar",
@@ -132,7 +132,7 @@
   "how": {
     "mint": "<b>Mint</b> en USDG, o en $FLYAI con {pct}% de descuento. Mientras el mint está abierto todas las moscas se ven iguales, así nadie puede elegir las raras.",
     "reveal": "<b>Revelación.</b> Cuando termina el mint, el hash de un bloque futuro decide los rasgos de cada mosca dentro del propio contrato: rareza (Común, Poco común, Rara o Legendaria), pose, color, fondo y equipo. Cualquiera puede verificarlos en la cadena.",
-    "activate": "<b>Activa</b> en USDG o $FLYAI. Las moscas activas operan juntas en la mesa. Cada mint y cada activación se reparte igual: 80% al pool de trading de las moscas, 20% al equipo. Cuando una semana termina por encima del máximo anterior del pool, el 95% de esa ganancia va a las moscas activas en $FLYAI (5% al equipo), ponderado por rareza y por cuánto tiempo estuvieron activas. Las mascotas FLYAI registradas, nuestros tamagotchis físicos, también participan con 6x. Si vendes una mosca, se detiene; quien la compra la activa de nuevo.",
+    "activate": "<b>Activa</b> en USDG o $FLYAI. Las moscas activas operan juntas en la mesa. Cada mint y cada activación se reparte igual: 80% al pool de trading de las moscas, 20% al equipo. Cuando una semana termina por encima del máximo anterior del pool, el 95% de esa ganancia va a las moscas activas en $FLYAI (5% al equipo), ponderado por rareza y por cuánto tiempo estuvieron activas. Las mascotas FLYAI registradas, nuestros tamagotchis físicos, también participan con 3.5x. Si vendes una mosca, se detiene; quien la compra la activa de nuevo.",
     "risk": "El trading puede perder dinero, y una semana sin ganancias no paga nada. Nada de esto promete un rendimiento."
   }
 }
