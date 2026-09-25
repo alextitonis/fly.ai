@@ -3,7 +3,8 @@
     "menu": {
       "research": "Investigación",
       "apps": "Apps",
-      "token": "$FLYAI"
+      "token": "$FLYAI",
+      "traderflies": "Trader Flies"
     },
     "home": {
       "label": "Inicio"
@@ -47,6 +48,10 @@
     "desk": {
       "label": "Fly Desk",
       "desc": "Cerebros de mosca operan una cartera de papel"
+    },
+    "traderflies": {
+      "label": "Mint",
+      "desc": "El mint génesis de Trader Flies"
     },
     "compute": {
       "label": "Cómputo",

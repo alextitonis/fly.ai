@@ -3,7 +3,8 @@
     "menu": {
       "research": "Research",
       "apps": "Apps",
-      "token": "$FLYAI"
+      "token": "$FLYAI",
+      "traderflies": "Trader Flies"
     },
     "home": {
       "label": "Home"
@@ -47,6 +48,10 @@
     "desk": {
       "label": "Fly Desk",
       "desc": "Fly brains trade a paper book"
+    },
+    "traderflies": {
+      "label": "Mint",
+      "desc": "The Trader Flies genesis mint"
     },
     "compute": {
       "label": "Compute",

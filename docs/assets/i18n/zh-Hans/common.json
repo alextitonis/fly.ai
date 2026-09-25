@@ -3,7 +3,8 @@
     "menu": {
       "research": "研究",
       "apps": "应用",
-      "token": "$FLYAI"
+      "token": "$FLYAI",
+      "traderflies": "Trader Flies"
     },
     "home": {
       "label": "首页"
@@ -47,6 +48,10 @@
     "desk": {
       "label": "Fly Desk",
       "desc": "果蝇大脑在模拟账户里交易"
+    },
+    "traderflies": {
+      "label": "铸造",
+      "desc": "Trader Flies 创世铸造"
     },
     "compute": {
       "label": "算力",

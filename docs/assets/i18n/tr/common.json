@@ -3,7 +3,8 @@
     "menu": {
       "research": "Araştırma",
       "apps": "Uygulamalar",
-      "token": "$FLYAI"
+      "token": "$FLYAI",
+      "traderflies": "Trader Flies"
     },
     "home": {
       "label": "Ana sayfa"
@@ -47,6 +48,10 @@
     "desk": {
       "label": "Fly Desk",
       "desc": "Sinek beyinleri kağıt üzerinde işlem yapıyor"
+    },
+    "traderflies": {
+      "label": "Mint",
+      "desc": "Trader Flies genesis mint"
     },
     "compute": {
       "label": "Hesaplama",

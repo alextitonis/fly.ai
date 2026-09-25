@@ -3,7 +3,8 @@
     "menu": {
       "research": "연구",
       "apps": "앱",
-      "token": "$FLYAI"
+      "token": "$FLYAI",
+      "traderflies": "Trader Flies"
     },
     "home": {
       "label": "홈"
@@ -47,6 +48,10 @@
     "desk": {
       "label": "Fly Desk",
       "desc": "파리 뇌가 모의 포트폴리오를 거래합니다"
+    },
+    "traderflies": {
+      "label": "민팅",
+      "desc": "Trader Flies 제네시스 민팅"
     },
     "compute": {
       "label": "컴퓨트",
