@@ -120,7 +120,8 @@
     "notHolderOrListed": "Por ahora solo pueden mintear los holders de $FLYAI y la WL. Pronto se abre para todos.",
     "firstHours": "Hasta las {time} solo pueden mintear los holders de $FLYAI y la WL. Después se abre para todos.",
     "yours": "Esta wallet: {mine} minteadas · te quedan {left}",
-    "connectPhone": "Móvil / otras wallets"
+    "connectPhone": "Móvil / otras wallets",
+    "publicIn": "El mint público abre en"
   },
   "shop": {
     "title": "La tienda",

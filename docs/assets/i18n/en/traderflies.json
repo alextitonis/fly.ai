@@ -120,7 +120,8 @@
     "notHolderOrListed": "For now only $FLYAI holders and the WL can mint. It opens to everyone soon.",
     "firstHours": "Until {time} only $FLYAI holders and the WL can mint. Then it opens to everyone.",
     "yours": "This wallet: {mine} minted · {left} left to mint",
-    "connectPhone": "Phone / other wallets"
+    "connectPhone": "Phone / other wallets",
+    "publicIn": "Public mint opens in"
   },
   "shop": {
     "title": "The shop",

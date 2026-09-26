@@ -118,7 +118,8 @@
     "notHolderOrListed": "지금은 $FLYAI 홀더와 WL만 민팅할 수 있습니다. 곧 모두에게 열립니다.",
     "firstHours": "{time}까지는 $FLYAI 홀더와 WL만 민팅할 수 있습니다. 그 뒤 모두에게 열립니다.",
     "yours": "이 지갑: {mine}마리 민팅 · {left}마리 남음",
-    "connectPhone": "휴대폰 / 다른 지갑"
+    "connectPhone": "휴대폰 / 다른 지갑",
+    "publicIn": "공개 민팅까지"
   },
   "shop": {
     "title": "상점",

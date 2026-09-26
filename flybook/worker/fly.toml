@@ -2,8 +2,9 @@
 #   tick  the brain loop (CPU, no ports), one tick every 15 min
 #   api   holder-gated fly creation, https://flybook-worker.fly.dev (stops when idle)
 #   merch fly merch (merch.py run): turns paid designs into Fourthwall products, reads the shop's orders
+#   keeper the Trader Flies $FLYAI price (flyai_keeper.py --loop): keeps TraderFly's FLYAI price fresh (2026-09-26)
 # Deploy with flybook/worker/deploy.sh. Secrets: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, OPENROUTER_API_KEY,
-# FOURTHWALL_USER, FOURTHWALL_PASSWORD.
+# FOURTHWALL_USER, FOURTHWALL_PASSWORD; keeper: TRADERFLY_ADDRESS, KEEPER_KEY (the price keeper's key, prices only).
 app = "flybook-worker"
 primary_region = "cdg"
 
@@ -22,6 +23,7 @@ primary_region = "cdg"
   tick = "python flybook/worker/tick.py --every 120 --poke-poll 10 --market-every 600 --market-all"   # every active fly trades
   api = "python flybook/worker/api.py"
   merch = "python flybook/worker/merch.py run"
+  keeper = "python flybook/worker/flyai_keeper.py --loop"
 
 [http_service]
   internal_port = 8080
@@ -49,6 +51,12 @@ primary_region = "cdg"
   cpu_kind = "shared"
   cpus = 1
   memory = "512mb"
+
+[[vm]]
+  processes = ["keeper"]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "256mb"
 
 [[vm]]
   processes = ["merch"]

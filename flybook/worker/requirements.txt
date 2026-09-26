@@ -1,4 +1,5 @@
 flybrain==0.1.0
 requests>=2.31
+eth-account>=0.13   # flyai_keeper.py signs the Trader Flies price posts
 Pillow>=10.1
 segno>=1.6

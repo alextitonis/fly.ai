@@ -118,7 +118,8 @@
     "notHolderOrListed": "目前只有 $FLYAI 持有者和白名單可以鑄造，很快會向所有人開放。",
     "firstHours": "{time} 之前只有 $FLYAI 持有者和白名單可以鑄造，之後向所有人開放。",
     "yours": "此錢包：已鑄造 {mine} 隻 · 還可鑄造 {left} 隻",
-    "connectPhone": "手機 / 其他錢包"
+    "connectPhone": "手機 / 其他錢包",
+    "publicIn": "公開鑄造倒數"
   },
   "shop": {
     "title": "商店",

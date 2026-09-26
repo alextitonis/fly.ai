@@ -120,7 +120,8 @@
     "notHolderOrListed": "Şimdilik yalnızca $FLYAI holder'ları ve WL mint edebilir. Yakında herkese açılıyor.",
     "firstHours": "{time} saatine kadar yalnızca $FLYAI holder'ları ve WL mint edebilir. Sonra herkese açılır.",
     "yours": "Bu cüzdan: {mine} mint edildi · {left} kaldı",
-    "connectPhone": "Telefon / diğer cüzdanlar"
+    "connectPhone": "Telefon / diğer cüzdanlar",
+    "publicIn": "Herkese açık mint açılışına"
   },
   "shop": {
     "title": "Mağaza",
