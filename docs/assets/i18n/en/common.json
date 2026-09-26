@@ -70,6 +70,14 @@
     },
     "follow": {
       "label": "Follow @flydotai"
+    },
+    "traderflies_market": {
+      "label": "Market",
+      "desc": "Buy and sell Trader Flies"
+    },
+    "traderflies_claim": {
+      "label": "Claim",
+      "desc": "Collect your flies' $FLYAI"
     }
   },
   "footer": {

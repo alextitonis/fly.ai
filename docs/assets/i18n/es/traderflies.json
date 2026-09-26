@@ -2,10 +2,12 @@
   "nav": {
     "scoreboard": "Clasificación",
     "mint": "Mint",
+    "market": "Mercado",
     "boost": "Impulso",
     "claim": "Reclamar",
     "home": "fly.ai ↗",
-    "disconnect": "Desconectar"
+    "disconnect": "Desconectar",
+    "afterMint": "Se abre cuando termine el mint"
   },
   "flyAlt": "Una Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -27,25 +29,30 @@
     "flies": "moscas",
     "minted": "minteadas",
     "priceNote": "USDG, o ${flyai} en $FLYAI",
-    "perWallet": "por billetera"
+    "perWallet": "por billetera",
+    "early": "Las primeras 2 horas son para holders de $FLYAI y la WL; después se abre para todos."
   },
   "free": {
     "title": "Mint gratis",
-    "rule": "Las billeteras de nuestra lista gratis que tengan {amount} $FLYAI hacen mint de una mosca gratis. Quienes la reciben gratis la activan a mitad de precio.",
-    "soFar": { "one": "{count} mosca gratis minteada hasta ahora.", "other": "{count} moscas gratis minteadas hasta ahora." },
+    "rule": "Las wallets de la WL con {amount} $FLYAI mintean una mosca gratis (una de sus 10). Las de la WL con menos pueden mintear antes (primeras 2 horas), solo que sin la mosca gratis. Quien mintea gratis activa a mitad de precio.",
+    "soFar": {
+      "one": "{count} mosca gratis minteada hasta ahora.",
+      "other": "{count} moscas gratis minteadas hasta ahora."
+    },
     "check": "Revisar mi billetera",
     "checkWith": "Revisar con {name}",
     "checking": "Revisando…",
-    "listLater": "Tienes {bal} $FLYAI. La lista gratis se activa con el mint; vuelve a revisar entonces.",
-    "notListed": "Esta billetera no está en la lista gratis.",
-    "yesLaunch": "Estás en la lista gratis y tienes {bal} $FLYAI. Vuelve cuando abra el mint.",
-    "needMore": "Estás en la lista gratis. Ten {amount} $FLYAI para hacer mint (tienes {bal}).",
+    "listLater": "Tienes {bal} $FLYAI. La WL se activa con el mint; vuelve entonces.",
+    "notListed": "Esta wallet no está en la WL.",
+    "yesLaunch": "Estás en la WL y tienes {bal} $FLYAI. Vuelve cuando abra el mint.",
+    "needMore": "Estás en la WL: puedes mintear antes. Ten {amount} $FLYAI para llevarte también tu mosca gratis (tienes {bal}).",
     "opensWithMint": "El mint gratis abre junto con el mint.",
     "claimed": "Ya hiciste mint de tu mosca gratis.",
-    "button": "Estás en la lista · Mint de 1 gratis",
+    "button": "Estás en la WL · Mintea 1 gratis",
     "confirm": "Confirma el mint gratis en tu billetera.",
     "done": "Tu mosca gratis está minteada.",
-    "artLater": "Su arte se revela cuando termine el mint."
+    "artLater": "Su arte se revela cuando termine el mint.",
+    "checkPhone": "Comprobar con el móvil / otra wallet"
   },
   "buyFlyai": "Comprar $FLYAI →",
   "why": {
@@ -84,7 +91,7 @@
     "allowlistPrice": "precio allowlist",
     "status": "estado",
     "phase0": "Aún no abre",
-    "phase1": "Allowlist",
+    "phase1": "Holders + WL",
     "phase2": "Abierto",
     "revealed": "Revelado",
     "payWith": "Pagar con",
@@ -96,7 +103,7 @@
     "more": "Más",
     "busy": "Minteando…",
     "button": "Mint de {n} · {cost}",
-    "perWallet": "Hasta {n} moscas pagadas por billetera.",
+    "perWallet": "Hasta {n} moscas por wallet (una mosca gratis cuenta como una).",
     "ended": "El mint terminó.",
     "notOpen": "El mint aún no está abierto.",
     "notAllowlisted": "Esta billetera no está en la allowlist. El mint abierto viene después.",
@@ -105,17 +112,51 @@
     "need": "Necesitas {cost}.",
     "step2": "Paso 2 de 2: confirma el mint en tu billetera.",
     "confirm": "Confirma el mint en tu billetera.",
-    "done": { "one": "{count} mosca minteada.", "other": "{count} moscas minteadas." },
-    "artLater": "Tu arte se revela cuando termine el mint."
+    "done": {
+      "one": "{count} mosca minteada.",
+      "other": "{count} moscas minteadas."
+    },
+    "artLater": "Tu arte se revela cuando termine el mint.",
+    "notHolderOrListed": "Por ahora solo pueden mintear los holders de $FLYAI y la WL. Pronto se abre para todos.",
+    "firstHours": "Hasta las {time} solo pueden mintear los holders de $FLYAI y la WL. Después se abre para todos.",
+    "yours": "Esta wallet: {mine} minteadas · te quedan {left}",
+    "connectPhone": "Móvil / otras wallets"
   },
   "shop": {
     "title": "La tienda",
-    "text": "Moscas que sobraron del mint. Cada una cuesta el precio de mint por su peso de rareza (Legendaria 3x), en USDG o en $FLYAI con {pct}% de descuento (elige arriba). El dinero se reparte como el mint: 80% al pool de trading de las moscas.",
+    "text": "Moscas que sobraron del mint, más 100 hechas solo para la tienda. Cada una cuesta el precio de la tienda por su peso de rareza (Legendaria 3x), en USDG o en $FLYAI con {pct}% de descuento (elige arriba). El dinero se reparte como el mint: 80% al fondo de trading de las moscas.",
     "step2": "Paso 2 de 2: confirma la compra en tu billetera.",
     "yours": "Trader Fly #{id} es tuya. Actívala abajo para ponerla en la mesa.",
     "connectToBuy": "Conecta para comprar",
     "buy": "Comprar · {price}",
     "paused": "$FLYAI en pausa"
+  },
+  "market": {
+    "title": "Mercado",
+    "text": "Compra y vende Trader Flies con otros holders, en USDG. El vendedor cobra al instante, menos una comisión del {pct}%.",
+    "soon": "El mercado abre pronto.",
+    "forSale": "En venta",
+    "empty": "No hay nada en venta ahora mismo.",
+    "yourListing": "Tu anuncio",
+    "confirmBuy": "Confirma la compra en tu wallet.",
+    "bought": "Trader Fly #{id} es tuya. Actívala en la página de Mint para ponerla en la mesa.",
+    "sellTitle": "Vende tus moscas",
+    "sellText": "Pon un precio en USDG. Tu mosca se queda en tu wallet, y en la mesa, hasta que alguien la compre. Recibes el precio menos el {pct}%.",
+    "noFlies": "Esta wallet no tiene Trader Flies.",
+    "listedAt": "en venta por {price}",
+    "cancel": "Quitar de la venta",
+    "list": "Poner en venta",
+    "pricePlaceholder": "Precio en USDG",
+    "approveFirst": "Paso 1 de 2: deja que el mercado mueva esta mosca cuando se venda.",
+    "confirmList": "Confirma el anuncio en tu wallet.",
+    "listedOk": "Trader Fly #{id} está en venta por {price}.",
+    "cancelled": "Trader Fly #{id} ya no está en venta.",
+    "sellStops": "Una mosca vendida deja de operar hasta que el comprador la active.",
+    "why": {
+      "NotListed": "Esta mosca ya no está en venta.",
+      "PriceChanged": "El vendedor cambió el precio. Revísalo y vuelve a intentarlo.",
+      "ZeroPrice": "Pon un precio mayor que 0."
+    }
   },
   "mine": {
     "title": "Tus Trader Flies",
@@ -127,12 +168,51 @@
     "activate": "Activar",
     "step2": "Paso 2 de 2: confirma la activación en tu billetera.",
     "nowIdle": "Trader Fly #{id} está inactiva.",
-    "nowOn": "Trader Fly #{id} está en la mesa."
+    "nowOn": "Trader Fly #{id} está en la mesa.",
+    "afterMint": "La activación abre cuando termine el mint"
   },
   "how": {
     "mint": "<b>Mint</b> en USDG, o en $FLYAI con {pct}% de descuento. Mientras el mint está abierto todas las moscas se ven iguales, así nadie puede elegir las raras.",
     "reveal": "<b>Revelación.</b> Cuando termina el mint, el hash de un bloque futuro decide los rasgos de cada mosca dentro del propio contrato: rareza (Común, Poco común, Rara o Legendaria), pose, color, fondo y equipo. Cualquiera puede verificarlos en la cadena.",
     "activate": "<b>Activa</b> en USDG o $FLYAI. Las moscas activas operan juntas en la mesa. Cada mint y cada activación se reparte igual: 80% al pool de trading de las moscas, 20% al equipo. Cuando una semana termina por encima del máximo anterior del pool, el 95% de esa ganancia va a las moscas activas en $FLYAI (5% al equipo), ponderado por rareza y por cuánto tiempo estuvieron activas. Las mascotas FLYAI registradas, nuestros tamagotchis físicos, también participan con 3.5x. Si vendes una mosca, se detiene; quien la compra la activa de nuevo.",
     "risk": "El trading puede perder dinero, y una semana sin ganancias no paga nada. Nada de esto promete un rendimiento."
+  },
+  "claim": {
+    "soon": "Los pagos se abren tras la primera semana de trading.",
+    "connectFirst": "Conecta la wallet que tiene tus moscas.",
+    "ready": "Listo para cobrar",
+    "claimedSoFar": "Cobrado hasta ahora",
+    "paidWeeks": "Semanas pagadas",
+    "waiting": "La semana #{epoch} está en su periodo de espera y se puede cobrar desde {when}. Cada pago espera para poder revisarse antes de que nadie cobre.",
+    "nothingYet": "Esta wallet aún no tiene nada en los pagos. Solo las moscas activadas participan.",
+    "notActive": "Tu pago más reciente aún no está activo. Vuelve tras su periodo de espera.",
+    "th": {
+      "fly": "Mosca",
+      "rarity": "Rareza",
+      "bars": "Barras activa (semana pasada)",
+      "lastWeek": "Semana pasada",
+      "total": "Total ganado",
+      "toClaim": "Por cobrar"
+    },
+    "busy": "Cobrando…",
+    "button": "Cobrar {amount} $FLYAI",
+    "nothing": "Nada que cobrar",
+    "done": "Cobrado {amount} $FLYAI.",
+    "cantRead": "No se pueden leer los pagos ahora. {reason}",
+    "why": {
+      "BadProof": "Esta prueba aún no coincide con el pago activo. La semana más reciente puede seguir en su periodo de espera.",
+      "NothingToClaim": "Nada nuevo que cobrar: esta wallet ya cobró todo.",
+      "OverOwed": "El contrato de pagos rechazó este cobro. Avísanos, por favor."
+    }
+  },
+  "odds": {
+    "title": "Probabilidad de cada rareza",
+    "th": {
+      "rarity": "Rareza",
+      "chance": "Probabilidad",
+      "flies": "Moscas (de 1.100)",
+      "weight": "Peso en pagos"
+    },
+    "reveal": "Todas las moscas se ven iguales mientras el mint está abierto. Cuando termina (el reveal), el hash de un bloque futuro decide la rareza y los rasgos de cada mosca dentro del contrato, así que nadie puede elegirlos ni verlos antes, tampoco el equipo. Las cantidades son exactas: habrá 33 moscas Legendarias, no unas 33. La rareza fija la parte de los pagos de una mosca, nunca cómo opera."
   }
 }

@@ -70,6 +70,14 @@
     },
     "follow": {
       "label": "关注 @flydotai"
+    },
+    "traderflies_market": {
+      "label": "市场",
+      "desc": "买卖 Trader Flies"
+    },
+    "traderflies_claim": {
+      "label": "领取",
+      "desc": "领取你的苍蝇赚到的 $FLYAI"
     }
   },
   "footer": {

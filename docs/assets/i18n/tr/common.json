@@ -70,6 +70,14 @@
     },
     "follow": {
       "label": "@flydotai'yi takip et"
+    },
+    "traderflies_market": {
+      "label": "Pazar",
+      "desc": "Trader Flies al ve sat"
+    },
+    "traderflies_claim": {
+      "label": "Al",
+      "desc": "Sineklerinin $FLYAI'ını topla"
     }
   },
   "footer": {

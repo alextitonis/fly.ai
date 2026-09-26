@@ -2,10 +2,12 @@
   "nav": {
     "scoreboard": "Skor tablosu",
     "mint": "Mint",
+    "market": "Pazar",
     "boost": "Boost",
     "claim": "Talep et",
     "home": "fly.ai ↗",
-    "disconnect": "Bağlantıyı kes"
+    "disconnect": "Bağlantıyı kes",
+    "afterMint": "Mint bitince açılır"
   },
   "flyAlt": "Bir Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -27,25 +29,30 @@
     "flies": "sinek",
     "minted": "mint edildi",
     "priceNote": "USDG ya da ${flyai} değerinde $FLYAI",
-    "perWallet": "cüzdan başına"
+    "perWallet": "cüzdan başına",
+    "early": "İlk 2 saat $FLYAI holder'ları ve WL için, sonra herkese açılır."
   },
   "free": {
     "title": "Ücretsiz mint",
-    "rule": "Ücretsiz listemizde olan ve {amount} $FLYAI tutan cüzdanlar bir sineği ücretsiz mint eder. Ücretsiz mint edenler yarı fiyatına aktif eder.",
-    "soFar": { "one": "Şimdiye kadar {count} ücretsiz sinek mint edildi.", "other": "Şimdiye kadar {count} ücretsiz sinek mint edildi." },
+    "rule": "{amount} $FLYAI tutan WL cüzdanları bir sineği ücretsiz mint eder (10 sineğinden biri). Daha az tutan WL cüzdanları yine erken mint edebilir (ilk 2 saat), sadece ücretsiz sinek olmadan. Ücretsiz mint edenler yarı fiyata aktive eder.",
+    "soFar": {
+      "one": "Şimdiye kadar {count} ücretsiz sinek mint edildi.",
+      "other": "Şimdiye kadar {count} ücretsiz sinek mint edildi."
+    },
     "check": "Cüzdanımı kontrol et",
     "checkWith": "{name} ile kontrol et",
     "checking": "Kontrol ediliyor…",
-    "listLater": "{bal} $FLYAI tutuyorsun. Ücretsiz liste mint ile birlikte açılıyor; o zaman tekrar bak.",
-    "notListed": "Bu cüzdan ücretsiz listede değil.",
-    "yesLaunch": "Ücretsiz listedesin ve {bal} $FLYAI tutuyorsun. Mint açılınca geri gel.",
-    "needMore": "Ücretsiz listedesin. Mint etmek için {amount} $FLYAI tut (şu an {bal} tutuyorsun).",
+    "listLater": "{bal} $FLYAI tutuyorsun. WL mint ile birlikte açılıyor; o zaman tekrar bak.",
+    "notListed": "Bu cüzdan WL'de değil.",
+    "yesLaunch": "WL'desin ve {bal} $FLYAI tutuyorsun. Mint açılınca gel.",
+    "needMore": "WL'desin: erken mint edebilirsin. Ücretsiz sineğini de almak için {amount} $FLYAI tut ({bal} tutuyorsun).",
     "opensWithMint": "Ücretsiz mint, mint ile birlikte açılır.",
     "claimed": "Ücretsiz sineğini mint ettin.",
-    "button": "Listedesin · 1 ücretsiz mint et",
+    "button": "WL'desin · 1 ücretsiz mint et",
     "confirm": "Ücretsiz mint'i cüzdanında onayla.",
     "done": "Ücretsiz sineğin mint edildi.",
-    "artLater": "Görseli mint bitince açılır."
+    "artLater": "Görseli mint bitince açılır.",
+    "checkPhone": "Telefon / diğer cüzdanla kontrol et"
   },
   "buyFlyai": "$FLYAI al →",
   "why": {
@@ -84,7 +91,7 @@
     "allowlistPrice": "allowlist fiyatı",
     "status": "durum",
     "phase0": "Henüz açık değil",
-    "phase1": "Allowlist",
+    "phase1": "Holder'lar + WL",
     "phase2": "Açık",
     "revealed": "Açıklandı",
     "payWith": "Ödeme",
@@ -96,7 +103,7 @@
     "more": "Artır",
     "busy": "Mint ediliyor…",
     "button": "{n} mint et · {cost}",
-    "perWallet": "Cüzdan başına en fazla {n} ücretli sinek.",
+    "perWallet": "Cüzdan başına en fazla {n} sinek (ücretsiz sinek bunlardan biri sayılır).",
     "ended": "Mint bitti.",
     "notOpen": "Mint henüz açık değil.",
     "notAllowlisted": "Bu cüzdan allowlist'te değil. Açık mint ondan sonra gelecek.",
@@ -105,17 +112,51 @@
     "need": "{cost} gerekiyor.",
     "step2": "Adım 2/2: mint'i cüzdanında onayla.",
     "confirm": "Mint'i cüzdanında onayla.",
-    "done": { "one": "{count} sinek mint edildi.", "other": "{count} sinek mint edildi." },
-    "artLater": "Görselin mint bitince açılır."
+    "done": {
+      "one": "{count} sinek mint edildi.",
+      "other": "{count} sinek mint edildi."
+    },
+    "artLater": "Görselin mint bitince açılır.",
+    "notHolderOrListed": "Şimdilik yalnızca $FLYAI holder'ları ve WL mint edebilir. Yakında herkese açılıyor.",
+    "firstHours": "{time} saatine kadar yalnızca $FLYAI holder'ları ve WL mint edebilir. Sonra herkese açılır.",
+    "yours": "Bu cüzdan: {mine} mint edildi · {left} kaldı",
+    "connectPhone": "Telefon / diğer cüzdanlar"
   },
   "shop": {
     "title": "Mağaza",
-    "text": "Mint'ten kalan sinekler. Her birinin fiyatı mint fiyatı çarpı nadirlik ağırlığı (Efsanevi 3x); USDG ile ya da %{pct} indirimli $FLYAI ile ödenir (yukarıdan seç). Para mint gibi bölünür: %80 sineklerin işlem havuzuna gider.",
+    "text": "Mint'ten kalan sinekler, artı yalnızca mağaza için yapılmış 100 sinek daha. Her biri mağaza fiyatı çarpı nadirlik ağırlığı (Efsanevi 3x) tutar; USDG ile ya da %{pct} indirimle $FLYAI ile (yukarıdan seç). Para mint gibi bölünür: %80'i sineklerin trade havuzuna.",
     "step2": "Adım 2/2: satın almayı cüzdanında onayla.",
     "yours": "Trader Fly #{id} artık senin. Masaya koymak için aşağıdan aktif et.",
     "connectToBuy": "Satın almak için bağlan",
     "buy": "Satın al · {price}",
     "paused": "$FLYAI duraklatıldı"
+  },
+  "market": {
+    "title": "Pazar",
+    "text": "Trader Flies'ı diğer holder'larla USDG ile al ve sat. Satıcı parasını hemen alır, %{pct} komisyon düşülür.",
+    "soon": "Pazar yakında açılıyor.",
+    "forSale": "Satışta",
+    "empty": "Şu anda satışta bir şey yok.",
+    "yourListing": "Senin ilanın",
+    "confirmBuy": "Satın almayı cüzdanında onayla.",
+    "bought": "Trader Fly #{id} artık senin. Masaya koymak için Mint sayfasında aktive et.",
+    "sellTitle": "Sineklerini sat",
+    "sellText": "USDG cinsinden bir fiyat koy. Sineğin biri satın alana kadar cüzdanında ve masada kalır. Fiyatın %{pct} eksiğini alırsın.",
+    "noFlies": "Bu cüzdanda Trader Fly yok.",
+    "listedAt": "{price} fiyatla satışta",
+    "cancel": "İlanı kaldır",
+    "list": "Satışa koy",
+    "pricePlaceholder": "USDG cinsinden fiyat",
+    "approveFirst": "Adım 1/2: bu sinek satıldığında pazarın onu taşımasına izin ver.",
+    "confirmList": "İlanı cüzdanında onayla.",
+    "listedOk": "Trader Fly #{id}, {price} fiyatla satışta.",
+    "cancelled": "Trader Fly #{id} artık satışta değil.",
+    "sellStops": "Satılan bir sinek, alıcı aktive edene kadar trade yapmaz.",
+    "why": {
+      "NotListed": "Bu sinek artık satışta değil.",
+      "PriceChanged": "Satıcı fiyatı değiştirdi. Kontrol edip tekrar dene.",
+      "ZeroPrice": "0'dan büyük bir fiyat gir."
+    }
   },
   "mine": {
     "title": "Trader Flies'ın",
@@ -127,12 +168,51 @@
     "activate": "Aktif et",
     "step2": "Adım 2/2: aktivasyonu cüzdanında onayla.",
     "nowIdle": "Trader Fly #{id} artık boşta.",
-    "nowOn": "Trader Fly #{id} artık masada."
+    "nowOn": "Trader Fly #{id} artık masada.",
+    "afterMint": "Aktivasyon mint bitince açılır"
   },
   "how": {
     "mint": "<b>Mint</b> USDG ile ya da %{pct} indirimle $FLYAI ile. Mint açıkken tüm sinekler aynı görünür, bu yüzden kimse nadir olanları seçemez.",
     "reveal": "<b>Açılış.</b> Mint bitince gelecekteki bir bloğun hash'i, sözleşmenin içinde her sineğin özelliklerini belirler: nadirlik (Sıradan, Nadir olmayan, Nadir ya da Efsanevi), poz, renk, arka plan ve ekipman. Herkes zincirde kontrol edebilir.",
     "activate": "<b>Aktif et</b>: USDG ya da $FLYAI ile. Aktif sinekler masada birlikte işlem yapar. Her mint ve her aktivasyon aynı şekilde bölünür: %80 sineklerin işlem havuzuna, %20 ekibe. Bir hafta havuzun önceki zirvesinin üstünde biterse, o kârın %95'i $FLYAI olarak aktif sineklere gider (%5 ekibe); nadirliğe ve ne kadar süre aktif kaldıklarına göre ağırlıklandırılır. Kayıtlı FLYAI evcil hayvanları (fiziksel tamagotchi'lerimiz) da 3.5x ile pay alır. Bir sineği satarsan durur; yeni sahibi tekrar aktif eder.",
     "risk": "İşlem yapmak para kaybettirebilir ve kârsız bir hafta hiçbir şey ödemez. Buradaki hiçbir şey getiri vaat etmez."
+  },
+  "claim": {
+    "soon": "Ödemeler trade'in ilk haftasından sonra açılır.",
+    "connectFirst": "Sineklerini tutan cüzdanı bağla.",
+    "ready": "Almaya hazır",
+    "claimedSoFar": "Şimdiye kadar alınan",
+    "paidWeeks": "Ödenen haftalar",
+    "waiting": "{epoch}. hafta bekleme süresinde ve {when} itibarıyla alınabilir. Her ödeme, kimse almadan önce kontrol edilebilsin diye bekler.",
+    "nothingYet": "Bu cüzdanın ödemelerde henüz bir şeyi yok. Yalnızca aktive edilmiş sinekler pay alır.",
+    "notActive": "En yeni ödemen henüz aktif değil. Bekleme süresinden sonra gel.",
+    "th": {
+      "fly": "Sinek",
+      "rarity": "Nadirlik",
+      "bars": "Aktif bar (geçen hafta)",
+      "lastWeek": "Geçen hafta",
+      "total": "Toplam kazanç",
+      "toClaim": "Alınacak"
+    },
+    "busy": "Alınıyor…",
+    "button": "{amount} $FLYAI al",
+    "nothing": "Alınacak bir şey yok",
+    "done": "{amount} $FLYAI alındı.",
+    "cantRead": "Ödemeler şu anda okunamıyor. {reason}",
+    "why": {
+      "BadProof": "Bu kanıt henüz aktif ödemeyle eşleşmiyor. En yeni hafta hâlâ bekleme süresinde olabilir.",
+      "NothingToClaim": "Alınacak yeni bir şey yok: bu cüzdan her şeyi aldı.",
+      "OverOwed": "Ödeme sözleşmesi bu talebi reddetti. Lütfen bize haber ver."
+    }
+  },
+  "odds": {
+    "title": "Nadirlik olasılıkları",
+    "th": {
+      "rarity": "Nadirlik",
+      "chance": "Olasılık",
+      "flies": "Sinek (1.100 içinden)",
+      "weight": "Ödeme ağırlığı"
+    },
+    "reveal": "Mint açıkken tüm sinekler aynı görünür. Mint bitince (reveal), gelecekteki bir bloğun hash'i her sineğin nadirliğini ve özelliklerini sözleşmenin içinde belirler; bu yüzden ekip dahil kimse önceden seçemez ya da göremez. Sayılar kesindir: yaklaşık değil, tam 33 Efsanevi sinek olacak. Nadirlik bir sineğin ödeme payını belirler, nasıl trade yaptığını asla."
   }
 }

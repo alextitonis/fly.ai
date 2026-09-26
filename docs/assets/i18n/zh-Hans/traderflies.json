@@ -2,10 +2,12 @@
   "nav": {
     "scoreboard": "排行榜",
     "mint": "铸造",
+    "market": "市场",
     "boost": "加速",
     "claim": "领取",
     "home": "fly.ai ↗",
-    "disconnect": "断开连接"
+    "disconnect": "断开连接",
+    "afterMint": "铸造结束后开放"
   },
   "flyAlt": "一只 Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -27,25 +29,29 @@
     "flies": "只果蝇",
     "minted": "已铸造",
     "priceNote": "USDG，或 ${flyai} 的 $FLYAI",
-    "perWallet": "每个钱包"
+    "perWallet": "每个钱包",
+    "early": "前 2 小时仅限 $FLYAI 持有者和白名单，之后向所有人开放。"
   },
   "free": {
     "title": "免费铸造",
-    "rule": "在我们免费名单上、并持有 {amount} $FLYAI 的钱包，可以免费铸造一只果蝇。免费铸造者激活时享半价。",
-    "soFar": { "other": "目前已免费铸造 {count} 只。" },
+    "rule": "持有 {amount} $FLYAI 的白名单钱包可免费铸造一只苍蝇（计入其 10 只之内）。持有不足的白名单钱包仍可提前铸造（前 2 小时），只是没有免费苍蝇。免费铸造者以半价激活。",
+    "soFar": {
+      "other": "目前已免费铸造 {count} 只。"
+    },
     "check": "检查我的钱包",
     "checkWith": "用 {name} 检查",
     "checking": "检查中…",
-    "listLater": "你持有 {bal} $FLYAI。免费名单会在铸造开放时生效，到时再来看看。",
-    "notListed": "这个钱包不在免费名单上。",
-    "yesLaunch": "你在免费名单上，并持有 {bal} $FLYAI。铸造开放时再回来。",
-    "needMore": "你在免费名单上。持有 {amount} $FLYAI 即可铸造（你目前持有 {bal}）。",
+    "listLater": "你持有 {bal} $FLYAI。白名单随铸造开放，届时再来查看。",
+    "notListed": "这个钱包不在白名单上。",
+    "yesLaunch": "你在白名单上，持有 {bal} $FLYAI。铸造开始后再来。",
+    "needMore": "你在白名单上：可以提前铸造。持有 {amount} $FLYAI 还能获得免费苍蝇（你持有 {bal}）。",
     "opensWithMint": "免费铸造会和正式铸造同时开放。",
     "claimed": "你已经铸造了你的免费果蝇。",
-    "button": "你在名单上 · 免费铸造 1 只",
+    "button": "你在白名单上 · 免费铸造 1 只",
     "confirm": "请在钱包中确认免费铸造。",
     "done": "你的免费果蝇已铸造。",
-    "artLater": "它的画作会在铸造结束后揭晓。"
+    "artLater": "它的画作会在铸造结束后揭晓。",
+    "checkPhone": "用手机 / 其他钱包查看"
   },
   "buyFlyai": "购买 $FLYAI →",
   "why": {
@@ -84,7 +90,7 @@
     "allowlistPrice": "白名单价格",
     "status": "状态",
     "phase0": "尚未开放",
-    "phase1": "白名单",
+    "phase1": "持有者 + 白名单",
     "phase2": "开放中",
     "revealed": "已揭晓",
     "payWith": "支付方式",
@@ -96,7 +102,7 @@
     "more": "增加",
     "busy": "铸造中…",
     "button": "铸造 {n} 只 · {cost}",
-    "perWallet": "每个钱包最多付费铸造 {n} 只。",
+    "perWallet": "每个钱包最多 {n} 只（免费苍蝇算作其中一只）。",
     "ended": "铸造已结束。",
     "notOpen": "铸造尚未开放。",
     "notAllowlisted": "这个钱包不在白名单上。公开铸造稍后开放。",
@@ -105,17 +111,50 @@
     "need": "你需要 {cost}。",
     "step2": "第 2 步（共 2 步）：请在钱包中确认铸造。",
     "confirm": "请在钱包中确认铸造。",
-    "done": { "other": "已铸造 {count} 只果蝇。" },
-    "artLater": "你的画作会在铸造结束后揭晓。"
+    "done": {
+      "other": "已铸造 {count} 只果蝇。"
+    },
+    "artLater": "你的画作会在铸造结束后揭晓。",
+    "notHolderOrListed": "目前只有 $FLYAI 持有者和白名单可以铸造，很快会向所有人开放。",
+    "firstHours": "{time} 之前只有 $FLYAI 持有者和白名单可以铸造，之后向所有人开放。",
+    "yours": "此钱包：已铸造 {mine} 只 · 还可铸造 {left} 只",
+    "connectPhone": "手机 / 其他钱包"
   },
   "shop": {
     "title": "商店",
-    "text": "铸造结束后剩下的果蝇。每只的价格是铸造价乘以它的稀有度权重（传奇 3 倍），可用 USDG 或优惠 {pct}% 的 $FLYAI 支付（在上面选择）。收入的分配和铸造一样：80% 进入果蝇的交易池。",
+    "text": "铸造剩下的苍蝇，外加 100 只专为商店准备的。每只价格为商店价格乘以稀有度权重（传奇 3 倍），用 USDG 支付，或用 $FLYAI 享 {pct}% 折扣（在上方选择）。收入与铸造相同：80% 进入苍蝇的交易池。",
     "step2": "第 2 步（共 2 步）：请在钱包中确认购买。",
     "yours": "Trader Fly #{id} 归你了。在下面激活它，让它上交易台。",
     "connectToBuy": "连接后购买",
     "buy": "购买 · {price}",
     "paused": "$FLYAI 暂停"
+  },
+  "market": {
+    "title": "市场",
+    "text": "用 USDG 与其他持有者买卖 Trader Flies。卖家立即收款，扣除 {pct}% 手续费。",
+    "soon": "市场即将开放。",
+    "forSale": "在售",
+    "empty": "目前没有在售的苍蝇。",
+    "yourListing": "你的挂单",
+    "confirmBuy": "请在钱包中确认购买。",
+    "bought": "Trader Fly #{id} 归你了。在铸造页面激活它，让它上桌交易。",
+    "sellTitle": "出售你的苍蝇",
+    "sellText": "设置一个 USDG 价格。在有人购买之前，你的苍蝇留在你的钱包里，也继续在桌上交易。你将收到价格减去 {pct}%。",
+    "noFlies": "这个钱包没有 Trader Flies。",
+    "listedAt": "挂单价 {price}",
+    "cancel": "取消挂单",
+    "list": "挂单出售",
+    "pricePlaceholder": "USDG 价格",
+    "approveFirst": "第 1 步（共 2 步）：允许市场在售出时转移这只苍蝇。",
+    "confirmList": "请在钱包中确认挂单。",
+    "listedOk": "Trader Fly #{id} 已挂单，价格 {price}。",
+    "cancelled": "Trader Fly #{id} 已下架。",
+    "sellStops": "售出的苍蝇会停止交易，直到买家激活它。",
+    "why": {
+      "NotListed": "这只苍蝇已不再出售。",
+      "PriceChanged": "卖家改了价格。请查看后重试。",
+      "ZeroPrice": "请输入大于 0 的价格。"
+    }
   },
   "mine": {
     "title": "你的 Trader Flies",
@@ -127,12 +166,51 @@
     "activate": "激活",
     "step2": "第 2 步（共 2 步）：请在钱包中确认激活。",
     "nowIdle": "Trader Fly #{id} 已闲置。",
-    "nowOn": "Trader Fly #{id} 已上交易台。"
+    "nowOn": "Trader Fly #{id} 已上交易台。",
+    "afterMint": "铸造结束后开放激活"
   },
   "how": {
     "mint": "<b>铸造</b>：用 USDG，或用 $FLYAI 享 {pct}% 优惠。铸造期间每只果蝇看起来都一样，所以没人能挑走稀有的。",
     "reveal": "<b>揭晓。</b>铸造结束后，由一个未来区块的哈希在合约里决定每只果蝇的特征：稀有度（普通、罕见、稀有或传奇）、姿势、配色、背景和装备。任何人都可以在链上查看。",
     "activate": "<b>激活</b>：用 USDG 或 $FLYAI。激活的果蝇一起在交易台上交易。每笔铸造和每次激活的分配方式都一样：80% 进入果蝇的交易池，20% 给团队。当一周结束时交易池高于之前的最高点，这部分利润的 95% 会以 $FLYAI 分给激活的果蝇（5% 给团队），按稀有度和激活时长加权。已登记的 FLYAI 宠物（我们的实体电子宠物）也以 3.5 倍权重参与分配。果蝇卖出后会停止；新的持有者需要重新激活。",
     "risk": "交易可能亏损，没有利润的一周不会有分配。这里的任何内容都不承诺回报。"
+  },
+  "claim": {
+    "soon": "分红在交易第一周后开放。",
+    "connectFirst": "连接持有你苍蝇的钱包。",
+    "ready": "可领取",
+    "claimedSoFar": "已领取",
+    "paidWeeks": "已分红周数",
+    "waiting": "第 {epoch} 周处于等待期，可从 {when} 起领取。每次分红都会等待，以便在任何人领取前完成核查。",
+    "nothingYet": "这个钱包还没有分红。只有已激活的苍蝇参与分配。",
+    "notActive": "你最新的分红尚未生效。等待期结束后再来。",
+    "th": {
+      "fly": "苍蝇",
+      "rarity": "稀有度",
+      "bars": "活跃 K 线数（上周）",
+      "lastWeek": "上周",
+      "total": "累计收益",
+      "toClaim": "待领取"
+    },
+    "busy": "领取中…",
+    "button": "领取 {amount} $FLYAI",
+    "nothing": "没有可领取的",
+    "done": "已领取 {amount} $FLYAI。",
+    "cantRead": "暂时无法读取分红。{reason}",
+    "why": {
+      "BadProof": "此证明尚未匹配当前分红。最新一周可能仍在等待期。",
+      "NothingToClaim": "没有新的可领取：这个钱包已全部领取。",
+      "OverOwed": "分红合约拒绝了此次领取。请告诉我们。"
+    }
+  },
+  "odds": {
+    "title": "稀有度概率",
+    "th": {
+      "rarity": "稀有度",
+      "chance": "概率",
+      "flies": "数量（共 1,100 只）",
+      "weight": "分红权重"
+    },
+    "reveal": "铸造期间所有苍蝇看起来都一样。铸造结束时（揭晓），一个未来区块的哈希会在合约内决定每只苍蝇的稀有度和特征，所以包括团队在内，没人能提前挑选或看到。数量是精确的：传奇苍蝇正好 33 只，不是大约 33 只。稀有度只决定苍蝇的分红份额，从不影响它如何交易。"
   }
 }

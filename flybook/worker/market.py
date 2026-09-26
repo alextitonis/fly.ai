@@ -38,6 +38,7 @@ import random
 import time
 
 import numpy as np
+from statistics import NormalDist
 
 import feedflow
 import launches
@@ -96,6 +97,21 @@ SENSE_GAIN = {"target": "eyes", "threat": "eyes", "wind": "antennae"}
 # response relative to that action's typical response to its own sense (market_encoder_eval.py measures pick_ref).
 Z_FLOOR, Z_SPAN = 0.5, 2.5            # |z| under 0.5 is noise; z 3 is full strength
 CHOP_FLOOR, CHOP_SPAN = 0.8, 1.2      # mean |z| of an ordinary round is ~0.8
+# A wider field of view shows a bigger best mover just by looking at more tokens (the max of k z-scores grows with k),
+# so a fly seeing 24 tokens would feel a strong target on 18% of bars instead of 5% with nothing more going on
+# (flytrade/research/view_width.py, 2026-09-26). VIEW_CALIBRATE = n: the target is felt as surprising as the best of
+# n tokens would be (calibrate_max), whatever the view's size. None = off (Flybook's market).
+VIEW_CALIBRATE: int | None = None
+_N = NormalDist()
+
+
+def calibrate_max(z: float, k: int, base: int) -> float:
+    """The z the best of `base` draws needs to be as rare as the best of `k` reaching z: P(max of k < z) = Phi(z)^k,
+    the same event as Phi(z')^base. Monotone, so it never changes which token is the target, only how hard it hits."""
+    if k <= base:
+        return z
+    p = min(max(_N.cdf(z), 1e-12), 1 - 1e-12) ** (k / base)
+    return _N.inv_cdf(min(max(p, 1e-12), 1 - 1e-12))
 # stimulus at strength 0+ .. 1, from dose sweeps (24 flies per level, standard / sentinel / jumpy profiles):
 #   threat -> jumped   0.005: 0/4/8%   0.01: 12/0/46%   0.015: 33/4/79%   0.02: 100/75/100%   0.03: 100% all
 #   target -> turned   0.2: 4/8/8%   0.4: 21/50/46%   0.8: 100% all
@@ -271,6 +287,8 @@ def felt(portfolio: dict, prices: dict, history: list[dict], settings: dict, min
         push = {s: v for s, v in z["move"].items() if v > 0}
         mean_tube = float(np.mean([tube(s) for s in push])) if push else 1.0
         noticed = {s: v * tube(s) / mean_tube for s, v in push.items()}
+        if VIEW_CALIBRATE and len(prices) > VIEW_CALIBRATE:     # a wide view: felt like the best of VIEW_CALIBRATE
+            noticed = {s: calibrate_max(v, len(prices), VIEW_CALIBRATE) for s, v in noticed.items()}
     else:
         mean_tube = float(np.mean([tube(s) for s in moves])) if moves else 1.0
         noticed = {s: m * tube(s) / mean_tube for s, m in moves.items() if m > 0}
@@ -324,17 +342,21 @@ def felt(portfolio: dict, prices: dict, history: list[dict], settings: dict, min
     return out
 
 
-def field_of_view(portfolio: dict, mind: dict, symbols: list[str], k: int, rng: random.Random, tubes_on: bool) -> set:
-    """k tokens drawn without replacement, weighted by the fly's tube to each (1 when tubes are off), plus its holdings."""
+def field_of_view(portfolio: dict, mind: dict, symbols: list[str], k: int, rng: random.Random, tubes_on: bool,
+                  always: set | None = None) -> set:
+    """k tokens drawn without replacement, weighted by the fly's tube to each (1 when tubes are off), plus its holdings
+    and any `always` tokens that are priced (the desk's majors, 2026-09-26: one in 300, a 6-token draw almost never
+    showed a fly ETH, SOL or BNB). Only what it SEES changes; whether it buys is still the brain's."""
+    always = set(always or ()) & set(symbols)
     held = {s for s, h in portfolio["holdings"].items() if h["qty"] > 0}
-    pool = [s for s in symbols if s not in held]
+    pool = [s for s in symbols if s not in held and s not in always]
     seen: set = set()
     while pool and len(seen) < k:
         weights = [minds.tube(mind, s) if tubes_on else 1.0 for s in pool]
         pick = rng.choices(pool, weights=weights)[0]
         seen.add(pick)
         pool.remove(pick)
-    return seen | held
+    return seen | held | always
 
 
 def run_brains(eps, reader, settings: list[dict], drives: list[dict], rewards: list[float], seed: int):
@@ -492,7 +514,7 @@ def simulate_round(state: dict, eps, reader, rng: np.random.Generator, flies: li
         view = None
         if state.get("view"):
             view = field_of_view(state["portfolios"][f["id"]], state["minds"][f["id"]], list(prices), state["view"], py_rng,
-                                 own[f["id"]].get("tubes", True))
+                                 own[f["id"]].get("tubes", True), state.get("always_view"))
         return felt(state["portfolios"][f["id"]], prices, history, settings_of(f), state["minds"][f["id"]], own[f["id"]], social, mood,
                     encoder=state.get("encoder", "v1"), vols=state.get("vols"), view=view)
     settings_of = lambda f: {k: f.get(k) or {} for k in ("senses", "temperament", "dials")}

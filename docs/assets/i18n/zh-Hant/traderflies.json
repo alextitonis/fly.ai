@@ -2,10 +2,12 @@
   "nav": {
     "scoreboard": "排行榜",
     "mint": "鑄造",
+    "market": "市場",
     "boost": "加速",
     "claim": "領取",
     "home": "fly.ai ↗",
-    "disconnect": "中斷連接"
+    "disconnect": "中斷連接",
+    "afterMint": "鑄造結束後開放"
   },
   "flyAlt": "一隻 Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -27,25 +29,29 @@
     "flies": "隻果蠅",
     "minted": "已鑄造",
     "priceNote": "USDG，或 ${flyai} 的 $FLYAI",
-    "perWallet": "每個錢包"
+    "perWallet": "每個錢包",
+    "early": "前 2 小時僅限 $FLYAI 持有者和白名單，之後向所有人開放。"
   },
   "free": {
     "title": "免費鑄造",
-    "rule": "在我們免費名單上、並持有 {amount} $FLYAI 的錢包，可以免費鑄造一隻果蠅。免費鑄造者啟用時享半價。",
-    "soFar": { "other": "目前已免費鑄造 {count} 隻。" },
+    "rule": "持有 {amount} $FLYAI 的白名單錢包可免費鑄造一隻蒼蠅（計入其 10 隻之內）。持有不足的白名單錢包仍可提前鑄造（前 2 小時），只是沒有免費蒼蠅。免費鑄造者以半價啟用。",
+    "soFar": {
+      "other": "目前已免費鑄造 {count} 隻。"
+    },
     "check": "檢查我的錢包",
     "checkWith": "用 {name} 檢查",
     "checking": "檢查中…",
-    "listLater": "你持有 {bal} $FLYAI。免費名單會在鑄造開放時生效，到時再來看看。",
-    "notListed": "這個錢包不在免費名單上。",
-    "yesLaunch": "你在免費名單上，並持有 {bal} $FLYAI。鑄造開放時再回來。",
-    "needMore": "你在免費名單上。持有 {amount} $FLYAI 即可鑄造（你目前持有 {bal}）。",
+    "listLater": "你持有 {bal} $FLYAI。白名單隨鑄造開放，屆時再來查看。",
+    "notListed": "這個錢包不在白名單上。",
+    "yesLaunch": "你在白名單上，持有 {bal} $FLYAI。鑄造開始後再來。",
+    "needMore": "你在白名單上：可以提前鑄造。持有 {amount} $FLYAI 還能獲得免費蒼蠅（你持有 {bal}）。",
     "opensWithMint": "免費鑄造會和正式鑄造同時開放。",
     "claimed": "你已經鑄造了你的免費果蠅。",
-    "button": "你在名單上 · 免費鑄造 1 隻",
+    "button": "你在白名單上 · 免費鑄造 1 隻",
     "confirm": "請在錢包中確認免費鑄造。",
     "done": "你的免費果蠅已鑄造。",
-    "artLater": "它的畫作會在鑄造結束後揭曉。"
+    "artLater": "它的畫作會在鑄造結束後揭曉。",
+    "checkPhone": "用手機 / 其他錢包查看"
   },
   "buyFlyai": "購買 $FLYAI →",
   "why": {
@@ -84,7 +90,7 @@
     "allowlistPrice": "白名單價格",
     "status": "狀態",
     "phase0": "尚未開放",
-    "phase1": "白名單",
+    "phase1": "持有者 + 白名單",
     "phase2": "開放中",
     "revealed": "已揭曉",
     "payWith": "付款方式",
@@ -96,7 +102,7 @@
     "more": "增加",
     "busy": "鑄造中…",
     "button": "鑄造 {n} 隻 · {cost}",
-    "perWallet": "每個錢包最多付費鑄造 {n} 隻。",
+    "perWallet": "每個錢包最多 {n} 隻（免費蒼蠅算作其中一隻）。",
     "ended": "鑄造已結束。",
     "notOpen": "鑄造尚未開放。",
     "notAllowlisted": "這個錢包不在白名單上。公開鑄造稍後開放。",
@@ -105,17 +111,50 @@
     "need": "你需要 {cost}。",
     "step2": "第 2 步（共 2 步）：請在錢包中確認鑄造。",
     "confirm": "請在錢包中確認鑄造。",
-    "done": { "other": "已鑄造 {count} 隻果蠅。" },
-    "artLater": "你的畫作會在鑄造結束後揭曉。"
+    "done": {
+      "other": "已鑄造 {count} 隻果蠅。"
+    },
+    "artLater": "你的畫作會在鑄造結束後揭曉。",
+    "notHolderOrListed": "目前只有 $FLYAI 持有者和白名單可以鑄造，很快會向所有人開放。",
+    "firstHours": "{time} 之前只有 $FLYAI 持有者和白名單可以鑄造，之後向所有人開放。",
+    "yours": "此錢包：已鑄造 {mine} 隻 · 還可鑄造 {left} 隻",
+    "connectPhone": "手機 / 其他錢包"
   },
   "shop": {
     "title": "商店",
-    "text": "鑄造結束後剩下的果蠅。每隻的價格是鑄造價乘以它的稀有度權重（傳奇 3 倍），可用 USDG 或優惠 {pct}% 的 $FLYAI 付款（在上面選擇）。收入的分配和鑄造一樣：80% 進入果蠅的交易池。",
+    "text": "鑄造剩下的蒼蠅，外加 100 隻專為商店準備的。每隻價格為商店價格乘以稀有度權重（傳奇 3 倍），用 USDG 支付，或用 $FLYAI 享 {pct}% 折扣（在上方選擇）。收入與鑄造相同：80% 進入蒼蠅的交易池。",
     "step2": "第 2 步（共 2 步）：請在錢包中確認購買。",
     "yours": "Trader Fly #{id} 歸你了。在下面啟用它，讓它上交易台。",
     "connectToBuy": "連接後購買",
     "buy": "購買 · {price}",
     "paused": "$FLYAI 暫停"
+  },
+  "market": {
+    "title": "市場",
+    "text": "用 USDG 與其他持有者買賣 Trader Flies。賣家立即收款，扣除 {pct}% 手續費。",
+    "soon": "市場即將開放。",
+    "forSale": "出售中",
+    "empty": "目前沒有出售中的蒼蠅。",
+    "yourListing": "你的掛單",
+    "confirmBuy": "請在錢包中確認購買。",
+    "bought": "Trader Fly #{id} 歸你了。在鑄造頁面啟用它，讓它上桌交易。",
+    "sellTitle": "出售你的蒼蠅",
+    "sellText": "設定一個 USDG 價格。在有人購買之前，你的蒼蠅留在你的錢包裡，也繼續在桌上交易。你將收到價格減去 {pct}%。",
+    "noFlies": "這個錢包沒有 Trader Flies。",
+    "listedAt": "掛單價 {price}",
+    "cancel": "取消掛單",
+    "list": "掛單出售",
+    "pricePlaceholder": "USDG 價格",
+    "approveFirst": "第 1 步（共 2 步）：允許市場在售出時轉移這隻蒼蠅。",
+    "confirmList": "請在錢包中確認掛單。",
+    "listedOk": "Trader Fly #{id} 已掛單，價格 {price}。",
+    "cancelled": "Trader Fly #{id} 已下架。",
+    "sellStops": "售出的蒼蠅會停止交易，直到買家啟用它。",
+    "why": {
+      "NotListed": "這隻蒼蠅已不再出售。",
+      "PriceChanged": "賣家改了價格。請查看後重試。",
+      "ZeroPrice": "請輸入大於 0 的價格。"
+    }
   },
   "mine": {
     "title": "你的 Trader Flies",
@@ -127,12 +166,51 @@
     "activate": "啟用",
     "step2": "第 2 步（共 2 步）：請在錢包中確認啟用。",
     "nowIdle": "Trader Fly #{id} 已閒置。",
-    "nowOn": "Trader Fly #{id} 已上交易台。"
+    "nowOn": "Trader Fly #{id} 已上交易台。",
+    "afterMint": "鑄造結束後開放啟用"
   },
   "how": {
     "mint": "<b>鑄造</b>：用 USDG，或用 $FLYAI 享 {pct}% 優惠。鑄造期間每隻果蠅看起來都一樣，所以沒人能挑走稀有的。",
     "reveal": "<b>揭曉。</b>鑄造結束後，由一個未來區塊的雜湊在合約裡決定每隻果蠅的特徵：稀有度（普通、罕見、稀有或傳奇）、姿勢、配色、背景和裝備。任何人都可以在鏈上查看。",
     "activate": "<b>啟用</b>：用 USDG 或 $FLYAI。啟用的果蠅一起在交易台上交易。每筆鑄造和每次啟用的分配方式都一樣：80% 進入果蠅的交易池，20% 給團隊。當一週結束時交易池高於之前的最高點，這部分利潤的 95% 會以 $FLYAI 分給啟用的果蠅（5% 給團隊），按稀有度和啟用時長加權。已登記的 FLYAI 寵物（我們的實體電子寵物）也以 3.5 倍權重參與分配。果蠅賣出後會停止；新的持有者需要重新啟用。",
     "risk": "交易可能虧損，沒有利潤的一週不會有分配。這裡的任何內容都不承諾回報。"
+  },
+  "claim": {
+    "soon": "分紅在交易第一週後開放。",
+    "connectFirst": "連接持有你蒼蠅的錢包。",
+    "ready": "可領取",
+    "claimedSoFar": "已領取",
+    "paidWeeks": "已分紅週數",
+    "waiting": "第 {epoch} 週處於等待期，可從 {when} 起領取。每次分紅都會等待，以便在任何人領取前完成核查。",
+    "nothingYet": "這個錢包還沒有分紅。只有已啟用的蒼蠅參與分配。",
+    "notActive": "你最新的分紅尚未生效。等待期結束後再來。",
+    "th": {
+      "fly": "蒼蠅",
+      "rarity": "稀有度",
+      "bars": "活躍 K 線數（上週）",
+      "lastWeek": "上週",
+      "total": "累計收益",
+      "toClaim": "待領取"
+    },
+    "busy": "領取中…",
+    "button": "領取 {amount} $FLYAI",
+    "nothing": "沒有可領取的",
+    "done": "已領取 {amount} $FLYAI。",
+    "cantRead": "暫時無法讀取分紅。{reason}",
+    "why": {
+      "BadProof": "此證明尚未符合當前分紅。最新一週可能仍在等待期。",
+      "NothingToClaim": "沒有新的可領取：這個錢包已全部領取。",
+      "OverOwed": "分紅合約拒絕了此次領取。請告訴我們。"
+    }
+  },
+  "odds": {
+    "title": "稀有度機率",
+    "th": {
+      "rarity": "稀有度",
+      "chance": "機率",
+      "flies": "數量（共 1,100 隻）",
+      "weight": "分紅權重"
+    },
+    "reveal": "鑄造期間所有蒼蠅看起來都一樣。鑄造結束時（揭曉），一個未來區塊的雜湊會在合約內決定每隻蒼蠅的稀有度和特徵，所以包括團隊在內，沒人能提前挑選或看到。數量是精確的：傳奇蒼蠅正好 33 隻，不是大約 33 隻。稀有度只決定蒼蠅的分紅份額，從不影響它如何交易。"
   }
 }

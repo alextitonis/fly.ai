@@ -2,10 +2,12 @@
   "nav": {
     "scoreboard": "Scoreboard",
     "mint": "Mint",
+    "market": "Market",
     "boost": "Boost",
     "claim": "Claim",
     "home": "fly.ai ↗",
-    "disconnect": "Disconnect"
+    "disconnect": "Disconnect",
+    "afterMint": "Opens when the mint ends"
   },
   "flyAlt": "A Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -27,25 +29,30 @@
     "flies": "flies",
     "minted": "minted",
     "priceNote": "USDG, or ${flyai} in $FLYAI",
-    "perWallet": "per wallet"
+    "perWallet": "per wallet",
+    "early": "The first 2 hours are for $FLYAI holders and the WL, then it opens to everyone."
   },
   "free": {
     "title": "Free mint",
-    "rule": "Wallets on our free list that hold {amount} $FLYAI mint one fly free. Free minters activate at half price.",
-    "soFar": { "one": "{count} free fly minted so far.", "other": "{count} free flies minted so far." },
+    "rule": "WL wallets holding {amount} $FLYAI mint one fly free (one of their 10). WL wallets holding less can still mint early (first 2 hours), just without the free fly. Free minters activate at half price.",
+    "soFar": {
+      "one": "{count} free fly minted so far.",
+      "other": "{count} free flies minted so far."
+    },
     "check": "Check my wallet",
     "checkWith": "Check with {name}",
     "checking": "Checking…",
-    "listLater": "You hold {bal} $FLYAI. The free list goes live with the mint; check back then.",
-    "notListed": "This wallet isn't on the free list.",
-    "yesLaunch": "You're on the free list and hold {bal} $FLYAI. Come back when the mint opens.",
-    "needMore": "You're on the free list. Hold {amount} $FLYAI to mint it (you hold {bal}).",
+    "listLater": "You hold {bal} $FLYAI. The WL goes live with the mint; check back then.",
+    "notListed": "This wallet isn't on the WL.",
+    "yesLaunch": "You're on the WL and hold {bal} $FLYAI. Come back when the mint opens.",
+    "needMore": "You're on the WL: you can mint early. Hold {amount} $FLYAI to get your free fly too (you hold {bal}).",
     "opensWithMint": "The free mint opens with the mint.",
     "claimed": "You've minted your free fly.",
-    "button": "You're on the list · Mint 1 free",
+    "button": "You're on the WL · Mint 1 free",
     "confirm": "Confirm the free mint in your wallet.",
     "done": "Your free fly is minted.",
-    "artLater": "Its art is revealed when minting ends."
+    "artLater": "Its art is revealed when minting ends.",
+    "checkPhone": "Check with a phone / other wallet"
   },
   "buyFlyai": "Buy $FLYAI →",
   "why": {
@@ -84,7 +91,7 @@
     "allowlistPrice": "allowlist price",
     "status": "status",
     "phase0": "Not open yet",
-    "phase1": "Allowlist",
+    "phase1": "Holders + WL",
     "phase2": "Open",
     "revealed": "Revealed",
     "payWith": "Pay with",
@@ -96,7 +103,7 @@
     "more": "More",
     "busy": "Minting…",
     "button": "Mint {n} · {cost}",
-    "perWallet": "Up to {n} paid flies per wallet.",
+    "perWallet": "Up to {n} flies per wallet (a free fly counts as one).",
     "ended": "Minting has ended.",
     "notOpen": "Minting isn't open yet.",
     "notAllowlisted": "This wallet isn't on the allowlist. The open mint comes after.",
@@ -105,17 +112,51 @@
     "need": "You need {cost}.",
     "step2": "Step 2 of 2: confirm the mint in your wallet.",
     "confirm": "Confirm the mint in your wallet.",
-    "done": { "one": "Minted {count} fly.", "other": "Minted {count} flies." },
-    "artLater": "Your art is revealed when minting ends."
+    "done": {
+      "one": "Minted {count} fly.",
+      "other": "Minted {count} flies."
+    },
+    "artLater": "Your art is revealed when minting ends.",
+    "notHolderOrListed": "For now only $FLYAI holders and the WL can mint. It opens to everyone soon.",
+    "firstHours": "Until {time} only $FLYAI holders and the WL can mint. Then it opens to everyone.",
+    "yours": "This wallet: {mine} minted · {left} left to mint",
+    "connectPhone": "Phone / other wallets"
   },
   "shop": {
     "title": "The shop",
-    "text": "Flies left over from the mint. Each costs the mint price times its rarity weight (Legendary 3x), in USDG or in $FLYAI at {pct}% off (pick above). The money splits like the mint: 80% to the flies' trading pool.",
+    "text": "Flies left over from the mint, plus 100 more made only for the shop. Each costs the shop price times its rarity weight (Legendary 3x), in USDG or in $FLYAI at {pct}% off (pick above). The money splits like the mint: 80% to the flies' trading pool.",
     "step2": "Step 2 of 2: confirm the purchase in your wallet.",
     "yours": "Trader Fly #{id} is yours. Activate it below to put it on the desk.",
     "connectToBuy": "Connect to buy",
     "buy": "Buy · {price}",
     "paused": "$FLYAI paused"
+  },
+  "market": {
+    "title": "Marketplace",
+    "text": "Buy and sell Trader Flies with other holders, in USDG. The seller gets paid straight away, less a {pct}% fee.",
+    "soon": "The marketplace opens soon.",
+    "forSale": "For sale",
+    "empty": "Nothing is listed right now.",
+    "yourListing": "Your listing",
+    "confirmBuy": "Confirm the purchase in your wallet.",
+    "bought": "Trader Fly #{id} is yours. Activate it on the Mint page to put it on the desk.",
+    "sellTitle": "Sell your flies",
+    "sellText": "Set a price in USDG. Your fly stays in your wallet, and on the desk, until someone buys it. You get the price less {pct}%.",
+    "noFlies": "This wallet has no Trader Flies.",
+    "listedAt": "listed at {price}",
+    "cancel": "Cancel listing",
+    "list": "List for sale",
+    "pricePlaceholder": "Price in USDG",
+    "approveFirst": "Step 1 of 2: let the marketplace move this fly when it sells.",
+    "confirmList": "Confirm the listing in your wallet.",
+    "listedOk": "Trader Fly #{id} is listed at {price}.",
+    "cancelled": "Trader Fly #{id} is no longer for sale.",
+    "sellStops": "A sold fly stops trading until the buyer activates it.",
+    "why": {
+      "NotListed": "This fly isn't for sale anymore.",
+      "PriceChanged": "The seller changed the price. Check it and try again.",
+      "ZeroPrice": "Enter a price above 0."
+    }
   },
   "mine": {
     "title": "Your Trader Flies",
@@ -127,12 +168,51 @@
     "activate": "Activate",
     "step2": "Step 2 of 2: confirm the activation in your wallet.",
     "nowIdle": "Trader Fly #{id} is idle.",
-    "nowOn": "Trader Fly #{id} is on the desk."
+    "nowOn": "Trader Fly #{id} is on the desk.",
+    "afterMint": "Activation opens when the mint ends"
   },
   "how": {
     "mint": "<b>Mint</b> in USDG, or in $FLYAI for {pct}% off. While minting is open every fly looks the same, so nobody can pick the rare ones.",
     "reveal": "<b>Reveal.</b> When minting ends, a future block's hash rolls every fly's traits in the contract itself: rarity (Common, Uncommon, Rare or Legendary), pose, colorway, background and gear. Anyone can check them on chain.",
     "activate": "<b>Activate</b> in USDG or $FLYAI. Active flies trade together on the desk. Every mint and every activation splits the same way: 80% into the flies' trading pool, 20% to the team. When a week ends above the pool's previous high, 95% of that profit goes to active flies in $FLYAI (5% to the team), weighted by rarity and by how long they were active. Registered FLYAI pets, our physical tamagotchis, share it too at 3.5x. Sell a fly and it stops; the new holder activates it again.",
     "risk": "Trading can lose money, and a week without profit pays nothing. Nothing here promises a return."
+  },
+  "claim": {
+    "soon": "Payouts open after the first week of trading.",
+    "connectFirst": "Connect the wallet that holds your flies.",
+    "ready": "Ready to claim",
+    "claimedSoFar": "Claimed so far",
+    "paidWeeks": "Paid weeks",
+    "waiting": "Week #{epoch} is in its waiting period and can be claimed from {when}. Every payout waits so it can be checked before anyone claims.",
+    "nothingYet": "This wallet has nothing in the payouts yet. Only activated flies share in them.",
+    "notActive": "Your newest payout isn't active yet. Come back after its waiting period.",
+    "th": {
+      "fly": "Fly",
+      "rarity": "Rarity",
+      "bars": "Bars active (last week)",
+      "lastWeek": "Last week",
+      "total": "Total earned",
+      "toClaim": "To claim"
+    },
+    "busy": "Claiming…",
+    "button": "Claim {amount} $FLYAI",
+    "nothing": "Nothing to claim",
+    "done": "Claimed {amount} $FLYAI.",
+    "cantRead": "Can't read the payouts right now. {reason}",
+    "why": {
+      "BadProof": "This proof doesn't match the active payout yet. The newest week may still be in its waiting period.",
+      "NothingToClaim": "Nothing new to claim: this wallet has claimed everything so far.",
+      "OverOwed": "The payout contract refused this claim. Please tell us."
+    }
+  },
+  "odds": {
+    "title": "Rarity chances",
+    "th": {
+      "rarity": "Rarity",
+      "chance": "Chance",
+      "flies": "Flies (of 1,100)",
+      "weight": "Payout weight"
+    },
+    "reveal": "Every fly looks the same while the mint is open. When it ends (the reveal), a future block's hash rolls every fly's rarity and traits inside the contract, so nobody can pick or see them before, the team included. The counts are exact: there will be 33 Legendary flies, not about 33. Rarity sets a fly's share of the payouts, never how it trades."
   }
 }

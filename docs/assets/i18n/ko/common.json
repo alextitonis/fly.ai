@@ -70,6 +70,14 @@
     },
     "follow": {
       "label": "@flydotai 팔로우"
+    },
+    "traderflies_market": {
+      "label": "마켓",
+      "desc": "Trader Flies 사고팔기"
+    },
+    "traderflies_claim": {
+      "label": "받기",
+      "desc": "파리들의 $FLYAI 받기"
     }
   },
   "footer": {
