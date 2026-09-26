@@ -7,7 +7,8 @@
     "claim": "Reclamar",
     "home": "fly.ai ↗",
     "disconnect": "Desconectar",
-    "afterMint": "Se abre cuando termine el mint"
+    "afterMint": "Se abre cuando termine el mint",
+    "pets": "Hardware NFTs"
   },
   "flyAlt": "Una Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -220,6 +221,101 @@
     "title": "Contratos",
     "nft": "Trader Flies (NFT)",
     "market": "Mercado",
-    "note": "Robinhood Chain, verificados en el explorador. Aprueba o envía solo a estas direcciones."
+    "note": "Robinhood Chain, verificados en el explorador. Aprueba o envía solo a estas direcciones.",
+    "pets": "Reservas de mascotas FLYAI"
+  },
+  "pets": {
+    "kicker": "Hardware NFTs · mascotas FLYAI",
+    "title": "Una mosca en tu bolsillo",
+    "lede": "Las mascotas FLYAI son pequeños dispositivos de mano con una mosca que vive en la pantalla. Críala, juega con ella y, una vez registrada, recibe una parte de las ganancias semanales de las Trader Flies, como una mosca en la mesa.",
+    "soon": "Las reservas abren pronto. Vuelve aquí y conecta tu wallet cuando abran.",
+    "deviceAlt": "Una mascota FLYAI",
+    "deviceCaption": "Ilustración: una mosca ASCII en una pantalla táctil de 1,64 pulgadas",
+    "priceEach": "por mascota",
+    "left": "quedan",
+    "closed": "Aún no abierto",
+    "openNow": "Reservas abiertas",
+    "notOpen": "Las reservas aún no están abiertas.",
+    "confirm": "Confirma la reserva en tu wallet.",
+    "ordered": {
+      "one": "Reservada {count} mascota.",
+      "other": "Reservadas {count} mascotas."
+    },
+    "button": "Reservar {n} · {cost}",
+    "yourOrders": "Tus reservas",
+    "pieces": {
+      "one": "{count} mascota",
+      "other": "{count} mascotas"
+    },
+    "refunded": "reembolsada",
+    "shipButton": "Añadir datos de envío",
+    "shipSent": "Datos de envío recibidos.",
+    "shipIntro": "¿A dónde la enviamos? Tu wallet firma estos datos para que sepamos que vienen del comprador (sin transacción, sin coste).",
+    "shipSign": "Firmar y enviar",
+    "shipPrivacy": "Se guardan en privado y solo se usan para enviar tu mascota. Nunca en la cadena, nunca visibles para nadie más.",
+    "ship": {
+      "name": "Nombre completo",
+      "email": "Email",
+      "phone": "Teléfono",
+      "address1": "Dirección",
+      "address2": "Piso, puerta (opcional)",
+      "city": "Ciudad",
+      "region": "Provincia / región",
+      "postcode": "Código postal",
+      "country": "País"
+    },
+    "why": {
+      "Closed": "Las reservas no están abiertas ahora.",
+      "SoldOut": "No quedan suficientes mascotas para esa cantidad.",
+      "WalletLimit": "Esta wallet ya reservó su máximo.",
+      "PriceChanged": "El precio acaba de cambiar. Revísalo y vuelve a intentarlo."
+    },
+    "whatTitle": "Qué hace tu mascota",
+    "what": {
+      "grow": "<b>Crece.</b> Sale de un huevo, se vuelve larva, luego mosca, y evoluciona a una de cinco formas (gym, chonk, degen, lover, zen) según cómo la críes. Sube de nivel para desbloquear gorros.",
+      "care": "<b>Te necesita.</b> Toca para alimentarla, mantén pulsado para acariciarla. Agita el dispositivo y se marea, inclínalo y se desliza, déjalo quieto y se duerme. Si la ignoras se enfada; si la sobrealimentas engorda.",
+      "play": "<b>Juegos.</b> Swat (30 segundos aplastando moscas) y Simon (repite el patrón de neuronas). Los mejores récords se guardan en el dispositivo.",
+      "quests": "<b>Misiones diarias y rachas.</b> Tres misiones al día, una racha por volver, XP por todo lo que haces.",
+      "focus": "<b>Sesiones de concentración.</b> Conéctala a un ordenador y vigila un temporizador de 25, 50 o 90 minutos: si la levantas, la sesión se rompe.",
+      "price": "<b>Sigue a $FLYAI.</b> Con Wi-Fi reacciona al precio de $FLYAI.",
+      "friends": "<b>Conoce a otras moscas.</b> Detecta otras mascotas FLYAI cercanas por Bluetooth."
+    },
+    "chainTitle": "Cómo funciona en la cadena",
+    "chain": {
+      "order": "<b>Reserva</b> con tu wallet, en USDG (los holders con 1M+ $FLYAI pagan un 10% menos). El pedido queda registrado en la cadena.",
+      "ship": "<b>La fabricamos y enviamos</b> a la dirección que indiques tras reservar.",
+      "register": "<b>Registrada, no minteada.</b> Cada mascota crea su propia clave al encenderse por primera vez. Añadimos su dirección pública al registro de mascotas en Robinhood Chain; no se mintea ningún NFT.",
+      "bind": "<b>Vincúlala a tu wallet.</b> Conecta el dispositivo; firma por tu wallet, y esa wallet recibe su parte.",
+      "share": "<b>Participa en las ganancias de la mesa.</b> Las mascotas registradas reciben una parte del reparto semanal de las Trader Flies a 3,5x, más que una mosca Legendaria (3x). Siempre activas: no hace falta activarlas.",
+      "risk": "El trading puede perder dinero y una semana sin ganancias no paga nada. Una mascota es ante todo un gadget; nada aquí promete rendimientos."
+    },
+    "faqTitle": "Preguntas",
+    "faq": {
+      "nft": {
+        "q": "¿Es un NFT?",
+        "a": "No se mintea ningún NFT. Se registra en la cadena la dirección del propio dispositivo, y la mascota demuestra quién es firmando con su clave."
+      },
+      "wallet": {
+        "q": "¿Qué wallet recibe la parte de la mascota?",
+        "a": "La wallet que vinculas al configurar el dispositivo. Si lo regalas, el nuevo dueño vincula la suya."
+      },
+      "refund": {
+        "q": "¿Y si no se puede enviar?",
+        "a": "Tu pedido se reembolsa en el mismo token con el que pagaste."
+      },
+      "shipping": {
+        "q": "¿Cuándo se envía?",
+        "a": "El envío está incluido en el precio, a todo el mundo. Los aranceles o tasas de aduana de tu país corren de tu cuenta. Anunciaremos las fechas de envío en nuestros canales y las reservas se fabrican por orden. Si no podemos enviar a tu país, se reembolsa tu pedido."
+      },
+      "privacy": {
+        "q": "¿Qué pasa con mi dirección?",
+        "a": "Se guarda en privado, solo se usa para el envío y nunca va a la cadena."
+      }
+    },
+    "shipIncl": "Envío mundial incluido. Los aranceles o tasas de aduana de tu país, si los hay, corren de tu cuenta.",
+    "holderRule": "Los holders con {amount}+ $FLYAI en su wallet pagan un {pct}% menos: {price}.",
+    "holderYes": "Tienes {amount}+ $FLYAI: tu precio tiene un {pct}% de descuento, {price} por mascota.",
+    "preorderNote": "Precio de reserva. $150 cuando las mascotas salgan a la venta.",
+    "preordered": "reservadas"
   }
 }

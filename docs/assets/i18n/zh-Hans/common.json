@@ -78,6 +78,10 @@
     "traderflies_claim": {
       "label": "领取",
       "desc": "领取你的苍蝇赚到的 $FLYAI"
+    },
+    "traderflies_pets": {
+      "label": "Hardware NFTs",
+      "desc": "FLYAI 宠物：预订一只口袋苍蝇"
     }
   },
   "footer": {

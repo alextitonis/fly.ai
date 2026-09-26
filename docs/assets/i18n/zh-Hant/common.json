@@ -78,6 +78,10 @@
     "traderflies_claim": {
       "label": "領取",
       "desc": "領取你的蒼蠅賺到的 $FLYAI"
+    },
+    "traderflies_pets": {
+      "label": "Hardware NFTs",
+      "desc": "FLYAI 寵物：預訂一隻口袋蒼蠅"
     }
   },
   "footer": {

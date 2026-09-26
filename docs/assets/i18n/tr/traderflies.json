@@ -7,7 +7,8 @@
     "claim": "Talep et",
     "home": "fly.ai ↗",
     "disconnect": "Bağlantıyı kes",
-    "afterMint": "Mint bitince açılır"
+    "afterMint": "Mint bitince açılır",
+    "pets": "Hardware NFTs"
   },
   "flyAlt": "Bir Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -220,6 +221,101 @@
     "title": "Sözleşmeler",
     "nft": "Trader Flies (NFT)",
     "market": "Pazar",
-    "note": "Robinhood Chain, explorer'da doğrulanmış. Yalnızca bu adreslere onay ver veya gönder."
+    "note": "Robinhood Chain, explorer'da doğrulanmış. Yalnızca bu adreslere onay ver veya gönder.",
+    "pets": "FLYAI evcil hayvan ön siparişleri"
+  },
+  "pets": {
+    "kicker": "Hardware NFTs · FLYAI evcil hayvanları",
+    "title": "Cebinde bir sinek",
+    "lede": "FLYAI evcil hayvanları, ekranında bir sineğin yaşadığı küçük el cihazlarıdır. Onu büyüt, onunla oyna; kaydedildikten sonra masadaki bir sinek gibi Trader Flies'ın haftalık kârından pay alır.",
+    "soon": "Ön siparişler yakında açılıyor. Açıldığında buraya gelip cüzdanını bağla.",
+    "deviceAlt": "Bir FLYAI evcil hayvanı",
+    "deviceCaption": "Çizim: 1,64 inçlik dokunmatik ekranda bir ASCII sinek",
+    "priceEach": "adet başı",
+    "left": "kaldı",
+    "closed": "Henüz açık değil",
+    "openNow": "Ön sipariş açık",
+    "notOpen": "Ön siparişler henüz açık değil.",
+    "confirm": "Ön siparişi cüzdanında onayla.",
+    "ordered": {
+      "one": "{count} evcil hayvan ön sipariş edildi.",
+      "other": "{count} evcil hayvan ön sipariş edildi."
+    },
+    "button": "{n} ön sipariş · {cost}",
+    "yourOrders": "Ön siparişlerin",
+    "pieces": {
+      "one": "{count} evcil hayvan",
+      "other": "{count} evcil hayvan"
+    },
+    "refunded": "iade edildi",
+    "shipButton": "Kargo bilgilerini ekle",
+    "shipSent": "Kargo bilgileri alındı.",
+    "shipIntro": "Nereye gönderelim? Cüzdanın bu bilgileri imzalar, böylece alıcıdan geldiğini biliriz (işlem yok, ücret yok).",
+    "shipSign": "İmzala ve gönder",
+    "shipPrivacy": "Gizli saklanır ve yalnızca evcil hayvanını göndermek için kullanılır. Asla zincire yazılmaz, kimseye gösterilmez.",
+    "ship": {
+      "name": "Ad soyad",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "address1": "Adres",
+      "address2": "Daire, kat (isteğe bağlı)",
+      "city": "Şehir",
+      "region": "İl / bölge",
+      "postcode": "Posta kodu",
+      "country": "Ülke"
+    },
+    "why": {
+      "Closed": "Ön siparişler şu an açık değil.",
+      "SoldOut": "Bu kadar evcil hayvan kalmadı.",
+      "WalletLimit": "Bu cüzdan maksimum ön siparişini verdi.",
+      "PriceChanged": "Fiyat az önce değişti. Kontrol edip tekrar dene."
+    },
+    "whatTitle": "Evcil hayvanın ne yapar",
+    "what": {
+      "grow": "<b>Büyür.</b> Yumurtadan çıkar, larva olur, sonra sinek olur ve nasıl büyüttüğüne göre beş formdan birine evrilir (gym, chonk, degen, lover, zen). Seviye atlayıp şapkaların kilidini aç.",
+      "care": "<b>Sana ihtiyacı var.</b> Beslemek için dokun, sevmek için basılı tut. Cihazı salla başı döner, eğ kayar, hareketsiz bırak uyur. Onu ihmal edersen huysuzlanır; fazla beslersen şişmanlar.",
+      "play": "<b>Oyunlar.</b> Swat (30 saniye sinek ezme) ve Simon (nöron desenini tekrarla). En iyi skorlar cihazda saklanır.",
+      "quests": "<b>Günlük görevler ve seriler.</b> Günde üç görev, geri gelmek için bir seri, yaptığın her şey için XP.",
+      "focus": "<b>Odak seansları.</b> Bilgisayara tak; 25, 50 veya 90 dakikalık bir sayacı korur: onu kaldırırsan seans bozulur.",
+      "price": "<b>$FLYAI'yı izler.</b> Wi-Fi'da $FLYAI fiyatına tepki verir.",
+      "friends": "<b>Diğer sineklerle tanışır.</b> Yakındaki diğer FLYAI evcil hayvanlarını Bluetooth ile fark eder."
+    },
+    "chainTitle": "Zincirde nasıl çalışır",
+    "chain": {
+      "order": "<b>Ön sipariş</b> ver, cüzdanınla, USDG ile (1M+ $FLYAI holder'ları %10 daha az öder). Sipariş zincire kaydedilir.",
+      "ship": "<b>Üretip gönderiyoruz</b>, sipariş sonrası verdiğin adrese.",
+      "register": "<b>Kaydedilir, mint edilmez.</b> Her evcil hayvan ilk açılışta kendi anahtarını üretir. Açık adresini Robinhood Chain'deki evcil hayvan kaydına ekleriz; NFT mint edilmez.",
+      "bind": "<b>Cüzdanına bağla.</b> Cihazı tak; cüzdanın için imza atar ve payını o cüzdan alır.",
+      "share": "<b>Masanın kârından pay alır.</b> Kayıtlı evcil hayvanlar Trader Flies'ın haftalık kâr payından 3,5x ile pay alır, Efsanevi bir sinekten (3x) fazla. Hep açık: aktivasyon gerekmez.",
+      "risk": "Trade para kaybettirebilir ve kârsız bir hafta hiçbir şey ödemez. Evcil hayvan her şeyden önce bir oyuncak; burada hiçbir getiri vaadi yoktur."
+    },
+    "faqTitle": "Sorular",
+    "faq": {
+      "nft": {
+        "q": "NFT mi?",
+        "a": "NFT mint edilmez. Evcil hayvanın kendi cihaz adresi zincire kaydedilir ve evcil hayvan anahtarıyla imza atarak kimliğini kanıtlar."
+      },
+      "wallet": {
+        "q": "Evcil hayvanın payını hangi cüzdan alır?",
+        "a": "Cihazı kurarken bağladığın cüzdan. Cihazı başkasına verirsen yeni sahibi kendi cüzdanını bağlar."
+      },
+      "refund": {
+        "q": "Gönderilemezse ne olur?",
+        "a": "Siparişin, ödediğin token ile iade edilir."
+      },
+      "shipping": {
+        "q": "Ne zaman gönderilir?",
+        "a": "Kargo fiyata dahil, dünya çapında. Ülkendeki gümrük vergileri veya ücretleri sana aittir. Gönderim tarihlerini kanallarımızda duyuracağız; ön siparişler sırayla üretilir. Ülkene gönderemezsek siparişin iade edilir."
+      },
+      "privacy": {
+        "q": "Adresime ne olur?",
+        "a": "Gizli saklanır, yalnızca kargo için kullanılır ve asla zincire yazılmaz."
+      }
+    },
+    "shipIncl": "Dünya çapında kargo dahil. Ülkendeki olası gümrük vergileri ve ücretleri sana aittir.",
+    "holderRule": "Cüzdanında {amount}+ $FLYAI olan holder'lar %{pct} daha az öder: {price}.",
+    "holderYes": "{amount}+ $FLYAI tutuyorsun: fiyatın %{pct} indirimli, evcil hayvan başına {price}.",
+    "preorderNote": "Ön sipariş fiyatı. Evcil hayvanlar satışa çıkınca $150.",
+    "preordered": "ön sipariş"
   }
 }

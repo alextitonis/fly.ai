@@ -7,7 +7,8 @@
     "claim": "領取",
     "home": "fly.ai ↗",
     "disconnect": "中斷連接",
-    "afterMint": "鑄造結束後開放"
+    "afterMint": "鑄造結束後開放",
+    "pets": "Hardware NFTs"
   },
   "flyAlt": "一隻 Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -218,6 +219,101 @@
     "title": "合約",
     "nft": "Trader Flies（NFT）",
     "market": "市場",
-    "note": "Robinhood Chain，已在區塊瀏覽器驗證。只向這些地址授權或轉帳。"
+    "note": "Robinhood Chain，已在區塊瀏覽器驗證。只向這些地址授權或轉帳。",
+    "pets": "FLYAI 寵物預訂"
+  },
+  "pets": {
+    "kicker": "Hardware NFTs · FLYAI 寵物",
+    "title": "口袋裡的蒼蠅",
+    "lede": "FLYAI 寵物是一個小巧的掌上裝置，螢幕裡住著一隻蒼蠅。養大它、陪它玩；註冊之後，它會像桌上的蒼蠅一樣，分得 Trader Flies 每週利潤的一份。",
+    "soon": "預訂即將開放。開放後回到這裡連線錢包。",
+    "deviceAlt": "一隻 FLYAI 寵物",
+    "deviceCaption": "示意圖：1.64 英寸觸控式螢幕上的 ASCII 蒼蠅",
+    "priceEach": "每隻",
+    "left": "剩餘",
+    "closed": "尚未開放",
+    "openNow": "預訂開放中",
+    "notOpen": "預訂尚未開放。",
+    "confirm": "請在錢包中確認預訂。",
+    "ordered": {
+      "one": "已預訂 {count} 只寵物。",
+      "other": "已預訂 {count} 只寵物。"
+    },
+    "button": "預訂 {n} 只 · {cost}",
+    "yourOrders": "你的預訂",
+    "pieces": {
+      "one": "{count} 只寵物",
+      "other": "{count} 只寵物"
+    },
+    "refunded": "已退款",
+    "shipButton": "填寫收貨資訊",
+    "shipSent": "已收到收貨資訊。",
+    "shipIntro": "寄到哪裡？你的錢包會對這些資訊簽名，讓我們確認是買家本人提交的（無交易，無費用）。",
+    "shipSign": "簽名並提交",
+    "shipPrivacy": "私密儲存，僅用於寄送你的寵物。絕不上鍊，也不會向任何人展示。",
+    "ship": {
+      "name": "姓名",
+      "email": "郵箱",
+      "phone": "電話",
+      "address1": "地址",
+      "address2": "門牌、單元（可選）",
+      "city": "城市",
+      "region": "省 / 州",
+      "postcode": "郵編",
+      "country": "國家"
+    },
+    "why": {
+      "Closed": "預訂當前未開放。",
+      "SoldOut": "剩餘寵物不夠這個數量。",
+      "WalletLimit": "此錢包已達到預訂上限。",
+      "PriceChanged": "價格剛剛變了。請檢視後重試。"
+    },
+    "whatTitle": "你的寵物能做什麼",
+    "what": {
+      "grow": "<b>會長大。</b>從蛋孵化，變成幼蟲，再變成蒼蠅，並根據你的養法進化成五種形態之一（gym、chonk、degen、lover、zen）。升級可解鎖帽子。",
+      "care": "<b>需要你照顧。</b>點選餵食，長按撫摸。搖晃裝置它會頭暈，傾斜它會滑動，放著不動它會睡著。冷落它會鬧脾氣，喂太多會變胖。",
+      "play": "<b>小遊戲。</b>Swat（30 秒拍蒼蠅）和 Simon（重複神經元圖案）。最高分儲存在裝置上。",
+      "quests": "<b>每日任務和連續記錄。</b>每天三個任務，回來就能延續連續記錄，做什麼都有 XP。",
+      "focus": "<b>專注模式。</b>連線電腦後，它會守護一個 25、50 或 90 分鐘的計時器：拿起裝置，專注就會中斷。",
+      "price": "<b>關注 $FLYAI。</b>連上 Wi-Fi 後會對 $FLYAI 價格做出反應。",
+      "friends": "<b>結識其他蒼蠅。</b>透過藍芽發現附近的其他 FLYAI 寵物。"
+    },
+    "chainTitle": "鏈上如何運作",
+    "chain": {
+      "order": "<b>預訂</b>：用錢包以 USDG 支付（持有 1M+ $FLYAI 的持有者便宜 10%）。訂單記錄在鏈上。",
+      "ship": "<b>我們製作並寄出</b>，寄到你下單後填寫的地址。",
+      "register": "<b>註冊，而非鑄造。</b>每隻寵物首次開機時生成自己的金鑰。我們把它的公開地址加入 Robinhood Chain 上的寵物登錄檔；不會鑄造 NFT。",
+      "bind": "<b>繫結你的錢包。</b>連線裝置後，它為你的錢包簽名，由該錢包領取它的份額。",
+      "share": "<b>分享桌上的利潤。</b>已註冊的寵物按 3.5 倍參與 Trader Flies 每週的利潤分配，高於傳奇蒼蠅（3 倍）。始終生效，無需啟用。",
+      "risk": "交易可能虧損，沒有利潤的一週不會分配任何東西。寵物首先是一個小玩意兒；這裡不承諾任何回報。"
+    },
+    "faqTitle": "常見問題",
+    "faq": {
+      "nft": {
+        "q": "它是 NFT 嗎？",
+        "a": "不鑄造 NFT。寵物裝置自己的地址登記在鏈上，寵物用自己的金鑰簽名來證明身份。"
+      },
+      "wallet": {
+        "q": "哪個錢包領取寵物的份額？",
+        "a": "你設定裝置時繫結的錢包。如果把裝置送人，新主人會繫結自己的錢包。"
+      },
+      "refund": {
+        "q": "如果無法發貨呢？",
+        "a": "你的訂單會以支付時的同一種代幣退款。"
+      },
+      "shipping": {
+        "q": "什麼時候發貨？",
+        "a": "價格已含全球運費。你所在國家的進口關稅或清關費用由你承擔。我們會在官方頻道公佈發貨日期，預訂按順序製作。如果無法寄送到你的國家，訂單會退款。"
+      },
+      "privacy": {
+        "q": "我的地址會怎樣？",
+        "a": "私密儲存，僅用於發貨，絕不上鍊。"
+      }
+    },
+    "shipIncl": "含全球運費。你所在國家如有進口關稅或清關費用，由你承擔。",
+    "holderRule": "錢包裡持有 {amount}+ $FLYAI 的持有者便宜 {pct}%：{price}。",
+    "holderYes": "你持有 {amount}+ $FLYAI：你的價格優惠 {pct}%，每隻 {price}。",
+    "preorderNote": "預訂價。寵物正式上線後為 $150。",
+    "preordered": "已預訂"
   }
 }

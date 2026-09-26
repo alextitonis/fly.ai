@@ -78,6 +78,10 @@
     "traderflies_claim": {
       "label": "받기",
       "desc": "파리들의 $FLYAI 받기"
+    },
+    "traderflies_pets": {
+      "label": "Hardware NFTs",
+      "desc": "FLYAI 펫: 주머니 파리 사전 주문"
     }
   },
   "footer": {

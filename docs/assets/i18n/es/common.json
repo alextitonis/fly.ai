@@ -78,6 +78,10 @@
     "traderflies_claim": {
       "label": "Cobrar",
       "desc": "Recoge el $FLYAI de tus moscas"
+    },
+    "traderflies_pets": {
+      "label": "Hardware NFTs",
+      "desc": "Mascotas FLYAI: reserva una mosca de bolsillo"
     }
   },
   "footer": {

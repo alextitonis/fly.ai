@@ -7,7 +7,8 @@
     "claim": "领取",
     "home": "fly.ai ↗",
     "disconnect": "断开连接",
-    "afterMint": "铸造结束后开放"
+    "afterMint": "铸造结束后开放",
+    "pets": "Hardware NFTs"
   },
   "flyAlt": "一只 Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -218,6 +219,101 @@
     "title": "合约",
     "nft": "Trader Flies（NFT）",
     "market": "市场",
-    "note": "Robinhood Chain，已在区块浏览器验证。只向这些地址授权或转账。"
+    "note": "Robinhood Chain，已在区块浏览器验证。只向这些地址授权或转账。",
+    "pets": "FLYAI 宠物预订"
+  },
+  "pets": {
+    "kicker": "Hardware NFTs · FLYAI 宠物",
+    "title": "口袋里的苍蝇",
+    "lede": "FLYAI 宠物是一个小巧的掌上设备，屏幕里住着一只苍蝇。养大它、陪它玩；注册之后，它会像桌上的苍蝇一样，分得 Trader Flies 每周利润的一份。",
+    "soon": "预订即将开放。开放后回到这里连接钱包。",
+    "deviceAlt": "一只 FLYAI 宠物",
+    "deviceCaption": "示意图：1.64 英寸触摸屏上的 ASCII 苍蝇",
+    "priceEach": "每只",
+    "left": "剩余",
+    "closed": "尚未开放",
+    "openNow": "预订开放中",
+    "notOpen": "预订尚未开放。",
+    "confirm": "请在钱包中确认预订。",
+    "ordered": {
+      "one": "已预订 {count} 只宠物。",
+      "other": "已预订 {count} 只宠物。"
+    },
+    "button": "预订 {n} 只 · {cost}",
+    "yourOrders": "你的预订",
+    "pieces": {
+      "one": "{count} 只宠物",
+      "other": "{count} 只宠物"
+    },
+    "refunded": "已退款",
+    "shipButton": "填写收货信息",
+    "shipSent": "已收到收货信息。",
+    "shipIntro": "寄到哪里？你的钱包会对这些信息签名，让我们确认是买家本人提交的（无交易，无费用）。",
+    "shipSign": "签名并提交",
+    "shipPrivacy": "私密保存，仅用于寄送你的宠物。绝不上链，也不会向任何人展示。",
+    "ship": {
+      "name": "姓名",
+      "email": "邮箱",
+      "phone": "电话",
+      "address1": "地址",
+      "address2": "门牌、单元（可选）",
+      "city": "城市",
+      "region": "省 / 州",
+      "postcode": "邮编",
+      "country": "国家"
+    },
+    "why": {
+      "Closed": "预订当前未开放。",
+      "SoldOut": "剩余宠物不够这个数量。",
+      "WalletLimit": "此钱包已达到预订上限。",
+      "PriceChanged": "价格刚刚变了。请查看后重试。"
+    },
+    "whatTitle": "你的宠物能做什么",
+    "what": {
+      "grow": "<b>会长大。</b>从蛋孵化，变成幼虫，再变成苍蝇，并根据你的养法进化成五种形态之一（gym、chonk、degen、lover、zen）。升级可解锁帽子。",
+      "care": "<b>需要你照顾。</b>点击喂食，长按抚摸。摇晃设备它会头晕，倾斜它会滑动，放着不动它会睡着。冷落它会闹脾气，喂太多会变胖。",
+      "play": "<b>小游戏。</b>Swat（30 秒拍苍蝇）和 Simon（重复神经元图案）。最高分保存在设备上。",
+      "quests": "<b>每日任务和连续记录。</b>每天三个任务，回来就能延续连续记录，做什么都有 XP。",
+      "focus": "<b>专注模式。</b>连接电脑后，它会守护一个 25、50 或 90 分钟的计时器：拿起设备，专注就会中断。",
+      "price": "<b>关注 $FLYAI。</b>连上 Wi-Fi 后会对 $FLYAI 价格做出反应。",
+      "friends": "<b>结识其他苍蝇。</b>通过蓝牙发现附近的其他 FLYAI 宠物。"
+    },
+    "chainTitle": "链上如何运作",
+    "chain": {
+      "order": "<b>预订</b>：用钱包以 USDG 支付（持有 1M+ $FLYAI 的持有者便宜 10%）。订单记录在链上。",
+      "ship": "<b>我们制作并寄出</b>，寄到你下单后填写的地址。",
+      "register": "<b>注册，而非铸造。</b>每只宠物首次开机时生成自己的密钥。我们把它的公开地址加入 Robinhood Chain 上的宠物注册表；不会铸造 NFT。",
+      "bind": "<b>绑定你的钱包。</b>连接设备后，它为你的钱包签名，由该钱包领取它的份额。",
+      "share": "<b>分享桌上的利润。</b>已注册的宠物按 3.5 倍参与 Trader Flies 每周的利润分配，高于传奇苍蝇（3 倍）。始终生效，无需激活。",
+      "risk": "交易可能亏损，没有利润的一周不会分配任何东西。宠物首先是一个小玩意儿；这里不承诺任何回报。"
+    },
+    "faqTitle": "常见问题",
+    "faq": {
+      "nft": {
+        "q": "它是 NFT 吗？",
+        "a": "不铸造 NFT。宠物设备自己的地址登记在链上，宠物用自己的密钥签名来证明身份。"
+      },
+      "wallet": {
+        "q": "哪个钱包领取宠物的份额？",
+        "a": "你设置设备时绑定的钱包。如果把设备送人，新主人会绑定自己的钱包。"
+      },
+      "refund": {
+        "q": "如果无法发货呢？",
+        "a": "你的订单会以支付时的同一种代币退款。"
+      },
+      "shipping": {
+        "q": "什么时候发货？",
+        "a": "价格已含全球运费。你所在国家的进口关税或清关费用由你承担。我们会在官方频道公布发货日期，预订按顺序制作。如果无法寄送到你的国家，订单会退款。"
+      },
+      "privacy": {
+        "q": "我的地址会怎样？",
+        "a": "私密保存，仅用于发货，绝不上链。"
+      }
+    },
+    "shipIncl": "含全球运费。你所在国家如有进口关税或清关费用，由你承担。",
+    "holderRule": "钱包里持有 {amount}+ $FLYAI 的持有者便宜 {pct}%：{price}。",
+    "holderYes": "你持有 {amount}+ $FLYAI：你的价格优惠 {pct}%，每只 {price}。",
+    "preorderNote": "预订价。宠物正式上线后为 $150。",
+    "preordered": "已预订"
   }
 }

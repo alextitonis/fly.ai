@@ -78,6 +78,10 @@
     "traderflies_claim": {
       "label": "Claim",
       "desc": "Collect your flies' $FLYAI"
+    },
+    "traderflies_pets": {
+      "label": "Hardware NFTs",
+      "desc": "FLYAI pets: pre-order a pocket fly"
     }
   },
   "footer": {

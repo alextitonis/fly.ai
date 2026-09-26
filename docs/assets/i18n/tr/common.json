@@ -78,6 +78,10 @@
     "traderflies_claim": {
       "label": "Al",
       "desc": "Sineklerinin $FLYAI'ını topla"
+    },
+    "traderflies_pets": {
+      "label": "Hardware NFTs",
+      "desc": "FLYAI evcil hayvanları: cep sineği ön siparişi"
     }
   },
   "footer": {

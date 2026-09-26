@@ -7,7 +7,8 @@
     "claim": "Claim",
     "home": "fly.ai ↗",
     "disconnect": "Disconnect",
-    "afterMint": "Opens when the mint ends"
+    "afterMint": "Opens when the mint ends",
+    "pets": "Hardware NFTs"
   },
   "flyAlt": "A Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -220,6 +221,101 @@
     "title": "Contracts",
     "nft": "Trader Flies (NFT)",
     "market": "Marketplace",
-    "note": "Robinhood Chain, verified on the explorer. Only ever approve or send to these addresses."
+    "note": "Robinhood Chain, verified on the explorer. Only ever approve or send to these addresses.",
+    "pets": "FLYAI pets pre-orders"
+  },
+  "pets": {
+    "kicker": "Hardware NFTs · FLYAI pets",
+    "title": "A fly in your pocket",
+    "lede": "FLYAI pets are little handheld sticks with a fly living on the screen. Raise it, play with it, and once it's registered it takes a share of the Trader Flies' weekly profits, like a fly on the desk.",
+    "soon": "Pre-orders open soon. Come back here and connect your wallet when they do.",
+    "deviceAlt": "A FLYAI pet",
+    "deviceCaption": "Illustration: an ASCII fly on a 1.64-inch touch screen",
+    "priceEach": "per pet",
+    "left": "left",
+    "closed": "Not open yet",
+    "openNow": "Pre-orders open",
+    "notOpen": "Pre-orders aren't open yet.",
+    "confirm": "Confirm the pre-order in your wallet.",
+    "ordered": {
+      "one": "Pre-ordered {count} pet.",
+      "other": "Pre-ordered {count} pets."
+    },
+    "button": "Pre-order {n} · {cost}",
+    "yourOrders": "Your pre-orders",
+    "pieces": {
+      "one": "{count} pet",
+      "other": "{count} pets"
+    },
+    "refunded": "refunded",
+    "shipButton": "Add shipping details",
+    "shipSent": "Shipping details received.",
+    "shipIntro": "Where should we send it? Your wallet signs these details so we know they come from the buyer (no transaction, no cost).",
+    "shipSign": "Sign and send",
+    "shipPrivacy": "Stored privately and only used to ship your pet. Never on chain, never shown to anyone else.",
+    "ship": {
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "address1": "Address",
+      "address2": "Apartment, suite (optional)",
+      "city": "City",
+      "region": "State / region",
+      "postcode": "Postcode",
+      "country": "Country"
+    },
+    "why": {
+      "Closed": "Pre-orders aren't open right now.",
+      "SoldOut": "Not enough pets left for that many.",
+      "WalletLimit": "This wallet has pre-ordered its maximum.",
+      "PriceChanged": "The price changed just now. Check it and try again."
+    },
+    "whatTitle": "What your pet does",
+    "what": {
+      "grow": "<b>Grows up.</b> It hatches from an egg, becomes a larva, then a fly, and evolves into one of five forms (gym, chonk, degen, lover, zen) depending on how you raise it. Level up to unlock hats.",
+      "care": "<b>Needs you.</b> Tap to feed it, hold to pet it. Shake the stick and it gets dizzy, tilt it and it slides, leave it still and it falls asleep. Ignore it and it gets grumpy; overfeed it and it gets fat.",
+      "play": "<b>Games.</b> Swat (30 seconds of fly swatting) and Simon (repeat the neuron pattern). Best scores are saved on the stick.",
+      "quests": "<b>Daily quests and streaks.</b> Three quests a day, a streak for coming back, XP for everything you do.",
+      "focus": "<b>Focus sessions.</b> Plug it into a computer and it guards a 25, 50 or 90 minute timer: pick it up and the session breaks.",
+      "price": "<b>Watches $FLYAI.</b> On Wi-Fi it reacts to the $FLYAI price.",
+      "friends": "<b>Meets other flies.</b> It notices other FLYAI pets nearby over Bluetooth."
+    },
+    "chainTitle": "How it works on chain",
+    "chain": {
+      "order": "<b>Pre-order</b> with your wallet, in USDG ($FLYAI holders with 1M+ pay 10% less). The order is recorded on chain.",
+      "ship": "<b>We build and ship</b> your pet to the address you give after ordering.",
+      "register": "<b>Registered, not minted.</b> Every pet makes its own key on its first start. We add its public address to the pets registry on Robinhood Chain; no NFT is minted.",
+      "bind": "<b>Link it to your wallet.</b> Plug the stick in; it signs for your wallet, and that wallet receives its share.",
+      "share": "<b>Shares the desk's profits.</b> Registered pets take a slice of the Trader Flies' weekly profit share at 3.5x, more than a Legendary fly (3x). Always on: no activation needed.",
+      "risk": "Trading can lose money and a week without profit pays nothing. A pet is a gadget first; nothing here promises a return."
+    },
+    "faqTitle": "Questions",
+    "faq": {
+      "nft": {
+        "q": "Is it an NFT?",
+        "a": "No NFT is minted. The pet's own device address is registered on chain, and the pet proves who it is by signing with its key."
+      },
+      "wallet": {
+        "q": "Which wallet gets the pet's share?",
+        "a": "The wallet you link when you set the stick up. If you give the stick away, the new owner links theirs."
+      },
+      "refund": {
+        "q": "What if it can't ship?",
+        "a": "Your order is refunded in the same token you paid with."
+      },
+      "shipping": {
+        "q": "When does it ship?",
+        "a": "Shipping is included in the price, worldwide. Any import duties or customs fees in your country are paid by you. We'll announce shipping dates on our channels, and pre-orders are built in order. If we can't ship to your country, your order is refunded."
+      },
+      "privacy": {
+        "q": "What happens to my address?",
+        "a": "It's stored privately, used only for shipping, and never goes on chain."
+      }
+    },
+    "shipIncl": "Worldwide shipping included. Import duties or customs fees in your country, if any, are yours.",
+    "holderRule": "$FLYAI holders with {amount}+ in their wallet pay {pct}% less: {price}.",
+    "holderYes": "You hold {amount}+ $FLYAI: your price is {pct}% off, {price} per pet.",
+    "preorderNote": "Pre-order price. $150 once pets are live.",
+    "preordered": "pre-ordered"
   }
 }
