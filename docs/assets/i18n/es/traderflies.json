@@ -214,5 +214,11 @@
       "weight": "Peso en pagos"
     },
     "reveal": "Todas las moscas se ven iguales mientras el mint está abierto. Cuando termina (el reveal), el hash de un bloque futuro decide la rareza y los rasgos de cada mosca dentro del contrato, así que nadie puede elegirlos ni verlos antes, tampoco el equipo. Las cantidades son exactas: habrá 33 moscas Legendarias, no unas 33. La rareza fija la parte de los pagos de una mosca, nunca cómo opera."
+  },
+  "contracts": {
+    "title": "Contratos",
+    "nft": "Trader Flies (NFT)",
+    "market": "Mercado",
+    "note": "Robinhood Chain, verificados en el explorador. Aprueba o envía solo a estas direcciones."
   }
 }

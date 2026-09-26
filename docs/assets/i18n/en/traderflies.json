@@ -214,5 +214,11 @@
       "weight": "Payout weight"
     },
     "reveal": "Every fly looks the same while the mint is open. When it ends (the reveal), a future block's hash rolls every fly's rarity and traits inside the contract, so nobody can pick or see them before, the team included. The counts are exact: there will be 33 Legendary flies, not about 33. Rarity sets a fly's share of the payouts, never how it trades."
+  },
+  "contracts": {
+    "title": "Contracts",
+    "nft": "Trader Flies (NFT)",
+    "market": "Marketplace",
+    "note": "Robinhood Chain, verified on the explorer. Only ever approve or send to these addresses."
   }
 }

@@ -214,5 +214,11 @@
       "weight": "Ödeme ağırlığı"
     },
     "reveal": "Mint açıkken tüm sinekler aynı görünür. Mint bitince (reveal), gelecekteki bir bloğun hash'i her sineğin nadirliğini ve özelliklerini sözleşmenin içinde belirler; bu yüzden ekip dahil kimse önceden seçemez ya da göremez. Sayılar kesindir: yaklaşık değil, tam 33 Efsanevi sinek olacak. Nadirlik bir sineğin ödeme payını belirler, nasıl trade yaptığını asla."
+  },
+  "contracts": {
+    "title": "Sözleşmeler",
+    "nft": "Trader Flies (NFT)",
+    "market": "Pazar",
+    "note": "Robinhood Chain, explorer'da doğrulanmış. Yalnızca bu adreslere onay ver veya gönder."
   }
 }
