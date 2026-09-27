@@ -141,7 +141,7 @@
     "confirmBuy": "请在钱包中确认购买。",
     "bought": "Trader Fly #{id} 归你了。在铸造页面激活它，让它上桌交易。",
     "sellTitle": "出售你的苍蝇",
-    "sellText": "设置一个 {token} 价格。在有人购买之前，你的苍蝇留在你的钱包里，也继续在桌上交易。你将收到价格减去 {pct}%。",
+    "sellText": "可以用美元或 {token} 输入价格。你的苍蝇始终以 {token} 挂单，在有人买下之前一直留在你的钱包里（也继续在交易台上）。你收到价格扣除 {pct}% 后的金额。",
     "noFlies": "这个钱包没有 Trader Flies。",
     "listedAt": "挂单价 {price}",
     "cancel": "取消挂单",
@@ -180,7 +180,23 @@
         "NoOffer": "没有可撤回的出价。",
         "noFly": "请输入 1 到 1,000 之间的苍蝇编号。"
       }
-    }
+    },
+    "approx": "≈ {usd}",
+    "willList": "挂单价 {amount}",
+    "tooCheap": "这是 {amount}，只值约 {usd}。价格单位是 $FLYAI，不是美元。如果确实如此，请再点一次。",
+    "confirmCheap": "是的，就这个价",
+    "enterIn": "价格单位",
+    "floor": "地板价",
+    "listedCount": "挂单数",
+    "tokenPrice": "{token} 价格",
+    "perDollar": "每 1 美元 {amount} {token}",
+    "feeLabel": "手续费",
+    "buyNow": "立即购买",
+    "listedBadge": "挂单中",
+    "changePrice": "修改价格",
+    "remove": "下架",
+    "savePrice": "保存价格",
+    "back": "返回"
   },
   "mine": {
     "title": "你的 Trader Flies",

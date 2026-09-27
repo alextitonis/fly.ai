@@ -141,7 +141,7 @@
     "confirmBuy": "지갑에서 구매를 확인하세요.",
     "bought": "Trader Fly #{id}는 이제 당신의 것입니다. 민팅 페이지에서 활성화해 데스크에 올리세요.",
     "sellTitle": "내 파리 팔기",
-    "sellText": "{token}로 가격을 정하세요. 누군가 살 때까지 파리는 지갑과 데스크에 그대로 있습니다. 가격에서 {pct}%를 뺀 금액을 받습니다.",
+    "sellText": "가격을 달러나 {token}로 입력하세요. 파리는 항상 {token}로 등록되며, 누군가 살 때까지 지갑(그리고 데스크)에 그대로 있습니다. 가격에서 {pct}%를 뺀 금액을 받습니다.",
     "noFlies": "이 지갑에는 Trader Fly가 없습니다.",
     "listedAt": "{price}에 판매 중",
     "cancel": "판매 취소",
@@ -180,7 +180,23 @@
         "NoOffer": "회수할 오퍼가 없습니다.",
         "noFly": "1부터 1,000 사이의 파리 번호를 입력하세요."
       }
-    }
+    },
+    "approx": "≈ {usd}",
+    "willList": "{amount}에 등록됩니다",
+    "tooCheap": "{amount}, 약 {usd}에 불과합니다. 가격은 달러가 아니라 $FLYAI입니다. 정말 이 가격이면 한 번 더 누르세요.",
+    "confirmCheap": "네, 이 가격으로",
+    "enterIn": "가격 입력 단위",
+    "floor": "최저가",
+    "listedCount": "등록 수",
+    "tokenPrice": "{token} 가격",
+    "perDollar": "$1당 {amount} {token}",
+    "feeLabel": "수수료",
+    "buyNow": "바로 구매",
+    "listedBadge": "등록됨",
+    "changePrice": "가격 변경",
+    "remove": "내리기",
+    "savePrice": "가격 저장",
+    "back": "뒤로"
   },
   "mine": {
     "title": "내 Trader Flies",

@@ -143,7 +143,7 @@
     "confirmBuy": "Confirm the purchase in your wallet.",
     "bought": "Trader Fly #{id} is yours. Activate it on the Mint page to put it on the desk.",
     "sellTitle": "Sell your flies",
-    "sellText": "Set a price in {token}. Your fly stays in your wallet, and on the desk, until someone buys it. You get the price less {pct}%.",
+    "sellText": "Type a price in dollars or {token}. Your fly is always listed in {token}, and stays in your wallet (and on the desk) until someone buys it. You get the price less {pct}%.",
     "noFlies": "This wallet has no Trader Flies.",
     "listedAt": "listed at {price}",
     "cancel": "Cancel listing",
@@ -182,7 +182,23 @@
         "NoOffer": "There is no offer to take back.",
         "noFly": "Enter a fly number from 1 to 1,000."
       }
-    }
+    },
+    "approx": "≈ {usd}",
+    "willList": "Lists at {amount}",
+    "tooCheap": "That's {amount}, only about {usd}. Prices are in $FLYAI, not dollars. Click again if you really mean it.",
+    "confirmCheap": "Yes, that price",
+    "enterIn": "Enter the price in",
+    "floor": "Floor",
+    "listedCount": "Listed",
+    "tokenPrice": "{token} price",
+    "perDollar": "{amount} {token} per $1",
+    "feeLabel": "Fee",
+    "buyNow": "Buy now",
+    "listedBadge": "Listed",
+    "changePrice": "Change price",
+    "remove": "Remove",
+    "savePrice": "Save price",
+    "back": "Back"
   },
   "mine": {
     "title": "Your Trader Flies",

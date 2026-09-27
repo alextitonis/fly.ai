@@ -141,7 +141,7 @@
     "confirmBuy": "請在錢包中確認購買。",
     "bought": "Trader Fly #{id} 歸你了。在鑄造頁面啟用它，讓它上桌交易。",
     "sellTitle": "出售你的蒼蠅",
-    "sellText": "設定一個 {token} 價格。在有人購買之前，你的蒼蠅留在你的錢包裡，也繼續在桌上交易。你將收到價格減去 {pct}%。",
+    "sellText": "可以用美元或 {token} 輸入價格。你的蒼蠅始終以 {token} 掛單，在有人買下之前一直留在你的錢包裡（也繼續在交易台上）。你收到價格扣除 {pct}% 後的金額。",
     "noFlies": "這個錢包沒有 Trader Flies。",
     "listedAt": "掛單價 {price}",
     "cancel": "取消掛單",
@@ -180,7 +180,23 @@
         "NoOffer": "沒有可撤回的出價。",
         "noFly": "請輸入 1 到 1,000 之間的蒼蠅編號。"
       }
-    }
+    },
+    "approx": "≈ {usd}",
+    "willList": "掛單價 {amount}",
+    "tooCheap": "這是 {amount}，只值約 {usd}。價格單位是 $FLYAI，不是美元。如果確實如此，請再點一次。",
+    "confirmCheap": "是的，就這個價",
+    "enterIn": "價格單位",
+    "floor": "地板價",
+    "listedCount": "掛單數",
+    "tokenPrice": "{token} 價格",
+    "perDollar": "每 1 美元 {amount} {token}",
+    "feeLabel": "手續費",
+    "buyNow": "立即購買",
+    "listedBadge": "掛單中",
+    "changePrice": "修改價格",
+    "remove": "下架",
+    "savePrice": "儲存價格",
+    "back": "返回"
   },
   "mine": {
     "title": "你的 Trader Flies",

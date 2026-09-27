@@ -143,7 +143,7 @@
     "confirmBuy": "Confirma la compra en tu wallet.",
     "bought": "Trader Fly #{id} es tuya. Actívala en la página de Mint para ponerla en la mesa.",
     "sellTitle": "Vende tus moscas",
-    "sellText": "Pon un precio en {token}. Tu mosca se queda en tu wallet, y en la mesa, hasta que alguien la compre. Recibes el precio menos el {pct}%.",
+    "sellText": "Escribe un precio en dólares o en {token}. Tu mosca siempre se pone a la venta en {token} y se queda en tu wallet (y en la mesa) hasta que alguien la compre. Recibes el precio menos un {pct}%.",
     "noFlies": "Esta wallet no tiene Trader Flies.",
     "listedAt": "en venta por {price}",
     "cancel": "Quitar de la venta",
@@ -182,7 +182,23 @@
         "NoOffer": "No hay ninguna oferta que retirar.",
         "noFly": "Escribe un número de mosca del 1 al 1.000."
       }
-    }
+    },
+    "approx": "≈ {usd}",
+    "willList": "Se pone a la venta por {amount}",
+    "tooCheap": "Eso son {amount}, solo unos {usd}. Los precios están en $FLYAI, no en dólares. Pulsa otra vez si de verdad es lo que quieres.",
+    "confirmCheap": "Sí, ese precio",
+    "enterIn": "Escribe el precio en",
+    "floor": "Suelo",
+    "listedCount": "En venta",
+    "tokenPrice": "Precio de {token}",
+    "perDollar": "{amount} {token} por 1 $",
+    "feeLabel": "Comisión",
+    "buyNow": "Comprar ya",
+    "listedBadge": "En venta",
+    "changePrice": "Cambiar precio",
+    "remove": "Quitar",
+    "savePrice": "Guardar precio",
+    "back": "Volver"
   },
   "mine": {
     "title": "Tus Trader Flies",

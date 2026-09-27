@@ -143,7 +143,7 @@
     "confirmBuy": "Satın almayı cüzdanında onayla.",
     "bought": "Trader Fly #{id} artık senin. Masaya koymak için Mint sayfasında aktive et.",
     "sellTitle": "Sineklerini sat",
-    "sellText": "{token} cinsinden bir fiyat koy. Sineğin biri satın alana kadar cüzdanında ve masada kalır. Fiyatın %{pct} eksiğini alırsın.",
+    "sellText": "Fiyatı dolar ya da {token} olarak yaz. Sineğin her zaman {token} ile listelenir ve biri satın alana kadar cüzdanında (ve masada) kalır. Fiyatın %{pct} eksiğini alırsın.",
     "noFlies": "Bu cüzdanda Trader Fly yok.",
     "listedAt": "{price} fiyatla satışta",
     "cancel": "İlanı kaldır",
@@ -182,7 +182,23 @@
         "NoOffer": "Geri alınacak teklif yok.",
         "noFly": "1 ile 1.000 arasında bir sinek numarası gir."
       }
-    }
+    },
+    "approx": "≈ {usd}",
+    "willList": "{amount} olarak listelenir",
+    "tooCheap": "Bu {amount}, yalnızca yaklaşık {usd}. Fiyatlar dolar değil $FLYAI. Gerçekten bunu istiyorsan tekrar tıkla.",
+    "confirmCheap": "Evet, bu fiyat",
+    "enterIn": "Fiyat birimi",
+    "floor": "Taban",
+    "listedCount": "Satışta",
+    "tokenPrice": "{token} fiyatı",
+    "perDollar": "1 $ başına {amount} {token}",
+    "feeLabel": "Ücret",
+    "buyNow": "Hemen al",
+    "listedBadge": "Satışta",
+    "changePrice": "Fiyatı değiştir",
+    "remove": "Kaldır",
+    "savePrice": "Fiyatı kaydet",
+    "back": "Geri"
   },
   "mine": {
     "title": "Trader Flies'ın",
