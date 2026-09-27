@@ -268,7 +268,9 @@
       "Closed": "Las reservas no están abiertas ahora.",
       "SoldOut": "No quedan suficientes mascotas para esa cantidad.",
       "WalletLimit": "Esta wallet ya reservó su máximo.",
-      "PriceChanged": "El precio acaba de cambiar. Revísalo y vuelve a intentarlo."
+      "PriceChanged": "El precio acaba de cambiar. Revísalo y vuelve a intentarlo.",
+      "TooMuchFlyai": "El precio de $FLYAI acaba de moverse. Revísalo y vuelve a intentarlo.",
+      "FlyaiOff": "Ahora mismo no se puede pagar en $FLYAI. Paga en USDG."
     },
     "whatTitle": "Qué hace tu mascota",
     "what": {
@@ -283,6 +285,7 @@
     "chainTitle": "Cómo funciona en la cadena",
     "chain": {
       "order": "<b>Reserva</b> con tu wallet, en USDG (los holders con 1M+ $FLYAI pagan un 10% menos). El pedido queda registrado en la cadena.",
+      "orderFlyai": "<b>Reserva</b> con tu wallet, en USDG o $FLYAI (los holders con 1M+ $FLYAI pagan un 10% menos). El pedido queda registrado en la cadena.",
       "ship": "<b>La fabricamos y enviamos</b> a la dirección que indiques tras reservar.",
       "register": "<b>Registrada, no minteada.</b> Cada mascota crea su propia clave al encenderse por primera vez. Añadimos su dirección pública al registro de mascotas en Robinhood Chain; no se mintea ningún NFT.",
       "bind": "<b>Vincúlala a tu wallet.</b> Conecta el dispositivo; firma por tu wallet, y esa wallet recibe su parte.",

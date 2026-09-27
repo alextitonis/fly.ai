@@ -266,7 +266,9 @@
       "Closed": "預訂當前未開放。",
       "SoldOut": "剩餘寵物不夠這個數量。",
       "WalletLimit": "此錢包已達到預訂上限。",
-      "PriceChanged": "價格剛剛變了。請檢視後重試。"
+      "PriceChanged": "價格剛剛變了。請檢視後重試。",
+      "TooMuchFlyai": "$FLYAI 價格剛剛變動了。請檢視後重試。",
+      "FlyaiOff": "目前暫不支援用 $FLYAI 支付。請用 USDG 支付。"
     },
     "whatTitle": "你的寵物能做什麼",
     "what": {
@@ -281,6 +283,7 @@
     "chainTitle": "鏈上如何運作",
     "chain": {
       "order": "<b>預訂</b>：用錢包以 USDG 支付（持有 1M+ $FLYAI 的持有者便宜 10%）。訂單記錄在鏈上。",
+      "orderFlyai": "<b>預訂</b>：用錢包以 USDG 或 $FLYAI 支付（持有 1M+ $FLYAI 的持有者便宜 10%）。訂單記錄在鏈上。",
       "ship": "<b>我們製作並寄出</b>，寄到你下單後填寫的地址。",
       "register": "<b>註冊，而非鑄造。</b>每隻寵物首次開機時生成自己的金鑰。我們把它的公開地址加入 Robinhood Chain 上的寵物登錄檔；不會鑄造 NFT。",
       "bind": "<b>繫結你的錢包。</b>連線裝置後，它為你的錢包簽名，由該錢包領取它的份額。",

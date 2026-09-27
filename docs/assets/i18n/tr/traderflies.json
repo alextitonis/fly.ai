@@ -268,7 +268,9 @@
       "Closed": "Ön siparişler şu an açık değil.",
       "SoldOut": "Bu kadar evcil hayvan kalmadı.",
       "WalletLimit": "Bu cüzdan maksimum ön siparişini verdi.",
-      "PriceChanged": "Fiyat az önce değişti. Kontrol edip tekrar dene."
+      "PriceChanged": "Fiyat az önce değişti. Kontrol edip tekrar dene.",
+      "TooMuchFlyai": "$FLYAI fiyatı az önce oynadı. Kontrol edip tekrar dene.",
+      "FlyaiOff": "Şu an $FLYAI ile ödeme kapalı. USDG ile öde."
     },
     "whatTitle": "Evcil hayvanın ne yapar",
     "what": {
@@ -283,6 +285,7 @@
     "chainTitle": "Zincirde nasıl çalışır",
     "chain": {
       "order": "<b>Ön sipariş</b> ver, cüzdanınla, USDG ile (1M+ $FLYAI holder'ları %10 daha az öder). Sipariş zincire kaydedilir.",
+      "orderFlyai": "<b>Ön sipariş</b> ver, cüzdanınla, USDG veya $FLYAI ile (1M+ $FLYAI holder'ları %10 daha az öder). Sipariş zincire kaydedilir.",
       "ship": "<b>Üretip gönderiyoruz</b>, sipariş sonrası verdiğin adrese.",
       "register": "<b>Kaydedilir, mint edilmez.</b> Her evcil hayvan ilk açılışta kendi anahtarını üretir. Açık adresini Robinhood Chain'deki evcil hayvan kaydına ekleriz; NFT mint edilmez.",
       "bind": "<b>Cüzdanına bağla.</b> Cihazı tak; cüzdanın için imza atar ve payını o cüzdan alır.",

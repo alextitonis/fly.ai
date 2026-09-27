@@ -268,7 +268,9 @@
       "Closed": "Pre-orders aren't open right now.",
       "SoldOut": "Not enough pets left for that many.",
       "WalletLimit": "This wallet has pre-ordered its maximum.",
-      "PriceChanged": "The price changed just now. Check it and try again."
+      "PriceChanged": "The price changed just now. Check it and try again.",
+      "TooMuchFlyai": "The $FLYAI price moved just now. Check it and try again.",
+      "FlyaiOff": "Paying in $FLYAI is off right now. Pay in USDG."
     },
     "whatTitle": "What your pet does",
     "what": {
@@ -283,6 +285,7 @@
     "chainTitle": "How it works on chain",
     "chain": {
       "order": "<b>Pre-order</b> with your wallet, in USDG ($FLYAI holders with 1M+ pay 10% less). The order is recorded on chain.",
+      "orderFlyai": "<b>Pre-order</b> with your wallet, in USDG or $FLYAI ($FLYAI holders with 1M+ pay 10% less). The order is recorded on chain.",
       "ship": "<b>We build and ship</b> your pet to the address you give after ordering.",
       "register": "<b>Registered, not minted.</b> Every pet makes its own key on its first start. We add its public address to the pets registry on Robinhood Chain; no NFT is minted.",
       "bind": "<b>Link it to your wallet.</b> Plug the stick in; it signs for your wallet, and that wallet receives its share.",
