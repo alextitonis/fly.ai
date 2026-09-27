@@ -135,7 +135,7 @@
   },
   "market": {
     "title": "Mercado",
-    "text": "Compra y vende Trader Flies con otros holders, en USDG. El vendedor cobra al instante, menos una comisión del {pct}%.",
+    "text": "Compra y vende Trader Flies con otros holders, en {token}. El vendedor cobra al instante, menos una comisión del {pct}%.",
     "soon": "El mercado abre pronto.",
     "forSale": "En venta",
     "empty": "No hay nada en venta ahora mismo.",
@@ -143,12 +143,12 @@
     "confirmBuy": "Confirma la compra en tu wallet.",
     "bought": "Trader Fly #{id} es tuya. Actívala en la página de Mint para ponerla en la mesa.",
     "sellTitle": "Vende tus moscas",
-    "sellText": "Pon un precio en USDG. Tu mosca se queda en tu wallet, y en la mesa, hasta que alguien la compre. Recibes el precio menos el {pct}%.",
+    "sellText": "Pon un precio en {token}. Tu mosca se queda en tu wallet, y en la mesa, hasta que alguien la compre. Recibes el precio menos el {pct}%.",
     "noFlies": "Esta wallet no tiene Trader Flies.",
     "listedAt": "en venta por {price}",
     "cancel": "Quitar de la venta",
     "list": "Poner en venta",
-    "pricePlaceholder": "Precio en USDG",
+    "pricePlaceholder": "Precio en {token}",
     "approveFirst": "Paso 1 de 2: deja que el mercado mueva esta mosca cuando se venda.",
     "confirmList": "Confirma el anuncio en tu wallet.",
     "listedOk": "Trader Fly #{id} está en venta por {price}.",
@@ -158,6 +158,30 @@
       "NotListed": "Esta mosca ya no está en venta.",
       "PriceChanged": "El vendedor cambió el precio. Revísalo y vuelve a intentarlo.",
       "ZeroPrice": "Pon un precio mayor que 0."
+    },
+    "offers": {
+      "title": "Hacer una oferta",
+      "text": "Ofrece {token} por cualquier mosca, esté en venta o no. El mercado guarda tus {token} hasta que el dueño acepte o los retires. El dueño recibe la oferta menos un {pct}%.",
+      "fly": "Mosca n.º",
+      "amount": "Cantidad en {token}",
+      "make": "Hacer oferta",
+      "confirmMake": "Confirma la oferta en tu wallet…",
+      "made": "Tu oferta de {amount} por la Mosca #{id} está hecha.",
+      "yours": "Tus ofertas",
+      "cancel": "Retirar",
+      "cancelled": "Tu oferta por la Mosca #{id} ha vuelto a tu wallet.",
+      "offerHere": "Hacer una oferta",
+      "best": "Mejor oferta: {amount}",
+      "count": "{n} ofertas",
+      "accept": "Aceptar {amount}",
+      "confirmAccept": "Confirma la venta en tu wallet…",
+      "accepted": "Mosca #{id} vendida por {amount}.",
+      "why": {
+        "OwnFly": "Esa mosca ya es tuya.",
+        "OfferChanged": "La oferta acaba de cambiar. Revísala e inténtalo de nuevo.",
+        "NoOffer": "No hay ninguna oferta que retirar.",
+        "noFly": "Escribe un número de mosca del 1 al 1.000."
+      }
     }
   },
   "mine": {

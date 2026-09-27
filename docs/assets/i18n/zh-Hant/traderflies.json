@@ -133,7 +133,7 @@
   },
   "market": {
     "title": "市場",
-    "text": "用 USDG 與其他持有者買賣 Trader Flies。賣家立即收款，扣除 {pct}% 手續費。",
+    "text": "用 {token} 與其他持有者買賣 Trader Flies。賣家立即收款，扣除 {pct}% 手續費。",
     "soon": "市場即將開放。",
     "forSale": "出售中",
     "empty": "目前沒有出售中的蒼蠅。",
@@ -141,12 +141,12 @@
     "confirmBuy": "請在錢包中確認購買。",
     "bought": "Trader Fly #{id} 歸你了。在鑄造頁面啟用它，讓它上桌交易。",
     "sellTitle": "出售你的蒼蠅",
-    "sellText": "設定一個 USDG 價格。在有人購買之前，你的蒼蠅留在你的錢包裡，也繼續在桌上交易。你將收到價格減去 {pct}%。",
+    "sellText": "設定一個 {token} 價格。在有人購買之前，你的蒼蠅留在你的錢包裡，也繼續在桌上交易。你將收到價格減去 {pct}%。",
     "noFlies": "這個錢包沒有 Trader Flies。",
     "listedAt": "掛單價 {price}",
     "cancel": "取消掛單",
     "list": "掛單出售",
-    "pricePlaceholder": "USDG 價格",
+    "pricePlaceholder": "{token} 價格",
     "approveFirst": "第 1 步（共 2 步）：允許市場在售出時轉移這隻蒼蠅。",
     "confirmList": "請在錢包中確認掛單。",
     "listedOk": "Trader Fly #{id} 已掛單，價格 {price}。",
@@ -156,6 +156,30 @@
       "NotListed": "這隻蒼蠅已不再出售。",
       "PriceChanged": "賣家改了價格。請查看後重試。",
       "ZeroPrice": "請輸入大於 0 的價格。"
+    },
+    "offers": {
+      "title": "出價",
+      "text": "無論是否掛單，都可以用 {token} 對任意一隻蒼蠅出價。在持有者接受或你撤回之前，你的 {token} 由市場保管。持有者收到出價扣除 {pct}% 後的金額。",
+      "fly": "蒼蠅編號",
+      "amount": "{token} 數量",
+      "make": "出價",
+      "confirmMake": "請在錢包中確認出價…",
+      "made": "你已對蒼蠅 #{id} 出價 {amount}。",
+      "yours": "我的出價",
+      "cancel": "撤回",
+      "cancelled": "你對蒼蠅 #{id} 的出價已退回錢包。",
+      "offerHere": "出價",
+      "best": "最高出價：{amount}",
+      "count": "{n} 個出價",
+      "accept": "接受 {amount}",
+      "confirmAccept": "請在錢包中確認出售…",
+      "accepted": "蒼蠅 #{id} 以 {amount} 售出。",
+      "why": {
+        "OwnFly": "這隻蒼蠅已經是你的了。",
+        "OfferChanged": "出價剛剛發生變化，請確認後重試。",
+        "NoOffer": "沒有可撤回的出價。",
+        "noFly": "請輸入 1 到 1,000 之間的蒼蠅編號。"
+      }
     }
   },
   "mine": {

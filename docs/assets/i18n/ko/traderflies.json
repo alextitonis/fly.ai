@@ -133,7 +133,7 @@
   },
   "market": {
     "title": "마켓",
-    "text": "다른 홀더와 Trader Flies를 USDG로 사고팝니다. 판매자는 {pct}% 수수료를 뺀 금액을 바로 받습니다.",
+    "text": "다른 홀더와 Trader Flies를 {token}로 사고팝니다. 판매자는 {pct}% 수수료를 뺀 금액을 바로 받습니다.",
     "soon": "마켓이 곧 열립니다.",
     "forSale": "판매 중",
     "empty": "지금은 판매 중인 파리가 없습니다.",
@@ -141,12 +141,12 @@
     "confirmBuy": "지갑에서 구매를 확인하세요.",
     "bought": "Trader Fly #{id}는 이제 당신의 것입니다. 민팅 페이지에서 활성화해 데스크에 올리세요.",
     "sellTitle": "내 파리 팔기",
-    "sellText": "USDG로 가격을 정하세요. 누군가 살 때까지 파리는 지갑과 데스크에 그대로 있습니다. 가격에서 {pct}%를 뺀 금액을 받습니다.",
+    "sellText": "{token}로 가격을 정하세요. 누군가 살 때까지 파리는 지갑과 데스크에 그대로 있습니다. 가격에서 {pct}%를 뺀 금액을 받습니다.",
     "noFlies": "이 지갑에는 Trader Fly가 없습니다.",
     "listedAt": "{price}에 판매 중",
     "cancel": "판매 취소",
     "list": "판매 등록",
-    "pricePlaceholder": "USDG 가격",
+    "pricePlaceholder": "{token} 가격",
     "approveFirst": "1/2단계: 이 파리가 팔릴 때 마켓이 옮길 수 있도록 허용하세요.",
     "confirmList": "지갑에서 판매 등록을 확인하세요.",
     "listedOk": "Trader Fly #{id}가 {price}에 등록되었습니다.",
@@ -156,6 +156,30 @@
       "NotListed": "이 파리는 더 이상 판매 중이 아닙니다.",
       "PriceChanged": "판매자가 가격을 바꿨습니다. 확인 후 다시 시도하세요.",
       "ZeroPrice": "0보다 큰 가격을 입력하세요."
+    },
+    "offers": {
+      "title": "오퍼 넣기",
+      "text": "판매 중이든 아니든 어떤 파리에도 {token}로 오퍼를 넣을 수 있습니다. 보유자가 수락하거나 직접 회수할 때까지 마켓이 {token}를 보관합니다. 보유자는 {pct}%를 뺀 금액을 받습니다.",
+      "fly": "파리 번호",
+      "amount": "{token} 금액",
+      "make": "오퍼 넣기",
+      "confirmMake": "지갑에서 오퍼를 확인하세요…",
+      "made": "파리 #{id}에 {amount} 오퍼를 넣었습니다.",
+      "yours": "내 오퍼",
+      "cancel": "회수",
+      "cancelled": "파리 #{id}에 넣은 오퍼가 지갑으로 돌아왔습니다.",
+      "offerHere": "오퍼 넣기",
+      "best": "최고 오퍼: {amount}",
+      "count": "오퍼 {n}개",
+      "accept": "{amount} 수락",
+      "confirmAccept": "지갑에서 판매를 확인하세요…",
+      "accepted": "파리 #{id}가 {amount}에 판매되었습니다.",
+      "why": {
+        "OwnFly": "이미 내 파리입니다.",
+        "OfferChanged": "방금 오퍼가 바뀌었습니다. 확인 후 다시 시도하세요.",
+        "NoOffer": "회수할 오퍼가 없습니다.",
+        "noFly": "1부터 1,000 사이의 파리 번호를 입력하세요."
+      }
     }
   },
   "mine": {

@@ -133,7 +133,7 @@
   },
   "market": {
     "title": "市场",
-    "text": "用 USDG 与其他持有者买卖 Trader Flies。卖家立即收款，扣除 {pct}% 手续费。",
+    "text": "用 {token} 与其他持有者买卖 Trader Flies。卖家立即收款，扣除 {pct}% 手续费。",
     "soon": "市场即将开放。",
     "forSale": "在售",
     "empty": "目前没有在售的苍蝇。",
@@ -141,12 +141,12 @@
     "confirmBuy": "请在钱包中确认购买。",
     "bought": "Trader Fly #{id} 归你了。在铸造页面激活它，让它上桌交易。",
     "sellTitle": "出售你的苍蝇",
-    "sellText": "设置一个 USDG 价格。在有人购买之前，你的苍蝇留在你的钱包里，也继续在桌上交易。你将收到价格减去 {pct}%。",
+    "sellText": "设置一个 {token} 价格。在有人购买之前，你的苍蝇留在你的钱包里，也继续在桌上交易。你将收到价格减去 {pct}%。",
     "noFlies": "这个钱包没有 Trader Flies。",
     "listedAt": "挂单价 {price}",
     "cancel": "取消挂单",
     "list": "挂单出售",
-    "pricePlaceholder": "USDG 价格",
+    "pricePlaceholder": "{token} 价格",
     "approveFirst": "第 1 步（共 2 步）：允许市场在售出时转移这只苍蝇。",
     "confirmList": "请在钱包中确认挂单。",
     "listedOk": "Trader Fly #{id} 已挂单，价格 {price}。",
@@ -156,6 +156,30 @@
       "NotListed": "这只苍蝇已不再出售。",
       "PriceChanged": "卖家改了价格。请查看后重试。",
       "ZeroPrice": "请输入大于 0 的价格。"
+    },
+    "offers": {
+      "title": "出价",
+      "text": "无论是否挂单，都可以用 {token} 对任意一只苍蝇出价。在持有者接受或你撤回之前，你的 {token} 由市场保管。持有者收到出价扣除 {pct}% 后的金额。",
+      "fly": "苍蝇编号",
+      "amount": "{token} 数量",
+      "make": "出价",
+      "confirmMake": "请在钱包中确认出价…",
+      "made": "你已对苍蝇 #{id} 出价 {amount}。",
+      "yours": "我的出价",
+      "cancel": "撤回",
+      "cancelled": "你对苍蝇 #{id} 的出价已退回钱包。",
+      "offerHere": "出价",
+      "best": "最高出价：{amount}",
+      "count": "{n} 个出价",
+      "accept": "接受 {amount}",
+      "confirmAccept": "请在钱包中确认出售…",
+      "accepted": "苍蝇 #{id} 以 {amount} 售出。",
+      "why": {
+        "OwnFly": "这只苍蝇已经是你的了。",
+        "OfferChanged": "出价刚刚发生变化，请确认后重试。",
+        "NoOffer": "没有可撤回的出价。",
+        "noFly": "请输入 1 到 1,000 之间的苍蝇编号。"
+      }
     }
   },
   "mine": {

@@ -135,7 +135,7 @@
   },
   "market": {
     "title": "Marketplace",
-    "text": "Buy and sell Trader Flies with other holders, in USDG. The seller gets paid straight away, less a {pct}% fee.",
+    "text": "Buy and sell Trader Flies with other holders, in {token}. The seller gets paid straight away, less a {pct}% fee.",
     "soon": "The marketplace opens soon.",
     "forSale": "For sale",
     "empty": "Nothing is listed right now.",
@@ -143,12 +143,12 @@
     "confirmBuy": "Confirm the purchase in your wallet.",
     "bought": "Trader Fly #{id} is yours. Activate it on the Mint page to put it on the desk.",
     "sellTitle": "Sell your flies",
-    "sellText": "Set a price in USDG. Your fly stays in your wallet, and on the desk, until someone buys it. You get the price less {pct}%.",
+    "sellText": "Set a price in {token}. Your fly stays in your wallet, and on the desk, until someone buys it. You get the price less {pct}%.",
     "noFlies": "This wallet has no Trader Flies.",
     "listedAt": "listed at {price}",
     "cancel": "Cancel listing",
     "list": "List for sale",
-    "pricePlaceholder": "Price in USDG",
+    "pricePlaceholder": "Price in {token}",
     "approveFirst": "Step 1 of 2: let the marketplace move this fly when it sells.",
     "confirmList": "Confirm the listing in your wallet.",
     "listedOk": "Trader Fly #{id} is listed at {price}.",
@@ -158,6 +158,30 @@
       "NotListed": "This fly isn't for sale anymore.",
       "PriceChanged": "The seller changed the price. Check it and try again.",
       "ZeroPrice": "Enter a price above 0."
+    },
+    "offers": {
+      "title": "Make an offer",
+      "text": "Offer {token} on any fly, listed or not. The market holds your {token} until the holder accepts or you take it back. The holder gets it less {pct}%.",
+      "fly": "Fly #",
+      "amount": "Amount in {token}",
+      "make": "Make offer",
+      "confirmMake": "Confirm the offer in your wallet…",
+      "made": "Your offer of {amount} on Fly #{id} is in.",
+      "yours": "Your offers",
+      "cancel": "Take back",
+      "cancelled": "Your offer on Fly #{id} is back in your wallet.",
+      "offerHere": "Make an offer",
+      "best": "Best offer: {amount}",
+      "count": "{n} offers",
+      "accept": "Accept {amount}",
+      "confirmAccept": "Confirm the sale in your wallet…",
+      "accepted": "Fly #{id} sold for {amount}.",
+      "why": {
+        "OwnFly": "That fly is already yours.",
+        "OfferChanged": "The offer changed just now. Check it and try again.",
+        "NoOffer": "There is no offer to take back.",
+        "noFly": "Enter a fly number from 1 to 1,000."
+      }
     }
   },
   "mine": {

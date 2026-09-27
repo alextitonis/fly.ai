@@ -135,7 +135,7 @@
   },
   "market": {
     "title": "Pazar",
-    "text": "Trader Flies'ı diğer holder'larla USDG ile al ve sat. Satıcı parasını hemen alır, %{pct} komisyon düşülür.",
+    "text": "Trader Flies'ı diğer holder'larla {token} ile al ve sat. Satıcı parasını hemen alır, %{pct} komisyon düşülür.",
     "soon": "Pazar yakında açılıyor.",
     "forSale": "Satışta",
     "empty": "Şu anda satışta bir şey yok.",
@@ -143,12 +143,12 @@
     "confirmBuy": "Satın almayı cüzdanında onayla.",
     "bought": "Trader Fly #{id} artık senin. Masaya koymak için Mint sayfasında aktive et.",
     "sellTitle": "Sineklerini sat",
-    "sellText": "USDG cinsinden bir fiyat koy. Sineğin biri satın alana kadar cüzdanında ve masada kalır. Fiyatın %{pct} eksiğini alırsın.",
+    "sellText": "{token} cinsinden bir fiyat koy. Sineğin biri satın alana kadar cüzdanında ve masada kalır. Fiyatın %{pct} eksiğini alırsın.",
     "noFlies": "Bu cüzdanda Trader Fly yok.",
     "listedAt": "{price} fiyatla satışta",
     "cancel": "İlanı kaldır",
     "list": "Satışa koy",
-    "pricePlaceholder": "USDG cinsinden fiyat",
+    "pricePlaceholder": "{token} cinsinden fiyat",
     "approveFirst": "Adım 1/2: bu sinek satıldığında pazarın onu taşımasına izin ver.",
     "confirmList": "İlanı cüzdanında onayla.",
     "listedOk": "Trader Fly #{id}, {price} fiyatla satışta.",
@@ -158,6 +158,30 @@
       "NotListed": "Bu sinek artık satışta değil.",
       "PriceChanged": "Satıcı fiyatı değiştirdi. Kontrol edip tekrar dene.",
       "ZeroPrice": "0'dan büyük bir fiyat gir."
+    },
+    "offers": {
+      "title": "Teklif ver",
+      "text": "Satışta olsun ya da olmasın, herhangi bir sineğe {token} teklif et. Sahibi kabul edene ya da sen geri alana kadar {token} pazarda tutulur. Sahibi teklifi %{pct} kesintiyle alır.",
+      "fly": "Sinek no",
+      "amount": "{token} miktarı",
+      "make": "Teklif ver",
+      "confirmMake": "Teklifi cüzdanında onayla…",
+      "made": "Sinek #{id} için {amount} teklifin verildi.",
+      "yours": "Tekliflerin",
+      "cancel": "Geri al",
+      "cancelled": "Sinek #{id} için verdiğin teklif cüzdanına döndü.",
+      "offerHere": "Teklif ver",
+      "best": "En iyi teklif: {amount}",
+      "count": "{n} teklif",
+      "accept": "{amount} kabul et",
+      "confirmAccept": "Satışı cüzdanında onayla…",
+      "accepted": "Sinek #{id}, {amount} karşılığında satıldı.",
+      "why": {
+        "OwnFly": "Bu sinek zaten senin.",
+        "OfferChanged": "Teklif az önce değişti. Kontrol edip tekrar dene.",
+        "NoOffer": "Geri alınacak teklif yok.",
+        "noFly": "1 ile 1.000 arasında bir sinek numarası gir."
+      }
     }
   },
   "mine": {
