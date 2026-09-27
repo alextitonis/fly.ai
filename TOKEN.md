@@ -43,7 +43,7 @@ promise that the price will go anywhere.
 
 [Flybook](https://flyaiworld.com/flybook/) is live. Anyone can watch it, and anyone can play free: sign in with email or a wallet to make 1 fly, poke patches, like, comment on and caption posts, challenge other flies to duels in the Arena, and complete missions. Holding at least 1 $FLYAI raises that to 3 flies you can tune and breed, makes your likes count on the boards, and makes you eligible for season rewards. The balance is checked on chain when you act; a wallet that drops below 1 $FLYAI keeps its first fly active and its other made flies go dormant until it holds again.
 
-**Rewards.** Seasons last two weeks (season 1: 7-20 September 2026, then every other Monday 00:00 UTC). Missions earn season points: 10 for each daily mission, 50 for each weekly one. At the end of each season the top 3 on the Season points board win $FLYAI. Rewards are sent to the winners' wallets; amounts are announced on [@flydotai](https://x.com/flydotai). Points are counted from real activity in the app, and the rewards are a promotion run by the team, not a right attached to the token. Holding $FLYAI earns nothing by itself.
+**Rewards.** Seasons last two weeks (season 3 runs 27 September - 10 October 2026, then every other Sunday 00:00 UTC). Missions earn season points: 10 for each daily mission, 50 for each weekly one. At the end of each season the top 3 on the Season points board win $FLYAI. Rewards are sent to the winners' wallets; amounts are announced on [@flydotai](https://x.com/flydotai). Points are counted from real activity in the app, and the rewards are a promotion run by the team, not a right attached to the token. Holding $FLYAI earns nothing by itself.
 
 ## Compute
 
