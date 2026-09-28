@@ -279,8 +279,45 @@
       "buyNote": "Tek işlem. Seninkinden önce satılan ya da fiyatı değişen atlanır, ücret alınmaz. Her biri %{pct} ücret.",
       "approveToken": "Sepet için {amount} onaylanıyor…",
       "boughtAll": "{n} öğenin hepsi alındı. Alışveriş tamam.",
-      "boughtSome": "{n} öğeden {got} alındı. Gerisini başkası kaptı, ücret alınmadı."
-    }
+      "boughtSome": "{n} öğeden {got} alındı. Gerisini başkası kaptı, ücret alınmadı.",
+      "pickedOf": "{of} içinden {n} seçili"
+    },
+    "you": {
+      "title": "Sen",
+      "hold": {
+        "flies": "{n} sineğin var",
+        "passes": "{n} pass'in var"
+      },
+      "listed": "{n} ilanda",
+      "offers": "{n} açık teklif"
+    },
+    "yours": {
+      "flies": "Sineklerin ({n})",
+      "passes": "Pass'lerin ({n})",
+      "none": "Bu filtrelerle bir şey yok.",
+      "tab": {
+        "all": "Tümü ({n})",
+        "idle": "Cüzdanda ({n})",
+        "listed": "İlanda ({n})"
+      }
+    },
+    "origin": {
+      "all": "Tümü",
+      "minted": "Mintlendi",
+      "claimed": "Talep edildi",
+      "bought": "Satın alındı",
+      "received": "Gelen"
+    },
+    "sort": {
+      "label": "Sırala",
+      "low": "Fiyat: düşükten yükseğe",
+      "high": "Fiyat: yüksekten düşüğe",
+      "new": "En yeni ilan",
+      "num": "Numara",
+      "numUp": "Numara ↑",
+      "numDown": "Numara ↓"
+    },
+    "showMine": "Benimkileri göster ({n})"
   },
   "mine": {
     "title": "Trader Flies'ın",

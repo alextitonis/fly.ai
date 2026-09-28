@@ -277,8 +277,45 @@
       "buyNote": "트랜잭션 한 번. 먼저 팔리거나 가격이 바뀐 건 건너뛰고 청구하지 않습니다. 각 {pct}% 수수료.",
       "approveToken": "장바구니용 {amount} 승인 중…",
       "boughtAll": "{n}개 모두 구매. 쇼핑 끝.",
-      "boughtSome": "{n}개 중 {got}개 구매. 나머지는 먼저 채갔고 청구되지 않았습니다."
-    }
+      "boughtSome": "{n}개 중 {got}개 구매. 나머지는 먼저 채갔고 청구되지 않았습니다.",
+      "pickedOf": "{of}개 중 {n}개 선택"
+    },
+    "you": {
+      "title": "나",
+      "hold": {
+        "flies": "파리 {n}마리 보유",
+        "passes": "패스 {n}개 보유"
+      },
+      "listed": "{n}개 판매 중",
+      "offers": "제안 {n}건"
+    },
+    "yours": {
+      "flies": "내 파리 ({n})",
+      "passes": "내 패스 ({n})",
+      "none": "이 필터로는 아무것도 없습니다.",
+      "tab": {
+        "all": "전체 ({n})",
+        "idle": "지갑에 ({n})",
+        "listed": "판매 중 ({n})"
+      }
+    },
+    "origin": {
+      "all": "전체",
+      "minted": "민트",
+      "claimed": "클레임",
+      "bought": "구매",
+      "received": "받음"
+    },
+    "sort": {
+      "label": "정렬",
+      "low": "가격 낮은순",
+      "high": "가격 높은순",
+      "new": "최신 등록순",
+      "num": "번호",
+      "numUp": "번호 ↑",
+      "numDown": "번호 ↓"
+    },
+    "showMine": "내 것도 보기 ({n})"
   },
   "mine": {
     "title": "내 Trader Flies",

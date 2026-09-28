@@ -277,8 +277,45 @@
       "buyNote": "一筆交易。在你之前被買走或改價的會跳過，不扣費。每個收 {pct}% 手續費。",
       "approveToken": "正在為購物車授權 {amount}…",
       "boughtAll": "{n} 個全部買到。剁手完成。",
-      "boughtSome": "買到 {n} 個中的 {got} 個。其餘被搶先買走，沒有扣費。"
-    }
+      "boughtSome": "買到 {n} 個中的 {got} 個。其餘被搶先買走，沒有扣費。",
+      "pickedOf": "已選 {n} / {of}"
+    },
+    "you": {
+      "title": "我",
+      "hold": {
+        "flies": "持有 {n} 隻蒼蠅",
+        "passes": "持有 {n} 張通行證"
+      },
+      "listed": "{n} 個掛單",
+      "offers": "{n} 個出價"
+    },
+    "yours": {
+      "flies": "我的蒼蠅（{n}）",
+      "passes": "我的通行證（{n}）",
+      "none": "目前篩選下沒有內容。",
+      "tab": {
+        "all": "全部（{n}）",
+        "idle": "錢包中（{n}）",
+        "listed": "掛單中（{n}）"
+      }
+    },
+    "origin": {
+      "all": "全部",
+      "minted": "鑄造",
+      "claimed": "領取",
+      "bought": "買入",
+      "received": "收到"
+    },
+    "sort": {
+      "label": "排序",
+      "low": "價格從低到高",
+      "high": "價格從高到低",
+      "new": "最新掛單",
+      "num": "編號",
+      "numUp": "編號 ↑",
+      "numDown": "編號 ↓"
+    },
+    "showMine": "顯示我的（{n}）"
   },
   "mine": {
     "title": "你的 Trader Flies",

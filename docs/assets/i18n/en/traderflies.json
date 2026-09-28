@@ -279,8 +279,45 @@
       "buyNote": "One transaction. Anything sold or repriced before yours lands is skipped, not charged. {pct}% fee each.",
       "approveToken": "Approving {amount} for the cart…",
       "boughtAll": "Bought all {n}. Shopping spree complete.",
-      "boughtSome": "Bought {got} of {n}. The rest got sniped first, you weren't charged for them."
-    }
+      "boughtSome": "Bought {got} of {n}. The rest got sniped first, you weren't charged for them.",
+      "pickedOf": "{n} selected of {of}"
+    },
+    "you": {
+      "title": "You",
+      "hold": {
+        "flies": "hold {n} flies",
+        "passes": "hold {n} passes"
+      },
+      "listed": "{n} listed",
+      "offers": "{n} offers out"
+    },
+    "yours": {
+      "flies": "Your flies ({n})",
+      "passes": "Your passes ({n})",
+      "none": "Nothing here with these filters.",
+      "tab": {
+        "all": "All ({n})",
+        "idle": "In wallet ({n})",
+        "listed": "Listed ({n})"
+      }
+    },
+    "origin": {
+      "all": "All",
+      "minted": "Minted",
+      "claimed": "Claimed",
+      "bought": "Bought",
+      "received": "Received"
+    },
+    "sort": {
+      "label": "Sort",
+      "low": "Price: low to high",
+      "high": "Price: high to low",
+      "new": "Newest listed",
+      "num": "Number",
+      "numUp": "Number ↑",
+      "numDown": "Number ↓"
+    },
+    "showMine": "Show mine ({n})"
   },
   "mine": {
     "title": "Your Trader Flies",

@@ -277,8 +277,45 @@
       "buyNote": "一笔交易。在你之前被买走或改价的会跳过，不扣费。每个收 {pct}% 手续费。",
       "approveToken": "正在为购物车授权 {amount}…",
       "boughtAll": "{n} 个全部买到。剁手完成。",
-      "boughtSome": "买到 {n} 个中的 {got} 个。其余被抢先买走，没有扣费。"
-    }
+      "boughtSome": "买到 {n} 个中的 {got} 个。其余被抢先买走，没有扣费。",
+      "pickedOf": "已选 {n} / {of}"
+    },
+    "you": {
+      "title": "我",
+      "hold": {
+        "flies": "持有 {n} 只苍蝇",
+        "passes": "持有 {n} 张通行证"
+      },
+      "listed": "{n} 个挂单",
+      "offers": "{n} 个出价"
+    },
+    "yours": {
+      "flies": "我的苍蝇（{n}）",
+      "passes": "我的通行证（{n}）",
+      "none": "当前筛选下没有内容。",
+      "tab": {
+        "all": "全部（{n}）",
+        "idle": "钱包中（{n}）",
+        "listed": "挂单中（{n}）"
+      }
+    },
+    "origin": {
+      "all": "全部",
+      "minted": "铸造",
+      "claimed": "领取",
+      "bought": "买入",
+      "received": "收到"
+    },
+    "sort": {
+      "label": "排序",
+      "low": "价格从低到高",
+      "high": "价格从高到低",
+      "new": "最新挂单",
+      "num": "编号",
+      "numUp": "编号 ↑",
+      "numDown": "编号 ↓"
+    },
+    "showMine": "显示我的（{n}）"
   },
   "mine": {
     "title": "你的 Trader Flies",

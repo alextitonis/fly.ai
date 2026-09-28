@@ -279,8 +279,45 @@
       "buyNote": "Una sola transacción. Lo que se venda o cambie de precio antes se salta y no se cobra. Comisión del {pct}% cada uno.",
       "approveToken": "Aprobando {amount} para el carrito…",
       "boughtAll": "Compraste los {n}. Compras completadas.",
-      "boughtSome": "Compraste {got} de {n}. Los demás se los llevaron antes, no se te cobraron."
-    }
+      "boughtSome": "Compraste {got} de {n}. Los demás se los llevaron antes, no se te cobraron.",
+      "pickedOf": "{n} seleccionadas de {of}"
+    },
+    "you": {
+      "title": "Tú",
+      "hold": {
+        "flies": "tienes {n} moscas",
+        "passes": "tienes {n} pases"
+      },
+      "listed": "{n} listadas",
+      "offers": "{n} ofertas hechas"
+    },
+    "yours": {
+      "flies": "Tus moscas ({n})",
+      "passes": "Tus pases ({n})",
+      "none": "Nada con estos filtros.",
+      "tab": {
+        "all": "Todas ({n})",
+        "idle": "En la wallet ({n})",
+        "listed": "Listadas ({n})"
+      }
+    },
+    "origin": {
+      "all": "Todo",
+      "minted": "Minteada",
+      "claimed": "Reclamado",
+      "bought": "Comprada",
+      "received": "Recibida"
+    },
+    "sort": {
+      "label": "Orden",
+      "low": "Precio: menor a mayor",
+      "high": "Precio: mayor a menor",
+      "new": "Listadas recientes",
+      "num": "Número",
+      "numUp": "Número ↑",
+      "numDown": "Número ↓"
+    },
+    "showMine": "Ver las mías ({n})"
   },
   "mine": {
     "title": "Tus Trader Flies",
