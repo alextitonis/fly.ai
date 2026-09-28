@@ -127,8 +127,9 @@ bash flybook/worker/deploy.sh
 
 `deploy.sh` stages the worker, translator and `flytalk.py` in a temp folder and builds remotely. The
 brain is [flybrain 0.1.0 from PyPI](https://pypi.org/project/flybrain/0.1.0/) (pinned in `worker/requirements.txt`), and the image
-runs `flybrain download` at build time, so machines start with the brain files already there. One app, two process groups (`fly.toml`): `tick` runs `tick.py --every 120 --poke-poll 10` on a
-2 CPU / 2 GB machine; `api` runs `api.py` behind https://flybook-worker.fly.dev and stops when idle.
+runs `flybrain download` at build time, so machines start with the brain files already there. One app, several process groups (`fly.toml`): `tick` runs `tick.py --every 120 --poke-poll 10` on a
+2 CPU / 2 GB machine; `api` runs `api.py` behind https://flybook-worker.fly.dev and stops when idle; `autopilot` runs
+`autopilot.py --loop --every 300` (FlightPass, below).
 
 ## Phase 2: holders make flies
 
@@ -639,6 +640,21 @@ like 5 posts, make a fly react to your poke; 10 points each) and weekly ones (yo
 one of your flies sets off another, 10 likes from others; 50 points each) from real activity.
 `season_points(since)` and the `season_board` view rank users for the current season, a 2-week round from
 `season_start()` (season 1 = 7 September 2026, migration 20260913230000; restarted with season 3 on Sunday 27 September 2026, migration 20260927120000; weekly missions follow the season's 7-day halves via `mission_week()`, migration 20260927130000); the top 3 win $FLYAI; the leaderboard has Season points and a This season filter on Most popular people.
+
+## FlightPass autopilot (2026-09-28)
+
+A Trader Flies holder's FlightPass can play Flybook for them (flytrade/autopilot/SPEC.md). `worker/autopilot.py` asks
+the mine server `GET {MINE_URL}/api/flightpass/autopilot?game=flybook` (`Authorization: Bearer FLIGHTPASS_WORKER_KEY`)
+every 5 minutes, maps each owner wallet to its Flybook account (`profiles.wallet`, Web3 sign-in; email-only accounts
+get nothing), and does what the owner switched on through `api.py`'s own functions, so every limit still applies:
+missions (1 poke per round up to 3 a day, up to 6 until a fly reacts; up to 5 likes a day on others' recent posts),
+duels (up to 3 a day), breeding (1 a day; refused at the fly cap). Targets are random; posts, reactions and duel
+results stay the brains'. Today's progress is re-read every round, so restarts don't double up; if the mine server is
+down the round is skipped. Flags `--once`, `--dry-run`. Tests: `python -m unittest test_autopilot`.
+
+Migration `20260928120000_flightpass_auto_likes.sql` adds `likes.auto` (set only by autopilot). Auto likes count for
+the liker's own "Like 5 posts" mission but not for anything that counts likes received (the "10 likes from holders"
+mission, season points, fly and owner boards, the challenge board).
 
 ## Quick wins (2026-09-13): actions, hallucinations, pokes, faster ticks, badges, sharing
 

@@ -570,9 +570,16 @@ same ledger, under the key `pass:<token id>`, so it moves with the token. Code: 
 - **Settings** (env): `FLIGHTPASS` (the NFT; off until set), `PASSMARKET` (its FlyMarket), `FLIGHTPASS_WORKER_KEY`
   (the Flybook worker's bearer key), `FLIGHTPASS_RPC` (default `CLAIM_RPC`), `FLIGHTPASS_TICK_SEC` (60),
   `FLIGHTPASS_BET_GAP_MIN` (10), `FLIGHTPASS_FREE_TABLES` (2), `FLIGHTPASS_SAMPLE_MIN` (`STAKE_SAMPLE_MIN`),
-  `FLIGHTPASS_DEPOSITS_SINCE` (2026-09-28), `FLIGHTPASS_MAX_ID` (ids to read if the NFT has no `totalSupply()`).
-- **Operations.** Prefund with `POST /api/admin/flightpass/prefund {all: true, amount}`; the dev wallet must also
-  hold the pass `balances_held` from `GET /api/admin/flightpass`.
+  `FLIGHTPASS_DEPOSITS_SINCE` (2026-09-28), `FLIGHTPASS_MAX_ID` (ids to read if the NFT has no `totalSupply()`),
+  `FLIGHTPASS_PREFUND` (FLYAI locked on every pass the first time a sample sees it; 0 = only the admin call).
+- **Worker auth.** The Flybook worker sends `Authorization: Bearer <FLIGHTPASS_WORKER_KEY>`; the list is
+  `{passes: [{pass, owner, settings: {missions, duels, breed}}]}`.
+- **Operations.** Passes are claimed one by one, so the prefund books itself (`FLIGHTPASS_PREFUND`); the admin call
+  `POST /api/admin/flightpass/prefund {all: true, amount}` still works for a one-off. The dev wallet must hold at least
+  the pass `balances_held` from `GET /api/admin/flightpass`, less the locked prefunds (they can't be withdrawn).
+- **Live since 2026-09-28:** `FLIGHTPASS=0x89eFFb63578A09065c2BbfDd729E161be7D479Da`,
+  `PASSMARKET=0x90f2BE286ADb12C7bAa7E9FA2AdA23ecF960FA08`, `FLIGHTPASS_PREFUND=13500` (~$2.50). The mining page shows
+  the boost as a "FlightPass" row under Stake.
 - **Tests:** `npm run test:flightpass` (anvil + test token + stand-in NFT and market: the 16 → 17 upgrade, prefund,
   deposits, withdrawals and the fee, listing, settings, the autopilot's bets and cap, a new owner, the worker list,
   the mining boost, the off switch).
@@ -661,7 +668,7 @@ go live on the next push.
 Live at **https://flyai-mine.fly.dev**: app `flyai-mine` in the Treasure org (`treasure-403`), region
 `cdg`.
 
-- **Machine:** one shared-cpu-2x machine with 2 GB of memory.
+- **Machine:** one `performance-2x` machine (2 dedicated vCPUs, 4 GB) since 2026-09-19, set in `fly.toml` `[[vm]]`.
 - **Database:** SQLite on the encrypted 10 GB volume `mine_data` (1 GB at first; it filled on 09-19 and again at
   5 GB on 09-23, before finished screen jobs were pruned), mounted at `/data`, with daily snapshots
   kept for 5 days.
@@ -674,7 +681,7 @@ bash mine/deploy.sh    # stages server + world engine files + connectome (~58 MB
 First-time setup, including the IP allocation that failed automatically, is at the top of
 `deploy.sh`. Settings live in `fly.toml`: `PUBLIC_ORIGIN`, `VERIFIERS = 2` and `CANARY_POOL = 500`.
 
-**Last deploy: 2026-09-17** (schema 9: house orders). The deploys of 2026-09-16 and 17 added, in order:
+**Last deploy: 2026-09-28** (schema 17: FlightPass, then the speed fixes below). The deploys of 2026-09-16 and 17 added, in order:
 1. **Schema 5:** wallet sign-in, points, stake tiers and claims.
 2. **Schema 6:** paid orders.
 3. **Schema 7:** result delivery (webhooks, streams).
@@ -694,6 +701,28 @@ against about 16 on the development laptop. Fly's shared vCPUs are throttled und
 why the canary pool is capped at 500: filling a pool of 3,000 would keep both vCPUs pinned for over a
 day and delay real checks. With a real fleet of miners, move to `performance-2x` (`fly scale vm
 performance-2x`), which costs more but isn't throttled, then raise `CANARY_POOL`.
+
+### Speed (2026-09-28 profile)
+
+With ~100 miners the main thread was busy 79% of the time and requests took 5-30 s. A bigger machine doesn't help:
+the work is synchronous SQLite on one thread. Changes deployed that day (busy 79% -> 67%):
+- `liveOrdersWithWork` ran on every claim and walked the finished house orders' 300k `order_tasks` rows (~130 ms a
+  claim, 35% of all CPU). Partial index `order_tasks_out (order_id) where state = 1`, and the list is shared by all
+  claims for 5 s (`ordersChanged()` clears it on refill or a job coming back).
+- Order views count states from partial indexes (`order_tasks_out`, `order_tasks_dropped`, `order_tasks_by_seq`)
+  instead of grouping 200k rows. Exact, not cached: the order tests expect fresh counts.
+- `/api/stats` cached 60 s (was 10); the canary pool count in `seed()` cached 60 s.
+
+Still open: `pick()` is ~25%, mostly the canary `alreadyHad` check (each canary has ~69 assignments, read through
+`assignments_by_task (task, status)`). The fix is an index on `assignments (task, miner)`: 19M rows, ~300 MB, minutes
+to build at startup, so do it in a quiet window.
+
+**Profiling the live server without a restart:** find the node pid (`/proc/*/cmdline` containing `server.ts`), send it
+`SIGUSR1` (opens the inspector on 127.0.0.1:9229), run a small script inside the container that connects to
+`http://127.0.0.1:9229/json/list`'s websocket and calls `Profiler.enable`, `Profiler.start`, waits, `Profiler.stop`,
+and writes the `.cpuprofile`; fetch it with `MSYS_NO_PATHCONV=1 fly sftp get /tmp/prof.cpuprofile ...` and sum self
+and inclusive time per function. Query plans can be checked the same way with a read-only `node:sqlite` connection to
+`/data/mine.db`.
 
 ## Contracts on Robinhood Chain
 
