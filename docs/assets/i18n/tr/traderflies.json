@@ -250,6 +250,36 @@
         "claim": "Talep",
         "burn": "Yakım"
       }
+    },
+    "batch": {
+      "select": "Seç",
+      "done": "Tamam",
+      "all": "Tümünü seç",
+      "tick": "Seç",
+      "picked": "{n} seçildi",
+      "max": "Bir seferde en fazla {n}.",
+      "send": "Gönder",
+      "sendGo": "{n} gönder",
+      "sendCheck": "{n} öğe ücretsiz olarak {to} adresine gidiyor. Geri alınamaz: Gönderimi onayla'ya tıkla.",
+      "sent": "{n} gönderildi. Güle güle.",
+      "list": "İlana koy",
+      "listGo": "{n} ilana koy",
+      "listNote": "Kartta kendi fiyatı yoksa hepsine aynı fiyat.",
+      "listed": "{n} ilanda.",
+      "delist": "İlandan kaldır",
+      "delisted": "{n} piyasadan çekildi.",
+      "noneListed": "Bunların hiçbiri ilanda değil.",
+      "approving": "Önce piyasanın {n} öğeyi taşımasına izin veriliyor…",
+      "step": "İşlem {i} / {n}: cüzdanında onayla.",
+      "confirm": "Cüzdanında onayla…",
+      "addToCart": "Sepete ekle",
+      "cartCount": "Sepette {n}",
+      "buy": "Seçilenleri al ({n})",
+      "clear": "Temizle",
+      "buyNote": "Tek işlem. Seninkinden önce satılan ya da fiyatı değişen atlanır, ücret alınmaz. Her biri %{pct} ücret.",
+      "approveToken": "Sepet için {amount} onaylanıyor…",
+      "boughtAll": "{n} öğenin hepsi alındı. Alışveriş tamam.",
+      "boughtSome": "{n} öğeden {got} alındı. Gerisini başkası kaptı, ücret alınmadı."
     }
   },
   "mine": {

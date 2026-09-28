@@ -250,6 +250,36 @@
         "claim": "Reclamo",
         "burn": "Quema"
       }
+    },
+    "batch": {
+      "select": "Seleccionar",
+      "done": "Listo",
+      "all": "Todo",
+      "tick": "Elegir",
+      "picked": "{n} elegidos",
+      "max": "Máximo {n} a la vez.",
+      "send": "Enviar",
+      "sendGo": "Enviar {n}",
+      "sendCheck": "Vas a enviar {n} a {to} gratis. No se puede deshacer: pulsa Confirmar envío.",
+      "sent": "{n} enviados. Chao.",
+      "list": "Listar",
+      "listGo": "Listar {n}",
+      "listNote": "Mismo precio para cada uno, salvo que una tarjeta tenga su propio precio.",
+      "listed": "{n} listados.",
+      "delist": "Deslistar",
+      "delisted": "{n} fuera del mercado.",
+      "noneListed": "Ninguno de esos está listado.",
+      "approving": "Primero dejando que el mercado mueva {n}…",
+      "step": "Transacción {i} de {n}: confírmala en tu wallet.",
+      "confirm": "Confirma en tu wallet…",
+      "addToCart": "Al carrito",
+      "cartCount": "{n} en el carrito",
+      "buy": "Comprar selección ({n})",
+      "clear": "Vaciar",
+      "buyNote": "Una sola transacción. Lo que se venda o cambie de precio antes se salta y no se cobra. Comisión del {pct}% cada uno.",
+      "approveToken": "Aprobando {amount} para el carrito…",
+      "boughtAll": "Compraste los {n}. Compras completadas.",
+      "boughtSome": "Compraste {got} de {n}. Los demás se los llevaron antes, no se te cobraron."
     }
   },
   "mine": {

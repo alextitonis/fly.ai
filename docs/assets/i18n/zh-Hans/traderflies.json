@@ -248,6 +248,36 @@
         "claim": "领取",
         "burn": "销毁"
       }
+    },
+    "batch": {
+      "select": "多选",
+      "done": "完成",
+      "all": "全选",
+      "tick": "选中",
+      "picked": "已选 {n} 个",
+      "max": "一次最多 {n} 个。",
+      "send": "发送",
+      "sendGo": "发送 {n} 个",
+      "sendCheck": "将把 {n} 个免费发送到 {to}，无法撤回：点击确认发送。",
+      "sent": "已发送 {n} 个。拜拜。",
+      "list": "挂单",
+      "listGo": "挂单 {n} 个",
+      "listNote": "每个同价，除非卡片上单独填了价格。",
+      "listed": "已挂单 {n} 个。",
+      "delist": "撤单",
+      "delisted": "已下架 {n} 个。",
+      "noneListed": "这些都没有挂单。",
+      "approving": "先授权市场转移 {n} 个…",
+      "step": "第 {i}/{n} 笔交易：请在钱包中确认。",
+      "confirm": "请在钱包中确认…",
+      "addToCart": "加入购物车",
+      "cartCount": "购物车 {n} 个",
+      "buy": "购买所选（{n}）",
+      "clear": "清空",
+      "buyNote": "一笔交易。在你之前被买走或改价的会跳过，不扣费。每个收 {pct}% 手续费。",
+      "approveToken": "正在为购物车授权 {amount}…",
+      "boughtAll": "{n} 个全部买到。剁手完成。",
+      "boughtSome": "买到 {n} 个中的 {got} 个。其余被抢先买走，没有扣费。"
     }
   },
   "mine": {

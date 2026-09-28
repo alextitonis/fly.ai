@@ -250,6 +250,36 @@
         "claim": "Claim",
         "burn": "Burn"
       }
+    },
+    "batch": {
+      "select": "Select",
+      "done": "Done",
+      "all": "Select all",
+      "tick": "Pick",
+      "picked": "{n} picked",
+      "max": "{n} at a time, max.",
+      "send": "Send",
+      "sendGo": "Send {n}",
+      "sendCheck": "Sending {n} to {to} for free. Can't be undone: click Confirm send.",
+      "sent": "{n} sent. Bye bye.",
+      "list": "List",
+      "listGo": "List {n}",
+      "listNote": "Same price for each, unless a card has its own price typed in.",
+      "listed": "{n} listed.",
+      "delist": "Delist",
+      "delisted": "{n} off the market.",
+      "noneListed": "None of those are listed.",
+      "approving": "Letting the market move {n} first…",
+      "step": "Transaction {i} of {n}: confirm it in your wallet.",
+      "confirm": "Confirm in your wallet…",
+      "addToCart": "Add to cart",
+      "cartCount": "{n} in cart",
+      "buy": "Buy selected ({n})",
+      "clear": "Clear",
+      "buyNote": "One transaction. Anything sold or repriced before yours lands is skipped, not charged. {pct}% fee each.",
+      "approveToken": "Approving {amount} for the cart…",
+      "boughtAll": "Bought all {n}. Shopping spree complete.",
+      "boughtSome": "Bought {got} of {n}. The rest got sniped first, you weren't charged for them."
     }
   },
   "mine": {

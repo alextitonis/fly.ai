@@ -248,6 +248,36 @@
         "claim": "領取",
         "burn": "銷毀"
       }
+    },
+    "batch": {
+      "select": "多選",
+      "done": "完成",
+      "all": "全選",
+      "tick": "選取",
+      "picked": "已選 {n} 個",
+      "max": "一次最多 {n} 個。",
+      "send": "發送",
+      "sendGo": "發送 {n} 個",
+      "sendCheck": "將把 {n} 個免費發送到 {to}，無法撤回：點擊確認發送。",
+      "sent": "已發送 {n} 個。掰掰。",
+      "list": "掛單",
+      "listGo": "掛單 {n} 個",
+      "listNote": "每個同價，除非卡片上單獨填了價格。",
+      "listed": "已掛單 {n} 個。",
+      "delist": "撤單",
+      "delisted": "已下架 {n} 個。",
+      "noneListed": "這些都沒有掛單。",
+      "approving": "先授權市場轉移 {n} 個…",
+      "step": "第 {i}/{n} 筆交易：請在錢包中確認。",
+      "confirm": "請在錢包中確認…",
+      "addToCart": "加入購物車",
+      "cartCount": "購物車 {n} 個",
+      "buy": "購買所選（{n}）",
+      "clear": "清空",
+      "buyNote": "一筆交易。在你之前被買走或改價的會跳過，不扣費。每個收 {pct}% 手續費。",
+      "approveToken": "正在為購物車授權 {amount}…",
+      "boughtAll": "{n} 個全部買到。剁手完成。",
+      "boughtSome": "買到 {n} 個中的 {got} 個。其餘被搶先買走，沒有扣費。"
     }
   },
   "mine": {
