@@ -129,7 +129,11 @@
     "poolUnavailable": "矿池数据不可用",
     "coinJobs": "{count} 个任务",
     "paused": "已暂停",
-    "pendingPaid": "{pending} {coin} 待付，已支付 {paid}"
+    "pendingPaid": "{pending} {coin} 待付，已支付 {paid}",
+    "flightpass": "FlightPass",
+    "fpToday": "<b>今天 {x}×</b> · 叠加在质押等级之上",
+    "fpTomorrow": "明天起 {x}×：持有通行证满一个 UTC 日",
+    "fpNone": "没有通行证 · <a href=\"{href}\">持有者积分 {x}×</a>"
   },
   "jobs": {
     "flyAiComputeBuy": "fly.ai 算力 · 购买算力",

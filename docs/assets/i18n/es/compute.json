@@ -129,7 +129,11 @@
     "poolUnavailable": "estadísticas del pool no disponibles",
     "coinJobs": "{count} trabajos",
     "paused": "en pausa",
-    "pendingPaid": "{pending} {coin} pendientes, {paid} pagados"
+    "pendingPaid": "{pending} {coin} pendientes, {paid} pagados",
+    "flightpass": "FlightPass",
+    "fpToday": "<b>{x}× hoy</b> · además de tu nivel de stake",
+    "fpTomorrow": "{x}× desde mañana: ten el pase un día UTC completo",
+    "fpNone": "sin pase · <a href=\"{href}\">los holders ganan {x}× puntos</a>"
   },
   "jobs": {
     "flyAiComputeBuy": "fly.ai compute · comprar cómputo",

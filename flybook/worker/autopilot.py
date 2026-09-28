@@ -78,7 +78,9 @@ def owners(passes: list[dict]) -> dict[str, Flags]:
         wallet = str(p.get("owner") or "").lower()
         if not wallet.startswith("0x") or len(wallet) != 42 or p.get("listed"):
             continue
-        s = (p.get("settings") or {}).get("flybook") or {}
+        # the mine server sends the Flybook settings themselves ({missions, duels, breed}); accept them nested too
+        s = p.get("settings") or {}
+        s = s.get("flybook") or {} if "flybook" in s else s
         f = out.setdefault(wallet, Flags())
         f.missions |= bool(s.get("missions"))
         f.duels |= bool(s.get("duels"))
@@ -102,7 +104,7 @@ def fetch_passes(http: requests.Session) -> list[dict] | None:
         return None
     try:
         r = http.get(f"{MINE_URL}/api/flightpass/autopilot", params={"game": "flybook"},
-                     headers={"Authorization": f"Bearer {WORKER_KEY}"}, timeout=20)
+                     headers={"Authorization": f"Bearer {WORKER_KEY}"}, timeout=60)   # the mine server can be slow under the mining fleet
         r.raise_for_status()
         body = r.json()
     except Exception as e:

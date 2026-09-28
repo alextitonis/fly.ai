@@ -129,7 +129,11 @@
     "poolUnavailable": "풀 통계를 불러올 수 없음",
     "coinJobs": "작업 {count}개",
     "paused": "일시 중지됨",
-    "pendingPaid": "{pending} {coin} 대기 중, {paid} 지급 완료"
+    "pendingPaid": "{pending} {coin} 대기 중, {paid} 지급 완료",
+    "flightpass": "FlightPass",
+    "fpToday": "<b>오늘 {x}×</b> · 스테이킹 등급에 더해",
+    "fpTomorrow": "내일부터 {x}×: 패스를 UTC 하루 종일 보유하세요",
+    "fpNone": "패스 없음 · <a href=\"{href}\">보유자는 포인트 {x}×</a>"
   },
   "jobs": {
     "flyAiComputeBuy": "fly.ai 컴퓨트 · 컴퓨트 구매",

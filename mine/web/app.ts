@@ -125,6 +125,17 @@ async function refresh(): Promise<void> {
     meLoaded = true;
     const held = me.stake?.holding ?? (me.stake?.tier ? { tier: me.stake.tier, multiplier: me.stake.multiplier } : null);
     tierNote = held ? `${held.tier} ${held.multiplier}×` : me.stake ? "1×" : "";
+    // FlightPass: x1.25 on a day the wallet held a pass from the day's first check to its last (the user 2026-09-28)
+    const fp = me.flightpass as { boost: number; today: boolean; holding: boolean } | null;
+    $("fp-row").hidden = !fp;
+    if (fp) {
+      $("flightpass").innerHTML = fp.today
+        ? t("compute.index.fpToday", { x: fp.boost })
+        : fp.holding
+          ? t("compute.index.fpTomorrow", { x: fp.boost })
+          : t("compute.index.fpNone", { x: fp.boost, href: "/traderflies/pass" });
+      if (fp.today) tierNote = `${tierNote ? `${tierNote} · ` : ""}FlightPass ${fp.boost}×`;
+    }
     // two browsers can both be called "qq": the id tells them apart, and only linked ones are paid
     $("miner-id").textContent = `${me.label || t("compute.index.unnamed")} · ${String(me.miner).slice(0, 8)}`;
     showWallet(me.wallet);

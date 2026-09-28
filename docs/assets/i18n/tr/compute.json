@@ -129,7 +129,11 @@
     "poolUnavailable": "havuz istatistikleri alınamadı",
     "coinJobs": "{count} iş",
     "paused": "duraklatıldı",
-    "pendingPaid": "{pending} {coin} bekliyor, {paid} ödendi"
+    "pendingPaid": "{pending} {coin} bekliyor, {paid} ödendi",
+    "flightpass": "FlightPass",
+    "fpToday": "<b>bugün {x}×</b> · stake kademene ek olarak",
+    "fpTomorrow": "yarından itibaren {x}×: pass'i tam bir UTC günü tut",
+    "fpNone": "pass yok · <a href=\"{href}\">sahipleri {x}× puan alır</a>"
   },
   "jobs": {
     "flyAiComputeBuy": "fly.ai compute · hesaplama satın al",

@@ -129,7 +129,11 @@
     "poolUnavailable": "無法取得礦池數據",
     "coinJobs": "{count} 個任務",
     "paused": "已暫停",
-    "pendingPaid": "{pending} {coin} 待入帳，已付出 {paid}"
+    "pendingPaid": "{pending} {coin} 待入帳，已付出 {paid}",
+    "flightpass": "FlightPass",
+    "fpToday": "<b>今天 {x}×</b> · 疊加在質押等級之上",
+    "fpTomorrow": "明天起 {x}×：持有通行證滿一個 UTC 日",
+    "fpNone": "沒有通行證 · <a href=\"{href}\">持有者積分 {x}×</a>"
   },
   "jobs": {
     "flyAiComputeBuy": "fly.ai 算力 · 購買算力",
