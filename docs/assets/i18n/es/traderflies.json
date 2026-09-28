@@ -618,6 +618,19 @@
       "mine": "Ten un pase un día UTC completo y los puntos de minería de ese día se multiplican por {x}, además de tu nivel de staking. Cuenta un pase por wallet.",
       "sellTitle": "Véndelo o envíalo",
       "sell": "El $FLYAI de dentro va con el pase. Mientras está listado se congela (sin recargas, retiros ni juego automático), así el comprador recibe lo que vio. Un nuevo dueño empieza con todos los juegos apagados."
-    }
+    },
+    "status": {
+      "listed": "En pausa mientras el pase está a la venta.",
+      "paused": "Fly Roulette está en pausa para todos ahora mismo. Tu mosca vuelve a jugar cuando vuelva.",
+      "terms": "Acepta los términos de Fly Roulette (18+) y tu mosca empieza a jugar.",
+      "stake": "La apuesta por partida debe estar entre {min} y {max} $FLYAI. Cámbiala y guarda.",
+      "dayCapYours": "Límite diario alcanzado: {cap} $FLYAI apostados hoy. Tu mosca vuelve a jugar a las {time} (00:00 UTC), o sube el «Máximo por día».",
+      "dayCapHouse": "Límite diario alcanzado: {cap} $FLYAI apostados hoy, lo máximo que Fly Roulette acepta por día. Tu mosca vuelve a jugar a las {time} (00:00 UTC).",
+      "lowBalance": "No hay suficiente en el pase para una apuesta ({need} $FLYAI). Recarga para seguir jugando.",
+      "playing": "Tu mosca está en la mesa ahora mismo.",
+      "waiting": "El piloto automático está activado. Próxima apuesta hacia las {time}."
+    },
+    "ofCap": "de {cap} hoy",
+    "houseLimits": "Límites de Fly Roulette: de {min} a {max} $FLYAI por apuesta, hasta {day} $FLYAI al día."
   }
 }

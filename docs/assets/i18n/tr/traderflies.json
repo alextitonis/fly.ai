@@ -618,6 +618,19 @@
       "mine": "Bir pass'i tam bir UTC günü tut, o günün madencilik puanları stake kademene ek olarak {x} olsun. Cüzdan başına bir pass sayılır.",
       "sellTitle": "Sat ya da gönder",
       "sell": "İçindeki $FLYAI pass ile birlikte gider. İlandayken dondurulur (yükleme, çekim veya otomatik oyun yok), böylece alıcı gördüğünü alır. Yeni sahip tüm oyunlar kapalı başlar."
-    }
+    },
+    "status": {
+      "listed": "Pass satışta olduğu sürece duraklatıldı.",
+      "paused": "Fly Roulette şu anda herkes için duraklatıldı. Geri geldiğinde sineğin yeniden oynar.",
+      "terms": "Fly Roulette şartlarını (18+) kabul et, sineğin oynamaya başlasın.",
+      "stake": "Oyun başına bahis {min} ile {max} $FLYAI arasında olmalı. Değiştir ve kaydet.",
+      "dayCapYours": "Günlük limite ulaşıldı: bugün {cap} $FLYAI bahis yapıldı. Sineğin {time} (00:00 UTC) itibarıyla yeniden oynar, ya da “Günlük maksimum”u artır.",
+      "dayCapHouse": "Günlük limite ulaşıldı: bugün {cap} $FLYAI bahis yapıldı, Fly Roulette'in günlük üst sınırı bu. Sineğin {time} (00:00 UTC) itibarıyla yeniden oynar.",
+      "lowBalance": "Pass'te bir bahis için yeterli bakiye yok ({need} $FLYAI). Oynamaya devam etmek için yükle.",
+      "playing": "Sineğin şu anda masada.",
+      "waiting": "Otomatik pilot açık. Sonraki bahis yaklaşık {time}."
+    },
+    "ofCap": "bugün {cap} içinden",
+    "houseLimits": "Fly Roulette limitleri: bahis başına {min}–{max} $FLYAI, günde en fazla {day} $FLYAI."
   }
 }

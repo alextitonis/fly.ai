@@ -96,9 +96,9 @@ export class Relayer {
   private readonly rpcUrl: string;
   private queue: Promise<unknown> = Promise.resolve();
 
-  constructor(privateKey: string, rpcUrl: string) {
+  constructor(privateKey: string, rpcUrl: string, name = "RELAYER_KEY") {
     this.key = bytes(privateKey);
-    if (this.key.length !== 32) throw new Error("RELAYER_KEY must be 32 bytes of hex");
+    if (this.key.length !== 32) throw new Error(`${name} must be 32 bytes of hex`);
     this.address = checksumAddress(`0x${hex(keccak_256(secp256k1.getPublicKey(this.key, false).subarray(1))).slice(-40)}`);
     this.rpcUrl = rpcUrl;
   }
@@ -110,7 +110,8 @@ export class Relayer {
 
   /**
    * Simulate, sign, send and wait for one call. A call that would revert (a bad or used signature, too little USDC)
-   * throws before any gas is spent. Resolves with the transaction hash once it's mined successfully.
+   * throws before any gas is spent. Resolves with the transaction hash once it's mined successfully. An error marked
+   * `unsent` means nothing reached the chain; any other may have been sent.
    */
   send(to: string, data: string): Promise<string> {
     const run = this.queue.then(() => this.sendNow(to, data));
@@ -119,6 +120,26 @@ export class Relayer {
   }
 
   private async sendNow(to: string, data: string): Promise<string> {
+    let hash: string;
+    try {
+      hash = await this.broadcast(to, data);
+    } catch (err) {
+      if ((err as { maybeSent?: boolean }).maybeSent) throw err;
+      throw Object.assign(err instanceof Error ? err : new Error(String(err)), { unsent: true });
+    }
+    for (let i = 0; i < 120; i++) {
+      const receipt = await rpc(this.rpcUrl, "eth_getTransactionReceipt", [hash]);
+      if (receipt) {
+        if (receipt.status !== "0x1") throw new Error(`the transfer reverted on-chain (${hash})`);
+        return hash;
+      }
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+    throw new Error(`the transfer wasn't mined in 2 minutes (${hash})`);
+  }
+
+  /** Signs and sends; throws only while nothing has left (a node's own error reply included). */
+  private async broadcast(to: string, data: string): Promise<string> {
     const call = { from: this.address, to, data };
     let gas: bigint;
     try {
@@ -140,15 +161,12 @@ export class Relayer {
     const sig = secp256k1.sign(keccak_256(unsigned), this.key, { prehash: false, format: "recovered" });
     // noble's recovered format is recovery || r || s
     const signed = concat([Uint8Array.of(2), rlp([...(fields as Rlp[]), int(BigInt(sig[0])), int(BigInt(`0x${hex(sig.subarray(1, 33))}`)), int(BigInt(`0x${hex(sig.subarray(33, 65))}`))])]);
-    const hash: string = await rpc(this.rpcUrl, "eth_sendRawTransaction", [`0x${hex(signed)}`]);
-    for (let i = 0; i < 120; i++) {
-      const receipt = await rpc(this.rpcUrl, "eth_getTransactionReceipt", [hash]);
-      if (receipt) {
-        if (receipt.status !== "0x1") throw new Error(`the transfer reverted on-chain (${hash})`);
-        return hash;
-      }
-      await new Promise((r) => setTimeout(r, 1000));
+    try {
+      return await rpc(this.rpcUrl, "eth_sendRawTransaction", [`0x${hex(signed)}`]);
+    } catch (err) {
+      // the node answered with an error: it refused the transaction. A dropped connection may have sent it.
+      if ((err as { rpc?: boolean }).rpc) throw err;
+      throw Object.assign(new Error(`sending the transfer failed midway: ${err instanceof Error ? err.message : err}`), { maybeSent: true });
     }
-    throw new Error(`the transfer wasn't mined in 2 minutes (${hash})`);
   }
 }

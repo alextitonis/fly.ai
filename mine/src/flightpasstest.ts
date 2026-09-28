@@ -3,7 +3,8 @@
  * - a schema 16 ledger upgrades to 17 (kinds prefund and fee) with every row kept;
  * - the team's prefund, once per existing pass, locked: played but never withdrawn;
  * - deposits by the owner only; withdrawals only after a deposit, only above the prefund, 99% to send + 1% fee,
- *   cancelled back or marked paid by the operator;
+ *   cancelled back or marked paid by the operator, or sent by the server's payout wallet (up to FLIGHTPASS_AUTO_MAX;
+ *   an empty payout wallet just waits);
  * - a listed pass takes no deposits, withdrawals or setting changes;
  * - settings need the roulette terms, belong to the owner who wrote them and lapse when the pass changes hands;
  * - the autopilot bets from the pass, within its daily cap, and stops for a new owner;
@@ -160,8 +161,16 @@ try {
   {
     const [v, sql] = dbDo((db) => [(db.prepare("pragma user_version").get() as { user_version: number }).user_version,
       (db.prepare("select sql from sqlite_master where name = 'ledger'").get() as { sql: string }).sql] as const);
-    check("a schema 16 ledger upgrades to 17 with prefund and fee", v === 17 && sql.includes("'prefund'") && sql.includes("'fee'"));
+    check("a schema 16 ledger upgrades with prefund and fee", v === 18 && sql.includes("'prefund'") && sql.includes("'fee'"));
   }
+  await stopServer();
+  dbDo((db) => db.exec(`
+    alter table flightpass_withdrawals drop column sending_at;
+    alter table flightpass_withdrawals drop column error;
+    pragma user_version = 17;`));
+  await startServer();
+  check("schema 17 upgrades to 18: withdrawals gain sending_at and error", dbDo((db) =>
+    (db.prepare("pragma table_info(flightpass_withdrawals)").all() as { name: string }[]).filter((c) => c.name === "sending_at" || c.name === "error").length === 2));
   check("balances survive the upgrade", (await api(`/api/balance?wallet=${bob.address}`, null)).json.balance === "700");
 
   // ---- config, sign-in, prefund
@@ -246,6 +255,10 @@ try {
   check("and the books add up", Number(v.balance) === 1410 - 200 + won * 190, `balance ${v.balance}, won ${won}`);
   await sleep(4000);
   check("the daily cap holds", (await api("/api/flightpass/1", a)).json.games.length === 2);
+  const capped = (await api("/api/flightpass/1", a)).json;
+  check("the page is told why: the pass's own daily cap, and when it plays again", capped.roulette_status?.state === "day_cap"
+    && capped.roulette_status.yours === true && capped.roulette_status.cap === "200" && capped.day_cap === "200"
+    && capped.roulette_status.resets_at > Date.now(), JSON.stringify(capped.roulette_status));
   check("the player's own roulette balance is untouched", (await api("/api/roulette/me", a)).json.balance === "0");
 
   // ---- a new owner: the old settings lapse
@@ -272,6 +285,37 @@ try {
   check("a pass held all day: x1.25", wallets.get(alice.address) === 12.5, `${wallets.get(alice.address)}`);
   check("no pass: x1", wallets.get(carol) === 10, `${wallets.get(carol)}`);
   check("a pass that changed hands that day: x1", wallets.get(dave) === 10, `${wallets.get(dave)}`);
+
+  // ---- the server sends withdrawals itself, up to FLIGHTPASS_AUTO_MAX
+  // a fresh hot wallet with gas and no FLYAI yet
+  const payerKey = secp256k1.utils.randomSecretKey();
+  const payer = checksumAddress(`0x${hex(keccak_256(secp256k1.getPublicKey(payerKey, false).subarray(1))).slice(-40)}`);
+  await rpc("anvil_setBalance", [payer, "0xde0b6b3a7640000"]);
+  await stopServer();
+  await startServer({ FLIGHTPASS_SAMPLE_MIN: "600", FLIGHTPASS_PAYOUT_KEY: `0x${hex(payerKey)}`, FLIGHTPASS_PAY_SEC: "1", FLIGHTPASS_AUTO_MAX: "350" });
+  const tokensOf = async (who: string) => BigInt(await rpc("eth_call", [{ to: token, data: calldata("balanceOf(address)", who) }, "latest"]));
+  const bobBefore = await tokensOf(bob.address);
+  const small = await api("/api/flightpass/1/withdraw", b, { amount: "300" });
+  check("a withdrawal asked", small.status === 200, JSON.stringify(small.json).slice(0, 200));
+  await sleep(3000);
+  const dry = (await api("/api/admin/flightpass", null, undefined, ADMIN)).json;
+  check("an empty payout wallet: it just waits, no error", dry.payer.address === payer && dry.payer.waiting_for_funds === true && dry.withdrawals.length === 1
+    && dry.withdrawals[0].sending_at === null && dry.withdrawals[0].error === null && (await api("/api/flightpass/1", b)).json.withdraw_request?.amount === "297",
+    JSON.stringify(dry).slice(0, 400));
+  await sendTx(owner.address, token, calldata("mint(address,uint256)", payer, 1000n * WEI));
+  let paid: any = null;
+  for (let i = 0; i < 30 && !paid; i++) {
+    await sleep(1000);
+    paid = (await api("/api/flightpass/1", b)).json.withdrawals.find((w: any) => w.status === "paid" && w.amount === "297");
+  }
+  check("sent by the server, on chain", !!paid && /^0x[0-9a-f]{64}$/.test(paid.tx) && (await tokensOf(bob.address)) - bobBefore === 297n * WEI, JSON.stringify(paid));
+  check("and the request is closed", (await api("/api/flightpass/1", b)).json.withdraw_request === null);
+  await api("/api/flightpass/1/withdraw", b, { amount: "400" });
+  await sleep(3000);
+  const big = (await api("/api/admin/flightpass", null, undefined, ADMIN)).json;
+  check("above FLIGHTPASS_AUTO_MAX: waits for the operator", big.withdrawals.length === 1 && big.withdrawals[0].send === "396" && big.withdrawals[0].sending_at === null
+    && big.payer.sent_today === "297", JSON.stringify(big).slice(0, 400));
+  check("the operator still settles it", (await api("/api/admin/flightpass/withdrawal", null, { id: big.withdrawals[0].id, cancel: true }, ADMIN)).status === 200);
 
   // ---- off
   await stopServer();

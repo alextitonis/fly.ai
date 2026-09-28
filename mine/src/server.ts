@@ -176,7 +176,7 @@ function round(r: number): TaskParams[] {
 }
 
 // ---- storage -----------------------------------------------------------------------------------------
-const SCHEMA = 17; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables); created below for new and old databases alike
+const SCHEMA = 18; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables), 18 FlightPass withdrawals sent by the server (sending_at, error); created below for new and old databases alike
 /** PROGRAM_BONUS before schema 15, and the factor stored program units are scaled by so credit keeps its value. */
 const OLD_PROGRAM_BONUS = 1.25;
 mkdirSync(dirname(DB_PATH), { recursive: true });
@@ -310,6 +310,14 @@ if (hasTables && version < 17 && db.prepare("select 1 from sqlite_master where n
     throw err;
   }
   console.log(`database upgraded to schema 17 (ledger kinds for FlightPass, ${rows} rows kept)`);
+}
+if (hasTables && version < 18 && db.prepare("select 1 from sqlite_master where name = 'flightpass_withdrawals'").get()) {
+  // 18: the server sends FlightPass withdrawals itself (FLIGHTPASS_PAYOUT_KEY)
+  const cols = new Set((db.prepare("pragma table_info(flightpass_withdrawals)").all() as { name: string }[]).map((c) => c.name));
+  for (const [col, type] of [["sending_at", "integer"], ["error", "text"]]) {
+    if (!cols.has(col)) db.exec(`alter table flightpass_withdrawals add column ${col} ${type}`);
+  }
+  console.log("database upgraded to schema 18 (FlightPass auto withdrawals)");
 }
 db.exec(`
   pragma journal_mode = wal;
@@ -625,7 +633,9 @@ db.exec(`
     status text not null check (status in ('open', 'paid', 'cancelled')),
     created_at integer not null,
     done_at integer,
-    tx text
+    tx text,
+    sending_at integer,               -- when the server started sending it (FLIGHTPASS_PAYOUT_KEY); never sent twice
+    error text                        -- why the server's send failed, for the operator
   );
   create index if not exists flightpass_withdrawals_open on flightpass_withdrawals (pass) where status = 'open';
   create table if not exists flightpass_days (
@@ -3325,6 +3335,9 @@ const flightpass = createFlightPass({
     return transfersIn(CLAIMS.rpc, tx, ORDERS.token, ORDERS.payTo);
   },
   roulette, rpcUrl: env("FLIGHTPASS_RPC", CLAIMS.rpc), payTo: ORDERS.payTo ?? null, today, env: process.env,
+  token: ORDERS.token,
+  // sends withdrawals itself: a hot wallet holding a float of FLYAI and gas, on the FLYAI chain
+  payer: process.env.FLIGHTPASS_PAYOUT_KEY ? new Relayer(process.env.FLIGHTPASS_PAYOUT_KEY, CLAIMS.rpc, "FLIGHTPASS_PAYOUT_KEY") : null,
 });
 flightpass.start();
 // card checkouts still open from the last three hours: a buyer who closed the tab still gets their order started

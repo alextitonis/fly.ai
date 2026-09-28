@@ -616,6 +616,19 @@
       "mine": "持有通行證滿一個 UTC 日，當天挖礦積分在質押等級之外再 {x}。每個錢包只計一張。",
       "sellTitle": "出售或轉贈",
       "sell": "裡面的 $FLYAI 跟隨通行證轉移。掛單期間通行證被凍結（不能儲值、提領或自動遊戲），買家拿到的就是看到的。新持有人開始時所有遊戲皆為關閉狀態。"
-    }
+    },
+    "status": {
+      "listed": "通行證掛牌出售期間已暫停。",
+      "paused": "Fly Roulette 目前對所有人暫停。恢復後你的蒼蠅會繼續玩。",
+      "terms": "接受 Fly Roulette 條款（18+），你的蒼蠅就會開始玩。",
+      "stake": "每局下注必須在 {min} 到 {max} $FLYAI 之間。修改後儲存。",
+      "dayCapYours": "已達每日上限：今天已下注 {cap} $FLYAI。你的蒼蠅將在 {time}（UTC 00:00）繼續玩，或者調高「每日上限」。",
+      "dayCapHouse": "已達每日上限：今天已下注 {cap} $FLYAI，這是 Fly Roulette 每天的最高額度。你的蒼蠅將在 {time}（UTC 00:00）繼續玩。",
+      "lowBalance": "通行證餘額不足一次下注（{need} $FLYAI）。儲值後繼續玩。",
+      "playing": "你的蒼蠅正在牌桌上。",
+      "waiting": "自動駕駛已開啟。下一次下注約在 {time}。"
+    },
+    "ofCap": "今日上限 {cap}",
+    "houseLimits": "Fly Roulette 限額：每次下注 {min} 到 {max} $FLYAI，每天最多 {day} $FLYAI。"
   }
 }

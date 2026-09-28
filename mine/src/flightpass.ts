@@ -7,6 +7,10 @@
  * - The owner deposits FLYAI (a transfer to PAY_TO, as roulette deposits; no fee) and, once they have deposited at
  *   least once, asks for anything above the locked part back. A withdrawal pays 99%: the amount leaves the pass at
  *   once as a `withdraw` row for what the operator sends and a `fee` row for the dev's 1%.
+ * - With FLIGHTPASS_PAYOUT_KEY the server sends withdrawals itself from that hot wallet, oldest first, each up to
+ *   FLIGHTPASS_AUTO_MAX and FLIGHTPASS_AUTO_DAY in all per UTC day; bigger ones wait for the operator. A row is marked
+ *   `sending_at` before its transfer goes out and is never sent again: a send that may have left the wallet without a
+ *   receipt keeps its `error` for the operator to settle (tx or cancel) by hand.
  * - While the pass is listed on the FlightPass market (FlyMarket.isListed) deposits, withdrawals and autoplay stop,
  *   so a buyer gets the balance they saw.
  * - Autopilot: the owner turns games on. Roulette is played here (roulette.autoBet, terms checked on the owner);
@@ -38,6 +42,12 @@ interface Roulette {
   CFG: { minBet: bigint; maxBet: bigint; maxDay: bigint; maxLive: number };
 }
 
+export interface Payer {
+  address: string;
+  balance: () => Promise<bigint>;
+  send: (to: string, data: string) => Promise<string>;
+}
+
 export interface FlightPassDeps {
   db: DatabaseSync;
   transaction: <T>(fn: () => T) => T;
@@ -56,6 +66,9 @@ export interface FlightPassDeps {
   payTo: string | null;
   today: () => string;
   env: NodeJS.ProcessEnv;
+  /** the FLYAI token, for the payer's transfers */
+  token: string;
+  payer: Payer | null;
 }
 
 export interface Settings {
@@ -90,6 +103,10 @@ export function createFlightPass(d: FlightPassDeps) {
     sampleMs: Number(d.env.FLIGHTPASS_SAMPLE_MIN ?? d.env.STAKE_SAMPLE_MIN ?? "10") * 60_000,
     depositsSince: Date.parse(d.env.FLIGHTPASS_DEPOSITS_SINCE ?? "2026-09-28T00:00:00Z"),
     /** FLYAI locked on every pass the first time it's seen (passes are claimed one by one); 0 = only the admin call */
+    /** the most one withdrawal the payer sends by itself, and in all per UTC day */
+    autoMax: toWei(d.env.FLIGHTPASS_AUTO_MAX ?? "25000"),
+    autoDay: toWei(d.env.FLIGHTPASS_AUTO_DAY ?? "100000"),
+    payMs: Number(d.env.FLIGHTPASS_PAY_SEC ?? "30") * 1000,
     autoPrefund: (() => { try { return toWei(d.env.FLIGHTPASS_PREFUND ?? "0"); } catch { throw new Error("FLIGHTPASS_PREFUND is a number of tokens"); } })(),
   };
   if (!Number.isFinite(CFG.depositsSince)) throw new Error("FLIGHTPASS_DEPOSITS_SINCE is a date, e.g. 2026-09-28T00:00:00Z");
@@ -241,6 +258,32 @@ export function createFlightPass(d: FlightPassDeps) {
     return owner && s.owner === owner ? s : OFF();
   };
 
+  /**
+   * Why the roulette autopilot is or isn't betting right now, for the pass page (the same checks tick() makes, in the
+   * same order): off, listed, paused (roulette off or out of tables), terms, stake (outside today's bet limits),
+   * day_cap (the pass's or the house's daily cap; bets again at resets_at), low_balance, playing (a game is on) or
+   * waiting (the next bet at next_at).
+   */
+  function rouletteStatus(id: number, owner: string, isListed: boolean) {
+    const s = activeSettings(id, owner).roulette;
+    const k = key(id);
+    if (!s.on) return { state: "off" };
+    if (isListed) return { state: "listed" };
+    if (!d.roulette.isOn()) return { state: "paused" };
+    if (!d.roulette.termsAccepted(owner)) return { state: "terms" };
+    const stake = toWei(s.stake), R = d.roulette.CFG;
+    if (stake < R.minBet || stake > R.maxBet) return { state: "stake", min: fromWei(R.minBet), max: fromWei(R.maxBet) };
+    const own = toWei(s.max_day);
+    const cap = own < R.maxDay ? own : R.maxDay;
+    if (d.roulette.daySpent(k) + stake > cap) {
+      return { state: "day_cap", cap: fromWei(cap), yours: own < R.maxDay, house_max: fromWei(R.maxDay), resets_at: utcDayStart() + 86_400_000 };
+    }
+    if (balanceOf(k) < stake) return { state: "low_balance", need: fromWei(stake) };
+    if (d.roulette.liveFor(k)) return { state: "playing" };
+    const last = one<{ last_bet_at: number | null } | undefined>("select last_bet_at from flightpass where id = ?", id)?.last_bet_at ?? 0;
+    return { state: "waiting", next_at: Math.max(Date.now(), last + CFG.betGapMs) };
+  }
+
   function view(id: number, owner: string, isListed: boolean, mine: boolean) {
     const k = key(id);
     const base = {
@@ -253,6 +296,9 @@ export function createFlightPass(d: FlightPassDeps) {
       settings: activeSettings(id, owner),
       terms_accepted: d.roulette.termsAccepted(owner),
       day_bet: fromWei(d.roulette.daySpent(k)),
+      // what this pass may bet today: its own "max per day" when roulette is on, never past the house's daily cap
+      day_cap: fromWei(((s) => s.on && toWei(s.max_day) < d.roulette.CFG.maxDay ? toWei(s.max_day) : d.roulette.CFG.maxDay)(activeSettings(id, owner).roulette)),
+      roulette_status: rouletteStatus(id, owner, isListed),
       live_game: (one<{ id: string } | undefined>("select id from roulette_games where wallet = ? and status = 'live'", k))?.id ?? null,
       history: (db.prepare("select kind, amount_wei, tx, at from ledger where wallet = ? order by id desc limit 30").all(k) as { kind: string; amount_wei: string; tx: string | null; at: number }[])
         .map((r) => ({ kind: r.kind, amount: fromWei(BigInt(r.amount_wei)), tx: r.tx, at: r.at })),
@@ -418,7 +464,7 @@ export function createFlightPass(d: FlightPassDeps) {
     return { prefunded: done, skipped, amount_each: fromWei(amount), total: fromWei(amount * BigInt(done)) };
   }
 
-  function admin() {
+  async function admin() {
     let held = 0n, lockedAll = 0n;
     for (const r of db.prepare("select distinct wallet from ledger where wallet like 'pass:%'").all() as { wallet: string }[]) {
       held += balanceOf(r.wallet);
@@ -427,8 +473,15 @@ export function createFlightPass(d: FlightPassDeps) {
     return {
       on, contract: CFG.contract, market: CFG.market, passes_seen: owners.size, listed: listed.size, sampled_at: sampledAt || null,
       balances_held: fromWei(held), locked: fromWei(lockedAll),
+      payer: d.payer ? {
+        address: d.payer.address, auto_max: fromWei(CFG.autoMax), auto_day: fromWei(CFG.autoDay), sent_today: fromWei(autoSentToday()),
+        ...await payerFunds().then((f) => ({ flyai: fromWei(f.flyai), gas_eth: fromWei(f.gas) }), () => ({})), waiting_for_funds: waitingForFunds,
+      } : null,
       withdrawals: (db.prepare("select * from flightpass_withdrawals where status = 'open' order by id").all() as any[])
-        .map((w) => ({ id: w.id, pass: w.pass, wallet: w.wallet, send: fromWei(BigInt(w.amount_wei)), fee: fromWei(BigInt(w.fee_wei)), created_at: w.created_at })),
+        .map((w) => ({
+          id: w.id, pass: w.pass, wallet: w.wallet, send: fromWei(BigInt(w.amount_wei)), fee: fromWei(BigInt(w.fee_wei)), created_at: w.created_at,
+          sending_at: w.sending_at ?? null, error: w.error ?? null,
+        })),
     };
   }
 
@@ -438,6 +491,7 @@ export function createFlightPass(d: FlightPassDeps) {
     const w = one<{ id: number; pass: number; amount_wei: string; fee_wei: string; status: string } | undefined>("select * from flightpass_withdrawals where id = ?", id);
     if (!w) throw new HttpError(404, "no such withdrawal");
     if (w.status !== "open") throw new HttpError(409, `that withdrawal is ${w.status}`);
+    if (payingNow === id) throw new HttpError(409, "the server is sending that withdrawal right now; look again in a couple of minutes");
     if (body.cancel === true) {
       transaction(() => {
         db.prepare("update flightpass_withdrawals set status = 'cancelled', done_at = ? where id = ?").run(Date.now(), id);
@@ -448,6 +502,61 @@ export function createFlightPass(d: FlightPassDeps) {
     if (typeof body.tx !== "string" || !/^0x[0-9a-fA-F]{64}$/.test(body.tx)) throw new HttpError(400, "tx is the hash of the transfer, or cancel: true");
     db.prepare("update flightpass_withdrawals set status = 'paid', done_at = ?, tx = ? where id = ?").run(Date.now(), body.tx.toLowerCase(), id);
     return { id, status: "paid" };
+  }
+
+  // ---- withdrawals the server sends ----------------------------------------------------------------------
+  let payingNow: number | null = null;
+  let payPausedUntil = 0;
+  let waitingForFunds = false;
+  const payerFunds = async () => {
+    const [flyai, gas] = await Promise.all([call(d.token, selector("balanceOf(address)") + word(BigInt(d.payer!.address))).then(BigInt), d.payer!.balance()]);
+    return { flyai, gas };
+  };
+  const autoSentToday = () => {
+    let s = 0n;
+    for (const r of db.prepare("select amount_wei from flightpass_withdrawals where sending_at >= ? and status != 'cancelled'").all(utcDayStart()) as { amount_wei: string }[]) s += BigInt(r.amount_wei);
+    return s;
+  };
+  const transferData = (to: string, amount: bigint) => `${selector("transfer(address,uint256)")}${word(BigInt(to))}${word(amount)}`;
+
+  async function payOut(): Promise<void> {
+    if (!d.payer || payingNow !== null || Date.now() < payPausedUntil) return;
+    const open = db.prepare("select id, wallet, amount_wei from flightpass_withdrawals where status = 'open' and sending_at is null order by id").all() as { id: number; wallet: string; amount_wei: string }[];
+    for (const w of open) {
+      const amount = BigInt(w.amount_wei);
+      if (amount > CFG.autoMax) continue; // the operator's
+      if (autoSentToday() + amount > CFG.autoDay) return;
+      // an empty payout wallet is no fault: the request waits ("on its way") until it's topped up
+      const funds = await payerFunds();
+      if (funds.flyai < amount || funds.gas === 0n) {
+        if (!waitingForFunds) console.log(`flightpass payouts waiting for funds: withdrawal ${w.id} needs ${fromWei(amount)} FLYAI, ${d.payer.address} has ${fromWei(funds.flyai)} FLYAI and ${fromWei(funds.gas)} ETH`);
+        waitingForFunds = true;
+        return;
+      }
+      waitingForFunds = false;
+      // claimed before anything leaves: a restart mid-send never sends it again
+      if (db.prepare("update flightpass_withdrawals set sending_at = ?, error = null where id = ? and status = 'open' and sending_at is null").run(Date.now(), w.id).changes !== 1) continue;
+      payingNow = w.id;
+      try {
+        const tx = await d.payer.send(d.token, transferData(w.wallet, amount));
+        db.prepare("update flightpass_withdrawals set status = 'paid', done_at = ?, tx = ? where id = ?").run(Date.now(), tx.toLowerCase(), w.id);
+        console.log(`flightpass withdrawal ${w.id}: sent ${fromWei(amount)} FLYAI to ${w.wallet} (${tx})`);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        if ((err as { unsent?: boolean }).unsent) {
+          // nothing left the wallet (too little FLYAI or gas, a node down): back in line, try again in a while
+          db.prepare("update flightpass_withdrawals set sending_at = null, error = ? where id = ?").run(msg, w.id);
+          payPausedUntil = Date.now() + 10 * 60_000;
+          console.error(`flightpass withdrawal ${w.id} not sent, retrying in 10 minutes: ${msg}`);
+        } else {
+          db.prepare("update flightpass_withdrawals set error = ? where id = ?").run(msg, w.id);
+          console.error(`flightpass withdrawal ${w.id} may have been sent; the operator settles it: ${msg}`);
+        }
+        return;
+      } finally {
+        payingNow = null;
+      }
+    }
   }
 
   // ---- the autopilot -------------------------------------------------------------------------------------
@@ -463,7 +572,9 @@ export function createFlightPass(d: FlightPassDeps) {
         if (!s.on || Date.now() - (r.last_bet_at ?? 0) < CFG.betGapMs) continue;
         const k = key(r.id);
         const stake = toWei(s.stake);
-        if (d.roulette.liveFor(k) || balanceOf(k) < stake || d.roulette.daySpent(k) + stake > toWei(s.max_day)) continue;
+        const own = toWei(s.max_day), dayCap = own < d.roulette.CFG.maxDay ? own : d.roulette.CFG.maxDay;
+        // (the house's daily cap too: without it a capped pass was refused, and logged, every tick until midnight)
+        if (d.roulette.liveFor(k) || balanceOf(k) < stake || d.roulette.daySpent(k) + stake > dayCap) continue;
         if (d.roulette.liveCount() >= d.roulette.CFG.maxLive - CFG.freeTables) break;
         // the listing and owner right before the stake moves, not the last sample
         const now = await current(r.id).catch(() => null);
@@ -487,6 +598,10 @@ export function createFlightPass(d: FlightPassDeps) {
     void sample();
     setInterval(() => void sample(), CFG.sampleMs).unref();
     setInterval(() => void tick().catch((err) => console.error("flightpass tick:", err)), CFG.tickMs).unref();
+    if (d.payer) {
+      console.log(`flightpass withdrawals sent from ${d.payer.address}, up to ${fromWei(CFG.autoMax)} each and ${fromWei(CFG.autoDay)} a day`);
+      setInterval(() => void payOut().catch((err) => console.error("flightpass payout:", err)), CFG.payMs).unref();
+    }
   }
 
   // ---- mining --------------------------------------------------------------------------------------------
@@ -516,7 +631,7 @@ export function createFlightPass(d: FlightPassDeps) {
     if (req.method === "GET") {
       if (p === "/api/flightpass/mine") return d.send(res, 200, await mine(req)), true;
       if (p === "/api/flightpass/autopilot") return d.send(res, 200, await autopilot(req, url.searchParams.get("game") ?? "")), true;
-      if (p === "/api/admin/flightpass") { d.adminOnly(req); return d.send(res, 200, admin()), true; }
+      if (p === "/api/admin/flightpass") { d.adminOnly(req); return d.send(res, 200, await admin()), true; }
       if ((m = /^\/api\/flightpass\/(\d{1,9})$/.exec(p))) return d.send(res, 200, await onePass(req, Number(m[1]))), true;
     }
     if (req.method === "POST") {
@@ -532,5 +647,5 @@ export function createFlightPass(d: FlightPassDeps) {
     return false;
   }
 
-  return { route, start, boostedDays, boostView, config, sample, tick };
+  return { route, start, boostedDays, boostView, config, sample, tick, payOut };
 }
