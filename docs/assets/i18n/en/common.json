@@ -82,6 +82,10 @@
     "traderflies_pets": {
       "label": "Hardware NFTs",
       "desc": "FLYAI pets: pre-order a pocket fly"
+    },
+    "traderflies_pass": {
+      "label": "FlightPass",
+      "desc": "Put your flies on autopilot"
     }
   },
   "footer": {

@@ -82,6 +82,10 @@
     "traderflies_pets": {
       "label": "Hardware NFTs",
       "desc": "FLYAI 宠物：预订一只口袋苍蝇"
+    },
+    "traderflies_pass": {
+      "label": "FlightPass",
+      "desc": "让你的苍蝇自动驾驶"
     }
   },
   "footer": {

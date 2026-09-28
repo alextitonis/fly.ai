@@ -82,6 +82,10 @@
     "traderflies_pets": {
       "label": "Hardware NFTs",
       "desc": "FLYAI evcil hayvanları: cep sineği ön siparişi"
+    },
+    "traderflies_pass": {
+      "label": "FlightPass",
+      "desc": "Sineklerini otomatik pilota al"
     }
   },
   "footer": {

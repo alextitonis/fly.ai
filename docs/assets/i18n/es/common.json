@@ -82,6 +82,10 @@
     "traderflies_pets": {
       "label": "Hardware NFTs",
       "desc": "Mascotas FLYAI: reserva una mosca de bolsillo"
+    },
+    "traderflies_pass": {
+      "label": "FlightPass",
+      "desc": "Pon tus moscas en piloto automático"
     }
   },
   "footer": {

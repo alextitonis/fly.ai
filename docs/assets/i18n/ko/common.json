@@ -82,6 +82,10 @@
     "traderflies_pets": {
       "label": "Hardware NFTs",
       "desc": "FLYAI 펫: 주머니 파리 사전 주문"
+    },
+    "traderflies_pass": {
+      "label": "FlightPass",
+      "desc": "파리를 자동 조종으로"
     }
   },
   "footer": {
