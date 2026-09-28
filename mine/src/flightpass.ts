@@ -89,6 +89,8 @@ export function createFlightPass(d: FlightPassDeps) {
     freeTables: Number(d.env.FLIGHTPASS_FREE_TABLES ?? "2"),
     sampleMs: Number(d.env.FLIGHTPASS_SAMPLE_MIN ?? d.env.STAKE_SAMPLE_MIN ?? "10") * 60_000,
     depositsSince: Date.parse(d.env.FLIGHTPASS_DEPOSITS_SINCE ?? "2026-09-28T00:00:00Z"),
+    /** FLYAI locked on every pass the first time it's seen (passes are claimed one by one); 0 = only the admin call */
+    autoPrefund: (() => { try { return toWei(d.env.FLIGHTPASS_PREFUND ?? "0"); } catch { throw new Error("FLIGHTPASS_PREFUND is a number of tokens"); } })(),
   };
   if (!Number.isFinite(CFG.depositsSince)) throw new Error("FLIGHTPASS_DEPOSITS_SINCE is a date, e.g. 2026-09-28T00:00:00Z");
   const on = !!CFG.contract;
@@ -180,6 +182,10 @@ export function createFlightPass(d: FlightPassDeps) {
             if (r === null || BigInt(r) === 0n) { owners.delete(id); return; }
             const who = addressOf(r);
             owners.set(id, who);
+            // a newly claimed pass gets the team's prefund once (the same row the admin call books)
+            if (CFG.autoPrefund > 0n && !one("select 1 from ledger where tx = ?", `flightpass-prefund:${id}`)) {
+              book(key(id), null, "prefund", CFG.autoPrefund, { tx: `flightpass-prefund:${id}` });
+            }
             if (lst[i] !== null) { if (BigInt(lst[i]!) !== 0n) listed.add(id); else listed.delete(id); }
             // a pass counts for the wallet that held it at every sample of the day; any other holder breaks the day
             db.prepare(`insert into flightpass_days (pass, day, wallet, broken, samples) values (?, ?, ?, 0, 1)

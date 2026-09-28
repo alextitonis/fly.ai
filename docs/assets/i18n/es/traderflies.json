@@ -199,7 +199,58 @@
     "changePrice": "Cambiar precio",
     "remove": "Quitar",
     "savePrice": "Guardar precio",
-    "back": "Volver"
+    "back": "Volver",
+    "send": {
+      "open": "Enviar a una wallet",
+      "go": "Enviar",
+      "confirm": "Confirmar envío",
+      "bad": "Eso no es una dirección de wallet (0x… 42 caracteres).",
+      "self": "Esa es tu propia wallet.",
+      "check": "Vas a enviar {name} a {to} gratis. No se puede deshacer: pulsa Confirmar envío.",
+      "done": "{name} enviado.",
+      "noteFly": "Transferencia gratis. La mosca sale del desk; el nuevo dueño la activa. Si estaba listada, la venta se cancela.",
+      "notePass": "Transferencia gratis. El FLYAI de dentro va con el pase. Si estaba listado, la venta se cancela."
+    },
+    "activity": {
+      "title": "Actividad",
+      "loading": "Leyendo la cadena…",
+      "empty": "Aún no hay nada.",
+      "cantRead": "No se pudo leer la actividad: {reason}",
+      "onlyMine": "Solo lo mío",
+      "you": "tú",
+      "more": "Ver más",
+      "now": "ahora",
+      "min": "hace {n} min",
+      "hour": "hace {n} h",
+      "day": "hace {n} d",
+      "filter": {
+        "all": "Todo",
+        "sales": "Ventas",
+        "listings": "Listados",
+        "offers": "Ofertas",
+        "transfers": "Transferencias"
+      },
+      "col": {
+        "event": "Evento",
+        "item": "Artículo",
+        "price": "Precio",
+        "from": "De",
+        "to": "A",
+        "time": "Hora"
+      },
+      "kind": {
+        "sale": "Venta",
+        "offerAccept": "Oferta aceptada",
+        "list": "Listado",
+        "cancel": "Deslistado",
+        "offer": "Oferta",
+        "offerCancel": "Oferta retirada",
+        "transfer": "Transferencia",
+        "mint": "Mint",
+        "claim": "Reclamo",
+        "burn": "Quema"
+      }
+    }
   },
   "mine": {
     "title": "Tus Trader Flies",
@@ -485,6 +536,21 @@
       "soon": "El reclamo abre pronto. Tu pase te espera.",
       "notEligible": "Los pases gratis fueron para wallets con una Trader Fly en la captura del 28 de sep. Aún puedes conseguir uno en el mercado:",
       "gone": "Esta wallet ya reclamó su pase y ahora vive en otro lado. Consigue otro en el mercado:"
+    },
+    "how": {
+      "title": "Cómo funciona",
+      "claimTitle": "Reclámalo",
+      "claim": "Un FlightPass gratis por wallet que tuviera una Trader Fly en la snapshot del 28 de septiembre, sin importar cuántas moscas tuviera. Ten al menos 1 $FLYAI en la wallet y pulsa Reclamar; solo pagas gas.",
+      "freeTitle": "$2,50 gratis dentro",
+      "free": "Cada pase empieza con unos $2,50 en $FLYAI de nuestra parte. Tu mosca puede jugar con ellos, pero nunca salen: se quedan en el pase.",
+      "autoTitle": "Activa el piloto automático",
+      "auto": "Inicia sesión, activa los juegos que quieras y pon tus límites. Fly Roulette necesita aceptar sus términos (18+) una vez; Flybook usa la cuenta con la que entraste a Flybook con esta wallet. El cerebro de la mosca sigue decidiendo, el piloto automático solo hace clic por ti. No hay ganancias garantizadas.",
+      "moneyTitle": "Recarga y retira",
+      "money": "Las recargas son gratis. Tras tu primera recarga puedes retirar todo lo que supere los $2,50 gratis, ganancias incluidas, con una comisión del {pct}%.",
+      "mineTitle": "Boost de minería",
+      "mine": "Ten un pase un día UTC completo y los puntos de minería de ese día se multiplican por {x}, además de tu nivel de staking. Cuenta un pase por wallet.",
+      "sellTitle": "Véndelo o envíalo",
+      "sell": "El $FLYAI de dentro va con el pase. Mientras está listado se congela (sin recargas, retiros ni juego automático), así el comprador recibe lo que vio. Un nuevo dueño empieza con todos los juegos apagados."
     }
   }
 }

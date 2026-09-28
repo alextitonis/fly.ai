@@ -349,6 +349,14 @@ export class Stage {
   speed = 1;
   private tweens = new Set<(now: number) => boolean>();
   private clock = new THREE.Clock();
+  // GPU budget (the user 2026-09-28: "pretty heavy on gpu"): at most 60 frames a second (a 144 Hz screen drew 144),
+  // 30 while nothing is moving, none while the table is off screen, and a lighter picture if the device can't keep up
+  private lastDraw = -1;
+  /** frames drawn so far: the page moves its name tags only when the picture changed */
+  drawn = 0;
+  private onScreen = true;
+  private slow = 0;             // how long frames have run late, in seconds
+  private quality = 2;          // 2 full, 1 lower resolution, 0 lower resolution and no shadows
   private readonly radius = 3.4;
   private gunHome = new THREE.Vector3(0, 1.35, 0);
   private gunIdle = true;
@@ -365,10 +373,11 @@ export class Stage {
   private readonly gunWorld = new THREE.Vector3();
 
   constructor(private readonly host: HTMLElement) {
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setPixelRatio(Math.min(2, devicePixelRatio));
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "low-power" });
+    // 1.5x is sharp enough for thick cartoon outlines; 2x drew 78% more pixels on retina screens
+    this.renderer.setPixelRatio(Math.min(1.5, devicePixelRatio));
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     host.appendChild(this.renderer.domElement);
     this.scene.background = new THREE.Color(0x140d12);
@@ -414,8 +423,37 @@ export class Stage {
     this.scene.add(this.gun.root);
 
     new ResizeObserver(() => this.resize()).observe(host);
+    new IntersectionObserver(([e]) => { this.onScreen = e.isIntersecting; }).observe(host);
     this.resize();
-    this.renderer.setAnimationLoop(() => this.frame());
+    this.renderer.setAnimationLoop((time) => this.tick(time));
+  }
+
+  /** Draws a frame only when one is due (see the GPU budget above), and steps the quality down on a slow device. */
+  private tick(time: number): void {
+    if (!this.onScreen || document.hidden) { this.lastDraw = -1; return; }
+    const busy = this.tweens.size > 0 || !this.gunIdle;
+    const gap = 1000 / (busy ? 60 : 30);
+    if (this.lastDraw >= 0 && time - this.lastDraw < gap - 2) return;
+    if (this.lastDraw >= 0) {
+      // frames that arrive half as late again as they should, for 3 s in a row: the GPU can't keep up
+      const late = time - this.lastDraw > gap * 1.5;
+      this.slow = late ? this.slow + (time - this.lastDraw) / 1000 : Math.max(0, this.slow - 0.05);
+      if (this.slow > 3 && this.quality > 0) this.degrade();
+    }
+    this.lastDraw = time;
+    this.frame();
+    this.drawn++;
+  }
+
+  private degrade(): void {
+    this.quality--;
+    this.slow = 0;
+    if (this.quality === 1) this.renderer.setPixelRatio(1);
+    if (this.quality === 0) {
+      this.renderer.shadowMap.enabled = false;
+      this.scene.traverse((o) => { if ((o as THREE.Mesh).material) ((o as THREE.Mesh).material as THREE.Material).needsUpdate = true; });
+    }
+    this.resize();
   }
 
   private resize(): void {

@@ -502,6 +502,10 @@ db.exec(`
   );
   create index if not exists order_tasks_by_seq on order_tasks (order_id, seq) where state = 2;
   create index if not exists order_tasks_active on order_tasks (task) where state = 1;
+  -- an order's jobs still out: a claim asks every live order for one, and a finished house order has 100k+ settled
+  -- rows that the primary key made it walk to learn it had none (~130 ms a claim, 2026-09-28 profile)
+  create index if not exists order_tasks_out on order_tasks (order_id) where state = 1;
+  create index if not exists order_tasks_dropped on order_tasks (order_id) where state = 3;
   -- every token movement of a wallet's balance: deposit (a transfer in), fund (to an order), release (an order's
   -- unspent budget back), withdraw (the operator sent it back on-chain); charge rows record spending and the pool
   create table if not exists ledger (
@@ -685,6 +689,7 @@ function expire(): void {
 }
 
 function reopen(gone: { task: number }[]): void {
+  if (gone.length) ordersChanged();
   const stmt = db.prepare(`update tasks set state = 'open' where id = ? and state = 'out'
     and not exists (select 1 from assignments where task = ? and status = 'issued')`);
   for (const { task } of gone) stmt.run(task, task);
@@ -789,11 +794,14 @@ function pump(): void {
  * With nothing to check, a verifier works an open job itself. The answer is research like any other, and
  * it joins the canary pool: without a big pool a fast miner soon runs out of canaries it hasn't had.
  */
+/** Checked jobs in the canary pool: a count over the whole jobs table, so at most once a minute. */
+const canaryPoolSize = cached(60_000, (_: null) => count("select count(*) as n from tasks where truth is not null and kind = 'connectome'"));
+
 function seed(v: Verifier): void {
   // paid jobs first, whatever the pool's size: with few miners about, a second answer may be slow to come
   // (only the brain: buyers' programs are never run here)
   const row = (SEED_PAID ? one<TaskRow | undefined>("select id, params from tasks where state = 'open' and priority > 0 and kind = 'connectome' order by r limit 1") : undefined)
-    ?? (count("select count(*) as n from tasks where truth is not null and kind = 'connectome'") >= CANARY_POOL ? undefined
+    ?? (canaryPoolSize(null) >= CANARY_POOL ? undefined
       : one<TaskRow | undefined>("select id, params from tasks where state = 'open' and kind = 'connectome' and r >= ? order by r limit 1", Math.random())
         ?? one<TaskRow | undefined>("select id, params from tasks where state = 'open' and kind = 'connectome' order by r limit 1"));
   if (!row) return;
@@ -1125,6 +1133,22 @@ const openJobOf = db.prepare(`select t.id, t.params, t.kind from order_tasks ot 
  * One claim's view of the live orders: a batch of 32 jobs would otherwise list them 64 times over, which with a
  * dozen orders was seconds of work per claim. Orders that run out drop from the list as the batch fills.
  */
+/**
+ * Which live orders have work, shared by every claim for a few seconds. An order that runs out stays listed until then
+ * (pickOrder skips it); one that gains work (refill, a job back from a miner) clears the list so it shows at once.
+ */
+const workLists = new Map<string, { at: number; orders: { id: string; weight: number }[] }>();
+const ordersChanged = () => workLists.clear();
+function ordersWithWork(hk: string) {
+  const hit = workLists.get(hk);
+  if (hit && Date.now() - hit.at < 5_000) return hit.orders;
+  const house = Number(hk[0]);
+  const orders = (liveOrdersWithWork.all(house, hk.slice(1)) as { id: string; bid_wei: string }[])
+    .map((o) => ({ id: o.id, weight: house ? 1 : Number(BigInt(o.bid_wei) / 10n ** 12n) }));
+  workLists.set(hk, { at: Date.now(), orders });
+  return orders;
+}
+
 function paidPicker(): (miner: string, kinds: string[]) => TaskRow | undefined {
   const lists = new Map<string, { id: string; weight: number }[]>();
   return (miner, kinds) => {
@@ -1132,8 +1156,7 @@ function paidPicker(): (miner: string, kinds: string[]) => TaskRow | undefined {
     for (const house of [0, 1] as const) {
       let orders = lists.get(house + k);
       if (!orders) {
-        orders = (liveOrdersWithWork.all(house, k) as { id: string; bid_wei: string }[])
-          .map((o) => ({ id: o.id, weight: house ? 1 : Number(BigInt(o.bid_wei) / 10n ** 12n) }));
+        orders = [...ordersWithWork(house + k)]; // a copy: pickOrder drops the ones that run out for this claim
         lists.set(house + k, orders);
       }
       const row = pickOrder(miner, k, orders);
@@ -1590,7 +1613,7 @@ function me(miner: string) {
   };
 }
 
-const stats = cached(10_000, (_: null) => ({
+const stats = cached(60_000, (_: null) => ({
   miners_online: count("select count(*) as n from miners where last_seen > ?", Date.now() - 10 * 60_000),
   jobs_today: count("select coalesce(sum(accepted + pending + rejected), 0) as n from day_credit where day = ?", today()),
   tasks: count("select count(*) as n from tasks") + counter("pruned_tasks"),
@@ -1821,6 +1844,7 @@ function start(o: OrderRow, tx: string | null): void {
  * In a transaction.
  */
 function refill(id: string): void {
+  ordersChanged();
   const o = orderRow(id);
   if (!o || o.status !== "live") return;
   if (o.ends_at !== null && Date.now() >= o.ends_at) return close(o, "ended", "time");
@@ -1922,11 +1946,20 @@ function close(o: OrderRow, status: "done" | "ended", reason: string): void {
   console.log(`order ${o.id.slice(0, 8)} ${status} (${reason}): spent ${fromWei(BigInt(fresh.spent_wei))}, ${fromWei(unspent)} back to the balance`);
 }
 
+/**
+ * An order's jobs by state. Pages poll this and a house order has 200k rows: grouping them read every row off the
+ * table (12% of the server's time, 2026-09-28 profile); each count now reads only its own partial index.
+ */
+const countOut = db.prepare("select count(*) as n from order_tasks where order_id = ? and state = 1");
+const countSettled = db.prepare("select count(*) as n from order_tasks where order_id = ? and state = 2");
+const countDropped = db.prepare("select count(*) as n from order_tasks where order_id = ? and state = 3");
+const orderStates = (id: string) => new Map([[1, (countOut.get(id) as { n: number }).n],
+  [2, (countSettled.get(id) as { n: number }).n], [3, (countDropped.get(id) as { n: number }).n]]);
+
 function order(id: string) {
   const o = orderRow(id);
   if (!o) throw new HttpError(404, "no such order");
-  const states = new Map((db.prepare("select state, count(*) as n from order_tasks where order_id = ? group by state").all(id) as { state: number; n: number }[])
-    .map((r) => [r.state, r.n]));
+  const states = orderStates(id);
   const budget = BigInt(o.budget_wei);
   const spent = BigInt(o.spent_wei);
   return {

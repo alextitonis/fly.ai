@@ -182,7 +182,11 @@ function refreshTags(turn = -1): void {
   });
 }
 
+let tagsAt = -1;
 function placeTags(): void {
+  // only after the scene drew a new frame (30-60 a second), not on every screen refresh: each move reads the layout
+  if (stage.drawn === tagsAt) { requestAnimationFrame(placeTags); return; }
+  tagsAt = stage.drawn;
   [...tagsEl.querySelectorAll(".tag")].forEach((el, i) => {
     const pos = stage.screenPos(i);
     if (!pos) return;

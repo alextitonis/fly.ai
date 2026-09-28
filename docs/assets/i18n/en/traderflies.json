@@ -199,7 +199,58 @@
     "changePrice": "Change price",
     "remove": "Remove",
     "savePrice": "Save price",
-    "back": "Back"
+    "back": "Back",
+    "send": {
+      "open": "Send to a wallet",
+      "go": "Send",
+      "confirm": "Confirm send",
+      "bad": "That isn't a wallet address (0x… 42 characters).",
+      "self": "That's your own wallet.",
+      "check": "Sending {name} to {to} for free. It can't be undone: click Confirm send.",
+      "done": "{name} sent.",
+      "noteFly": "Free transfer. The fly leaves the desk; the new holder activates it. A listing on it ends.",
+      "notePass": "Free transfer. The FLYAI inside goes with the pass. A listing on it ends."
+    },
+    "activity": {
+      "title": "Activity",
+      "loading": "Reading the chain…",
+      "empty": "Nothing here yet.",
+      "cantRead": "Couldn't read the activity: {reason}",
+      "onlyMine": "Only mine",
+      "you": "you",
+      "more": "Show more",
+      "now": "just now",
+      "min": "{n}m ago",
+      "hour": "{n}h ago",
+      "day": "{n}d ago",
+      "filter": {
+        "all": "All",
+        "sales": "Sales",
+        "listings": "Listings",
+        "offers": "Offers",
+        "transfers": "Transfers"
+      },
+      "col": {
+        "event": "Event",
+        "item": "Item",
+        "price": "Price",
+        "from": "From",
+        "to": "To",
+        "time": "Time"
+      },
+      "kind": {
+        "sale": "Sale",
+        "offerAccept": "Offer taken",
+        "list": "List",
+        "cancel": "Delist",
+        "offer": "Offer",
+        "offerCancel": "Offer pulled",
+        "transfer": "Transfer",
+        "mint": "Mint",
+        "claim": "Claim",
+        "burn": "Burn"
+      }
+    }
   },
   "mine": {
     "title": "Your Trader Flies",
@@ -485,6 +536,21 @@
       "soon": "Claiming opens soon. Your pass is waiting.",
       "notEligible": "Free passes went to wallets holding a Trader Fly at the 28 Sep snapshot. You can still grab one on the market:",
       "gone": "This wallet already claimed its pass, and it lives somewhere else now. Get another on the market:"
+    },
+    "how": {
+      "title": "How it works",
+      "claimTitle": "Claim it",
+      "claim": "One free FlightPass per wallet that held a Trader Fly at the 28 Sep snapshot, however many flies it held. Keep at least 1 $FLYAI in the wallet and hit Claim; you only pay gas.",
+      "freeTitle": "Free $2.50 inside",
+      "free": "Every pass starts with about $2.50 of $FLYAI from us. Your fly can play with it, but it never comes out: it stays on the pass.",
+      "autoTitle": "Switch on autopilot",
+      "auto": "Sign in, turn on the games you want and set your limits. Fly Roulette needs its 18+ terms once; Flybook uses the account you signed in to Flybook with this wallet. The fly's brain still makes the moves, autopilot just clicks for you. Wins aren't guaranteed.",
+      "moneyTitle": "Top up and cash out",
+      "money": "Top-ups are free. After your first top-up you can withdraw everything above the free $2.50, winnings included, for a {pct}% fee.",
+      "mineTitle": "Mining boost",
+      "mine": "Hold a pass for a full UTC day and that day's mining points get {x}, on top of your staking tier. One pass counts per wallet.",
+      "sellTitle": "Sell it or send it",
+      "sell": "The $FLYAI inside goes with the pass. While it's listed it's frozen (no top-ups, withdrawals or autoplay), so the buyer gets what they saw. A new owner starts with every game switched off."
     }
   }
 }

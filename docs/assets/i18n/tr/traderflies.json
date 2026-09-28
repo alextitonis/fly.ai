@@ -199,7 +199,58 @@
     "changePrice": "Fiyatı değiştir",
     "remove": "Kaldır",
     "savePrice": "Fiyatı kaydet",
-    "back": "Geri"
+    "back": "Geri",
+    "send": {
+      "open": "Bir cüzdana gönder",
+      "go": "Gönder",
+      "confirm": "Gönderimi onayla",
+      "bad": "Bu bir cüzdan adresi değil (0x… 42 karakter).",
+      "self": "Bu senin kendi cüzdanın.",
+      "check": "{name} ücretsiz olarak {to} adresine gidiyor. Geri alınamaz: Gönderimi onayla'ya tıkla.",
+      "done": "{name} gönderildi.",
+      "noteFly": "Ücretsiz transfer. Sinek masadan çıkar; yeni sahibi onu aktifleştirir. Üzerindeki ilan biter.",
+      "notePass": "Ücretsiz transfer. İçindeki FLYAI pass ile birlikte gider. Üzerindeki ilan biter."
+    },
+    "activity": {
+      "title": "Hareketler",
+      "loading": "Zincir okunuyor…",
+      "empty": "Henüz bir şey yok.",
+      "cantRead": "Hareketler okunamadı: {reason}",
+      "onlyMine": "Sadece benimkiler",
+      "you": "sen",
+      "more": "Daha fazla",
+      "now": "şimdi",
+      "min": "{n} dk önce",
+      "hour": "{n} sa önce",
+      "day": "{n} g önce",
+      "filter": {
+        "all": "Tümü",
+        "sales": "Satışlar",
+        "listings": "İlanlar",
+        "offers": "Teklifler",
+        "transfers": "Transferler"
+      },
+      "col": {
+        "event": "Olay",
+        "item": "Öğe",
+        "price": "Fiyat",
+        "from": "Kimden",
+        "to": "Kime",
+        "time": "Zaman"
+      },
+      "kind": {
+        "sale": "Satış",
+        "offerAccept": "Teklif kabul",
+        "list": "İlan",
+        "cancel": "İlan kaldırma",
+        "offer": "Teklif",
+        "offerCancel": "Teklif geri çekildi",
+        "transfer": "Transfer",
+        "mint": "Mint",
+        "claim": "Talep",
+        "burn": "Yakım"
+      }
+    }
   },
   "mine": {
     "title": "Trader Flies'ın",
@@ -485,6 +536,21 @@
       "soon": "Alım yakında açılıyor. Pasın seni bekliyor.",
       "notEligible": "Bedava paslar 28 Eylül anlık görüntüsünde Trader Fly tutan cüzdanlara gitti. Yine de pazardan bir tane kapabilirsin:",
       "gone": "Bu cüzdan pasını zaten aldı ve pas artık başka yerde. Pazardan bir tane daha al:"
+    },
+    "how": {
+      "title": "Nasıl çalışır",
+      "claimTitle": "Talep et",
+      "claim": "28 Eylül snapshot'ında Trader Fly tutan her cüzdana, kaç sineği olursa olsun, bir ücretsiz FlightPass. Cüzdanda en az 1 $FLYAI tut ve Talep et'e bas; sadece gas ödersin.",
+      "freeTitle": "İçinde ücretsiz $2,50",
+      "free": "Her pass bizden yaklaşık $2,50 değerinde $FLYAI ile başlar. Sineğin bununla oynayabilir ama asla çekilemez: pass'te kalır.",
+      "autoTitle": "Otomatik pilotu aç",
+      "auto": "Giriş yap, istediğin oyunları aç ve limitlerini belirle. Fly Roulette bir kez 18+ şartlarının kabulünü ister; Flybook bu cüzdanla giriş yaptığın Flybook hesabını kullanır. Hamleleri yine sineğin beyni yapar, otomatik pilot sadece senin yerine tıklar. Kazanç garanti değildir.",
+      "moneyTitle": "Yükle ve çek",
+      "money": "Yüklemeler ücretsiz. İlk yüklemenden sonra ücretsiz $2,50'nin üstündeki her şeyi, kazançlar dahil, %{pct} ücretle çekebilirsin.",
+      "mineTitle": "Madencilik bonusu",
+      "mine": "Bir pass'i tam bir UTC günü tut, o günün madencilik puanları stake kademene ek olarak {x} olsun. Cüzdan başına bir pass sayılır.",
+      "sellTitle": "Sat ya da gönder",
+      "sell": "İçindeki $FLYAI pass ile birlikte gider. İlandayken dondurulur (yükleme, çekim veya otomatik oyun yok), böylece alıcı gördüğünü alır. Yeni sahip tüm oyunlar kapalı başlar."
     }
   }
 }
