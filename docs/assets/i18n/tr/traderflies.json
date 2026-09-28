@@ -8,7 +8,8 @@
     "home": "fly.ai ↗",
     "disconnect": "Bağlantıyı kes",
     "afterMint": "Mint bitince açılır",
-    "pets": "Hardware NFTs"
+    "pets": "Hardware NFTs",
+    "pass": "FlightPass"
   },
   "flyAlt": "Bir Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -360,5 +361,130 @@
     "holderYes": "{amount}+ $FLYAI tutuyorsun: fiyatın %{pct} indirimli, evcil hayvan başına {price}.",
     "preorderNote": "Ön sipariş fiyatı. Evcil hayvanlar satışa çıkınca $150.",
     "preordered": "ön sipariş"
+  },
+  "pass": {
+    "name": "FlightPass #{id}",
+    "soon": "FlightPass yakında iniyor.",
+    "title": "FlightPass",
+    "text": "Sineğin otomatik pilotta. Pasa $FLYAI yükle, oyunları seç, sen uyurken sineğin oynasın. $FLYAI pasla birlikte gider: pası satarsan bakiye de onunla gider.",
+    "perks": {
+      "autoTitle": "Otomatik pilot",
+      "auto": "Fly Roulette, Flybook görevleri, düellolar ve üreme, senin yerine oynanır.",
+      "mineTitle": "{x} madencilik",
+      "mine": "Bir pası tam bir UTC günü boyunca tut, o günün madencilik puanları stake kademene ek olarak {x} olsun.",
+      "tradeTitle": "Takas edilebilir",
+      "trade": "Pazarda listele. İçindeki $FLYAI alıcıya gider."
+    },
+    "signInText": "Paslarını görmek için cüzdanınla bir kez giriş yap. Ücretsiz, işlem yok, Fly Roulette ve madencilikle aynı giriş.",
+    "signIn": "Giriş yap",
+    "signing": "Cüzdanında mesajı imzala…",
+    "none": "Bu cüzdanda FlightPass yok.",
+    "findOne": "Pazarda bir tane bul",
+    "listedBadge": "Satışta",
+    "flying": "Otomatik pilot açık",
+    "parked": "Park halinde",
+    "frozen": "Bu pas satışta, bu yüzden donduruldu: pazardan kaldırana kadar yükleme, çekim ve otomatik oyun yok.",
+    "balance": "Bakiye",
+    "locked": "Kilitli",
+    "lockedNote": "Ücretsiz $2,50 pasta kalır",
+    "withdrawable": "Çekilebilir",
+    "betToday": "Bugünkü bahis",
+    "topUp": "Yükle",
+    "topUpText": "Pasa $FLYAI gönder. Ücret yok.",
+    "amount": "$FLYAI miktarı",
+    "topUpGo": "Yükle",
+    "withdraw": "Çek",
+    "withdrawPending": "{amount} $FLYAI çekimi yolda.",
+    "withdrawLocked": "Çekimleri açmak için bir kez yükleme yap. Ücretsiz $2,50 her zaman pasta kalır.",
+    "withdrawText": "Ücretsiz $2,50'in üstündeki her şey, kazançlar dahil, çekilebilir. %{pct} ücret.",
+    "max": "Maks",
+    "withdrawGo": "Çek",
+    "youGet": "Alacağın: {amount} $FLYAI ({fee} ücret)",
+    "depositing": "Transferi cüzdanında onayla…",
+    "crediting": "Pasa işleniyor…",
+    "deposited": "FlightPass #{id} pasına {amount} $FLYAI eklendi.",
+    "withdrawAsked": "Çekim talep edildi: {amount} $FLYAI sana geliyor.",
+    "saved": "FlightPass #{id} ayarları kaydedildi.",
+    "autopilot": "Otomatik pilot",
+    "games": {
+      "roulette": "Fly Roulette",
+      "rouletteText": "Limitlerin içinde, pas bakiyesinden bahis yapar.",
+      "missions": "Flybook görevleri",
+      "missionsText": "Her gün dürtme, beğeni ve tepkiler, sezon tablosu için.",
+      "duels": "Flybook düelloları",
+      "duelsText": "Sineklerin kavga arar.",
+      "breed": "Flybook üreme",
+      "breedText": "Sineklerin eş bulur."
+    },
+    "limits": {
+      "stake": "Oyun başı bahis ($FLYAI)",
+      "flies": "Masadaki sinek sayısı",
+      "maxDay": "Günlük en fazla ($FLYAI)"
+    },
+    "termsNeeded": "Fly Roulette için 18+ şartlarını bir kez kabul etmen gerekir. Kaydederken sorulacak.",
+    "flybookNote": "Flybook otomatik pilotu, bu cüzdanla giriş yapılmış Flybook hesabını kullanır.",
+    "save": "Kaydet",
+    "history": "Son hareketler",
+    "kind": {
+      "prefund": "Ücretsiz $2,50",
+      "deposit": "Yükleme",
+      "withdraw": "Çekim",
+      "bet": "Rulet bahsi",
+      "payout": "Rulet kazancı",
+      "fee": "Ücret"
+    },
+    "terms": {
+      "title": "Fly Roulette şartları",
+      "text": "Pasın kasaya karşı gerçek $FLYAI ile bahis yapar. Bahisler kaybedebilir.",
+      "age": "18 yaşında veya daha büyüğüm",
+      "accept": "<a href=\"{href}\" target=\"_blank\" rel=\"noopener\">Fly Roulette şartlarını</a> kabul ediyorum",
+      "go": "Kabul et"
+    },
+    "why": {
+      "amount": "0'dan büyük bir miktar gir.",
+      "noDeposits": "Yüklemeler henüz açık değil."
+    },
+    "market": {
+      "categories": "Kategoriler",
+      "cat": {
+        "flies": "Sinekler",
+        "pass": "FlightPass"
+      },
+      "title": "FlightPass pazarı",
+      "text": "FlightPass al ve sat, {token} ile. İçindeki $FLYAI pasla birlikte gider. Satıcı ödemeyi hemen alır, %{pct} ücret düşülür.",
+      "empty": "Şu anda satışta FlightPass yok.",
+      "bought": "FlightPass #{id} artık senin, içindeki $FLYAI dahil. Otomatik pilotunu FlightPass sayfasından ayarla.",
+      "sellTitle": "FlightPass'ini sat",
+      "noFlies": "Bu cüzdanda FlightPass yok.",
+      "sellText": "Dolar veya {token} olarak fiyat yaz. Pas satılana kadar cüzdanında kalır, alıcı içindeki $FLYAI'yi de alır. Fiyattan %{pct} düşülmüş halini alırsın.",
+      "approveFirst": "Adım 1/2: pazarın bu pası satıldığında taşımasına izin ver.",
+      "listedOk": "FlightPass #{id} {price} fiyatla listelendi.",
+      "cancelled": "FlightPass #{id} artık satışta değil.",
+      "offers": {
+        "text": "Listelenmiş olsun olmasın, herhangi bir FlightPass için {token} teklif et. Sahibi kabul edene ya da sen geri alana kadar {token} pazarda tutulur. Sahibi %{pct} düşülmüş halini alır.",
+        "fly": "Pas #",
+        "made": "FlightPass #{id} için {amount} teklifin verildi.",
+        "cancelled": "FlightPass #{id} için teklifin cüzdanına döndü.",
+        "accepted": "FlightPass #{id} {amount} karşılığında satıldı.",
+        "why": {
+          "noFly": "1 ile {n} arasında bir pas numarası gir."
+        }
+      },
+      "inside": "İçinde {amount} $FLYAI",
+      "insideUnknown": "Bakiye yükleniyor…",
+      "frozen": "Satıştayken donuk: otomatik oyun, yükleme ve çekim yok.",
+      "freezeNote": "Listelemek, pas satılana ya da kaldırana kadar onu dondurur."
+    },
+    "claim": {
+      "title": "Bedava FlightPass!",
+      "text": "28 Eylül'de bir Trader Fly tutuyordun, yani bir pas senin. İçinde oynamak için $2,50 var.",
+      "button": "FlightPass'imi al",
+      "claiming": "Alınıyor… cüzdanında onayla.",
+      "done": "Alındı! FlightPass'in geldi.",
+      "needFlyai": "Almak için bu cüzdanda en az {min} $FLYAI tut.",
+      "soon": "Alım yakında açılıyor. Pasın seni bekliyor.",
+      "notEligible": "Bedava paslar 28 Eylül anlık görüntüsünde Trader Fly tutan cüzdanlara gitti. Yine de pazardan bir tane kapabilirsin:",
+      "gone": "Bu cüzdan pasını zaten aldı ve pas artık başka yerde. Pazardan bir tane daha al:"
+    }
   }
 }

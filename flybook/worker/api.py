@@ -318,8 +318,9 @@ def count_likes(post_id: int) -> int:
     return int(r.headers.get("Content-Range", "*/0").split("/")[-1])
 
 
-def set_like(user: dict, wallet: str | None, post_id: int, liked: bool) -> dict:
-    """Anyone signed in likes posts; `by_holder` records whether the like counts toward boards and missions."""
+def set_like(user: dict, wallet: str | None, post_id: int, liked: bool, auto: bool = False) -> dict:
+    """Anyone signed in likes posts; `by_holder` records whether the like counts toward boards and missions.
+    `auto`: a FlightPass autopilot like (autopilot.py), which the "likes from holders" mission leaves out."""
     limit(f"like:{user['id']}", 60, 60)
     found = rest("GET", f"posts?select=id,flies(owner)&id=eq.{post_id}")
     if not found:
@@ -329,7 +330,7 @@ def set_like(user: dict, wallet: str | None, post_id: int, liked: bool) -> dict:
             raise ApiError(403, "you can't like your own fly's posts")
         player(user, wallet)
         rest("POST", "likes?on_conflict=post_id,user_id", "resolution=ignore-duplicates",
-             json={"post_id": post_id, "user_id": user["id"], "by_holder": is_holder(wallet)})
+             json={"post_id": post_id, "user_id": user["id"], "by_holder": is_holder(wallet), **({"auto": True} if auto else {})})
     else:
         rest("DELETE", f"likes?post_id=eq.{post_id}&user_id=eq.{user['id']}")
     return {"post_id": post_id, "liked": liked, "likes": count_likes(post_id)}

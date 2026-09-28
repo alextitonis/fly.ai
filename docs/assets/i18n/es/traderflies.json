@@ -8,7 +8,8 @@
     "home": "fly.ai ↗",
     "disconnect": "Desconectar",
     "afterMint": "Se abre cuando termine el mint",
-    "pets": "Hardware NFTs"
+    "pets": "Hardware NFTs",
+    "pass": "FlightPass"
   },
   "flyAlt": "Una Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -360,5 +361,130 @@
     "holderYes": "Tienes {amount}+ $FLYAI: tu precio tiene un {pct}% de descuento, {price} por mascota.",
     "preorderNote": "Precio de reserva. $150 cuando las mascotas salgan a la venta.",
     "preordered": "reservadas"
+  },
+  "pass": {
+    "name": "FlightPass #{id}",
+    "soon": "FlightPass llega pronto.",
+    "title": "FlightPass",
+    "text": "Tu mosca en piloto automático. Carga el pase con $FLYAI, elige los juegos y tu mosca juega mientras duermes. Los $FLYAI viajan con el pase: si vendes el pase, el saldo se va con él.",
+    "perks": {
+      "autoTitle": "Piloto automático",
+      "auto": "Fly Roulette, misiones de Flybook, duelos y crianza, jugados por ti.",
+      "mineTitle": "Minería {x}",
+      "mine": "Ten un pase un día UTC completo y los puntos de minería de ese día van {x}, además de tu nivel de staking.",
+      "tradeTitle": "Negociable",
+      "trade": "Ponlo en el mercado. Los $FLYAI que tenga dentro son para el comprador."
+    },
+    "signInText": "Inicia sesión una vez con tu wallet para ver tus pases. Gratis, sin transacción, la misma sesión que Fly Roulette y la minería.",
+    "signIn": "Iniciar sesión",
+    "signing": "Firma el mensaje en tu wallet…",
+    "none": "Esta wallet no tiene FlightPass.",
+    "findOne": "Busca uno en el mercado",
+    "listedBadge": "En venta",
+    "flying": "Piloto automático activado",
+    "parked": "Aparcado",
+    "frozen": "Este pase está en venta, así que está congelado: sin recargas, retiros ni juego automático hasta que lo quites del mercado.",
+    "balance": "Saldo",
+    "locked": "Bloqueado",
+    "lockedNote": "Los $2,50 gratis se quedan en el pase",
+    "withdrawable": "Retirable",
+    "betToday": "Apostado hoy",
+    "topUp": "Recargar",
+    "topUpText": "Envía $FLYAI al pase. Sin comisión.",
+    "amount": "Cantidad en $FLYAI",
+    "topUpGo": "Recargar",
+    "withdraw": "Retirar",
+    "withdrawPending": "Retiro de {amount} $FLYAI en camino.",
+    "withdrawLocked": "Recarga una vez para desbloquear los retiros. Los $2,50 gratis siempre se quedan en el pase.",
+    "withdrawText": "Todo lo que supere los $2,50 gratis se puede retirar, ganancias incluidas. Comisión del {pct}%.",
+    "max": "Máx.",
+    "withdrawGo": "Retirar",
+    "youGet": "Recibes {amount} $FLYAI ({fee} de comisión)",
+    "depositing": "Confirma la transferencia en tu wallet…",
+    "crediting": "Abonando al pase…",
+    "deposited": "{amount} $FLYAI añadidos al FlightPass #{id}.",
+    "withdrawAsked": "Retiro solicitado: {amount} $FLYAI van hacia ti.",
+    "saved": "Ajustes del FlightPass #{id} guardados.",
+    "autopilot": "Piloto automático",
+    "games": {
+      "roulette": "Fly Roulette",
+      "rouletteText": "Apuesta con el saldo del pase, dentro de tus límites.",
+      "missions": "Misiones de Flybook",
+      "missionsText": "Toques, likes y reacciones, cada día, para la tabla de la temporada.",
+      "duels": "Duelos de Flybook",
+      "duelsText": "Tus moscas buscan pelea.",
+      "breed": "Crianza de Flybook",
+      "breedText": "Tus moscas buscan pareja."
+    },
+    "limits": {
+      "stake": "Apuesta por partida ($FLYAI)",
+      "flies": "Moscas en la mesa",
+      "maxDay": "Máximo por día ($FLYAI)"
+    },
+    "termsNeeded": "Fly Roulette necesita que aceptes sus términos (+18) una vez. Te lo pediremos al guardar.",
+    "flybookNote": "El piloto automático de Flybook usa la cuenta de Flybook iniciada con esta wallet.",
+    "save": "Guardar",
+    "history": "Reciente",
+    "kind": {
+      "prefund": "$2,50 gratis",
+      "deposit": "Recarga",
+      "withdraw": "Retiro",
+      "bet": "Apuesta de ruleta",
+      "payout": "Premio de ruleta",
+      "fee": "Comisión"
+    },
+    "terms": {
+      "title": "Términos de Fly Roulette",
+      "text": "Tu pase apuesta $FLYAI reales contra la casa. Las apuestas pueden perder.",
+      "age": "Tengo 18 años o más",
+      "accept": "Acepto los <a href=\"{href}\" target=\"_blank\" rel=\"noopener\">términos de Fly Roulette</a>",
+      "go": "Aceptar"
+    },
+    "why": {
+      "amount": "Introduce una cantidad mayor que 0.",
+      "noDeposits": "Las recargas aún no están abiertas."
+    },
+    "market": {
+      "categories": "Categorías",
+      "cat": {
+        "flies": "Moscas",
+        "pass": "FlightPass"
+      },
+      "title": "Mercado de FlightPass",
+      "text": "Compra y vende FlightPass, en {token}. Los $FLYAI de dentro van con el pase. El vendedor cobra al instante, menos una comisión del {pct}%.",
+      "empty": "No hay ningún FlightPass en venta ahora mismo.",
+      "bought": "El FlightPass #{id} es tuyo, con sus $FLYAI dentro. Configura su piloto automático en la página de FlightPass.",
+      "sellTitle": "Vende tu FlightPass",
+      "noFlies": "Esta wallet no tiene FlightPass.",
+      "sellText": "Escribe un precio en dólares o en {token}. El pase se queda en tu wallet hasta que se venda, y el comprador también recibe sus $FLYAI. Recibes el precio menos el {pct}%.",
+      "approveFirst": "Paso 1 de 2: deja que el mercado mueva este pase cuando se venda.",
+      "listedOk": "El FlightPass #{id} está en venta por {price}.",
+      "cancelled": "El FlightPass #{id} ya no está en venta.",
+      "offers": {
+        "text": "Ofrece {token} por cualquier FlightPass, esté en venta o no. El mercado guarda tus {token} hasta que el dueño acepte o los retires. El dueño recibe la oferta menos el {pct}%.",
+        "fly": "Pase n.º",
+        "made": "Tu oferta de {amount} por el FlightPass #{id} está hecha.",
+        "cancelled": "Tu oferta por el FlightPass #{id} ha vuelto a tu wallet.",
+        "accepted": "FlightPass #{id} vendido por {amount}.",
+        "why": {
+          "noFly": "Introduce un número de pase del 1 al {n}."
+        }
+      },
+      "inside": "{amount} $FLYAI dentro",
+      "insideUnknown": "Cargando saldo…",
+      "frozen": "Congelado mientras está en venta: sin juego automático, recargas ni retiros.",
+      "freezeNote": "Ponerlo en venta congela el pase hasta que se venda o lo retires."
+    },
+    "claim": {
+      "title": "¡FlightPass gratis!",
+      "text": "Tenías una Trader Fly el 28 de sep, así que un pase es tuyo. Trae $2,50 para jugar dentro.",
+      "button": "Reclamar mi FlightPass",
+      "claiming": "Reclamando… confirma en tu wallet.",
+      "done": "¡Reclamado! Tu FlightPass acaba de llegar.",
+      "needFlyai": "Ten al menos {min} $FLYAI en esta wallet para reclamar.",
+      "soon": "El reclamo abre pronto. Tu pase te espera.",
+      "notEligible": "Los pases gratis fueron para wallets con una Trader Fly en la captura del 28 de sep. Aún puedes conseguir uno en el mercado:",
+      "gone": "Esta wallet ya reclamó su pase y ahora vive en otro lado. Consigue otro en el mercado:"
+    }
   }
 }

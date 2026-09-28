@@ -180,7 +180,7 @@ try {
     const sql = (db.prepare("select sql from sqlite_master where name = 'ledger'").get() as { sql: string }).sql;
     const idx = db.prepare("select name from sqlite_master where type = 'index' and tbl_name = 'ledger'").all().length;
     db.close();
-    check("a schema 13 ledger upgrades to 14 and takes bets", v === 14 && sql.includes("'bet'") && sql.includes("'payout'") && idx >= 3, `${idx} indexes`);
+    check("a schema 13 ledger upgrades to 14 and takes bets", v >= 14 && sql.includes("'bet'") && sql.includes("'payout'") && idx >= 3, `${idx} indexes`);
   }
   check("balances survive the upgrade", (await api(`/api/balance?wallet=${bob.address}`, null)).json.balance === "550");
 

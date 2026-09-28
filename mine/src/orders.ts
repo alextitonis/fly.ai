@@ -209,7 +209,7 @@ export interface Transfer {
   at: number;
 }
 
-async function rpc(url: string, method: string, params: unknown[]): Promise<any> {
+export async function rpc(url: string, method: string, params: unknown[]): Promise<any> {
   const res = await fetch(url, {
     method: "POST",
     headers: { "content-type": "application/json" },

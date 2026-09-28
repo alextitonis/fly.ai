@@ -220,7 +220,11 @@ export function createRoulette(d: RouletteDeps) {
 
   function commit(req: IncomingMessage) {
     betsOn();
-    const wallet = d.sessionWallet(req);
+    return openCommit(d.sessionWallet(req));
+  }
+
+  /** A new commit for `wallet` (a player's address, or a FlightPass's ledger key `pass:<id>`). */
+  function openCommit(wallet: string) {
     db.prepare("delete from roulette_commits where wallet = ? and used = 0 and created_at < ?").run(wallet, Date.now() - COMMIT_TTL_MS);
     if (one<{ n: number }>("select count(*) as n from roulette_commits where wallet = ? and used = 0", wallet).n >= 5) {
       throw new HttpError(429, "too many open commits; use one or wait a few minutes");
@@ -246,8 +250,19 @@ export function createRoulette(d: RouletteDeps) {
     if (stake > CFG.maxBet) throw new HttpError(400, `the biggest bet is ${fromWei(CFG.maxBet)} FLYAI`);
     const payout = payoutFor(stake, flies);
     if (payout > CFG.maxPayout) throw new HttpError(400, `a win can pay at most ${fromWei(CFG.maxPayout)} FLYAI; bet less or seat fewer flies`);
+    return placeBet({ wallet, termsWallet: wallet, commitId: String(body.commit_id ?? ""), flies, pick, clientSeed, stake, payout, maxDay: CFG.maxDay });
+  }
+
+  /**
+   * Seat the table and book the stake. `wallet` is whose balance pays (an address, or `pass:<id>` for a FlightPass
+   * on autopilot); `termsWallet` is the person who accepted the terms (the pass's owner). `maxDay` can only lower
+   * the house's daily limit.
+   */
+  async function placeBet(o: { wallet: string; termsWallet: string; commitId: string; flies: number; pick: number; clientSeed: string; stake: bigint; payout: bigint; maxDay: bigint }) {
+    const { wallet, flies, pick, clientSeed, stake, payout } = o;
+    const maxDay = o.maxDay < CFG.maxDay ? o.maxDay : CFG.maxDay;
     const c = one<{ id: string; wallet: string; server_seed: string; hash: string; created_at: number; used: number } | undefined>(
-      "select * from roulette_commits where id = ?", String(body.commit_id ?? ""));
+      "select * from roulette_commits where id = ?", o.commitId);
     if (!c || c.wallet !== wallet) throw new HttpError(404, "no such commit; ask for a new one");
     if (c.used) throw new HttpError(409, "that commit was already used; ask for a new one");
     if (Date.now() - c.created_at > COMMIT_TTL_MS) throw new HttpError(409, "that commit expired; ask for a new one");
@@ -256,12 +271,11 @@ export function createRoulette(d: RouletteDeps) {
 
     const id = randomUUID();
     transaction(() => {
-      const terms = one<{ version: number } | undefined>("select version from roulette_terms where wallet = ?", wallet);
-      if ((terms?.version ?? 0) < TERMS_VERSION) throw new HttpError(403, "accept the terms first");
+      if (!termsAccepted(o.termsWallet)) throw new HttpError(403, "accept the terms first");
       if (one<{ used: number }>("select used from roulette_commits where id = ?", c.id).used) throw new HttpError(409, "that commit was already used");
       if (one("select 1 from roulette_games where wallet = ? and status = 'live'", wallet)) throw new HttpError(409, "you already have a game on the table");
       if (liveCount() >= CFG.maxLive) throw new HttpError(503, "all tables are busy; try again in a minute");
-      if (daySpent(wallet) + stake > CFG.maxDay) throw new HttpError(400, `you can bet at most ${fromWei(CFG.maxDay)} FLYAI a day (UTC); ${fromWei(daySpent(wallet))} so far`);
+      if (daySpent(wallet) + stake > maxDay) throw new HttpError(400, `you can bet at most ${fromWei(maxDay)} FLYAI a day (UTC); ${fromWei(daySpent(wallet))} so far`);
       const balance = balanceOf(wallet);
       if (balance < stake) throw new HttpError(402, `your balance is ${fromWei(balance)} FLYAI`);
       db.prepare("update roulette_commits set used = 1 where id = ?").run(c.id);
@@ -272,6 +286,26 @@ export function createRoulette(d: RouletteDeps) {
     });
     run({ id, server_seed: c.server_seed, client_seed: clientSeed, flies });
     return gameView(id, 0);
+  }
+
+  const termsAccepted = (wallet: string) =>
+    (one<{ version: number } | undefined>("select version from roulette_terms where wallet = ?", wallet)?.version ?? 0) >= TERMS_VERSION;
+
+  /**
+   * A bet the server places by itself for a FlightPass on autopilot (src/flightpass.ts): a fresh commit, a random
+   * seat and client seed, the same limits and settlement as a player's bet. Throws an HttpError when it can't bet.
+   */
+  async function autoBet(key: string, owner: string, o: { flies: number; stake: bigint; maxDay: bigint }) {
+    betsOn();
+    if (!Number.isInteger(o.flies) || o.flies < MIN_FLIES || o.flies > MAX_FLIES) throw new HttpError(400, `flies is ${MIN_FLIES} to ${MAX_FLIES}`);
+    if (o.stake < CFG.minBet || o.stake > CFG.maxBet) throw new HttpError(400, "stake is outside the bet limits");
+    const payout = payoutFor(o.stake, o.flies);
+    if (payout > CFG.maxPayout) throw new HttpError(400, "a win would pay past the cap");
+    const c = openCommit(key);
+    return placeBet({
+      wallet: key, termsWallet: owner, commitId: c.commit_id, flies: o.flies, pick: randomBytes(1)[0] % o.flies,
+      clientSeed: `autopilot-${randomBytes(12).toString("hex")}`, stake: o.stake, payout, maxDay: o.maxDay,
+    });
   }
 
   /** A $FLYAI transfer from the signed-in wallet to PAY_TO, credited to its balance once. */
@@ -336,5 +370,10 @@ export function createRoulette(d: RouletteDeps) {
     return false;
   }
 
-  return { route, resume, config };
+  return {
+    route, resume, config, autoBet, termsAccepted, daySpent, CFG,
+    isOn: () => CFG.on && !paused(),
+    liveFor: (wallet: string) => !!one("select 1 from roulette_games where wallet = ? and status = 'live'", wallet),
+    liveCount,
+  };
 }

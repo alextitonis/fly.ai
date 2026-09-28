@@ -8,7 +8,8 @@
     "home": "fly.ai ↗",
     "disconnect": "Disconnect",
     "afterMint": "Opens when the mint ends",
-    "pets": "Hardware NFTs"
+    "pets": "Hardware NFTs",
+    "pass": "FlightPass"
   },
   "flyAlt": "A Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -360,5 +361,130 @@
     "holderYes": "You hold {amount}+ $FLYAI: your price is {pct}% off, {price} per pet.",
     "preorderNote": "Pre-order price. $150 once pets are live.",
     "preordered": "pre-ordered"
+  },
+  "pass": {
+    "name": "FlightPass #{id}",
+    "soon": "FlightPass lands soon.",
+    "title": "FlightPass",
+    "text": "Your fly on autopilot. Load the pass with $FLYAI, pick the games, and your fly plays them while you sleep. The $FLYAI rides with the pass: sell the pass, the balance goes with it.",
+    "perks": {
+      "autoTitle": "Autopilot",
+      "auto": "Fly Roulette, Flybook missions, duels and breeding, played for you.",
+      "mineTitle": "{x} mining",
+      "mine": "Hold a pass a full UTC day and that day's mining points get {x}, on top of your staking tier.",
+      "tradeTitle": "Tradeable",
+      "trade": "List it on the market. Whatever $FLYAI is inside goes to the buyer."
+    },
+    "signInText": "Sign in once with your wallet to see your passes. Free, no transaction, same sign-in as Fly Roulette and mining.",
+    "signIn": "Sign in",
+    "signing": "Sign the message in your wallet…",
+    "none": "No FlightPass in this wallet.",
+    "findOne": "Find one on the market",
+    "listedBadge": "Listed",
+    "flying": "Autopilot on",
+    "parked": "Parked",
+    "frozen": "This pass is listed for sale, so it's frozen: no top-ups, withdrawals or autoplay until you take it off the market.",
+    "balance": "Balance",
+    "locked": "Locked",
+    "lockedNote": "The free $2.50 stays on the pass",
+    "withdrawable": "Withdrawable",
+    "betToday": "Bet today",
+    "topUp": "Top up",
+    "topUpText": "Send $FLYAI to the pass. No fee.",
+    "amount": "Amount in $FLYAI",
+    "topUpGo": "Top up",
+    "withdraw": "Withdraw",
+    "withdrawPending": "Withdrawal of {amount} $FLYAI on its way.",
+    "withdrawLocked": "Top up once to unlock withdrawals. The free $2.50 always stays on the pass.",
+    "withdrawText": "Everything above the free $2.50 can come out, winnings included. {pct}% fee.",
+    "max": "Max",
+    "withdrawGo": "Withdraw",
+    "youGet": "You get {amount} $FLYAI ({fee} fee)",
+    "depositing": "Confirm the transfer in your wallet…",
+    "crediting": "Crediting the pass…",
+    "deposited": "{amount} $FLYAI added to FlightPass #{id}.",
+    "withdrawAsked": "Withdrawal requested: {amount} $FLYAI coming your way.",
+    "saved": "FlightPass #{id} settings saved.",
+    "autopilot": "Autopilot",
+    "games": {
+      "roulette": "Fly Roulette",
+      "rouletteText": "Bets from the pass balance, within your limits.",
+      "missions": "Flybook missions",
+      "missionsText": "Pokes, likes and reactions, every day, for the season board.",
+      "duels": "Flybook duels",
+      "duelsText": "Your flies pick fights.",
+      "breed": "Flybook breeding",
+      "breedText": "Your flies find partners."
+    },
+    "limits": {
+      "stake": "Bet per game ($FLYAI)",
+      "flies": "Flies at the table",
+      "maxDay": "Max per day ($FLYAI)"
+    },
+    "termsNeeded": "Fly Roulette needs its 18+ terms accepted once. You'll get asked when you save.",
+    "flybookNote": "Flybook autopilot uses the Flybook account signed in with this wallet.",
+    "save": "Save",
+    "history": "Recent",
+    "kind": {
+      "prefund": "Free $2.50",
+      "deposit": "Top-up",
+      "withdraw": "Withdrawal",
+      "bet": "Roulette bet",
+      "payout": "Roulette win",
+      "fee": "Fee"
+    },
+    "terms": {
+      "title": "Fly Roulette terms",
+      "text": "Your pass bets real $FLYAI against the house. Bets can lose.",
+      "age": "I'm 18 or over",
+      "accept": "I accept the <a href=\"{href}\" target=\"_blank\" rel=\"noopener\">Fly Roulette terms</a>",
+      "go": "Accept"
+    },
+    "why": {
+      "amount": "Enter an amount above 0.",
+      "noDeposits": "Top-ups aren't open yet."
+    },
+    "market": {
+      "categories": "Categories",
+      "cat": {
+        "flies": "Flies",
+        "pass": "FlightPass"
+      },
+      "title": "FlightPass market",
+      "text": "Buy and sell FlightPasses, in {token}. The $FLYAI inside goes with the pass. The seller gets paid straight away, less a {pct}% fee.",
+      "empty": "No FlightPass listed right now.",
+      "bought": "FlightPass #{id} is yours, $FLYAI inside and all. Set its autopilot on the FlightPass page.",
+      "sellTitle": "Sell your FlightPass",
+      "noFlies": "This wallet has no FlightPass.",
+      "sellText": "Type a price in dollars or {token}. The pass stays in your wallet until it sells, and the buyer gets its $FLYAI too. You get the price less {pct}%.",
+      "approveFirst": "Step 1 of 2: let the marketplace move this pass when it sells.",
+      "listedOk": "FlightPass #{id} is listed at {price}.",
+      "cancelled": "FlightPass #{id} is no longer for sale.",
+      "offers": {
+        "text": "Offer {token} on any FlightPass, listed or not. The market holds your {token} until the holder accepts or you take it back. The holder gets it less {pct}%.",
+        "fly": "Pass #",
+        "made": "Your offer of {amount} on FlightPass #{id} is in.",
+        "cancelled": "Your offer on FlightPass #{id} is back in your wallet.",
+        "accepted": "FlightPass #{id} sold for {amount}.",
+        "why": {
+          "noFly": "Enter a pass number from 1 to {n}."
+        }
+      },
+      "inside": "{amount} $FLYAI inside",
+      "insideUnknown": "Balance loading…",
+      "frozen": "Frozen while listed: no autoplay, top-ups or withdrawals.",
+      "freezeNote": "Listing freezes the pass until it sells or you remove it."
+    },
+    "claim": {
+      "title": "Free FlightPass!",
+      "text": "You held a Trader Fly on 28 Sep, so one pass is yours. It comes with $2.50 of play money inside.",
+      "button": "Claim my FlightPass",
+      "claiming": "Claiming… confirm in your wallet.",
+      "done": "Claimed! Your FlightPass just landed.",
+      "needFlyai": "Hold at least {min} $FLYAI in this wallet to claim.",
+      "soon": "Claiming opens soon. Your pass is waiting.",
+      "notEligible": "Free passes went to wallets holding a Trader Fly at the 28 Sep snapshot. You can still grab one on the market:",
+      "gone": "This wallet already claimed its pass, and it lives somewhere else now. Get another on the market:"
+    }
   }
 }

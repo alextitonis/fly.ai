@@ -8,7 +8,8 @@
     "home": "fly.ai ↗",
     "disconnect": "断开连接",
     "afterMint": "铸造结束后开放",
-    "pets": "Hardware NFTs"
+    "pets": "Hardware NFTs",
+    "pass": "FlightPass"
   },
   "flyAlt": "一只 Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -358,5 +359,130 @@
     "holderYes": "你持有 {amount}+ $FLYAI：你的价格优惠 {pct}%，每只 {price}。",
     "preorderNote": "预订价。宠物正式上线后为 $150。",
     "preordered": "已预订"
+  },
+  "pass": {
+    "name": "FlightPass #{id}",
+    "soon": "FlightPass 即将降落。",
+    "title": "FlightPass",
+    "text": "让你的苍蝇开自动驾驶。往通行证里充 $FLYAI，选好游戏，你睡觉时苍蝇替你玩。$FLYAI 跟着通行证走：卖掉通行证，余额也一起转走。",
+    "perks": {
+      "autoTitle": "自动驾驶",
+      "auto": "Fly Roulette、Flybook 任务、决斗和繁殖，替你来玩。",
+      "mineTitle": "挖矿 {x}",
+      "mine": "整整一个 UTC 日持有通行证，当天的挖矿积分在质押等级之外再乘 {x}。",
+      "tradeTitle": "可交易",
+      "trade": "挂到市场上。里面的 $FLYAI 归买家。"
+    },
+    "signInText": "用钱包登录一次即可查看你的通行证。免费、无交易，与 Fly Roulette 和挖矿共用同一登录。",
+    "signIn": "登录",
+    "signing": "请在钱包中签名消息…",
+    "none": "这个钱包没有 FlightPass。",
+    "findOne": "去市场找一张",
+    "listedBadge": "出售中",
+    "flying": "自动驾驶已开启",
+    "parked": "停靠中",
+    "frozen": "这张通行证正在出售，因此已冻结：下架之前不能充值、提现或自动游戏。",
+    "balance": "余额",
+    "locked": "锁定",
+    "lockedNote": "免费的 $2.50 留在通行证里",
+    "withdrawable": "可提现",
+    "betToday": "今日下注",
+    "topUp": "充值",
+    "topUpText": "向通行证发送 $FLYAI。无手续费。",
+    "amount": "$FLYAI 数量",
+    "topUpGo": "充值",
+    "withdraw": "提现",
+    "withdrawPending": "{amount} $FLYAI 提现处理中。",
+    "withdrawLocked": "充值一次即可解锁提现。免费的 $2.50 始终留在通行证里。",
+    "withdrawText": "超出免费 $2.50 的部分（含奖金）都可以提现。手续费 {pct}%。",
+    "max": "最大",
+    "withdrawGo": "提现",
+    "youGet": "你将收到 {amount} $FLYAI（手续费 {fee}）",
+    "depositing": "请在钱包中确认转账…",
+    "crediting": "正在入账到通行证…",
+    "deposited": "已向 FlightPass #{id} 添加 {amount} $FLYAI。",
+    "withdrawAsked": "已申请提现：{amount} $FLYAI 正在路上。",
+    "saved": "FlightPass #{id} 设置已保存。",
+    "autopilot": "自动驾驶",
+    "games": {
+      "roulette": "Fly Roulette",
+      "rouletteText": "在你的限额内，用通行证余额下注。",
+      "missions": "Flybook 任务",
+      "missionsText": "每天戳一戳、点赞和反应，冲赛季榜。",
+      "duels": "Flybook 决斗",
+      "duelsText": "你的苍蝇主动约架。",
+      "breed": "Flybook 繁殖",
+      "breedText": "你的苍蝇去找对象。"
+    },
+    "limits": {
+      "stake": "每局下注（$FLYAI）",
+      "flies": "桌上苍蝇数",
+      "maxDay": "每日上限（$FLYAI）"
+    },
+    "termsNeeded": "Fly Roulette 需要先接受一次 18+ 条款。保存时会询问你。",
+    "flybookNote": "Flybook 自动驾驶使用以此钱包登录的 Flybook 账户。",
+    "save": "保存",
+    "history": "最近",
+    "kind": {
+      "prefund": "免费 $2.50",
+      "deposit": "充值",
+      "withdraw": "提现",
+      "bet": "轮盘下注",
+      "payout": "轮盘赢奖",
+      "fee": "手续费"
+    },
+    "terms": {
+      "title": "Fly Roulette 条款",
+      "text": "你的通行证用真实 $FLYAI 与庄家对赌。下注可能输。",
+      "age": "我已年满 18 岁",
+      "accept": "我接受 <a href=\"{href}\" target=\"_blank\" rel=\"noopener\">Fly Roulette 条款</a>",
+      "go": "接受"
+    },
+    "why": {
+      "amount": "请输入大于 0 的数量。",
+      "noDeposits": "充值尚未开放。"
+    },
+    "market": {
+      "categories": "分类",
+      "cat": {
+        "flies": "苍蝇",
+        "pass": "FlightPass"
+      },
+      "title": "FlightPass 市场",
+      "text": "用 {token} 买卖 FlightPass。里面的 $FLYAI 随通行证一起转移。卖家立即收款，扣除 {pct}% 手续费。",
+      "empty": "目前没有出售中的 FlightPass。",
+      "bought": "FlightPass #{id} 连同里面的 $FLYAI 都归你了。去 FlightPass 页面设置自动驾驶吧。",
+      "sellTitle": "出售你的 FlightPass",
+      "noFlies": "这个钱包没有 FlightPass。",
+      "sellText": "以美元或 {token} 输入价格。通行证在售出前一直留在你的钱包里，买家还会拿到里面的 $FLYAI。你收到价格减去 {pct}%。",
+      "approveFirst": "第 1/2 步：允许市场在售出时转移这张通行证。",
+      "listedOk": "FlightPass #{id} 已以 {price} 挂单。",
+      "cancelled": "FlightPass #{id} 已下架。",
+      "offers": {
+        "text": "对任意 FlightPass 出价 {token}，无论是否挂单。市场会保管你的 {token}，直到持有者接受或你撤回。持有者收到扣除 {pct}% 后的金额。",
+        "fly": "通行证 #",
+        "made": "你对 FlightPass #{id} 的 {amount} 出价已提交。",
+        "cancelled": "你对 FlightPass #{id} 的出价已退回钱包。",
+        "accepted": "FlightPass #{id} 以 {amount} 售出。",
+        "why": {
+          "noFly": "请输入 1 到 {n} 之间的通行证编号。"
+        }
+      },
+      "inside": "内含 {amount} $FLYAI",
+      "insideUnknown": "余额加载中…",
+      "frozen": "挂单期间冻结：不自动游戏、不充值、不提现。",
+      "freezeNote": "挂单会冻结通行证，直到售出或下架。"
+    },
+    "claim": {
+      "title": "免费 FlightPass！",
+      "text": "你在 9 月 28 日持有 Trader Fly，所以有一张通行证是你的，里面还有 $2.50 的游戏资金。",
+      "button": "领取我的 FlightPass",
+      "claiming": "领取中……请在钱包中确认。",
+      "done": "领取成功！你的 FlightPass 已到账。",
+      "needFlyai": "钱包中至少持有 {min} $FLYAI 才能领取。",
+      "soon": "领取即将开放，你的通行证在等你。",
+      "notEligible": "免费通行证已发给 9 月 28 日快照时持有 Trader Fly 的钱包。你仍可以在市场上买一张：",
+      "gone": "这个钱包已经领过通行证，现在它在别处。去市场再买一张："
+    }
   }
 }

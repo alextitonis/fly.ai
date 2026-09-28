@@ -3,6 +3,8 @@
 #   api   holder-gated fly creation, https://flybook-worker.fly.dev (stops when idle)
 #   merch fly merch (merch.py run): turns paid designs into Fourthwall products, reads the shop's orders
 #   keeper the Trader Flies $FLYAI price (flyai_keeper.py --loop): keeps TraderFly's FLYAI price fresh (2026-09-26)
+#   autopilot FlightPass owners' Flybook missions, duels and hatchings (autopilot.py --loop, 2026-09-28); secret
+#          FLIGHTPASS_WORKER_KEY (the mine server's key for GET /api/flightpass/autopilot)
 # Deploy with flybook/worker/deploy.sh. Secrets: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, OPENROUTER_API_KEY,
 # FOURTHWALL_USER, FOURTHWALL_PASSWORD; keeper: TRADERFLY_ADDRESS, KEEPER_KEY (the price keeper's key, prices only).
 app = "flybook-worker"
@@ -24,6 +26,7 @@ primary_region = "cdg"
   api = "python flybook/worker/api.py"
   merch = "python flybook/worker/merch.py run"
   keeper = "python flybook/worker/flyai_keeper.py --loop"
+  autopilot = "python flybook/worker/autopilot.py --loop --every 300"
 
 [http_service]
   internal_port = 8080

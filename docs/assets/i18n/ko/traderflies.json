@@ -8,7 +8,8 @@
     "home": "fly.ai ↗",
     "disconnect": "연결 해제",
     "afterMint": "민팅이 끝나면 열립니다",
-    "pets": "Hardware NFTs"
+    "pets": "Hardware NFTs",
+    "pass": "FlightPass"
   },
   "flyAlt": "Trader Fly 한 마리",
   "flyName": "Trader Fly #{id}",
@@ -358,5 +359,130 @@
     "holderYes": "$FLYAI를 {amount}개 이상 보유 중: {pct}% 할인된 펫당 {price}입니다.",
     "preorderNote": "사전 주문가입니다. 펫 정식 출시 후에는 $150.",
     "preordered": "사전 주문됨"
+  },
+  "pass": {
+    "name": "FlightPass #{id}",
+    "soon": "FlightPass가 곧 착륙합니다.",
+    "title": "FlightPass",
+    "text": "내 파리를 자동 조종으로. 패스에 $FLYAI를 충전하고 게임을 고르면, 자는 동안 파리가 대신 플레이합니다. $FLYAI는 패스와 함께 움직여요. 패스를 팔면 잔액도 함께 넘어갑니다.",
+    "perks": {
+      "autoTitle": "자동 조종",
+      "auto": "Fly Roulette, Flybook 미션, 결투, 번식을 대신 플레이합니다.",
+      "mineTitle": "채굴 {x}",
+      "mine": "UTC 기준 하루 종일 패스를 보유하면 그날 채굴 포인트가 스테이킹 등급에 더해 {x}가 됩니다.",
+      "tradeTitle": "거래 가능",
+      "trade": "마켓에 올리세요. 안에 든 $FLYAI는 구매자에게 갑니다."
+    },
+    "signInText": "지갑으로 한 번 로그인하면 내 패스를 볼 수 있어요. 무료, 트랜잭션 없음, Fly Roulette·채굴과 같은 로그인입니다.",
+    "signIn": "로그인",
+    "signing": "지갑에서 메시지에 서명하세요…",
+    "none": "이 지갑에는 FlightPass가 없습니다.",
+    "findOne": "마켓에서 찾아보기",
+    "listedBadge": "판매 중",
+    "flying": "자동 조종 켜짐",
+    "parked": "주차 중",
+    "frozen": "이 패스는 판매 중이라 동결되었습니다. 마켓에서 내릴 때까지 충전, 출금, 자동 플레이가 멈춥니다.",
+    "balance": "잔액",
+    "locked": "잠김",
+    "lockedNote": "무료 $2.50는 패스에 남습니다",
+    "withdrawable": "출금 가능",
+    "betToday": "오늘 베팅",
+    "topUp": "충전",
+    "topUpText": "패스로 $FLYAI를 보내세요. 수수료 없음.",
+    "amount": "$FLYAI 수량",
+    "topUpGo": "충전",
+    "withdraw": "출금",
+    "withdrawPending": "{amount} $FLYAI 출금이 진행 중입니다.",
+    "withdrawLocked": "한 번 충전하면 출금이 열립니다. 무료 $2.50는 항상 패스에 남아요.",
+    "withdrawText": "무료 $2.50를 넘는 금액은 상금 포함 모두 출금할 수 있어요. 수수료 {pct}%.",
+    "max": "최대",
+    "withdrawGo": "출금",
+    "youGet": "받는 금액 {amount} $FLYAI (수수료 {fee})",
+    "depositing": "지갑에서 전송을 확인하세요…",
+    "crediting": "패스에 반영 중…",
+    "deposited": "FlightPass #{id}에 {amount} $FLYAI가 추가되었습니다.",
+    "withdrawAsked": "출금 요청 완료: {amount} $FLYAI가 곧 도착합니다.",
+    "saved": "FlightPass #{id} 설정이 저장되었습니다.",
+    "autopilot": "자동 조종",
+    "games": {
+      "roulette": "Fly Roulette",
+      "rouletteText": "설정한 한도 안에서 패스 잔액으로 베팅합니다.",
+      "missions": "Flybook 미션",
+      "missionsText": "매일 찌르기, 좋아요, 반응으로 시즌 보드를 노립니다.",
+      "duels": "Flybook 결투",
+      "duelsText": "파리들이 싸움을 겁니다.",
+      "breed": "Flybook 번식",
+      "breedText": "파리들이 짝을 찾습니다."
+    },
+    "limits": {
+      "stake": "게임당 베팅 ($FLYAI)",
+      "flies": "테이블의 파리 수",
+      "maxDay": "하루 최대 ($FLYAI)"
+    },
+    "termsNeeded": "Fly Roulette는 18세 이상 약관 동의가 한 번 필요합니다. 저장할 때 물어볼게요.",
+    "flybookNote": "Flybook 자동 조종은 이 지갑으로 로그인한 Flybook 계정을 사용합니다.",
+    "save": "저장",
+    "history": "최근",
+    "kind": {
+      "prefund": "무료 $2.50",
+      "deposit": "충전",
+      "withdraw": "출금",
+      "bet": "룰렛 베팅",
+      "payout": "룰렛 승리",
+      "fee": "수수료"
+    },
+    "terms": {
+      "title": "Fly Roulette 약관",
+      "text": "패스는 하우스를 상대로 실제 $FLYAI를 베팅합니다. 베팅은 잃을 수 있습니다.",
+      "age": "만 18세 이상입니다",
+      "accept": "<a href=\"{href}\" target=\"_blank\" rel=\"noopener\">Fly Roulette 약관</a>에 동의합니다",
+      "go": "동의"
+    },
+    "why": {
+      "amount": "0보다 큰 수량을 입력하세요.",
+      "noDeposits": "아직 충전이 열리지 않았습니다."
+    },
+    "market": {
+      "categories": "카테고리",
+      "cat": {
+        "flies": "파리",
+        "pass": "FlightPass"
+      },
+      "title": "FlightPass 마켓",
+      "text": "{token}로 FlightPass를 사고파세요. 안에 든 $FLYAI는 패스와 함께 넘어갑니다. 판매자는 {pct}% 수수료를 뺀 금액을 바로 받습니다.",
+      "empty": "지금 판매 중인 FlightPass가 없습니다.",
+      "bought": "FlightPass #{id}가 안의 $FLYAI까지 모두 당신 것입니다. FlightPass 페이지에서 자동 조종을 설정하세요.",
+      "sellTitle": "FlightPass 판매",
+      "noFlies": "이 지갑에는 FlightPass가 없습니다.",
+      "sellText": "달러나 {token}로 가격을 입력하세요. 패스는 팔릴 때까지 지갑에 남고, 구매자는 안의 $FLYAI도 받습니다. 가격에서 {pct}%를 뺀 금액을 받습니다.",
+      "approveFirst": "1/2단계: 판매 시 마켓이 이 패스를 옮길 수 있게 허용하세요.",
+      "listedOk": "FlightPass #{id}가 {price}에 올라갔습니다.",
+      "cancelled": "FlightPass #{id}가 더 이상 판매 중이 아닙니다.",
+      "offers": {
+        "text": "판매 여부와 상관없이 어떤 FlightPass에든 {token}로 제안하세요. 보유자가 수락하거나 당신이 회수할 때까지 마켓이 {token}를 보관합니다. 보유자는 {pct}%를 뺀 금액을 받습니다.",
+        "fly": "패스 #",
+        "made": "FlightPass #{id}에 {amount} 제안을 넣었습니다.",
+        "cancelled": "FlightPass #{id}에 대한 제안이 지갑으로 돌아왔습니다.",
+        "accepted": "FlightPass #{id}가 {amount}에 팔렸습니다.",
+        "why": {
+          "noFly": "1부터 {n} 사이의 패스 번호를 입력하세요."
+        }
+      },
+      "inside": "안에 {amount} $FLYAI",
+      "insideUnknown": "잔액 불러오는 중…",
+      "frozen": "판매 중에는 동결: 자동 플레이, 충전, 출금 없음.",
+      "freezeNote": "판매 등록하면 팔리거나 내릴 때까지 패스가 동결됩니다."
+    },
+    "claim": {
+      "title": "무료 FlightPass!",
+      "text": "9월 28일에 Trader Fly를 보유하고 있었으니 패스 하나는 당신 것입니다. 안에 $2.50의 플레이 머니가 들어 있어요.",
+      "button": "내 FlightPass 받기",
+      "claiming": "받는 중… 지갑에서 승인하세요.",
+      "done": "받았습니다! FlightPass가 도착했어요.",
+      "needFlyai": "받으려면 이 지갑에 {min} $FLYAI 이상이 있어야 합니다.",
+      "soon": "곧 받을 수 있어요. 패스가 기다리고 있습니다.",
+      "notEligible": "무료 패스는 9월 28일 스냅샷 때 Trader Fly를 보유한 지갑에 돌아갔어요. 마켓에서 하나 구할 수 있습니다:",
+      "gone": "이 지갑은 이미 패스를 받았고, 지금은 다른 곳에 있어요. 마켓에서 하나 더 구하세요:"
+    }
   }
 }

@@ -549,6 +549,34 @@ $FLYAI" panel bets on the same server, from the same balance and sign-in as comp
   a game settled once with the revealed seed replayed, a restart mid-game, withdrawals, the house stop, the off
   switch).
 
+## FlightPass (autopilot)
+
+One FlightPass NFT per Trader Flies holder wallet (flytrade/autopilot/SPEC.md). Its FLYAI balance lives here, in the
+same ledger, under the key `pass:<token id>`, so it moves with the token. Code: `src/flightpass.ts`.
+
+- **Money.** Schema 17 adds ledger kinds `prefund` (tx `flightpass-prefund:<id>`, once per pass: the team's FLYAI,
+  locked) and `fee`. Owners deposit like roulette deposits (a transfer to PAY_TO, no fee). Withdrawals open after the
+  owner's first deposit and only above the prefund; asking moves the amount off the pass at once as `withdraw`
+  (99%, tx `flightpass-withdraw:<n>`) + `fee` (1%, `flightpass-fee:<n>`), and the operator sends the 99% and marks it
+  paid, or cancels it (a `release` puts both back).
+- **Listed** on the pass market (`FlyMarket.isListed`): no deposits, withdrawals, setting changes or autoplay.
+- **Autopilot.** Settings belong to the owner who wrote them and lapse when the pass changes hands. Roulette is played
+  here (`roulette.autoBet`: a fresh commit, random seat and client seed, the owner's stake, table size and daily cap,
+  the terms checked on the owner, one bet per `FLIGHTPASS_BET_GAP_MIN`, `FLIGHTPASS_FREE_TABLES` tables left for
+  people). Flybook games are played by the Flybook worker from `GET /api/flightpass/autopilot?game=flybook`.
+- **Mining.** Every `FLIGHTPASS_SAMPLE_MIN` the owner of every pass is read (Multicall3 when the chain has it) and
+  `flightpass_days` records who held each pass that UTC day; any other holder that day breaks it. A wallet-day with
+  an unbroken pass counts ×1.25 on top of the stake tier (`monthPoints`); `/api/me` shows it as `flightpass`.
+- **Settings** (env): `FLIGHTPASS` (the NFT; off until set), `PASSMARKET` (its FlyMarket), `FLIGHTPASS_WORKER_KEY`
+  (the Flybook worker's bearer key), `FLIGHTPASS_RPC` (default `CLAIM_RPC`), `FLIGHTPASS_TICK_SEC` (60),
+  `FLIGHTPASS_BET_GAP_MIN` (10), `FLIGHTPASS_FREE_TABLES` (2), `FLIGHTPASS_SAMPLE_MIN` (`STAKE_SAMPLE_MIN`),
+  `FLIGHTPASS_DEPOSITS_SINCE` (2026-09-28), `FLIGHTPASS_MAX_ID` (ids to read if the NFT has no `totalSupply()`).
+- **Operations.** Prefund with `POST /api/admin/flightpass/prefund {all: true, amount}`; the dev wallet must also
+  hold the pass `balances_held` from `GET /api/admin/flightpass`.
+- **Tests:** `npm run test:flightpass` (anvil + test token + stand-in NFT and market: the 16 → 17 upgrade, prefund,
+  deposits, withdrawals and the fee, listing, settings, the autopilot's bets and cap, a new owner, the worker list,
+  the mining boost, the off switch).
+
 ## Browser extension
 
 ```sh
@@ -1047,6 +1075,16 @@ How answers are checked, without the server re-running a fixed share of a fast G
 | `POST /api/roulette/games {commit_id, client_seed, flies, pick, stake}` (x-flyai-session) | bet and start a game → the game |
 | `GET /api/roulette/games/:id?after=` | the game: table, stake, payout, events after a seq; `server_seed` once it's over |
 | `GET /api/admin/roulette` (admin) | house net, balances held, live games, open withdrawal requests |
+| `GET /api/flightpass/config` | on, contracts, pay-to, withdrawal fee, mining boost, roulette limits |
+| `GET /api/flightpass/mine` (x-flyai-session) | the session wallet's passes: balance, locked, withdrawable, settings, bets, history |
+| `GET /api/flightpass/:id` | one pass (settings and history only for its owner) |
+| `POST /api/flightpass/:id/deposit {tx}` (x-flyai-session, owner) | credit a FLYAI transfer to PAY_TO to the pass |
+| `POST /api/flightpass/:id/withdraw {amount}` (x-flyai-session, owner) | ask for FLYAI above the prefund back (99% sent, 1% fee) |
+| `POST /api/flightpass/:id/settings {roulette?, flybook?}` (x-flyai-session, owner) | autopilot: `roulette {on, stake, flies, max_day}`, `flybook {missions, duels, breed}` |
+| `GET /api/flightpass/autopilot?game=flybook` (worker key) | unlisted passes with a Flybook game on: pass, owner, settings |
+| `GET /api/admin/flightpass` (admin) | pass balances held, locked prefunds, open withdrawals |
+| `POST /api/admin/flightpass/prefund {ids \| all, amount}` (admin) | lock `amount` FLYAI on each pass, once |
+| `POST /api/admin/flightpass/withdrawal {id, tx \| cancel}` (admin) | mark a pass withdrawal sent, or put it back |
 
 ## Not in v1
 

@@ -37,6 +37,7 @@ import type { TaskParams, TaskResult } from "./runner.ts";
 import { screenKey, screenRates } from "./screensum.ts";
 import { ADDRESS, checksumAddress, recoverAddress, siweMessage } from "./wallet.ts";
 import { createRoulette } from "./roulette.ts";
+import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
 import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, merkleTree, monthCalldata, monthId, toWei } from "./payouts.ts";
 import { parseTiers, readStake, STAKE_SELECTORS, tierFor } from "./staking.ts";
 import {
@@ -175,7 +176,7 @@ function round(r: number): TaskParams[] {
 }
 
 // ---- storage -----------------------------------------------------------------------------------------
-const SCHEMA = 16; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned); created below for new and old databases alike
+const SCHEMA = 17; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables); created below for new and old databases alike
 /** PROGRAM_BONUS before schema 15, and the factor stored program units are scaled by so credit keeps its value. */
 const OLD_PROGRAM_BONUS = 1.25;
 mkdirSync(dirname(DB_PATH), { recursive: true });
@@ -277,6 +278,38 @@ if (hasTables && version < 15 && hadDayCredit) {
     db.prepare("update tasks set units = units * ? where kind is not null and kind != 'connectome'").run(factor);
   });
   console.log(`database upgraded to schema 15 (program units x${factor.toFixed(4)}, credit value unchanged)`);
+}
+if (hasTables && version < 17 && db.prepare("select 1 from sqlite_master where name = 'ledger'").get()) {
+  // 17: the ledger's kinds gain prefund (the team's locked FLYAI on a FlightPass) and fee (the 1% of a FlightPass
+  // withdrawal). Copied into a table with the new check, as in 14; its indexes are made again below.
+  const rows = (db.prepare("select count(*) as n from ledger").get() as { n: number }).n;
+  db.exec("begin");
+  try {
+    db.exec(`
+      create table ledger_v17 (
+        id integer primary key,
+        wallet text not null,
+        order_id text,
+        kind text not null check (kind in ('deposit', 'fund', 'release', 'withdraw', 'charge', 'bet', 'payout', 'prefund', 'fee')),
+        amount_wei text not null,
+        pool_wei text,
+        month text,
+        tx text,
+        at integer not null
+      );
+      insert into ledger_v17 (id, wallet, order_id, kind, amount_wei, pool_wei, month, tx, at)
+        select id, wallet, order_id, kind, amount_wei, pool_wei, month, tx, at from ledger;
+      drop table ledger;
+      alter table ledger_v17 rename to ledger;
+    `);
+    const after = (db.prepare("select count(*) as n from ledger").get() as { n: number }).n;
+    if (after !== rows) throw new Error(`ledger copy has ${after} rows, not ${rows}`);
+    db.exec("commit");
+  } catch (err) {
+    db.exec("rollback");
+    throw err;
+  }
+  console.log(`database upgraded to schema 17 (ledger kinds for FlightPass, ${rows} rows kept)`);
 }
 db.exec(`
   pragma journal_mode = wal;
@@ -475,7 +508,7 @@ db.exec(`
     id integer primary key,
     wallet text not null,
     order_id text,
-    kind text not null check (kind in ('deposit', 'fund', 'release', 'withdraw', 'charge', 'bet', 'payout')),
+    kind text not null check (kind in ('deposit', 'fund', 'release', 'withdraw', 'charge', 'bet', 'payout', 'prefund', 'fee')),
     amount_wei text not null,
     pool_wei text,                    -- charge: the miners' part
     month text,                       -- charge: the pool month
@@ -571,6 +604,35 @@ db.exec(`
     stim text not null
   ) without rowid;
   create table if not exists counters (name text primary key, n integer not null) without rowid;
+  -- 17: FlightPass (src/flightpass.ts). A pass's balance is the ledger under 'pass:<token id>'; here its owner's
+  -- autopilot settings, its withdrawals, and who held it on each UTC day (the mining boost)
+  create table if not exists flightpass (
+    id integer primary key,           -- token id
+    settings text not null,           -- JSON (Settings): only in force while the wallet that wrote them owns the pass
+    last_bet_at integer,
+    updated_at integer not null
+  );
+  create table if not exists flightpass_withdrawals (
+    id integer primary key,
+    pass integer not null,
+    wallet text not null,             -- the owner who asked: the operator sends it here
+    amount_wei text not null,         -- what the operator sends (99%)
+    fee_wei text not null,            -- the dev's 1%
+    status text not null check (status in ('open', 'paid', 'cancelled')),
+    created_at integer not null,
+    done_at integer,
+    tx text
+  );
+  create index if not exists flightpass_withdrawals_open on flightpass_withdrawals (pass) where status = 'open';
+  create table if not exists flightpass_days (
+    pass integer not null,
+    day text not null,
+    wallet text not null,             -- the holder at the day's first sample
+    broken integer not null default 0, -- 1 once a sample that day found another holder
+    samples integer not null,
+    primary key (pass, day)
+  ) without rowid;
+  create index if not exists flightpass_days_by_wallet on flightpass_days (day, wallet) where broken = 0;
   create index if not exists order_tasks_by_task on order_tasks (task);
 `);
 if (hasTables && !hadDayCredit) {
@@ -1236,7 +1298,8 @@ function monthBounds(month: string): [string, string] {
 
 /**
  * Points per wallet (and per unlinked miner) for a month: each miner-day's credited units times the
- * wallet's stake multiplier that day (1 while staking is off; unlinked miners always count 1).
+ * wallet's stake multiplier that day (1 while staking is off; unlinked miners always count 1), times the FlightPass
+ * boost on a day the wallet held a pass throughout.
  */
 function monthPoints(month: string) {
   const bounds = monthBounds(month);
@@ -1244,13 +1307,15 @@ function monthPoints(month: string) {
     from day_credit d join miners m on m.id = d.miner where d.day >= ? and d.day < ?`).all(...bounds) as unknown as (DayRow & { day: string; miner: string; wallet: string | null })[];
   const samples = new Map((db.prepare("select wallet, day, staked_wei from stake_samples where day >= ? and day < ?").all(...bounds) as
     { wallet: string; day: string; staked_wei: string }[]).map((s) => [`${s.wallet} ${s.day}`, BigInt(s.staked_wei)]));
+  const boosted = flightpass.boostedDays(...bounds); // a FlightPass held all day: x1.25 on top of the stake tier
   const wallets = new Map<string, number>();
   const miners = new Map<string, number>();
   let unlinked = 0;
   for (const r of rows) {
     const { credited } = standingOf(r);
     miners.set(r.miner, (miners.get(r.miner) ?? 0) + credited);
-    if (r.wallet) wallets.set(r.wallet, (wallets.get(r.wallet) ?? 0) + credited * multiplierFor(samples.get(`${r.wallet} ${r.day}`)));
+    if (r.wallet) wallets.set(r.wallet, (wallets.get(r.wallet) ?? 0) + credited * multiplierFor(samples.get(`${r.wallet} ${r.day}`))
+      * (boosted.has(`${r.wallet} ${r.day}`) ? MINING_BOOST : 1));
     else unlinked += credited;
   }
   const total = [...wallets.values()].reduce((s, p) => s + p, 0);
@@ -1520,6 +1585,7 @@ function me(miner: string) {
     lifetime_jobs: life.jobs, lifetime_rejected: life.rejected ?? 0,
     month: thisMonth(), month_points: monthPts, month_share: wallet && m.total ? monthPts / m.total : 0,
     stake: wallet ? stakeOf(wallet) : null,
+    flightpass: wallet ? flightpass.boostView(wallet) : null,
     ...monthStanding(wallet, monthPts),
   };
 }
@@ -1722,12 +1788,12 @@ function book(wallet: string, orderId: string | null, kind: string, amount: bigi
     .run(wallet, orderId, kind, amount.toString(), extra.pool?.toString() ?? null, extra.month ?? null, extra.tx ?? null, Date.now());
 }
 
-/** Deposits, releases and roulette winnings, less what funded orders, was bet or was sent back. */
+/** Deposits, releases, roulette winnings and FlightPass prefunds, less what funded orders, was bet, was sent back or paid a fee. */
 function balanceOf(wallet: string): bigint {
   let sum = 0n;
   for (const r of db.prepare("select kind, amount_wei from ledger where wallet = ?").all(wallet) as { kind: string; amount_wei: string }[]) {
-    if (r.kind === "deposit" || r.kind === "release" || r.kind === "payout") sum += BigInt(r.amount_wei);
-    else if (r.kind === "fund" || r.kind === "withdraw" || r.kind === "bet") sum -= BigInt(r.amount_wei);
+    if (r.kind === "deposit" || r.kind === "release" || r.kind === "payout" || r.kind === "prefund") sum += BigInt(r.amount_wei);
+    else if (r.kind === "fund" || r.kind === "withdraw" || r.kind === "bet" || r.kind === "fee") sum -= BigInt(r.amount_wei);
   }
   return sum;
 }
@@ -3030,6 +3096,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/roulette/") || p.startsWith("/api/balance/") || p === "/api/admin/roulette")) {
     if (await roulette.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/flightpass/") || p.startsWith("/api/admin/flightpass"))) {
+    if (await flightpass.route(req, res, url)) return;
+  }
   if (req.method === "OPTIONS") {
     res.writeHead(204, { ...CORS, "access-control-allow-methods": "GET, POST" });
     return void res.end();
@@ -3214,6 +3283,17 @@ const roulette = createRoulette({
   env: process.env,
 });
 roulette.resume();
+// FlightPass (src/flightpass.ts): pass balances in the same ledger, autopilot bets through the roulette above
+const flightpass = createFlightPass({
+  db, transaction, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
+  sessionWallet: (req) => sessionOf(req).wallet,
+  transfersIn: (tx) => {
+    if (!ORDERS.payTo) throw new HttpError(503, "deposits aren't open yet");
+    return transfersIn(CLAIMS.rpc, tx, ORDERS.token, ORDERS.payTo);
+  },
+  roulette, rpcUrl: env("FLIGHTPASS_RPC", CLAIMS.rpc), payTo: ORDERS.payTo ?? null, today, env: process.env,
+});
+flightpass.start();
 // card checkouts still open from the last three hours: a buyer who closed the tab still gets their order started
 setInterval(() => {
   if (!cdp) return;
