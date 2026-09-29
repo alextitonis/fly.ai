@@ -16,4 +16,5 @@ ARG GIT_SHA=unknown
 ENV GIT_SHA=$GIT_SHA PORT=8080 MINE_DB=/data/mine.db TRUST_PROXY=1
 
 WORKDIR /app/mine
-CMD ["node", "--disable-warning=ExperimentalWarning", "src/server.ts"]
+# src/start.ts: the mining and user servers (one database) behind a proxy on PORT, so mining never holds a player
+CMD ["node", "--disable-warning=ExperimentalWarning", "src/start.ts"]

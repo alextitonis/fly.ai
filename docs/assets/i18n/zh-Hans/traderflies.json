@@ -133,6 +133,7 @@
     "paused": "$FLYAI 暂停"
   },
   "market": {
+    "view": { "label": "视图", "grid": "网格", "list": "列表" },
     "title": "市场",
     "text": "用 {token} 与其他持有者买卖 Trader Flies。卖家立即收款，扣除 {pct}% 手续费。",
     "soon": "市场即将开放。",

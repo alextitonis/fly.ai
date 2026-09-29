@@ -135,6 +135,7 @@
     "paused": "$FLYAI en pausa"
   },
   "market": {
+    "view": { "label": "Vista", "grid": "Cuadrícula", "list": "Lista" },
     "title": "Mercado",
     "text": "Compra y vende Trader Flies con otros holders, en {token}. El vendedor cobra al instante, menos una comisión del {pct}%.",
     "soon": "El mercado abre pronto.",

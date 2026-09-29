@@ -133,6 +133,7 @@
     "paused": "$FLYAI 일시 중지"
   },
   "market": {
+    "view": { "label": "보기", "grid": "그리드", "list": "목록" },
     "title": "마켓",
     "text": "다른 홀더와 Trader Flies를 {token}로 사고팝니다. 판매자는 {pct}% 수수료를 뺀 금액을 바로 받습니다.",
     "soon": "마켓이 곧 열립니다.",

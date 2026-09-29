@@ -48,9 +48,10 @@ primary_region = "cdg"
   [[http_service.checks]]
     interval = "30s"
     timeout = "5s"
-    grace_period = "60s"
+    grace_period = "180s"   # both servers start before the proxy listens (first start builds new indexes)
     method = "GET"
-    path = "/api/stats"
+    # the proxy's own answer (src/start.ts): a busy mining thread no longer marks the machine down for everyone
+    path = "/healthz"
 
 [[vm]]
   # dedicated since 2026-09-19: shared vCPUs got throttled under the mining fleet (every request 15-55 s, health checks flapping)

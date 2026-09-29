@@ -27,6 +27,7 @@ import { createHash, randomBytes, randomUUID, timingSafeEqual } from "node:crypt
 import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { stripTypeScriptTypes } from "node:module";
+import { Session as InspectorSession } from "node:inspector/promises";
 import { availableParallelism } from "node:os";
 import { dirname, join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
@@ -59,9 +60,20 @@ const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const WORLD_SRC = fileURLToPath(new URL("../../world/src/", import.meta.url));
 const env = (k: string, d: string) => process.env[k] ?? d;
 const PORT = Number(env("PORT", "8787"));
+/**
+ * One machine, two processes over the same database (src/start.ts puts a proxy in front): "mining" runs miners, orders,
+ * verifiers and research; "user" runs sign-in, Fly Roulette and FlightPass, so a busy mining thread never holds a
+ * player's page (2026-09-29). "all" runs everything in one process: local runs and the tests.
+ */
+const ROLE = env("ROLE", "all");
+if (!["all", "mining", "user", "research"].includes(ROLE)) throw new Error("ROLE is all, mining, user or research");
+// "research" works out the research summaries (/api/experiments), which held the mining thread for 44 s a run
+const MINING = ROLE === "all" || ROLE === "mining", USER = ROLE === "all" || ROLE === "user";
+const RESEARCH = ROLE === "all" || ROLE === "research";
 const DB_PATH = env("MINE_DB", join(ROOT, "data", "mine.db"));
 const CONNECTOME_DIR = env("CONNECTOME_DIR", fileURLToPath(new URL("../../world/public/connectome/", import.meta.url)));
-const VERIFIERS = Number(env("VERIFIERS", String(Math.max(1, Math.min(4, availableParallelism() - 1)))));
+// research keeps one verifier for the connectome reference its summaries need; it never takes checking work (pump)
+const VERIFIERS = MINING ? Number(env("VERIFIERS", String(Math.max(1, Math.min(4, availableParallelism() - 1))))) : RESEARCH ? 1 : 0;
 const AUDITS = Number(env("AUDITS", "3"));
 const CANARY_RATE = Number(env("CANARY_RATE", "0.15"));
 const MIN_CHECKED = Number(env("MIN_CHECKED", "2"));
@@ -321,6 +333,7 @@ if (hasTables && version < 18 && db.prepare("select 1 from sqlite_master where n
 }
 db.exec(`
   pragma journal_mode = wal;
+  pragma busy_timeout = 5000;
   pragma user_version = ${SCHEMA};
   create table if not exists tasks (
     id integer primary key,
@@ -338,6 +351,10 @@ db.exec(`
   create index if not exists tasks_open on tasks (state, r);
   create index if not exists tasks_paid on tasks (r) where state = 'open' and priority > 0;
   create index if not exists tasks_canary on tasks (r) where truth is not null;
+  -- the brain jobs alone: with only (state, r), picking an open brain job walked past every open program job of the
+  -- house orders first, and a 32-job claim did that dozens of times; 57% of the main thread (2026-09-29 profile)
+  create index if not exists tasks_open_brain on tasks (r) where state = 'open' and kind = 'connectome';
+  create index if not exists tasks_canary_brain on tasks (r) where truth is not null and kind = 'connectome';
   create table if not exists miners (
     id text primary key,
     token_hash text not null unique,
@@ -648,6 +665,13 @@ db.exec(`
   ) without rowid;
   create index if not exists flightpass_days_by_wallet on flightpass_days (day, wallet) where broken = 0;
   create index if not exists order_tasks_by_task on order_tasks (task);
+  -- each pass's holder at the last sample: the user process samples, the mining process reads it for /api/me
+  create table if not exists flightpass_owners (
+    pass integer primary key,
+    wallet text not null,
+    at integer not null
+  );
+  create index if not exists flightpass_owners_by_wallet on flightpass_owners (wallet);
 `);
 if (hasTables && !hadDayCredit) {
   // 13: one pass over every assignment so far; from here on the triggers keep it
@@ -666,7 +690,9 @@ const one = <T>(sql: string, ...args: (string | number | null)[]) => db.prepare(
 const count = (sql: string, ...args: (string | number | null)[]) => one<{ n: number }>(sql, ...args).n;
 
 function transaction<T>(fn: () => T): T {
-  db.exec("begin");
+  // immediate: with two processes writing, a deferred transaction that later writes fails at once on a lock,
+  // where this one waits its turn (busy_timeout)
+  db.exec("begin immediate");
   try {
     const out = fn();
     db.exec("commit");
@@ -785,6 +811,7 @@ function audit(task: number, urgent = false): void {
 }
 
 function pump(): void {
+  if (!MINING) return; // audits and seeded jobs are the mining process's
   for (const v of pool) {
     while (v.ready && v.task === null && auditQueue.length) {
       const task = auditQueue.shift()!;
@@ -1108,8 +1135,9 @@ function linkBySession(req: IncomingMessage, body: any) {
   return { wallet, miner: miner.slice(0, 8) };
 }
 
-const openFrom = db.prepare("select id, params, kind from tasks where state = 'open' and kind = 'connectome' and r >= ? and r < ? order by r limit 16");
-const canaryFrom = db.prepare("select id, params, kind from tasks where truth is not null and kind = 'connectome' and r >= ? and r < ? order by r limit 16");
+// pinned to the brain-only indexes: a planner falling back to tasks_open walks every open program job (2026-09-29)
+const openFrom = db.prepare("select id, params, kind from tasks indexed by tasks_open_brain where state = 'open' and kind = 'connectome' and r >= ? and r < ? order by r limit 16");
+const canaryFrom = db.prepare("select id, params, kind from tasks indexed by tasks_canary_brain where truth is not null and kind = 'connectome' and r >= ? and r < ? order by r limit 16");
 // By task, never by miner: the planner picked assignments_by_miner, which walks every job the miner ever had (360k
 // for the busiest), ~150 ms a call and up to two calls per job in a 32-job claim. That froze the server (2026-09-21).
 const alreadyHad = db.prepare("select task from assignments indexed by assignments_by_task where miner = ? and task in (select value from json_each(?))");
@@ -1623,21 +1651,40 @@ function me(miner: string) {
   };
 }
 
-const stats = cached(60_000, (_: null) => ({
-  miners_online: count("select count(*) as n from miners where last_seen > ?", Date.now() - 10 * 60_000),
-  jobs_today: count("select coalesce(sum(accepted + pending + rejected), 0) as n from day_credit where day = ?", today()),
-  tasks: count("select count(*) as n from tasks") + counter("pruned_tasks"),
-  tasks_done: count("select count(*) as n from tasks where state = 'done'") + counter("pruned_tasks"),
-  tasks_checked: count("select count(*) as n from tasks where truth is not null"),
-  rounds: count("select coalesce(max(round) + 1, 0) as n from tasks"),
-  verifiers: pool.filter((v) => v.ready).length,
-  audit_queue: auditQueue.length + pool.filter((v) => v.task !== null).length,
-  audits_skipped: auditsSkipped,
-  orders_open: !!ORDERS.payTo,
-  orders_live: count("select count(*) as n from orders where status = 'live'"),
-  paid_jobs_waiting: count("select count(*) as n from tasks where priority > 0"),
-  blobs_mb: Math.round(blobBytes() / 1e6),
-}));
+/** The whole-table counts, from src/stats.worker.ts: refreshed in the background, never on a request. */
+let tableCounts: { tasks: number; tasks_done: number; tasks_checked: number; rounds: number; paid_jobs_waiting: number; blob_bytes: number } | null = null;
+let countingSince = 0;
+function refreshTableCounts(): void {
+  if (countingSince && Date.now() - countingSince < 5 * 60_000) return;   // one at a time (a stuck one is given 5 minutes)
+  countingSince = Date.now();
+  const w = new Worker(new URL("./stats.worker.ts", import.meta.url), { workerData: { db: DB_PATH } });
+  w.once("message", (m) => {
+    tableCounts = m;
+    if (m.took_ms > 10_000) console.log(`stats counts took ${m.took_ms} ms (off the main thread)`);
+  });
+  w.once("error", (err) => console.error(`stats worker failed: ${err.message}`));
+  w.once("exit", () => { countingSince = 0; });
+}
+const stats = cached(60_000, (_: null) => {
+  refreshTableCounts();
+  const c = tableCounts;
+  return {
+    miners_online: count("select count(*) as n from miners where last_seen > ?", Date.now() - 10 * 60_000),
+    jobs_today: count("select coalesce(sum(accepted + pending + rejected), 0) as n from day_credit where day = ?", today()),
+    // null until the first background count is in (a few seconds after a start)
+    tasks: c ? c.tasks + counter("pruned_tasks") : null,
+    tasks_done: c ? c.tasks_done + counter("pruned_tasks") : null,
+    tasks_checked: c?.tasks_checked ?? null,
+    rounds: c?.rounds ?? null,
+    verifiers: pool.filter((v) => v.ready).length,
+    audit_queue: auditQueue.length + pool.filter((v) => v.task !== null).length,
+    audits_skipped: auditsSkipped,
+    orders_open: !!ORDERS.payTo,
+    orders_live: count("select count(*) as n from orders where status = 'live'"),
+    paid_jobs_waiting: c?.paid_jobs_waiting ?? null,
+    blobs_mb: c ? Math.round(c.blob_bytes / 1e6) : null,
+  };
+});
 
 /**
  * Screen results, averaged over seeds, as spikes per neuron per second. A job counts once the server has
@@ -3322,9 +3369,11 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
 }
 
 // jobs a verifier was working on when the server stopped have no assignment to expire
-db.prepare(`update tasks set state = 'open' where state = 'out' and truth is null
-  and not exists (select 1 from assignments where task = tasks.id and status = 'issued')`).run();
-topUp();
+if (MINING) {
+  db.prepare(`update tasks set state = 'open' where state = 'out' and truth is null
+    and not exists (select 1 from assignments where task = tasks.id and status = 'issued')`).run();
+  topUp();
+}
 // Fly Roulette bets (src/roulette.ts): the same ledger, sign-in and chain as compute orders
 const roulette = createRoulette({
   db, transaction, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
@@ -3336,7 +3385,7 @@ const roulette = createRoulette({
   connectomeDir: CONNECTOME_DIR,
   env: process.env,
 });
-roulette.resume();
+if (USER) roulette.resume();
 // FlightPass (src/flightpass.ts): pass balances in the same ledger, autopilot bets through the roulette above
 const flightpass = createFlightPass({
   db, transaction, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
@@ -3350,41 +3399,96 @@ const flightpass = createFlightPass({
   // sends withdrawals itself: a hot wallet holding a float of FLYAI and gas, on the FLYAI chain
   payer: process.env.FLIGHTPASS_PAYOUT_KEY ? new Relayer(process.env.FLIGHTPASS_PAYOUT_KEY, CLAIMS.rpc, "FLIGHTPASS_PAYOUT_KEY") : null,
 });
-flightpass.start();
-// card checkouts still open from the last three hours: a buyer who closed the tab still gets their order started
-setInterval(() => {
-  if (!cdp) return;
-  const open = db.prepare("select order_id from card_checkouts where state = 'open' and created_at > ?").all(Date.now() - 3 * 3_600_000) as { order_id: string }[];
-  void (async () => { for (const { order_id } of open) await checkCard(order_id).catch(() => {}); })();
-}, 30_000).unref();
-setInterval(() => {
-  expire();
-  topUp();
-  // frees their tags; a late payment is still accepted (payOrder)
-  db.prepare("update orders set status = 'expired' where status = 'unpaid' and expires_at < ?").run(Date.now());
-  // time limits, and anything a missed refill left waiting
-  for (const { id } of db.prepare("select id from orders where status = 'live'").all() as { id: string }[]) transaction(() => refill(id));
-  if (Date.now() - lastGc > 3_600_000) collectBlobs();
-  if (Date.now() - lastPrune > 3_600_000) void pruneScreen();
-  pump(); // paid jobs waiting on a second answer get the idle verifiers
-}, 15_000).unref();
-setInterval(() => void deliverWebhooks().catch((err) => console.error("webhooks:", err)), 5_000).unref();
-if (STAKING.contract) {
-  void sampleActiveStakes();
-  setInterval(() => void sampleActiveStakes(), STAKING.sampleMs).unref();
-  // the research summaries: once the connectome is loaded, then every half hour
+if (USER) flightpass.start();
+// the mining side's timers: orders, card checkouts, webhooks, staking samples and the research summaries
+if (MINING) {
+  refreshTableCounts(); // /api/stats' job totals, in the background from the start
+  // card checkouts still open from the last three hours: a buyer who closed the tab still gets their order started
+  setInterval(() => {
+    if (!cdp) return;
+    const open = db.prepare("select order_id from card_checkouts where state = 'open' and created_at > ?").all(Date.now() - 3 * 3_600_000) as { order_id: string }[];
+    void (async () => { for (const { order_id } of open) await checkCard(order_id).catch(() => {}); })();
+  }, 30_000).unref();
+  setInterval(() => {
+    expire();
+    topUp();
+    // frees their tags; a late payment is still accepted (payOrder)
+    db.prepare("update orders set status = 'expired' where status = 'unpaid' and expires_at < ?").run(Date.now());
+    // time limits, and anything a missed refill left waiting
+    for (const { id } of db.prepare("select id from orders where status = 'live'").all() as { id: string }[]) transaction(() => refill(id));
+    if (Date.now() - lastGc > 3_600_000) collectBlobs();
+    if (Date.now() - lastPrune > 3_600_000) void pruneScreen();
+    pump(); // paid jobs waiting on a second answer get the idle verifiers
+  }, 15_000).unref();
+  setInterval(() => void deliverWebhooks().catch((err) => console.error("webhooks:", err)), 5_000).unref();
+  if (STAKING.contract) {
+    void sampleActiveStakes();
+    setInterval(() => void sampleActiveStakes(), STAKING.sampleMs).unref();
+  }
+}
+// the research summaries: once the connectome is loaded, then every half hour (in their own process on fly)
+if (RESEARCH && STAKING.contract) {
   setTimeout(() => void computeExperiments(), 90_000).unref();
   setInterval(() => void computeExperiments(), 30 * 60_000).unref();
 }
 
-// the main thread's stalls: every request, health check and miner waits behind one, so log each one over a second
+// the main thread's stalls: every request, health check and miner waits behind one, so log each one over a second,
+// and on a stall (at most every 15 minutes) sample the CPU for 20 s and log where the time went: file:line of the
+// functions that held the thread, so a stall names its code without a debugger
 {
-  let last = Date.now();
+  let last = Date.now(), profiledAt = 0;
   setInterval(() => {
     const late = Date.now() - last - 500;
-    if (late > 1_000) console.warn(`event loop stalled ${late} ms${computing ? " (experiments running)" : ""}`);
+    if (late > 1_000) {
+      console.warn(`[${ROLE}] event loop stalled ${late} ms${computing ? " (experiments running)" : ""}`);
+      if (Date.now() - profiledAt > 15 * 60_000) { profiledAt = Date.now(); void profileMainThread(20_000); }
+    }
     last = Date.now();
   }, 500).unref();
+}
+async function profileMainThread(ms: number): Promise<void> {
+  const session = new InspectorSession();
+  try {
+    session.connect();
+    await session.post("Profiler.enable");
+    await session.post("Profiler.start");
+    await new Promise((r) => setTimeout(r, ms));
+    const { profile } = await session.post("Profiler.stop");
+    const hits = new Map<string, number>();
+    let total = 0;
+    for (const n of profile.nodes) {
+      const f = n.callFrame;
+      const where = f.url ? `${f.url.replace(/^.*\/mine\//, "")}:${f.lineNumber + 1}` : "";
+      const k = `${f.functionName || "(anonymous)"} ${where}`.trim();
+      hits.set(k, (hits.get(k) ?? 0) + (n.hitCount ?? 0));
+      total += n.hitCount ?? 0;
+    }
+    const top = [...hits].sort((a, b) => b[1] - a[1]).slice(0, 15).map(([k, h]) => `  ${(100 * h / total).toFixed(1)}%  ${k}`);
+    console.warn(`[${ROLE}] main thread profile, ${ms / 1000} s after a stall (self time):\n${top.join("\n")}`);
+    // SQLite's get/all/run are native: charge their time to the server code that called them (2026-09-29: 99.8% "get")
+    const parent = new Map<number, number>();
+    for (const n of profile.nodes) for (const c of n.children ?? []) parent.set(c, n.id);
+    const byId = new Map(profile.nodes.map((n) => [n.id, n]));
+    const callers = new Map<string, number>();
+    for (const n of profile.nodes) {
+      if (!n.hitCount || n.callFrame.url) continue;   // native frames only
+      let p = parent.get(n.id), chain: string[] = [];
+      while (p !== undefined && chain.length < 3) {
+        const f = byId.get(p)!.callFrame;
+        if (/\/mine\/src\//.test(f.url)) chain.push(`${f.functionName || "(anonymous)"}:${f.lineNumber + 1}`);
+        p = parent.get(p);
+      }
+      if (!chain.length) continue;
+      const k = `${n.callFrame.functionName} <- ${chain.join(" <- ")}`;
+      callers.set(k, (callers.get(k) ?? 0) + n.hitCount);
+    }
+    const topCallers = [...callers].sort((a, b) => b[1] - a[1]).slice(0, 12).map(([k, h]) => `  ${(100 * h / total).toFixed(1)}%  ${k}`);
+    console.warn(`[${ROLE}] main thread profile, native time by caller (server.ts lines):\n${topCallers.join("\n")}`);
+  } catch (err) {
+    console.error(`profile failed: ${err instanceof Error ? err.message : err}`);
+  } finally {
+    session.disconnect();
+  }
 }
 
 const server = createServer(async (req, res) => {

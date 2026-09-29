@@ -135,6 +135,7 @@
     "paused": "$FLYAI duraklatıldı"
   },
   "market": {
+    "view": { "label": "Görünüm", "grid": "Izgara", "list": "Liste" },
     "title": "Pazar",
     "text": "Trader Flies'ı diğer holder'larla {token} ile al ve sat. Satıcı parasını hemen alır, %{pct} komisyon düşülür.",
     "soon": "Pazar yakında açılıyor.",

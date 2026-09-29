@@ -79,8 +79,16 @@ try {
       for (const j of jobs) check("an answer is taken", (await api("/api/submit", { job: j.job, result: answer() }, token)).status === 200);
     }
   }
-  const statsBefore = (await api("/api/stats")).json;
   await stop();
+  let statsBefore: { tasks: number; tasks_done: number };
+  // the totals /api/stats shows, from the database itself: the page's own counts are worked out in the background
+  {
+    const r = new DatabaseSync(DB, { readOnly: true });
+    const n = (sql: string) => (r.prepare(sql).get() as { n: number }).n;
+    const pruned = n("select coalesce((select n from counters where name = 'pruned_tasks'), 0) as n");
+    statsBefore = { tasks: n("select count(*) as n from tasks") + pruned, tasks_done: n("select count(*) as n from tasks where state = 'done'") + pruned };
+    r.close();
+  }
 
   // age every finished job but three, and set one old job aside as a canary and one as a paid job
   const rw = new DatabaseSync(DB, { enableForeignKeyConstraints: false }); // a paid job with no order behind it
@@ -118,8 +126,14 @@ try {
   check("no miner loses credit", JSON.stringify(ro.prepare("select * from day_credit order by day, miner").all()) === creditBefore);
   ro.close();
 
-  const statsAfter = (await api("/api/stats")).json;
-  check("job totals in /api/stats hold", statsAfter.tasks_done === statsBefore.tasks_done && statsAfter.tasks >= statsBefore.tasks,
+  // the background count lands a moment after the start; the minute's cache then holds it
+  let statsAfter: any = null;
+  for (let i = 0; i < 60 && statsAfter?.tasks_done == null; i++) {
+    statsAfter = (await api("/api/stats")).json;
+    if (statsAfter.tasks_done == null) await new Promise((r) => setTimeout(r, 1000));
+  }
+  // pruned jobs still count; never fewer (the verifier works open jobs itself after the restart, so it can be more)
+  check("job totals in /api/stats hold", statsAfter.tasks_done >= statsBefore.tasks_done && statsAfter.tasks >= statsBefore.tasks,
     `${statsBefore.tasks_done} -> ${statsAfter.tasks_done}`);
   // the summary is 10 minutes old at most: restart so the next request works it out from screen_sums
   await stop();

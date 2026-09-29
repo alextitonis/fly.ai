@@ -133,7 +133,9 @@ export function createFlightPass(d: FlightPassDeps) {
   async function supply(): Promise<number> {
     try {
       return Number(BigInt(await call(CFG.contract!, SEL.totalSupply)));
-    } catch {
+    } catch (err) {
+      // no FLIGHTPASS_MAX_ID to fall back on: a failed read is a failed sample, not "0 passes" (2026-09-29)
+      if (!CFG.maxId) throw err;
       return CFG.maxId;
     }
   }
@@ -197,9 +199,15 @@ export function createFlightPass(d: FlightPassDeps) {
         transaction(() => {
           ids.forEach((id, i) => {
             const r = own[i];
-            if (r === null || BigInt(r) === 0n) { owners.delete(id); return; }
+            if (r === null || BigInt(r) === 0n) {
+              owners.delete(id);
+              db.prepare("delete from flightpass_owners where pass = ?").run(id);
+              return;
+            }
             const who = addressOf(r);
             owners.set(id, who);
+            db.prepare("insert into flightpass_owners (pass, wallet, at) values (?, ?, ?) on conflict (pass) do update set wallet = excluded.wallet, at = excluded.at")
+              .run(id, who, Date.now());
             // a newly claimed pass gets the team's prefund once (the same row the admin call books)
             if (CFG.autoPrefund > 0n && !one("select 1 from ledger where tx = ?", `flightpass-prefund:${id}`)) {
               book(key(id), null, "prefund", CFG.autoPrefund, { tx: `flightpass-prefund:${id}` });
@@ -641,7 +649,8 @@ export function createFlightPass(d: FlightPassDeps) {
   function boostView(wallet: string) {
     if (!on) return null;
     const today = !!one("select 1 from flightpass_days where wallet = ? and day = ? and broken = 0", wallet, d.today());
-    const holding = [...owners.values()].includes(wallet);
+    // the last sample's holders, from the table: the mining process asking this doesn't sample itself
+    const holding = !!one("select 1 from flightpass_owners where wallet = ?", wallet);
     return { boost: MINING_BOOST, today, holding, day_start: utcDayStart() };
   }
 

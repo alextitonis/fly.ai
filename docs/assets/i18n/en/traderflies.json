@@ -135,6 +135,7 @@
     "paused": "$FLYAI paused"
   },
   "market": {
+    "view": { "label": "View", "grid": "Grid", "list": "List" },
     "title": "Marketplace",
     "text": "Buy and sell Trader Flies with other holders, in {token}. The seller gets paid straight away, less a {pct}% fee.",
     "soon": "The marketplace opens soon.",
