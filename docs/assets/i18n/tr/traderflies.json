@@ -135,10 +135,12 @@
     "paused": "$FLYAI duraklatıldı"
   },
   "fly": {"notLiveTitle": "Fly Desk henüz canlı değil: talep edilecek bir şey yok.", "notLiveText": "Ödemeler desk gerçek işlem yapmaya başlayıp sineğin aktif olunca başlar. O zamana kadar bu, her sineğin sahipler payındaki oranıdır; borçlu olunan para değildir.", "yours": "Sineklerin", "yoursN": "Sineklerin ({n})", "none": "Bu cüzdanda Trader Fly yok.", "total": "Toplam: {n} aktif sinek arasında sahipler payının {pct}'i.", "shareActive": "sahipler payından · {n} aktif sinek", "shareIfActive": "aktif edilirse · şu an {n} aktif sinek", "shareAtReveal": "Paylar reveal'dan sonra görünür: her sineğin nadirliğinden gelir.", "active": "Aktif", "inactive": "Aktif değil", "weight": "Ödeme ağırlığı", "weightNote": "Common 1 · Uncommon 1.5 · Rare 2 · Legendary 3", "atReveal": "reveal'da belirlenir", "share": "Pay", "status": "Durum", "until": "{when} tarihine kadar", "forever": "bitiş tarihi yok", "activateHint": "kazanmak için Mint sayfasında aktif et", "howShare": "Her hafta desk'in önceki zirvesinin üstündeki kârın %{pct}'i sahiplere gider ve aktif sinekler arasında ağırlığa göre bölünür: payın = sineğinin ağırlığı / tüm aktif ağırlık.", "traits": "Özellikler", "traitsAtReveal": "Özellikler koleksiyonla birlikte açıklanır.", "holder": "Sahibi", "onMarket": "Pazar", "find": "Bul", "findPlaceholder": "Sinek #", "cantRead": "Bu sinek zincirden okunamadı; tekrar dene."},
+  "lb": {"title": "İşlem liderlik tablosu", "text": "İki haftalık sezonlar. Puanın, bu pazarda alarak ve satarak yaptığın $FLYAI hacmidir. İlk 3 kazanır.", "season": "Sezon {n}", "left": "{d} g {h} sa kaldı", "ended": "Bitti", "place1": "1.", "place2": "2.", "place3": "3.", "wallet": "Cüzdan", "volume": "Hacim ($FLYAI)", "trades": "İşlem", "you": "sen", "empty": "Bu sezon henüz işlem yok: ilk sen ol.", "cantRead": "Pazarın işlemleri okunamadı; birazdan tekrar dene.", "yourRank": "{points} $FLYAI ile #{rank}. sıradasın.", "rules": "Alım ve satımlar, kabul edilen teklifler ve koleksiyon teklifleri dahil sayılır. Aynı iki cüzdan arasındaki işlemler sezon başına en fazla {max} kez sayılır, aralarında gidip gelen aynı sinek bir kez sayılır. Ekip cüzdanları yarışmaz. Her sezon sonunda ödüller gönderilmeden önce kazananlar cüzdan ağlarına karşı kontrol edilir. Yalnızca en az {min} $FLYAI tutarındaki satışlar sayılır."},
   "market": {
     "view": { "label": "Görünüm", "grid": "Izgara", "list": "Liste" },
     "browse": {"sortRarity": "Nadirlik: en nadir önce", "rarityAll": "Tümü", "search": "# ara", "searchLabel": "Numarayla bul", "notListed": "{name} satışta değil.", "noSuch": "Henüz #{id} yok.", "offer": "Teklif ver", "sweep": "Süpür", "sweepHint": "en ucuz {n} tane", "lastSale": "Son satış {amount}"},
     "coll": {"title": "Koleksiyon teklifi", "text": "Herhangi bir sinek için sinek başına bir fiyat teklif et, en fazla 50. Bir sahip sana satana ya da sen geri alana kadar para pazarda tutulur. Her satışta %{pct} ücret.", "qty": "Sinek", "price": "Sinek başına fiyat ({token})", "make": "Koleksiyon teklifi ver", "update": "Teklifi güncelle", "yours": "Koleksiyon teklifin · {n} tane daha", "top": "En iyi teklif", "forN": "{n} sinek için", "topShort": "Koleksiyon teklifi {price}", "sell": "{price} karşılığında sat", "sellPicked": "{n} tanesini {price}'dan sat", "made": "Koleksiyon teklifi verildi: {n} sinek, tanesi {price}.", "cancelled": "Koleksiyon teklifi geri alındı.", "sold": "Koleksiyon teklifine {n} sinek tanesi {price}'dan satıldı.", "why": {"BadQuantity": "1 ile 50 arasında sinek seç."}},
+    "launch": {"title": "Lansman fırsatları", "text": "4 Ekim Pazar gününe kadar buradaki her satışta %{pct} ücret."},
     "title": "Pazar",
     "text": "Trader Flies'ı diğer holder'larla {token} ile al ve sat. Satıcı parasını hemen alır, %{pct} komisyon düşülür.",
     "soon": "Pazar yakında açılıyor.",
@@ -324,6 +326,7 @@
     "showMine": "Benimkileri göster ({n})"
   },
   "mine": {
+    "marketDeal": "%50 indirim: buradan alındı",
     "title": "Trader Flies'ın",
     "onDesk": "● masada",
     "onDeskUntil": "● {date} tarihine kadar masada",

@@ -14,7 +14,7 @@ repository where the token is described; the rest of the repo is about the fly.
 | launchpad | [Pons](https://www.ponsfamily.com/launchpad/0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C) |
 | explorer | [Blockscout](https://robinhoodchain.blockscout.com/token/0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C) |
 | contract | `0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C` |
-| supply | 965,000,000 (1,000,000,000 minted; 35,000,000 burned, see [Burns](#burns)) |
+| supply | 964,000,000 (1,000,000,000 minted; 36,000,000 burned, see [Burns](#burns)) |
 | pair | NVDA (bonding curve, then Uniswap V4) |
 | liquidity | bonding curve -> Uniswap V4; the pool position is locked permanently by Pons |
 | locker | `0x267444d099b10fb5ed7c3cc7b7c767adca574952` (Pons launch locker; also holds 81,632,653 FLYAI, 4/49 of supply, permanently) |
@@ -195,8 +195,9 @@ address.
 | 27 September 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 2,845,590.06 FLYAI (0.29% of supply): the rest of the team's 20% share of the sold-out Trader Flies mint paid in $FLYAI (33,163,065 FLYAI paid for 617 flies; the team's 20% was 6,632,613.06, all of it now burned) | [`0x637e16fd…d0b70eb575`](https://robinhoodchain.blockscout.com/tx/0x637e16fd405a71e4a84083f6d658bc1b0246f384f38a0cc2ed61bed0b70eb575) |
 | 28 September 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 3,367,386.94 FLYAI (0.35% of supply): rounds the total burned to 30,000,000 | [`0x6aa62e79…6ead82454c`](https://robinhoodchain.blockscout.com/tx/0x6aa62e79101af8d740c33a8415b710c7373021071c5082dc8ca0dd6ead82454c) |
 | 28 September 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 5,000,000 FLYAI (0.5% of the original supply) | [`0x73a71a7f…7115c2f6c7a`](https://robinhoodchain.blockscout.com/tx/0x73a71a7f0e77ee57d8003a453c204be44bbf0ea2c0607d499e16e7115c2f6c7a) |
+| 29 September 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 1,000,000 FLYAI (0.1% of the original supply) | [`0x7f7c7b25…28634c46fdf3`](https://robinhoodchain.blockscout.com/tx/0x7f7c7b259f075899d6ed483d262aa5e2b01d59b455cc048df76d28634c46fdf3) |
 
-**Total burned: 35,000,000 FLYAI (3.5% of the original supply). Supply now 965,000,000** (on chain `totalSupply` exactly 965,000,000, checked 28 September 2026).
+**Total burned: 36,000,000 FLYAI (3.6% of the original supply). Supply now 964,000,000** (on chain `totalSupply` exactly 964,000,000, checked 29 September 2026).
 
 ## Funding the work
 
