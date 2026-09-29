@@ -15,11 +15,11 @@ import { execFileSync, spawn } from "node:child_process";
 import { readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
 import { Worker } from "node:worker_threads";
 import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { keccak_256 } from "@noble/hashes/sha3.js";
+import { startPg } from "./pgtest.ts";
 import { inspectWasm, MAX_PAGES } from "./wasmcheck.ts";
 import { checksumAddress, personalMessageHash } from "./wallet.ts";
 import { JobError, runWasm } from "../web/openjob.ts";
@@ -222,6 +222,7 @@ const BLOBS = join(tmpdir(), `mine-programtest-blobs-${process.pid}`);
 const WEI = 10n ** 18n;
 const anvil = spawn("anvil", ["--port", "8548"], { stdio: ["ignore", "pipe", "ignore"] });
 let server: ReturnType<typeof spawn> | null = null;
+const PG = await startPg(5535);
 try {
   const keys: string[] = await new Promise((resolve, reject) => {
     let out = "";
@@ -265,7 +266,7 @@ try {
   rmSync(BLOBS, { recursive: true, force: true });
   server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", fileURLToPath(new URL("./server.ts", import.meta.url))], {
     env: {
-      ...process.env, PORT: String(PORT), MINE_DB: DB, BLOBS_DIR: BLOBS, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "20",
+      ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, BLOBS_DIR: BLOBS, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "20",
       ADMIN_TOKEN: ADMIN, TOKEN_ADDRESS: token, CLAIM_CHAIN_ID: "31337", CLAIM_RPC: RPC, PAY_TO: owner.address, MIN_BID: "10", POOL_SHARE: "0.8",
     },
     stdio: ["ignore", "ignore", "inherit"],
@@ -382,9 +383,10 @@ try {
   const csv = await api(`/api/orders/${order.id}/results?format=csv`);
   check("CSV lists outputs", csv.text.startsWith("seq,index,input,checked_by,output,size,error"));
 
-  const earnings = new DatabaseSync(DB);
-  earnings.exec("pragma busy_timeout = 5000");
-  const paid = earnings.prepare("select wallet, sum(cast(amount_wei as real)) / 1e18 as t from earnings group by wallet").all() as { wallet: string; t: number }[];
+  // program pay reaches Postgres through pg_outbox, sent every second
+  await api("/api/admin/orders", undefined, ADMIN);
+  const paid = (await PG.pg.all<{ wallet: string; t: string }>("select wallet, sum(amount_wei::numeric) / 1e18 as t from mine.earnings group by wallet"))
+    .map((p) => ({ wallet: p.wallet, t: Number(p.t) }));
   check("agreeing miners are paid the pool part directly: 80% of each 20 split between two wallets",
     paid.some((p) => p.wallet === minerA.address && p.t >= 8 * b.length - 1e-9) && paid.some((p) => p.wallet === minerB.address), JSON.stringify(paid));
 
@@ -479,11 +481,11 @@ try {
     JSON.stringify([er.status, er.rows.map((r: any) => r.checked_by)]));
 
   // the month's claims pay program earnings on top of points
-  earnings.prepare("update earnings set month = '2026-08'").run();
-  earnings.prepare("update ledger set month = '2026-08' where kind = 'charge'").run();
-  const earnedA = (earnings.prepare("select amount_wei from earnings where wallet = ?").all(minerA.address) as { amount_wei: string }[])
+  await api("/api/admin/orders", undefined, ADMIN); // sends what's still queued
+  await PG.pg.run("update mine.earnings set month = '2026-08'");
+  await PG.pg.run("update mine.ledger set month = '2026-08' where kind = 'charge'");
+  const earnedA = (await PG.pg.all<{ amount_wei: string }>("select amount_wei from mine.earnings where wallet = ?", minerA.address))
     .reduce((sum, r) => sum + BigInt(r.amount_wei), 0n);
-  earnings.close();
   const snap = await api("/api/admin/snapshot", { month: "2026-08" }, ADMIN);
   const claimA = (await api(`/api/claims?wallet=${minerA.address}`)).json.claims[0];
   check("the snapshot pays each wallet its program earnings", snap.status === 200 && claimA && BigInt(claimA.amount_wei) >= earnedA, `${snap.json?.pool} pool, A claims ${claimA?.amount}`);
@@ -494,6 +496,7 @@ try {
   server?.kill();
   anvil.kill();
   await sleep(300);
+  await PG.stop();
   for (const suffix of ["", "-wal", "-shm"]) try { rmSync(DB + suffix, { force: true }); } catch { /* still open after a crash */ }
   rmSync(BLOBS, { recursive: true, force: true });
 }

@@ -13,6 +13,7 @@ import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
 import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { keccak_256 } from "@noble/hashes/sha3.js";
+import { startPg } from "./pgtest.ts";
 import { checksumAddress, personalMessageHash } from "./wallet.ts";
 
 const HOLD = process.argv.includes("--hold");
@@ -92,6 +93,7 @@ function deploy(contract: string, ...args: string[]): string {
 }
 
 let server: ReturnType<typeof spawn> | null = null;
+const PG = await startPg(5532);
 try {
   for (let i = 0; ; i++) {
     try { await rpc("eth_chainId", []); break; } catch { if (i > 50) throw new Error("anvil didn't start"); await sleep(200); }
@@ -111,7 +113,7 @@ try {
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", fileURLToPath(new URL("./server.ts", import.meta.url))], {
     env: {
-      ...process.env, PORT: String(PORT), MINE_DB: DB, VERIFIERS: "1", CANARY_POOL: "0", OPEN_TARGET: "50",
+      ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", OPEN_TARGET: "50",
       STAKING_CONTRACT: staking, STAKE_RPC: RPC, TOKEN_ADDRESS: token,
       STAKE_TIERS: JSON.stringify([{ name: "Holder", min: "0", multiplier: 1 }, { name: "Operator", min: "100", multiplier: 2 }]),
       ADMIN_TOKEN: ADMIN, CLAIMS_CONTRACT: claims, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "anvil", CLAIM_RPC: RPC, CLAIM_EXPLORER: "http://localhost",
@@ -144,7 +146,7 @@ try {
     db.prepare("insert into assignments (id, miner, task, issued_at, expires_at, submitted_at, day, result, status) values (?, ?, ?, 0, 0, 0, ?, '{}', ?)")
       .run(`test-${n}`, miner, tasks[n++ % tasks.length], day, status);
   for (let i = 0; i < 4; i++) work(a.miner, "2026-08-10", "accepted"); // 30 units, x2: alice was staked that day
-  db.prepare("insert into stake_samples (wallet, day, staked_wei, last_wei, sampled_at) values (?, ?, ?, ?, 0)").run(alice.address, "2026-08-10", (100n * WEI).toString(), (100n * WEI).toString());
+  await PG.pg.run("insert into mine.stake_samples (wallet, day, staked_wei, last_wei, sampled_at) values (?, ?, ?, ?, 0)", alice.address, "2026-08-10", (100n * WEI).toString(), (100n * WEI).toString());
   work(a.miner, "2026-08-11", "accepted");
   work(a.miner, "2026-08-11", "accepted");
   work(a.miner, "2026-08-11", "rejected"); // zeroed day: nothing
@@ -242,6 +244,7 @@ try {
   server?.kill();
   anvil.kill();
   await sleep(300);
+  await PG.stop();
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
 }
 console.log(failed ? `${failed} FAILED` : "monthly claims checks passed");

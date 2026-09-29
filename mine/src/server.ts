@@ -19,7 +19,7 @@
  * miners agree, and is charged to its order then.
  *
  *   node src/server.ts
- *   env: PORT 8787 · MINE_DB data/mine.db · CONNECTOME_DIR ../world/public/connectome · VERIFIERS (cores-1, max 4)
+ *   env: PORT 8787 · MINE_DB data/mine.db · MINE_PG_URL (required: players and money, src/pg.ts) · CONNECTOME_DIR ../world/public/connectome · VERIFIERS (cores-1, max 4)
  *        AUDITS 3 · CANARY_RATE 0.15 · CANARY_POOL 100000 · MIN_CHECKED 2 · AUDIT_QUEUE_MAX 500 · OPEN_TARGET 3000
  *        MAX_JOBS 64 · JOB_TTL_MIN 20 · TRUST_PROXY (set behind a proxy)
  */
@@ -41,6 +41,8 @@ import { createRoulette } from "./roulette.ts";
 import { createSlots } from "./slots.ts";
 import { createRace } from "./race.ts";
 import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
+import { connectPg, lockWallet, type Q } from "./pg.ts";
+import { copyLegacy } from "./legacy.ts";
 import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, merkleTree, monthCalldata, monthId, toWei } from "./payouts.ts";
 import { parseTiers, readStake, STAKE_SELECTORS, tierFor } from "./staking.ts";
 import {
@@ -190,11 +192,14 @@ function round(r: number): TaskParams[] {
 }
 
 // ---- storage -----------------------------------------------------------------------------------------
-const SCHEMA = 20; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables), 18 FlightPass withdrawals sent by the server (sending_at, error), 19 Fly Slots (slots_commits, slots_spins; 2026-09-29), 20 Fly Race (race_commits, race_games, race_events; 2026-09-29); created below for new and old databases alike
+const SCHEMA = 21; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables), 18 FlightPass withdrawals sent by the server (sending_at, error), 19 Fly Slots (slots_commits, slots_spins; 2026-09-29), 20 Fly Race (race_commits, race_games, race_events; 2026-09-29), 21 players and money moved to Postgres (src/pg.ts; their tables here are left as they were, unused) and pg_outbox; created below for new and old databases alike
 /** PROGRAM_BONUS before schema 15, and the factor stored program units are scaled by so credit keeps its value. */
 const OLD_PROGRAM_BONUS = 1.25;
 mkdirSync(dirname(DB_PATH), { recursive: true });
 const db = new DatabaseSync(DB_PATH);
+// players and money (src/pg.ts): Flybook's Supabase in production, a local Postgres in the tests (src/pgtest.ts)
+if (!process.env.MINE_PG_URL) throw new Error("MINE_PG_URL is the Postgres connection string (Supabase's pooler)");
+const pg = connectPg(process.env.MINE_PG_URL);
 const version = (db.prepare("pragma user_version").get() as { user_version: number }).user_version;
 const hasTables = !!db.prepare("select 1 from sqlite_master where name = 'tasks'").get();
 const hadDayCredit = !!db.prepare("select 1 from sqlite_master where name = 'day_credit'").get();
@@ -413,13 +418,6 @@ db.exec(`
   end;
   -- 16: no delete trigger. Assignments are only ever deleted by pruning, and a pruned job's credit must stay earned.
   drop trigger if exists day_credit_delete;
-  -- a wallet signed in once on the site: links miners, spends its balance and stops its orders without signing again
-  create table if not exists sessions (
-    token_hash text primary key,
-    wallet text not null,
-    created_at integer not null,
-    expires_at integer not null
-  );
   -- USDC on Base: an order's price in USDC, fixed for USDC_QUOTE_MIN; units end in a tag so a transfer matches one quote
   create table if not exists usdc_quotes (
     order_id text primary key,
@@ -448,39 +446,11 @@ db.exec(`
     state text not null default 'open', -- open, paid, failed
     reason text
   );
-  -- a closed month's payout: the pool the operator chose, split by points, committed to by a Merkle root
-  create table if not exists snapshots (
-    month text primary key,           -- YYYY-MM
-    pool_wei text not null,
-    root text not null,
-    total_points real not null,
-    wallets integer not null,
-    created_at integer not null
-  );
-  create table if not exists snapshot_claims (
-    month text not null references snapshots(month),
-    wallet text not null,
-    points real not null,
-    amount_wei text not null,
-    proof text not null,              -- JSON array of bytes32 hex
-    primary key (month, wallet)
-  );
-  create index if not exists snapshot_claims_by_wallet on snapshot_claims (wallet);
-  -- a wallet's FlyStaking balance on a UTC day: the lowest sample sets that day's multiplier, so stake only
-  -- counts for a day it was in place all day; the latest is what the wallet has now
   -- a pool announced ahead of a month's end, shown to miners as an estimate; the snapshot can still differ
   create table if not exists announcements (
     month text primary key,
     pool_wei text not null,
     created_at integer not null
-  );
-  create table if not exists stake_samples (
-    wallet text not null,
-    day text not null,
-    staked_wei text not null,         -- lowest sample of the day
-    last_wei text not null,
-    sampled_at integer not null,
-    primary key (wallet, day)
   );
   -- a buyer's sweep with a bid per job and a budget (src/orders.ts)
   create table if not exists orders (
@@ -533,22 +503,6 @@ db.exec(`
   -- rows that the primary key made it walk to learn it had none (~130 ms a claim, 2026-09-28 profile)
   create index if not exists order_tasks_out on order_tasks (order_id) where state = 1;
   create index if not exists order_tasks_dropped on order_tasks (order_id) where state = 3;
-  -- every token movement of a wallet's balance: deposit (a transfer in), fund (to an order), release (an order's
-  -- unspent budget back), withdraw (the operator sent it back on-chain); charge rows record spending and the pool
-  create table if not exists ledger (
-    id integer primary key,
-    wallet text not null,
-    order_id text,
-    kind text not null check (kind in ('deposit', 'fund', 'release', 'withdraw', 'charge', 'bet', 'payout', 'prefund', 'fee')),
-    amount_wei text not null,
-    pool_wei text,                    -- charge: the miners' part
-    month text,                       -- charge: the pool month
-    tx text,
-    at integer not null
-  );
-  create index if not exists ledger_by_wallet on ledger (wallet, at);
-  create index if not exists ledger_charges on ledger (month) where kind = 'charge';
-  create unique index if not exists ledger_tx on ledger (tx) where tx is not null;
   -- a program order's jobs, in order: each is one input
   create table if not exists order_inputs (
     order_id text not null references orders(id),
@@ -563,69 +517,6 @@ db.exec(`
     used_at integer not null,         -- last time an order or a result referred to it; old unused blobs are deleted
     keep integer not null default 0   -- 1: a house order's program, input or output, never deleted
   );
-  -- program jobs pay the miners who settled them directly: the pool part of the charge, split by wallet
-  create table if not exists earnings (
-    month text not null,
-    wallet text not null,
-    order_id text not null,
-    task integer not null,
-    amount_wei text not null,
-    at integer not null
-  );
-  create index if not exists earnings_by_month on earnings (month, wallet);
-  -- 14: Fly Roulette. A commit is a server seed shown only as its hash until the game it seeds is over.
-  create table if not exists roulette_commits (
-    id text primary key,
-    wallet text not null,
-    server_seed text not null,
-    hash text not null,
-    created_at integer not null,
-    used integer not null default 0
-  );
-  create index if not exists roulette_commits_by_wallet on roulette_commits (wallet, created_at);
-  create table if not exists roulette_games (
-    id text primary key,
-    wallet text not null,
-    flies integer not null,
-    pick integer not null,
-    stake_wei text not null,
-    payout_wei text not null,          -- what a win pays (stake x flies x (1 - edge))
-    edge real not null,
-    commit_hash text not null,
-    server_seed text not null,         -- secret until the game is done
-    client_seed text not null,
-    names text not null,               -- JSON: who sat at the table
-    status text not null check (status in ('live', 'done', 'void')),
-    winner integer,
-    events integer not null default 0,
-    created_at integer not null,
-    done_at integer
-  );
-  create index if not exists roulette_games_by_wallet on roulette_games (wallet, created_at);
-  create index if not exists roulette_games_live on roulette_games (status) where status = 'live';
-  create index if not exists roulette_games_done on roulette_games (done_at) where status = 'done';
-  create table if not exists roulette_events (
-    game text not null,
-    seq integer not null,
-    event text not null,
-    primary key (game, seq)
-  ) without rowid;
-  create table if not exists roulette_terms (
-    wallet text primary key,
-    version integer not null,
-    accepted_at integer not null
-  );
-  -- players ask for their balance back; the operator sends it and records it with POST /api/admin/withdraw
-  create table if not exists withdraw_requests (
-    id integer primary key,
-    wallet text not null,
-    amount_wei text not null,
-    status text not null check (status in ('open', 'paid', 'cancelled')),
-    created_at integer not null,
-    done_at integer,
-    tx text
-  );
-  create index if not exists withdraw_requests_open on withdraw_requests (wallet) where status = 'open';
   -- 16: finished screen jobs are deleted after PRUNE_AFTER_HOURS (their rows filled /data twice). Their answers live
   -- on here, summed per stimulus in the unit /api/results reports; counters keeps the job totals the stats show.
   create table if not exists screen_sums (
@@ -635,110 +526,16 @@ db.exec(`
     stim text not null
   ) without rowid;
   create table if not exists counters (name text primary key, n integer not null) without rowid;
-  -- 17: FlightPass (src/flightpass.ts). A pass's balance is the ledger under 'pass:<token id>'; here its owner's
-  -- autopilot settings, its withdrawals, and who held it on each UTC day (the mining boost)
-  create table if not exists flightpass (
-    id integer primary key,           -- token id
-    settings text not null,           -- JSON (Settings): only in force while the wallet that wrote them owns the pass
-    last_bet_at integer,
-    updated_at integer not null
-  );
-  create table if not exists flightpass_withdrawals (
-    id integer primary key,
-    pass integer not null,
-    wallet text not null,             -- the owner who asked: the operator sends it here
-    amount_wei text not null,         -- what the operator sends (99%)
-    fee_wei text not null,            -- the dev's 1%
-    status text not null check (status in ('open', 'paid', 'cancelled')),
-    created_at integer not null,
-    done_at integer,
-    tx text,
-    sending_at integer,               -- when the server started sending it (FLIGHTPASS_PAYOUT_KEY); never sent twice
-    error text                        -- why the server's send failed, for the operator
-  );
-  create index if not exists flightpass_withdrawals_open on flightpass_withdrawals (pass) where status = 'open';
-  create table if not exists flightpass_days (
-    pass integer not null,
-    day text not null,
-    wallet text not null,             -- the holder at the day's first sample
-    broken integer not null default 0, -- 1 once a sample that day found another holder
-    samples integer not null,
-    primary key (pass, day)
-  ) without rowid;
-  create index if not exists flightpass_days_by_wallet on flightpass_days (day, wallet) where broken = 0;
   create index if not exists order_tasks_by_task on order_tasks (task);
-  -- each pass's holder at the last sample: the user process samples, the mining process reads it for /api/me
-  create table if not exists flightpass_owners (
-    pass integer primary key,
-    wallet text not null,
-    at integer not null
+  -- 21: ledger and earnings rows the mining process books inside its own transactions (order charges and releases,
+  -- program pay), waiting to be sent to Postgres (sendOutbox): claims and settles never wait on the network, and a
+  -- row sent twice lands once (its ref)
+  create table if not exists pg_outbox (
+    id integer primary key autoincrement,
+    ref text not null,
+    kind text not null check (kind in ('ledger', 'earning')),
+    row text not null                 -- JSON: the Postgres row
   );
-  create index if not exists flightpass_owners_by_wallet on flightpass_owners (wallet);
-  -- 19: Fly Slots (src/slots.ts). Commits as roulette's; a spin is settled the moment it's made, so it's one row with
-  -- its seed already revealed (no live state, no events)
-  create table if not exists slots_commits (
-    id text primary key,
-    wallet text not null,
-    server_seed text not null,
-    hash text not null,
-    created_at integer not null,
-    used integer not null default 0
-  );
-  create index if not exists slots_commits_by_wallet on slots_commits (wallet, created_at);
-  create table if not exists slots_spins (
-    id text primary key,
-    wallet text not null,              -- a player's address, or pass:<id> for a FlightPass on autopilot
-    stake_wei text not null,
-    mult integer not null,             -- what it paid as a multiple of the stake (world/src/slots/game.ts), 0 = a loss
-    payout_wei text not null,          -- stake x mult
-    stops text not null,               -- JSON: each reel's stop
-    symbols text not null,             -- JSON: the three symbols on the line
-    commit_hash text not null,
-    server_seed text not null,
-    client_seed text not null,
-    created_at integer not null
-  );
-  create index if not exists slots_spins_by_wallet on slots_spins (wallet, created_at);
-  create index if not exists slots_spins_by_time on slots_spins (created_at);
-  -- 20: Fly Race (src/race.ts). Commits as roulette's; a race plays out in the worker like a roulette game, its events
-  -- stored as they come so the page can follow it and a restart can replay it
-  create table if not exists race_commits (
-    id text primary key,
-    wallet text not null,
-    server_seed text not null,
-    hash text not null,
-    created_at integer not null,
-    used integer not null default 0
-  );
-  create index if not exists race_commits_by_wallet on race_commits (wallet, created_at);
-  create table if not exists race_games (
-    id text primary key,
-    wallet text not null,              -- a player's address, or pass:<id> for a FlightPass on autopilot
-    bet text not null check (bet in ('win', 'podium')),
-    pick integer not null,             -- the lane backed, 0-5
-    stake_wei text not null,
-    payout_wei text not null,          -- what a win pays (stake x 6 or 2 x (1 - edge))
-    edge real not null,
-    commit_hash text not null,
-    server_seed text not null,         -- secret until the race is done
-    client_seed text not null,
-    names text not null,               -- JSON: the fly in each lane
-    status text not null check (status in ('live', 'done', 'void')),
-    won integer,                       -- 1 or 0 once done
-    finish text,                       -- JSON: lanes in finishing order, once done
-    events integer not null default 0,
-    created_at integer not null,
-    done_at integer
-  );
-  create index if not exists race_games_by_wallet on race_games (wallet, created_at);
-  create index if not exists race_games_live on race_games (status) where status = 'live';
-  create index if not exists race_games_done on race_games (done_at) where status = 'done';
-  create table if not exists race_events (
-    race text not null,
-    seq integer not null,
-    event text not null,
-    primary key (race, seq)
-  ) without rowid;
 `);
 if (hasTables && !hadDayCredit) {
   // 13: one pass over every assignment so far; from here on the triggers keep it
@@ -770,18 +567,23 @@ function transaction<T>(fn: () => T): T {
   }
 }
 
+// the next screen round, read once: max(round) has no index and scanned the whole jobs table on every top-up, ~every
+// 20 s (89% of the mining thread after the canary fix, 2026-09-29). Only topUp adds rounds, in this one process.
+let nextRound: number | null = null;
+
 /** Keep at least OPEN_TARGET jobs open by adding rounds of the screen. */
 function topUp(): void {
-  let open = count("select count(*) as n from tasks where state = 'open' and kind = 'connectome'");
+  let open = count("select count(*) as n from tasks indexed by tasks_open_brain where state = 'open' and kind = 'connectome'");
   if (open >= OPEN_TARGET) return;
   const insert = db.prepare("insert into tasks (params, units, round, r) values (?, ?, ?, ?)");
-  let next = (one<{ r: number | null }>("select max(round) as r from tasks").r ?? -1) + 1;
+  let next = nextRound ??= (one<{ r: number | null }>("select max(round) as r from tasks").r ?? -1) + 1;
   const first = next;
   transaction(() => {
     for (; open < OPEN_TARGET; next++, open += PER_ROUND) {
       for (const p of round(next)) insert.run(JSON.stringify(p), UNITS, next, Math.random());
     }
   });
+  nextRound = next;
   console.log(`added screen round${next - first > 1 ? `s ${first}-${next - 1}` : ` ${first}`} (${(next - first) * PER_ROUND} jobs)`);
 }
 
@@ -992,6 +794,8 @@ function cached<K, T>(ms: number, compute: (key: K) => T): (key: K) => T {
     if (hit && Date.now() - hit.at < ms) return hit.value;
     const value = compute(key);
     hits.set(key, { at: Date.now(), value });
+    // an async one that failed (Postgres unreachable, say) is asked again next time, not served for `ms`
+    if (value instanceof Promise) value.catch(() => { if (hits.get(key)?.value === value) hits.delete(key); });
     return value;
   };
 }
@@ -1160,7 +964,7 @@ function sessionNonce(req: IncomingMessage, body: any) {
   return { nonce, message };
 }
 
-function startSession(body: any) {
+async function startSession(body: any) {
   const pending = typeof body.nonce === "string" ? sessionNonces.get(body.nonce) : undefined;
   if (!pending || pending.expires < Date.now()) throw new HttpError(410, "this sign-in has expired; try again");
   let signer: string;
@@ -1173,27 +977,27 @@ function startSession(body: any) {
   sessionNonces.delete(body.nonce);
   const token = randomBytes(32).toString("hex");
   const now = Date.now();
-  db.prepare("delete from sessions where expires_at < ?").run(now);
-  db.prepare("insert into sessions (token_hash, wallet, created_at, expires_at) values (?, ?, ?, ?)").run(sha256(token), signer, now, now + SESSION_TTL_MS);
+  await pg.run("delete from mine.sessions where expires_at < ?", now);
+  await pg.run("insert into mine.sessions (token_hash, wallet, created_at, expires_at) values (?, ?, ?, ?)", sha256(token), signer, now, now + SESSION_TTL_MS);
   return { session: token, wallet: signer, expires_at: now + SESSION_TTL_MS };
 }
 
 /** The signed-in wallet, or null when the request carries no live session. */
-function sessionWallet(req: IncomingMessage): { wallet: string; expires_at: number } | null {
+async function sessionWallet(req: IncomingMessage): Promise<{ wallet: string; expires_at: number } | null> {
   const token = /^[0-9a-f]{64}$/.exec(String(req.headers["x-flyai-session"] ?? ""))?.[0];
-  const row = token ? one<{ wallet: string; expires_at: number } | undefined>("select wallet, expires_at from sessions where token_hash = ?", sha256(token)) : undefined;
+  const row = token ? await pg.one<{ wallet: string; expires_at: number }>("select wallet, expires_at from mine.sessions where token_hash = ?", sha256(token)) : undefined;
   return row && row.expires_at >= Date.now() ? row : null;
 }
 
-function sessionOf(req: IncomingMessage): { wallet: string; expires_at: number } {
-  const s = sessionWallet(req);
+async function sessionOf(req: IncomingMessage): Promise<{ wallet: string; expires_at: number }> {
+  const s = await sessionWallet(req);
   if (!s) throw new HttpError(401, "not signed in, or the sign-in has expired");
   return s;
 }
 
 /** POST /api/session/link: the signed-in wallet takes a miner (its bearer token, or the extension's link code). */
-function linkBySession(req: IncomingMessage, body: any) {
-  const { wallet } = sessionOf(req);
+async function linkBySession(req: IncomingMessage, body: any) {
+  const { wallet } = await sessionOf(req);
   const { miner, code } = signInMiner(req, body.code);
   if (code) linkCodes.delete(code);
   db.prepare("update miners set wallet = ?, wallet_at = ? where id = ?").run(wallet, Date.now(), miner);
@@ -1207,19 +1011,35 @@ const openFrom = db.prepare("select id, params, kind from tasks indexed by tasks
 const canaryFrom = db.prepare("select id, params, kind from tasks indexed by tasks_canary_brain where truth is not null and kind = 'connectome' and r >= ? and r < ? order by r limit 16");
 // By task, never by miner: the planner picked assignments_by_miner, which walks every job the miner ever had (360k
 // for the busiest), ~150 ms a call and up to two calls per job in a 32-job claim. That froze the server (2026-09-21).
-const alreadyHad = db.prepare("select task from assignments indexed by assignments_by_task where miner = ? and task in (select value from json_each(?))");
+// One job at a time, stopping at the first the miner hasn't had: a canary carries an assignment from nearly every
+// miner (thousands), and checking all 16 at once walked them all on every canary pick (2026-09-29)
+const alreadyHad = db.prepare("select 1 from assignments indexed by assignments_by_task where task = ? and miner = ? limit 1");
 
 /** From a random point on the sort key, the first job this miner hasn't had; wraps around once. */
 function pick(from: typeof openFrom, miner: string): TaskRow | undefined {
   const start = Math.random();
   for (const [lo, hi] of [[start, 2], [-1, start]]) {
-    const rows = from.all(lo, hi) as TaskRow[];
-    if (!rows.length) continue;
-    const had = new Set((alreadyHad.all(miner, JSON.stringify(rows.map((r) => r.id))) as { task: number }[]).map((r) => r.task));
-    const row = rows.find((r) => !had.has(r.id));
-    if (row) return row;
+    for (const row of from.all(lo, hi) as TaskRow[]) if (!alreadyHad.get(row.id, miner)) return row;
   }
   return undefined;
+}
+
+// A fast miner has had every canary in a 500-job pool within hours, and learning that walks every assignment of 32
+// canaries, inside the claim's write lock: 88% of the mining thread, and the user process's writes (sign-in, passes,
+// games) timed out behind it with "database is locked" (2026-09-29 profile). So a miner found dry gets no canary
+// for a while; new ones join the pool from audits meanwhile.
+const CANARY_DRY_MS = 10 * 60_000;
+const canaryDry = new Map<string, number>();
+function pickCanary(miner: string): TaskRow | undefined {
+  const until = canaryDry.get(miner);
+  if (until !== undefined && until > Date.now()) return undefined;
+  const row = pick(canaryFrom, miner);
+  if (row) canaryDry.delete(miner);
+  else {
+    if (canaryDry.size > 50_000) canaryDry.clear();
+    canaryDry.set(miner, Date.now() + CANARY_DRY_MS);
+  }
+  return row;
 }
 
 const liveOrdersWithWork = db.prepare(`select o.id, o.bid_wei from orders o where o.status = 'live' and o.house = ? and exists (
@@ -1325,11 +1145,11 @@ function claim(miner: string, want: number, kinds: string[] = ["connectome"], op
       // one claim holds at most openMax programs: they run one at a time, and a GPU batch shouldn't wait on them
       const allowed = openCount >= openMax ? kinds.filter((x) => x === "connectome") : kinds;
       if (!allowed.length) break;
-      const canary = brain && Math.random() < CANARY_RATE ? pick(canaryFrom, miner) : undefined;
+      const canary = brain && Math.random() < CANARY_RATE ? pickCanary(miner) : undefined;
       let task = canary ?? pickPaid(miner, allowed) ?? (brain ? pick(openFrom, miner) : undefined);
       if (!task && brain) {
         topUp();
-        task = pick(openFrom, miner) ?? pick(canaryFrom, miner);
+        task = pick(openFrom, miner) ?? pickCanary(miner);
       }
       if (!task) break;
       const kind = task.kind ?? "connectome";
@@ -1429,13 +1249,13 @@ function monthBounds(month: string): [string, string] {
  * wallet's stake multiplier that day (1 while staking is off; unlinked miners always count 1), times the FlightPass
  * boost on a day the wallet held a pass throughout.
  */
-function monthPoints(month: string) {
+async function monthPoints(month: string) {
   const bounds = monthBounds(month);
   const rows = db.prepare(`select d.day, d.miner, m.wallet, ${DAY_SUMS}
     from day_credit d join miners m on m.id = d.miner where d.day >= ? and d.day < ?`).all(...bounds) as unknown as (DayRow & { day: string; miner: string; wallet: string | null })[];
-  const samples = new Map((db.prepare("select wallet, day, staked_wei from stake_samples where day >= ? and day < ?").all(...bounds) as
-    { wallet: string; day: string; staked_wei: string }[]).map((s) => [`${s.wallet} ${s.day}`, BigInt(s.staked_wei)]));
-  const boosted = flightpass.boostedDays(...bounds); // a FlightPass held all day: x1.25 on top of the stake tier
+  const samples = new Map((await pg.all<{ wallet: string; day: string; staked_wei: string }>(
+    "select wallet, day, staked_wei from mine.stake_samples where day >= ? and day < ?", ...bounds)).map((s) => [`${s.wallet} ${s.day}`, BigInt(s.staked_wei)]));
+  const boosted = await flightpass.boostedDays(...bounds); // a FlightPass held all day: x1.25 on top of the stake tier
   const wallets = new Map<string, number>();
   const miners = new Map<string, number>();
   let unlinked = 0;
@@ -1455,47 +1275,47 @@ const monthPointsCached = cached(60_000, monthPoints);
 const monthEnd = (m: string) => new Date(`${monthBounds(m)[1]}T00:00:00Z`);
 
 /** What program jobs paid each wallet in a month, in wei. */
-function earningsOf(m: string): Map<string, bigint> {
+async function earningsOf(m: string): Promise<Map<string, bigint>> {
   const out = new Map<string, bigint>();
-  for (const r of db.prepare("select wallet, amount_wei from earnings where month = ?").all(m) as { wallet: string; amount_wei: string }[]) {
+  for (const r of await pg.all<{ wallet: string; amount_wei: string }>("select wallet, amount_wei from mine.earnings where month = ?", m)) {
     out.set(r.wallet, (out.get(r.wallet) ?? 0n) + BigInt(r.amount_wei));
   }
   return out;
 }
 
 /** The pool's part from paid orders' charges in a month, in wei. */
-function buyerPoolWei(m: string): bigint {
-  return (db.prepare("select pool_wei from ledger where kind = 'charge' and month = ?").all(m) as { pool_wei: string }[])
+async function buyerPoolWei(m: string): Promise<bigint> {
+  return (await pg.all<{ pool_wei: string }>("select pool_wei from mine.ledger where kind = 'charge' and month = ?", m))
     .reduce((sum, c) => sum + BigInt(c.pool_wei), 0n);
 }
 
 /** A month's pool so far, in whole tokens: the operator's announcement plus the buyers' part; null if neither. */
-function announcedPool(m: string): string | null {
+async function announcedPool(m: string): Promise<string | null> {
   const a = one<{ pool_wei: string } | undefined>("select pool_wei from announcements where month = ?", m);
-  const buyers = buyerPoolWei(m);
+  const buyers = await buyerPoolWei(m);
   return a || buyers ? fromWei(BigInt(a?.pool_wei ?? "0") + buyers) : null;
 }
 
 /** Wallets by points, highest first, with rank and share. */
-function ranking(m: string) {
-  const { wallets, total } = monthPointsCached(m);
+async function ranking(m: string) {
+  const { wallets, total } = await monthPointsCached(m);
   return [...wallets].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))
     .map(([wallet, points], i) => ({ rank: i + 1, wallet, points, share: total ? points / total : 0 }));
 }
 
-function month(m: string) {
+async function month(m: string) {
   monthId(m); // validates
   const closed = m < thisMonth();
-  const { unlinked, total } = monthPointsCached(m);
-  const snap = one<{ pool_wei: string; root: string; created_at: number } | undefined>("select pool_wei, root, created_at from snapshots where month = ?", m);
+  const { unlinked, total } = await monthPointsCached(m);
+  const snap = await pg.one<{ pool_wei: string; root: string; created_at: number }>("select pool_wei, root, created_at from mine.snapshots where month = ?", m);
   const ends = monthEnd(m);
   return {
     month: m, month_id: monthId(m), closed, total_points: total, unlinked_points: unlinked,
     ends_at: ends.toISOString(), days_left: closed ? 0 : Math.max(0, Math.ceil((ends.getTime() - Date.now()) / 86_400_000)),
-    announced_pool: announcedPool(m),
-    buyer_pool: fromWei(buyerPoolWei(m)),
-    ...usdcMonth(m),
-    wallets: ranking(m),
+    announced_pool: await announcedPool(m),
+    buyer_pool: fromWei(await buyerPoolWei(m)),
+    ...await usdcMonth(m),
+    wallets: await ranking(m),
     snapshot: snap ? { pool: fromWei(BigInt(snap.pool_wei)), root: snap.root, created_at: snap.created_at } : null,
   };
 }
@@ -1523,21 +1343,22 @@ function announce(m: string, pool: unknown) {
  * Freeze a finished month: split `pool` tokens by points and commit to it with a Merkle root. Once only.
  * Without `pool`, the announced pool plus the buyers' part; never less than the buyers' part.
  */
-function snapshot(m: string, pool: string) {
+async function snapshot(m: string, pool: string) {
   monthId(m);
   if (!(m < thisMonth())) throw new HttpError(409, `${m} isn't over yet`);
-  if (one("select 1 from snapshots where month = ?", m)) throw new HttpError(409, `${m} already has a snapshot`);
+  if (await pg.one("select 1 from mine.snapshots where month = ?", m)) throw new HttpError(409, `${m} already has a snapshot`);
+  await sendOutbox(); // the month's last charges and program pay
   let poolWei: bigint;
   try {
-    poolWei = toWei(pool || (announcedPool(m) ?? ""));
+    poolWei = toWei(pool || ((await announcedPool(m)) ?? ""));
   } catch (err) {
     throw new HttpError(400, err instanceof Error ? err.message : String(err));
   }
-  const buyers = buyerPoolWei(m);
+  const buyers = await buyerPoolWei(m);
   if (poolWei < buyers) throw new HttpError(409, `paid orders put ${fromWei(buyers)} tokens into ${m}'s pool; the pool can't be less`);
-  const { wallets, total, unlinked } = monthPoints(m);
+  const { wallets, total, unlinked } = await monthPoints(m);
   // program jobs already decided who gets their part (earnings); points split the rest
-  const earned = earningsOf(m);
+  const earned = await earningsOf(m);
   const earnedTotal = [...earned.values()].reduce((sum, x) => sum + x, 0n);
   const split = allocate([...wallets].map(([wallet, points]) => ({ wallet, points })), poolWei - earnedTotal);
   for (const [wallet, amount] of earned) {
@@ -1547,11 +1368,13 @@ function snapshot(m: string, pool: string) {
   }
   if (!split.length) throw new HttpError(409, `no linked wallet earned points or program pay in ${m}`);
   const tree = merkleTree(split.map((a) => leafHash(a.wallet, a.amount)));
-  transaction(() => {
-    db.prepare("insert into snapshots (month, pool_wei, root, total_points, wallets, created_at) values (?, ?, ?, ?, ?, ?)")
-      .run(m, poolWei.toString(), tree.root, total, split.length, Date.now());
-    const insert = db.prepare("insert into snapshot_claims (month, wallet, points, amount_wei, proof) values (?, ?, ?, ?, ?)");
-    for (const a of split) insert.run(m, a.wallet, a.points, a.amount.toString(), JSON.stringify(tree.proof(leafHash(a.wallet, a.amount))));
+  await pg.tx(async (q) => {
+    await q.run("insert into mine.snapshots (month, pool_wei, root, total_points, wallets, created_at) values (?, ?, ?, ?, ?, ?)",
+      m, poolWei.toString(), tree.root, total, split.length, Date.now());
+    for (const a of split) {
+      await q.run("insert into mine.snapshot_claims (month, wallet, points, amount_wei, proof) values (?, ?, ?, ?, ?)",
+        m, a.wallet, a.points, a.amount.toString(), JSON.stringify(tree.proof(leafHash(a.wallet, a.amount))));
+    }
   });
   console.log(`snapshot ${m}: ${fromWei(poolWei)} tokens to ${split.length} wallets, root ${tree.root}`);
   return {
@@ -1562,11 +1385,11 @@ function snapshot(m: string, pool: string) {
 }
 
 /** Everything a wallet can claim, with ready-to-send calldata, so the claim page needs no crypto. */
-function claimsFor(wallet: string) {
+async function claimsFor(wallet: string) {
   if (!ADDRESS.test(wallet)) throw new HttpError(400, "wallet must be 0x followed by 40 hex digits");
   const w = checksumAddress(wallet);
-  const rows = db.prepare(`select c.month, c.points, c.amount_wei, c.proof, s.root from snapshot_claims c join snapshots s on s.month = c.month
-    where c.wallet = ? order by c.month desc`).all(w) as { month: string; points: number; amount_wei: string; proof: string; root: string }[];
+  const rows = await pg.all<{ month: string; points: number; amount_wei: string; proof: string; root: string }>(`select c.month, c.points, c.amount_wei, c.proof, s.root
+    from mine.snapshot_claims c join mine.snapshots s on s.month = c.month where c.wallet = ? order by c.month desc`, w);
   return {
     wallet: w,
     ...CLAIMS,
@@ -1603,16 +1426,16 @@ function multiplierFor(stakedWei: bigint | undefined): number {
 const resampled = new Map<string, number>();
 const RESAMPLE_MS = 60_000;
 
-function stakeOf(wallet: string) {
+async function stakeOf(wallet: string) {
   if (!STAKING.contract) return null;
-  const s = one<{ staked_wei: string; last_wei: string; sampled_at: number } | undefined>(
-    "select staked_wei, last_wei, sampled_at from stake_samples where wallet = ? and day = ?", wallet, today());
+  const s = await pg.one<{ staked_wei: string; last_wei: string; sampled_at: number }>(
+    "select staked_wei, last_wei, sampled_at from mine.stake_samples where wallet = ? and day = ?", wallet, today());
   // Only wallets whose miners were seen today get sampled, and every wallet starts a UTC day with no row at all. So
   // a staker who is not mining right now, or anyone in the minutes after 00:00 UTC, used to read as 0 staked on no
   // tier — their stake looked like it had vanished (reported by a staker 2026-09-20). Fall back to the last sample
   // we ever took for them, and ask the chain again in the background so the next load is exact.
-  const last = s ?? one<{ staked_wei: string; last_wei: string; sampled_at: number } | undefined>(
-    "select staked_wei, last_wei, sampled_at from stake_samples where wallet = ? order by day desc limit 1", wallet);
+  const last = s ?? await pg.one<{ staked_wei: string; last_wei: string; sampled_at: number }>(
+    "select staked_wei, last_wei, sampled_at from mine.stake_samples where wallet = ? order by day desc limit 1", wallet);
   if (!s && Date.now() - (resampled.get(wallet) ?? 0) > RESAMPLE_MS) {
     resampled.set(wallet, Date.now());          // /api/me is polled often; one chain read a minute per wallet is plenty
     void sampleStake(wallet).catch(() => {});
@@ -1641,11 +1464,11 @@ async function sampleStake(wallet: string): Promise<void> {
   if (!STAKING.contract) return;
   const staked = await readStake(STAKING.rpc, STAKING.contract, wallet);
   const day = today();
-  const prev = one<{ staked_wei: string } | undefined>("select staked_wei from stake_samples where wallet = ? and day = ?", wallet, day);
-  const lowest = prev && BigInt(prev.staked_wei) < staked ? BigInt(prev.staked_wei) : staked;
-  db.prepare(`insert into stake_samples (wallet, day, staked_wei, last_wei, sampled_at) values (?, ?, ?, ?, ?)
-    on conflict (wallet, day) do update set staked_wei = excluded.staked_wei, last_wei = excluded.last_wei, sampled_at = excluded.sampled_at`)
-    .run(wallet, day, lowest.toString(), staked.toString(), Date.now());
+  // the day's lowest, kept by the upsert itself: both processes sample (a sign-in link on one, the loop on the other)
+  await pg.run(`insert into mine.stake_samples (wallet, day, staked_wei, last_wei, sampled_at) values (?, ?, ?, ?, ?)
+    on conflict (wallet, day) do update set staked_wei = case when stake_samples.staked_wei::numeric < excluded.staked_wei::numeric
+      then stake_samples.staked_wei else excluded.staked_wei end, last_wei = excluded.last_wei, sampled_at = excluded.sampled_at`,
+    wallet, day, staked.toString(), staked.toString(), Date.now());
 }
 
 /** Every STAKE_SAMPLE_MIN, sample the wallets whose miners were seen today. */
@@ -1670,13 +1493,13 @@ function stakeConfig() {
 }
 
 /** A wallet's place in the running month: rank, days left, and an estimate if a pool is announced. */
-function monthStanding(wallet: string | null, points = 0) {
+async function monthStanding(wallet: string | null, points = 0) {
   const m = thisMonth();
-  const ranks = ranking(m);
+  const ranks = await ranking(m);
   const mine = wallet ? ranks.find((r) => r.wallet === wallet) : undefined;
-  const pool = announcedPool(m);
-  const { total } = monthPointsCached(m);
-  const paid = earningsOf(m);
+  const pool = await announcedPool(m);
+  const { total } = await monthPointsCached(m);
+  const paid = await earningsOf(m);
   // program jobs already paid their part to wallets, so points share what's left of the pool
   const forPoints = pool === null ? null : Number(pool) - Number(fromWei([...paid.values()].reduce((sum, x) => sum + x, 0n)));
   // an unlinked miner sees what its points would be worth if it linked a wallet now
@@ -1692,12 +1515,12 @@ function monthStanding(wallet: string | null, points = 0) {
     month_announced_pool: pool,
     // an estimate at the current share; it moves as everyone mines, and the month's snapshot decides. Program jobs
     // paid their part to wallets directly, so points share the rest.
-    month_program_pay: wallet ? fromWei(earningsOf(m).get(wallet) ?? 0n) : "0",
+    month_program_pay: wallet ? fromWei(paid.get(wallet) ?? 0n) : "0",
     month_estimate: forPoints === null ? null : forPoints * share + Number(fromWei(paid.get(wallet ?? "") ?? 0n)),
   };
 }
 
-function me(miner: string) {
+async function me(miner: string) {
   const day = today();
   const mine = standingOf(one<DayRow | undefined>(`select ${DAY_SUMS} from day_credit d where d.day = ? and d.miner = ?`, day, miner)
     ?? { units: 0, accepted: 0, pending: 0, rejected: 0 });
@@ -1706,15 +1529,15 @@ function me(miner: string) {
     from day_credit where miner = ?`, miner);
   const { label, wallet } = one<{ label: string | null; wallet: string | null }>("select label, wallet from miners where id = ?", miner);
   // this month: the wallet's points across all its miners, or this miner's own until it links one
-  const m = monthPointsCached(thisMonth());
+  const m = await monthPointsCached(thisMonth());
   const monthPts = wallet ? m.wallets.get(wallet) ?? 0 : m.miners.get(miner) ?? 0;
   return {
     miner, label, wallet, day, ...mine, units: mine.units ?? 0, share: total ? mine.credited / total : 0,
     lifetime_jobs: life.jobs, lifetime_rejected: life.rejected ?? 0,
     month: thisMonth(), month_points: monthPts, month_share: wallet && m.total ? monthPts / m.total : 0,
-    stake: wallet ? stakeOf(wallet) : null,
-    flightpass: wallet ? flightpass.boostView(wallet) : null,
-    ...monthStanding(wallet, monthPts),
+    stake: wallet ? await stakeOf(wallet) : null,
+    flightpass: wallet ? await flightpass.boostView(wallet) : null,
+    ...await monthStanding(wallet, monthPts),
   };
 }
 
@@ -1930,27 +1753,87 @@ async function createOrder(req: IncomingMessage, body: any) {
   return { ...order(id), webhook_secret: webhookSecret, order_key: orderKey };
 }
 
-function book(wallet: string, orderId: string | null, kind: string, amount: bigint, extra: { pool?: bigint; month?: string; tx?: string } = {}): void {
-  db.prepare("insert into ledger (wallet, order_id, kind, amount_wei, pool_wei, month, tx, at) values (?, ?, ?, ?, ?, ?, ?, ?)")
-    .run(wallet, orderId, kind, amount.toString(), extra.pool?.toString() ?? null, extra.month ?? null, extra.tx ?? null, Date.now());
+// ---- the ledger (Postgres) -------------------------------------------------------------------------------
+type Extra = { pool?: bigint; month?: string; tx?: string };
+
+/** A ledger row, in the caller's Postgres transaction `q`. Anything that checked the balance first holds its lock. */
+async function book(q: Q, wallet: string, orderId: string | null, kind: string, amount: bigint, extra: Extra = {}): Promise<void> {
+  await q.run("insert into mine.ledger (wallet, order_id, kind, amount_wei, pool_wei, month, tx, at) values (?, ?, ?, ?, ?, ?, ?, ?)",
+    wallet, orderId, kind, amount.toString(), extra.pool?.toString() ?? null, extra.month ?? null, extra.tx ?? null, Date.now());
+}
+
+/**
+ * A ledger or earnings row booked inside a SQLite transaction (an order's charge or release, a program job's pay): it
+ * joins pg_outbox with the order's own changes, and sendOutbox takes it to Postgres within a second. Only rows that
+ * add to a balance or record spending wait like this; a release shows in the balance that second later.
+ */
+function queue(kind: "ledger" | "earning", row: Record<string, string | number | null>): void {
+  db.prepare("insert into pg_outbox (ref, kind, row) values (?, ?, ?)").run(randomUUID(), kind, JSON.stringify(row));
+}
+function queueBook(wallet: string, orderId: string | null, kind: string, amount: bigint, extra: Extra = {}): void {
+  queue("ledger", { wallet, order_id: orderId, kind, amount_wei: amount.toString(), pool_wei: extra.pool?.toString() ?? null,
+    month: extra.month ?? null, tx: extra.tx ?? null, at: Date.now() });
+}
+
+/** pg_outbox to Postgres, oldest first, in batches; one run at a time. Safe to repeat: each row lands once by its ref. */
+let sending: Promise<void> | null = null;
+function sendOutbox(): Promise<void> {
+  // set before it can finish: an empty outbox returns at once, and a finally clearing `sending` first would leave this
+  // settled promise in it for good, so nothing was ever sent again
+  if (!sending) sending = drainOutbox().finally(() => { sending = null; });
+  return sending;
+}
+async function drainOutbox(): Promise<void> {
+  for (;;) {
+    const rows = db.prepare("select id, ref, kind, row from pg_outbox order by id limit 500").all() as { id: number; ref: string; kind: string; row: string }[];
+    if (!rows.length) return;
+    await pg.tx(async (q) => {
+      for (const r of rows) {
+        const x = JSON.parse(r.row);
+        if (r.kind === "ledger") {
+          await q.run(`insert into mine.ledger (wallet, order_id, kind, amount_wei, pool_wei, month, tx, at, ref) values (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            on conflict (ref) where ref is not null do nothing`, x.wallet, x.order_id, x.kind, x.amount_wei, x.pool_wei, x.month, x.tx, x.at, r.ref);
+        } else {
+          await q.run(`insert into mine.earnings (month, wallet, order_id, task, amount_wei, at, ref) values (?, ?, ?, ?, ?, ?, ?)
+            on conflict (ref) where ref is not null do nothing`, x.month, x.wallet, x.order_id, x.task, x.amount_wei, x.at, r.ref);
+        }
+      }
+    });
+    db.prepare("delete from pg_outbox where id <= ?").run(rows[rows.length - 1].id);
+  }
 }
 
 /** Deposits, releases, roulette winnings and FlightPass prefunds, less what funded orders, was bet, was sent back or paid a fee. */
-function balanceOf(wallet: string): bigint {
+async function balanceOf(q: Q, wallet: string): Promise<bigint> {
   let sum = 0n;
-  for (const r of db.prepare("select kind, amount_wei from ledger where wallet = ?").all(wallet) as { kind: string; amount_wei: string }[]) {
+  for (const r of await q.all<{ kind: string; amount_wei: string }>("select kind, amount_wei from mine.ledger where wallet = ? and kind != 'charge'", wallet)) {
     if (r.kind === "deposit" || r.kind === "release" || r.kind === "payout" || r.kind === "prefund") sum += BigInt(r.amount_wei);
     else if (r.kind === "fund" || r.kind === "withdraw" || r.kind === "bet" || r.kind === "fee") sum -= BigInt(r.amount_wei);
   }
   return sum;
 }
 
-function balanceView(wallet: string) {
+async function balanceView(wallet: string) {
   if (!ADDRESS.test(wallet)) throw new HttpError(400, "wallet must be 0x followed by 40 hex digits");
   const w = checksumAddress(wallet);
-  const rows = db.prepare("select kind, order_id, amount_wei, tx, at from ledger where wallet = ? and kind != 'charge' order by id desc limit 50")
-    .all(w) as { kind: string; order_id: string | null; amount_wei: string; tx: string | null; at: number }[];
-  return { wallet: w, balance: fromWei(balanceOf(w)), entries: rows.map((r) => ({ ...r, amount: fromWei(BigInt(r.amount_wei)) })) };
+  await sendOutbox().catch(() => {}); // an order's release that just happened
+  const rows = await pg.all<{ kind: string; order_id: string | null; amount_wei: string; tx: string | null; at: number }>(
+    "select kind, order_id, amount_wei, tx, at from mine.ledger where wallet = ? and kind != 'charge' order by id desc limit 50", w);
+  return { wallet: w, balance: fromWei(await balanceOf(pg, w)), entries: rows.map((r) => ({ ...r, amount: fromWei(BigInt(r.amount_wei)) })) };
+}
+
+/**
+ * Money in (and out) for an order from Postgres, then its SQLite side (`orderSide`, which starts it, say), as one:
+ * `money` runs in a Postgres transaction under the wallet's lock, `orderSide` in a SQLite transaction inside it, and a
+ * throw from either undoes both. Queued rows go first, so the balance it reads includes every release.
+ */
+async function withMoney<T>(wallet: string, money: (q: Q) => Promise<T>, orderSide: (m: T) => void = () => {}): Promise<T> {
+  await sendOutbox();
+  return pg.tx(async (q) => {
+    const m = await money(q);
+    transaction(() => orderSide(m));
+    return m;
+  }, lockWallet(wallet));
 }
 
 /** Start a funded order. In a transaction; the budget has been booked as a fund. */
@@ -2026,7 +1909,7 @@ function refill(id: string): void {
 function charge(o: OrderRow, amount: bigint): void {
   if (o.house) return; // our own work: nothing is spent, nothing joins the pool
   db.prepare("update orders set spent_wei = ? where id = ?").run((BigInt(orderRow(o.id)!.spent_wei) + amount).toString(), o.id);
-  book(o.wallet, o.id, "charge", amount, { pool: poolPart(ORDERS, amount), month: thisMonth() });
+  queueBook(o.wallet, o.id, "charge", amount, { pool: poolPart(ORDERS, amount), month: thisMonth() });
 }
 
 /** A job's answer settled: charge every live order waiting on it, and take on more of their sweeps. In a transaction. */
@@ -2052,8 +1935,9 @@ function payMiners(o: OrderRow, task: number, part: bigint): void {
     where a.task = ? and a.status = 'accepted'`).all(task) as { who: string; wallet: string | null }[];
   if (!miners.length) return;
   const each = part / BigInt(miners.length);
-  const add = db.prepare("insert into earnings (month, wallet, order_id, task, amount_wei, at) values (?, ?, ?, ?, ?, ?)");
-  for (const m of miners) if (m.wallet && each > 0n) add.run(thisMonth(), m.wallet, o.id, task, each.toString(), Date.now());
+  for (const m of miners) {
+    if (m.wallet && each > 0n) queue("earning", { month: thisMonth(), wallet: m.wallet, order_id: o.id, task, amount_wei: each.toString(), at: Date.now() });
+  }
 }
 
 /** Close an order: drop its jobs still out and return what it didn't spend. In a transaction. */
@@ -2063,7 +1947,7 @@ function close(o: OrderRow, status: "done" | "ended", reason: string): void {
   for (const { task } of dropped) unwanted.run(task, task);
   const fresh = orderRow(o.id)!;
   const unspent = BigInt(fresh.budget_wei) - BigInt(fresh.spent_wei);
-  if (unspent > 0n) book(o.wallet, o.id, "release", unspent);
+  if (unspent > 0n) queueBook(o.wallet, o.id, "release", unspent);
   db.prepare("update orders set status = ?, end_reason = ?, closed_at = ? where id = ?").run(status, reason, Date.now(), o.id);
   sweeps.delete(o.id);
   touched(o.id);
@@ -2119,7 +2003,7 @@ async function payOrder(id: string, body: any) {
   if (body.chain !== undefined && body.chain !== "robinhood") throw new HttpError(400, "chain is robinhood ($FLYAI) or base (USDC)");
   const o = orderRow(id);
   if (!o) throw new HttpError(404, "no such order");
-  const used = one<{ order_id: string | null } | undefined>("select order_id from ledger where tx = ?", tx);
+  const used = await pg.one<{ order_id: string | null }>("select order_id from mine.ledger where tx = ?", tx);
   if (used) {
     if (used.order_id === id) return order(id);
     throw new HttpError(409, "that transaction already paid another order");
@@ -2137,14 +2021,14 @@ async function payOrder(id: string, body: any) {
       ? `that transaction doesn't pay exactly ${fromWei(BigInt(o.budget_wei))} ${CLAIMS.token_symbol} from ${o.wallet}`
       : `that transaction sends no ${CLAIMS.token_symbol} to ${ORDERS.payTo}`);
   }
-  transaction(() => {
-    if (one("select 1 from ledger where tx = ?", tx)) throw new HttpError(409, "that transaction was just used");
-    book(o.wallet, id, "deposit", match.value, { tx });
+  await withMoney(o.wallet, async (q) => {
+    if (await q.one("select 1 from mine.ledger where tx = ?", tx)) throw new HttpError(409, "that transaction was just used");
+    await book(q, o.wallet, id, "deposit", match.value, { tx });
     const now = orderRow(id)!;
-    if (now.status !== "unpaid" && now.status !== "expired") return; // kept as balance
-    book(o.wallet, id, "fund", match.value);
-    start(now, tx);
-  });
+    if (now.status !== "unpaid" && now.status !== "expired") return null; // kept as balance
+    await book(q, o.wallet, id, "fund", match.value);
+    return now;
+  }, (now) => { if (now) start(now, tx); });
   return order(id);
 }
 
@@ -2297,27 +2181,32 @@ async function payUsdc(id: string, tx: string) {
   }
   const priceE18 = match.at <= q.expires_at ? BigInt(q.price_e18) : (await flyaiPrice()).e18;
   const wei = (units * E30) / priceE18;
-  transaction(() => {
+  await withMoney(o.wallet, async (q) => {
+    // the ledger's unique tx is the guard across processes; this one is the friendly message
     if (one("select 1 from usdc_payments where tx = ?", tx)) throw new HttpError(409, "that transaction was just used");
-    book(o.wallet, id, "deposit", wei, { tx: ledgerTx });
+    await book(q, o.wallet, id, "deposit", wei, { tx: ledgerTx });
+    const now = orderRow(id)!;
+    const budget = BigInt(now.budget_wei);
+    if ((now.status !== "unpaid" && now.status !== "expired") || await balanceOf(q, now.wallet) < budget) return null; // kept as balance
+    await book(q, now.wallet, id, "fund", budget);
+    return now;
+  }, (now) => {
     db.prepare("insert into usdc_payments (tx, order_id, wallet, units, price_e18, flyai_wei, month, at) values (?, ?, ?, ?, ?, ?, ?, ?)")
       .run(tx, id, o.wallet, units.toString(), priceE18.toString(), wei.toString(), thisMonth(), Date.now());
     db.prepare("delete from usdc_quotes where order_id = ?").run(id);
-    const now = orderRow(id)!;
-    const budget = BigInt(now.budget_wei);
-    if ((now.status !== "unpaid" && now.status !== "expired") || balanceOf(now.wallet) < budget) return; // kept as balance
-    book(now.wallet, id, "fund", budget);
-    start(now, null);
+    if (now) start(now, null);
   });
   console.log(`order ${id.slice(0, 8)}: ${usdcText(units)} USDC on ${USDC.chain_name} -> ${fromWei(wei)} FLYAI`);
   return order(id);
 }
 
 /** A month's USDC: what came in, and the part of the buyers' pool that came from USDC-paid orders. */
-function usdcMonth(m: string) {
+async function usdcMonth(m: string) {
   const received = (db.prepare("select units from usdc_payments where month = ?").all(m) as { units: string }[]).reduce((s, r) => s + BigInt(r.units), 0n);
-  const pool = (db.prepare(`select l.pool_wei from ledger l where l.kind = 'charge' and l.month = ?
-    and l.order_id in (select order_id from usdc_payments)`).all(m) as { pool_wei: string }[]).reduce((s, r) => s + BigInt(r.pool_wei), 0n);
+  // the orders are in SQLite and their charges in Postgres: joined here
+  const paidOrders = new Set((db.prepare("select distinct order_id from usdc_payments").all() as { order_id: string }[]).map((r) => r.order_id));
+  const pool = (await pg.all<{ order_id: string; pool_wei: string }>("select order_id, pool_wei from mine.ledger where kind = 'charge' and month = ?", m))
+    .filter((r) => paidOrders.has(r.order_id)).reduce((s, r) => s + BigInt(r.pool_wei), 0n);
   return { usdc_received: usdcText(received), buyer_pool_from_usdc: fromWei(pool) };
 }
 
@@ -2395,25 +2284,31 @@ async function checkCard(id: string): Promise<void> {
   const at = transfers[0].at;
   const priceE18 = q && at <= q.expires_at ? BigInt(q.price_e18) : (await flyaiPrice()).e18;
   const wei = (units * E30) / priceE18;
-  transaction(() => {
-    if (one("select 1 from usdc_payments where tx = ?", tx)) return;
-    const o = orderRow(id)!;
-    book(o.wallet, id, "deposit", wei, { tx: `base:${tx}` });
+  const o = orderRow(id)!;
+  const paid = await withMoney(o.wallet, async (q) => {
+    if (one("select 1 from usdc_payments where tx = ?", tx) || await q.one("select 1 from mine.ledger where tx = ?", `base:${tx}`)) return null;
+    await book(q, o.wallet, id, "deposit", wei, { tx: `base:${tx}` });
+    const now = orderRow(id)!;
+    if (now.status !== "unpaid" && now.status !== "expired") return { start: false };
+    if (now.guest) {
+      // everything a guest paid runs their order; what it doesn't spend returns to PAY_TO's balance
+      await book(q, now.wallet, id, "fund", wei);
+      return { start: true };
+    }
+    if (await balanceOf(q, now.wallet) < BigInt(now.budget_wei)) return { start: false };
+    await book(q, now.wallet, id, "fund", BigInt(now.budget_wei));
+    return { start: true };
+  }, (m) => {
+    if (!m) return;
     db.prepare("insert into usdc_payments (tx, order_id, wallet, units, price_e18, flyai_wei, month, at) values (?, ?, ?, ?, ?, ?, ?, ?)")
       .run(tx, id, o.wallet, units.toString(), priceE18.toString(), wei.toString(), thisMonth(), Date.now());
     db.prepare("update card_checkouts set state = 'paid' where order_id = ?").run(id);
     db.prepare("delete from usdc_quotes where order_id = ?").run(id);
-    if (o.status !== "unpaid" && o.status !== "expired") return;
-    if (o.guest) {
-      // everything a guest paid runs their order; what it doesn't spend returns to PAY_TO's balance
-      db.prepare("update orders set budget_wei = ? where id = ?").run(wei.toString(), id);
-      book(o.wallet, id, "fund", wei);
-      start(orderRow(id)!, null);
-    } else if (balanceOf(o.wallet) >= BigInt(o.budget_wei)) {
-      book(o.wallet, id, "fund", BigInt(o.budget_wei));
-      start(o, null);
-    }
+    if (!m.start) return;
+    if (o.guest) db.prepare("update orders set budget_wei = ? where id = ?").run(wei.toString(), id);
+    start(orderRow(id)!, null);
   });
+  if (!paid) return;
   console.log(`order ${id.slice(0, 8)}: paid by card, ${usdcText(units)} USDC -> ${fromWei(wei)} FLYAI`);
 }
 
@@ -2440,7 +2335,7 @@ function intent(id: string, body: any) {
   return { nonce, message };
 }
 
-function signedAction(id: string, action: "fund" | "stop", body: any, req?: IncomingMessage) {
+async function signedAction(id: string, action: "fund" | "stop", body: any, req?: IncomingMessage) {
   ordersOn();
   if (action === "stop" && req && keyed(req, id)) {
     transaction(() => {
@@ -2452,7 +2347,7 @@ function signedAction(id: string, action: "fund" | "stop", body: any, req?: Inco
   }
   const o = orderRow(id);
   if (!o) throw new HttpError(404, "no such order");
-  const signedIn = req && body.nonce === undefined ? sessionWallet(req) : null;
+  const signedIn = req && body.nonce === undefined ? await sessionWallet(req) : null;
   if (signedIn) {
     if (signedIn.wallet !== o.wallet) throw new HttpError(401, "you're signed in with a different wallet from the order's");
   } else {
@@ -2467,18 +2362,25 @@ function signedAction(id: string, action: "fund" | "stop", body: any, req?: Inco
     if (signer !== o.wallet) throw new HttpError(401, "the signature isn't from the order's wallet");
     intents.delete(body.nonce);
   }
-  transaction(() => {
-    const now = orderRow(id)!;
-    if (action === "stop") {
+  if (action === "stop") {
+    transaction(() => {
+      const now = orderRow(id)!;
       if (now.status !== "live") throw new HttpError(409, `the order is ${now.status}`);
       close(now, "ended", "stopped");
-      return;
-    }
+    });
+    return order(id);
+  }
+  await withMoney(o.wallet, async (q) => {
+    const now = orderRow(id)!;
     if (now.status !== "unpaid" && now.status !== "expired") throw new HttpError(409, "the order is already funded");
     const budget = BigInt(now.budget_wei);
-    const balance = balanceOf(now.wallet);
+    const balance = await balanceOf(q, now.wallet);
     if (balance < budget) throw new HttpError(402, `the balance is ${fromWei(balance)} ${CLAIMS.token_symbol}; the order needs ${fromWei(budget)}`);
-    book(now.wallet, id, "fund", budget);
+    await book(q, now.wallet, id, "fund", budget);
+    return now;
+  }, (now) => {
+    // funded meanwhile (a transfer landing, say): the fund above is undone with this throw
+    if (orderRow(id)!.status !== now.status) throw new HttpError(409, "the order is already funded");
     start(now, null);
   });
   return order(id);
@@ -2634,19 +2536,24 @@ function orderCsv(res: ServerResponse, id: string): void {
   res.end(lines.map((l) => l.map(csvCell).join(",")).join("\n") + "\n");
 }
 
-function ordersOf(wallet: string) {
+async function ordersOf(wallet: string) {
   if (!ADDRESS.test(wallet)) throw new HttpError(400, "wallet must be 0x followed by 40 hex digits");
   const w = checksumAddress(wallet);
   const ids = db.prepare("select id from orders where wallet = ? order by created_at desc limit 50").all(w) as { id: string }[];
-  return { wallet: w, balance: fromWei(balanceOf(w)), orders: ids.map((r) => order(r.id)) };
+  await sendOutbox().catch(() => {});
+  return { wallet: w, balance: fromWei(await balanceOf(pg, w)), orders: ids.map((r) => order(r.id)) };
 }
 
-function adminOrders() {
-  const months = db.prepare("select month, count(*) as jobs, group_concat(amount_wei) as charged, group_concat(pool_wei) as pool from ledger where kind = 'charge' group by month order by month desc")
-    .all() as { month: string; jobs: number; charged: string; pool: string }[];
+async function adminOrders() {
+  await sendOutbox();
+  const months = await pg.all<{ month: string; jobs: number; charged: string; pool: string }>(`select month, count(*) as jobs,
+    string_agg(amount_wei, ',') as charged, string_agg(pool_wei, ',') as pool from mine.ledger where kind = 'charge' group by month order by month desc`);
   const sum = (csv: string) => csv.split(",").reduce((acc, x) => acc + BigInt(x), 0n);
-  const wallets = (db.prepare("select distinct wallet from ledger").all() as { wallet: string }[])
-    .map((r) => ({ wallet: r.wallet, balance: balanceOf(r.wallet) })).filter((b) => b.balance > 0n);
+  const wallets = [];
+  for (const r of await pg.all<{ wallet: string }>("select distinct wallet from mine.ledger")) {
+    const balance = await balanceOf(pg, r.wallet);
+    if (balance > 0n) wallets.push({ wallet: r.wallet, balance });
+  }
   const rows = db.prepare("select id from orders where status not in ('unpaid', 'expired') order by funded_at desc limit 200").all() as { id: string }[];
   return {
     months: months.map((m) => {
@@ -2661,7 +2568,7 @@ function adminOrders() {
 }
 
 /** Record tokens the operator sent back to a wallet from its balance. */
-function withdraw(body: any) {
+async function withdraw(body: any) {
   if (typeof body.wallet !== "string" || !ADDRESS.test(body.wallet)) throw new HttpError(400, "wallet must be 0x followed by 40 hex digits");
   if (typeof body.tx !== "string" || !/^0x[0-9a-fA-F]{64}$/.test(body.tx)) throw new HttpError(400, "tx is the hash of the transfer back");
   const w = checksumAddress(body.wallet);
@@ -2671,12 +2578,13 @@ function withdraw(body: any) {
   } catch {
     throw new HttpError(400, "amount is a number of tokens");
   }
-  transaction(() => {
-    const balance = balanceOf(w);
+  await sendOutbox();
+  await pg.tx(async (q) => {
+    const balance = await balanceOf(q, w);
     if (amount <= 0n || amount > balance) throw new HttpError(409, `the balance is ${fromWei(balance)}`);
-    book(w, null, "withdraw", amount, { tx: body.tx.toLowerCase() });
-    db.prepare("update withdraw_requests set status = 'paid', done_at = ?, tx = ? where wallet = ? and status = 'open'").run(Date.now(), body.tx.toLowerCase(), w);
-  });
+    await book(q, w, null, "withdraw", amount, { tx: body.tx.toLowerCase() });
+    await q.run("update mine.withdraw_requests set status = 'paid', done_at = ?, tx = ? where wallet = ? and status = 'open'", Date.now(), body.tx.toLowerCase(), w);
+  }, lockWallet(w));
   return balanceView(w);
 }
 
@@ -3298,18 +3206,18 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
     if ((m = /^\/assets\/i18n\/((?:[\w-]+\/)?[\w-]+\.(?:js|json))$/.exec(p))) return serveFile(res, join(DOCS_ASSETS, "i18n", m[1]));
     if (p === "/compute/docs/assets/i18n/i18n.js") return serveFile(res, join(DOCS_ASSETS, "i18n", "i18n.js"));
     if (p === "/api/stake-config") return send(res, 200, stakeConfig());
-    if (p === "/api/session") return send(res, 200, sessionOf(req));
+    if (p === "/api/session") return send(res, 200, await sessionOf(req));
     if (p === "/api/month") {
       const m = url.searchParams.get("month") ?? thisMonth();
       if (!/^\d{4}-\d{2}$/.test(m)) throw new HttpError(400, "month is YYYY-MM");
-      return send(res, 200, month(m));
+      return send(res, 200, await month(m));
     }
-    if (p === "/api/claims") return send(res, 200, claimsFor(url.searchParams.get("wallet") ?? ""));
+    if (p === "/api/claims") return send(res, 200, await claimsFor(url.searchParams.get("wallet") ?? ""));
     if (p === "/api/orders/config") return send(res, 200, orderConfigView());
     if (p === "/api/price") return send(res, 200, { flyai_usd: (await flyaiPrice()).usd, sources: USDC.fixedPrice ? "fixed" : "lower of GeckoTerminal and DexScreener" });
     if ((m = /^\/api\/blobs\/([0-9a-f]{64})$/.exec(p))) return serveBlob(res, m[1]);
-    if (p === "/api/balance") return send(res, 200, balanceView(url.searchParams.get("wallet") ?? ""));
-    if (p === "/api/orders") return send(res, 200, ordersOf(url.searchParams.get("wallet") ?? ""));
+    if (p === "/api/balance") return send(res, 200, await balanceView(url.searchParams.get("wallet") ?? ""));
+    if (p === "/api/orders") return send(res, 200, await ordersOf(url.searchParams.get("wallet") ?? ""));
     if ((m = /^\/api\/orders\/([0-9a-f-]{36})$/.exec(p))) return send(res, 200, order(m[1]));
     if ((m = /^\/api\/orders\/([0-9a-f-]{36})\/card$/.exec(p))) return send(res, 200, await cardStatus(m[1]));
     if ((m = /^\/api\/orders\/([0-9a-f-]{36})\/results$/.exec(p))) {
@@ -3326,7 +3234,7 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
     }
     if (p === "/api/admin/orders") {
       adminOnly(req);
-      return send(res, 200, adminOrders());
+      return send(res, 200, await adminOrders());
     }
     if (p === "/api/admin/relayer") {
       adminOnly(req);
@@ -3337,7 +3245,7 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
     if (p === "/api/experiments") return send(res, 200, experimentsView());
     if ((m = /^\/connectome\/(brain\.json|meta\.bin|weights\.\d+\.bin)$/.exec(p))) return serveFile(res, join(CONNECTOME_DIR, m[1]), 3600);
     if (p === "/api/model") return send(res, 200, loaded().model);
-    if (p === "/api/me") return send(res, 200, me(minerOf(req)));
+    if (p === "/api/me") return send(res, 200, await me(minerOf(req)));
     if (p === "/api/stats") return send(res, 200, stats(null));
     if (p === "/api/results") {
       loaded();
@@ -3358,7 +3266,7 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
     if ((m = /^\/api\/orders\/([0-9a-f-]{36})\/card$/.exec(p))) return send(res, 200, await cardCheckout(req, m[1]));
     if ((m = /^\/api\/orders\/([0-9a-f-]{36})\/usdc\/authorize$/.exec(p))) return send(res, 200, await authorizeUsdc(m[1], await readJson(req)));
     if ((m = /^\/api\/orders\/([0-9a-f-]{36})\/intent$/.exec(p))) return send(res, 200, intent(m[1], await readJson(req)));
-    if ((m = /^\/api\/orders\/([0-9a-f-]{36})\/(fund|stop)$/.exec(p))) return send(res, 200, signedAction(m[1], m[2] as "fund" | "stop", await readJson(req), req));
+    if ((m = /^\/api\/orders\/([0-9a-f-]{36})\/(fund|stop)$/.exec(p))) return send(res, 200, await signedAction(m[1], m[2] as "fund" | "stop", await readJson(req), req));
     if ((m = /^\/api\/orders\/([0-9a-f-]{36})\/jobs$/.exec(p))) return send(res, 200, appendJobs(req, m[1], await readJson(req, 4_000_000)));
     if (p === "/api/blobs") return send(res, 200, await upload(req));
     if (p === "/api/admin/house") {
@@ -3375,16 +3283,16 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
     }
     if (p === "/api/admin/withdraw") {
       adminOnly(req);
-      return send(res, 200, withdraw(await readJson(req)));
+      return send(res, 200, await withdraw(await readJson(req)));
     }
     if (p === "/api/link") return send(res, 200, link(req, minerOf(req)));
     if (p === "/api/auth/nonce") return send(res, 200, nonceFor(req, await readJson(req)));
     if (p === "/api/session/nonce") return send(res, 200, sessionNonce(req, await readJson(req)));
-    if (p === "/api/session") return send(res, 200, startSession(await readJson(req)));
-    if (p === "/api/session/link") return send(res, 200, linkBySession(req, await readJson(req)));
+    if (p === "/api/session") return send(res, 200, await startSession(await readJson(req)));
+    if (p === "/api/session/link") return send(res, 200, await linkBySession(req, await readJson(req)));
     if (p === "/api/session/end") {
       const token = /^[0-9a-f]{64}$/.exec(String(req.headers["x-flyai-session"] ?? ""))?.[0];
-      if (token) db.prepare("delete from sessions where token_hash = ?").run(sha256(token));
+      if (token) await pg.run("delete from mine.sessions where token_hash = ?", sha256(token));
       return send(res, 200, { ended: true });
     }
     if (p === "/api/auth/verify") return send(res, 200, verifySignIn(await readJson(req)));
@@ -3399,7 +3307,7 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
       adminOnly(req);
       const body = await readJson(req);
       if (typeof body.month !== "string" || !/^\d{4}-\d{2}$/.test(body.month)) throw new HttpError(400, "month is YYYY-MM");
-      return send(res, 200, snapshot(body.month, String(body.pool ?? "")));
+      return send(res, 200, await snapshot(body.month, String(body.pool ?? "")));
     }
     if (p === "/api/claim") {
       const miner = minerOf(req);
@@ -3447,10 +3355,14 @@ if (MINING) {
     and not exists (select 1 from assignments where task = tasks.id and status = 'issued')`).run();
   topUp();
 }
+// the first start on Postgres copies the players and money over from SQLite, before anything reads them (src/legacy.ts);
+// the user process starts only once this one listens
+if (MINING) await copyLegacy(db, pg);
 // Fly Roulette bets (src/roulette.ts): the same ledger, sign-in and chain as compute orders
+const sessionAddress = async (req: IncomingMessage) => (await sessionOf(req)).wallet;
 const roulette = createRoulette({
-  db, transaction, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
-  sessionWallet: (req) => sessionOf(req).wallet,
+  pg, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
+  sessionWallet: sessionAddress,
   transfersIn: (tx) => {
     if (!ORDERS.payTo) throw new HttpError(503, "deposits aren't open yet");
     return transfersIn(CLAIMS.rpc, tx, ORDERS.token, ORDERS.payTo);
@@ -3458,27 +3370,27 @@ const roulette = createRoulette({
   connectomeDir: CONNECTOME_DIR,
   env: process.env,
 });
-if (USER) roulette.resume();
+if (USER) void roulette.resume().catch((err) => console.error("roulette resume:", err));
 // Fly Slots spins (src/slots.ts): the same ledger and sign-in, roulette's 18+ terms
 const slots = createSlots({
-  db, transaction, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
-  sessionWallet: (req) => sessionOf(req).wallet,
+  pg, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
+  sessionWallet: sessionAddress,
   termsAccepted: (wallet) => roulette.termsAccepted(wallet),
   env: process.env,
 });
 // Fly Race bets (src/race.ts): the same ledger and sign-in, roulette's 18+ terms, races played in a worker like roulette's
 const race = createRace({
-  db, transaction, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
-  sessionWallet: (req) => sessionOf(req).wallet,
+  pg, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
+  sessionWallet: sessionAddress,
   termsAccepted: (wallet) => roulette.termsAccepted(wallet),
   connectomeDir: CONNECTOME_DIR,
   env: process.env,
 });
-if (USER) race.resume();
+if (USER) void race.resume().catch((err) => console.error("race resume:", err));
 // FlightPass (src/flightpass.ts): pass balances in the same ledger, autopilot bets through the roulette above
 const flightpass = createFlightPass({
-  db, transaction, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
-  sessionWallet: (req) => sessionOf(req).wallet,
+  pg, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
+  sessionWallet: sessionAddress,
   transfersIn: (tx) => {
     if (!ORDERS.payTo) throw new HttpError(503, "deposits aren't open yet");
     return transfersIn(CLAIMS.rpc, tx, ORDERS.token, ORDERS.payTo);
@@ -3510,6 +3422,13 @@ if (MINING) {
     pump(); // paid jobs waiting on a second answer get the idle verifiers
   }, 15_000).unref();
   setInterval(() => void deliverWebhooks().catch((err) => console.error("webhooks:", err)), 5_000).unref();
+  // queued charges, releases and program pay to Postgres; while it's unreachable they wait here (logged once a minute)
+  let outboxLogged = 0;
+  setInterval(() => void sendOutbox().catch((err) => {
+    if (Date.now() - outboxLogged < 60_000) return;
+    outboxLogged = Date.now();
+    console.error(`pg outbox: ${err instanceof Error ? err.message : err} (${count("select count(*) as n from pg_outbox")} rows waiting)`);
+  }), 1_000).unref();
   if (STAKING.contract) {
     void sampleActiveStakes();
     setInterval(() => void sampleActiveStakes(), STAKING.sampleMs).unref();

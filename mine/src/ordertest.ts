@@ -20,6 +20,7 @@ import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { keccak_256 } from "@noble/hashes/sha3.js";
 import { fixedFrom } from "./fixed.ts";
 import { loadModel } from "./load.ts";
+import { startPg } from "./pgtest.ts";
 import { runTask, type TaskParams, type TaskResult } from "./runner.ts";
 import { checksumAddress, personalMessageHash } from "./wallet.ts";
 import { checkWebhook, internalAddress, verify } from "./webhooks.ts";
@@ -95,6 +96,7 @@ async function api(path: string, token: string | null, body?: unknown): Promise<
 
 type Job = { job: string; params: TaskParams };
 let server: ReturnType<typeof spawn> | null = null;
+const PG = await startPg(5534);
 try {
   for (let i = 0; ; i++) {
     try { await rpc("eth_chainId", []); break; } catch { if (i > 50) throw new Error("anvil didn't start"); await sleep(200); }
@@ -132,7 +134,7 @@ try {
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", fileURLToPath(new URL("./server.ts", import.meta.url))], {
     env: {
-      ...process.env, PORT: String(PORT), MINE_DB: DB, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "50",
+      ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "50",
       ADMIN_TOKEN: ADMIN, TOKEN_ADDRESS: token, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "anvil", CLAIM_RPC: RPC, CLAIM_EXPLORER: "http://localhost",
       USDC_RPC: RPC, USDC_TOKEN: usdc, FLYAI_USD_PRICE: "0.00007", RELAYER_KEY: `0x${anvilKeys[5]}`,
       // card checkouts against a stand-in for Coinbase (below), with a throwaway Ed25519 key
@@ -448,6 +450,7 @@ try {
   check("a late payment still runs it", (await payFor(o7)).json?.status === "done");
   const month = new Date().toISOString().slice(0, 7);
   const charged = 40 + 30 + 8 + 8 + 8 + 8 + 4 + 8; // O1, O2, O3, the two USDC orders, the guest card order, O4, O7
+  await sleep(1_500); // the last charges reach Postgres (queued in pg_outbox, sent every second)
   const board = (await api(`/api/month?month=${month}`, null)).json;
   check("80% of every charge is in this month's pool", near(board.buyer_pool, charged * 0.8) && near(board.announced_pool, charged * 0.8), `${board.buyer_pool}`);
   await api("/api/admin/announce", ADMIN, { month, pool: "1000" });
@@ -463,8 +466,8 @@ try {
   check("orders listed per wallet with the balance", (await api(`/api/orders?wallet=${alice.address}`, null)).json.orders.length === 5);
 
   // ---- the snapshot can't shortchange buyers' money
-  db.prepare("update ledger set month = '2026-08' where kind = 'charge'").run();
   db.close();
+  await PG.pg.run("update mine.ledger set month = '2026-08' where kind = 'charge'");
   const snap = await api("/api/admin/snapshot", ADMIN, { month: "2026-08", pool: "10" });
   check("a snapshot pool below the buyers' part is refused", snap.status === 409 && /can't be less/.test(snap.json.error), snap.json.error);
   check("the page is served", (await fetch(`${BASE}/compute/jobs`)).status === 200 && (await fetch(`${BASE}/compute/mine/web/jobs.js`)).status === 200);
@@ -475,6 +478,7 @@ try {
   server?.kill();
   anvil.kill();
   await sleep(300);
+  await PG.stop();
   try {
     const drift = creditDrift(DB);
     check("day_credit matches the assignments", !drift.length, drift.slice(0, 3).join(", "));

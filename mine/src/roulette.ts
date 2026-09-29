@@ -7,22 +7,23 @@
  * revealed so anyone can replay the game and check it. A win pays stake x flies x (1 - edge): every seat wins
  * 1/flies of the time (see world/src/roulette/game.ts), so the house keeps `edge` on average and nothing more.
  *
- * Money only moves in the ledger: a `bet` row when the bet is placed, a `payout` row when it wins (its tx
- * column holds "roulette-win:<game>", so the unique index makes a double payout impossible). Deposits are
- * $FLYAI transfers to PAY_TO; withdrawals are requested here and sent by the operator.
+ * Money only moves in the ledger (Postgres, src/pg.ts): a `bet` row when the bet is placed, a `payout` row when it
+ * wins (its tx column holds "roulette-win:<game>", so the unique index makes a double payout impossible). Deposits
+ * are $FLYAI transfers to PAY_TO; withdrawals are requested here and sent by the operator.
  */
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { DatabaseSync } from "node:sqlite";
 import { Worker } from "node:worker_threads";
+import { lockWallet, type Pg, type Q } from "./pg.ts";
 import { deriveRng, MAX_FLIES, MIN_FLIES, setup, type GameEvent } from "../../world/src/roulette/game.ts";
 
 export interface RouletteDeps {
-  db: DatabaseSync;
-  transaction: <T>(fn: () => T) => T;
-  book: (wallet: string, orderId: string | null, kind: string, amount: bigint, extra?: { tx?: string }) => void;
-  balanceOf: (wallet: string) => bigint;
-  sessionWallet: (req: IncomingMessage) => string;
+  pg: Pg;
+  /** a ledger row, written with `q` (a transaction, or pg) */
+  book: (q: Q, wallet: string, orderId: string | null, kind: string, amount: bigint, extra?: { tx?: string }) => Promise<void>;
+  balanceOf: (q: Q, wallet: string) => Promise<bigint>;
+  /** the signed-in wallet; throws a 401 */
+  sessionWallet: (req: IncomingMessage) => Promise<string>;
   adminOnly: (req: IncomingMessage) => void;
   HttpError: new (status: number, message: string) => Error;
   toWei: (s: string) => bigint;
@@ -37,12 +38,46 @@ export interface RouletteDeps {
 
 /** the 18+ terms; Fly Slots and Fly Race are covered by the same acceptance */
 export const TERMS_VERSION = 1;
+
+/** An error that may pass by itself: the connection to Postgres dropped or timed out, or a deadlock/serialization retry. */
+export function transient(err: unknown): boolean {
+  const code = String((err as { code?: unknown })?.code ?? "");
+  return /^(ECONN|EPIPE|ETIMEDOUT|EAI_AGAIN|CONNECT_TIMEOUT|CONNECTION_)/.test(code)
+    || ["40001", "40P01", "57P01", "57P03", "08000", "08003", "08006"].includes(code);
+}
+
+/**
+ * A game worker's messages, handled in order, one at a time (each waits for the database). One that fails for a
+ * reason that passes (transient: the network to Postgres) waits a second and goes again, so a game's events are
+ * never stored out of order or lost: a throw from a worker's message event once took the whole user process down,
+ * and every sign-in and pass request with it (2026-09-29). Any other error drops that one message, logged, so a bad
+ * message can't stall every game behind it.
+ */
+export function orderedInbox(label: string, handle: (msg: any) => Promise<void>): (msg: any) => void {
+  const inbox: any[] = [];
+  let draining = false;
+  const drain = async (): Promise<void> => {
+    draining = true;
+    while (inbox.length) {
+      try {
+        await handle(inbox[0]);
+      } catch (err) {
+        const retry = transient(err);
+        console.error(`${label} worker message: ${(err as Error)?.message ?? err}${retry ? "; trying again in 1 s" : "; dropped"}`);
+        if (retry) { setTimeout(() => void drain(), 1_000); return; }
+      }
+      inbox.shift();
+    }
+    draining = false;
+  };
+  return (msg) => { inbox.push(msg); if (!draining) void drain(); };
+}
 const COMMIT_TTL_MS = 15 * 60_000;
 const sha256hex = (s: string) => createHash("sha256").update(s).digest("hex");
 const utcDayStart = (t = Date.now()) => t - (t % 86_400_000);
 
 export function createRoulette(d: RouletteDeps) {
-  const { db, transaction, book, balanceOf, HttpError, toWei, fromWei } = d;
+  const { pg, book, balanceOf, HttpError, toWei, fromWei } = d;
   const tokens = (name: string, def: string) => {
     try { return toWei(d.env[name] ?? def); } catch { throw new Error(`${name} must be a number of tokens`); }
   };
@@ -63,37 +98,35 @@ export function createRoulette(d: RouletteDeps) {
   const PPM = BigInt(Math.round((1 - CFG.edge) * 1_000_000));
   const payoutFor = (stake: bigint, flies: number) => (stake * BigInt(flies) * PPM) / 1_000_000n;
 
-  const one = <T>(sql: string, ...args: (string | number | null)[]) => db.prepare(sql).get(...args) as T;
-
   // ---- the house ---------------------------------------------------------------------------------------
   /** What the house won (positive) or lost on games settled since `since`. */
-  function houseNet(since = 0): bigint {
+  async function houseNet(since = 0): Promise<bigint> {
     let net = 0n;
-    for (const r of db.prepare("select stake_wei, payout_wei, pick, winner from roulette_games where status = 'done' and done_at >= ?").all(since) as
-      { stake_wei: string; payout_wei: string; pick: number; winner: number }[]) {
+    for (const r of await pg.all<{ stake_wei: string; payout_wei: string; pick: number; winner: number }>(
+      "select stake_wei, payout_wei, pick, winner from mine.roulette_games where status = 'done' and done_at >= ?", since)) {
       net += BigInt(r.stake_wei) - (r.winner === r.pick ? BigInt(r.payout_wei) : 0n);
     }
     return net;
   }
   /** Betting stops by itself once the house is down ROULETTE_HOUSE_STOP over the last day. */
-  const paused = () => CFG.houseStop > 0n && -houseNet(Date.now() - 86_400_000) >= CFG.houseStop;
-  const liveCount = () => one<{ n: number }>("select count(*) as n from roulette_games where status = 'live'").n;
+  const paused = async () => CFG.houseStop > 0n && -(await houseNet(Date.now() - 86_400_000)) >= CFG.houseStop;
+  const liveCount = async (q: Q = pg) => (await q.one<{ n: number }>("select count(*) as n from mine.roulette_games where status = 'live'"))!.n;
 
   // ---- the game worker -----------------------------------------------------------------------------------
   let worker: Worker | null = null;
   function startWorker(): void {
     const w = new Worker(new URL("./roulette.worker.ts", import.meta.url), { workerData: { dir: d.connectomeDir } });
     worker = w;
-    w.on("message", (msg: any) => {
-      if (msg.type === "event") onEvent(msg.game, msg.seq, msg.event);
-      else if (msg.type === "error") voidGame(msg.game, msg.text);
-    });
+    w.on("message", orderedInbox("roulette", async (msg: any) => {
+      if (msg.type === "event") await onEvent(msg.game, msg.seq, msg.event);
+      else if (msg.type === "error") await voidGame(msg.game, msg.text);
+    }));
     w.on("error", (err) => console.error("roulette worker:", err));
     w.on("exit", (code) => {
       if (worker !== w) return;
       worker = null;
       console.error(`roulette worker stopped (${code}); starting it again and resuming live games`);
-      setTimeout(() => { startWorker(); resume(); }, 5_000).unref();
+      setTimeout(() => { startWorker(); void resume().catch((err) => console.error("roulette resume:", err)); }, 5_000).unref();
     });
   }
   const run = (g: { id: string; server_seed: string; client_seed: string; flies: number }) => {
@@ -101,46 +134,48 @@ export function createRoulette(d: RouletteDeps) {
     worker!.postMessage({ type: "start", game: g.id, serverSeed: g.server_seed, clientSeed: g.client_seed, flies: g.flies });
   };
   /** Games that were live when the server stopped: played again from their seeds (the same events), then settled. */
-  function resume(): void {
-    for (const g of db.prepare("select id, server_seed, client_seed, flies from roulette_games where status = 'live'").all() as
-      { id: string; server_seed: string; client_seed: string; flies: number }[]) run(g);
+  async function resume(): Promise<void> {
+    for (const g of await pg.all<{ id: string; server_seed: string; client_seed: string; flies: number }>(
+      "select id, server_seed, client_seed, flies from mine.roulette_games where status = 'live'")) run(g);
   }
 
-  function onEvent(game: string, seq: number, event: GameEvent): void {
-    const g = one<{ wallet: string; pick: number; payout_wei: string; status: string; events: number } | undefined>(
-      "select wallet, pick, payout_wei, status, events from roulette_games where id = ?", game);
+  async function onEvent(game: string, seq: number, event: GameEvent): Promise<void> {
+    const g = await pg.one<{ wallet: string; pick: number; payout_wei: string; status: string; events: number }>(
+      "select wallet, pick, payout_wei, status, events from mine.roulette_games where id = ?", game);
     if (!g || g.status !== "live") return;
     const json = JSON.stringify(event);
     if (seq < g.events) {
       // a replay after a restart: it must match what was already shown
-      const stored = one<{ event: string } | undefined>("select event from roulette_events where game = ? and seq = ?", game, seq);
+      const stored = await pg.one<{ event: string }>("select event from mine.roulette_events where game = ? and seq = ?", game, seq);
       if (stored && stored.event !== json) console.error(`roulette ${game}: replayed event ${seq} differs from the stored one`);
       return;
     }
-    transaction(() => {
-      db.prepare("insert or ignore into roulette_events (game, seq, event) values (?, ?, ?)").run(game, seq, json);
-      db.prepare("update roulette_games set events = ? where id = ?").run(seq + 1, game);
+    await pg.tx(async (q) => {
+      await q.run("insert into mine.roulette_events (game, seq, event) values (?, ?, ?) on conflict do nothing", game, seq, json);
+      await q.run("update mine.roulette_games set events = ? where id = ?", seq + 1, game);
       if (event.type !== "end") return;
-      db.prepare("update roulette_games set status = 'done', winner = ?, done_at = ? where id = ?").run(event.winner, Date.now(), game);
-      if (event.winner === g.pick) book(g.wallet, null, "payout", BigInt(g.payout_wei), { tx: `roulette-win:${game}` });
-    });
+      await q.run("update mine.roulette_games set status = 'done', winner = ?, done_at = ? where id = ?", event.winner, Date.now(), game);
+      if (event.winner === g.pick) await book(q, g.wallet, null, "payout", BigInt(g.payout_wei), { tx: `roulette-win:${game}` });
+    }, lockWallet(g.wallet));
   }
 
   /** A game the server couldn't finish: the stake goes back. */
-  function voidGame(game: string, why: string): void {
+  async function voidGame(game: string, why: string): Promise<void> {
     console.error(`roulette ${game} failed: ${why}`);
-    transaction(() => {
-      const g = one<{ wallet: string; stake_wei: string; status: string } | undefined>("select wallet, stake_wei, status from roulette_games where id = ?", game);
+    const who = await pg.one<{ wallet: string }>("select wallet from mine.roulette_games where id = ?", game);
+    if (!who) return;
+    await pg.tx(async (q) => {
+      const g = await q.one<{ wallet: string; stake_wei: string; status: string }>("select wallet, stake_wei, status from mine.roulette_games where id = ?", game);
       if (!g || g.status !== "live") return;
-      db.prepare("update roulette_games set status = 'void', done_at = ? where id = ?").run(Date.now(), game);
-      book(g.wallet, null, "payout", BigInt(g.stake_wei), { tx: `roulette-refund:${game}` });
-    });
+      await q.run("update mine.roulette_games set status = 'void', done_at = ? where id = ?", Date.now(), game);
+      await book(q, g.wallet, null, "payout", BigInt(g.stake_wei), { tx: `roulette-refund:${game}` });
+    }, lockWallet(who.wallet));
   }
 
   // ---- views -----------------------------------------------------------------------------------------
-  function config() {
+  async function config() {
     return {
-      on: CFG.on, paused: CFG.on && paused(), edge: CFG.edge, terms_version: TERMS_VERSION,
+      on: CFG.on, paused: CFG.on && await paused(), edge: CFG.edge, terms_version: TERMS_VERSION,
       min_bet: fromWei(CFG.minBet), max_bet: fromWei(CFG.maxBet), max_day: fromWei(CFG.maxDay), max_payout: fromWei(CFG.maxPayout),
       min_flies: MIN_FLIES, max_flies: MAX_FLIES,
       multipliers: Object.fromEntries(Array.from({ length: MAX_FLIES - MIN_FLIES + 1 }, (_, k) => {
@@ -150,9 +185,9 @@ export function createRoulette(d: RouletteDeps) {
     };
   }
 
-  function daySpent(wallet: string): bigint {
+  async function daySpent(wallet: string, q: Q = pg): Promise<bigint> {
     let sum = 0n;
-    for (const r of db.prepare("select stake_wei from roulette_games where wallet = ? and created_at >= ? and status != 'void'").all(wallet, utcDayStart()) as { stake_wei: string }[]) sum += BigInt(r.stake_wei);
+    for (const r of await q.all<{ stake_wei: string }>("select stake_wei from mine.roulette_games where wallet = ? and created_at >= ? and status != 'void'", wallet, utcDayStart())) sum += BigInt(r.stake_wei);
     return sum;
   }
 
@@ -164,23 +199,23 @@ export function createRoulette(d: RouletteDeps) {
     };
   }
 
-  function me(req: IncomingMessage) {
-    const wallet = d.sessionWallet(req);
-    const terms = one<{ version: number } | undefined>("select version from roulette_terms where wallet = ?", wallet);
-    const live = one<{ id: string } | undefined>("select id from roulette_games where wallet = ? and status = 'live'", wallet);
-    const request = one<{ amount_wei: string; created_at: number } | undefined>("select amount_wei, created_at from withdraw_requests where wallet = ? and status = 'open'", wallet);
+  async function me(req: IncomingMessage) {
+    const wallet = await d.sessionWallet(req);
+    const terms = await pg.one<{ version: number }>("select version from mine.roulette_terms where wallet = ?", wallet);
+    const live = await pg.one<{ id: string }>("select id from mine.roulette_games where wallet = ? and status = 'live'", wallet);
+    const request = await pg.one<{ amount_wei: string; created_at: number }>("select amount_wei, created_at from mine.withdraw_requests where wallet = ? and status = 'open'", wallet);
     return {
-      wallet, balance: fromWei(balanceOf(wallet)), terms_accepted: (terms?.version ?? 0) >= TERMS_VERSION,
-      day_staked: fromWei(daySpent(wallet)), live_game: live?.id ?? null,
+      wallet, balance: fromWei(await balanceOf(pg, wallet)), terms_accepted: (terms?.version ?? 0) >= TERMS_VERSION,
+      day_staked: fromWei(await daySpent(wallet)), live_game: live?.id ?? null,
       withdraw_request: request ? { amount: fromWei(BigInt(request.amount_wei)), created_at: request.created_at } : null,
-      history: (db.prepare("select * from roulette_games where wallet = ? order by created_at desc limit 20").all(wallet) as any[]).map(summary),
+      history: (await pg.all<any>("select * from mine.roulette_games where wallet = ? order by created_at desc limit 20", wallet)).map(summary),
     };
   }
 
-  function gameView(id: string, after: number) {
-    const g = one<any>("select * from roulette_games where id = ?", id);
+  async function gameView(id: string, after: number) {
+    const g = await pg.one<any>("select * from mine.roulette_games where id = ?", id);
     if (!g) throw new HttpError(404, "no such game");
-    const events = (db.prepare("select seq, event from roulette_events where game = ? and seq >= ? order by seq").all(id, after) as { seq: number; event: string }[])
+    const events = (await pg.all<{ seq: number; event: string }>("select seq, event from mine.roulette_events where game = ? and seq >= ? order by seq", id, after))
       .map((r) => ({ seq: r.seq, ...JSON.parse(r.event) }));
     return {
       ...summary(g), wallet: g.wallet, edge: g.edge, names: JSON.parse(g.names), events,
@@ -190,56 +225,59 @@ export function createRoulette(d: RouletteDeps) {
     };
   }
 
-  function admin() {
-    const wallets = (db.prepare("select distinct wallet from ledger").all() as { wallet: string }[]).map((r) => r.wallet);
+  async function admin() {
+    const wallets = (await pg.all<{ wallet: string }>("select distinct wallet from mine.ledger")).map((r) => r.wallet);
     let held = 0n;
-    for (const w of wallets) held += balanceOf(w);
-    const games = one<{ n: number }>("select count(*) as n from roulette_games where status = 'done'").n;
+    for (const w of wallets) held += await balanceOf(pg, w);
+    const games = (await pg.one<{ n: number }>("select count(*) as n from mine.roulette_games where status = 'done'"))!.n;
+    const requests = [];
+    for (const r of await pg.all<any>("select id, wallet, amount_wei, created_at from mine.withdraw_requests where status = 'open' order by created_at")) {
+      requests.push({ id: r.id, wallet: r.wallet, amount: fromWei(BigInt(r.amount_wei)), balance: fromWei(await balanceOf(pg, r.wallet)), created_at: r.created_at });
+    }
     return {
-      on: CFG.on, paused: paused(), live_games: liveCount(), games_played: games,
-      house_net_all: fromWei(houseNet(0)), house_net_24h: fromWei(houseNet(Date.now() - 86_400_000)),
+      on: CFG.on, paused: await paused(), live_games: await liveCount(), games_played: games,
+      house_net_all: fromWei(await houseNet(0)), house_net_24h: fromWei(await houseNet(Date.now() - 86_400_000)),
       // every token players can ask back: the dev wallet must hold at least this
       balances_held: fromWei(held),
-      withdraw_requests: (db.prepare("select id, wallet, amount_wei, created_at from withdraw_requests where status = 'open' order by created_at").all() as any[])
-        .map((r) => ({ id: r.id, wallet: r.wallet, amount: fromWei(BigInt(r.amount_wei)), balance: fromWei(balanceOf(r.wallet)), created_at: r.created_at })),
+      withdraw_requests: requests,
     };
   }
 
   // ---- actions ---------------------------------------------------------------------------------------
-  const betsOn = () => {
+  const betsOn = async () => {
     if (!CFG.on) throw new HttpError(503, "betting is off");
-    if (paused()) throw new HttpError(503, "betting is paused for now; try again later");
+    if (await paused()) throw new HttpError(503, "betting is paused for now; try again later");
   };
 
-  function acceptTerms(req: IncomingMessage, body: any) {
-    const wallet = d.sessionWallet(req);
+  async function acceptTerms(req: IncomingMessage, body: any) {
+    const wallet = await d.sessionWallet(req);
     if (body.over18 !== true || body.accept !== true) throw new HttpError(400, "confirm you're 18 or over and accept the terms");
-    db.prepare("insert into roulette_terms (wallet, version, accepted_at) values (?, ?, ?) on conflict (wallet) do update set version = excluded.version, accepted_at = excluded.accepted_at")
-      .run(wallet, TERMS_VERSION, Date.now());
+    await pg.run("insert into mine.roulette_terms (wallet, version, accepted_at) values (?, ?, ?) on conflict (wallet) do update set version = excluded.version, accepted_at = excluded.accepted_at",
+      wallet, TERMS_VERSION, Date.now());
     return { terms_accepted: true, version: TERMS_VERSION };
   }
 
-  function commit(req: IncomingMessage) {
-    betsOn();
-    return openCommit(d.sessionWallet(req));
+  async function commit(req: IncomingMessage) {
+    await betsOn();
+    return openCommit(await d.sessionWallet(req));
   }
 
   /** A new commit for `wallet` (a player's address, or a FlightPass's ledger key `pass:<id>`). */
-  function openCommit(wallet: string) {
-    db.prepare("delete from roulette_commits where wallet = ? and used = 0 and created_at < ?").run(wallet, Date.now() - COMMIT_TTL_MS);
-    if (one<{ n: number }>("select count(*) as n from roulette_commits where wallet = ? and used = 0", wallet).n >= 5) {
+  async function openCommit(wallet: string) {
+    await pg.run("delete from mine.roulette_commits where wallet = ? and used = 0 and created_at < ?", wallet, Date.now() - COMMIT_TTL_MS);
+    if ((await pg.one<{ n: number }>("select count(*) as n from mine.roulette_commits where wallet = ? and used = 0", wallet))!.n >= 5) {
       throw new HttpError(429, "too many open commits; use one or wait a few minutes");
     }
     const id = randomUUID();
     const seed = randomBytes(32).toString("hex");
     const hash = sha256hex(seed);
-    db.prepare("insert into roulette_commits (id, wallet, server_seed, hash, created_at) values (?, ?, ?, ?, ?)").run(id, wallet, seed, hash, Date.now());
+    await pg.run("insert into mine.roulette_commits (id, wallet, server_seed, hash, created_at) values (?, ?, ?, ?, ?)", id, wallet, seed, hash, Date.now());
     return { commit_id: id, hash, expires_at: Date.now() + COMMIT_TTL_MS };
   }
 
   async function bet(req: IncomingMessage, body: any) {
-    betsOn();
-    const wallet = d.sessionWallet(req);
+    await betsOn();
+    const wallet = await d.sessionWallet(req);
     const flies = Number(body.flies), pick = Number(body.pick);
     if (!Number.isInteger(flies) || flies < MIN_FLIES || flies > MAX_FLIES) throw new HttpError(400, `flies is ${MIN_FLIES} to ${MAX_FLIES}`);
     if (!Number.isInteger(pick) || pick < 0 || pick >= flies) throw new HttpError(400, `pick is a seat from 0 to ${flies - 1}`);
@@ -262,8 +300,8 @@ export function createRoulette(d: RouletteDeps) {
   async function placeBet(o: { wallet: string; termsWallet: string; commitId: string; flies: number; pick: number; clientSeed: string; stake: bigint; payout: bigint; maxDay: bigint }) {
     const { wallet, flies, pick, clientSeed, stake, payout } = o;
     const maxDay = o.maxDay < CFG.maxDay ? o.maxDay : CFG.maxDay;
-    const c = one<{ id: string; wallet: string; server_seed: string; hash: string; created_at: number; used: number } | undefined>(
-      "select * from roulette_commits where id = ?", o.commitId);
+    const c = await pg.one<{ id: string; wallet: string; server_seed: string; hash: string; created_at: number; used: number }>(
+      "select * from mine.roulette_commits where id = ?", o.commitId);
     if (!c || c.wallet !== wallet) throw new HttpError(404, "no such commit; ask for a new one");
     if (c.used) throw new HttpError(409, "that commit was already used; ask for a new one");
     if (Date.now() - c.created_at > COMMIT_TTL_MS) throw new HttpError(409, "that commit expired; ask for a new one");
@@ -271,38 +309,40 @@ export function createRoulette(d: RouletteDeps) {
     const names = setup(flies, await deriveRng(c.server_seed, clientSeed)).names;
 
     const id = randomUUID();
-    transaction(() => {
-      if (!termsAccepted(o.termsWallet)) throw new HttpError(403, "accept the terms first");
-      if (one<{ used: number }>("select used from roulette_commits where id = ?", c.id).used) throw new HttpError(409, "that commit was already used");
-      if (one("select 1 from roulette_games where wallet = ? and status = 'live'", wallet)) throw new HttpError(409, "you already have a game on the table");
-      if (liveCount() >= CFG.maxLive) throw new HttpError(503, "all tables are busy; try again in a minute");
-      if (daySpent(wallet) + stake > maxDay) throw new HttpError(400, `you can bet at most ${fromWei(maxDay)} FLYAI a day (UTC); ${fromWei(daySpent(wallet))} so far`);
-      const balance = balanceOf(wallet);
+    if (!(await termsAccepted(o.termsWallet))) throw new HttpError(403, "accept the terms first");
+    // under the wallet's lock: the balance, the day's limit and "one game at a time" can't change between the checks
+    // and the booking (Postgres runs requests side by side, where SQLite ran one writer at a time)
+    await pg.tx(async (q) => {
+      if (await q.one("select 1 from mine.roulette_games where wallet = ? and status = 'live'", wallet)) throw new HttpError(409, "you already have a game on the table");
+      if (await liveCount(q) >= CFG.maxLive) throw new HttpError(503, "all tables are busy; try again in a minute");
+      const spent = await daySpent(wallet, q);
+      if (spent + stake > maxDay) throw new HttpError(400, `you can bet at most ${fromWei(maxDay)} FLYAI a day (UTC); ${fromWei(spent)} so far`);
+      const balance = await balanceOf(q, wallet);
       if (balance < stake) throw new HttpError(402, `your balance is ${fromWei(balance)} FLYAI`);
-      db.prepare("update roulette_commits set used = 1 where id = ?").run(c.id);
-      book(wallet, null, "bet", stake, { tx: `roulette:${id}` });
-      db.prepare(`insert into roulette_games (id, wallet, flies, pick, stake_wei, payout_wei, edge, commit_hash, server_seed, client_seed, names, status, created_at)
-        values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'live', ?)`)
-        .run(id, wallet, flies, pick, stake.toString(), payout.toString(), CFG.edge, c.hash, c.server_seed, clientSeed, JSON.stringify(names), Date.now());
-    });
+      if (!(await q.run("update mine.roulette_commits set used = 1 where id = ? and used = 0", c.id))) throw new HttpError(409, "that commit was already used");
+      await book(q, wallet, null, "bet", stake, { tx: `roulette:${id}` });
+      await q.run(`insert into mine.roulette_games (id, wallet, flies, pick, stake_wei, payout_wei, edge, commit_hash, server_seed, client_seed, names, status, created_at)
+        values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'live', ?)`,
+        id, wallet, flies, pick, stake.toString(), payout.toString(), CFG.edge, c.hash, c.server_seed, clientSeed, JSON.stringify(names), Date.now());
+    }, lockWallet(wallet));
     run({ id, server_seed: c.server_seed, client_seed: clientSeed, flies });
     return gameView(id, 0);
   }
 
-  const termsAccepted = (wallet: string) =>
-    (one<{ version: number } | undefined>("select version from roulette_terms where wallet = ?", wallet)?.version ?? 0) >= TERMS_VERSION;
+  const termsAccepted = async (wallet: string) =>
+    ((await pg.one<{ version: number }>("select version from mine.roulette_terms where wallet = ?", wallet))?.version ?? 0) >= TERMS_VERSION;
 
   /**
    * A bet the server places by itself for a FlightPass on autopilot (src/flightpass.ts): a fresh commit, a random
    * seat and client seed, the same limits and settlement as a player's bet. Throws an HttpError when it can't bet.
    */
   async function autoBet(key: string, owner: string, o: { flies: number; stake: bigint; maxDay: bigint }) {
-    betsOn();
+    await betsOn();
     if (!Number.isInteger(o.flies) || o.flies < MIN_FLIES || o.flies > MAX_FLIES) throw new HttpError(400, `flies is ${MIN_FLIES} to ${MAX_FLIES}`);
     if (o.stake < CFG.minBet || o.stake > CFG.maxBet) throw new HttpError(400, "stake is outside the bet limits");
     const payout = payoutFor(o.stake, o.flies);
     if (payout > CFG.maxPayout) throw new HttpError(400, "a win would pay past the cap");
-    const c = openCommit(key);
+    const c = await openCommit(key);
     return placeBet({
       wallet: key, termsWallet: owner, commitId: c.commit_id, flies: o.flies, pick: randomBytes(1)[0] % o.flies,
       clientSeed: `autopilot-${randomBytes(12).toString("hex")}`, stake: o.stake, payout, maxDay: o.maxDay,
@@ -311,10 +351,10 @@ export function createRoulette(d: RouletteDeps) {
 
   /** A $FLYAI transfer from the signed-in wallet to PAY_TO, credited to its balance once. */
   async function deposit(req: IncomingMessage, body: any) {
-    const wallet = d.sessionWallet(req);
+    const wallet = await d.sessionWallet(req);
     const tx = String(body.tx ?? "").toLowerCase();
     if (!/^0x[0-9a-f]{64}$/.test(tx)) throw new HttpError(400, "tx is a transaction hash");
-    if (one("select 1 from ledger where tx = ?", tx)) throw new HttpError(409, "that transaction was already credited");
+    if (await pg.one("select 1 from mine.ledger where tx = ?", tx)) throw new HttpError(409, "that transaction was already credited");
     let transfers;
     try {
       transfers = await d.transfersIn(tx);
@@ -326,23 +366,23 @@ export function createRoulette(d: RouletteDeps) {
     if (!mine.length) throw new HttpError(402, "that transaction sends no FLYAI from your wallet to the deposit address");
     if (mine[0].at < CFG.depositsSince) throw new HttpError(402, "that transfer is older than deposits; it can't be credited");
     const value = mine.reduce((s, t) => s + t.value, 0n);
-    transaction(() => {
-      if (one("select 1 from ledger where tx = ?", tx)) throw new HttpError(409, "that transaction was just credited");
-      book(wallet, null, "deposit", value, { tx });
-    });
-    return { deposited: fromWei(value), balance: fromWei(balanceOf(wallet)) };
+    await pg.tx(async (q) => {
+      if (await q.one("select 1 from mine.ledger where tx = ?", tx)) throw new HttpError(409, "that transaction was just credited");
+      await book(q, wallet, null, "deposit", value, { tx });
+    }, lockWallet(wallet));
+    return { deposited: fromWei(value), balance: fromWei(await balanceOf(pg, wallet)) };
   }
 
-  function withdrawRequest(req: IncomingMessage, body: any) {
-    const wallet = d.sessionWallet(req);
+  async function withdrawRequest(req: IncomingMessage, body: any) {
+    const wallet = await d.sessionWallet(req);
     let amount: bigint;
     try { amount = toWei(String(body.amount ?? "")); } catch { throw new HttpError(400, "amount is a number of tokens"); }
-    transaction(() => {
-      if (one("select 1 from withdraw_requests where wallet = ? and status = 'open'", wallet)) throw new HttpError(409, "you already asked; it's on its way");
-      const balance = balanceOf(wallet);
+    await pg.tx(async (q) => {
+      if (await q.one("select 1 from mine.withdraw_requests where wallet = ? and status = 'open'", wallet)) throw new HttpError(409, "you already asked; it's on its way");
+      const balance = await balanceOf(q, wallet);
       if (amount <= 0n || amount > balance) throw new HttpError(400, `your balance is ${fromWei(balance)} FLYAI`);
-      db.prepare("insert into withdraw_requests (wallet, amount_wei, status, created_at) values (?, ?, 'open', ?)").run(wallet, amount.toString(), Date.now());
-    });
+      await q.run("insert into mine.withdraw_requests (wallet, amount_wei, status, created_at) values (?, ?, 'open', ?)", wallet, amount.toString(), Date.now());
+    }, lockWallet(wallet));
     return me(req);
   }
 
@@ -352,29 +392,29 @@ export function createRoulette(d: RouletteDeps) {
     const p = url.pathname;
     let m: RegExpExecArray | null;
     if (req.method === "GET") {
-      if (p === "/api/roulette/config") return d.send(res, 200, config()), true;
-      if (p === "/api/roulette/me") return d.send(res, 200, me(req)), true;
+      if (p === "/api/roulette/config") return d.send(res, 200, await config()), true;
+      if (p === "/api/roulette/me") return d.send(res, 200, await me(req)), true;
       if ((m = /^\/api\/roulette\/games\/([0-9a-f-]{36})$/.exec(p))) {
         const after = Number(url.searchParams.get("after") ?? 0);
         if (!Number.isSafeInteger(after) || after < 0) throw new HttpError(400, "after is an event number");
-        return d.send(res, 200, gameView(m[1], after)), true;
+        return d.send(res, 200, await gameView(m[1], after)), true;
       }
-      if (p === "/api/admin/roulette") { d.adminOnly(req); return d.send(res, 200, admin()), true; }
+      if (p === "/api/admin/roulette") { d.adminOnly(req); return d.send(res, 200, await admin()), true; }
     }
     if (req.method === "POST") {
-      if (p === "/api/roulette/terms") return d.send(res, 200, acceptTerms(req, await d.readJson(req))), true;
-      if (p === "/api/roulette/commit") return d.send(res, 200, commit(req)), true;
+      if (p === "/api/roulette/terms") return d.send(res, 200, await acceptTerms(req, await d.readJson(req))), true;
+      if (p === "/api/roulette/commit") return d.send(res, 200, await commit(req)), true;
       if (p === "/api/roulette/games") return d.send(res, 200, await bet(req, await d.readJson(req))), true;
       if (p === "/api/balance/deposit") return d.send(res, 200, await deposit(req, await d.readJson(req))), true;
-      if (p === "/api/balance/withdraw-request") return d.send(res, 200, withdrawRequest(req, await d.readJson(req))), true;
+      if (p === "/api/balance/withdraw-request") return d.send(res, 200, await withdrawRequest(req, await d.readJson(req))), true;
     }
     return false;
   }
 
   return {
-    route, resume, config, autoBet, termsAccepted, daySpent, CFG,
-    isOn: () => CFG.on && !paused(),
-    liveFor: (wallet: string) => !!one("select 1 from roulette_games where wallet = ? and status = 'live'", wallet),
-    liveCount,
+    route, resume, config, autoBet, termsAccepted, daySpent: (wallet: string) => daySpent(wallet), CFG,
+    isOn: async () => CFG.on && !(await paused()),
+    liveFor: async (wallet: string) => !!(await pg.one("select 1 from mine.roulette_games where wallet = ? and status = 'live'", wallet)),
+    liveCount: () => liveCount(),
   };
 }

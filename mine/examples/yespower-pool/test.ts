@@ -13,6 +13,7 @@ import { rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { startPg } from "../../src/pgtest.ts";
 import { runWasm } from "../../web/openjob.ts";
 import { headerPrefix, meets, shareTarget } from "../btc-pool/stratum.ts";
 import { GENESIS_EXTRANONCE1, GENESIS_JOB } from "../btc-pool/vectors.ts";
@@ -50,6 +51,7 @@ const api = async (path: string, body?: unknown, auth?: string) => {
   return { status: res.status, json };
 };
 
+const PG = await startPg(5539);
 try {
   // ---- 1. the hasher against the reference's own vectors ---------------------------------------------------------
   {
@@ -110,7 +112,7 @@ try {
   {
     for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
     const server = run([fileURLToPath(new URL("../../src/server.ts", import.meta.url))], {
-      PORT: String(PORT), MINE_DB: DB, BLOBS_DIR: BLOBS, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0",
+      PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, BLOBS_DIR: BLOBS, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0",
       AUDITS: "0", OPEN_TARGET: "20", ADMIN_TOKEN: ADMIN, MIN_CHECKED: "1",
     });
     server.stdout?.resume();
@@ -161,6 +163,7 @@ try {
 } finally {
   for (const p of procs) p.kill();
   await sleep(300);
+  await PG.stop();
   for (const suffix of ["", "-wal", "-shm"]) try { rmSync(DB + suffix, { force: true }); } catch { /* busy */ }
   rmSync(BLOBS, { recursive: true, force: true });
 }

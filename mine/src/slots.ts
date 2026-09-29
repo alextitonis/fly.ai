@@ -7,21 +7,22 @@
  * client seed; spin(serverSeed, clientSeed) fixes the three stops. A spin has no turns to watch, so it is decided and
  * settled in ONE transaction (no worker, no live state) and its server seed is revealed in the same answer.
  *
- * Money only moves in the ledger: a `bet` row (tx "slots:<spin>") and, on a win, a `payout` row of stake x mult
+ * Money only moves in the ledger (Postgres, src/pg.ts): a `bet` row (tx "slots:<spin>") and, on a win, a `payout` row of stake x mult
  * (tx "slots-win:<spin>"; the unique tx index makes a double payout impossible). The terms are roulette's (the same
  * 18+ terms, accepted with POST /api/roulette/terms), so a player accepts once for both games.
  */
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { DatabaseSync } from "node:sqlite";
+import { lockWallet, type Pg, type Q } from "./pg.ts";
 import { PAYS, rtp, score, spin, STRIP, TOP_MULT, type Sym } from "../../world/src/slots/game.ts";
 
 export interface SlotsDeps {
-  db: DatabaseSync;
-  transaction: <T>(fn: () => T) => T;
-  book: (wallet: string, orderId: string | null, kind: string, amount: bigint, extra?: { tx?: string }) => void;
-  balanceOf: (wallet: string) => bigint;
-  sessionWallet: (req: IncomingMessage) => string;
+  pg: Pg;
+  /** a ledger row, written with `q` (a transaction, or pg) */
+  book: (q: Q, wallet: string, orderId: string | null, kind: string, amount: bigint, extra?: { tx?: string }) => Promise<void>;
+  balanceOf: (q: Q, wallet: string) => Promise<bigint>;
+  /** the signed-in wallet; throws a 401 */
+  sessionWallet: (req: IncomingMessage) => Promise<string>;
   adminOnly: (req: IncomingMessage) => void;
   HttpError: new (status: number, message: string) => Error;
   toWei: (s: string) => bigint;
@@ -29,7 +30,7 @@ export interface SlotsDeps {
   send: (res: ServerResponse, status: number, body: unknown) => void;
   readJson: (req: IncomingMessage) => Promise<any>;
   /** roulette's terms: one 18+ acceptance covers both games */
-  termsAccepted: (wallet: string) => boolean;
+  termsAccepted: (wallet: string) => Promise<boolean>;
   env: NodeJS.ProcessEnv;
 }
 
@@ -41,7 +42,7 @@ const utcDayStart = (t = Date.now()) => t - (t % 86_400_000);
 const ODDS = rtp();
 
 export function createSlots(d: SlotsDeps) {
-  const { db, transaction, book, balanceOf, HttpError, toWei, fromWei } = d;
+  const { pg, book, balanceOf, HttpError, toWei, fromWei } = d;
   const tokens = (name: string, def: string) => {
     try { return toWei(d.env[name] ?? def); } catch { throw new Error(`${name} must be a number of tokens`); }
   };
@@ -55,32 +56,30 @@ export function createSlots(d: SlotsDeps) {
     houseStop: tokens("SLOTS_HOUSE_STOP", "300000"),
   };
 
-  const one = <T>(sql: string, ...args: (string | number | null)[]) => db.prepare(sql).get(...args) as T;
-
   // ---- the house ---------------------------------------------------------------------------------------
   /** What the house won (positive) or lost on spins since `since`. */
-  function houseNet(since = 0): bigint {
+  async function houseNet(since = 0): Promise<bigint> {
     let net = 0n;
-    for (const r of db.prepare("select stake_wei, payout_wei from slots_spins where created_at >= ?").all(since) as { stake_wei: string; payout_wei: string }[]) {
+    for (const r of await pg.all<{ stake_wei: string; payout_wei: string }>("select stake_wei, payout_wei from mine.slots_spins where created_at >= ?", since)) {
       net += BigInt(r.stake_wei) - BigInt(r.payout_wei);
     }
     return net;
   }
   /** Spinning stops by itself once the house is down SLOTS_HOUSE_STOP over the last day (as roulette's stop). */
-  const paused = () => CFG.houseStop > 0n && -houseNet(Date.now() - 86_400_000) >= CFG.houseStop;
+  const paused = async () => CFG.houseStop > 0n && -(await houseNet(Date.now() - 86_400_000)) >= CFG.houseStop;
 
   // ---- views -----------------------------------------------------------------------------------------
-  function config() {
+  async function config() {
     return {
-      on: CFG.on, paused: CFG.on && paused(), rtp: ODDS.rtp, hit: ODDS.hit,
+      on: CFG.on, paused: CFG.on && await paused(), rtp: ODDS.rtp, hit: ODDS.hit,
       min_bet: fromWei(CFG.minBet), max_bet: fromWei(CFG.maxBet), max_day: fromWei(CFG.maxDay), max_payout: fromWei(CFG.maxPayout),
       top_mult: TOP_MULT, strip: STRIP, pays: PAYS,
     };
   }
 
-  function daySpent(wallet: string): bigint {
+  async function daySpent(wallet: string, q: Q = pg): Promise<bigint> {
     let sum = 0n;
-    for (const r of db.prepare("select stake_wei from slots_spins where wallet = ? and created_at >= ?").all(wallet, utcDayStart()) as { stake_wei: string }[]) sum += BigInt(r.stake_wei);
+    for (const r of await q.all<{ stake_wei: string }>("select stake_wei from mine.slots_spins where wallet = ? and created_at >= ?", wallet, utcDayStart())) sum += BigInt(r.stake_wei);
     return sum;
   }
 
@@ -89,18 +88,18 @@ export function createSlots(d: SlotsDeps) {
     symbols: JSON.parse(s.symbols) as Sym[], created_at: s.created_at,
   });
 
-  function me(req: IncomingMessage) {
-    const wallet = d.sessionWallet(req);
-    const request = one<{ amount_wei: string; created_at: number } | undefined>("select amount_wei, created_at from withdraw_requests where wallet = ? and status = 'open'", wallet);
+  async function me(req: IncomingMessage) {
+    const wallet = await d.sessionWallet(req);
+    const request = await pg.one<{ amount_wei: string; created_at: number }>("select amount_wei, created_at from mine.withdraw_requests where wallet = ? and status = 'open'", wallet);
     return {
-      wallet, balance: fromWei(balanceOf(wallet)), terms_accepted: d.termsAccepted(wallet), day_staked: fromWei(daySpent(wallet)),
+      wallet, balance: fromWei(await balanceOf(pg, wallet)), terms_accepted: await d.termsAccepted(wallet), day_staked: fromWei(await daySpent(wallet)),
       withdraw_request: request ? { amount: fromWei(BigInt(request.amount_wei)), created_at: request.created_at } : null,
-      history: (db.prepare("select * from slots_spins where wallet = ? order by created_at desc limit 20").all(wallet) as any[]).map(summary),
+      history: (await pg.all<any>("select * from mine.slots_spins where wallet = ? order by created_at desc limit 20", wallet)).map(summary),
     };
   }
 
-  function spinView(id: string) {
-    const s = one<any>("select * from slots_spins where id = ?", id);
+  async function spinView(id: string) {
+    const s = await pg.one<any>("select * from mine.slots_spins where id = ?", id);
     if (!s) throw new HttpError(404, "no such spin");
     const symbols = JSON.parse(s.symbols) as [Sym, Sym, Sym];
     return {
@@ -111,17 +110,17 @@ export function createSlots(d: SlotsDeps) {
     };
   }
 
-  function admin() {
+  async function admin() {
     return {
-      on: CFG.on, paused: paused(), spins: one<{ n: number }>("select count(*) as n from slots_spins").n,
-      house_net_all: fromWei(houseNet(0)), house_net_24h: fromWei(houseNet(Date.now() - 86_400_000)),
+      on: CFG.on, paused: await paused(), spins: (await pg.one<{ n: number }>("select count(*) as n from mine.slots_spins"))!.n,
+      house_net_all: fromWei(await houseNet(0)), house_net_24h: fromWei(await houseNet(Date.now() - 86_400_000)),
     };
   }
 
   // ---- actions ---------------------------------------------------------------------------------------
-  const spinsOn = () => {
+  const spinsOn = async () => {
     if (!CFG.on) throw new HttpError(503, "slots are off");
-    if (paused()) throw new HttpError(503, "slots are paused for now; try again later");
+    if (await paused()) throw new HttpError(503, "slots are paused for now; try again later");
   };
   /** Stake limits, the same for players and the autopilot. */
   function checkStake(stake: bigint) {
@@ -130,34 +129,34 @@ export function createSlots(d: SlotsDeps) {
     if (stake * BigInt(TOP_MULT) > CFG.maxPayout) throw new HttpError(400, `the top prize (${TOP_MULT}x) can pay at most ${fromWei(CFG.maxPayout)} FLYAI; spin less`);
   }
 
-  function commit(req: IncomingMessage) {
-    spinsOn();
-    return openCommit(d.sessionWallet(req));
+  async function commit(req: IncomingMessage) {
+    await spinsOn();
+    return openCommit(await d.sessionWallet(req));
   }
 
   /** A new commit for `wallet` (a player's address, or a FlightPass's ledger key `pass:<id>`). */
-  function openCommit(wallet: string) {
-    db.prepare("delete from slots_commits where wallet = ? and used = 0 and created_at < ?").run(wallet, Date.now() - COMMIT_TTL_MS);
-    if (one<{ n: number }>("select count(*) as n from slots_commits where wallet = ? and used = 0", wallet).n >= 5) {
+  async function openCommit(wallet: string) {
+    await pg.run("delete from mine.slots_commits where wallet = ? and used = 0 and created_at < ?", wallet, Date.now() - COMMIT_TTL_MS);
+    if ((await pg.one<{ n: number }>("select count(*) as n from mine.slots_commits where wallet = ? and used = 0", wallet))!.n >= 5) {
       throw new HttpError(429, "too many open commits; use one or wait a few minutes");
     }
     const id = randomUUID();
     const seed = randomBytes(32).toString("hex");
     const hash = sha256hex(seed);
-    db.prepare("insert into slots_commits (id, wallet, server_seed, hash, created_at) values (?, ?, ?, ?, ?)").run(id, wallet, seed, hash, Date.now());
+    await pg.run("insert into mine.slots_commits (id, wallet, server_seed, hash, created_at) values (?, ?, ?, ?, ?)", id, wallet, seed, hash, Date.now());
     return { commit_id: id, hash, expires_at: Date.now() + COMMIT_TTL_MS };
   }
 
   async function playerSpin(req: IncomingMessage, body: any) {
-    spinsOn();
-    const wallet = d.sessionWallet(req);
+    await spinsOn();
+    const wallet = await d.sessionWallet(req);
     const clientSeed = String(body.client_seed ?? "");
     if (!/^[A-Za-z0-9_-]{1,64}$/.test(clientSeed)) throw new HttpError(400, "client_seed is 1 to 64 letters, digits, - or _");
     let stake: bigint;
     try { stake = toWei(String(body.stake ?? "")); } catch { throw new HttpError(400, "stake is a number of tokens"); }
     checkStake(stake);
     const out = await settle({ wallet, termsWallet: wallet, commitId: String(body.commit_id ?? ""), clientSeed, stake, maxDay: CFG.maxDay });
-    return { ...out, balance: fromWei(balanceOf(wallet)) };
+    return { ...out, balance: fromWei(await balanceOf(pg, wallet)) };
   }
 
   /**
@@ -168,8 +167,8 @@ export function createSlots(d: SlotsDeps) {
   async function settle(o: { wallet: string; termsWallet: string; commitId: string; clientSeed: string; stake: bigint; maxDay: bigint }) {
     const { wallet, clientSeed, stake } = o;
     const maxDay = o.maxDay < CFG.maxDay ? o.maxDay : CFG.maxDay;
-    const c = one<{ id: string; wallet: string; server_seed: string; hash: string; created_at: number; used: number } | undefined>(
-      "select * from slots_commits where id = ?", o.commitId);
+    const c = await pg.one<{ id: string; wallet: string; server_seed: string; hash: string; created_at: number; used: number }>(
+      "select * from mine.slots_commits where id = ?", o.commitId);
     if (!c || c.wallet !== wallet) throw new HttpError(404, "no such commit; ask for a new one");
     if (c.used) throw new HttpError(409, "that commit was already used; ask for a new one");
     if (Date.now() - c.created_at > COMMIT_TTL_MS) throw new HttpError(409, "that commit expired; ask for a new one");
@@ -179,19 +178,21 @@ export function createSlots(d: SlotsDeps) {
     const payout = stake * BigInt(r.mult);
 
     const id = randomUUID();
-    transaction(() => {
-      if (!d.termsAccepted(o.termsWallet)) throw new HttpError(403, "accept the terms first");
-      if (one<{ used: number }>("select used from slots_commits where id = ?", c.id).used) throw new HttpError(409, "that commit was already used");
-      if (daySpent(wallet) + stake > maxDay) throw new HttpError(400, `you can spin at most ${fromWei(maxDay)} FLYAI a day (UTC); ${fromWei(daySpent(wallet))} so far`);
-      const balance = balanceOf(wallet);
+    if (!(await d.termsAccepted(o.termsWallet))) throw new HttpError(403, "accept the terms first");
+    // under the wallet's lock: the balance and the day's limit can't change between the checks and the booking
+    // (Postgres runs requests side by side, where SQLite ran one writer at a time)
+    await pg.tx(async (q) => {
+      const spent = await daySpent(wallet, q);
+      if (spent + stake > maxDay) throw new HttpError(400, `you can spin at most ${fromWei(maxDay)} FLYAI a day (UTC); ${fromWei(spent)} so far`);
+      const balance = await balanceOf(q, wallet);
       if (balance < stake) throw new HttpError(402, `your balance is ${fromWei(balance)} FLYAI`);
-      db.prepare("update slots_commits set used = 1 where id = ?").run(c.id);
-      book(wallet, null, "bet", stake, { tx: `slots:${id}` });
-      if (payout > 0n) book(wallet, null, "payout", payout, { tx: `slots-win:${id}` });
-      db.prepare(`insert into slots_spins (id, wallet, stake_wei, mult, payout_wei, stops, symbols, commit_hash, server_seed, client_seed, created_at)
-        values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
-        .run(id, wallet, stake.toString(), r.mult, payout.toString(), JSON.stringify(r.stops), JSON.stringify(r.symbols), c.hash, c.server_seed, clientSeed, Date.now());
-    });
+      if (!(await q.run("update mine.slots_commits set used = 1 where id = ? and used = 0", c.id))) throw new HttpError(409, "that commit was already used");
+      await book(q, wallet, null, "bet", stake, { tx: `slots:${id}` });
+      if (payout > 0n) await book(q, wallet, null, "payout", payout, { tx: `slots-win:${id}` });
+      await q.run(`insert into mine.slots_spins (id, wallet, stake_wei, mult, payout_wei, stops, symbols, commit_hash, server_seed, client_seed, created_at)
+        values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        id, wallet, stake.toString(), r.mult, payout.toString(), JSON.stringify(r.stops), JSON.stringify(r.symbols), c.hash, c.server_seed, clientSeed, Date.now());
+    }, lockWallet(wallet));
     return spinView(id);
   }
 
@@ -200,9 +201,9 @@ export function createSlots(d: SlotsDeps) {
    * client seed, the same limits and settlement as a player's spin. Throws an HttpError when it can't spin.
    */
   async function autoSpin(key: string, owner: string, o: { stake: bigint; maxDay: bigint }) {
-    spinsOn();
+    await spinsOn();
     checkStake(o.stake);
-    const c = openCommit(key);
+    const c = await openCommit(key);
     return settle({ wallet: key, termsWallet: owner, commitId: c.commit_id, clientSeed: `autopilot-${randomBytes(12).toString("hex")}`, stake: o.stake, maxDay: o.maxDay });
   }
 
@@ -212,17 +213,17 @@ export function createSlots(d: SlotsDeps) {
     const p = url.pathname;
     let m: RegExpExecArray | null;
     if (req.method === "GET") {
-      if (p === "/api/slots/config") return d.send(res, 200, config()), true;
-      if (p === "/api/slots/me") return d.send(res, 200, me(req)), true;
-      if ((m = /^\/api\/slots\/spins\/([0-9a-f-]{36})$/.exec(p))) return d.send(res, 200, spinView(m[1])), true;
-      if (p === "/api/admin/slots") { d.adminOnly(req); return d.send(res, 200, admin()), true; }
+      if (p === "/api/slots/config") return d.send(res, 200, await config()), true;
+      if (p === "/api/slots/me") return d.send(res, 200, await me(req)), true;
+      if ((m = /^\/api\/slots\/spins\/([0-9a-f-]{36})$/.exec(p))) return d.send(res, 200, await spinView(m[1])), true;
+      if (p === "/api/admin/slots") { d.adminOnly(req); return d.send(res, 200, await admin()), true; }
     }
     if (req.method === "POST") {
-      if (p === "/api/slots/commit") return d.send(res, 200, commit(req)), true;
+      if (p === "/api/slots/commit") return d.send(res, 200, await commit(req)), true;
       if (p === "/api/slots/spins") return d.send(res, 200, await playerSpin(req, await d.readJson(req))), true;
     }
     return false;
   }
 
-  return { route, config, autoSpin, daySpent, CFG, isOn: () => CFG.on && !paused() };
+  return { route, config, autoSpin, daySpent: (wallet: string) => daySpent(wallet), CFG, isOn: async () => CFG.on && !(await paused()) };
 }

@@ -1,6 +1,5 @@
 /**
  * FlightPass end to end on a local chain: anvil + a test token + stand-in pass and market contracts + a real server.
- * - a schema 16 ledger upgrades to 17 (kinds prefund and fee) with every row kept;
  * - the team's prefund, once per existing pass, locked: played but never withdrawn;
  * - deposits by the owner only; withdrawals only after a deposit, only above the prefund, 99% to send + 1% fee,
  *   cancelled back or marked paid by the operator, or sent by the server's payout wallet (up to FLIGHTPASS_AUTO_MAX;
@@ -13,6 +12,7 @@
  * - the Flybook worker's list (its key only, unlisted passes with a Flybook game on);
  * - the mining boost: x1.25 on the points of a wallet-day a pass was held throughout, none on a broken day;
  * - off without FLIGHTPASS.
+ * The pass and game tables are in Postgres (PGlite here, src/pgtest.ts), as on Supabase.
  * Plays a few real brain turns on the CPU (a minute or two). Needs Foundry (anvil, forge) on PATH.
  *
  *   npm run test:flightpass
@@ -25,6 +25,7 @@ import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
 import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { keccak_256 } from "@noble/hashes/sha3.js";
+import { startPg } from "./pgtest.ts";
 import { checksumAddress, personalMessageHash } from "./wallet.ts";
 
 const RPC = "http://127.0.0.1:8549";
@@ -42,6 +43,7 @@ const check = (name: string, ok: boolean, detail = "") => {
 };
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const hex = (b: Uint8Array) => Buffer.from(b).toString("hex");
+const PG = await startPg(5544);
 
 const anvil = spawn("anvil", ["--port", "8549"], { stdio: ["ignore", "pipe", "ignore"] });
 const anvilKeys: string[] = await new Promise((resolve, reject) => {
@@ -101,7 +103,7 @@ let token = "", pass = "", market = "";
 async function startServer(extra: Record<string, string> = {}): Promise<void> {
   server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", fileURLToPath(new URL("./server.ts", import.meta.url))], {
     env: {
-      ...process.env, PORT: String(PORT), MINE_DB: DB, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "50",
+      ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "50",
       ADMIN_TOKEN: ADMIN, TOKEN_ADDRESS: token, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "anvil", CLAIM_RPC: RPC, CLAIM_EXPLORER: "http://localhost",
       PAY_TO: owner.address, SEED_PAID: "0",
       ROULETTE_ON: "1", ROULETTE_EDGE: "0.05", ROULETTE_MIN_BET: "10", ROULETTE_MAX_BET: "1000", ROULETTE_MAX_DAY: "3000",
@@ -150,34 +152,8 @@ try {
   await setOwner(3n, alice.address);
   const payIn = (from: string, amount: bigint) => sendTx(from, token, calldata("transfer(address,uint256)", owner.address, amount * WEI));
 
-  // ---- a schema 16 ledger upgrades to 17
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   await startServer();
-  await stopServer();
-  dbDo((db) => {
-    db.exec(`
-      drop table ledger;
-      create table ledger (id integer primary key, wallet text not null, order_id text,
-        kind text not null check (kind in ('deposit', 'fund', 'release', 'withdraw', 'charge', 'bet', 'payout')),
-        amount_wei text not null, pool_wei text, month text, tx text, at integer not null);
-      pragma user_version = 16;`);
-    db.prepare("insert into ledger (wallet, order_id, kind, amount_wei, tx, at) values (?, null, 'deposit', ?, ?, 1)").run(bob.address, (700n * WEI).toString(), "0x" + "cd".repeat(32));
-  });
-  await startServer();
-  {
-    const [v, sql] = dbDo((db) => [(db.prepare("pragma user_version").get() as { user_version: number }).user_version,
-      (db.prepare("select sql from sqlite_master where name = 'ledger'").get() as { sql: string }).sql] as const);
-    check("a schema 16 ledger upgrades with prefund and fee", v === 20 && sql.includes("'prefund'") && sql.includes("'fee'"));
-  }
-  await stopServer();
-  dbDo((db) => db.exec(`
-    alter table flightpass_withdrawals drop column sending_at;
-    alter table flightpass_withdrawals drop column error;
-    pragma user_version = 17;`));
-  await startServer();
-  check("schema 17 upgrades to 18: withdrawals gain sending_at and error", dbDo((db) =>
-    (db.prepare("pragma table_info(flightpass_withdrawals)").all() as { name: string }[]).filter((c) => c.name === "sending_at" || c.name === "error").length === 2));
-  check("balances survive the upgrade", (await api(`/api/balance?wallet=${bob.address}`, null)).json.balance === "700");
 
   // ---- config, sign-in, prefund
   const cfg = (await api("/api/flightpass/config", null)).json;
@@ -360,14 +336,14 @@ try {
   const carol = "0x000000000000000000000000000000000000c0Fe", dave = "0x000000000000000000000000000000000000dAvE".replace("dAvE", "dA7E");
   await stopServer();
   dbDo((db) => {
-    db.prepare("delete from flightpass_days").run();
     const miner = db.prepare("insert into miners (id, token_hash, created_at, wallet) values (?, ?, 1, ?)");
     const credit = db.prepare("insert into day_credit (day, miner, units, accepted) values (?, ?, 10, 5)");
-    const held = db.prepare("insert into flightpass_days (pass, day, wallet, broken, samples) values (?, ?, ?, ?, 3)");
     for (const [id, w] of [["m-alice", alice.address], ["m-carol", carol], ["m-dave", dave]] as const) { miner.run(id, id, w); credit.run(today, id); }
-    held.run(3, today, alice.address, 0);
-    held.run(7, today, dave, 1); // dave's pass changed hands today
   });
+  await PG.pg.run("delete from mine.flightpass_days");
+  const held = "insert into mine.flightpass_days (pass, day, wallet, broken, samples) values (?, ?, ?, ?, 3)";
+  await PG.pg.run(held, 3, today, alice.address, 0);
+  await PG.pg.run(held, 7, today, dave, 1); // dave's pass changed hands today
   await startServer({ FLIGHTPASS_SAMPLE_MIN: "600" });
   const wallets = new Map(((await api("/api/month", null)).json.wallets as { wallet: string; points: number }[]).map((r) => [r.wallet, r.points]));
   check("a pass held all day: x1.25", wallets.get(alice.address) === 12.5, `${wallets.get(alice.address)}`);
@@ -415,6 +391,7 @@ try {
 } finally {
   await stopServer();
   anvil.kill();
+  await PG.stop();
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   console.log(failed ? `\n${failed} FAILED` : "\nall passed");
   process.exit(failed ? 1 : 0);

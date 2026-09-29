@@ -1,6 +1,7 @@
 /**
- * Fly Roulette bets end to end on a local chain: anvil + a test token + a real server.
- * - an old (schema 13) ledger upgrades with every balance kept;
+ * Fly Roulette bets end to end on a local chain: anvil + a test token + a real server, its ledger and games in a
+ * local Postgres (PGlite, src/pgtest.ts).
+ * - balances are the ledger's rows;
  * - deposits by transfer, credited once and only to the sender;
  * - terms, limits (min, max, per day, biggest payout) and one live game per wallet;
  * - a bet is debited, played by the server, settled once (exactly stake x flies x 0.95 on a win), and its server
@@ -16,7 +17,6 @@ import { createHash } from "node:crypto";
 import { rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
 import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { keccak_256 } from "@noble/hashes/sha3.js";
@@ -24,6 +24,7 @@ import { ConnectomeBrain, cells } from "../../world/src/connectome.ts";
 import { deriveRng, playGame, setup, type GameEvent } from "../../world/src/roulette/game.ts";
 import { groups, runTurn } from "../../world/src/roulette/readout.ts";
 import { loadModel } from "./load.ts";
+import { startPg } from "./pgtest.ts";
 import { checksumAddress, personalMessageHash } from "./wallet.ts";
 
 const RPC = "http://127.0.0.1:8548";
@@ -42,6 +43,7 @@ const check = (name: string, ok: boolean, detail = "") => {
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const hex = (b: Uint8Array) => Buffer.from(b).toString("hex");
 const sha256hex = (s: string) => createHash("sha256").update(s).digest("hex");
+const PG = await startPg(5541);
 
 const anvil = spawn("anvil", ["--port", "8548"], { stdio: ["ignore", "pipe", "ignore"] });
 const anvilKeys: string[] = await new Promise((resolve, reject) => {
@@ -98,7 +100,7 @@ let token = "";
 async function startServer(extra: Record<string, string> = {}): Promise<void> {
   server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", fileURLToPath(new URL("./server.ts", import.meta.url))], {
     env: {
-      ...process.env, PORT: String(PORT), MINE_DB: DB, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "50",
+      ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "50",
       ADMIN_TOKEN: ADMIN, TOKEN_ADDRESS: token, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "anvil", CLAIM_RPC: RPC, CLAIM_EXPLORER: "http://localhost",
       PAY_TO: owner.address, SEED_PAID: "0",
       ROULETTE_ON: "1", ROULETTE_EDGE: "0.05", ROULETTE_MIN_BET: "10", ROULETTE_MAX_BET: "1000", ROULETTE_MAX_DAY: "3000",
@@ -155,34 +157,16 @@ try {
   for (const w of [alice, bob]) await sendTx(owner.address, token, calldata("mint(address,uint256)", w.address, 100_000n * WEI));
   const payIn = (from: string, amount: bigint) => sendTx(from, token, calldata("transfer(address,uint256)", owner.address, amount * WEI));
 
-  // ---- an old ledger upgrades: make a fresh database, turn its ledger back into schema 13's, and start again
+  // ---- a balance is the ledger's rows: a compute deposit, an order funded from it, the order's unspent part back
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
+  // booked once the server has started: its first start copies the (empty) SQLite money tables into an empty Postgres
   await startServer();
-  await stopServer();
-  {
-    const db = new DatabaseSync(DB);
-    db.exec(`
-      drop table ledger;
-      create table ledger (id integer primary key, wallet text not null, order_id text,
-        kind text not null check (kind in ('deposit', 'fund', 'release', 'withdraw', 'charge')),
-        amount_wei text not null, pool_wei text, month text, tx text, at integer not null);
-      pragma user_version = 13;`);
-    const add = db.prepare("insert into ledger (wallet, order_id, kind, amount_wei, tx, at) values (?, null, ?, ?, ?, 1)");
-    add.run(bob.address, "deposit", (700n * WEI).toString(), "0x" + "ab".repeat(32));
-    add.run(bob.address, "fund", (200n * WEI).toString(), null);
-    add.run(bob.address, "release", (50n * WEI).toString(), null);
-    db.close();
-  }
-  await startServer();
-  {
-    const db = new DatabaseSync(DB);
-    const v = (db.prepare("pragma user_version").get() as { user_version: number }).user_version;
-    const sql = (db.prepare("select sql from sqlite_master where name = 'ledger'").get() as { sql: string }).sql;
-    const idx = db.prepare("select name from sqlite_master where type = 'index' and tbl_name = 'ledger'").all().length;
-    db.close();
-    check("a schema 13 ledger upgrades to 14 and takes bets", v >= 14 && sql.includes("'bet'") && sql.includes("'payout'") && idx >= 3, `${idx} indexes`);
-  }
-  check("balances survive the upgrade", (await api(`/api/balance?wallet=${bob.address}`, null)).json.balance === "550");
+  const add = (kind: string, amount: bigint, tx: string | null) =>
+    PG.pg.run("insert into mine.ledger (wallet, order_id, kind, amount_wei, tx, at) values (?, null, ?, ?, ?, 1)", bob.address, kind, (amount * WEI).toString(), tx);
+  await add("deposit", 700n, "0x" + "ab".repeat(32));
+  await add("fund", 200n, null);
+  await add("release", 50n, null);
+  check("a balance is deposits and releases less funding", (await api(`/api/balance?wallet=${bob.address}`, null)).json.balance === "550");
 
   // ---- sign-in and config
   const signIn = async (signer: typeof alice) => {
@@ -205,10 +189,8 @@ try {
   {
     // a transfer that already paid a compute order sits in the same ledger: it can't be a deposit too
     const tx3 = await payIn(alice.address, 300n);
-    const db = new DatabaseSync(DB);
-    db.prepare("insert into ledger (wallet, order_id, kind, amount_wei, tx, at) values (?, 'some-order', 'deposit', ?, ?, ?)").run(alice.address, (300n * WEI).toString(), tx3.toLowerCase(), Date.now());
-    db.prepare("insert into ledger (wallet, order_id, kind, amount_wei, at) values (?, 'some-order', 'fund', ?, ?)").run(alice.address, (300n * WEI).toString(), Date.now());
-    db.close();
+    await PG.pg.run("insert into mine.ledger (wallet, order_id, kind, amount_wei, tx, at) values (?, 'some-order', 'deposit', ?, ?, ?)", alice.address, (300n * WEI).toString(), tx3.toLowerCase(), Date.now());
+    await PG.pg.run("insert into mine.ledger (wallet, order_id, kind, amount_wei, at) values (?, 'some-order', 'fund', ?, ?)", alice.address, (300n * WEI).toString(), Date.now());
     const r = await api("/api/balance/deposit", a, { tx: tx3 });
     check("an order's payment can't be claimed as a deposit", r.status === 409 && (await api("/api/roulette/me", a)).json.balance === "5000", `${r.status}`);
   }
@@ -270,10 +252,8 @@ try {
   await startServer();
   const g2 = await finished(long.json.id);
   {
-    const db = new DatabaseSync(DB);
-    const bets = (db.prepare("select count(*) as n from ledger where tx = ?").get(`roulette:${g2.id}`) as { n: number }).n;
-    const wins = (db.prepare("select count(*) as n from ledger where tx = ?").get(`roulette-win:${g2.id}`) as { n: number }).n;
-    db.close();
+    const bets = (await PG.pg.one<{ n: number }>("select count(*) as n from mine.ledger where tx = ?", `roulette:${g2.id}`))!.n;
+    const wins = (await PG.pg.one<{ n: number }>("select count(*) as n from mine.ledger where tx = ?", `roulette-win:${g2.id}`))!.n;
     check("after a restart the game plays on and settles once", before.status === "live" && before.events.length >= 1 && g2.status === "done" && bets === 1 && wins === (g2.won ? 1 : 0),
       `${before.events.length} events before the restart, ${g2.events.length} after`);
   }
@@ -305,16 +285,14 @@ try {
 
   // ---- the house: its net matches the games, and a big loss pauses betting
   {
-    const db = new DatabaseSync(DB);
     let net = 0n;
-    for (const r of db.prepare("select stake_wei, payout_wei, pick, winner from roulette_games where status = 'done'").all() as any[]) {
+    for (const r of await PG.pg.all<any>("select stake_wei, payout_wei, pick, winner from mine.roulette_games where status = 'done'")) {
       net += BigInt(r.stake_wei) - (r.winner === r.pick ? BigInt(r.payout_wei) : 0n);
     }
     check("the house's net is stakes less winnings", (await api("/api/admin/roulette", null, undefined, true)).json.house_net_all === String(Number(net) / 1e18).replace(/\.0+$/, "") || Number((await api("/api/admin/roulette", null, undefined, true)).json.house_net_all) === Number(net) / 1e18);
     // a pretend game the house lost badly, to trip the stop
-    db.prepare(`insert into roulette_games (id, wallet, flies, pick, stake_wei, payout_wei, edge, commit_hash, server_seed, client_seed, names, status, winner, created_at, done_at)
-      values ('00000000-0000-0000-0000-000000000000', ?, 10, 0, '0', ?, 0.05, 'x', 'x', 'x', '[]', 'done', 0, ?, ?)`).run(bob.address, (200000n * WEI).toString(), Date.now(), Date.now());
-    db.close();
+    await PG.pg.run(`insert into mine.roulette_games (id, wallet, flies, pick, stake_wei, payout_wei, edge, commit_hash, server_seed, client_seed, names, status, winner, created_at, done_at)
+      values ('00000000-0000-0000-0000-000000000000', ?, 10, 0, '0', ?, 0.05, 'x', 'x', 'x', '[]', 'done', 0, ?, ?)`, bob.address, (200000n * WEI).toString(), Date.now(), Date.now());
   }
   check("the house stop pauses betting", (await api("/api/roulette/config", null)).json.paused === true && (await api("/api/roulette/commit", a, {})).status === 503);
 
@@ -329,6 +307,7 @@ try {
 } finally {
   await stopServer();
   anvil.kill();
+  await PG.stop();
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   console.log(failed ? `\n${failed} FAILED` : "\nall passed");
   process.exit(failed ? 1 : 0);

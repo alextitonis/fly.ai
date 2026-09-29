@@ -12,6 +12,7 @@ import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
 import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { keccak_256 } from "@noble/hashes/sha3.js";
+import { startPg } from "./pgtest.ts";
 import { checksumAddress, personalMessageHash } from "./wallet.ts";
 
 const PORT = 8781;
@@ -62,8 +63,9 @@ for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   old.close();
 }
 
+const PG = await startPg(5531);
 const server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", fileURLToPath(new URL("./server.ts", import.meta.url))], {
-  env: { ...process.env, PORT: String(PORT), MINE_DB: DB, VERIFIERS: "1", CANARY_POOL: "0", OPEN_TARGET: "10" },
+  env: { ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", OPEN_TARGET: "10" },
   stdio: ["ignore", "pipe", "inherit"],
 });
 let log = "";
@@ -165,6 +167,7 @@ try {
 } finally {
   server.kill();
   await sleep(300);
+  await PG.stop();
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
 }
 console.log(failed ? `${failed} FAILED` : "wallet sign-in checks passed");

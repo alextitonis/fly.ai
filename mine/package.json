@@ -25,6 +25,7 @@
     "test:race": "node --disable-warning=ExperimentalWarning src/racetest.ts",
     "test:flightpass": "node --disable-warning=ExperimentalWarning src/flightpasstest.ts",
     "test:prune": "node --disable-warning=ExperimentalWarning src/prunetest.ts",
+    "test:legacy": "node --disable-warning=ExperimentalWarning src/legacytest.ts",
     "test:btc-pool": "node --disable-warning=ExperimentalWarning examples/btc-pool/test.ts",
     "test:yespower": "node --disable-warning=ExperimentalWarning examples/yespower-pool/test.ts",
     "test:kaspa": "node --disable-warning=ExperimentalWarning examples/kaspa/test.ts",
@@ -37,11 +38,13 @@
     "@types/chrome": "^0.3.0",
     "@types/node": "^22.20.3",
     "@webgpu/types": "^0.1.72",
+    "embedded-postgres": "^18.4.0-beta.17",
     "forge-std": "github:foundry-rs/forge-std#v1.10.0",
     "typescript": "5.9"
   },
   "dependencies": {
     "@noble/curves": "^2.4.0",
-    "@noble/hashes": "^2.4.0"
+    "@noble/hashes": "^2.4.0",
+    "postgres": "^3.4.9"
   }
 }

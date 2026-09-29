@@ -14,6 +14,7 @@ import { readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { startPg } from "../../src/pgtest.ts";
 import { runWasm } from "../../web/openjob.ts";
 import { blockTarget, extranonce2Bytes, headerHash, headerPrefix, meets, prevhashBytes, sha256d, shareTarget, type PoolJob } from "./stratum.ts";
 import { startMockPool } from "./mock-pool.ts";
@@ -69,6 +70,7 @@ const cleanup: string[] = [];
   check("hash_search.wasm finds exactly the nonces a plain search finds", wasmHits.length >= 1 && wasmHits.join() === jsHits.join(), `${wasmHits.length} hits, plain search ${jsHits.length}`);
 }
 
+const PG = await startPg(5538);
 try {
   // ---- 3. --local against the mock pool ---------------------------------------------------------------------------
   const run = (argv: string[], timeoutMs: number) => new Promise<{ code: number | null; out: string }>((resolve) => {
@@ -110,7 +112,7 @@ try {
 
   for (const s of ["", "-wal", "-shm"]) rmSync(DB + s, { force: true });
   const server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", join(MINE, "src/server.ts")], {
-    env: { ...process.env, PORT: String(PORT), MINE_DB: DB, BLOBS_DIR: `${DB}-blobs`, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "20",
+    env: { ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, BLOBS_DIR: `${DB}-blobs`, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "20",
       TOKEN_ADDRESS: token, CLAIM_CHAIN_ID: "31337", CLAIM_RPC: RPC, PAY_TO: owner, MIN_BID: "10", CACHED_PRICE: "2", POOL_SHARE: "0.8", SEED_PAID: "0" },
     stdio: ["ignore", "ignore", "inherit"],
   });
@@ -205,6 +207,7 @@ try {
 } finally {
   for (const p of procs) p.kill();
   await sleep(1500);
+  await PG.stop();
   for (const path of cleanup) rmSync(path, { recursive: true, force: true });
 }
 console.log(failed ? `${failed} FAILED` : "btc pool bridge checks passed");

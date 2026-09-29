@@ -1,6 +1,6 @@
 # fly.ai mining server. Deploy with mine/deploy.sh, which stages the server, the world engine files it
 # imports and serves (plus Fly Roulette's, Fly Slots' and Fly Race's shared rules), and the connectome export (~58 MB), then builds remotely. The server
-# needs only the two @noble crypto libraries (Node strips the TypeScript itself).
+# needs only the two @noble crypto libraries and the postgres client (Node strips the TypeScript itself).
 FROM node:22-slim
 
 WORKDIR /app

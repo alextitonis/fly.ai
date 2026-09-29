@@ -59,14 +59,16 @@ npm run validate   # integer brain vs the world's float brain, 6 conditions x 4 
 npm start          # http://localhost:8787/compute/ to mine, /compute/bench for GPU vs CPU
 ```
 
-Needs Node 22.18+ (built-in TypeScript stripping and `node:sqlite`). No runtime dependencies and no
-build step: the server strips types from the `.ts` files as it serves them. `npm install` only
-brings in dev types for `npm run typecheck`. GPU mining needs WebGPU (desktop Chrome and Edge).
+Needs Node 22.18+ (built-in TypeScript stripping and `node:sqlite`) and a Postgres for the players' and money side
+(`MINE_PG_URL`; tests start their own local one, `src/pgtest.ts`). The one runtime dependency besides the @noble
+crypto libraries is the `postgres` client, and there's no build step: the server strips types from the `.ts` files as
+it serves them. GPU mining needs WebGPU (desktop Chrome and Edge).
 
 | env | default | |
 |---|---|---|
 | `PORT` | 8787 | |
-| `MINE_DB` | `data/mine.db` | SQLite file |
+| `MINE_DB` | `data/mine.db` | SQLite file: jobs, miners, orders |
+| `MINE_PG_URL` | (required) | Postgres for sessions, the ledger, withdrawals, earnings, snapshots, stake samples, FlightPass and the games (schema `mine`, `flybook/supabase/migrations/20260929180000_mine_money.sql`); in production Flybook's Supabase through its transaction pooler (port 6543) |
 | `CONNECTOME_DIR` | `../world/public/connectome` | output of `flybrain export --web` |
 | `VERIFIERS` | cores − 1, at most 4 | server threads that re-run answers (~300 MB of memory each) |
 | `AUDITS` | 3 | an answer is re-run with chance `AUDITS / (miner's jobs today + AUDITS)` |
@@ -669,9 +671,13 @@ Live at **https://flyai-mine.fly.dev**: app `flyai-mine` in the Treasure org (`t
 `cdg`.
 
 - **Machine:** one `performance-2x` machine (2 dedicated vCPUs, 4 GB) since 2026-09-19, set in `fly.toml` `[[vm]]`.
-- **Database:** SQLite on the encrypted 10 GB volume `mine_data` (1 GB at first; it filled on 09-19 and again at
-  5 GB on 09-23, before finished screen jobs were pruned), mounted at `/data`, with daily snapshots
-  kept for 5 days.
+- **Database:** jobs, miners and orders in SQLite on the encrypted 25 GB volume `mine_data` (1 GB at first; it
+  filled on 09-19 and again at 5 GB on 09-23, before finished screen jobs were pruned; 10 -> 25 GB on 09-29), mounted
+  at `/data`, with daily snapshots kept for 5 days. Players and money (sessions, the ledger, FlightPass, the games)
+  are in Flybook's Supabase, schema `mine`, since 2026-09-29: the mining process held SQLite's write lock for seconds
+  and sign-in and pass writes failed behind it. The first start on Postgres copied them over (`src/legacy.ts`); the
+  old SQLite tables stay, unused, as a backup. Order charges, releases and program pay are booked in SQLite's
+  `pg_outbox` with the order's own changes and sent to Postgres every second, so mining never waits on the network.
 - **Scaling:** the database lives on the volume, so there is one machine and it never auto-stops.
 
 ```sh

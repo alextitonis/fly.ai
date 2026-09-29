@@ -1,6 +1,7 @@
 /**
- * Fly Race end to end (2026-09-29). No chain: balances are booked straight into the ledger, as a deposit books them
- * (deposits are roulette's, tested in roulettetest.ts).
+ * Fly Race end to end (2026-09-29), its ledger and races in a local Postgres (PGlite, src/pgtest.ts). No chain:
+ * balances are booked straight into the ledger, as a deposit books them (deposits are roulette's, tested in
+ * roulettetest.ts).
  * - the rules are fair by symmetry: over many races with a stand-in brain (the same for every lane) each lane wins
  *   1/6 and makes the podium 1/2 (chi-square), also when every fly ties; the same seeds give the same race;
  * - config: limits, lanes, legs and the multipliers;
@@ -20,7 +21,6 @@ import { createHash } from "node:crypto";
 import { rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
 import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { keccak_256 } from "@noble/hashes/sha3.js";
@@ -28,6 +28,7 @@ import { ConnectomeBrain, cells } from "../../world/src/connectome.ts";
 import { deriveRng, LANES, LEGS, NAMES, ODOUR_MAX, ODOUR_MIN, playRace, setupRace, sfc32, TRACK, type LegEvent, type RaceEvent } from "../../world/src/race/game.ts";
 import { distanceFor, groups, runLeg } from "../../world/src/race/readout.ts";
 import { loadModel } from "./load.ts";
+import { startPg } from "./pgtest.ts";
 import { checksumAddress, personalMessageHash } from "./wallet.ts";
 
 const PORT = 8788;
@@ -121,7 +122,7 @@ let server: ReturnType<typeof spawn> | null = null;
 async function startServer(extra: Record<string, string> = {}): Promise<void> {
   server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", fileURLToPath(new URL("./server.ts", import.meta.url))], {
     env: {
-      ...process.env, PORT: String(PORT), MINE_DB: DB, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "50",
+      ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "50",
       ADMIN_TOKEN: ADMIN, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "none", CLAIM_RPC: "http://127.0.0.1:9", CLAIM_EXPLORER: "http://localhost",
       SEED_PAID: "0",
       // a win of the biggest bet (1000 x 5.7) would pay past the 5000 cap; its podium (1900) wouldn't
@@ -145,10 +146,7 @@ async function stopServer(): Promise<void> {
   s.kill("SIGKILL");
   await gone;
 }
-const dbDo = <T>(fn: (db: DatabaseSync) => T): T => {
-  const db = new DatabaseSync(DB);
-  try { return fn(db); } finally { db.close(); }
-};
+const PG = await startPg(5543);
 
 /** The race again, here, from its seeds: the same rules, engine and legs as the server's worker. */
 let model: ReturnType<typeof loadModel> | null = null;
@@ -178,8 +176,6 @@ async function finished(id: string, maxS = 300): Promise<any> {
 try {
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   await startServer();
-  check("schema 20 with the race tables", dbDo((db) => (db.prepare("pragma user_version").get() as { user_version: number }).user_version === 20
-    && (db.prepare("select count(*) as n from sqlite_master where name in ('race_commits', 'race_games', 'race_events')").get() as { n: number }).n === 3));
 
   // ---- config
   const cfg = (await api("/api/race/config", null)).json;
@@ -195,8 +191,8 @@ try {
   };
   check("no session, no account", (await api("/api/race/me", null)).status === 401);
   const a = await signIn(alice), b = await signIn(bob);
-  dbDo((db) => db.prepare("insert into ledger (wallet, order_id, kind, amount_wei, tx, at) values (?, null, 'deposit', ?, ?, ?)")
-    .run(alice.address, (10_000n * WEI).toString(), "0x" + "ab".repeat(32), Date.now()));
+  await PG.pg.run("insert into mine.ledger (wallet, order_id, kind, amount_wei, tx, at) values (?, null, 'deposit', ?, ?, ?)",
+    alice.address, (10_000n * WEI).toString(), "0x" + "ab".repeat(32), Date.now());
   check("the balance shows", (await api("/api/race/me", a)).json.balance === "10000");
 
   // ---- commits, terms and limits
@@ -218,24 +214,24 @@ try {
   check("someone else's commit", (await api("/api/race/races", b, { commit_id: c.commit_id, client_seed: "x", pick: 0, bet: "win", stake: "100" })).status === 404);
 
   /** The seed behind a commit, read where only the server can: so the test knows the race before it bets. */
-  const seedOf = (commitId: string) => dbDo((db) => (db.prepare("select server_seed from race_commits where id = ?").get(commitId) as { server_seed: string }).server_seed);
-  const books = (id: string) => dbDo((db) => ({
-    bets: db.prepare("select amount_wei from ledger where kind = 'bet' and tx = ?").all(`race:${id}`) as { amount_wei: string }[],
-    wins: db.prepare("select amount_wei from ledger where kind = 'payout' and tx = ?").all(`race-win:${id}`) as { amount_wei: string }[],
-  }));
+  const seedOf = async (commitId: string) => (await PG.pg.one<{ server_seed: string }>("select server_seed from mine.race_commits where id = ?", commitId))!.server_seed;
+  const books = async (id: string) => ({
+    bets: await PG.pg.all<{ amount_wei: string }>("select amount_wei from mine.ledger where kind = 'bet' and tx = ?", `race:${id}`),
+    wins: await PG.pg.all<{ amount_wei: string }>("select amount_wei from mine.ledger where kind = 'payout' and tx = ?", `race-win:${id}`),
+  });
   let balance = 10_000;
   const balanceNow = async () => Number((await api("/api/race/me", a)).json.balance);
 
   // ---- a win: back the lane the seeds make the winner
   const seed1 = "alice-win-1";
-  const ev1 = await replay(seedOf(c.commit_id), seed1);
+  const ev1 = await replay(await seedOf(c.commit_id), seed1);
   const o1 = orderOf(ev1);
   const placed = await race(a, { client_seed: seed1, pick: o1[0], bet: "win", stake: "100" });
   const p1 = placed.json;
   check("a race placed: live, lined up, the seed still secret", placed.status === 200 && p1.status === "live" && p1.bet === "win" && p1.pick === o1[0]
     && p1.stake === "100" && p1.payout === "570" && p1.won === null && p1.server_seed === null && p1.commit_hash === c.hash && p1.client_seed === seed1
     && p1.names.length === 6 && typeof p1.created_at === "number", JSON.stringify(p1).slice(0, 300));
-  check("the names follow from the seeds", JSON.stringify(p1.names) === JSON.stringify(setupRace(await deriveRng(seedOf(c.commit_id), seed1)).names));
+  check("the names follow from the seeds", JSON.stringify(p1.names) === JSON.stringify(setupRace(await deriveRng(await seedOf(c.commit_id), seed1)).names));
   balance -= 100;
   check("the stake leaves the balance", (await balanceNow()) === balance);
   check("a used commit can't be used again", (await race(a, { client_seed: "again" })).status === 409);
@@ -251,33 +247,36 @@ try {
   const after = (await api(`/api/race/races/${p1.id}?after=2`, null)).json;
   check("?after= serves only the later events", after.events.length === r1.events.length - 2 && after.events[0].seq === 2);
   balance += 570;
-  check("a win pays 5.7x once", (await balanceNow()) === balance && books(p1.id).bets.length === 1 && books(p1.id).wins.length === 1
-    && books(p1.id).wins[0].amount_wei === (570n * WEI).toString());
+  const k1 = await books(p1.id);
+  check("a win pays 5.7x once", (await balanceNow()) === balance && k1.bets.length === 1 && k1.wins.length === 1
+    && k1.wins[0].amount_wei === (570n * WEI).toString());
 
   // ---- a loss: back the lane the seeds make last
   const seed2 = "alice-lose-2";
-  const ev2 = await replay(seedOf(c.commit_id), seed2);
+  const ev2 = await replay(await seedOf(c.commit_id), seed2);
   const p2 = (await race(a, { client_seed: seed2, pick: orderOf(ev2)[5], bet: "win", stake: "100" })).json;
   const r2 = await finished(p2.id);
   balance -= 100;
-  check("a loss pays nothing", r2.status === "done" && r2.won === false && (await balanceNow()) === balance && books(p2.id).bets.length === 1
-    && books(p2.id).wins.length === 0 && served(r2) === JSON.stringify(ev2));
+  const k2 = await books(p2.id);
+  check("a loss pays nothing", r2.status === "done" && r2.won === false && (await balanceNow()) === balance && k2.bets.length === 1
+    && k2.wins.length === 0 && served(r2) === JSON.stringify(ev2), `won ${r2.won}, balance ${await balanceNow()} (want ${balance}), ${k2.bets.length} bets, ${k2.wins.length} wins`);
 
   // ---- a podium: the lane that comes 3rd
   c = await commit(a);
   const seed3 = "alice-podium-3";
-  const ev3 = await replay(seedOf(c.commit_id), seed3);
+  const ev3 = await replay(await seedOf(c.commit_id), seed3);
   const p3 = (await race(a, { client_seed: seed3, pick: orderOf(ev3)[2], bet: "podium", stake: "200" })).json;
   check("a podium bet pays 1.9x", p3.bet === "podium" && p3.payout === "380");
   const r3 = await finished(p3.id);
   balance += -200 + 380;
-  check("3rd place makes the podium: paid once", r3.won === true && (await balanceNow()) === balance && books(p3.id).wins.length === 1
-    && books(p3.id).wins[0].amount_wei === (380n * WEI).toString() && served(r3) === JSON.stringify(ev3));
+  const k3 = await books(p3.id);
+  check("3rd place makes the podium: paid once", r3.won === true && (await balanceNow()) === balance && k3.wins.length === 1
+    && k3.wins[0].amount_wei === (380n * WEI).toString() && served(r3) === JSON.stringify(ev3));
 
   // ---- a restart in the middle of a race: a podium bet on 4th place, which loses
   c = await commit(a);
   const seed4 = "restart-me";
-  const ev4 = await replay(seedOf(c.commit_id), seed4);
+  const ev4 = await replay(await seedOf(c.commit_id), seed4);
   const p4 = (await race(a, { client_seed: seed4, pick: orderOf(ev4)[3], bet: "podium", stake: "200" })).json;
   let before: any = null;
   for (let i = 0; i < 600; i++) {
@@ -289,8 +288,9 @@ try {
   await startServer();
   const r4 = await finished(p4.id);
   balance -= 200;
+  const k4 = await books(p4.id);
   check("after a restart the race plays on from its seeds and settles once", before.status === "live" && before.events.length >= 1 && before.events.length < ev4.length
-    && r4.status === "done" && r4.won === false && books(p4.id).bets.length === 1 && books(p4.id).wins.length === 0 && (await balanceNow()) === balance,
+    && r4.status === "done" && r4.won === false && k4.bets.length === 1 && k4.wins.length === 0 && (await balanceNow()) === balance,
     `${before.events.length} events before the restart, ${r4.events.length} after`);
   check("and it's the same race the seeds give", served(r4) === JSON.stringify(ev4));
 
@@ -303,7 +303,7 @@ try {
 
   // ---- expired commits and the daily limit
   c = await commit(a);
-  dbDo((db) => db.prepare("update race_commits set created_at = created_at - 16 * 60000 where id = ?").run(c.commit_id));
+  await PG.pg.run("update mine.race_commits set created_at = created_at - 16 * 60000 where id = ?", c.commit_id);
   check("an expired commit", (await race(a, { client_seed: "late" })).status === 409);
   await stopServer();
   await startServer({ RACE_MAX_DAY: "700" });
@@ -323,9 +323,9 @@ try {
   check("an unknown race", (await api("/api/race/races/00000000-0000-0000-0000-000000000000", null)).status === 404);
 
   // ---- the house stop: a pretend race the house lost badly
-  dbDo((db) => db.prepare(`insert into race_games (id, wallet, bet, pick, stake_wei, payout_wei, edge, commit_hash, server_seed, client_seed, names, status, won, finish, created_at, done_at)
-    values ('00000000-0000-0000-0000-000000000001', ?, 'win', 0, '0', ?, 0.05, 'x', 'x', 'x', '[]', 'done', 1, '[0,1,2,3,4,5]', ?, ?)`)
-    .run(bob.address, (100_000n * WEI).toString(), Date.now(), Date.now()));
+  await PG.pg.run(`insert into mine.race_games (id, wallet, bet, pick, stake_wei, payout_wei, edge, commit_hash, server_seed, client_seed, names, status, won, finish, created_at, done_at)
+    values ('00000000-0000-0000-0000-000000000001', ?, 'win', 0, '0', ?, 0.05, 'x', 'x', 'x', '[]', 'done', 1, '[0,1,2,3,4,5]', ?, ?)`,
+    bob.address, (100_000n * WEI).toString(), Date.now(), Date.now());
   check("the house stop pauses racing", (await api("/api/race/config", null)).json.paused === true && (await api("/api/race/commit", a, {})).status === 503
     && (await api("/api/admin/race", null, undefined, true)).json.paused === true);
 
@@ -339,6 +339,7 @@ try {
   failed++;
 } finally {
   await stopServer();
+  await PG.stop();
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   console.log(failed ? `\n${failed} FAILED` : "\nall passed");
   process.exit(failed ? 1 : 0);

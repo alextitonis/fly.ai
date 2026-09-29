@@ -1,6 +1,7 @@
 /**
- * Fly Slots spins end to end against a real server (2026-09-29). No chain: balances are booked straight into the
- * ledger, as a deposit would book them (deposits themselves are roulette's, tested in roulettetest.ts).
+ * Fly Slots spins end to end against a real server (2026-09-29), its ledger and spins in a local Postgres
+ * (src/pgtest.ts). No chain: balances are booked straight into the ledger, as a deposit would book them (deposits
+ * themselves are roulette's, tested in roulettetest.ts).
  * - config: limits, the paytable and the exact RTP (62226/65536);
  * - commit-reveal: the commit is sha256(server seed), the seed is revealed with the spin, and replaying
  *   spin(server_seed, client_seed) with world/src/slots/game.ts gives the same stops, symbols and multiple;
@@ -16,11 +17,11 @@ import { createHash } from "node:crypto";
 import { rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
 import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { keccak_256 } from "@noble/hashes/sha3.js";
 import { spin, STRIP } from "../../world/src/slots/game.ts";
+import { startPg } from "./pgtest.ts";
 import { checksumAddress, personalMessageHash } from "./wallet.ts";
 
 const PORT = 8786;
@@ -36,6 +37,7 @@ const check = (name: string, ok: boolean, detail = "") => {
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const hex = (b: Uint8Array) => Buffer.from(b).toString("hex");
 const sha256hex = (s: string) => createHash("sha256").update(s).digest("hex");
+const PG = await startPg(5542);
 
 const [alice, bob] = [0, 1].map(() => {
   const sk = secp256k1.utils.randomSecretKey();
@@ -63,7 +65,7 @@ let server: ReturnType<typeof spawn> | null = null;
 async function startServer(extra: Record<string, string> = {}): Promise<void> {
   server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", fileURLToPath(new URL("./server.ts", import.meta.url))], {
     env: {
-      ...process.env, PORT: String(PORT), MINE_DB: DB, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "50",
+      ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "50",
       ADMIN_TOKEN: ADMIN, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "none", CLAIM_RPC: "http://127.0.0.1:9", CLAIM_EXPLORER: "http://localhost",
       SEED_PAID: "0",
       // 400x the biggest stake would be 40,000: past the 20,000 cap, so stakes over 50 are refused
@@ -86,16 +88,9 @@ async function stopServer(): Promise<void> {
   s.kill("SIGKILL");
   await gone;
 }
-const dbDo = <T>(fn: (db: DatabaseSync) => T): T => {
-  const db = new DatabaseSync(DB);
-  try { return fn(db); } finally { db.close(); }
-};
-
 try {
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   await startServer();
-  check("schema 19+ with the slots tables", dbDo((db) => (db.prepare("pragma user_version").get() as { user_version: number }).user_version >= 19
-    && db.prepare("select count(*) as n from sqlite_master where name in ('slots_commits', 'slots_spins')").get()!.n === 2));
 
   // ---- config
   const cfg = (await api("/api/slots/config", null)).json;
@@ -111,8 +106,8 @@ try {
   };
   check("no session, no account", (await api("/api/slots/me", null)).status === 401);
   const a = await signIn(alice), b = await signIn(bob);
-  dbDo((db) => db.prepare("insert into ledger (wallet, order_id, kind, amount_wei, tx, at) values (?, null, 'deposit', ?, ?, ?)")
-    .run(alice.address, (10_000n * WEI).toString(), "0x" + "ab".repeat(32), Date.now()));
+  await PG.pg.run("insert into mine.ledger (wallet, order_id, kind, amount_wei, tx, at) values (?, null, 'deposit', ?, ?, ?)",
+    alice.address, (10_000n * WEI).toString(), "0x" + "ab".repeat(32), Date.now());
   check("the balance shows", (await api("/api/slots/me", a)).json.balance === "10000");
 
   // ---- commits, terms and limits
@@ -149,7 +144,7 @@ try {
   check("an unknown spin", (await api("/api/slots/spins/00000000-0000-0000-0000-000000000000", null)).status === 404);
   check("a used commit can't be used again", (await doSpin(a, { client_seed: "another" })).status === 409);
   c = await commit(a);
-  dbDo((db) => db.prepare("update slots_commits set created_at = created_at - 16 * 60000 where id = ?").run(c.commit_id));
+  await PG.pg.run("update mine.slots_commits set created_at = created_at - 16 * 60000 where id = ?", c.commit_id);
   check("an expired commit", (await doSpin(a, {})).status === 409);
 
   // ---- the daily limit (500): ten spins of 50, then no more
@@ -167,11 +162,9 @@ try {
 
   // ---- the books: one bet per spin, one payout per win, the balance their sum
   {
-    const [bets, wins, spins] = dbDo((db) => [
-      db.prepare("select tx, amount_wei from ledger where kind = 'bet' and tx like 'slots:%'").all() as { tx: string; amount_wei: string }[],
-      db.prepare("select tx, amount_wei from ledger where kind = 'payout' and tx like 'slots-win:%'").all() as { tx: string; amount_wei: string }[],
-      db.prepare("select id, stake_wei, mult, payout_wei from slots_spins").all() as { id: string; stake_wei: string; mult: number; payout_wei: string }[],
-    ] as const);
+    const bets = await PG.pg.all<{ tx: string; amount_wei: string }>("select tx, amount_wei from mine.ledger where kind = 'bet' and tx like 'slots:%'");
+    const wins = await PG.pg.all<{ tx: string; amount_wei: string }>("select tx, amount_wei from mine.ledger where kind = 'payout' and tx like 'slots-win:%'");
+    const spins = await PG.pg.all<{ id: string; stake_wei: string; mult: number; payout_wei: string }>("select id, stake_wei, mult, payout_wei from mine.slots_spins");
     const won = spins.filter((s) => s.mult > 0);
     const exact = spins.every((s) => bets.some((r) => r.tx === `slots:${s.id}` && r.amount_wei === s.stake_wei)
       && (s.mult > 0 ? wins.some((r) => r.tx === `slots-win:${s.id}` && BigInt(r.amount_wei) === BigInt(s.stake_wei) * BigInt(s.mult)) : !wins.some((r) => r.tx === `slots-win:${s.id}`)));
@@ -192,9 +185,9 @@ try {
   check("an empty balance", (await doSpin(b, { client_seed: "bob" })).status === 402);
 
   // ---- the house stop: a pretend spin the house lost badly (past the 100,000 stop whatever the ten real spins paid)
-  dbDo((db) => db.prepare(`insert into slots_spins (id, wallet, stake_wei, mult, payout_wei, stops, symbols, commit_hash, server_seed, client_seed, created_at)
-    values ('00000000-0000-0000-0000-000000000001', ?, ?, 400, ?, '[15,15,15]', '["crown","crown","crown"]', 'x', 'x', 'x', ?)`)
-    .run(bob.address, (250n * WEI).toString(), (101_000n * WEI).toString(), Date.now()));
+  await PG.pg.run(`insert into mine.slots_spins (id, wallet, stake_wei, mult, payout_wei, stops, symbols, commit_hash, server_seed, client_seed, created_at)
+    values ('00000000-0000-0000-0000-000000000001', ?, ?, 400, ?, '[15,15,15]', '["crown","crown","crown"]', 'x', 'x', 'x', ?)`,
+    bob.address, (250n * WEI).toString(), (101_000n * WEI).toString(), Date.now());
   check("the house stop pauses spins", (await api("/api/slots/config", null)).json.paused === true && (await api("/api/slots/commit", a, {})).status === 503
     && (await api("/api/admin/slots", null, undefined, true)).json.paused === true);
 
@@ -208,6 +201,7 @@ try {
   failed++;
 } finally {
   await stopServer();
+  await PG.stop();
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   console.log(failed ? `\n${failed} FAILED` : "\nall passed");
   process.exit(failed ? 1 : 0);

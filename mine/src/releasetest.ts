@@ -9,6 +9,7 @@ import { rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { startPg } from "./pgtest.ts";
 
 const PORT = 8787;
 const BASE = `http://localhost:${PORT}`;
@@ -33,10 +34,11 @@ const api = async (path: string, body?: unknown, auth?: string) => {
 };
 
 let server: ReturnType<typeof spawn> | null = null;
+const PG = await startPg(5537);
 try {
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", fileURLToPath(new URL("./server.ts", import.meta.url))], {
-    env: { ...process.env, PORT: String(PORT), MINE_DB: DB, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "300", MAX_JOBS: "64" },
+    env: { ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "300", MAX_JOBS: "64" },
     stdio: ["ignore", "ignore", "inherit"],
   });
   for (let i = 0; ; i++) {
@@ -85,6 +87,7 @@ try {
 } finally {
   server?.kill();
   await sleep(300);
+  await PG.stop();
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
 }
 console.log(failed ? `${failed} failed` : "all passed");

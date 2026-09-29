@@ -11,6 +11,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
+import { startPg } from "./pgtest.ts";
 
 const PORT = 8785;
 const BASE = `http://localhost:${PORT}`;
@@ -32,9 +33,10 @@ const api = async (path: string, body?: unknown, auth?: string) => {
 };
 
 let server: ReturnType<typeof spawn> | null = null;
+const PG = await startPg(5536);
 async function start(): Promise<void> {
   server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", fileURLToPath(new URL("./server.ts", import.meta.url))], {
-    env: { ...process.env, PORT: String(PORT), MINE_DB: DB, BLOBS_DIR: BLOBS, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "60", PRUNE_AFTER_HOURS: "1" },
+    env: { ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, BLOBS_DIR: BLOBS, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "60", PRUNE_AFTER_HOURS: "1" },
     stdio: ["ignore", "ignore", "inherit"],
   });
   for (let i = 0; ; i++) {
@@ -155,6 +157,7 @@ try {
   failed++;
 } finally {
   await stop();
+  await PG.stop();
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   rmSync(BLOBS, { recursive: true, force: true });
 }

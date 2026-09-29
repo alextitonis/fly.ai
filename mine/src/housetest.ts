@@ -13,6 +13,7 @@ import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
 import { fixedFrom } from "./fixed.ts";
 import { loadModel } from "./load.ts";
+import { startPg } from "./pgtest.ts";
 import { recordSets, runProbe, type ProbeParams } from "./probe.ts";
 import { runWorld, type WorldParams } from "../web/worldjob.ts";
 
@@ -43,10 +44,11 @@ const api = async (path: string, body?: unknown, auth?: string) => {
 const b64 = (b: Uint8Array) => Buffer.from(b).toString("base64");
 
 let server: ReturnType<typeof spawn> | null = null;
+const PG = await startPg(5533);
 try {
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", fileURLToPath(new URL("./server.ts", import.meta.url))], {
-    env: { ...process.env, PORT: String(PORT), MINE_DB: DB, BLOBS_DIR: BLOBS, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "20", ADMIN_TOKEN: ADMIN, MIN_CHECKED: "1" },
+    env: { ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, BLOBS_DIR: BLOBS, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "20", ADMIN_TOKEN: ADMIN, MIN_CHECKED: "1" },
     stdio: ["ignore", "ignore", "inherit"],
   });
   for (let i = 0; ; i++) {
@@ -104,9 +106,11 @@ try {
   check("house jobs earn points: world 6 x 8 s x 0.00225 each, probes steps / 100", me.units > 0 && me.credited > 0, JSON.stringify({ units: me.units, credited: me.credited, standing: me.standing }));
   const db = new DatabaseSync(DB);
   const kept = (db.prepare("select count(*) as n from blobs where keep = 1").get() as { n: number }).n;
-  const earned = (db.prepare("select count(*) as n from earnings").get() as { n: number }).n;
-  const charged = (db.prepare("select count(*) as n from ledger").get() as { n: number }).n;
+  // anything booked is in Postgres, or still queued for it
+  const queued = (db.prepare("select count(*) as n from pg_outbox").get() as { n: number }).n;
   db.close();
+  const earned = (await PG.pg.one<{ n: number }>("select count(*) as n from mine.earnings"))!.n + queued;
+  const charged = (await PG.pg.one<{ n: number }>("select count(*) as n from mine.ledger"))!.n;
   check("house outputs are kept for good; nothing is charged or paid out", kept >= 4 && earned === 0 && charged === 0, JSON.stringify({ kept, earned, charged }));
   const house = (await api("/api/house")).json.orders;
   check("/api/house lists our work", house.length === 3 && house.some((o: any) => o.label === "encoding/words" && o.settled === 2));
@@ -140,6 +144,7 @@ try {
   for (const suffix of ["", "-wal", "-shm"]) try { rmSync(DB + suffix, { force: true }); } catch { /* busy */ }
   rmSync(BLOBS, { recursive: true, force: true });
   rmSync(OUT, { recursive: true, force: true });
+  await PG.stop();
 }
 console.log(failed ? `${failed} FAILED` : "house checks passed");
 process.exit(failed ? 1 : 0);

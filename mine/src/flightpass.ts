@@ -24,9 +24,12 @@
  *   in every sample of a day gets MINING_BOOST on that day's points (monthPoints in server.ts), on top of staking.
  *
  * Off until FLIGHTPASS is set.
+ *
+ * The tables live in Postgres (schema mine, src/pg.ts) since 2026-09-29: anything that checks a pass's balance and
+ * then books against it runs in one transaction under that pass's lock (lockWallet), as SQLite's single writer did.
  */
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { DatabaseSync } from "node:sqlite";
+import { lockWallet, type Pg, type Q } from "./pg.ts";
 import { selector } from "./staking.ts";
 import { rpc } from "./orders.ts";
 import { checksumAddress } from "./wallet.ts";
@@ -37,28 +40,28 @@ const MULTICALL3 = "0xcA11bde05977b3631167028862bE2a173976CA11";
 
 interface Roulette {
   autoBet: (key: string, owner: string, o: { flies: number; stake: bigint; maxDay: bigint }) => Promise<unknown>;
-  termsAccepted: (wallet: string) => boolean;
-  daySpent: (wallet: string) => bigint;
-  isOn: () => boolean;
-  liveFor: (wallet: string) => boolean;
-  liveCount: () => number;
+  termsAccepted: (wallet: string) => Promise<boolean>;
+  daySpent: (wallet: string) => Promise<bigint>;
+  isOn: () => Promise<boolean>;
+  liveFor: (wallet: string) => Promise<boolean>;
+  liveCount: () => Promise<number>;
   CFG: { minBet: bigint; maxBet: bigint; maxDay: bigint; maxLive: number };
 }
 
 interface Slots {
   autoSpin: (key: string, owner: string, o: { stake: bigint; maxDay: bigint }) => Promise<unknown>;
-  daySpent: (wallet: string) => bigint;
-  isOn: () => boolean;
+  daySpent: (wallet: string) => Promise<bigint>;
+  isOn: () => Promise<boolean>;
   CFG: { minBet: bigint; maxBet: bigint; maxDay: bigint };
 }
 
 interface Race {
   autoBet: (key: string, owner: string, o: { bet: "win" | "podium"; stake: bigint; maxDay: bigint }) => Promise<unknown>;
-  daySpent: (wallet: string) => bigint;
-  isOn: () => boolean;
-  liveFor: (wallet: string) => boolean;
-  liveCount: () => number;
-  history: (wallet: string, limit?: number) => unknown[];
+  daySpent: (wallet: string) => Promise<bigint>;
+  isOn: () => Promise<boolean>;
+  liveFor: (wallet: string) => Promise<boolean>;
+  liveCount: () => Promise<number>;
+  history: (wallet: string, limit?: number) => Promise<unknown[]>;
   CFG: { minBet: bigint; maxBet: bigint; maxDay: bigint; maxLive: number };
 }
 
@@ -69,11 +72,11 @@ export interface Payer {
 }
 
 export interface FlightPassDeps {
-  db: DatabaseSync;
-  transaction: <T>(fn: () => T) => T;
-  book: (wallet: string, orderId: string | null, kind: string, amount: bigint, extra?: { tx?: string }) => void;
-  balanceOf: (wallet: string) => bigint;
-  sessionWallet: (req: IncomingMessage) => string;
+  pg: Pg;
+  /** a ledger row, in the caller's transaction */
+  book: (q: Q, wallet: string, orderId: string | null, kind: string, amount: bigint, extra?: { tx?: string }) => Promise<void>;
+  balanceOf: (q: Q, wallet: string) => Promise<bigint>;
+  sessionWallet: (req: IncomingMessage) => Promise<string>;
   adminOnly: (req: IncomingMessage) => void;
   HttpError: new (status: number, message: string) => Error;
   toWei: (s: string) => bigint;
@@ -117,7 +120,8 @@ const word = (n: bigint | number) => BigInt(n).toString(16).padStart(64, "0");
 const utcDayStart = (t = Date.now()) => t - (t % 86_400_000);
 
 export function createFlightPass(d: FlightPassDeps) {
-  const { db, transaction, book, balanceOf, HttpError, toWei, fromWei } = d;
+  const { pg, book, HttpError, toWei, fromWei } = d;
+  const balanceOf = (k: string, q: Q = pg) => d.balanceOf(q, k);
   const CFG = {
     contract: d.env.FLIGHTPASS ? checksumAddress(d.env.FLIGHTPASS) : null,
     market: d.env.PASSMARKET ? checksumAddress(d.env.PASSMARKET) : null,
@@ -145,7 +149,6 @@ export function createFlightPass(d: FlightPassDeps) {
   if (!Number.isFinite(CFG.depositsSince)) throw new Error("FLIGHTPASS_DEPOSITS_SINCE is a date, e.g. 2026-09-28T00:00:00Z");
   const on = !!CFG.contract;
   const key = (id: number) => `pass:${id}`;
-  const one = <T>(sql: string, ...args: (string | number | null)[]) => db.prepare(sql).get(...args) as T;
 
   // ---- chain ---------------------------------------------------------------------------------------------
   const call = (to: string, data: string) => rpc(d.rpcUrl, "eth_call", [{ to, data }, "latest"]) as Promise<string>;
@@ -229,28 +232,45 @@ export function createFlightPass(d: FlightPassDeps) {
         const own = await batch(ids.map((id) => ({ to: CFG.contract!, data: SEL.ownerOf + word(id) })));
         const lst = CFG.market ? await batch(ids.map((id) => ({ to: CFG.market!, data: SEL.isListed + word(id) }))) : ids.map(() => null);
         const day = d.today();
-        transaction(() => {
-          ids.forEach((id, i) => {
-            const r = own[i];
-            if (r === null || BigInt(r) === 0n) {
-              owners.delete(id);
-              db.prepare("delete from flightpass_owners where pass = ?").run(id);
-              return;
-            }
-            const who = addressOf(r);
-            owners.set(id, who);
-            db.prepare("insert into flightpass_owners (pass, wallet, at) values (?, ?, ?) on conflict (pass) do update set wallet = excluded.wallet, at = excluded.at")
-              .run(id, who, Date.now());
-            // a newly claimed pass gets the team's prefund once (the same row the admin call books)
-            if (CFG.autoPrefund > 0n && !one("select 1 from ledger where tx = ?", `flightpass-prefund:${id}`)) {
-              book(key(id), null, "prefund", CFG.autoPrefund, { tx: `flightpass-prefund:${id}` });
-            }
-            if (lst[i] !== null) { if (BigInt(lst[i]!) !== 0n) listed.add(id); else listed.delete(id); }
-            // a pass counts for the wallet that held it at every sample of the day; any other holder breaks the day
-            db.prepare(`insert into flightpass_days (pass, day, wallet, broken, samples) values (?, ?, ?, 0, 1)
-              on conflict (pass, day) do update set samples = samples + 1, broken = broken or (wallet != excluded.wallet)`).run(id, day, who);
-          });
+        const held: [number, string][] = [];
+        const gone: number[] = [];
+        ids.forEach((id, i) => {
+          const r = own[i];
+          if (r === null || BigInt(r) === 0n) { owners.delete(id); gone.push(id); return; }
+          const who = addressOf(r);
+          owners.set(id, who);
+          held.push([id, who]);
+          if (lst[i] !== null) { if (BigInt(lst[i]!) !== 0n) listed.add(id); else listed.delete(id); }
         });
+        // 200 passes a statement, not one round trip each: the database is across the network now
+        await pg.tx(async (q) => {
+          for (let i = 0; i < gone.length; i += 200) {
+            const part = gone.slice(i, i + 200);
+            await q.run(`delete from mine.flightpass_owners where pass in (${part.map(() => "?").join(", ")})`, ...part);
+          }
+          const now = Date.now();
+          for (let i = 0; i < held.length; i += 200) {
+            const part = held.slice(i, i + 200);
+            await q.run(`insert into mine.flightpass_owners (pass, wallet, at) values ${part.map(() => "(?, ?, ?)").join(", ")}
+              on conflict (pass) do update set wallet = excluded.wallet, at = excluded.at`, ...part.flatMap(([id, who]) => [id, who, now]));
+            // a pass counts for the wallet that held it at every sample of the day; any other holder breaks the day
+            await q.run(`insert into mine.flightpass_days as f (pass, day, wallet, broken, samples) values ${part.map(() => "(?, ?, ?, 0, 1)").join(", ")}
+              on conflict (pass, day) do update set samples = f.samples + 1, broken = case when f.wallet <> excluded.wallet then 1 else f.broken end`,
+              ...part.flatMap(([id, who]) => [id, day, who]));
+          }
+        });
+        // a newly claimed pass gets the team's prefund once (the same row the admin call books)
+        if (CFG.autoPrefund > 0n) {
+          const done = new Set((await pg.all<{ tx: string }>("select tx from mine.ledger where tx like 'flightpass-prefund:%'")).map((r) => r.tx));
+          for (const [id] of held) {
+            const tx = `flightpass-prefund:${id}`;
+            if (done.has(tx)) continue;
+            await pg.tx(async (q) => {
+              if (await q.one("select 1 from mine.ledger where tx = ?", tx)) return;
+              await book(q, key(id), null, "prefund", CFG.autoPrefund, { tx });
+            }, lockWallet(key(id)));
+          }
+        }
         sampledAt = Date.now();
         if (sampledAt - t0 > 10_000) console.log(`flightpass sample took ${sampledAt - t0} ms for ${n} passes`);
       } catch (err) {
@@ -282,27 +302,26 @@ export function createFlightPass(d: FlightPassDeps) {
   }
 
   // ---- books ---------------------------------------------------------------------------------------------
-  const sumKind = (id: number, kind: string, txLike?: string) => {
+  const sumKind = async (id: number, kind: string, q: Q = pg) => {
     let s = 0n;
-    for (const r of db.prepare(`select amount_wei from ledger where wallet = ? and kind = ?${txLike ? " and tx like ?" : ""}`)
-      .all(...[key(id), kind, ...(txLike ? [txLike] : [])]) as { amount_wei: string }[]) s += BigInt(r.amount_wei);
+    for (const r of await q.all<{ amount_wei: string }>("select amount_wei from mine.ledger where wallet = ? and kind = ?", key(id), kind)) s += BigInt(r.amount_wei);
     return s;
   };
-  const locked = (id: number) => sumKind(id, "prefund");
-  const hasDeposited = (id: number) => !!one("select 1 from ledger where wallet = ? and kind = 'deposit'", key(id));
-  const withdrawable = (id: number, isListed: boolean) => {
-    if (isListed || !hasDeposited(id)) return 0n;
-    const free = balanceOf(key(id)) - locked(id);
+  const locked = (id: number, q: Q = pg) => sumKind(id, "prefund", q);
+  const hasDeposited = async (id: number, q: Q = pg) => !!(await q.one("select 1 from mine.ledger where wallet = ? and kind = 'deposit' limit 1", key(id)));
+  const withdrawable = async (id: number, isListed: boolean, q: Q = pg) => {
+    if (isListed || !(await hasDeposited(id, q))) return 0n;
+    const free = (await balanceOf(key(id), q)) - (await locked(id, q));
     return free > 0n ? free : 0n;
   };
 
-  function settingsOf(id: number): Settings {
-    const r = one<{ settings: string } | undefined>("select settings from flightpass where id = ?", id);
+  async function settingsOf(id: number): Promise<Settings> {
+    const r = await pg.one<{ settings: string }>("select settings from mine.flightpass where id = ?", id);
     return r ? { ...OFF(), ...JSON.parse(r.settings) } : OFF();
   }
   /** Settings in force: the ones its current owner wrote, else everything off. */
-  const activeSettings = (id: number, owner: string | undefined) => {
-    const s = settingsOf(id);
+  const activeSettings = async (id: number, owner: string | undefined) => {
+    const s = await settingsOf(id);
     return owner && s.owner === owner ? s : OFF();
   };
 
@@ -312,28 +331,28 @@ export function createFlightPass(d: FlightPassDeps) {
    * day_cap (the pass's or the house's daily cap; bets again at resets_at), low_balance, playing (a game is on) or
    * waiting (the next bet at next_at).
    */
-  function rouletteStatus(id: number, owner: string, isListed: boolean) {
-    const s = activeSettings(id, owner).roulette;
+  async function rouletteStatus(id: number, owner: string, isListed: boolean, settings: Settings) {
+    const s = settings.roulette;
     const k = key(id);
     if (!s.on) return { state: "off" };
     if (isListed) return { state: "listed" };
-    if (!d.roulette.isOn()) return { state: "paused" };
-    if (!d.roulette.termsAccepted(owner)) return { state: "terms" };
+    if (!(await d.roulette.isOn())) return { state: "paused" };
+    if (!(await d.roulette.termsAccepted(owner))) return { state: "terms" };
     const stake = toWei(s.stake), R = d.roulette.CFG;
     if (stake < R.minBet || stake > R.maxBet) return { state: "stake", min: fromWei(R.minBet), max: fromWei(R.maxBet) };
     const own = toWei(s.max_day);
     const cap = own < R.maxDay ? own : R.maxDay;
-    if (d.roulette.daySpent(k) + stake > cap) {
+    if ((await d.roulette.daySpent(k)) + stake > cap) {
       return { state: "day_cap", cap: fromWei(cap), yours: own < R.maxDay, house_max: fromWei(R.maxDay), resets_at: utcDayStart() + 86_400_000 };
     }
-    if (balanceOf(k) < stake) return { state: "low_balance", need: fromWei(stake) };
-    if (d.roulette.liveFor(k)) return { state: "playing" };
-    const last = one<{ last_bet_at: number | null } | undefined>("select last_bet_at from flightpass where id = ?", id)?.last_bet_at ?? 0;
+    if ((await balanceOf(k)) < stake) return { state: "low_balance", need: fromWei(stake) };
+    if (await d.roulette.liveFor(k)) return { state: "playing" };
+    const last = (await pg.one<{ last_bet_at: number | null }>("select last_bet_at from mine.flightpass where id = ?", id))?.last_bet_at ?? 0;
     return { state: "waiting", next_at: Math.max(Date.now(), last + CFG.betGapMs) };
   }
 
   /** When the pass last spun (its newest slots_spins row): the gap survives a restart without a column of its own. */
-  const lastSpinAt = (id: number) => one<{ t: number | null }>("select max(created_at) as t from slots_spins where wallet = ?", key(id)).t ?? 0;
+  const lastSpinAt = async (id: number) => (await pg.one<{ t: number | null }>("select max(created_at) as t from mine.slots_spins where wallet = ?", key(id)))?.t ?? 0;
   /** What this pass may spin today: its own max_day, never past the house's daily cap. */
   const slotsCap = (s: Settings["slots"]) => {
     const own = toWei(s.max_day);
@@ -345,25 +364,25 @@ export function createFlightPass(d: FlightPassDeps) {
    * off, listed, paused (slots off or the house stop), terms, stake, day_cap (resets_at), low_balance or waiting
    * (next_at). No "playing": a spin is settled the moment it's made.
    */
-  function slotsStatus(id: number, owner: string, isListed: boolean) {
-    const s = activeSettings(id, owner).slots;
+  async function slotsStatus(id: number, owner: string, isListed: boolean, settings: Settings) {
+    const s = settings.slots;
     const k = key(id), S = d.slots.CFG;
     if (!s.on) return { state: "off" };
     if (isListed) return { state: "listed" };
-    if (!d.slots.isOn()) return { state: "paused" };
-    if (!d.roulette.termsAccepted(owner)) return { state: "terms" };
+    if (!(await d.slots.isOn())) return { state: "paused" };
+    if (!(await d.roulette.termsAccepted(owner))) return { state: "terms" };
     const stake = toWei(s.stake);
     if (stake < S.minBet || stake > S.maxBet) return { state: "stake", min: fromWei(S.minBet), max: fromWei(S.maxBet) };
     const cap = slotsCap(s);
-    if (d.slots.daySpent(k) + stake > cap) {
+    if ((await d.slots.daySpent(k)) + stake > cap) {
       return { state: "day_cap", cap: fromWei(cap), yours: toWei(s.max_day) < S.maxDay, house_max: fromWei(S.maxDay), resets_at: utcDayStart() + 86_400_000 };
     }
-    if (balanceOf(k) < stake) return { state: "low_balance", need: fromWei(stake) };
-    return { state: "waiting", next_at: Math.max(Date.now(), lastSpinAt(id) + CFG.spinGapMs) };
+    if ((await balanceOf(k)) < stake) return { state: "low_balance", need: fromWei(stake) };
+    return { state: "waiting", next_at: Math.max(Date.now(), (await lastSpinAt(id)) + CFG.spinGapMs) };
   }
 
   /** When the pass last entered a race (its newest race_games row): the gap survives a restart without a column. */
-  const lastRaceAt = (id: number) => one<{ t: number | null }>("select max(created_at) as t from race_games where wallet = ?", key(id)).t ?? 0;
+  const lastRaceAt = async (id: number) => (await pg.one<{ t: number | null }>("select max(created_at) as t from mine.race_games where wallet = ?", key(id)))?.t ?? 0;
   /** What this pass may stake on races today: its own max_day, never past the house's daily cap. */
   const raceCap = (s: Settings["race"]) => {
     const own = toWei(s.max_day);
@@ -375,35 +394,36 @@ export function createFlightPass(d: FlightPassDeps) {
    * off, listed, paused (racing off or the house stop), terms, stake, day_cap (resets_at), low_balance,
    * playing (a race is running) or waiting (next_at).
    */
-  function raceStatus(id: number, owner: string, isListed: boolean) {
-    const s = activeSettings(id, owner).race;
+  async function raceStatus(id: number, owner: string, isListed: boolean, settings: Settings) {
+    const s = settings.race;
     const k = key(id), R = d.race.CFG;
     if (!s.on) return { state: "off" };
     if (isListed) return { state: "listed" };
-    if (!d.race.isOn()) return { state: "paused" };
-    if (!d.roulette.termsAccepted(owner)) return { state: "terms" };
+    if (!(await d.race.isOn())) return { state: "paused" };
+    if (!(await d.roulette.termsAccepted(owner))) return { state: "terms" };
     const stake = toWei(s.stake);
     if (stake < R.minBet || stake > R.maxBet) return { state: "stake", min: fromWei(R.minBet), max: fromWei(R.maxBet) };
     const cap = raceCap(s);
-    if (d.race.daySpent(k) + stake > cap) {
+    if ((await d.race.daySpent(k)) + stake > cap) {
       return { state: "day_cap", cap: fromWei(cap), yours: toWei(s.max_day) < R.maxDay, house_max: fromWei(R.maxDay), resets_at: utcDayStart() + 86_400_000 };
     }
-    if (balanceOf(k) < stake) return { state: "low_balance", need: fromWei(stake) };
-    if (d.race.liveFor(k)) return { state: "playing" };
-    return { state: "waiting", next_at: Math.max(Date.now(), lastRaceAt(id) + CFG.raceGapMs) };
+    if ((await balanceOf(k)) < stake) return { state: "low_balance", need: fromWei(stake) };
+    if (await d.race.liveFor(k)) return { state: "playing" };
+    return { state: "waiting", next_at: Math.max(Date.now(), (await lastRaceAt(id)) + CFG.raceGapMs) };
   }
 
   /** A pass's ledger, newest first, `limit` rows before ledger id `before` (null: from the newest); next is the id to ask with, or null at the start. */
-  function historyPage(id: number, before: number | null, limit: number) {
-    const rows = db.prepare(`select id, kind, amount_wei, tx, at from ledger where wallet = ?${before ? " and id < ?" : ""} order by id desc limit ?`)
-      .all(...[key(id), ...(before ? [before] : []), limit + 1]) as { id: number; kind: string; amount_wei: string; tx: string | null; at: number }[];
+  async function historyPage(id: number, before: number | null, limit: number) {
+    const rows = await pg.all<{ id: number; kind: string; amount_wei: string; tx: string | null; at: number }>(
+      `select id, kind, amount_wei, tx, at from mine.ledger where wallet = ?${before ? " and id < ?" : ""} order by id desc limit ?`,
+      ...[key(id), ...(before ? [before] : []), limit + 1]);
     const items = rows.slice(0, limit).map((r) => ({ id: r.id, kind: r.kind, amount: fromWei(BigInt(r.amount_wei)), tx: r.tx, at: r.at }));
     return { items, next: rows.length > limit ? items[items.length - 1].id : null };
   }
 
   /** GET /api/flightpass/:id/history: the owner's older pages. Owner from the sample, so paging never waits on the chain. */
   async function history(req: IncomingMessage, id: number, url: URL) {
-    const wallet = d.sessionWallet(req);
+    const wallet = await d.sessionWallet(req);
     const owner = owners.get(id) ?? (await current(id)).owner;
     if (owner !== wallet) throw new HttpError(403, "that FlightPass isn't yours");
     const before = url.searchParams.get("before");
@@ -412,79 +432,89 @@ export function createFlightPass(d: FlightPassDeps) {
     return historyPage(id, before === null ? null : Number(before), limit);
   }
 
-  function view(id: number, owner: string, isListed: boolean, mine: boolean) {
+  async function view(id: number, owner: string, isListed: boolean, mine: boolean) {
     const k = key(id);
     const base = {
-      id, owner, listed: isListed, balance: fromWei(balanceOf(k)), locked: fromWei(locked(id)),
-      withdrawable: fromWei(withdrawable(id, isListed)), has_deposited: hasDeposited(id),
+      id, owner, listed: isListed, balance: fromWei(await balanceOf(k)), locked: fromWei(await locked(id)),
+      withdrawable: fromWei(await withdrawable(id, isListed)), has_deposited: await hasDeposited(id),
     };
     if (!mine) return base;
+    const settings = await activeSettings(id, owner);
+    // the rest at once: each is its own round trip to the database
+    const [terms, dayBet, rouletteSt, slotsSt, slotsSpent, raceSt, raceSpent, races, live, page, games, spins, withdrawals, request] = await Promise.all([
+      d.roulette.termsAccepted(owner), d.roulette.daySpent(k), rouletteStatus(id, owner, isListed, settings),
+      slotsStatus(id, owner, isListed, settings), d.slots.daySpent(k), raceStatus(id, owner, isListed, settings), d.race.daySpent(k),
+      d.race.history(k, 20),
+      pg.one<{ id: string }>("select id from mine.roulette_games where wallet = ? and status = 'live'", k),
+      historyPage(id, null, 30),
+      pg.all<any>("select id, flies, pick, stake_wei, payout_wei, status, winner, created_at from mine.roulette_games where wallet = ? order by created_at desc limit 20", k),
+      pg.all<any>("select id, stake_wei, mult, payout_wei, symbols, created_at from mine.slots_spins where wallet = ? order by created_at desc limit 20", k),
+      pg.all<any>("select id, amount_wei, fee_wei, status, created_at, done_at, tx from mine.flightpass_withdrawals where pass = ? order by id desc limit 10", id),
+      pg.one<{ amount_wei: string; created_at: number }>("select amount_wei, created_at from mine.flightpass_withdrawals where pass = ? and status = 'open' order by id desc limit 1", id),
+    ]);
     return {
       ...base,
-      settings: activeSettings(id, owner),
-      terms_accepted: d.roulette.termsAccepted(owner),
-      day_bet: fromWei(d.roulette.daySpent(k)),
+      settings,
+      terms_accepted: terms,
+      day_bet: fromWei(dayBet),
       // what this pass may bet today: its own "max per day" when roulette is on, never past the house's daily cap
-      day_cap: fromWei(((s) => s.on && toWei(s.max_day) < d.roulette.CFG.maxDay ? toWei(s.max_day) : d.roulette.CFG.maxDay)(activeSettings(id, owner).roulette)),
-      roulette_status: rouletteStatus(id, owner, isListed),
-      slots_status: slotsStatus(id, owner, isListed),
-      slots_day_spent: fromWei(d.slots.daySpent(k)),
+      day_cap: fromWei(((s) => s.on && toWei(s.max_day) < d.roulette.CFG.maxDay ? toWei(s.max_day) : d.roulette.CFG.maxDay)(settings.roulette)),
+      roulette_status: rouletteSt,
+      slots_status: slotsSt,
+      slots_day_spent: fromWei(slotsSpent),
       // as day_cap: the pass's own slots max_day when slots are on, never past the house's
-      slots_day_cap: fromWei(((s) => s.on ? slotsCap(s) : d.slots.CFG.maxDay)(activeSettings(id, owner).slots)),
-      race_status: raceStatus(id, owner, isListed),
-      race_day_spent: fromWei(d.race.daySpent(k)),
+      slots_day_cap: fromWei(((s) => s.on ? slotsCap(s) : d.slots.CFG.maxDay)(settings.slots)),
+      race_status: raceSt,
+      race_day_spent: fromWei(raceSpent),
       // as day_cap: the pass's own race max_day when racing is on, never past the house's
-      race_day_cap: fromWei(((s) => s.on ? raceCap(s) : d.race.CFG.maxDay)(activeSettings(id, owner).race)),
+      race_day_cap: fromWei(((s) => s.on ? raceCap(s) : d.race.CFG.maxDay)(settings.race)),
       // the pass's latest 20 races, as /api/race/me's history
-      races: d.race.history(k, 20),
-      live_game: (one<{ id: string } | undefined>("select id from roulette_games where wallet = ? and status = 'live'", k))?.id ?? null,
+      races,
+      live_game: live?.id ?? null,
       // the latest page; older ones come from /api/flightpass/:id/history?before=<the last id>
-      history: historyPage(id, null, 30).items,
-      games: (db.prepare("select id, flies, pick, stake_wei, payout_wei, status, winner, created_at from roulette_games where wallet = ? order by created_at desc limit 20").all(k) as any[])
-        .map((g) => ({ id: g.id, flies: g.flies, pick: g.pick, stake: fromWei(BigInt(g.stake_wei)), payout: fromWei(BigInt(g.payout_wei)), status: g.status, won: g.status === "done" ? g.winner === g.pick : null, created_at: g.created_at })),
-      spins: (db.prepare("select id, stake_wei, mult, payout_wei, symbols, created_at from slots_spins where wallet = ? order by created_at desc limit 20").all(k) as any[])
-        .map((r) => ({ id: r.id, stake: fromWei(BigInt(r.stake_wei)), mult: r.mult, payout: fromWei(BigInt(r.payout_wei)), symbols: JSON.parse(r.symbols), created_at: r.created_at })),
-      withdrawals: (db.prepare("select id, amount_wei, fee_wei, status, created_at, done_at, tx from flightpass_withdrawals where pass = ? order by id desc limit 10").all(id) as any[])
-        .map((w) => ({ id: w.id, amount: fromWei(BigInt(w.amount_wei)), fee: fromWei(BigInt(w.fee_wei)), status: w.status, created_at: w.created_at, done_at: w.done_at, tx: w.tx })),
+      history: page.items,
+      games: games.map((g) => ({ id: g.id, flies: g.flies, pick: g.pick, stake: fromWei(BigInt(g.stake_wei)), payout: fromWei(BigInt(g.payout_wei)), status: g.status, won: g.status === "done" ? g.winner === g.pick : null, created_at: g.created_at })),
+      spins: spins.map((r) => ({ id: r.id, stake: fromWei(BigInt(r.stake_wei)), mult: r.mult, payout: fromWei(BigInt(r.payout_wei)), symbols: JSON.parse(r.symbols), created_at: r.created_at })),
+      withdrawals: withdrawals.map((w) => ({ id: w.id, amount: fromWei(BigInt(w.amount_wei)), fee: fromWei(BigInt(w.fee_wei)), status: w.status, created_at: w.created_at, done_at: w.done_at, tx: w.tx })),
       // the one waiting on the operator, if any: what the page shows as "on its way"
-      withdraw_request: ((w) => w ? { amount: fromWei(BigInt(w.amount_wei)), created_at: w.created_at } : null)(
-        one<{ amount_wei: string; created_at: number } | undefined>("select amount_wei, created_at from flightpass_withdrawals where pass = ? and status = 'open' order by id desc limit 1", id)),
+      withdraw_request: request ? { amount: fromWei(BigInt(request.amount_wei)), created_at: request.created_at } : null,
     };
   }
 
   // ---- views ---------------------------------------------------------------------------------------------
-  function config() {
+  async function config() {
+    const [rouletteOn, slotsOn, raceOn, sentToday] = await Promise.all([d.roulette.isOn(), d.slots.isOn(), d.race.isOn(), d.payer ? autoSentToday() : 0n]);
     return {
       on, contract: CFG.contract, market: CFG.market, pay_to: d.payTo, withdraw_fee_bps: Number(WITHDRAW_FEE_BPS), mining_boost: MINING_BOOST,
       games: ["roulette", "slots", "race", "flybook_missions", "flybook_duels", "flybook_breed"],
-      roulette: { on: d.roulette.isOn(), min_bet: fromWei(d.roulette.CFG.minBet), max_bet: fromWei(d.roulette.CFG.maxBet), max_day: fromWei(d.roulette.CFG.maxDay), min_flies: 2, max_flies: 10, bet_gap_min: CFG.betGapMs / 60_000 },
-      slots: { on: d.slots.isOn(), min_bet: fromWei(d.slots.CFG.minBet), max_bet: fromWei(d.slots.CFG.maxBet), max_day: fromWei(d.slots.CFG.maxDay), spin_gap_min: CFG.spinGapMs / 60_000 },
-      race: { on: d.race.isOn(), min_bet: fromWei(d.race.CFG.minBet), max_bet: fromWei(d.race.CFG.maxBet), max_day: fromWei(d.race.CFG.maxDay), bet_types: ["win", "podium"] },
+      roulette: { on: rouletteOn, min_bet: fromWei(d.roulette.CFG.minBet), max_bet: fromWei(d.roulette.CFG.maxBet), max_day: fromWei(d.roulette.CFG.maxDay), min_flies: 2, max_flies: 10, bet_gap_min: CFG.betGapMs / 60_000 },
+      slots: { on: slotsOn, min_bet: fromWei(d.slots.CFG.minBet), max_bet: fromWei(d.slots.CFG.maxBet), max_day: fromWei(d.slots.CFG.maxDay), spin_gap_min: CFG.spinGapMs / 60_000 },
+      race: { on: raceOn, min_bet: fromWei(d.race.CFG.minBet), max_bet: fromWei(d.race.CFG.maxBet), max_day: fromWei(d.race.CFG.maxDay), bet_types: ["win", "podium"] },
       // the automatic withdrawals' limits and how much of today's has gone (2026-09-29, the user: "add in the flypass
       // the max withdrawal per day and how much done already"): all passes share the day's total; a bigger
       // withdrawal, or one past it, waits for the operator
       withdrawals: { auto: !!d.payer, max_each: fromWei(CFG.autoMax), max_day: fromWei(CFG.autoDay),
-                     sent_today: fromWei(d.payer ? autoSentToday() : 0n), resets_at: utcDayStart() + 86_400_000 },
+                     sent_today: fromWei(sentToday), resets_at: utcDayStart() + 86_400_000 },
     };
   }
 
   async function mine(req: IncomingMessage) {
-    const wallet = d.sessionWallet(req);
+    const wallet = await d.sessionWallet(req);
     await fresh();
     const ids = [...owners].filter(([, w]) => w === wallet).map(([id]) => id).sort((a, b) => a - b);
-    return { wallet, sampled_at: sampledAt || null, passes: ids.map((id) => view(id, wallet, listed.has(id), true)) };
+    return { wallet, sampled_at: sampledAt || null, passes: await Promise.all(ids.map((id) => view(id, wallet, listed.has(id), true))) };
   }
 
   async function onePass(req: IncomingMessage, id: number) {
     const { owner, listed: isListed } = await current(id);
     let wallet: string | null = null;
-    try { wallet = d.sessionWallet(req); } catch { /* public view */ }
+    try { wallet = await d.sessionWallet(req); } catch { /* public view */ }
     return view(id, owner, isListed, wallet === owner);
   }
 
   /** The pass as its owner, right now, and not listed: for anything that moves money or changes settings. */
   async function asOwner(req: IncomingMessage, id: number, what: string) {
-    const wallet = d.sessionWallet(req);
+    const wallet = await d.sessionWallet(req);
     const { owner, listed: isListed } = await current(id);
     if (owner !== wallet) throw new HttpError(403, "that FlightPass isn't yours");
     if (isListed) throw new HttpError(409, `the pass is listed for sale: ${what} are off until you cancel the listing`);
@@ -496,7 +526,7 @@ export function createFlightPass(d: FlightPassDeps) {
     const wallet = await asOwner(req, id, "deposits");
     const tx = String(body.tx ?? "").toLowerCase();
     if (!/^0x[0-9a-f]{64}$/.test(tx)) throw new HttpError(400, "tx is a transaction hash");
-    if (one("select 1 from ledger where tx = ?", tx)) throw new HttpError(409, "that transaction was already credited");
+    if (await pg.one("select 1 from mine.ledger where tx = ?", tx)) throw new HttpError(409, "that transaction was already credited");
     let transfers;
     try {
       transfers = await d.transfersIn(tx);
@@ -508,10 +538,10 @@ export function createFlightPass(d: FlightPassDeps) {
     if (!mineT.length) throw new HttpError(402, "that transaction sends no FLYAI from your wallet to the deposit address");
     if (mineT[0].at < CFG.depositsSince) throw new HttpError(402, "that transfer is older than FlightPass deposits; it can't be credited");
     const value = mineT.reduce((s, t) => s + t.value, 0n);
-    transaction(() => {
-      if (one("select 1 from ledger where tx = ?", tx)) throw new HttpError(409, "that transaction was just credited");
-      book(key(id), null, "deposit", value, { tx });
-    });
+    await pg.tx(async (q) => {
+      if (await q.one("select 1 from mine.ledger where tx = ?", tx)) throw new HttpError(409, "that transaction was just credited");
+      await book(q, key(id), null, "deposit", value, { tx });
+    }, lockWallet(key(id)));
     return view(id, wallet, false, true);
   }
 
@@ -520,25 +550,26 @@ export function createFlightPass(d: FlightPassDeps) {
     let amount: bigint;
     try { amount = toWei(String(body.amount ?? "")); } catch { throw new HttpError(400, "amount is a number of tokens"); }
     if (amount <= 0n) throw new HttpError(400, "amount must be more than 0");
-    transaction(() => {
-      if (!hasDeposited(id)) throw new HttpError(403, "withdrawals open once you've deposited FLYAI yourself; the prefund stays on the pass");
-      if (d.roulette.liveFor(key(id))) throw new HttpError(409, "a game is on the table; try again when it's over");
-      if (d.race.liveFor(key(id))) throw new HttpError(409, "a race is running; try again when it's over");
-      const free = withdrawable(id, false);
-      if (amount > free) throw new HttpError(400, `you can withdraw up to ${fromWei(free)} FLYAI (the ${fromWei(locked(id))} prefund stays on the pass)`);
+    await pg.tx(async (q) => {
+      if (!(await hasDeposited(id, q))) throw new HttpError(403, "withdrawals open once you've deposited FLYAI yourself; the prefund stays on the pass");
+      if (await d.roulette.liveFor(key(id))) throw new HttpError(409, "a game is on the table; try again when it's over");
+      if (await d.race.liveFor(key(id))) throw new HttpError(409, "a race is running; try again when it's over");
+      const free = await withdrawable(id, false, q);
+      if (amount > free) throw new HttpError(400, `you can withdraw up to ${fromWei(free)} FLYAI (the ${fromWei(await locked(id, q))} prefund stays on the pass)`);
       const fee = (amount * WITHDRAW_FEE_BPS) / 10_000n;
-      const r = db.prepare("insert into flightpass_withdrawals (pass, wallet, amount_wei, fee_wei, status, created_at) values (?, ?, ?, ?, 'open', ?)")
-        .run(id, wallet, (amount - fee).toString(), fee.toString(), Date.now());
-      const n = Number(r.lastInsertRowid);
-      book(key(id), null, "withdraw", amount - fee, { tx: `flightpass-withdraw:${n}` });
-      if (fee > 0n) book(key(id), null, "fee", fee, { tx: `flightpass-fee:${n}` });
-    });
+      const { id: n } = (await q.one<{ id: number }>(
+        "insert into mine.flightpass_withdrawals (pass, wallet, amount_wei, fee_wei, status, created_at) values (?, ?, ?, ?, 'open', ?) returning id",
+        id, wallet, (amount - fee).toString(), fee.toString(), Date.now()))!;
+      await book(q, key(id), null, "withdraw", amount - fee, { tx: `flightpass-withdraw:${n}` });
+      if (fee > 0n) await book(q, key(id), null, "fee", fee, { tx: `flightpass-fee:${n}` });
+    }, lockWallet(key(id)));
     return view(id, wallet, false, true);
   }
 
   async function saveSettings(req: IncomingMessage, id: number, body: any) {
     const wallet = await asOwner(req, id, "setting changes");
-    const s = activeSettings(id, wallet);
+    const s = await activeSettings(id, wallet);
+    const terms = await d.roulette.termsAccepted(wallet);
     const r = body.roulette;
     if (r !== undefined) {
       if (typeof r !== "object" || r === null) throw new HttpError(400, "roulette is an object");
@@ -559,7 +590,7 @@ export function createFlightPass(d: FlightPassDeps) {
           throw new HttpError(400, `stake is ${fromWei(d.roulette.CFG.minBet)} to ${fromWei(d.roulette.CFG.maxBet)} FLYAI`);
         }
         if (toWei(next.max_day) < stake) throw new HttpError(400, "max_day must cover at least one bet");
-        if (!d.roulette.termsAccepted(wallet)) throw new HttpError(403, "accept the Fly Roulette terms (18+) first");
+        if (!terms) throw new HttpError(403, "accept the Fly Roulette terms (18+) first");
       }
       s.roulette = next;
     }
@@ -576,7 +607,7 @@ export function createFlightPass(d: FlightPassDeps) {
         const stake = toWei(next.stake), S = d.slots.CFG;
         if (stake < S.minBet || stake > S.maxBet) throw new HttpError(400, `slots stake is ${fromWei(S.minBet)} to ${fromWei(S.maxBet)} FLYAI`);
         if (toWei(next.max_day) < stake) throw new HttpError(400, "max_day must cover at least one spin");
-        if (!d.roulette.termsAccepted(wallet)) throw new HttpError(403, "accept the terms (18+) first");
+        if (!terms) throw new HttpError(403, "accept the terms (18+) first");
       }
       s.slots = next;
     }
@@ -598,7 +629,7 @@ export function createFlightPass(d: FlightPassDeps) {
         const stake = toWei(next.stake), R = d.race.CFG;
         if (stake < R.minBet || stake > R.maxBet) throw new HttpError(400, `race stake is ${fromWei(R.minBet)} to ${fromWei(R.maxBet)} FLYAI`);
         if (toWei(next.max_day) < stake) throw new HttpError(400, "max_day must cover at least one race");
-        if (!d.roulette.termsAccepted(wallet)) throw new HttpError(403, "accept the terms (18+) first");
+        if (!terms) throw new HttpError(403, "accept the terms (18+) first");
       }
       s.race = next;
     }
@@ -608,8 +639,8 @@ export function createFlightPass(d: FlightPassDeps) {
       for (const k of ["missions", "duels", "breed"] as const) if (f[k] !== undefined) s.flybook[k] = f[k] === true;
     }
     s.owner = wallet;
-    db.prepare(`insert into flightpass (id, settings, updated_at) values (?, ?, ?)
-      on conflict (id) do update set settings = excluded.settings, updated_at = excluded.updated_at`).run(id, JSON.stringify(s), Date.now());
+    await pg.run(`insert into mine.flightpass (id, settings, updated_at) values (?, ?, ?)
+      on conflict (id) do update set settings = excluded.settings, updated_at = excluded.updated_at`, id, JSON.stringify(s), Date.now());
     return view(id, wallet, false, true);
   }
 
@@ -620,10 +651,11 @@ export function createFlightPass(d: FlightPassDeps) {
     if (game !== "flybook") throw new HttpError(400, "game is flybook");
     await fresh();
     const out: { pass: number; owner: string; settings: Settings["flybook"] }[] = [];
-    for (const r of db.prepare("select id from flightpass").all() as { id: number }[]) {
+    for (const r of await pg.all<{ id: number; settings: string }>("select id, settings from mine.flightpass")) {
       const owner = owners.get(r.id);
       if (!owner || listed.has(r.id)) continue;
-      const s = activeSettings(r.id, owner);
+      const s: Settings = { ...OFF(), ...JSON.parse(r.settings) };
+      if (s.owner !== owner) continue;
       if (s.flybook.missions || s.flybook.duels || s.flybook.breed) out.push({ pass: r.id, owner, settings: s.flybook });
     }
     return { passes: out };
@@ -642,29 +674,29 @@ export function createFlightPass(d: FlightPassDeps) {
     let done = 0, skipped = 0;
     for (const id of ids) {
       if (!(await ownerOfNow(id))) { skipped++; continue; }
-      transaction(() => {
-        if (one("select 1 from ledger where tx = ?", `flightpass-prefund:${id}`)) { skipped++; return; }
-        book(key(id), null, "prefund", amount, { tx: `flightpass-prefund:${id}` });
+      await pg.tx(async (q) => {
+        if (await q.one("select 1 from mine.ledger where tx = ?", `flightpass-prefund:${id}`)) { skipped++; return; }
+        await book(q, key(id), null, "prefund", amount, { tx: `flightpass-prefund:${id}` });
         done++;
-      });
+      }, lockWallet(key(id)));
     }
     return { prefunded: done, skipped, amount_each: fromWei(amount), total: fromWei(amount * BigInt(done)) };
   }
 
   async function admin() {
     let held = 0n, lockedAll = 0n;
-    for (const r of db.prepare("select distinct wallet from ledger where wallet like 'pass:%'").all() as { wallet: string }[]) {
-      held += balanceOf(r.wallet);
-      lockedAll += locked(Number(r.wallet.slice(5)));
+    for (const r of await pg.all<{ wallet: string }>("select distinct wallet from mine.ledger where wallet like 'pass:%'")) {
+      held += await balanceOf(r.wallet);
+      lockedAll += await locked(Number(r.wallet.slice(5)));
     }
     return {
       on, contract: CFG.contract, market: CFG.market, passes_seen: owners.size, listed: listed.size, sampled_at: sampledAt || null,
       balances_held: fromWei(held), locked: fromWei(lockedAll),
       payer: d.payer ? {
-        address: d.payer.address, auto_max: fromWei(CFG.autoMax), auto_day: fromWei(CFG.autoDay), sent_today: fromWei(autoSentToday()),
+        address: d.payer.address, auto_max: fromWei(CFG.autoMax), auto_day: fromWei(CFG.autoDay), sent_today: fromWei(await autoSentToday()),
         ...await payerFunds().then((f) => ({ flyai: fromWei(f.flyai), gas_eth: fromWei(f.gas) }), () => ({})), waiting_for_funds: waitingForFunds,
       } : null,
-      withdrawals: (db.prepare("select * from flightpass_withdrawals where status = 'open' order by id").all() as any[])
+      withdrawals: (await pg.all<any>("select * from mine.flightpass_withdrawals where status = 'open' order by id"))
         .map((w) => ({
           id: w.id, pass: w.pass, wallet: w.wallet, send: fromWei(BigInt(w.amount_wei)), fee: fromWei(BigInt(w.fee_wei)), created_at: w.created_at,
           sending_at: w.sending_at ?? null, error: w.error ?? null,
@@ -673,21 +705,27 @@ export function createFlightPass(d: FlightPassDeps) {
   }
 
   /** The operator sent a withdrawal (tx), or cancels it (the amount and fee go back on the pass). */
-  function settle(body: any) {
+  async function settle(body: any) {
     const id = Number(body.id);
-    const w = one<{ id: number; pass: number; amount_wei: string; fee_wei: string; status: string } | undefined>("select * from flightpass_withdrawals where id = ?", id);
+    if (!Number.isSafeInteger(id)) throw new HttpError(400, "id is a withdrawal id");
+    const w = await pg.one<{ id: number; pass: number; amount_wei: string; fee_wei: string; status: string }>("select * from mine.flightpass_withdrawals where id = ?", id);
     if (!w) throw new HttpError(404, "no such withdrawal");
     if (w.status !== "open") throw new HttpError(409, `that withdrawal is ${w.status}`);
     if (payingNow === id) throw new HttpError(409, "the server is sending that withdrawal right now; look again in a couple of minutes");
     if (body.cancel === true) {
-      transaction(() => {
-        db.prepare("update flightpass_withdrawals set status = 'cancelled', done_at = ? where id = ?").run(Date.now(), id);
-        book(key(w.pass), null, "release", BigInt(w.amount_wei) + BigInt(w.fee_wei), { tx: `flightpass-refund:${id}` });
-      });
+      await pg.tx(async (q) => {
+        // only while still open: two cancels at once refund it once
+        if (await q.run("update mine.flightpass_withdrawals set status = 'cancelled', done_at = ? where id = ? and status = 'open'", Date.now(), id) !== 1) {
+          throw new HttpError(409, "that withdrawal was just settled");
+        }
+        await book(q, key(w.pass), null, "release", BigInt(w.amount_wei) + BigInt(w.fee_wei), { tx: `flightpass-refund:${id}` });
+      }, lockWallet(key(w.pass)));
       return { id, status: "cancelled" };
     }
     if (typeof body.tx !== "string" || !/^0x[0-9a-fA-F]{64}$/.test(body.tx)) throw new HttpError(400, "tx is the hash of the transfer, or cancel: true");
-    db.prepare("update flightpass_withdrawals set status = 'paid', done_at = ?, tx = ? where id = ?").run(Date.now(), body.tx.toLowerCase(), id);
+    if (await pg.run("update mine.flightpass_withdrawals set status = 'paid', done_at = ?, tx = ? where id = ? and status = 'open'", Date.now(), body.tx.toLowerCase(), id) !== 1) {
+      throw new HttpError(409, "that withdrawal was just settled");
+    }
     return { id, status: "paid" };
   }
 
@@ -699,20 +737,20 @@ export function createFlightPass(d: FlightPassDeps) {
     const [flyai, gas] = await Promise.all([call(d.token, selector("balanceOf(address)") + word(BigInt(d.payer!.address))).then(BigInt), d.payer!.balance()]);
     return { flyai, gas };
   };
-  const autoSentToday = () => {
+  const autoSentToday = async () => {
     let s = 0n;
-    for (const r of db.prepare("select amount_wei from flightpass_withdrawals where sending_at >= ? and status != 'cancelled'").all(utcDayStart()) as { amount_wei: string }[]) s += BigInt(r.amount_wei);
+    for (const r of await pg.all<{ amount_wei: string }>("select amount_wei from mine.flightpass_withdrawals where sending_at >= ? and status != 'cancelled'", utcDayStart())) s += BigInt(r.amount_wei);
     return s;
   };
   const transferData = (to: string, amount: bigint) => `${selector("transfer(address,uint256)")}${word(BigInt(to))}${word(amount)}`;
 
   async function payOut(): Promise<void> {
     if (!d.payer || payingNow !== null || Date.now() < payPausedUntil) return;
-    const open = db.prepare("select id, wallet, amount_wei from flightpass_withdrawals where status = 'open' and sending_at is null order by id").all() as { id: number; wallet: string; amount_wei: string }[];
+    const open = await pg.all<{ id: number; wallet: string; amount_wei: string }>("select id, wallet, amount_wei from mine.flightpass_withdrawals where status = 'open' and sending_at is null order by id");
     for (const w of open) {
       const amount = BigInt(w.amount_wei);
       if (amount > CFG.autoMax) continue; // the operator's
-      if (autoSentToday() + amount > CFG.autoDay) return;
+      if ((await autoSentToday()) + amount > CFG.autoDay) return;
       // an empty payout wallet is no fault: the request waits ("on its way") until it's topped up
       const funds = await payerFunds();
       if (funds.flyai < amount || funds.gas === 0n) {
@@ -722,21 +760,21 @@ export function createFlightPass(d: FlightPassDeps) {
       }
       waitingForFunds = false;
       // claimed before anything leaves: a restart mid-send never sends it again
-      if (db.prepare("update flightpass_withdrawals set sending_at = ?, error = null where id = ? and status = 'open' and sending_at is null").run(Date.now(), w.id).changes !== 1) continue;
+      if (await pg.run("update mine.flightpass_withdrawals set sending_at = ?, error = null where id = ? and status = 'open' and sending_at is null", Date.now(), w.id) !== 1) continue;
       payingNow = w.id;
       try {
         const tx = await d.payer.send(d.token, transferData(w.wallet, amount));
-        db.prepare("update flightpass_withdrawals set status = 'paid', done_at = ?, tx = ? where id = ?").run(Date.now(), tx.toLowerCase(), w.id);
+        await pg.run("update mine.flightpass_withdrawals set status = 'paid', done_at = ?, tx = ? where id = ?", Date.now(), tx.toLowerCase(), w.id);
         console.log(`flightpass withdrawal ${w.id}: sent ${fromWei(amount)} FLYAI to ${w.wallet} (${tx})`);
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         if ((err as { unsent?: boolean }).unsent) {
           // nothing left the wallet (too little FLYAI or gas, a node down): back in line, try again in a while
-          db.prepare("update flightpass_withdrawals set sending_at = null, error = ? where id = ?").run(msg, w.id);
+          await pg.run("update mine.flightpass_withdrawals set sending_at = null, error = ? where id = ?", msg, w.id);
           payPausedUntil = Date.now() + 10 * 60_000;
           console.error(`flightpass withdrawal ${w.id} not sent, retrying in 10 minutes: ${msg}`);
         } else {
-          db.prepare("update flightpass_withdrawals set error = ? where id = ?").run(msg, w.id);
+          await pg.run("update mine.flightpass_withdrawals set error = ? where id = ?", msg, w.id);
           console.error(`flightpass withdrawal ${w.id} may have been sent; the operator settles it: ${msg}`);
         }
         return;
@@ -753,32 +791,42 @@ export function createFlightPass(d: FlightPassDeps) {
     ticking = true;
     try {
       // each game on its own switch: slots spin while roulette is off, and the other way round (2026-09-29)
-      if (d.roulette.isOn()) await rouletteTick();
-      if (d.slots.isOn()) await slotsTick();
-      if (d.race.isOn()) await raceTick();
+      if (await d.roulette.isOn()) await rouletteTick();
+      if (await d.slots.isOn()) await slotsTick();
+      if (await d.race.isOn()) await raceTick();
     } finally {
       ticking = false;
     }
   }
 
-  async function rouletteTick(): Promise<void> {
-    for (const r of db.prepare("select id, settings, last_bet_at from flightpass").all() as { id: number; settings: string; last_bet_at: number | null }[]) {
+  /** The passes with settings, each with what its current owner wrote (everything off for anyone else). */
+  async function settled(): Promise<{ id: number; owner: string; s: Settings; last_bet_at: number | null }[]> {
+    const out = [];
+    for (const r of await pg.all<{ id: number; settings: string; last_bet_at: number | null }>("select id, settings, last_bet_at from mine.flightpass")) {
       const owner = owners.get(r.id);
       if (!owner || listed.has(r.id)) continue;
-      const s = activeSettings(r.id, owner).roulette;
+      const s: Settings = { ...OFF(), ...JSON.parse(r.settings) };
+      out.push({ id: r.id, owner, s: s.owner === owner ? s : OFF(), last_bet_at: r.last_bet_at });
+    }
+    return out;
+  }
+
+  async function rouletteTick(): Promise<void> {
+    for (const r of await settled()) {
+      const { owner } = r, s = r.s.roulette;
       if (!s.on || Date.now() - (r.last_bet_at ?? 0) < CFG.betGapMs) continue;
       const k = key(r.id);
       const stake = toWei(s.stake);
       const own = toWei(s.max_day), dayCap = own < d.roulette.CFG.maxDay ? own : d.roulette.CFG.maxDay;
       // (the house's daily cap too: without it a capped pass was refused, and logged, every tick until midnight)
-      if (d.roulette.liveFor(k) || balanceOf(k) < stake || d.roulette.daySpent(k) + stake > dayCap) continue;
-      if (d.roulette.liveCount() >= d.roulette.CFG.maxLive - CFG.freeTables) break;
+      if (await d.roulette.liveFor(k) || (await balanceOf(k)) < stake || (await d.roulette.daySpent(k)) + stake > dayCap) continue;
+      if ((await d.roulette.liveCount()) >= d.roulette.CFG.maxLive - CFG.freeTables) break;
       // the listing and owner right before the stake moves, not the last sample
       const now = await current(r.id).catch(() => null);
       if (!now || now.listed || now.owner !== owner) continue;
       try {
         await d.roulette.autoBet(k, owner, { flies: s.flies, stake, maxDay: toWei(s.max_day) });
-        db.prepare("update flightpass set last_bet_at = ? where id = ?").run(Date.now(), r.id);
+        await pg.run("update mine.flightpass set last_bet_at = ? where id = ?", Date.now(), r.id);
       } catch (err) {
         const status = (err as { status?: number }).status;
         if (status === 503) break; // off, paused or tables full: nobody bets now
@@ -789,15 +837,13 @@ export function createFlightPass(d: FlightPassDeps) {
 
   /** At most one slot spin per pass per spinGapMs, within the pass's balance and daily caps (the checks slotsStatus shows). */
   async function slotsTick(): Promise<void> {
-    for (const r of db.prepare("select id from flightpass").all() as { id: number }[]) {
-      const owner = owners.get(r.id);
-      if (!owner || listed.has(r.id)) continue;
-      const s = activeSettings(r.id, owner).slots;
-      if (!s.on || Date.now() - lastSpinAt(r.id) < CFG.spinGapMs) continue;
+    for (const r of await settled()) {
+      const { owner } = r, s = r.s.slots;
+      if (!s.on || Date.now() - (await lastSpinAt(r.id)) < CFG.spinGapMs) continue;
       const k = key(r.id);
       const stake = toWei(s.stake);
       // (the house's daily cap too, as roulette's: a capped pass isn't refused and logged every tick until midnight)
-      if (balanceOf(k) < stake || d.slots.daySpent(k) + stake > slotsCap(s)) continue;
+      if ((await balanceOf(k)) < stake || (await d.slots.daySpent(k)) + stake > slotsCap(s)) continue;
       // the listing and owner right before the stake moves, not the last sample
       const now = await current(r.id).catch(() => null);
       if (!now || now.listed || now.owner !== owner) continue;
@@ -813,15 +859,13 @@ export function createFlightPass(d: FlightPassDeps) {
 
   /** At most one race per pass per raceGapMs, within its balance and daily caps, leaving free tracks for people. */
   async function raceTick(): Promise<void> {
-    for (const r of db.prepare("select id from flightpass").all() as { id: number }[]) {
-      const owner = owners.get(r.id);
-      if (!owner || listed.has(r.id)) continue;
-      const s = activeSettings(r.id, owner).race;
-      if (!s.on || Date.now() - lastRaceAt(r.id) < CFG.raceGapMs) continue;
+    for (const r of await settled()) {
+      const { owner } = r, s = r.s.race;
+      if (!s.on || Date.now() - (await lastRaceAt(r.id)) < CFG.raceGapMs) continue;
       const k = key(r.id);
       const stake = toWei(s.stake);
-      if (d.race.liveFor(k) || balanceOf(k) < stake || d.race.daySpent(k) + stake > raceCap(s)) continue;
-      if (d.race.liveCount() >= d.race.CFG.maxLive - CFG.freeTables) break;
+      if (await d.race.liveFor(k) || (await balanceOf(k)) < stake || (await d.race.daySpent(k)) + stake > raceCap(s)) continue;
+      if ((await d.race.liveCount()) >= d.race.CFG.maxLive - CFG.freeTables) break;
       // the listing and owner right before the stake moves, not the last sample
       const now = await current(r.id).catch(() => null);
       if (!now || now.listed || now.owner !== owner) continue;
@@ -848,17 +892,17 @@ export function createFlightPass(d: FlightPassDeps) {
 
   // ---- mining --------------------------------------------------------------------------------------------
   /** `${wallet} ${day}` for every wallet-day a pass boosts in [from, to). */
-  function boostedDays(from: string, to: string): Set<string> {
+  async function boostedDays(from: string, to: string): Promise<Set<string>> {
     if (!on) return new Set();
-    return new Set((db.prepare("select distinct wallet, day from flightpass_days where day >= ? and day < ? and broken = 0").all(from, to) as { wallet: string; day: string }[])
+    return new Set((await pg.all<{ wallet: string; day: string }>("select distinct wallet, day from mine.flightpass_days where day >= ? and day < ? and broken = 0", from, to))
       .map((r) => `${r.wallet} ${r.day}`));
   }
   /** What the stake view shows: does a pass boost today so far, and would one tomorrow. */
-  function boostView(wallet: string) {
+  async function boostView(wallet: string) {
     if (!on) return null;
-    const today = !!one("select 1 from flightpass_days where wallet = ? and day = ? and broken = 0", wallet, d.today());
+    const today = !!(await pg.one("select 1 from mine.flightpass_days where wallet = ? and day = ? and broken = 0 limit 1", wallet, d.today()));
     // the last sample's holders, from the table: the mining process asking this doesn't sample itself
-    const holding = !!one("select 1 from flightpass_owners where wallet = ?", wallet);
+    const holding = !!(await pg.one("select 1 from mine.flightpass_owners where wallet = ? limit 1", wallet));
     return { boost: MINING_BOOST, today, holding, day_start: utcDayStart() };
   }
 
@@ -866,7 +910,7 @@ export function createFlightPass(d: FlightPassDeps) {
   async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promise<boolean> {
     const p = url.pathname;
     let m: RegExpExecArray | null;
-    if (p === "/api/flightpass/config" && req.method === "GET") return d.send(res, 200, config()), true;
+    if (p === "/api/flightpass/config" && req.method === "GET") return d.send(res, 200, await config()), true;
     if (!on) {
       if (p.startsWith("/api/flightpass/") || p.startsWith("/api/admin/flightpass")) throw new HttpError(503, "FlightPass isn't on yet");
       return false;
@@ -886,7 +930,7 @@ export function createFlightPass(d: FlightPassDeps) {
         return d.send(res, 200, await saveSettings(req, id, body)), true;
       }
       if (p === "/api/admin/flightpass/prefund") { d.adminOnly(req); return d.send(res, 200, await prefund(await d.readJson(req))), true; }
-      if (p === "/api/admin/flightpass/withdrawal") { d.adminOnly(req); return d.send(res, 200, settle(await d.readJson(req))), true; }
+      if (p === "/api/admin/flightpass/withdrawal") { d.adminOnly(req); return d.send(res, 200, await settle(await d.readJson(req))), true; }
     }
     return false;
   }
