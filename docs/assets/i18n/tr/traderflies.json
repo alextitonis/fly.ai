@@ -497,6 +497,8 @@
     "signIn": "Giriş yap",
     "signing": "Cüzdanında mesajı imzala…",
     "none": "Bu cüzdanda FlightPass yok.",
+    "cantRead": "FlightPass şu an yüklenemedi. Birazdan tekrar dene.",
+    "retry": "Tekrar dene",
     "findOne": "Pazarda bir tane bul",
     "listedBadge": "Satışta",
     "flying": "Otomatik pilot açık",

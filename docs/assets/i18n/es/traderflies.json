@@ -497,6 +497,8 @@
     "signIn": "Iniciar sesión",
     "signing": "Firma el mensaje en tu wallet…",
     "none": "Esta wallet no tiene FlightPass.",
+    "cantRead": "No se pudo cargar tu FlightPass ahora. Inténtalo de nuevo en un momento.",
+    "retry": "Reintentar",
     "findOne": "Busca uno en el mercado",
     "listedBadge": "En venta",
     "flying": "Piloto automático activado",

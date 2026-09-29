@@ -2997,9 +2997,16 @@ function houseOrdersView() {
  */
 const SAMPLE = { world: 400, probe: 300 };
 let experiments: { at: number; summaries: Summary[] } | null = null;
-function computeExperiments(): void {
+let computing: Promise<void> | null = null;
+/** Yields to the event loop between orders: one pass over every result set held the main thread long enough to fail health checks. */
+function computeExperiments(): Promise<void> {
+  computing ??= computeExperimentsNow().catch((err) => console.error("experiments:", err)).finally(() => { computing = null; });
+  return computing;
+}
+async function computeExperimentsNow(): Promise<void> {
   const ref = reference;
   if (!ref) return;
+  const t0 = Date.now();
   const orders = houseOrders(null).orders.filter((o) => o.label && !o.label.startsWith("mining/"))
     .sort((a, b) => a.created_at - b.created_at);
   const outputOf = (row: any): Buffer | null => (row.output?.hash && existsSync(blobPath(row.output.hash)) ? readFileSync(blobPath(row.output.hash)) : null);
@@ -3007,7 +3014,8 @@ function computeExperiments(): void {
   const summaries: Summary[] = [];
   const byLabel = new Map(orders.map((o) => [o.label, o]));
   for (const o of orders) {
-    const before = summaries.length;
+    await new Promise((r) => setImmediate(r));
+    const before = summaries.length, t1 = Date.now();
     try {
       const label = o.label as string;
       if (/learning-off/.test(label)) continue; // summarized with its learning-on twin
@@ -3045,12 +3053,15 @@ function computeExperiments(): void {
       if (summaries.length > before) Object.assign(summaries[summaries.length - 1], { status: o.status, jobs: o.jobs, settled: o.settled, order: o.id });
     } catch (err) {
       console.error(`experiment summary for ${o.label} failed:`, err);
+    } finally {
+      if (Date.now() - t1 > 1_000) console.log(`experiment summary for ${o.label} held the main thread ${Date.now() - t1} ms`);
     }
   }
   experiments = { at: Date.now(), summaries };
+  console.log(`experiments: ${summaries.length} summaries in ${Date.now() - t0} ms`);
 }
 function experimentsView() {
-  if (!experiments) computeExperiments();
+  if (!experiments) void computeExperiments(); // the first view after a restart gets an empty list, not a frozen server
   return { updated_at: experiments ? new Date(experiments.at).toISOString() : null, experiments: experiments?.summaries ?? [] };
 }
 
@@ -3362,8 +3373,18 @@ if (STAKING.contract) {
   void sampleActiveStakes();
   setInterval(() => void sampleActiveStakes(), STAKING.sampleMs).unref();
   // the research summaries: once the connectome is loaded, then every half hour
-  setTimeout(() => computeExperiments(), 90_000).unref();
-  setInterval(() => computeExperiments(), 30 * 60_000).unref();
+  setTimeout(() => void computeExperiments(), 90_000).unref();
+  setInterval(() => void computeExperiments(), 30 * 60_000).unref();
+}
+
+// the main thread's stalls: every request, health check and miner waits behind one, so log each one over a second
+{
+  let last = Date.now();
+  setInterval(() => {
+    const late = Date.now() - last - 500;
+    if (late > 1_000) console.warn(`event loop stalled ${late} ms${computing ? " (experiments running)" : ""}`);
+    last = Date.now();
+  }, 500).unref();
 }
 
 const server = createServer(async (req, res) => {

@@ -495,6 +495,8 @@
     "signIn": "로그인",
     "signing": "지갑에서 메시지에 서명하세요…",
     "none": "이 지갑에는 FlightPass가 없습니다.",
+    "cantRead": "지금은 FlightPass를 불러올 수 없어요. 잠시 후 다시 시도해 주세요.",
+    "retry": "다시 시도",
     "findOne": "마켓에서 찾아보기",
     "listedBadge": "판매 중",
     "flying": "자동 조종 켜짐",

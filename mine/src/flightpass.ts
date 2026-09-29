@@ -187,6 +187,7 @@ export function createFlightPass(d: FlightPassDeps) {
   /** Reads every pass's owner and listing, and records who held each pass today (the mining boost). */
   function sample(): Promise<void> {
     sampling ??= (async () => {
+      const t0 = Date.now();
       try {
         const n = await supply();
         const ids = Array.from({ length: n }, (_, i) => i + 1);
@@ -210,6 +211,7 @@ export function createFlightPass(d: FlightPassDeps) {
           });
         });
         sampledAt = Date.now();
+        if (sampledAt - t0 > 10_000) console.log(`flightpass sample took ${sampledAt - t0} ms for ${n} passes`);
       } catch (err) {
         console.error(`flightpass sample failed: ${err instanceof Error ? err.message : err}`);
       } finally {
@@ -218,9 +220,14 @@ export function createFlightPass(d: FlightPassDeps) {
     })();
     return sampling;
   }
-  /** The sampled owners, refreshed first if a page asks and the last sample is over a minute old. */
+  /**
+   * The sampled owners for a page: a sample over a minute old is refreshed in the background, so a read never waits
+   * on the chain (a full sample is ~20 RPC round trips, longer than the page waits). Only before the first sample does it wait.
+   */
   async function fresh(): Promise<void> {
-    if (Date.now() - sampledAt > 60_000) await sample();
+    if (Date.now() - sampledAt <= 60_000) return;
+    const s = sample();
+    if (!sampledAt) await s;
   }
 
   /** The owner and listing right now, from the chain; the pass must exist. */
@@ -325,7 +332,7 @@ export function createFlightPass(d: FlightPassDeps) {
     const wallet = d.sessionWallet(req);
     await fresh();
     const ids = [...owners].filter(([, w]) => w === wallet).map(([id]) => id).sort((a, b) => a - b);
-    return { wallet, passes: ids.map((id) => view(id, wallet, listed.has(id), true)) };
+    return { wallet, sampled_at: sampledAt || null, passes: ids.map((id) => view(id, wallet, listed.has(id), true)) };
   }
 
   async function onePass(req: IncomingMessage, id: number) {
