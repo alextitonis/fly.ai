@@ -132,6 +132,7 @@
     "buy": "购买 · {price}",
     "paused": "$FLYAI 暂停"
   },
+  "fly": {"notLiveTitle": "Fly Desk 尚未上线：暂无可领取。", "notLiveText": "Desk 开始真实交易且你的苍蝇已激活后才会开始派发。在此之前，这里显示的是每只苍蝇在持有者份额中的比例，而不是应付金额。", "yours": "你的苍蝇", "yoursN": "你的苍蝇（{n}）", "none": "此钱包没有 Trader Fly。", "total": "合计：在 {n} 只已激活苍蝇中占持有者份额的 {pct}。", "shareActive": "持有者份额 · {n} 只已激活", "shareIfActive": "若激活 · 当前 {n} 只已激活", "shareAtReveal": "揭晓后显示份额：由每只苍蝇的稀有度决定。", "active": "已激活", "inactive": "未激活", "weight": "派发权重", "weightNote": "普通 1 · 罕见 1.5 · 稀有 2 · 传奇 3", "atReveal": "揭晓时确定", "share": "份额", "status": "状态", "until": "至 {when}", "forever": "无结束日期", "activateHint": "在 Mint 页面激活即可参与收益", "howShare": "每周 Desk 超出前高的利润中 {pct}% 归持有者，按权重分给已激活的苍蝇：你的份额 = 你的苍蝇权重 / 全部激活权重。", "traits": "特征", "traitsAtReveal": "特征随系列揭晓。", "holder": "持有者", "onMarket": "市场", "find": "查询", "findPlaceholder": "苍蝇 #", "cantRead": "无法从链上读取这只苍蝇，请重试。"},
   "market": {
     "view": { "label": "视图", "grid": "网格", "list": "列表" },
     "browse": {"sortRarity": "稀有度：最稀有优先", "rarityAll": "全部", "search": "搜索 #", "searchLabel": "按编号查找", "notListed": "{name} 未在出售。", "noSuch": "还没有 #{id}。", "offer": "出价", "sweep": "扫货", "sweepHint": "最便宜的 {n} 个", "lastSale": "上次成交 {amount}"},
