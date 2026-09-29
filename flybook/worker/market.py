@@ -513,8 +513,13 @@ def simulate_round(state: dict, eps, reader, rng: np.random.Generator, flies: li
             mood = feedflow.mood(mine)
         view = None
         if state.get("view"):
+            # always_view: one list for every fly, or {fly id: list} when each fly gets its own (the desk's
+            # Polymarket markets, 2026-09-29: a different few for each fly, both sides of each)
+            always = state.get("always_view")
+            if isinstance(always, dict):
+                always = always.get(f["id"], ())
             view = field_of_view(state["portfolios"][f["id"]], state["minds"][f["id"]], list(prices), state["view"], py_rng,
-                                 own[f["id"]].get("tubes", True), state.get("always_view"))
+                                 own[f["id"]].get("tubes", True), always)
         return felt(state["portfolios"][f["id"]], prices, history, settings_of(f), state["minds"][f["id"]], own[f["id"]], social, mood,
                     encoder=state.get("encoder", "v1"), vols=state.get("vols"), view=view)
     settings_of = lambda f: {k: f.get(k) or {} for k in ("senses", "temperament", "dials")}

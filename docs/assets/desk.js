@@ -291,7 +291,9 @@
   /** 06: the flies on other chains - the same books as above, one wallet across every chain: per chain what each fly
    * holds there and what it is worth, its fills there, and the chain's token list. */
   function renderChains(cs) {
-    const keys = Object.keys(cs).filter((k) => cs[k] && (cs[k].books || []).length);
+    // Polymarket first: its bets are what people come to this section for (the user 2026-09-29)
+    const keys = Object.keys(cs).filter((k) => cs[k] && (cs[k].books || []).length)
+      .sort((a, b) => (b === "poly" ? 1 : 0) - (a === "poly" ? 1 : 0));
     $("chains").hidden = !keys.length;
     const head = (cols) => `<thead><tr>${cols.map(([h, r]) => `<th${r ? ' class="r"' : ""}>${esc(h)}</th>`).join("")}</tr></thead>`;
     $("chains-body").innerHTML = keys.map((k) => {
