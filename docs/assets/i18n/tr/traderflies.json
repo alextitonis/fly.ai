@@ -141,6 +141,8 @@
     "browse": {"sortRarity": "Nadirlik: en nadir önce", "rarityAll": "Tümü", "search": "# ara", "searchLabel": "Numarayla bul", "notListed": "{name} satışta değil.", "noSuch": "Henüz #{id} yok.", "offer": "Teklif ver", "sweep": "Süpür", "sweepHint": "en ucuz {n} tane", "lastSale": "Son satış {amount}"},
     "coll": {"title": "Koleksiyon teklifi", "text": "Herhangi bir sinek için sinek başına bir fiyat teklif et, en fazla 50. Bir sahip sana satana ya da sen geri alana kadar para pazarda tutulur. Her satışta %{pct} ücret.", "qty": "Sinek", "price": "Sinek başına fiyat ({token})", "make": "Koleksiyon teklifi ver", "update": "Teklifi güncelle", "yours": "Koleksiyon teklifin · {n} tane daha", "top": "En iyi teklif", "forN": "{n} sinek için", "topShort": "Koleksiyon teklifi {price}", "sell": "{price} karşılığında sat", "sellPicked": "{n} tanesini {price}'dan sat", "made": "Koleksiyon teklifi verildi: {n} sinek, tanesi {price}.", "cancelled": "Koleksiyon teklifi geri alındı.", "sold": "Koleksiyon teklifine {n} sinek tanesi {price}'dan satıldı.", "why": {"BadQuantity": "1 ile 50 arasında sinek seç."}},
     "launch": {"title": "Lansman fırsatları", "text": "4 Ekim Pazar gününe kadar buradaki her satışta %{pct} ücret."},
+    "vol24": "24 sa hacim", "salesN": "{n} satış",
+    "page": {"label": "Sayfalar", "prev": "Önceki", "next": "Sonraki", "of": "Sayfa {page} / {pages} · {total} öğe"},
     "usdFollows": "$FLYAI fiyatını izler",
     "title": "Pazar",
     "text": "Trader Flies'ı diğer holder'larla {token} ile al ve sat. Satıcı parasını hemen alır, %{pct} komisyon düşülür.",

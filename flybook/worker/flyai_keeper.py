@@ -5,7 +5,8 @@ older than an hour, and caps one post at a 30% move. This loop keeps it fresh (P
 flytrade/contracts/tools/flyai-price.mjs, same rules):
 
   every 5 min: price = DexScreener's most liquid FLYAI pair, checked against GeckoTerminal (skip if they differ > 10%)
-  post when it moved >= 3% from the contract's price, or the last post is >= 45 min old
+  post when it moved >= 3% from the contract's price, or the last post is >= 30 min old (was 45; the user 2026-09-29:
+  "every 30 mins" - the marketplace's dollar listings are paid at this price)
   a move past the 30% cap is followed in 28% steps, one per check
 
     python flybook/worker/flyai_keeper.py            one check
@@ -27,7 +28,7 @@ from eth_utils import keccak
 FLYAI = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C"
 RPC = os.environ.get("RPC", "https://rpc.mainnet.chain.robinhood.com")
 FLY = os.environ.get("TRADERFLY_ADDRESS", "")
-MOVE, MAX_AGE, STEP, AGREE, EVERY, CAP = 0.03, 45 * 60, 0.28, 0.10, 300, 0.30
+MOVE, MAX_AGE, STEP, AGREE, EVERY, CAP = 0.03, 30 * 60, 0.28, 0.10, 300, 0.30
 
 
 def sel(sig: str) -> str:

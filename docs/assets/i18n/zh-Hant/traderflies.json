@@ -139,6 +139,8 @@
     "browse": {"sortRarity": "稀有度：最稀有優先", "rarityAll": "全部", "search": "搜尋 #", "searchLabel": "依編號查找", "notListed": "{name} 未在出售。", "noSuch": "還沒有 #{id}。", "offer": "出價", "sweep": "掃貨", "sweepHint": "最便宜的 {n} 個", "lastSale": "上次成交 {amount}"},
     "coll": {"title": "集合出價", "text": "為任意蒼蠅出每隻的價格，最多 50 隻。資金由市場託管，直到持有者賣給你或你撤回。每筆成交收取 {pct}% 手續費。", "qty": "數量", "price": "每隻價格（{token}）", "make": "發起集合出價", "update": "更新集合出價", "yours": "你的集合出價 · 還要 {n} 隻", "top": "最高出價", "forN": "共 {n} 隻", "topShort": "集合出價 {price}", "sell": "以 {price} 賣出", "sellPicked": "以每隻 {price} 賣出 {n} 隻", "made": "已發起集合出價：{n} 隻，每隻 {price}。", "cancelled": "已撤回集合出價。", "sold": "已以每隻 {price} 向集合出價賣出 {n} 隻。", "why": {"BadQuantity": "請選擇 1 到 50 隻。"}},
     "launch": {"title": "上線優惠", "text": "10 月 4 日（週日）前，在這裡每筆成交手續費僅 {pct}%。"},
+    "vol24": "24 小時成交額", "salesN": "{n} 筆成交",
+    "page": {"label": "分頁", "prev": "上一頁", "next": "下一頁", "of": "第 {page} / {pages} 頁 · 共 {total} 個"},
     "usdFollows": "隨 $FLYAI 價格浮動",
     "title": "市場",
     "text": "用 {token} 與其他持有者買賣 Trader Flies。賣家立即收款，扣除 {pct}% 手續費。",

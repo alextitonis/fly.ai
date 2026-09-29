@@ -139,6 +139,8 @@
     "browse": {"sortRarity": "稀有度：最稀有优先", "rarityAll": "全部", "search": "搜索 #", "searchLabel": "按编号查找", "notListed": "{name} 未在出售。", "noSuch": "还没有 #{id}。", "offer": "出价", "sweep": "扫货", "sweepHint": "最便宜的 {n} 个", "lastSale": "上次成交 {amount}"},
     "coll": {"title": "集合出价", "text": "为任意苍蝇出每只的价格，最多 50 只。资金由市场托管，直到持有者卖给你或你撤回。每笔成交收取 {pct}% 手续费。", "qty": "数量", "price": "每只价格（{token}）", "make": "发起集合出价", "update": "更新集合出价", "yours": "你的集合出价 · 还要 {n} 只", "top": "最高出价", "forN": "共 {n} 只", "topShort": "集合出价 {price}", "sell": "以 {price} 卖出", "sellPicked": "以每只 {price} 卖出 {n} 只", "made": "已发起集合出价：{n} 只，每只 {price}。", "cancelled": "已撤回集合出价。", "sold": "已以每只 {price} 向集合出价卖出 {n} 只。", "why": {"BadQuantity": "请选择 1 到 50 只。"}},
     "launch": {"title": "上线优惠", "text": "10 月 4 日（周日）前，在这里每笔成交手续费仅 {pct}%。"},
+    "vol24": "24 小时成交额", "salesN": "{n} 笔成交",
+    "page": {"label": "分页", "prev": "上一页", "next": "下一页", "of": "第 {page} / {pages} 页 · 共 {total} 个"},
     "usdFollows": "随 $FLYAI 价格浮动",
     "title": "市场",
     "text": "用 {token} 与其他持有者买卖 Trader Flies。卖家立即收款，扣除 {pct}% 手续费。",

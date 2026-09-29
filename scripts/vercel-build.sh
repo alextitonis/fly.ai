@@ -15,6 +15,8 @@ cp -r world/dist-roulette/assets .vercel-out/roulette/
 cp world/dist-roulette/roulette.html .vercel-out/roulette/index.html
 cp -r world/dist-slots/assets .vercel-out/slots/
 cp world/dist-slots/slots.html .vercel-out/slots/index.html
+cp -r world/dist-race/assets .vercel-out/race/
+cp world/dist-race/race.html .vercel-out/race/index.html
 cp -r world/dist-flinder/assets .vercel-out/flinder/
 cp world/dist-flinder/flinder.html .vercel-out/flinder/index.html
 cp -r flybook/web/dist/. .vercel-out/flybook/
