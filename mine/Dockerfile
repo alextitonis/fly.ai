@@ -1,11 +1,12 @@
 # fly.ai mining server. Deploy with mine/deploy.sh, which stages the server, the world engine files it
-# imports and serves (plus Fly Roulette's shared rules), and the connectome export (~58 MB), then builds remotely. The server
+# imports and serves (plus Fly Roulette's and Fly Slots' shared rules), and the connectome export (~58 MB), then builds remotely. The server
 # needs only the two @noble crypto libraries (Node strips the TypeScript itself).
 FROM node:22-slim
 
 WORKDIR /app
 COPY world/src/connectome.ts world/src/rng.ts world/src/
 COPY world/src/roulette/game.ts world/src/roulette/readout.ts world/src/roulette/
+COPY world/src/slots/game.ts world/src/slots/
 COPY world/public/connectome world/public/connectome
 COPY mine/package.json mine/package-lock.json mine/
 RUN cd mine && npm ci --omit=dev

@@ -534,6 +534,8 @@
     "games": {
       "roulette": "Fly Roulette",
       "rouletteText": "설정한 한도 안에서 패스 잔액으로 베팅합니다.",
+      "slots": "플라이 슬롯",
+      "slotsText": "패스 잔액으로, 설정한 한도 안에서 스핀해요. 파리는 반응만 하고 릴은 무작위예요.",
       "missions": "Flybook 미션",
       "missionsText": "매일 찌르기, 좋아요, 반응으로 시즌 보드를 노립니다.",
       "duels": "Flybook 결투",
@@ -556,7 +558,9 @@
       "withdraw": "출금",
       "bet": "룰렛 베팅",
       "payout": "룰렛 승리",
-      "fee": "수수료"
+      "fee": "수수료",
+      "slots_bet": "슬롯 스핀",
+      "slots_payout": "슬롯 당첨"
     },
     "terms": {
       "title": "Fly Roulette 약관",
@@ -638,6 +642,24 @@
       "waiting": "오토파일럿이 켜져 있습니다. 다음 베팅은 {time}쯤입니다."
     },
     "ofCap": "오늘 한도 {cap}",
-    "houseLimits": "Fly Roulette 한도: 베팅당 {min}~{max} $FLYAI, 하루 최대 {day} $FLYAI."
+    "houseLimits": "Fly Roulette 한도: 베팅당 {min}~{max} $FLYAI, 하루 최대 {day} $FLYAI.",
+    "slots": {
+      "stake": "스핀당 베팅 ($FLYAI)",
+      "house": "플라이 슬롯 한도: 스핀당 {min}~{max} $FLYAI, 하루 최대 {day} $FLYAI.",
+      "today": "오늘 스핀: {cap} 중 {spent} $FLYAI",
+      "termsNeeded": "플라이 슬롯은 Fly Roulette의 18세 이상 약관을 써요. 한 번만 동의하면 되고, 저장할 때 물어봐요.",
+      "spinWon": "{mult}배 당첨",
+      "spinLost": "꽝",
+      "status": {
+        "listed": "패스가 판매 등록된 동안 멈춰요.",
+        "paused": "지금은 모두에게 플라이 슬롯이 멈춰 있어요. 다시 열리면 파리가 또 돌려요.",
+        "terms": "18세 이상 약관에 동의하면 파리가 스핀을 시작해요.",
+        "stake": "스핀당 베팅은 {min}~{max} $FLYAI 사이여야 해요. 바꾸고 저장하세요.",
+        "dayCapYours": "일일 한도 도달: 오늘 {cap} $FLYAI 스핀. {time}(00:00 UTC)에 다시 돌리거나 \"하루 최대\"를 올리세요.",
+        "dayCapHouse": "일일 한도 도달: 오늘 {cap} $FLYAI 스핀, 플라이 슬롯의 하루 최대치예요. {time}(00:00 UTC)에 다시 돌려요.",
+        "lowBalance": "패스 잔액이 스핀 한 번에도 부족해요 ({need} $FLYAI). 충전하면 계속해요.",
+        "waiting": "자동 조종 켜짐. 다음 스핀은 {time}쯤."
+      }
+    }
   }
 }

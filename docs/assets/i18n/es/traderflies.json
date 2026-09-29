@@ -536,6 +536,8 @@
     "games": {
       "roulette": "Fly Roulette",
       "rouletteText": "Apuesta con el saldo del pase, dentro de tus límites.",
+      "slots": "Fly Slots",
+      "slotsText": "Tiradas con el saldo del pase, dentro de tus límites. La mosca solo reacciona; los rodillos son aleatorios.",
       "missions": "Misiones de Flybook",
       "missionsText": "Toques, likes y reacciones, cada día, para la tabla de la temporada.",
       "duels": "Duelos de Flybook",
@@ -558,7 +560,9 @@
       "withdraw": "Retiro",
       "bet": "Apuesta de ruleta",
       "payout": "Premio de ruleta",
-      "fee": "Comisión"
+      "fee": "Comisión",
+      "slots_bet": "Tirada de slots",
+      "slots_payout": "Premio de slots"
     },
     "terms": {
       "title": "Términos de Fly Roulette",
@@ -640,6 +644,24 @@
       "waiting": "El piloto automático está activado. Próxima apuesta hacia las {time}."
     },
     "ofCap": "de {cap} hoy",
-    "houseLimits": "Límites de Fly Roulette: de {min} a {max} $FLYAI por apuesta, hasta {day} $FLYAI al día."
+    "houseLimits": "Límites de Fly Roulette: de {min} a {max} $FLYAI por apuesta, hasta {day} $FLYAI al día.",
+    "slots": {
+      "stake": "Apuesta por tirada ($FLYAI)",
+      "house": "Límites de Fly Slots: de {min} a {max} $FLYAI por tirada, hasta {day} $FLYAI al día.",
+      "today": "Girado hoy: {spent} de {cap} $FLYAI",
+      "termsNeeded": "Fly Slots usa los términos +18 de Fly Roulette, que se aceptan una vez. Te los pediremos al guardar.",
+      "spinWon": "Ganó {mult}x",
+      "spinLost": "Sin premio",
+      "status": {
+        "listed": "En pausa mientras el pase está a la venta.",
+        "paused": "Fly Slots está en pausa para todos ahora. Tu mosca vuelve a girar cuando regrese.",
+        "terms": "Acepta los términos +18 y tu mosca empieza a girar.",
+        "stake": "La apuesta por tirada debe estar entre {min} y {max} $FLYAI. Cámbiala y guarda.",
+        "dayCapYours": "Límite diario alcanzado: {cap} $FLYAI girados hoy. Tu mosca vuelve a girar a las {time} (00:00 UTC), o sube el «Máximo al día».",
+        "dayCapHouse": "Límite diario alcanzado: {cap} $FLYAI girados hoy, lo máximo que Fly Slots acepta al día. Tu mosca vuelve a girar a las {time} (00:00 UTC).",
+        "lowBalance": "No hay suficiente en el pase para una tirada ({need} $FLYAI). Recarga para seguir jugando.",
+        "waiting": "Piloto automático activo. Próxima tirada hacia las {time}."
+      }
+    }
   }
 }

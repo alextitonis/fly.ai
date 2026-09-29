@@ -534,6 +534,8 @@
     "games": {
       "roulette": "Fly Roulette",
       "rouletteText": "在你的限额内，用通行证余额下注。",
+      "slots": "果蝇老虎机",
+      "slotsText": "用通行证余额旋转，不超过你的限额。果蝇只负责反应，转轴是随机的。",
       "missions": "Flybook 任务",
       "missionsText": "每天戳一戳、点赞和反应，冲赛季榜。",
       "duels": "Flybook 决斗",
@@ -556,7 +558,9 @@
       "withdraw": "提现",
       "bet": "轮盘下注",
       "payout": "轮盘赢奖",
-      "fee": "手续费"
+      "fee": "手续费",
+      "slots_bet": "老虎机旋转",
+      "slots_payout": "老虎机奖金"
     },
     "terms": {
       "title": "Fly Roulette 条款",
@@ -638,6 +642,24 @@
       "waiting": "自动驾驶已开启。下一次下注约在 {time}。"
     },
     "ofCap": "今日上限 {cap}",
-    "houseLimits": "Fly Roulette 限额：每次下注 {min} 到 {max} $FLYAI，每天最多 {day} $FLYAI。"
+    "houseLimits": "Fly Roulette 限额：每次下注 {min} 到 {max} $FLYAI，每天最多 {day} $FLYAI。",
+    "slots": {
+      "stake": "每次旋转下注（$FLYAI）",
+      "house": "果蝇老虎机限额：每次 {min} 到 {max} $FLYAI，每天最多 {day} $FLYAI。",
+      "today": "今天已转：{spent} / {cap} $FLYAI",
+      "termsNeeded": "果蝇老虎机沿用 Fly Roulette 的 18+ 条款，只需接受一次。保存时会询问你。",
+      "spinWon": "赢了 {mult} 倍",
+      "spinLost": "没中",
+      "status": {
+        "listed": "通行证挂单出售期间暂停。",
+        "paused": "果蝇老虎机目前对所有人暂停。恢复后你的果蝇会继续旋转。",
+        "terms": "接受 18+ 条款后，你的果蝇就开始旋转。",
+        "stake": "每次旋转下注必须在 {min} 到 {max} $FLYAI 之间。改好后保存。",
+        "dayCapYours": "已达每日上限：今天已转 {cap} $FLYAI。你的果蝇会在 {time}（UTC 00:00）继续，或调高“每日上限”。",
+        "dayCapHouse": "已达每日上限：今天已转 {cap} $FLYAI，这是果蝇老虎机每天的最高额。你的果蝇会在 {time}（UTC 00:00）继续。",
+        "lowBalance": "通行证余额不够转一次（{need} $FLYAI）。充值后继续。",
+        "waiting": "自动驾驶已开启。下一次旋转大约在 {time}。"
+      }
+    }
   }
 }

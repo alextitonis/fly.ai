@@ -1,0 +1,197 @@
+{
+  "meta": {
+    "title": "Sinek Slotları",
+    "description": "Makaraların yanında gerçek bir sinek beyni olan çizgi film slot makinesi. Eğlencesine ya da $FLYAI ile çevir: kanıtlanabilir adil makaralar, %95 geri dönüş ve her örümcekte irkilen 166.700 nöronluk bir konnektom."
+  },
+  "head": {
+    "title": "Sinek <span>Slotları</span>",
+    "sub": "Üç makara, bir ödeme çizgisi ve her çevirmeyi izleyen gerçek bir sinek beyni. Çizgideki örümcekler onu zıplatır. Üç taç 400x öder."
+  },
+  "mode": {
+    "label": "Nasıl oynanır",
+    "fun": "Eğlencesine oyna",
+    "bet": "$FLYAI ile oyna"
+  },
+  "status": {
+    "loading": "sinek beyni uyandırılıyor…",
+    "progress": "{text}",
+    "labels": "etiketler",
+    "brain": "sinek beyni",
+    "wiring": "25 M sinaps bağlanıyor",
+    "ready": "sinek beyni uyanık: {n} nöron",
+    "error": "sinek uyuyor; makaralar yine döner"
+  },
+  "deck": {
+    "balance": "Bakiye",
+    "coins": "oyun jetonu",
+    "flyai": "FLYAI",
+    "signedOut": "giriş yap",
+    "stake": "Bahis",
+    "lower": "Bahsi düşür",
+    "higher": "Bahsi artır",
+    "spin": "Çevir",
+    "win": "Kazanç",
+    "auto": "Otomatik",
+    "stop": "Dur",
+    "autoLeft": {
+      "one": "{count} çevirme kaldı",
+      "other": "{count} çevirme kaldı"
+    },
+    "spaceHint": "boşluk tuşu çevirir",
+    "soundOn": "Ses: açık",
+    "soundOff": "Ses: kapalı",
+    "reelsLabel": "Makaralar"
+  },
+  "msg": {
+    "ready": "Çevir’e ya da boşluk tuşuna bas.",
+    "lost": "Bu sefer şans yok.",
+    "won": "{line}: {mult}x, +{amount}",
+    "big": "BÜYÜK KAZANÇ! {line}: {mult}x, +{amount}",
+    "broke": "Bu bahis için bakiye yetmiyor.",
+    "brokeFun": "Oyun jetonu bitti: Doldur’a bas.",
+    "stakeBad": "Sıfırdan büyük bir bahis gir.",
+    "autoBig": "Otomatik çevirme büyük kazançta durdu.",
+    "autoBroke": "Otomatik çevirme durdu: bakiye bitti.",
+    "signInFirst": "Gerçek çevirmek için $FLYAI panelinden giriş yap.",
+    "betClosed": "$FLYAI çevirmeleri şu an kapalı. Eğlencesine oyun açık."
+  },
+  "line": {
+    "three": "Üç {sym}",
+    "two": "İki {sym}",
+    "crown": "1. makarada taç"
+  },
+  "sym": {
+    "crown": "taç",
+    "fly": "sinek",
+    "honey": "bal kavanozu",
+    "grape": "üzüm",
+    "banana": "muz",
+    "apple": "elma",
+    "spider": "örümcek"
+  },
+  "fun": {
+    "title": "Oyun jetonları",
+    "text": "Ücretsiz oyun: para yok, sadece bu cihazdaki jetonlar. Gerçeğiyle aynı makaralar, aynı olasılıklar.",
+    "refill": "{n} jetona doldur",
+    "stats": "{spins} çevirme · en iyi {best}x · {won} jeton kazanıldı"
+  },
+  "brain": {
+    "title": "Kafasının içi",
+    "wing": "Zıplama",
+    "wingMn": "kanat motor nöronları",
+    "loom": "Örümcek korkusu",
+    "spiders": {
+      "zero": "çizgide örümcek yok",
+      "one": "çizgide {count} örümcek",
+      "other": "çizgide {count} örümcek"
+    },
+    "idle": "makaraları izliyor",
+    "thinking": "çizgiye bakıyor…",
+    "flinch": "ZIPLADI!",
+    "calm": "yerinde duruyor",
+    "napping": "beyin uykuda, sadece havası var",
+    "note": "Tarayıcında çalışan 166.700 nöronluk gerçek bir sinek konnektomundan sinyaller. Çizgideki örümcekler ona doğru büyür ve tepki verir. Sonuca asla dokunmaz."
+  },
+  "pay": {
+    "title": "Ödeme tablosu",
+    "crownFirst": "1. makarada taç",
+    "any": "her",
+    "spider": "Örümcekler asla ödemez.",
+    "note": "Ödemeler bahsinin katıdır, bahis dahil; orta çizgide soldan itibaren.",
+    "rtp": "Oyuncuya dönüş %{rtp} · yaklaşık {hit} çevirmede bir kazanç"
+  },
+  "recent": {
+    "title": "Son çevirmeler",
+    "none": "Henüz çevirme yok."
+  },
+  "pop": {
+    "win": [
+      "Nefis!",
+      "Vız vız!",
+      "Tatlı!",
+      "Güzel!",
+      "Şıkır!"
+    ],
+    "big": [
+      "JACKPOT!",
+      "VIZZZZ!",
+      "Zengin sinek!",
+      "Mega vız!"
+    ],
+    "flinch": [
+      "Iyy!",
+      "ÖRÜMCEK!",
+      "Asla!",
+      "Eyvah!",
+      "Kaç!"
+    ],
+    "meh": [
+      "Hmm.",
+      "Of.",
+      "Yine mi?",
+      "Vız…"
+    ]
+  },
+  "bet": {
+    "title": "$FLYAI ile oyna",
+    "loading": "$FLYAI masası açılıyor…",
+    "closed": "$FLYAI çevirmeleri henüz açık değil. Eğlencesine oyun açık.",
+    "unreachable": "$FLYAI çevirmelerine şu an ulaşılamıyor; eğlencesine oyun çalışıyor.",
+    "intro": "fly.ai bakiyendeki gerçek $FLYAI ile çevir; Fly Roulette ve compute ile aynı bakiye.",
+    "signIn": "Cüzdanınla giriş yap",
+    "deposit": "Yatır",
+    "withdraw": "Çek",
+    "signOut": "Çıkış yap",
+    "depositLabel": "Cüzdanından bakiyene $FLYAI gönder",
+    "withdrawLabel": "$FLYAI'yi cüzdanına geri iste",
+    "amount": "miktar",
+    "send": "Gönder",
+    "ask": "İste",
+    "withdrawNote": "Çekimler elle gönderilir, genelde bir gün içinde.",
+    "withdrawAsked": "{amount} FLYAI geri istedin; elle gönderilir, genelde bir gün içinde.",
+    "limits": "Çevirme başı {min}–{max} FLYAI · günde en çok {day} · bugün {staked}",
+    "paused": "$FLYAI çevirmeleri şimdilik durduruldu; sonra tekrar dene.",
+    "nextCommit": "sonraki çevirmenin taahhüdü:",
+    "noneYet": "henüz yok",
+    "commitShown": "taahhüt (çevirmeden önce gösterilen)",
+    "serverSeed": "sunucu tohumu (sonra açıklanır)",
+    "yourSeed": "senin tohumun",
+    "verifyBtn": "Bu çevirmeyi doğrula",
+    "notRevealed": "henüz açıklanmadı",
+    "resWon": "Çevirme #{id}: <b>+{amount} FLYAI</b> kazandın ({mult}x)",
+    "resLost": "Çevirme #{id}: <b>{amount} FLYAI</b> kaybettin",
+    "vBadSeed": "✗ sunucu tohumu taahhütle eşleşmiyor",
+    "vBadCommit": "✗ bu, çevirmeden önce gösterilen taahhüt değil",
+    "vBadStops": "✗ tohumlar farklı makaralar veriyor",
+    "vOk": "✓ adil: tohum çevirmeden önce gösterilen taahhütle eşleşiyor ve iki tohum tam olarak bu makaraları veriyor",
+    "vOkOld": "✓ adil: tohum taahhüdüyle eşleşiyor ve iki tohum tam olarak bu makaraları veriyor",
+    "yourSpins": "Çevirmelerin",
+    "noSpins": "Henüz çevirme yok.",
+    "stakeRange": "Bahis {min} ile {max} FLYAI arasında olmalı.",
+    "overBalance": "Bakiyenden fazla.",
+    "overDay": "Bu, bugünkü {day} FLYAI sınırını aşar.",
+    "sessionExpired": "oturumunun süresi doldu; tekrar giriş yap",
+    "enterAmount": "bir miktar gir",
+    "mining": "transferin madenciler tarafından işlenmesi bekleniyor…",
+    "deposited": "✓ {amount} FLYAI eklendi",
+    "withdrawOk": "✓ istendi; cüzdanına elle gönderilir, genelde bir gün içinde",
+    "howTitle": "$FLYAI çevirmeleri nasıl işler",
+    "how1": "<b>Eğlencesine oyun ücretsiz kalır.</b> Oyun jetonları paraya dokunmaz; gerçek çevirmeler sadece bu modda olur.",
+    "how2": "<b>Sen ve kasa.</b> Ödeme tablosu uzun vadede bahislerin %94,95’ini geri verir; gerisi kasa avantajıdır.",
+    "how3": "<b>Bakiyen</b>, Fly Roulette ve compute siparişlerinin kullandığı aynı $FLYAI bakiyesidir: yatırımlar, kazançlar ve iadeler oraya gelir.",
+    "how4": "<b>Kanıtlanabilir adil.</b> Sunucu çevirmeden önce tohumunu taahhüt eder, sonra açıklar; \"Bu çevirmeyi doğrula\" iki tohumla makaraları tarayıcında yeniden üretir. Sinek sadece tepki verir.",
+    "footer": "<a href=\"/roulette-terms\">Koşullar</a> · yalnızca 18+ · sorumlu oyna"
+  },
+  "terms": {
+    "title": "İlk gerçek çevirmenden önce",
+    "t1": "Bakiyendeki gerçek $FLYAI ile çevirirsin. Hepsini kaybedebilirsin.",
+    "t2": "Makaralar rastgeledir. Ödeme tablosu uzun vadede bahislerin %94,95’ini geri verir; gerisi kasa avantajıdır.",
+    "t3": "Sunucu her çevirmeden önce tohumunu taahhüt eder ve sonra açıklar; böylece her çevirmeyi kontrol edebilirsin.",
+    "t4": "Kazançlar bakiyene geçer. Çekimler elle gönderilir ve bir gün sürebilir.",
+    "t5": "Bahis, yaşadığın yerde yasa dışı olabilir. Yerel yasalara uymak senin sorumluluğundadır.",
+    "over18": "18 yaşında ya da daha büyüğüm",
+    "accept": "<a href=\"/roulette-terms\" target=\"_blank\" rel=\"noopener\">Şartları</a> kabul ediyorum (Fly Roulette ile aynı şartlar)",
+    "cancel": "İptal",
+    "continue": "Devam"
+  }
+}

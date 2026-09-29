@@ -8,6 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "build:radio": "tsc --noEmit && vite build --config vite.radio.config.ts",
     "build:roulette": "tsc --noEmit && vite build --config vite.roulette.config.ts",
+    "build:slots": "tsc --noEmit && vite build --config vite.slots.config.ts",
     "build:flinder": "tsc --noEmit && vite build --config vite.flinder.config.ts",
     "preview": "vite preview"
   },

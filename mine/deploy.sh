@@ -10,21 +10,22 @@
 #     (the first deploy's automatic IP allocation failed for this org: "org_slug is only supported with private_v6")
 #
 # The staged context is the server, the world engine files it imports (the connectome engine and Fly Roulette's
-# shared rules) and the connectome export (~58 MB).
+# and Fly Slots' shared rules) and the connectome export (~58 MB).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 STAGE="$(mktemp -d)"
 trap 'rm -rf "$STAGE"' EXIT
 
-mkdir -p "$STAGE/world/src/roulette" "$STAGE/world/public" "$STAGE/mine"
+mkdir -p "$STAGE/world/src/roulette" "$STAGE/world/src/slots" "$STAGE/world/public" "$STAGE/mine"
 cp "$ROOT"/world/src/connectome.ts "$ROOT"/world/src/rng.ts "$STAGE/world/src/"
 cp "$ROOT"/world/src/roulette/game.ts "$ROOT"/world/src/roulette/readout.ts "$STAGE/world/src/roulette/"
+cp "$ROOT"/world/src/slots/game.ts "$STAGE/world/src/slots/"
 cp -r "$ROOT"/world/public/connectome "$STAGE/world/public/"
 cp "$ROOT"/mine/package.json "$ROOT"/mine/package-lock.json "$ROOT"/mine/Dockerfile "$ROOT"/mine/fly.toml "$STAGE/mine/"
 cp -r "$ROOT"/mine/src "$ROOT"/mine/web "$STAGE/mine/"
 
 SHA="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || echo unknown)"
-git -C "$ROOT" diff --quiet HEAD -- mine world/src/connectome.ts world/src/rng.ts world/src/roulette 2>/dev/null \
-  && [ -z "$(git -C "$ROOT" ls-files --others --exclude-standard mine)" ] || SHA="$SHA-dirty"
+git -C "$ROOT" diff --quiet HEAD -- mine world/src/connectome.ts world/src/rng.ts world/src/roulette world/src/slots 2>/dev/null \
+  && [ -z "$(git -C "$ROOT" ls-files --others --exclude-standard mine world/src/slots)" ] || SHA="$SHA-dirty"
 echo "deploying $SHA from $STAGE"
 fly deploy "$STAGE" -c "$STAGE/mine/fly.toml" --remote-only --ha=false --build-arg GIT_SHA="$SHA" "$@"

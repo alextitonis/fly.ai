@@ -1,0 +1,175 @@
+{
+  "meta": {
+    "title": "Fly Slots",
+    "description": "A cartoon slot machine with a real fly brain beside the reels. Spin for fun or for $FLYAI: provably fair reels, 95% return, and a 166,700-neuron connectome that flinches at every spider."
+  },
+  "head": {
+    "title": "Fly <span>Slots</span>",
+    "sub": "Three reels, one payline, and a real fly brain watching every spin. Spiders on the line make it jump. Line up three crowns for 400x."
+  },
+  "mode": {
+    "label": "How to play",
+    "fun": "Play for fun",
+    "bet": "Play for $FLYAI"
+  },
+  "status": {
+    "loading": "waking the fly brain…",
+    "progress": "{text}",
+    "labels": "labels",
+    "brain": "fly brain",
+    "wiring": "wiring 25 M synapses",
+    "ready": "fly brain awake: {n} neurons",
+    "error": "the fly is napping; the reels still spin"
+  },
+  "deck": {
+    "balance": "Balance",
+    "coins": "fun coins",
+    "flyai": "FLYAI",
+    "signedOut": "sign in",
+    "stake": "Stake",
+    "lower": "Lower the stake",
+    "higher": "Raise the stake",
+    "spin": "Spin",
+    "win": "Win",
+    "auto": "Auto",
+    "stop": "Stop",
+    "autoLeft": {
+      "one": "{count} spin left",
+      "other": "{count} spins left"
+    },
+    "spaceHint": "space bar spins",
+    "soundOn": "Sound: on",
+    "soundOff": "Sound: off",
+    "reelsLabel": "The reels"
+  },
+  "msg": {
+    "ready": "Hit Spin or the space bar.",
+    "lost": "No luck this time.",
+    "won": "{line}: {mult}x, +{amount}",
+    "big": "BIG WIN! {line}: {mult}x, +{amount}",
+    "broke": "Not enough balance for that stake.",
+    "brokeFun": "Out of fun coins: hit Refill.",
+    "stakeBad": "Enter a stake above zero.",
+    "autoBig": "Auto-spin stopped on a big win.",
+    "autoBroke": "Auto-spin stopped: the balance ran out.",
+    "signInFirst": "Sign in on the $FLYAI panel to spin for real.",
+    "betClosed": "$FLYAI spins are closed right now. Play for fun is open."
+  },
+  "line": {
+    "three": "Three {sym}",
+    "two": "Two {sym}",
+    "crown": "Crown on reel 1"
+  },
+  "sym": {
+    "crown": "crowns",
+    "fly": "flies",
+    "honey": "honey pots",
+    "grape": "grapes",
+    "banana": "bananas",
+    "apple": "apples",
+    "spider": "spiders"
+  },
+  "fun": {
+    "title": "Fun coins",
+    "text": "Free play: no money, just coins on this device. Same reels and same odds as the real thing.",
+    "refill": "Refill to {n}",
+    "stats": "{spins} spins · best {best}x · {won} coins won"
+  },
+  "brain": {
+    "title": "Inside its head",
+    "wing": "Jump",
+    "wingMn": "wing motor neurons",
+    "loom": "Spider scare",
+    "spiders": {
+      "zero": "no spiders on the line",
+      "one": "{count} spider on the line",
+      "other": "{count} spiders on the line"
+    },
+    "idle": "watching the reels",
+    "thinking": "looking at the line…",
+    "flinch": "JUMPED!",
+    "calm": "stays put",
+    "napping": "brain asleep, just vibes",
+    "note": "Spikes from a real 166,700-neuron fly connectome, running in your browser. Spiders on the line loom at it and it reacts. It never touches the result."
+  },
+  "pay": {
+    "title": "Paytable",
+    "crownFirst": "crown on reel 1",
+    "any": "any",
+    "spider": "Spiders never pay.",
+    "note": "Pays are times your stake, stake included, on the middle line from the left.",
+    "rtp": "Return to player {rtp}% · a win about 1 spin in {hit}"
+  },
+  "recent": {
+    "title": "Recent spins",
+    "none": "No spins yet."
+  },
+  "pop": {
+    "win": ["Yum!", "Buzz buzz!", "Sweet!", "Nice!", "Ka-ching!"],
+    "big": ["JACKPOT!", "BUZZZZ!", "Rich fly!", "Mega buzz!"],
+    "flinch": ["Eek!", "SPIDER!", "Nope!", "Yikes!", "Run!"],
+    "meh": ["Hmm.", "Meh.", "Again?", "Bzz…"]
+  },
+  "bet": {
+    "title": "Play for $FLYAI",
+    "loading": "Opening the $FLYAI table…",
+    "closed": "$FLYAI spins aren't open yet. Play for fun is on.",
+    "unreachable": "$FLYAI spins are out of reach right now; play for fun still works.",
+    "intro": "Spin with real $FLYAI from your fly.ai balance, the same balance as Fly Roulette and compute.",
+    "signIn": "Sign in with your wallet",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "signOut": "Sign out",
+    "depositLabel": "Send $FLYAI from your wallet to your balance",
+    "withdrawLabel": "Ask for $FLYAI back to your wallet",
+    "amount": "amount",
+    "send": "Send",
+    "ask": "Ask",
+    "withdrawNote": "Withdrawals are sent by hand, usually within a day.",
+    "withdrawAsked": "You asked for {amount} FLYAI back; it's sent by hand, usually within a day.",
+    "limits": "Spins {min} to {max} FLYAI · up to {day} a day · {staked} today",
+    "paused": "$FLYAI spins are paused for now; try again later.",
+    "nextCommit": "next spin's commit:",
+    "noneYet": "none yet",
+    "commitShown": "commit (shown before the spin)",
+    "serverSeed": "server seed (revealed after)",
+    "yourSeed": "your seed",
+    "verifyBtn": "Verify this spin",
+    "notRevealed": "not yet revealed",
+    "resWon": "Spin #{id}: won <b>+{amount} FLYAI</b> ({mult}x)",
+    "resLost": "Spin #{id}: lost <b>{amount} FLYAI</b>",
+    "vBadSeed": "✗ the server seed doesn't match the commit",
+    "vBadCommit": "✗ this isn't the commit shown before the spin",
+    "vBadStops": "✗ the seeds give different reels",
+    "vOk": "✓ fair: the seed matches the commit shown before the spin, and the two seeds replay to exactly these reels",
+    "vOkOld": "✓ fair: the seed matches its commit, and the two seeds replay to exactly these reels",
+    "yourSpins": "Your spins",
+    "noSpins": "No spins yet.",
+    "stakeRange": "Stake must be between {min} and {max} FLYAI.",
+    "overBalance": "More than your balance.",
+    "overDay": "That would pass today's limit of {day} FLYAI.",
+    "sessionExpired": "your sign-in ran out; sign in again",
+    "enterAmount": "enter an amount",
+    "mining": "waiting for the transfer to be mined…",
+    "deposited": "✓ {amount} FLYAI added",
+    "withdrawOk": "✓ asked; it's sent to your wallet by hand, usually within a day",
+    "howTitle": "How $FLYAI spins work",
+    "how1": "<b>Play for fun stays free.</b> Fun coins never touch money; real spins only happen in this mode.",
+    "how2": "<b>You against the house.</b> The paytable returns 94.95% of stakes over the long run; the rest is the house edge.",
+    "how3": "<b>Your balance</b> is the same $FLYAI balance Fly Roulette and compute orders use: deposits, winnings and refunds all land in it.",
+    "how4": "<b>Provably fair.</b> The server commits to its seed before your spin and reveals it after; \"Verify this spin\" replays the reels from both seeds in your browser. The fly only reacts.",
+    "footer": "<a href=\"/roulette-terms\">Terms</a> · 18+ only · play responsibly"
+  },
+  "terms": {
+    "title": "Before your first real spin",
+    "t1": "You spin with real $FLYAI from your balance. You can lose all of it.",
+    "t2": "The reels are random. The paytable returns 94.95% of stakes over the long run; the rest is the house edge.",
+    "t3": "The server commits to its seed before each spin and reveals it after, so you can check every spin.",
+    "t4": "Winnings go to your balance. Withdrawals are sent by hand and can take a day.",
+    "t5": "Betting may be illegal where you live. It's your responsibility to follow your local laws.",
+    "over18": "I'm 18 or older",
+    "accept": "I accept the <a href=\"/roulette-terms\" target=\"_blank\" rel=\"noopener\">terms</a> (the same terms as Fly Roulette)",
+    "cancel": "Cancel",
+    "continue": "Continue"
+  }
+}

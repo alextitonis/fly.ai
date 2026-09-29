@@ -41,6 +41,10 @@
       "label": "Fly Roulette",
       "desc": "Fly brains vs a toy cap gun"
     },
+    "slots": {
+      "label": "Fly Slots",
+      "desc": "Spin the reels, a fly brain reacts"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "A fly brain swipes on dating profiles"

@@ -41,6 +41,10 @@
       "label": "Sinek Ruleti",
       "desc": "Sinek beyinleri, oyuncak kapsül tabancasına karşı"
     },
+    "slots": {
+      "label": "Sinek Slotları",
+      "desc": "Makarayı çevir, sinek beyni tepki versin"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "Bir sinek beyni flört profillerini kaydırıyor"

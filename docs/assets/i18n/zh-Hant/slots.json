@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "title": "果蠅拉霸",
+    "description": "一台卡通拉霸機，轉軸旁坐著一個真正的果蠅大腦。免費玩或用 $FLYAI 玩：可證明公平的轉軸、95% 返還率，還有一個見到蜘蛛就會一哆嗦的 166,700 神經元連接體。"
+  },
+  "head": {
+    "title": "果蠅<span>拉霸</span>",
+    "sub": "三個轉軸，一條賠付線，還有一個真正的果蠅大腦盯著每一次旋轉。線上出現蜘蛛牠就會跳起來。三頂王冠賠 400 倍。"
+  },
+  "mode": {
+    "label": "怎麼玩",
+    "fun": "免費玩",
+    "bet": "用 $FLYAI 玩"
+  },
+  "status": {
+    "loading": "正在喚醒果蠅大腦…",
+    "progress": "{text}",
+    "labels": "標籤",
+    "brain": "果蠅大腦",
+    "wiring": "正在連接 2,500 萬個突觸",
+    "ready": "果蠅大腦已醒：{n} 個神經元",
+    "error": "果蠅在打盹；轉軸照樣轉"
+  },
+  "deck": {
+    "balance": "餘額",
+    "coins": "遊戲幣",
+    "flyai": "FLYAI",
+    "signedOut": "請登入",
+    "stake": "下注",
+    "lower": "減少下注",
+    "higher": "增加下注",
+    "spin": "旋轉",
+    "win": "贏得",
+    "auto": "自動",
+    "stop": "停止",
+    "autoLeft": {
+      "other": "還剩 {count} 次"
+    },
+    "spaceHint": "空白鍵旋轉",
+    "soundOn": "聲音：開",
+    "soundOff": "聲音：關",
+    "reelsLabel": "轉軸"
+  },
+  "msg": {
+    "ready": "按「旋轉」或空白鍵。",
+    "lost": "這次沒中。",
+    "won": "{line}：{mult} 倍，+{amount}",
+    "big": "大獎！{line}：{mult} 倍，+{amount}",
+    "broke": "餘額不夠這個下注。",
+    "brokeFun": "遊戲幣用完了：按「補充」。",
+    "stakeBad": "請輸入大於零的下注。",
+    "autoBig": "中了大獎，自動旋轉已停止。",
+    "autoBroke": "餘額不足，自動旋轉已停止。",
+    "signInFirst": "要真的玩，請在 $FLYAI 面板登入。",
+    "betClosed": "$FLYAI 旋轉暫時關閉。免費玩照常開放。"
+  },
+  "line": {
+    "three": "三個{sym}",
+    "two": "兩個{sym}",
+    "crown": "第 1 軸出現王冠"
+  },
+  "sym": {
+    "crown": "王冠",
+    "fly": "果蠅",
+    "honey": "蜜罐",
+    "grape": "葡萄",
+    "banana": "香蕉",
+    "apple": "蘋果",
+    "spider": "蜘蛛"
+  },
+  "fun": {
+    "title": "遊戲幣",
+    "text": "免費玩：不涉及真錢，只是這台裝置上的遊戲幣。轉軸和機率與真實模式完全一樣。",
+    "refill": "補充到 {n}",
+    "stats": "{spins} 次旋轉 · 最高 {best} 倍 · 贏得 {won} 幣"
+  },
+  "brain": {
+    "title": "牠的腦內",
+    "wing": "起跳",
+    "wingMn": "翅膀運動神經元",
+    "loom": "蜘蛛驚嚇",
+    "spiders": {
+      "zero": "線上沒有蜘蛛",
+      "other": "線上有 {count} 隻蜘蛛"
+    },
+    "idle": "盯著轉軸",
+    "thinking": "看著賠付線…",
+    "flinch": "嚇跳了！",
+    "calm": "穩住沒動",
+    "napping": "大腦在睡覺，只剩氣氛",
+    "note": "來自真實果蠅連接體（166,700 個神經元）的放電，就在你的瀏覽器裡執行。線上的蜘蛛向牠逼近，牠會做出反應。牠從不改變結果。"
+  },
+  "pay": {
+    "title": "賠付表",
+    "crownFirst": "第 1 軸出現王冠",
+    "any": "任意",
+    "spider": "蜘蛛永遠不賠。",
+    "note": "賠付為下注的倍數（含本金），看中間那條線，從左往右。",
+    "rtp": "返還率 {rtp}% · 大約每 {hit} 次中一次"
+  },
+  "recent": {
+    "title": "最近旋轉",
+    "none": "還沒有旋轉。"
+  },
+  "pop": {
+    "win": [
+      "好吃！",
+      "嗡嗡！",
+      "甜！",
+      "不錯！",
+      "叮噹！"
+    ],
+    "big": [
+      "大獎！",
+      "嗡嗡嗡嗡！",
+      "有錢蠅！",
+      "超級嗡！"
+    ],
+    "flinch": [
+      "呀！",
+      "蜘蛛！",
+      "不要！",
+      "嚇死！",
+      "快跑！"
+    ],
+    "meh": [
+      "嗯。",
+      "唉。",
+      "再來？",
+      "嗡…"
+    ]
+  },
+  "bet": {
+    "title": "用 $FLYAI 玩",
+    "loading": "正在打開 $FLYAI 桌…",
+    "closed": "$FLYAI 旋轉尚未開放。免費玩照常。",
+    "unreachable": "現在連不上 $FLYAI 旋轉；免費玩照常可用。",
+    "intro": "用你 fly.ai 餘額裡的真實 $FLYAI 旋轉，與 Fly Roulette 和算力共用同一餘額。",
+    "signIn": "用錢包登入",
+    "deposit": "儲值",
+    "withdraw": "提領",
+    "signOut": "登出",
+    "depositLabel": "從錢包轉 $FLYAI 到你的餘額",
+    "withdrawLabel": "申請把 $FLYAI 轉回你的錢包",
+    "amount": "數量",
+    "send": "送出",
+    "ask": "申請",
+    "withdrawNote": "提領由人工發放，通常一天內到帳。",
+    "withdrawAsked": "你申請提回 {amount} FLYAI；由人工發放，通常一天內到帳。",
+    "limits": "每次 {min} 到 {max} FLYAI · 每天最多 {day} · 今天 {staked}",
+    "paused": "$FLYAI 旋轉暫停中，請稍後再試。",
+    "nextCommit": "下一次旋轉的承諾：",
+    "noneYet": "暫無",
+    "commitShown": "承諾（旋轉前顯示）",
+    "serverSeed": "伺服器種子（結束後公開）",
+    "yourSeed": "你的種子",
+    "verifyBtn": "驗證這次旋轉",
+    "notRevealed": "尚未公開",
+    "resWon": "第 {id} 次旋轉：贏得 <b>+{amount} FLYAI</b>（{mult} 倍）",
+    "resLost": "第 {id} 次旋轉：輸掉 <b>{amount} FLYAI</b>",
+    "vBadSeed": "✗ 伺服器種子與承諾值不符",
+    "vBadCommit": "✗ 這不是旋轉前顯示的承諾",
+    "vBadStops": "✗ 種子算出的轉軸不一樣",
+    "vOk": "✓ 公平：種子與旋轉前顯示的承諾一致，兩個種子正好重現這些轉軸",
+    "vOkOld": "✓ 公平：種子與其承諾一致，兩個種子正好重現這些轉軸",
+    "yourSpins": "你的旋轉",
+    "noSpins": "還沒有旋轉。",
+    "stakeRange": "下注必須在 {min} 到 {max} FLYAI 之間。",
+    "overBalance": "超過你的餘額。",
+    "overDay": "這會超過今天 {day} FLYAI 的上限。",
+    "sessionExpired": "登入已過期，請重新登入",
+    "enterAmount": "請輸入數量",
+    "mining": "等待轉帳上鏈…",
+    "deposited": "✓ 已加入 {amount} FLYAI",
+    "withdrawOk": "✓ 已申請；將由人工轉到你的錢包，通常一天內",
+    "howTitle": "$FLYAI 旋轉怎麼運作",
+    "how1": "<b>免費玩一直免費。</b>遊戲幣不涉及真錢；真實旋轉只在這個模式裡進行。",
+    "how2": "<b>你對莊家。</b>長期來看賠付表返還下注的 94.95%，其餘是莊家優勢。",
+    "how3": "<b>你的餘額</b>與 Fly Roulette 和算力訂單共用同一個 $FLYAI 餘額：儲值、獎金和退款都進這裡。",
+    "how4": "<b>可證明公平。</b>伺服器在你旋轉前承諾種子，旋轉後公開；「驗證這次旋轉」會在你的瀏覽器裡用兩個種子重現轉軸。果蠅只負責反應。",
+    "footer": "<a href=\"/roulette-terms\">條款</a> · 僅限 18 歲以上 · 理性遊戲"
+  },
+  "terms": {
+    "title": "第一次真實旋轉之前",
+    "t1": "你用餘額裡的真實 $FLYAI 旋轉，可能全部輸掉。",
+    "t2": "轉軸是隨機的。長期來看賠付表返還下注的 94.95%，其餘是莊家優勢。",
+    "t3": "伺服器在每次旋轉前承諾種子、之後公開，所以每次旋轉你都能核對。",
+    "t4": "獎金進入你的餘額。提領由人工發放，可能需要一天。",
+    "t5": "在你所在的地區下注可能違法。遵守當地法律是你自己的責任。",
+    "over18": "我已年滿 18 歲",
+    "accept": "我接受<a href=\"/roulette-terms\" target=\"_blank\" rel=\"noopener\">條款</a>（與 Fly Roulette 相同）",
+    "cancel": "取消",
+    "continue": "繼續"
+  }
+}

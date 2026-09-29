@@ -41,6 +41,10 @@
       "label": "果蝇轮盘",
       "desc": "果蝇大脑 vs 玩具火药枪"
     },
+    "slots": {
+      "label": "果蝇老虎机",
+      "desc": "转动转轴，果蝇大脑来反应"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "果蝇大脑在约会资料上左滑右滑"

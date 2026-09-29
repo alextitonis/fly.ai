@@ -534,6 +534,8 @@
     "games": {
       "roulette": "Fly Roulette",
       "rouletteText": "在你的限額內，用通行證餘額下注。",
+      "slots": "果蠅拉霸",
+      "slotsText": "用通行證餘額旋轉，不超過你的限額。果蠅只負責反應，轉軸是隨機的。",
       "missions": "Flybook 任務",
       "missionsText": "每天戳一戳、按讚和反應，衝賽季榜。",
       "duels": "Flybook 決鬥",
@@ -556,7 +558,9 @@
       "withdraw": "提領",
       "bet": "輪盤下注",
       "payout": "輪盤贏獎",
-      "fee": "手續費"
+      "fee": "手續費",
+      "slots_bet": "拉霸旋轉",
+      "slots_payout": "拉霸獎金"
     },
     "terms": {
       "title": "Fly Roulette 條款",
@@ -638,6 +642,24 @@
       "waiting": "自動駕駛已開啟。下一次下注約在 {time}。"
     },
     "ofCap": "今日上限 {cap}",
-    "houseLimits": "Fly Roulette 限額：每次下注 {min} 到 {max} $FLYAI，每天最多 {day} $FLYAI。"
+    "houseLimits": "Fly Roulette 限額：每次下注 {min} 到 {max} $FLYAI，每天最多 {day} $FLYAI。",
+    "slots": {
+      "stake": "每次旋轉下注（$FLYAI）",
+      "house": "果蠅拉霸限額：每次 {min} 到 {max} $FLYAI，每天最多 {day} $FLYAI。",
+      "today": "今天已轉：{spent} / {cap} $FLYAI",
+      "termsNeeded": "果蠅拉霸沿用 Fly Roulette 的 18+ 條款，只需接受一次。儲存時會詢問你。",
+      "spinWon": "贏了 {mult} 倍",
+      "spinLost": "沒中",
+      "status": {
+        "listed": "通行證掛單出售期間暫停。",
+        "paused": "果蠅拉霸目前對所有人暫停。恢復後你的果蠅會繼續旋轉。",
+        "terms": "接受 18+ 條款後，你的果蠅就開始旋轉。",
+        "stake": "每次旋轉下注必須在 {min} 到 {max} $FLYAI 之間。改好後儲存。",
+        "dayCapYours": "已達每日上限：今天已轉 {cap} $FLYAI。你的果蠅會在 {time}（UTC 00:00）繼續，或調高「每日上限」。",
+        "dayCapHouse": "已達每日上限：今天已轉 {cap} $FLYAI，這是果蠅拉霸每天的最高額。你的果蠅會在 {time}（UTC 00:00）繼續。",
+        "lowBalance": "通行證餘額不夠轉一次（{need} $FLYAI）。儲值後繼續。",
+        "waiting": "自動駕駛已開啟。下一次旋轉大約在 {time}。"
+      }
+    }
   }
 }

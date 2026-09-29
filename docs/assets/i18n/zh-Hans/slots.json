@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "title": "果蝇老虎机",
+    "description": "一台卡通老虎机，转轴旁坐着一个真正的果蝇大脑。免费玩或用 $FLYAI 玩：可证明公平的转轴、95% 返还率，还有一个见到蜘蛛就会一哆嗦的 166,700 神经元连接组。"
+  },
+  "head": {
+    "title": "果蝇<span>老虎机</span>",
+    "sub": "三个转轴，一条赔付线，还有一个真正的果蝇大脑盯着每一次旋转。线上出现蜘蛛它就会跳起来。三顶王冠赔 400 倍。"
+  },
+  "mode": {
+    "label": "怎么玩",
+    "fun": "免费玩",
+    "bet": "用 $FLYAI 玩"
+  },
+  "status": {
+    "loading": "正在唤醒果蝇大脑…",
+    "progress": "{text}",
+    "labels": "标签",
+    "brain": "果蝇大脑",
+    "wiring": "正在连接 2,500 万个突触",
+    "ready": "果蝇大脑已醒：{n} 个神经元",
+    "error": "果蝇在打盹；转轴照样转"
+  },
+  "deck": {
+    "balance": "余额",
+    "coins": "游戏币",
+    "flyai": "FLYAI",
+    "signedOut": "请登录",
+    "stake": "下注",
+    "lower": "减少下注",
+    "higher": "增加下注",
+    "spin": "旋转",
+    "win": "赢得",
+    "auto": "自动",
+    "stop": "停止",
+    "autoLeft": {
+      "other": "还剩 {count} 次"
+    },
+    "spaceHint": "空格键旋转",
+    "soundOn": "声音：开",
+    "soundOff": "声音：关",
+    "reelsLabel": "转轴"
+  },
+  "msg": {
+    "ready": "点“旋转”或按空格键。",
+    "lost": "这次没中。",
+    "won": "{line}：{mult} 倍，+{amount}",
+    "big": "大奖！{line}：{mult} 倍，+{amount}",
+    "broke": "余额不够这个下注。",
+    "brokeFun": "游戏币用完了：点“充值”。",
+    "stakeBad": "请输入大于零的下注。",
+    "autoBig": "中了大奖，自动旋转已停止。",
+    "autoBroke": "余额不足，自动旋转已停止。",
+    "signInFirst": "要真玩，请在 $FLYAI 面板登录。",
+    "betClosed": "$FLYAI 旋转暂时关闭。免费玩照常开放。"
+  },
+  "line": {
+    "three": "三个{sym}",
+    "two": "两个{sym}",
+    "crown": "第 1 轴出现王冠"
+  },
+  "sym": {
+    "crown": "王冠",
+    "fly": "果蝇",
+    "honey": "蜜罐",
+    "grape": "葡萄",
+    "banana": "香蕉",
+    "apple": "苹果",
+    "spider": "蜘蛛"
+  },
+  "fun": {
+    "title": "游戏币",
+    "text": "免费玩：不涉及真钱，只是这台设备上的游戏币。转轴和概率与真实模式完全一样。",
+    "refill": "充值到 {n}",
+    "stats": "{spins} 次旋转 · 最高 {best} 倍 · 赢得 {won} 币"
+  },
+  "brain": {
+    "title": "它的脑内",
+    "wing": "起跳",
+    "wingMn": "翅膀运动神经元",
+    "loom": "蜘蛛惊吓",
+    "spiders": {
+      "zero": "线上没有蜘蛛",
+      "other": "线上有 {count} 只蜘蛛"
+    },
+    "idle": "盯着转轴",
+    "thinking": "看着赔付线…",
+    "flinch": "吓跳了！",
+    "calm": "稳住没动",
+    "napping": "大脑在睡觉，只剩氛围",
+    "note": "来自真实果蝇连接组（166,700 个神经元）的放电，就在你的浏览器里运行。线上的蜘蛛向它逼近，它会做出反应。它从不改变结果。"
+  },
+  "pay": {
+    "title": "赔付表",
+    "crownFirst": "第 1 轴出现王冠",
+    "any": "任意",
+    "spider": "蜘蛛永远不赔。",
+    "note": "赔付为下注的倍数（含本金），看中间那条线，从左往右。",
+    "rtp": "返还率 {rtp}% · 大约每 {hit} 次中一次"
+  },
+  "recent": {
+    "title": "最近旋转",
+    "none": "还没有旋转。"
+  },
+  "pop": {
+    "win": [
+      "好吃！",
+      "嗡嗡！",
+      "甜！",
+      "不错！",
+      "叮当！"
+    ],
+    "big": [
+      "大奖！",
+      "嗡嗡嗡嗡！",
+      "有钱蝇！",
+      "超级嗡！"
+    ],
+    "flinch": [
+      "呀！",
+      "蜘蛛！",
+      "不要！",
+      "吓死！",
+      "快跑！"
+    ],
+    "meh": [
+      "嗯。",
+      "唉。",
+      "再来？",
+      "嗡…"
+    ]
+  },
+  "bet": {
+    "title": "用 $FLYAI 玩",
+    "loading": "正在打开 $FLYAI 桌…",
+    "closed": "$FLYAI 旋转尚未开放。免费玩照常。",
+    "unreachable": "现在连不上 $FLYAI 旋转；免费玩照常可用。",
+    "intro": "用你 fly.ai 余额里的真实 $FLYAI 旋转，与 Fly Roulette 和算力共用同一余额。",
+    "signIn": "用钱包登录",
+    "deposit": "充值",
+    "withdraw": "提现",
+    "signOut": "退出登录",
+    "depositLabel": "从钱包转 $FLYAI 到你的余额",
+    "withdrawLabel": "申请把 $FLYAI 转回你的钱包",
+    "amount": "数量",
+    "send": "发送",
+    "ask": "申请",
+    "withdrawNote": "提现由人工发放，通常一天内到账。",
+    "withdrawAsked": "你申请提回 {amount} FLYAI；由人工发放，通常一天内到账。",
+    "limits": "每次 {min} 到 {max} FLYAI · 每天最多 {day} · 今天 {staked}",
+    "paused": "$FLYAI 旋转暂停中，请稍后再试。",
+    "nextCommit": "下一次旋转的承诺：",
+    "noneYet": "暂无",
+    "commitShown": "承诺（旋转前显示）",
+    "serverSeed": "服务器种子（结束后公开）",
+    "yourSeed": "你的种子",
+    "verifyBtn": "验证这次旋转",
+    "notRevealed": "尚未公开",
+    "resWon": "第 {id} 次旋转：赢得 <b>+{amount} FLYAI</b>（{mult} 倍）",
+    "resLost": "第 {id} 次旋转：输掉 <b>{amount} FLYAI</b>",
+    "vBadSeed": "✗ 服务器种子与承诺值不符",
+    "vBadCommit": "✗ 这不是旋转前显示的承诺",
+    "vBadStops": "✗ 种子算出的转轴不一样",
+    "vOk": "✓ 公平：种子与旋转前显示的承诺一致，两个种子正好重现这些转轴",
+    "vOkOld": "✓ 公平：种子与其承诺一致，两个种子正好重现这些转轴",
+    "yourSpins": "你的旋转",
+    "noSpins": "还没有旋转。",
+    "stakeRange": "下注必须在 {min} 到 {max} FLYAI 之间。",
+    "overBalance": "超过你的余额。",
+    "overDay": "这会超过今天 {day} FLYAI 的上限。",
+    "sessionExpired": "登录已过期，请重新登录",
+    "enterAmount": "请输入数量",
+    "mining": "等待转账上链…",
+    "deposited": "✓ 已加入 {amount} FLYAI",
+    "withdrawOk": "✓ 已申请；将由人工转到你的钱包，通常一天内",
+    "howTitle": "$FLYAI 旋转怎么运作",
+    "how1": "<b>免费玩一直免费。</b>游戏币不涉及真钱；真实旋转只在这个模式里进行。",
+    "how2": "<b>你对庄家。</b>长期来看赔付表返还下注的 94.95%，其余是庄家优势。",
+    "how3": "<b>你的余额</b>与 Fly Roulette 和算力订单共用同一个 $FLYAI 余额：充值、奖金和退款都进这里。",
+    "how4": "<b>可证明公平。</b>服务器在你旋转前承诺种子，旋转后公开；“验证这次旋转”会在你的浏览器里用两个种子重现转轴。果蝇只负责反应。",
+    "footer": "<a href=\"/roulette-terms\">条款</a> · 仅限 18 岁以上 · 理性游戏"
+  },
+  "terms": {
+    "title": "第一次真实旋转之前",
+    "t1": "你用余额里的真实 $FLYAI 旋转，可能全部输掉。",
+    "t2": "转轴是随机的。长期来看赔付表返还下注的 94.95%，其余是庄家优势。",
+    "t3": "服务器在每次旋转前承诺种子、之后公开，所以每次旋转你都能核对。",
+    "t4": "奖金进入你的余额。提现由人工发放，可能需要一天。",
+    "t5": "在你所在的地区下注可能违法。遵守当地法律是你自己的责任。",
+    "over18": "我已年满 18 岁",
+    "accept": "我接受<a href=\"/roulette-terms\" target=\"_blank\" rel=\"noopener\">条款</a>（与 Fly Roulette 相同）",
+    "cancel": "取消",
+    "continue": "继续"
+  }
+}

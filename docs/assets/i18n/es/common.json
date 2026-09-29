@@ -41,6 +41,10 @@
       "label": "Fly Roulette",
       "desc": "Cerebros de mosca contra una pistola de fulminantes"
     },
+    "slots": {
+      "label": "Fly Slots",
+      "desc": "Gira los rodillos, un cerebro de mosca reacciona"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "Un cerebro de mosca desliza perfiles de citas"

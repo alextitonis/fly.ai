@@ -41,6 +41,10 @@
       "label": "果蠅輪盤",
       "desc": "果蠅大腦 vs 玩具火藥槍"
     },
+    "slots": {
+      "label": "果蠅拉霸",
+      "desc": "轉動轉軸，果蠅大腦來反應"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "果蠅大腦在交友檔案上左滑右滑"

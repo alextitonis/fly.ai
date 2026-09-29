@@ -26,6 +26,14 @@ primary_region = "cdg"
   ROULETTE_MAX_PAYOUT = "47500"
   ROULETTE_HOUSE_STOP = "200000"
   ROULETTE_MAX_LIVE = "8"
+  # Fly Slots spins (src/slots.ts; whole tokens, 2026-09-29): 50 to 250 FLYAI a spin; the top prize (400x) of the
+  # biggest spin is exactly SLOTS_MAX_PAYOUT, so every prize is payable. The house stop pauses spins after a bad day.
+  SLOTS_ON = "1"
+  SLOTS_MIN_BET = "50"
+  SLOTS_MAX_BET = "250"
+  SLOTS_MAX_DAY = "50000"
+  SLOTS_MAX_PAYOUT = "100000"
+  SLOTS_HOUSE_STOP = "300000"
 
 [mounts]
   source = "mine_data"

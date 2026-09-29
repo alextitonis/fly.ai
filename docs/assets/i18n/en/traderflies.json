@@ -536,6 +536,8 @@
     "games": {
       "roulette": "Fly Roulette",
       "rouletteText": "Bets from the pass balance, within your limits.",
+      "slots": "Fly Slots",
+      "slotsText": "Spins from the pass balance, within your limits. The fly only reacts; the reels are random.",
       "missions": "Flybook missions",
       "missionsText": "Pokes, likes and reactions, every day, for the season board.",
       "duels": "Flybook duels",
@@ -558,7 +560,9 @@
       "withdraw": "Withdrawal",
       "bet": "Roulette bet",
       "payout": "Roulette win",
-      "fee": "Fee"
+      "fee": "Fee",
+      "slots_bet": "Slots spin",
+      "slots_payout": "Slots win"
     },
     "terms": {
       "title": "Fly Roulette terms",
@@ -640,6 +644,24 @@
       "waiting": "Autopilot is on. Next bet around {time}."
     },
     "ofCap": "of {cap} today",
-    "houseLimits": "Fly Roulette limits: {min} to {max} $FLYAI a bet, up to {day} $FLYAI a day."
+    "houseLimits": "Fly Roulette limits: {min} to {max} $FLYAI a bet, up to {day} $FLYAI a day.",
+    "slots": {
+      "stake": "Stake per spin ($FLYAI)",
+      "house": "Fly Slots limits: {min} to {max} $FLYAI a spin, up to {day} $FLYAI a day.",
+      "today": "Spun today: {spent} of {cap} $FLYAI",
+      "termsNeeded": "Fly Slots uses Fly Roulette's 18+ terms, accepted once. You'll get asked when you save.",
+      "spinWon": "Won {mult}x",
+      "spinLost": "No win",
+      "status": {
+        "listed": "Paused while the pass is listed for sale.",
+        "paused": "Fly Slots is paused for everyone right now. Your fly spins again when it's back.",
+        "terms": "Accept the 18+ terms and your fly starts spinning.",
+        "stake": "Stake per spin has to be between {min} and {max} $FLYAI. Change it and save.",
+        "dayCapYours": "Daily limit reached: {cap} $FLYAI spun today. Your fly spins again at {time} (00:00 UTC), or raise \"Max per day\".",
+        "dayCapHouse": "Daily limit reached: {cap} $FLYAI spun today, the most Fly Slots takes per day. Your fly spins again at {time} (00:00 UTC).",
+        "lowBalance": "Not enough on the pass for one spin ({need} $FLYAI). Top up to keep playing.",
+        "waiting": "Autopilot is on. Next spin around {time}."
+      }
+    }
   }
 }

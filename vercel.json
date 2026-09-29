@@ -32,6 +32,11 @@
       "permanent": false
     },
     {
+      "source": "/slots",
+      "destination": "/slots/",
+      "permanent": false
+    },
+    {
       "source": "/flinder",
       "destination": "/flinder/",
       "permanent": false
@@ -74,6 +79,15 @@
     },
     {
       "source": "/traderflies/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/slots/assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

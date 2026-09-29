@@ -8,6 +8,7 @@
  * - a listed pass takes no deposits, withdrawals or setting changes;
  * - settings need the roulette terms, belong to the owner who wrote them and lapse when the pass changes hands;
  * - the autopilot bets from the pass, within its daily cap, and stops for a new owner;
+ * - the slots autopilot (2026-09-29): settings checked like roulette's, one spin per gap from the pass, up to its max_day;
  * - the Flybook worker's list (its key only, unlisted passes with a Flybook game on);
  * - the mining boost: x1.25 on the points of a wallet-day a pass was held throughout, none on a broken day;
  * - off without FLIGHTPASS.
@@ -106,6 +107,8 @@ async function startServer(extra: Record<string, string> = {}): Promise<void> {
       ROULETTE_MAX_PAYOUT: "5000", ROULETTE_HOUSE_STOP: "100000", ROULETTE_MAX_LIVE: "8",
       FLIGHTPASS: pass, PASSMARKET: market, FLIGHTPASS_WORKER_KEY: WORKER, FLIGHTPASS_TICK_SEC: "1", FLIGHTPASS_BET_GAP_MIN: "0",
       FLIGHTPASS_DEPOSITS_SINCE: "2020-01-01T00:00:00Z",
+      SLOTS_ON: "1", SLOTS_MIN_BET: "10", SLOTS_MAX_BET: "100", SLOTS_MAX_DAY: "3000", SLOTS_MAX_PAYOUT: "40000", SLOTS_HOUSE_STOP: "100000",
+      FLIGHTPASS_SLOTS_GAP_SEC: "1",
       ...extra,
     },
     stdio: ["ignore", "ignore", "inherit"],
@@ -161,7 +164,7 @@ try {
   {
     const [v, sql] = dbDo((db) => [(db.prepare("pragma user_version").get() as { user_version: number }).user_version,
       (db.prepare("select sql from sqlite_master where name = 'ledger'").get() as { sql: string }).sql] as const);
-    check("a schema 16 ledger upgrades with prefund and fee", v === 18 && sql.includes("'prefund'") && sql.includes("'fee'"));
+    check("a schema 16 ledger upgrades with prefund and fee", v === 19 && sql.includes("'prefund'") && sql.includes("'fee'"));
   }
   await stopServer();
   dbDo((db) => db.exec(`
@@ -176,6 +179,8 @@ try {
   // ---- config, sign-in, prefund
   const cfg = (await api("/api/flightpass/config", null)).json;
   check("config carries the withdrawal limits", typeof cfg.withdrawals?.max_day === "string" && typeof cfg.withdrawals?.sent_today === "string");
+  check("config: slots among the games, with its limits", cfg.games.includes("slots") && cfg.slots?.on === true && cfg.slots.min_bet === "10"
+    && cfg.slots.max_bet === "100" && cfg.slots.max_day === "3000" && cfg.slots.spin_gap_min === 1 / 60, JSON.stringify(cfg.slots));
   check("config: on, fee, boost", cfg.on && cfg.withdraw_fee_bps === 100 && cfg.mining_boost === 1.25 && cfg.contract.toLowerCase() === pass.toLowerCase());
   const signIn = async (signer: typeof alice) => {
     const { json } = await api("/api/session/nonce", null, { address: signer.address });
@@ -228,6 +233,8 @@ try {
 
   // ---- settings and the Flybook worker's list
   const roulette = { on: true, stake: "100", flies: 2, max_day: "200" };
+  const slots = { on: true, stake: "20", max_day: "60" };
+  check("slots need the terms", (await api("/api/flightpass/3/settings", a, { slots })).status === 403);
   check("roulette needs the terms", (await api("/api/flightpass/1/settings", a, { roulette })).status === 403);
   await api("/api/roulette/terms", a, { over18: true, accept: true });
   check("a stake below the smallest bet", (await api("/api/flightpass/1/settings", a, { roulette: { ...roulette, stake: "5" } })).status === 400);
@@ -242,6 +249,31 @@ try {
   check("worker list: a listed pass is left out", list.length === 0);
   await setListed(3n, false);
   await api("/api/flightpass/3", a);
+
+  // ---- the slots autopilot: one spin per gap from pass 3 (its 500 prefund), three spins of 20 up to its 60 a day
+  check("slots: a stake below the smallest spin", (await api("/api/flightpass/3/settings", a, { slots: { ...slots, stake: "5" } })).status === 400);
+  check("slots: a stake above the biggest spin", (await api("/api/flightpass/3/settings", a, { slots: { ...slots, stake: "500" } })).status === 400);
+  check("slots: max_day must cover a spin", (await api("/api/flightpass/3/settings", a, { slots: { ...slots, max_day: "10" } })).status === 400);
+  check("slots: not a number", (await api("/api/flightpass/3/settings", a, { slots: { ...slots, stake: "lots" } })).status === 400);
+  const slotsOn = await api("/api/flightpass/3/settings", a, { slots });
+  check("slots on for pass 3, flybook kept", slotsOn.status === 200 && slotsOn.json.settings.slots.on === true && slotsOn.json.settings.slots.stake === "20"
+    && slotsOn.json.settings.flybook.duels === true && slotsOn.json.slots_day_cap === "60", JSON.stringify(slotsOn.json.settings));
+  let sv: any = null;
+  for (let i = 0; i < 60; i++) {
+    sv = (await api("/api/flightpass/3", a)).json;
+    if (sv.spins.length >= 3) break;
+    await sleep(500);
+  }
+  const slotWins = sv.spins.reduce((t: number, x: any) => t + Number(x.payout), 0);
+  check("the autopilot spun three times from the pass", sv.spins.length === 3 && sv.slots_day_spent === "60"
+    && sv.spins.every((x: any) => x.stake === "20" && x.payout === String(20 * x.mult) && x.symbols.length === 3), `${sv.spins.length} spins, day ${sv.slots_day_spent}`);
+  check("and the books add up", Number(sv.balance) === 500 - 60 + slotWins, `balance ${sv.balance}, won ${slotWins}`);
+  await sleep(3000);
+  const sc = (await api("/api/flightpass/3", a)).json;
+  check("the slots daily cap holds, and the page is told why", sc.spins.length === 3 && sc.slots_status?.state === "day_cap" && sc.slots_status.yours === true
+    && sc.slots_status.cap === "60" && sc.slots_status.resets_at > Date.now(), JSON.stringify(sc.slots_status));
+  check("pass spins live under the pass, not the owner", (await api("/api/slots/me", a)).json.history.length === 0);
+  check("pass 1's slots are off", (await api("/api/flightpass/1", a)).json.slots_status?.state === "off");
 
   // ---- the autopilot: bets from the pass up to its daily cap
   check("roulette on for pass 1", (await api("/api/flightpass/1/settings", a, { roulette })).json.settings.roulette.on === true);

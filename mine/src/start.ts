@@ -3,7 +3,7 @@
  * in front on PORT that sends each request to its side.
  *
  *   mining  miners, orders, verifiers, research: busy, and its thread can stall for seconds under the fleet
- *   user    sign-in, Fly Roulette and FlightPass: what players' pages wait on
+ *   user    sign-in, Fly Roulette, Fly Slots and FlightPass: what players' pages wait on
  *   research  the research summaries (/api/experiments), 45 s of work a run
  *
  * Split 2026-09-29 after mining stalls held FlightPass pages for up to 40 s and failed fly's health checks, which then
@@ -22,7 +22,15 @@ let stopping = false, running = 0;
 /** The user side: everything a player's page calls, and its admin endpoints. */
 /** The research summaries: worked out for 45 s at a time, in a process of their own. */
 const RESEARCH_PATHS = /^\/api\/experiments$/;
-const USER_PATHS = /^\/api\/(flightpass|roulette|session|admin\/flightpass|admin\/roulette)(\/|$)|^\/api\/balance\/(deposit|withdraw-request)$/;
+const USER_PATHS = /^\/api\/(flightpass|roulette|slots|session|admin\/flightpass|admin\/roulette|admin\/slots)(\/|$)|^\/api\/balance\/(deposit|withdraw-request)$/;
+/**
+ * Pages and read-only views anyone can open, served by the user side too (2026-09-29: "the hashing power rankings
+ * page takes a long time to load and often freezes" - /api/month and even /api/stake-config took 4-12 s behind the
+ * mining thread while /api/session answered in 0.2 s). They only read the database and settings: the compute site's
+ * HTML, scripts and strings, the monthly ranking, staking and claims config, the price, the order form's config.
+ * Miners' own calls (/api/me, jobs, results) stay on the mining side.
+ */
+const PUBLIC_PATHS = /^\/(compute(\/|$)|assets\/i18n\/|$)|^\/(leaderboard|stake|claim|results|connect|bench|jobs)$|^\/api\/(month|stake-config|claims|price|orders\/config)$/;
 
 function run(role: string, port: number): ChildProcess {
   const child = spawn(process.execPath, [...process.execArgv, fileURLToPath(new URL("./server.ts", import.meta.url))], {
@@ -70,7 +78,7 @@ const server = createServer((req, res) => {
     return;
   }
   const path = (req.url ?? "/").split("?")[0];
-  const port = USER_PATHS.test(path) ? USER_PORT : RESEARCH_PATHS.test(path) ? RESEARCH_PORT : MINING_PORT;
+  const port = USER_PATHS.test(path) || PUBLIC_PATHS.test(path) ? USER_PORT : RESEARCH_PATHS.test(path) ? RESEARCH_PORT : MINING_PORT;
   const up = request({ host: "127.0.0.1", port, method: req.method, path: req.url, headers: req.headers, agent }, (r) => {
     res.writeHead(r.statusCode ?? 502, r.headers);
     r.pipe(res);

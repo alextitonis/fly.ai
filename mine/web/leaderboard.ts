@@ -18,11 +18,38 @@ function shiftMonth(m: string, by: number): string {
   return new Date(Date.UTC(y, mo - 1 + by, 1)).toISOString().slice(0, 7);
 }
 
-async function load(): Promise<void> {
+/** The month on screen: the one asked for in ?month=, else this one. */
+function monthShown(): { m: string; current: string } {
   const current = new Date().toISOString().slice(0, 7);
   const asked = new URLSearchParams(location.search).get("month");
-  const m = asked && /^\d{4}-\d{2}$/.test(asked) ? asked : current;
+  return { m: asked && /^\d{4}-\d{2}$/.test(asked) ? asked : current, current };
+}
+
+// 2026-09-29 ("takes a long time to load and often freezes"): the board draws as soon as the month's numbers
+// arrive - and at once from the last copy this browser saw - instead of waiting for the miner lookup (/api/me,
+// which the busy mining side answers), whose row is filled in afterwards.
+const CACHE_KEY = (m: string) => `flymine.month.${m}`;
+let mine: string | null = null;
+
+async function load(): Promise<void> {
+  const { m } = monthShown();
   const data = await api(API, `/api/month?month=${m}`, null);
+  try { sessionStorage.setItem(CACHE_KEY(m), JSON.stringify(data)); } catch { /* private window, full storage */ }
+  render(data);
+}
+
+/** Who "you" are: the signed-in wallet, else the wallet linked to this browser's miner (looked up once, later). */
+async function whoAmI(): Promise<void> {
+  mine = signedIn();
+  if (mine) return;
+  try {
+    const token = localStorage.getItem("flymine.token");
+    if (token) mine = (await api(API, "/api/me", token)).wallet;
+  } catch { /* no miner in this browser, or the mining side is slow: the board shows without "you" */ }
+}
+
+function render(data: any): void {
+  const { m, current } = monthShown();
 
   const name = new Date(`${m}-01T00:00:00Z`).toLocaleString(locale(), { month: "long", year: "numeric", timeZone: "UTC" });
   $("title").textContent = m === current ? t("compute.leaderboard.soFar", { month: name }) : name;
@@ -49,12 +76,6 @@ async function load(): Promise<void> {
       t("compute.leaderboard.poolGrows"),
     ].join("");
   }
-
-  let mine: string | null = signedIn();
-  try {
-    const token = localStorage.getItem("flymine.token");
-    if (token && !mine) mine = (await api(API, "/api/me", token)).wallet;
-  } catch { /* no miner in this browser */ }
 
   const rows = data.wallets as { rank: number; wallet: string; points: number; share: number }[];
   const me = mine ? rows.find((r) => r.wallet === mine) : undefined;
@@ -84,6 +105,17 @@ async function load(): Promise<void> {
 }
 
 mountAccount();
+try {                                                  // the last board this browser saw, drawn before any request
+  const seen = sessionStorage.getItem(CACHE_KEY(monthShown().m));
+  if (seen) render(JSON.parse(seen));
+} catch { /* nothing kept */ }
 void load();
+// "you" is filled in once the miner lookup answers, without holding the board up
+void whoAmI().then(() => {
+  try {
+    const seen = sessionStorage.getItem(CACHE_KEY(monthShown().m));
+    if (seen) render(JSON.parse(seen));
+  } catch { /* nothing kept */ }
+});
 // the pool grows as buyers' orders are charged: keep this month's numbers current
 setInterval(() => { if (!document.hidden) void load().catch(() => {}); }, 60_000);

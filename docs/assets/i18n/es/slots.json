@@ -1,0 +1,197 @@
+{
+  "meta": {
+    "title": "Fly Slots",
+    "description": "Una tragaperras de dibujos con un cerebro real de mosca junto a los rodillos. Juega gratis o con $FLYAI: rodillos demostrablemente justos, 95% de retorno y un conectoma de 166.700 neuronas que se asusta con cada araña."
+  },
+  "head": {
+    "title": "Fly <span>Slots</span>",
+    "sub": "Tres rodillos, una línea de pago y un cerebro real de mosca mirando cada tirada. Las arañas en la línea la hacen saltar. Tres coronas pagan 400x."
+  },
+  "mode": {
+    "label": "Cómo jugar",
+    "fun": "Jugar gratis",
+    "bet": "Jugar con $FLYAI"
+  },
+  "status": {
+    "loading": "despertando el cerebro de la mosca…",
+    "progress": "{text}",
+    "labels": "etiquetas",
+    "brain": "cerebro de mosca",
+    "wiring": "cableando 25 M sinapsis",
+    "ready": "cerebro despierto: {n} neuronas",
+    "error": "la mosca está dormida; los rodillos siguen girando"
+  },
+  "deck": {
+    "balance": "Saldo",
+    "coins": "monedas de juego",
+    "flyai": "FLYAI",
+    "signedOut": "inicia sesión",
+    "stake": "Apuesta",
+    "lower": "Bajar la apuesta",
+    "higher": "Subir la apuesta",
+    "spin": "Girar",
+    "win": "Premio",
+    "auto": "Auto",
+    "stop": "Parar",
+    "autoLeft": {
+      "one": "queda {count} tirada",
+      "other": "quedan {count} tiradas"
+    },
+    "spaceHint": "la barra espaciadora gira",
+    "soundOn": "Sonido: sí",
+    "soundOff": "Sonido: no",
+    "reelsLabel": "Los rodillos"
+  },
+  "msg": {
+    "ready": "Pulsa Girar o la barra espaciadora.",
+    "lost": "Esta vez no hubo suerte.",
+    "won": "{line}: {mult}x, +{amount}",
+    "big": "¡GRAN PREMIO! {line}: {mult}x, +{amount}",
+    "broke": "No tienes saldo para esa apuesta.",
+    "brokeFun": "Sin monedas de juego: pulsa Recargar.",
+    "stakeBad": "Pon una apuesta mayor que cero.",
+    "autoBig": "La tirada automática se detuvo en un gran premio.",
+    "autoBroke": "La tirada automática se detuvo: se acabó el saldo.",
+    "signInFirst": "Inicia sesión en el panel de $FLYAI para jugar de verdad.",
+    "betClosed": "Las tiradas con $FLYAI están cerradas ahora. Jugar gratis sigue abierto."
+  },
+  "line": {
+    "three": "Tres {sym}",
+    "two": "Dos {sym}",
+    "crown": "Corona en el rodillo 1"
+  },
+  "sym": {
+    "crown": "coronas",
+    "fly": "moscas",
+    "honey": "tarros de miel",
+    "grape": "uvas",
+    "banana": "plátanos",
+    "apple": "manzanas",
+    "spider": "arañas"
+  },
+  "fun": {
+    "title": "Monedas de juego",
+    "text": "Juego gratis: sin dinero, solo monedas en este dispositivo. Los mismos rodillos y las mismas probabilidades que de verdad.",
+    "refill": "Recargar a {n}",
+    "stats": "{spins} tiradas · mejor {best}x · {won} monedas ganadas"
+  },
+  "brain": {
+    "title": "Dentro de su cabeza",
+    "wing": "Salto",
+    "wingMn": "motoneuronas de las alas",
+    "loom": "Susto de araña",
+    "spiders": {
+      "zero": "ninguna araña en la línea",
+      "one": "{count} araña en la línea",
+      "other": "{count} arañas en la línea"
+    },
+    "idle": "mirando los rodillos",
+    "thinking": "mirando la línea…",
+    "flinch": "¡SALTÓ!",
+    "calm": "se queda quieta",
+    "napping": "cerebro dormido, solo buen rollo",
+    "note": "Impulsos de un conectoma real de mosca de 166.700 neuronas, en tu navegador. Las arañas en la línea se le echan encima y reacciona. Nunca toca el resultado."
+  },
+  "pay": {
+    "title": "Tabla de premios",
+    "crownFirst": "corona en el rodillo 1",
+    "any": "cual",
+    "spider": "Las arañas nunca pagan.",
+    "note": "Los premios multiplican tu apuesta, apuesta incluida, en la línea central desde la izquierda.",
+    "rtp": "Retorno al jugador {rtp}% · un premio cada {hit} tiradas aprox."
+  },
+  "recent": {
+    "title": "Últimas tiradas",
+    "none": "Aún no hay tiradas."
+  },
+  "pop": {
+    "win": [
+      "¡Ñam!",
+      "¡Bzz bzz!",
+      "¡Dulce!",
+      "¡Bien!",
+      "¡Ka-ching!"
+    ],
+    "big": [
+      "¡JACKPOT!",
+      "¡BZZZZZ!",
+      "¡Mosca rica!",
+      "¡Mega bzz!"
+    ],
+    "flinch": [
+      "¡Ay!",
+      "¡ARAÑA!",
+      "¡No!",
+      "¡Uy!",
+      "¡Corre!"
+    ],
+    "meh": [
+      "Mmm.",
+      "Bah.",
+      "¿Otra?",
+      "Bzz…"
+    ]
+  },
+  "bet": {
+    "title": "Jugar con $FLYAI",
+    "loading": "Abriendo la mesa de $FLYAI…",
+    "closed": "Las tiradas con $FLYAI aún no están abiertas. Jugar gratis sí.",
+    "unreachable": "Las tiradas con $FLYAI no responden ahora; jugar gratis sigue funcionando.",
+    "intro": "Gira con $FLYAI real de tu saldo de fly.ai, el mismo saldo que Fly Roulette y compute.",
+    "signIn": "Inicia sesión con tu wallet",
+    "deposit": "Depositar",
+    "withdraw": "Retirar",
+    "signOut": "Cerrar sesión",
+    "depositLabel": "Envía $FLYAI de tu wallet a tu saldo",
+    "withdrawLabel": "Pide que te devuelvan $FLYAI a tu wallet",
+    "amount": "cantidad",
+    "send": "Enviar",
+    "ask": "Pedir",
+    "withdrawNote": "Los retiros se envían a mano, normalmente en menos de un día.",
+    "withdrawAsked": "Pediste que te devuelvan {amount} FLYAI; se envía a mano, normalmente en menos de un día.",
+    "limits": "Tiradas de {min} a {max} FLYAI · hasta {day} al día · {staked} hoy",
+    "paused": "Las tiradas con $FLYAI están en pausa; vuelve a intentarlo luego.",
+    "nextCommit": "compromiso de la próxima tirada:",
+    "noneYet": "ninguno aún",
+    "commitShown": "compromiso (mostrado antes de la tirada)",
+    "serverSeed": "semilla del servidor (se revela después)",
+    "yourSeed": "tu semilla",
+    "verifyBtn": "Verificar esta tirada",
+    "notRevealed": "aún sin revelar",
+    "resWon": "Tirada #{id}: ganaste <b>+{amount} FLYAI</b> ({mult}x)",
+    "resLost": "Tirada #{id}: perdiste <b>{amount} FLYAI</b>",
+    "vBadSeed": "✗ la semilla del servidor no coincide con el compromiso",
+    "vBadCommit": "✗ este no es el compromiso mostrado antes de la tirada",
+    "vBadStops": "✗ las semillas dan otros rodillos",
+    "vOk": "✓ justo: la semilla coincide con el compromiso mostrado antes de la tirada y las dos semillas reproducen exactamente estos rodillos",
+    "vOkOld": "✓ justo: la semilla coincide con su compromiso y las dos semillas reproducen exactamente estos rodillos",
+    "yourSpins": "Tus tiradas",
+    "noSpins": "Aún no hay tiradas.",
+    "stakeRange": "La apuesta debe estar entre {min} y {max} FLYAI.",
+    "overBalance": "Más que tu saldo.",
+    "overDay": "Eso superaría el límite de hoy de {day} FLYAI.",
+    "sessionExpired": "tu sesión caducó; vuelve a iniciar sesión",
+    "enterAmount": "introduce una cantidad",
+    "mining": "esperando a que se mine la transferencia…",
+    "deposited": "✓ {amount} FLYAI añadidos",
+    "withdrawOk": "✓ pedido; se envía a tu wallet a mano, normalmente en menos de un día",
+    "howTitle": "Cómo funcionan las tiradas con $FLYAI",
+    "how1": "<b>Jugar gratis sigue siendo gratis.</b> Las monedas de juego nunca tocan dinero; las tiradas reales solo ocurren en este modo.",
+    "how2": "<b>Tú contra la casa.</b> La tabla devuelve el 94,95% de lo apostado a la larga; el resto es la ventaja de la casa.",
+    "how3": "<b>Tu saldo</b> es el mismo saldo de $FLYAI que usan Fly Roulette y los pedidos de compute: depósitos, premios y reembolsos van ahí.",
+    "how4": "<b>Demostrablemente justo.</b> El servidor se compromete con su semilla antes de tu tirada y la revela después; \"Verificar esta tirada\" reproduce los rodillos con las dos semillas en tu navegador. La mosca solo reacciona.",
+    "footer": "<a href=\"/roulette-terms\">Términos</a> · solo +18 · juega con responsabilidad"
+  },
+  "terms": {
+    "title": "Antes de tu primera tirada real",
+    "t1": "Giras con $FLYAI real de tu saldo. Puedes perderlo todo.",
+    "t2": "Los rodillos son aleatorios. La tabla devuelve el 94,95% de lo apostado a la larga; el resto es la ventaja de la casa.",
+    "t3": "El servidor se compromete con su semilla antes de cada tirada y la revela después, así puedes comprobar cada tirada.",
+    "t4": "Las ganancias van a tu saldo. Los retiros se envían a mano y pueden tardar un día.",
+    "t5": "Apostar puede ser ilegal donde vives. Es tu responsabilidad cumplir las leyes locales.",
+    "over18": "Tengo 18 años o más",
+    "accept": "Acepto los <a href=\"/roulette-terms\" target=\"_blank\" rel=\"noopener\">términos</a> (los mismos que Fly Roulette)",
+    "cancel": "Cancelar",
+    "continue": "Continuar"
+  }
+}

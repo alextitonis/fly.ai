@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="slots.meta.title">Fly Slots</title>
+<meta name="description" data-i18n-attr="content:slots.meta.description" content="A cartoon slot machine with a real fly brain beside the reels. Spin for fun or for $FLYAI: provably fair reels, 95% return, and a 166,700-neuron connectome that flinches at every spider.">
+<meta property="og:title" content="Fly Slots">
+<meta property="og:description" content="A cartoon slot machine with a real fly brain beside the reels. Spiders make it jump.">
+<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/slots/">
+<script src="/assets/i18n/boot.js"></script>
+<link rel="icon" href="/assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* fly.ai brand (docs/assets/site.css): pure black, white, the logo fly's mint; red only for losses and danger */
+    --ground:#000000; --surface:#0a0b0b; --surface-2:#060707; --line:#1a1d1c;
+    --ink:#f4f7f6; --muted:#9ba5a1; --dim:#5f6865;
+    --glow:rgba(94,242,204,.28); --red:#ff5b4f;
+    --display:'Outfit','Inter',system-ui,sans-serif;
+    --accent:#5ef2cc; --accent-hi:#a4fbe6; --gold:#ffc83d;
+    --cell:clamp(62px, 17vw, 100px);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ground); color:var(--ink); font:15px/1.5 'Inter',system-ui,sans-serif; overflow-x:hidden;}
+  a{color:inherit;}
+  .mono{font-family:'JetBrains Mono',ui-monospace,monospace; font-variant-numeric:tabular-nums;}
+  .dim{color:var(--dim);}
+  /* nav (same markup/classes as every docs/*.html page) */
+  nav{position:sticky; top:0; z-index:10; background:rgba(0,0,0,.78); backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; height:58px; max-width:1120px; margin:0 auto; padding-inline:24px;}
+  .brand{display:flex; align-items:center; gap:10px; font:700 18px var(--display); text-decoration:none;}
+  .brand .logo{display:block; height:24px; width:auto;}
+  nav ul{display:flex; gap:22px; list-style:none; margin:0; padding:0; font-size:14px; align-items:center;}
+  nav ul a{color:var(--muted); text-decoration:none;}
+  nav ul a:hover{color:var(--ink);}
+  nav ul a.on{color:var(--ink);}
+  nav ul a.on::after{content:""; display:block; height:2px; border-radius:2px; background:var(--accent); margin-top:4px; box-shadow:0 0 8px var(--glow);}
+  nav li.dd{position:relative; display:flex; align-items:center; gap:2px;}
+  nav .ddbtn{all:unset; cursor:pointer; color:var(--muted); font-size:11px; line-height:1; padding:5px 4px; border-radius:4px;}
+  nav .ddbtn:hover{color:var(--ink);}
+  nav .ddbtn:focus-visible, nav a:focus-visible{outline:2px solid var(--accent-hi); outline-offset:2px;}
+  nav .ddmenu{position:absolute; top:calc(100% + 12px); left:-12px; min-width:240px; margin:0; padding:6px;
+              display:none; flex-direction:column; gap:2px; background:var(--surface); border:1px solid var(--line);
+              border-radius:14px; box-shadow:0 14px 34px rgba(0,0,0,.7); z-index:20; list-style:none;}
+  nav .ddmenu::before{content:""; position:absolute; left:0; right:0; top:-14px; height:14px;}
+  nav li.dd:hover .ddmenu, nav li.dd:focus-within .ddmenu, nav li.dd.open .ddmenu{display:flex;}
+  nav .ddmenu li{display:block;}
+  nav .ddmenu a{display:block; padding:9px 11px; border-radius:7px; color:var(--ink); font-size:14px; white-space:nowrap;}
+  nav .ddmenu a:hover{background:var(--surface-2);}
+  nav .ddmenu a.on{background:var(--surface-2);}
+  nav .ddmenu a.on::after{display:none;}
+  nav .ddmenu small{display:block; color:var(--dim); font:12px/1.4 'JetBrains Mono',monospace; margin-top:2px; white-space:normal;}
+  nav .ddlabel{font-size:inherit; color:var(--muted); padding:4px 2px;}
+  nav .ddlabel span{font-size:10px; margin-left:2px;}
+  nav .ddlabel:hover, nav li.dd.open .ddlabel, nav .ddlabel.on{color:var(--ink);}
+  nav .ddlabel.on::after{content:""; display:block; height:2px; border-radius:2px; background:var(--accent); margin-top:4px; box-shadow:0 0 8px var(--glow);}
+  nav .ddmenu.right{left:auto; right:-12px;}
+  nav .ddmenu{align-items:stretch;}
+  nav .langpick{font:500 13px/1.2 'Inter',system-ui,sans-serif; color:var(--muted); background:transparent; border:1px solid var(--line); border-radius:999px; padding:6px 10px;}
+  nav .langpick:hover{color:var(--ink); border-color:var(--accent);}
+  nav .langpick option{background:var(--surface); color:var(--ink);}
+  @media (max-width:1080px){ nav ul{gap:14px; font-size:13px;} }
+  @media (max-width:760px){
+    nav .wrap{height:auto; padding-block:10px; flex-wrap:wrap; gap:8px 14px;}
+    nav ul{gap:14px; font-size:13px; flex-wrap:wrap;}
+  }
+  @media (max-width:520px){
+    nav ul{gap:12px; font-size:12px; width:100%; justify-content:space-between;}
+    nav ul li:last-child{display:none;}
+    nav .ddmenu{left:-40px; min-width:220px;}
+    nav .ddmenu.right{left:auto; right:-8px;}
+    .brand{font-size:16px;}
+  }
+
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 22px; border-radius:999px; font-weight:600;
+       font-size:15px; text-decoration:none; border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer;
+       transition:border-color .15s, background .15s, box-shadow .15s;}
+  .btn.sm{padding:7px 14px; font-size:13px;}
+  .btn:hover{border-color:var(--accent);}
+  button.btn{font:600 14px 'Inter',sans-serif; border-radius:999px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink); padding:9px 14px; cursor:pointer;}
+  button.btn:hover:not(:disabled){border-color:var(--accent);}
+  button.btn:focus-visible{outline:2px solid var(--accent-hi); outline-offset:2px;}
+  button.btn.primary{background:var(--accent); border-color:var(--accent); color:#000; width:100%; font-size:16px; padding:12px; box-shadow:0 0 24px -6px var(--glow);}
+  button.btn.primary:hover:not(:disabled){background:var(--accent-hi);}
+  button:disabled{opacity:.5; cursor:not-allowed;}
+
+  main{max-width:1120px; margin:0 auto; padding:16px 24px 40px;}
+  @media (max-width:640px){ main{padding:14px 16px 32px;} }
+  .head{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:10px 20px; margin-bottom:14px;}
+  h1{font:800 clamp(30px,5vw,46px)/1 var(--display); letter-spacing:-.02em; margin:0;}
+  h1 span{color:var(--accent); text-shadow:0 0 36px var(--glow);}
+  .sub{color:var(--muted); margin:6px 0 0; max-width:620px;}
+  #status{color:var(--dim); font-size:12px; display:block; margin-top:4px;}
+
+  /* the two modes */
+  .modes{display:inline-flex; padding:4px; gap:4px; border:1px solid var(--line); border-radius:999px; background:var(--surface);}
+  .modes button{all:unset; cursor:pointer; padding:9px 16px; border-radius:999px; font:600 14px 'Inter',sans-serif; color:var(--muted); white-space:nowrap;}
+  .modes button:hover{color:var(--ink);}
+  .modes button:focus-visible{outline:2px solid var(--accent-hi); outline-offset:2px;}
+  .modes button[aria-selected="true"]{background:var(--accent); color:#000; box-shadow:0 0 20px -6px var(--glow);}
+  @media (max-width:520px){ .modes{width:100%;} .modes button{flex:1; text-align:center; padding:9px 8px;} }
+
+  .game{display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:16px; align-items:start;}
+  .game > *{min-width:0;}
+  @media (max-width:920px){ .game{grid-template-columns:1fr;} }
+
+  /* the machine */
+  .machine{position:relative; border-radius:28px; padding:18px; background:
+      radial-gradient(120% 80% at 50% 0%, rgba(94,242,204,.16), transparent 60%),
+      linear-gradient(180deg,#101413,#050606);
+      border:1px solid #23302c; box-shadow:0 0 0 1px rgba(94,242,204,.06), 0 24px 60px -30px rgba(94,242,204,.35);}
+  @media (max-width:520px){ .machine{padding:12px; border-radius:22px;} }
+  .marquee{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px;}
+  .lights{display:flex; gap:6px;}
+  .lights i{width:9px; height:9px; border-radius:50%; background:#2a3431; box-shadow:none; transition:background .2s, box-shadow .2s;}
+  .machine.lit .lights i{animation:bulb .5s steps(2) infinite;}
+  .machine.lit .lights i:nth-child(even){animation-delay:.25s;}
+  @keyframes bulb{0%{background:var(--gold); box-shadow:0 0 10px var(--gold);} 100%{background:#2a3431; box-shadow:none;}}
+  .winbox{display:flex; align-items:baseline; gap:8px; padding:6px 14px; border-radius:12px; background:#000; border:1px solid #23302c; min-width:140px; justify-content:flex-end;}
+  .winbox span{font:500 11px 'JetBrains Mono',monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--dim);}
+  .winbox b{font:700 24px/1 'JetBrains Mono',monospace; color:var(--accent); text-shadow:0 0 12px var(--glow); font-variant-numeric:tabular-nums;}
+  .machine.lit .winbox b{color:var(--gold); text-shadow:0 0 14px rgba(255,200,61,.6);}
+
+  .cab{display:grid; grid-template-columns:minmax(0,1fr) clamp(120px,22%,190px); gap:14px; align-items:center;}
+  /* a phone: the fly sits in the marquee row, left of the win counter, so the reels and Spin stay on screen */
+  @media (max-width:560px){
+    .cab{grid-template-columns:1fr;}
+    .marquee{min-height:78px; align-items:flex-start; padding-left:96px;}
+    .marquee .lights{display:none;}
+    .marquee .winbox{margin-left:auto;}
+    .machine .flybox{position:absolute; left:8px; top:2px; width:98px; height:96px; min-height:0; z-index:3;}
+  }
+  .reels{position:relative; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; padding:12px; border-radius:20px;
+         background:linear-gradient(180deg,#1b2220,#0b0e0d); border:3px solid #111; box-shadow:inset 0 0 0 2px #2d3a36, inset 0 10px 30px rgba(0,0,0,.6);}
+  @media (max-width:520px){ .reels{gap:6px; padding:8px;} }
+  .reel{position:relative; height:calc(var(--cell) * 3); overflow:hidden; border-radius:14px; border:3px solid #111;
+        background:linear-gradient(180deg,#d9d2c0 0%,#fffaf0 22%,#fffaf0 78%,#d9d2c0 100%);}
+  .reel::after{content:""; position:absolute; inset:0; pointer-events:none;
+        background:linear-gradient(180deg,rgba(0,0,0,.45),transparent 26%,transparent 74%,rgba(0,0,0,.45));}
+  .strip{position:absolute; left:0; right:0; top:0; will-change:transform; transform:translate3d(0, calc(var(--y, 31) * -1 * var(--cell)), 0);}
+  .reel.fast .strip{filter:blur(1.2px);}
+  .cell{height:var(--cell); display:grid; place-items:center;}
+  .cell svg{width:74%; height:74%; overflow:visible;}
+  .cell.hit svg{animation:hit .55s ease-in-out infinite alternate; filter:drop-shadow(0 0 10px rgba(255,200,61,.9));}
+  @keyframes hit{from{transform:scale(1);} to{transform:scale(1.14) rotate(-4deg);}}
+  .payline{position:absolute; left:4px; right:4px; top:50%; height:0; border-top:3px dashed rgba(94,242,204,.5); transform:translateY(-50%); pointer-events:none; z-index:2;}
+  .payline::before, .payline::after{content:""; position:absolute; top:-9px; width:0; height:0; border:7px solid transparent;}
+  .payline::before{left:-6px; border-left-color:var(--accent);}
+  .payline::after{right:-6px; border-right-color:var(--accent);}
+  .reels.win .payline{border-top:4px solid var(--gold); box-shadow:0 0 16px 2px rgba(255,200,61,.8); animation:blinkline .4s steps(2) 4;}
+  .reels.win .payline::before{border-left-color:var(--gold);} .reels.win .payline::after{border-right-color:var(--gold);}
+  @keyframes blinkline{50%{opacity:.35;}}
+
+  /* the fly */
+  .flybox{position:relative; height:100%; min-height:150px; display:grid; place-items:center;}
+  .flysvg{width:min(100%,170px); height:auto; overflow:visible; filter:drop-shadow(0 0 16px rgba(94,242,204,.35));}
+  @media (max-width:560px){ .machine .flysvg{width:92px;} .machine .flypop{top:-6px; left:70%;} }
+  .fly-all{transform-box:view-box; transform-origin:80px 150px; animation:bob 2.4s ease-in-out infinite;}
+  @keyframes bob{50%{transform:translateY(-5px);}}
+  .wing{transform-box:view-box; opacity:.85;}
+  .wing.l{transform-origin:78px 78px;} .wing.r{transform-origin:82px 78px;}
+  .flybox.buzz .wing.l{animation:flapl .06s linear infinite alternate;}
+  .flybox.buzz .wing.r{animation:flapr .06s linear infinite alternate;}
+  @keyframes flapl{to{transform:rotate(26deg);}}
+  @keyframes flapr{to{transform:rotate(-26deg);}}
+  .flybox.flinch .fly-all{animation:flinch .7s cubic-bezier(.2,1.6,.4,1);}
+  @keyframes flinch{0%{transform:translateY(0) scale(1,1);} 15%{transform:translateY(6px) scale(1.12,.84);} 45%{transform:translateY(-46px) scale(.9,1.12) rotate(-8deg);} 70%{transform:translateY(-10px) rotate(6deg);} 100%{transform:translateY(0);}}
+  .flybox.victory .fly-all{animation:victory 1.3s ease-in-out;}
+  @keyframes victory{0%{transform:none;} 25%{transform:translateY(-26px) rotate(-14deg);} 50%{transform:translateY(-34px) rotate(14deg) scale(1.08);} 75%{transform:translateY(-18px) rotate(-8deg);} 100%{transform:none;}}
+  .flybox.big .fly-all{animation:bigwin 1.6s ease-in-out;}
+  @keyframes bigwin{0%{transform:none;} 30%{transform:translateY(-40px) rotate(180deg) scale(1.1);} 60%{transform:translateY(-40px) rotate(360deg) scale(1.15);} 100%{transform:none;}}
+  .flybox.shiver .fly-all{animation:shiver .09s linear 6;}
+  @keyframes shiver{0%,100%{transform:translateX(0);} 50%{transform:translateX(3px);}}
+  .pupil{transition:transform .25s;}
+  .flybox.scared .pupil{transform:scale(.55);}
+  .mouth-happy{display:none;} .flybox.happy .mouth-happy{display:inline;} .flybox.happy .mouth-flat{display:none;}
+  .flypop{position:absolute; left:50%; top:4px; transform:translateX(-50%) rotate(var(--tilt,0deg)); white-space:nowrap; pointer-events:none;
+          font:700 17px/1 var(--display); color:#111; background:#fff; border:3px solid #111; border-radius:12px; padding:5px 10px; box-shadow:3px 3px 0 #111;
+          animation:floatpop 1.5s ease-out forwards; z-index:3;}
+  .flypop.win{background:var(--gold);} .flypop.big{background:var(--gold); font-size:22px;} .flypop.flinch{background:#ff8a7f;} .flypop.meh{background:#eef1f5; font-size:14px;}
+  @keyframes floatpop{0%{opacity:0; transform:translateX(-50%) scale(.3);} 15%{opacity:1; transform:translateX(-50%) rotate(var(--tilt,0deg)) scale(1.15);} 25%{transform:translateX(-50%) rotate(var(--tilt,0deg)) scale(1);} 75%{opacity:1;} 100%{opacity:0; transform:translateX(-50%) translateY(-30px) rotate(var(--tilt,0deg));}}
+
+  /* the deck: balance, stake, spin */
+  .deck{display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:12px; align-items:end; margin-top:14px;}
+  @media (max-width:560px){ .deck{grid-template-columns:1fr 1fr; } .deck .spin{grid-column:1 / -1;} }
+  .field span.lbl{display:block; font:500 11px 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); margin-bottom:4px;}
+  .bal b{font:700 22px/1.1 var(--display); white-space:nowrap;}
+  .bal small{color:var(--muted); font-size:12px; margin-left:4px;}
+  .stepper{display:flex; align-items:center; gap:6px;}
+  .stepper button{all:unset; cursor:pointer; width:36px; height:36px; border-radius:50%; display:grid; place-items:center; font:700 20px/1 var(--display); background:var(--surface-2); border:1px solid var(--line); flex:none;}
+  .stepper button:hover:not(:disabled){border-color:var(--accent);}
+  .stepper button:focus-visible{outline:2px solid var(--accent-hi);}
+  .stepper input{min-width:0; width:100%; text-align:center; font:600 16px 'JetBrains Mono',monospace; background:#000; color:var(--ink); border:1px solid var(--line); border-radius:12px; padding:7px 6px;}
+  .stepper input:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--glow);}
+  .spin{all:unset; cursor:pointer; text-align:center; min-width:150px; padding:16px 28px; border-radius:999px; font:800 22px/1 var(--display); letter-spacing:.06em; text-transform:uppercase;
+        background:linear-gradient(180deg,#a4fbe6,#5ef2cc 55%,#19c99a); color:#002a20; border:3px solid #111; box-shadow:0 5px 0 #0b5c48, 0 0 30px -4px var(--glow); transition:transform .06s, box-shadow .06s;}
+  .spin:hover:not(:disabled){filter:brightness(1.06);}
+  .spin:active:not(:disabled){transform:translateY(4px); box-shadow:0 1px 0 #0b5c48, 0 0 30px -4px var(--glow);}
+  .spin:focus-visible{outline:3px solid var(--accent-hi); outline-offset:3px;}
+  .spin:disabled{opacity:.55; cursor:not-allowed;}
+  .deck2{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:12px;}
+  .deck2 .lbl{font:500 11px 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--dim);}
+  .chip{all:unset; cursor:pointer; padding:6px 13px; border-radius:999px; border:1px solid var(--line); background:var(--surface-2); font:600 13px 'Inter',sans-serif;}
+  .chip:hover:not(:disabled){border-color:var(--accent);}
+  .chip:focus-visible{outline:2px solid var(--accent-hi);}
+  .chip[hidden]{display:none;}
+  .chip.on{background:var(--accent); color:#000; border-color:var(--accent);}
+  .chip:disabled{opacity:.45; cursor:not-allowed;}
+  #auto-left{font-size:12px; color:var(--muted);}
+  .deck2 .grow{flex:1;}
+  .hint{font-size:12px; color:var(--dim);}
+  @media (hover:none){ .hint{display:none;} }
+  #msg{min-height:24px; margin:10px 0 0; font:600 16px var(--display); color:var(--muted);}
+  #msg.win{color:var(--gold);} #msg.bad{color:var(--red);}
+
+  /* side panel */
+  .panel{display:flex; flex-direction:column; gap:12px;}
+  .card{background:rgba(10,11,11,.85); border:1px solid var(--line); border-radius:18px; padding:14px; backdrop-filter:blur(8px);}
+  .card h2{font:500 11px 'JetBrains Mono',monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 10px;}
+  .note{font-size:12px; color:var(--dim); margin:8px 0 0;}
+  .row{display:grid; grid-template-columns:1fr auto; gap:2px 8px; margin:8px 0 2px; font-size:13px; color:var(--muted);}
+  .bar{grid-column:1 / -1; height:10px; background:var(--surface-2); border-radius:6px; overflow:hidden; position:relative;}
+  .bar i{display:block; height:100%; width:0; background:#8fd3ff; border-radius:6px; transition:width .08s linear;}
+  .bar i.hot{background:var(--red);}
+  #loom-bar{background:#c46bff;}
+  .bar .line{position:absolute; top:-2px; bottom:-2px; width:2px; background:var(--ink); opacity:.6; left:62.5%;}
+  #verdict{margin-top:8px; font:700 18px var(--display); min-height:24px; color:var(--muted);}
+  #verdict.flinch{color:var(--red);}
+  .paytable{width:100%; border-collapse:collapse; font-size:13px;}
+  .paytable td{padding:4px 0; border-bottom:1px solid var(--line);}
+  .paytable td:last-child{text-align:right; font:600 13px 'JetBrains Mono',monospace; color:var(--gold);}
+  .paytable .ic{display:inline-flex; gap:2px; vertical-align:middle;}
+  .paytable .ic svg, .mini svg{width:22px; height:22px;}
+  .paytable .ic .ghost{opacity:.18;}
+  .paytable .any{font:500 10px 'JetBrains Mono',monospace; color:var(--dim); display:inline-grid; place-items:center; width:22px; height:22px; border:1px dashed var(--line); border-radius:5px;}
+  .list{list-style:none; margin:0; padding:0; font-size:13px; max-height:220px; overflow:auto;}
+  .list li{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:4px 0; border-bottom:1px solid var(--line);}
+  .list li.btnrow{cursor:pointer;} .list li.btnrow:hover{background:var(--surface-2);}
+  .mini{display:inline-flex; gap:2px;}
+  .up{color:var(--accent); font-family:'JetBrains Mono',monospace;} .down{color:var(--red); font-family:'JetBrains Mono',monospace; opacity:.8;}
+
+  /* Play for $FLYAI */
+  .bet{overflow-wrap:anywhere;}
+  .bet h3{font:600 13px 'Inter',sans-serif; margin:14px 0 6px; color:var(--muted);}
+  .bet-intro{font-size:13px; color:var(--muted); margin:0 0 10px;}
+  .bet-acct{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;}
+  .bet-acct b{font:700 18px var(--display); white-space:nowrap;}
+  .bet-acct-btns{display:flex; gap:6px;}
+  .bet-acct-btns .btn{padding:7px 10px; font-size:13px;}
+  .bet-box{background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px; margin-bottom:10px;}
+  .bet-box label{display:block; font-size:13px; color:var(--muted);}
+  .bet-row{display:flex; gap:8px; align-items:center; margin-top:6px;}
+  .bet-row input{flex:1; min-width:0; font:600 15px 'JetBrains Mono',monospace; background:var(--ground); color:var(--ink); border:1px solid var(--line); border-radius:10px; padding:8px 10px;}
+  .bet-row input:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--glow);}
+  #bet-msg.bad{color:var(--red);}
+  #bet-commit, .bet-result dd{word-break:break-all;}
+  .bet-result{border-top:1px solid var(--line); margin-top:12px; padding-top:10px;}
+  .bet-result p{margin:0;}
+  .bet-result dl{font-size:11px; margin:8px 0; word-break:break-all;}
+  .bet-result dt{color:var(--dim);}
+  .bet-result dd{margin:0 0 6px; color:var(--muted);}
+  .bet-how{font-size:12px; color:var(--muted); margin-top:10px;}
+  .bet-how summary{cursor:pointer; color:var(--ink); font-weight:600;}
+  .bet-how ul{padding-left:16px; margin:6px 0 0;}
+  .bet-how li{margin-bottom:4px;}
+  dialog.terms{background:var(--surface); color:var(--ink); border:1px solid var(--line); border-radius:16px; max-width:460px; width:calc(100% - 32px); padding:20px;}
+  dialog.terms::backdrop{background:rgba(0,0,0,.6);}
+  dialog.terms h3{font:700 20px var(--display); margin:0 0 10px;}
+  dialog.terms ul{padding-left:18px; color:var(--muted); font-size:14px;}
+  dialog.terms label{display:flex; gap:8px; align-items:center; margin:8px 0; font-size:14px;}
+  .terms-btns{display:flex; gap:8px; justify-content:flex-end; margin-top:12px;}
+  .terms-btns .btn.primary{width:auto;}
+  /* the compute site's wallet picker (mine/web/account.ts builds it) */
+  .acct-sheet{position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; padding:16px; background:rgba(0,0,0,.6);}
+  .acct-sheet[hidden]{display:none;}
+  .acct-panel{width:min(420px,100%); max-height:calc(100dvh - 32px); overflow-y:auto; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px;}
+  .acct-head{display:flex; align-items:center; justify-content:space-between; gap:12px;}
+  .acct-head h3{margin:0; font:700 18px var(--display);}
+  .acct-list{display:grid; gap:8px; margin:14px 0 4px;}
+  .acct-wallet{display:flex; align-items:center; gap:12px; width:100%; padding:12px 14px; text-align:left; cursor:pointer;
+               background:var(--surface-2); border:1px solid var(--line); border-radius:10px; color:var(--ink); font:inherit;}
+  .acct-wallet:hover{border-color:var(--accent);}
+  .acct-wallet img, .acct-icon{width:28px; height:28px; border-radius:7px; flex:none;}
+  .acct-icon{display:grid; place-items:center; background:var(--line); color:var(--muted);}
+  .acct-wallet b{display:block; font-weight:600;}
+  .acct-wallet small{display:block; font:12px 'JetBrains Mono',monospace; color:var(--dim);}
+  .acct-apps{display:flex; flex-wrap:wrap; gap:8px;}
+  .acct-status:empty{display:none;}
+  .caption{color:var(--muted); font-size:13px;}
+  .codeline{font:12px 'JetBrains Mono',monospace; color:var(--muted);}
+  @media (max-width:640px){ .acct-sheet{align-items:flex-end; padding:0;} .acct-panel{width:100%; border-radius:16px 16px 0 0; max-height:85dvh;} }
+  @media (prefers-reduced-motion:reduce){ .fly-all{animation:none;} }
+</style>
+</head>
+<body>
+<!-- the reel symbols, cartoon style: each one is drawn once and used everywhere (reels, paytable, history) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="s-crown" viewBox="0 0 100 100">
+      <path d="M14 74 L10 30 L32 50 L50 18 L68 50 L90 30 L86 74 Z" fill="#ffc83d" stroke="#111" stroke-width="5" stroke-linejoin="round"/>
+      <rect x="13" y="72" width="74" height="14" rx="4" fill="#f0a91e" stroke="#111" stroke-width="5"/>
+      <circle cx="50" cy="56" r="7" fill="#5ef2cc" stroke="#111" stroke-width="3.5"/>
+      <circle cx="28" cy="62" r="5" fill="#ff5b4f" stroke="#111" stroke-width="3"/>
+      <circle cx="72" cy="62" r="5" fill="#ff5b4f" stroke="#111" stroke-width="3"/>
+      <circle cx="10" cy="28" r="5" fill="#ffc83d" stroke="#111" stroke-width="3.5"/>
+      <circle cx="50" cy="15" r="5" fill="#ffc83d" stroke="#111" stroke-width="3.5"/>
+      <circle cx="90" cy="28" r="5" fill="#ffc83d" stroke="#111" stroke-width="3.5"/>
+      <path d="M22 42 L24 64" stroke="#fff6d5" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+    </symbol>
+    <symbol id="s-fly" viewBox="0 0 100 100">
+      <ellipse cx="30" cy="40" rx="22" ry="12" transform="rotate(-30 30 40)" fill="#bff8ea" fill-opacity=".85" stroke="#111" stroke-width="4"/>
+      <ellipse cx="70" cy="40" rx="22" ry="12" transform="rotate(30 70 40)" fill="#bff8ea" fill-opacity=".85" stroke="#111" stroke-width="4"/>
+      <path d="M36 70 L24 84 M42 74 L38 90 M64 70 L76 84 M58 74 L62 90" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="50" cy="64" rx="18" ry="22" fill="#2f3a37" stroke="#111" stroke-width="5"/>
+      <path d="M34 62 H66 M35 72 H65" stroke="#5ef2cc" stroke-width="4" opacity=".7"/>
+      <circle cx="50" cy="40" r="17" fill="#2f3a37" stroke="#111" stroke-width="5"/>
+      <ellipse cx="39" cy="38" rx="10" ry="12" fill="#e0342c" stroke="#111" stroke-width="4"/>
+      <ellipse cx="61" cy="38" rx="10" ry="12" fill="#e0342c" stroke="#111" stroke-width="4"/>
+      <circle cx="36" cy="34" r="3.5" fill="#fff"/><circle cx="58" cy="34" r="3.5" fill="#fff"/>
+    </symbol>
+    <symbol id="s-honey" viewBox="0 0 100 100">
+      <path d="M22 40 Q16 88 50 90 Q84 88 78 40 Z" fill="#f0a91e" stroke="#111" stroke-width="5" stroke-linejoin="round"/>
+      <rect x="18" y="28" width="64" height="16" rx="7" fill="#c9771a" stroke="#111" stroke-width="5"/>
+      <path d="M30 44 Q30 58 36 58 Q40 58 40 46 M56 44 Q56 64 62 64 Q67 64 67 46" fill="#ffd66b" stroke="#111" stroke-width="3.5"/>
+      <rect x="34" y="64" width="32" height="15" rx="4" fill="#fff6d5" stroke="#111" stroke-width="3.5"/>
+      <path d="M40 71 H60" stroke="#c9771a" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M50 28 V12" stroke="#8a5a2b" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="50" cy="12" rx="8" ry="5" fill="#8a5a2b" stroke="#111" stroke-width="3"/>
+    </symbol>
+    <symbol id="s-grape" viewBox="0 0 100 100">
+      <path d="M50 22 Q52 10 62 6" stroke="#6b4a2b" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M52 20 Q70 8 82 20 Q68 30 52 20 Z" fill="#3ddc84" stroke="#111" stroke-width="4"/>
+      <g fill="#8e4ad8" stroke="#111" stroke-width="4">
+        <circle cx="36" cy="34" r="11"/><circle cx="58" cy="32" r="11"/><circle cx="72" cy="42" r="10"/>
+        <circle cx="28" cy="50" r="10"/><circle cx="48" cy="48" r="11"/><circle cx="66" cy="58" r="11"/>
+        <circle cx="38" cy="66" r="11"/><circle cx="56" cy="76" r="10"/><circle cx="44" cy="86" r="8"/>
+      </g>
+      <g fill="#fff" opacity=".6"><circle cx="33" cy="30" r="3"/><circle cx="45" cy="44" r="3"/><circle cx="63" cy="54" r="3"/><circle cx="35" cy="62" r="3"/></g>
+    </symbol>
+    <symbol id="s-banana" viewBox="0 0 100 100">
+      <path d="M18 30 Q14 74 50 84 Q80 90 90 70 Q64 80 44 64 Q28 50 30 26 Z" fill="#ffd93d" stroke="#111" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M30 34 Q30 58 50 70" stroke="#e8b51f" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M18 30 L16 20 L28 18 L30 26" fill="#6b4a2b" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="88" cy="71" r="3.5" fill="#6b4a2b"/>
+    </symbol>
+    <symbol id="s-apple" viewBox="0 0 100 100">
+      <path d="M50 30 Q30 18 18 36 Q8 58 24 80 Q36 94 50 86 Q64 94 76 80 Q92 58 82 36 Q70 18 50 30 Z" fill="#ff5b4f" stroke="#111" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M50 30 Q48 18 54 8" stroke="#6b4a2b" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M54 18 Q66 6 78 14 Q68 26 54 18 Z" fill="#3ddc84" stroke="#111" stroke-width="4"/>
+      <ellipse cx="32" cy="46" rx="6" ry="10" fill="#fff" opacity=".55" transform="rotate(20 32 46)"/>
+    </symbol>
+    <symbol id="s-spider" viewBox="0 0 100 100">
+      <g stroke="#111" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M36 52 L20 38 L8 46 M36 58 L16 56 L6 66 M38 64 L22 74 L16 88 M42 68 L34 84 L34 96"/>
+        <path d="M64 52 L80 38 L92 46 M64 58 L84 56 L94 66 M62 64 L78 74 L84 88 M58 68 L66 84 L66 96"/>
+      </g>
+      <ellipse cx="50" cy="62" rx="18" ry="17" fill="#222" stroke="#111" stroke-width="5"/>
+      <circle cx="50" cy="38" r="15" fill="#2c2c2c" stroke="#111" stroke-width="5"/>
+      <circle cx="44" cy="37" r="6" fill="#fff" stroke="#111" stroke-width="2.5"/><circle cx="56" cy="37" r="6" fill="#fff" stroke="#111" stroke-width="2.5"/>
+      <circle cx="45" cy="38" r="2.6" fill="#111"/><circle cx="55" cy="38" r="2.6" fill="#111"/>
+      <path d="M37 28 L48 32 M63 28 L52 32" stroke="#ff5b4f" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M45 47 L47 51 L49 47 M51 47 L53 51 L55 47" stroke="#fff" stroke-width="2" fill="none"/>
+      <path d="M44 60 L50 66 L56 60 L50 72 Z" fill="#ff5b4f" opacity=".9"/>
+    </symbol>
+  </defs>
+</svg>
+
+<nav aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="/"><img class="logo" src="/assets/logo-t.webp" alt="fly.ai" width="988" height="439">$FLYAI</a>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li class="dd"><button class="ddbtn ddlabel" type="button" aria-expanded="false" aria-controls="dd-research">Research <span aria-hidden="true">&#9662;</span></button>
+        <ul class="ddmenu" id="dd-research">
+          <li><a href="/research">All findings<small>Fighting, the 3-D world, what failed</small></a></li>
+          <li><a href="/research/flybook">Talking flies<small>Flybook: can two brains signal?</small></a></li>
+          <li><a href="/research/radio">On air<small>How a radio station run by a real fly brain works</small></a></li>
+          <li><a href="/roadmap">Roadmap<small>What's done and what's next</small></a></li>
+        </ul></li>
+      <li class="dd"><button class="ddbtn ddlabel on" type="button" aria-expanded="false" aria-controls="dd-apps">Apps <span aria-hidden="true">&#9662;</span></button>
+        <ul class="ddmenu" id="dd-apps">
+          <li><a href="/simulation/">Simulation<small>Flies with real brains in a 3-D world</small></a></li>
+          <li><a href="/flybook/">Flybook<small>The live feed written by fly brains</small></a></li>
+          <li><a href="/radio/">Fly Radio<small>A station played by a real fly brain</small></a></li>
+          <li><a href="/roulette/">Fly Roulette<small>Fly brains vs a toy cap gun</small></a></li>
+          <li><a class="on" href="/slots/">Fly Slots<small>Spin the reels, a fly brain reacts</small></a></li>
+          <li><a href="/flinder/">Flinder<small>A fly brain swipes on dating profiles</small></a></li>
+          <li><a href="/compute/">Compute<small>Mine with your browser, earn $FLYAI</small></a></li>
+        </ul></li>
+      <li><a href="/desk">Fly Desk</a></li>
+      <li class="dd"><button class="ddbtn ddlabel" type="button" aria-expanded="false" aria-controls="dd-token">$FLYAI <span aria-hidden="true">&#9662;</span></button>
+        <ul class="ddmenu right" id="dd-token">
+          <li><a href="/token">Token<small>Contract, chain, where to buy</small></a></li>
+          <li><a href="/shop" target="_blank" rel="noopener">Merch<small>Fly shirts and more</small></a></li>
+        </ul></li>
+      <li class="opt"><a href="/agents">For Agents</a></li>
+      <li><a class="btn sm" href="https://x.com/flydotai" target="_blank" rel="noopener">Follow @flydotai</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="head">
+    <div>
+      <h1 data-i18n-html="slots.head.title">Fly <span>Slots</span></h1>
+      <p class="sub" data-i18n="slots.head.sub">Three reels, one payline, and a real fly brain watching every spin. Spiders on the line make it jump. Line up three crowns for 400x.</p>
+      <span id="status" class="mono" data-i18n="slots.status.loading">waking the fly brain…</span>
+    </div>
+    <div class="modes" role="tablist" aria-label="How to play" data-i18n-attr="aria-label:slots.mode.label">
+      <button id="mode-fun" role="tab" aria-selected="true" type="button" data-i18n="slots.mode.fun">Play for fun</button>
+      <button id="mode-bet" role="tab" aria-selected="false" type="button" data-i18n="slots.mode.bet">Play for $FLYAI</button>
+    </div>
+  </div>
+
+  <div class="game">
+    <section class="machine" id="machine">
+      <div class="marquee">
+        <div class="lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="winbox"><span data-i18n="slots.deck.win">Win</span><b id="win" aria-live="polite">0</b></div>
+      </div>
+      <div class="cab">
+        <div class="reels" id="reels" role="img" aria-label="The reels" data-i18n-attr="aria-label:slots.deck.reelsLabel">
+          <div class="reel"><div class="strip"></div></div>
+          <div class="reel"><div class="strip"></div></div>
+          <div class="reel"><div class="strip"></div></div>
+          <div class="payline"></div>
+        </div>
+        <div class="flybox" id="flybox" aria-hidden="true">
+          <svg class="flysvg" viewBox="0 0 160 160">
+            <g class="fly-all">
+              <g class="wing l"><ellipse cx="44" cy="70" rx="38" ry="19" transform="rotate(-28 44 70)" fill="#bff8ea" fill-opacity=".7" stroke="#111" stroke-width="4"/>
+                <path d="M20 66 Q42 62 70 78" stroke="#111" stroke-width="2" fill="none" opacity=".35"/></g>
+              <g class="wing r"><ellipse cx="116" cy="70" rx="38" ry="19" transform="rotate(28 116 70)" fill="#bff8ea" fill-opacity=".7" stroke="#111" stroke-width="4"/>
+                <path d="M140 66 Q118 62 90 78" stroke="#111" stroke-width="2" fill="none" opacity=".35"/></g>
+              <g stroke="#111" stroke-width="5" stroke-linecap="round" fill="none">
+                <path d="M60 108 L40 118 L34 138"/><path d="M64 118 L54 136 L56 152"/><path d="M100 108 L120 118 L126 138"/><path d="M96 118 L106 136 L104 152"/>
+                <path d="M62 96 L42 96 L30 86"/><path d="M98 96 L118 96 L130 86"/>
+              </g>
+              <ellipse cx="80" cy="108" rx="28" ry="32" fill="#2f3a37" stroke="#111" stroke-width="5"/>
+              <path d="M56 102 H104 M57 116 H103 M62 129 H98" stroke="#5ef2cc" stroke-width="5" opacity=".75"/>
+              <circle cx="80" cy="64" r="27" fill="#2f3a37" stroke="#111" stroke-width="5"/>
+              <ellipse cx="63" cy="60" rx="16" ry="19" fill="#e0342c" stroke="#111" stroke-width="4.5"/>
+              <ellipse cx="97" cy="60" rx="16" ry="19" fill="#e0342c" stroke="#111" stroke-width="4.5"/>
+              <g class="pupil" style="transform-box:fill-box; transform-origin:center"><circle cx="60" cy="54" r="6" fill="#fff"/></g>
+              <g class="pupil" style="transform-box:fill-box; transform-origin:center"><circle cx="94" cy="54" r="6" fill="#fff"/></g>
+              <path class="mouth-flat" d="M72 82 Q80 86 88 82" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path class="mouth-happy" d="M68 80 Q80 94 92 80 Z" fill="#ff8a7f" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M70 40 Q64 22 56 18 M90 40 Q96 22 104 18" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <circle cx="56" cy="18" r="4" fill="#5ef2cc" stroke="#111" stroke-width="3"/><circle cx="104" cy="18" r="4" fill="#5ef2cc" stroke="#111" stroke-width="3"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="deck">
+        <div class="field bal"><span class="lbl" data-i18n="slots.deck.balance">Balance</span><b id="balance" class="mono">…</b><small id="bal-unit" data-i18n="slots.deck.coins">fun coins</small></div>
+        <div class="field"><label for="stake"><span class="lbl" data-i18n="slots.deck.stake">Stake</span></label>
+          <div class="stepper">
+            <button id="stake-down" type="button" aria-label="Lower the stake" data-i18n-attr="aria-label:slots.deck.lower">−</button>
+            <input id="stake" inputmode="decimal" autocomplete="off" value="10">
+            <button id="stake-up" type="button" aria-label="Raise the stake" data-i18n-attr="aria-label:slots.deck.higher">+</button>
+          </div></div>
+        <button class="spin" id="spin" type="button" data-i18n="slots.deck.spin">Spin</button>
+      </div>
+      <div class="deck2">
+        <span class="lbl" data-i18n="slots.deck.auto">Auto</span>
+        <button class="chip" type="button" data-auto="10">10</button>
+        <button class="chip" type="button" data-auto="25">25</button>
+        <button class="chip" type="button" data-auto="50">50</button>
+        <button class="chip" type="button" id="auto-stop" hidden data-i18n="slots.deck.stop">Stop</button>
+        <span id="auto-left"></span>
+        <span class="grow"></span>
+        <span class="hint" data-i18n="slots.deck.spaceHint">space bar spins</span>
+        <button class="chip" type="button" id="sound" data-i18n="slots.deck.soundOn">Sound: on</button>
+      </div>
+      <p id="msg" aria-live="polite" data-i18n="slots.msg.ready">Hit Spin or the space bar.</p>
+    </section>
+
+    <aside class="panel">
+      <div class="card" id="fun-card">
+        <h2 data-i18n="slots.fun.title">Fun coins</h2>
+        <p class="note" style="margin-top:0" data-i18n="slots.fun.text">Free play: no money, just coins on this device. Same reels and same odds as the real thing.</p>
+        <p class="note mono" id="fun-stats"></p>
+        <button class="btn" id="refill" type="button" style="margin-top:10px">Refill</button>
+      </div>
+
+      <div class="card bet" id="bet-card" hidden>
+        <h2 data-i18n="slots.bet.title">Play for $FLYAI</h2>
+        <p class="note" id="bet-off" data-i18n="slots.bet.loading">Opening the $FLYAI table…</p>
+        <div id="bet-out" hidden>
+          <p class="bet-intro" data-i18n="slots.bet.intro">Spin with real $FLYAI from your fly.ai balance, the same balance as Fly Roulette and compute.</p>
+          <button class="btn primary" id="bet-signin" type="button" data-i18n="slots.bet.signIn">Sign in with your wallet</button>
+        </div>
+        <div id="bet-in" hidden>
+          <div class="bet-acct">
+            <span><span class="mono dim" id="bet-who"></span><br><b id="bet-balance">…</b></span>
+            <span class="bet-acct-btns">
+              <button class="btn" id="bet-deposit" type="button" data-i18n="slots.bet.deposit">Deposit</button>
+              <button class="btn" id="bet-withdraw" type="button" data-i18n="slots.bet.withdraw">Withdraw</button>
+              <button class="btn" id="bet-signout" type="button" title="Sign out" data-i18n-attr="title:slots.bet.signOut">⏻</button>
+            </span>
+          </div>
+          <div class="bet-box" id="bet-deposit-box" hidden>
+            <label><span data-i18n="slots.bet.depositLabel">Send $FLYAI from your wallet to your balance</span>
+              <span class="bet-row"><input id="dep-amount" inputmode="decimal" placeholder="amount" data-i18n-attr="placeholder:slots.bet.amount"><button class="btn" id="dep-go" type="button" data-i18n="slots.bet.send">Send</button></span></label>
+            <p class="note" id="dep-status"></p>
+          </div>
+          <div class="bet-box" id="bet-withdraw-box" hidden>
+            <label><span data-i18n="slots.bet.withdrawLabel">Ask for $FLYAI back to your wallet</span>
+              <span class="bet-row"><input id="wd-amount" inputmode="decimal" placeholder="amount" data-i18n-attr="placeholder:slots.bet.amount"><button class="btn" id="wd-go" type="button" data-i18n="slots.bet.ask">Ask</button></span></label>
+            <p class="note" id="wd-status" data-i18n="slots.bet.withdrawNote">Withdrawals are sent by hand, usually within a day.</p>
+          </div>
+          <p class="note" id="bet-withdraw-note"></p>
+          <p class="note" id="bet-msg"></p>
+          <p class="note mono" id="bet-limits"></p>
+          <p class="note mono dim"><span data-i18n="slots.bet.nextCommit">next spin's commit:</span> <span id="bet-commit" data-i18n="slots.bet.noneYet">none yet</span></p>
+          <div class="bet-result" id="bet-result" hidden>
+            <p id="res-line"></p>
+            <dl class="mono">
+              <dt data-i18n="slots.bet.commitShown">commit (shown before the spin)</dt><dd id="res-commit"></dd>
+              <dt data-i18n="slots.bet.serverSeed">server seed (revealed after)</dt><dd id="res-server"></dd>
+              <dt data-i18n="slots.bet.yourSeed">your seed</dt><dd id="res-client"></dd>
+            </dl>
+            <button class="btn" id="res-verify" type="button" data-i18n="slots.bet.verifyBtn">Verify this spin</button>
+            <p class="note" id="res-verify-out"></p>
+          </div>
+          <h3 data-i18n="slots.bet.yourSpins">Your spins</h3>
+          <ul class="list" id="bet-history"></ul>
+          <details class="bet-how">
+            <summary data-i18n="slots.bet.howTitle">How $FLYAI spins work</summary>
+            <ul>
+              <li data-i18n-html="slots.bet.how1"><b>Play for fun stays free.</b> Fun coins never touch money; real spins only happen in this mode.</li>
+              <li data-i18n-html="slots.bet.how2"><b>You against the house.</b> The paytable returns 94.95% of stakes over the long run; the rest is the house edge.</li>
+              <li data-i18n-html="slots.bet.how3"><b>Your balance</b> is the same $FLYAI balance Fly Roulette and compute orders use: deposits, winnings and refunds all land in it.</li>
+              <li data-i18n-html="slots.bet.how4"><b>Provably fair.</b> The server commits to its seed before your spin and reveals it after; "Verify this spin" replays the reels from both seeds in your browser. The fly only reacts.</li>
+            </ul>
+          </details>
+          <p class="note" data-i18n-html="slots.bet.footer"><a href="/roulette-terms">Terms</a> · 18+ only · play responsibly</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 data-i18n="slots.brain.title">Inside its head</h2>
+        <div class="row"><span><span data-i18n="slots.brain.loom">Spider scare</span> <span class="mono dim" id="loom-text"></span></span><span></span>
+          <div class="bar"><i id="loom-bar"></i></div></div>
+        <div class="row"><span><span data-i18n="slots.brain.wing">Jump</span> <span class="mono dim" data-i18n="slots.brain.wingMn">wing motor neurons</span></span><span class="mono" id="wing-num">0</span>
+          <div class="bar"><i id="wing-bar"></i><span class="line"></span></div></div>
+        <div id="verdict" data-i18n="slots.brain.idle">watching the reels</div>
+        <p class="note" data-i18n="slots.brain.note">Spikes from a real 166,700-neuron fly connectome, running in your browser. Spiders on the line loom at it and it reacts. It never touches the result.</p>
+      </div>
+
+      <div class="card">
+        <h2 data-i18n="slots.pay.title">Paytable</h2>
+        <table class="paytable" id="paytable"></table>
+        <p class="note" id="pay-rtp"></p>
+        <p class="note" data-i18n="slots.pay.note">Pays are times your stake, stake included, on the middle line from the left.</p>
+      </div>
+
+      <div class="card">
+        <h2 data-i18n="slots.recent.title">Recent spins</h2>
+        <ul class="list" id="recent"></ul>
+      </div>
+    </aside>
+  </div>
+
+<dialog id="terms-dlg" class="terms">
+  <h3 data-i18n="slots.terms.title">Before your first real spin</h3>
+  <ul>
+    <li data-i18n="slots.terms.t1">You spin with real $FLYAI from your balance. You can lose all of it.</li>
+    <li data-i18n="slots.terms.t2">The reels are random. The paytable returns 94.95% of stakes over the long run; the rest is the house edge.</li>
+    <li data-i18n="slots.terms.t3">The server commits to its seed before each spin and reveals it after, so you can check every spin.</li>
+    <li data-i18n="slots.terms.t4">Winnings go to your balance. Withdrawals are sent by hand and can take a day.</li>
+    <li data-i18n="slots.terms.t5">Betting may be illegal where you live. It's your responsibility to follow your local laws.</li>
+  </ul>
+  <label><input type="checkbox" id="terms-18"> <span data-i18n="slots.terms.over18">I'm 18 or older</span></label>
+  <label><input type="checkbox" id="terms-ok"> <span data-i18n-html="slots.terms.accept">I accept the <a href="/roulette-terms" target="_blank" rel="noopener">terms</a> (the same terms as Fly Roulette)</span></label>
+  <p class="note" id="terms-msg"></p>
+  <div class="terms-btns"><button class="btn" id="terms-cancel" type="button" data-i18n="slots.terms.cancel">Cancel</button><button class="btn primary" id="terms-go" type="button" disabled data-i18n="slots.terms.continue">Continue</button></div>
+</dialog>
+</main>
+<script type="module" src="/src/slots/main.ts"></script>
+<script src="/assets/nav.js"></script>
+</body>
+</html>

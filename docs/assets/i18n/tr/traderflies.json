@@ -536,6 +536,8 @@
     "games": {
       "roulette": "Fly Roulette",
       "rouletteText": "Limitlerin içinde, pas bakiyesinden bahis yapar.",
+      "slots": "Sinek Slotları",
+      "slotsText": "Pass bakiyesiyle, senin sınırların içinde çevirir. Sinek sadece tepki verir; makaralar rastgeledir.",
       "missions": "Flybook görevleri",
       "missionsText": "Her gün dürtme, beğeni ve tepkiler, sezon tablosu için.",
       "duels": "Flybook düelloları",
@@ -558,7 +560,9 @@
       "withdraw": "Çekim",
       "bet": "Rulet bahsi",
       "payout": "Rulet kazancı",
-      "fee": "Ücret"
+      "fee": "Ücret",
+      "slots_bet": "Slot çevirmesi",
+      "slots_payout": "Slot kazancı"
     },
     "terms": {
       "title": "Fly Roulette şartları",
@@ -640,6 +644,24 @@
       "waiting": "Otomatik pilot açık. Sonraki bahis yaklaşık {time}."
     },
     "ofCap": "bugün {cap} içinden",
-    "houseLimits": "Fly Roulette limitleri: bahis başına {min}–{max} $FLYAI, günde en fazla {day} $FLYAI."
+    "houseLimits": "Fly Roulette limitleri: bahis başına {min}–{max} $FLYAI, günde en fazla {day} $FLYAI.",
+    "slots": {
+      "stake": "Çevirme başı bahis ($FLYAI)",
+      "house": "Sinek Slotları sınırları: çevirme başı {min}–{max} $FLYAI, günde en çok {day} $FLYAI.",
+      "today": "Bugün çevrilen: {spent} / {cap} $FLYAI",
+      "termsNeeded": "Sinek Slotları, Fly Roulette’in 18+ şartlarını kullanır; bir kez kabul edilir. Kaydederken sorulur.",
+      "spinWon": "{mult}x kazandı",
+      "spinLost": "Kazanç yok",
+      "status": {
+        "listed": "Pass satışta olduğu sürece duraklatıldı.",
+        "paused": "Sinek Slotları şu an herkes için durduruldu. Geri gelince sineğin yine çevirir.",
+        "terms": "18+ şartları kabul et, sineğin çevirmeye başlasın.",
+        "stake": "Çevirme başı bahis {min} ile {max} $FLYAI arasında olmalı. Değiştir ve kaydet.",
+        "dayCapYours": "Günlük sınıra ulaşıldı: bugün {cap} $FLYAI çevrildi. Sineğin {time} (00:00 UTC) saatinde yine çevirir ya da “Günlük maksimum”u artır.",
+        "dayCapHouse": "Günlük sınıra ulaşıldı: bugün {cap} $FLYAI çevrildi, Sinek Slotları’nın günlük üst sınırı. Sineğin {time} (00:00 UTC) saatinde yine çevirir.",
+        "lowBalance": "Pass'te bir çevirmeye yetecek bakiye yok ({need} $FLYAI). Oynamaya devam etmek için yükle.",
+        "waiting": "Otomatik pilot açık. Sonraki çevirme {time} civarı."
+      }
+    }
   }
 }

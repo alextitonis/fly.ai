@@ -13,7 +13,8 @@
  *   receipt keeps its `error` for the operator to settle (tx or cancel) by hand.
  * - While the pass is listed on the FlightPass market (FlyMarket.isListed) deposits, withdrawals and autoplay stop,
  *   so a buyer gets the balance they saw.
- * - Autopilot: the owner turns games on. Roulette is played here (roulette.autoBet, terms checked on the owner);
+ * - Autopilot: the owner turns games on. Roulette is played here (roulette.autoBet, terms checked on the owner), and
+ *   so is Fly Slots (slots.autoSpin, the same terms; one spin per FLIGHTPASS_SLOTS_GAP_SEC, added 2026-09-29);
  *   Flybook missions, duels and breeding are played by the Flybook worker, which asks GET /api/flightpass/autopilot.
  *   Settings belong to the owner who wrote them: when the pass changes hands everything is off until the new owner
  *   sets it again, so nobody inherits someone else's bets.
@@ -42,6 +43,13 @@ interface Roulette {
   CFG: { minBet: bigint; maxBet: bigint; maxDay: bigint; maxLive: number };
 }
 
+interface Slots {
+  autoSpin: (key: string, owner: string, o: { stake: bigint; maxDay: bigint }) => Promise<unknown>;
+  daySpent: (wallet: string) => bigint;
+  isOn: () => boolean;
+  CFG: { minBet: bigint; maxBet: bigint; maxDay: bigint };
+}
+
 export interface Payer {
   address: string;
   balance: () => Promise<bigint>;
@@ -62,6 +70,7 @@ export interface FlightPassDeps {
   readJson: (req: IncomingMessage) => Promise<any>;
   transfersIn: (tx: string) => Promise<{ from: string; value: bigint; at: number }[] | null>;
   roulette: Roulette;
+  slots: Slots;
   rpcUrl: string;
   payTo: string | null;
   today: () => string;
@@ -74,9 +83,11 @@ export interface FlightPassDeps {
 export interface Settings {
   owner: string | null; // who wrote them; they only count while that wallet owns the pass
   roulette: { on: boolean; stake: string; flies: number; max_day: string };
+  slots: { on: boolean; stake: string; max_day: string };
   flybook: { missions: boolean; duels: boolean; breed: boolean };
 }
-const OFF = (): Settings => ({ owner: null, roulette: { on: false, stake: "0", flies: 2, max_day: "0" }, flybook: { missions: false, duels: false, breed: false } });
+// (settings saved before slots existed have no `slots`: settingsOf's spread over OFF() gives them slots off)
+const OFF = (): Settings => ({ owner: null, roulette: { on: false, stake: "0", flies: 2, max_day: "0" }, slots: { on: false, stake: "0", max_day: "0" }, flybook: { missions: false, duels: false, breed: false } });
 
 const SEL = {
   ownerOf: selector("ownerOf(uint256)"),
@@ -98,6 +109,8 @@ export function createFlightPass(d: FlightPassDeps) {
     tickMs: Number(d.env.FLIGHTPASS_TICK_SEC ?? "60") * 1000,
     /** the least time between two autopilot bets of one pass */
     betGapMs: Number(d.env.FLIGHTPASS_BET_GAP_MIN ?? "10") * 60_000,
+    /** the least time between two autopilot slot spins of one pass (a spin is over at once, so seconds, not minutes) */
+    spinGapMs: Number(d.env.FLIGHTPASS_SLOTS_GAP_SEC ?? "60") * 1000,
     /** tables autopilot leaves free for people */
     freeTables: Number(d.env.FLIGHTPASS_FREE_TABLES ?? "2"),
     sampleMs: Number(d.env.FLIGHTPASS_SAMPLE_MIN ?? d.env.STAKE_SAMPLE_MIN ?? "10") * 60_000,
@@ -299,6 +312,36 @@ export function createFlightPass(d: FlightPassDeps) {
     return { state: "waiting", next_at: Math.max(Date.now(), last + CFG.betGapMs) };
   }
 
+  /** When the pass last spun (its newest slots_spins row): the gap survives a restart without a column of its own. */
+  const lastSpinAt = (id: number) => one<{ t: number | null }>("select max(created_at) as t from slots_spins where wallet = ?", key(id)).t ?? 0;
+  /** What this pass may spin today: its own max_day, never past the house's daily cap. */
+  const slotsCap = (s: Settings["slots"]) => {
+    const own = toWei(s.max_day);
+    return own < d.slots.CFG.maxDay ? own : d.slots.CFG.maxDay;
+  };
+
+  /**
+   * Why the slots autopilot is or isn't spinning, as rouletteStatus (the same checks tick() makes, in the same order):
+   * off, listed, paused (slots off or the house stop), terms, stake, day_cap (resets_at), low_balance or waiting
+   * (next_at). No "playing": a spin is settled the moment it's made.
+   */
+  function slotsStatus(id: number, owner: string, isListed: boolean) {
+    const s = activeSettings(id, owner).slots;
+    const k = key(id), S = d.slots.CFG;
+    if (!s.on) return { state: "off" };
+    if (isListed) return { state: "listed" };
+    if (!d.slots.isOn()) return { state: "paused" };
+    if (!d.roulette.termsAccepted(owner)) return { state: "terms" };
+    const stake = toWei(s.stake);
+    if (stake < S.minBet || stake > S.maxBet) return { state: "stake", min: fromWei(S.minBet), max: fromWei(S.maxBet) };
+    const cap = slotsCap(s);
+    if (d.slots.daySpent(k) + stake > cap) {
+      return { state: "day_cap", cap: fromWei(cap), yours: toWei(s.max_day) < S.maxDay, house_max: fromWei(S.maxDay), resets_at: utcDayStart() + 86_400_000 };
+    }
+    if (balanceOf(k) < stake) return { state: "low_balance", need: fromWei(stake) };
+    return { state: "waiting", next_at: Math.max(Date.now(), lastSpinAt(id) + CFG.spinGapMs) };
+  }
+
   /** A pass's ledger, newest first, `limit` rows before ledger id `before` (null: from the newest); next is the id to ask with, or null at the start. */
   function historyPage(id: number, before: number | null, limit: number) {
     const rows = db.prepare(`select id, kind, amount_wei, tx, at from ledger where wallet = ?${before ? " and id < ?" : ""} order by id desc limit ?`)
@@ -333,11 +376,17 @@ export function createFlightPass(d: FlightPassDeps) {
       // what this pass may bet today: its own "max per day" when roulette is on, never past the house's daily cap
       day_cap: fromWei(((s) => s.on && toWei(s.max_day) < d.roulette.CFG.maxDay ? toWei(s.max_day) : d.roulette.CFG.maxDay)(activeSettings(id, owner).roulette)),
       roulette_status: rouletteStatus(id, owner, isListed),
+      slots_status: slotsStatus(id, owner, isListed),
+      slots_day_spent: fromWei(d.slots.daySpent(k)),
+      // as day_cap: the pass's own slots max_day when slots are on, never past the house's
+      slots_day_cap: fromWei(((s) => s.on ? slotsCap(s) : d.slots.CFG.maxDay)(activeSettings(id, owner).slots)),
       live_game: (one<{ id: string } | undefined>("select id from roulette_games where wallet = ? and status = 'live'", k))?.id ?? null,
       // the latest page; older ones come from /api/flightpass/:id/history?before=<the last id>
       history: historyPage(id, null, 30).items,
       games: (db.prepare("select id, flies, pick, stake_wei, payout_wei, status, winner, created_at from roulette_games where wallet = ? order by created_at desc limit 20").all(k) as any[])
         .map((g) => ({ id: g.id, flies: g.flies, pick: g.pick, stake: fromWei(BigInt(g.stake_wei)), payout: fromWei(BigInt(g.payout_wei)), status: g.status, won: g.status === "done" ? g.winner === g.pick : null, created_at: g.created_at })),
+      spins: (db.prepare("select id, stake_wei, mult, payout_wei, symbols, created_at from slots_spins where wallet = ? order by created_at desc limit 20").all(k) as any[])
+        .map((r) => ({ id: r.id, stake: fromWei(BigInt(r.stake_wei)), mult: r.mult, payout: fromWei(BigInt(r.payout_wei)), symbols: JSON.parse(r.symbols), created_at: r.created_at })),
       withdrawals: (db.prepare("select id, amount_wei, fee_wei, status, created_at, done_at, tx from flightpass_withdrawals where pass = ? order by id desc limit 10").all(id) as any[])
         .map((w) => ({ id: w.id, amount: fromWei(BigInt(w.amount_wei)), fee: fromWei(BigInt(w.fee_wei)), status: w.status, created_at: w.created_at, done_at: w.done_at, tx: w.tx })),
       // the one waiting on the operator, if any: what the page shows as "on its way"
@@ -350,8 +399,9 @@ export function createFlightPass(d: FlightPassDeps) {
   function config() {
     return {
       on, contract: CFG.contract, market: CFG.market, pay_to: d.payTo, withdraw_fee_bps: Number(WITHDRAW_FEE_BPS), mining_boost: MINING_BOOST,
-      games: ["roulette", "flybook_missions", "flybook_duels", "flybook_breed"],
+      games: ["roulette", "slots", "flybook_missions", "flybook_duels", "flybook_breed"],
       roulette: { on: d.roulette.isOn(), min_bet: fromWei(d.roulette.CFG.minBet), max_bet: fromWei(d.roulette.CFG.maxBet), max_day: fromWei(d.roulette.CFG.maxDay), min_flies: 2, max_flies: 10, bet_gap_min: CFG.betGapMs / 60_000 },
+      slots: { on: d.slots.isOn(), min_bet: fromWei(d.slots.CFG.minBet), max_bet: fromWei(d.slots.CFG.maxBet), max_day: fromWei(d.slots.CFG.maxDay), spin_gap_min: CFG.spinGapMs / 60_000 },
       // the automatic withdrawals' limits and how much of today's has gone (2026-09-29, the user: "add in the flypass
       // the max withdrawal per day and how much done already"): all passes share the day's total; a bigger
       // withdrawal, or one past it, waits for the operator
@@ -453,6 +503,23 @@ export function createFlightPass(d: FlightPassDeps) {
         if (!d.roulette.termsAccepted(wallet)) throw new HttpError(403, "accept the Fly Roulette terms (18+) first");
       }
       s.roulette = next;
+    }
+    const sl = body.slots;
+    if (sl !== undefined) {
+      if (typeof sl !== "object" || sl === null) throw new HttpError(400, "slots is an object");
+      const next = { ...s.slots };
+      if (sl.on !== undefined) next.on = sl.on === true;
+      for (const k of ["stake", "max_day"] as const) {
+        if (sl[k] === undefined) continue;
+        try { next[k] = fromWei(toWei(String(sl[k]))); } catch { throw new HttpError(400, `${k} is a number of tokens`); }
+      }
+      if (next.on) {
+        const stake = toWei(next.stake), S = d.slots.CFG;
+        if (stake < S.minBet || stake > S.maxBet) throw new HttpError(400, `slots stake is ${fromWei(S.minBet)} to ${fromWei(S.maxBet)} FLYAI`);
+        if (toWei(next.max_day) < stake) throw new HttpError(400, "max_day must cover at least one spin");
+        if (!d.roulette.termsAccepted(wallet)) throw new HttpError(403, "accept the terms (18+) first");
+      }
+      s.slots = next;
     }
     const f = body.flybook;
     if (f !== undefined) {
@@ -601,34 +668,64 @@ export function createFlightPass(d: FlightPassDeps) {
   // ---- the autopilot -------------------------------------------------------------------------------------
   let ticking = false;
   async function tick(): Promise<void> {
-    if (ticking || !d.roulette.isOn()) return;
+    if (ticking) return;
     ticking = true;
     try {
-      for (const r of db.prepare("select id, settings, last_bet_at from flightpass").all() as { id: number; settings: string; last_bet_at: number | null }[]) {
-        const owner = owners.get(r.id);
-        if (!owner || listed.has(r.id)) continue;
-        const s = activeSettings(r.id, owner).roulette;
-        if (!s.on || Date.now() - (r.last_bet_at ?? 0) < CFG.betGapMs) continue;
-        const k = key(r.id);
-        const stake = toWei(s.stake);
-        const own = toWei(s.max_day), dayCap = own < d.roulette.CFG.maxDay ? own : d.roulette.CFG.maxDay;
-        // (the house's daily cap too: without it a capped pass was refused, and logged, every tick until midnight)
-        if (d.roulette.liveFor(k) || balanceOf(k) < stake || d.roulette.daySpent(k) + stake > dayCap) continue;
-        if (d.roulette.liveCount() >= d.roulette.CFG.maxLive - CFG.freeTables) break;
-        // the listing and owner right before the stake moves, not the last sample
-        const now = await current(r.id).catch(() => null);
-        if (!now || now.listed || now.owner !== owner) continue;
-        try {
-          await d.roulette.autoBet(k, owner, { flies: s.flies, stake, maxDay: toWei(s.max_day) });
-          db.prepare("update flightpass set last_bet_at = ? where id = ?").run(Date.now(), r.id);
-        } catch (err) {
-          const status = (err as { status?: number }).status;
-          if (status === 503) break; // off, paused or tables full: nobody bets now
-          if (status !== 402 && status !== 403) console.error(`flightpass ${r.id} autobet: ${err instanceof Error ? err.message : err}`);
-        }
-      }
+      // each game on its own switch: slots spin while roulette is off, and the other way round (2026-09-29)
+      if (d.roulette.isOn()) await rouletteTick();
+      if (d.slots.isOn()) await slotsTick();
     } finally {
       ticking = false;
+    }
+  }
+
+  async function rouletteTick(): Promise<void> {
+    for (const r of db.prepare("select id, settings, last_bet_at from flightpass").all() as { id: number; settings: string; last_bet_at: number | null }[]) {
+      const owner = owners.get(r.id);
+      if (!owner || listed.has(r.id)) continue;
+      const s = activeSettings(r.id, owner).roulette;
+      if (!s.on || Date.now() - (r.last_bet_at ?? 0) < CFG.betGapMs) continue;
+      const k = key(r.id);
+      const stake = toWei(s.stake);
+      const own = toWei(s.max_day), dayCap = own < d.roulette.CFG.maxDay ? own : d.roulette.CFG.maxDay;
+      // (the house's daily cap too: without it a capped pass was refused, and logged, every tick until midnight)
+      if (d.roulette.liveFor(k) || balanceOf(k) < stake || d.roulette.daySpent(k) + stake > dayCap) continue;
+      if (d.roulette.liveCount() >= d.roulette.CFG.maxLive - CFG.freeTables) break;
+      // the listing and owner right before the stake moves, not the last sample
+      const now = await current(r.id).catch(() => null);
+      if (!now || now.listed || now.owner !== owner) continue;
+      try {
+        await d.roulette.autoBet(k, owner, { flies: s.flies, stake, maxDay: toWei(s.max_day) });
+        db.prepare("update flightpass set last_bet_at = ? where id = ?").run(Date.now(), r.id);
+      } catch (err) {
+        const status = (err as { status?: number }).status;
+        if (status === 503) break; // off, paused or tables full: nobody bets now
+        if (status !== 402 && status !== 403) console.error(`flightpass ${r.id} autobet: ${err instanceof Error ? err.message : err}`);
+      }
+    }
+  }
+
+  /** At most one slot spin per pass per spinGapMs, within the pass's balance and daily caps (the checks slotsStatus shows). */
+  async function slotsTick(): Promise<void> {
+    for (const r of db.prepare("select id from flightpass").all() as { id: number }[]) {
+      const owner = owners.get(r.id);
+      if (!owner || listed.has(r.id)) continue;
+      const s = activeSettings(r.id, owner).slots;
+      if (!s.on || Date.now() - lastSpinAt(r.id) < CFG.spinGapMs) continue;
+      const k = key(r.id);
+      const stake = toWei(s.stake);
+      // (the house's daily cap too, as roulette's: a capped pass isn't refused and logged every tick until midnight)
+      if (balanceOf(k) < stake || d.slots.daySpent(k) + stake > slotsCap(s)) continue;
+      // the listing and owner right before the stake moves, not the last sample
+      const now = await current(r.id).catch(() => null);
+      if (!now || now.listed || now.owner !== owner) continue;
+      try {
+        await d.slots.autoSpin(k, owner, { stake, maxDay: toWei(s.max_day) });
+      } catch (err) {
+        const status = (err as { status?: number }).status;
+        if (status === 503) break; // off or paused: nobody spins now
+        if (status !== 402 && status !== 403) console.error(`flightpass ${r.id} autospin: ${err instanceof Error ? err.message : err}`);
+      }
     }
   }
 
