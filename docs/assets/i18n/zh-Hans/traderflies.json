@@ -497,6 +497,8 @@
     "none": "这个钱包没有 FlightPass。",
     "cantRead": "暂时无法加载你的 FlightPass，请稍后再试。",
     "retry": "重试",
+    "older": "查看更早记录",
+    "olderFailed": "无法加载更早的记录，请重试。",
     "findOne": "去市场找一张",
     "listedBadge": "出售中",
     "flying": "自动驾驶已开启",

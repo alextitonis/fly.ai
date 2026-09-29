@@ -255,6 +255,23 @@ try {
   check("and the books add up", Number(v.balance) === 1410 - 200 + won * 190, `balance ${v.balance}, won ${won}`);
   await sleep(4000);
   check("the daily cap holds", (await api("/api/flightpass/1", a)).json.games.length === 2);
+
+  // ---- history pages: two rows at a time walk back through everything the pass's newest page shows
+  {
+    const inline = ((await api("/api/flightpass/1", a)).json.history as any[]).map((h) => h.id);
+    const paged: number[] = [];
+    let before: number | null = null, pages = 0;
+    do {
+      const pg: any = (await api(`/api/flightpass/1/history?limit=2${before ? `&before=${before}` : ""}`, a)).json;
+      paged.push(...pg.items.map((h: any) => h.id));
+      before = pg.next;
+      pages++;
+    } while (before && pages < 50);
+    check("history pages: newest first, no gaps or repeats, the same rows as the pass view",
+      JSON.stringify(paged) === JSON.stringify(inline) && paged.every((id, i) => i === 0 || id < paged[i - 1]), `${pages} pages, ${paged.length} rows`);
+    check("history pages: a bad cursor is refused", (await api("/api/flightpass/1/history?before=abc", a)).status === 400);
+    check("history pages: signed out is refused", (await api("/api/flightpass/1/history", null)).status === 401);
+  }
   const capped = (await api("/api/flightpass/1", a)).json;
   check("the page is told why: the pass's own daily cap, and when it plays again", capped.roulette_status?.state === "day_cap"
     && capped.roulette_status.yours === true && capped.roulette_status.cap === "200" && capped.day_cap === "200"

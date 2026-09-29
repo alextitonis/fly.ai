@@ -291,6 +291,25 @@ export function createFlightPass(d: FlightPassDeps) {
     return { state: "waiting", next_at: Math.max(Date.now(), last + CFG.betGapMs) };
   }
 
+  /** A pass's ledger, newest first, `limit` rows before ledger id `before` (null: from the newest); next is the id to ask with, or null at the start. */
+  function historyPage(id: number, before: number | null, limit: number) {
+    const rows = db.prepare(`select id, kind, amount_wei, tx, at from ledger where wallet = ?${before ? " and id < ?" : ""} order by id desc limit ?`)
+      .all(...[key(id), ...(before ? [before] : []), limit + 1]) as { id: number; kind: string; amount_wei: string; tx: string | null; at: number }[];
+    const items = rows.slice(0, limit).map((r) => ({ id: r.id, kind: r.kind, amount: fromWei(BigInt(r.amount_wei)), tx: r.tx, at: r.at }));
+    return { items, next: rows.length > limit ? items[items.length - 1].id : null };
+  }
+
+  /** GET /api/flightpass/:id/history: the owner's older pages. Owner from the sample, so paging never waits on the chain. */
+  async function history(req: IncomingMessage, id: number, url: URL) {
+    const wallet = d.sessionWallet(req);
+    const owner = owners.get(id) ?? (await current(id)).owner;
+    if (owner !== wallet) throw new HttpError(403, "that FlightPass isn't yours");
+    const before = url.searchParams.get("before");
+    if (before !== null && !/^\d{1,12}$/.test(before)) throw new HttpError(400, "before is a history id");
+    const limit = Math.min(100, Math.max(1, Number(url.searchParams.get("limit") ?? "50") || 50));
+    return historyPage(id, before === null ? null : Number(before), limit);
+  }
+
   function view(id: number, owner: string, isListed: boolean, mine: boolean) {
     const k = key(id);
     const base = {
@@ -307,8 +326,8 @@ export function createFlightPass(d: FlightPassDeps) {
       day_cap: fromWei(((s) => s.on && toWei(s.max_day) < d.roulette.CFG.maxDay ? toWei(s.max_day) : d.roulette.CFG.maxDay)(activeSettings(id, owner).roulette)),
       roulette_status: rouletteStatus(id, owner, isListed),
       live_game: (one<{ id: string } | undefined>("select id from roulette_games where wallet = ? and status = 'live'", k))?.id ?? null,
-      history: (db.prepare("select kind, amount_wei, tx, at from ledger where wallet = ? order by id desc limit 30").all(k) as { kind: string; amount_wei: string; tx: string | null; at: number }[])
-        .map((r) => ({ kind: r.kind, amount: fromWei(BigInt(r.amount_wei)), tx: r.tx, at: r.at })),
+      // the latest page; older ones come from /api/flightpass/:id/history?before=<the last id>
+      history: historyPage(id, null, 30).items,
       games: (db.prepare("select id, flies, pick, stake_wei, payout_wei, status, winner, created_at from roulette_games where wallet = ? order by created_at desc limit 20").all(k) as any[])
         .map((g) => ({ id: g.id, flies: g.flies, pick: g.pick, stake: fromWei(BigInt(g.stake_wei)), payout: fromWei(BigInt(g.payout_wei)), status: g.status, won: g.status === "done" ? g.winner === g.pick : null, created_at: g.created_at })),
       withdrawals: (db.prepare("select id, amount_wei, fee_wei, status, created_at, done_at, tx from flightpass_withdrawals where pass = ? order by id desc limit 10").all(id) as any[])
@@ -640,6 +659,7 @@ export function createFlightPass(d: FlightPassDeps) {
       if (p === "/api/flightpass/autopilot") return d.send(res, 200, await autopilot(req, url.searchParams.get("game") ?? "")), true;
       if (p === "/api/admin/flightpass") { d.adminOnly(req); return d.send(res, 200, await admin()), true; }
       if ((m = /^\/api\/flightpass\/(\d{1,9})$/.exec(p))) return d.send(res, 200, await onePass(req, Number(m[1]))), true;
+      if ((m = /^\/api\/flightpass\/(\d{1,9})\/history$/.exec(p))) return d.send(res, 200, await history(req, Number(m[1]), url)), true;
     }
     if (req.method === "POST") {
       if ((m = /^\/api\/flightpass\/(\d{1,9})\/(deposit|withdraw|settings)$/.exec(p))) {

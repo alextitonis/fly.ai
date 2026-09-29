@@ -497,6 +497,8 @@
     "none": "이 지갑에는 FlightPass가 없습니다.",
     "cantRead": "지금은 FlightPass를 불러올 수 없어요. 잠시 후 다시 시도해 주세요.",
     "retry": "다시 시도",
+    "older": "이전 기록 보기",
+    "olderFailed": "이전 기록을 불러오지 못했어요. 다시 시도해 주세요.",
     "findOne": "마켓에서 찾아보기",
     "listedBadge": "판매 중",
     "flying": "자동 조종 켜짐",

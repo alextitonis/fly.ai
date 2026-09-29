@@ -499,6 +499,8 @@
     "none": "No FlightPass in this wallet.",
     "cantRead": "Couldn't load your FlightPass right now. Try again in a moment.",
     "retry": "Try again",
+    "older": "Show older",
+    "olderFailed": "Couldn't load older actions. Try again.",
     "findOne": "Find one on the market",
     "listedBadge": "Listed",
     "flying": "Autopilot on",
