@@ -1,0 +1,181 @@
+{
+  "meta": {
+    "title": "果蝇赛跑",
+    "description": "六只果蝇冲向一颗水果，每只都由自己的真实果蝇大脑循着气味驾驭。免费玩或用 $FLYAI 赛跑：可证明公平，押冠军 5.7 倍，押前三 1.9 倍。"
+  },
+  "head": {
+    "title": "果蝇<span>赛跑</span>",
+    "sub": "六只果蝇，一颗熟透的水果。每一段，每只果蝇的真实大脑都会闻到水果，由它自己的运动神经元决定跑多远。选一只果蝇，押它。"
+  },
+  "mode": {
+    "label": "玩法",
+    "fun": "免费玩",
+    "bet": "用 $FLYAI 玩"
+  },
+  "status": {
+    "loading": "正在唤醒六个果蝇大脑…",
+    "progress": "{text}",
+    "labels": "标签",
+    "brain": "果蝇大脑",
+    "wiring": "正在连接 2500 万个突触",
+    "ready": "果蝇大脑已醒：每个 {n} 个神经元",
+    "error": "此设备无法加载果蝇大脑"
+  },
+  "track": {
+    "label": "赛道",
+    "leg": "第 {leg} / {legs} 段",
+    "sniff": "嗅闻中…",
+    "ready": "各就各位",
+    "finish": "终点"
+  },
+  "pick": {
+    "title": "选你的果蝇",
+    "lane": "第 {n} 道",
+    "mystery": "一只新果蝇",
+    "yours": "你的"
+  },
+  "deck": {
+    "balance": "余额",
+    "coins": "游戏币",
+    "flyai": "FLYAI",
+    "signedOut": "登录",
+    "bet": "下注",
+    "win": "冠军",
+    "winText": "第 1 名",
+    "podium": "前三",
+    "podiumText": "前 3 名",
+    "stake": "注额",
+    "lower": "降低注额",
+    "higher": "提高注额",
+    "race": "开跑",
+    "pays": "赔 {mult} 倍 · {total}",
+    "speedNormal": "速度：1x",
+    "speedFast": "速度：2x",
+    "soundOn": "声音：开",
+    "soundOff": "声音：关"
+  },
+  "msg": {
+    "ready": "选一只果蝇、选一种下注，然后点开跑。",
+    "pickFirst": "先选一只果蝇。",
+    "racing": "出发了！",
+    "won": "{name} 获得{place}！+{amount}",
+    "lost": "{name} 获得{place}。下一场好运。",
+    "broke": "余额不够这个注额。",
+    "brokeFun": "游戏币用完了：点补充。",
+    "stakeBad": "请输入大于零的整数注额。",
+    "noBrain": "此设备无法加载果蝇大脑，所以免费赛跑关闭了。用 $FLYAI 玩仍然可以：大脑由服务器运行。",
+    "brainLoading": "果蝇大脑还在醒来…",
+    "signInFirst": "在 $FLYAI 面板登录后才能真实赛跑。",
+    "betClosed": "$FLYAI 赛跑目前关闭。免费玩仍然开放。",
+    "stuck": "赛跑中断了：{error}"
+  },
+  "place": {
+    "1": "第 1 名",
+    "2": "第 2 名",
+    "3": "第 3 名",
+    "4": "第 4 名",
+    "5": "第 5 名",
+    "6": "第 6 名"
+  },
+  "podium": {
+    "wins": "{name} 夺冠！",
+    "yourWin": "你的果蝇赢了！",
+    "yourPodium": "你的果蝇进了前三！",
+    "yourLoss": "你的果蝇获得{place}。"
+  },
+  "fun": {
+    "title": "游戏币",
+    "text": "免费玩：不涉及钱，只有这台设备上的游戏币。和真实游戏一样的大脑、一样的赛道、一样的赔率。",
+    "refill": "补充到 {n}",
+    "stats": "赛跑 {races} · 赢的注 {wins} · 赢得游戏币 {won}"
+  },
+  "brain": {
+    "title": "它们脑中",
+    "note": "每段运动神经元的放电数，来自在你浏览器里运行的六个真实的 166,700 神经元果蝇连接组。果蝇的行走回路对气味放电越多，它跑得越远。",
+    "idle": "等待起跑",
+    "spikes": "放电"
+  },
+  "recent": {
+    "title": "最近赛跑",
+    "none": "还没有赛跑。",
+    "row": "{name} 押{bet}：{place}"
+  },
+  "how": {
+    "title": "赛跑怎么进行",
+    "h1": "<b>五段。</b>每一段所有果蝇都会闻到水果；气味强弱因赛道和赛段而不同。",
+    "h2": "<b>真实大脑。</b>每只果蝇都是果蝇连接组的独立副本，带着自己的神经噪声。它的行走神经元放电决定它移动多远。",
+    "h3": "<b>没有操控。</b>没有任何游戏规则移动果蝇；名次完全取决于大脑的表现。"
+  },
+  "bet": {
+    "title": "用 $FLYAI 玩",
+    "loading": "正在打开 $FLYAI 赛道…",
+    "closed": "$FLYAI 赛跑还没开放。免费玩已开启。",
+    "unreachable": "目前连不上 $FLYAI 赛跑；免费玩仍可使用。",
+    "intro": "用你 fly.ai 余额里的真实 $FLYAI 赛跑，和 Fly Roulette、Fly Slots、compute 共用同一余额。",
+    "signIn": "用钱包登录",
+    "deposit": "充值",
+    "withdraw": "提现",
+    "signOut": "退出登录",
+    "depositLabel": "从钱包发送 $FLYAI 到余额",
+    "withdrawLabel": "申请把 $FLYAI 退回钱包",
+    "amount": "数量",
+    "send": "发送",
+    "ask": "申请",
+    "withdrawNote": "提现由人工发送，通常一天内到账。",
+    "withdrawAsked": "你申请退回 {amount} FLYAI；由人工发送，通常一天内到账。",
+    "limits": "每场 {min} 到 {max} FLYAI · 每天最多 {day} · 今天 {staked}",
+    "paused": "$FLYAI 赛跑暂停中；请稍后再试。",
+    "commit": "本场承诺：",
+    "noneYet": "暂无",
+    "locking": "正在锁定服务器种子…",
+    "commitShown": "承诺（赛前显示）",
+    "serverSeed": "服务器种子（赛后公开）",
+    "yourSeed": "你的种子",
+    "verifyBtn": "验证这场赛跑",
+    "notRevealed": "尚未公开",
+    "resWon": "赛跑 #{id}：赢得 <b>+{amount} FLYAI</b>",
+    "resLost": "赛跑 #{id}：输掉 <b>{amount} FLYAI</b>",
+    "resVoid": "赛跑 #{id}：已取消，注额已退回",
+    "toBalance": "+{amount} FLYAI 进入余额",
+    "vBadSeed": "✗ 服务器种子与承诺不符",
+    "vBadCommit": "✗ 这不是赛前显示的承诺",
+    "vBadTable": "✗ 种子得出的果蝇不同",
+    "vLoading": "此浏览器还在加载果蝇大脑；请稍后再试。",
+    "vNoBrain": "种子与承诺相符，但此浏览器无法加载果蝇大脑来重放赛跑。",
+    "vStart": "正在用此浏览器的果蝇大脑重放赛跑…",
+    "vProgress": "正在重放第 {k} / {n} 段…",
+    "vOk": "✓ 公平：种子与承诺相符，且此浏览器自己的果蝇大脑跑完全部 {n} 段，结果完全相同",
+    "vDiff": "✗ 重放在第 {k} 步与服务器不同",
+    "yourRaces": "你的赛跑",
+    "noRaces": "还没有赛跑。",
+    "live": "进行中…",
+    "refunded": "已退回",
+    "raceVoid": "这场赛跑被取消；你的注额已退回",
+    "stakeRange": "注额须在 {min} 到 {max} FLYAI 之间。",
+    "overBalance": "超过你的余额。",
+    "overDay": "这会超过今天 {day} FLYAI 的上限。",
+    "sessionExpired": "登录已过期；请重新登录",
+    "enterAmount": "请输入数量",
+    "mining": "等待转账上链…",
+    "deposited": "✓ 已添加 {amount} FLYAI",
+    "withdrawOk": "✓ 已申请；将由人工发到你的钱包，通常一天内到账",
+    "howTitle": "$FLYAI 赛跑怎么运作",
+    "how1": "<b>免费玩始终免费。</b>游戏币与钱无关；真实赛跑只在这个模式进行。",
+    "how2": "<b>你对庄家。</b>每一注都是你自己的一场赛跑。押冠军赔 {win} 倍，押前三赔 {podium} 倍（含本金）；其余为庄家优势。",
+    "how3": "<b>你的余额</b>与 Fly Roulette、Fly Slots 和 compute 共用同一个 $FLYAI 余额：充值、奖金和退款都进入这里。",
+    "how4": "<b>可证明公平。</b>服务器在赛前承诺种子，赛后公开；\"验证这场赛跑\"会在你的浏览器里用两个种子重跑六个大脑。",
+    "footer": "<a href=\"/roulette-terms\">条款</a> · 仅限 18 岁以上 · 理性游戏"
+  },
+  "terms": {
+    "title": "第一次真实赛跑之前",
+    "t1": "你用余额里的真实 $FLYAI 赛跑，可能全部输掉。",
+    "t2": "果蝇的大脑决定比赛。押冠军赔 {win} 倍，押前三赔 {podium} 倍；其余为庄家优势。",
+    "t3": "服务器在每场赛前承诺种子并在赛后公开，所以每场你都能检查。",
+    "t4": "奖金进入余额。提现由人工发送，可能需要一天。",
+    "t5": "在你所在地下注可能违法。遵守当地法律是你的责任。",
+    "over18": "我已年满 18 岁",
+    "accept": "我接受<a href=\"/roulette-terms\" target=\"_blank\" rel=\"noopener\">条款</a>（与 Fly Roulette 相同）",
+    "cancel": "取消",
+    "continue": "继续"
+  }
+}

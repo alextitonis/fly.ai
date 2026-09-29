@@ -133,12 +133,13 @@
     "paused": "$FLYAI 暫停"
   },
   "fly": {"notLiveTitle": "Fly Desk 尚未上線：暫無可領取。", "notLiveText": "Desk 開始真實交易且你的蒼蠅已啟用後才會開始派發。在此之前，這裡顯示的是每隻蒼蠅在持有者份額中的比例，而不是應付金額。", "yours": "你的蒼蠅", "yoursN": "你的蒼蠅（{n}）", "none": "此錢包沒有 Trader Fly。", "total": "合計：在 {n} 隻已啟用蒼蠅中占持有者份額的 {pct}。", "shareActive": "持有者份額 · {n} 隻已啟用", "shareIfActive": "若啟用 · 目前 {n} 隻已啟用", "shareAtReveal": "揭曉後顯示份額：由每隻蒼蠅的稀有度決定。", "active": "已啟用", "inactive": "未啟用", "weight": "派發權重", "weightNote": "普通 1 · 罕見 1.5 · 稀有 2 · 傳奇 3", "atReveal": "揭曉時確定", "share": "份額", "status": "狀態", "until": "至 {when}", "forever": "無結束日期", "activateHint": "在 Mint 頁面啟用即可參與收益", "howShare": "每週 Desk 超出前高的利潤中 {pct}% 歸持有者，按權重分給已啟用的蒼蠅：你的份額 = 你的蒼蠅權重 / 全部啟用權重。", "traits": "特徵", "traitsAtReveal": "特徵隨系列揭曉。", "holder": "持有者", "onMarket": "市場", "find": "查詢", "findPlaceholder": "蒼蠅 #", "cantRead": "無法從鏈上讀取這隻蒼蠅，請重試。"},
-  "lb": {"title": "交易排行榜", "text": "兩週一個賽季。你的分數是在本市場買入和賣出的 $FLYAI 交易量。前 3 名獲獎。", "season": "第 {n} 季", "left": "剩餘 {d} 天 {h} 小時", "ended": "已結束", "place1": "第 1 名", "place2": "第 2 名", "place3": "第 3 名", "wallet": "錢包", "volume": "交易量（$FLYAI）", "trades": "成交", "you": "你", "empty": "本賽季還沒有成交：來做第一個吧。", "cantRead": "無法讀取市場成交，請稍後重試。", "yourRank": "你排第 {rank} 名，交易量 {points} $FLYAI。", "rules": "買入和賣出都計入，包括被接受的出價和集合出價。同一對錢包之間的成交每季最多計入 {max} 次，在兩者之間來回轉手的同一隻蒼蠅只計一次。團隊錢包不參賽。每季結束發獎前，會核查獲獎者是否存在錢包串通。 僅計入不少於 {min} $FLYAI 的成交。"},
+  "lb": {"tab": "排行榜", "title": "交易排行榜", "text": "兩週一個賽季。你的分數是在本市場買入和賣出的 $FLYAI 交易量。前 3 名獲獎。", "season": "第 {n} 季", "left": "剩餘 {d} 天 {h} 小時", "ended": "已結束", "place1": "第 1 名", "place2": "第 2 名", "place3": "第 3 名", "wallet": "錢包", "volume": "交易量（$FLYAI）", "trades": "成交", "you": "你", "empty": "本賽季還沒有成交：來做第一個吧。", "cantRead": "無法讀取市場成交，請稍後重試。", "yourRank": "你排第 {rank} 名，交易量 {points} $FLYAI。", "rules": "買入和賣出都計入，包括被接受的出價和集合出價。同一對錢包之間的成交每季最多計入 {max} 次，在兩者之間來回轉手的同一隻蒼蠅只計一次。團隊錢包不參賽。每季結束發獎前，會核查獲獎者是否存在錢包串通。 僅計入不少於 {min} $FLYAI 的成交。"},
   "market": {
     "view": { "label": "檢視", "grid": "網格", "list": "列表" },
     "browse": {"sortRarity": "稀有度：最稀有優先", "rarityAll": "全部", "search": "搜尋 #", "searchLabel": "依編號查找", "notListed": "{name} 未在出售。", "noSuch": "還沒有 #{id}。", "offer": "出價", "sweep": "掃貨", "sweepHint": "最便宜的 {n} 個", "lastSale": "上次成交 {amount}"},
     "coll": {"title": "集合出價", "text": "為任意蒼蠅出每隻的價格，最多 50 隻。資金由市場託管，直到持有者賣給你或你撤回。每筆成交收取 {pct}% 手續費。", "qty": "數量", "price": "每隻價格（{token}）", "make": "發起集合出價", "update": "更新集合出價", "yours": "你的集合出價 · 還要 {n} 隻", "top": "最高出價", "forN": "共 {n} 隻", "topShort": "集合出價 {price}", "sell": "以 {price} 賣出", "sellPicked": "以每隻 {price} 賣出 {n} 隻", "made": "已發起集合出價：{n} 隻，每隻 {price}。", "cancelled": "已撤回集合出價。", "sold": "已以每隻 {price} 向集合出價賣出 {n} 隻。", "why": {"BadQuantity": "請選擇 1 到 50 隻。"}},
     "launch": {"title": "上線優惠", "text": "10 月 4 日（週日）前，在這裡每筆成交手續費僅 {pct}%。"},
+    "usdFollows": "隨 $FLYAI 價格浮動",
     "title": "市場",
     "text": "用 {token} 與其他持有者買賣 Trader Flies。賣家立即收款，扣除 {pct}% 手續費。",
     "soon": "市場即將開放。",
@@ -540,6 +541,8 @@
       "rouletteText": "在你的限額內，用通行證餘額下注。",
       "slots": "果蠅拉霸",
       "slotsText": "用通行證餘額旋轉，不超過你的限額。果蠅只負責反應，轉軸是隨機的。",
+      "race": "果蠅賽跑",
+      "raceText": "用通行證餘額在隨機賽道上賽跑，不超過你的限額。誰贏由果蠅的大腦決定。",
       "missions": "Flybook 任務",
       "missionsText": "每天戳一戳、按讚和反應，衝賽季榜。",
       "duels": "Flybook 決鬥",
@@ -564,7 +567,10 @@
       "payout": "輪盤贏獎",
       "fee": "手續費",
       "slots_bet": "拉霸旋轉",
-      "slots_payout": "拉霸獎金"
+      "slots_payout": "拉霸獎金",
+      "race_bet": "賽跑下注",
+      "race_payout": "賽跑獎金",
+      "race_refund": "賽跑退款"
     },
     "terms": {
       "title": "Fly Roulette 條款",
@@ -663,6 +669,32 @@
         "dayCapHouse": "已達每日上限：今天已轉 {cap} $FLYAI，這是果蠅拉霸每天的最高額。你的果蠅會在 {time}（UTC 00:00）繼續。",
         "lowBalance": "通行證餘額不夠轉一次（{need} $FLYAI）。儲值後繼續。",
         "waiting": "自動駕駛已開啟。下一次旋轉大約在 {time}。"
+      }
+    },
+    "race": {
+      "stake": "每場注額 ($FLYAI)",
+      "bet": "下注",
+      "bets": {
+        "win": "冠軍（第 1 名）",
+        "podium": "前三（前 3 名）"
+      },
+      "pickNote": "每場你的果蠅押一條隨機賽道。",
+      "house": "果蠅賽跑限額：每場 {min} 到 {max} $FLYAI，每天最多 {day} $FLYAI。",
+      "today": "今天已賽跑：{spent} / {cap} $FLYAI",
+      "termsNeeded": "果蠅賽跑使用 Fly Roulette 的 18+ 條款，只需接受一次。儲存時會詢問你。",
+      "place": "第 {n} 名",
+      "running": "進行中…",
+      "refunded": "已退回",
+      "status": {
+        "listed": "通行證掛單出售期間暫停。",
+        "paused": "果蠅賽跑目前對所有人暫停。恢復後你的果蠅會繼續賽跑。",
+        "terms": "接受 18+ 條款後，你的果蠅就開始賽跑。",
+        "playing": "現在有一場賽跑正在進行。",
+        "stake": "每場注額須在 {min} 到 {max} $FLYAI 之間。修改後儲存。",
+        "dayCapYours": "已達每日上限：今天已賽跑 {cap} $FLYAI。你的果蠅將在 {time}（00:00 UTC）再次賽跑，或提高「每日上限」。",
+        "dayCapHouse": "已達每日上限：今天已賽跑 {cap} $FLYAI，這是果蠅賽跑每天的最高額。你的果蠅將在 {time}（00:00 UTC）再次賽跑。",
+        "lowBalance": "通行證餘額不夠一場賽跑（{need} $FLYAI）。儲值後繼續。",
+        "waiting": "自動駕駛已開啟。下一場大約在 {time}。"
       }
     }
   }

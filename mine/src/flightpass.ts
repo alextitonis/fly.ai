@@ -14,7 +14,9 @@
  * - While the pass is listed on the FlightPass market (FlyMarket.isListed) deposits, withdrawals and autoplay stop,
  *   so a buyer gets the balance they saw.
  * - Autopilot: the owner turns games on. Roulette is played here (roulette.autoBet, terms checked on the owner), and
- *   so is Fly Slots (slots.autoSpin, the same terms; one spin per FLIGHTPASS_SLOTS_GAP_SEC, added 2026-09-29);
+ *   so is Fly Slots (slots.autoSpin, the same terms; one spin per FLIGHTPASS_SLOTS_GAP_SEC, added 2026-09-29) and
+ *   Fly Race (race.autoBet, the same terms; a random lane, the owner's bet type, one race per FLIGHTPASS_RACE_GAP_MIN,
+ *   added 2026-09-29), each game on its own switch;
  *   Flybook missions, duels and breeding are played by the Flybook worker, which asks GET /api/flightpass/autopilot.
  *   Settings belong to the owner who wrote them: when the pass changes hands everything is off until the new owner
  *   sets it again, so nobody inherits someone else's bets.
@@ -50,6 +52,16 @@ interface Slots {
   CFG: { minBet: bigint; maxBet: bigint; maxDay: bigint };
 }
 
+interface Race {
+  autoBet: (key: string, owner: string, o: { bet: "win" | "podium"; stake: bigint; maxDay: bigint }) => Promise<unknown>;
+  daySpent: (wallet: string) => bigint;
+  isOn: () => boolean;
+  liveFor: (wallet: string) => boolean;
+  liveCount: () => number;
+  history: (wallet: string, limit?: number) => unknown[];
+  CFG: { minBet: bigint; maxBet: bigint; maxDay: bigint; maxLive: number };
+}
+
 export interface Payer {
   address: string;
   balance: () => Promise<bigint>;
@@ -71,6 +83,7 @@ export interface FlightPassDeps {
   transfersIn: (tx: string) => Promise<{ from: string; value: bigint; at: number }[] | null>;
   roulette: Roulette;
   slots: Slots;
+  race: Race;
   rpcUrl: string;
   payTo: string | null;
   today: () => string;
@@ -84,10 +97,15 @@ export interface Settings {
   owner: string | null; // who wrote them; they only count while that wallet owns the pass
   roulette: { on: boolean; stake: string; flies: number; max_day: string };
   slots: { on: boolean; stake: string; max_day: string };
+  /** Fly Race: a random lane each race ("random" is the only pick), to win or to make the podium */
+  race: { on: boolean; stake: string; bet: "win" | "podium"; pick: "random"; max_day: string };
   flybook: { missions: boolean; duels: boolean; breed: boolean };
 }
-// (settings saved before slots existed have no `slots`: settingsOf's spread over OFF() gives them slots off)
-const OFF = (): Settings => ({ owner: null, roulette: { on: false, stake: "0", flies: 2, max_day: "0" }, slots: { on: false, stake: "0", max_day: "0" }, flybook: { missions: false, duels: false, breed: false } });
+// (settings saved before slots or the race existed have no `slots` or `race`: settingsOf's spread over OFF() turns them off)
+const OFF = (): Settings => ({
+  owner: null, roulette: { on: false, stake: "0", flies: 2, max_day: "0" }, slots: { on: false, stake: "0", max_day: "0" },
+  race: { on: false, stake: "0", bet: "win", pick: "random", max_day: "0" }, flybook: { missions: false, duels: false, breed: false },
+});
 
 const SEL = {
   ownerOf: selector("ownerOf(uint256)"),
@@ -111,6 +129,8 @@ export function createFlightPass(d: FlightPassDeps) {
     betGapMs: Number(d.env.FLIGHTPASS_BET_GAP_MIN ?? "10") * 60_000,
     /** the least time between two autopilot slot spins of one pass (a spin is over at once, so seconds, not minutes) */
     spinGapMs: Number(d.env.FLIGHTPASS_SLOTS_GAP_SEC ?? "60") * 1000,
+    /** the least time between two autopilot races of one pass (roulette's gap unless set) */
+    raceGapMs: Number(d.env.FLIGHTPASS_RACE_GAP_MIN ?? d.env.FLIGHTPASS_BET_GAP_MIN ?? "10") * 60_000,
     /** tables autopilot leaves free for people */
     freeTables: Number(d.env.FLIGHTPASS_FREE_TABLES ?? "2"),
     sampleMs: Number(d.env.FLIGHTPASS_SAMPLE_MIN ?? d.env.STAKE_SAMPLE_MIN ?? "10") * 60_000,
@@ -342,6 +362,37 @@ export function createFlightPass(d: FlightPassDeps) {
     return { state: "waiting", next_at: Math.max(Date.now(), lastSpinAt(id) + CFG.spinGapMs) };
   }
 
+  /** When the pass last entered a race (its newest race_games row): the gap survives a restart without a column. */
+  const lastRaceAt = (id: number) => one<{ t: number | null }>("select max(created_at) as t from race_games where wallet = ?", key(id)).t ?? 0;
+  /** What this pass may stake on races today: its own max_day, never past the house's daily cap. */
+  const raceCap = (s: Settings["race"]) => {
+    const own = toWei(s.max_day);
+    return own < d.race.CFG.maxDay ? own : d.race.CFG.maxDay;
+  };
+
+  /**
+   * Why the race autopilot is or isn't racing, as rouletteStatus (the same checks tick() makes, in the same order):
+   * off, listed, paused (racing off or the house stop), terms, stake, day_cap (resets_at), low_balance,
+   * playing (a race is running) or waiting (next_at).
+   */
+  function raceStatus(id: number, owner: string, isListed: boolean) {
+    const s = activeSettings(id, owner).race;
+    const k = key(id), R = d.race.CFG;
+    if (!s.on) return { state: "off" };
+    if (isListed) return { state: "listed" };
+    if (!d.race.isOn()) return { state: "paused" };
+    if (!d.roulette.termsAccepted(owner)) return { state: "terms" };
+    const stake = toWei(s.stake);
+    if (stake < R.minBet || stake > R.maxBet) return { state: "stake", min: fromWei(R.minBet), max: fromWei(R.maxBet) };
+    const cap = raceCap(s);
+    if (d.race.daySpent(k) + stake > cap) {
+      return { state: "day_cap", cap: fromWei(cap), yours: toWei(s.max_day) < R.maxDay, house_max: fromWei(R.maxDay), resets_at: utcDayStart() + 86_400_000 };
+    }
+    if (balanceOf(k) < stake) return { state: "low_balance", need: fromWei(stake) };
+    if (d.race.liveFor(k)) return { state: "playing" };
+    return { state: "waiting", next_at: Math.max(Date.now(), lastRaceAt(id) + CFG.raceGapMs) };
+  }
+
   /** A pass's ledger, newest first, `limit` rows before ledger id `before` (null: from the newest); next is the id to ask with, or null at the start. */
   function historyPage(id: number, before: number | null, limit: number) {
     const rows = db.prepare(`select id, kind, amount_wei, tx, at from ledger where wallet = ?${before ? " and id < ?" : ""} order by id desc limit ?`)
@@ -380,6 +431,12 @@ export function createFlightPass(d: FlightPassDeps) {
       slots_day_spent: fromWei(d.slots.daySpent(k)),
       // as day_cap: the pass's own slots max_day when slots are on, never past the house's
       slots_day_cap: fromWei(((s) => s.on ? slotsCap(s) : d.slots.CFG.maxDay)(activeSettings(id, owner).slots)),
+      race_status: raceStatus(id, owner, isListed),
+      race_day_spent: fromWei(d.race.daySpent(k)),
+      // as day_cap: the pass's own race max_day when racing is on, never past the house's
+      race_day_cap: fromWei(((s) => s.on ? raceCap(s) : d.race.CFG.maxDay)(activeSettings(id, owner).race)),
+      // the pass's latest 20 races, as /api/race/me's history
+      races: d.race.history(k, 20),
       live_game: (one<{ id: string } | undefined>("select id from roulette_games where wallet = ? and status = 'live'", k))?.id ?? null,
       // the latest page; older ones come from /api/flightpass/:id/history?before=<the last id>
       history: historyPage(id, null, 30).items,
@@ -399,9 +456,10 @@ export function createFlightPass(d: FlightPassDeps) {
   function config() {
     return {
       on, contract: CFG.contract, market: CFG.market, pay_to: d.payTo, withdraw_fee_bps: Number(WITHDRAW_FEE_BPS), mining_boost: MINING_BOOST,
-      games: ["roulette", "slots", "flybook_missions", "flybook_duels", "flybook_breed"],
+      games: ["roulette", "slots", "race", "flybook_missions", "flybook_duels", "flybook_breed"],
       roulette: { on: d.roulette.isOn(), min_bet: fromWei(d.roulette.CFG.minBet), max_bet: fromWei(d.roulette.CFG.maxBet), max_day: fromWei(d.roulette.CFG.maxDay), min_flies: 2, max_flies: 10, bet_gap_min: CFG.betGapMs / 60_000 },
       slots: { on: d.slots.isOn(), min_bet: fromWei(d.slots.CFG.minBet), max_bet: fromWei(d.slots.CFG.maxBet), max_day: fromWei(d.slots.CFG.maxDay), spin_gap_min: CFG.spinGapMs / 60_000 },
+      race: { on: d.race.isOn(), min_bet: fromWei(d.race.CFG.minBet), max_bet: fromWei(d.race.CFG.maxBet), max_day: fromWei(d.race.CFG.maxDay), bet_types: ["win", "podium"] },
       // the automatic withdrawals' limits and how much of today's has gone (2026-09-29, the user: "add in the flypass
       // the max withdrawal per day and how much done already"): all passes share the day's total; a bigger
       // withdrawal, or one past it, waits for the operator
@@ -465,6 +523,7 @@ export function createFlightPass(d: FlightPassDeps) {
     transaction(() => {
       if (!hasDeposited(id)) throw new HttpError(403, "withdrawals open once you've deposited FLYAI yourself; the prefund stays on the pass");
       if (d.roulette.liveFor(key(id))) throw new HttpError(409, "a game is on the table; try again when it's over");
+      if (d.race.liveFor(key(id))) throw new HttpError(409, "a race is running; try again when it's over");
       const free = withdrawable(id, false);
       if (amount > free) throw new HttpError(400, `you can withdraw up to ${fromWei(free)} FLYAI (the ${fromWei(locked(id))} prefund stays on the pass)`);
       const fee = (amount * WITHDRAW_FEE_BPS) / 10_000n;
@@ -520,6 +579,28 @@ export function createFlightPass(d: FlightPassDeps) {
         if (!d.roulette.termsAccepted(wallet)) throw new HttpError(403, "accept the terms (18+) first");
       }
       s.slots = next;
+    }
+    const rc = body.race;
+    if (rc !== undefined) {
+      if (typeof rc !== "object" || rc === null) throw new HttpError(400, "race is an object");
+      const next = { ...s.race };
+      if (rc.on !== undefined) next.on = rc.on === true;
+      if (rc.bet !== undefined) {
+        if (rc.bet !== "win" && rc.bet !== "podium") throw new HttpError(400, "race bet is win or podium");
+        next.bet = rc.bet;
+      }
+      if (rc.pick !== undefined && rc.pick !== "random") throw new HttpError(400, "race pick is random");
+      for (const k of ["stake", "max_day"] as const) {
+        if (rc[k] === undefined) continue;
+        try { next[k] = fromWei(toWei(String(rc[k]))); } catch { throw new HttpError(400, `${k} is a number of tokens`); }
+      }
+      if (next.on) {
+        const stake = toWei(next.stake), R = d.race.CFG;
+        if (stake < R.minBet || stake > R.maxBet) throw new HttpError(400, `race stake is ${fromWei(R.minBet)} to ${fromWei(R.maxBet)} FLYAI`);
+        if (toWei(next.max_day) < stake) throw new HttpError(400, "max_day must cover at least one race");
+        if (!d.roulette.termsAccepted(wallet)) throw new HttpError(403, "accept the terms (18+) first");
+      }
+      s.race = next;
     }
     const f = body.flybook;
     if (f !== undefined) {
@@ -674,6 +755,7 @@ export function createFlightPass(d: FlightPassDeps) {
       // each game on its own switch: slots spin while roulette is off, and the other way round (2026-09-29)
       if (d.roulette.isOn()) await rouletteTick();
       if (d.slots.isOn()) await slotsTick();
+      if (d.race.isOn()) await raceTick();
     } finally {
       ticking = false;
     }
@@ -725,6 +807,30 @@ export function createFlightPass(d: FlightPassDeps) {
         const status = (err as { status?: number }).status;
         if (status === 503) break; // off or paused: nobody spins now
         if (status !== 402 && status !== 403) console.error(`flightpass ${r.id} autospin: ${err instanceof Error ? err.message : err}`);
+      }
+    }
+  }
+
+  /** At most one race per pass per raceGapMs, within its balance and daily caps, leaving free tracks for people. */
+  async function raceTick(): Promise<void> {
+    for (const r of db.prepare("select id from flightpass").all() as { id: number }[]) {
+      const owner = owners.get(r.id);
+      if (!owner || listed.has(r.id)) continue;
+      const s = activeSettings(r.id, owner).race;
+      if (!s.on || Date.now() - lastRaceAt(r.id) < CFG.raceGapMs) continue;
+      const k = key(r.id);
+      const stake = toWei(s.stake);
+      if (d.race.liveFor(k) || balanceOf(k) < stake || d.race.daySpent(k) + stake > raceCap(s)) continue;
+      if (d.race.liveCount() >= d.race.CFG.maxLive - CFG.freeTables) break;
+      // the listing and owner right before the stake moves, not the last sample
+      const now = await current(r.id).catch(() => null);
+      if (!now || now.listed || now.owner !== owner) continue;
+      try {
+        await d.race.autoBet(k, owner, { bet: s.bet, stake, maxDay: toWei(s.max_day) });
+      } catch (err) {
+        const status = (err as { status?: number }).status;
+        if (status === 503) break; // off, paused or every track busy: nobody races now
+        if (status !== 402 && status !== 403) console.error(`flightpass ${r.id} autorace: ${err instanceof Error ? err.message : err}`);
       }
     }
   }

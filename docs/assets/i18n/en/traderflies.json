@@ -135,12 +135,13 @@
     "paused": "$FLYAI paused"
   },
   "fly": {"notLiveTitle": "The Fly Desk isn't live yet: nothing to claim.", "notLiveText": "Payouts start once the desk trades for real and your fly is activated. Until then, this is each fly's share of the holders' part - not money owed.", "yours": "Your flies", "yoursN": "Your flies ({n})", "none": "This wallet holds no Trader Flies.", "total": "Together: {pct} of the holders' part, among {n} active flies.", "shareActive": "of the holders' part · {n} active flies", "shareIfActive": "if activated · {n} active flies now", "shareAtReveal": "Shares show after the reveal: they come from each fly's rarity.", "active": "Active", "inactive": "Not active", "weight": "Payout weight", "weightNote": "Common 1 · Uncommon 1.5 · Rare 2 · Legendary 3", "atReveal": "set at the reveal", "share": "Share", "status": "Status", "until": "until {when}", "forever": "no end date", "activateHint": "activate it on the Mint page to earn", "howShare": "Each week {pct}% of the desk's profit above its previous high goes to holders, split among active flies by weight: your share = your fly's weight / all active weight.", "traits": "Traits", "traitsAtReveal": "Traits are revealed with the collection.", "holder": "Held by", "onMarket": "Marketplace", "find": "Look up", "findPlaceholder": "Fly #", "cantRead": "Couldn't read this fly from the chain; try again."},
-  "lb": {"title": "Trading leaderboard", "text": "Two-week seasons. Your score is the $FLYAI volume you trade on this market, buying and selling. The top 3 win.", "season": "Season {n}", "left": "{d} d {h} h left", "ended": "Ended", "place1": "1st", "place2": "2nd", "place3": "3rd", "wallet": "Wallet", "volume": "Volume ($FLYAI)", "trades": "Trades", "you": "you", "empty": "No trades this season yet: be the first.", "cantRead": "Couldn't read the market's trades; try again soon.", "yourRank": "You're #{rank} with {points} $FLYAI.", "rules": "Buys and sells both count, including accepted offers and collection offers. Trades between the same two wallets count at most {max} times a season, and a fly passed back and forth between them counts once. Team wallets don't compete. Winners are checked for wallet rings before the prizes are sent, after each season ends. Only sales of at least {min} $FLYAI count."},
+  "lb": {"tab": "Leaderboard", "title": "Trading leaderboard", "text": "Two-week seasons. Your score is the $FLYAI volume you trade on this market, buying and selling. The top 3 win.", "season": "Season {n}", "left": "{d} d {h} h left", "ended": "Ended", "place1": "1st", "place2": "2nd", "place3": "3rd", "wallet": "Wallet", "volume": "Volume ($FLYAI)", "trades": "Trades", "you": "you", "empty": "No trades this season yet: be the first.", "cantRead": "Couldn't read the market's trades; try again soon.", "yourRank": "You're #{rank} with {points} $FLYAI.", "rules": "Buys and sells both count, including accepted offers and collection offers. Trades between the same two wallets count at most {max} times a season, and a fly passed back and forth between them counts once. Team wallets don't compete. Winners are checked for wallet rings before the prizes are sent, after each season ends. Only sales of at least {min} $FLYAI count."},
   "market": {
     "view": { "label": "View", "grid": "Grid", "list": "List" },
     "browse": {"sortRarity": "Rarity: rarest first", "rarityAll": "All", "search": "Search #", "searchLabel": "Find by number", "notListed": "{name} isn't for sale.", "noSuch": "No #{id} yet.", "offer": "Make an offer", "sweep": "Sweep", "sweepHint": "the {n} cheapest", "lastSale": "Last sale {amount}"},
     "coll": {"title": "Collection offer", "text": "Offer a price per fly for any flies, up to 50. The money is held by the market until a holder sells you one, or you take it back. {pct}% fee on each sale.", "qty": "Flies", "price": "Price per fly ({token})", "make": "Make collection offer", "update": "Update collection offer", "yours": "Your collection offer · {n} more", "top": "Top offer", "forN": "for {n} flies", "topShort": "Collection offer {price}", "sell": "Sell for {price}", "sellPicked": "Sell {n} for {price} each", "made": "Collection offer made: {n} flies at {price} each.", "cancelled": "Collection offer taken back.", "sold": "Sold {n} to the collection offer at {price} each.", "why": {"BadQuantity": "Pick 1 to 50 flies."}},
     "launch": {"title": "Launch offers", "text": "{pct}% fee on every sale here until Sunday, October 4."},
+    "usdFollows": "follows $FLYAI",
     "title": "Marketplace",
     "text": "Buy and sell Trader Flies with other holders, in {token}. The seller gets paid straight away, less a {pct}% fee.",
     "soon": "The marketplace opens soon.",
@@ -542,6 +543,8 @@
       "rouletteText": "Bets from the pass balance, within your limits.",
       "slots": "Fly Slots",
       "slotsText": "Spins from the pass balance, within your limits. The fly only reacts; the reels are random.",
+      "race": "Fly Race",
+      "raceText": "Races from the pass balance on a random lane, within your limits. The flies' brains decide who wins.",
       "missions": "Flybook missions",
       "missionsText": "Pokes, likes and reactions, every day, for the season board.",
       "duels": "Flybook duels",
@@ -566,7 +569,10 @@
       "payout": "Roulette win",
       "fee": "Fee",
       "slots_bet": "Slots spin",
-      "slots_payout": "Slots win"
+      "slots_payout": "Slots win",
+      "race_bet": "Race bet",
+      "race_payout": "Race win",
+      "race_refund": "Race refund"
     },
     "terms": {
       "title": "Fly Roulette terms",
@@ -665,6 +671,32 @@
         "dayCapHouse": "Daily limit reached: {cap} $FLYAI spun today, the most Fly Slots takes per day. Your fly spins again at {time} (00:00 UTC).",
         "lowBalance": "Not enough on the pass for one spin ({need} $FLYAI). Top up to keep playing.",
         "waiting": "Autopilot is on. Next spin around {time}."
+      }
+    },
+    "race": {
+      "stake": "Stake per race ($FLYAI)",
+      "bet": "Bet",
+      "bets": {
+        "win": "Win (1st)",
+        "podium": "Podium (top 3)"
+      },
+      "pickNote": "Your fly backs a random lane each race.",
+      "house": "Fly Race limits: {min} to {max} $FLYAI a race, up to {day} $FLYAI a day.",
+      "today": "Raced today: {spent} of {cap} $FLYAI",
+      "termsNeeded": "Fly Race uses Fly Roulette's 18+ terms, accepted once. You'll get asked when you save.",
+      "place": "place {n}",
+      "running": "running…",
+      "refunded": "refunded",
+      "status": {
+        "listed": "Paused while the pass is listed for sale.",
+        "paused": "Fly Race is paused for everyone right now. Your fly races again when it's back.",
+        "terms": "Accept the 18+ terms and your fly starts racing.",
+        "playing": "A race is running right now.",
+        "stake": "Stake per race has to be between {min} and {max} $FLYAI. Change it and save.",
+        "dayCapYours": "Daily limit reached: {cap} $FLYAI raced today. Your fly races again at {time} (00:00 UTC), or raise \"Max per day\".",
+        "dayCapHouse": "Daily limit reached: {cap} $FLYAI raced today, the most Fly Race takes per day. Your fly races again at {time} (00:00 UTC).",
+        "lowBalance": "Not enough on the pass for one race ({need} $FLYAI). Top up to keep playing.",
+        "waiting": "Autopilot is on. Next race around {time}."
       }
     }
   }

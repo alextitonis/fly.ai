@@ -37,6 +37,11 @@
       "permanent": false
     },
     {
+      "source": "/race",
+      "destination": "/race/",
+      "permanent": false
+    },
+    {
       "source": "/flinder",
       "destination": "/flinder/",
       "permanent": false
@@ -88,6 +93,15 @@
     },
     {
       "source": "/slots/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/race/assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

@@ -133,12 +133,13 @@
     "paused": "$FLYAI 일시 중지"
   },
   "fly": {"notLiveTitle": "Fly Desk는 아직 운영 전입니다: 청구할 것이 없습니다.", "notLiveText": "데스크가 실제로 거래를 시작하고 파리가 활성화되면 지급이 시작됩니다. 그 전까지는 보유자 몫에서 각 파리의 비율일 뿐, 지급될 금액이 아닙니다.", "yours": "내 파리", "yoursN": "내 파리 ({n})", "none": "이 지갑에는 Trader Fly가 없습니다.", "total": "합계: 활성 파리 {n}마리 중 보유자 몫의 {pct}.", "shareActive": "보유자 몫 · 활성 파리 {n}마리", "shareIfActive": "활성화 시 · 현재 활성 파리 {n}마리", "shareAtReveal": "비율은 리빌 후에 표시됩니다: 각 파리의 희귀도로 정해집니다.", "active": "활성", "inactive": "비활성", "weight": "지급 가중치", "weightNote": "커먼 1 · 언커먼 1.5 · 레어 2 · 레전더리 3", "atReveal": "리빌 때 정해짐", "share": "비율", "status": "상태", "until": "{when}까지", "forever": "종료일 없음", "activateHint": "Mint 페이지에서 활성화하면 수익을 받습니다", "howShare": "매주 데스크의 이전 최고점을 넘는 수익의 {pct}%가 보유자에게 가며, 활성 파리의 가중치로 나눕니다: 내 몫 = 내 파리 가중치 / 전체 활성 가중치.", "traits": "특성", "traitsAtReveal": "특성은 컬렉션 리빌 때 공개됩니다.", "holder": "보유자", "onMarket": "마켓플레이스", "find": "조회", "findPlaceholder": "파리 #", "cantRead": "체인에서 이 파리를 읽지 못했습니다. 다시 시도하세요."},
-  "lb": {"title": "거래 리더보드", "text": "2주 시즌. 점수는 이 마켓에서 사고판 $FLYAI 거래량입니다. 상위 3명이 상금을 받습니다.", "season": "시즌 {n}", "left": "{d}일 {h}시간 남음", "ended": "종료", "place1": "1위", "place2": "2위", "place3": "3위", "wallet": "지갑", "volume": "거래량 ($FLYAI)", "trades": "거래", "you": "나", "empty": "이번 시즌 거래가 아직 없습니다: 첫 거래를 해보세요.", "cantRead": "마켓 거래를 읽지 못했습니다. 잠시 후 다시 시도하세요.", "yourRank": "{points} $FLYAI로 #{rank}위입니다.", "rules": "구매와 판매 모두, 수락된 제안과 컬렉션 제안도 포함해 집계됩니다. 같은 두 지갑 간 거래는 시즌당 최대 {max}회만 집계되며, 둘 사이를 오간 같은 파리는 한 번만 집계됩니다. 팀 지갑은 참여하지 않습니다. 각 시즌 종료 후 상금을 보내기 전에 지갑 조작 여부를 확인합니다. {min} $FLYAI 이상의 거래만 집계됩니다."},
+  "lb": {"tab": "리더보드", "title": "거래 리더보드", "text": "2주 시즌. 점수는 이 마켓에서 사고판 $FLYAI 거래량입니다. 상위 3명이 상금을 받습니다.", "season": "시즌 {n}", "left": "{d}일 {h}시간 남음", "ended": "종료", "place1": "1위", "place2": "2위", "place3": "3위", "wallet": "지갑", "volume": "거래량 ($FLYAI)", "trades": "거래", "you": "나", "empty": "이번 시즌 거래가 아직 없습니다: 첫 거래를 해보세요.", "cantRead": "마켓 거래를 읽지 못했습니다. 잠시 후 다시 시도하세요.", "yourRank": "{points} $FLYAI로 #{rank}위입니다.", "rules": "구매와 판매 모두, 수락된 제안과 컬렉션 제안도 포함해 집계됩니다. 같은 두 지갑 간 거래는 시즌당 최대 {max}회만 집계되며, 둘 사이를 오간 같은 파리는 한 번만 집계됩니다. 팀 지갑은 참여하지 않습니다. 각 시즌 종료 후 상금을 보내기 전에 지갑 조작 여부를 확인합니다. {min} $FLYAI 이상의 거래만 집계됩니다."},
   "market": {
     "view": { "label": "보기", "grid": "그리드", "list": "목록" },
     "browse": {"sortRarity": "희귀도: 희귀한 순", "rarityAll": "전체", "search": "# 검색", "searchLabel": "번호로 찾기", "notListed": "{name}은(는) 판매 중이 아닙니다.", "noSuch": "아직 #{id}이(가) 없습니다.", "offer": "제안하기", "sweep": "스윕", "sweepHint": "가장 싼 {n}개", "lastSale": "최근 거래 {amount}"},
     "coll": {"title": "컬렉션 제안", "text": "어떤 파리든 파리당 가격을 제안하세요(최대 50마리). 보유자가 판매하거나 회수할 때까지 마켓이 금액을 보관합니다. 판매마다 {pct}% 수수료.", "qty": "파리 수", "price": "파리당 가격 ({token})", "make": "컬렉션 제안하기", "update": "컬렉션 제안 수정", "yours": "내 컬렉션 제안 · {n}마리 남음", "top": "최고 제안", "forN": "{n}마리", "topShort": "컬렉션 제안 {price}", "sell": "{price}에 판매", "sellPicked": "{n}마리를 각 {price}에 판매", "made": "컬렉션 제안 완료: {n}마리, 각 {price}.", "cancelled": "컬렉션 제안을 회수했습니다.", "sold": "컬렉션 제안에 {n}마리를 각 {price}에 판매했습니다.", "why": {"BadQuantity": "1~50마리를 선택하세요."}},
     "launch": {"title": "런칭 혜택", "text": "10월 4일 일요일까지 여기서의 모든 거래 수수료는 {pct}%입니다."},
+    "usdFollows": "$FLYAI 시세 연동",
     "title": "마켓",
     "text": "다른 홀더와 Trader Flies를 {token}로 사고팝니다. 판매자는 {pct}% 수수료를 뺀 금액을 바로 받습니다.",
     "soon": "마켓이 곧 열립니다.",
@@ -540,6 +541,8 @@
       "rouletteText": "설정한 한도 안에서 패스 잔액으로 베팅합니다.",
       "slots": "플라이 슬롯",
       "slotsText": "패스 잔액으로, 설정한 한도 안에서 스핀해요. 파리는 반응만 하고 릴은 무작위예요.",
+      "race": "플라이 레이스",
+      "raceText": "패스 잔액으로, 설정한 한도 안에서 무작위 레인에 레이스해요. 누가 이길지는 파리의 뇌가 정해요.",
       "missions": "Flybook 미션",
       "missionsText": "매일 찌르기, 좋아요, 반응으로 시즌 보드를 노립니다.",
       "duels": "Flybook 결투",
@@ -564,7 +567,10 @@
       "payout": "룰렛 승리",
       "fee": "수수료",
       "slots_bet": "슬롯 스핀",
-      "slots_payout": "슬롯 당첨"
+      "slots_payout": "슬롯 당첨",
+      "race_bet": "레이스 베팅",
+      "race_payout": "레이스 당첨",
+      "race_refund": "레이스 환불"
     },
     "terms": {
       "title": "Fly Roulette 약관",
@@ -663,6 +669,32 @@
         "dayCapHouse": "일일 한도 도달: 오늘 {cap} $FLYAI 스핀, 플라이 슬롯의 하루 최대치예요. {time}(00:00 UTC)에 다시 돌려요.",
         "lowBalance": "패스 잔액이 스핀 한 번에도 부족해요 ({need} $FLYAI). 충전하면 계속해요.",
         "waiting": "자동 조종 켜짐. 다음 스핀은 {time}쯤."
+      }
+    },
+    "race": {
+      "stake": "레이스당 베팅액 ($FLYAI)",
+      "bet": "베팅",
+      "bets": {
+        "win": "우승 (1위)",
+        "podium": "포디움 (3위 안)"
+      },
+      "pickNote": "매 레이스마다 무작위 레인에 걸어요.",
+      "house": "플라이 레이스 한도: 레이스당 {min}~{max} $FLYAI, 하루 최대 {day} $FLYAI.",
+      "today": "오늘 레이스: {cap} 중 {spent} $FLYAI",
+      "termsNeeded": "플라이 레이스는 Fly Roulette의 18세 이상 약관을 써요. 한 번만 동의하면 되고, 저장할 때 물어봐요.",
+      "place": "{n}위",
+      "running": "진행 중…",
+      "refunded": "환불됨",
+      "status": {
+        "listed": "패스가 판매 등록된 동안 일시 중지돼요.",
+        "paused": "지금은 모두에게 플라이 레이스가 멈춰 있어요. 다시 열리면 파리가 레이스를 이어가요.",
+        "terms": "18세 이상 약관에 동의하면 파리가 레이스를 시작해요.",
+        "playing": "지금 레이스가 진행 중이에요.",
+        "stake": "레이스당 베팅액은 {min}~{max} $FLYAI 사이여야 해요. 바꾸고 저장하세요.",
+        "dayCapYours": "일일 한도 도달: 오늘 {cap} $FLYAI 레이스. {time}(00:00 UTC)에 다시 레이스하거나 \"하루 최대\"를 올리세요.",
+        "dayCapHouse": "일일 한도 도달: 오늘 {cap} $FLYAI 레이스, 플라이 레이스의 하루 최대치예요. {time}(00:00 UTC)에 다시 레이스해요.",
+        "lowBalance": "패스 잔액이 레이스 한 번({need} $FLYAI)에 부족해요. 충전하면 계속 플레이해요.",
+        "waiting": "자동 조종 켜짐. 다음 레이스는 {time}쯤이에요."
       }
     }
   }

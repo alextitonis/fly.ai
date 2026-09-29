@@ -135,12 +135,13 @@
     "paused": "$FLYAI duraklatıldı"
   },
   "fly": {"notLiveTitle": "Fly Desk henüz canlı değil: talep edilecek bir şey yok.", "notLiveText": "Ödemeler desk gerçek işlem yapmaya başlayıp sineğin aktif olunca başlar. O zamana kadar bu, her sineğin sahipler payındaki oranıdır; borçlu olunan para değildir.", "yours": "Sineklerin", "yoursN": "Sineklerin ({n})", "none": "Bu cüzdanda Trader Fly yok.", "total": "Toplam: {n} aktif sinek arasında sahipler payının {pct}'i.", "shareActive": "sahipler payından · {n} aktif sinek", "shareIfActive": "aktif edilirse · şu an {n} aktif sinek", "shareAtReveal": "Paylar reveal'dan sonra görünür: her sineğin nadirliğinden gelir.", "active": "Aktif", "inactive": "Aktif değil", "weight": "Ödeme ağırlığı", "weightNote": "Common 1 · Uncommon 1.5 · Rare 2 · Legendary 3", "atReveal": "reveal'da belirlenir", "share": "Pay", "status": "Durum", "until": "{when} tarihine kadar", "forever": "bitiş tarihi yok", "activateHint": "kazanmak için Mint sayfasında aktif et", "howShare": "Her hafta desk'in önceki zirvesinin üstündeki kârın %{pct}'i sahiplere gider ve aktif sinekler arasında ağırlığa göre bölünür: payın = sineğinin ağırlığı / tüm aktif ağırlık.", "traits": "Özellikler", "traitsAtReveal": "Özellikler koleksiyonla birlikte açıklanır.", "holder": "Sahibi", "onMarket": "Pazar", "find": "Bul", "findPlaceholder": "Sinek #", "cantRead": "Bu sinek zincirden okunamadı; tekrar dene."},
-  "lb": {"title": "İşlem liderlik tablosu", "text": "İki haftalık sezonlar. Puanın, bu pazarda alarak ve satarak yaptığın $FLYAI hacmidir. İlk 3 kazanır.", "season": "Sezon {n}", "left": "{d} g {h} sa kaldı", "ended": "Bitti", "place1": "1.", "place2": "2.", "place3": "3.", "wallet": "Cüzdan", "volume": "Hacim ($FLYAI)", "trades": "İşlem", "you": "sen", "empty": "Bu sezon henüz işlem yok: ilk sen ol.", "cantRead": "Pazarın işlemleri okunamadı; birazdan tekrar dene.", "yourRank": "{points} $FLYAI ile #{rank}. sıradasın.", "rules": "Alım ve satımlar, kabul edilen teklifler ve koleksiyon teklifleri dahil sayılır. Aynı iki cüzdan arasındaki işlemler sezon başına en fazla {max} kez sayılır, aralarında gidip gelen aynı sinek bir kez sayılır. Ekip cüzdanları yarışmaz. Her sezon sonunda ödüller gönderilmeden önce kazananlar cüzdan ağlarına karşı kontrol edilir. Yalnızca en az {min} $FLYAI tutarındaki satışlar sayılır."},
+  "lb": {"tab": "Liderlik", "title": "İşlem liderlik tablosu", "text": "İki haftalık sezonlar. Puanın, bu pazarda alarak ve satarak yaptığın $FLYAI hacmidir. İlk 3 kazanır.", "season": "Sezon {n}", "left": "{d} g {h} sa kaldı", "ended": "Bitti", "place1": "1.", "place2": "2.", "place3": "3.", "wallet": "Cüzdan", "volume": "Hacim ($FLYAI)", "trades": "İşlem", "you": "sen", "empty": "Bu sezon henüz işlem yok: ilk sen ol.", "cantRead": "Pazarın işlemleri okunamadı; birazdan tekrar dene.", "yourRank": "{points} $FLYAI ile #{rank}. sıradasın.", "rules": "Alım ve satımlar, kabul edilen teklifler ve koleksiyon teklifleri dahil sayılır. Aynı iki cüzdan arasındaki işlemler sezon başına en fazla {max} kez sayılır, aralarında gidip gelen aynı sinek bir kez sayılır. Ekip cüzdanları yarışmaz. Her sezon sonunda ödüller gönderilmeden önce kazananlar cüzdan ağlarına karşı kontrol edilir. Yalnızca en az {min} $FLYAI tutarındaki satışlar sayılır."},
   "market": {
     "view": { "label": "Görünüm", "grid": "Izgara", "list": "Liste" },
     "browse": {"sortRarity": "Nadirlik: en nadir önce", "rarityAll": "Tümü", "search": "# ara", "searchLabel": "Numarayla bul", "notListed": "{name} satışta değil.", "noSuch": "Henüz #{id} yok.", "offer": "Teklif ver", "sweep": "Süpür", "sweepHint": "en ucuz {n} tane", "lastSale": "Son satış {amount}"},
     "coll": {"title": "Koleksiyon teklifi", "text": "Herhangi bir sinek için sinek başına bir fiyat teklif et, en fazla 50. Bir sahip sana satana ya da sen geri alana kadar para pazarda tutulur. Her satışta %{pct} ücret.", "qty": "Sinek", "price": "Sinek başına fiyat ({token})", "make": "Koleksiyon teklifi ver", "update": "Teklifi güncelle", "yours": "Koleksiyon teklifin · {n} tane daha", "top": "En iyi teklif", "forN": "{n} sinek için", "topShort": "Koleksiyon teklifi {price}", "sell": "{price} karşılığında sat", "sellPicked": "{n} tanesini {price}'dan sat", "made": "Koleksiyon teklifi verildi: {n} sinek, tanesi {price}.", "cancelled": "Koleksiyon teklifi geri alındı.", "sold": "Koleksiyon teklifine {n} sinek tanesi {price}'dan satıldı.", "why": {"BadQuantity": "1 ile 50 arasında sinek seç."}},
     "launch": {"title": "Lansman fırsatları", "text": "4 Ekim Pazar gününe kadar buradaki her satışta %{pct} ücret."},
+    "usdFollows": "$FLYAI fiyatını izler",
     "title": "Pazar",
     "text": "Trader Flies'ı diğer holder'larla {token} ile al ve sat. Satıcı parasını hemen alır, %{pct} komisyon düşülür.",
     "soon": "Pazar yakında açılıyor.",
@@ -542,6 +543,8 @@
       "rouletteText": "Limitlerin içinde, pas bakiyesinden bahis yapar.",
       "slots": "Sinek Slotları",
       "slotsText": "Pass bakiyesiyle, senin sınırların içinde çevirir. Sinek sadece tepki verir; makaralar rastgeledir.",
+      "race": "Sinek Yarışı",
+      "raceText": "Pass bakiyesiyle, senin sınırların içinde rastgele bir kulvarda yarışır. Kimin kazanacağına sineklerin beyinleri karar verir.",
       "missions": "Flybook görevleri",
       "missionsText": "Her gün dürtme, beğeni ve tepkiler, sezon tablosu için.",
       "duels": "Flybook düelloları",
@@ -566,7 +569,10 @@
       "payout": "Rulet kazancı",
       "fee": "Ücret",
       "slots_bet": "Slot çevirmesi",
-      "slots_payout": "Slot kazancı"
+      "slots_payout": "Slot kazancı",
+      "race_bet": "Yarış bahsi",
+      "race_payout": "Yarış kazancı",
+      "race_refund": "Yarış iadesi"
     },
     "terms": {
       "title": "Fly Roulette şartları",
@@ -665,6 +671,32 @@
         "dayCapHouse": "Günlük sınıra ulaşıldı: bugün {cap} $FLYAI çevrildi, Sinek Slotları’nın günlük üst sınırı. Sineğin {time} (00:00 UTC) saatinde yine çevirir.",
         "lowBalance": "Pass'te bir çevirmeye yetecek bakiye yok ({need} $FLYAI). Oynamaya devam etmek için yükle.",
         "waiting": "Otomatik pilot açık. Sonraki çevirme {time} civarı."
+      }
+    },
+    "race": {
+      "stake": "Yarış başına bahis ($FLYAI)",
+      "bet": "Bahis",
+      "bets": {
+        "win": "Kazanan (1.)",
+        "podium": "Podyum (ilk 3)"
+      },
+      "pickNote": "Sineğin her yarışta rastgele bir kulvara oynar.",
+      "house": "Sinek Yarışı sınırları: yarış başına {min}–{max} $FLYAI, günde en fazla {day} $FLYAI.",
+      "today": "Bugün yarışılan: {spent} / {cap} $FLYAI",
+      "termsNeeded": "Sinek Yarışı, Fly Roulette'in 18+ şartlarını kullanır; bir kez kabul edilir. Kaydederken sorulur.",
+      "place": "{n}. sıra",
+      "running": "sürüyor…",
+      "refunded": "iade edildi",
+      "status": {
+        "listed": "Pass satışa çıkarıldığı sürece duraklatıldı.",
+        "paused": "Sinek Yarışı şu an herkes için duraklatıldı. Geri geldiğinde sineğin yine yarışır.",
+        "terms": "18+ şartları kabul et, sineğin yarışmaya başlasın.",
+        "playing": "Şu an bir yarış sürüyor.",
+        "stake": "Yarış başına bahis {min} ile {max} $FLYAI arasında olmalı. Değiştir ve kaydet.",
+        "dayCapYours": "Günlük sınıra ulaşıldı: bugün {cap} $FLYAI yarışıldı. Sineğin {time} (00:00 UTC) sonra yine yarışır ya da \"Günlük en fazla\"yı artır.",
+        "dayCapHouse": "Günlük sınıra ulaşıldı: bugün {cap} $FLYAI yarışıldı, Sinek Yarışı'nın günlük en fazlası. Sineğin {time} (00:00 UTC) sonra yine yarışır.",
+        "lowBalance": "Pass'te bir yarış için yeterli yok ({need} $FLYAI). Oynamaya devam etmek için yükle.",
+        "waiting": "Otopilot açık. Sonraki yarış yaklaşık {time}."
       }
     }
   }

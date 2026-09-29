@@ -3,7 +3,7 @@
  * in front on PORT that sends each request to its side.
  *
  *   mining  miners, orders, verifiers, research: busy, and its thread can stall for seconds under the fleet
- *   user    sign-in, Fly Roulette, Fly Slots and FlightPass: what players' pages wait on
+ *   user    sign-in, Fly Roulette, Fly Slots, Fly Race and FlightPass: what players' pages wait on
  *   research  the research summaries (/api/experiments), 45 s of work a run
  *
  * Split 2026-09-29 after mining stalls held FlightPass pages for up to 40 s and failed fly's health checks, which then
@@ -22,7 +22,7 @@ let stopping = false, running = 0;
 /** The user side: everything a player's page calls, and its admin endpoints. */
 /** The research summaries: worked out for 45 s at a time, in a process of their own. */
 const RESEARCH_PATHS = /^\/api\/experiments$/;
-const USER_PATHS = /^\/api\/(flightpass|roulette|slots|session|admin\/flightpass|admin\/roulette|admin\/slots)(\/|$)|^\/api\/balance\/(deposit|withdraw-request)$/;
+const USER_PATHS = /^\/api\/(flightpass|roulette|slots|race|session|admin\/flightpass|admin\/roulette|admin\/slots|admin\/race)(\/|$)|^\/api\/balance\/(deposit|withdraw-request)$/;
 /**
  * Pages and read-only views anyone can open, served by the user side too (2026-09-29: "the hashing power rankings
  * page takes a long time to load and often freezes" - /api/month and even /api/stake-config took 4-12 s behind the

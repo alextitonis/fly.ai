@@ -45,6 +45,10 @@
       "label": "Sinek Slotları",
       "desc": "Makarayı çevir, sinek beyni tepki versin"
     },
+    "race": {
+      "label": "Sinek Yarışı",
+      "desc": "Altı sinek beyni meyveye koşuyor"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "Bir sinek beyni flört profillerini kaydırıyor"

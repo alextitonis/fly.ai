@@ -45,6 +45,10 @@
       "label": "Fly Slots",
       "desc": "Spin the reels, a fly brain reacts"
     },
+    "race": {
+      "label": "Fly Race",
+      "desc": "Six fly brains race to the fruit"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "A fly brain swipes on dating profiles"

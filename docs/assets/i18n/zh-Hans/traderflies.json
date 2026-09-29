@@ -133,12 +133,13 @@
     "paused": "$FLYAI 暂停"
   },
   "fly": {"notLiveTitle": "Fly Desk 尚未上线：暂无可领取。", "notLiveText": "Desk 开始真实交易且你的苍蝇已激活后才会开始派发。在此之前，这里显示的是每只苍蝇在持有者份额中的比例，而不是应付金额。", "yours": "你的苍蝇", "yoursN": "你的苍蝇（{n}）", "none": "此钱包没有 Trader Fly。", "total": "合计：在 {n} 只已激活苍蝇中占持有者份额的 {pct}。", "shareActive": "持有者份额 · {n} 只已激活", "shareIfActive": "若激活 · 当前 {n} 只已激活", "shareAtReveal": "揭晓后显示份额：由每只苍蝇的稀有度决定。", "active": "已激活", "inactive": "未激活", "weight": "派发权重", "weightNote": "普通 1 · 罕见 1.5 · 稀有 2 · 传奇 3", "atReveal": "揭晓时确定", "share": "份额", "status": "状态", "until": "至 {when}", "forever": "无结束日期", "activateHint": "在 Mint 页面激活即可参与收益", "howShare": "每周 Desk 超出前高的利润中 {pct}% 归持有者，按权重分给已激活的苍蝇：你的份额 = 你的苍蝇权重 / 全部激活权重。", "traits": "特征", "traitsAtReveal": "特征随系列揭晓。", "holder": "持有者", "onMarket": "市场", "find": "查询", "findPlaceholder": "苍蝇 #", "cantRead": "无法从链上读取这只苍蝇，请重试。"},
-  "lb": {"title": "交易排行榜", "text": "两周一个赛季。你的分数是在本市场买入和卖出的 $FLYAI 交易量。前 3 名获奖。", "season": "第 {n} 季", "left": "剩余 {d} 天 {h} 小时", "ended": "已结束", "place1": "第 1 名", "place2": "第 2 名", "place3": "第 3 名", "wallet": "钱包", "volume": "交易量（$FLYAI）", "trades": "成交", "you": "你", "empty": "本赛季还没有成交：来做第一个吧。", "cantRead": "无法读取市场成交，请稍后重试。", "yourRank": "你排第 {rank} 名，交易量 {points} $FLYAI。", "rules": "买入和卖出都计入，包括被接受的出价和集合出价。同一对钱包之间的成交每季最多计入 {max} 次，在两者之间来回转手的同一只苍蝇只计一次。团队钱包不参赛。每季结束发奖前，会核查获奖者是否存在钱包串通。 仅计入不少于 {min} $FLYAI 的成交。"},
+  "lb": {"tab": "排行榜", "title": "交易排行榜", "text": "两周一个赛季。你的分数是在本市场买入和卖出的 $FLYAI 交易量。前 3 名获奖。", "season": "第 {n} 季", "left": "剩余 {d} 天 {h} 小时", "ended": "已结束", "place1": "第 1 名", "place2": "第 2 名", "place3": "第 3 名", "wallet": "钱包", "volume": "交易量（$FLYAI）", "trades": "成交", "you": "你", "empty": "本赛季还没有成交：来做第一个吧。", "cantRead": "无法读取市场成交，请稍后重试。", "yourRank": "你排第 {rank} 名，交易量 {points} $FLYAI。", "rules": "买入和卖出都计入，包括被接受的出价和集合出价。同一对钱包之间的成交每季最多计入 {max} 次，在两者之间来回转手的同一只苍蝇只计一次。团队钱包不参赛。每季结束发奖前，会核查获奖者是否存在钱包串通。 仅计入不少于 {min} $FLYAI 的成交。"},
   "market": {
     "view": { "label": "视图", "grid": "网格", "list": "列表" },
     "browse": {"sortRarity": "稀有度：最稀有优先", "rarityAll": "全部", "search": "搜索 #", "searchLabel": "按编号查找", "notListed": "{name} 未在出售。", "noSuch": "还没有 #{id}。", "offer": "出价", "sweep": "扫货", "sweepHint": "最便宜的 {n} 个", "lastSale": "上次成交 {amount}"},
     "coll": {"title": "集合出价", "text": "为任意苍蝇出每只的价格，最多 50 只。资金由市场托管，直到持有者卖给你或你撤回。每笔成交收取 {pct}% 手续费。", "qty": "数量", "price": "每只价格（{token}）", "make": "发起集合出价", "update": "更新集合出价", "yours": "你的集合出价 · 还要 {n} 只", "top": "最高出价", "forN": "共 {n} 只", "topShort": "集合出价 {price}", "sell": "以 {price} 卖出", "sellPicked": "以每只 {price} 卖出 {n} 只", "made": "已发起集合出价：{n} 只，每只 {price}。", "cancelled": "已撤回集合出价。", "sold": "已以每只 {price} 向集合出价卖出 {n} 只。", "why": {"BadQuantity": "请选择 1 到 50 只。"}},
     "launch": {"title": "上线优惠", "text": "10 月 4 日（周日）前，在这里每笔成交手续费仅 {pct}%。"},
+    "usdFollows": "随 $FLYAI 价格浮动",
     "title": "市场",
     "text": "用 {token} 与其他持有者买卖 Trader Flies。卖家立即收款，扣除 {pct}% 手续费。",
     "soon": "市场即将开放。",
@@ -540,6 +541,8 @@
       "rouletteText": "在你的限额内，用通行证余额下注。",
       "slots": "果蝇老虎机",
       "slotsText": "用通行证余额旋转，不超过你的限额。果蝇只负责反应，转轴是随机的。",
+      "race": "果蝇赛跑",
+      "raceText": "用通行证余额在随机赛道上赛跑，不超过你的限额。谁赢由果蝇的大脑决定。",
       "missions": "Flybook 任务",
       "missionsText": "每天戳一戳、点赞和反应，冲赛季榜。",
       "duels": "Flybook 决斗",
@@ -564,7 +567,10 @@
       "payout": "轮盘赢奖",
       "fee": "手续费",
       "slots_bet": "老虎机旋转",
-      "slots_payout": "老虎机奖金"
+      "slots_payout": "老虎机奖金",
+      "race_bet": "赛跑下注",
+      "race_payout": "赛跑奖金",
+      "race_refund": "赛跑退款"
     },
     "terms": {
       "title": "Fly Roulette 条款",
@@ -663,6 +669,32 @@
         "dayCapHouse": "已达每日上限：今天已转 {cap} $FLYAI，这是果蝇老虎机每天的最高额。你的果蝇会在 {time}（UTC 00:00）继续。",
         "lowBalance": "通行证余额不够转一次（{need} $FLYAI）。充值后继续。",
         "waiting": "自动驾驶已开启。下一次旋转大约在 {time}。"
+      }
+    },
+    "race": {
+      "stake": "每场注额 ($FLYAI)",
+      "bet": "下注",
+      "bets": {
+        "win": "冠军（第 1 名）",
+        "podium": "前三（前 3 名）"
+      },
+      "pickNote": "每场你的果蝇押一条随机赛道。",
+      "house": "果蝇赛跑限额：每场 {min} 到 {max} $FLYAI，每天最多 {day} $FLYAI。",
+      "today": "今天已赛跑：{spent} / {cap} $FLYAI",
+      "termsNeeded": "果蝇赛跑使用 Fly Roulette 的 18+ 条款，只需接受一次。保存时会询问你。",
+      "place": "第 {n} 名",
+      "running": "进行中…",
+      "refunded": "已退回",
+      "status": {
+        "listed": "通行证挂单出售期间暂停。",
+        "paused": "果蝇赛跑目前对所有人暂停。恢复后你的果蝇会继续赛跑。",
+        "terms": "接受 18+ 条款后，你的果蝇就开始赛跑。",
+        "playing": "现在有一场赛跑正在进行。",
+        "stake": "每场注额须在 {min} 到 {max} $FLYAI 之间。修改后保存。",
+        "dayCapYours": "已达每日上限：今天已赛跑 {cap} $FLYAI。你的果蝇将在 {time}（00:00 UTC）再次赛跑，或提高\"每日上限\"。",
+        "dayCapHouse": "已达每日上限：今天已赛跑 {cap} $FLYAI，这是果蝇赛跑每天的最高额。你的果蝇将在 {time}（00:00 UTC）再次赛跑。",
+        "lowBalance": "通行证余额不够一场赛跑（{need} $FLYAI）。充值后继续。",
+        "waiting": "自动驾驶已开启。下一场大约在 {time}。"
       }
     }
   }

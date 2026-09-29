@@ -1,0 +1,181 @@
+{
+  "meta": {
+    "title": "Fly Race",
+    "description": "Six flies race to a piece of fruit, each one steered by its own real fly brain following the smell. Race for fun or for $FLYAI: provably fair, back a winner at 5.7x or a podium at 1.9x."
+  },
+  "head": {
+    "title": "Fly <span>Race</span>",
+    "sub": "Six flies, one ripe fruit. Every leg each fly's real brain smells the fruit and its own movement neurons decide how far it runs. Pick a fly and back it."
+  },
+  "mode": {
+    "label": "How to play",
+    "fun": "Play for fun",
+    "bet": "Play for $FLYAI"
+  },
+  "status": {
+    "loading": "waking six fly brains…",
+    "progress": "{text}",
+    "labels": "labels",
+    "brain": "fly brain",
+    "wiring": "wiring 25 M synapses",
+    "ready": "fly brains awake: {n} neurons each",
+    "error": "the fly brains didn't load on this device"
+  },
+  "track": {
+    "label": "The race track",
+    "leg": "Leg {leg} / {legs}",
+    "sniff": "sniffing…",
+    "ready": "On your marks",
+    "finish": "Finish"
+  },
+  "pick": {
+    "title": "Pick your fly",
+    "lane": "Lane {n}",
+    "mystery": "a fresh fly",
+    "yours": "yours"
+  },
+  "deck": {
+    "balance": "Balance",
+    "coins": "fun coins",
+    "flyai": "FLYAI",
+    "signedOut": "sign in",
+    "bet": "Bet",
+    "win": "Win",
+    "winText": "1st place",
+    "podium": "Podium",
+    "podiumText": "top 3",
+    "stake": "Stake",
+    "lower": "Lower the stake",
+    "higher": "Raise the stake",
+    "race": "Race",
+    "pays": "Pays {mult}x · {total}",
+    "speedNormal": "Speed: 1x",
+    "speedFast": "Speed: 2x",
+    "soundOn": "Sound: on",
+    "soundOff": "Sound: off"
+  },
+  "msg": {
+    "ready": "Pick a fly, pick a bet, hit Race.",
+    "pickFirst": "Pick a fly first.",
+    "racing": "They're off!",
+    "won": "{name} came {place}! +{amount}",
+    "lost": "{name} came {place}. Better luck next race.",
+    "broke": "Not enough balance for that stake.",
+    "brokeFun": "Out of fun coins: hit Refill.",
+    "stakeBad": "Enter a whole stake above zero.",
+    "noBrain": "The fly brains couldn't load on this device, so free races are off. Play for $FLYAI still works: the server runs the brains.",
+    "brainLoading": "The fly brains are still waking up…",
+    "signInFirst": "Sign in on the $FLYAI panel to race for real.",
+    "betClosed": "$FLYAI races are closed right now. Play for fun is open.",
+    "stuck": "The race stopped: {error}"
+  },
+  "place": {
+    "1": "1st",
+    "2": "2nd",
+    "3": "3rd",
+    "4": "4th",
+    "5": "5th",
+    "6": "6th"
+  },
+  "podium": {
+    "wins": "{name} wins!",
+    "yourWin": "Your fly won!",
+    "yourPodium": "Your fly made the podium!",
+    "yourLoss": "Your fly came {place}."
+  },
+  "fun": {
+    "title": "Fun coins",
+    "text": "Free play: no money, just coins on this device. The same brains, the same track, the same pays as the real thing.",
+    "refill": "Refill to {n}",
+    "stats": "races {races} · bets won {wins} · coins won {won}"
+  },
+  "brain": {
+    "title": "Inside their heads",
+    "note": "Movement neuron spikes per leg, from six real 166,700-neuron fly connectomes running in your browser. The more a fly's walking circuits fire at the smell, the further it runs.",
+    "idle": "waiting for the start",
+    "spikes": "spikes"
+  },
+  "recent": {
+    "title": "Recent races",
+    "none": "No races yet.",
+    "row": "{bet} on {name}: {place}"
+  },
+  "how": {
+    "title": "How a race works",
+    "h1": "<b>Five legs.</b> Each leg every fly smells the fruit; how strong the smell is changes lane to lane and leg to leg.",
+    "h2": "<b>Real brains.</b> Each fly is its own copy of the fruit-fly connectome with its own neural noise. Its walking neurons' spikes set how far it moves.",
+    "h3": "<b>No steering.</b> No game rule moves a fly; the finish order is whatever the brains did."
+  },
+  "bet": {
+    "title": "Play for $FLYAI",
+    "loading": "Opening the $FLYAI track…",
+    "closed": "$FLYAI races aren't open yet. Play for fun is on.",
+    "unreachable": "$FLYAI races are out of reach right now; play for fun still works.",
+    "intro": "Race with real $FLYAI from your fly.ai balance, the same balance as Fly Roulette, Fly Slots and compute.",
+    "signIn": "Sign in with your wallet",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "signOut": "Sign out",
+    "depositLabel": "Send $FLYAI from your wallet to your balance",
+    "withdrawLabel": "Ask for $FLYAI back to your wallet",
+    "amount": "amount",
+    "send": "Send",
+    "ask": "Ask",
+    "withdrawNote": "Withdrawals are sent by hand, usually within a day.",
+    "withdrawAsked": "You asked for {amount} FLYAI back; it's sent by hand, usually within a day.",
+    "limits": "Races {min} to {max} FLYAI · up to {day} a day · {staked} today",
+    "paused": "$FLYAI races are paused for now; try again later.",
+    "commit": "this race's commit:",
+    "noneYet": "none yet",
+    "locking": "locking the server's seed…",
+    "commitShown": "commit (shown before the race)",
+    "serverSeed": "server seed (revealed after)",
+    "yourSeed": "your seed",
+    "verifyBtn": "Verify this race",
+    "notRevealed": "not yet revealed",
+    "resWon": "Race #{id}: won <b>+{amount} FLYAI</b>",
+    "resLost": "Race #{id}: lost <b>{amount} FLYAI</b>",
+    "resVoid": "Race #{id}: called off, stake refunded",
+    "toBalance": "+{amount} FLYAI to your balance",
+    "vBadSeed": "✗ the server seed doesn't match the commit",
+    "vBadCommit": "✗ this isn't the commit shown before the race",
+    "vBadTable": "✗ the seeds give different flies",
+    "vLoading": "The fly brains are still loading in this browser; try again in a moment.",
+    "vNoBrain": "The seed matches its commit, but this browser couldn't load the fly brains to replay the race.",
+    "vStart": "replaying the race on this browser's fly brains…",
+    "vProgress": "replaying leg {k} of {n}…",
+    "vOk": "✓ fair: the seed matches the commit, and this browser's own fly brains ran all {n} legs to exactly the same race",
+    "vDiff": "✗ the replay differs from the server at step {k}",
+    "yourRaces": "Your races",
+    "noRaces": "No races yet.",
+    "live": "running…",
+    "refunded": "refunded",
+    "raceVoid": "the race was called off; your stake is refunded",
+    "stakeRange": "Stake must be between {min} and {max} FLYAI.",
+    "overBalance": "More than your balance.",
+    "overDay": "That would pass today's limit of {day} FLYAI.",
+    "sessionExpired": "your sign-in ran out; sign in again",
+    "enterAmount": "enter an amount",
+    "mining": "waiting for the transfer to be mined…",
+    "deposited": "✓ {amount} FLYAI added",
+    "withdrawOk": "✓ asked; it's sent to your wallet by hand, usually within a day",
+    "howTitle": "How $FLYAI races work",
+    "how1": "<b>Play for fun stays free.</b> Fun coins never touch money; real races only happen in this mode.",
+    "how2": "<b>You against the house.</b> Each bet is your own race. A win bet pays {win}x, a podium bet {podium}x, stake included; the rest is the house edge.",
+    "how3": "<b>Your balance</b> is the same $FLYAI balance Fly Roulette, Fly Slots and compute use: deposits, winnings and refunds all land in it.",
+    "how4": "<b>Provably fair.</b> The server commits to its seed before your race and reveals it after; \"Verify this race\" replays all six brains from both seeds in your browser.",
+    "footer": "<a href=\"/roulette-terms\">Terms</a> · 18+ only · play responsibly"
+  },
+  "terms": {
+    "title": "Before your first real race",
+    "t1": "You race with real $FLYAI from your balance. You can lose all of it.",
+    "t2": "The flies' brains decide the race. A win bet pays {win}x and a podium bet {podium}x; the rest is the house edge.",
+    "t3": "The server commits to its seed before each race and reveals it after, so you can check every race.",
+    "t4": "Winnings go to your balance. Withdrawals are sent by hand and can take a day.",
+    "t5": "Betting may be illegal where you live. It's your responsibility to follow your local laws.",
+    "over18": "I'm 18 or older",
+    "accept": "I accept the <a href=\"/roulette-terms\" target=\"_blank\" rel=\"noopener\">terms</a> (the same terms as Fly Roulette)",
+    "cancel": "Cancel",
+    "continue": "Continue"
+  }
+}

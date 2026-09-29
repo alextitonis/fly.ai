@@ -39,6 +39,7 @@ import { screenKey, screenRates } from "./screensum.ts";
 import { ADDRESS, checksumAddress, recoverAddress, siweMessage } from "./wallet.ts";
 import { createRoulette } from "./roulette.ts";
 import { createSlots } from "./slots.ts";
+import { createRace } from "./race.ts";
 import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
 import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, merkleTree, monthCalldata, monthId, toWei } from "./payouts.ts";
 import { parseTiers, readStake, STAKE_SELECTORS, tierFor } from "./staking.ts";
@@ -63,7 +64,7 @@ const env = (k: string, d: string) => process.env[k] ?? d;
 const PORT = Number(env("PORT", "8787"));
 /**
  * One machine, two processes over the same database (src/start.ts puts a proxy in front): "mining" runs miners, orders,
- * verifiers and research; "user" runs sign-in, Fly Roulette, Fly Slots and FlightPass, so a busy mining thread never holds a
+ * verifiers and research; "user" runs sign-in, Fly Roulette, Fly Slots, Fly Race and FlightPass, so a busy mining thread never holds a
  * player's page (2026-09-29). "all" runs everything in one process: local runs and the tests.
  */
 const ROLE = env("ROLE", "all");
@@ -189,7 +190,7 @@ function round(r: number): TaskParams[] {
 }
 
 // ---- storage -----------------------------------------------------------------------------------------
-const SCHEMA = 19; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables), 18 FlightPass withdrawals sent by the server (sending_at, error), 19 Fly Slots (slots_commits, slots_spins; 2026-09-29); created below for new and old databases alike
+const SCHEMA = 20; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables), 18 FlightPass withdrawals sent by the server (sending_at, error), 19 Fly Slots (slots_commits, slots_spins; 2026-09-29), 20 Fly Race (race_commits, race_games, race_events; 2026-09-29); created below for new and old databases alike
 /** PROGRAM_BONUS before schema 15, and the factor stored program units are scaled by so credit keeps its value. */
 const OLD_PROGRAM_BONUS = 1.25;
 mkdirSync(dirname(DB_PATH), { recursive: true });
@@ -699,6 +700,45 @@ db.exec(`
   );
   create index if not exists slots_spins_by_wallet on slots_spins (wallet, created_at);
   create index if not exists slots_spins_by_time on slots_spins (created_at);
+  -- 20: Fly Race (src/race.ts). Commits as roulette's; a race plays out in the worker like a roulette game, its events
+  -- stored as they come so the page can follow it and a restart can replay it
+  create table if not exists race_commits (
+    id text primary key,
+    wallet text not null,
+    server_seed text not null,
+    hash text not null,
+    created_at integer not null,
+    used integer not null default 0
+  );
+  create index if not exists race_commits_by_wallet on race_commits (wallet, created_at);
+  create table if not exists race_games (
+    id text primary key,
+    wallet text not null,              -- a player's address, or pass:<id> for a FlightPass on autopilot
+    bet text not null check (bet in ('win', 'podium')),
+    pick integer not null,             -- the lane backed, 0-5
+    stake_wei text not null,
+    payout_wei text not null,          -- what a win pays (stake x 6 or 2 x (1 - edge))
+    edge real not null,
+    commit_hash text not null,
+    server_seed text not null,         -- secret until the race is done
+    client_seed text not null,
+    names text not null,               -- JSON: the fly in each lane
+    status text not null check (status in ('live', 'done', 'void')),
+    won integer,                       -- 1 or 0 once done
+    finish text,                       -- JSON: lanes in finishing order, once done
+    events integer not null default 0,
+    created_at integer not null,
+    done_at integer
+  );
+  create index if not exists race_games_by_wallet on race_games (wallet, created_at);
+  create index if not exists race_games_live on race_games (status) where status = 'live';
+  create index if not exists race_games_done on race_games (done_at) where status = 'done';
+  create table if not exists race_events (
+    race text not null,
+    seq integer not null,
+    event text not null,
+    primary key (race, seq)
+  ) without rowid;
 `);
 if (hasTables && !hadDayCredit) {
   // 13: one pass over every assignment so far; from here on the triggers keep it
@@ -3227,6 +3267,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/slots/") || p === "/api/admin/slots")) {
     if (await slots.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/race/") || p === "/api/admin/race")) {
+    if (await race.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p.startsWith("/api/flightpass/") || p.startsWith("/api/admin/flightpass"))) {
     if (await flightpass.route(req, res, url)) return;
   }
@@ -3423,6 +3466,15 @@ const slots = createSlots({
   termsAccepted: (wallet) => roulette.termsAccepted(wallet),
   env: process.env,
 });
+// Fly Race bets (src/race.ts): the same ledger and sign-in, roulette's 18+ terms, races played in a worker like roulette's
+const race = createRace({
+  db, transaction, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
+  sessionWallet: (req) => sessionOf(req).wallet,
+  termsAccepted: (wallet) => roulette.termsAccepted(wallet),
+  connectomeDir: CONNECTOME_DIR,
+  env: process.env,
+});
+if (USER) race.resume();
 // FlightPass (src/flightpass.ts): pass balances in the same ledger, autopilot bets through the roulette above
 const flightpass = createFlightPass({
   db, transaction, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
@@ -3431,7 +3483,7 @@ const flightpass = createFlightPass({
     if (!ORDERS.payTo) throw new HttpError(503, "deposits aren't open yet");
     return transfersIn(CLAIMS.rpc, tx, ORDERS.token, ORDERS.payTo);
   },
-  roulette, slots, rpcUrl: env("FLIGHTPASS_RPC", CLAIMS.rpc), payTo: ORDERS.payTo ?? null, today, env: process.env,
+  roulette, slots, race, rpcUrl: env("FLIGHTPASS_RPC", CLAIMS.rpc), payTo: ORDERS.payTo ?? null, today, env: process.env,
   token: ORDERS.token,
   // sends withdrawals itself: a hot wallet holding a float of FLYAI and gas, on the FLYAI chain
   payer: process.env.FLIGHTPASS_PAYOUT_KEY ? new Relayer(process.env.FLIGHTPASS_PAYOUT_KEY, CLAIMS.rpc, "FLIGHTPASS_PAYOUT_KEY") : null,

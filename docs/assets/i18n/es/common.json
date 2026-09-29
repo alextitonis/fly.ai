@@ -45,6 +45,10 @@
       "label": "Fly Slots",
       "desc": "Gira los rodillos, un cerebro de mosca reacciona"
     },
+    "race": {
+      "label": "Fly Race",
+      "desc": "Seis cerebros de mosca corren hacia la fruta"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "Un cerebro de mosca desliza perfiles de citas"

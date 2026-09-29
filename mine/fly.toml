@@ -34,6 +34,16 @@ primary_region = "cdg"
   SLOTS_MAX_DAY = "50000"
   SLOTS_MAX_PAYOUT = "100000"
   SLOTS_HOUSE_STOP = "300000"
+  # Fly Race bets (src/race.ts; whole tokens, 2026-09-29): 50 to 5,000 FLYAI on a lane, to win (5.7x) or make the
+  # podium (1.9x); the biggest win (5,000 x 5.7 = 28,500) is under RACE_MAX_PAYOUT, which refuses any bet past it
+  RACE_ON = "1"
+  RACE_EDGE = "0.05"
+  RACE_MIN_BET = "50"
+  RACE_MAX_BET = "5000"
+  RACE_MAX_DAY = "100000"
+  RACE_MAX_PAYOUT = "30000"
+  RACE_HOUSE_STOP = "300000"
+  RACE_MAX_LIVE = "8"
 
 [mounts]
   source = "mine_data"

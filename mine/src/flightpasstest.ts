@@ -9,6 +9,7 @@
  * - settings need the roulette terms, belong to the owner who wrote them and lapse when the pass changes hands;
  * - the autopilot bets from the pass, within its daily cap, and stops for a new owner;
  * - the slots autopilot (2026-09-29): settings checked like roulette's, one spin per gap from the pass, up to its max_day;
+ * - the race autopilot (2026-09-29): settings checked the same way, podium or win races on a random lane, up to its max_day;
  * - the Flybook worker's list (its key only, unlisted passes with a Flybook game on);
  * - the mining boost: x1.25 on the points of a wallet-day a pass was held throughout, none on a broken day;
  * - off without FLIGHTPASS.
@@ -109,6 +110,8 @@ async function startServer(extra: Record<string, string> = {}): Promise<void> {
       FLIGHTPASS_DEPOSITS_SINCE: "2020-01-01T00:00:00Z",
       SLOTS_ON: "1", SLOTS_MIN_BET: "10", SLOTS_MAX_BET: "100", SLOTS_MAX_DAY: "3000", SLOTS_MAX_PAYOUT: "40000", SLOTS_HOUSE_STOP: "100000",
       FLIGHTPASS_SLOTS_GAP_SEC: "1",
+      RACE_ON: "1", RACE_EDGE: "0.05", RACE_MIN_BET: "10", RACE_MAX_BET: "1000", RACE_MAX_DAY: "3000", RACE_MAX_PAYOUT: "5000",
+      RACE_HOUSE_STOP: "100000", RACE_MAX_LIVE: "8", FLIGHTPASS_RACE_GAP_MIN: "0",
       ...extra,
     },
     stdio: ["ignore", "ignore", "inherit"],
@@ -164,7 +167,7 @@ try {
   {
     const [v, sql] = dbDo((db) => [(db.prepare("pragma user_version").get() as { user_version: number }).user_version,
       (db.prepare("select sql from sqlite_master where name = 'ledger'").get() as { sql: string }).sql] as const);
-    check("a schema 16 ledger upgrades with prefund and fee", v === 19 && sql.includes("'prefund'") && sql.includes("'fee'"));
+    check("a schema 16 ledger upgrades with prefund and fee", v === 20 && sql.includes("'prefund'") && sql.includes("'fee'"));
   }
   await stopServer();
   dbDo((db) => db.exec(`
@@ -310,6 +313,41 @@ try {
     && capped.roulette_status.yours === true && capped.roulette_status.cap === "200" && capped.day_cap === "200"
     && capped.roulette_status.resets_at > Date.now(), JSON.stringify(capped.roulette_status));
   check("the player's own roulette balance is untouched", (await api("/api/roulette/me", a)).json.balance === "0");
+
+  // ---- the race autopilot (2026-09-29): pass 3 enters podium races on a random lane, two of 50 up to its 100 a day
+  {
+    const rcfg = (await api("/api/flightpass/config", null)).json;
+    check("config: the race among the games, with its limits", rcfg.games.includes("race") && JSON.stringify(rcfg.race) === JSON.stringify({
+      on: true, min_bet: "10", max_bet: "1000", max_day: "3000", bet_types: ["win", "podium"] }), JSON.stringify(rcfg.race));
+    const race = { on: true, stake: "50", bet: "podium", pick: "random", max_day: "100" };
+    const off = (await api("/api/flightpass/3", a)).json;
+    check("race: off by default", off.race_status?.state === "off" && off.settings.race.on === false && off.races.length === 0 && off.race_day_spent === "0", JSON.stringify(off.race_status));
+    check("race: a stake below the smallest bet", (await api("/api/flightpass/3/settings", a, { race: { ...race, stake: "5" } })).status === 400);
+    check("race: a stake above the biggest bet", (await api("/api/flightpass/3/settings", a, { race: { ...race, stake: "5000" } })).status === 400);
+    check("race: a bet type that doesn't exist", (await api("/api/flightpass/3/settings", a, { race: { ...race, bet: "place" } })).status === 400);
+    check("race: the lane is always random", (await api("/api/flightpass/3/settings", a, { race: { ...race, pick: 2 } })).status === 400);
+    check("race: max_day must cover a race", (await api("/api/flightpass/3/settings", a, { race: { ...race, max_day: "10" } })).status === 400);
+    const before = Number((await api("/api/flightpass/3", a)).json.balance);
+    const on = await api("/api/flightpass/3/settings", a, { race });
+    check("race on for pass 3, slots and flybook kept", on.status === 200 && JSON.stringify(on.json.settings.race) === JSON.stringify(race)
+      && on.json.settings.slots.on === true && on.json.settings.flybook.duels === true && on.json.race_day_cap === "100", JSON.stringify(on.json.settings));
+    let rv: any = null;
+    for (let i = 0; i < 300; i++) {
+      rv = (await api("/api/flightpass/3", a)).json;
+      if (rv.races.length >= 2 && rv.races.every((r: any) => r.status !== "live")) break;
+      await sleep(1000);
+    }
+    const raceWins = rv.races.filter((r: any) => r.won).length;
+    check("the autopilot entered two podium races from the pass", rv.races.length === 2 && rv.race_day_spent === "100"
+      && rv.races.every((r: any) => r.bet === "podium" && r.stake === "50" && r.payout === "95" && Number.isInteger(r.pick) && r.pick >= 0 && r.pick < 6
+        && r.status === "done" && r.order.length === 6 && r.won === r.order.slice(0, 3).includes(r.pick)), JSON.stringify(rv.races));
+    check("and the books add up", Number(rv.balance) === before - 100 + raceWins * 95, `balance ${rv.balance}, won ${raceWins}`);
+    await sleep(3000);
+    const rc = (await api("/api/flightpass/3", a)).json;
+    check("the race daily cap holds, and the page is told why", rc.races.length === 2 && rc.race_status?.state === "day_cap" && rc.race_status.yours === true
+      && rc.race_status.cap === "100" && rc.race_status.resets_at > Date.now(), JSON.stringify(rc.race_status));
+    check("pass races live under the pass, not the owner", (await api("/api/race/me", a)).json.history.length === 0);
+  }
 
   // ---- a new owner: the old settings lapse
   await setOwner(1n, bob.address);

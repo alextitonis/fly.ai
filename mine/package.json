@@ -22,6 +22,7 @@
     "test:house": "node --disable-warning=ExperimentalWarning src/housetest.ts",
     "test:roulette": "node --disable-warning=ExperimentalWarning src/roulettetest.ts",
     "test:slots": "node --disable-warning=ExperimentalWarning src/slotstest.ts",
+    "test:race": "node --disable-warning=ExperimentalWarning src/racetest.ts",
     "test:flightpass": "node --disable-warning=ExperimentalWarning src/flightpasstest.ts",
     "test:prune": "node --disable-warning=ExperimentalWarning src/prunetest.ts",
     "test:btc-pool": "node --disable-warning=ExperimentalWarning examples/btc-pool/test.ts",

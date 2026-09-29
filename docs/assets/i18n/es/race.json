@@ -1,0 +1,181 @@
+{
+  "meta": {
+    "title": "Fly Race",
+    "description": "Seis moscas corren hacia una fruta, cada una guiada por su propio cerebro de mosca real que sigue el olor. Corre gratis o con $FLYAI: demostrablemente justo, apuesta a ganador a 5,7x o a podio a 1,9x."
+  },
+  "head": {
+    "title": "Fly <span>Race</span>",
+    "sub": "Seis moscas, una fruta madura. En cada tramo el cerebro real de cada mosca huele la fruta y sus propias neuronas de movimiento deciden cuánto avanza. Elige una mosca y apuesta por ella."
+  },
+  "mode": {
+    "label": "Cómo jugar",
+    "fun": "Jugar gratis",
+    "bet": "Jugar con $FLYAI"
+  },
+  "status": {
+    "loading": "despertando seis cerebros de mosca…",
+    "progress": "{text}",
+    "labels": "etiquetas",
+    "brain": "cerebro de mosca",
+    "wiring": "conectando 25 M de sinapsis",
+    "ready": "cerebros despiertos: {n} neuronas cada uno",
+    "error": "los cerebros de mosca no cargaron en este dispositivo"
+  },
+  "track": {
+    "label": "La pista de carreras",
+    "leg": "Tramo {leg} / {legs}",
+    "sniff": "olfateando…",
+    "ready": "En sus marcas",
+    "finish": "Meta"
+  },
+  "pick": {
+    "title": "Elige tu mosca",
+    "lane": "Carril {n}",
+    "mystery": "una mosca nueva",
+    "yours": "tuya"
+  },
+  "deck": {
+    "balance": "Saldo",
+    "coins": "monedas de juego",
+    "flyai": "FLYAI",
+    "signedOut": "inicia sesión",
+    "bet": "Apuesta",
+    "win": "Ganador",
+    "winText": "1.er puesto",
+    "podium": "Podio",
+    "podiumText": "top 3",
+    "stake": "Apuesta",
+    "lower": "Bajar la apuesta",
+    "higher": "Subir la apuesta",
+    "race": "Correr",
+    "pays": "Paga {mult}x · {total}",
+    "speedNormal": "Velocidad: 1x",
+    "speedFast": "Velocidad: 2x",
+    "soundOn": "Sonido: sí",
+    "soundOff": "Sonido: no"
+  },
+  "msg": {
+    "ready": "Elige una mosca, elige una apuesta y pulsa Correr.",
+    "pickFirst": "Primero elige una mosca.",
+    "racing": "¡Arrancan!",
+    "won": "¡{name} llegó {place}! +{amount}",
+    "lost": "{name} llegó {place}. Más suerte en la próxima.",
+    "broke": "No te alcanza el saldo para esa apuesta.",
+    "brokeFun": "Sin monedas de juego: pulsa Recargar.",
+    "stakeBad": "Pon una apuesta entera mayor que cero.",
+    "noBrain": "Los cerebros de mosca no cargaron en este dispositivo, así que las carreras gratis están apagadas. Jugar con $FLYAI sigue funcionando: el servidor corre los cerebros.",
+    "brainLoading": "Los cerebros de mosca aún se están despertando…",
+    "signInFirst": "Inicia sesión en el panel de $FLYAI para correr de verdad.",
+    "betClosed": "Las carreras con $FLYAI están cerradas ahora. Jugar gratis sigue abierto.",
+    "stuck": "La carrera se detuvo: {error}"
+  },
+  "place": {
+    "1": "1.º",
+    "2": "2.º",
+    "3": "3.º",
+    "4": "4.º",
+    "5": "5.º",
+    "6": "6.º"
+  },
+  "podium": {
+    "wins": "¡Gana {name}!",
+    "yourWin": "¡Tu mosca ganó!",
+    "yourPodium": "¡Tu mosca subió al podio!",
+    "yourLoss": "Tu mosca llegó {place}."
+  },
+  "fun": {
+    "title": "Monedas de juego",
+    "text": "Juego gratis: sin dinero, solo monedas en este dispositivo. Los mismos cerebros, la misma pista y los mismos pagos que en el juego real.",
+    "refill": "Recargar a {n}",
+    "stats": "carreras {races} · apuestas ganadas {wins} · monedas ganadas {won}"
+  },
+  "brain": {
+    "title": "Dentro de sus cabezas",
+    "note": "Picos de las neuronas de movimiento por tramo, de seis conectomas reales de mosca de 166.700 neuronas que corren en tu navegador. Cuanto más disparan los circuitos de marcha de una mosca con el olor, más avanza.",
+    "idle": "esperando la salida",
+    "spikes": "picos"
+  },
+  "recent": {
+    "title": "Carreras recientes",
+    "none": "Aún no hay carreras.",
+    "row": "{bet} a {name}: {place}"
+  },
+  "how": {
+    "title": "Cómo funciona una carrera",
+    "h1": "<b>Cinco tramos.</b> En cada tramo cada mosca huele la fruta; la fuerza del olor cambia de carril a carril y de tramo a tramo.",
+    "h2": "<b>Cerebros reales.</b> Cada mosca es su propia copia del conectoma de la mosca de la fruta con su propio ruido neuronal. Los picos de sus neuronas de marcha fijan cuánto se mueve.",
+    "h3": "<b>Sin trampas.</b> Ninguna regla del juego mueve a una mosca; el orden de llegada es lo que hicieron los cerebros."
+  },
+  "bet": {
+    "title": "Jugar con $FLYAI",
+    "loading": "Abriendo la pista de $FLYAI…",
+    "closed": "Las carreras con $FLYAI aún no están abiertas. Jugar gratis está activo.",
+    "unreachable": "Las carreras con $FLYAI no están disponibles ahora; jugar gratis sigue funcionando.",
+    "intro": "Corre con $FLYAI real de tu saldo de fly.ai, el mismo saldo que Fly Roulette, Fly Slots y compute.",
+    "signIn": "Inicia sesión con tu wallet",
+    "deposit": "Depositar",
+    "withdraw": "Retirar",
+    "signOut": "Cerrar sesión",
+    "depositLabel": "Envía $FLYAI desde tu wallet a tu saldo",
+    "withdrawLabel": "Pide $FLYAI de vuelta a tu wallet",
+    "amount": "cantidad",
+    "send": "Enviar",
+    "ask": "Pedir",
+    "withdrawNote": "Los retiros se envían a mano, normalmente en un día.",
+    "withdrawAsked": "Pediste {amount} FLYAI de vuelta; se envía a mano, normalmente en un día.",
+    "limits": "Carreras de {min} a {max} FLYAI · hasta {day} al día · {staked} hoy",
+    "paused": "Las carreras con $FLYAI están en pausa; inténtalo más tarde.",
+    "commit": "compromiso de esta carrera:",
+    "noneYet": "ninguno aún",
+    "locking": "fijando la semilla del servidor…",
+    "commitShown": "compromiso (mostrado antes de la carrera)",
+    "serverSeed": "semilla del servidor (revelada después)",
+    "yourSeed": "tu semilla",
+    "verifyBtn": "Verificar esta carrera",
+    "notRevealed": "aún no revelada",
+    "resWon": "Carrera #{id}: ganaste <b>+{amount} FLYAI</b>",
+    "resLost": "Carrera #{id}: perdiste <b>{amount} FLYAI</b>",
+    "resVoid": "Carrera #{id}: anulada, apuesta devuelta",
+    "toBalance": "+{amount} FLYAI a tu saldo",
+    "vBadSeed": "✗ la semilla del servidor no coincide con el compromiso",
+    "vBadCommit": "✗ este no es el compromiso mostrado antes de la carrera",
+    "vBadTable": "✗ las semillas dan otras moscas",
+    "vLoading": "Los cerebros de mosca aún cargan en este navegador; inténtalo en un momento.",
+    "vNoBrain": "La semilla coincide con su compromiso, pero este navegador no pudo cargar los cerebros para repetir la carrera.",
+    "vStart": "repitiendo la carrera con los cerebros de este navegador…",
+    "vProgress": "repitiendo el tramo {k} de {n}…",
+    "vOk": "✓ justa: la semilla coincide con el compromiso, y los propios cerebros de este navegador corrieron los {n} tramos exactamente igual",
+    "vDiff": "✗ la repetición difiere del servidor en el paso {k}",
+    "yourRaces": "Tus carreras",
+    "noRaces": "Aún no hay carreras.",
+    "live": "en curso…",
+    "refunded": "devuelta",
+    "raceVoid": "la carrera se anuló; tu apuesta se devuelve",
+    "stakeRange": "La apuesta debe estar entre {min} y {max} FLYAI.",
+    "overBalance": "Más que tu saldo.",
+    "overDay": "Eso superaría el límite de hoy de {day} FLYAI.",
+    "sessionExpired": "tu sesión caducó; vuelve a iniciar sesión",
+    "enterAmount": "pon una cantidad",
+    "mining": "esperando a que se mine la transferencia…",
+    "deposited": "✓ {amount} FLYAI añadidos",
+    "withdrawOk": "✓ pedido; se envía a tu wallet a mano, normalmente en un día",
+    "howTitle": "Cómo funcionan las carreras con $FLYAI",
+    "how1": "<b>Jugar gratis sigue siendo gratis.</b> Las monedas de juego nunca tocan dinero; las carreras reales solo ocurren en este modo.",
+    "how2": "<b>Tú contra la casa.</b> Cada apuesta es tu propia carrera. Una apuesta a ganador paga {win}x y una a podio {podium}x, apuesta incluida; el resto es la ventaja de la casa.",
+    "how3": "<b>Tu saldo</b> es el mismo saldo de $FLYAI que usan Fly Roulette, Fly Slots y compute: depósitos, ganancias y devoluciones llegan ahí.",
+    "how4": "<b>Demostrablemente justo.</b> El servidor se compromete con su semilla antes de tu carrera y la revela después; \"Verificar esta carrera\" repite los seis cerebros desde ambas semillas en tu navegador.",
+    "footer": "<a href=\"/roulette-terms\">Términos</a> · solo +18 · juega con responsabilidad"
+  },
+  "terms": {
+    "title": "Antes de tu primera carrera real",
+    "t1": "Corres con $FLYAI real de tu saldo. Puedes perderlo todo.",
+    "t2": "Los cerebros de las moscas deciden la carrera. Una apuesta a ganador paga {win}x y una a podio {podium}x; el resto es la ventaja de la casa.",
+    "t3": "El servidor se compromete con su semilla antes de cada carrera y la revela después, así que puedes comprobar cada carrera.",
+    "t4": "Las ganancias van a tu saldo. Los retiros se envían a mano y pueden tardar un día.",
+    "t5": "Apostar puede ser ilegal donde vives. Es tu responsabilidad cumplir las leyes locales.",
+    "over18": "Tengo 18 años o más",
+    "accept": "Acepto los <a href=\"/roulette-terms\" target=\"_blank\" rel=\"noopener\">términos</a> (los mismos que Fly Roulette)",
+    "cancel": "Cancelar",
+    "continue": "Continuar"
+  }
+}

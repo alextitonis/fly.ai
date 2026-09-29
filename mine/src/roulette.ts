@@ -35,7 +35,8 @@ export interface RouletteDeps {
   env: NodeJS.ProcessEnv;
 }
 
-const TERMS_VERSION = 1;
+/** the 18+ terms; Fly Slots and Fly Race are covered by the same acceptance */
+export const TERMS_VERSION = 1;
 const COMMIT_TTL_MS = 15 * 60_000;
 const sha256hex = (s: string) => createHash("sha256").update(s).digest("hex");
 const utcDayStart = (t = Date.now()) => t - (t % 86_400_000);

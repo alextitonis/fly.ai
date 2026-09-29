@@ -135,12 +135,13 @@
     "paused": "$FLYAI en pausa"
   },
   "fly": {"notLiveTitle": "El Fly Desk aún no está activo: no hay nada que reclamar.", "notLiveText": "Los pagos empiezan cuando el desk opere de verdad y tu mosca esté activada. Hasta entonces, esto es la parte de cada mosca en la porción de los holders, no dinero adeudado.", "yours": "Tus moscas", "yoursN": "Tus moscas ({n})", "none": "Esta billetera no tiene Trader Flies.", "total": "En total: {pct} de la porción de los holders, entre {n} moscas activas.", "shareActive": "de la porción de los holders · {n} moscas activas", "shareIfActive": "si la activas · {n} moscas activas ahora", "shareAtReveal": "Las partes se ven tras el reveal: dependen de la rareza de cada mosca.", "active": "Activa", "inactive": "No activa", "weight": "Peso de pago", "weightNote": "Común 1 · Poco común 1.5 · Rara 2 · Legendaria 3", "atReveal": "se fija en el reveal", "share": "Parte", "status": "Estado", "until": "hasta {when}", "forever": "sin fecha de fin", "activateHint": "actívala en la página Mint para ganar", "howShare": "Cada semana el {pct}% de la ganancia del desk por encima de su máximo anterior va a los holders, repartido entre moscas activas por peso: tu parte = peso de tu mosca / peso activo total.", "traits": "Rasgos", "traitsAtReveal": "Los rasgos se revelan con la colección.", "holder": "En manos de", "onMarket": "Marketplace", "find": "Buscar", "findPlaceholder": "Mosca #", "cantRead": "No se pudo leer esta mosca de la cadena; inténtalo de nuevo."},
-  "lb": {"title": "Clasificación de trading", "text": "Temporadas de dos semanas. Tu puntuación es el volumen en $FLYAI que operas en este mercado, comprando y vendiendo. Ganan los 3 primeros.", "season": "Temporada {n}", "left": "quedan {d} d {h} h", "ended": "Terminada", "place1": "1.º", "place2": "2.º", "place3": "3.º", "wallet": "Billetera", "volume": "Volumen ($FLYAI)", "trades": "Operaciones", "you": "tú", "empty": "Aún no hay operaciones esta temporada: sé el primero.", "cantRead": "No se pudieron leer las operaciones del mercado; inténtalo pronto.", "yourRank": "Eres el #{rank} con {points} $FLYAI.", "rules": "Cuentan compras y ventas, incluidas ofertas aceptadas y ofertas por colección. Las operaciones entre las mismas dos billeteras cuentan como máximo {max} veces por temporada, y una mosca que va y vuelve entre ellas cuenta una vez. Las billeteras del equipo no compiten. Antes de enviar los premios, al terminar cada temporada, se revisan los ganadores en busca de redes de billeteras. Solo cuentan ventas de al menos {min} $FLYAI."},
+  "lb": {"tab": "Clasificación", "title": "Clasificación de trading", "text": "Temporadas de dos semanas. Tu puntuación es el volumen en $FLYAI que operas en este mercado, comprando y vendiendo. Ganan los 3 primeros.", "season": "Temporada {n}", "left": "quedan {d} d {h} h", "ended": "Terminada", "place1": "1.º", "place2": "2.º", "place3": "3.º", "wallet": "Billetera", "volume": "Volumen ($FLYAI)", "trades": "Operaciones", "you": "tú", "empty": "Aún no hay operaciones esta temporada: sé el primero.", "cantRead": "No se pudieron leer las operaciones del mercado; inténtalo pronto.", "yourRank": "Eres el #{rank} con {points} $FLYAI.", "rules": "Cuentan compras y ventas, incluidas ofertas aceptadas y ofertas por colección. Las operaciones entre las mismas dos billeteras cuentan como máximo {max} veces por temporada, y una mosca que va y vuelve entre ellas cuenta una vez. Las billeteras del equipo no compiten. Antes de enviar los premios, al terminar cada temporada, se revisan los ganadores en busca de redes de billeteras. Solo cuentan ventas de al menos {min} $FLYAI."},
   "market": {
     "view": { "label": "Vista", "grid": "Cuadrícula", "list": "Lista" },
     "browse": {"sortRarity": "Rareza: las más raras primero", "rarityAll": "Todas", "search": "Buscar #", "searchLabel": "Buscar por número", "notListed": "{name} no está a la venta.", "noSuch": "Aún no existe el #{id}.", "offer": "Hacer una oferta", "sweep": "Barrer", "sweepHint": "los {n} más baratos", "lastSale": "Última venta {amount}"},
     "coll": {"title": "Oferta por colección", "text": "Ofrece un precio por mosca para cualquier mosca, hasta 50. El mercado guarda el dinero hasta que un holder te venda una, o lo retires. Comisión del {pct}% en cada venta.", "qty": "Moscas", "price": "Precio por mosca ({token})", "make": "Hacer oferta por colección", "update": "Actualizar oferta", "yours": "Tu oferta por colección · {n} más", "top": "Mejor oferta", "forN": "por {n} moscas", "topShort": "Oferta por colección {price}", "sell": "Vender por {price}", "sellPicked": "Vender {n} a {price} cada una", "made": "Oferta hecha: {n} moscas a {price} cada una.", "cancelled": "Oferta por colección retirada.", "sold": "Vendidas {n} a la oferta por colección a {price} cada una.", "why": {"BadQuantity": "Elige de 1 a 50 moscas."}},
     "launch": {"title": "Ofertas de lanzamiento", "text": "Comisión del {pct}% en cada venta aquí hasta el domingo 4 de octubre."},
+    "usdFollows": "sigue a $FLYAI",
     "title": "Mercado",
     "text": "Compra y vende Trader Flies con otros holders, en {token}. El vendedor cobra al instante, menos una comisión del {pct}%.",
     "soon": "El mercado abre pronto.",
@@ -542,6 +543,8 @@
       "rouletteText": "Apuesta con el saldo del pase, dentro de tus límites.",
       "slots": "Fly Slots",
       "slotsText": "Tiradas con el saldo del pase, dentro de tus límites. La mosca solo reacciona; los rodillos son aleatorios.",
+      "race": "Fly Race",
+      "raceText": "Carreras con el saldo del pase en un carril al azar, dentro de tus límites. Los cerebros de las moscas deciden quién gana.",
       "missions": "Misiones de Flybook",
       "missionsText": "Toques, likes y reacciones, cada día, para la tabla de la temporada.",
       "duels": "Duelos de Flybook",
@@ -566,7 +569,10 @@
       "payout": "Premio de ruleta",
       "fee": "Comisión",
       "slots_bet": "Tirada de slots",
-      "slots_payout": "Premio de slots"
+      "slots_payout": "Premio de slots",
+      "race_bet": "Apuesta de carrera",
+      "race_payout": "Premio de carrera",
+      "race_refund": "Devolución de carrera"
     },
     "terms": {
       "title": "Términos de Fly Roulette",
@@ -665,6 +671,32 @@
         "dayCapHouse": "Límite diario alcanzado: {cap} $FLYAI girados hoy, lo máximo que Fly Slots acepta al día. Tu mosca vuelve a girar a las {time} (00:00 UTC).",
         "lowBalance": "No hay suficiente en el pase para una tirada ({need} $FLYAI). Recarga para seguir jugando.",
         "waiting": "Piloto automático activo. Próxima tirada hacia las {time}."
+      }
+    },
+    "race": {
+      "stake": "Apuesta por carrera ($FLYAI)",
+      "bet": "Apuesta",
+      "bets": {
+        "win": "Ganador (1.º)",
+        "podium": "Podio (top 3)"
+      },
+      "pickNote": "Tu mosca apuesta a un carril al azar en cada carrera.",
+      "house": "Límites de Fly Race: de {min} a {max} $FLYAI por carrera, hasta {day} $FLYAI al día.",
+      "today": "Corrido hoy: {spent} de {cap} $FLYAI",
+      "termsNeeded": "Fly Race usa los términos +18 de Fly Roulette, que se aceptan una vez. Se te pedirán al guardar.",
+      "place": "puesto {n}",
+      "running": "en curso…",
+      "refunded": "devuelta",
+      "status": {
+        "listed": "En pausa mientras el pase está a la venta.",
+        "paused": "Fly Race está en pausa para todos ahora. Tu mosca vuelve a correr cuando vuelva.",
+        "terms": "Acepta los términos +18 y tu mosca empieza a correr.",
+        "playing": "Hay una carrera en curso ahora mismo.",
+        "stake": "La apuesta por carrera debe estar entre {min} y {max} $FLYAI. Cámbiala y guarda.",
+        "dayCapYours": "Límite diario alcanzado: {cap} $FLYAI corridos hoy. Tu mosca vuelve a correr a las {time} (00:00 UTC), o sube \"Máximo por día\".",
+        "dayCapHouse": "Límite diario alcanzado: {cap} $FLYAI corridos hoy, lo máximo que Fly Race acepta por día. Tu mosca vuelve a correr a las {time} (00:00 UTC).",
+        "lowBalance": "No hay suficiente en el pase para una carrera ({need} $FLYAI). Recarga para seguir jugando.",
+        "waiting": "El piloto automático está activo. Próxima carrera hacia las {time}."
       }
     }
   }

@@ -94,7 +94,7 @@ const dbDo = <T>(fn: (db: DatabaseSync) => T): T => {
 try {
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
   await startServer();
-  check("schema 19 with the slots tables", dbDo((db) => (db.prepare("pragma user_version").get() as { user_version: number }).user_version === 19
+  check("schema 19+ with the slots tables", dbDo((db) => (db.prepare("pragma user_version").get() as { user_version: number }).user_version >= 19
     && db.prepare("select count(*) as n from sqlite_master where name in ('slots_commits', 'slots_spins')").get()!.n === 2));
 
   // ---- config
@@ -191,10 +191,10 @@ try {
   c = await commit(b);
   check("an empty balance", (await doSpin(b, { client_seed: "bob" })).status === 402);
 
-  // ---- the house stop: a pretend spin the house lost badly
+  // ---- the house stop: a pretend spin the house lost badly (past the 100,000 stop whatever the ten real spins paid)
   dbDo((db) => db.prepare(`insert into slots_spins (id, wallet, stake_wei, mult, payout_wei, stops, symbols, commit_hash, server_seed, client_seed, created_at)
     values ('00000000-0000-0000-0000-000000000001', ?, ?, 400, ?, '[15,15,15]', '["crown","crown","crown"]', 'x', 'x', 'x', ?)`)
-    .run(bob.address, (250n * WEI).toString(), (100_000n * WEI).toString(), Date.now()));
+    .run(bob.address, (250n * WEI).toString(), (101_000n * WEI).toString(), Date.now()));
   check("the house stop pauses spins", (await api("/api/slots/config", null)).json.paused === true && (await api("/api/slots/commit", a, {})).status === 503
     && (await api("/api/admin/slots", null, undefined, true)).json.paused === true);
 

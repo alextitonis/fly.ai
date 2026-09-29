@@ -1,0 +1,181 @@
+{
+  "meta": {
+    "title": "Sinek Yarışı",
+    "description": "Altı sinek bir meyveye koşuyor, her biri kokuyu izleyen kendi gerçek sinek beyniyle. Eğlencesine ya da $FLYAI ile yarış: kanıtlanabilir adil, kazanana 5,7x ya da podyuma 1,9x."
+  },
+  "head": {
+    "title": "Sinek <span>Yarışı</span>",
+    "sub": "Altı sinek, tek bir olgun meyve. Her etapta her sineğin gerçek beyni meyveyi koklar ve kendi hareket nöronları ne kadar koşacağına karar verir. Bir sinek seç ve ona oyna."
+  },
+  "mode": {
+    "label": "Nasıl oynanır",
+    "fun": "Eğlencesine oyna",
+    "bet": "$FLYAI ile oyna"
+  },
+  "status": {
+    "loading": "altı sinek beyni uyanıyor…",
+    "progress": "{text}",
+    "labels": "etiketler",
+    "brain": "sinek beyni",
+    "wiring": "25 M sinaps bağlanıyor",
+    "ready": "sinek beyinleri uyandı: her biri {n} nöron",
+    "error": "sinek beyinleri bu cihazda yüklenemedi"
+  },
+  "track": {
+    "label": "Yarış pisti",
+    "leg": "Etap {leg} / {legs}",
+    "sniff": "kokluyor…",
+    "ready": "Yerlerinize",
+    "finish": "Bitiş"
+  },
+  "pick": {
+    "title": "Sineğini seç",
+    "lane": "Kulvar {n}",
+    "mystery": "yeni bir sinek",
+    "yours": "senin"
+  },
+  "deck": {
+    "balance": "Bakiye",
+    "coins": "oyun jetonu",
+    "flyai": "FLYAI",
+    "signedOut": "giriş yap",
+    "bet": "Bahis",
+    "win": "Kazanan",
+    "winText": "1. sıra",
+    "podium": "Podyum",
+    "podiumText": "ilk 3",
+    "stake": "Bahis",
+    "lower": "Bahsi düşür",
+    "higher": "Bahsi artır",
+    "race": "Yarış",
+    "pays": "{mult}x öder · {total}",
+    "speedNormal": "Hız: 1x",
+    "speedFast": "Hız: 2x",
+    "soundOn": "Ses: açık",
+    "soundOff": "Ses: kapalı"
+  },
+  "msg": {
+    "ready": "Bir sinek seç, bir bahis seç, Yarış'a bas.",
+    "pickFirst": "Önce bir sinek seç.",
+    "racing": "Başladılar!",
+    "won": "{name} {place} oldu! +{amount}",
+    "lost": "{name} {place} oldu. Bir sonraki yarışta bol şans.",
+    "broke": "Bu bahis için bakiye yetmiyor.",
+    "brokeFun": "Oyun jetonun bitti: Doldur'a bas.",
+    "stakeBad": "Sıfırdan büyük tam sayı bir bahis gir.",
+    "noBrain": "Sinek beyinleri bu cihazda yüklenemedi, bu yüzden ücretsiz yarışlar kapalı. $FLYAI ile oynamak yine çalışır: beyinleri sunucu çalıştırır.",
+    "brainLoading": "Sinek beyinleri hâlâ uyanıyor…",
+    "signInFirst": "Gerçek yarış için $FLYAI panelinden giriş yap.",
+    "betClosed": "$FLYAI yarışları şu an kapalı. Eğlencesine oyna açık.",
+    "stuck": "Yarış durdu: {error}"
+  },
+  "place": {
+    "1": "1.",
+    "2": "2.",
+    "3": "3.",
+    "4": "4.",
+    "5": "5.",
+    "6": "6."
+  },
+  "podium": {
+    "wins": "{name} kazandı!",
+    "yourWin": "Sineğin kazandı!",
+    "yourPodium": "Sineğin podyuma çıktı!",
+    "yourLoss": "Sineğin {place} oldu."
+  },
+  "fun": {
+    "title": "Oyun jetonları",
+    "text": "Ücretsiz oyun: para yok, sadece bu cihazdaki jetonlar. Gerçeğiyle aynı beyinler, aynı pist, aynı ödemeler.",
+    "refill": "{n} jetona doldur",
+    "stats": "yarış {races} · kazanılan bahis {wins} · kazanılan jeton {won}"
+  },
+  "brain": {
+    "title": "Kafalarının içi",
+    "note": "Etap başına hareket nöronu atımları; tarayıcında çalışan altı gerçek, 166.700 nöronluk sinek konektomundan. Bir sineğin yürüme devreleri kokuya ne kadar çok ateşlenirse o kadar uzağa koşar.",
+    "idle": "start bekleniyor",
+    "spikes": "atım"
+  },
+  "recent": {
+    "title": "Son yarışlar",
+    "none": "Henüz yarış yok.",
+    "row": "{name} için {bet}: {place}"
+  },
+  "how": {
+    "title": "Bir yarış nasıl işler",
+    "h1": "<b>Beş etap.</b> Her etapta her sinek meyveyi koklar; kokunun gücü kulvardan kulvara ve etaptan etaba değişir.",
+    "h2": "<b>Gerçek beyinler.</b> Her sinek, meyve sineği konektomunun kendi nöral gürültüsüne sahip bir kopyasıdır. Yürüme nöronlarının atımları ne kadar ilerleyeceğini belirler.",
+    "h3": "<b>Hile yok.</b> Hiçbir oyun kuralı bir sineği hareket ettirmez; bitiş sırası beyinlerin yaptığıdır."
+  },
+  "bet": {
+    "title": "$FLYAI ile oyna",
+    "loading": "$FLYAI pisti açılıyor…",
+    "closed": "$FLYAI yarışları henüz açık değil. Eğlencesine oyna açık.",
+    "unreachable": "$FLYAI yarışlarına şu an ulaşılamıyor; eğlencesine oyna yine çalışır.",
+    "intro": "fly.ai bakiyendeki gerçek $FLYAI ile yarış; Fly Roulette, Fly Slots ve compute ile aynı bakiye.",
+    "signIn": "Cüzdanınla giriş yap",
+    "deposit": "Yatır",
+    "withdraw": "Çek",
+    "signOut": "Çıkış yap",
+    "depositLabel": "Cüzdanından bakiyene $FLYAI gönder",
+    "withdrawLabel": "Cüzdanına $FLYAI geri iste",
+    "amount": "miktar",
+    "send": "Gönder",
+    "ask": "İste",
+    "withdrawNote": "Çekimler elle gönderilir, genelde bir gün içinde.",
+    "withdrawAsked": "{amount} FLYAI geri istedin; elle gönderilir, genelde bir gün içinde.",
+    "limits": "Yarışlar {min}–{max} FLYAI · günde en fazla {day} · bugün {staked}",
+    "paused": "$FLYAI yarışları şimdilik duraklatıldı; sonra tekrar dene.",
+    "commit": "bu yarışın taahhüdü:",
+    "noneYet": "henüz yok",
+    "locking": "sunucunun tohumu sabitleniyor…",
+    "commitShown": "taahhüt (yarıştan önce gösterilen)",
+    "serverSeed": "sunucu tohumu (sonra açıklanan)",
+    "yourSeed": "senin tohumun",
+    "verifyBtn": "Bu yarışı doğrula",
+    "notRevealed": "henüz açıklanmadı",
+    "resWon": "Yarış #{id}: <b>+{amount} FLYAI</b> kazandın",
+    "resLost": "Yarış #{id}: <b>{amount} FLYAI</b> kaybettin",
+    "resVoid": "Yarış #{id}: iptal edildi, bahis iade edildi",
+    "toBalance": "+{amount} FLYAI bakiyene",
+    "vBadSeed": "✗ sunucu tohumu taahhütle eşleşmiyor",
+    "vBadCommit": "✗ bu, yarıştan önce gösterilen taahhüt değil",
+    "vBadTable": "✗ tohumlar farklı sinekler veriyor",
+    "vLoading": "Sinek beyinleri bu tarayıcıda hâlâ yükleniyor; birazdan tekrar dene.",
+    "vNoBrain": "Tohum taahhüdüyle eşleşiyor ama bu tarayıcı yarışı yeniden oynatmak için sinek beyinlerini yükleyemedi.",
+    "vStart": "yarış bu tarayıcının sinek beyinleriyle yeniden oynatılıyor…",
+    "vProgress": "{n} etabın {k}. etabı yeniden oynatılıyor…",
+    "vOk": "✓ adil: tohum taahhütle eşleşiyor ve bu tarayıcının kendi sinek beyinleri {n} etabın hepsini tam olarak aynı koştu",
+    "vDiff": "✗ yeniden oynatma {k}. adımda sunucudan farklı",
+    "yourRaces": "Yarışların",
+    "noRaces": "Henüz yarış yok.",
+    "live": "sürüyor…",
+    "refunded": "iade edildi",
+    "raceVoid": "yarış iptal edildi; bahsin iade ediliyor",
+    "stakeRange": "Bahis {min} ile {max} FLYAI arasında olmalı.",
+    "overBalance": "Bakiyenden fazla.",
+    "overDay": "Bu, bugünkü {day} FLYAI sınırını aşar.",
+    "sessionExpired": "oturumun sona erdi; tekrar giriş yap",
+    "enterAmount": "bir miktar gir",
+    "mining": "transferin kazılması bekleniyor…",
+    "deposited": "✓ {amount} FLYAI eklendi",
+    "withdrawOk": "✓ istendi; cüzdanına elle gönderilir, genelde bir gün içinde",
+    "howTitle": "$FLYAI yarışları nasıl işler",
+    "how1": "<b>Eğlencesine oyna ücretsiz kalır.</b> Oyun jetonları paraya dokunmaz; gerçek yarışlar sadece bu modda olur.",
+    "how2": "<b>Sen, kasaya karşı.</b> Her bahis kendi yarışındır. Kazanan bahsi {win}x, podyum bahsi {podium}x öder (bahis dahil); gerisi kasa avantajıdır.",
+    "how3": "<b>Bakiyen</b>, Fly Roulette, Fly Slots ve compute'un kullandığı aynı $FLYAI bakiyesidir: yatırımlar, kazançlar ve iadeler hep oraya gelir.",
+    "how4": "<b>Kanıtlanabilir adil.</b> Sunucu yarıştan önce tohumuna taahhüt verir ve sonra açıklar; \"Bu yarışı doğrula\" altı beyni iki tohumdan tarayıcında yeniden çalıştırır.",
+    "footer": "<a href=\"/roulette-terms\">Şartlar</a> · sadece 18+ · sorumlu oyna"
+  },
+  "terms": {
+    "title": "İlk gerçek yarışından önce",
+    "t1": "Bakiyendeki gerçek $FLYAI ile yarışırsın. Hepsini kaybedebilirsin.",
+    "t2": "Yarışı sineklerin beyinleri belirler. Kazanan bahsi {win}x, podyum bahsi {podium}x öder; gerisi kasa avantajıdır.",
+    "t3": "Sunucu her yarıştan önce tohumuna taahhüt verir ve sonra açıklar, böylece her yarışı kontrol edebilirsin.",
+    "t4": "Kazançlar bakiyene gider. Çekimler elle gönderilir ve bir gün sürebilir.",
+    "t5": "Yaşadığın yerde bahis yasa dışı olabilir. Yerel yasalara uymak senin sorumluluğunda.",
+    "over18": "18 yaşında ya da daha büyüğüm",
+    "accept": "<a href=\"/roulette-terms\" target=\"_blank\" rel=\"noopener\">Şartları</a> kabul ediyorum (Fly Roulette ile aynı şartlar)",
+    "cancel": "İptal",
+    "continue": "Devam"
+  }
+}
