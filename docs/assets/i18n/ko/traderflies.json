@@ -135,6 +135,7 @@
   "market": {
     "view": { "label": "보기", "grid": "그리드", "list": "목록" },
     "browse": {"sortRarity": "희귀도: 희귀한 순", "rarityAll": "전체", "search": "# 검색", "searchLabel": "번호로 찾기", "notListed": "{name}은(는) 판매 중이 아닙니다.", "noSuch": "아직 #{id}이(가) 없습니다.", "offer": "제안하기", "sweep": "스윕", "sweepHint": "가장 싼 {n}개", "lastSale": "최근 거래 {amount}"},
+    "coll": {"title": "컬렉션 제안", "text": "어떤 파리든 파리당 가격을 제안하세요(최대 50마리). 보유자가 판매하거나 회수할 때까지 마켓이 금액을 보관합니다. 판매마다 {pct}% 수수료.", "qty": "파리 수", "price": "파리당 가격 ({token})", "make": "컬렉션 제안하기", "update": "컬렉션 제안 수정", "yours": "내 컬렉션 제안 · {n}마리 남음", "top": "최고 제안", "forN": "{n}마리", "topShort": "컬렉션 제안 {price}", "sell": "{price}에 판매", "sellPicked": "{n}마리를 각 {price}에 판매", "made": "컬렉션 제안 완료: {n}마리, 각 {price}.", "cancelled": "컬렉션 제안을 회수했습니다.", "sold": "컬렉션 제안에 {n}마리를 각 {price}에 판매했습니다.", "why": {"BadQuantity": "1~50마리를 선택하세요."}},
     "title": "마켓",
     "text": "다른 홀더와 Trader Flies를 {token}로 사고팝니다. 판매자는 {pct}% 수수료를 뺀 금액을 바로 받습니다.",
     "soon": "마켓이 곧 열립니다.",

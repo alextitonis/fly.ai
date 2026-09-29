@@ -83,3 +83,23 @@ const GITHUB_URL = "https://github.com/alextitonis/fly.ai";
     }
   }
 })();
+
+// Reveal on scroll (2026-09-29 modern layer, site.css .rv): each section's blocks fade up as they come into view.
+// Only when IntersectionObserver exists and the reader has not asked for reduced motion; anything already on screen
+// shows at once, so nothing is ever left hidden.
+(function () {
+  if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const sel = "section .wrap > *, section .grid3 > *, section .grid2 > *, section .band > *, section .next-pages > *, section .videos > *";
+  const items = [...document.querySelectorAll(sel)].filter((el) => !el.closest(".grid3, .grid2, .band, .next-pages, .videos") || el.parentElement.matches(".grid3, .grid2, .band, .next-pages, .videos"));
+  if (!items.length) return;
+  document.documentElement.classList.add("reveal-on");
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }, { rootMargin: "0px 0px -8% 0px" });
+  items.forEach((el, i) => {
+    el.classList.add("rv");
+    if (el.getBoundingClientRect().top < innerHeight) { el.classList.add("in"); return; }
+    el.style.transitionDelay = `${(i % 3) * 70}ms`;
+    io.observe(el);
+  });
+})();
