@@ -352,6 +352,11 @@ export function createFlightPass(d: FlightPassDeps) {
       on, contract: CFG.contract, market: CFG.market, pay_to: d.payTo, withdraw_fee_bps: Number(WITHDRAW_FEE_BPS), mining_boost: MINING_BOOST,
       games: ["roulette", "flybook_missions", "flybook_duels", "flybook_breed"],
       roulette: { on: d.roulette.isOn(), min_bet: fromWei(d.roulette.CFG.minBet), max_bet: fromWei(d.roulette.CFG.maxBet), max_day: fromWei(d.roulette.CFG.maxDay), min_flies: 2, max_flies: 10, bet_gap_min: CFG.betGapMs / 60_000 },
+      // the automatic withdrawals' limits and how much of today's has gone (2026-09-29, the user: "add in the flypass
+      // the max withdrawal per day and how much done already"): all passes share the day's total; a bigger
+      // withdrawal, or one past it, waits for the operator
+      withdrawals: { auto: !!d.payer, max_each: fromWei(CFG.autoMax), max_day: fromWei(CFG.autoDay),
+                     sent_today: fromWei(d.payer ? autoSentToday() : 0n), resets_at: utcDayStart() + 86_400_000 },
     };
   }
 

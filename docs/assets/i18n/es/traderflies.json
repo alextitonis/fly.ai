@@ -485,6 +485,7 @@
     "preordered": "reservadas"
   },
   "pass": {
+    "wdLimits": {"today": "Enviado hoy: {sent} de {cap} FLYAI", "each": "hasta {each} por retiro", "note": "El total diario es compartido por todos los pases y se reinicia a las 00:00 UTC. Un retiro mayor, o uno que supere el total de hoy, lo envía el equipo y puede tardar más."},
     "name": "FlightPass #{id}",
     "soon": "FlightPass llega pronto.",
     "title": "FlightPass",

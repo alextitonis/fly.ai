@@ -175,6 +175,7 @@ try {
 
   // ---- config, sign-in, prefund
   const cfg = (await api("/api/flightpass/config", null)).json;
+  check("config carries the withdrawal limits", typeof cfg.withdrawals?.max_day === "string" && typeof cfg.withdrawals?.sent_today === "string");
   check("config: on, fee, boost", cfg.on && cfg.withdraw_fee_bps === 100 && cfg.mining_boost === 1.25 && cfg.contract.toLowerCase() === pass.toLowerCase());
   const signIn = async (signer: typeof alice) => {
     const { json } = await api("/api/session/nonce", null, { address: signer.address });

@@ -485,6 +485,7 @@
     "preordered": "pre-ordered"
   },
   "pass": {
+    "wdLimits": {"today": "Sent today: {sent} of {cap} FLYAI", "each": "up to {each} per withdrawal", "note": "The daily total is shared by every pass and resets at 00:00 UTC. A bigger withdrawal, or one past today's total, is sent by the team and can take longer."},
     "name": "FlightPass #{id}",
     "soon": "FlightPass lands soon.",
     "title": "FlightPass",

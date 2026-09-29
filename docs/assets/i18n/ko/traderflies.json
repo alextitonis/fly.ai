@@ -483,6 +483,7 @@
     "preordered": "사전 주문됨"
   },
   "pass": {
+    "wdLimits": {"today": "오늘 전송: {sent} / {cap} FLYAI", "each": "출금 1회당 최대 {each}", "note": "일일 한도는 모든 패스가 함께 쓰며 00:00 UTC에 초기화됩니다. 더 큰 출금이나 오늘 한도를 넘는 출금은 팀이 보내며 더 오래 걸릴 수 있습니다."},
     "name": "FlightPass #{id}",
     "soon": "FlightPass가 곧 착륙합니다.",
     "title": "FlightPass",

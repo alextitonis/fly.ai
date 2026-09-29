@@ -483,6 +483,7 @@
     "preordered": "已预订"
   },
   "pass": {
+    "wdLimits": {"today": "今日已发送：{sent} / {cap} FLYAI", "each": "每次提现最多 {each}", "note": "每日总额由所有通行证共享，于 00:00 UTC 重置。更大的提现或超出今日总额的提现由团队发送，可能需要更长时间。"},
     "name": "FlightPass #{id}",
     "soon": "FlightPass 即将降落。",
     "title": "FlightPass",

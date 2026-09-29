@@ -485,6 +485,7 @@
     "preordered": "ön sipariş"
   },
   "pass": {
+    "wdLimits": {"today": "Bugün gönderilen: {sent} / {cap} FLYAI", "each": "çekim başına en fazla {each}", "note": "Günlük toplam tüm pass'ler arasında paylaşılır ve 00:00 UTC'de sıfırlanır. Daha büyük bir çekim ya da bugünün toplamını aşan bir çekim ekip tarafından gönderilir ve daha uzun sürebilir."},
     "name": "FlightPass #{id}",
     "soon": "FlightPass yakında iniyor.",
     "title": "FlightPass",

@@ -146,6 +146,8 @@
     "sent": "zincirde"
   },
   "chains": {
+    "bets": {"note": "her pay sonucu gerçekleşirse $1, gerçekleşmezse $0 öder; bahisler sonuca kadar sürer", "open": "Açık bahisler", "settled": "Sonuçlanan bahisler", "thBet": "Bahis", "thStake": "Tutar", "thOdds": "Alınan oran", "thPays": "Tutarsa öder", "thNow": "Şimdiki oran", "thResult": "Sonuç", "thPaid": "Ödenen", "won": "Kazandı", "lost": "Kaybetti", "split": "Bölündü", "none": "Henüz açık bahis yok.", "noneSettled": "Henüz sonuçlanan bahis yok."},
+    "markets": "{n} piyasa",
     "title": "Diğer zincirlerde",
     "lede": "Aynı sinekler yukarıdaki aynı parayla diğer zincirlerde de işlem yapar. Her sineğin her zincirde tuttukları ve oradaki son işlemleri.",
     "tokens": "{n} token",

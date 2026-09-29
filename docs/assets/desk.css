@@ -142,6 +142,9 @@ body.desk .wrap { max-width: 1240px; }
 .desk .tag.chain.base { color: #7fa6ff; border-color: rgba(92,134,255,.5); }
 .desk .tag.chain.bsc { color: #f0bc5f; border-color: rgba(240,188,95,.45); }
 .desk .tag.chain.solana { color: #c08bff; border-color: rgba(192,139,255,.45); }
+.desk .tag.chain.arbitrum { color: #6fb8ff; border-color: rgba(111,184,255,.45); }
+.desk .tag.chain.abstract { color: #5ef2cc; border-color: rgba(94,242,204,.4); }
+.desk .tag.chain.poly { color: #b8a4ff; border-color: rgba(154,130,255,.5); }
 /* ?clip= (marketing/clips.py): only the fly's eye, framed for a square video */
 body.clip #eye { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 24px 0; }
 body.clip #eye .wrap::after { content: "flyaiworld.com/desk"; display: block; margin-top: 18px; text-align: right;

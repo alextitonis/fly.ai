@@ -146,6 +146,8 @@
     "sent": "en cadena"
   },
   "chains": {
+    "bets": {"note": "cada acción paga $1 si su resultado ocurre y $0 si no; las apuestas llegan al resultado", "open": "Apuestas abiertas", "settled": "Apuestas cerradas", "thBet": "Apuesta a", "thStake": "Monto", "thOdds": "Cuota tomada", "thPays": "Paga si acierta", "thNow": "Cuota ahora", "thResult": "Resultado", "thPaid": "Pagado", "won": "Ganada", "lost": "Perdida", "split": "Dividida", "none": "Aún no hay apuestas abiertas.", "noneSettled": "Aún no hay apuestas cerradas."},
+    "markets": "{n} mercados",
     "title": "En otras cadenas",
     "lede": "Las mismas moscas operan en otras cadenas con el mismo dinero de arriba. Lo que cada mosca tiene en cada cadena y sus últimas operaciones allí.",
     "tokens": "{n} tokens",

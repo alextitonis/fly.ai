@@ -146,6 +146,8 @@
     "sent": "on chain"
   },
   "chains": {
+    "bets": {"note": "each share pays $1 if its outcome happens, $0 if not; bets run to the result", "open": "Open bets", "settled": "Settled bets", "thBet": "Bet on", "thStake": "Stake", "thOdds": "Odds taken", "thPays": "Pays if right", "thNow": "Odds now", "thResult": "Result", "thPaid": "Paid", "won": "Won", "lost": "Lost", "split": "Split", "none": "No open bets yet.", "noneSettled": "No bets settled yet."},
+    "markets": "{n} markets",
     "title": "On other chains",
     "lede": "The same flies trade other chains from the same money as above. What each fly holds on each chain, and its latest fills there.",
     "tokens": "{n} tokens",
