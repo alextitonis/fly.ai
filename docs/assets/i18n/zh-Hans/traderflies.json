@@ -134,6 +134,7 @@
   },
   "market": {
     "view": { "label": "视图", "grid": "网格", "list": "列表" },
+    "browse": {"sortRarity": "稀有度：最稀有优先", "rarityAll": "全部", "search": "搜索 #", "searchLabel": "按编号查找", "notListed": "{name} 未在出售。", "noSuch": "还没有 #{id}。", "offer": "出价", "sweep": "扫货", "sweepHint": "最便宜的 {n} 个", "lastSale": "上次成交 {amount}"},
     "title": "市场",
     "text": "用 {token} 与其他持有者买卖 Trader Flies。卖家立即收款，扣除 {pct}% 手续费。",
     "soon": "市场即将开放。",

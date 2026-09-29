@@ -136,6 +136,7 @@
   },
   "market": {
     "view": { "label": "Görünüm", "grid": "Izgara", "list": "Liste" },
+    "browse": {"sortRarity": "Nadirlik: en nadir önce", "rarityAll": "Tümü", "search": "# ara", "searchLabel": "Numarayla bul", "notListed": "{name} satışta değil.", "noSuch": "Henüz #{id} yok.", "offer": "Teklif ver", "sweep": "Süpür", "sweepHint": "en ucuz {n} tane", "lastSale": "Son satış {amount}"},
     "title": "Pazar",
     "text": "Trader Flies'ı diğer holder'larla {token} ile al ve sat. Satıcı parasını hemen alır, %{pct} komisyon düşülür.",
     "soon": "Pazar yakında açılıyor.",

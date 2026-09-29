@@ -136,6 +136,7 @@
   },
   "market": {
     "view": { "label": "Vista", "grid": "Cuadrícula", "list": "Lista" },
+    "browse": {"sortRarity": "Rareza: las más raras primero", "rarityAll": "Todas", "search": "Buscar #", "searchLabel": "Buscar por número", "notListed": "{name} no está a la venta.", "noSuch": "Aún no existe el #{id}.", "offer": "Hacer una oferta", "sweep": "Barrer", "sweepHint": "los {n} más baratos", "lastSale": "Última venta {amount}"},
     "title": "Mercado",
     "text": "Compra y vende Trader Flies con otros holders, en {token}. El vendedor cobra al instante, menos una comisión del {pct}%.",
     "soon": "El mercado abre pronto.",

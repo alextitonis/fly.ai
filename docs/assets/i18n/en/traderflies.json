@@ -136,6 +136,7 @@
   },
   "market": {
     "view": { "label": "View", "grid": "Grid", "list": "List" },
+    "browse": {"sortRarity": "Rarity: rarest first", "rarityAll": "All", "search": "Search #", "searchLabel": "Find by number", "notListed": "{name} isn't for sale.", "noSuch": "No #{id} yet.", "offer": "Make an offer", "sweep": "Sweep", "sweepHint": "the {n} cheapest", "lastSale": "Last sale {amount}"},
     "title": "Marketplace",
     "text": "Buy and sell Trader Flies with other holders, in {token}. The seller gets paid straight away, less a {pct}% fee.",
     "soon": "The marketplace opens soon.",

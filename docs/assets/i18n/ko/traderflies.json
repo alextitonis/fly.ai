@@ -134,6 +134,7 @@
   },
   "market": {
     "view": { "label": "보기", "grid": "그리드", "list": "목록" },
+    "browse": {"sortRarity": "희귀도: 희귀한 순", "rarityAll": "전체", "search": "# 검색", "searchLabel": "번호로 찾기", "notListed": "{name}은(는) 판매 중이 아닙니다.", "noSuch": "아직 #{id}이(가) 없습니다.", "offer": "제안하기", "sweep": "스윕", "sweepHint": "가장 싼 {n}개", "lastSale": "최근 거래 {amount}"},
     "title": "마켓",
     "text": "다른 홀더와 Trader Flies를 {token}로 사고팝니다. 판매자는 {pct}% 수수료를 뺀 금액을 바로 받습니다.",
     "soon": "마켓이 곧 열립니다.",
