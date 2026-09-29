@@ -127,7 +127,7 @@
   },
   "shop": {
     "title": "The shop",
-    "text": "Flies left over from the mint, plus 100 more made only for the shop. Each costs the shop price times its rarity weight (Legendary 3x), in USDG or in $FLYAI at {pct}% off (pick above). The money splits like the mint: 80% to the flies' trading pool.",
+    "text": "Flies still in the shop. Each costs the shop price times its rarity weight (Legendary 3x), in USDG or in $FLYAI at {pct}% off (pick above). The money splits like the mint: 80% to the flies' trading pool.",
     "step2": "Step 2 of 2: confirm the purchase in your wallet.",
     "yours": "Trader Fly #{id} is yours. Activate it below to put it on the desk.",
     "connectToBuy": "Connect to buy",
@@ -373,10 +373,11 @@
     "th": {
       "rarity": "Rarity",
       "chance": "Chance",
-      "flies": "Flies (of 1,100)",
+      "flies": "Flies (of 1,000)",
       "weight": "Payout weight"
     },
-    "reveal": "Every fly looks the same while the mint is open. When it ends (the reveal), a future block's hash rolls every fly's rarity and traits inside the contract, so nobody can pick or see them before, the team included. The counts are exact: there will be 33 Legendary flies, not about 33. Rarity sets a fly's share of the payouts, never how it trades."
+    "reveal": "Every fly looks the same while the mint is open. When it ends (the reveal), a future block's hash rolls every fly's rarity and traits inside the contract, so nobody can pick or see them before, the team included. The counts are exact: there will be 30 Legendary flies, not about 30. Rarity sets a fly's share of the payouts, never how it trades.",
+    "traits": "Every fly also rolls a pose (14), a colorway (4 per rarity), a background (14), gear (10) and an extra item (13), and the art makes sure no two pictures are alike."
   },
   "contracts": {
     "title": "Contracts",
