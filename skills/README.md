@@ -44,3 +44,36 @@ Then say "run this on fly.ai compute" or "run a connectome sweep of looming vs t
 ```bash
 node skills/flyai-compute/scripts/flyai.mjs quote --program mine/examples/pi-rust/pi.wasm --count 1000
 ```
+
+## flyai-x402 🪙
+
+Buys one answer at a time from fly.ai's pay-per-request API, a few cents each, paid over x402 in USDG on Robinhood
+Chain or USDC on Base:
+
+| What | Price | You get |
+|---|---|---|
+| Polymarket read | $0.05 | The fly desk model's probability for a market next to the market's price, with its record |
+| Forecast | $0.03 | A TimesFM forecast with a band: a token the desk tracks, or your own series |
+| Trade cost | $0.02 | The real round-trip cost of a Robinhood Chain token at your size, through its best pool |
+| Token check | $0.03 | Pools, age, links, copycats, contract and holder facts for a Robinhood Chain token |
+| Fly brain | $0.05 | A run of the real connectome: stimulate a sense, read what the fly did |
+| Fly meme | $0.20 | A generated fly meme image for your idea |
+
+Claude shows the cost and pays only after you say yes, from a wallet key you set in your own environment
+(`FLYAI_X402_KEY`); it never sees the key.
+
+```bash
+pip install requests eth-account
+cp -r skills/flyai-x402 ~/.claude/skills/
+```
+
+Then ask "what does the fly desk think of this market?" with a polymarket.com link, or "what does it cost to trade
+$200 of NVDA on Robinhood Chain?". The script works on its own too:
+
+```bash
+python skills/flyai-x402/scripts/flyai_x402.py products               # free
+python skills/flyai-x402/scripts/flyai_x402.py cost NVDA --usd 200 --yes
+```
+
+Where a model is involved its record comes with the answer. So far the Polymarket model has not beaten the market's
+own price: read it as an opinion.

@@ -66,20 +66,9 @@ def episode(brain, stim_cells, groups, dn, dn_col, seed):
     return counts, dn_counts
 
 
-def main() -> None:
-    p = argparse.ArgumentParser()
-    p.add_argument("message", nargs="*", help="what was said to the fly")
-    p.add_argument("--sense", choices=list(SENSES), help="skip the keyword table and stimulate this sense")
-    p.add_argument("--seed", type=int, default=7)
-    args = p.parse_args()
-    message = " ".join(args.message)
-    sense = args.sense or sense_of(message)
-
-    try:
-        from flybrain import FlyBrain
-    except ImportError:
-        print(json.dumps({"error": "the flybrain package isn't installed: pip install flybrain"}))
-        sys.exit(1)
+def load():
+    """The brain and the neuron groups a reaction is read from: built once, reused for every react()."""
+    from flybrain import FlyBrain
     brain = FlyBrain(batch=1, dt=0.020, sensory_input=False)   # downloads ~260 MB of brain files on first use
     n = brain.n
 
@@ -101,6 +90,13 @@ def main() -> None:
     dn = brain.cells(["descending_neuron"])
     dn_col = np.full(n, -1)
     dn_col[dn] = np.arange(len(dn))
+    return brain, groups, dn, dn_col
+
+
+def react(loaded, sense: str, message: str = "", seed: int = 7) -> dict:
+    """Stimulate one sense in the loaded brain and read what the fly did (the document main() prints)."""
+    brain, groups, dn, dn_col = loaded
+    n = brain.n
     stim_cells = brain.cells(SENSES[sense][0]) if SENSES[sense][0] else np.array([], int)
 
     rest = {g: 0.0 for g in groups}
@@ -108,8 +104,8 @@ def main() -> None:
     rest_dn = np.zeros(len(dn))
     felt_dn = np.zeros(len(dn))
     for r in range(RUNS):
-        c0, d0 = episode(brain, np.array([], int), groups, dn, dn_col, args.seed + r)
-        c1, d1 = episode(brain, stim_cells, groups, dn, dn_col, args.seed + r)
+        c0, d0 = episode(brain, np.array([], int), groups, dn, dn_col, seed + r)
+        c1, d1 = episode(brain, stim_cells, groups, dn, dn_col, seed + r)
         for g in groups:
             rest[g] += c0[g] / RUNS
             felt[g] += c1[g] / RUNS
@@ -139,7 +135,7 @@ def main() -> None:
         by_type[t] = by_type.get(t, 0.0) + float(v)
     top = sorted(by_type.items(), key=lambda kv: -kv[1])[:5]
 
-    print(json.dumps({
+    return {
         "message": message,
         "sense": sense,
         "felt": SENSES[sense][1],
@@ -149,7 +145,24 @@ def main() -> None:
         "top_descending_neurons": [{"type": t, "extra_spikes": round(v, 1)} for t, v in top if v > 0.5],
         "wing_spikes_per_s": round(felt["wings"] / (STIM * 0.020), 1),
         "brain": f"MaleCNS v1.0 connectome, {n:,} neurons, 1 s at 20 ms steps vs the same brain at rest, {RUNS} runs averaged",
-    }, indent=1))
+    }
+
+
+def main() -> None:
+    p = argparse.ArgumentParser()
+    p.add_argument("message", nargs="*", help="what was said to the fly")
+    p.add_argument("--sense", choices=list(SENSES), help="skip the keyword table and stimulate this sense")
+    p.add_argument("--seed", type=int, default=7)
+    args = p.parse_args()
+    message = " ".join(args.message)
+    sense = args.sense or sense_of(message)
+
+    try:
+        import flybrain  # noqa: F401
+    except ImportError:
+        print(json.dumps({"error": "the flybrain package isn't installed: pip install flybrain"}))
+        sys.exit(1)
+    print(json.dumps(react(load(), sense, message, args.seed), indent=1))
 
 
 if __name__ == "__main__":

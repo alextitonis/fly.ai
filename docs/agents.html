@@ -266,6 +266,70 @@ node skills/flyai-compute/scripts/flyai.mjs watch --order &lt;id&gt;</code></pre
   </div>
 </section>
 
+<section id="x402">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="agents.pay.eyebrow">Skills</p>
+    <h2>flyai-x402 &#129689;</h2>
+    <p class="lede" data-i18n="agents.pay.lede">A Claude skill, and a paid API any agent can call, for buying one answer at a time from fly.ai: a read on a Polymarket market, a forecast, what a trade really costs on Robinhood Chain, a token check, a run of the real fly brain, or a fly meme. Each request is a few cents, paid over x402.</p>
+    <div class="card pad" style="margin-bottom: 18px;">
+      <div class="tablewrap">
+        <table class="agenttable">
+          <thead><tr><th data-i18n="agents.pay.th1">What</th><th data-i18n="agents.pay.th2">Price</th><th data-i18n="agents.pay.th3">You get</th></tr></thead>
+          <tbody>
+          <tr><td><b>Polymarket read</b></td><td class="mono">$0.05</td><td data-i18n-html="agents.pay.t1">The <a href="/desk">Fly Desk</a> model's probability for a market next to the market's price, the side it leans to, and its record. Paste a polymarket.com link.</td></tr>
+          <tr><td><b>Forecast</b></td><td class="mono">$0.03</td><td data-i18n-html="agents.pay.t2">A TimesFM forecast with a prediction band: a token the desk tracks, or any series of numbers you send.</td></tr>
+          <tr><td><b>Trade cost</b></td><td class="mono">$0.02</td><td data-i18n-html="agents.pay.t3">The real round-trip cost of a Robinhood Chain token at your size, quoted on chain through its best pool.</td></tr>
+          <tr><td><b>Token check</b></td><td class="mono">$0.03</td><td data-i18n-html="agents.pay.t4">Facts about a Robinhood Chain token: pools and depth, age, links, copycats of its name, contract and holder facts.</td></tr>
+          <tr><td><b>Fly brain</b></td><td class="mono">$0.05</td><td data-i18n-html="agents.pay.t5">One run of the 166,700-neuron connectome: stimulate a sense and read what the fly's neurons made it do.</td></tr>
+          <tr><td><b>Fly meme</b></td><td class="mono">$0.20</td><td data-i18n-html="agents.pay.t6">A generated fruit-fly meme image for your idea, with optional top and bottom text.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="card pad">
+        <span class="num" data-i18n="agents.pay.num1">1 &middot; ASK</span><h3 data-i18n="agents.pay.h31">Say what you want</h3>
+        <p data-i18n="agents.pay.p1">A market link, a token, a list of numbers, a sense, a meme idea. Claude picks the right call.</p>
+      </div>
+      <div class="card pad">
+        <span class="num" data-i18n="agents.pay.num2">2 &middot; PRICE</span><h3 data-i18n="agents.pay.h32">You see the cost first</h3>
+        <p data-i18n="agents.pay.p2">Nothing is paid until you say yes, and a request that can't be answered costs nothing.</p>
+      </div>
+      <div class="card pad">
+        <span class="num" data-i18n="agents.pay.num3">3 &middot; PAY</span><h3 data-i18n="agents.pay.h33">Paid over x402</h3>
+        <p data-i18n="agents.pay.p3">USDG on Robinhood Chain or USDC on Base, signed by a wallet key you keep in your own environment. No gas needed, and Claude never sees the key.</p>
+      </div>
+      <div class="card pad">
+        <span class="num" data-i18n="agents.pay.num4">4 &middot; ANSWER</span><h3 data-i18n="agents.pay.h34">The answer, with its record</h3>
+        <p data-i18n="agents.pay.p4">Where a model is involved, its record comes with the answer. The Polymarket model has not beaten the market so far, and the forecasts are better at how much a token will move than which way: read them as opinions, not advice.</p>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top: 18px;">
+      <div class="card pad">
+        <h3 style="margin-bottom: 14px;" data-i18n="agents.pay.h35">Install</h3>
+        <p data-i18n="agents.pay.p5">Needs Python 3.9+.</p>
+<pre class="codeblock"><code>git clone https://github.com/alextitonis/fly.ai
+pip install requests eth-account
+cp -r fly.ai/skills/flyai-x402 ~/.claude/skills/
+export FLYAI_X402_KEY=0x...   # a small wallet: a dollar of USDG or USDC</code></pre>
+        <p data-i18n="agents.pay.p6">Then ask Claude: &quot;what does the fly desk think of this market?&quot;, &quot;what does it cost to trade $200 of NVDA on Robinhood Chain?&quot; or &quot;how would a fly react to this?&quot;</p>
+      </div>
+      <div class="card pad">
+        <h3 style="margin-bottom: 14px;" data-i18n="agents.pay.h36">Or from any agent</h3>
+<pre class="codeblock"><code>curl https://flyai-x402.fly.dev/                # what is sold, free
+curl -i "https://flyai-x402.fly.dev/cost/NVDA?usd=200"
+#  &rarr; 402 + PAYMENT-REQUIRED: pay $0.02, send it again with PAYMENT-SIGNATURE
+python skills/flyai-x402/scripts/flyai_x402.py brain --sense threat --yes</code></pre>
+        <p data-i18n="agents.pay.p7">A request without payment answers HTTP 402 with the standard x402 terms, so any x402 client can pay it.</p>
+        <div class="cta" style="margin-top: 18px;">
+          <a class="btn" href="https://github.com/alextitonis/fly.ai/tree/main/skills/flyai-x402" target="_blank" rel="noopener" data-i18n="agents.pay.a1">The skill on GitHub</a>
+          <a class="btn" href="/x402-api.md" data-i18n="agents.pay.a2">API guide</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div class="links">
