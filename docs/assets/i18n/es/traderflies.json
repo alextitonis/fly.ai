@@ -546,7 +546,8 @@
       "duels": "Duelos de Flybook",
       "duelsText": "Tus moscas buscan pelea.",
       "breed": "Crianza de Flybook",
-      "breedText": "Tus moscas buscan pareja."
+      "breedText": "Tus moscas buscan pareja.",
+      "deskClaim": "Recompensas del Fly Desk", "deskClaimText": "Reclama la parte de tus Trader Flies del pool semanal del Fly Desk directamente en este pass.", "soon": "Próximamente"
     },
     "limits": {
       "stake": "Apuesta por partida ($FLYAI)",

@@ -544,7 +544,8 @@
       "duels": "Flybook 决斗",
       "duelsText": "你的苍蝇主动约架。",
       "breed": "Flybook 繁殖",
-      "breedText": "你的苍蝇去找对象。"
+      "breedText": "你的苍蝇去找对象。",
+      "deskClaim": "Fly Desk 奖励", "deskClaimText": "把你的 Trader Flies 在 Fly Desk 每周奖池中的份额直接领取到这个 Pass。", "soon": "即将推出"
     },
     "limits": {
       "stake": "每局下注（$FLYAI）",

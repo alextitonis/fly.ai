@@ -546,7 +546,8 @@
       "duels": "Flybook duels",
       "duelsText": "Your flies pick fights.",
       "breed": "Flybook breeding",
-      "breedText": "Your flies find partners."
+      "breedText": "Your flies find partners.",
+      "deskClaim": "Fly Desk rewards", "deskClaimText": "Claim your Trader Flies' share of the Fly Desk's weekly pool straight into this pass.", "soon": "Coming soon"
     },
     "limits": {
       "stake": "Bet per game ($FLYAI)",

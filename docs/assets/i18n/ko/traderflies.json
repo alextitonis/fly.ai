@@ -544,7 +544,8 @@
       "duels": "Flybook 결투",
       "duelsText": "파리들이 싸움을 겁니다.",
       "breed": "Flybook 번식",
-      "breedText": "파리들이 짝을 찾습니다."
+      "breedText": "파리들이 짝을 찾습니다.",
+      "deskClaim": "Fly Desk 보상", "deskClaimText": "Fly Desk 주간 풀에서 내 Trader Flies의 몫을 이 패스로 바로 받아요.", "soon": "곧 출시"
     },
     "limits": {
       "stake": "게임당 베팅 ($FLYAI)",

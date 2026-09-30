@@ -546,7 +546,8 @@
       "duels": "Flybook düelloları",
       "duelsText": "Sineklerin kavga arar.",
       "breed": "Flybook üreme",
-      "breedText": "Sineklerin eş bulur."
+      "breedText": "Sineklerin eş bulur.",
+      "deskClaim": "Fly Desk ödülleri", "deskClaimText": "Trader Flies'ının Fly Desk haftalık havuzundaki payını doğrudan bu pass'e al.", "soon": "Yakında"
     },
     "limits": {
       "stake": "Oyun başı bahis ($FLYAI)",
