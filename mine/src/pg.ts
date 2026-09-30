@@ -47,12 +47,18 @@ const text = (sql: string) => {
 };
 const params = (args: Arg[]) => args.map((a) => (typeof a === "bigint" ? a.toString() : a)) as any[];
 
-function wrap(sql: postgres.Sql | postgres.TransactionSql): Q {
+/** A query (or a whole transaction) that got no answer in time: its connections are thrown away (connectPg). */
+export class PgTimeout extends Error {}
+
+function wrap(sql: () => postgres.Sql | postgres.TransactionSql, timed: <T>(p: Promise<T>, what: string) => Promise<T>): Q {
   // a Postgres error names no query of ours: add its first line, so a log says which one failed
-  const exec = (q: string, args: Arg[]) => sql.unsafe(text(q), params(args)).catch((err: Error) => {
-    err.message += ` [${q.trim().split("\n")[0].slice(0, 120)}]`;
-    throw err;
-  });
+  const exec = (q: string, args: Arg[]) => {
+    const first = q.trim().split("\n")[0].slice(0, 120);
+    return timed(sql().unsafe(text(q), params(args)) as unknown as Promise<postgres.RowList<postgres.Row[]>>, first).catch((err: Error) => {
+      if (!(err instanceof PgTimeout)) err.message += ` [${first}]`;
+      throw err;
+    });
+  };
   return {
     async one<T>(q: string, ...args: Arg[]) { return (await exec(q, args))[0] as T | undefined; },
     async all<T>(q: string, ...args: Arg[]) { return [...(await exec(q, args))] as T[]; },
@@ -60,8 +66,8 @@ function wrap(sql: postgres.Sql | postgres.TransactionSql): Q {
   };
 }
 
-export function connectPg(url: string, o: { max?: number } = {}): Pg {
-  const sql = postgres(url, {
+export function connectPg(url: string, o: { max?: number; queryTimeoutMs?: number; txTimeoutMs?: number } = {}): Pg {
+  const open = () => postgres(url, {
     // Supabase's transaction pooler (port 6543) shares its server connections with Flybook: a few each process is plenty
     max: o.max ?? 5,
     // the Supabase pooler hands a connection to whoever asks next: no named prepared statements
@@ -72,14 +78,39 @@ export function connectPg(url: string, o: { max?: number } = {}): Pg {
     // int8 (times in ms, counts) as numbers, as SQLite gave them; numeric (sums) stays text
     types: { bigint: { to: 20, from: [20], serialize: (x: unknown) => String(x), parse: (x: string) => Number(x) } } as any,
   });
-  const q = wrap(sql);
+  let sql = open();
+  // 2026-09-30: the user process's five connections to the pooler all stopped answering (one was still "active,
+  // waiting on the client" in Postgres 6.5 h later) and nothing here ever gives up on a query, so every request that
+  // read Postgres - the leaderboard, claims, FlightPass, the games - hung for good while the process looked healthy.
+  // Now a query unanswered for queryTimeoutMs fails, and the connections are dropped for fresh ones: what waited on
+  // the old ones fails at once (callers retry or answer 5xx) instead of queueing behind a dead socket.
+  const queryMs = o.queryTimeoutMs ?? Number(process.env.PG_QUERY_TIMEOUT_MS ?? 15_000);
+  const txMs = o.txTimeoutMs ?? Number(process.env.PG_TX_TIMEOUT_MS ?? 45_000);
+  const reset = (from: postgres.Sql, what: string) => {
+    if (from !== sql) return;                           // another timeout already replaced these connections
+    console.warn(`postgres: no answer in time (${what}); reconnecting`);
+    sql = open();
+    void from.end({ timeout: 0 }).catch(() => {});
+  };
+  const timedOn = (ms: number) => <T>(p: Promise<T>, what: string): Promise<T> => {
+    const from = sql;
+    let timer: NodeJS.Timeout;
+    return Promise.race([p, new Promise<never>((_, fail) => {
+      timer = setTimeout(() => { reset(from, what); fail(new PgTimeout(`the database didn't answer in ${ms / 1000} s [${what}]`)); }, ms);
+    })]).finally(() => clearTimeout(timer));
+  };
+  const timed = timedOn(queryMs);
+  const q = wrap(() => sql, timed);
   return {
     ...q,
     async tx<T>(fn: (q: Q) => Promise<T>, ...locks: string[]) {
-      return sql.begin(async (t) => {
+      // the whole transaction has its own, longer limit (it may wait its turn on a wallet's lock); its queries have none
+      // of their own, so a slow lock isn't mistaken for a dead connection
+      const inTx = <U>(p: Promise<U>) => p;
+      return timedOn(txMs)(sql.begin(async (t) => {
         for (const key of [...new Set(locks)].sort()) await t.unsafe("select pg_advisory_xact_lock(hashtextextended($1, 0))", [key]);
-        return fn(wrap(t));
-      }) as Promise<T>;
+        return fn(wrap(() => t, inTx));
+      }) as Promise<T>, "transaction");
     },
     end: () => sql.end({ timeout: 5 }),
   };

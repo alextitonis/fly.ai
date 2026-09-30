@@ -305,6 +305,43 @@ export function initBets(hooks: Hooks) {
     }
   }
 
+  // straight onto a FlightPass (2026-09-30): the pass's withdrawals are sent automatically, this balance's by hand
+  let passesFor: string | null = null;
+  async function loadPasses(): Promise<void> {
+    const wallet = acct?.signedIn() ?? null;
+    const row = $("wd-pass-row"), sel = $<HTMLSelectElement>("wd-pass");
+    if (!wallet) { row.hidden = true; passesFor = null; return; }
+    if (passesFor === wallet) return;
+    passesFor = wallet;
+    row.hidden = true;
+    try {
+      const r = await api("/api/flightpass/mine");
+      const open = (r.passes as { id: number; listed: boolean }[]).filter((p) => !p.listed);
+      sel.innerHTML = open.map((p) => `<option value="${p.id}">FlightPass #${p.id}</option>`).join("");
+      row.hidden = !open.length;
+    } catch {
+      passesFor = null;   // no passes on this server, or it didn't answer: the hand-sent way is still there
+    }
+  }
+
+  async function toPass(): Promise<void> {
+    const amountEl = $<HTMLInputElement>("wd-amount"), status = $("wd-pass-status"), id = $<HTMLSelectElement>("wd-pass").value;
+    if (!toWei(amountEl.value)) { status.textContent = t("roulette.bet.enterAmount"); return; }
+    const btn = $<HTMLButtonElement>("wd-pass-go");
+    btn.disabled = true;
+    try {
+      const amount = amountEl.value.trim();
+      await api(`/api/flightpass/${id}/from-balance`, { amount });
+      status.textContent = t("roulette.bet.toPassOk", { amount: fmt(amount), id });
+      amountEl.value = "";
+      await refresh();
+    } catch (err) {
+      status.textContent = String((err as Error).message);
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
   // ---- start ------------------------------------------------------------------------------------------------
   async function start(): Promise<void> {
     try {
@@ -333,7 +370,8 @@ export function initBets(hooks: Hooks) {
     stakeEl.oninput = changed;
     goBtn.onclick = () => void placeBet();
     $("bet-deposit").onclick = () => { depositBox.hidden = !depositBox.hidden; withdrawBox.hidden = true; };
-    $("bet-withdraw").onclick = () => { withdrawBox.hidden = !withdrawBox.hidden; depositBox.hidden = true; };
+    $("bet-withdraw").onclick = () => { withdrawBox.hidden = !withdrawBox.hidden; depositBox.hidden = true; if (!withdrawBox.hidden) void loadPasses(); };
+    $("wd-pass-go").onclick = () => void toPass();
     $("dep-go").onclick = () => void deposit();    $("wd-go").onclick = () => void withdraw();
     $("res-verify").onclick = () => void verify();
     await refresh();

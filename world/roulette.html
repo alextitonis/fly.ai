@@ -320,6 +320,10 @@
             <label><span data-i18n="roulette.bet.withdrawLabel">Ask for $FLYAI back to your wallet</span>
               <span class="bet-row"><input id="wd-amount" inputmode="decimal" placeholder="amount" data-i18n-attr="placeholder:roulette.bet.amount"><button class="btn" id="wd-go" type="button" data-i18n="roulette.bet.ask">Ask</button></span></label>
             <p class="note" id="wd-status" data-i18n="roulette.bet.withdrawNote">Withdrawals are sent by hand, usually within a day.</p>
+            <div id="wd-pass-row" hidden>
+              <span class="bet-row"><select id="wd-pass" aria-label="FlightPass"></select><button class="btn" id="wd-pass-go" type="button" data-i18n="roulette.bet.toPass">Send to FlightPass</button></span>
+              <p class="note" id="wd-pass-status" data-i18n="roulette.bet.toPassNote">Moves the amount to your FlightPass balance right now. From the pass, withdrawals are sent automatically (1% fee).</p>
+            </div>
           </div>
           <p class="note" id="bet-withdraw-note"></p>
           <label class="bet-stake"><span data-i18n="roulette.bet.stake">Stake</span>

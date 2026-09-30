@@ -22,7 +22,7 @@
   "launch": {
     "sampleCaption": "範例果蠅 · 你的果蠅在鑄造結束後揭曉",
     "kicker": "創世鑄造 · Robinhood Chain",
-    "lede": "1,000 隻交易果蠅，每一隻都是真實的果蠅連接體。鑄造一隻，啟用它，它就會在交易台上交易。",
+    "lede": "1,000 隻交易果蠅，每一隻都是真實的果蠅連接體。鑄造一隻，持有 $FLYAI，它就會在交易台上交易。",
     "clockLabel": "距離開放鑄造還有",
     "hours": "小時",
     "minutes": "分鐘",
@@ -36,7 +36,7 @@
   },
   "free": {
     "title": "免費鑄造",
-    "rule": "持有 {amount} $FLYAI 的白名單錢包可免費鑄造一隻蒼蠅（計入其 10 隻之內）。持有不足的白名單錢包仍可提前鑄造（前 2 小時），只是沒有免費蒼蠅。免費鑄造者以半價啟用。",
+    "rule": "持有 {amount} $FLYAI 的白名單錢包可免費鑄造一隻蒼蠅（計入其 10 隻之內）。持有不足的白名單錢包仍可提前鑄造（前 2 小時），只是沒有免費蒼蠅。",
     "soFar": {
       "other": "目前已免費鑄造 {count} 隻。"
     },
@@ -85,7 +85,7 @@
     "step1": "第 1 步（共 2 步）：請在錢包中授權付款。"
   },
   "mint": {
-    "head": "一套交易果蠅的創世系列。每一隻都是真實的果蠅連接體，在 Robinhood Chain 上交易。鑄造一隻，你的果蠅會在鑄造結束後揭曉。啟用它，讓它上交易台。",
+    "head": "一套交易果蠅的創世系列。每一隻都是真實的果蠅連接體，在 Robinhood Chain 上交易。鑄造一隻，你的果蠅會在鑄造結束後揭曉。在同一個錢包持有 $FLYAI，它就會上交易台。",
     "soon": "鑄造即將開放。",
     "minted": "已鑄造",
     "price": "價格",
@@ -127,12 +127,12 @@
     "title": "商店",
     "text": "商店裡剩下的蒼蠅。每隻的價格是商店價格乘以其稀有度權重（傳奇 3 倍），可用 USDG 或打 {pct}% 折的 $FLYAI 支付（在上方選擇）。收入與鑄造相同分配：80% 進入蒼蠅的交易池。",
     "step2": "第 2 步（共 2 步）：請在錢包中確認購買。",
-    "yours": "Trader Fly #{id} 歸你了。在下面啟用它，讓它上交易台。",
+    "yours": "Trader Fly #{id} 歸你了。只要這個錢包持有足夠的 $FLYAI，它就在交易台上。",
     "connectToBuy": "連接後購買",
     "buy": "購買 · {price}",
     "paused": "$FLYAI 暫停"
   },
-  "fly": {"notLiveTitle": "Fly Desk 尚未上線：暫無可領取。", "notLiveText": "Desk 開始真實交易且你的蒼蠅已啟用後才會開始派發。在此之前，這裡顯示的是每隻蒼蠅在持有者份額中的比例，而不是應付金額。", "yours": "你的蒼蠅", "yoursN": "你的蒼蠅（{n}）", "none": "此錢包沒有 Trader Fly。", "total": "合計：在 {n} 隻已啟用蒼蠅中占持有者份額的 {pct}。", "shareActive": "持有者份額 · {n} 隻已啟用", "shareIfActive": "若啟用 · 目前 {n} 隻已啟用", "shareAtReveal": "揭曉後顯示份額：由每隻蒼蠅的稀有度決定。", "active": "已啟用", "inactive": "未啟用", "weight": "派發權重", "weightNote": "普通 1 · 罕見 1.5 · 稀有 2 · 傳奇 3", "atReveal": "揭曉時確定", "share": "份額", "status": "狀態", "until": "至 {when}", "forever": "無結束日期", "activateHint": "在 Mint 頁面啟用即可參與收益", "howShare": "每週 Desk 超出前高的利潤中 {pct}% 歸持有者，按權重分給已啟用的蒼蠅：你的份額 = 你的蒼蠅權重 / 全部啟用權重。", "traits": "特徵", "traitsAtReveal": "特徵隨系列揭曉。", "holder": "持有者", "onMarket": "市場", "find": "查詢", "findPlaceholder": "蒼蠅 #", "cantRead": "無法從鏈上讀取這隻蒼蠅，請重試。"},
+  "fly": {"notLiveTitle": "Fly Desk 尚未上線：暫無可領取。", "notLiveText": "Desk 開始真實交易後才會開始派發。在此之前，這裡顯示的是每隻蒼蠅在持有者份額中的比例，而不是應付金額。", "yours": "你的蒼蠅", "yoursN": "你的蒼蠅（{n}）", "none": "此錢包沒有 Trader Fly。", "total": "合計：在 {n} 隻已啟用蒼蠅中占持有者份額的 {pct}。", "shareActive": "持有者份額 · {n} 隻已啟用", "shareIfActive": "若啟用 · 目前 {n} 隻已啟用", "shareAtReveal": "揭曉後顯示份額：由每隻蒼蠅的稀有度決定。", "active": "已啟用", "inactive": "未啟用", "weight": "派發權重", "weightNote": "普通 1 · 罕見 1.5 · 稀有 2 · 傳奇 3", "atReveal": "揭曉時確定", "share": "份額", "status": "狀態", "until": "至 {when}", "forever": "無結束日期", "activateHint": "持有者錢包需要 {amount} $FLYAI", "holdOn": "持有者持有 {amount}+ $FLYAI", "howShare": "每週 Desk 超出前高的利潤中 {pct}% 歸持有者，按權重分給已啟用的蒼蠅：你的份額 = 你的蒼蠅權重 / 全部啟用權重。", "traits": "特徵", "traitsAtReveal": "特徵隨系列揭曉。", "holder": "持有者", "onMarket": "市場", "find": "查詢", "findPlaceholder": "蒼蠅 #", "cantRead": "無法從鏈上讀取這隻蒼蠅，請重試。"},
   "lb": {"tab": "排行榜", "title": "交易排行榜", "text": "兩週一個賽季。你的分數是在本市場買入和賣出的 $FLYAI 交易量。前 3 名獲獎。", "season": "第 {n} 季", "left": "剩餘 {d} 天 {h} 小時", "ended": "已結束", "place1": "第 1 名", "place2": "第 2 名", "place3": "第 3 名", "wallet": "錢包", "volume": "交易量（$FLYAI）", "trades": "成交", "you": "你", "empty": "本賽季還沒有成交：來做第一個吧。", "cantRead": "無法讀取市場成交，請稍後重試。", "yourRank": "你排第 {rank} 名，交易量 {points} $FLYAI。", "rules": "買入和賣出都計入，包括被接受的出價和集合出價。同一對錢包之間的成交每季最多計入 {max} 次，在兩者之間來回轉手的同一隻蒼蠅只計一次。團隊錢包不參賽。每季結束發獎前，會核查獲獎者是否存在錢包串通。 僅計入不少於 {min} $FLYAI 的成交。"},
   "market": {
     "view": { "label": "檢視", "grid": "網格", "list": "列表" },
@@ -149,7 +149,7 @@
     "empty": "目前沒有出售中的蒼蠅。",
     "yourListing": "你的掛單",
     "confirmBuy": "請在錢包中確認購買。",
-    "bought": "Trader Fly #{id} 歸你了。在鑄造頁面啟用它，讓它上桌交易。",
+    "bought": "Trader Fly #{id} 歸你了。只要你的錢包持有足夠的 $FLYAI，它就在交易台上。",
     "sellTitle": "出售你的蒼蠅",
     "sellText": "可以用美元或 {token} 輸入價格。你的蒼蠅始終以 {token} 掛單，在有人買下之前一直留在你的錢包裡（也繼續在交易台上）。你收到價格扣除 {pct}% 後的金額。",
     "noFlies": "這個錢包沒有 Trader Flies。",
@@ -161,7 +161,7 @@
     "confirmList": "請在錢包中確認掛單。",
     "listedOk": "Trader Fly #{id} 已掛單，價格 {price}。",
     "cancelled": "Trader Fly #{id} 已下架。",
-    "sellStops": "售出的蒼蠅會停止交易，直到買家啟用它。",
+    "sellStops": "售出的蒼蠅只有在買家持有足夠 $FLYAI 時才保持啟用。",
     "why": {
       "NotListed": "這隻蒼蠅已不再出售。",
       "PriceChanged": "賣家改了價格。請查看後重試。",
@@ -215,7 +215,7 @@
       "self": "這是你自己的錢包。",
       "check": "將 {name} 免費發送到 {to}，無法撤回：點擊確認發送。",
       "done": "{name} 已發送。",
-      "noteFly": "免費轉移。蒼蠅會離開交易台，新持有人需重新啟用。掛單會失效。",
+      "noteFly": "免費轉移。只有新持有人持有足夠的 $FLYAI，蒼蠅才保持啟用。掛單會失效。",
       "notePass": "免費轉移。通行證裡的 FLYAI 隨之轉移。掛單會失效。"
     },
     "activity": {
@@ -327,23 +327,17 @@
     "showMine": "顯示我的（{n}）"
   },
   "mine": {
-    "marketDeal": "五折：在此購買",
     "title": "你的 Trader Flies",
-    "onDesk": "● 在交易台上",
-    "onDeskUntil": "● 在交易台上，直到 {date}",
-    "ranOut": "○ 啟用已到期：請重新啟用",
-    "idle": "○ 閒置",
-    "deactivate": "停用",
-    "activate": "啟用",
-    "step2": "第 2 步（共 2 步）：請在錢包中確認啟用。",
-    "nowIdle": "Trader Fly #{id} 已閒置。",
-    "nowOn": "Trader Fly #{id} 已上交易台。",
-    "afterMint": "鑄造結束後開放啟用"
+    "active": "● 已啟用",
+    "idle": "○ 未啟用",
+    "holdOk": "你的果蠅已啟用：這個錢包持有 {have} $FLYAI，需要 {amount}（約 ${usd}，數量隨 $FLYAI 價格變動）。",
+    "holdShort": "你的果蠅未啟用。在這個錢包持有 {amount} $FLYAI（約 ${usd}，數量隨價格變動），你的所有果蠅就會啟用，無需付費。你目前持有 {have}。",
+    "getFlyai": "取得 $FLYAI"
   },
   "how": {
     "mint": "<b>鑄造</b>：用 USDG，或用 $FLYAI 享 {pct}% 優惠。鑄造期間每隻果蠅看起來都一樣，所以沒人能挑走稀有的。",
     "reveal": "<b>揭曉。</b>鑄造結束後，由一個未來區塊的雜湊在合約裡決定每隻果蠅的特徵：稀有度（普通、罕見、稀有或傳奇）、姿勢、配色、背景和裝備。任何人都可以在鏈上查看。",
-    "activate": "<b>啟用</b>：用 USDG 或 $FLYAI。啟用的果蠅一起在交易台上交易。每筆鑄造和每次啟用的分配方式都一樣：80% 進入果蠅的交易池，20% 給團隊。當一週結束時交易池高於之前的最高點，這部分利潤的 95% 會以 $FLYAI 分給啟用的果蠅（5% 給團隊），按稀有度和啟用時長加權。已登記的 FLYAI 寵物（我們的實體電子寵物）也以 3.5 倍權重參與分配。果蠅賣出後會停止；新的持有者需要重新啟用。",
+    "activate": "<b>持有 $FLYAI。</b>只要持有者錢包裡有約 ${usd} 的 $FLYAI（今天是 {amount} $FLYAI，數量隨價格變動），果蠅就處於啟用狀態。無需付費，無需任何操作，一份持倉涵蓋錢包裡的所有果蠅。啟用的果蠅一起在交易台上交易。每筆鑄造的分配：80% 進入果蠅的交易池，20% 給團隊。當一週結束時交易池高於之前的最高點，這部分利潤的 95% 會以 $FLYAI 分給啟用的果蠅（5% 給團隊），按稀有度和啟用時長加權。已登記的 FLYAI 寵物（我們的實體電子寵物）也以 3.5 倍權重參與分配。賣出果蠅或持倉低於該數量，它就會停止。",
     "risk": "交易可能虧損，沒有利潤的一週不會有分配。這裡的任何內容都不承諾回報。"
   },
   "claim": {

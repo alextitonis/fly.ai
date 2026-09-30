@@ -22,7 +22,7 @@
   "launch": {
     "sampleCaption": "Örnek sinekler · seninki mint bitince açılır",
     "kicker": "Genesis mint · Robinhood Chain",
-    "lede": "1.000 trader sinek, her biri gerçek bir meyve sineği konektomu. Birini mint et, aktif et, masada işlem yapsın.",
+    "lede": "1.000 trader sinek, her biri gerçek bir meyve sineği konektomu. Birini mint et, $FLYAI tut, masada işlem yapsın.",
     "clockLabel": "Mint açılana kadar kalan süre",
     "hours": "saat",
     "minutes": "dakika",
@@ -36,7 +36,7 @@
   },
   "free": {
     "title": "Ücretsiz mint",
-    "rule": "{amount} $FLYAI tutan WL cüzdanları bir sineği ücretsiz mint eder (10 sineğinden biri). Daha az tutan WL cüzdanları yine erken mint edebilir (ilk 2 saat), sadece ücretsiz sinek olmadan. Ücretsiz mint edenler yarı fiyata aktive eder.",
+    "rule": "{amount} $FLYAI tutan WL cüzdanları bir sineği ücretsiz mint eder (10 sineğinden biri). Daha az tutan WL cüzdanları yine erken mint edebilir (ilk 2 saat), sadece ücretsiz sinek olmadan.",
     "soFar": {
       "one": "Şimdiye kadar {count} ücretsiz sinek mint edildi.",
       "other": "Şimdiye kadar {count} ücretsiz sinek mint edildi."
@@ -86,7 +86,7 @@
     "step1": "Adım 1/2: ödemeyi cüzdanında onayla."
   },
   "mint": {
-    "head": "Trader sineklerden oluşan bir genesis koleksiyonu. Her biri Robinhood Chain'de işlem yapan gerçek bir meyve sineği konektomu. Birini mint et; sineğin mint bitince açılır. Masaya koymak için aktif et.",
+    "head": "Trader sineklerden oluşan bir genesis koleksiyonu. Her biri Robinhood Chain'de işlem yapan gerçek bir meyve sineği konektomu. Birini mint et; sineğin mint bitince açılır. Aynı cüzdanda $FLYAI tut, masada olsun.",
     "soon": "Mint yakında açılıyor.",
     "minted": "mint edildi",
     "price": "fiyat",
@@ -129,12 +129,12 @@
     "title": "Mağaza",
     "text": "Dükkânda kalan sinekler. Her biri dükkân fiyatı çarpı nadirlik ağırlığı (Efsanevi 3x) tutar; USDG ile ya da {pct}% indirimli $FLYAI ile (yukarıdan seç). Para mint gibi bölünür: %80'i sineklerin trading havuzuna gider.",
     "step2": "Adım 2/2: satın almayı cüzdanında onayla.",
-    "yours": "Trader Fly #{id} artık senin. Masaya koymak için aşağıdan aktif et.",
+    "yours": "Trader Fly #{id} artık senin. Bu cüzdanda yeterli $FLYAI olduğu sürece masada.",
     "connectToBuy": "Satın almak için bağlan",
     "buy": "Satın al · {price}",
     "paused": "$FLYAI duraklatıldı"
   },
-  "fly": {"notLiveTitle": "Fly Desk henüz canlı değil: talep edilecek bir şey yok.", "notLiveText": "Ödemeler desk gerçek işlem yapmaya başlayıp sineğin aktif olunca başlar. O zamana kadar bu, her sineğin sahipler payındaki oranıdır; borçlu olunan para değildir.", "yours": "Sineklerin", "yoursN": "Sineklerin ({n})", "none": "Bu cüzdanda Trader Fly yok.", "total": "Toplam: {n} aktif sinek arasında sahipler payının {pct}'i.", "shareActive": "sahipler payından · {n} aktif sinek", "shareIfActive": "aktif edilirse · şu an {n} aktif sinek", "shareAtReveal": "Paylar reveal'dan sonra görünür: her sineğin nadirliğinden gelir.", "active": "Aktif", "inactive": "Aktif değil", "weight": "Ödeme ağırlığı", "weightNote": "Common 1 · Uncommon 1.5 · Rare 2 · Legendary 3", "atReveal": "reveal'da belirlenir", "share": "Pay", "status": "Durum", "until": "{when} tarihine kadar", "forever": "bitiş tarihi yok", "activateHint": "kazanmak için Mint sayfasında aktif et", "howShare": "Her hafta desk'in önceki zirvesinin üstündeki kârın %{pct}'i sahiplere gider ve aktif sinekler arasında ağırlığa göre bölünür: payın = sineğinin ağırlığı / tüm aktif ağırlık.", "traits": "Özellikler", "traitsAtReveal": "Özellikler koleksiyonla birlikte açıklanır.", "holder": "Sahibi", "onMarket": "Pazar", "find": "Bul", "findPlaceholder": "Sinek #", "cantRead": "Bu sinek zincirden okunamadı; tekrar dene."},
+  "fly": {"notLiveTitle": "Fly Desk henüz canlı değil: talep edilecek bir şey yok.", "notLiveText": "Ödemeler desk gerçek işlem yapmaya başlayınca başlar. O zamana kadar bu, her sineğin sahipler payındaki oranıdır; borçlu olunan para değildir.", "yours": "Sineklerin", "yoursN": "Sineklerin ({n})", "none": "Bu cüzdanda Trader Fly yok.", "total": "Toplam: {n} aktif sinek arasında sahipler payının {pct}'i.", "shareActive": "sahipler payından · {n} aktif sinek", "shareIfActive": "aktif olursa · şu an {n} aktif sinek", "shareAtReveal": "Paylar reveal'dan sonra görünür: her sineğin nadirliğinden gelir.", "active": "Aktif", "inactive": "Aktif değil", "weight": "Ödeme ağırlığı", "weightNote": "Common 1 · Uncommon 1.5 · Rare 2 · Legendary 3", "atReveal": "reveal'da belirlenir", "share": "Pay", "status": "Durum", "until": "{when} tarihine kadar", "forever": "bitiş tarihi yok", "activateHint": "sahibinin cüzdanında {amount} $FLYAI olmalı", "holdOn": "sahibi {amount}+ $FLYAI tutuyor", "howShare": "Her hafta desk'in önceki zirvesinin üstündeki kârın %{pct}'i sahiplere gider ve aktif sinekler arasında ağırlığa göre bölünür: payın = sineğinin ağırlığı / tüm aktif ağırlık.", "traits": "Özellikler", "traitsAtReveal": "Özellikler koleksiyonla birlikte açıklanır.", "holder": "Sahibi", "onMarket": "Pazar", "find": "Bul", "findPlaceholder": "Sinek #", "cantRead": "Bu sinek zincirden okunamadı; tekrar dene."},
   "lb": {"tab": "Liderlik", "title": "İşlem liderlik tablosu", "text": "İki haftalık sezonlar. Puanın, bu pazarda alarak ve satarak yaptığın $FLYAI hacmidir. İlk 3 kazanır.", "season": "Sezon {n}", "left": "{d} g {h} sa kaldı", "ended": "Bitti", "place1": "1.", "place2": "2.", "place3": "3.", "wallet": "Cüzdan", "volume": "Hacim ($FLYAI)", "trades": "İşlem", "you": "sen", "empty": "Bu sezon henüz işlem yok: ilk sen ol.", "cantRead": "Pazarın işlemleri okunamadı; birazdan tekrar dene.", "yourRank": "{points} $FLYAI ile #{rank}. sıradasın.", "rules": "Alım ve satımlar, kabul edilen teklifler ve koleksiyon teklifleri dahil sayılır. Aynı iki cüzdan arasındaki işlemler sezon başına en fazla {max} kez sayılır, aralarında gidip gelen aynı sinek bir kez sayılır. Ekip cüzdanları yarışmaz. Her sezon sonunda ödüller gönderilmeden önce kazananlar cüzdan ağlarına karşı kontrol edilir. Yalnızca en az {min} $FLYAI tutarındaki satışlar sayılır."},
   "market": {
     "view": { "label": "Görünüm", "grid": "Izgara", "list": "Liste" },
@@ -151,7 +151,7 @@
     "empty": "Şu anda satışta bir şey yok.",
     "yourListing": "Senin ilanın",
     "confirmBuy": "Satın almayı cüzdanında onayla.",
-    "bought": "Trader Fly #{id} artık senin. Masaya koymak için Mint sayfasında aktive et.",
+    "bought": "Trader Fly #{id} artık senin. Cüzdanında yeterli $FLYAI olduğu sürece masada.",
     "sellTitle": "Sineklerini sat",
     "sellText": "Fiyatı dolar ya da {token} olarak yaz. Sineğin her zaman {token} ile listelenir ve biri satın alana kadar cüzdanında (ve masada) kalır. Fiyatın %{pct} eksiğini alırsın.",
     "noFlies": "Bu cüzdanda Trader Fly yok.",
@@ -163,7 +163,7 @@
     "confirmList": "İlanı cüzdanında onayla.",
     "listedOk": "Trader Fly #{id}, {price} fiyatla satışta.",
     "cancelled": "Trader Fly #{id} artık satışta değil.",
-    "sellStops": "Satılan bir sinek, alıcı aktive edene kadar trade yapmaz.",
+    "sellStops": "Satılan bir sinek, ancak alıcı yeterli $FLYAI tutuyorsa aktif kalır.",
     "why": {
       "NotListed": "Bu sinek artık satışta değil.",
       "PriceChanged": "Satıcı fiyatı değiştirdi. Kontrol edip tekrar dene.",
@@ -217,7 +217,7 @@
       "self": "Bu senin kendi cüzdanın.",
       "check": "{name} ücretsiz olarak {to} adresine gidiyor. Geri alınamaz: Gönderimi onayla'ya tıkla.",
       "done": "{name} gönderildi.",
-      "noteFly": "Ücretsiz transfer. Sinek masadan çıkar; yeni sahibi onu aktifleştirir. Üzerindeki ilan biter.",
+      "noteFly": "Ücretsiz transfer. Sinek, ancak yeni sahibi yeterli $FLYAI tutuyorsa aktif kalır. Üzerindeki ilan biter.",
       "notePass": "Ücretsiz transfer. İçindeki FLYAI pass ile birlikte gider. Üzerindeki ilan biter."
     },
     "activity": {
@@ -329,23 +329,17 @@
     "showMine": "Benimkileri göster ({n})"
   },
   "mine": {
-    "marketDeal": "%50 indirim: buradan alındı",
     "title": "Trader Flies'ın",
-    "onDesk": "● masada",
-    "onDeskUntil": "● {date} tarihine kadar masada",
-    "ranOut": "○ aktivasyon süresi doldu: tekrar aktif et",
-    "idle": "○ boşta",
-    "deactivate": "Durdur",
-    "activate": "Aktif et",
-    "step2": "Adım 2/2: aktivasyonu cüzdanında onayla.",
-    "nowIdle": "Trader Fly #{id} artık boşta.",
-    "nowOn": "Trader Fly #{id} artık masada.",
-    "afterMint": "Aktivasyon mint bitince açılır"
+    "active": "● aktif",
+    "idle": "○ aktif değil",
+    "holdOk": "Sineklerin aktif: bu cüzdanda {have} $FLYAI var, gereken {amount} (yaklaşık ${usd}; miktar $FLYAI fiyatını takip eder).",
+    "holdShort": "Sineklerin aktif değil. Bu cüzdanda {amount} $FLYAI tut (yaklaşık ${usd}; miktar fiyatı takip eder), bütün sineklerin ödeme yapmadan aktif olsun. Sende {have} var.",
+    "getFlyai": "$FLYAI al"
   },
   "how": {
     "mint": "<b>Mint</b> USDG ile ya da %{pct} indirimle $FLYAI ile. Mint açıkken tüm sinekler aynı görünür, bu yüzden kimse nadir olanları seçemez.",
     "reveal": "<b>Açılış.</b> Mint bitince gelecekteki bir bloğun hash'i, sözleşmenin içinde her sineğin özelliklerini belirler: nadirlik (Sıradan, Nadir olmayan, Nadir ya da Efsanevi), poz, renk, arka plan ve ekipman. Herkes zincirde kontrol edebilir.",
-    "activate": "<b>Aktif et</b>: USDG ya da $FLYAI ile. Aktif sinekler masada birlikte işlem yapar. Her mint ve her aktivasyon aynı şekilde bölünür: %80 sineklerin işlem havuzuna, %20 ekibe. Bir hafta havuzun önceki zirvesinin üstünde biterse, o kârın %95'i $FLYAI olarak aktif sineklere gider (%5 ekibe); nadirliğe ve ne kadar süre aktif kaldıklarına göre ağırlıklandırılır. Kayıtlı FLYAI evcil hayvanları (fiziksel tamagotchi'lerimiz) da 3.5x ile pay alır. Bir sineği satarsan durur; yeni sahibi tekrar aktif eder.",
+    "activate": "<b>$FLYAI tut.</b> Bir sinek, sahibinin cüzdanında yaklaşık ${usd} değerinde $FLYAI (bugün {amount} $FLYAI; miktar fiyatı takip eder) olduğu sürece aktiftir. Ödeme yok, basılacak düğme yok; tek bir bakiye cüzdandaki bütün sinekleri kapsar. Aktif sinekler masada birlikte işlem yapar. Her mint %80 sineklerin işlem havuzuna, %20 ekibe bölündü. Bir hafta havuzun önceki zirvesinin üstünde biterse, o kârın %95'i $FLYAI olarak aktif sineklere gider (%5 ekibe); nadirliğe ve ne kadar süre aktif kaldıklarına göre ağırlıklandırılır. Kayıtlı FLYAI evcil hayvanları (fiziksel tamagotchi'lerimiz) da 3.5x ile pay alır. Bir sineği satarsan ya da bu miktarın altına düşersen durur.",
     "risk": "İşlem yapmak para kaybettirebilir ve kârsız bir hafta hiçbir şey ödemez. Buradaki hiçbir şey getiri vaat etmez."
   },
   "claim": {

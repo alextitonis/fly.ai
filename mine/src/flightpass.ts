@@ -28,6 +28,7 @@
  * The tables live in Postgres (schema mine, src/pg.ts) since 2026-09-29: anything that checks a pass's balance and
  * then books against it runs in one transaction under that pass's lock (lockWallet), as SQLite's single writer did.
  */
+import { randomUUID } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { lockWallet, type Pg, type Q } from "./pg.ts";
 import { selector } from "./staking.ts";
@@ -43,7 +44,7 @@ interface Roulette {
   termsAccepted: (wallet: string) => Promise<boolean>;
   daySpent: (wallet: string) => Promise<bigint>;
   isOn: () => Promise<boolean>;
-  liveFor: (wallet: string) => Promise<boolean>;
+  liveFor: (wallet: string, q?: Q) => Promise<boolean>;
   liveCount: () => Promise<number>;
   CFG: { minBet: bigint; maxBet: bigint; maxDay: bigint; maxLive: number };
 }
@@ -59,7 +60,7 @@ interface Race {
   autoBet: (key: string, owner: string, o: { bet: "win" | "podium"; stake: bigint; maxDay: bigint }) => Promise<unknown>;
   daySpent: (wallet: string) => Promise<bigint>;
   isOn: () => Promise<boolean>;
-  liveFor: (wallet: string) => Promise<boolean>;
+  liveFor: (wallet: string, q?: Q) => Promise<boolean>;
   liveCount: () => Promise<number>;
   history: (wallet: string, limit?: number) => Promise<unknown[]>;
   CFG: { minBet: bigint; maxBet: bigint; maxDay: bigint; maxLive: number };
@@ -545,6 +546,30 @@ export function createFlightPass(d: FlightPassDeps) {
     return view(id, wallet, false, true);
   }
 
+  /**
+   * The owner moves FLYAI from their site balance (roulette / slots / race winnings from manual play, deposits, order
+   * refunds) onto the pass, at once and with no fee (the user 2026-09-30: "withdraw from manual plays from roulette
+   * directly to flightpass", because the site balance's own withdrawals are sent by hand). It is the owner's own money,
+   * so on the pass it counts as a deposit: it can be played or withdrawn from the pass like any other (the pass's 1%
+   * withdrawal fee applies there). What an open hand-sent withdrawal request already asked for can't be moved too.
+   */
+  async function fromBalance(req: IncomingMessage, id: number, body: any) {
+    const wallet = await asOwner(req, id, "deposits");
+    let amount: bigint;
+    try { amount = toWei(String(body.amount ?? "")); } catch { throw new HttpError(400, "amount is a number of tokens"); }
+    if (amount <= 0n) throw new HttpError(400, "amount must be more than 0");
+    await pg.tx(async (q) => {
+      let asked = 0n;
+      for (const r of await q.all<{ amount_wei: string }>("select amount_wei from mine.withdraw_requests where wallet = ? and status = 'open'", wallet)) asked += BigInt(r.amount_wei);
+      const free = (await balanceOf(wallet, q)) - asked;
+      if (amount > free) throw new HttpError(400, `you can move up to ${fromWei(free > 0n ? free : 0n)} FLYAI`);
+      const ref = randomUUID();
+      await book(q, wallet, null, "withdraw", amount, { tx: `to-pass:${id}:${ref}` });
+      await book(q, key(id), null, "deposit", amount, { tx: `from-balance:${ref}` });
+    }, lockWallet(wallet), lockWallet(key(id)));
+    return view(id, wallet, false, true);
+  }
+
   async function withdraw(req: IncomingMessage, id: number, body: any) {
     const wallet = await asOwner(req, id, "withdrawals");
     let amount: bigint;
@@ -552,8 +577,8 @@ export function createFlightPass(d: FlightPassDeps) {
     if (amount <= 0n) throw new HttpError(400, "amount must be more than 0");
     await pg.tx(async (q) => {
       if (!(await hasDeposited(id, q))) throw new HttpError(403, "withdrawals open once you've deposited FLYAI yourself; the prefund stays on the pass");
-      if (await d.roulette.liveFor(key(id))) throw new HttpError(409, "a game is on the table; try again when it's over");
-      if (await d.race.liveFor(key(id))) throw new HttpError(409, "a race is running; try again when it's over");
+      if (await d.roulette.liveFor(key(id), q)) throw new HttpError(409, "a game is on the table; try again when it's over");
+      if (await d.race.liveFor(key(id), q)) throw new HttpError(409, "a race is running; try again when it's over");
       const free = await withdrawable(id, false, q);
       if (amount > free) throw new HttpError(400, `you can withdraw up to ${fromWei(free)} FLYAI (the ${fromWei(await locked(id, q))} prefund stays on the pass)`);
       const fee = (amount * WITHDRAW_FEE_BPS) / 10_000n;
@@ -923,9 +948,10 @@ export function createFlightPass(d: FlightPassDeps) {
       if ((m = /^\/api\/flightpass\/(\d{1,9})\/history$/.exec(p))) return d.send(res, 200, await history(req, Number(m[1]), url)), true;
     }
     if (req.method === "POST") {
-      if ((m = /^\/api\/flightpass\/(\d{1,9})\/(deposit|withdraw|settings)$/.exec(p))) {
+      if ((m = /^\/api\/flightpass\/(\d{1,9})\/(deposit|from-balance|withdraw|settings)$/.exec(p))) {
         const id = Number(m[1]), body = await d.readJson(req);
         if (m[2] === "deposit") return d.send(res, 200, await deposit(req, id, body)), true;
+        if (m[2] === "from-balance") return d.send(res, 200, await fromBalance(req, id, body)), true;
         if (m[2] === "withdraw") return d.send(res, 200, await withdraw(req, id, body)), true;
         return d.send(res, 200, await saveSettings(req, id, body)), true;
       }

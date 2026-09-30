@@ -210,6 +210,25 @@ try {
   await setListed(1n, false);
   check("unlisted: the deposit goes through", (await api("/api/flightpass/1/deposit", a, { tx: txL })).json.balance === "1410");
 
+  // ---- from the site balance (manual roulette winnings) onto the pass, at once
+  const txS = await payIn(alice.address, 300n);
+  check("a site-balance deposit", (await api("/api/balance/deposit", a, { tx: txS })).json.balance === "300");
+  check("only the owner moves onto a pass", (await api("/api/flightpass/2/from-balance", a, { amount: "10" })).status === 403);
+  check("not more than the site balance", (await api("/api/flightpass/1/from-balance", a, { amount: "300.5" })).status === 400);
+  await api("/api/balance/withdraw-request", a, { amount: "100" });
+  check("not what a hand-sent withdrawal already asked for", (await api("/api/flightpass/1/from-balance", a, { amount: "250" })).status === 400);
+  const mv = await api("/api/flightpass/1/from-balance", a, { amount: "200" });
+  check("moved: on the pass at once, withdrawable, no fee", mv.status === 200 && mv.json.balance === "1610" && mv.json.withdrawable === "1110", JSON.stringify(mv.json).slice(0, 200));
+  check("and off the site balance", (await api("/api/roulette/me", a)).json.balance === "100");
+  await setListed(1n, true);
+  check("listed: nothing moves onto it", (await api("/api/flightpass/1/from-balance", a, { amount: "1" })).status === 409);
+  await setListed(1n, false);
+  // back as it was for the checks below: the 200 leave the pass again (198 to send + 2 fee), cancelled by the operator
+  // would put them back on the pass, so they are paid out instead
+  await api("/api/flightpass/1/withdraw", a, { amount: "200" });
+  const wMv = (await api("/api/admin/flightpass", null, undefined, ADMIN)).json.withdrawals[0];
+  await api("/api/admin/flightpass/withdrawal", null, { id: wMv.id, tx: "0x" + "cd".repeat(32) }, ADMIN);
+
   // ---- settings and the Flybook worker's list
   const roulette = { on: true, stake: "100", flies: 2, max_day: "200" };
   const slots = { on: true, stake: "20", max_day: "60" };
@@ -288,7 +307,7 @@ try {
   check("the page is told why: the pass's own daily cap, and when it plays again", capped.roulette_status?.state === "day_cap"
     && capped.roulette_status.yours === true && capped.roulette_status.cap === "200" && capped.day_cap === "200"
     && capped.roulette_status.resets_at > Date.now(), JSON.stringify(capped.roulette_status));
-  check("the player's own roulette balance is untouched", (await api("/api/roulette/me", a)).json.balance === "0");
+  check("the player's own roulette balance is untouched", (await api("/api/roulette/me", a)).json.balance === "100");   // what the move above left
 
   // ---- the race autopilot (2026-09-29): pass 3 enters podium races on a random lane, two of 50 up to its 100 a day
   {

@@ -414,7 +414,7 @@ export function createRoulette(d: RouletteDeps) {
   return {
     route, resume, config, autoBet, termsAccepted, daySpent: (wallet: string) => daySpent(wallet), CFG,
     isOn: async () => CFG.on && !(await paused()),
-    liveFor: async (wallet: string) => !!(await pg.one("select 1 from mine.roulette_games where wallet = ? and status = 'live'", wallet)),
+    liveFor: async (wallet: string, q: Q = pg) => !!(await q.one("select 1 from mine.roulette_games where wallet = ? and status = 'live'", wallet)),
     liveCount: () => liveCount(),
   };
 }

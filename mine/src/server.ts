@@ -1320,6 +1320,37 @@ async function month(m: string) {
   };
 }
 
+/**
+ * GET /api/month, as the leaderboard page asks it: on the machine (start.ts: separate processes) the last answer is
+ * kept, served as is while younger than MONTH_FRESH_MS, and past that worked out again - the request waits at most
+ * MONTH_WAIT_MS for the new one and otherwise gets the last, which the refresh replaces when it lands. Only a month
+ * nobody has asked for since the start waits for its numbers. month() reads SQLite and makes half a dozen Postgres
+ * round trips; a page that waited on all of them was as slow as the slowest, and hung when Postgres did (2026-09-30:
+ * the board never loaded while the pool's connections were dead). A single process (tests, local work) answers fresh
+ * every time, as before.
+ */
+const MONTH_FRESH_MS = Number(env("MONTH_FRESH_MS", ROLE === "all" ? "0" : "30000"));
+const MONTH_WAIT_MS = Number(env("MONTH_WAIT_MS", "1500"));
+type MonthView = Awaited<ReturnType<typeof month>>;
+const monthViews = new Map<string, { at: number; value: MonthView; refresh: Promise<MonthView | null> | null }>();
+async function monthView(m: string): Promise<MonthView> {
+  const hit = monthViews.get(m);
+  if (!hit || MONTH_FRESH_MS <= 0) {
+    const value = await month(m);
+    if (MONTH_FRESH_MS > 0) {
+      if (monthViews.size > 60) monthViews.clear();    // ?month= is anyone's to ask: no unbounded map
+      monthViews.set(m, { at: Date.now(), value, refresh: null });
+    }
+    return value;
+  }
+  if (Date.now() - hit.at <= MONTH_FRESH_MS) return hit.value;
+  hit.refresh ??= month(m).then((value) => { hit.value = value; hit.at = Date.now(); return value; })
+    .catch((err) => { console.warn(`month ${m} not refreshed: ${err instanceof Error ? err.message : err}`); return null; })
+    .finally(() => { hit.refresh = null; });
+  const fresh = await Promise.race([hit.refresh, new Promise<null>((r) => setTimeout(r, MONTH_WAIT_MS, null))]);
+  return fresh ?? hit.value;
+}
+
 /** Announce (or with pool null, withdraw) a running or future month's pool. Miners then see estimates. */
 function announce(m: string, pool: unknown) {
   monthId(m);
@@ -3210,7 +3241,7 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
     if (p === "/api/month") {
       const m = url.searchParams.get("month") ?? thisMonth();
       if (!/^\d{4}-\d{2}$/.test(m)) throw new HttpError(400, "month is YYYY-MM");
-      return send(res, 200, await month(m));
+      return send(res, 200, await monthView(m));
     }
     if (p === "/api/claims") return send(res, 200, await claimsFor(url.searchParams.get("wallet") ?? ""));
     if (p === "/api/orders/config") return send(res, 200, orderConfigView());

@@ -323,7 +323,7 @@ export function createRace(d: RaceDeps) {
   return {
     route, resume, config, autoBet, daySpent: (wallet: string) => daySpent(wallet), history, CFG,
     isOn: async () => CFG.on && !(await paused()),
-    liveFor: async (wallet: string) => !!(await pg.one("select 1 from mine.race_games where wallet = ? and status = 'live'", wallet)),
+    liveFor: async (wallet: string, q: Q = pg) => !!(await q.one("select 1 from mine.race_games where wallet = ? and status = 'live'", wallet)),
     liveCount: () => liveCount(),
   };
 }

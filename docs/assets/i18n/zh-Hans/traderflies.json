@@ -22,7 +22,7 @@
   "launch": {
     "sampleCaption": "示例果蝇 · 你的果蝇在铸造结束后揭晓",
     "kicker": "创世铸造 · Robinhood Chain",
-    "lede": "1,000 只交易果蝇，每一只都是真实的果蝇连接组。铸造一只，激活它，它就会在交易台上交易。",
+    "lede": "1,000 只交易果蝇，每一只都是真实的果蝇连接组。铸造一只，持有 $FLYAI，它就会在交易台上交易。",
     "clockLabel": "距离开放铸造还有",
     "hours": "小时",
     "minutes": "分钟",
@@ -36,7 +36,7 @@
   },
   "free": {
     "title": "免费铸造",
-    "rule": "持有 {amount} $FLYAI 的白名单钱包可免费铸造一只苍蝇（计入其 10 只之内）。持有不足的白名单钱包仍可提前铸造（前 2 小时），只是没有免费苍蝇。免费铸造者以半价激活。",
+    "rule": "持有 {amount} $FLYAI 的白名单钱包可免费铸造一只苍蝇（计入其 10 只之内）。持有不足的白名单钱包仍可提前铸造（前 2 小时），只是没有免费苍蝇。",
     "soFar": {
       "other": "目前已免费铸造 {count} 只。"
     },
@@ -85,7 +85,7 @@
     "step1": "第 1 步（共 2 步）：请在钱包中授权付款。"
   },
   "mint": {
-    "head": "一套交易果蝇的创世系列。每一只都是真实的果蝇连接组，在 Robinhood Chain 上交易。铸造一只，你的果蝇会在铸造结束后揭晓。激活它，让它上交易台。",
+    "head": "一套交易果蝇的创世系列。每一只都是真实的果蝇连接组，在 Robinhood Chain 上交易。铸造一只，你的果蝇会在铸造结束后揭晓。在同一个钱包持有 $FLYAI，它就会上交易台。",
     "soon": "铸造即将开放。",
     "minted": "已铸造",
     "price": "价格",
@@ -127,12 +127,12 @@
     "title": "商店",
     "text": "商店里剩下的苍蝇。每只的价格是商店价格乘以其稀有度权重（传奇 3 倍），可用 USDG 或打 {pct}% 折的 $FLYAI 支付（在上方选择）。收入与铸造相同分配：80% 进入苍蝇的交易池。",
     "step2": "第 2 步（共 2 步）：请在钱包中确认购买。",
-    "yours": "Trader Fly #{id} 归你了。在下面激活它，让它上交易台。",
+    "yours": "Trader Fly #{id} 归你了。只要这个钱包持有足够的 $FLYAI，它就在交易台上。",
     "connectToBuy": "连接后购买",
     "buy": "购买 · {price}",
     "paused": "$FLYAI 暂停"
   },
-  "fly": {"notLiveTitle": "Fly Desk 尚未上线：暂无可领取。", "notLiveText": "Desk 开始真实交易且你的苍蝇已激活后才会开始派发。在此之前，这里显示的是每只苍蝇在持有者份额中的比例，而不是应付金额。", "yours": "你的苍蝇", "yoursN": "你的苍蝇（{n}）", "none": "此钱包没有 Trader Fly。", "total": "合计：在 {n} 只已激活苍蝇中占持有者份额的 {pct}。", "shareActive": "持有者份额 · {n} 只已激活", "shareIfActive": "若激活 · 当前 {n} 只已激活", "shareAtReveal": "揭晓后显示份额：由每只苍蝇的稀有度决定。", "active": "已激活", "inactive": "未激活", "weight": "派发权重", "weightNote": "普通 1 · 罕见 1.5 · 稀有 2 · 传奇 3", "atReveal": "揭晓时确定", "share": "份额", "status": "状态", "until": "至 {when}", "forever": "无结束日期", "activateHint": "在 Mint 页面激活即可参与收益", "howShare": "每周 Desk 超出前高的利润中 {pct}% 归持有者，按权重分给已激活的苍蝇：你的份额 = 你的苍蝇权重 / 全部激活权重。", "traits": "特征", "traitsAtReveal": "特征随系列揭晓。", "holder": "持有者", "onMarket": "市场", "find": "查询", "findPlaceholder": "苍蝇 #", "cantRead": "无法从链上读取这只苍蝇，请重试。"},
+  "fly": {"notLiveTitle": "Fly Desk 尚未上线：暂无可领取。", "notLiveText": "Desk 开始真实交易后才会开始派发。在此之前，这里显示的是每只苍蝇在持有者份额中的比例，而不是应付金额。", "yours": "你的苍蝇", "yoursN": "你的苍蝇（{n}）", "none": "此钱包没有 Trader Fly。", "total": "合计：在 {n} 只已激活苍蝇中占持有者份额的 {pct}。", "shareActive": "持有者份额 · {n} 只已激活", "shareIfActive": "若激活 · 当前 {n} 只已激活", "shareAtReveal": "揭晓后显示份额：由每只苍蝇的稀有度决定。", "active": "已激活", "inactive": "未激活", "weight": "派发权重", "weightNote": "普通 1 · 罕见 1.5 · 稀有 2 · 传奇 3", "atReveal": "揭晓时确定", "share": "份额", "status": "状态", "until": "至 {when}", "forever": "无结束日期", "activateHint": "持有者钱包需要 {amount} $FLYAI", "holdOn": "持有者持有 {amount}+ $FLYAI", "howShare": "每周 Desk 超出前高的利润中 {pct}% 归持有者，按权重分给已激活的苍蝇：你的份额 = 你的苍蝇权重 / 全部激活权重。", "traits": "特征", "traitsAtReveal": "特征随系列揭晓。", "holder": "持有者", "onMarket": "市场", "find": "查询", "findPlaceholder": "苍蝇 #", "cantRead": "无法从链上读取这只苍蝇，请重试。"},
   "lb": {"tab": "排行榜", "title": "交易排行榜", "text": "两周一个赛季。你的分数是在本市场买入和卖出的 $FLYAI 交易量。前 3 名获奖。", "season": "第 {n} 季", "left": "剩余 {d} 天 {h} 小时", "ended": "已结束", "place1": "第 1 名", "place2": "第 2 名", "place3": "第 3 名", "wallet": "钱包", "volume": "交易量（$FLYAI）", "trades": "成交", "you": "你", "empty": "本赛季还没有成交：来做第一个吧。", "cantRead": "无法读取市场成交，请稍后重试。", "yourRank": "你排第 {rank} 名，交易量 {points} $FLYAI。", "rules": "买入和卖出都计入，包括被接受的出价和集合出价。同一对钱包之间的成交每季最多计入 {max} 次，在两者之间来回转手的同一只苍蝇只计一次。团队钱包不参赛。每季结束发奖前，会核查获奖者是否存在钱包串通。 仅计入不少于 {min} $FLYAI 的成交。"},
   "market": {
     "view": { "label": "视图", "grid": "网格", "list": "列表" },
@@ -149,7 +149,7 @@
     "empty": "目前没有在售的苍蝇。",
     "yourListing": "你的挂单",
     "confirmBuy": "请在钱包中确认购买。",
-    "bought": "Trader Fly #{id} 归你了。在铸造页面激活它，让它上桌交易。",
+    "bought": "Trader Fly #{id} 归你了。只要你的钱包持有足够的 $FLYAI，它就在交易台上。",
     "sellTitle": "出售你的苍蝇",
     "sellText": "可以用美元或 {token} 输入价格。你的苍蝇始终以 {token} 挂单，在有人买下之前一直留在你的钱包里（也继续在交易台上）。你收到价格扣除 {pct}% 后的金额。",
     "noFlies": "这个钱包没有 Trader Flies。",
@@ -161,7 +161,7 @@
     "confirmList": "请在钱包中确认挂单。",
     "listedOk": "Trader Fly #{id} 已挂单，价格 {price}。",
     "cancelled": "Trader Fly #{id} 已下架。",
-    "sellStops": "售出的苍蝇会停止交易，直到买家激活它。",
+    "sellStops": "售出的苍蝇只有在买家持有足够 $FLYAI 时才保持激活。",
     "why": {
       "NotListed": "这只苍蝇已不再出售。",
       "PriceChanged": "卖家改了价格。请查看后重试。",
@@ -215,7 +215,7 @@
       "self": "这是你自己的钱包。",
       "check": "将 {name} 免费发送到 {to}，无法撤回：点击确认发送。",
       "done": "{name} 已发送。",
-      "noteFly": "免费转移。苍蝇会离开交易台，新持有人需重新激活。挂单会失效。",
+      "noteFly": "免费转移。只有新持有人持有足够的 $FLYAI，苍蝇才保持激活。挂单会失效。",
       "notePass": "免费转移。通行证里的 FLYAI 随之转移。挂单会失效。"
     },
     "activity": {
@@ -327,23 +327,17 @@
     "showMine": "显示我的（{n}）"
   },
   "mine": {
-    "marketDeal": "五折：在此购买",
     "title": "你的 Trader Flies",
-    "onDesk": "● 在交易台上",
-    "onDeskUntil": "● 在交易台上，直到 {date}",
-    "ranOut": "○ 激活已到期：请重新激活",
-    "idle": "○ 闲置",
-    "deactivate": "停用",
-    "activate": "激活",
-    "step2": "第 2 步（共 2 步）：请在钱包中确认激活。",
-    "nowIdle": "Trader Fly #{id} 已闲置。",
-    "nowOn": "Trader Fly #{id} 已上交易台。",
-    "afterMint": "铸造结束后开放激活"
+    "active": "● 已激活",
+    "idle": "○ 未激活",
+    "holdOk": "你的果蝇已激活：这个钱包持有 {have} $FLYAI，需要 {amount}（约 ${usd}，数量随 $FLYAI 价格变动）。",
+    "holdShort": "你的果蝇未激活。在这个钱包持有 {amount} $FLYAI（约 ${usd}，数量随价格变动），你的所有果蝇就会激活，无需付费。你目前持有 {have}。",
+    "getFlyai": "获取 $FLYAI"
   },
   "how": {
     "mint": "<b>铸造</b>：用 USDG，或用 $FLYAI 享 {pct}% 优惠。铸造期间每只果蝇看起来都一样，所以没人能挑走稀有的。",
     "reveal": "<b>揭晓。</b>铸造结束后，由一个未来区块的哈希在合约里决定每只果蝇的特征：稀有度（普通、罕见、稀有或传奇）、姿势、配色、背景和装备。任何人都可以在链上查看。",
-    "activate": "<b>激活</b>：用 USDG 或 $FLYAI。激活的果蝇一起在交易台上交易。每笔铸造和每次激活的分配方式都一样：80% 进入果蝇的交易池，20% 给团队。当一周结束时交易池高于之前的最高点，这部分利润的 95% 会以 $FLYAI 分给激活的果蝇（5% 给团队），按稀有度和激活时长加权。已登记的 FLYAI 宠物（我们的实体电子宠物）也以 3.5 倍权重参与分配。果蝇卖出后会停止；新的持有者需要重新激活。",
+    "activate": "<b>持有 $FLYAI。</b>只要持有者钱包里有约 ${usd} 的 $FLYAI（今天是 {amount} $FLYAI，数量随价格变动），果蝇就处于激活状态。无需付费，无需任何操作，一份持仓覆盖钱包里的所有果蝇。激活的果蝇一起在交易台上交易。每笔铸造的分配：80% 进入果蝇的交易池，20% 给团队。当一周结束时交易池高于之前的最高点，这部分利润的 95% 会以 $FLYAI 分给激活的果蝇（5% 给团队），按稀有度和激活时长加权。已登记的 FLYAI 宠物（我们的实体电子宠物）也以 3.5 倍权重参与分配。卖出果蝇或持仓低于该数量，它就会停止。",
     "risk": "交易可能亏损，没有利润的一周不会有分配。这里的任何内容都不承诺回报。"
   },
   "claim": {

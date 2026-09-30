@@ -22,7 +22,7 @@
   "launch": {
     "sampleCaption": "Sample flies · yours is revealed after the mint",
     "kicker": "Genesis mint · Robinhood Chain",
-    "lede": "1,000 trading flies, each a real fruit-fly connectome. Mint one, activate it, and it trades on the desk.",
+    "lede": "1,000 trading flies, each a real fruit-fly connectome. Mint one, hold $FLYAI, and it trades on the desk.",
     "clockLabel": "Time until the mint opens",
     "hours": "hours",
     "minutes": "minutes",
@@ -36,7 +36,7 @@
   },
   "free": {
     "title": "Free mint",
-    "rule": "WL wallets holding {amount} $FLYAI mint one fly free (one of their 10). WL wallets holding less can still mint early (first 2 hours), just without the free fly. Free minters activate at half price.",
+    "rule": "WL wallets holding {amount} $FLYAI mint one fly free (one of their 10). WL wallets holding less can still mint early (first 2 hours), just without the free fly.",
     "soFar": {
       "one": "{count} free fly minted so far.",
       "other": "{count} free flies minted so far."
@@ -86,7 +86,7 @@
     "step1": "Step 1 of 2: approve the payment in your wallet."
   },
   "mint": {
-    "head": "A genesis collection of trading flies. Each one is a real fruit-fly connectome that trades on Robinhood Chain. Mint one, and your fly is revealed when minting ends. Activate it to put it on the desk.",
+    "head": "A genesis collection of trading flies. Each one is a real fruit-fly connectome that trades on Robinhood Chain. Mint one, and your fly is revealed when minting ends. Hold $FLYAI in the same wallet and it's on the desk.",
     "soon": "The mint opens soon.",
     "minted": "minted",
     "price": "price",
@@ -129,12 +129,12 @@
     "title": "The shop",
     "text": "Flies still in the shop. Each costs the shop price times its rarity weight (Legendary 3x), in USDG or in $FLYAI at {pct}% off (pick above). The money splits like the mint: 80% to the flies' trading pool.",
     "step2": "Step 2 of 2: confirm the purchase in your wallet.",
-    "yours": "Trader Fly #{id} is yours. Activate it below to put it on the desk.",
+    "yours": "Trader Fly #{id} is yours. It's on the desk while this wallet holds enough $FLYAI.",
     "connectToBuy": "Connect to buy",
     "buy": "Buy · {price}",
     "paused": "$FLYAI paused"
   },
-  "fly": {"notLiveTitle": "The Fly Desk isn't live yet: nothing to claim.", "notLiveText": "Payouts start once the desk trades for real and your fly is activated. Until then, this is each fly's share of the holders' part - not money owed.", "yours": "Your flies", "yoursN": "Your flies ({n})", "none": "This wallet holds no Trader Flies.", "total": "Together: {pct} of the holders' part, among {n} active flies.", "shareActive": "of the holders' part · {n} active flies", "shareIfActive": "if activated · {n} active flies now", "shareAtReveal": "Shares show after the reveal: they come from each fly's rarity.", "active": "Active", "inactive": "Not active", "weight": "Payout weight", "weightNote": "Common 1 · Uncommon 1.5 · Rare 2 · Legendary 3", "atReveal": "set at the reveal", "share": "Share", "status": "Status", "until": "until {when}", "forever": "no end date", "activateHint": "activate it on the Mint page to earn", "howShare": "Each week {pct}% of the desk's profit above its previous high goes to holders, split among active flies by weight: your share = your fly's weight / all active weight.", "traits": "Traits", "traitsAtReveal": "Traits are revealed with the collection.", "holder": "Held by", "onMarket": "Marketplace", "find": "Look up", "findPlaceholder": "Fly #", "cantRead": "Couldn't read this fly from the chain; try again."},
+  "fly": {"notLiveTitle": "The Fly Desk isn't live yet: nothing to claim.", "notLiveText": "Payouts start once the desk trades for real. Until then, this is each fly's share of the holders' part - not money owed.", "yours": "Your flies", "yoursN": "Your flies ({n})", "none": "This wallet holds no Trader Flies.", "total": "Together: {pct} of the holders' part, among {n} active flies.", "shareActive": "of the holders' part · {n} active flies", "shareIfActive": "if active · {n} active flies now", "shareAtReveal": "Shares show after the reveal: they come from each fly's rarity.", "active": "Active", "inactive": "Not active", "weight": "Payout weight", "weightNote": "Common 1 · Uncommon 1.5 · Rare 2 · Legendary 3", "atReveal": "set at the reveal", "share": "Share", "status": "Status", "until": "until {when}", "forever": "no end date", "activateHint": "its holder needs {amount} $FLYAI in the wallet", "holdOn": "its holder holds {amount}+ $FLYAI", "howShare": "Each week {pct}% of the desk's profit above its previous high goes to holders, split among active flies by weight: your share = your fly's weight / all active weight.", "traits": "Traits", "traitsAtReveal": "Traits are revealed with the collection.", "holder": "Held by", "onMarket": "Marketplace", "find": "Look up", "findPlaceholder": "Fly #", "cantRead": "Couldn't read this fly from the chain; try again."},
   "lb": {"tab": "Leaderboard", "title": "Trading leaderboard", "text": "Two-week seasons. Your score is the $FLYAI volume you trade on this market, buying and selling. The top 3 win.", "season": "Season {n}", "left": "{d} d {h} h left", "ended": "Ended", "place1": "1st", "place2": "2nd", "place3": "3rd", "wallet": "Wallet", "volume": "Volume ($FLYAI)", "trades": "Trades", "you": "you", "empty": "No trades this season yet: be the first.", "cantRead": "Couldn't read the market's trades; try again soon.", "yourRank": "You're #{rank} with {points} $FLYAI.", "rules": "Buys and sells both count, including accepted offers and collection offers. Trades between the same two wallets count at most {max} times a season, and a fly passed back and forth between them counts once. Team wallets don't compete. Winners are checked for wallet rings before the prizes are sent, after each season ends. Only sales of at least {min} $FLYAI count."},
   "market": {
     "view": { "label": "View", "grid": "Grid", "list": "List" },
@@ -151,7 +151,7 @@
     "empty": "Nothing is listed right now.",
     "yourListing": "Your listing",
     "confirmBuy": "Confirm the purchase in your wallet.",
-    "bought": "Trader Fly #{id} is yours. Activate it on the Mint page to put it on the desk.",
+    "bought": "Trader Fly #{id} is yours. It's on the desk while your wallet holds enough $FLYAI.",
     "sellTitle": "Sell your flies",
     "sellText": "Type a price in dollars or {token}. Your fly is always listed in {token}, and stays in your wallet (and on the desk) until someone buys it. You get the price less {pct}%.",
     "noFlies": "This wallet has no Trader Flies.",
@@ -163,7 +163,7 @@
     "confirmList": "Confirm the listing in your wallet.",
     "listedOk": "Trader Fly #{id} is listed at {price}.",
     "cancelled": "Trader Fly #{id} is no longer for sale.",
-    "sellStops": "A sold fly stops trading until the buyer activates it.",
+    "sellStops": "A sold fly stays active only if the buyer holds enough $FLYAI.",
     "why": {
       "NotListed": "This fly isn't for sale anymore.",
       "PriceChanged": "The seller changed the price. Check it and try again.",
@@ -217,7 +217,7 @@
       "self": "That's your own wallet.",
       "check": "Sending {name} to {to} for free. It can't be undone: click Confirm send.",
       "done": "{name} sent.",
-      "noteFly": "Free transfer. The fly leaves the desk; the new holder activates it. A listing on it ends.",
+      "noteFly": "Free transfer. The fly stays active only if the new holder holds enough $FLYAI. A listing on it ends.",
       "notePass": "Free transfer. The FLYAI inside goes with the pass. A listing on it ends."
     },
     "activity": {
@@ -329,23 +329,17 @@
     "showMine": "Show mine ({n})"
   },
   "mine": {
-    "marketDeal": "50% off: bought here",
     "title": "Your Trader Flies",
-    "onDesk": "● on the desk",
-    "onDeskUntil": "● on the desk until {date}",
-    "ranOut": "○ activation ran out: activate again",
-    "idle": "○ idle",
-    "deactivate": "Deactivate",
-    "activate": "Activate",
-    "step2": "Step 2 of 2: confirm the activation in your wallet.",
-    "nowIdle": "Trader Fly #{id} is idle.",
-    "nowOn": "Trader Fly #{id} is on the desk.",
-    "afterMint": "Activation opens when the mint ends"
+    "active": "● active",
+    "idle": "○ not active",
+    "holdOk": "Your flies are active: this wallet holds {have} $FLYAI and {amount} is needed (about ${usd}; the amount follows the $FLYAI price).",
+    "holdShort": "Your flies are not active. Hold {amount} $FLYAI in this wallet (about ${usd}; the amount follows the price) and every fly here is active, nothing to pay. You hold {have}.",
+    "getFlyai": "Get $FLYAI"
   },
   "how": {
     "mint": "<b>Mint</b> in USDG, or in $FLYAI for {pct}% off. While minting is open every fly looks the same, so nobody can pick the rare ones.",
     "reveal": "<b>Reveal.</b> When minting ends, a future block's hash rolls every fly's traits in the contract itself: rarity (Common, Uncommon, Rare or Legendary), pose, colorway, background and gear. Anyone can check them on chain.",
-    "activate": "<b>Activate</b> in USDG or $FLYAI. Active flies trade together on the desk. Every mint and every activation splits the same way: 80% into the flies' trading pool, 20% to the team. When a week ends above the pool's previous high, 95% of that profit goes to active flies in $FLYAI (5% to the team), weighted by rarity and by how long they were active. Registered FLYAI pets, our physical tamagotchis, share it too at 3.5x. Sell a fly and it stops; the new holder activates it again.",
+    "activate": "<b>Hold $FLYAI.</b> A fly is active while its holder's wallet holds about ${usd} of $FLYAI ({amount} $FLYAI today; the amount follows the price). Nothing to pay, nothing to press, and one holding covers every fly in the wallet. Active flies trade together on the desk. Every mint split 80% into the flies' trading pool, 20% to the team. When a week ends above the pool's previous high, 95% of that profit goes to active flies in $FLYAI (5% to the team), weighted by rarity and by how long they were active. Registered FLYAI pets, our physical tamagotchis, share it too at 3.5x. Sell a fly or drop under the amount and it stops.",
     "risk": "Trading can lose money, and a week without profit pays nothing. Nothing here promises a return."
   },
   "claim": {
