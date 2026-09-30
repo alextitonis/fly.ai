@@ -635,7 +635,7 @@ def record_payout(owner: str, tx: str | None, tokens: float | None, note: str | 
 
 # ---- the worker ----
 
-def run(make_every: float = 20, sync_every: float = 300) -> None:
+def run(make_every: float = 60, sync_every: float = 300) -> None:
     print(f"merch worker: fee {FEE_TOKENS} $FLYAI to {TREASURY}, owner share {SHARE:.0%}, publish {PUBLISH}", flush=True)
     next_sync = 0.0
     while True:

@@ -7,6 +7,7 @@
   "use strict";
   const SUPABASE = "https://fixyinamewrjrcybjoua.supabase.co";
   const ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpeHlpbmFtZXdyanJjeWJqb3VhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkyNTUyNjMsImV4cCI6MjEwNDgzMTI2M30.-Ri3FIUheo4Tc9TFOUMAfV9OkDUp_0JK_hPvKVnagik";
+  const DESK_API = "https://flytrade-desk.fly.dev";
   const REFRESH_MS = 60_000;
   const BAR_MIN = 15;
   const $ = (id) => document.getElementById(id);
@@ -63,6 +64,14 @@
       if (!r.ok) throw new Error(r.status);
       return r.json();
     }
+    // the desk serves its own newest snapshot (flytrade/desk/pubserve.py): no database between the page and the desk
+    try {
+      const ctl = new AbortController();
+      const timer = setTimeout(() => ctl.abort(), 8000);
+      const d = await fetch(DESK_API + "/public/site.json", { cache: "no-store", signal: ctl.signal });
+      clearTimeout(timer);
+      if (d.ok) return d.json();
+    } catch (e) { /* the desk is restarting: the stored copy below */ }
     const r = await fetch(`${SUPABASE}/rest/v1/desk_public?key=eq.site&select=value`, {
       headers: { apikey: ANON, Authorization: `Bearer ${ANON}` }, cache: "no-store" });
     if (!r.ok) throw new Error(r.status);

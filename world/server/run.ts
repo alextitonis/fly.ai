@@ -25,6 +25,7 @@ import { toCsv, type Row, type Table } from "../src/datalog.ts";
 import { buildReport } from "../src/report.ts";
 import { LiveHub, sendData } from "./live.ts";
 import { FileSink, SupabaseSink, type DbRow, type Sink, type TableName } from "./sink.ts";
+import { PgSink } from "./pgsink.ts";
 
 const env = process.env;
 const num = (k: string, d: number) => (env[k] !== undefined && env[k] !== "" ? Number(env[k]) : d);
@@ -48,8 +49,9 @@ const CFG = {
 const STEP_HZ = 50;
 const log = (...a: unknown[]) => console.log(new Date().toISOString(), ...a);
 
-const sink: Sink = (env.WORLD_SINK ?? (env.SUPABASE_URL ? "supabase" : "files")) === "supabase"
-  ? new SupabaseSink(env.SUPABASE_URL!, env.SUPABASE_SERVICE_ROLE_KEY!)
+// SUPABASE_DB_URL (the pooler's Postgres URL) = straight SQL (pgsink.ts), else Flybook's REST API as before
+const sink: Sink = (env.WORLD_SINK ?? (env.SUPABASE_URL || env.SUPABASE_DB_URL ? "supabase" : "files")) === "supabase"
+  ? (env.SUPABASE_DB_URL ? await PgSink.connect(env.SUPABASE_DB_URL) : new SupabaseSink(env.SUPABASE_URL!, env.SUPABASE_SERVICE_ROLE_KEY!))
   : new FileSink(env.WORLD_DATA_DIR ?? "world-data");
 
 // ---- checkpoints: JSON with the weight arrays as base64, gzipped, as base64 text --------------------------------

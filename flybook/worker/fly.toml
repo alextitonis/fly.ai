@@ -22,7 +22,7 @@ primary_region = "cdg"
   FLYBOOK_MERCH_SHARE = "0.4"       # owners' share of each sale's profit
 
 [processes]
-  tick = "python flybook/worker/tick.py --every 120 --poke-poll 10 --market-every 600 --market-all"   # every active fly trades
+  tick = "python flybook/worker/tick.py --every 120 --poke-poll 30 --market-every 600 --market-all"   # every active fly trades
   api = "python flybook/worker/api.py"
   merch = "python flybook/worker/merch.py run"
   keeper = "python flybook/worker/flyai_keeper.py --loop"
