@@ -107,6 +107,14 @@ class FlyBrain:
                 raise RuntimeError("brain.npz has no superclass; run `flybrain build`")
             sensory = np.char.find(meta["superclass"].astype(str), "sensory") >= 0
             W = sparse.diags((~sensory).astype(np.float32)) @ W.tocsr()   # rows = postsynaptic
+        # The row mask above can leave a valid CSR matrix with unsorted column indices.
+        # CuPy/cuSPARSE may canonicalise such a matrix in place during the first sparse
+        # product, which silently moves any offsets into _W.indices/_W.data that callers
+        # cached before it (e.g. to apply plasticity to chosen synapses).  Canonicalise here,
+        # before the matrix is uploaded, so the GPU copy never changes layout.
+        W = W.tocsr()
+        W.sum_duplicates()
+        W.sort_indices()
         if device == "cuda":
             import cupy
             from cupyx.scipy import sparse as cusparse
