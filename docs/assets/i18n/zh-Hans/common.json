@@ -49,6 +49,10 @@
       "label": "果蝇赛跑",
       "desc": "六个果蝇大脑冲向水果"
     },
+    "colosseum": {
+      "label": "Fly Colosseum",
+      "desc": "Trader Fly 争夺 $FLYAI 奖池"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "果蝇大脑在约会资料上左滑右滑"

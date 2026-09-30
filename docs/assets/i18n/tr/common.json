@@ -49,6 +49,10 @@
       "label": "Sinek Yarışı",
       "desc": "Altı sinek beyni meyveye koşuyor"
     },
+    "colosseum": {
+      "label": "Fly Colosseum",
+      "desc": "Trader Fly'lar $FLYAI havuzu için dövüşür"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "Bir sinek beyni flört profillerini kaydırıyor"

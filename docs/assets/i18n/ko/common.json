@@ -49,6 +49,10 @@
       "label": "플라이 레이스",
       "desc": "파리 뇌 여섯 개가 과일을 향해 달려요"
     },
+    "colosseum": {
+      "label": "Fly Colosseum",
+      "desc": "Trader Fly가 $FLYAI 상금을 놓고 싸웁니다"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "파리 뇌가 데이팅 프로필을 스와이프"

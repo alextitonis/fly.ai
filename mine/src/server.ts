@@ -39,6 +39,7 @@ import { screenKey, screenRates } from "./screensum.ts";
 import { ADDRESS, checksumAddress, recoverAddress, siweMessage } from "./wallet.ts";
 import { createRoulette } from "./roulette.ts";
 import { createSlots } from "./slots.ts";
+import { createArena } from "./arena.ts";
 import { createRace } from "./race.ts";
 import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
 import { connectPg, lockWallet, type Q } from "./pg.ts";
@@ -66,7 +67,7 @@ const env = (k: string, d: string) => process.env[k] ?? d;
 const PORT = Number(env("PORT", "8787"));
 /**
  * One machine, two processes over the same database (src/start.ts puts a proxy in front): "mining" runs miners, orders,
- * verifiers and research; "user" runs sign-in, Fly Roulette, Fly Slots, Fly Race and FlightPass, so a busy mining thread never holds a
+ * verifiers and research; "user" runs sign-in, Fly Roulette, Fly Slots, Fly Race, Fly Colosseum and FlightPass, so a busy mining thread never holds a
  * player's page (2026-09-29). "all" runs everything in one process: local runs and the tests.
  */
 const ROLE = env("ROLE", "all");
@@ -3209,6 +3210,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/race/") || p === "/api/admin/race")) {
     if (await race.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/arena/") || p.startsWith("/api/admin/arena"))) {
+    if (await arena.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p.startsWith("/api/flightpass/") || p.startsWith("/api/admin/flightpass"))) {
     if (await flightpass.route(req, res, url)) return;
   }
@@ -3418,6 +3422,23 @@ const race = createRace({
   env: process.env,
 });
 if (USER) void race.resume().catch((err) => console.error("race resume:", err));
+// the hot wallet that pays withdrawals: one Relayer per key, so its transactions share one nonce queue (FlightPass and the colosseum fee)
+const payoutRelayer = process.env.FLIGHTPASS_PAYOUT_KEY ? new Relayer(process.env.FLIGHTPASS_PAYOUT_KEY, CLAIMS.rpc, "FLIGHTPASS_PAYOUT_KEY") : null;
+// Fly Colosseum (src/arena.ts): tournaments of Trader Flies, entries from the same ledger, fights played in a worker
+const arena = createArena({
+  pg, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
+  sessionWallet: sessionAddress,
+  termsAccepted: (wallet) => roulette.termsAccepted(wallet),
+  rpcUrl: env("ARENA_RPC", CLAIMS.rpc),
+  // posts every season to the ledger contract (ARENA_LEDGER) from a hot key that only pays gas (ARENA_LEDGER_KEY)
+  ledger: process.env.ARENA_LEDGER_KEY ? new Relayer(process.env.ARENA_LEDGER_KEY, env("ARENA_RPC", CLAIMS.rpc), "ARENA_LEDGER_KEY") : null,
+  // the house fee of each season goes to ARENA_FEE_TO from the payout wallet (ARENA_FEE_KEY: a wallet of its own instead)
+  feePayer: process.env.ARENA_FEE_KEY ? new Relayer(process.env.ARENA_FEE_KEY, env("ARENA_RPC", CLAIMS.rpc), "ARENA_FEE_KEY") : payoutRelayer,
+  token: ORDERS.token,
+  connectomeDir: CONNECTOME_DIR,
+  env: process.env,
+});
+if (USER) arena.start();
 // FlightPass (src/flightpass.ts): pass balances in the same ledger, autopilot bets through the roulette above
 const flightpass = createFlightPass({
   pg, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
@@ -3429,7 +3450,7 @@ const flightpass = createFlightPass({
   roulette, slots, race, rpcUrl: env("FLIGHTPASS_RPC", CLAIMS.rpc), payTo: ORDERS.payTo ?? null, today, env: process.env,
   token: ORDERS.token,
   // sends withdrawals itself: a hot wallet holding a float of FLYAI and gas, on the FLYAI chain
-  payer: process.env.FLIGHTPASS_PAYOUT_KEY ? new Relayer(process.env.FLIGHTPASS_PAYOUT_KEY, CLAIMS.rpc, "FLIGHTPASS_PAYOUT_KEY") : null,
+  payer: payoutRelayer,
 });
 if (USER) flightpass.start();
 // the mining side's timers: orders, card checkouts, webhooks, staking samples and the research summaries

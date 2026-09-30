@@ -49,6 +49,10 @@
       "label": "Fly Race",
       "desc": "Seis cerebros de mosca corren hacia la fruta"
     },
+    "colosseum": {
+      "label": "Fly Colosseum",
+      "desc": "Trader Flies luchan por un bote de $FLYAI"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "Un cerebro de mosca desliza perfiles de citas"

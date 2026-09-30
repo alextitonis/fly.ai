@@ -49,6 +49,10 @@
       "label": "Fly Race",
       "desc": "Six fly brains race to the fruit"
     },
+    "colosseum": {
+      "label": "Fly Colosseum",
+      "desc": "Trader Flies fight for a $FLYAI pot"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "A fly brain swipes on dating profiles"

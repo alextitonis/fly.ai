@@ -49,6 +49,10 @@
       "label": "果蠅賽跑",
       "desc": "六個果蠅大腦衝向水果"
     },
+    "colosseum": {
+      "label": "Fly Colosseum",
+      "desc": "Trader Fly 爭奪 $FLYAI 獎池"
+    },
     "flinder": {
       "label": "Flinder",
       "desc": "果蠅大腦在交友檔案上左滑右滑"

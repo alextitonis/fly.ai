@@ -23,6 +23,7 @@
     "test:roulette": "node --disable-warning=ExperimentalWarning src/roulettetest.ts",
     "test:slots": "node --disable-warning=ExperimentalWarning src/slotstest.ts",
     "test:race": "node --disable-warning=ExperimentalWarning src/racetest.ts",
+    "test:arena": "node --disable-warning=ExperimentalWarning src/arenatest.ts",
     "test:flightpass": "node --disable-warning=ExperimentalWarning src/flightpasstest.ts",
     "test:prune": "node --disable-warning=ExperimentalWarning src/prunetest.ts",
     "test:pg": "node --disable-warning=ExperimentalWarning src/pgtimeouttest.ts",

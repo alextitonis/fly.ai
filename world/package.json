@@ -10,6 +10,7 @@
     "build:roulette": "tsc --noEmit && vite build --config vite.roulette.config.ts",
     "build:slots": "tsc --noEmit && vite build --config vite.slots.config.ts",
     "build:race": "tsc --noEmit && vite build --config vite.race.config.ts",
+    "build:colosseum": "tsc --noEmit && vite build --config vite.colosseum.config.ts",
     "build:flinder": "tsc --noEmit && vite build --config vite.flinder.config.ts",
     "preview": "vite preview"
   },

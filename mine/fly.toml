@@ -44,6 +44,27 @@ primary_region = "cdg"
   RACE_MAX_PAYOUT = "30000"
   RACE_HOUSE_STOP = "300000"
   RACE_MAX_LIVE = "8"
+  # Fly Colosseum (src/arena.ts; whole tokens, 2026-09-30): Trader Fly tournaments. Entry, potions and the fee are
+  # the defaults of a tournament the operator opens (POST /api/admin/arena/open can override each).
+  # Fly pictures are the revealed art at 256 px (docs/colosseum/flies/<id>.webp), regenerate with the reveal folder.
+  ARENA_ON = "1"
+  ARENA_IMAGE = "https://flyaiworld.com/colosseum/flies/{id}.webp"
+  ARENA_TRADERFLY = "0x18d4D831cA89672126172B73bA05f5A318ad5A72"
+  ARENA_ENTRY = "5000"
+  ARENA_POTION = "2500"
+  ARENA_FEE_BPS = "1000"
+  ARENA_HOURS = "24"
+  ARENA_MIN_ENTRANTS = "4"
+  ARENA_MAX_ENTRANTS = "256"
+  ARENA_MAX_PER_WALLET = "3"
+  # the house fee of every season (ARENA_FEE_BPS) is sent in $FLYAI to the dev wallet when the season is done,
+  # from the payout wallet (FLIGHTPASS_PAYOUT_KEY): keep a little FLYAI and gas in it
+  ARENA_FEE_TO = "0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea"
+  # On-chain record of every season (flytrade/contracts/src/ColosseumLedger.sol behind a proxy): set after deploying it, with
+  #   fly secrets set ARENA_LEDGER_KEY=<the operator wallet's private key> -a flyai-mine
+  # (a hot key that only pays gas). Off while ARENA_LEDGER is unset: seasons still run, nothing is posted.
+  # ARENA_LEDGER = "0x..."
+  ARENA_EXPLORER = "https://robin.etherscan.io"
 
 [mounts]
   source = "mine_data"

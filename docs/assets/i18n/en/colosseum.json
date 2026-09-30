@@ -1,0 +1,196 @@
+{
+  "meta": {
+    "title": "Fly Colosseum",
+    "description": "Season after season, Trader Flies fight for a $FLYAI pot. Every fight is played by real fly brains from public stats, and every result can be checked. Provably fair."
+  },
+  "head": {
+    "title": "Fly <span>Colosseum</span>",
+    "crest": "Fly Colosseum",
+    "sub": "Trader Flies fight for a pot of $FLYAI. Stats come from a fly's traits by public tables, every fight is played by two real fly brains, and nothing else decides who wins."
+  },
+  "status": {
+    "progress": "{text}",
+    "labels": "labels",
+    "brain": "fly brain",
+    "wiring": "wiring 25 M synapses"
+  },
+  "season": {
+    "word": "Season",
+    "label": "Season {n}",
+    "first": "Season <span>1</span>",
+    "live": "Live",
+    "archive": "Archive"
+  },
+  "seasons": {
+    "label": "Seasons"
+  },
+  "hero": {
+    "soon": "Opening soon",
+    "leadOpen": "Registration is open. Pick your fighters and pay the entry before the clock hits zero: nobody can enter after the start.",
+    "leadRunning": "The season has started. The server plays every fight on its own with the fly brains, and the whole bracket shows at once when the last one is done.",
+    "leadDone": "The season is over. Watch any fight from the bracket, check it yourself, and winners claim their prize.",
+    "leadVoid": "Not enough flies entered, so the season was called off and everyone was paid back.",
+    "startsIn": "Season starts in",
+    "fighting": "Fights in progress",
+    "champion": "Champion",
+    "choose": "Choose your fighters",
+    "noEntry": "No entries after the start.",
+    "d": "days",
+    "h": "hours",
+    "m": "min",
+    "s": "sec"
+  },
+  "t": {
+    "closed": "The colosseum is closed for now.",
+    "open": "Registration open",
+    "running": "Fighting",
+    "done": "Finished",
+    "void": "Called off",
+    "entry": "Entry",
+    "pot": "Pot",
+    "entrants": "Fighters",
+    "feeShort": "House fee",
+    "min": "at least {n} flies or it is called off and refunded",
+    "perWallet": "up to {n} per wallet",
+    "potionPrice": "potion {price}",
+    "progress": "{fought} of {fights} fights played",
+    "commit": "server seed commit",
+    "seed": "server seed",
+    "digest": "entries hash",
+    "p1": "1st",
+    "p2": "2nd",
+    "p3": "3rd"
+  },
+  "chain": {
+    "title": "On chain",
+    "commit": "season commit",
+    "result": "results and champion",
+    "check": "Check on chain",
+    "asking": "asking the ledger contract…",
+    "ok": "Confirmed on chain: this exact fight, its winner and every round, is part of Season {n}'s results posted to the ledger contract.",
+    "bad": "The ledger contract does not have this fight as shown for Season {n}.",
+    "notYet": "Nothing to check yet: the season's results are posted to the chain when it finishes.",
+    "error": "Could not ask the chain: {text}",
+    "contract": "ledger contract",
+    "fee": "House fee of {amount} $FLYAI sent to the dev wallet",
+    "transfer": "transfer"
+  },
+  "fly": {
+    "title": "Your squad",
+    "signIn": "Sign in with your wallet to see your Trader Flies.",
+    "none": "Your wallet holds no Trader Fly.",
+    "name": "Trader Fly #{id}",
+    "hp": "HP {hp}",
+    "pow": "Power",
+    "grd": "Guard",
+    "vit": "Vitality",
+    "fury": "Fury",
+    "where": "Where the points come from",
+    "in": "In this season",
+    "enter": "Enter for {cost}",
+    "entered": "In the arena",
+    "potions": "Potions (+4 each, up to {max})",
+    "buyPotion": "Add {name} for {price}",
+    "closed": "Registration is closed.",
+    "auras": "Auras",
+    "auraLook": "Looks only, no stats. Bought once, stays with the fly.",
+    "worn": "worn",
+    "off": "Take off"
+  },
+  "entrants": {
+    "title": "The roster",
+    "none": "Nobody has entered yet."
+  },
+  "bracket": {
+    "title": "The bracket",
+    "hint": "Click a fight to watch it.",
+    "wait": "The bracket is drawn when the season starts, and every fight shows once they have all been played.",
+    "final": "Final",
+    "semi": "Semi-finals",
+    "bronze": "3rd place",
+    "bye": "bye",
+    "watch": "watch",
+    "ko": "KO",
+    "points": "points",
+    "coin": "drawn"
+  },
+  "fight": {
+    "close": "Close",
+    "replay": "Replay"
+  },
+  "ring": {
+    "round": "Round {n}",
+    "fury": "FURY",
+    "ko": "{name} wins by knockout",
+    "points": "{name} wins on points",
+    "coin": "{name} wins by the coin",
+    "speed": "Speed: {x}x"
+  },
+  "verify": {
+    "btn": "Verify this fight",
+    "start": "replaying…",
+    "progress": "round {k} of {n}…",
+    "ok": "Same fight: all {n} rounds match the server's.",
+    "diff": "The replay differs from the server at round {k}.",
+    "badSeed": "The revealed seed doesn't match its commit.",
+    "notYet": "Seeds are revealed when the season is over.",
+    "noBrain": "The fly brains couldn't load here.",
+    "loading": "Loading the fly brains to replay it… {text}"
+  },
+  "prize": {
+    "title": "Your prizes",
+    "row": "{name}: {place} with #{fly}, {prize} $FLYAI",
+    "claim": "Claim all",
+    "claimed": "Claimed {amount} $FLYAI."
+  },
+  "bet": {
+    "title": "Your $FLYAI",
+    "loading": "Opening your account…",
+    "intro": "Entries, potions and auras are paid from your fly.ai balance, the same one Fly Roulette, Fly Slots, Fly Race and compute use.",
+    "signIn": "Sign in with your wallet",
+    "signOut": "Sign out",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "depositLabel": "Send $FLYAI from your wallet to your balance",
+    "withdrawLabel": "Ask for $FLYAI back to your wallet",
+    "amount": "amount",
+    "send": "Send",
+    "ask": "Ask",
+    "withdrawNote": "Withdrawals are sent by hand, usually within a day.",
+    "withdrawOk": "Asked. It will be sent by hand.",
+    "enterAmount": "Enter an amount.",
+    "mining": "waiting for the block…",
+    "deposited": "Deposited {amount} $FLYAI.",
+    "sessionExpired": "Your session ended, sign in again.",
+    "closed": "The $FLYAI account is closed right now.",
+    "unreachable": "Couldn't reach the account server."
+  },
+  "terms": {
+    "title": "Before your first real entry",
+    "t1": "You pay with real $FLYAI from your balance. You can lose it all.",
+    "t2": "The season is decided by public stats and real fly brains; nobody can change a result, and the server seed is revealed at the end so you can check every fight.",
+    "t3": "Prizes go to your balance when you claim them. Withdrawals are sent by hand and can take a day.",
+    "t4": "This may be illegal where you live. It's your responsibility to follow your local laws.",
+    "over18": "I'm 18 or older",
+    "accept": "I accept the <a href=\"/roulette-terms\" target=\"_blank\" rel=\"noopener\">terms</a> (the same terms as Fly Roulette)",
+    "cancel": "Cancel",
+    "continue": "Continue"
+  },
+  "how": {
+    "title": "How a fight works",
+    "h1": "<b>Stats from traits, nothing hidden.</b> Every Trader Fly gets Power, Guard, Vitality and Fury from its traits by the tables below.",
+    "h2": "<b>Ten rounds.</b> Each round both flies' real brains smell the rival and see it charge. We count charge spikes and escape spikes.",
+    "h3": "<b>Damage.</b> hit = charge x 2 x (1 + 0.25% x Power) x (1 + 0.5% x Fury while under half HP). block = escape x 0.8 x (1 + 0.6% x Guard). Damage = hit minus the rival's block. HP = 200 + Vitality.",
+    "h4": "<b>Single elimination.</b> Fights end on a knockout or after ten rounds on points. The two beaten semi-finalists fight for 3rd.",
+    "h5": "<b>Provably fair.</b> The server commits to its seed when registration opens, every entry brings its own seed, and the seed is revealed at the end: Verify replays a fight in your browser.",
+    "h6": "<b>The pot.</b> Every entry and potion goes in. The house fee comes out; the rest is 60% / 25% / 15% for the top three. Too few flies: everything is refunded.",
+    "tables": "The stat tables",
+    "tRarity": "Rarity adds to every stat",
+    "tPose": "Pose (8 points)",
+    "tColor": "Colorway (4 points, to the stat its number picks)",
+    "tBg": "Background (2 points)",
+    "tGear": "Gear (4 points)",
+    "tExtra": "Extra (2 points)",
+    "tPotion": "Potions (4 points each)"
+  }
+}

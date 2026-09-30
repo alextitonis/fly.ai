@@ -8,6 +8,7 @@ COPY world/src/connectome.ts world/src/rng.ts world/src/
 COPY world/src/roulette/game.ts world/src/roulette/readout.ts world/src/roulette/
 COPY world/src/slots/game.ts world/src/slots/
 COPY world/src/race/game.ts world/src/race/readout.ts world/src/race/
+COPY world/src/arena/game.ts world/src/arena/readout.ts world/src/arena/stats.ts world/src/arena/shop.ts world/src/arena/
 COPY world/public/connectome world/public/connectome
 COPY mine/package.json mine/package-lock.json mine/
 RUN cd mine && npm ci --omit=dev
