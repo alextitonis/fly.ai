@@ -121,6 +121,7 @@ export function initBets(hooks: Hooks) {
     balanceEl.textContent = `${fmt(me.balance)} FLYAI`;
     const wr = me.withdraw_request;
     $("bet-withdraw-note").textContent = wr ? t("roulette.bet.withdrawAsked", { amount: fmt(wr.amount) }) : "";
+    $("wd-cancel").hidden = !wr;
     historyEl.innerHTML = me.history.length ? me.history.map((h) => `<li><span>${t("roulette.bet.historyRow", { flies: t("roulette.controls.flies", { count: h.flies }), seat: h.pick + 1, stake: fmt(h.stake) })}</span>
       <b class="${h.won ? "won" : h.status === "done" ? "lost" : ""}">${h.status === "live" ? t("roulette.bet.playing") : h.status === "void" ? t("roulette.bet.refunded") : h.won ? `+${fmt(h.payout)}` : `−${fmt(h.stake)}`}</b></li>`).join("")
       : `<li class="dim">${t("roulette.bet.noBets")}</li>`;
@@ -305,6 +306,22 @@ export function initBets(hooks: Hooks) {
     }
   }
 
+  /** Take an open request back: the amount is free again, to bet or to send to a FlightPass. */
+  async function cancelRequest(): Promise<void> {
+    const btn = $<HTMLButtonElement>("wd-cancel");
+    btn.disabled = true;
+    try {
+      me = await api("/api/balance/withdraw-cancel", {});
+      showMe();
+      say(t("roulette.bet.cancelOk"));
+    } catch (err) {
+      say(String((err as Error).message), true);
+      await refresh();
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
   // straight onto a FlightPass (2026-09-30): the pass's withdrawals are sent automatically, this balance's by hand
   let passesFor: string | null = null;
   async function loadPasses(): Promise<void> {
@@ -372,6 +389,7 @@ export function initBets(hooks: Hooks) {
     $("bet-deposit").onclick = () => { depositBox.hidden = !depositBox.hidden; withdrawBox.hidden = true; };
     $("bet-withdraw").onclick = () => { withdrawBox.hidden = !withdrawBox.hidden; depositBox.hidden = true; if (!withdrawBox.hidden) void loadPasses(); };
     $("wd-pass-go").onclick = () => void toPass();
+    $("wd-cancel").onclick = () => void cancelRequest();
     $("dep-go").onclick = () => void deposit();    $("wd-go").onclick = () => void withdraw();
     $("res-verify").onclick = () => void verify();
     await refresh();

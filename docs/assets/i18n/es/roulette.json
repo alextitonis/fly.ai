@@ -126,6 +126,8 @@
     "needPick": "primero elige una mosca",
     "overBalance": "más que tu saldo",
     "withdrawAsked": "Pediste que te devuelvan {amount} FLYAI; se envía a mano, normalmente en menos de un día.",
+    "cancelRequest": "Cancelar solicitud",
+    "cancelOk": "✓ solicitud cancelada; el importe vuelve a estar libre en tu saldo",
     "historyRow": "{flies} · asiento {seat} · {stake}",
     "playing": "en juego",
     "refunded": "reembolsada",

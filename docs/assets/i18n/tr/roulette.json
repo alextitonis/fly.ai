@@ -126,6 +126,8 @@
     "needPick": "önce bir sinek seç",
     "overBalance": "bakiyenden fazla",
     "withdrawAsked": "{amount} FLYAI geri istedin; elle gönderilir, genelde bir gün içinde.",
+    "cancelRequest": "İsteği iptal et",
+    "cancelOk": "✓ istek iptal edildi; tutar bakiyende yeniden serbest",
     "historyRow": "{flies} · {seat}. koltuk · {stake}",
     "playing": "oynanıyor",
     "refunded": "iade edildi",

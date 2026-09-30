@@ -126,6 +126,8 @@
     "needPick": "请先选一只果蝇",
     "overBalance": "超出你的余额",
     "withdrawAsked": "你申请提回 {amount} FLYAI；由人工发放，通常一天内到账。",
+    "cancelRequest": "取消申请",
+    "cancelOk": "✓ 已取消申请；这笔金额在你的余额中重新可用",
     "historyRow": "{flies} · {seat} 号座位 · {stake}",
     "playing": "进行中",
     "refunded": "已退款",

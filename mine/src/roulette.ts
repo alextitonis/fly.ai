@@ -386,6 +386,21 @@ export function createRoulette(d: RouletteDeps) {
     return me(req);
   }
 
+  /**
+   * The player takes their open request back (2026-09-30): nothing was booked when they asked, so the balance is
+   * simply free again, to bet or to move onto a FlightPass (whose withdrawals are sent automatically). Under the
+   * wallet's lock, as the operator's "paid" is: a request is closed once, one way or the other.
+   */
+  async function withdrawCancel(req: IncomingMessage) {
+    const wallet = await d.sessionWallet(req);
+    await pg.tx(async (q) => {
+      if (!(await q.run("update mine.withdraw_requests set status = 'cancelled', done_at = ? where wallet = ? and status = 'open'", Date.now(), wallet))) {
+        throw new HttpError(404, "you have no open withdrawal request");
+      }
+    }, lockWallet(wallet));
+    return me(req);
+  }
+
   // ---- routes ----------------------------------------------------------------------------------------
   /** Handles the request if it's one of ours; false otherwise. */
   async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promise<boolean> {
@@ -407,6 +422,7 @@ export function createRoulette(d: RouletteDeps) {
       if (p === "/api/roulette/games") return d.send(res, 200, await bet(req, await d.readJson(req))), true;
       if (p === "/api/balance/deposit") return d.send(res, 200, await deposit(req, await d.readJson(req))), true;
       if (p === "/api/balance/withdraw-request") return d.send(res, 200, await withdrawRequest(req, await d.readJson(req))), true;
+      if (p === "/api/balance/withdraw-cancel") return d.send(res, 200, await withdrawCancel(req)), true;
     }
     return false;
   }

@@ -126,6 +126,8 @@
     "needPick": "pick a fly first",
     "overBalance": "more than your balance",
     "withdrawAsked": "You asked for {amount} FLYAI back; it's sent by hand, usually within a day.",
+    "cancelRequest": "Cancel request",
+    "cancelOk": "✓ request cancelled; the amount is free in your balance again",
     "historyRow": "{flies} · seat {seat} · {stake}",
     "playing": "playing",
     "refunded": "refunded",

@@ -126,6 +126,8 @@
     "needPick": "먼저 파리를 고르세요",
     "overBalance": "잔액보다 많아요",
     "withdrawAsked": "{amount} FLYAI 출금을 요청했어요. 수동으로 보내드리며, 보통 하루 안에 도착해요.",
+    "cancelRequest": "요청 취소",
+    "cancelOk": "✓ 요청을 취소했어요. 금액을 다시 잔액에서 쓸 수 있어요",
     "historyRow": "{flies} · {seat}번 자리 · {stake}",
     "playing": "진행 중",
     "refunded": "환불됨",

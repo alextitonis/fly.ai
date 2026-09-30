@@ -276,6 +276,10 @@ try {
   check("can't ask for more than the balance", (await api("/api/balance/withdraw-request", a, { amount: String(bal + 1) })).status === 400);
   check("a withdrawal request", (await api("/api/balance/withdraw-request", a, { amount: "100" })).json.withdraw_request?.amount === "100");
   check("one request at a time", (await api("/api/balance/withdraw-request", a, { amount: "50" })).status === 409);
+  const cancelled = await api("/api/balance/withdraw-cancel", a, {});
+  check("the player cancels it: no request, the balance as it was", cancelled.status === 200 && cancelled.json.withdraw_request === null && Number(cancelled.json.balance) === bal, JSON.stringify(cancelled.json).slice(0, 160));
+  check("nothing left to cancel", (await api("/api/balance/withdraw-cancel", a, {})).status === 404);
+  check("and asks again", (await api("/api/balance/withdraw-request", a, { amount: "100" })).json.withdraw_request?.amount === "100");
   const adm = (await api("/api/admin/roulette", null, undefined, true)).json;
   check("admin sees the request, the house's books and what's held", adm.withdraw_requests.length === 1 && adm.games_played === 4 && typeof adm.balances_held === "string", JSON.stringify(adm).slice(0, 240));
   const sentBack = await sendTx(owner.address, token, calldata("transfer(address,uint256)", alice.address, 100n * WEI));
