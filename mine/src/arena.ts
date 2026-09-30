@@ -481,6 +481,14 @@ export function createArena(d: ArenaDeps) {
     return { fights: Number(r?.fights ?? 0), wins: Number(r?.wins ?? 0), titles };
   }
 
+  /** Every fly's auras at once (the marketplace's cards and a fly's inventory): what it owns and what it wears. Auras stay with the fly. */
+  async function aurasAll() {
+    const out: Record<number, { owned: string[]; worn: string | null }> = {};
+    for (const r of await pg.all<{ fly: number; aura: string }>("select fly, aura from mine.arena_auras order by at")) (out[r.fly] ??= { owned: [], worn: null }).owned.push(r.aura);
+    for (const r of await pg.all<{ fly: number; aura: string | null }>("select fly, aura from mine.arena_worn where aura is not null")) if (out[r.fly]) out[r.fly].worn = r.aura;
+    return out;
+  }
+
   async function flyView(fly: number) {
     if (!on) throw new HttpError(503, "the colosseum is closed");
     if (!Number.isInteger(fly) || fly < 1 || fly > CFG.maxId) throw new HttpError(400, `fly is a number from 1 to ${CFG.maxId}`);
@@ -723,6 +731,7 @@ export function createArena(d: ArenaDeps) {
       if (p === "/api/arena/config") return d.send(res, 200, config()), true;
       if (p === "/api/arena/current") return d.send(res, 200, { tournament: await latest() }), true;
       if (p === "/api/arena/tournaments") return d.send(res, 200, { tournaments: await list() }), true;
+      if (p === "/api/arena/auras") return d.send(res, 200, { auras: await aurasAll() }), true;
       if (p === "/api/arena/me") return d.send(res, 200, await me(req)), true;
       if ((m = new RegExp(`^/api/arena/tournaments/(${UUID})$`).exec(p))) return d.send(res, 200, await tournamentView(m[1])), true;
       if ((m = new RegExp(`^/api/arena/tournaments/(${UUID})/fights/(-?\\d{1,2})/(\\d{1,4})$`).exec(p))) {

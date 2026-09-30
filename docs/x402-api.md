@@ -33,7 +33,7 @@ an EIP-3009 `TransferWithAuthorization`; the facilitator submits it and pays the
 1. Call a paid endpoint with no payment. The answer is `402` with the terms in the body and, base64-encoded, in the
    `PAYMENT-REQUIRED` header:
    ```json
-   {"x402Version": 2, "resource": "https://flyai-x402.fly.dev/cost/NVDA", "accepts": [
+   {"x402Version": 2, "resource": {"url": "https://flyai-x402.fly.dev/cost/NVDA", "...": "..."}, "accepts": [
      {"scheme": "exact", "network": "eip155:4663", "asset": "0x5fc5...d168", "amount": "20000",
       "payTo": "0x6258...89ea", "maxTimeoutSeconds": 60, "extra": {"name": "Global Dollar", "version": "1"}},
      {"scheme": "exact", "network": "eip155:8453", "asset": "0x8335...2913", "amount": "20000", "...": "..."}]}

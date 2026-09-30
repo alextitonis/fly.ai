@@ -515,6 +515,8 @@ try {
   check("admin: fees, auras sold, prizes not yet claimed", adm.status === 200 && adm.json.on === true && adm.json.live === null && adm.json.tournaments_done === 2
     && adm.json.fees_all === "1980" && adm.json.auras_sold === "25000" && adm.json.prizes_unclaimed === "5440", JSON.stringify(adm.json));
   check("admin is admin only", (await api("/api/admin/arena", null)).status === 403);
+  const aurasAll = (await api("/api/arena/auras", null)).json.auras;
+  check("every fly's auras in one call: owned ones, what is worn, none for flies without", aurasAll["1"]?.owned.join() === "ember" && (aurasAll["1"].worn === "ember" || aurasAll["1"].worn === null) && aurasAll["2"] === undefined, JSON.stringify(aurasAll));
   const all = (await api("/api/arena/tournaments", null)).json.tournaments;
   check("the list, newest first", all.length === 4 && all[0].id === T4 && all[3].id === T1 && all.map((t: any) => t.status).join() === "done,void,void,done" && all[0].entrants === 6);
 

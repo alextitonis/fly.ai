@@ -488,6 +488,21 @@ function renderBracket(): void {
 }
 new ResizeObserver(() => { const tr = document.getElementById("tree"); if (tr) drawLinks(tr, view?.status === "done"); }).observe(document.body);
 
+/** What can be bought, and how: potions for one season, auras for good. Both are paid from the on-site balance on a fly's card. */
+function renderShop(): void {
+  const el = $("shop");
+  el.className = "shop";
+  const potionPrice = cur?.potion_price ?? view?.potion_price ?? null;
+  el.innerHTML = `
+    <h3>${t("colosseum.shop.potions")}</h3>
+    <p>${t("colosseum.shop.potionsText", { max: MAX_POTIONS })}</p>
+    <ul>${POTION_IDS.map((p) => `<li><b>🧪 ${esc(POTIONS[p].name)}</b><span>${Object.entries(POTIONS[p].add).map(([k, v]) => `+${v} ${STAT_ICON[k as Stat]}`).join(" ")}</span><span>${potionPrice !== null ? fmt(potionPrice) : "-"}</span></li>`).join("")}</ul>
+    <h3>${t("colosseum.shop.auras")} <span class="forever">${t("colosseum.shop.forever")}</span></h3>
+    <p>${t("colosseum.shop.aurasText")}</p>
+    <ul>${AURAS.map((a) => `<li><i class="dot" style="--a1:${a.colors[0]}; --a2:${a.colors[1]}"></i><b>${esc(a.name)}</b><span>${fmt(a.price)}</span></li>`).join("")}</ul>
+    <p class="note">${t("colosseum.shop.where")}</p>`;
+}
+
 // ---- your squad: trading cards -----------------------------------------------------------------------------------
 const picked = new Map<number, Set<PotionId>>();
 const flyMsg = new Map<number, string>();
@@ -512,6 +527,8 @@ function flyCard(f: MyFly): string {
       <button class="gbtn gold wide" type="button" data-enter="${f.fly}"${acting ? " disabled" : ""}>${t("colosseum.fly.enter", { cost: fmt(cost) })}</button>`;
   } else if (cur?.status === "open") {
     action = `<p class="note" style="margin:0">${t("colosseum.fly.closed")}</p>`;
+  } else {
+    action = `<p class="note" style="margin:0">${t("colosseum.fly.noSeason")}</p>`;
   }
   const auras = `<details><summary>${t("colosseum.fly.auras")}</summary><div class="chips" style="margin-top:8px">${AURAS.map((a) => {
     const own = f.auras.includes(a.id), worn = f.aura === a.id;
@@ -697,6 +714,7 @@ function renderAll(): void {
   renderRoster();
   renderBracket();
   renderPrizes();
+  renderShop();
 }
 
 async function refreshMe(): Promise<void> {

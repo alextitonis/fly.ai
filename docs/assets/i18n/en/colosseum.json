@@ -92,10 +92,11 @@
     "potions": "Potions (+4 each, up to {max})",
     "buyPotion": "Add {name} for {price}",
     "closed": "Registration is closed.",
-    "auras": "Auras",
-    "auraLook": "Looks only, no stats. Bought once, stays with the fly.",
+    "auras": "Auras (yours for good)",
+    "auraLook": "Looks only, no stats. Buy once and it is the fly's for good: if the fly is sold, the aura goes with it.",
     "worn": "worn",
-    "off": "Take off"
+    "off": "Take off",
+    "noSeason": "Potions can be bought when a season is open for entries."
   },
   "entrants": {
     "title": "The roster",
@@ -192,5 +193,14 @@
     "tGear": "Gear (4 points)",
     "tExtra": "Extra (2 points)",
     "tPotion": "Potions (4 points each)"
+  },
+  "shop": {
+    "title": "Shop",
+    "potions": "Potions",
+    "potionsText": "Add points to one fly for one season, up to {max} per fly: buy them when you enter a fly, or add them to a fly that is already in until the clock hits zero. Everyone sees them. They are used up when the season is over.",
+    "auras": "Auras",
+    "forever": "yours for good",
+    "aurasText": "A glow around the fly in the ring and on its card, looks only, no stats. Buy one once and it is the fly's for good: if the fly is sold, the aura goes to its new owner. Wear it or take it off whenever you like, in any season.",
+    "where": "Buy both on a fly's card in Your squad, from your $FLYAI balance."
   }
 }

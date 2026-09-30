@@ -529,6 +529,15 @@
   .tables table{width:100%; border-collapse:collapse; font-size:11px; color:var(--muted);}
   .tables td{padding:2px 6px 2px 0; border-bottom:1px solid var(--line);}
   .tables td:last-child{text-align:right; font-family:'JetBrains Mono',monospace; color:var(--ink);}
+  .shop h3{font:700 13px var(--px); letter-spacing:.12em; text-transform:uppercase; color:var(--ink); margin:14px 0 4px;}
+  .shop h3:first-child{margin-top:0;}
+  .shop p{margin:0 0 8px; font-size:13px; color:var(--muted);}
+  .shop ul{list-style:none; margin:0 0 6px; padding:0; display:grid; gap:6px;}
+  .shop li{display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:12px; background:var(--surface-2); border:2px solid var(--line); font-size:13px;}
+  .shop li b{font:700 13px var(--px); flex:1;}
+  .shop li span{font:600 12px 'JetBrains Mono',monospace; color:var(--muted);}
+  .shop li .dot{width:14px; height:14px; border-radius:50%; background:radial-gradient(circle,var(--a1),var(--a2)); flex:none;}
+  .shop .forever{display:inline-block; margin-left:6px; padding:1px 8px; border-radius:999px; background:var(--accent); color:#000; font:700 10px var(--px); letter-spacing:.1em; text-transform:uppercase;}
   .notice{padding:16px; border:2px dashed #233; border-color:#1f2a27; border-radius:14px; color:var(--muted); text-align:center; margin:0;}
   .prizes li{justify-content:space-between;}
   .coin{display:inline-block; width:.9em; height:.9em; border-radius:50%; background:radial-gradient(circle at 35% 35%,#fff3b0,#ffc83d 55%,#b87a00); vertical-align:-.1em; margin-right:4px;}
@@ -540,6 +549,7 @@
     <a class="brand" href="/"><img class="logo" src="/assets/logo-t.webp" alt="fly.ai" width="988" height="439">$FLYAI</a>
     <ul>
       <li><a href="/">Home</a></li>
+      <li><a class="on" href="/colosseum/">Fly Colosseum</a></li>
       <li class="dd"><button class="ddbtn ddlabel" type="button" aria-expanded="false" aria-controls="dd-research">Research <span aria-hidden="true">&#9662;</span></button>
         <ul class="ddmenu" id="dd-research">
           <li><a href="/research">All findings<small>Fighting, the 3-D world, what failed</small></a></li>
@@ -547,7 +557,7 @@
           <li><a href="/research/radio">On air<small>How a radio station run by a real fly brain works</small></a></li>
           <li><a href="/roadmap">Roadmap<small>What's done and what's next</small></a></li>
         </ul></li>
-      <li class="dd"><button class="ddbtn ddlabel on" type="button" aria-expanded="false" aria-controls="dd-apps">Apps <span aria-hidden="true">&#9662;</span></button>
+      <li class="dd"><button class="ddbtn ddlabel" type="button" aria-expanded="false" aria-controls="dd-apps">Apps <span aria-hidden="true">&#9662;</span></button>
         <ul class="ddmenu" id="dd-apps">
           <li><a href="/simulation/">Simulation<small>Flies with real brains in a 3-D world</small></a></li>
           <li><a href="/flybook/">Flybook<small>The live feed written by fly brains</small></a></li>
@@ -555,7 +565,6 @@
           <li><a href="/roulette/">Fly Roulette<small>Fly brains vs a toy cap gun</small></a></li>
           <li><a href="/slots/">Fly Slots<small>Spin the reels, a fly brain reacts</small></a></li>
           <li><a href="/race/">Fly Race<small>Six fly brains race to the fruit</small></a></li>
-          <li><a class="on" href="/colosseum/">Fly Colosseum<small>Trader Flies fight for a $FLYAI pot</small></a></li>
           <li><a href="/flinder/">Flinder<small>A fly brain swipes on dating profiles</small></a></li>
           <li><a href="/compute/">Compute<small>Mine with your browser, earn $FLYAI</small></a></li>
         </ul></li>
@@ -623,6 +632,11 @@
           </div>
           <p class="note" id="bet-msg"></p>
         </div>
+      </div>
+
+      <div class="gcard" id="shop-card">
+        <h2 data-i18n="colosseum.shop.title">Shop</h2>
+        <div id="shop"></div>
       </div>
 
       <div class="gcard" id="prize-card" hidden>
