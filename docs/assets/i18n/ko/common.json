@@ -4,7 +4,9 @@
       "research": "연구",
       "apps": "앱",
       "token": "$FLYAI",
-      "traderflies": "Trader Flies"
+      "traderflies": "Trader Flies",
+      "nfts": "NFT",
+      "flydesk": "Fly Desk"
     },
     "home": {
       "label": "홈"
@@ -62,8 +64,8 @@
       "desc": "파리 뇌가 모의 포트폴리오를 거래합니다"
     },
     "traderflies": {
-      "label": "민팅",
-      "desc": "Trader Flies 제네시스 민팅"
+      "label": "Trader Flies",
+      "desc": "컬렉션과 내 파리들"
     },
     "compute": {
       "label": "컴퓨트",
@@ -78,7 +80,8 @@
       "desc": "파리 티셔츠 등"
     },
     "agents": {
-      "label": "에이전트용"
+      "label": "에이전트용",
+      "desc": "Claude가 파리처럼 말하게 하기"
     },
     "follow": {
       "label": "@flydotai 팔로우"
@@ -98,6 +101,10 @@
     "traderflies_pass": {
       "label": "FlightPass",
       "desc": "파리를 자동 조종으로"
+    },
+    "desk-api": {
+      "label": "API 및 스킬",
+      "desc": "x402로 데스크의 답변 구매"
     }
   },
   "footer": {

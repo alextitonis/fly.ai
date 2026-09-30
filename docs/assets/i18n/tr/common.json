@@ -4,7 +4,9 @@
       "research": "Araştırma",
       "apps": "Uygulamalar",
       "token": "$FLYAI",
-      "traderflies": "Trader Flies"
+      "traderflies": "Trader Flies",
+      "nfts": "NFT'ler",
+      "flydesk": "Fly Desk"
     },
     "home": {
       "label": "Ana sayfa"
@@ -62,8 +64,8 @@
       "desc": "Sinek beyinleri kağıt üzerinde işlem yapıyor"
     },
     "traderflies": {
-      "label": "Mint",
-      "desc": "Trader Flies genesis mint"
+      "label": "Trader Flies",
+      "desc": "Koleksiyon ve sineklerin"
     },
     "compute": {
       "label": "Hesaplama",
@@ -78,7 +80,8 @@
       "desc": "Sinek tişörtleri ve dahası"
     },
     "agents": {
-      "label": "Ajanlar için"
+      "label": "Ajanlar için",
+      "desc": "Claude'u sinek gibi konuştur"
     },
     "follow": {
       "label": "@flydotai'yi takip et"
@@ -98,6 +101,10 @@
     "traderflies_pass": {
       "label": "FlightPass",
       "desc": "Sineklerini otomatik pilota al"
+    },
+    "desk-api": {
+      "label": "API ve skill'ler",
+      "desc": "Desk'in cevaplarını x402 ile al"
     }
   },
   "footer": {

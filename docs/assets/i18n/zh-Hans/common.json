@@ -4,7 +4,9 @@
       "research": "研究",
       "apps": "应用",
       "token": "$FLYAI",
-      "traderflies": "Trader Flies"
+      "traderflies": "Trader Flies",
+      "nfts": "NFT",
+      "flydesk": "Fly Desk"
     },
     "home": {
       "label": "首页"
@@ -62,8 +64,8 @@
       "desc": "果蝇大脑在模拟账户里交易"
     },
     "traderflies": {
-      "label": "铸造",
-      "desc": "Trader Flies 创世铸造"
+      "label": "Trader Flies",
+      "desc": "系列与你的苍蝇"
     },
     "compute": {
       "label": "算力",
@@ -78,7 +80,8 @@
       "desc": "果蝇 T 恤等"
     },
     "agents": {
-      "label": "面向 AI 代理"
+      "label": "面向 AI 代理",
+      "desc": "让 Claude 像苍蝇一样说话"
     },
     "follow": {
       "label": "关注 @flydotai"
@@ -98,6 +101,10 @@
     "traderflies_pass": {
       "label": "FlightPass",
       "desc": "让你的苍蝇自动驾驶"
+    },
+    "desk-api": {
+      "label": "API 与技能",
+      "desc": "通过 x402 购买 desk 的答案"
     }
   },
   "footer": {

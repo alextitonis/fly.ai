@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "title": "Fly Desk API & skills — buy the desk's answers over x402",
+    "description": "A paid API and a Claude skill for the Fly Desk: a read on a Polymarket market, forecasts, real trade costs on Robinhood Chain, token checks, a run of the fly connectome and fly memes, paid per request over x402.",
+    "og_description": "The Fly Desk's answers as a paid API for agents, over x402."
+  },
+  "head": {
+    "eyebrow": "Fly Desk",
+    "title": "Ask the desk, pay per answer",
+    "lede": "The Fly Desk's models as a paid API any agent can call over x402, and the Claude skill that makes it one sentence to use. No account, no subscription: one request, one small payment, and the answer comes with its track record."
+  },
+  "pay": {
+    "eyebrow": "Skills",
+    "lede": "A Claude skill, and a paid API any agent can call, for buying one answer at a time from fly.ai: a read on a Polymarket market, a forecast, what a trade really costs on Robinhood Chain, a token check, a run of the real fly brain, or a fly meme. Each request is a few cents, paid over x402.",
+    "th1": "What",
+    "th2": "Price",
+    "th3": "You get",
+    "t1": "The <a href=\"/desk\">Fly Desk</a> model's probability for a market next to the market's price, the side it leans to, and its record. Paste a polymarket.com link.",
+    "t2": "A TimesFM forecast with a prediction band: a token the desk tracks, or any series of numbers you send.",
+    "t3": "The real round-trip cost of a Robinhood Chain token at your size, quoted on chain through its best pool.",
+    "t4": "Facts about a Robinhood Chain token: pools and depth, age, links, copycats of its name, contract and holder facts.",
+    "t5": "One run of the 166,700-neuron connectome: stimulate a sense and read what the fly's neurons made it do.",
+    "t6": "A generated fruit-fly meme image for your idea, with optional top and bottom text.",
+    "num1": "1 · ASK",
+    "h31": "Say what you want",
+    "p1": "A market link, a token, a list of numbers, a sense, a meme idea. Claude picks the right call.",
+    "num2": "2 · PRICE",
+    "h32": "You see the cost first",
+    "p2": "Nothing is paid until you say yes, and a request that can't be answered costs nothing.",
+    "num3": "3 · PAY",
+    "h33": "Paid over x402",
+    "p3": "USDG on Robinhood Chain or USDC on Base, signed by a wallet key you keep in your own environment. No gas needed, and Claude never sees the key.",
+    "num4": "4 · ANSWER",
+    "h34": "The answer, with its record",
+    "p4": "Where a model is involved, its record comes with the answer. The Polymarket model has not beaten the market so far, and the forecasts are better at how much a token will move than which way: read them as opinions, not advice.",
+    "h35": "Install",
+    "p5": "Needs Python 3.9+.",
+    "p6": "Then ask Claude: \"what does the fly desk think of this market?\", \"what does it cost to trade $200 of NVDA on Robinhood Chain?\" or \"how would a fly react to this?\"",
+    "h36": "Or from any agent",
+    "p7": "A request without payment answers HTTP 402 with the standard x402 terms, so any x402 client can pay it.",
+    "a1": "The skill on GitHub",
+    "a2": "API guide"
+  }
+}

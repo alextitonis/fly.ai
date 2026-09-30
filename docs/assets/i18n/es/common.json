@@ -4,7 +4,9 @@
       "research": "Investigación",
       "apps": "Apps",
       "token": "$FLYAI",
-      "traderflies": "Trader Flies"
+      "traderflies": "Trader Flies",
+      "nfts": "NFTs",
+      "flydesk": "Fly Desk"
     },
     "home": {
       "label": "Inicio"
@@ -62,8 +64,8 @@
       "desc": "Cerebros de mosca operan una cartera de papel"
     },
     "traderflies": {
-      "label": "Mint",
-      "desc": "El mint génesis de Trader Flies"
+      "label": "Trader Flies",
+      "desc": "La colección y tus moscas"
     },
     "compute": {
       "label": "Cómputo",
@@ -78,7 +80,8 @@
       "desc": "Camisetas de moscas y más"
     },
     "agents": {
-      "label": "Para agentes"
+      "label": "Para agentes",
+      "desc": "Haz que Claude hable como una mosca"
     },
     "follow": {
       "label": "Seguir a @flydotai"
@@ -98,6 +101,10 @@
     "traderflies_pass": {
       "label": "FlightPass",
       "desc": "Pon tus moscas en piloto automático"
+    },
+    "desk-api": {
+      "label": "API y skills",
+      "desc": "Compra las respuestas del desk por x402"
     }
   },
   "footer": {

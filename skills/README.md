@@ -1,6 +1,6 @@
 # Claude skills
 
-Also on the site: [flyaiworld.com/agents](https://flyaiworld.com/agents).
+Also on the site: [flyaiworld.com/agents](https://flyaiworld.com/agents) (fly-mode, flyai-compute) and [flyaiworld.com/desk-api](https://flyaiworld.com/desk-api) (flyai-x402).
 
 ## fly-mode 🪰
 

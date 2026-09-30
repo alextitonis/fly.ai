@@ -4,7 +4,9 @@
       "research": "研究",
       "apps": "應用",
       "token": "$FLYAI",
-      "traderflies": "Trader Flies"
+      "traderflies": "Trader Flies",
+      "nfts": "NFT",
+      "flydesk": "Fly Desk"
     },
     "home": {
       "label": "首頁"
@@ -62,8 +64,8 @@
       "desc": "果蠅大腦在模擬帳戶裡交易"
     },
     "traderflies": {
-      "label": "鑄造",
-      "desc": "Trader Flies 創世鑄造"
+      "label": "Trader Flies",
+      "desc": "系列與你的蒼蠅"
     },
     "compute": {
       "label": "算力",
@@ -78,7 +80,8 @@
       "desc": "果蠅 T 恤等"
     },
     "agents": {
-      "label": "給 AI 代理"
+      "label": "給 AI 代理",
+      "desc": "讓 Claude 像蒼蠅一樣說話"
     },
     "follow": {
       "label": "追蹤 @flydotai"
@@ -98,6 +101,10 @@
     "traderflies_pass": {
       "label": "FlightPass",
       "desc": "讓你的蒼蠅自動駕駛"
+    },
+    "desk-api": {
+      "label": "API 與技能",
+      "desc": "透過 x402 購買 desk 的答案"
     }
   },
   "footer": {
