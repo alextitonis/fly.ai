@@ -52,14 +52,15 @@
     "feeShort": "House fee",
     "min": "at least {n} flies or it is called off and refunded",
     "perWallet": "up to {n} per wallet",
-    "potionPrice": "potion {price}",
+    "potionPrice": "potion {price} (this season)",
     "progress": "{fought} of {fights} fights played",
     "commit": "server seed commit",
     "seed": "server seed",
     "digest": "entries hash",
     "p1": "1st",
     "p2": "2nd",
-    "p3": "3rd"
+    "p3": "3rd",
+    "potionForever": "for good {price}"
   },
   "chain": {
     "title": "On chain",
@@ -96,7 +97,11 @@
     "auraLook": "Looks only, no stats. Buy once and it is the fly's for good: if the fly is sold, the aura goes with it.",
     "worn": "worn",
     "off": "Take off",
-    "noSeason": "Potions can be bought when a season is open for entries."
+    "noSeason": "Potions can be bought when a season is open for entries.",
+    "free": "free",
+    "potionsForGood": "Potions for good",
+    "buyForGood": "buy ∞ {price}",
+    "forGoodNote": "Buy a potion once for this fly and it is yours for every season, free to add. It stays with the fly, and goes to its new owner if the fly is sold."
   },
   "entrants": {
     "title": "The roster",
@@ -197,10 +202,13 @@
   "shop": {
     "title": "Shop",
     "potions": "Potions",
-    "potionsText": "Add points to one fly for one season, up to {max} per fly: buy them when you enter a fly, or add them to a fly that is already in until the clock hits zero. Everyone sees them. They are used up when the season is over.",
+    "potionsText": "Add points to a fly, up to {max} per fly and season. Everyone sees them. Buy a potion for one season when you enter a fly (or add it to a fly already in until the clock hits zero), or buy it for good.",
     "auras": "Auras",
     "forever": "yours for good",
     "aurasText": "A glow around the fly in the ring and on its card, looks only, no stats. Buy one once and it is the fly's for good: if the fly is sold, the aura goes to its new owner. Wear it or take it off whenever you like, in any season.",
-    "where": "Buy both on a fly's card in Your squad, from your $FLYAI balance."
+    "where": "Buy on a fly's card in Your squad, from your $FLYAI balance.",
+    "oneSeason": "One season",
+    "forGood": "For good",
+    "forGoodText": "A potion for good belongs to the fly: it is free to add to any season, and it stays with the fly and moves to its new owner if it is sold. You can carry up to 2 into a season."
   }
 }

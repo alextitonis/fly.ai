@@ -268,7 +268,7 @@ async function startServer(extra: Record<string, string> = {}): Promise<void> {
       ADMIN_TOKEN: ADMIN, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "none", CLAIM_RPC: "http://127.0.0.1:9", CLAIM_EXPLORER: "http://localhost",
       SEED_PAID: "0",
       ARENA_ON: "1", ARENA_TRADERFLY: TRADERFLY, ARENA_RPC: `http://127.0.0.1:${CHAIN_PORT}`, ARENA_MAX_ID: "10", ARENA_TICK_SEC: "1", ARENA_OWNERS_TTL_SEC: "1",
-      ARENA_FEE_TO: FEE_TO, ARENA_FEE_KEY: LEDGER_KEY,
+      ARENA_FEE_TO: FEE_TO, ARENA_FEE_KEY: LEDGER_KEY, ARENA_POTION_FOREVER: "2500",
       ARENA_LEDGER: LEDGER, ARENA_LEDGER_KEY: LEDGER_KEY, ARENA_EXPLORER: "https://scan.test/",
       ARENA_IMAGE: "https://img.test/{id}.png", ARENA_ENTRY: "1000", ARENA_POTION: "400", ARENA_FEE_BPS: "1000", ARENA_MIN_ENTRANTS: "4", ARENA_MAX_PER_WALLET: "3",
       ...extra,
@@ -372,13 +372,13 @@ try {
     && (await enter(a, { fly: 1, potions: ["hopium", "copium", "preworkout"] })).status === 400);
   check("an empty balance", (await enter(c, { fly: 8 })).status === 402);
   const e1 = await enter(a, { fly: 1, client_seed: "alice-1", potions: ["preworkout"] });
-  check("an entry with a potion: 1,400 leaves the balance and joins the pot", e1.status === 200 && e1.json.pot === "1400" && e1.json.entries.length === 1 && e1.json.entries[0].fly === 1
+  check("an entry with a potion: 1,400 leaves the balance, only the 1,000 entry joins the pot", e1.status === 200 && e1.json.pot === "1000" && e1.json.entries.length === 1 && e1.json.entries[0].fly === 1
     && e1.json.entries[0].wallet === alice.address && JSON.stringify(e1.json.entries[0].potions) === '["preworkout"]'
     && JSON.stringify(e1.json.entries[0].stats) === JSON.stringify(statsOf(TRAITS.get(1)!, ["preworkout"])) && e1.json.entries[0].client_seed === null
     && (await balance(a)) === 98_600, JSON.stringify(e1.json.entries));
   check("a fly enters once", (await enter(a, { fly: 1 })).status === 409);
   const pot1 = await api("/api/arena/potion", a, { fly: 1, potion: "copium" });
-  check("a second potion later", pot1.status === 200 && pot1.json.pot === "1800" && JSON.stringify(pot1.json.entries[0].potions) === '["preworkout","copium"]' && (await balance(a)) === 98_200);
+  check("a second potion later", pot1.status === 200 && pot1.json.pot === "1000" && JSON.stringify(pot1.json.entries[0].potions) === '["preworkout","copium"]' && (await balance(a)) === 98_200);
   check("the same potion twice, a third potion, someone else's fly, an unknown potion", (await api("/api/arena/potion", a, { fly: 1, potion: "copium" })).status === 409
     && (await api("/api/arena/potion", a, { fly: 1, potion: "hopium" })).status === 409 && (await api("/api/arena/potion", b, { fly: 1, potion: "hopium" })).status === 404
     && (await api("/api/arena/potion", a, { fly: 1, potion: "redbull" })).status === 400);
@@ -388,7 +388,7 @@ try {
   check("three flies a wallet", tooMany.status === 409 && /3 flies/.test(tooMany.json?.error ?? ""), JSON.stringify(tooMany.json));
   await enter(b, { fly: 5, client_seed: "bob-5" });
   const e5 = await enter(b, { fly: 6, client_seed: "bob-6", potions: ["hopium"] });
-  check("five flies in, the pot is 6,200", e5.status === 200 && e5.json.entries.length === 5 && e5.json.pot === "6200" && e5.json.fee === "620" && e5.json.prize_pool === "5580"
+  check("five flies in, the pot is the 5,000 of entries (potions go to the dev wallet)", e5.status === 200 && e5.json.entries.length === 5 && e5.json.pot === "5000" && e5.json.fee === "500" && e5.json.prize_pool === "4500"
     && (await balance(a)) === 96_200 && (await balance(b)) === 600, `pot ${e5.json?.pot}, alice ${await balance(a)}, bob ${await balance(b)}`);
   const meIn = (await api("/api/arena/me", a)).json;
   check("me: which flies are in, with their potions", meIn.flies.map((f: any) => f.entered).join() === "true,true,true,false" && JSON.stringify(meIn.flies[0].potions) === '["preworkout","copium"]');
@@ -425,7 +425,7 @@ try {
 
   // ---- prizes
   const prize = (place: number) => t1.entries.find((e: any) => e.place === place);
-  check("prizes: 60 / 25 / 15 of the pot after the 10% fee", t1.fee === "620" && prize(1).prize === "3348" && prize(2).prize === "1395" && prize(3).prize === "837"
+  check("prizes: 60 / 25 / 15 of the pot after the 10% fee", t1.fee === "500" && prize(1).prize === "2700" && prize(2).prize === "1125" && prize(3).prize === "675"
     && prize(1).fly === t1.places[0] && t1.entries.filter((e: any) => e.place === null).every((e: any) => e.prize === null), JSON.stringify(t1.entries.map((e: any) => [e.fly, e.place, e.prize])));
   const owed = (who: typeof alice) => t1.entries.filter((e: any) => e.wallet === who.address && e.prize).reduce((s: number, e: any) => s + Number(e.prize), 0);
   const before = { a: await balance(a), b: await balance(b) };
@@ -438,7 +438,7 @@ try {
   }
   const paid = await ledger(`arena-prize:${T1}:%`);
   check("the ledger: a payout per prize, the fee left with the house", paid.length === 3 && paid.every((r) => r.kind === "payout")
-    && paid.reduce((s, r) => s + BigInt(r.amount_wei), 0n) === 5580n * WEI && (await api(`/api/arena/tournaments/${T1}`, null)).json.entries.every((e: any) => e.prize === null || e.claimed));
+    && paid.reduce((s, r) => s + BigInt(r.amount_wei), 0n) === 4500n * WEI && (await api(`/api/arena/tournaments/${T1}`, null)).json.entries.every((e: any) => e.prize === null || e.claimed));
   const champ = (await api(`/api/arena/flies/${t1.places[0]}`, null)).json.record;
   check("the champion's record", champ.titles === 1 && champ.wins === champ.fights && champ.fights >= 2, JSON.stringify(champ));
 
@@ -489,7 +489,7 @@ try {
   check("after a restart the tournament plays on from its seeds", stored >= 1 && stored < 6 && mid === "running" && t4.status === "done" && t4.matches.filter((m: any) => m.b !== null).length === 6,
     `${stored} fights before the restart, was ${mid}`);
   check("and it's the same tournament the seeds give", JSON.stringify(stored4) === JSON.stringify([...again4.matches].sort((x, y) => key(x) - key(y))) && JSON.stringify(t4.places) === JSON.stringify(again4.places));
-  check("20% fee: prizes and fee add up to the pot", t4.pot === "6800" && t4.fee === "1360" && t4.entries.reduce((s: number, e: any) => s + Number(e.prize ?? 0), 0) === 5440);
+  check("20% fee: prizes and fee add up to the pot", t4.pot === "6000" && t4.fee === "1200" && t4.entries.reduce((s: number, e: any) => s + Number(e.prize ?? 0), 0) === 4800);
 
   // ---- auras
   const wasAura = await balance(a);
@@ -513,7 +513,7 @@ try {
   // ---- the operator's view, the list and the off switch
   const adm = await api("/api/admin/arena", null, undefined, true);
   check("admin: fees, auras sold, prizes not yet claimed", adm.status === 200 && adm.json.on === true && adm.json.live === null && adm.json.tournaments_done === 2
-    && adm.json.fees_all === "1980" && adm.json.auras_sold === "25000" && adm.json.prizes_unclaimed === "5440", JSON.stringify(adm.json));
+    && adm.json.fees_all === "1700" && adm.json.auras_sold === "25000" && adm.json.prizes_unclaimed === "4800", JSON.stringify(adm.json));
   check("admin is admin only", (await api("/api/admin/arena", null)).status === 403);
   const aurasAll = (await api("/api/arena/auras", null)).json.auras;
   check("every fly's auras in one call: owned ones, what is worn, none for flies without", aurasAll["1"]?.owned.join() === "ember" && (aurasAll["1"].worn === "ember" || aurasAll["1"].worn === null) && aurasAll["2"] === undefined, JSON.stringify(aurasAll));
@@ -550,15 +550,39 @@ try {
     check(`season ${t.season}: all ${fights.length} fights verify against the one posted root, a swapped winner doesn't`, proofs && !forged && roots.size === 1 && roots.has(reveal.root!) && full.chain.results_root === reveal.root);
   }
   check("a season's leaves rebuild to the same root", (() => { const l = ["a", "b", "c"].map((e, i) => fightLeaf({ season: 1, round: 0, slot: i, a: 1, b: 2, winner: 1, events: e })); const m = merkle(l); return m.proofs.every((pr, i) => verify(l[i], pr, m.root)); })());
-  // ---- the house fee goes to the dev wallet, once per finished season
-  const feeSeasons = seasons.filter((t: any) => t.status === "done");
-  const fees = transfers.filter((x) => x.to.toLowerCase() === FEE_TO.toLowerCase());
-  check("each finished season's house fee was sent to the fee wallet, once, and only those", fees.length === feeSeasons.length && transfers.length === fees.length
-    && fees.reduce((n, x) => n + x.amount, 0n) === feeSeasons.reduce((n: bigint, t: any) => n + BigInt(Math.round(Number(t.fee))) * WEI, 0n)
-    && feeSeasons.every((t: any) => typeof t.fee_tx === "string" && t.fee_tx.startsWith("0x") && t.fee_to === FEE_TO) && seasons.filter((t: any) => t.status !== "done").every((t: any) => t.fee_tx === null),
-    JSON.stringify(fees.map((x) => x.amount.toString())));
   check("an unknown tournament or fight", (await api("/api/arena/tournaments/00000000-0000-0000-0000-000000000000", null)).status === 404
     && (await api(`/api/arena/tournaments/${T1}/fights/9/0`, null)).status === 404);
+
+  // ---- permanent potions and where the shop's money goes
+  const foreverBuy = (who: typeof a, body: unknown) => api("/api/arena/potion-forever", who, body);
+  await fund(alice, 10_000n * WEI, "forever");
+  const cash0 = await balance(a);
+  const fb = await foreverBuy(a, { fly: 2, potion: "hopium" });
+  check("a potion for good: paid once, owned by the fly", fb.status === 200 && (await balance(a)) === cash0 - 2500 && JSON.stringify(fb.json.potions_owned) === '["hopium"]', JSON.stringify(fb.json).slice(0, 200));
+  check("twice, someone else's fly, an unknown potion, too little balance", (await foreverBuy(a, { fly: 2, potion: "hopium" })).status === 409 && (await foreverBuy(b, { fly: 2, potion: "copium" })).status === 403
+    && (await foreverBuy(a, { fly: 2, potion: "redbull" })).status === 400 && (await foreverBuy(b, { fly: 5, potion: "copium" })).status === 402);
+  const inv = (await api("/api/arena/auras", null)).json;
+  check("the marketplace sees it: potions owned for good per fly", JSON.stringify(inv.potions["2"]) === '["hopium"]' && (await api("/api/arena/me", a)).json.flies.find((f: any) => f.fly === 2).potions_owned.join() === "hopium"
+    && (await api("/api/arena/config", null)).json.potion_forever_price === "2500");
+  const o5 = await api("/api/admin/arena/open", null, {}, true);
+  const T5 = o5.json.id;
+  const cash1 = await balance(a);
+  const e5a = await enter(a, { fly: 2, client_seed: "forever", potions: ["hopium", "copium"] });
+  check("entering with a potion the fly owns: it's free, the other is paid, only the entry joins the pot", e5a.status === 200 && (await balance(a)) === cash1 - 1400 && e5a.json.pot === "1000"
+    && JSON.stringify(e5a.json.entries[0].potions) === '["hopium","copium"]' && (await ledger(`arena-potion:${T5}:%`)).length === 1, JSON.stringify(e5a.json.entries?.[0]?.potions));
+  check("a potion it owns is free to add too", (await api("/api/arena/potion", a, { fly: 2, potion: "hopium" })).status === 409);   // already in
+  await api("/api/admin/arena/close", null, { id: T5, cancel: true }, true);
+  await sleep(1500);
+  check("a season called off: the entry and the potion come back, the shop money of that season is not the dev wallet's", (await balance(a)) === cash1 && (await api("/api/admin/arena", null, undefined, true)).json.shop_unsent === "0");
+  // the dev wallet got the fees of finished seasons and the shop's money (auras and permanent potions at once, single-use potions of finished seasons), nothing of the called-off ones
+  const doneSeasons = seasons.filter((x: any) => x.status === "done");
+  const potionMoney = async (id: string) => (await ledger(`arena-potion:${id}:%`)).reduce((n, r) => n + BigInt(r.amount_wei), 0n);
+  let expected = 0n;
+  for (const x of doneSeasons) expected += BigInt(Math.round(Number(x.fee))) * WEI + (await potionMoney(x.id));
+  expected += 25_000n * WEI + 2_500n * WEI;
+  const sent = transfers.filter((x) => x.to.toLowerCase() === FEE_TO.toLowerCase()).reduce((n, x) => n + x.amount, 0n);
+  check("the dev wallet got the fees plus the shop's money, exactly", sent === expected && transfers.every((x) => x.to.toLowerCase() === FEE_TO.toLowerCase())
+    && doneSeasons.every((x: any) => typeof x.fee_tx === "string" && x.fee_tx.startsWith("0x") && x.fee_to === FEE_TO), `${sent / WEI} vs ${expected / WEI}`);
   await stopServer();
   await startServer({ ARENA_ON: "0" });
   check("off means off", (await api("/api/arena/config", null)).json.on === false && (await api("/api/admin/arena/open", null, {}, true)).status === 503

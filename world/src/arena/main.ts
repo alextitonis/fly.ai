@@ -36,7 +36,7 @@ interface Account {
   mined(hash: string, chainId?: number): Promise<void>;
   errorText(err: unknown): string;
 }
-interface Config { on: boolean; contract: string | null; image: string; ledger?: string | null; rpc?: string; explorer?: string | null; potions: { id: PotionId; name: string; add: Partial<Stats> }[]; max_potions: number }
+interface Config { on: boolean; contract: string | null; image: string; ledger?: string | null; rpc?: string; explorer?: string | null; potion_price?: string; potion_forever_price?: string; potions: { id: PotionId; name: string; add: Partial<Stats> }[]; max_potions: number }
 interface Entrant {
   fly: number; wallet: string; traits: Traits; potions: PotionId[]; stats: Stats; hp: number; aura: string | null;
   place: number | null; prize: string | null; claimed: boolean; client_seed: string | null;
@@ -54,7 +54,7 @@ interface Summary {
 interface Tournament extends Summary {
   rounds: number; progress: { fought: number; fights: number } | null; entries: Entrant[]; matches: MatchRow[];
 }
-interface MyFly { fly: number; traits: Traits; potions: PotionId[]; stats: Stats; hp: number; entered: boolean; aura: string | null; auras: string[] }
+interface MyFly { fly: number; traits: Traits; potions: PotionId[]; stats: Stats; hp: number; entered: boolean; aura: string | null; auras: string[]; potions_owned: PotionId[] }
 interface Me { wallet: string; balance: string; terms_accepted: boolean; flies: MyFly[]; prizes: { tournament: string; name: string; fly: number; place: number; prize: string }[] }
 interface MatchView {
   tournament: string; round: number; slot: number; a: Entrant; b: Entrant; winner: number; how: string; seeds: [number, number] | null;
@@ -388,7 +388,7 @@ function renderHero(): void {
     </div>
     ${pedestals(v)}
     ${cta}
-    <p class="note" style="margin:12px 0 0">${t("colosseum.t.min", { n: v.min_entrants })} · ${t("colosseum.t.perWallet", { n: v.max_per_wallet })} · ${t("colosseum.t.potionPrice", { price: fmt(v.potion_price) })}</p>
+    <p class="note" style="margin:12px 0 0">${t("colosseum.t.min", { n: v.min_entrants })} · ${t("colosseum.t.perWallet", { n: v.max_per_wallet })} · ${t("colosseum.t.potionPrice", { price: fmt(v.potion_price) })}${cfg?.potion_forever_price ? ` · ${t("colosseum.t.potionForever", { price: fmt(cfg.potion_forever_price) })}` : ""}</p>
     ${chainLine(v)}
     <p class="kv note mono" style="margin:10px 0 0;word-break:break-all"><span>${t("colosseum.t.commit")}:</span> ${esc(v.commit_hash)}${v.digest ? `<br><span>${t("colosseum.t.digest")}:</span> ${esc(v.digest)}` : ""}${v.server_seed ? `<br><span>${t("colosseum.t.seed")}:</span> ${esc(v.server_seed)}` : ""}</p>`;
   $("cta-squad")?.addEventListener("click", () => $("squad-card").scrollIntoView({ behavior: "smooth", block: "start" }));
@@ -492,11 +492,17 @@ new ResizeObserver(() => { const tr = document.getElementById("tree"); if (tr) d
 function renderShop(): void {
   const el = $("shop");
   el.className = "shop";
-  const potionPrice = cur?.potion_price ?? view?.potion_price ?? null;
+  const potionPrice = cfg?.potion_price ?? cur?.potion_price ?? view?.potion_price ?? null;
+  const foreverPrice = cfg?.potion_forever_price ?? null;
   el.innerHTML = `
     <h3>${t("colosseum.shop.potions")}</h3>
     <p>${t("colosseum.shop.potionsText", { max: MAX_POTIONS })}</p>
-    <ul>${POTION_IDS.map((p) => `<li><b>🧪 ${esc(POTIONS[p].name)}</b><span>${Object.entries(POTIONS[p].add).map(([k, v]) => `+${v} ${STAT_ICON[k as Stat]}`).join(" ")}</span><span>${potionPrice !== null ? fmt(potionPrice) : "-"}</span></li>`).join("")}</ul>
+    <ul>${POTION_IDS.map((p) => `<li><b>🧪 ${esc(POTIONS[p].name)}</b><span>${Object.entries(POTIONS[p].add).map(([k, v]) => `+${v} ${STAT_ICON[k as Stat]}`).join(" ")}</span></li>`).join("")}</ul>
+    <ul>
+      <li><b>${t("colosseum.shop.oneSeason")}</b><span>${potionPrice !== null ? fmt(potionPrice) : "-"}</span></li>
+      <li><b>${t("colosseum.shop.forGood")} <span class="forever">∞</span></b><span>${foreverPrice !== null ? fmt(foreverPrice) : "-"}</span></li>
+    </ul>
+    <p>${t("colosseum.shop.forGoodText")}</p>
     <h3>${t("colosseum.shop.auras")} <span class="forever">${t("colosseum.shop.forever")}</span></h3>
     <p>${t("colosseum.shop.aurasText")}</p>
     <ul>${AURAS.map((a) => `<li><i class="dot" style="--a1:${a.colors[0]}; --a2:${a.colors[1]}"></i><b>${esc(a.name)}</b><span>${fmt(a.price)}</span></li>`).join("")}</ul>
@@ -516,20 +522,28 @@ function flyCard(f: MyFly): string {
   const shownStats = f.entered ? f.stats : statsOf(f.traits, [...sel]);
   const lines = breakdown(f.traits, f.entered ? f.potions : [...sel]);
   const potionPrice = cur ? Number(cur.potion_price) : 0;
+  const forever = f.potions_owned ?? [];
+  const foreverPrice = cfg?.potion_forever_price ?? null;
+  // a potion the fly owns for good is free to add; the others are single-use (this season only)
+  const chipLabel = (p: PotionId) => forever.includes(p) ? `${esc(POTIONS[p].name)} · ∞ ${t("colosseum.fly.free")}` : `${esc(POTIONS[p].name)} · ${fmt(potionPrice)}`;
   let action = "";
   if (f.entered) {
     const left = POTION_IDS.filter((p) => !f.potions.includes(p));
-    action = `<div><h4>${t("colosseum.fly.in")}</h4><div class="chips">${f.potions.map((p) => `<span class="chipb own">🧪 ${esc(POTIONS[p].name)}</span>`).join("")}${
-      open && f.potions.length < MAX_POTIONS ? left.map((p) => `<button class="chipb" type="button" data-buy="${f.fly}:${p}"${acting ? " disabled" : ""}>${t("colosseum.fly.buyPotion", { name: POTIONS[p].name, price: fmt(potionPrice) })}</button>`).join("") : ""}</div></div>`;
+    action = `<div><h4>${t("colosseum.fly.in")}</h4><div class="chips">${f.potions.map((p) => `<span class="chipb own">🧪 ${esc(POTIONS[p].name)}${forever.includes(p) ? " ∞" : ""}</span>`).join("")}${
+      open && f.potions.length < MAX_POTIONS ? left.map((p) => `<button class="chipb" type="button" data-buy="${f.fly}:${p}"${acting ? " disabled" : ""}>+ ${chipLabel(p)}</button>`).join("") : ""}</div></div>`;
   } else if (open) {
-    const cost = Number(cur!.entry) + potionPrice * sel.size;
-    action = `<div><h4>${t("colosseum.fly.potions", { max: MAX_POTIONS })}</h4><div class="chips">${POTION_IDS.map((p) => `<button class="chipb${sel.has(p) ? " on" : ""}" type="button" data-pick="${f.fly}:${p}"${acting ? " disabled" : ""}>🧪 ${esc(POTIONS[p].name)}</button>`).join("")}</div></div>
+    const cost = Number(cur!.entry) + potionPrice * [...sel].filter((p) => !forever.includes(p)).length;
+    action = `<div><h4>${t("colosseum.fly.potions", { max: MAX_POTIONS })}</h4><div class="chips">${POTION_IDS.map((p) => `<button class="chipb${sel.has(p) ? " on" : ""}" type="button" data-pick="${f.fly}:${p}"${acting ? " disabled" : ""}>🧪 ${chipLabel(p)}</button>`).join("")}</div></div>
       <button class="gbtn gold wide" type="button" data-enter="${f.fly}"${acting ? " disabled" : ""}>${t("colosseum.fly.enter", { cost: fmt(cost) })}</button>`;
   } else if (cur?.status === "open") {
     action = `<p class="note" style="margin:0">${t("colosseum.fly.closed")}</p>`;
   } else {
     action = `<p class="note" style="margin:0">${t("colosseum.fly.noSeason")}</p>`;
   }
+  const forGood = foreverPrice === null ? "" : `<details><summary>${t("colosseum.fly.potionsForGood")}</summary><div class="chips" style="margin-top:8px">${POTION_IDS.map((p) => forever.includes(p)
+    ? `<span class="chipb own">🧪 ${esc(POTIONS[p].name)} ∞</span>`
+    : `<button class="chipb" type="button" data-forever="${f.fly}:${p}"${acting ? " disabled" : ""}>🧪 ${esc(POTIONS[p].name)} · ${t("colosseum.fly.buyForGood", { price: fmt(foreverPrice) })}</button>`).join("")}</div>
+    <p class="note" style="margin:6px 0 0">${t("colosseum.fly.forGoodNote")}</p></details>`;
   const auras = `<details><summary>${t("colosseum.fly.auras")}</summary><div class="chips" style="margin-top:8px">${AURAS.map((a) => {
     const own = f.auras.includes(a.id), worn = f.aura === a.id;
     const dot = `<i class="dot" style="--a1:${a.colors[0]}; --a2:${a.colors[1]}"></i>`;
@@ -543,7 +557,7 @@ function flyCard(f: MyFly): string {
     <div class="pose">${esc(POSES[f.traits.pose][0])}</div>
     <div class="sbars">${STATS.map((k) => bar(k, shownStats[k])).join("")}</div>
     <details><summary>${t("colosseum.fly.where")}</summary><ul>${lines.map((l) => `<li><span>${esc(l.name)}</span><span class="mono">${STATS.filter((k) => l.add[k]).map((k) => `+${l.add[k]} ${STAT_ICON[k]}`).join(" ") || "-"}</span></li>`).join("")}</ul></details>
-    ${action}${auras}
+    ${action}${forGood}${auras}
     <p class="fmsg">${esc(flyMsg.get(f.fly) ?? "")}</p>
   </div></div>`;
 }
@@ -571,6 +585,7 @@ function renderMine(): void {
   act("data-enter", (fly) => enter(fly));
   act("data-buy", async (fly, p) => { await api("/api/arena/potion", { fly, potion: p }); });
   act("data-aura", async (fly, aura) => { await api("/api/arena/aura", { fly, aura }); });
+  act("data-forever", async (fly, p) => { await api("/api/arena/potion-forever", { fly, potion: p }); });
   act("data-wear", async (fly, aura) => { await api("/api/arena/wear", { fly, aura: aura || null }); });
 }
 

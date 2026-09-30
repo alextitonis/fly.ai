@@ -46,7 +46,7 @@ const view = (e: Entry, s: Season) => {
 };
 const summary = (s: Season) => {
   const pot = s.entries.length * s.entry;
-  return { id: s.id, season: s.season, name: `Season ${s.season}`, status: s.status, entry: String(s.entry), potion_price: "2500", fee_bps: 1000, min_entrants: 4, max_entrants: 256, max_per_wallet: 3,
+  return { id: s.id, season: s.season, name: `Season ${s.season}`, status: s.status, entry: String(s.entry), potion_price: "25000", fee_bps: 1000, min_entrants: 4, max_entrants: 256, max_per_wallet: 3,
     opens_at: Date.now() - 3600_000, closes_at: s.closes_at, done_at: s.status === "done" ? Date.now() - 1000 : null, entrants: s.entries.length, pot: String(pot), fee: String(pot * 0.1), prize_pool: String(pot * 0.9),
     places: s.places, commit_hash: sha(s.server_seed), digest: s.digest, server_seed: s.status === "done" ? s.server_seed : null,
     fee_to: ME, fee_tx: s.status === "done" ? "0x" + "12".repeat(32) : null,
@@ -79,7 +79,7 @@ async function play(s: Season): Promise<void> {
 }
 
 const mk = (id: string, season: number, flies: number[], status: Season["status"], closes: number): Season => ({
-  id, season, status, closes_at: closes, entry: 5000, server_seed: sha(id), digest: null, matches: [], places: null,
+  id, season, status, closes_at: closes, entry: 100000, server_seed: sha(id), digest: null, matches: [], places: null,
   entries: flies.map((fly, i) => ({ fly, wallet: MINE.includes(fly) ? ME : OTHER, potions: i % 3 === 0 ? ["preworkout"] : [], client_seed: `seed${fly}`, aura: i === 2 ? "gold" : null })),
 });
 const s1 = mk("00000000-0000-0000-0000-000000000001", 1, [126, 219, 250, 281, 312, 343, 410, 441], "done", Date.now() - 86_400_000);
@@ -89,6 +89,7 @@ const seasons = [s2, s1];
 let balance = 120000;
 const owned: Record<number, string[]> = { 188: [], 157: ["frost"], 33: [] };
 const worn: Record<number, string | null> = { 188: null, 157: "frost", 33: null };
+const forever: Record<number, string[]> = { 188: ["hopium"], 157: [], 33: [] };
 
 const json = (res: any, code: number, body: unknown) => { res.writeHead(code, { "content-type": "application/json" }); res.end(JSON.stringify(body)); };
 const body = (req: any): Promise<any> => new Promise((r) => { let b = ""; req.on("data", (c: string) => (b += c)); req.on("end", () => r(b ? JSON.parse(b) : {})); });
@@ -115,7 +116,7 @@ createServer(async (req, res) => {
       const ok = !!season && season.status === "done" && verify(w(2), proof, results(season).root);
       return json(res, 200, { jsonrpc: "2.0", id: b.id, result: "0x" + (ok ? "1" : "0").padStart(64, "0") });
     }
-    if (p === "/api/arena/config") return json(res, 200, { on: true, contract: "0x0", image: "", ledger: LEDGER, rpc: "/mock/rpc", explorer: "https://explorer.example", potions: POTION_IDS.map((id) => ({ id, name: POTIONS[id].name, add: POTIONS[id].add })), max_potions: MAX_POTIONS, auras: AURAS });
+    if (p === "/api/arena/config") return json(res, 200, { on: true, contract: "0x0", image: "", potion_price: "25000", potion_forever_price: "100000", ledger: LEDGER, rpc: "/mock/rpc", explorer: "https://explorer.example", potions: POTION_IDS.map((id) => ({ id, name: POTIONS[id].name, add: POTIONS[id].add })), max_potions: MAX_POTIONS, auras: AURAS });
     if (p === "/api/arena/current") return json(res, 200, { tournament: full(s2) });
     if (p === "/api/arena/tournaments") return json(res, 200, { tournaments: seasons.map(summary) });
     let m: RegExpExecArray | null;
@@ -130,12 +131,13 @@ createServer(async (req, res) => {
     if ((m = /^\/api\/arena\/flies\/(\d+)$/.exec(p))) { const t = traitsOf(Number(m[1])), stats = statsOf(t); return json(res, 200, { fly: Number(m[1]), traits: t, stats, hp: maxHp(stats), aura: null, auras: [], record: { fights: 0, wins: 0, titles: 0 } }); }
     if (p === "/api/arena/me") {
       const flies = MINE.map((fly) => { const e = s2.entries.find((x) => x.fly === fly), t = traitsOf(fly), potions = e?.potions ?? []; const stats = statsOf(t, potions);
-        return { fly, traits: t, potions, stats, hp: maxHp(stats), entered: !!e, aura: worn[fly], auras: owned[fly] }; });
+        return { fly, traits: t, potions, stats, hp: maxHp(stats), entered: !!e, aura: worn[fly], auras: owned[fly], potions_owned: forever[fly] }; });
       return json(res, 200, { wallet: ME, balance: String(balance), terms_accepted: true, flies, prizes: s1.places?.includes(188) ? [] : [] });
     }
     if (req.method === "POST" && p === "/api/arena/enter") { const b = await body(req); balance -= 5000; s2.entries.push({ fly: b.fly, wallet: ME, potions: b.potions ?? [], client_seed: b.client_seed, aura: worn[b.fly] ?? null }); return json(res, 200, full(s2)); }
     if (req.method === "POST" && p === "/api/arena/potion") { const b = await body(req); balance -= 2500; s2.entries.find((e) => e.fly === b.fly)?.potions.push(b.potion); return json(res, 200, full(s2)); }
     if (req.method === "POST" && p === "/api/arena/aura") { const b = await body(req); balance -= 25000; owned[b.fly].push(b.aura); worn[b.fly] = b.aura; return json(res, 200, {}); }
+    if (req.method === "POST" && p === "/api/arena/potion-forever") { const b = await body(req); balance -= 100000; forever[b.fly].push(b.potion); return json(res, 200, {}); }
     if (req.method === "POST" && p === "/api/arena/wear") { const b = await body(req); worn[b.fly] = b.aura; return json(res, 200, {}); }
     if (p === "/api/orders/config") return json(res, 200, { pay_to: ME, token: "0x0", chain_id: 4663 });
     json(res, 404, { error: "not found" });
