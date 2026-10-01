@@ -194,11 +194,11 @@
     "connect": "連接錢包",
     "history": "往期投票",
     "safe": "穩健",
-    "safeDesc": "買得更少，只碰深池子，停損更緊，早點落袋。",
+    "safeDesc": "小倉位，深池子，快進快出。",
     "balanced": "均衡",
-    "balancedDesc": "交易台自己的設定。沒人投票時也是它。",
+    "balancedDesc": "交易台原樣設定。沒人投票時就是它。",
     "risky": "梭哈",
-    "riskyDesc": "買得更多，淺池子也上，停損放寬，讓贏家奔跑。",
+    "riskyDesc": "大倉位，淺池子，讓利潤奔跑。",
     "today": "今天的模式：{mode}",
     "pick": "投 {mode}",
     "yours": "你的投票",
@@ -206,7 +206,7 @@
       "one": "{count} 個錢包",
       "other": "{count} 個錢包"
     },
-    "closes": "今天的投票於 {when} 截止（00:00 UTC）。權重在截止時從鏈上重新讀取。",
+    "closes": "投票於 00:00 UTC 截止，勝出的模式在第二天交易。權重在截止時從鏈上重新讀取。",
     "noWallet": "沒有找到錢包。請在錢包瀏覽器中開啟本頁或安裝一個錢包。",
     "signing": "請在錢包裡簽名…",
     "sending": "正在計票…",
@@ -216,6 +216,18 @@
     "day": "日期",
     "mode": "模式",
     "weight": "支持金額",
-    "down": "交易台正在重啟，一分鐘後可以投票。"
+    "down": "交易台正在重啟，一分鐘後可以投票。",
+    "todayLabel": "今天的模式",
+    "closesIn": "距截止",
+    "pooled": "投票金額",
+    "walletsLabel": "錢包",
+    "empty": "今天還沒有人投票。第一個來拍板吧。",
+    "noVotes": "暫無投票",
+    "leading": "領先",
+    "voted": "你的選擇",
+    "chipBuy": "買入",
+    "chipPool": "池子",
+    "chipStop": "停損",
+    "chipTp": "停利"
   }
 }

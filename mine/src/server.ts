@@ -2831,6 +2831,84 @@ let lastPrune = 0;
 let pruning = false;
 const counter = (name: string) => one<{ n: number } | undefined>("select n from counters where name = ?", name)?.n ?? 0;
 
+/**
+ * The rest of the old rows (2026-10-01: /data filled up again, 25 GB). pruneScreen leaves out jobs whose answer the
+ * server knows (canaries and audited jobs, each answered by up to thousands of miners) and every order's jobs, so they
+ * piled up for good. After RETAIN_DAYS:
+ *   - the answers to jobs with a known answer go: what they earned is in day_credit, and the job keeps its truth
+ *     (a miner may be handed an old canary again; that only costs a recheck);
+ *   - the jobs of the project's mining orders (mining/*) go with their answers: they were pool shares, worth nothing
+ *     once sent. Their order_tasks rows stay, so job counts don't change, and their input and output files lose
+ *     "keep", so collectBlobs deletes them like any other old upload.
+ * Paid orders and our research orders keep everything: buyers and the results page read them.
+ */
+const RETAIN_MS = Number(env("RETAIN_DAYS", "7")) * 86_400_000;
+const RETAIN_BATCH = 2000;
+let retainFloor = 0; // assignment rowids below this are done
+let retaining = false;
+async function pruneOld(): Promise<void> {
+  if (retaining) return;
+  retaining = true;
+  const started = Date.now();
+  let answers = 0, miningJobs = 0;
+  try {
+    const cutoff = Date.now() - RETAIN_MS;
+    const top = one<{ n: number | null }>("select max(rowid) as n from assignments").n ?? 0;
+    if (!retainFloor) retainFloor = one<{ n: number | null }>("select min(rowid) as n from assignments").n ?? 0;
+    const oldKnown = db.prepare(`select a.rowid as r from assignments a join tasks t on t.id = a.task
+      where a.rowid >= ? and a.rowid < ? and a.status != 'issued' and coalesce(a.submitted_at, a.issued_at) < ? and t.truth is not null`);
+    const newest = db.prepare("select min(coalesce(submitted_at, issued_at)) as t from assignments where rowid >= ? and rowid < ?");
+    const dropRow = db.prepare("delete from assignments where rowid = ?");
+    for (let from = retainFloor; from <= top; from += RETAIN_BATCH) {
+      const batchStart = Date.now();
+      // rowids grow with time: once a whole batch is newer than the cutoff, so is everything after it
+      const t = (newest.get(from, from + RETAIN_BATCH) as { t: number | null }).t;
+      if (t !== null && t >= cutoff) break;
+      const rows = oldKnown.all(from, from + RETAIN_BATCH, cutoff) as { r: number }[];
+      if (rows.length) transaction(() => { for (const { r } of rows) dropRow.run(r); });
+      answers += rows.length;
+      retainFloor = from + RETAIN_BATCH;
+      await new Promise((resolve) => setTimeout(resolve, Math.max(5, 2 * (Date.now() - batchStart))));
+    }
+    // the mining orders' old jobs, order by order
+    const mining = db.prepare("select id from orders where house = 1 and label like 'mining/%'").all() as { id: string }[];
+    const oldJobs = db.prepare(`select ot.task as id, t.params from order_tasks ot join tasks t on t.id = ot.task
+      where ot.order_id = ? and ot.state != 1
+        and not exists (select 1 from assignments a where a.task = ot.task and (a.status = 'issued' or coalesce(a.submitted_at, a.issued_at) >= ?))
+      limit ?`);
+    const resultsOf = db.prepare("select result from assignments where task = ? and result is not null");
+    const unkeep = db.prepare("update blobs set keep = 0 where hash = ?");
+    const dropAnswers = db.prepare("delete from assignments where task = ?");
+    const dropTask = db.prepare("delete from tasks where id = ?");
+    for (const { id } of mining) {
+      for (;;) {
+        const batchStart = Date.now();
+        const rows = oldJobs.all(id, cutoff, 250) as { id: number; params: string }[];
+        if (!rows.length) break;
+        transaction(() => {
+          for (const row of rows) {
+            const hashes = new Set<string>();
+            try { const p = JSON.parse(row.params); if (typeof p.input === "string") hashes.add(p.input); } catch { /* not JSON */ }
+            for (const { result } of resultsOf.all(row.id) as { result: string }[]) {
+              try { const r = JSON.parse(result); if (typeof r.output === "string") hashes.add(r.output); } catch { /* not JSON */ }
+            }
+            for (const h of hashes) unkeep.run(h);
+            dropAnswers.run(row.id);
+            dropTask.run(row.id);
+          }
+        });
+        miningJobs += rows.length;
+        await new Promise((resolve) => setTimeout(resolve, Math.max(5, 2 * (Date.now() - batchStart))));
+      }
+    }
+    if (answers || miningJobs) console.log(`retention: ${answers} old answers to known jobs and ${miningJobs} old mining jobs deleted in ${Math.round((Date.now() - started) / 1000)} s`);
+  } catch (err) {
+    console.error(`retention stopped: ${(err as Error).message}`);
+  } finally {
+    retaining = false;
+  }
+}
+
 async function pruneScreen(): Promise<void> {
   const ref = reference;
   if (pruning || !ref) return;
@@ -3543,7 +3621,7 @@ if (MINING) {
     // time limits, and anything a missed refill left waiting
     for (const { id } of db.prepare("select id from orders where status = 'live'").all() as { id: string }[]) transaction(() => refill(id));
     if (Date.now() - lastGc > 3_600_000) collectBlobs();
-    if (Date.now() - lastPrune > 3_600_000) void pruneScreen();
+    if (Date.now() - lastPrune > 3_600_000) void pruneScreen().then(() => pruneOld());
     pump(); // paid jobs waiting on a second answer get the idle verifiers
   }, 15_000).unref();
   setInterval(() => void deliverWebhooks().catch((err) => console.error("webhooks:", err)), 5_000).unref();

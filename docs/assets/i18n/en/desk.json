@@ -194,11 +194,11 @@
     "connect": "Connect wallet",
     "history": "Past votes",
     "safe": "Safer",
-    "safeDesc": "Smaller buys, deep pools only, tight stops, bank profits early.",
+    "safeDesc": "Small bets, deep pools, quick exits.",
     "balanced": "Balanced",
-    "balancedDesc": "The desk's own settings. Also what happens when nobody votes.",
+    "balancedDesc": "The desk as tuned. Wins if nobody votes.",
     "risky": "Degen",
-    "riskyDesc": "Bigger buys, thinner pools, wide stops, let winners run.",
+    "riskyDesc": "Big bets, thin pools, let it ride.",
     "today": "Trading today: {mode}",
     "pick": "Vote {mode}",
     "yours": "Your vote",
@@ -206,7 +206,7 @@
       "one": "{count} wallet",
       "other": "{count} wallets"
     },
-    "closes": "Today's vote closes {when} (00:00 UTC). Weights are re-read from the chain at the close.",
+    "closes": "Votes close at 00:00 UTC. The winner trades the next day. Weights are re-read from the chain at the close.",
     "noWallet": "No wallet found. Open this page in a wallet browser or install one.",
     "signing": "Sign the message in your wallet…",
     "sending": "Counting your vote…",
@@ -216,6 +216,18 @@
     "day": "Day",
     "mode": "Mode",
     "weight": "$ behind it",
-    "down": "The desk is restarting. Votes open again in a minute."
+    "down": "The desk is restarting. Votes open again in a minute.",
+    "todayLabel": "Trading today",
+    "closesIn": "Vote closes in",
+    "pooled": "$ voted",
+    "walletsLabel": "Wallets",
+    "empty": "No votes yet today. Be the first bag to call it.",
+    "noVotes": "No votes yet",
+    "leading": "Leading",
+    "voted": "Your pick",
+    "chipBuy": "Buy size",
+    "chipPool": "Pools",
+    "chipStop": "Stop",
+    "chipTp": "Take profit"
   }
 }

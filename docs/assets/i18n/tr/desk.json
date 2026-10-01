@@ -194,11 +194,11 @@
     "connect": "Cüzdan bağla",
     "history": "Geçmiş oylar",
     "safe": "Güvenli",
-    "safeDesc": "Daha küçük alımlar, sadece derin havuzlar, sıkı stoplar, kârı erken al.",
+    "safeDesc": "Küçük bahis, derin havuz, hızlı çıkış.",
     "balanced": "Dengeli",
-    "balancedDesc": "Masanın kendi ayarları. Kimse oy vermezse de bu olur.",
+    "balancedDesc": "Masanın kendi ayarı. Kimse oy vermezse kazanır.",
     "risky": "Degen",
-    "riskyDesc": "Daha büyük alımlar, daha sığ havuzlar, geniş stoplar, kazananları koştur.",
+    "riskyDesc": "Büyük bahis, sığ havuz, bırak koşsun.",
     "today": "Bugün işlem modu: {mode}",
     "pick": "{mode} oyu ver",
     "yours": "Senin oyun",
@@ -206,7 +206,7 @@
       "one": "{count} cüzdan",
       "other": "{count} cüzdan"
     },
-    "closes": "Bugünün oylaması {when} kapanır (00:00 UTC). Ağırlıklar kapanışta zincirden yeniden okunur.",
+    "closes": "Oylama 00:00 UTC'de kapanır. Kazanan ertesi gün işlem yapar. Ağırlıklar kapanışta zincirden yeniden okunur.",
     "noWallet": "Cüzdan bulunamadı. Bu sayfayı bir cüzdan tarayıcısında aç ya da bir cüzdan kur.",
     "signing": "Mesajı cüzdanında imzala…",
     "sending": "Oyun sayılıyor…",
@@ -216,6 +216,18 @@
     "day": "Gün",
     "mode": "Mod",
     "weight": "Arkasındaki $",
-    "down": "Masa yeniden başlıyor. Oylama bir dakika içinde açılır."
+    "down": "Masa yeniden başlıyor. Oylama bir dakika içinde açılır.",
+    "todayLabel": "Bugünün modu",
+    "closesIn": "Kapanışa",
+    "pooled": "Oylanan $",
+    "walletsLabel": "Cüzdan",
+    "empty": "Bugün henüz oy yok. İlk karar veren çanta sen ol.",
+    "noVotes": "Henüz oy yok",
+    "leading": "Önde",
+    "voted": "Senin seçimin",
+    "chipBuy": "Alım",
+    "chipPool": "Havuz",
+    "chipStop": "Stop",
+    "chipTp": "Kâr al"
   }
 }

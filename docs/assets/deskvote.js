@@ -36,27 +36,65 @@
     el.dataset.kind = kind || "";
   }
 
+  // what each mode changes, when the desk does not say (votes.json "presets" carries the live numbers)
+  const PRESETS = {
+    safe: { buy: 0.5, pool: 100000, stop: 6, tp: 15 },
+    balanced: { buy: 1, pool: 50000, stop: 10, tp: 25 },
+    risky: { buy: 1.5, pool: 25000, stop: 15, tp: 40 },
+  };
+  const ICON = {
+    safe: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 4 5.6v6.1c0 4.9 3.3 8.6 8 9.8 4.7-1.2 8-4.9 8-9.8V5.6L12 2.5Z"/><path d="m8.6 12 2.4 2.4 4.6-4.8"/></svg>',
+    balanced: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-6"/><circle cx="12" cy="17" r="1.4"/></svg>',
+    risky: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6c.6 3.2 4.9 5.4 4.9 10.3a4.9 4.9 0 0 1-9.8 0c0-2 .9-3.4 2-4.5.2 1.6 1 2.6 2 3 0-3.2-.2-5.9.9-8.8Z"/></svg>',
+  };
+  const kusd = (x) => "$" + new Intl.NumberFormat(lang(), { notation: "compact", maximumFractionDigits: 0 }).format(x);
+  const mult = (x) => new Intl.NumberFormat(lang(), { maximumFractionDigits: 2 }).format(x) + "×";
+  function countdown(iso) {
+    const s = Math.max(0, (Date.parse(iso) - Date.now()) / 1000);
+    const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
+    return h ? `${h}h ${String(m).padStart(2, "0")}m` : `${m}m`;
+  }
+
   function render() {
     if (!data) return;
     const tally = data.tally || { usd: {}, voters: {} };
     const total = MODES.reduce((s, m) => s + (tally.usd[m] || 0), 0);
-    const lead = MODES.reduce((a, m) => ((tally.usd[m] || 0) > (tally.usd[a] || 0) ? m : a), "balanced");
-    $("vote-today").innerHTML = `<span class="vote-badge" data-mode="${esc(data.today.mode)}">${esc(t("today", { mode: t(data.today.mode) }))}</span>`;
+    const wallets = MODES.reduce((s, m) => s + (tally.voters[m] || 0), 0);
+    const lead = total ? MODES.reduce((a, m) => ((tally.usd[m] || 0) > (tally.usd[a] || 0) ? m : a), "balanced") : null;
+    const today = data.today.mode;
+    $("vote-status").innerHTML =
+      `<span class="vs-now" data-mode="${esc(today)}"><span class="vs-ico">${ICON[today] || ""}</span>
+         <span><span class="vs-k">${esc(t("todayLabel"))}</span><b>${esc(t(today))}</b></span></span>
+       <span class="vs-facts">
+         <span><span class="vs-k">${esc(t("closesIn"))}</span><b class="mono" id="vote-cd">${countdown(data.closes_at)}</b></span>
+         <span><span class="vs-k">${esc(t("pooled"))}</span><b class="mono">${total ? usd(total) : "—"}</b></span>
+         <span><span class="vs-k">${esc(t("walletsLabel"))}</span><b class="mono">${wallets}</b></span>
+       </span>`;
+    $("vote-split").innerHTML = total
+      ? MODES.map((m) => { const p = (100 * (tally.usd[m] || 0)) / total; return p ? `<i data-mode="${m}" style="flex:${p}"></i>` : ""; }).join("")
+      : `<span class="vs-empty">${esc(t("empty"))}</span>`;
+    $("vote-split").classList.toggle("is-empty", !total);
+    const pre = data.presets || PRESETS;
     $("vote-cards").innerHTML = MODES.map((m) => {
       const u = tally.usd[m] || 0, n = tally.voters[m] || 0;
       const share = total ? Math.round((100 * u) / total) : 0;
       const on = mine === m;
-      return `<button type="button" class="vote-card${on ? " on" : ""}${total && m === lead ? " lead" : ""}" data-mode="${m}"
+      const p = pre[m] || PRESETS[m];
+      const chips = [[t("chipBuy"), mult(p.buy)], [t("chipPool"), kusd(p.pool) + "+"],
+                     [t("chipStop"), "-" + p.stop + "%"], [t("chipTp"), "+" + p.tp + "%"]];
+      return `<button type="button" class="vote-card${on ? " on" : ""}${m === lead ? " lead" : ""}" data-mode="${m}"
           aria-pressed="${on}" ${busy ? "disabled" : ""}>
-        <span class="vc-name">${esc(t(m))}${on ? ` <small>${esc(t("yours"))}</small>` : ""}</span>
+        <span class="vc-top"><span class="vc-ico">${ICON[m]}</span>
+          ${on ? `<span class="vc-tag">${esc(t("yours"))}</span>` : m === lead ? `<span class="vc-tag lead">${esc(t("leading"))}</span>` : ""}</span>
+        <span class="vc-name">${esc(t(m))}</span>
         <span class="vc-desc">${esc(t(m + "Desc"))}</span>
-        <span class="vc-bar"><i style="width:${share}%"></i></span>
-        <span class="vc-num"><b>${usd(u)}</b> <span>${share}% · ${esc(t("voters", { count: n }))}</span></span>
-        <span class="vc-cta">${esc(t("pick", { mode: t(m) }))}</span>
+        <span class="vc-chips">${chips.map(([k, v]) => `<span><small>${esc(k)}</small><b>${esc(v)}</b></span>`).join("")}</span>
+        <span class="vc-num">${total ? `<b>${usd(u)}</b><span>${share}% · ${esc(t("voters", { count: n }))}</span>`
+                                     : `<span>${esc(t("noVotes"))}</span>`}</span>
+        <span class="vc-cta">${esc(on ? t("voted") : t("pick", { mode: t(m) }))}</span>
       </button>`;
     }).join("");
-    const when = new Date(data.closes_at).toLocaleString(lang(), { weekday: "short", hour: "2-digit", minute: "2-digit" });
-    $("vote-close").textContent = t("closes", { when });
+    $("vote-close").textContent = t("closes");
     const hist = data.history || [];
     $("vote-hist-wrap").hidden = !hist.length;
     if (hist.length) {
@@ -64,6 +102,7 @@
         hist.map((h) => `<tr><td>${esc(h.day)}</td><td>${esc(t(h.mode))}</td><td class="r">${usd(MODES.reduce((s, m) => s + ((h.usd || {})[m] || 0), 0))}</td></tr>`).join("") + "</tbody>";
     }
   }
+  setInterval(() => { const el = $("vote-cd"); if (el && data) el.textContent = countdown(data.closes_at); }, 30_000);
 
   async function load() {
     try {

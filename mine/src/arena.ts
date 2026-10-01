@@ -65,7 +65,8 @@ export interface ArenaDeps {
   env: NodeJS.ProcessEnv;
 }
 
-const SEL = { ownerOf: selector("ownerOf(uint256)"), traitsOf: selector("traitsOf(uint256)") };
+const SEL = { ownerOf: selector("ownerOf(uint256)"), traitsOf: selector("traitsOf(uint256)"), pendingOf: selector("pendingOf(uint256)") };
+/** FlyBreeder (flytrade/BREEDING.md): a fly whose merge is incubating can't enter (ARENA_BREEDER in fly.toml; unset: no check). */
 const sha256hex = (s: string) => createHash("sha256").update(s).digest("hex");
 const UUID = "[0-9a-f-]{36}";
 
@@ -137,7 +138,10 @@ export function createArena(d: ArenaDeps) {
   }
 
   // traits never change once revealed: read once per fly
-  const traitsCache = new Map<number, Traits>();
+  // a fly's traits change when it's bred (a merge gives it a child's traits), so they're kept 5 minutes, not for good;
+  // an entry reads them fresh
+  const traitsCache = new Map<number, { at: number; t: Traits }>();
+  const TRAITS_MS = 5 * 60_000;
   function decodeTraits(ret: string | null): Traits | null {
     // (uint8 rarity, uint8 pose, uint8 colorway, uint8 background, uint8 gear, uint16 weight, uint8 extra): 7 words
     if (!ret || ret.length < 2 + 7 * 64) return null;
@@ -146,13 +150,22 @@ export function createArena(d: ArenaDeps) {
     return validTraits(t) ? t : null;
   }
   /** Traits of each fly (null for one that doesn't exist, isn't revealed or has traits this game doesn't know). */
-  async function traitsOf(flies: number[]): Promise<(Traits | null)[]> {
-    const missing = flies.filter((f) => !traitsCache.has(f));
+  async function traitsOf(flies: number[], fresh = false): Promise<(Traits | null)[]> {
+    const now = Date.now();
+    const missing = flies.filter((f) => fresh || !traitsCache.has(f) || now - traitsCache.get(f)!.at > TRAITS_MS);
     if (missing.length) {
       const got = await chain.batch(missing.map((f) => ({ to: CFG.contract!, data: SEL.traitsOf + word(f) })));
-      missing.forEach((f, i) => { const t = decodeTraits(got[i]); if (t) traitsCache.set(f, t); });
+      missing.forEach((f, i) => { const t = decodeTraits(got[i]); if (t) traitsCache.set(f, { at: now, t }); });
     }
-    return flies.map((f) => traitsCache.get(f) ?? null);
+    return flies.map((f) => traitsCache.get(f)?.t ?? null);
+  }
+
+  /** Is the fly's merge incubating? (pendingOf's first word is the merging holder; 0 = none) */
+  async function incubating(fly: number): Promise<boolean> {
+    const breeder = d.env.ARENA_BREEDER ?? "";
+    if (!breeder) return false;
+    const [got] = await chain.batch([{ to: breeder, data: SEL.pendingOf + word(fly) }]);
+    return !!got && got.length >= 66 && BigInt("0x" + got.slice(2, 66)) !== 0n;
   }
 
   // every fly's owner, read together and kept for a minute: the page's "your flies"
@@ -544,7 +557,13 @@ export function createArena(d: ArenaDeps) {
     if (!on) throw new HttpError(503, "the colosseum is closed");
     if (!Number.isInteger(fly) || fly < 1 || fly > CFG.maxId) throw new HttpError(400, `fly is a number from 1 to ${CFG.maxId}`);
     let traits: Traits | null;
-    try { [traits] = await traitsOf([fly]); } catch (err) { throw new HttpError(502, `couldn't read the chain: ${(err as Error)?.message ?? err}`); }
+    try {
+      if (await incubating(fly)) throw new HttpError(409, `Trader Fly #${fly} is incubating a merge; it can enter once it hatches`);
+      [traits] = await traitsOf([fly], true);
+    } catch (err) {
+      if (err instanceof HttpError) throw err;
+      throw new HttpError(502, `couldn't read the chain: ${(err as Error)?.message ?? err}`);
+    }
     if (!traits) throw new HttpError(404, "no such fly");
     const stats = statsOf(traits);
     const auras = (await pg.all<{ aura: string }>("select aura from mine.arena_auras where fly = ? order by at", fly)).map((r) => r.aura);

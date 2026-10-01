@@ -50,6 +50,7 @@ primary_region = "cdg"
   ARENA_ON = "1"
   ARENA_IMAGE = "https://flyaiworld.com/colosseum/flies/{id}.webp"
   ARENA_TRADERFLY = "0x18d4D831cA89672126172B73bA05f5A318ad5A72"
+  ARENA_BREEDER = "0xA3De6F2d2b10FF98923C16eD71decf0afa393323"   # FlyBreeder: incubating flies can't enter
   ARENA_ENTRY = "100000"
   ARENA_POTION = "25000"
   # a potion bought for good (every season, stays with the fly); potion and aura money goes to ARENA_FEE_TO, not the pot
@@ -89,7 +90,7 @@ primary_region = "cdg"
   [[http_service.checks]]
     interval = "30s"
     timeout = "5s"
-    grace_period = "180s"   # both servers start before the proxy listens (first start builds new indexes)
+    grace_period = "1200s"  # both servers start before the proxy listens (a start after a crash can spend many minutes recovering SQLite)
     method = "GET"
     # the proxy's own answer (src/start.ts): a busy mining thread no longer marks the machine down for everyone
     path = "/healthz"

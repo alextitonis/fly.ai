@@ -143,11 +143,14 @@
     <div class="wrap">
       <h2><span class="num">02</span> <span data-i18n="desk.vote.title">Holder vote</span></h2>
       <p class="prose" data-i18n="desk.vote.lede">$FLYAI holders pick how the flies trade tomorrow. One vote per wallet per day, weighted by the dollars of $FLYAI it holds when the day closes. Biggest bag wins. Signing is free, no gas.</p>
-      <div class="vote-today" id="vote-today"></div>
-      <div class="vote-cards" id="vote-cards" role="group" aria-label="Pick a mode"></div>
-      <div class="vote-foot">
-        <button type="button" class="btn red sm" id="vote-connect" data-i18n="desk.vote.connect">Connect wallet</button>
-        <span class="vote-msg" id="vote-msg" aria-live="polite"></span>
+      <div class="vote-panel">
+        <div class="vote-status" id="vote-status"></div>
+        <div class="vote-split" id="vote-split" aria-hidden="true"></div>
+        <div class="vote-cards" id="vote-cards" role="group" aria-label="Pick a mode"></div>
+        <div class="vote-foot">
+          <button type="button" class="btn red sm" id="vote-connect" data-i18n="desk.vote.connect">Connect wallet</button>
+          <span class="vote-msg" id="vote-msg" aria-live="polite"></span>
+        </div>
       </div>
       <p class="caption" id="vote-close"></p>
       <details class="tbl-details" id="vote-hist-wrap" hidden>

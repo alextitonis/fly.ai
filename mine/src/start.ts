@@ -64,7 +64,9 @@ async function listening(port: number, ms: number): Promise<void> {
 
 // mining first: it runs the schema upgrades, and the user side must not start on a half-upgraded database
 const mining = run("mining", MINING_PORT);
-await listening(MINING_PORT, 180_000);
+// 2026-10-01: after crashes in the middle of a big write (a full disk), SQLite's recovery of the leftover journal took
+// longer than the old 3 minutes; each timeout restarted the machine and the recovery began again, for good
+await listening(MINING_PORT, Number(process.env.MINING_START_S ?? "1200") * 1000);
 const user = run("user", USER_PORT);
 await listening(USER_PORT, 60_000);
 const research = run("research", RESEARCH_PORT);
