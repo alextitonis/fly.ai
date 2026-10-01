@@ -342,14 +342,14 @@
     "title": "Trader Flies'ın",
     "active": "● aktif",
     "idle": "○ aktif değil",
-    "holdOk": "Sineklerin aktif: bu cüzdanda {have} $FLYAI var, gereken {amount} (yaklaşık ${usd}; miktar $FLYAI fiyatını takip eder).",
-    "holdShort": "Sineklerin aktif değil. Bu cüzdanda {amount} $FLYAI tut (yaklaşık ${usd}; miktar fiyatı takip eder), bütün sineklerin ödeme yapmadan aktif olsun. Sende {have} var.",
+    "holdOk": "Sineklerin aktif: bu cüzdanda {have} $FLYAI var, gereken {amount}.",
+    "holdShort": "Sineklerin aktif değil. Bu cüzdanda {amount} $FLYAI tut, bütün sineklerin ödeme yapmadan aktif olsun. Sende {have} var.",
     "getFlyai": "$FLYAI al"
   },
   "how": {
     "mint": "<b>Mint</b> USDG ile ya da %{pct} indirimle $FLYAI ile. Mint açıkken tüm sinekler aynı görünür, bu yüzden kimse nadir olanları seçemez.",
     "reveal": "<b>Açılış.</b> Mint bitince gelecekteki bir bloğun hash'i, sözleşmenin içinde her sineğin özelliklerini belirler: nadirlik (Sıradan, Nadir olmayan, Nadir ya da Efsanevi), poz, renk, arka plan ve ekipman. Herkes zincirde kontrol edebilir.",
-    "activate": "<b>$FLYAI tut.</b> Bir sinek, sahibinin cüzdanında yaklaşık ${usd} değerinde $FLYAI (bugün {amount} $FLYAI; miktar fiyatı takip eder) olduğu sürece aktiftir. Ödeme yok, basılacak düğme yok; tek bir bakiye cüzdandaki bütün sinekleri kapsar. Aktif sinekler masada birlikte işlem yapar. Her mint %80 sineklerin işlem havuzuna, %20 ekibe bölündü. Bir hafta havuzun önceki zirvesinin üstünde biterse, o kârın %95'i $FLYAI olarak aktif sineklere gider (%5 ekibe); nadirliğe ve ne kadar süre aktif kaldıklarına göre ağırlıklandırılır. Kayıtlı FLYAI evcil hayvanları (fiziksel tamagotchi'lerimiz) da 3.5x ile pay alır. Bir sineği satarsan ya da bu miktarın altına düşersen durur.",
+    "activate": "<b>$FLYAI tut.</b> Bir sinek, sahibinin cüzdanında {amount} $FLYAI olduğu sürece aktiftir. Ödeme yok, basılacak düğme yok; tek bir bakiye cüzdandaki bütün sinekleri kapsar. Aktif sinekler masada birlikte işlem yapar. Her mint %80 sineklerin işlem havuzuna, %20 ekibe bölündü. Bir hafta havuzun önceki zirvesinin üstünde biterse, o kârın %95'i $FLYAI olarak aktif sineklere gider (%5 ekibe); nadirliğe ve ne kadar süre aktif kaldıklarına göre ağırlıklandırılır. Kayıtlı FLYAI evcil hayvanları (fiziksel tamagotchi'lerimiz) da 3.5x ile pay alır. Bir sineği satarsan ya da bu miktarın altına düşersen durur.",
     "risk": "İşlem yapmak para kaybettirebilir ve kârsız bir hafta hiçbir şey ödemez. Buradaki hiçbir şey getiri vaat etmez."
   },
   "claim": {

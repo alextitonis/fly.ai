@@ -104,6 +104,15 @@ export async function disconnect(): Promise<void> {
 }
 
 export async function sign(message: string): Promise<string> {
+  // the server's sign-in message names the main chain (Chain ID), and Phantom refuses one that isn't the wallet's own
+  // chain ("Missing or invalid parameters", 2026-10-01). connect() asks for the chain, but wagmi drops a failed switch
+  // silently, so switch here, as Flybook does before it signs, and say so when the wallet won't
+  try {
+    await onChain(chain.id);
+  } catch (err) {
+    if ((err as { code?: number }).code === 4001) throw err;
+    throw new Error(`Switch your wallet to ${chain.name} to sign in.`);
+  }
   return signMessage(cfg(), { message });
 }
 

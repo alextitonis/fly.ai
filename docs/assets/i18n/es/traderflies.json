@@ -342,14 +342,14 @@
     "title": "Tus Trader Flies",
     "active": "● activa",
     "idle": "○ no activa",
-    "holdOk": "Tus moscas están activas: esta wallet tiene {have} $FLYAI y hacen falta {amount} (unos ${usd}; la cantidad sigue al precio de $FLYAI).",
-    "holdShort": "Tus moscas no están activas. Mantén {amount} $FLYAI en esta wallet (unos ${usd}; la cantidad sigue al precio) y todas tus moscas quedan activas, sin pagar nada. Tienes {have}.",
+    "holdOk": "Tus moscas están activas: esta wallet tiene {have} $FLYAI y hacen falta {amount}.",
+    "holdShort": "Tus moscas no están activas. Mantén {amount} $FLYAI en esta wallet y todas tus moscas quedan activas, sin pagar nada. Tienes {have}.",
     "getFlyai": "Conseguir $FLYAI"
   },
   "how": {
     "mint": "<b>Mint</b> en USDG, o en $FLYAI con {pct}% de descuento. Mientras el mint está abierto todas las moscas se ven iguales, así nadie puede elegir las raras.",
     "reveal": "<b>Revelación.</b> Cuando termina el mint, el hash de un bloque futuro decide los rasgos de cada mosca dentro del propio contrato: rareza (Común, Poco común, Rara o Legendaria), pose, color, fondo y equipo. Cualquiera puede verificarlos en la cadena.",
-    "activate": "<b>Mantén $FLYAI.</b> Una mosca está activa mientras la wallet de su holder tenga unos ${usd} en $FLYAI ({amount} $FLYAI hoy; la cantidad sigue al precio). No se paga nada ni hay que pulsar nada, y un solo saldo cubre todas las moscas de la wallet. Las moscas activas operan juntas en la mesa. Cada mint se repartió 80% al pool de trading de las moscas, 20% al equipo. Cuando una semana termina por encima del máximo anterior del pool, el 95% de esa ganancia va a las moscas activas en $FLYAI (5% al equipo), ponderado por rareza y por cuánto tiempo estuvieron activas. Las mascotas FLYAI registradas, nuestros tamagotchis físicos, también participan con 3.5x. Si vendes una mosca o bajas de esa cantidad, se detiene.",
+    "activate": "<b>Mantén $FLYAI.</b> Una mosca está activa mientras la wallet de su holder tenga {amount} $FLYAI. No se paga nada ni hay que pulsar nada, y un solo saldo cubre todas las moscas de la wallet. Las moscas activas operan juntas en la mesa. Cada mint se repartió 80% al pool de trading de las moscas, 20% al equipo. Cuando una semana termina por encima del máximo anterior del pool, el 95% de esa ganancia va a las moscas activas en $FLYAI (5% al equipo), ponderado por rareza y por cuánto tiempo estuvieron activas. Las mascotas FLYAI registradas, nuestros tamagotchis físicos, también participan con 3.5x. Si vendes una mosca o bajas de esa cantidad, se detiene.",
     "risk": "El trading puede perder dinero, y una semana sin ganancias no paga nada. Nada de esto promete un rendimiento."
   },
   "claim": {

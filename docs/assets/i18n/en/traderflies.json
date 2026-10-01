@@ -342,14 +342,14 @@
     "title": "Your Trader Flies",
     "active": "● active",
     "idle": "○ not active",
-    "holdOk": "Your flies are active: this wallet holds {have} $FLYAI and {amount} is needed (about ${usd}; the amount follows the $FLYAI price).",
-    "holdShort": "Your flies are not active. Hold {amount} $FLYAI in this wallet (about ${usd}; the amount follows the price) and every fly here is active, nothing to pay. You hold {have}.",
+    "holdOk": "Your flies are active: this wallet holds {have} $FLYAI and {amount} is needed.",
+    "holdShort": "Your flies are not active. Hold {amount} $FLYAI in this wallet and every fly here is active, nothing to pay. You hold {have}.",
     "getFlyai": "Get $FLYAI"
   },
   "how": {
     "mint": "<b>Mint</b> in USDG, or in $FLYAI for {pct}% off. While minting is open every fly looks the same, so nobody can pick the rare ones.",
     "reveal": "<b>Reveal.</b> When minting ends, a future block's hash rolls every fly's traits in the contract itself: rarity (Common, Uncommon, Rare or Legendary), pose, colorway, background and gear. Anyone can check them on chain.",
-    "activate": "<b>Hold $FLYAI.</b> A fly is active while its holder's wallet holds about ${usd} of $FLYAI ({amount} $FLYAI today; the amount follows the price). Nothing to pay, nothing to press, and one holding covers every fly in the wallet. Active flies trade together on the desk. Every mint split 80% into the flies' trading pool, 20% to the team. When a week ends above the pool's previous high, 95% of that profit goes to active flies in $FLYAI (5% to the team), weighted by rarity and by how long they were active. Registered FLYAI pets, our physical tamagotchis, share it too at 3.5x. Sell a fly or drop under the amount and it stops.",
+    "activate": "<b>Hold $FLYAI.</b> A fly is active while its holder's wallet holds {amount} $FLYAI. Nothing to pay, nothing to press, and one holding covers every fly in the wallet. Active flies trade together on the desk. Every mint split 80% into the flies' trading pool, 20% to the team. When a week ends above the pool's previous high, 95% of that profit goes to active flies in $FLYAI (5% to the team), weighted by rarity and by how long they were active. Registered FLYAI pets, our physical tamagotchis, share it too at 3.5x. Sell a fly or drop under the amount and it stops.",
     "risk": "Trading can lose money, and a week without profit pays nothing. Nothing here promises a return."
   },
   "claim": {
