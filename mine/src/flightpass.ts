@@ -930,6 +930,18 @@ export function createFlightPass(d: FlightPassDeps) {
     const holding = !!(await pg.one("select 1 from mine.flightpass_owners where wallet = ? limit 1", wallet));
     return { boost: MINING_BOOST, today, holding, day_start: utcDayStart() };
   }
+  /**
+   * boostView for every wallet at once: two queries, however many miners poll. 2026-10-01: ~250 miners' /api/me each
+   * asked boostView for their own wallet, two Postgres reads apiece; after a restart, with every cache empty, that
+   * queued hundreds of reads on five connections and they timed out in a storm.
+   */
+  async function boostViews(): Promise<((wallet: string) => { boost: number; today: boolean; holding: boolean; day_start: ReturnType<typeof utcDayStart> }) | null> {
+    if (!on) return null;
+    const today = new Set((await pg.all<{ wallet: string }>("select distinct wallet from mine.flightpass_days where day = ? and broken = 0", d.today())).map((r) => r.wallet));
+    const holding = new Set((await pg.all<{ wallet: string }>("select distinct wallet from mine.flightpass_owners")).map((r) => r.wallet));
+    const dayStart = utcDayStart();
+    return (wallet: string) => ({ boost: MINING_BOOST, today: today.has(wallet), holding: holding.has(wallet), day_start: dayStart });
+  }
 
   // ---- routes --------------------------------------------------------------------------------------------
   async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promise<boolean> {
@@ -961,5 +973,5 @@ export function createFlightPass(d: FlightPassDeps) {
     return false;
   }
 
-  return { route, start, boostedDays, boostView, config, sample, tick, payOut };
+  return { route, start, boostedDays, boostView, boostViews, config, sample, tick, payOut };
 }

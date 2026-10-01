@@ -8,8 +8,12 @@
  *
  * Split 2026-09-29 after mining stalls held FlightPass pages for up to 40 s and failed fly's health checks, which then
  * refused every request. The proxy does no work of its own, so it stays quick while either side is busy, and fly's
- * health check asks it (/healthz): up while both processes run. Either process exiting ends the machine and fly
- * restarts it, as a crash of the single server did before.
+ * health check asks it (/healthz): up while the proxy runs.
+ *
+ * 2026-10-01: a process that exits is restarted ON ITS OWN, and the others keep serving: before, any exit ended the
+ * machine, so a mining crash also took down sign-in, FlightPass and the games for the minute fly needed to restart it
+ * (and a slow SQLite recovery made that much longer). Only a side that keeps crashing (CHILD_MAX_RESTARTS within ten
+ * minutes) still ends the machine, for fly to start it fresh.
  */
 import { spawn, type ChildProcess } from "node:child_process";
 import { Agent, createServer, request } from "node:http";
@@ -32,15 +36,31 @@ const USER_PATHS = /^\/api\/(flightpass|roulette|slots|race|arena|session|admin\
  */
 const PUBLIC_PATHS = /^\/(compute(\/|$)|assets\/i18n\/|$)|^\/(leaderboard|stake|claim|results|connect|bench|jobs)$|^\/api\/(month|stake-config|claims|price|orders\/config)$/;
 
+const MAX_RESTARTS = Number(process.env.CHILD_MAX_RESTARTS ?? "5");
+const children = new Map<string, ChildProcess>();
+const restarts = new Map<string, number[]>();
+
 function run(role: string, port: number): ChildProcess {
   const child = spawn(process.execPath, [...process.execArgv, fileURLToPath(new URL("./server.ts", import.meta.url))], {
     env: { ...process.env, ROLE: role, PORT: String(port) },
     stdio: ["ignore", "inherit", "inherit"],
   });
+  children.set(role, child);
   child.on("exit", (code, signal) => {
     if (stopping) { if (--running === 0) process.exit(0); return; }
-    console.error(`${role} process exited (${signal ?? code}); stopping the machine so fly restarts it`);
-    process.exit(1);
+    running--;
+    const now = Date.now();
+    const times = (restarts.get(role) ?? []).filter((t) => t > now - 10 * 60_000);
+    times.push(now);
+    restarts.set(role, times);
+    if (times.length > MAX_RESTARTS) {
+      console.error(`${role} process exited (${signal ?? code}), ${times.length} times in ten minutes; stopping the machine so fly restarts it`);
+      process.exit(1);
+    }
+    // a short pause that grows with each crash, so a side failing at once doesn't spin
+    const wait = Math.min(30_000, 1_000 * 2 ** (times.length - 1));
+    console.error(`${role} process exited (${signal ?? code}); restarting it alone in ${wait / 1000} s (the other sides keep serving)`);
+    setTimeout(() => { if (!stopping) run(role, port); }, wait);
   });
   running++;
   return child;
@@ -63,20 +83,21 @@ async function listening(port: number, ms: number): Promise<void> {
 }
 
 // mining first: it runs the schema upgrades, and the user side must not start on a half-upgraded database
-const mining = run("mining", MINING_PORT);
+run("mining", MINING_PORT);
 // 2026-10-01: after crashes in the middle of a big write (a full disk), SQLite's recovery of the leftover journal took
 // longer than the old 3 minutes; each timeout restarted the machine and the recovery began again, for good
 await listening(MINING_PORT, Number(process.env.MINING_START_S ?? "1200") * 1000);
-const user = run("user", USER_PORT);
+run("user", USER_PORT);
 await listening(USER_PORT, 60_000);
-const research = run("research", RESEARCH_PORT);
+run("research", RESEARCH_PORT);
 await listening(RESEARCH_PORT, 120_000);
 
 const agent = new Agent({ keepAlive: true, maxSockets: 512 });
 const server = createServer((req, res) => {
   if (req.url === "/healthz") {
-    const ok = mining.exitCode === null && user.exitCode === null && research.exitCode === null;
-    res.writeHead(ok ? 200 : 503, { "content-type": "text/plain" }).end(ok ? "ok" : "down");
+    // the proxy answering is the machine being up: a side that died is restarted by run(), not by fly
+    const down = [...children].filter(([, c]) => c.exitCode !== null || c.signalCode !== null).map(([r]) => r);
+    res.writeHead(200, { "content-type": "text/plain" }).end(down.length ? `ok (restarting ${down.join(", ")})` : "ok");
     return;
   }
   const path = (req.url ?? "/").split("?")[0];
@@ -100,5 +121,5 @@ server.listen(PORT, () => console.log(`proxy on ${PORT}: mining on ${MINING_PORT
 
 for (const sig of ["SIGTERM", "SIGINT"] as const) {
   // both servers stop as the single one did (their own signal handling), then the machine
-  process.on(sig, () => { stopping = true; mining.kill(sig); user.kill(sig); research.kill(sig); setTimeout(() => process.exit(0), 20_000).unref(); });
+  process.on(sig, () => { stopping = true; for (const c of children.values()) c.kill(sig); setTimeout(() => process.exit(0), 20_000).unref(); });
 }

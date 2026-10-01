@@ -554,17 +554,26 @@ type TaskRow = { id: number; params: string; kind?: string };
 const one = <T>(sql: string, ...args: (string | number | null)[]) => db.prepare(sql).get(...args) as T;
 const count = (sql: string, ...args: (string | number | null)[]) => one<{ n: number }>(sql, ...args).n;
 
+// 2026-10-01: claim() calls topUp() inside its transaction when the open pool runs dry, and topUp has one of its own;
+// SQLite has no nesting, so every claim that found the pool empty failed with "cannot start a transaction within a
+// transaction" (hundreds a minute under the fleet) until the 15 s timer refilled it. An inner call now joins the outer.
+let txDepth = 0;
 function transaction<T>(fn: () => T): T {
+  if (txDepth > 0) return fn();
   // immediate: with two processes writing, a deferred transaction that later writes fails at once on a lock,
   // where this one waits its turn (busy_timeout)
   db.exec("begin immediate");
+  txDepth++;
   try {
     const out = fn();
     db.exec("commit");
     return out;
   } catch (err) {
-    db.exec("rollback");
+    // SQLite may have rolled back already (a full disk, an I/O error): the original error is the one worth throwing
+    try { db.exec("rollback"); } catch { /* nothing open */ }
     throw err;
+  } finally {
+    txDepth--;
   }
 }
 
@@ -720,7 +729,12 @@ function seed(v: Verifier): void {
 
 /** A wrong answer: the miner's day is zeroed and its unchecked answers stop counting, so those jobs reopen. */
 function strike(miner: string): void {
-  db.prepare("update miners set strikes = strikes + 1 where id = ?").run(miner);
+  const before = one<{ strikes: number }>("update miners set strikes = strikes + 1 where id = ? returning strikes - 1 as strikes", miner).strikes;
+  // 2026-10-01 profile: 82% of the mining thread, stalls of 5-7 s inside the submit's write lock. A struck miner's
+  // every further wrong answer walked ALL its pending answers again (hundreds of thousands, never re-checked) to reopen
+  // jobs. Only the first strike has anything to reopen: from then on submit never closes a job on its answers and
+  // settled() ignores them, so later strikes just count.
+  if (before > 0) return;
   db.prepare(`update tasks set state = 'open' where truth is null and state = 'done'
     and id in (select task from assignments where miner = ? and status = 'pending')`).run(miner);
   // paid jobs it answered need another answer, ahead of the screen again (they aren't charged twice), and the server
@@ -1504,16 +1518,16 @@ function multiplierFor(stakedWei: bigint | undefined): number {
 const resampled = new Map<string, number>();
 const RESAMPLE_MS = 60_000;
 
-async function stakeOf(wallet: string) {
+type StakeRow = { staked_wei: string; last_wei: string; sampled_at: number };
+
+function stakeOf(snap: WalletSnap, wallet: string) {
   if (!STAKING.contract) return null;
-  const s = await pg.one<{ staked_wei: string; last_wei: string; sampled_at: number }>(
-    "select staked_wei, last_wei, sampled_at from mine.stake_samples where wallet = ? and day = ?", wallet, today());
+  const s = snap.today.get(wallet);
   // Only wallets whose miners were seen today get sampled, and every wallet starts a UTC day with no row at all. So
   // a staker who is not mining right now, or anyone in the minutes after 00:00 UTC, used to read as 0 staked on no
   // tier — their stake looked like it had vanished (reported by a staker 2026-09-20). Fall back to the last sample
   // we ever took for them, and ask the chain again in the background so the next load is exact.
-  const last = s ?? await pg.one<{ staked_wei: string; last_wei: string; sampled_at: number }>(
-    "select staked_wei, last_wei, sampled_at from mine.stake_samples where wallet = ? order by day desc limit 1", wallet);
+  const last = s ?? snap.last.get(wallet);
   if (!s && Date.now() - (resampled.get(wallet) ?? 0) > RESAMPLE_MS) {
     resampled.set(wallet, Date.now());          // /api/me is polled often; one chain read a minute per wallet is plenty
     void sampleStake(wallet).catch(() => {});
@@ -1547,7 +1561,13 @@ async function sampleStake(wallet: string): Promise<void> {
     on conflict (wallet, day) do update set staked_wei = case when stake_samples.staked_wei::numeric < excluded.staked_wei::numeric
       then stake_samples.staked_wei else excluded.staked_wei end, last_wei = excluded.last_wei, sampled_at = excluded.sampled_at`,
     wallet, day, staked.toString(), staked.toString(), Date.now());
-  stakeOfCached.forget(wallet);
+  // the next /api/me shows it at once, as the upsert above keeps it: the day's lowest, and the latest
+  if (walletSnap?.day === day) {
+    const cur = walletSnap.today.get(wallet);
+    const row = { staked_wei: cur && BigInt(cur.staked_wei) < staked ? cur.staked_wei : staked.toString(), last_wei: staked.toString(), sampled_at: Date.now() };
+    walletSnap.today.set(wallet, row);
+    walletSnap.last.set(wallet, row);
+  }
 }
 
 /** Every STAKE_SAMPLE_MIN, sample the wallets whose miners were seen today. */
@@ -1614,15 +1634,57 @@ async function me(miner: string) {
     miner, label, wallet, day, ...mine, units: mine.units ?? 0, share: total ? mine.credited / total : 0,
     lifetime_jobs: life.jobs, lifetime_rejected: life.rejected ?? 0,
     month: thisMonth(), month_points: monthPts, month_share: wallet && m.total ? monthPts / m.total : 0,
-    stake: wallet ? await stakeOfCached(wallet) : null,
-    flightpass: wallet ? await boostViewCached(wallet) : null,
+    ...(await walletViews(wallet)),
     ...await monthStanding(wallet, monthPts),
   };
 }
 
-// /api/me is polled by every running miner: its per-wallet Postgres reads are kept 30 s
-const stakeOfCached = cached(30_000, stakeOf);
-const boostViewCached = cached(30_000, (wallet: string) => flightpass.boostView(wallet));
+// /api/me is polled by every running miner. Its per-wallet Postgres reads (stake, FlightPass boost) were cached per
+// wallet for 30 s, but after a restart every cache was empty at once: ~250 miners made ~4 reads each on five
+// connections, the queue passed the 15 s timeout, and failures and retries fed each other for minutes (2026-10-01,
+// right after a deploy). Now the whole lot is one snapshot - four queries for every wallet - refreshed every 30 s in
+// the background; requests read it from memory, and a failed refresh keeps serving the last good one.
+type WalletSnap = {
+  at: number;
+  day: string;
+  today: Map<string, StakeRow>;   // today's samples
+  last: Map<string, StakeRow>;    // each wallet's latest sample, any day
+  boost: Awaited<ReturnType<typeof flightpass.boostViews>>;
+};
+const WALLET_SNAP_MS = 30_000;
+let walletSnap: WalletSnap | null = null;
+let walletSnapLoading: Promise<void> | null = null;
+let walletSnapTriedAt = 0;
+async function loadWalletSnap(): Promise<void> {
+  const day = today();
+  type Row = StakeRow & { wallet: string };
+  const todayRows = STAKING.contract ? await pg.all<Row>("select wallet, staked_wei, last_wei, sampled_at from mine.stake_samples where day = ?", day) : [];
+  const lastRows = STAKING.contract ? await pg.all<Row>(
+    "select distinct on (wallet) wallet, staked_wei, last_wei, sampled_at from mine.stake_samples order by wallet, day desc") : [];
+  const boost = await flightpass.boostViews();
+  const strip = ({ wallet: _, ...r }: Row): StakeRow => r;
+  walletSnap = {
+    at: Date.now(), day,
+    today: new Map(todayRows.map((r) => [r.wallet, strip(r)])),
+    last: new Map(lastRows.map((r) => [r.wallet, strip(r)])),
+    boost,
+  };
+}
+async function walletViews(wallet: string | null) {
+  if (!wallet) return { stake: null, flightpass: null };
+  const fresh = walletSnap && walletSnap.day === today() && Date.now() - walletSnap.at < WALLET_SNAP_MS;
+  if (!fresh && !walletSnapLoading && Date.now() - walletSnapTriedAt > RETRY_AFTER_MS) {
+    walletSnapTriedAt = Date.now();
+    walletSnapLoading = loadWalletSnap()
+      .catch((err) => console.error(`wallet snapshot: ${err instanceof Error ? err.message : err}`))
+      .finally(() => { walletSnapLoading = null; });
+  }
+  // only the very first load is waited for; after that a refresh runs behind the last good snapshot
+  if (!walletSnap && walletSnapLoading) await walletSnapLoading;
+  const snap = walletSnap;
+  if (!snap) return { stake: null, flightpass: null };
+  return { stake: stakeOf(snap, wallet), flightpass: snap.boost ? snap.boost(wallet) : null };
+}
 
 /** The whole-table counts, from src/stats.worker.ts: refreshed in the background, never on a request. */
 let tableCounts: { tasks: number; tasks_done: number; tasks_checked: number; rounds: number; paid_jobs_waiting: number; blob_bytes: number } | null = null;
@@ -3613,16 +3675,25 @@ if (MINING) {
     const open = db.prepare("select order_id from card_checkouts where state = 'open' and created_at > ?").all(Date.now() - 3 * 3_600_000) as { order_id: string }[];
     void (async () => { for (const { order_id } of open) await checkCard(order_id).catch(() => {}); })();
   }, 30_000).unref();
+  // 2026-10-01: a throw in here (a busy lock, a full disk) was an uncaught exception: the mining process died and took
+  // the machine, sign-in and FlightPass with it. Each step now fails on its own, logged, and the next tick tries again.
+  const step = (what: string, fn: () => unknown) => {
+    try { fn(); } catch (err) { console.error(`housekeeping ${what}: ${err instanceof Error ? err.message : err}`); }
+  };
   setInterval(() => {
-    expire();
-    topUp();
+    step("expire", expire);
+    step("topUp", topUp);
     // frees their tags; a late payment is still accepted (payOrder)
-    db.prepare("update orders set status = 'expired' where status = 'unpaid' and expires_at < ?").run(Date.now());
+    step("unpaid orders", () => db.prepare("update orders set status = 'expired' where status = 'unpaid' and expires_at < ?").run(Date.now()));
     // time limits, and anything a missed refill left waiting
-    for (const { id } of db.prepare("select id from orders where status = 'live'").all() as { id: string }[]) transaction(() => refill(id));
-    if (Date.now() - lastGc > 3_600_000) collectBlobs();
-    if (Date.now() - lastPrune > 3_600_000) void pruneScreen().then(() => pruneOld());
-    pump(); // paid jobs waiting on a second answer get the idle verifiers
+    step("refill", () => {
+      for (const { id } of db.prepare("select id from orders where status = 'live'").all() as { id: string }[]) step(`refill ${id}`, () => transaction(() => refill(id)));
+    });
+    if (Date.now() - lastGc > 3_600_000) step("blobs", collectBlobs);
+    if (Date.now() - lastPrune > 3_600_000) {
+      void pruneScreen().then(() => pruneOld()).catch((err) => console.error(`housekeeping prune: ${err instanceof Error ? err.message : err}`));
+    }
+    step("pump", pump); // paid jobs waiting on a second answer get the idle verifiers
   }, 15_000).unref();
   setInterval(() => void deliverWebhooks().catch((err) => console.error("webhooks:", err)), 5_000).unref();
   // queued charges, releases and program pay to Postgres; while it's unreachable they wait here (logged once a minute)
@@ -3641,6 +3712,26 @@ if (MINING) {
 if (RESEARCH && STAKING.contract) {
   setTimeout(() => void computeExperiments(), 90_000).unref();
   setInterval(() => void computeExperiments(), 30 * 60_000).unref();
+}
+
+// 2026-10-01: a stray throw in a timer or a forgotten promise (a busy lock in the stake sampler, a card check) ended
+// the whole process, and with it the machine: miners dropped, and sign-in and FlightPass went down with the mining
+// side. The background jobs only retry next tick, and transaction() always rolls back, so such an error is logged and
+// the process carries on; only a burst (something wedged for good) still exits, and start.ts restarts that side alone.
+{
+  const recent: number[] = [];
+  const survive = (kind: string) => (err: unknown) => {
+    console.error(`[${ROLE}] ${kind}:`, err);
+    const now = Date.now();
+    recent.push(now);
+    while (recent.length && recent[0] < now - 60_000) recent.shift();
+    if (recent.length > Number(env("CRASH_BURST", "20"))) {
+      console.error(`[${ROLE}] ${recent.length} uncaught errors in a minute: exiting`);
+      process.exit(1);
+    }
+  };
+  process.on("uncaughtException", survive("uncaught exception"));
+  process.on("unhandledRejection", survive("unhandled rejection"));
 }
 
 // the main thread's stalls: every request, health check and miner waits behind one, so log each one over a second,
