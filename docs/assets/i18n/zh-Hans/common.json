@@ -90,6 +90,10 @@
       "label": "市场",
       "desc": "买卖 Trader Flies"
     },
+    "traderflies_breed": {
+      "label": "繁殖",
+      "desc": "把两只苍蝇合成一只"
+    },
     "traderflies_claim": {
       "label": "领取",
       "desc": "领取你的苍蝇赚到的 $FLYAI"

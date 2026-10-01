@@ -90,6 +90,10 @@
       "label": "Mercado",
       "desc": "Compra y vende Trader Flies"
     },
+    "traderflies_breed": {
+      "label": "Criar",
+      "desc": "Fusiona dos moscas en una"
+    },
     "traderflies_claim": {
       "label": "Cobrar",
       "desc": "Recoge el $FLYAI de tus moscas"

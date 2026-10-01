@@ -90,6 +90,10 @@
       "label": "마켓",
       "desc": "Trader Flies 사고팔기"
     },
+    "traderflies_breed": {
+      "label": "교배",
+      "desc": "파리 두 마리를 하나로 합치기"
+    },
     "traderflies_claim": {
       "label": "받기",
       "desc": "파리들의 $FLYAI 받기"

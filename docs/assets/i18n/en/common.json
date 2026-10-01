@@ -90,6 +90,10 @@
       "label": "Market",
       "desc": "Buy and sell Trader Flies"
     },
+    "traderflies_breed": {
+      "label": "Breed",
+      "desc": "Merge two flies into one"
+    },
     "traderflies_claim": {
       "label": "Claim",
       "desc": "Collect your flies' $FLYAI"

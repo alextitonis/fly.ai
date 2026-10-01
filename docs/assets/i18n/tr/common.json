@@ -90,6 +90,10 @@
       "label": "Pazar",
       "desc": "Trader Flies al ve sat"
     },
+    "traderflies_breed": {
+      "label": "Üret",
+      "desc": "İki sineği tek sinekte birleştir"
+    },
     "traderflies_claim": {
       "label": "Al",
       "desc": "Sineklerinin $FLYAI'ını topla"
