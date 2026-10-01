@@ -25,7 +25,8 @@
     "positions": "Pozisyonlar",
     "tape": "İşlem akışı",
     "how": "Nasıl işlem yapıyor",
-    "launches": "Lansmanlar"
+    "launches": "Lansmanlar",
+    "vote": "Oy"
   },
   "sys": {
     "mode": "mod",
@@ -146,7 +147,23 @@
     "sent": "zincirde"
   },
   "chains": {
-    "bets": {"note": "her pay sonucu gerçekleşirse $1, gerçekleşmezse $0 öder; bahisler sonuca kadar sürer", "open": "Açık bahisler", "settled": "Sonuçlanan bahisler", "thBet": "Bahis", "thStake": "Tutar", "thOdds": "Alınan oran", "thPays": "Tutarsa öder", "thNow": "Şimdiki oran", "thResult": "Sonuç", "thPaid": "Ödenen", "won": "Kazandı", "lost": "Kaybetti", "split": "Bölündü", "none": "Henüz açık bahis yok.", "noneSettled": "Henüz sonuçlanan bahis yok."},
+    "bets": {
+      "note": "her pay sonucu gerçekleşirse $1, gerçekleşmezse $0 öder; bahisler sonuca kadar sürer",
+      "open": "Açık bahisler",
+      "settled": "Sonuçlanan bahisler",
+      "thBet": "Bahis",
+      "thStake": "Tutar",
+      "thOdds": "Alınan oran",
+      "thPays": "Tutarsa öder",
+      "thNow": "Şimdiki oran",
+      "thResult": "Sonuç",
+      "thPaid": "Ödenen",
+      "won": "Kazandı",
+      "lost": "Kaybetti",
+      "split": "Bölündü",
+      "none": "Henüz açık bahis yok.",
+      "noneSettled": "Henüz sonuçlanan bahis yok."
+    },
     "markets": "{n} piyasa",
     "title": "Diğer zincirlerde",
     "lede": "Aynı sinekler yukarıdaki aynı parayla diğer zincirlerde de işlem yapar. Her sineğin her zincirde tuttukları ve oradaki son işlemleri.",
@@ -170,5 +187,35 @@
     "since": "İşlem başlangıcı",
     "hours": "{n} sa",
     "min": "{n} dk"
+  },
+  "vote": {
+    "title": "Holder oylaması",
+    "lede": "$FLYAI holder'ları sineklerin yarın nasıl işlem yapacağını seçer. Her cüzdana günde bir oy; ağırlık, gün kapanırken tuttuğu $FLYAI'nin dolar değeri. En büyük çanta kazanır. İmzalamak ücretsiz, gas yok.",
+    "connect": "Cüzdan bağla",
+    "history": "Geçmiş oylar",
+    "safe": "Güvenli",
+    "safeDesc": "Daha küçük alımlar, sadece derin havuzlar, sıkı stoplar, kârı erken al.",
+    "balanced": "Dengeli",
+    "balancedDesc": "Masanın kendi ayarları. Kimse oy vermezse de bu olur.",
+    "risky": "Degen",
+    "riskyDesc": "Daha büyük alımlar, daha sığ havuzlar, geniş stoplar, kazananları koştur.",
+    "today": "Bugün işlem modu: {mode}",
+    "pick": "{mode} oyu ver",
+    "yours": "Senin oyun",
+    "voters": {
+      "one": "{count} cüzdan",
+      "other": "{count} cüzdan"
+    },
+    "closes": "Bugünün oylaması {when} kapanır (00:00 UTC). Ağırlıklar kapanışta zincirden yeniden okunur.",
+    "noWallet": "Cüzdan bulunamadı. Bu sayfayı bir cüzdan tarayıcısında aç ya da bir cüzdan kur.",
+    "signing": "Mesajı cüzdanında imzala…",
+    "sending": "Oyun sayılıyor…",
+    "done": "{usd} $FLYAI ile {mode} oyu verdin.",
+    "cancelled": "İmza iptal edildi.",
+    "connected": "Bağlandı {wallet}",
+    "day": "Gün",
+    "mode": "Mod",
+    "weight": "Arkasındaki $",
+    "down": "Masa yeniden başlıyor. Oylama bir dakika içinde açılır."
   }
 }

@@ -522,6 +522,10 @@
         "title": "El mundo de las moscas",
         "about": "Ejecuciones con semilla de la simulación de la colonia, donde cada mosca tiene su propio cerebro pequeño: supervivencia, alimentación, reproducción, aprendizaje."
       },
+      "colosseum": {
+        "title": "Fly Colosseum",
+        "about": "Combates de práctica entre luchadoras al azar, para medir cuánto vale de verdad cada punto de stat, y los combates de cada temporada terminada jugados otra vez por la red para comprobar los resultados del servidor."
+      },
       "demo": {
         "title": "Demos",
         "about": "Trabajos distribuidos clásicos, para mostrar lo que la red puede hacer con el código de cualquiera."
@@ -632,6 +636,7 @@
     "wasmJob": "el programa WASM de un comprador, trabajo #{index}",
     "shaderJob": "el shader de GPU de un comprador, trabajo #{index}",
     "worldJob": "una simulación del mundo, semilla {seed}",
-    "probeJob": "una sonda cerebral: {condition}"
+    "probeJob": "una sonda cerebral: {condition}",
+    "fightJob": "un combate de Fly Colosseum"
   }
 }

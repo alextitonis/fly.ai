@@ -9,7 +9,7 @@
 export interface Figure { k: string; v: string }
 export interface Summary {
   label: string;
-  family: "tuning" | "world" | "encoding" | "demo" | "other";
+  family: "tuning" | "world" | "encoding" | "colosseum" | "demo" | "other";
   question: string;
   /** one line, the finding */
   headline: string;
@@ -177,5 +177,93 @@ export function tilesSummary(label: string, done: number, total: number): Summar
     headline: `${done.toLocaleString("en-US")} of ${total.toLocaleString("en-US")} tiles rendered and checked.`,
     figures: [],
     runs_read: done,
+  };
+}
+
+// ---- colosseum: practice fights and season replays ------------------------------------------------------------
+
+type Stat4 = { pow: number; grd: number; vit: number; fury: number };
+const STAT_KEYS = ["pow", "grd", "vit", "fury"] as const;
+const STAT_NAMES: Record<(typeof STAT_KEYS)[number], string> = { pow: "Power", grd: "Guard", vit: "Vitality", fury: "Fury" };
+
+/** One settled fight job (src/fightjob.ts FightResult), with what the server's own run gave when it's a replay. */
+export interface FightRun {
+  a: Stat4; b: Stat4; seeds: [number, number]; winner: 0 | 1; how: string; rounds: number; hp: [number, number];
+  expect?: { winner: number; how: string; rounds: number; hp: number[]; seeds: number[] | null } | null;
+}
+
+/** Least squares: the coefficients of y on the columns of x (with x already holding a constant column). */
+function ols(x: number[][], y: number[]): { beta: number[]; se: number[] } {
+  const k = x[0].length, n = x.length;
+  const a = Array.from({ length: k }, () => new Array(2 * k).fill(0));
+  for (let r = 0; r < n; r++) for (let i = 0; i < k; i++) for (let j = 0; j < k; j++) a[i][j] += x[r][i] * x[r][j];
+  for (let i = 0; i < k; i++) a[i][k + i] = 1;
+  for (let c = 0; c < k; c++) {                       // Gauss-Jordan: [X'X | I] -> [I | (X'X)^-1]
+    let p = c;
+    for (let r = c + 1; r < k; r++) if (Math.abs(a[r][c]) > Math.abs(a[p][c])) p = r;
+    [a[c], a[p]] = [a[p], a[c]];
+    const d = a[c][c];
+    if (Math.abs(d) < 1e-12) return { beta: new Array(k).fill(NaN), se: new Array(k).fill(NaN) };
+    for (let j = 0; j < 2 * k; j++) a[c][j] /= d;
+    for (let r = 0; r < k; r++) if (r !== c) { const f = a[r][c]; for (let j = 0; j < 2 * k; j++) a[r][j] -= f * a[c][j]; }
+  }
+  const inv = a.map((row) => row.slice(k));
+  const xty = new Array(k).fill(0);
+  for (let r = 0; r < n; r++) for (let i = 0; i < k; i++) xty[i] += x[r][i] * y[r];
+  const beta = inv.map((row) => row.reduce((s, v, j) => s + v * xty[j], 0));
+  let rss = 0;
+  for (let r = 0; r < n; r++) { const e = y[r] - x[r].reduce((s, v, j) => s + v * beta[j], 0); rss += e * e; }
+  const s2 = rss / Math.max(1, n - k);
+  return { beta, se: inv.map((row, i) => Math.sqrt(s2 * row[i])) };
+}
+
+/**
+ * Practice fights between fighters with random stats: how much one point of each stat moves the chance to win
+ * (a linear probability model on the stat differences), and whether going first or the coin decides too much.
+ */
+export function balanceSummary(label: string, runs: FightRun[]): Summary {
+  const x = runs.map((r) => [1, ...STAT_KEYS.map((k) => r.a[k] - r.b[k])]);
+  const y = runs.map((r) => (r.winner === 0 ? 1 : 0));
+  const fit = runs.length > 20 ? ols(x, y) : null;
+  const firstWins = mean(y);
+  const ko = runs.filter((r) => r.how === "ko").length, coin = runs.filter((r) => r.how === "coin").length;
+  const per = (i: number) => (fit ? `${signed(fit.beta[i + 1] * 100, " pts")} ± ${r2(1.96 * fit.se[i + 1] * 100)}` : "–");
+  const ten = (i: number) => (fit ? pct(Math.min(1, Math.max(0, 0.5 + 10 * fit.beta[i + 1]))) : "–");
+  const ranked = fit ? [...STAT_KEYS.keys()].sort((i, j) => fit.beta[j + 1] - fit.beta[i + 1]).map((i) => STAT_NAMES[STAT_KEYS[i]]) : [];
+  return {
+    label, family: "colosseum",
+    question: "In the Fly Colosseum, what is one point of each stat really worth? Practice fights between fighters with random stats, played by real fly brains.",
+    headline: fit
+      ? `Per point, ${ranked.map((n) => `${n} ${signed(fit.beta[STAT_KEYS.findIndex((k) => STAT_NAMES[k] === n) + 1] * 100, " pts")}`).join(", ")} of win chance; the fly on the left wins ${pct(firstWins)} of fights.`
+      : "Not enough settled fights yet.",
+    figures: [
+      { k: "Fights", v: runs.length.toLocaleString("en-US") },
+      { k: "Knockouts", v: runs.length ? pct(ko / runs.length) : "–" },
+      { k: "Decided by the coin", v: runs.length ? pct(coin / runs.length) : "–" },
+      { k: "Rounds per fight", v: r1(mean(runs.map((r) => r.rounds))) },
+    ],
+    table: [["Stat", "Win chance per point", "10 points ahead wins"], ...STAT_KEYS.map((k, i) => [STAT_NAMES[k], per(i), ten(i)])],
+    runs_read: runs.length,
+  };
+}
+
+/** A finished season played again by the network: does every fight come out exactly as the server's did? */
+export function replaySummary(label: string, runs: FightRun[], total: number): Summary {
+  const checked = runs.filter((r) => r.expect);
+  const same = checked.filter((r) => {
+    const e = r.expect!;
+    return e.winner === r.winner && e.how === r.how && e.rounds === r.rounds && e.hp.length === 2 && e.hp[0] === r.hp[0] && e.hp[1] === r.hp[1]
+      && (!e.seeds || (e.seeds[0] === r.seeds[0] && e.seeds[1] === r.seeds[1]));
+  });
+  const season = /season-(\d+)/.exec(label)?.[1];
+  return {
+    label, family: "colosseum",
+    question: `Does the network get the same results as the server for every fight of ${season ? `Season ${season}` : "a finished season"}?`,
+    headline: checked.length === 0 ? "No fights replayed yet."
+      : same.length === checked.length
+        ? `All ${checked.length} of ${total} fights replayed by miners came out exactly as the server's: same winner, same rounds, same HP to the last point.`
+        : `${checked.length - same.length} of ${checked.length} replayed fights came out differently from the server's.`,
+    figures: [{ k: "Fights replayed", v: `${checked.length} of ${total}` }, { k: "Identical", v: `${same.length}` }],
+    runs_read: checked.length,
   };
 }

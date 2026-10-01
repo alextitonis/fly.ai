@@ -86,8 +86,13 @@ export function connectPg(url: string, o: { max?: number; queryTimeoutMs?: numbe
   // the old ones fails at once (callers retry or answer 5xx) instead of queueing behind a dead socket.
   const queryMs = o.queryTimeoutMs ?? Number(process.env.PG_QUERY_TIMEOUT_MS ?? 15_000);
   const txMs = o.txTimeoutMs ?? Number(process.env.PG_TX_TIMEOUT_MS ?? 45_000);
-  const reset = (from: postgres.Sql, what: string) => {
+  // when Postgres last answered anything: a query that only waited its turn behind a busy pool is not a dead pool
+  let lastAnswer = Date.now();
+  const reset = (from: postgres.Sql, what: string, ms: number) => {
     if (from !== sql) return;                           // another timeout already replaced these connections
+    // 2026-10-01: dropping every connection on any timeout failed everything queued behind it at once, and the
+    // retries queued up again; now they are dropped only when nothing has answered for the whole limit
+    if (Date.now() - lastAnswer < ms) return;
     console.warn(`postgres: no answer in time (${what}); reconnecting`);
     sql = open();
     void from.end({ timeout: 0 }).catch(() => {});
@@ -96,8 +101,8 @@ export function connectPg(url: string, o: { max?: number; queryTimeoutMs?: numbe
     const from = sql;
     let timer: NodeJS.Timeout;
     return Promise.race([p, new Promise<never>((_, fail) => {
-      timer = setTimeout(() => { reset(from, what); fail(new PgTimeout(`the database didn't answer in ${ms / 1000} s [${what}]`)); }, ms);
-    })]).finally(() => clearTimeout(timer));
+      timer = setTimeout(() => { reset(from, what, ms); fail(new PgTimeout(`the database didn't answer in ${ms / 1000} s [${what}]`)); }, ms);
+    })]).then((v) => { lastAnswer = Date.now(); return v; }).finally(() => clearTimeout(timer));
   };
   const timed = timedOn(queryMs);
   const q = wrap(() => sql, timed);

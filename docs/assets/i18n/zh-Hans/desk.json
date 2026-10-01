@@ -25,7 +25,8 @@
     "positions": "持仓",
     "tape": "成交流",
     "how": "交易原理",
-    "launches": "发币"
+    "launches": "发币",
+    "vote": "投票"
   },
   "sys": {
     "mode": "模式",
@@ -146,7 +147,23 @@
     "sent": "已上链"
   },
   "chains": {
-    "bets": {"note": "结果发生则每份付 $1，否则 $0；下注持有到结果", "open": "进行中的下注", "settled": "已结算的下注", "thBet": "下注", "thStake": "金额", "thOdds": "买入赔率", "thPays": "猜中可得", "thNow": "当前赔率", "thResult": "结果", "thPaid": "已付", "won": "赢", "lost": "输", "split": "平分", "none": "还没有进行中的下注。", "noneSettled": "还没有已结算的下注。"},
+    "bets": {
+      "note": "结果发生则每份付 $1，否则 $0；下注持有到结果",
+      "open": "进行中的下注",
+      "settled": "已结算的下注",
+      "thBet": "下注",
+      "thStake": "金额",
+      "thOdds": "买入赔率",
+      "thPays": "猜中可得",
+      "thNow": "当前赔率",
+      "thResult": "结果",
+      "thPaid": "已付",
+      "won": "赢",
+      "lost": "输",
+      "split": "平分",
+      "none": "还没有进行中的下注。",
+      "noneSettled": "还没有已结算的下注。"
+    },
     "markets": "{n} 个市场",
     "title": "其他链上",
     "lede": "同样的苍蝇用上面同一笔资金在其他链上交易。每只苍蝇在各条链上的持仓，以及它在那里的最近成交。",
@@ -170,5 +187,35 @@
     "since": "交易开始于",
     "hours": "{n} 小时",
     "min": "{n} 分钟"
+  },
+  "vote": {
+    "title": "持有者投票",
+    "lede": "$FLYAI 持有者决定苍蝇们明天怎么交易。每个钱包每天一票，按当天收盘时持有的 $FLYAI 美元价值加权。仓位最大者胜。签名免费，无需 gas。",
+    "connect": "连接钱包",
+    "history": "往期投票",
+    "safe": "稳健",
+    "safeDesc": "买得更少，只碰深池子，止损更紧，早点落袋。",
+    "balanced": "均衡",
+    "balancedDesc": "交易台自己的设置。没人投票时也是它。",
+    "risky": "梭哈",
+    "riskyDesc": "买得更多，浅池子也上，止损放宽，让赢家奔跑。",
+    "today": "今天的模式：{mode}",
+    "pick": "投 {mode}",
+    "yours": "你的投票",
+    "voters": {
+      "one": "{count} 个钱包",
+      "other": "{count} 个钱包"
+    },
+    "closes": "今天的投票于 {when} 截止（00:00 UTC）。权重在截止时从链上重新读取。",
+    "noWallet": "没有找到钱包。请在钱包浏览器中打开本页或安装一个钱包。",
+    "signing": "请在钱包里签名…",
+    "sending": "正在计票…",
+    "done": "已用 {usd} 的 $FLYAI 投给 {mode}。",
+    "cancelled": "已取消签名。",
+    "connected": "已连接 {wallet}",
+    "day": "日期",
+    "mode": "模式",
+    "weight": "支持金额",
+    "down": "交易台正在重启，一分钟后可以投票。"
   }
 }

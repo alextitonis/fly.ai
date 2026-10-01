@@ -25,7 +25,8 @@
     "positions": "Posiciones",
     "tape": "La cinta",
     "how": "Cómo opera",
-    "launches": "Lanzamientos"
+    "launches": "Lanzamientos",
+    "vote": "Votar"
   },
   "sys": {
     "mode": "modo",
@@ -146,7 +147,23 @@
     "sent": "en cadena"
   },
   "chains": {
-    "bets": {"note": "cada acción paga $1 si su resultado ocurre y $0 si no; las apuestas llegan al resultado", "open": "Apuestas abiertas", "settled": "Apuestas cerradas", "thBet": "Apuesta a", "thStake": "Monto", "thOdds": "Cuota tomada", "thPays": "Paga si acierta", "thNow": "Cuota ahora", "thResult": "Resultado", "thPaid": "Pagado", "won": "Ganada", "lost": "Perdida", "split": "Dividida", "none": "Aún no hay apuestas abiertas.", "noneSettled": "Aún no hay apuestas cerradas."},
+    "bets": {
+      "note": "cada acción paga $1 si su resultado ocurre y $0 si no; las apuestas llegan al resultado",
+      "open": "Apuestas abiertas",
+      "settled": "Apuestas cerradas",
+      "thBet": "Apuesta a",
+      "thStake": "Monto",
+      "thOdds": "Cuota tomada",
+      "thPays": "Paga si acierta",
+      "thNow": "Cuota ahora",
+      "thResult": "Resultado",
+      "thPaid": "Pagado",
+      "won": "Ganada",
+      "lost": "Perdida",
+      "split": "Dividida",
+      "none": "Aún no hay apuestas abiertas.",
+      "noneSettled": "Aún no hay apuestas cerradas."
+    },
     "markets": "{n} mercados",
     "title": "En otras cadenas",
     "lede": "Las mismas moscas operan en otras cadenas con el mismo dinero de arriba. Lo que cada mosca tiene en cada cadena y sus últimas operaciones allí.",
@@ -170,5 +187,35 @@
     "since": "Operando desde",
     "hours": "{n} h",
     "min": "{n} min"
+  },
+  "vote": {
+    "title": "Voto de holders",
+    "lede": "Los holders de $FLYAI eligen cómo operan las moscas mañana. Un voto por wallet al día, ponderado por los dólares de $FLYAI que tenga al cierre del día. Gana la bolsa más grande. Firmar es gratis, sin gas.",
+    "connect": "Conectar wallet",
+    "history": "Votos anteriores",
+    "safe": "Seguro",
+    "safeDesc": "Compras más pequeñas, solo pools profundos, stops ajustados, toma ganancias pronto.",
+    "balanced": "Equilibrado",
+    "balancedDesc": "La configuración propia del desk. También lo que pasa si nadie vota.",
+    "risky": "Degen",
+    "riskyDesc": "Compras más grandes, pools más finos, stops amplios, deja correr a los ganadores.",
+    "today": "Hoy opera: {mode}",
+    "pick": "Votar {mode}",
+    "yours": "Tu voto",
+    "voters": {
+      "one": "{count} wallet",
+      "other": "{count} wallets"
+    },
+    "closes": "La votación de hoy cierra {when} (00:00 UTC). Los pesos se vuelven a leer de la cadena al cierre.",
+    "noWallet": "No hay wallet. Abre esta página en el navegador de una wallet o instala una.",
+    "signing": "Firma el mensaje en tu wallet…",
+    "sending": "Contando tu voto…",
+    "done": "Votaste {mode} con {usd} de $FLYAI.",
+    "cancelled": "Firma cancelada.",
+    "connected": "Conectado {wallet}",
+    "day": "Día",
+    "mode": "Modo",
+    "weight": "$ detrás",
+    "down": "El desk se está reiniciando. Las votaciones vuelven en un minuto."
   }
 }

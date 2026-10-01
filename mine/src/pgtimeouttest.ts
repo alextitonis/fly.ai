@@ -28,6 +28,22 @@ try {
   check("a transaction works afterwards, under a lock", await pg.tx(async (q) => (await q.one<{ n: number }>("select 4 as n"))!.n, "wallet:0xabc") === 4);
   // a transaction's own queries have no limit of their own: a wait shorter than the transaction's is fine
   check("a slow step inside a transaction isn't cut short", await pg.tx(async (q) => { await q.run("select pg_sleep(1)"); return true; }) === true);
+
+  // 2026-10-01: a query that only waited its turn behind a busy (but answering) pool fails on its own; the
+  // connections, and the queries running on them, are left alone
+  const one = connectPg(PG.url, { max: 1, queryTimeoutMs: 800, txTimeoutMs: 1_500 });
+  try {
+    await one.one("select 1");
+    let reconnects = 0;
+    const warn = console.warn;
+    console.warn = (...a: unknown[]) => { if (String(a[0]).includes("reconnecting")) reconnects++; else warn(...a); };
+    const busy = await Promise.allSettled([one.one("select pg_sleep(0.5)"), one.one("select pg_sleep(0.5)"), one.one<{ n: number }>("select 6 as n")]);
+    console.warn = warn;
+    check("a query that only waited in the queue times out alone", busy[2].status === "rejected" && busy[2].reason instanceof PgTimeout);
+    check("and the live connection is kept: the running query finishes", busy[0].status === "fulfilled" && reconnects === 0);
+  } finally {
+    await one.end().catch(() => {});
+  }
 } finally {
   await pg.end().catch(() => {});
   await PG.stop();

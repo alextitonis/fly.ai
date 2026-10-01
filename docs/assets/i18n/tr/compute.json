@@ -522,6 +522,10 @@
         "title": "Sineklerin dünyası",
         "about": "Her sineğin kendine ait küçük bir beyni olduğu koloni simülasyonunun tohumlanmış çalıştırmaları: hayatta kalma, beslenme, üreme, öğrenme."
       },
+      "colosseum": {
+        "title": "Fly Colosseum",
+        "about": "Her stat puanının gerçekte ne kadar değerli olduğunu ölçmek için rastgele dövüşçüler arasında antrenman dövüşleri ve sunucunun sonuçlarını kontrol etmek için ağın yeniden oynattığı, biten her sezonun dövüşleri."
+      },
       "demo": {
         "title": "Demolar",
         "about": "Ağın herkesin koduyla neler yapabileceğini göstermek için klasik dağıtık işler."
@@ -632,6 +636,7 @@
     "wasmJob": "bir alıcının WASM programı, iş #{index}",
     "shaderJob": "bir alıcının GPU shader'ı, iş #{index}",
     "worldJob": "bir dünya simülasyonu, tohum {seed}",
-    "probeJob": "bir beyin sondası: {condition}"
+    "probeJob": "bir beyin sondası: {condition}",
+    "fightJob": "bir Fly Colosseum dövüşü"
   }
 }

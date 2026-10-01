@@ -121,7 +121,7 @@ interface ProgramParams {
 }
 interface Claimed { job: string; kind?: string; params: TaskParams; units?: number }
 interface ProgramClaim { job: string; kind: "wasm" | "wgsl" | "world"; params: ProgramParams; units?: number }
-interface ProbeClaim { job: string; kind: "probe"; params: Record<string, unknown> & { timeout_s: number; condition: string }; units?: number }
+interface ProbeClaim { job: string; kind: "probe" | "fight"; params: Record<string, unknown> & { timeout_s: number; condition: string }; units?: number }
 interface EmbedParams {
   model: string; repo: string; revision: string; pooling: string; dim: number; mb: number;
   index: number; input: string; input_url: string; timeout_s: number; output_bytes: number;
@@ -138,6 +138,7 @@ const describeClaim = (j: Claimed | ProgramClaim | ProbeClaim | EmbedClaim) => j
     : say("shaderJob", "a buyer's GPU shader, job #{index}", { index: (j.params as ProgramParams).index }))
   : j.kind === "world" ? say("worldJob", "a world simulation, seed {seed}", { seed: (j.params as unknown as { seed: number }).seed })
   : j.kind === "probe" ? say("probeJob", "a brain probe: {condition}", { condition: (j.params as { condition: string }).condition })
+  : j.kind === "fight" ? say("fightJob", "a Fly Colosseum fight")
   : describeJob(j.params as TaskParams));
 
 /**
@@ -233,8 +234,8 @@ interface Lane {
   kinds: string[];
   openMax: number;
   run(jobs: Claimed[]): Promise<TaskResult[]>;
-  /** CPU lanes: a probe on this thread's loaded connectome */
-  probe?(params: Record<string, unknown>): Promise<{ output: string } | { error: string }>;
+  /** CPU lanes: a probe or a Colosseum fight on this thread's loaded connectome */
+  probe?(kind: "probe" | "fight", params: Record<string, unknown>): Promise<{ output: string } | { error: string }>;
 }
 
 export class Miner {
@@ -303,7 +304,7 @@ export class Miner {
         this.lanes = [first];
         const rest = await Promise.all(Array.from({ length: n - 1 }, (_, i) => this.spawn("cpu", i + 1, fixed, 1, gen)));
         this.lanes.push(...rest);
-        if (s.programs !== false) for (const lane of this.lanes) Object.assign(lane, { kinds: ["connectome", "wasm", "world", "probe"], openMax: 1 });
+        if (s.programs !== false) for (const lane of this.lanes) Object.assign(lane, { kinds: ["connectome", "wasm", "world", "probe", "fight"], openMax: 1 });
         // one model in memory is plenty: only the first thread takes embedding jobs
         if (s.programs !== false && s.embed !== false) this.lanes[0].kinds.push("embed");
       }
@@ -344,7 +345,7 @@ export class Miner {
     const worker = new Worker(new URL(kind === "gpu" ? "./gpu.worker.ts" : "./miner.worker.ts", import.meta.url), { type: "module" });
     if (gen !== this.generation) worker.terminate();
     let seq = 0;
-    const callProbe = (params: Record<string, unknown>): Promise<any> => new Promise((resolve, reject) => {
+    const callProbe = (kind: "probe" | "fight", params: Record<string, unknown>): Promise<any> => new Promise((resolve, reject) => {
       const id = String(++seq);
       worker.onerror = (e) => reject(new Error(e.message || "mining thread crashed"));
       worker.onmessage = (e) => {
@@ -352,7 +353,7 @@ export class Miner {
         if (e.data.type === "done") resolve(e.data.result);
         else if (e.data.type === "error") reject(new Error(e.data.text));
       };
-      worker.postMessage({ type: "probe", job: id, params });
+      worker.postMessage({ type: "probe", job: id, kind, params });
     });
     const call = (msg: Record<string, unknown>, key: string): Promise<any> => new Promise((resolve, reject) => {
       const id = String(++seq);
@@ -371,7 +372,7 @@ export class Miner {
       run: kind === "gpu"
         ? (jobs) => call({ tasks: jobs.map((j) => j.params) }, "batch")
         : async (jobs) => [await call({ params: jobs[0].params }, "job")],
-      ...(kind === "cpu" ? { probe: (params: Record<string, unknown>) => callProbe(params) } : {}),
+      ...(kind === "cpu" ? { probe: (k: "probe" | "fight", params: Record<string, unknown>) => callProbe(k, params) } : {}),
     };
     return new Promise((resolve, reject) => {
       // a worker script that fails to load or parse only reports here, never through onmessage
@@ -427,7 +428,7 @@ export class Miner {
         mine = all.map((j) => j.job);
         const jobs = all.filter((j): j is Claimed => j.kind === undefined || j.kind === "connectome");
         const programs = all.filter((j): j is ProgramClaim => j.kind === "wasm" || j.kind === "wgsl" || j.kind === "world");
-        const probes = all.filter((j): j is ProbeClaim => j.kind === "probe");
+        const probes = all.filter((j): j is ProbeClaim => j.kind === "probe" || j.kind === "fight");
         const embeds = all.filter((j): j is EmbedClaim => j.kind === "embed");
         h.job(all.length === 1 ? describeClaim(all[0]) : say("manyJobs", "{count} jobs at once, e.g. {job}", { count: all.length, job: describeClaim(all[0]) }));
         if (jobs.length) {
@@ -442,7 +443,7 @@ export class Miner {
         for (const job of probes) {
           if (!lane.probe) continue; // (only CPU lanes ask for probes)
           h.lane(lane.index, say("running", "running {job}", { job: describeClaim(job) }));
-          const answer = await lane.probe(job.params);
+          const answer = await lane.probe(job.kind, job.params);
           if (gen !== this.generation) return;
           await this.submit(job, answer);
           this.session.jobs++;

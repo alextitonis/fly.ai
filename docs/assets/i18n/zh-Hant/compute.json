@@ -522,6 +522,10 @@
         "title": "果蠅的世界",
         "about": "群落模擬的定種子執行，每隻果蠅都有自己的小大腦：生存、覓食、繁殖、學習。"
       },
+      "colosseum": {
+        "title": "Fly Colosseum",
+        "about": "隨機鬥士之間的練習賽，用來測出每一點屬性的真實價值；每個賽季結束後，網路還會重打全部對決，核對伺服器的結果。"
+      },
       "demo": {
         "title": "示範",
         "about": "經典的分散式任務，展示這個網路能用任何人的程式碼做什麼。"
@@ -632,6 +636,7 @@
     "wasmJob": "買家的 WASM 程式，任務 #{index}",
     "shaderJob": "買家的 GPU 著色器，任務 #{index}",
     "worldJob": "世界模擬，種子 {seed}",
-    "probeJob": "大腦探測：{condition}"
+    "probeJob": "大腦探測：{condition}",
+    "fightJob": "一場 Fly Colosseum 對決"
   }
 }

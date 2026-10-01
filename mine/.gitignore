@@ -6,3 +6,6 @@ extension/dist/
 # the mining wallets: seed phrases, never committed
 .wallets/
 extension/*.zip
+
+# open dataset export (scripts/export-dataset.ts), regenerated each run
+dataset/out/

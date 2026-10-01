@@ -13,7 +13,7 @@ interface Summary {
 }
 
 const $ = (id: string) => document.getElementById(id)!;
-const FAMILIES: { key: string; title: string; about: string }[] = ["tuning", "encoding", "world", "demo"].map((key) => ({
+const FAMILIES: { key: string; title: string; about: string }[] = ["tuning", "encoding", "colosseum", "world", "demo"].map((key) => ({
   key, title: t(`compute.results.family.${key}.title`), about: t(`compute.results.family.${key}.about`),
 }));
 

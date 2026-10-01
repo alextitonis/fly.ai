@@ -14,6 +14,7 @@
  *                (words: flybook/worker/episode.py SENSES, 0.5 s rest, 1 s stimulus at 0.8) and the market's action
  *                reader (graded target / threat / wind drives, with and without PAM reward)
  *   demo/*       example programs (mine/examples) running on real miners: pi, Mandelbrot tiles, TSP restarts
+ *   colosseum/*  Fly Colosseum practice fights between random fighters: what each stat point is really worth
  */
 import { readFileSync } from "node:fs";
 import { CHANNELS } from "../src/model.ts";
@@ -112,6 +113,10 @@ const ORDERS: { label: string; spec: () => Promise<object> | object; max_paralle
   { label: "demo/montecarlo-pi-2", spec: async () => ({ kind: "wasm", program: await upload("../examples/pi-rust/pi.wasm"), count: 8000, timeout_s: 30, redundancy: 2 }), units: 2 },
   { label: "demo/mandelbrot-2", spec: async () => ({ kind: "wasm", program: await upload("../examples/mandelbrot-tiles/mandelbrot_tiles.wasm"), count: 256, timeout_s: 60, redundancy: 2 }), units: 3 },
   { label: "demo/tsp-2", spec: async () => ({ kind: "wasm", program: await upload("../examples/tsp-search/tsp_search.wasm"), count: 4000, timeout_s: 30, redundancy: 2 }), units: 1 },
+  // round 3 (2026-10-01): the Fly Colosseum on the network. 5,000 practice fights between fighters with random stats
+  // (0..30 each, independent) measure what one point of each stat moves the chance to win to about +/-0.1 points
+  // (balanceSummary on /compute/results). A finished season's replay is queued by scripts/colosseum-replay.ts.
+  { label: "colosseum/balance-1", spec: () => ({ kind: "fight", seeds: 5000, seed_base: 1, max_stat: 30 }) },
 ];
 
 const existing = new Set(((await (await fetch(`${SERVER}/api/house`)).json()).orders as { label: string }[]).map((o) => o.label));

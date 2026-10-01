@@ -247,3 +247,33 @@ body.clip #eye .eye-nav, body.clip #eye .prose { display: none; }
 .desk .rec-sub { display: block; margin-top: 6px; font: 12px/1.45 var(--mono); color: var(--ink-dim); overflow-wrap: anywhere; }
 .desk #rec-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 700px) { .desk #rec-stats { grid-template-columns: 1fr; } }
+
+/* 02 the holder vote (deskvote.js) */
+.desk .vote-today { margin: 4px 0 14px; }
+.desk .vote-badge { display: inline-block; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--accent);
+  font: 500 13px var(--mono); color: var(--accent); }
+.desk .vote-badge[data-mode="safe"] { border-color: var(--s-fly); color: var(--s-fly); }
+.desk .vote-badge[data-mode="risky"] { border-color: var(--amber); color: var(--amber); }
+.desk .vote-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 760px) { .desk .vote-cards { grid-template-columns: 1fr; } }
+.desk .vote-card { display: flex; flex-direction: column; gap: 8px; text-align: left; min-width: 0; padding: 16px;
+  background: var(--plate); border: 1px solid var(--line-2); border-radius: var(--radius); color: var(--ink);
+  font: inherit; cursor: pointer; transition: border-color .15s, background .15s; }
+.desk .vote-card:hover:not([disabled]) { border-color: var(--accent); background: var(--plate-2); }
+.desk .vote-card[disabled] { opacity: .6; cursor: progress; }
+.desk .vote-card.on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+.desk .vote-card .vc-name { font: 600 20px var(--display, inherit); }
+.desk .vote-card .vc-name small { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-left: 6px; }
+.desk .vote-card .vc-desc { color: var(--ink-dim); font-size: 14px; line-height: 1.45; min-height: 2.9em; }
+.desk .vote-card .vc-bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.desk .vote-card .vc-bar i { display: block; height: 100%; background: var(--ink-faint); transition: width .4s; }
+.desk .vote-card.lead .vc-bar i { background: var(--accent); }
+.desk .vote-card[data-mode="risky"].lead .vc-bar i { background: var(--amber); }
+.desk .vote-card .vc-num { font: 500 13px var(--mono); color: var(--ink-faint); }
+.desk .vote-card .vc-num b { color: var(--ink); font-size: 16px; margin-right: 4px; }
+.desk .vote-card .vc-cta { font: 600 13px var(--mono); color: var(--accent); }
+.desk .vote-card.on .vc-cta { visibility: hidden; }
+.desk .vote-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 16px; }
+.desk .vote-msg { font: 500 13px var(--mono); color: var(--ink-dim); }
+.desk .vote-msg[data-kind="err"] { color: var(--down); }
+.desk .vote-msg[data-kind="ok"] { color: var(--up); }

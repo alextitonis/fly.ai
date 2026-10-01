@@ -522,6 +522,10 @@
         "title": "The flies' world",
         "about": "Seeded runs of the colony simulation, where each fly has a small brain of its own: survival, feeding, breeding, learning."
       },
+      "colosseum": {
+        "title": "Fly Colosseum",
+        "about": "Practice fights between random fighters, to measure what every stat point is really worth, and each finished season's fights played again by the network to check the server's results."
+      },
       "demo": {
         "title": "Demos",
         "about": "Classic distributed jobs, to show what the network can do with anyone's code."
@@ -632,6 +636,7 @@
     "wasmJob": "a buyer's WASM program, job #{index}",
     "shaderJob": "a buyer's GPU shader, job #{index}",
     "worldJob": "a world simulation, seed {seed}",
-    "probeJob": "a brain probe: {condition}"
+    "probeJob": "a brain probe: {condition}",
+    "fightJob": "a Fly Colosseum fight"
   }
 }

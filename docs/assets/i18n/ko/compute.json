@@ -522,6 +522,10 @@
         "title": "파리들의 세계",
         "about": "각 파리가 작은 뇌를 가진 군집 시뮬레이션의 시드 실행: 생존, 먹이, 번식, 학습."
       },
+      "colosseum": {
+        "title": "Fly Colosseum",
+        "about": "무작위 파이터끼리의 연습 대결로 스탯 1포인트의 실제 가치를 측정하고, 끝난 시즌의 모든 대결을 네트워크가 다시 돌려 서버 결과를 확인해요."
+      },
       "demo": {
         "title": "데모",
         "about": "누구의 코드로든 네트워크가 무엇을 할 수 있는지 보여주는 고전적인 분산 작업."
@@ -632,6 +636,7 @@
     "wasmJob": "구매자의 WASM 프로그램, 작업 #{index}",
     "shaderJob": "구매자의 GPU 셰이더, 작업 #{index}",
     "worldJob": "월드 시뮬레이션, 시드 {seed}",
-    "probeJob": "뇌 프로브: {condition}"
+    "probeJob": "뇌 프로브: {condition}",
+    "fightJob": "Fly Colosseum 대결"
   }
 }

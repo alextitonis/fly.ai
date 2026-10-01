@@ -20,6 +20,7 @@
     "test:programs": "node --disable-warning=ExperimentalWarning src/programtest.ts",
     "test:release": "node --disable-warning=ExperimentalWarning src/releasetest.ts",
     "test:house": "node --disable-warning=ExperimentalWarning src/housetest.ts",
+    "test:fight": "node --disable-warning=ExperimentalWarning src/fighttest.ts",
     "test:roulette": "node --disable-warning=ExperimentalWarning src/roulettetest.ts",
     "test:slots": "node --disable-warning=ExperimentalWarning src/slotstest.ts",
     "test:race": "node --disable-warning=ExperimentalWarning src/racetest.ts",
@@ -33,7 +34,8 @@
     "test:kaspa": "node --disable-warning=ExperimentalWarning examples/kaspa/test.ts",
     "test:examples": "node --disable-warning=ExperimentalWarning examples/test-examples.ts",
     "pull:house": "node --disable-warning=ExperimentalWarning scripts/pull-house.ts",
-    "seed:house": "node --disable-warning=ExperimentalWarning scripts/seed-house.ts"
+    "seed:house": "node --disable-warning=ExperimentalWarning scripts/seed-house.ts",
+    "export:dataset": "node --disable-warning=ExperimentalWarning scripts/export-dataset.ts"
   },
   "devDependencies": {
     "@openzeppelin/contracts": "^5.6.1",

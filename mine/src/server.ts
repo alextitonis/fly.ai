@@ -51,12 +51,12 @@ import {
 } from "./orders.ts";
 import { backoffMs, checkWebhook, sign, WEBHOOK_BATCH, WEBHOOK_MAX_FAILS } from "./webhooks.ts";
 import {
-  cosineAgree, EMBED_LIMITS, EMBED_MODELS, embedTexts, f32Agree, HASH as BLOB_HASH, houseJob, houseSpec, houseUnits, INDEX_INPUT, isOpenKind, isProgramKind, MAX_OUTPUT_BYTES, openMinBid, openSpec, type OpenSpec,
+  cosineAgree, EMBED_LIMITS, EMBED_MODELS, embedTexts, f32Agree, HASH as BLOB_HASH, houseJob, houseSpec, houseUnits, INDEX_INPUT, isHouseKind, isOpenKind, isProgramKind, MAX_OUTPUT_BYTES, openMinBid, openSpec, type OpenSpec,
 } from "./orders.ts";
 import { inspectWasm, inspectWgsl, WasmError } from "./wasmcheck.ts";
 import {
-  encodingSummary, learningSummary, piSummary, tilesSummary, tspSummary, tuningSummary, worldSummary,
-  type ProbeRun, type Summary, type SweepRow, type WorldRun,
+  balanceSummary, encodingSummary, learningSummary, piSummary, replaySummary, tilesSummary, tspSummary, tuningSummary, worldSummary,
+  type FightRun, type ProbeRun, type Summary, type SweepRow, type WorldRun,
 } from "./experiments.ts";
 import { Relayer, tokenDomain, transferWithAuthorizationData } from "./relay.ts";
 import { Cdp } from "./cdp.ts";
@@ -788,17 +788,31 @@ const today = () => new Date().toISOString().slice(0, 10);
 const sha256 = (s: string) => createHash("sha256").update(s).digest("hex");
 
 /** A value recomputed at most every `ms`, for numbers every page polls. */
-function cached<K, T>(ms: number, compute: (key: K) => T): (key: K) => T {
-  const hits = new Map<K, { at: number; value: T }>();
-  return (key) => {
+/** How long a failed async value is kept before it is asked again (see cached). */
+const RETRY_AFTER_MS = 10_000;
+function cached<K, T>(ms: number, compute: (key: K) => T): ((key: K) => T) & { forget(key?: K): void } {
+  const hits = new Map<K, { at: number; value: T; good?: T }>();
+  const get = (key: K): T => {
     const hit = hits.get(key);
     if (hit && Date.now() - hit.at < ms) return hit.value;
     const value = compute(key);
-    hits.set(key, { at: Date.now(), value });
-    // an async one that failed (Postgres unreachable, say) is asked again next time, not served for `ms`
-    if (value instanceof Promise) value.catch(() => { if (hits.get(key)?.value === value) hits.delete(key); });
+    hits.set(key, { at: Date.now(), value, good: hit?.good });
+    if (value instanceof Promise) {
+      // 2026-10-01: dropping a failed value at once made every waiting request start the same Postgres query again;
+      // ~250 miners polling /api/me turned one slow moment into dozens of identical queries queued on five
+      // connections, all timing out together, round after round. Now a failure keeps the last good value (or the
+      // failure itself, when there is none) for RETRY_AFTER_MS, and only then is it asked again.
+      value.then(() => { const h = hits.get(key); if (h?.value === value) h.good = value; }, () => {
+        const h = hits.get(key);
+        if (h?.value !== value) return;
+        if (h.good !== undefined) h.value = h.good;
+        h.at = Date.now() - ms + RETRY_AFTER_MS;
+      });
+    }
     return value;
   };
+  // after a change this process made itself (an announcement, a stake sample): the next read is fresh
+  return Object.assign(get, { forget: (key?: K) => { if (key === undefined) hits.clear(); else hits.delete(key); } });
 }
 
 /**
@@ -1014,7 +1028,34 @@ const canaryFrom = db.prepare("select id, params, kind from tasks indexed by tas
 // for the busiest), ~150 ms a call and up to two calls per job in a 32-job claim. That froze the server (2026-09-21).
 // One job at a time, stopping at the first the miner hasn't had: a canary carries an assignment from nearly every
 // miner (thousands), and checking all 16 at once walked them all on every canary pick (2026-09-29)
-const alreadyHad = db.prepare("select 1 from assignments indexed by assignments_by_task where task = ? and miner = ? limit 1");
+const hadByTask = db.prepare("select 1 from assignments indexed by assignments_by_task where task = ? and miner = ? limit 1");
+// 2026-10-01 profile: even one canary at a time was 66% of the mining thread, because a canary has an assignment from
+// nearly every miner and the task index has to walk them all to learn that this miner isn't among them. An index on
+// (task, miner) answers in one lookup. Building it on tens of millions of rows takes minutes, longer than the health
+// check's grace, so it's built on its own thread once the server is up (writes wait meanwhile); until it exists the
+// old way is used.
+const TASK_MINER_INDEX = "assignments_by_task_miner";
+let hadByTaskMiner: ReturnType<typeof db.prepare> | null = db.prepare("select 1 from sqlite_master where name = ?").get(TASK_MINER_INDEX)
+  ? db.prepare(`select 1 from assignments indexed by ${TASK_MINER_INDEX} where task = ? and miner = ? limit 1`) : null;
+const alreadyHad = { get: (task: number, miner: string) => (hadByTaskMiner ?? hadByTask).get(task, miner) };
+function buildTaskMinerIndex(): void {
+  if (hadByTaskMiner) return;
+  const t0 = Date.now();
+  console.log(`building ${TASK_MINER_INDEX} on its own thread (claims and submits wait on the write lock meanwhile)`);
+  const w = new Worker(`
+    const { DatabaseSync } = require("node:sqlite");
+    const { workerData, parentPort } = require("node:worker_threads");
+    const db = new DatabaseSync(workerData.db);
+    db.exec("pragma busy_timeout = 600000");
+    db.exec("create index if not exists ${TASK_MINER_INDEX} on assignments (task, miner)");
+    db.close();
+    parentPort.postMessage("done");`, { eval: true, workerData: { db: DB_PATH } });
+  w.once("message", () => {
+    hadByTaskMiner = db.prepare(`select 1 from assignments indexed by ${TASK_MINER_INDEX} where task = ? and miner = ? limit 1`);
+    console.log(`${TASK_MINER_INDEX} built in ${Math.round((Date.now() - t0) / 1000)} s`);
+  });
+  w.once("error", (err) => console.error(`building ${TASK_MINER_INDEX} failed: ${err.message}`));
+}
 
 /** From a random point on the sort key, the first job this miner hasn't had; wraps around once. */
 function pick(from: typeof openFrom, miner: string): TaskRow | undefined {
@@ -1105,13 +1146,13 @@ function pickOrder(miner: string, k: string, orders: { id: string; weight: numbe
 }
 
 /** What miners know how to run; a client that doesn't say is an older one and gets only the brain. */
-const KINDS = ["connectome", "wasm", "wgsl", "world", "probe", "embed"];
+const KINDS = ["connectome", "wasm", "wgsl", "world", "probe", "fight", "embed"];
 
 /** A claimed program job: where to fetch it and its limits. */
 function openJob(params: string, kind: string) {
   const p = JSON.parse(params);
   // our own code: the miner already has it, only the job's parameters travel
-  if (kind === "world" || kind === "probe") return { kind, index: p.index, timeout_s: p.timeout_s, max_output: MAX_OUTPUT_BYTES, ...p.job };
+  if (isHouseKind(kind)) return { kind, index: p.index, timeout_s: p.timeout_s, max_output: MAX_OUTPUT_BYTES, ...p.job };
   const blob = (h: string) => `/api/blobs/${h}`;
   if (kind === "embed") {
     // the model comes from its own hub at a pinned revision; only the texts travel through us
@@ -1297,6 +1338,10 @@ async function announcedPool(m: string): Promise<string | null> {
   return a || buyers ? fromWei(BigInt(a?.pool_wei ?? "0") + buyers) : null;
 }
 
+// what every miner's /api/me poll reads: the same for everyone in a month, so asked once a minute, not per poll
+const announcedPoolCached = cached(60_000, announcedPool);
+const earningsOfCached = cached(60_000, earningsOf);
+
 /** Wallets by points, highest first, with rank and share. */
 async function ranking(m: string) {
   const { wallets, total } = await monthPointsCached(m);
@@ -1356,6 +1401,7 @@ async function monthView(m: string): Promise<MonthView> {
 function announce(m: string, pool: unknown) {
   monthId(m);
   if (m < thisMonth()) throw new HttpError(409, `${m} is over; take its snapshot instead`);
+  announcedPoolCached.forget(m);
   if (pool === null) {
     db.prepare("delete from announcements where month = ?").run(m);
     return { month: m, announced_pool: null };
@@ -1501,6 +1547,7 @@ async function sampleStake(wallet: string): Promise<void> {
     on conflict (wallet, day) do update set staked_wei = case when stake_samples.staked_wei::numeric < excluded.staked_wei::numeric
       then stake_samples.staked_wei else excluded.staked_wei end, last_wei = excluded.last_wei, sampled_at = excluded.sampled_at`,
     wallet, day, staked.toString(), staked.toString(), Date.now());
+  stakeOfCached.forget(wallet);
 }
 
 /** Every STAKE_SAMPLE_MIN, sample the wallets whose miners were seen today. */
@@ -1529,9 +1576,9 @@ async function monthStanding(wallet: string | null, points = 0) {
   const m = thisMonth();
   const ranks = await ranking(m);
   const mine = wallet ? ranks.find((r) => r.wallet === wallet) : undefined;
-  const pool = await announcedPool(m);
+  const pool = await announcedPoolCached(m);
   const { total } = await monthPointsCached(m);
-  const paid = await earningsOf(m);
+  const paid = await earningsOfCached(m);
   // program jobs already paid their part to wallets, so points share what's left of the pool
   const forPoints = pool === null ? null : Number(pool) - Number(fromWei([...paid.values()].reduce((sum, x) => sum + x, 0n)));
   // an unlinked miner sees what its points would be worth if it linked a wallet now
@@ -1567,18 +1614,25 @@ async function me(miner: string) {
     miner, label, wallet, day, ...mine, units: mine.units ?? 0, share: total ? mine.credited / total : 0,
     lifetime_jobs: life.jobs, lifetime_rejected: life.rejected ?? 0,
     month: thisMonth(), month_points: monthPts, month_share: wallet && m.total ? monthPts / m.total : 0,
-    stake: wallet ? await stakeOf(wallet) : null,
-    flightpass: wallet ? await flightpass.boostView(wallet) : null,
+    stake: wallet ? await stakeOfCached(wallet) : null,
+    flightpass: wallet ? await boostViewCached(wallet) : null,
     ...await monthStanding(wallet, monthPts),
   };
 }
 
+// /api/me is polled by every running miner: its per-wallet Postgres reads are kept 30 s
+const stakeOfCached = cached(30_000, stakeOf);
+const boostViewCached = cached(30_000, (wallet: string) => flightpass.boostView(wallet));
+
 /** The whole-table counts, from src/stats.worker.ts: refreshed in the background, never on a request. */
 let tableCounts: { tasks: number; tasks_done: number; tasks_checked: number; rounds: number; paid_jobs_waiting: number; blob_bytes: number } | null = null;
-let countingSince = 0;
+let countingSince = 0, countedAt = 0;
+/** Between two starts of the whole-table counts: on 35M jobs one takes minutes, and run back to back it held a reader open on the database nonstop (2026-10-01). */
+const COUNT_EVERY_MS = 15 * 60_000;
 function refreshTableCounts(): void {
   if (countingSince && Date.now() - countingSince < 5 * 60_000) return;   // one at a time (a stuck one is given 5 minutes)
-  countingSince = Date.now();
+  if (Date.now() - countedAt < COUNT_EVERY_MS) return;
+  countingSince = countedAt = Date.now();
   const w = new Worker(new URL("./stats.worker.ts", import.meta.url), { workerData: { db: DB_PATH } });
   w.once("message", (m) => {
     tableCounts = m;
@@ -1618,10 +1672,14 @@ const stats = cached(60_000, (_: null) => {
 const RESULTS_MS = 10 * 60_000;
 let resultsDone: { at: number; value: unknown } | null = null;
 let resultsRunning = false;
+// 2026-10-01: a run that failed was started again by the very next request, so a polled /api/results kept a
+// minutes-long reader on the database back to back; now one start per RESULTS_MS whatever happened to the last
+let resultsStarted = 0;
 function results(): unknown {
   const ref = reference!;
-  if (!resultsRunning && (!resultsDone || Date.now() - resultsDone.at > RESULTS_MS)) {
+  if (!resultsRunning && Date.now() - resultsStarted > RESULTS_MS && (!resultsDone || Date.now() - resultsDone.at > RESULTS_MS)) {
     resultsRunning = true;
+    resultsStarted = Date.now();
     const w = new Worker(new URL("./results.worker.ts", import.meta.url), {
       workerData: { db: DB_PATH, outputs: ref.outputs, outputSizes: ref.outputSizes, dt: ref.dt },
     });
@@ -1910,7 +1968,7 @@ function refill(id: string): void {
     const params = program
       ? JSON.stringify({ kind: spec.kind, order: id, index: cursor, program: spec.program, input,
         timeout_s: spec.timeout_s, redundancy: spec.redundancy, compare: spec.compare, dispatch: spec.dispatch, output_bytes: spec.output_bytes,
-        ...embed, ...(spec.kind === "world" || spec.kind === "probe" ? { job: houseJob(spec, cursor) } : {}) })
+        ...embed, ...(isHouseKind(spec.kind) ? { job: houseJob(spec, cursor) } : {}) })
       : JSON.stringify(sweep![cursor]);
     if (program && left - BigInt(out + 1) * bid < 0n) break;
     // house programs earn points (o.house_units); paid programs pay their miners from the charge instead
@@ -2962,7 +3020,7 @@ function createHouse(body: any) {
   let open: OpenSpec | null = null;
   let spec: object;
   let jobCount: number;
-  if (body.spec?.kind === "world" || body.spec?.kind === "probe") {
+  if (isHouseKind(body.spec?.kind)) {
     const h = asked(() => houseSpec(body.spec, 1_000_000));
     jobCount = h.inputs.length;
     spec = { ...h, inputs: undefined };
@@ -3007,7 +3065,7 @@ function createHouse(body: any) {
 function addHouseJobs(id: string, body: any) {
   const o = orderRow(id);
   if (!o?.house) throw new HttpError(404, "no such house order");
-  if (!isOpenKind(JSON.parse(o.spec).kind)) throw new HttpError(409, "brain sweeps, world runs and probes are fixed; start another house order");
+  if (!isOpenKind(JSON.parse(o.spec).kind)) throw new HttpError(409, "brain sweeps, world runs, probes and fights are fixed; start another house order");
   if (o.status !== "live") throw new HttpError(409, `the order has ${o.status === "done" ? "finished" : "ended"}; start another`);
   const count = body.count === undefined ? null : Number(body.count);
   const inputs: string[] = count !== null && Number.isInteger(count) && count >= 1 && count <= 100_000
@@ -3049,7 +3107,7 @@ function houseOrdersView() {
  * GET /api/experiments: what our own research orders found, one summary each (src/experiments.ts). Worked out in the
  * background every 30 minutes from the settled results, reading a sample of the big ones, so a page view costs nothing.
  */
-const SAMPLE = { world: 400, probe: 300 };
+const SAMPLE = { world: 400, probe: 300, fight: 50_000 };
 let experiments: { at: number; summaries: Summary[] } | null = null;
 let computing: Promise<void> | null = null;
 /** Yields to the event loop between orders: one pass over every result set held the main thread long enough to fail health checks. */
@@ -3096,6 +3154,18 @@ async function computeExperimentsNow(): Promise<void> {
           runs.push({ condition: houseJob(spec, row.index).condition as string, steps: spec.params.steps, counts: new Uint16Array(b.buffer, b.byteOffset, b.length >> 1) });
         }
         summaries.push(encodingSummary(label, runs, columns, ref.dt));
+      } else if (o.kind === "fight") {
+        // practice fights (balance) or a season replayed; each output is a fightjob.ts FightResult in JSON
+        const spec = JSON.parse(orderRow(o.id)!.spec);
+        const runs: FightRun[] = [];
+        for (const row of orderResults(o.id, 0, SAMPLE.fight).rows as any[]) {
+          const b = outputOf(row);
+          if (!b) continue;
+          try {
+            runs.push({ ...JSON.parse(b.toString("utf8")), expect: spec.params.fights?.[row.index]?.expect ?? null });
+          } catch { /* an answer two miners agreed on is well formed; skip anything else */ }
+        }
+        summaries.push(spec.params.fights ? replaySummary(label, runs, o.jobs) : balanceSummary(label, runs));
       } else if (o.kind === "wasm" && /pi/.test(label)) {
         summaries.push(piSummary(label, orderResults(o.id).rows.map(outputOf).filter((b) => b?.length === 8).map((b) => b!.readBigUInt64LE(0))));
       } else if (o.kind === "wasm" && /tsp/.test(label)) {
@@ -3456,6 +3526,9 @@ if (USER) flightpass.start();
 // the mining side's timers: orders, card checkouts, webhooks, staking samples and the research summaries
 if (MINING) {
   refreshTableCounts(); // /api/stats' job totals, in the background from the start
+  // the canary index (see alreadyHad): just after the start, while miners are reconnecting anyway. The moment it is
+  // created, a write in flight can fail once (a webhook batch was resent in test:orders), so not in the middle of the day
+  setTimeout(buildTaskMinerIndex, Number(env("TASK_MINER_INDEX_AFTER_MS", "5000"))).unref();
   // card checkouts still open from the last three hours: a buyer who closed the tab still gets their order started
   setInterval(() => {
     if (!cdp) return;

@@ -522,6 +522,10 @@
         "title": "果蝇的世界",
         "about": "群落模拟的固定种子运行，每只果蝇都有自己的小大脑：生存、觅食、繁殖、学习。"
       },
+      "colosseum": {
+        "title": "Fly Colosseum",
+        "about": "随机斗士之间的练习赛，用来测出每一点属性的真实价值；每个赛季结束后，网络还会重打全部对决，核对服务器的结果。"
+      },
       "demo": {
         "title": "演示",
         "about": "经典的分布式任务，展示这个网络能用任何人的代码做什么。"
@@ -632,6 +636,7 @@
     "wasmJob": "买家的 WASM 程序，任务 #{index}",
     "shaderJob": "买家的 GPU 着色器，任务 #{index}",
     "worldJob": "一次世界模拟，种子 {seed}",
-    "probeJob": "一次大脑探针：{condition}"
+    "probeJob": "一次大脑探针：{condition}",
+    "fightJob": "一场 Fly Colosseum 对决"
   }
 }

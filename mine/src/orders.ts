@@ -327,7 +327,10 @@ export function cosineAgree(a: Uint8Array, b: Uint8Array, dim: number, min: numb
   return true;
 }
 /** Every kind settled by miners agreeing, with outputs stored as uploads: buyers' programs and our own house kinds. */
-export const isProgramKind = (kind: unknown): boolean => isOpenKind(kind) || kind === "world" || kind === "probe";
+export const isProgramKind = (kind: unknown): boolean => isOpenKind(kind) || isHouseKind(kind);
+
+/** Our own job kinds: the miner already has the code, only the job's parameters travel. */
+export const isHouseKind = (kind: unknown): kind is "world" | "probe" | "fight" => kind === "world" || kind === "probe" || kind === "fight";
 
 /**
  * A wasm or wgsl spec, normalized. Program and input hashes are checked against the uploads by the server.
@@ -425,14 +428,40 @@ const TYPE_NAME = /^[\w .,:+-]{1,48}$/;
  *     conditions: [{ name: "threat", stimuli: [{ sense: "threat", amount: 0.8, from: 25, to: 75 }] }, ...] }
  */
 export function houseSpec(spec: any, maxJobs: number): HouseSpec {
-  if (!spec || (spec.kind !== "world" && spec.kind !== "probe")) throw new SpecError("house kinds are world and probe");
-  const seeds = int(spec.seeds, "seeds", 1, 1_000_000);
+  if (!spec || !isHouseKind(spec.kind)) throw new SpecError("house kinds are world, probe and fight");
+  const seeds = spec.kind === "fight" && spec.fights !== undefined ? 0 : int(spec.seeds, "seeds", 1, 1_000_000);
   const seedBase = spec.seed_base === undefined ? 1 : int(spec.seed_base, "seed_base", 0, 2 ** 31 - 2_000_000);
   const redundancy = spec.redundancy === undefined ? 2 : int(spec.redundancy, "redundancy", 1, 5);
   let params: Record<string, unknown>;
   let perSeed = 1;
   let timeout = spec.timeout_s === undefined ? 300 : int(spec.timeout_s, "timeout_s", 10, 1800);
-  if (spec.kind === "world") {
+  if (spec.kind === "fight") {
+    // Fly Colosseum fights (world/src/arena/game.ts runFight): either the listed fights (a season replayed by the
+    // network, to check the server's results), or `seeds` practice fights between random fighters (balance testing)
+    if (spec.fights !== undefined) {
+      const fights = list(spec.fights, "fights").map((f: any, i) => {
+        if (typeof f?.server_seed !== "string" || !/^[\w:.-]{1,200}$/.test(f.server_seed)) throw new SpecError(`fight ${i}: server_seed`);
+        if (typeof f.digest !== "string" || !/^[\w:.-]{1,200}$/.test(f.digest)) throw new SpecError(`fight ${i}: digest`);
+        if (typeof f.label !== "string" || !/^[\w:.-]{1,40}$/.test(f.label)) throw new SpecError(`fight ${i}: label`);
+        // what the server's own run of the fight gave (scripts/colosseum-replay.ts): kept here, never sent to miners
+        const expect = f.expect === undefined ? null : {
+          winner: int(f.expect.winner, `fight ${i} expect.winner`, 0, 1), how: String(f.expect.how ?? ""), rounds: int(f.expect.rounds, `fight ${i} expect.rounds`, 0, 100),
+          hp: list(f.expect.hp, `fight ${i} expect.hp`).map((x) => num(x, `fight ${i} expect.hp`, -1e9, 1e9)),
+          seeds: f.expect.seeds === undefined ? null : list(f.expect.seeds, `fight ${i} expect.seeds`).map((x) => int(x, `fight ${i} expect.seeds`, 0, 4294967295)),
+        };
+        return { server_seed: f.server_seed, digest: f.digest, label: f.label, a: fighter(f.a, `fight ${i} a`), b: fighter(f.b, `fight ${i} b`), expect };
+      });
+      params = { fights };
+      perSeed = 1;
+      const jobs = fights.length;
+      if (jobs > maxJobs) throw new SpecError(`that's ${jobs} jobs; the limit is ${maxJobs}`);
+      return {
+        kind: spec.kind, program: "", inputs: Array.from({ length: jobs }, () => INDEX_INPUT), timeout_s: timeout, redundancy,
+        compare: "exact", dispatch: null, output_bytes: null, keep_open: false, params, per_seed: 1,
+      } as HouseSpec;
+    }
+    params = { seed_base: seedBase, max_stat: int(spec.max_stat ?? 30, "max_stat", 0, 100) };
+  } else if (spec.kind === "world") {
     const learning = spec.learning ?? null;
     if (learning !== null && (typeof learning !== "object" || ["hebbian", "reward", "mb"].some((k) => typeof learning[k] !== "boolean"))) {
       throw new SpecError("learning is null or {hebbian, reward, mb} booleans");
@@ -482,12 +511,42 @@ export function houseSpec(spec: any, maxJobs: number): HouseSpec {
   } as HouseSpec;
 }
 
+/** A fighter's stats in a fight spec: four whole numbers 0..100. */
+function fighter(x: any, what: string): { pow: number; grd: number; vit: number; fury: number } {
+  const out = { pow: 0, grd: 0, vit: 0, fury: 0 };
+  for (const k of ["pow", "grd", "vit", "fury"] as const) out[k] = int(x?.[k], `${what}.${k}`, 0, 100);
+  return out;
+}
+
+/** A small seeded generator (practice fighters' stats); the fights themselves use game.ts's own. */
+function mulberry32(a: number): () => number {
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 /** A house job's own parameters from its order spec and index. */
 export function houseJob(spec: any, index: number): Record<string, unknown> {
   const p = spec.params;
   const seedNo = Math.floor(index / (spec.per_seed ?? 1));
   if (spec.kind === "world") {
     return { seed: p.seed_base + seedNo, flies: p.flies, seconds: p.seconds, genes: p.genes, learning: p.learning, sample_s: p.sample_s };
+  }
+  if (spec.kind === "fight") {
+    if (p.fights) {
+      const { expect: _expect, ...fight } = p.fights[index];
+      return fight;
+    }
+    // a practice fight: two fighters with every stat drawn uniformly from 0..max_stat, so each stat's effect on the
+    // win can be read off independently of the others (scripts/colosseum-balance.ts)
+    const rng = mulberry32(((p.seed_base + seedNo) * 2654435761) >>> 0);
+    const draw = () => ({ pow: Math.floor(rng() * (p.max_stat + 1)), grd: Math.floor(rng() * (p.max_stat + 1)),
+      vit: Math.floor(rng() * (p.max_stat + 1)), fury: Math.floor(rng() * (p.max_stat + 1)) });
+    return { server_seed: `balance:${p.seed_base}`, digest: "balance", label: String(seedNo), a: draw(), b: draw() };
   }
   const c = p.conditions[index % spec.per_seed];
   return { condition: c.name, stimuli: c.stimuli, steps: p.steps, gain: p.gain, tonic: p.tonic, seed: p.seed_base + seedNo, record: p.record, bin_steps: p.bin_steps };
@@ -497,6 +556,9 @@ export function houseJob(spec: any, index: number): Record<string, unknown> {
 export function houseUnits(spec: any): number {
   if (spec.kind === "world") return Math.round(spec.params.flies * spec.params.seconds * 0.00225 * 100) / 100;
   if (spec.kind === "probe") return spec.params.steps / 100;
+  // measured 2026-10-01: a fight takes 1.5-3.3 s on one core (5-6 rounds of 2 x 25 float steps); a 750-step brain
+  // job, 7.5 units, takes ~6 s, so 3.5 keeps the pay per second about even
+  if (spec.kind === "fight") return 3.5;
   return 7.5;
 }
 

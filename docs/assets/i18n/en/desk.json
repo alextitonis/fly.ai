@@ -25,7 +25,8 @@
     "positions": "Positions",
     "tape": "Tape",
     "how": "How it trades",
-    "launches": "Launches"
+    "launches": "Launches",
+    "vote": "Vote"
   },
   "sys": {
     "mode": "mode",
@@ -146,7 +147,23 @@
     "sent": "on chain"
   },
   "chains": {
-    "bets": {"note": "each share pays $1 if its outcome happens, $0 if not; bets run to the result", "open": "Open bets", "settled": "Settled bets", "thBet": "Bet on", "thStake": "Stake", "thOdds": "Odds taken", "thPays": "Pays if right", "thNow": "Odds now", "thResult": "Result", "thPaid": "Paid", "won": "Won", "lost": "Lost", "split": "Split", "none": "No open bets yet.", "noneSettled": "No bets settled yet."},
+    "bets": {
+      "note": "each share pays $1 if its outcome happens, $0 if not; bets run to the result",
+      "open": "Open bets",
+      "settled": "Settled bets",
+      "thBet": "Bet on",
+      "thStake": "Stake",
+      "thOdds": "Odds taken",
+      "thPays": "Pays if right",
+      "thNow": "Odds now",
+      "thResult": "Result",
+      "thPaid": "Paid",
+      "won": "Won",
+      "lost": "Lost",
+      "split": "Split",
+      "none": "No open bets yet.",
+      "noneSettled": "No bets settled yet."
+    },
     "markets": "{n} markets",
     "title": "On other chains",
     "lede": "The same flies trade other chains from the same money as above. What each fly holds on each chain, and its latest fills there.",
@@ -170,5 +187,35 @@
     "since": "Trading since",
     "hours": "{n} h",
     "min": "{n} min"
+  },
+  "vote": {
+    "title": "Holder vote",
+    "lede": "$FLYAI holders pick how the flies trade tomorrow. One vote per wallet per day, weighted by the dollars of $FLYAI it holds when the day closes. Biggest bag wins. Signing is free, no gas.",
+    "connect": "Connect wallet",
+    "history": "Past votes",
+    "safe": "Safer",
+    "safeDesc": "Smaller buys, deep pools only, tight stops, bank profits early.",
+    "balanced": "Balanced",
+    "balancedDesc": "The desk's own settings. Also what happens when nobody votes.",
+    "risky": "Degen",
+    "riskyDesc": "Bigger buys, thinner pools, wide stops, let winners run.",
+    "today": "Trading today: {mode}",
+    "pick": "Vote {mode}",
+    "yours": "Your vote",
+    "voters": {
+      "one": "{count} wallet",
+      "other": "{count} wallets"
+    },
+    "closes": "Today's vote closes {when} (00:00 UTC). Weights are re-read from the chain at the close.",
+    "noWallet": "No wallet found. Open this page in a wallet browser or install one.",
+    "signing": "Sign the message in your wallet…",
+    "sending": "Counting your vote…",
+    "done": "Voted {mode} with {usd} of $FLYAI.",
+    "cancelled": "Signature cancelled.",
+    "connected": "Connected {wallet}",
+    "day": "Day",
+    "mode": "Mode",
+    "weight": "$ behind it",
+    "down": "The desk is restarting. Votes open again in a minute."
   }
 }
