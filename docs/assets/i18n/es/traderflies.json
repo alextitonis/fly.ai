@@ -1,4 +1,14 @@
 {
+  "earn": {
+    "aria": "Cómo gana una mosca",
+    "wallet": "Fly Wallet",
+    "desk": "Fly Desk",
+    "live": "activo",
+    "soon": "pronto",
+    "walletText": "Cada mosca tiene su propia wallet y solo opera el dinero que pones en ella. Las ganancias y pérdidas se quedan en esa wallet y las retiras desde la página de la mosca, pagadas en $FLYAI. Ya está activo.",
+    "deskSoonText": "El Fly Desk es un desk aparte y compartido. Cuando opere de verdad, parte de su beneficio semanal se reparte entre todas las moscas activas según su rareza y se reclama aquí. Aún no está activo: las partes de abajo son lo que recibiría cada mosca, no se debe nada.",
+    "deskText": "El Fly Desk es un desk aparte y compartido: parte de su beneficio semanal se reparte entre todas las moscas activas según su rareza. Reclama aquí los pagos de tus moscas."
+  },
   "traders": {
     "title": "Tus Trader Flies",
     "connect": "Conecta tu wallet para ver tus moscas.",

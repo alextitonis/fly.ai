@@ -1,4 +1,14 @@
 {
+  "earn": {
+    "aria": "Bir sinek nasıl kazanır",
+    "wallet": "Fly Wallet",
+    "desk": "Fly Desk",
+    "live": "canlı",
+    "soon": "yakında",
+    "walletText": "Her sineğin kendi cüzdanı var ve yalnızca senin koyduğun parayla işlem yapar. Kâr ve zarar o cüzdanda kalır; sineğin sayfasından $FLYAI olarak çekersin. Şu an canlı.",
+    "deskSoonText": "Fly Desk ayrı, ortak bir masa. Gerçek işlem yapmaya başladığında haftalık kârının bir kısmı tüm aktif sineklere nadirliğe göre bölünür ve burada talep edilir. Henüz canlı değil: aşağıdaki paylar her sineğin alacağı kısım, borçlu olunan bir şey yok.",
+    "deskText": "Fly Desk ayrı, ortak bir masa: haftalık kârının bir kısmı tüm aktif sineklere nadirliğe göre bölünür. Sineklerinin ödemelerini burada talep et."
+  },
   "traders": {
     "title": "Trader Flies'ların",
     "connect": "Sineklerini görmek için cüzdanını bağla.",

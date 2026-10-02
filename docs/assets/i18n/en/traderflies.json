@@ -1,4 +1,14 @@
 {
+  "earn": {
+    "aria": "How a fly earns",
+    "wallet": "Fly Wallet",
+    "desk": "Fly Desk",
+    "live": "live",
+    "soon": "soon",
+    "walletText": "Each fly has its own wallet and trades only the money you put in it. Gains and losses stay in that wallet, and you withdraw them from the fly's page, paid in $FLYAI. This is live now.",
+    "deskSoonText": "The Fly Desk is a separate, shared desk. Once it trades for real, part of its weekly profit is split among all active flies by rarity, and claimed here. It isn't live yet, so the shares below are what each fly would get - nothing is owed.",
+    "deskText": "The Fly Desk is a separate, shared desk: part of its weekly profit is split among all active flies by rarity. Claim your flies' payouts here."
+  },
   "traders": {
     "title": "Your Trader Flies",
     "connect": "Connect your wallet to see your flies.",
