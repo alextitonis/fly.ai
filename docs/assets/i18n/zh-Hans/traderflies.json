@@ -823,6 +823,9 @@
   },
   "wallet": {
     "fundTextAway": "{native} 或 {sym}，至少 $10。{native} 会换成交易现金（{sym}）。",
+    "holdings": "钱包",
+    "gasCoin": "用于 gas",
+    "col": {"token": "代币", "amount": "数量", "price": "价格", "value": "价值", "pnl": "盈亏"},
     "moveTitle": "把钱转到另一条链",
     "moveText": "最多 {usd} 的苍蝇现金（锁定的 FlightPass 资金保留）。几分钟内以现金到达另一条链上的同一个钱包。",
     "moveTo": "转到",

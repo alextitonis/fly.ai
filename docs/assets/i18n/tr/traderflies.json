@@ -825,6 +825,9 @@
   },
   "wallet": {
     "fundTextAway": "{native} veya {sym}, en az $10. {native} işlem nakdine ({sym}) dönüşür.",
+    "holdings": "Cüzdan",
+    "gasCoin": "gaz için",
+    "col": {"token": "Token", "amount": "Miktar", "price": "Fiyat", "value": "Değer", "pnl": "K/Z"},
     "moveTitle": "Parayı başka bir ağa taşı",
     "moveText": "Sineğin nakdinden en fazla {usd} (kilitli FlightPass parası kalır). Diğer ağda aynı cüzdana dakikalar içinde nakit olarak gelir.",
     "moveTo": "Nereye",

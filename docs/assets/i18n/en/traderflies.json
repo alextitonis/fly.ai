@@ -825,6 +825,9 @@
   },
   "wallet": {
     "fundTextAway": "{native} or {sym}, $10 at least. {native} becomes trading cash ({sym}).",
+    "holdings": "Wallet",
+    "gasCoin": "for gas",
+    "col": {"token": "Token", "amount": "Amount", "price": "Price", "value": "Value", "pnl": "P&L"},
     "moveTitle": "Move money to another chain",
     "moveText": "Up to {usd} of the fly's cash (the locked FlightPass money stays). It lands as cash in the same wallet on the other chain, within minutes.",
     "moveTo": "To",

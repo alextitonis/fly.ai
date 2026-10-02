@@ -823,6 +823,9 @@
   },
   "wallet": {
     "fundTextAway": "{native} 또는 {sym}, 최소 $10. {native}는 거래용 현금({sym})으로 바뀝니다.",
+    "holdings": "지갑",
+    "gasCoin": "가스용",
+    "col": {"token": "토큰", "amount": "수량", "price": "가격", "value": "가치", "pnl": "손익"},
     "moveTitle": "다른 체인으로 돈 옮기기",
     "moveText": "파리 현금 중 최대 {usd}(잠긴 FlightPass 돈은 남습니다). 몇 분 안에 다른 체인의 같은 지갑에 현금으로 도착합니다.",
     "moveTo": "받는 곳",

@@ -823,6 +823,9 @@
   },
   "wallet": {
     "fundTextAway": "{native} 或 {sym}，至少 $10。{native} 會換成交易現金（{sym}）。",
+    "holdings": "錢包",
+    "gasCoin": "用於 gas",
+    "col": {"token": "代幣", "amount": "數量", "price": "價格", "value": "價值", "pnl": "盈虧"},
     "moveTitle": "把錢轉到另一條鏈",
     "moveText": "最多 {usd} 的蒼蠅現金（鎖定的 FlightPass 資金保留）。幾分鐘內以現金到達另一條鏈上的同一個錢包。",
     "moveTo": "轉到",

@@ -825,6 +825,9 @@
   },
   "wallet": {
     "fundTextAway": "{native} o {sym}, $10 como mínimo. {native} se convierte en efectivo para operar ({sym}).",
+    "holdings": "Wallet",
+    "gasCoin": "para gas",
+    "col": {"token": "Token", "amount": "Cantidad", "price": "Precio", "value": "Valor", "pnl": "G/P"},
     "moveTitle": "Mover dinero a otra red",
     "moveText": "Hasta {usd} del efectivo de la mosca (el dinero bloqueado del FlightPass se queda). Llega como efectivo a la misma wallet en la otra red, en minutos.",
     "moveTo": "A",
