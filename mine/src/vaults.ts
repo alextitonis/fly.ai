@@ -57,20 +57,20 @@ export function createVaults(d: VaultsDeps) {
   const isOn = () => { if (!on) throw new HttpError(503, "Fly Wallets aren't open yet"); };
 
   async function vaultOf(fly: number): Promise<string> {
-    return addr(await call(CFG.factory!, `0x${selector("vaultOf(uint256)")}${word(fly)}`));
+    return addr(await call(CFG.factory!, `${selector("vaultOf(uint256)")}${word(fly)}`));
   }
   async function potOf(fly: number): Promise<string | null> {
-    const a = addr(await call(CFG.factory!, `0x${selector("potOf(uint256)")}${word(fly)}`));
+    const a = addr(await call(CFG.factory!, `${selector("potOf(uint256)")}${word(fly)}`));
     return /^0x0{40}$/i.test(a) ? null : a;
   }
   async function ownerOfFly(fly: number): Promise<string | null> {
-    try { return addr(await call(CFG.traderFly, `0x${selector("ownerOf(uint256)")}${word(fly)}`)); } catch { return null; }
+    try { return addr(await call(CFG.traderFly, `${selector("ownerOf(uint256)")}${word(fly)}`)); } catch { return null; }
   }
   /** The vault's holder, 0x0 if it has none, null if the vault isn't made yet. */
   async function holderOf(vault: string): Promise<string | null> {
     const code = await rpc(d.rpcUrl, "eth_getCode", [vault, "latest"]) as string;
     if (!code || code === "0x") return null;
-    return addr(await call(vault, `0x${selector("holder()")}`));
+    return addr(await call(vault, `${selector("holder()")}`));
   }
   const publicOf = async (key: string) =>
     (await pg.one<{ value: any }>("select value from mine.vault_public where key = ?", key))?.value ?? null;
@@ -115,9 +115,9 @@ export function createVaults(d: VaultsDeps) {
       if ((await ownerOfFly(fly))?.toLowerCase() !== wallet.toLowerCase()) throw new HttpError(403, "only the fly's owner can set up its wallet");
     }
     const version = (await import("node:crypto")).createHash("sha1").update(text).digest("hex").slice(0, 12);
-    await pg.run(`insert into mine.vault_settings (vault, doc, version, updated_by, updated_at_ms) values (?, ?::jsonb, ?, ?, ?)
+    await pg.run(`insert into mine.vault_settings (vault, doc, version, updated_by, updated_at_ms) values (?, ?::text::jsonb, ?, ?, ?)
       on conflict (vault) do update set doc = excluded.doc, version = excluded.version, updated_by = excluded.updated_by,
-      updated_at_ms = excluded.updated_at_ms`, vault, text, version, wallet, Date.now());
+      updated_at_ms = excluded.updated_at_ms`, vault, text, version, wallet, Date.now());   // (text, cast: a jsonb param would be stored as a JSON string)
     return { vault, version, settings: doc };
   }
 
@@ -148,20 +148,20 @@ export function createVaults(d: VaultsDeps) {
       }
       from = to + 1;
     }
-    await pg.run(`insert into mine.vault_state (key, value) values ('grant_cursor', ?::jsonb)
+    await pg.run(`insert into mine.vault_state (key, value) values ('grant_cursor', ?::text::jsonb)
       on conflict (key) do update set value = excluded.value, updated_at = now()`, JSON.stringify({ block: head }));
   }
 
   /** FLYAI base units for $usd at TraderFly's posted price. */
   async function flyaiFor(usd: number): Promise<bigint> {
-    const perDollar = BigInt(await call(CFG.traderFly, `0x${selector("flyaiPerDollar()")}`));
+    const perDollar = BigInt(await call(CFG.traderFly, `${selector("flyaiPerDollar()")}`));
     return perDollar * BigInt(Math.round(usd * 100)) / 100n;
   }
 
   async function ensureAllowance(need: bigint): Promise<void> {
-    const allowed = BigInt(await call(d.token, `0x${selector("allowance(address,address)")}${word(d.granter!.address)}${word(CFG.factory!)}`));
+    const allowed = BigInt(await call(d.token, `${selector("allowance(address,address)")}${word(d.granter!.address)}${word(CFG.factory!)}`));
     if (allowed >= need) return;
-    await d.granter!.send(d.token, `0x${selector("approve(address,uint256)")}${word(CFG.factory!)}${word((1n << 256n) - 1n)}`);
+    await d.granter!.send(d.token, `${selector("approve(address,uint256)")}${word(CFG.factory!)}${word((1n << 256n) - 1n)}`);
   }
 
   async function payGrants(): Promise<void> {
@@ -185,7 +185,7 @@ export function createVaults(d: VaultsDeps) {
       if (await pg.run("update mine.vault_grants set status = 'sending' where pass_id = ? and status = 'claimed'", g.pass_id) !== 1) continue;
       try {
         await ensureAllowance(amount);
-        const tx = await d.granter.send(CFG.factory!, `0x${selector("grant(uint256,address,uint256,bool)")}${word(g.fly_id)}${word(d.token)}${word(amount)}${word(1)}`);
+        const tx = await d.granter.send(CFG.factory!, `${selector("grant(uint256,address,uint256,bool)")}${word(g.fly_id)}${word(d.token)}${word(amount)}${word(1)}`);
         await pg.run("update mine.vault_grants set status = 'paid', grant_tx = ?, done_at_ms = ? where pass_id = ?", tx.toLowerCase(), Date.now(), g.pass_id);
         console.log(`vault grant: pass #${g.pass_id} -> fly #${g.fly_id}: ${fromWei(amount)} FLYAI (${tx})`);
       } catch (err) {

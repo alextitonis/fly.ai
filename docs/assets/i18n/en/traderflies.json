@@ -822,5 +822,247 @@
       "roll": "Fixing the child…",
       "hatch": "Hatching…"
     }
+  },
+  "wallet": {
+    "title": "Fly Wallet",
+    "intro": "Give this fly its own money and it trades it from its own wallet on Robinhood Chain: its brain picks trades, and any options you switch on trade beside it. Only you can take money out; a fee on profit only, set by rarity (Legendary: none).",
+    "soon": "Fly Wallets are coming soon.",
+    "holdNeed": "Fly Wallets need {need} $FLYAI in your wallet (you have {have}). Below it the fly only closes trades; withdrawals always work.",
+    "buyFlyai": "Buy $FLYAI",
+    "status": {
+      "empty": "No money yet",
+      "trading": "Trading",
+      "closing": "Fly sold: closing",
+      "paused": "Paused by you",
+      "closeOnly": "Closing only"
+    },
+    "holder": "Holder",
+    "value": "Value",
+    "putIn": "{usd} put in",
+    "profit": "Profit",
+    "recent": "Last 24 h",
+    "week": "{usd} this week",
+    "trades": "Trades",
+    "winRate": "{pct}% of closed trades won",
+    "noClosed": "no closed trades yet",
+    "fee": "Profit fee",
+    "feeNote": "only on profit, when you withdraw",
+    "locked": "{usd} locked (FlightPass)",
+    "curve": "Value over the last days: {lo} to {hi}",
+    "brain": "Brain",
+    "cash": "{usd} cash",
+    "noPositions": "no positions",
+    "lastTrades": "Last {n} trades",
+    "side": {
+      "buy": "buy",
+      "sell": "sell",
+      "take_profit": "take profit",
+      "panic_sell": "sell"
+    },
+    "empty": "This fly's wallet is empty. Fund it and it starts trading on the next 15-minute bar.",
+    "potEmpty": "This pot is empty.",
+    "fund": "Fund the fly",
+    "fundText": "ETH, USDG or $FLYAI, $10 at least. ETH becomes trading cash (USDG); $FLYAI stays $FLYAI until the fly decides.",
+    "token": "Token",
+    "amount": "Amount",
+    "deposit": "Deposit",
+    "approving": "Approve the token first, then the deposit…",
+    "funded": "Funded. The fly trades it from the next bar.",
+    "tradingTitle": "Trading",
+    "tradingOn": "on: the fly opens and closes trades",
+    "tradingOff": "off: the fly only closes what it holds",
+    "pause": "Pause",
+    "resume": "Resume",
+    "withdraw": "Withdraw",
+    "share": "Share to withdraw",
+    "preview": "You take {out}: {fee} of it is the fee on {profit} profit.",
+    "inKind": "Paid in what the wallet holds right now (the same share of each token). Pause trading first to take it all in cash.",
+    "withdrawGo": "Withdraw {pct}%",
+    "withdrawn": "Sent to your wallet.",
+    "passTitle": "Burn a FlightPass into this fly",
+    "passText": "The pass is burned for good: everything it holds plus {usd} from us goes into this fly's wallet, locked. The fly trades it and you can withdraw what it earns on top. One pass per fly.",
+    "noPass": "You have no FlightPass that isn't listed for sale.",
+    "passPick": "Your FlightPass",
+    "passGo": "Burn into this fly",
+    "passConfirm": "Burn FlightPass #{id} into fly #{fly}? This can't be undone.",
+    "passBurned": "Burned. Its balance and the grant arrive in the fly's wallet within a few minutes.",
+    "passDone": "This fly already took its FlightPass.",
+    "inPot": "Works in pot {pot}",
+    "leavePot": "Take this fly out of the pot",
+    "left": "Out of the pot.",
+    "potTitle": "Make your flies work together",
+    "potText": "A pot is one wallet several of your flies trade together. Each fly still has its own wallet too. The pot's fee is the average of its flies' rarity fees (a fly counts as Common for its first 7 days in it).",
+    "joinPot": "Join pot {pot}",
+    "joined": "In the pot.",
+    "makePot": "Make a pot of {n} flies",
+    "potMade": "Pot made. Fund it from this page.",
+    "pot": "pot",
+    "signInText": "Sign in (free, one signature) to change this wallet's settings.",
+    "setup": "How it trades",
+    "noStarters": "Settings load when the trading server is up.",
+    "everything": "Every setting",
+    "custom": "custom",
+    "markets": "What it may buy",
+    "market": {
+      "memes": "Memes",
+      "majors": "Majors (ETH, BTC…)",
+      "stocks": "Stock tokens",
+      "polymarket": "Polymarket (soon)"
+    },
+    "theFly": "The fly's brain",
+    "brainOn": "The brain trades",
+    "shareOf": "Share of the money",
+    "riskLabel": "Size",
+    "riskN": {
+      "1": "Small",
+      "2": "Careful",
+      "3": "Normal",
+      "4": "Bold",
+      "5": "Boldest"
+    },
+    "maxPositions": "Most tokens at once",
+    "optionsTitle": "Options",
+    "optionsText": "Each option you switch on trades by itself from its share of the money, next to the brain.",
+    "sharesOver": "The shares add up to {pct}%: they are scaled down to 100%.",
+    "options": {
+      "trend": {
+        "title": "Trend",
+        "blurb": "Buys tokens above their long average while the trend holds; fixed stop and target."
+      },
+      "dip": {
+        "title": "Dip",
+        "blurb": "Buys oversold tokens once they bounce; stop by volatility, target twice the risk."
+      },
+      "momentum": {
+        "title": "Momentum",
+        "blurb": "Joins tokens already running on rising volume, with a trailing stop."
+      },
+      "flush": {
+        "title": "Liquidation flush",
+        "blurb": "Majors only: buys the bounce after leveraged traders are forced out (open interest, volume, buyers)."
+      },
+      "fresh": {
+        "title": "Fresh launches",
+        "blurb": "Brand-new tokens with rising volume; tiny sizes, wide stops."
+      },
+      "reversal": {
+        "title": "Reversal",
+        "blurb": "The Fly Desk's own: holds the recent losers for a few hours, betting they bounce."
+      }
+    },
+    "params": {
+      "fast": "Fast average",
+      "slow": "Slow average",
+      "rsi_min": "RSI from",
+      "rsi_max": "RSI up to",
+      "rsi_period": "RSI length",
+      "stop_pct": "Stop %",
+      "take_profit_pct": "Target %",
+      "max_hold_hours": "Longest hold (h)",
+      "size_pct": "Each buy, % of its money",
+      "stop_atr": "Stop × ATR",
+      "take_profit_r": "Target × risk",
+      "hours": "Window (h)",
+      "min_pct": "Up at least %",
+      "max_pct": "Up at most %",
+      "volume_x": "Volume × normal",
+      "trail_pct": "Trailing stop %",
+      "drop_pct": "Drop at least %",
+      "oi_drop_pct": "Open interest down %",
+      "reclaim_pct": "Close above bottom %",
+      "taker_buy": "Buyers' share",
+      "hold_bars": "Hold (15-min bars)",
+      "lookback_bars": "Look back (bars)",
+      "max_positions": "Most tokens"
+    },
+    "filters": "Meme filters",
+    "filtersText": "Only memes are filtered: majors and stock tokens are the desk's own list. Empty = no limit.",
+    "filter": {
+      "min_mcap": "Market cap from",
+      "max_mcap": "Market cap up to",
+      "min_fdv": "FDV from",
+      "max_fdv": "FDV up to",
+      "min_liquidity": "Pool at least",
+      "min_volume_24h": "24 h volume at least",
+      "min_age_hours": "Older than",
+      "max_age_hours": "Younger than",
+      "max_tax_pct": "Tax at most",
+      "goplus": "Only tokens GoPlus finds clean"
+    },
+    "exits": "Exits for the brain's trades",
+    "exitsText": "When the brain's positions are closed for you. Empty = the brain decides.",
+    "exit": {
+      "stop_pct": "Stop loss",
+      "stop_atr": "Stop by volatility",
+      "take_profit_pct": "Take profit",
+      "take_profit_r": "Target × risk",
+      "trail_pct": "Trailing stop",
+      "max_hold_hours": "Longest hold"
+    },
+    "cashTitle": "Money",
+    "ethToUsdg": "Turn ETH deposits into trading cash (USDG)",
+    "tradingSetting": "Trading on (the server's switch; the on-chain one is above)",
+    "save": "Save",
+    "saved": "Saved. It applies from the next bar.",
+    "risk": {
+      "low": "low risk",
+      "medium": "medium risk",
+      "high": "high risk",
+      "-": "brain only"
+    },
+    "starters": {
+      "let_it_fly": {
+        "title": "Let it fly",
+        "blurb": "No options, no filters beyond the basics: the fly's brain alone."
+      },
+      "safe_majors": {
+        "title": "Safe Majors",
+        "blurb": "ETH, BTC and other big coins only, above their long trend, small sizes."
+      },
+      "stock_swing": {
+        "title": "Stock Swing",
+        "blurb": "Robinhood stock tokens, riding the trend, out within 5 days."
+      },
+      "bluechip_memes": {
+        "title": "Blue-chip Memes",
+        "blurb": "Memes that survived a week: $5M-$500M, deep pools, low tax."
+      },
+      "dip_buyer": {
+        "title": "Dip Buyer",
+        "blurb": "Buys oversold tokens once they bounce; stop by volatility, target twice the risk."
+      },
+      "momentum_rider": {
+        "title": "Momentum Rider",
+        "blurb": "Joins tokens already running on rising volume, with a trailing stop."
+      },
+      "liquidation_flush": {
+        "title": "Liquidation Flush",
+        "blurb": "Majors only: buys the bounce after leveraged traders are forced out."
+      },
+      "fresh_launch_hunter": {
+        "title": "Fresh Launch Hunter",
+        "blurb": "Brand-new tokens (1 h to 3 days old) with real pools and rising volume. Tiny sizes, wide stops."
+      }
+    },
+    "best": "Best Fly Wallets",
+    "tab": {
+      "all": "All time",
+      "d7": "7 days",
+      "h24": "24 h"
+    },
+    "err": {
+      "notOwner": "Only the fly's owner can fund it first.",
+      "hold": "Your wallet needs the $FLYAI holding for this.",
+      "small": "That's under the $10 minimum.",
+      "notHolder": "Only this wallet's holder can do that.",
+      "paused": "Fly Wallets are paused for a moment.",
+      "nothing": "Nothing to withdraw beyond the locked part.",
+      "passUsed": "This fly already took a FlightPass.",
+      "inPot": "That fly is already in a pot.",
+      "notPotHolder": "Only the pot's holder can do that.",
+      "badToken": "That token can't be deposited.",
+      "positions": "The wallet holds too many tokens.",
+      "amount": "Enter an amount."
+    }
   }
 }

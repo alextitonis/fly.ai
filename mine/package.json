@@ -25,6 +25,7 @@
     "test:slots": "node --disable-warning=ExperimentalWarning src/slotstest.ts",
     "test:race": "node --disable-warning=ExperimentalWarning src/racetest.ts",
     "test:arena": "node --disable-warning=ExperimentalWarning src/arenatest.ts",
+    "test:vaults": "node --disable-warning=ExperimentalWarning src/vaultstest.ts",
     "test:flightpass": "node --disable-warning=ExperimentalWarning src/flightpasstest.ts",
     "test:drypool": "node --disable-warning=ExperimentalWarning src/drypooltest.ts",
     "test:supervisor": "node --disable-warning=ExperimentalWarning src/supervisortest.ts",

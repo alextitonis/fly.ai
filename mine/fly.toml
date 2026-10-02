@@ -70,6 +70,13 @@ primary_region = "cdg"
   # (a hot key that only pays gas). Off while ARENA_LEDGER is unset: seasons still run, nothing is posted.
   # ARENA_LEDGER = "0x..."
   ARENA_EXPLORER = "https://robin.etherscan.io"
+  # Fly Wallets (src/vaults.ts, flytrade/FLYWALLET-PLAN.md): off until the factory is deployed. The granter (pays a
+  # burned FlightPass's balance + the $10 grant into the fly's vault) is the FlightPass payout wallet unless
+  # VAULT_GRANTER_KEY is set; that wallet must be the factory's granter key.
+  # VAULT_ON = "1"
+  # VAULT_FACTORY = "0x..."
+  # VAULT_DEPLOY_BLOCK = "..."
+  # VAULT_GRANT_USD = "10"
 
 [mounts]
   source = "mine_data"
