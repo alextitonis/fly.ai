@@ -214,7 +214,6 @@
   nav .ddmenu a.on { background: var(--bg-2); }
   nav .ddmenu a.on::after { display: none; }
   nav .ddmenu small { display: block; color: var(--dim); font: 12px/1.4 var(--mono); margin-top: 2px; white-space: normal; }
-  @media (max-width: 520px) { nav .ddmenu { left: -40px; min-width: 220px; } nav .ddmenu.right { left: auto; right: -8px; } }
   /* menus whose label is the whole button (Research, Apps, $FLYAI) */
   nav .ddlabel { font-size: inherit; color: var(--muted); padding: 4px 2px; }
   nav .ddlabel span { font-size: 10px; margin-left: 2px; }
@@ -222,6 +221,13 @@
   nav .ddlabel.on::after { content: ""; display: block; height: 2px; border-radius: 2px; background: var(--mint); margin-top: 4px; box-shadow: 0 0 8px var(--glow); }
   nav .ddmenu.right { left: auto; right: -12px; }
   nav .ddmenu { align-items: stretch; }        /* not centred like the bar's own items: rows line up */
+  /* a phone: a menu opens full width under the whole bar, not hung off its label (2026-10-02: the menus by either
+     edge - Apps, Market, $FLYAI - ran off the screen) */
+  @media (max-width: 760px) {
+    nav li.dd { position: static; }
+    nav .ddmenu, nav .ddmenu.right { top: calc(100% - 4px); left: 12px; right: 12px; width: auto; min-width: 0; }
+    nav .ddmenu a { white-space: normal; }
+  }
 
   /* For Agents page: code blocks, the results table, plain lists */
   .codeblock { margin: 14px 0 0; padding: 14px 16px; background: #050606; border: 1px solid var(--line); border-radius: 10px;

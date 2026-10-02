@@ -47,6 +47,10 @@ const [alice, bob] = [0, 1].map(() => {
 
 // ---- the chain's stand-in: fly 3 is alice's, its vault V3 (not made until "funded"), fly 4's vault is a pot member
 const V3 = checksumAddress("0x" + "03".repeat(20));
+const FACTORY_BASE = checksumAddress("0x" + "fb".repeat(20));   // the Base factory (same stand-in RPC)
+const VB3 = checksumAddress("0x" + "b3".repeat(20));            // fly 3's vault on Base
+const FACTORY_POLY = checksumAddress("0x" + "fc".repeat(20));   // the Polygon (Polymarket) factory
+const VP3 = checksumAddress("0x" + "c3".repeat(20));            // fly 3's Polymarket vault
 const POT = checksumAddress("0x" + "0f".repeat(20));
 let v3Made = false, v3Holder = "0x" + "0".repeat(40);
 let allowance = 0n;
@@ -98,6 +102,12 @@ const chain = createServer((req, res) => {
     if (method !== "eth_call") return revert();
     const to: string = params[0].to.toLowerCase(), data: string = params[0].data;
     const arg = BigInt(`0x${data.slice(10, 74) || "0"}`);
+    if (to === FACTORY_BASE.toLowerCase() && data.startsWith(selector("vaultOf(uint256)"))) {
+      return answer(`0x${word(arg === 3n ? VB3 : "0x" + word(arg).slice(-40))}`);
+    }
+    if (to === FACTORY_POLY.toLowerCase() && data.startsWith(selector("vaultOf(uint256)"))) {
+      return answer(`0x${word(arg === 3n ? VP3 : "0x" + word(arg).slice(-40))}`);
+    }
     if (to === FACTORY.toLowerCase()) {
       if (data.startsWith(selector("vaultOf(uint256)"))) return answer(`0x${word(arg === 3n ? V3 : "0x" + word(arg).slice(-40))}`);
       if (data.startsWith(selector("potOf(uint256)"))) return answer(`0x${word(arg === 4n ? POT : "0x" + "0".repeat(40))}`);
@@ -135,6 +145,8 @@ async function startServer(extra: Record<string, string> = {}): Promise<void> {
       CLAIM_RPC: "http://127.0.0.1:9", CLAIM_EXPLORER: "http://localhost", SEED_PAID: "0", ARENA_ON: "0",
       TOKEN_ADDRESS: TOKEN, VAULT_ON: "1", VAULT_FACTORY: FACTORY, VAULT_RPC: `http://127.0.0.1:${CHAIN_PORT}`,
       VAULT_TICK_SEC: "1", VAULT_GRANTER_KEY: GRANTER_KEY, ARENA_TRADERFLY: TRADERFLY,
+      VAULT_FACTORY_BASE: FACTORY_BASE, VAULT_RPC_BASE: `http://127.0.0.1:${CHAIN_PORT}`,
+      VAULT_FACTORY_POLYGON: FACTORY_POLY, VAULT_RPC_POLYGON: `http://127.0.0.1:${CHAIN_PORT}`,
       ...extra,
     },
     stdio: ["ignore", "ignore", "inherit"],
@@ -162,6 +174,19 @@ try {
   check("a fly's view: its vault, owner, no pot, nothing yet", fly3.vault === V3 && fly3.owner === alice.address && fly3.pot === null
     && fly3.stats === null && fly3.settings === null, JSON.stringify(fly3));
   check("a pot member shows its pot", (await api("/api/vaults/fly/4", null)).json.pot === POT);
+  check("the other chains offered", cfg.chains?.length === 2 && cfg.chains[0].chain === "base" && cfg.chains[0].factory === FACTORY_BASE
+    && cfg.chains[0].stable_sym === "USDC" && !cfg.chains[0].poly, JSON.stringify(cfg.chains));
+  check("Polymarket offered: USDC.e on Polygon", cfg.chains[1]?.chain === "polygon" && cfg.chains[1].poly === true
+    && cfg.chains[1].chain_id === 137 && cfg.chains[1].stable_sym === "USDC.e", JSON.stringify(cfg.chains));
+  check("a fly's vault on Base too", fly3.away?.[0]?.chain === "base" && fly3.away[0].vault === VB3, JSON.stringify(fly3.away));
+  check("and its Polymarket vault", fly3.away?.[1]?.chain === "polygon" && fly3.away[1].vault === VP3, JSON.stringify(fly3.away));
+  check("Polymarket settings: the fly's owner sets them up",
+    (await api(`/api/vaults/${VP3}/settings`, a, { fly: 3, chain: "polygon", settings: doc })).status === 200);
+  check("the Polymarket leaderboard is its own", (await api("/api/vaults/leaderboard?chain=polygon", null)).status === 200);
+  check("Base settings: the fly's owner sets them up", (await api(`/api/vaults/${VB3}/settings`, b, { fly: 3, chain: "base", settings: doc })).status === 403
+    && (await api(`/api/vaults/${VB3}/settings`, a, { fly: 3, chain: "base", settings: { ...doc, risk: 5 } })).status === 200);
+  check("an unknown chain is refused", (await api(`/api/vaults/${VB3}/settings`, a, { fly: 3, chain: "solana", settings: doc })).status === 400);
+  check("the Base vault's settings read back", (await api("/api/vaults/fly/3", null)).json.away[0].settings?.risk === 5);
 
   // settings before the vault is made: the fly's owner only, naming the fly
   check("no session, no settings", (await api(`/api/vaults/${V3}/settings`, null, { fly: 3, settings: doc })).status === 401);

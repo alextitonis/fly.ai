@@ -52,12 +52,33 @@ export function createVaults(d: VaultsDeps) {
     tickMs: Number(d.env.VAULT_TICK_SEC ?? "60") * 1000,
   };
   const on = d.env.VAULT_ON === "1" && !!CFG.factory;
-  const call = (to: string, data: string) => rpc(d.rpcUrl, "eth_call", [{ to, data }, "latest"]) as Promise<string>;
+  /**
+   * The other chains (phase 5): each one's factory (VAULT_FACTORY_BASE, _ARBITRUM, _BSC, _POLYGON) and RPC
+   * (VAULT_RPC_<CHAIN>). A chain without a factory isn't offered. There the depositor holds; the fly's owner is read on
+   * Robinhood Chain. Polygon (phase 6) is Polymarket: FlyPolyFactory, USDC.e deposits only, outcome shares as positions.
+   */
+  type AwayNet = { factory: string; rpc: string; chainId: number; native: string; stable: string; stableDec: number; stableSym: string; poly?: boolean };
+  const AWAY: Record<string, AwayNet> = {};
+  const NETS: Record<string, Omit<AwayNet, "factory">> = {
+    base: { rpc: "https://mainnet.base.org", chainId: 8453, native: "ETH", stable: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", stableDec: 6, stableSym: "USDC" },
+    arbitrum: { rpc: "https://arb1.arbitrum.io/rpc", chainId: 42161, native: "ETH", stable: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831", stableDec: 6, stableSym: "USDC" },
+    bsc: { rpc: "https://bsc-dataseed.binance.org", chainId: 56, native: "BNB", stable: "0x55d398326f99059fF775485246999027B3197955", stableDec: 18, stableSym: "USDT" },
+    polygon: { rpc: "https://polygon.drpc.org", chainId: 137, native: "POL", stable: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", stableDec: 6, stableSym: "USDC.e", poly: true },
+  };
+  for (const [name, n] of Object.entries(NETS)) {
+    const f = d.env[`VAULT_FACTORY_${name.toUpperCase()}`];
+    if (f) AWAY[name] = { ...n, factory: checksumAddress(f), rpc: d.env[`VAULT_RPC_${name.toUpperCase()}`] ?? n.rpc };
+  }
+  const rpcOf = (chain?: string) => (chain && AWAY[chain] ? AWAY[chain].rpc : d.rpcUrl);
+  const factoryOf = (chain?: string) => (chain && AWAY[chain] ? AWAY[chain].factory : CFG.factory!);
+  const callOn = (chain: string | undefined, to: string, data: string) =>
+    rpc(rpcOf(chain), "eth_call", [{ to, data }, "latest"]) as Promise<string>;
+  const call = (to: string, data: string) => callOn(undefined, to, data);
   const addr = (ret: string) => checksumAddress(`0x${ret.slice(-40)}`);
   const isOn = () => { if (!on) throw new HttpError(503, "Fly Wallets aren't open yet"); };
 
-  async function vaultOf(fly: number): Promise<string> {
-    return addr(await call(CFG.factory!, `${selector("vaultOf(uint256)")}${word(fly)}`));
+  async function vaultOf(fly: number, chain?: string): Promise<string> {
+    return addr(await callOn(chain, factoryOf(chain), `${selector("vaultOf(uint256)")}${word(fly)}`));
   }
   async function potOf(fly: number): Promise<string | null> {
     const a = addr(await call(CFG.factory!, `${selector("potOf(uint256)")}${word(fly)}`));
@@ -67,10 +88,10 @@ export function createVaults(d: VaultsDeps) {
     try { return addr(await call(CFG.traderFly, `${selector("ownerOf(uint256)")}${word(fly)}`)); } catch { return null; }
   }
   /** The vault's holder, 0x0 if it has none, null if the vault isn't made yet. */
-  async function holderOf(vault: string): Promise<string | null> {
-    const code = await rpc(d.rpcUrl, "eth_getCode", [vault, "latest"]) as string;
+  async function holderOf(vault: string, chain?: string): Promise<string | null> {
+    const code = await rpc(rpcOf(chain), "eth_getCode", [vault, "latest"]) as string;
     if (!code || code === "0x") return null;
-    return addr(await call(vault, `${selector("holder()")}`));
+    return addr(await callOn(chain, vault, `${selector("holder()")}`));
   }
   const publicOf = async (key: string) =>
     (await pg.one<{ value: any }>("select value from mine.vault_public where key = ?", key))?.value ?? null;
@@ -79,15 +100,26 @@ export function createVaults(d: VaultsDeps) {
 
   // ---- views -------------------------------------------------------------------------------------------------
   async function config() {
-    return { on, factory: CFG.factory, grant_usd: CFG.grantUsd, starters: await publicOf("starters") };
+    return { on, factory: CFG.factory, grant_usd: CFG.grantUsd, starters: await publicOf("starters"),
+             chains: Object.entries(AWAY).map(([chain, n]) => ({ chain, factory: n.factory, chain_id: n.chainId, native: n.native,
+               stable: n.stable, stable_dec: n.stableDec, stable_sym: n.stableSym, ...(n.poly ? { poly: true } : {}) })) };
   }
 
   async function flyView(fly: number) {
     isOn();
     const [vault, pot, owner] = await Promise.all([vaultOf(fly), potOf(fly), ownerOfFly(fly)]);
     const s = await settingsOf(vault);
+    // its vault on every other chain (made or not: the address is fixed by the fly id)
+    const away = await Promise.all(Object.keys(AWAY).map(async (chain) => {
+      try {
+        const v = await vaultOf(fly, chain);
+        return { chain, vault: v, stats: await publicOf(`vault:${v}`), settings: (await settingsOf(v))?.doc ?? null };
+      } catch {
+        return null;
+      }
+    }));
     return { fly, owner, vault, pot, stats: await publicOf(`vault:${vault}`), settings: s?.doc ?? null,
-             pot_stats: pot ? await publicOf(`vault:${pot}`) : null };
+             pot_stats: pot ? await publicOf(`vault:${pot}`) : null, away: away.filter(Boolean) };
   }
 
   async function vaultView(vault: string) {
@@ -104,14 +136,16 @@ export function createVaults(d: VaultsDeps) {
     if (!doc || typeof doc !== "object" || Array.isArray(doc)) throw new HttpError(400, "settings must be an object");
     const text = JSON.stringify(doc);
     if (text.length > MAX_DOC) throw new HttpError(400, "settings are too long");
-    const holder = await holderOf(vault);
+    const chain = body?.chain && body.chain !== "robinhood" ? String(body.chain) : undefined;
+    if (chain && !AWAY[chain]) throw new HttpError(400, "that chain isn't offered");
+    const holder = await holderOf(vault, chain);
     if (holder && !/^0x0{40}$/i.test(holder)) {
       if (holder.toLowerCase() !== wallet.toLowerCase()) throw new HttpError(403, "only the vault's holder can change its settings");
     } else {
       // not funded yet: the fly's owner sets it up first (a fly's own vault only; pots always have their holder)
       const fly = Number(body?.fly);
       if (!Number.isInteger(fly) || fly < 1) throw new HttpError(400, "fly is the vault's fly id");
-      if ((await vaultOf(fly)).toLowerCase() !== vault.toLowerCase()) throw new HttpError(400, "that isn't this fly's vault");
+      if ((await vaultOf(fly, chain)).toLowerCase() !== vault.toLowerCase()) throw new HttpError(400, "that isn't this fly's vault");
       if ((await ownerOfFly(fly))?.toLowerCase() !== wallet.toLowerCase()) throw new HttpError(403, "only the fly's owner can set up its wallet");
     }
     const version = (await import("node:crypto")).createHash("sha1").update(text).digest("hex").slice(0, 12);
@@ -230,7 +264,12 @@ export function createVaults(d: VaultsDeps) {
     let m: RegExpExecArray | null;
     if (req.method === "GET") {
       if (p === "/api/vaults/config") return d.send(res, 200, await config()), true;
-      if (p === "/api/vaults/leaderboard") { isOn(); return d.send(res, 200, (await publicOf("leaderboard")) ?? { all: [], d7: [], h24: [] }), true; }
+      if (p === "/api/vaults/leaderboard") {
+        isOn();
+        const chain = url.searchParams.get("chain");
+        const key = !chain || chain === "robinhood" ? "leaderboard" : `leaderboard:${chain}`;
+        return d.send(res, 200, (await publicOf(key)) ?? { all: [], d7: [], h24: [] }), true;
+      }
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})$/.exec(p))) return d.send(res, 200, await flyView(Number(m[1]))), true;
       if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})$/.exec(p))) return d.send(res, 200, await vaultView(checksumAddress(m[1]))), true;
       if (p === "/api/admin/vaults") { d.adminOnly(req); return d.send(res, 200, await admin()), true; }

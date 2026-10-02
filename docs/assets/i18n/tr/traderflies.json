@@ -822,5 +822,252 @@
       "roll": "Yavru belirleniyor…",
       "hatch": "Çıkıyor…"
     }
+  },
+  "wallet": {
+    "fundTextAway": "{native} veya {sym}, en az $10. {native} işlem nakdine ({sym}) dönüşür.",
+    "fundTextPoly": "Polygon'da {sym}, en az $10. Polymarket nakdi olarak girer.",
+    "polyText": "Polymarket'te sinek en hareketli piyasaların sonuç paylarını (Evet / Hayır) alıp satar. Ne kadar büyük işlem yapacağını ve ne zaman kâr alıp zararı keseceğini ayarla; sonuçlanan bir piyasa cüzdana kendiliğinden ödenir.",
+    "chains": "Zincirler",
+    "awayText": "{chain} üzerinde sinek oradaki kendi cüzdanından {sym} ile işlem yapar. Kim fonlarsa holder odur; sinek yalnızca o cüzdan Robinhood Chain'de bu sineğe ve $FLYAI'ye sahipken işlem yapar. Sinek satılırsa parası {sym} olarak geri ödenir.",
+    "title": "Fly Wallet",
+    "intro": "Bu sineğe kendi parasını ver, Robinhood Chain'deki kendi cüzdanından işlem yapsın: işlemleri beyni seçer, açtığın seçenekler de yanında işlem yapar. Parayı yalnızca sen çekebilirsin; ücret yalnızca kârdan alınır, nadirliğe göre belirlenir (Legendary: yok).",
+    "soon": "Fly Wallets yakında geliyor.",
+    "holdNeed": "Fly Wallets için cüzdanında {need} $FLYAI olmalı (sende {have} var). Bunun altında sinek yalnızca işlem kapatır; çekimler her zaman çalışır.",
+    "buyFlyai": "$FLYAI al",
+    "status": {
+      "empty": "Henüz para yok",
+      "trading": "İşlemde",
+      "closing": "Sinek satıldı: kapanıyor",
+      "paused": "Sen durdurdun",
+      "closeOnly": "Yalnızca kapatma"
+    },
+    "holder": "Holder",
+    "value": "Değer",
+    "putIn": "{usd} yatırıldı",
+    "profit": "Kâr",
+    "recent": "Son 24 h",
+    "week": "Bu hafta {usd}",
+    "trades": "İşlemler",
+    "winRate": "Kapanan işlemlerin %{pct}'i kazandı",
+    "noClosed": "henüz kapanan işlem yok",
+    "fee": "Kâr ücreti",
+    "feeNote": "yalnızca kârdan, çekim yaptığında",
+    "locked": "{usd} kilitli (FlightPass)",
+    "curve": "Son günlerdeki değer: {lo} ile {hi} arası",
+    "brain": "Beyin",
+    "cash": "{usd} nakit",
+    "noPositions": "pozisyon yok",
+    "lastTrades": "Son {n} işlem",
+    "side": {
+      "buy": "al",
+      "sell": "sat",
+      "take_profit": "kâr al",
+      "panic_sell": "sat"
+    },
+    "empty": "Bu sineğin cüzdanı boş. Yükleme yap, bir sonraki 15 dakikalık mumda işleme başlasın.",
+    "potEmpty": "Bu havuz boş.",
+    "fund": "Sineğe yükleme yap",
+    "fundText": "ETH, USDG veya $FLYAI, en az $10. ETH işlem nakdine (USDG) dönüşür; $FLYAI, sinek karar verene kadar $FLYAI olarak kalır.",
+    "token": "Token",
+    "amount": "Miktar",
+    "deposit": "Yükle",
+    "approving": "Önce token'ı onayla, sonra yüklemeyi…",
+    "funded": "Yüklendi. Sinek bir sonraki mumdan itibaren işlem yapar.",
+    "tradingTitle": "İşlem",
+    "tradingOn": "açık: sinek işlem açar ve kapatır",
+    "tradingOff": "kapalı: sinek yalnızca elindekileri kapatır",
+    "pause": "Durdur",
+    "resume": "Devam et",
+    "withdraw": "Çek",
+    "share": "Çekilecek pay",
+    "preview": "{out} alırsın: bunun {fee} kadarı {profit} kârın ücreti.",
+    "inKind": "Cüzdanda şu an ne varsa onunla ödenir (her token'dan aynı pay). Hepsini nakit almak için önce işlemi durdur.",
+    "withdrawGo": "%{pct} çek",
+    "withdrawn": "Cüzdanına gönderildi.",
+    "passTitle": "Bu sineğe bir FlightPass yak",
+    "passText": "Pass kalıcı olarak yakılır: içindeki her şey artı bizden {usd} bu sineğin cüzdanına kilitli olarak girer. Sinek bununla işlem yapar, üstüne kazandığını çekebilirsin. Sinek başına bir pass.",
+    "noPass": "Satışa çıkarılmamış bir FlightPass'in yok.",
+    "passPick": "FlightPass'in",
+    "passGo": "Bu sineğe yak",
+    "passConfirm": "FlightPass #{id} sinek #{fly} içine yakılsın mı? Bu geri alınamaz.",
+    "passBurned": "Yakıldı. Bakiyesi ve hediye birkaç dakika içinde sineğin cüzdanına gelir.",
+    "passDone": "Bu sinek FlightPass'ini zaten aldı.",
+    "inPot": "{pot} havuzunda çalışıyor",
+    "leavePot": "Bu sineği havuzdan çıkar",
+    "left": "Havuzdan çıktı.",
+    "potTitle": "Sineklerini birlikte çalıştır",
+    "potText": "Havuz, birkaç sineğinin birlikte işlem yaptığı tek bir cüzdandır. Her sineğin kendi cüzdanı da durur. Havuzun ücreti, sineklerinin nadirlik ücretlerinin ortalamasıdır (bir sinek havuzdaki ilk 7 gününde Common sayılır).",
+    "joinPot": "{pot} havuzuna katıl",
+    "joined": "Havuzda.",
+    "makePot": "{n} sinekten bir havuz kur",
+    "potMade": "Havuz kuruldu. Bu sayfadan yükleme yap.",
+    "pot": "havuz",
+    "signInText": "Bu cüzdanın ayarlarını değiştirmek için giriş yap (ücretsiz, tek imza).",
+    "setup": "Nasıl işlem yapar",
+    "noStarters": "Ayarlar işlem sunucusu açıkken yüklenir.",
+    "everything": "Tüm ayarlar",
+    "custom": "özel",
+    "markets": "Neler alabilir",
+    "market": {
+      "memes": "Memeler",
+      "majors": "Büyükler (ETH, BTC…)",
+      "stocks": "Hisse token'ları",
+      "polymarket": "Polymarket (kendi sekmesi)"
+    },
+    "theFly": "Sineğin beyni",
+    "brainOn": "Beyin işlem yapar",
+    "shareOf": "Paradaki payı",
+    "riskLabel": "Büyüklük",
+    "riskN": {
+      "1": "Küçük",
+      "2": "Temkinli",
+      "3": "Normal",
+      "4": "Cesur",
+      "5": "En cesur"
+    },
+    "maxPositions": "Aynı anda en fazla token",
+    "optionsTitle": "Seçenekler",
+    "optionsText": "Açtığın her seçenek, beynin yanında, paradaki kendi payıyla kendi başına işlem yapar.",
+    "sharesOver": "Paylar toplamı %{pct}: %100'e ölçeklenir.",
+    "options": {
+      "trend": {
+        "title": "Trend",
+        "blurb": "Trend sürdükçe uzun ortalamasının üstündeki token'ları alır; sabit stop ve hedef."
+      },
+      "dip": {
+        "title": "Dip",
+        "blurb": "Aşırı satılmış token'ları toparlanınca alır; volatiliteye göre stop, hedef riskin iki katı."
+      },
+      "momentum": {
+        "title": "Momentum",
+        "blurb": "Artan hacimle zaten koşan token'lara katılır, iz süren stop ile."
+      },
+      "flush": {
+        "title": "Likidasyon temizliği",
+        "blurb": "Yalnızca büyükler: kaldıraçlı trader'lar tasfiye edildikten sonraki toparlanmayı alır (açık pozisyon, hacim, alıcılar)."
+      },
+      "fresh": {
+        "title": "Yeni lansmanlar",
+        "blurb": "Hacmi artan yepyeni token'lar; çok küçük miktarlar, geniş stoplar."
+      },
+      "reversal": {
+        "title": "Dönüş",
+        "blurb": "Fly Desk'in kendisi: son kaybedenleri birkaç saat tutar, toparlanmalarına oynar."
+      }
+    },
+    "params": {
+      "fast": "Hızlı ortalama",
+      "slow": "Yavaş ortalama",
+      "rsi_min": "RSI en az",
+      "rsi_max": "RSI en fazla",
+      "rsi_period": "RSI uzunluğu",
+      "stop_pct": "Stop %",
+      "take_profit_pct": "Hedef %",
+      "max_hold_hours": "En uzun tutma (h)",
+      "size_pct": "Her alım, parasının %'si",
+      "stop_atr": "Stop × ATR",
+      "take_profit_r": "Hedef × risk",
+      "hours": "Pencere (h)",
+      "min_pct": "En az % yükseliş",
+      "max_pct": "En fazla % yükseliş",
+      "volume_x": "Hacim × normal",
+      "trail_pct": "İz süren stop %",
+      "drop_pct": "En az % düşüş",
+      "oi_drop_pct": "Açık pozisyon düşüşü %",
+      "reclaim_pct": "Dibin üstünde kapanış %",
+      "taker_buy": "Alıcıların payı",
+      "hold_bars": "Tutma (15 dk'lık mum)",
+      "lookback_bars": "Geriye bakış (mum)",
+      "max_positions": "En fazla token"
+    },
+    "filters": "Meme filtreleri",
+    "filtersText": "Yalnızca memeler filtrelenir: büyükler ve hisse token'ları masanın kendi listesidir. Boş = sınır yok.",
+    "filter": {
+      "min_mcap": "Piyasa değeri en az",
+      "max_mcap": "Piyasa değeri en fazla",
+      "min_fdv": "FDV en az",
+      "max_fdv": "FDV en fazla",
+      "min_liquidity": "Havuz en az",
+      "min_volume_24h": "24 h hacim en az",
+      "min_age_hours": "Şundan eski",
+      "max_age_hours": "Şundan yeni",
+      "max_tax_pct": "Vergi en fazla",
+      "goplus": "Yalnızca GoPlus'ın temiz bulduğu token'lar"
+    },
+    "exits": "Beynin işlemleri için çıkışlar",
+    "exitsText": "Beynin pozisyonları senin yerine ne zaman kapatılır. Boş = beyin karar verir.",
+    "exit": {
+      "stop_pct": "Zarar durdur",
+      "stop_atr": "Volatiliteye göre stop",
+      "take_profit_pct": "Kâr al",
+      "take_profit_r": "Hedef × risk",
+      "trail_pct": "İz süren stop",
+      "max_hold_hours": "En uzun tutma"
+    },
+    "cashTitle": "Para",
+    "ethToUsdg": "ETH yüklemelerini işlem nakdine (USDG) çevir",
+    "tradingSetting": "İşlem açık (sunucunun anahtarı; zincirdeki yukarıda)",
+    "save": "Kaydet",
+    "saved": "Kaydedildi. Bir sonraki mumdan itibaren geçerli.",
+    "risk": {
+      "low": "düşük risk",
+      "medium": "orta risk",
+      "high": "yüksek risk",
+      "-": "yalnızca beyin"
+    },
+    "starters": {
+      "let_it_fly": {
+        "title": "Bırak uçsun",
+        "blurb": "Seçenek yok, temel olanların ötesinde filtre yok: yalnızca sineğin beyni."
+      },
+      "safe_majors": {
+        "title": "Güvenli Büyükler",
+        "blurb": "Yalnızca ETH, BTC ve diğer büyük coinler, uzun trendlerinin üstünde, küçük miktarlar."
+      },
+      "stock_swing": {
+        "title": "Hisse Swing",
+        "blurb": "Robinhood hisse token'ları, trendi sürer, 5 gün içinde çıkar."
+      },
+      "bluechip_memes": {
+        "title": "Blue-chip Memeler",
+        "blurb": "Bir haftayı atlatmış memeler: $5M-$500M, derin havuzlar, düşük vergi."
+      },
+      "dip_buyer": {
+        "title": "Dip Avcısı",
+        "blurb": "Aşırı satılmış token'ları toparlanınca alır; volatiliteye göre stop, hedef riskin iki katı."
+      },
+      "momentum_rider": {
+        "title": "Momentum Sürücüsü",
+        "blurb": "Artan hacimle zaten koşan token'lara katılır, iz süren stop ile."
+      },
+      "liquidation_flush": {
+        "title": "Likidasyon Temizliği",
+        "blurb": "Yalnızca büyükler: kaldıraçlı trader'lar tasfiye edildikten sonraki toparlanmayı alır."
+      },
+      "fresh_launch_hunter": {
+        "title": "Yeni Lansman Avcısı",
+        "blurb": "Yepyeni token'lar (1 h ile 3 günlük arası), gerçek havuzlar ve artan hacimle. Çok küçük miktarlar, geniş stoplar."
+      }
+    },
+    "best": "En iyi Fly Wallets",
+    "tab": {
+      "all": "Tüm zamanlar",
+      "d7": "7 gün",
+      "h24": "24 h"
+    },
+    "err": {
+      "notOwner": "İlk yüklemeyi yalnızca sineğin sahibi yapabilir.",
+      "hold": "Bunun için cüzdanında gereken $FLYAI olmalı.",
+      "small": "Bu, $10 minimumun altında.",
+      "notHolder": "Bunu yalnızca bu cüzdanın holder'ı yapabilir.",
+      "paused": "Fly Wallets kısa bir süreliğine durduruldu.",
+      "nothing": "Kilitli kısmın ötesinde çekilecek bir şey yok.",
+      "passUsed": "Bu sinek zaten bir FlightPass aldı.",
+      "inPot": "O sinek zaten bir havuzda.",
+      "notPotHolder": "Bunu yalnızca havuzun holder'ı yapabilir.",
+      "badToken": "O token yüklenemez.",
+      "positions": "Cüzdanda çok fazla token var.",
+      "amount": "Bir miktar gir."
+    }
   }
 }

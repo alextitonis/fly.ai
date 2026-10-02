@@ -820,5 +820,252 @@
       "roll": "새끼 확정 중…",
       "hatch": "부화 중…"
     }
+  },
+  "wallet": {
+    "fundTextAway": "{native} 또는 {sym}, 최소 $10. {native}는 거래용 현금({sym})으로 바뀝니다.",
+    "fundTextPoly": "Polygon의 {sym}, 최소 $10. Polymarket 현금으로 들어갑니다.",
+    "polyText": "Polymarket에서 파리는 가장 활발한 마켓의 결과 지분(Yes / No)을 사고팝니다. 거래 규모와 익절·손절 시점을 정하세요. 결과가 확정된 마켓은 지갑으로 자동 정산됩니다.",
+    "chains": "체인",
+    "awayText": "{chain}에서는 플라이가 그곳의 자체 지갑에서 {sym}(으)로 거래합니다. 자금을 넣은 사람이 홀더가 되며, 그 지갑이 Robinhood Chain에서 이 플라이와 $FLYAI를 보유하고 있을 때만 거래합니다. 플라이가 팔리면 자금은 {sym}(으)로 돌려받습니다.",
+    "title": "Fly Wallet",
+    "intro": "이 파리에게 자기 돈을 주면 Robinhood Chain 위의 자기 지갑에서 직접 거래해요. 브레인이 거래를 고르고, 켜 둔 옵션도 함께 거래해요. 돈은 당신만 뺄 수 있어요. 수수료는 수익에만 붙고 희귀도에 따라 달라요(레전더리: 없음).",
+    "soon": "Fly Wallets가 곧 열려요.",
+    "holdNeed": "Fly Wallets를 쓰려면 지갑에 {need} $FLYAI가 필요해요(현재 {have}). 그보다 적으면 파리는 거래를 정리만 해요. 출금은 언제나 가능해요.",
+    "buyFlyai": "$FLYAI 사기",
+    "status": {
+      "empty": "아직 돈이 없어요",
+      "trading": "거래 중",
+      "closing": "파리 판매됨: 정리 중",
+      "paused": "직접 일시정지함",
+      "closeOnly": "정리만 함"
+    },
+    "holder": "홀더",
+    "value": "가치",
+    "putIn": "{usd} 입금",
+    "profit": "수익",
+    "recent": "최근 24 h",
+    "week": "이번 주 {usd}",
+    "trades": "거래",
+    "winRate": "종료된 거래의 {pct}% 승리",
+    "noClosed": "아직 종료된 거래 없음",
+    "fee": "수익 수수료",
+    "feeNote": "출금할 때 수익에만 붙어요",
+    "locked": "{usd} 잠김 (FlightPass)",
+    "curve": "최근 며칠간 가치: {lo} ~ {hi}",
+    "brain": "브레인",
+    "cash": "현금 {usd}",
+    "noPositions": "포지션 없음",
+    "lastTrades": "최근 거래 {n}건",
+    "side": {
+      "buy": "매수",
+      "sell": "매도",
+      "take_profit": "익절",
+      "panic_sell": "매도"
+    },
+    "empty": "이 파리의 지갑이 비어 있어요. 입금하면 다음 15분 봉부터 거래를 시작해요.",
+    "potEmpty": "이 팟은 비어 있어요.",
+    "fund": "파리에 입금",
+    "fundText": "ETH, USDG 또는 $FLYAI, 최소 $10. ETH는 거래용 현금(USDG)이 되고, $FLYAI는 파리가 정할 때까지 $FLYAI로 남아요.",
+    "token": "토큰",
+    "amount": "금액",
+    "deposit": "입금",
+    "approving": "먼저 토큰을 승인한 다음 입금해 주세요…",
+    "funded": "입금 완료. 다음 봉부터 파리가 거래해요.",
+    "tradingTitle": "거래",
+    "tradingOn": "켜짐: 파리가 거래를 열고 닫아요",
+    "tradingOff": "꺼짐: 파리가 보유한 것만 정리해요",
+    "pause": "일시정지",
+    "resume": "재개",
+    "withdraw": "출금",
+    "share": "출금할 비율",
+    "preview": "{out}을(를) 받아요: 그중 {fee}는 수익 {profit}에 대한 수수료예요.",
+    "inKind": "지금 지갑이 보유한 그대로 지급돼요(각 토큰에서 같은 비율). 전부 현금으로 받으려면 먼저 거래를 일시정지하세요.",
+    "withdrawGo": "{pct}% 출금",
+    "withdrawn": "지갑으로 보냈어요.",
+    "passTitle": "이 파리에 FlightPass 소각하기",
+    "passText": "패스는 영구히 소각돼요: 패스가 가진 모든 것과 저희가 주는 {usd}가 이 파리의 지갑에 잠긴 채로 들어가요. 파리가 이걸로 거래하고, 그 위로 번 돈은 출금할 수 있어요. 파리당 패스 하나.",
+    "noPass": "판매 등록되지 않은 FlightPass가 없어요.",
+    "passPick": "내 FlightPass",
+    "passGo": "이 파리에 소각",
+    "passConfirm": "FlightPass #{id}를 파리 #{fly}에 소각할까요? 되돌릴 수 없어요.",
+    "passBurned": "소각 완료. 잔액과 지원금이 몇 분 안에 파리의 지갑에 도착해요.",
+    "passDone": "이 파리는 이미 FlightPass를 받았어요.",
+    "inPot": "팟 {pot}에서 활동 중",
+    "leavePot": "이 파리를 팟에서 빼기",
+    "left": "팟에서 나왔어요.",
+    "potTitle": "파리들이 함께 일하게 하기",
+    "potText": "팟은 내 파리 여러 마리가 함께 거래하는 지갑 하나예요. 각 파리는 자기 지갑도 그대로 가져요. 팟의 수수료는 소속 파리들의 희귀도 수수료 평균이에요(팟에 들어온 첫 7일 동안은 일반으로 계산).",
+    "joinPot": "팟 {pot} 참여",
+    "joined": "팟에 들어갔어요.",
+    "makePot": "파리 {n}마리로 팟 만들기",
+    "potMade": "팟을 만들었어요. 이 페이지에서 입금하세요.",
+    "pot": "팟",
+    "signInText": "이 지갑의 설정을 바꾸려면 로그인하세요(무료, 서명 한 번).",
+    "setup": "거래 방식",
+    "noStarters": "거래 서버가 켜지면 설정이 불러와져요.",
+    "everything": "모든 설정",
+    "custom": "직접 설정",
+    "markets": "살 수 있는 것",
+    "market": {
+      "memes": "밈",
+      "majors": "메이저 (ETH, BTC…)",
+      "stocks": "주식 토큰",
+      "polymarket": "Polymarket (전용 탭)"
+    },
+    "theFly": "파리의 브레인",
+    "brainOn": "브레인이 거래",
+    "shareOf": "자금 비율",
+    "riskLabel": "규모",
+    "riskN": {
+      "1": "작게",
+      "2": "신중하게",
+      "3": "보통",
+      "4": "과감하게",
+      "5": "가장 과감하게"
+    },
+    "maxPositions": "동시 최대 토큰 수",
+    "optionsTitle": "옵션",
+    "optionsText": "켠 옵션은 각자 자기 몫의 자금으로 브레인 옆에서 따로 거래해요.",
+    "sharesOver": "비율 합계가 {pct}%예요: 100%로 맞춰 줄여요.",
+    "options": {
+      "trend": {
+        "title": "추세",
+        "blurb": "장기 평균 위에 있는 토큰을 추세가 이어지는 동안 사요. 고정 손절과 목표."
+      },
+      "dip": {
+        "title": "저점",
+        "blurb": "과매도된 토큰이 반등하면 사요. 변동성 기준 손절, 목표는 리스크의 두 배."
+      },
+      "momentum": {
+        "title": "모멘텀",
+        "blurb": "거래량이 늘며 이미 오르고 있는 토큰에 올라타요. 트레일링 스탑 포함."
+      },
+      "flush": {
+        "title": "청산 플러시",
+        "blurb": "메이저 전용: 레버리지 트레이더가 강제 청산된 뒤의 반등을 사요(미결제약정, 거래량, 매수자)."
+      },
+      "fresh": {
+        "title": "신규 런칭",
+        "blurb": "거래량이 늘고 있는 갓 나온 토큰. 아주 작은 규모, 넓은 손절."
+      },
+      "reversal": {
+        "title": "반전",
+        "blurb": "Fly Desk 고유 옵션: 최근 하락한 토큰을 몇 시간 보유하며 반등에 걸어요."
+      }
+    },
+    "params": {
+      "fast": "빠른 평균",
+      "slow": "느린 평균",
+      "rsi_min": "RSI 최소",
+      "rsi_max": "RSI 최대",
+      "rsi_period": "RSI 기간",
+      "stop_pct": "손절 %",
+      "take_profit_pct": "목표 %",
+      "max_hold_hours": "최대 보유 (h)",
+      "size_pct": "매수당 자금 %",
+      "stop_atr": "손절 × ATR",
+      "take_profit_r": "목표 × 리스크",
+      "hours": "기간 (h)",
+      "min_pct": "최소 상승 %",
+      "max_pct": "최대 상승 %",
+      "volume_x": "거래량 × 평소",
+      "trail_pct": "트레일링 스탑 %",
+      "drop_pct": "최소 하락 %",
+      "oi_drop_pct": "미결제약정 감소 %",
+      "reclaim_pct": "저점 대비 종가 %",
+      "taker_buy": "매수자 비중",
+      "hold_bars": "보유 (15분 봉)",
+      "lookback_bars": "되돌아보기 (봉)",
+      "max_positions": "최대 토큰 수"
+    },
+    "filters": "밈 필터",
+    "filtersText": "밈만 필터링해요: 메이저와 주식 토큰은 데스크가 정한 목록이에요. 비워 두면 = 제한 없음.",
+    "filter": {
+      "min_mcap": "시가총액 최소",
+      "max_mcap": "시가총액 최대",
+      "min_fdv": "FDV 최소",
+      "max_fdv": "FDV 최대",
+      "min_liquidity": "풀 최소",
+      "min_volume_24h": "24 h 거래량 최소",
+      "min_age_hours": "이보다 오래됨",
+      "max_age_hours": "이보다 새로움",
+      "max_tax_pct": "세금 최대",
+      "goplus": "GoPlus가 깨끗하다고 본 토큰만"
+    },
+    "exits": "브레인 거래의 청산",
+    "exitsText": "브레인의 포지션을 대신 닫는 시점. 비워 두면 = 브레인이 결정.",
+    "exit": {
+      "stop_pct": "손절",
+      "stop_atr": "변동성 기준 손절",
+      "take_profit_pct": "익절",
+      "take_profit_r": "목표 × 리스크",
+      "trail_pct": "트레일링 스탑",
+      "max_hold_hours": "최대 보유"
+    },
+    "cashTitle": "자금",
+    "ethToUsdg": "ETH 입금을 거래용 현금(USDG)으로 바꾸기",
+    "tradingSetting": "거래 켜짐 (서버 스위치; 온체인 스위치는 위에 있어요)",
+    "save": "저장",
+    "saved": "저장했어요. 다음 봉부터 적용돼요.",
+    "risk": {
+      "low": "낮은 리스크",
+      "medium": "중간 리스크",
+      "high": "높은 리스크",
+      "-": "브레인만"
+    },
+    "starters": {
+      "let_it_fly": {
+        "title": "그냥 날게 두기",
+        "blurb": "옵션 없음, 기본 외 필터 없음: 파리의 브레인만."
+      },
+      "safe_majors": {
+        "title": "안전한 메이저",
+        "blurb": "ETH, BTC 등 큰 코인만, 장기 추세 위에서, 작은 규모로."
+      },
+      "stock_swing": {
+        "title": "주식 스윙",
+        "blurb": "Robinhood 주식 토큰으로 추세를 타고, 5일 안에 나와요."
+      },
+      "bluechip_memes": {
+        "title": "블루칩 밈",
+        "blurb": "일주일을 살아남은 밈: $5M-$500M, 깊은 풀, 낮은 세금."
+      },
+      "dip_buyer": {
+        "title": "저점 매수",
+        "blurb": "과매도된 토큰이 반등하면 사요. 변동성 기준 손절, 목표는 리스크의 두 배."
+      },
+      "momentum_rider": {
+        "title": "모멘텀 라이더",
+        "blurb": "거래량이 늘며 이미 오르고 있는 토큰에 올라타요. 트레일링 스탑 포함."
+      },
+      "liquidation_flush": {
+        "title": "청산 플러시",
+        "blurb": "메이저 전용: 레버리지 트레이더가 강제 청산된 뒤의 반등을 사요."
+      },
+      "fresh_launch_hunter": {
+        "title": "신규 런칭 헌터",
+        "blurb": "실제 풀과 늘어나는 거래량을 가진 갓 나온 토큰(1 h ~ 3일). 아주 작은 규모, 넓은 손절."
+      }
+    },
+    "best": "최고의 Fly Wallets",
+    "tab": {
+      "all": "전체 기간",
+      "d7": "7일",
+      "h24": "24 h"
+    },
+    "err": {
+      "notOwner": "처음 입금은 파리의 소유자만 할 수 있어요.",
+      "hold": "이 작업에는 지갑에 $FLYAI 보유량이 필요해요.",
+      "small": "최소 금액 $10보다 적어요.",
+      "notHolder": "이 지갑의 홀더만 할 수 있어요.",
+      "paused": "Fly Wallets가 잠시 멈췄어요.",
+      "nothing": "잠긴 부분 외에는 출금할 게 없어요.",
+      "passUsed": "이 파리는 이미 FlightPass를 받았어요.",
+      "inPot": "그 파리는 이미 팟에 있어요.",
+      "notPotHolder": "팟의 홀더만 할 수 있어요.",
+      "badToken": "그 토큰은 입금할 수 없어요.",
+      "positions": "지갑이 보유한 토큰이 너무 많아요.",
+      "amount": "금액을 입력하세요."
+    }
   }
 }

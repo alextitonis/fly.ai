@@ -822,5 +822,252 @@
       "roll": "Fijando la cría…",
       "hatch": "Naciendo…"
     }
+  },
+  "wallet": {
+    "fundTextAway": "{native} o {sym}, $10 como mínimo. {native} se convierte en efectivo para operar ({sym}).",
+    "fundTextPoly": "{sym} en Polygon, $10 como mínimo. Entra como efectivo de Polymarket.",
+    "polyText": "En Polymarket la mosca compra y vende acciones de resultado (Sí / No) de los mercados más activos. Elige cuánto opera y cuándo toma ganancias o corta pérdidas; un mercado que se resuelve paga en la wallet por sí solo.",
+    "chains": "Cadenas",
+    "awayText": "En {chain} la mosca opera desde una wallet propia allí, en {sym}. Quien la fondea es su holder; la mosca solo opera mientras esa billetera tenga esta mosca y los $FLYAI en Robinhood Chain. Si la mosca se vende, su dinero se devuelve en {sym}.",
+    "title": "Fly Wallet",
+    "intro": "Dale a esta mosca su propio dinero y lo opera desde su propia wallet en Robinhood Chain: su cerebro elige las operaciones y las opciones que actives operan a su lado. Solo tú puedes sacar el dinero; la comisión es solo sobre la ganancia y depende de la rareza (Legendaria: ninguna).",
+    "soon": "Las Fly Wallets llegan pronto.",
+    "holdNeed": "Las Fly Wallets requieren {need} $FLYAI en tu billetera (tienes {have}). Por debajo, la mosca solo cierra operaciones; los retiros siempre funcionan.",
+    "buyFlyai": "Comprar $FLYAI",
+    "status": {
+      "empty": "Aún sin dinero",
+      "trading": "Operando",
+      "closing": "Mosca vendida: cerrando",
+      "paused": "Pausada por ti",
+      "closeOnly": "Solo cierra"
+    },
+    "holder": "Holder",
+    "value": "Valor",
+    "putIn": "{usd} depositados",
+    "profit": "Ganancia",
+    "recent": "Últimas 24 h",
+    "week": "{usd} esta semana",
+    "trades": "Operaciones",
+    "winRate": "{pct}% de las operaciones cerradas ganaron",
+    "noClosed": "aún no hay operaciones cerradas",
+    "fee": "Comisión sobre ganancia",
+    "feeNote": "solo sobre la ganancia, al retirar",
+    "locked": "{usd} bloqueados (FlightPass)",
+    "curve": "Valor en los últimos días: de {lo} a {hi}",
+    "brain": "Cerebro",
+    "cash": "{usd} en efectivo",
+    "noPositions": "sin posiciones",
+    "lastTrades": "Últimas {n} operaciones",
+    "side": {
+      "buy": "compra",
+      "sell": "venta",
+      "take_profit": "toma de ganancia",
+      "panic_sell": "venta"
+    },
+    "empty": "La wallet de esta mosca está vacía. Deposítale fondos y empieza a operar en la siguiente vela de 15 minutos.",
+    "potEmpty": "Este pozo está vacío.",
+    "fund": "Fondear la mosca",
+    "fundText": "ETH, USDG o $FLYAI, mínimo $10. El ETH se convierte en efectivo para operar (USDG); el $FLYAI sigue siendo $FLYAI hasta que la mosca decida.",
+    "token": "Token",
+    "amount": "Monto",
+    "deposit": "Depositar",
+    "approving": "Primero aprueba el token, luego el depósito…",
+    "funded": "Fondeada. La mosca lo opera desde la siguiente vela.",
+    "tradingTitle": "Trading",
+    "tradingOn": "activado: la mosca abre y cierra operaciones",
+    "tradingOff": "desactivado: la mosca solo cierra lo que tiene",
+    "pause": "Pausar",
+    "resume": "Reanudar",
+    "withdraw": "Retirar",
+    "share": "Parte a retirar",
+    "preview": "Recibes {out}: {fee} es la comisión sobre {profit} de ganancia.",
+    "inKind": "Se paga con lo que la wallet tiene ahora mismo (la misma parte de cada token). Pausa el trading primero para recibirlo todo en efectivo.",
+    "withdrawGo": "Retirar {pct}%",
+    "withdrawn": "Enviado a tu billetera.",
+    "passTitle": "Quema un FlightPass en esta mosca",
+    "passText": "El pase se quema para siempre: todo lo que contiene más {usd} de nuestra parte va a la wallet de esta mosca, bloqueado. La mosca lo opera y puedes retirar lo que gane por encima. Un pase por mosca.",
+    "noPass": "No tienes ningún FlightPass que no esté a la venta.",
+    "passPick": "Tu FlightPass",
+    "passGo": "Quemar en esta mosca",
+    "passConfirm": "¿Quemar el FlightPass #{id} en la mosca #{fly}? No se puede deshacer.",
+    "passBurned": "Quemado. Su saldo y el aporte llegan a la wallet de la mosca en unos minutos.",
+    "passDone": "Esta mosca ya recibió su FlightPass.",
+    "inPot": "Trabaja en el pozo {pot}",
+    "leavePot": "Sacar esta mosca del pozo",
+    "left": "Fuera del pozo.",
+    "potTitle": "Haz que tus moscas trabajen juntas",
+    "potText": "Un pozo es una sola wallet que varias de tus moscas operan juntas. Cada mosca sigue teniendo su propia wallet. La comisión del pozo es el promedio de las comisiones por rareza de sus moscas (una mosca cuenta como Común durante sus primeros 7 días en él).",
+    "joinPot": "Unirse al pozo {pot}",
+    "joined": "En el pozo.",
+    "makePot": "Crear un pozo de {n} moscas",
+    "potMade": "Pozo creado. Fondéalo desde esta página.",
+    "pot": "pozo",
+    "signInText": "Inicia sesión (gratis, una firma) para cambiar la configuración de esta wallet.",
+    "setup": "Cómo opera",
+    "noStarters": "La configuración carga cuando el servidor de trading está activo.",
+    "everything": "Toda la configuración",
+    "custom": "personalizada",
+    "markets": "Qué puede comprar",
+    "market": {
+      "memes": "Memes",
+      "majors": "Majors (ETH, BTC…)",
+      "stocks": "Tokens de acciones",
+      "polymarket": "Polymarket (en su pestaña)"
+    },
+    "theFly": "El cerebro de la mosca",
+    "brainOn": "El cerebro opera",
+    "shareOf": "Parte del dinero",
+    "riskLabel": "Tamaño",
+    "riskN": {
+      "1": "Pequeño",
+      "2": "Prudente",
+      "3": "Normal",
+      "4": "Audaz",
+      "5": "Muy audaz"
+    },
+    "maxPositions": "Máximo de tokens a la vez",
+    "optionsTitle": "Opciones",
+    "optionsText": "Cada opción que actives opera por su cuenta con su parte del dinero, junto al cerebro.",
+    "sharesOver": "Las partes suman {pct}%: se ajustan al 100%.",
+    "options": {
+      "trend": {
+        "title": "Tendencia",
+        "blurb": "Compra tokens por encima de su media larga mientras la tendencia se mantiene; stop y objetivo fijos."
+      },
+      "dip": {
+        "title": "Caída",
+        "blurb": "Compra tokens sobrevendidos cuando rebotan; stop según la volatilidad, objetivo del doble del riesgo."
+      },
+      "momentum": {
+        "title": "Momentum",
+        "blurb": "Se suma a tokens que ya suben con volumen creciente, con stop dinámico."
+      },
+      "flush": {
+        "title": "Barrida de liquidaciones",
+        "blurb": "Solo majors: compra el rebote después de que los traders apalancados son liquidados (interés abierto, volumen, compradores)."
+      },
+      "fresh": {
+        "title": "Lanzamientos nuevos",
+        "blurb": "Tokens recién lanzados con volumen creciente; tamaños mínimos, stops amplios."
+      },
+      "reversal": {
+        "title": "Reversión",
+        "blurb": "La propia de Fly Desk: mantiene a los perdedores recientes unas horas, apostando a que rebotan."
+      }
+    },
+    "params": {
+      "fast": "Media rápida",
+      "slow": "Media lenta",
+      "rsi_min": "RSI desde",
+      "rsi_max": "RSI hasta",
+      "rsi_period": "Periodo del RSI",
+      "stop_pct": "Stop %",
+      "take_profit_pct": "Objetivo %",
+      "max_hold_hours": "Tenencia máxima (h)",
+      "size_pct": "Cada compra, % de su dinero",
+      "stop_atr": "Stop × ATR",
+      "take_profit_r": "Objetivo × riesgo",
+      "hours": "Ventana (h)",
+      "min_pct": "Sube al menos %",
+      "max_pct": "Sube como máximo %",
+      "volume_x": "Volumen × normal",
+      "trail_pct": "Stop dinámico %",
+      "drop_pct": "Cae al menos %",
+      "oi_drop_pct": "Interés abierto baja %",
+      "reclaim_pct": "Cierre sobre el mínimo %",
+      "taker_buy": "Parte de compradores",
+      "hold_bars": "Mantener (velas de 15 min)",
+      "lookback_bars": "Mirar atrás (velas)",
+      "max_positions": "Máximo de tokens"
+    },
+    "filters": "Filtros de memes",
+    "filtersText": "Solo se filtran los memes: los majors y los tokens de acciones son la lista propia de la mesa. Vacío = sin límite.",
+    "filter": {
+      "min_mcap": "Market cap desde",
+      "max_mcap": "Market cap hasta",
+      "min_fdv": "FDV desde",
+      "max_fdv": "FDV hasta",
+      "min_liquidity": "Pool de al menos",
+      "min_volume_24h": "Volumen 24 h de al menos",
+      "min_age_hours": "Más antiguo que",
+      "max_age_hours": "Más nuevo que",
+      "max_tax_pct": "Impuesto máximo",
+      "goplus": "Solo tokens que GoPlus da por limpios"
+    },
+    "exits": "Salidas para las operaciones del cerebro",
+    "exitsText": "Cuándo se cierran por ti las posiciones del cerebro. Vacío = decide el cerebro.",
+    "exit": {
+      "stop_pct": "Stop loss",
+      "stop_atr": "Stop según volatilidad",
+      "take_profit_pct": "Toma de ganancia",
+      "take_profit_r": "Objetivo × riesgo",
+      "trail_pct": "Stop dinámico",
+      "max_hold_hours": "Tenencia máxima"
+    },
+    "cashTitle": "Dinero",
+    "ethToUsdg": "Convertir los depósitos de ETH en efectivo para operar (USDG)",
+    "tradingSetting": "Trading activado (el interruptor del servidor; el on-chain está arriba)",
+    "save": "Guardar",
+    "saved": "Guardado. Se aplica desde la siguiente vela.",
+    "risk": {
+      "low": "riesgo bajo",
+      "medium": "riesgo medio",
+      "high": "riesgo alto",
+      "-": "solo el cerebro"
+    },
+    "starters": {
+      "let_it_fly": {
+        "title": "Déjala volar",
+        "blurb": "Sin opciones ni filtros más allá de lo básico: solo el cerebro de la mosca."
+      },
+      "safe_majors": {
+        "title": "Majors seguros",
+        "blurb": "Solo ETH, BTC y otras monedas grandes, por encima de su tendencia larga, con tamaños pequeños."
+      },
+      "stock_swing": {
+        "title": "Swing de acciones",
+        "blurb": "Tokens de acciones de Robinhood, siguiendo la tendencia, fuera en 5 días como máximo."
+      },
+      "bluechip_memes": {
+        "title": "Memes blue-chip",
+        "blurb": "Memes que sobrevivieron una semana: $5M-$500M, pools profundos, impuesto bajo."
+      },
+      "dip_buyer": {
+        "title": "Compra en caídas",
+        "blurb": "Compra tokens sobrevendidos cuando rebotan; stop según la volatilidad, objetivo del doble del riesgo."
+      },
+      "momentum_rider": {
+        "title": "Jinete del momentum",
+        "blurb": "Se suma a tokens que ya suben con volumen creciente, con stop dinámico."
+      },
+      "liquidation_flush": {
+        "title": "Barrida de liquidaciones",
+        "blurb": "Solo majors: compra el rebote después de que los traders apalancados son liquidados."
+      },
+      "fresh_launch_hunter": {
+        "title": "Cazador de lanzamientos",
+        "blurb": "Tokens recién lanzados (de 1 h a 3 días) con pools reales y volumen creciente. Tamaños mínimos, stops amplios."
+      }
+    },
+    "best": "Mejores Fly Wallets",
+    "tab": {
+      "all": "Histórico",
+      "d7": "7 días",
+      "h24": "24 h"
+    },
+    "err": {
+      "notOwner": "Solo el dueño de la mosca puede hacer el primer depósito.",
+      "hold": "Tu billetera necesita tener el $FLYAI requerido para esto.",
+      "small": "Es menos del mínimo de $10.",
+      "notHolder": "Solo el holder de esta wallet puede hacer eso.",
+      "paused": "Las Fly Wallets están en pausa por un momento.",
+      "nothing": "No hay nada que retirar además de la parte bloqueada.",
+      "passUsed": "Esta mosca ya recibió un FlightPass.",
+      "inPot": "Esa mosca ya está en un pozo.",
+      "notPotHolder": "Solo el holder del pozo puede hacer eso.",
+      "badToken": "Ese token no se puede depositar.",
+      "positions": "La wallet tiene demasiados tokens.",
+      "amount": "Ingresa un monto."
+    }
   }
 }

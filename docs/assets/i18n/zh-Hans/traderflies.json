@@ -820,5 +820,252 @@
       "roll": "确定后代中…",
       "hatch": "孵化中…"
     }
+  },
+  "wallet": {
+    "fundTextAway": "{native} 或 {sym}，至少 $10。{native} 会换成交易现金（{sym}）。",
+    "fundTextPoly": "Polygon 上的 {sym}，至少 $10。存入后作为 Polymarket 现金。",
+    "polyText": "在 Polymarket 上，苍蝇买卖最活跃市场的结果份额（是 / 否）。设置它的交易规模，以及何时止盈或止损；市场结算后会自动赔付到钱包。",
+    "chains": "链",
+    "awayText": "在 {chain} 上，苍蝇用它在那里的专属钱包以 {sym} 交易。谁注资谁就是持有人；只有当该钱包在 Robinhood Chain 上持有这只苍蝇和 $FLYAI 时，苍蝇才会交易。苍蝇被卖出后，资金以 {sym} 退回。",
+    "title": "Fly Wallet",
+    "intro": "给这只苍蝇一笔自己的钱，它就会在 Robinhood Chain 上用自己的钱包交易：大脑负责选交易，你开启的选项在一旁一起交易。只有你能把钱取出；只对利润收手续费，按稀有度而定（Legendary：免费）。",
+    "soon": "Fly Wallets 即将上线。",
+    "holdNeed": "Fly Wallets 需要你的钱包持有 {need} $FLYAI（你有 {have}）。低于这个数，苍蝇只会平仓；提现始终可用。",
+    "buyFlyai": "购买 $FLYAI",
+    "status": {
+      "empty": "还没有资金",
+      "trading": "交易中",
+      "closing": "苍蝇已售出：平仓中",
+      "paused": "已被你暂停",
+      "closeOnly": "仅平仓"
+    },
+    "holder": "持有者",
+    "value": "价值",
+    "putIn": "已投入 {usd}",
+    "profit": "利润",
+    "recent": "近 24 h",
+    "week": "本周 {usd}",
+    "trades": "交易",
+    "winRate": "已平仓交易胜率 {pct}%",
+    "noClosed": "还没有已平仓的交易",
+    "fee": "利润手续费",
+    "feeNote": "只在提现时对利润收取",
+    "locked": "{usd} 已锁定（FlightPass）",
+    "curve": "近几天的价值：{lo} 至 {hi}",
+    "brain": "大脑",
+    "cash": "现金 {usd}",
+    "noPositions": "无持仓",
+    "lastTrades": "最近 {n} 笔交易",
+    "side": {
+      "buy": "买入",
+      "sell": "卖出",
+      "take_profit": "止盈",
+      "panic_sell": "卖出"
+    },
+    "empty": "这只苍蝇的钱包是空的。充值后，它会从下一根 15 分钟 K 线开始交易。",
+    "potEmpty": "这个资金池是空的。",
+    "fund": "给苍蝇充值",
+    "fundText": "ETH、USDG 或 $FLYAI，至少 $10。ETH 会换成交易现金（USDG）；$FLYAI 保持为 $FLYAI，由苍蝇决定如何处理。",
+    "token": "代币",
+    "amount": "数量",
+    "deposit": "充值",
+    "approving": "先授权代币，再充值…",
+    "funded": "充值成功。苍蝇将从下一根 K 线开始交易。",
+    "tradingTitle": "交易",
+    "tradingOn": "开：苍蝇会开仓和平仓",
+    "tradingOff": "关：苍蝇只平掉现有持仓",
+    "pause": "暂停",
+    "resume": "恢复",
+    "withdraw": "提现",
+    "share": "提现比例",
+    "preview": "你将取出 {out}：其中 {fee} 是对 {profit} 利润收取的手续费。",
+    "inKind": "按钱包当前持有的资产支付（每种代币取相同比例）。想全部换成现金取出，请先暂停交易。",
+    "withdrawGo": "提现 {pct}%",
+    "withdrawn": "已发送到你的钱包。",
+    "passTitle": "将 FlightPass 销毁注入这只苍蝇",
+    "passText": "通行证将被永久销毁：里面的全部资产，加上我们赠送的 {usd}，都会锁定存入这只苍蝇的钱包。苍蝇用它交易，赚到的部分你可以提现。每只苍蝇限一张。",
+    "noPass": "你没有未挂单出售的 FlightPass。",
+    "passPick": "你的 FlightPass",
+    "passGo": "销毁注入这只苍蝇",
+    "passConfirm": "将 FlightPass #{id} 销毁注入苍蝇 #{fly}？此操作无法撤销。",
+    "passBurned": "已销毁。余额和赠金将在几分钟内到达苍蝇的钱包。",
+    "passDone": "这只苍蝇已经用过 FlightPass 了。",
+    "inPot": "在资金池 {pot} 中运作",
+    "leavePot": "将这只苍蝇移出资金池",
+    "left": "已移出资金池。",
+    "potTitle": "让你的苍蝇一起干活",
+    "potText": "资金池是一个由你的多只苍蝇共同交易的钱包。每只苍蝇仍保留自己的钱包。资金池的手续费为其中苍蝇稀有度手续费的平均值（苍蝇加入后的前 7 天按 Common 计算）。",
+    "joinPot": "加入资金池 {pot}",
+    "joined": "已加入资金池。",
+    "makePot": "创建 {n} 只苍蝇的资金池",
+    "potMade": "资金池已创建。在此页面为它充值。",
+    "pot": "资金池",
+    "signInText": "登录（免费，只需一次签名）即可修改此钱包的设置。",
+    "setup": "交易方式",
+    "noStarters": "交易服务器上线后会加载设置。",
+    "everything": "全部设置",
+    "custom": "自定义",
+    "markets": "可以买什么",
+    "market": {
+      "memes": "Meme 币",
+      "majors": "主流币（ETH、BTC…）",
+      "stocks": "股票代币",
+      "polymarket": "Polymarket（单独标签页）"
+    },
+    "theFly": "苍蝇的大脑",
+    "brainOn": "大脑参与交易",
+    "shareOf": "资金占比",
+    "riskLabel": "仓位",
+    "riskN": {
+      "1": "小",
+      "2": "谨慎",
+      "3": "正常",
+      "4": "大胆",
+      "5": "最大胆"
+    },
+    "maxPositions": "同时最多持有代币数",
+    "optionsTitle": "选项",
+    "optionsText": "你开启的每个选项都会用自己那份资金独立交易，与大脑并行。",
+    "sharesOver": "占比合计 {pct}%：将按比例缩减到 100%。",
+    "options": {
+      "trend": {
+        "title": "趋势",
+        "blurb": "趋势持续时买入高于长期均线的代币；固定止损和目标。"
+      },
+      "dip": {
+        "title": "抄底",
+        "blurb": "超卖代币反弹时买入；按波动率止损，目标为风险的两倍。"
+      },
+      "momentum": {
+        "title": "动量",
+        "blurb": "跟进成交量放大、已在上涨的代币，使用移动止损。"
+      },
+      "flush": {
+        "title": "爆仓反弹",
+        "blurb": "仅限主流币：在杠杆交易者被强平后买入反弹（持仓量、成交量、买方）。"
+      },
+      "fresh": {
+        "title": "新币",
+        "blurb": "成交量上升的全新代币；极小仓位，宽止损。"
+      },
+      "reversal": {
+        "title": "反转",
+        "blurb": "Fly Desk 自家出品：持有近期跌幅最大的代币几个小时，押注它们反弹。"
+      }
+    },
+    "params": {
+      "fast": "快均线",
+      "slow": "慢均线",
+      "rsi_min": "RSI 下限",
+      "rsi_max": "RSI 上限",
+      "rsi_period": "RSI 周期",
+      "stop_pct": "止损 %",
+      "take_profit_pct": "目标 %",
+      "max_hold_hours": "最长持有 (h)",
+      "size_pct": "每次买入占其资金 %",
+      "stop_atr": "止损 × ATR",
+      "take_profit_r": "目标 × 风险",
+      "hours": "时间窗口 (h)",
+      "min_pct": "至少上涨 %",
+      "max_pct": "至多上涨 %",
+      "volume_x": "成交量 × 常态",
+      "trail_pct": "移动止损 %",
+      "drop_pct": "至少下跌 %",
+      "oi_drop_pct": "持仓量下降 %",
+      "reclaim_pct": "收盘高于底部 %",
+      "taker_buy": "买方占比",
+      "hold_bars": "持有（15 分钟 K 线数）",
+      "lookback_bars": "回看（K 线数）",
+      "max_positions": "最多代币数"
+    },
+    "filters": "Meme 币筛选",
+    "filtersText": "只筛选 Meme 币：主流币和股票代币用的是交易台自己的列表。留空 = 不限。",
+    "filter": {
+      "min_mcap": "市值下限",
+      "max_mcap": "市值上限",
+      "min_fdv": "FDV 下限",
+      "max_fdv": "FDV 上限",
+      "min_liquidity": "资金池至少",
+      "min_volume_24h": "24 h 成交量至少",
+      "min_age_hours": "上线超过",
+      "max_age_hours": "上线不超过",
+      "max_tax_pct": "税率至多",
+      "goplus": "只选 GoPlus 检测安全的代币"
+    },
+    "exits": "大脑交易的退出设置",
+    "exitsText": "何时自动为你平掉大脑的持仓。留空 = 由大脑决定。",
+    "exit": {
+      "stop_pct": "止损",
+      "stop_atr": "按波动率止损",
+      "take_profit_pct": "止盈",
+      "take_profit_r": "目标 × 风险",
+      "trail_pct": "移动止损",
+      "max_hold_hours": "最长持有"
+    },
+    "cashTitle": "资金",
+    "ethToUsdg": "将充值的 ETH 换成交易现金（USDG）",
+    "tradingSetting": "开启交易（服务器开关；链上开关在上方）",
+    "save": "保存",
+    "saved": "已保存。从下一根 K 线开始生效。",
+    "risk": {
+      "low": "低风险",
+      "medium": "中风险",
+      "high": "高风险",
+      "-": "仅大脑"
+    },
+    "starters": {
+      "let_it_fly": {
+        "title": "放飞自我",
+        "blurb": "不开选项，除基础项外不加筛选：只靠苍蝇的大脑。"
+      },
+      "safe_majors": {
+        "title": "稳健主流",
+        "blurb": "只交易 ETH、BTC 等大币，且高于长期趋势，小仓位。"
+      },
+      "stock_swing": {
+        "title": "股票波段",
+        "blurb": "Robinhood 股票代币，顺势而为，5 天内离场。"
+      },
+      "bluechip_memes": {
+        "title": "蓝筹 Meme",
+        "blurb": "存活超过一周的 Meme 币：市值 $5M-$500M，资金池深，税率低。"
+      },
+      "dip_buyer": {
+        "title": "抄底手",
+        "blurb": "超卖代币反弹时买入；按波动率止损，目标为风险的两倍。"
+      },
+      "momentum_rider": {
+        "title": "动量骑手",
+        "blurb": "跟进成交量放大、已在上涨的代币，使用移动止损。"
+      },
+      "liquidation_flush": {
+        "title": "爆仓反弹",
+        "blurb": "仅限主流币：在杠杆交易者被强平后买入反弹。"
+      },
+      "fresh_launch_hunter": {
+        "title": "新币猎手",
+        "blurb": "全新代币（上线 1 h 至 3 天），有真实资金池且成交量上升。极小仓位，宽止损。"
+      }
+    },
+    "best": "最佳 Fly Wallets",
+    "tab": {
+      "all": "全部时间",
+      "d7": "7 天",
+      "h24": "24 h"
+    },
+    "err": {
+      "notOwner": "只有苍蝇的主人才能首次充值。",
+      "hold": "你的钱包需要持有足够的 $FLYAI 才能这样做。",
+      "small": "低于 $10 的最低金额。",
+      "notHolder": "只有此钱包的持有者才能这样做。",
+      "paused": "Fly Wallets 暂时暂停。",
+      "nothing": "除锁定部分外没有可提现的金额。",
+      "passUsed": "这只苍蝇已经用过 FlightPass 了。",
+      "inPot": "这只苍蝇已经在资金池里了。",
+      "notPotHolder": "只有资金池的持有者才能这样做。",
+      "badToken": "该代币无法充值。",
+      "positions": "钱包持有的代币太多了。",
+      "amount": "请输入数量。"
+    }
   }
 }

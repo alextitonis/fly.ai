@@ -820,5 +820,252 @@
       "roll": "確定後代中…",
       "hatch": "孵化中…"
     }
+  },
+  "wallet": {
+    "fundTextAway": "{native} 或 {sym}，至少 $10。{native} 會換成交易現金（{sym}）。",
+    "fundTextPoly": "Polygon 上的 {sym}，至少 $10。存入後作為 Polymarket 現金。",
+    "polyText": "在 Polymarket 上，蒼蠅買賣最活躍市場的結果份額（是 / 否）。設定它的交易規模，以及何時停利或停損；市場結算後會自動賠付到錢包。",
+    "chains": "鏈",
+    "awayText": "在 {chain} 上，蒼蠅用它在那裡的專屬錢包以 {sym} 交易。誰注資誰就是持有人；只有當該錢包在 Robinhood Chain 上持有這隻蒼蠅和 $FLYAI 時，蒼蠅才會交易。蒼蠅被賣出後，資金以 {sym} 退回。",
+    "title": "Fly Wallet",
+    "intro": "給這隻蒼蠅自己的資金，它就會在 Robinhood Chain 上用自己的錢包交易：由它的大腦挑選交易，你開啟的選項也會在旁邊一起交易。只有你能把錢提領出來；只對利潤收手續費，依稀有度而定（傳奇：免費）。",
+    "soon": "Fly Wallets 即將推出。",
+    "holdNeed": "Fly Wallets 需要你的錢包持有 {need} $FLYAI（你持有 {have}）。低於這個數量時，蒼蠅只會平倉；提領隨時可用。",
+    "buyFlyai": "購買 $FLYAI",
+    "status": {
+      "empty": "尚無資金",
+      "trading": "交易中",
+      "closing": "蒼蠅已售出：平倉中",
+      "paused": "已由你暫停",
+      "closeOnly": "僅平倉"
+    },
+    "holder": "持有者",
+    "value": "價值",
+    "putIn": "已投入 {usd}",
+    "profit": "利潤",
+    "recent": "近 24 h",
+    "week": "本週 {usd}",
+    "trades": "交易",
+    "winRate": "已平倉交易勝率 {pct}%",
+    "noClosed": "尚無已平倉交易",
+    "fee": "利潤手續費",
+    "feeNote": "只在提領時對利潤收取",
+    "locked": "{usd} 已鎖定（FlightPass）",
+    "curve": "近幾天的價值：{lo} 至 {hi}",
+    "brain": "大腦",
+    "cash": "現金 {usd}",
+    "noPositions": "無持倉",
+    "lastTrades": "最近 {n} 筆交易",
+    "side": {
+      "buy": "買入",
+      "sell": "賣出",
+      "take_profit": "停利",
+      "panic_sell": "賣出"
+    },
+    "empty": "這隻蒼蠅的錢包是空的。存入資金後，它會從下一根 15 分鐘 K 線開始交易。",
+    "potEmpty": "這個資金池是空的。",
+    "fund": "為蒼蠅存入資金",
+    "fundText": "ETH、USDG 或 $FLYAI，至少 $10。ETH 會轉成交易現金（USDG）；$FLYAI 維持 $FLYAI，直到蒼蠅決定如何操作。",
+    "token": "代幣",
+    "amount": "數量",
+    "deposit": "存入",
+    "approving": "請先授權代幣，再確認存入…",
+    "funded": "已存入。蒼蠅會從下一根 K 線開始交易。",
+    "tradingTitle": "交易",
+    "tradingOn": "開啟：蒼蠅會開倉和平倉",
+    "tradingOff": "關閉：蒼蠅只會平掉現有持倉",
+    "pause": "暫停",
+    "resume": "繼續",
+    "withdraw": "提領",
+    "share": "提領比例",
+    "preview": "你將取出 {out}：其中 {fee} 是 {profit} 利潤的手續費。",
+    "inKind": "以錢包目前持有的資產支付（每種代幣取相同比例）。想全部以現金取出，請先暫停交易。",
+    "withdrawGo": "提領 {pct}%",
+    "withdrawn": "已傳送到你的錢包。",
+    "passTitle": "將 FlightPass 銷毀並注入這隻蒼蠅",
+    "passText": "通行證會被永久銷毀：它持有的一切，加上我們贈送的 {usd}，都會鎖定在這隻蒼蠅的錢包裡。蒼蠅會用它交易，你可以提領額外賺到的部分。每隻蒼蠅限一張通行證。",
+    "noPass": "你沒有未掛單出售的 FlightPass。",
+    "passPick": "你的 FlightPass",
+    "passGo": "銷毀並注入這隻蒼蠅",
+    "passConfirm": "要將 FlightPass #{id} 銷毀並注入蒼蠅 #{fly} 嗎？此操作無法復原。",
+    "passBurned": "已銷毀。它的餘額和贈送金額會在幾分鐘內抵達蒼蠅的錢包。",
+    "passDone": "這隻蒼蠅已經用過 FlightPass 了。",
+    "inPot": "在資金池 {pot} 中工作",
+    "leavePot": "讓這隻蒼蠅退出資金池",
+    "left": "已退出資金池。",
+    "potTitle": "讓你的蒼蠅一起工作",
+    "potText": "資金池是由你的多隻蒼蠅共同交易的一個錢包。每隻蒼蠅仍保有自己的錢包。資金池的手續費是其中蒼蠅稀有度手續費的平均值（蒼蠅加入後的前 7 天以普通計算）。",
+    "joinPot": "加入資金池 {pot}",
+    "joined": "已加入資金池。",
+    "makePot": "建立 {n} 隻蒼蠅的資金池",
+    "potMade": "資金池已建立。請在此頁面存入資金。",
+    "pot": "資金池",
+    "signInText": "登入（免費，只需一次簽名）即可更改這個錢包的設定。",
+    "setup": "交易方式",
+    "noStarters": "交易伺服器上線後就會載入設定。",
+    "everything": "所有設定",
+    "custom": "自訂",
+    "markets": "可以買什麼",
+    "market": {
+      "memes": "迷因幣",
+      "majors": "主流幣（ETH、BTC…）",
+      "stocks": "股票代幣",
+      "polymarket": "Polymarket（獨立分頁）"
+    },
+    "theFly": "蒼蠅的大腦",
+    "brainOn": "大腦參與交易",
+    "shareOf": "資金比例",
+    "riskLabel": "部位大小",
+    "riskN": {
+      "1": "小",
+      "2": "謹慎",
+      "3": "一般",
+      "4": "大膽",
+      "5": "最大膽"
+    },
+    "maxPositions": "同時最多代幣數",
+    "optionsTitle": "選項",
+    "optionsText": "你開啟的每個選項都會用它分到的資金獨立交易，與大腦並行。",
+    "sharesOver": "比例加總為 {pct}%：會按比例縮減至 100%。",
+    "options": {
+      "trend": {
+        "title": "趨勢",
+        "blurb": "在趨勢延續時買入高於長期均線的代幣；固定停損與目標。"
+      },
+      "dip": {
+        "title": "抄底",
+        "blurb": "在超賣代幣反彈時買入；依波動停損，目標為風險的兩倍。"
+      },
+      "momentum": {
+        "title": "動能",
+        "blurb": "跟上量能放大、已在上漲的代幣，搭配移動停損。"
+      },
+      "flush": {
+        "title": "清算洗盤",
+        "blurb": "僅限主流幣：在槓桿交易者被強制出場後買入反彈（未平倉量、成交量、買方）。"
+      },
+      "fresh": {
+        "title": "新幣上線",
+        "blurb": "成交量上升的全新代幣；極小部位，寬停損。"
+      },
+      "reversal": {
+        "title": "反轉",
+        "blurb": "Fly Desk 自家的選項：持有近期跌幅最大的代幣幾個小時，押注它們反彈。"
+      }
+    },
+    "params": {
+      "fast": "快速均線",
+      "slow": "慢速均線",
+      "rsi_min": "RSI 下限",
+      "rsi_max": "RSI 上限",
+      "rsi_period": "RSI 週期",
+      "stop_pct": "停損 %",
+      "take_profit_pct": "目標 %",
+      "max_hold_hours": "最長持有 (h)",
+      "size_pct": "每次買入佔其資金 %",
+      "stop_atr": "停損 × ATR",
+      "take_profit_r": "目標 × 風險",
+      "hours": "時間窗 (h)",
+      "min_pct": "漲幅至少 %",
+      "max_pct": "漲幅最多 %",
+      "volume_x": "成交量 × 平常",
+      "trail_pct": "移動停損 %",
+      "drop_pct": "跌幅至少 %",
+      "oi_drop_pct": "未平倉量下降 %",
+      "reclaim_pct": "收盤高於低點 %",
+      "taker_buy": "買方佔比",
+      "hold_bars": "持有（15 分鐘 K 線）",
+      "lookback_bars": "回看（K 線）",
+      "max_positions": "最多代幣數"
+    },
+    "filters": "迷因幣篩選",
+    "filtersText": "只篩選迷因幣：主流幣和股票代幣使用交易台自己的清單。留空 = 不限。",
+    "filter": {
+      "min_mcap": "市值下限",
+      "max_mcap": "市值上限",
+      "min_fdv": "FDV 下限",
+      "max_fdv": "FDV 上限",
+      "min_liquidity": "流動池至少",
+      "min_volume_24h": "24 h 成交量至少",
+      "min_age_hours": "上線超過",
+      "max_age_hours": "上線未滿",
+      "max_tax_pct": "稅率最多",
+      "goplus": "只選 GoPlus 檢測安全的代幣"
+    },
+    "exits": "大腦交易的出場",
+    "exitsText": "何時替你平掉大腦的持倉。留空 = 由大腦決定。",
+    "exit": {
+      "stop_pct": "停損",
+      "stop_atr": "依波動停損",
+      "take_profit_pct": "停利",
+      "take_profit_r": "目標 × 風險",
+      "trail_pct": "移動停損",
+      "max_hold_hours": "最長持有"
+    },
+    "cashTitle": "資金",
+    "ethToUsdg": "將存入的 ETH 轉成交易現金（USDG）",
+    "tradingSetting": "開啟交易（伺服器的開關；鏈上開關在上方）",
+    "save": "儲存",
+    "saved": "已儲存。從下一根 K 線開始生效。",
+    "risk": {
+      "low": "低風險",
+      "medium": "中風險",
+      "high": "高風險",
+      "-": "僅大腦"
+    },
+    "starters": {
+      "let_it_fly": {
+        "title": "放手讓它飛",
+        "blurb": "沒有選項，除了基本篩選外不設限：只靠蒼蠅的大腦。"
+      },
+      "safe_majors": {
+        "title": "穩健主流幣",
+        "blurb": "只買 ETH、BTC 等大型幣種，且高於長期趨勢，小部位。"
+      },
+      "stock_swing": {
+        "title": "股票波段",
+        "blurb": "Robinhood 股票代幣，順勢操作，5 天內出場。"
+      },
+      "bluechip_memes": {
+        "title": "藍籌迷因幣",
+        "blurb": "撐過一週的迷因幣：$5M-$500M，深度流動池，低稅率。"
+      },
+      "dip_buyer": {
+        "title": "抄底高手",
+        "blurb": "在超賣代幣反彈時買入；依波動停損，目標為風險的兩倍。"
+      },
+      "momentum_rider": {
+        "title": "動能衝浪手",
+        "blurb": "跟上量能放大、已在上漲的代幣，搭配移動停損。"
+      },
+      "liquidation_flush": {
+        "title": "清算洗盤",
+        "blurb": "僅限主流幣：在槓桿交易者被強制出場後買入反彈。"
+      },
+      "fresh_launch_hunter": {
+        "title": "新幣獵人",
+        "blurb": "全新代幣（上線 1 h 到 3 天），有真實流動池且成交量上升。極小部位，寬停損。"
+      }
+    },
+    "best": "最佳 Fly Wallets",
+    "tab": {
+      "all": "全部時間",
+      "d7": "7 天",
+      "h24": "24 h"
+    },
+    "err": {
+      "notOwner": "只有蒼蠅的擁有者能首次存入資金。",
+      "hold": "你的錢包需要持有足夠的 $FLYAI 才能這樣做。",
+      "small": "低於 $10 的最低金額。",
+      "notHolder": "只有這個錢包的持有者能這樣做。",
+      "paused": "Fly Wallets 暫時停用片刻。",
+      "nothing": "除了鎖定部分外，沒有可提領的金額。",
+      "passUsed": "這隻蒼蠅已經用過 FlightPass 了。",
+      "inPot": "那隻蒼蠅已經在資金池裡了。",
+      "notPotHolder": "只有資金池的持有者能這樣做。",
+      "badToken": "這個代幣無法存入。",
+      "positions": "錢包持有的代幣太多了。",
+      "amount": "請輸入數量。"
+    }
   }
 }

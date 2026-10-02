@@ -824,6 +824,11 @@
     }
   },
   "wallet": {
+    "fundTextAway": "{native} or {sym}, $10 at least. {native} becomes trading cash ({sym}).",
+    "fundTextPoly": "{sym} on Polygon, $10 at least. It goes in as Polymarket cash.",
+    "polyText": "On Polymarket the fly buys and sells outcome shares (Yes / No) of the busiest markets. Set how big it trades and when it takes profit or cuts a loss; a market that resolves pays out into the wallet by itself.",
+    "chains": "Chains",
+    "awayText": "On {chain} the fly trades from a wallet of its own there, in {sym}. Whoever funds it holds it; the fly only trades it while that wallet owns this fly and holds the $FLYAI on Robinhood Chain. If the fly is sold, its money is paid back in {sym}.",
     "title": "Fly Wallet",
     "intro": "Give this fly its own money and it trades it from its own wallet on Robinhood Chain: its brain picks trades, and any options you switch on trade beside it. Only you can take money out; a fee on profit only, set by rarity (Legendary: none).",
     "soon": "Fly Wallets are coming soon.",
@@ -907,7 +912,7 @@
       "memes": "Memes",
       "majors": "Majors (ETH, BTC…)",
       "stocks": "Stock tokens",
-      "polymarket": "Polymarket (soon)"
+      "polymarket": "Polymarket (its own tab)"
     },
     "theFly": "The fly's brain",
     "brainOn": "The brain trades",
