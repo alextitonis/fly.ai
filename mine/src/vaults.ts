@@ -176,6 +176,14 @@ export function createVaults(d: VaultsDeps) {
     return { id: row!.id, status: "new" };
   }
 
+  /** Flies whose wallet holds someone's money on any chain (the Breed page refuses to merge them, user 2026-10-02). */
+  async function funded() {
+    if (!on) return { flies: [] };
+    const rows = await pg.all<{ fly_id: number }>(`select distinct w.fly_id from mine.vault_ledger l
+      join mine.vault_wallets w on lower(w.address) = lower(l.wallet) where l.holder is not null and w.fly_id is not null`);
+    return { flies: rows.map((r) => r.fly_id) };
+  }
+
   async function requestView(id: number) {
     const r = await pg.one<any>("select id, wallet, chain, kind, status, result, extract(epoch from at) as at from mine.vault_requests where id = ?", id);
     if (!r) throw new HttpError(404, "no such request");
@@ -286,6 +294,7 @@ export function createVaults(d: VaultsDeps) {
     let m: RegExpExecArray | null;
     if (req.method === "GET") {
       if (p === "/api/vaults/config") return d.send(res, 200, await config()), true;
+      if (p === "/api/vaults/funded") return d.send(res, 200, await funded()), true;
       if (p === "/api/vaults/leaderboard") {
         isOn();
         const chain = chainOf(url.searchParams.get("chain"));

@@ -179,6 +179,7 @@ try {
   check("with money in it: only its holder", (await api(`/api/vaults/${W3}/settings`, a, { settings: doc })).status === 403);
   check("the holder may", (await api(`/api/vaults/${W3}/settings`, b, { settings: { ...doc, risk: 4 } })).status === 200);
   check("the ledger shows on the fly", (await api("/api/vaults/fly/3", null)).json.ledger?.holder === bob.address);
+  check("funded flies listed (the Breed page won't merge them)", JSON.stringify((await api("/api/vaults/funded", null)).json.flies) === "[3]");
   check("only the holder withdraws", (await api(`/api/vaults/${W3}/withdraw`, a, { bps: 5000 })).status === 403);
   check("bps 1..10000", (await api(`/api/vaults/${W3}/withdraw`, b, { bps: 0 })).status === 400);
   const w = await api(`/api/vaults/${W3}/withdraw`, b, { bps: 5000 });

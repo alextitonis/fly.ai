@@ -800,7 +800,8 @@
     "blocked": {
       "incubating": "Incubando",
       "listed": "En venta en el mercado - quítala de la venta para criar",
-      "colosseum": "En el Fly Colosseum - podrá criar cuando acabe la temporada"
+      "colosseum": "En el Fly Colosseum - podrá criar cuando acabe la temporada",
+      "wallet": "Su Fly Wallet tiene dinero: sácalo primero para criar"
     },
     "why": {
       "Closed": "La cría está cerrada ahora mismo.",
@@ -825,6 +826,7 @@
   },
   "wallet": {
     "fundTextAway": "{native} o {sym}, $10 como mínimo. {native} se convierte en efectivo para operar ({sym}).",
+    "stakeCut": "−{pct}% por hacer staking de $FLYAI",
     "holdings": "Wallet",
     "gasCoin": "para gas",
     "col": {"token": "Token", "amount": "Cantidad", "price": "Precio", "value": "Valor", "pnl": "G/P"},
@@ -896,7 +898,7 @@
     "withdraw": "Retirar",
     "share": "Parte a retirar",
     "preview": "Recibes {out}: {fee} es la comisión sobre {profit} de ganancia.",
-    "inKind": "Se paga con lo que la wallet tiene ahora mismo (la misma parte de cada token). Pausa el trading primero para recibirlo todo en efectivo.",
+    "inKind": "Se paga en $FLYAI: primero se vende la parte retirada de cada posición (en otras redes recibes su dólar; en Polymarket USDC.e y las acciones). El dinero bloqueado del FlightPass se queda.",
     "withdrawGo": "Retirar {pct}%",
     "withdrawn": "Enviado a tu billetera.",
     "passTitle": "Quema un FlightPass en esta mosca",

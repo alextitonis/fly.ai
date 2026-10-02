@@ -798,7 +798,8 @@
     "blocked": {
       "incubating": "孵化中",
       "listed": "已在市場掛單 - 取消掛單後才能繁殖",
-      "colosseum": "在 Fly Colosseum 中 - 賽季結束後才能繁殖"
+      "colosseum": "在 Fly Colosseum 中 - 賽季結束後才能繁殖",
+      "wallet": "它的 Fly Wallet 裡有錢——先取出才能繁殖"
     },
     "why": {
       "Closed": "繁殖暫時關閉。",
@@ -823,6 +824,7 @@
   },
   "wallet": {
     "fundTextAway": "{native} 或 {sym}，至少 $10。{native} 會換成交易現金（{sym}）。",
+    "stakeCut": "質押 $FLYAI 減免 {pct}%",
     "holdings": "錢包",
     "gasCoin": "用於 gas",
     "col": {"token": "代幣", "amount": "數量", "price": "價格", "value": "價值", "pnl": "盈虧"},
@@ -894,7 +896,7 @@
     "withdraw": "提領",
     "share": "提領比例",
     "preview": "你將取出 {out}：其中 {fee} 是 {profit} 利潤的手續費。",
-    "inKind": "以錢包目前持有的資產支付（每種代幣取相同比例）。想全部以現金取出，請先暫停交易。",
+    "inKind": "以 $FLYAI 支付：先賣出每個倉位中提取的份額（其他鏈上為該鏈的美元；Polymarket 上為 USDC.e 和份額）。鎖定的 FlightPass 資金保留。",
     "withdrawGo": "提領 {pct}%",
     "withdrawn": "已傳送到你的錢包。",
     "passTitle": "將 FlightPass 銷毀並注入這隻蒼蠅",

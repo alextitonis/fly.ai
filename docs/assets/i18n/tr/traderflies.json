@@ -800,7 +800,8 @@
     "blocked": {
       "incubating": "Kuluçkada",
       "listed": "Pazarda satışta - çiftleştirmek için ilanı kaldır",
-      "colosseum": "Fly Colosseum'da - sezon bitince çiftleşebilir"
+      "colosseum": "Fly Colosseum'da - sezon bitince çiftleşebilir",
+      "wallet": "Fly Wallet'ında para var - üretmek için önce parayı çek"
     },
     "why": {
       "Closed": "Çiftleştirme şu an kapalı.",
@@ -825,6 +826,7 @@
   },
   "wallet": {
     "fundTextAway": "{native} veya {sym}, en az $10. {native} işlem nakdine ({sym}) dönüşür.",
+    "stakeCut": "$FLYAI stake ettiğin için −%{pct}",
     "holdings": "Cüzdan",
     "gasCoin": "gaz için",
     "col": {"token": "Token", "amount": "Miktar", "price": "Fiyat", "value": "Değer", "pnl": "K/Z"},
@@ -896,7 +898,7 @@
     "withdraw": "Çek",
     "share": "Çekilecek pay",
     "preview": "{out} alırsın: bunun {fee} kadarı {profit} kârın ücreti.",
-    "inKind": "Cüzdanda şu an ne varsa onunla ödenir (her token'dan aynı pay). Hepsini nakit almak için önce işlemi durdur.",
+    "inKind": "$FLYAI olarak ödenir: önce her pozisyonun çekilen payı satılır (diğer ağlarda o ağın doları; Polymarket'te USDC.e ve paylar). Kilitli FlightPass parası kalır.",
     "withdrawGo": "%{pct} çek",
     "withdrawn": "Cüzdanına gönderildi.",
     "passTitle": "Bu sineğe bir FlightPass yak",

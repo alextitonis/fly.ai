@@ -800,7 +800,8 @@
     "blocked": {
       "incubating": "Incubating",
       "listed": "Listed on the market - cancel the listing to breed",
-      "colosseum": "In the Fly Colosseum - it can breed when the season is over"
+      "colosseum": "In the Fly Colosseum - it can breed when the season is over",
+      "wallet": "Its Fly Wallet holds money - take it out first to breed"
     },
     "why": {
       "Closed": "Breeding is closed right now.",
@@ -825,6 +826,7 @@
   },
   "wallet": {
     "fundTextAway": "{native} or {sym}, $10 at least. {native} becomes trading cash ({sym}).",
+    "stakeCut": "−{pct}% for staking $FLYAI",
     "holdings": "Wallet",
     "gasCoin": "for gas",
     "col": {"token": "Token", "amount": "Amount", "price": "Price", "value": "Value", "pnl": "P&L"},
@@ -896,7 +898,7 @@
     "withdraw": "Withdraw",
     "share": "Share to withdraw",
     "preview": "You take {out}: {fee} of it is the fee on {profit} profit.",
-    "inKind": "Paid in what the wallet holds right now (the same share of each token). Pause trading first to take it all in cash.",
+    "inKind": "Paid in $FLYAI: the withdrawn share of every position is sold first (on other chains you get their dollar; on Polymarket USDC.e and the shares). The locked FlightPass money stays.",
     "withdrawGo": "Withdraw {pct}%",
     "withdrawn": "Sent to your wallet.",
     "passTitle": "Burn a FlightPass into this fly",
