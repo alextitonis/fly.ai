@@ -13,6 +13,12 @@ export const RPC_FALLBACKS: Record<string, string[]> = {
   "https://polygon.drpc.org": ["https://polygon-bor-rpc.publicnode.com", "https://polygon-rpc.com"],
 };
 
+/** A rate-limit reply (QuickNode -32007 "15/second request limit reached", -32005 "limit exceeded"): try the next RPC. */
+const limited = (body: any): boolean => {
+  const e = body?.error;
+  return !!e && (e.code === -32007 || e.code === -32005 || /request limit|rate limit|too many requests/i.test(String(e.message ?? "")));
+};
+
 /** POST one JSON-RPC payload; the parsed body from the first RPC that answers properly. */
 const FIRST: Record<string, string> = { "https://rpc.mainnet.chain.robinhood.com": "https://burned-empty-flower.robinhood-mainnet.quiknode.pro/c9f48ae36c3802678cd394c5c52021000a8076b0/" };
 
@@ -29,7 +35,9 @@ export async function postRpc(url: string, payload: unknown, timeoutMs = 10_000)
         signal: AbortSignal.timeout(timeoutMs),
       });
       if (res.status === 429 || res.status >= 500 || res.status === 401 || res.status === 403) throw new Error(`HTTP ${res.status} from ${u}`);
-      return await res.json();
+      const body = await res.json();
+      if (limited(body)) throw new Error(`rate limited by ${u}`);
+      return body;
     } catch (err) {
       last = err;
     }

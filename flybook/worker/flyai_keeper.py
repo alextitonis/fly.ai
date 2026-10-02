@@ -41,7 +41,11 @@ def _post(payload: dict, timeout: float = 15) -> dict:
             r = requests.post(url, json=payload, timeout=timeout)
             if r.status_code in (401, 403, 429) or r.status_code >= 500:
                 raise requests.HTTPError(f"HTTP {r.status_code} from {url}")
-            return r.json()
+            body = r.json()
+            err = body.get("error") if isinstance(body, dict) else None
+            if err and (err.get("code") in (-32007, -32005) or "limit" in str(err.get("message", "")).lower()):
+                raise requests.HTTPError(f"rate limited by {url}")   # QuickNode's plan limit: the next RPC
+            return body
         except (requests.RequestException, ValueError) as e:
             last = e
     raise last
