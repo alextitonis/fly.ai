@@ -557,7 +557,7 @@
       "duelsText": "Tus moscas buscan pelea.",
       "breed": "Crianza de Flybook",
       "breedText": "Tus moscas buscan pareja.",
-      "deskClaim": "Recompensas del Fly Desk", "deskClaimText": "Reclama la parte de tus Trader Flies del pool semanal del Fly Desk directamente en este pass.", "soon": "Próximamente"
+      "deskClaim": "Recompensas del Fly Desk", "deskClaimText": "Reclama la parte de tus Trader Flies del pool semanal del Fly Desk directamente en este pass.", "soon": "Próximamente", "colosseum": "Fly Colosseum", "colosseumText": "Inscribe tus Trader Flies en cada temporada con el saldo del pase. Premios y reembolsos vuelven al pase."
     },
     "limits": {
       "stake": "Apuesta por partida ($FLYAI)",
@@ -579,7 +579,7 @@
       "slots_payout": "Premio de slots",
       "race_bet": "Apuesta de carrera",
       "race_payout": "Premio de carrera",
-      "race_refund": "Devolución de carrera"
+      "race_refund": "Devolución de carrera", "arena_bet": "Entrada al Colosseum", "arena_payout": "Premio del Colosseum", "arena_refund": "Reembolso del Colosseum", "arena_shop": "Tienda del Colosseum"
     },
     "terms": {
       "title": "Términos de Fly Roulette",
@@ -679,6 +679,35 @@
         "lowBalance": "No hay suficiente en el pase para una tirada ({need} $FLYAI). Recarga para seguir jugando.",
         "waiting": "Piloto automático activo. Próxima tirada hacia las {time}."
       }
+    },
+    "colosseum": {
+      "maxEntry": "Entrada máxima por mosca ($FLYAI)",
+      "flies": "Moscas a inscribir",
+      "noFlies": "No hay Trader Flies en esta wallet.",
+      "fliesNote": "Hasta {n} moscas por wallet cada temporada. Marca moscas para inscribir solo esas, en ese orden; sin marcar = las más fuertes.",
+      "strength": "fuerza {n}",
+      "potions": "Pociones cada temporada ({price} $FLYAI cada una)",
+      "potionsNote": "Hasta {n} por mosca. Las pociones que una mosca tiene para siempre siempre entran, gratis.",
+      "termsNeeded": "Fly Colosseum usa los términos +18 de Fly Roulette, aceptados una vez. Se te pedirán al guardar.",
+      "season": "{name}: entrada {entry} $FLYAI, la inscripción cierra {time}.",
+      "entered": "inscrita",
+      "fighting": "peleando…",
+      "refunded": "reembolsada",
+      "out": "eliminada",
+      "place": "puesto {n}",
+      "shop": "Tienda.",
+      "shopText": "Pociones para siempre y auras para tus moscas, pagadas con el pase. Se quedan con la mosca.",
+      "fly": "Mosca",
+      "item": "Artículo",
+      "choose": "Elige…",
+      "ownsAll": "Ya lo tiene todo",
+      "buy": "Comprar",
+      "auraName": "Aura {name}",
+      "owned": "Tiene: {list}",
+      "short": "No hay suficiente en el pase. Recarga primero.",
+      "bought": "{what} comprado para Trader Fly #{fly}.",
+      "stat": {"pow": "Poder", "grd": "Guardia", "vit": "Vitalidad", "fury": "Furia"},
+      "status": {"listed": "En pausa mientras el pase está a la venta.", "closed": "El piloto automático está activo. Tus moscas entran cuando abra la próxima temporada.", "entryHigh": "La entrada de esta temporada es {entry} $FLYAI, más que tu máximo de {max}. Súbelo para participar.", "entered": "En esta temporada: {n} de {seats} moscas inscritas.", "noFlies": "Ninguna mosca para inscribir: esta wallet no tiene Trader Flies, o las marcadas no están aquí.", "terms": "Acepta los términos +18 y tus moscas empiezan a inscribirse.", "lowBalance": "No hay suficiente en el pase para una entrada ({need} $FLYAI). Recarga para participar.", "waiting": "El piloto automático está activo. Tus moscas entran en menos de un minuto."}
     },
     "race": {
       "stake": "Apuesta por carrera ($FLYAI)",

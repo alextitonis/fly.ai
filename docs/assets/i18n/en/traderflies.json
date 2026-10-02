@@ -557,7 +557,7 @@
       "duelsText": "Your flies pick fights.",
       "breed": "Flybook breeding",
       "breedText": "Your flies find partners.",
-      "deskClaim": "Fly Desk rewards", "deskClaimText": "Claim your Trader Flies' share of the Fly Desk's weekly pool straight into this pass.", "soon": "Coming soon"
+      "deskClaim": "Fly Desk rewards", "deskClaimText": "Claim your Trader Flies' share of the Fly Desk's weekly pool straight into this pass.", "soon": "Coming soon", "colosseum": "Fly Colosseum", "colosseumText": "Enters your Trader Flies in every season from the pass balance. Prizes and refunds come back to the pass."
     },
     "limits": {
       "stake": "Bet per game ($FLYAI)",
@@ -579,7 +579,7 @@
       "slots_payout": "Slots win",
       "race_bet": "Race bet",
       "race_payout": "Race win",
-      "race_refund": "Race refund"
+      "race_refund": "Race refund", "arena_bet": "Colosseum entry", "arena_payout": "Colosseum prize", "arena_refund": "Colosseum refund", "arena_shop": "Colosseum shop"
     },
     "terms": {
       "title": "Fly Roulette terms",
@@ -679,6 +679,35 @@
         "lowBalance": "Not enough on the pass for one spin ({need} $FLYAI). Top up to keep playing.",
         "waiting": "Autopilot is on. Next spin around {time}."
       }
+    },
+    "colosseum": {
+      "maxEntry": "Max entry per fly ($FLYAI)",
+      "flies": "Flies to enter",
+      "noFlies": "No Trader Flies in this wallet.",
+      "fliesNote": "Up to {n} flies a wallet each season. Tick flies to enter only those, in that order; none ticked = your strongest.",
+      "strength": "strength {n}",
+      "potions": "Potions each season ({price} $FLYAI each)",
+      "potionsNote": "Up to {n} a fly. Potions a fly owns for good always go in, free.",
+      "termsNeeded": "Fly Colosseum uses Fly Roulette's 18+ terms, accepted once. You'll get asked when you save.",
+      "season": "{name}: entry {entry} $FLYAI, registration closes {time}.",
+      "entered": "entered",
+      "fighting": "fighting…",
+      "refunded": "refunded",
+      "out": "out",
+      "place": "place {n}",
+      "shop": "Shop.",
+      "shopText": "Potions for good and auras for your flies, paid from the pass. They stay with the fly.",
+      "fly": "Fly",
+      "item": "Item",
+      "choose": "Choose…",
+      "ownsAll": "Owns everything",
+      "buy": "Buy",
+      "auraName": "{name} aura",
+      "owned": "Owns: {list}",
+      "short": "Not enough on the pass for that. Top up first.",
+      "bought": "{what} bought for Trader Fly #{fly}.",
+      "stat": {"pow": "Power", "grd": "Guard", "vit": "Vitality", "fury": "Fury"},
+      "status": {"listed": "Paused while the pass is listed for sale.", "closed": "Autopilot is on. Your flies enter when the next season opens.", "entryHigh": "This season's entry is {entry} $FLYAI, above your max of {max}. Raise it to join.", "entered": "In this season: {n} of {seats} flies entered.", "noFlies": "No fly to enter: this wallet holds no Trader Flies, or the ticked ones aren't here.", "terms": "Accept the 18+ terms and your flies start entering.", "lowBalance": "Not enough on the pass for an entry ({need} $FLYAI). Top up to join.", "waiting": "Autopilot is on. Your flies enter within a minute."}
     },
     "race": {
       "stake": "Stake per race ($FLYAI)",

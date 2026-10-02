@@ -555,7 +555,7 @@
       "duelsText": "你的苍蝇主动约架。",
       "breed": "Flybook 繁殖",
       "breedText": "你的苍蝇去找对象。",
-      "deskClaim": "Fly Desk 奖励", "deskClaimText": "把你的 Trader Flies 在 Fly Desk 每周奖池中的份额直接领取到这个 Pass。", "soon": "即将推出"
+      "deskClaim": "Fly Desk 奖励", "deskClaimText": "把你的 Trader Flies 在 Fly Desk 每周奖池中的份额直接领取到这个 Pass。", "soon": "即将推出", "colosseum": "Fly Colosseum", "colosseumText": "每个赛季用通行证余额报名你的 Trader Flies。奖金和退款回到通行证。"
     },
     "limits": {
       "stake": "每局下注（$FLYAI）",
@@ -577,7 +577,7 @@
       "slots_payout": "老虎机奖金",
       "race_bet": "赛跑下注",
       "race_payout": "赛跑奖金",
-      "race_refund": "赛跑退款"
+      "race_refund": "赛跑退款", "arena_bet": "Colosseum 报名", "arena_payout": "Colosseum 奖金", "arena_refund": "Colosseum 退款", "arena_shop": "Colosseum 商店"
     },
     "terms": {
       "title": "Fly Roulette 条款",
@@ -677,6 +677,35 @@
         "lowBalance": "通行证余额不够转一次（{need} $FLYAI）。充值后继续。",
         "waiting": "自动驾驶已开启。下一次旋转大约在 {time}。"
       }
+    },
+    "colosseum": {
+      "maxEntry": "每只苍蝇最高报名费 ($FLYAI)",
+      "flies": "报名的苍蝇",
+      "noFlies": "这个钱包里没有 Trader Flies。",
+      "fliesNote": "每个赛季每个钱包最多 {n} 只。勾选的苍蝇按顺序报名；不勾选 = 最强的。",
+      "strength": "实力 {n}",
+      "potions": "每赛季药水（每个 {price} $FLYAI）",
+      "potionsNote": "每只最多 {n} 个。苍蝇永久拥有的药水总会免费加入。",
+      "termsNeeded": "Fly Colosseum 使用 Fly Roulette 的 18+ 条款，只需同意一次。保存时会询问你。",
+      "season": "{name}：报名费 {entry} $FLYAI，报名截止 {time}。",
+      "entered": "已报名",
+      "fighting": "战斗中…",
+      "refunded": "已退款",
+      "out": "淘汰",
+      "place": "第 {n} 名",
+      "shop": "商店。",
+      "shopText": "为你的苍蝇购买永久药水和光环，由通行证支付。它们跟随苍蝇。",
+      "fly": "苍蝇",
+      "item": "物品",
+      "choose": "选择…",
+      "ownsAll": "已全部拥有",
+      "buy": "购买",
+      "auraName": "{name} 光环",
+      "owned": "已拥有：{list}",
+      "short": "通行证余额不足，请先充值。",
+      "bought": "已为 Trader Fly #{fly} 购买 {what}。",
+      "stat": {"pow": "力量", "grd": "防御", "vit": "活力", "fury": "怒气"},
+      "status": {"listed": "通行证挂卖期间暂停。", "closed": "自动驾驶已开启。下个赛季开放时你的苍蝇会报名。", "entryHigh": "本赛季报名费为 {entry} $FLYAI，高于你的上限 {max}。调高即可参加。", "entered": "本赛季：已报名 {n}/{seats} 只苍蝇。", "noFlies": "没有可报名的苍蝇：这个钱包没有 Trader Flies，或勾选的不在这里。", "terms": "同意 18+ 条款后，你的苍蝇就会开始报名。", "lowBalance": "通行证余额不够一次报名（{need} $FLYAI）。充值即可参加。", "waiting": "自动驾驶已开启。你的苍蝇一分钟内报名。"}
     },
     "race": {
       "stake": "每场注额 ($FLYAI)",

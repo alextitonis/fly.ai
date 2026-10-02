@@ -79,7 +79,11 @@ interface TRow {
 interface ERow {
   tournament: string; fly: number; wallet: string; client_seed: string; traits: string; potions: string; paid_wei: string;
   place: number | null; prize_wei: string | null; claimed_at: number | null; refunded_at: number | null; created_at: number;
+  /** the FlightPass that paid the entry (its refund and prize go back to it), or null: the wallet's own balance */
+  pass: number | null;
 }
+/** Where an entry's money came from and goes back to: the FlightPass's ledger key, or the wallet. */
+const payerOf = (e: { wallet: string; pass: number | null }) => (e.pass !== null && e.pass !== undefined ? `pass:${e.pass}` : e.wallet);
 
 export function createArena(d: ArenaDeps) {
   const { pg, book, balanceOf, HttpError, toWei, fromWei } = d;
@@ -116,6 +120,8 @@ export function createArena(d: ArenaDeps) {
     minEntrants: whole("ARENA_MIN_ENTRANTS", "4", 2),
     maxEntrants: whole("ARENA_MAX_ENTRANTS", "256", 2),
     maxPerWallet: whole("ARENA_MAX_PER_WALLET", "3", 1),
+    /** opens the next season (default settings, ARENA_HOURS of registration) as soon as the last one is done or void */
+    auto: (d.env.ARENA_AUTO ?? "1") === "1",
   };
   const on = d.env.ARENA_ON === "1" && !!CFG.contract;
   if (CFG.feeBps > 5000) throw new Error("ARENA_FEE_BPS is at most 5000 (50%)");
@@ -271,9 +277,21 @@ export function createArena(d: ArenaDeps) {
       await q.run("update mine.arena_tournaments set status = 'done', fee_wei = ?, places = ?, done_at = ? where id = ?", win.fee.toString(), JSON.stringify(places), Date.now(), id);
     }, lockT(id));
     playing.delete(id);
+    await payPassPrizes();
     void postChain();
     void payFees();
     void payRevenue();
+  }
+
+  /** A FlightPass's prize goes straight back onto the pass (its owner never has to claim it), once. */
+  async function payPassPrizes(): Promise<void> {
+    for (const e of await pg.all<ERow>(`select e.* from mine.arena_entries e join mine.arena_tournaments t on t.id = e.tournament
+      where e.pass is not null and e.prize_wei is not null and e.claimed_at is null and t.status = 'done'`)) {
+      await pg.tx(async (q) => {
+        if (!(await q.run("update mine.arena_entries set claimed_at = ? where tournament = ? and fly = ? and claimed_at is null", Date.now(), e.tournament, e.fly))) return;
+        await book(q, payerOf(e), null, "payout", BigInt(e.prize_wei!), { tx: `arena-prize:${e.tournament}:${e.fly}` });
+      }, lockWallet(payerOf(e)));
+    }
   }
 
   /** Registration is over: too few flies and everything is paid back, otherwise the entries are fixed and the fights start. */
@@ -300,8 +318,8 @@ export function createArena(d: ArenaDeps) {
     for (const e of await pg.all<ERow>("select * from mine.arena_entries where tournament = ? and refunded_at is null", id)) {
       await pg.tx(async (q) => {
         if (!(await q.run("update mine.arena_entries set refunded_at = ? where tournament = ? and fly = ? and refunded_at is null", Date.now(), id, e.fly))) return;
-        await book(q, e.wallet, null, "payout", BigInt(e.paid_wei), { tx: `arena-refund:${id}:${e.fly}` });
-      }, lockWallet(e.wallet));
+        await book(q, payerOf(e), null, "payout", BigInt(e.paid_wei), { tx: `arena-refund:${id}:${e.fly}` });
+      }, lockWallet(payerOf(e)));
     }
   }
 
@@ -422,9 +440,13 @@ export function createArena(d: ArenaDeps) {
       else if (t?.status === "running") await run(t);
       // a refund that a restart cut short
       for (const v of await pg.all<{ id: string }>("select distinct tournament as id from mine.arena_entries e join mine.arena_tournaments t on t.id = e.tournament where t.status = 'void' and e.refunded_at is null")) await refund(v.id);
+      // and a pass's prize that a restart cut short
+      await payPassPrizes();
       await postChain();
       await payFees();
       await payRevenue();
+      // the last season is over (done or void): the next one opens for registration
+      if (CFG.auto && !(await live())) await open({});
     } catch (err) {
       console.error("arena tick:", (err as Error)?.message ?? err);
     } finally {
@@ -451,7 +473,7 @@ export function createArena(d: ArenaDeps) {
     const traits = JSON.parse(e.traits) as Traits, potions = JSON.parse(e.potions) as PotionId[];
     const stats = statsOf(traits, potions);
     return {
-      fly: e.fly, wallet: e.wallet, traits, potions, stats, hp: maxHp(stats), aura,
+      fly: e.fly, wallet: e.wallet, pass: e.pass ?? null, traits, potions, stats, hp: maxHp(stats), aura,
       place: e.place, prize: e.prize_wei ? fromWei(BigInt(e.prize_wei)) : null, claimed: e.claimed_at !== null,
       // with the results, so anyone can work the entries' hash out again
       client_seed: t.status === "done" ? e.client_seed : null,
@@ -597,7 +619,7 @@ export function createArena(d: ArenaDeps) {
       });
     }
     const prizesOpen = (await pg.all<any>(`select e.tournament, t.name, e.fly, e.place, e.prize_wei from mine.arena_entries e join mine.arena_tournaments t on t.id = e.tournament
-      where e.wallet = ? and e.prize_wei is not null and e.claimed_at is null and t.status = 'done' order by t.created_at desc`, wallet))
+      where e.wallet = ? and e.pass is null and e.prize_wei is not null and e.claimed_at is null and t.status = 'done' order by t.created_at desc`, wallet))
       .map((r) => ({ tournament: r.tournament, name: r.name, fly: r.fly, place: r.place, prize: fromWei(BigInt(r.prize_wei)) }));
     return { wallet, balance: fromWei(await balanceOf(pg, wallet)), terms_accepted: await d.termsAccepted(wallet), flies, prizes: prizesOpen };
   }
@@ -700,8 +722,18 @@ export function createArena(d: ArenaDeps) {
     try { [traits] = await traitsOf([fly]); } catch (err) { throw new HttpError(502, `couldn't read the chain: ${(err as Error)?.message ?? err}`); }
     if (!traits) throw new HttpError(409, "that fly's traits can't be read");
     const id = openNow(await live()).id;
-    // under the wallet's and the tournament's locks: the balance, the seats and the pot can't change between the
-    // checks and the booking
+    await enterAs(id, { wallet, pass: null, fly, clientSeed, potions, traits });
+    return tournamentView(id);
+  }
+
+  /**
+   * Books one entry: `wallet` owns the fly (checked by the caller) and holds the seat; the money comes from the pass
+   * when `pass` is set, else from the wallet. Under the payer's and the tournament's locks: the balance, the seats and
+   * the pot can't change between the checks and the booking.
+   */
+  async function enterAs(id: string, o: { wallet: string; pass: number | null; fly: number; clientSeed: string; potions: PotionId[]; traits: Traits }) {
+    const { wallet, fly } = o;
+    const payer = payerOf(o);
     await pg.tx(async (q) => {
       const t = openNow(await tournament(id, q));
       if (await q.one("select 1 from mine.arena_entries where tournament = ? and fly = ?", id, fly)) throw new HttpError(409, `Trader Fly #${fly} is already in`);
@@ -711,20 +743,123 @@ export function createArena(d: ArenaDeps) {
       if (own >= t.max_per_wallet) throw new HttpError(409, `a wallet can enter ${t.max_per_wallet} ${t.max_per_wallet === 1 ? "fly" : "flies"}`);
       // a potion the fly owns for good is free; the others are single-use and paid (to the dev wallet, not the pot)
       const forever = (await foreverOf([fly], q)).get(fly) ?? [];
-      const paid = (potions as PotionId[]).filter((p) => !forever.includes(p));
+      const paid = o.potions.filter((p) => !forever.includes(p));
       const entry = BigInt(t.entry_wei), potion = BigInt(t.potion_wei) * BigInt(paid.length), cost = entry + potion;
-      const balance = await balanceOf(q, wallet);
-      if (balance < cost) throw new HttpError(402, `that costs ${fromWei(cost)} FLYAI; your balance is ${fromWei(balance)}`);
-      await book(q, wallet, null, "bet", entry, { tx: `arena:${id}:${fly}` });
+      const balance = await balanceOf(q, payer);
+      if (balance < cost) throw new HttpError(402, `that costs ${fromWei(cost)} FLYAI; ${o.pass !== null ? `FlightPass #${o.pass} has` : "your balance is"} ${fromWei(balance)}`);
+      await book(q, payer, null, "bet", entry, { tx: `arena:${id}:${fly}` });
       for (const p of paid) {
-        await book(q, wallet, null, "bet", BigInt(t.potion_wei), { tx: `arena-potion:${id}:${fly}:${p}` });
+        await book(q, payer, null, "bet", BigInt(t.potion_wei), { tx: `arena-potion:${id}:${fly}:${p}` });
         await revenue(q, "potion", `arena-potion:${id}:${fly}:${p}`, BigInt(t.potion_wei), id);
       }
-      await q.run("insert into mine.arena_entries (tournament, fly, wallet, client_seed, traits, potions, paid_wei, created_at) values (?, ?, ?, ?, ?, ?, ?, ?)",
-        id, fly, wallet, clientSeed, JSON.stringify(traits), JSON.stringify(potions), cost.toString(), Date.now());
+      await q.run("insert into mine.arena_entries (tournament, fly, wallet, client_seed, traits, potions, paid_wei, created_at, pass) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        id, fly, wallet, o.clientSeed, JSON.stringify(o.traits), JSON.stringify(o.potions), cost.toString(), Date.now(), o.pass);
       await q.run("update mine.arena_tournaments set pot_wei = ? where id = ?", (BigInt(t.pot_wei) + entry).toString(), id);
-    }, lockWallet(wallet), lockT(id));
-    return tournamentView(id);
+    }, lockWallet(payer), lockT(id));
+  }
+
+  // ---- FlightPass autopilot (src/flightpass.ts, 2026-10-02) ---------------------------------------------
+  /** a fly's strength: the sum of its four stats (the autopilot enters the strongest first) */
+  const strength = (s: { pow: number; grd: number; vit: number; fury: number }) => s.pow + s.grd + s.vit + s.fury;
+  /** potions the fly owns for good first (free), then the picked ones, at most MAX_POTIONS */
+  const potionList = (forever: PotionId[], wanted: PotionId[]) => [...new Set([...forever, ...wanted])].slice(0, MAX_POTIONS);
+
+  /**
+   * The pass's autopilot for the open season: enters the owner's flies (the ones picked, in that order, or else the
+   * strongest), up to the wallet's seats, paid from the pass, with potionList's potions. Nothing when the season's entry
+   * is above `maxEntry`, registration ends within a minute or the owner hasn't accepted the terms. `verify` is asked
+   * right before the first booking (the pass still the owner's and not listed). Returns the flies entered.
+   */
+  async function autoEnter(passId: number, owner: string, o: { flies: number[]; potions: PotionId[]; maxEntry: bigint }, verify: () => Promise<boolean>): Promise<number[]> {
+    if (!on) return [];
+    const t = await live();
+    if (!t || t.status !== "open" || t.closes_at - Date.now() < 60_000 || BigInt(t.entry_wei) > o.maxEntry) return [];
+    const inNow = await pg.all<ERow>("select * from mine.arena_entries where tournament = ? and wallet = ?", t.id, owner);
+    let seats = t.max_per_wallet - inNow.length;
+    if (seats <= 0) return [];
+    const already = new Set(inNow.map((e) => e.fly));
+    const mine = (await fliesOf(owner)).filter((f) => !already.has(f) && (!o.flies.length || o.flies.includes(f)));
+    if (!mine.length || !(await d.termsAccepted(owner))) return [];
+    const traits = await traitsOf(mine);
+    const forever = await foreverOf(mine);
+    const order = mine.map((fly, i) => ({ fly, traits: traits[i] })).filter((x): x is { fly: number; traits: Traits } => !!x.traits)
+      .sort((x, y) => o.flies.length ? o.flies.indexOf(x.fly) - o.flies.indexOf(y.fly) : strength(statsOf(y.traits)) - strength(statsOf(x.traits)) || x.fly - y.fly);
+    const done: number[] = [];
+    let checked = false;
+    for (const { fly, traits: tr } of order) {
+      if (seats <= 0) break;
+      // the fly's owner right now, and not incubating a merge
+      if ((await ownerOfNow(fly)) !== owner || (await incubating(fly).catch(() => true))) continue;
+      if (!checked) { if (!(await verify())) return done; checked = true; }
+      try {
+        await enterAs(t.id, { wallet: owner, pass: passId, fly, clientSeed: `pass${passId}-${randomBytes(12).toString("hex")}`, potions: potionList(forever.get(fly) ?? [], o.potions), traits: tr });
+        done.push(fly);
+        seats--;
+      } catch (err) {
+        const status = (err as { status?: number }).status;
+        if (status === 402 || status === 409) break;   // the pass is short, or the season is full, closed or out of seats
+        throw err;
+      }
+    }
+    return done;
+  }
+
+  /**
+   * Why the pass's colosseum autopilot is or isn't entering, with the open season and the pass's latest entries, for
+   * the pass page (autoEnter's checks, in the same order). state: off, closed (no season open), entry_high (entry,
+   * max), entered (n of seats), no_flies, terms, low_balance (need) or waiting (it enters on the next tick).
+   */
+  async function passStatus(passId: number, owner: string, balance: bigint, o: { on: boolean; flies: number[]; potions: PotionId[]; maxEntry: bigint }) {
+    const t = on ? await live() : undefined;
+    const season = t ? { id: t.id, name: t.name, status: t.status, entry: fromWei(BigInt(t.entry_wei)), potion_price: fromWei(BigInt(t.potion_wei)),
+      closes_at: t.closes_at, max_per_wallet: t.max_per_wallet } : null;
+    const entries = (await pg.all<ERow & { name: string; status: string }>(`select e.*, t.name, t.status from mine.arena_entries e join mine.arena_tournaments t on t.id = e.tournament
+      where e.pass = ? order by e.created_at desc limit 12`, passId))
+      .map((e) => ({ tournament: e.tournament, name: e.name, status: e.status, fly: e.fly, potions: JSON.parse(e.potions) as PotionId[], paid: fromWei(BigInt(e.paid_wei)),
+        place: e.place, prize: e.prize_wei ? fromWei(BigInt(e.prize_wei)) : null, refunded: e.refunded_at !== null, at: e.created_at }));
+    const out = (state: string, extra: object = {}) => ({ state, ...extra, season, entries });
+    if (!o.on) return out("off");
+    if (!t || t.status !== "open" || t.closes_at - Date.now() < 60_000) return out("closed");
+    if (BigInt(t.entry_wei) > o.maxEntry) return out("entry_high", { entry: fromWei(BigInt(t.entry_wei)), max: fromWei(o.maxEntry) });
+    const inNow = await pg.all<ERow>("select * from mine.arena_entries where tournament = ? and wallet = ?", t.id, owner);
+    const left = (await fliesOf(owner).catch(() => [] as number[])).filter((f) => !inNow.some((e) => e.fly === f) && (!o.flies.length || o.flies.includes(f)));
+    if (inNow.length >= t.max_per_wallet || (inNow.length && !left.length)) return out("entered", { n: inNow.length, seats: t.max_per_wallet });
+    if (!left.length) return out("no_flies");
+    if (!(await d.termsAccepted(owner))) return out("terms");
+    if (balance < BigInt(t.entry_wei)) return out("low_balance", { need: fromWei(BigInt(t.entry_wei)) });
+    return out("waiting", { n: inNow.length, seats: t.max_per_wallet });
+  }
+
+  /** The owner's flies as the pass page's shop shows them: stats, strength, potions owned for good, auras. */
+  async function passFlies(owner: string) {
+    if (!on) return [];
+    const mine = (await fliesOf(owner).catch(() => [] as number[])).sort((a, b) => a - b);
+    const traits = await traitsOf(mine).catch(() => mine.map(() => null));
+    const forever = await foreverOf(mine);
+    const owned = new Map<number, string[]>();
+    if (mine.length) {
+      for (const r of await pg.all<{ fly: number; aura: string }>(`select fly, aura from mine.arena_auras where fly in (${mine.map(() => "?").join(", ")}) order by at`, ...mine)) {
+        owned.set(r.fly, [...(owned.get(r.fly) ?? []), r.aura]);
+      }
+    }
+    const worn = await wornBy(mine);
+    return mine.flatMap((fly, i) => {
+      const tr = traits[i];
+      if (!tr) return [];
+      const stats = statsOf(tr);
+      return [{ fly, stats, strength: strength(stats), potions_owned: forever.get(fly) ?? [], auras: owned.get(fly) ?? [], aura: worn.get(fly) ?? null }];
+    });
+  }
+
+  /** The pass buys a potion for good or an aura for one of its owner's flies, from the pass's balance. */
+  async function passBuy(passId: number, owner: string, body: any) {
+    isOn();
+    const fly = flyId(body.fly);
+    if ((await ownerOfNow(fly)) !== owner) throw new HttpError(403, `your wallet doesn't hold Trader Fly #${fly}`);
+    if (body.kind === "potion") await buyForever(`pass:${passId}`, owner, fly, String(body.potion ?? ""));
+    else if (body.kind === "aura") await buyAuraAs(`pass:${passId}`, owner, fly, String(body.aura ?? ""));
+    else throw new HttpError(400, "kind is potion or aura");
+    return flyView(fly);
   }
 
   /** One more potion for a fly already in, while registration is open. */
@@ -736,23 +871,27 @@ export function createArena(d: ArenaDeps) {
     if (!POTION_IDS.includes(p)) throw new HttpError(400, `potion is one of ${POTION_IDS.join(", ")}`);
     if (!(await d.termsAccepted(wallet))) throw new HttpError(403, "accept the terms first");
     const id = openNow(await live()).id;
+    // a potion for a fly a FlightPass entered comes from that pass, as its entry did
+    const first = await pg.one<ERow>("select * from mine.arena_entries where tournament = ? and fly = ?", id, fly);
+    if (!first || first.wallet !== wallet) throw new HttpError(404, `you haven't entered Trader Fly #${fly}`);
+    const payer = payerOf(first);
     await pg.tx(async (q) => {
       const t = openNow(await tournament(id, q));
       const e = await q.one<ERow>("select * from mine.arena_entries where tournament = ? and fly = ?", id, fly);
-      if (!e || e.wallet !== wallet) throw new HttpError(404, `you haven't entered Trader Fly #${fly}`);
+      if (!e || e.wallet !== wallet || payerOf(e) !== payer) throw new HttpError(404, `you haven't entered Trader Fly #${fly}`);
       const has = JSON.parse(e.potions) as PotionId[];
       if (has.includes(p)) throw new HttpError(409, `it already has ${POTIONS[p].name}`);
       if (has.length >= MAX_POTIONS) throw new HttpError(409, `a fly takes ${MAX_POTIONS} potions`);
       const free = ((await foreverOf([fly], q)).get(fly) ?? []).includes(p);
       const price = free ? 0n : BigInt(t.potion_wei);
-      const balance = await balanceOf(q, wallet);
-      if (balance < price) throw new HttpError(402, `that costs ${fromWei(price)} FLYAI; your balance is ${fromWei(balance)}`);
+      const balance = await balanceOf(q, payer);
+      if (balance < price) throw new HttpError(402, `that costs ${fromWei(price)} FLYAI; ${e.pass !== null ? `FlightPass #${e.pass} has` : "your balance is"} ${fromWei(balance)}`);
       if (price > 0n) {
-        await book(q, wallet, null, "bet", price, { tx: `arena-potion:${id}:${fly}:${p}` });
+        await book(q, payer, null, "bet", price, { tx: `arena-potion:${id}:${fly}:${p}` });
         await revenue(q, "potion", `arena-potion:${id}:${fly}:${p}`, price, id);
       }
       await q.run("update mine.arena_entries set potions = ?, paid_wei = ? where tournament = ? and fly = ?", JSON.stringify([...has, p]), (BigInt(e.paid_wei) + price).toString(), id, fly);
-    }, lockWallet(wallet), lockT(id));
+    }, lockWallet(payer), lockT(id));
     return tournamentView(id);
   }
 
@@ -763,7 +902,7 @@ export function createArena(d: ArenaDeps) {
     let paid = 0n;
     await pg.tx(async (q) => {
       const rows = await q.all<ERow>(`select e.* from mine.arena_entries e join mine.arena_tournaments t on t.id = e.tournament
-        where e.wallet = ? and e.prize_wei is not null and e.claimed_at is null and t.status = 'done'`, wallet);
+        where e.wallet = ? and e.pass is null and e.prize_wei is not null and e.claimed_at is null and t.status = 'done'`, wallet);
       for (const e of rows) {
         if (only && e.tournament !== only) continue;
         if (!(await q.run("update mine.arena_entries set claimed_at = ? where tournament = ? and fly = ? and claimed_at is null", Date.now(), e.tournament, e.fly))) continue;
@@ -779,36 +918,43 @@ export function createArena(d: ArenaDeps) {
   async function buyPotionForever(req: IncomingMessage, body: any) {
     isOn();
     const { wallet, fly } = await owned(req, body.fly);
-    const p = String(body.potion ?? "") as PotionId;
+    await buyForever(wallet, wallet, fly, String(body.potion ?? ""));
+    return { ...(await flyView(fly)), balance: fromWei(await balanceOf(pg, wallet)) };
+  }
+  /** `payer` (the wallet, or a pass's ledger key) pays; `wallet` is the fly's owner, on the record. */
+  async function buyForever(payer: string, wallet: string, fly: number, potion: string) {
+    const p = potion as PotionId;
     if (!POTION_IDS.includes(p)) throw new HttpError(400, `potion is one of ${POTION_IDS.join(", ")}`);
     await pg.tx(async (q) => {
       if (await q.one("select 1 from mine.arena_potions where fly = ? and potion = ?", fly, p)) throw new HttpError(409, `Trader Fly #${fly} already has ${POTIONS[p].name} for good`);
-      const balance = await balanceOf(q, wallet);
-      if (balance < CFG.potionForever) throw new HttpError(402, `that costs ${fromWei(CFG.potionForever)} FLYAI; your balance is ${fromWei(balance)}`);
-      await book(q, wallet, null, "bet", CFG.potionForever, { tx: `arena-potion-forever:${fly}:${p}` });
+      const balance = await balanceOf(q, payer);
+      if (balance < CFG.potionForever) throw new HttpError(402, `that costs ${fromWei(CFG.potionForever)} FLYAI; the balance is ${fromWei(balance)}`);
+      await book(q, payer, null, "bet", CFG.potionForever, { tx: `arena-potion-forever:${fly}:${p}` });
       await q.run("insert into mine.arena_potions (fly, potion, wallet, paid_wei, at) values (?, ?, ?, ?, ?)", fly, p, wallet, CFG.potionForever.toString(), Date.now());
       await revenue(q, "potion-forever", `arena-potion-forever:${fly}:${p}`, CFG.potionForever, null);
-    }, lockWallet(wallet));
-    return { ...(await flyView(fly)), balance: fromWei(await balanceOf(pg, wallet)) };
+    }, lockWallet(payer));
   }
 
   async function buyAura(req: IncomingMessage, body: any) {
     isOn();
     const { wallet, fly } = await owned(req, body.fly);
-    const aura = auraOf(String(body.aura ?? ""));
+    await buyAuraAs(wallet, wallet, fly, String(body.aura ?? ""));
+    return { ...(await flyView(fly)), balance: fromWei(await balanceOf(pg, wallet)) };
+  }
+  async function buyAuraAs(payer: string, wallet: string, fly: number, id: string) {
+    const aura = auraOf(id);
     if (!aura) throw new HttpError(400, `aura is one of ${AURAS.map((a) => a.id).join(", ")}`);
     const price = auraPrice(aura.id);
     await pg.tx(async (q) => {
       if (await q.one("select 1 from mine.arena_auras where fly = ? and aura = ?", fly, aura.id)) throw new HttpError(409, `Trader Fly #${fly} already has the ${aura.name} aura`);
-      const balance = await balanceOf(q, wallet);
-      if (balance < price) throw new HttpError(402, `that costs ${fromWei(price)} FLYAI; your balance is ${fromWei(balance)}`);
-      await book(q, wallet, null, "bet", price, { tx: `arena-aura:${fly}:${aura.id}` });
+      const balance = await balanceOf(q, payer);
+      if (balance < price) throw new HttpError(402, `that costs ${fromWei(price)} FLYAI; the balance is ${fromWei(balance)}`);
+      await book(q, payer, null, "bet", price, { tx: `arena-aura:${fly}:${aura.id}` });
       await revenue(q, "aura", `arena-aura:${fly}:${aura.id}`, price, null);
       await q.run("insert into mine.arena_auras (fly, aura, wallet, paid_wei, at) values (?, ?, ?, ?, ?)", fly, aura.id, wallet, price.toString(), Date.now());
       // a new aura goes straight on
       await q.run("insert into mine.arena_worn (fly, aura, at) values (?, ?, ?) on conflict (fly) do update set aura = excluded.aura, at = excluded.at", fly, aura.id, Date.now());
-    }, lockWallet(wallet));
-    return { ...(await flyView(fly)), balance: fromWei(await balanceOf(pg, wallet)) };
+    }, lockWallet(payer));
   }
 
   /** Puts on one of the fly's auras, or takes it off (aura: null). */
@@ -852,5 +998,5 @@ export function createArena(d: ArenaDeps) {
     return false;
   }
 
-  return { route, start, config, CFG, on };
+  return { route, start, config, CFG, on, autoEnter, passStatus, passFlies, passBuy };
 }

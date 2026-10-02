@@ -3657,7 +3657,7 @@ const flightpass = createFlightPass({
     if (!ORDERS.payTo) throw new HttpError(503, "deposits aren't open yet");
     return transfersIn(CLAIMS.rpc, tx, ORDERS.token, ORDERS.payTo);
   },
-  roulette, slots, race, rpcUrl: env("FLIGHTPASS_RPC", CLAIMS.rpc), payTo: ORDERS.payTo ?? null, today, env: process.env,
+  roulette, slots, race, arena, rpcUrl: env("FLIGHTPASS_RPC", CLAIMS.rpc), payTo: ORDERS.payTo ?? null, today, env: process.env,
   token: ORDERS.token,
   // sends withdrawals itself: a hot wallet holding a float of FLYAI and gas, on the FLYAI chain
   payer: payoutRelayer,

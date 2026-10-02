@@ -555,7 +555,7 @@
       "duelsText": "你的蒼蠅主動約架。",
       "breed": "Flybook 繁殖",
       "breedText": "你的蒼蠅去找對象。",
-      "deskClaim": "Fly Desk 獎勵", "deskClaimText": "把你的 Trader Flies 在 Fly Desk 每週獎池中的份額直接領取到這個 Pass。", "soon": "即將推出"
+      "deskClaim": "Fly Desk 獎勵", "deskClaimText": "把你的 Trader Flies 在 Fly Desk 每週獎池中的份額直接領取到這個 Pass。", "soon": "即將推出", "colosseum": "Fly Colosseum", "colosseumText": "每個賽季用通行證餘額報名你的 Trader Flies。獎金和退款回到通行證。"
     },
     "limits": {
       "stake": "每局下注（$FLYAI）",
@@ -577,7 +577,7 @@
       "slots_payout": "拉霸獎金",
       "race_bet": "賽跑下注",
       "race_payout": "賽跑獎金",
-      "race_refund": "賽跑退款"
+      "race_refund": "賽跑退款", "arena_bet": "Colosseum 報名", "arena_payout": "Colosseum 獎金", "arena_refund": "Colosseum 退款", "arena_shop": "Colosseum 商店"
     },
     "terms": {
       "title": "Fly Roulette 條款",
@@ -677,6 +677,35 @@
         "lowBalance": "通行證餘額不夠轉一次（{need} $FLYAI）。儲值後繼續。",
         "waiting": "自動駕駛已開啟。下一次旋轉大約在 {time}。"
       }
+    },
+    "colosseum": {
+      "maxEntry": "每隻蒼蠅最高報名費 ($FLYAI)",
+      "flies": "報名的蒼蠅",
+      "noFlies": "這個錢包裡沒有 Trader Flies。",
+      "fliesNote": "每個賽季每個錢包最多 {n} 隻。勾選的蒼蠅按順序報名；不勾選 = 最強的。",
+      "strength": "實力 {n}",
+      "potions": "每賽季藥水（每個 {price} $FLYAI）",
+      "potionsNote": "每隻最多 {n} 個。蒼蠅永久擁有的藥水總會免費加入。",
+      "termsNeeded": "Fly Colosseum 使用 Fly Roulette 的 18+ 條款，只需同意一次。儲存時會詢問你。",
+      "season": "{name}：報名費 {entry} $FLYAI，報名截止 {time}。",
+      "entered": "已報名",
+      "fighting": "戰鬥中…",
+      "refunded": "已退款",
+      "out": "淘汰",
+      "place": "第 {n} 名",
+      "shop": "商店。",
+      "shopText": "為你的蒼蠅購買永久藥水和光環，由通行證支付。它們跟隨蒼蠅。",
+      "fly": "蒼蠅",
+      "item": "物品",
+      "choose": "選擇…",
+      "ownsAll": "已全部擁有",
+      "buy": "購買",
+      "auraName": "{name} 光環",
+      "owned": "已擁有：{list}",
+      "short": "通行證餘額不足，請先儲值。",
+      "bought": "已為 Trader Fly #{fly} 購買 {what}。",
+      "stat": {"pow": "力量", "grd": "防禦", "vit": "活力", "fury": "怒氣"},
+      "status": {"listed": "通行證掛賣期間暫停。", "closed": "自動駕駛已開啟。下個賽季開放時你的蒼蠅會報名。", "entryHigh": "本賽季報名費為 {entry} $FLYAI，高於你的上限 {max}。調高即可參加。", "entered": "本賽季：已報名 {n}/{seats} 隻蒼蠅。", "noFlies": "沒有可報名的蒼蠅：這個錢包沒有 Trader Flies，或勾選的不在這裡。", "terms": "同意 18+ 條款後，你的蒼蠅就會開始報名。", "lowBalance": "通行證餘額不夠一次報名（{need} $FLYAI）。儲值即可參加。", "waiting": "自動駕駛已開啟。你的蒼蠅一分鐘內報名。"}
     },
     "race": {
       "stake": "每場注額 ($FLYAI)",

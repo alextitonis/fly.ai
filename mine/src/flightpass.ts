@@ -17,6 +17,9 @@
  *   so is Fly Slots (slots.autoSpin, the same terms; one spin per FLIGHTPASS_SLOTS_GAP_SEC, added 2026-09-29) and
  *   Fly Race (race.autoBet, the same terms; a random lane, the owner's bet type, one race per FLIGHTPASS_RACE_GAP_MIN,
  *   added 2026-09-29), each game on its own switch;
+ *   Fly Colosseum (arena.autoEnter, added 2026-10-02): each season the pass enters its owner's flies (picked, or the
+ *   strongest) up to the wallet's seats, with the owner's potions, paid from the pass; refunds and prizes come back to
+ *   the pass by themselves. The pass can also buy potions for good and auras for the owner's flies (POST colosseum-buy).
  *   Flybook missions, duels and breeding are played by the Flybook worker, which asks GET /api/flightpass/autopilot.
  *   Settings belong to the owner who wrote them: when the pass changes hands everything is off until the new owner
  *   sets it again, so nobody inherits someone else's bets.
@@ -34,6 +37,8 @@ import { lockWallet, type Pg, type Q } from "./pg.ts";
 import { selector } from "./staking.ts";
 import { rpc } from "./orders.ts";
 import { checksumAddress } from "./wallet.ts";
+import { MAX_POTIONS, POTION_IDS, POTIONS, validPotions, type PotionId } from "../../world/src/arena/stats.ts";
+import { AURAS } from "../../world/src/arena/shop.ts";
 
 export const MINING_BOOST = 1.25;
 export const WITHDRAW_FEE_BPS = 100n;
@@ -66,6 +71,16 @@ interface Race {
   CFG: { minBet: bigint; maxBet: bigint; maxDay: bigint; maxLive: number };
 }
 
+/** Fly Colosseum (src/arena.ts): what the pass's autopilot and shop need */
+interface Arena {
+  on: boolean;
+  CFG: { entry: bigint; potion: bigint; potionForever: bigint; maxPerWallet: number; maxId: number };
+  autoEnter: (passId: number, owner: string, o: { flies: number[]; potions: PotionId[]; maxEntry: bigint }, verify: () => Promise<boolean>) => Promise<number[]>;
+  passStatus: (passId: number, owner: string, balance: bigint, o: { on: boolean; flies: number[]; potions: PotionId[]; maxEntry: bigint }) => Promise<unknown>;
+  passFlies: (owner: string) => Promise<unknown[]>;
+  passBuy: (passId: number, owner: string, body: any) => Promise<unknown>;
+}
+
 export interface Payer {
   address: string;
   balance: () => Promise<bigint>;
@@ -88,6 +103,8 @@ export interface FlightPassDeps {
   roulette: Roulette;
   slots: Slots;
   race: Race;
+  /** Fly Colosseum; none = the pass doesn't offer it */
+  arena?: Arena | null;
   rpcUrl: string;
   payTo: string | null;
   today: () => string;
@@ -104,11 +121,18 @@ export interface Settings {
   /** Fly Race: a random lane each race ("random" is the only pick), to win or to make the podium */
   race: { on: boolean; stake: string; bet: "win" | "podium"; pick: "random"; max_day: string };
   flybook: { missions: boolean; duels: boolean; breed: boolean };
+  /**
+   * Fly Colosseum: enter every season. flies = the ones to enter, in order (empty = the strongest of the owner's),
+   * potions = the single-season potions bought for each entry (potions a fly owns for good always go in, free),
+   * max_entry = no entry when a season's entry price is above it
+   */
+  colosseum: { on: boolean; flies: number[]; potions: PotionId[]; max_entry: string };
 }
 // (settings saved before slots or the race existed have no `slots` or `race`: settingsOf's spread over OFF() turns them off)
 const OFF = (): Settings => ({
   owner: null, roulette: { on: false, stake: "0", flies: 2, max_day: "0" }, slots: { on: false, stake: "0", max_day: "0" },
   race: { on: false, stake: "0", bet: "win", pick: "random", max_day: "0" }, flybook: { missions: false, duels: false, breed: false },
+  colosseum: { on: false, flies: [], potions: [], max_entry: "0" },
 });
 
 const SEL = {
@@ -453,10 +477,19 @@ export function createFlightPass(d: FlightPassDeps) {
       pg.all<any>("select id, amount_wei, fee_wei, status, created_at, done_at, tx from mine.flightpass_withdrawals where pass = ? order by id desc limit 10", id),
       pg.one<{ amount_wei: string; created_at: number }>("select amount_wei, created_at from mine.flightpass_withdrawals where pass = ? and status = 'open' order by id desc limit 1", id),
     ]);
+    const arena = d.arena?.on ? d.arena : null;
+    const c = settings.colosseum;
+    const [colosseumSt, colosseumFlies] = arena ? await Promise.all([
+      arena.passStatus(id, owner, await balanceOf(k), { on: c.on && !isListed, flies: c.flies, potions: c.potions, maxEntry: toWei(c.max_entry) }),
+      arena.passFlies(owner),
+    ]) : [null, null];
     return {
       ...base,
       settings,
       terms_accepted: terms,
+      // Fly Colosseum: why the pass is or isn't entering, the open season, the pass's latest entries, and the owner's flies for the shop
+      colosseum_status: colosseumSt,
+      colosseum_flies: colosseumFlies,
       day_bet: fromWei(dayBet),
       // what this pass may bet today: its own "max per day" when roulette is on, never past the house's daily cap
       day_cap: fromWei(((s) => s.on && toWei(s.max_day) < d.roulette.CFG.maxDay ? toWei(s.max_day) : d.roulette.CFG.maxDay)(settings.roulette)),
@@ -487,7 +520,11 @@ export function createFlightPass(d: FlightPassDeps) {
     const [rouletteOn, slotsOn, raceOn, sentToday] = await Promise.all([d.roulette.isOn(), d.slots.isOn(), d.race.isOn(), d.payer ? autoSentToday() : 0n]);
     return {
       on, contract: CFG.contract, market: CFG.market, pay_to: d.payTo, withdraw_fee_bps: Number(WITHDRAW_FEE_BPS), mining_boost: MINING_BOOST,
-      games: ["roulette", "slots", "race", "flybook_missions", "flybook_duels", "flybook_breed"],
+      games: ["roulette", "slots", "race", ...(d.arena?.on ? ["colosseum"] : []), "flybook_missions", "flybook_duels", "flybook_breed"],
+      colosseum: d.arena?.on ? { entry: fromWei(d.arena.CFG.entry), potion_price: fromWei(d.arena.CFG.potion), potion_forever_price: fromWei(d.arena.CFG.potionForever),
+                                 max_potions: MAX_POTIONS, max_per_wallet: d.arena.CFG.maxPerWallet,
+                                 potions: POTION_IDS.map((id) => ({ id, name: POTIONS[id].name, add: POTIONS[id].add })),
+                                 auras: AURAS.map((x) => ({ id: x.id, name: x.name, price: String(x.price) })) } : null,
       roulette: { on: rouletteOn, min_bet: fromWei(d.roulette.CFG.minBet), max_bet: fromWei(d.roulette.CFG.maxBet), max_day: fromWei(d.roulette.CFG.maxDay), min_flies: 2, max_flies: 10, bet_gap_min: CFG.betGapMs / 60_000 },
       slots: { on: slotsOn, min_bet: fromWei(d.slots.CFG.minBet), max_bet: fromWei(d.slots.CFG.maxBet), max_day: fromWei(d.slots.CFG.maxDay), spin_gap_min: CFG.spinGapMs / 60_000 },
       race: { on: raceOn, min_bet: fromWei(d.race.CFG.minBet), max_bet: fromWei(d.race.CFG.maxBet), max_day: fromWei(d.race.CFG.maxDay), bet_types: ["win", "podium"] },
@@ -658,6 +695,31 @@ export function createFlightPass(d: FlightPassDeps) {
       }
       s.race = next;
     }
+    const co = body.colosseum;
+    if (co !== undefined) {
+      if (!d.arena?.on) throw new HttpError(503, "the colosseum is closed");
+      if (typeof co !== "object" || co === null) throw new HttpError(400, "colosseum is an object");
+      const next = { ...s.colosseum };
+      if (co.on !== undefined) next.on = co.on === true;
+      if (co.flies !== undefined) {
+        const maxId = d.arena.CFG.maxId;
+        if (!Array.isArray(co.flies) || co.flies.length > 50 || co.flies.some((x: unknown) => !Number.isInteger(x) || (x as number) < 1 || (x as number) > maxId)
+          || new Set(co.flies).size !== co.flies.length) throw new HttpError(400, `flies is a list of fly numbers from 1 to ${maxId}`);
+        next.flies = co.flies;
+      }
+      if (co.potions !== undefined) {
+        if (!validPotions(co.potions)) throw new HttpError(400, `potions is up to ${MAX_POTIONS} different potions`);
+        next.potions = co.potions;
+      }
+      if (co.max_entry !== undefined) {
+        try { next.max_entry = fromWei(toWei(String(co.max_entry))); } catch { throw new HttpError(400, "max_entry is a number of tokens"); }
+      }
+      if (next.on) {
+        if (toWei(next.max_entry) <= 0n) throw new HttpError(400, "max_entry must be more than 0");
+        if (!terms) throw new HttpError(403, "accept the terms (18+) first");
+      }
+      s.colosseum = next;
+    }
     const f = body.flybook;
     if (f !== undefined) {
       if (typeof f !== "object" || f === null) throw new HttpError(400, "flybook is an object");
@@ -819,6 +881,7 @@ export function createFlightPass(d: FlightPassDeps) {
       if (await d.roulette.isOn()) await rouletteTick();
       if (await d.slots.isOn()) await slotsTick();
       if (await d.race.isOn()) await raceTick();
+      if (d.arena?.on) await colosseumTick();
     } finally {
       ticking = false;
     }
@@ -904,6 +967,33 @@ export function createFlightPass(d: FlightPassDeps) {
     }
   }
 
+  /** Every pass with the colosseum on enters its owner's flies in the open season (arena.autoEnter does the checks). */
+  async function colosseumTick(): Promise<void> {
+    for (const r of await settled()) {
+      const { owner } = r, c = r.s.colosseum;
+      if (!c.on) continue;
+      try {
+        const k = key(r.id);
+        const got = await d.arena!.autoEnter(r.id, owner, { flies: c.flies, potions: c.potions, maxEntry: toWei(c.max_entry) }, async () => {
+          // the listing and owner right before the entry is paid, not the last sample
+          const now = await current(r.id).catch(() => null);
+          return !!now && !now.listed && now.owner === owner;
+        });
+        if (got.length) console.log(`flightpass ${r.id} entered the colosseum: ${got.map((f) => `#${f}`).join(", ")} (balance ${fromWei(await balanceOf(k))})`);
+      } catch (err) {
+        console.error(`flightpass ${r.id} colosseum: ${err instanceof Error ? err.message : err}`);
+      }
+    }
+  }
+
+  /** The pass buys a potion for good or an aura for one of its owner's flies (body: kind potion|aura, fly, potion|aura). */
+  async function colosseumBuy(req: IncomingMessage, id: number, body: any) {
+    if (!d.arena?.on) throw new HttpError(503, "the colosseum is closed");
+    const wallet = await asOwner(req, id, "purchases");
+    const fly = await d.arena.passBuy(id, wallet, body);
+    return { fly, pass: await view(id, wallet, false, true) };
+  }
+
   function start(): void {
     if (!on) return;
     void sample();
@@ -960,8 +1050,9 @@ export function createFlightPass(d: FlightPassDeps) {
       if ((m = /^\/api\/flightpass\/(\d{1,9})\/history$/.exec(p))) return d.send(res, 200, await history(req, Number(m[1]), url)), true;
     }
     if (req.method === "POST") {
-      if ((m = /^\/api\/flightpass\/(\d{1,9})\/(deposit|from-balance|withdraw|settings)$/.exec(p))) {
+      if ((m = /^\/api\/flightpass\/(\d{1,9})\/(deposit|from-balance|withdraw|settings|colosseum-buy)$/.exec(p))) {
         const id = Number(m[1]), body = await d.readJson(req);
+        if (m[2] === "colosseum-buy") return d.send(res, 200, await colosseumBuy(req, id, body)), true;
         if (m[2] === "deposit") return d.send(res, 200, await deposit(req, id, body)), true;
         if (m[2] === "from-balance") return d.send(res, 200, await fromBalance(req, id, body)), true;
         if (m[2] === "withdraw") return d.send(res, 200, await withdraw(req, id, body)), true;

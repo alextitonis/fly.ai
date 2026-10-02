@@ -555,7 +555,7 @@
       "duelsText": "파리들이 싸움을 겁니다.",
       "breed": "Flybook 번식",
       "breedText": "파리들이 짝을 찾습니다.",
-      "deskClaim": "Fly Desk 보상", "deskClaimText": "Fly Desk 주간 풀에서 내 Trader Flies의 몫을 이 패스로 바로 받아요.", "soon": "곧 출시"
+      "deskClaim": "Fly Desk 보상", "deskClaimText": "Fly Desk 주간 풀에서 내 Trader Flies의 몫을 이 패스로 바로 받아요.", "soon": "곧 출시", "colosseum": "Fly Colosseum", "colosseumText": "패스 잔액으로 매 시즌 Trader Flies를 출전시킵니다. 상금과 환불은 패스로 돌아옵니다."
     },
     "limits": {
       "stake": "게임당 베팅 ($FLYAI)",
@@ -577,7 +577,7 @@
       "slots_payout": "슬롯 당첨",
       "race_bet": "레이스 베팅",
       "race_payout": "레이스 당첨",
-      "race_refund": "레이스 환불"
+      "race_refund": "레이스 환불", "arena_bet": "Colosseum 참가비", "arena_payout": "Colosseum 상금", "arena_refund": "Colosseum 환불", "arena_shop": "Colosseum 상점"
     },
     "terms": {
       "title": "Fly Roulette 약관",
@@ -677,6 +677,35 @@
         "lowBalance": "패스 잔액이 스핀 한 번에도 부족해요 ({need} $FLYAI). 충전하면 계속해요.",
         "waiting": "자동 조종 켜짐. 다음 스핀은 {time}쯤."
       }
+    },
+    "colosseum": {
+      "maxEntry": "파리당 최대 참가비 ($FLYAI)",
+      "flies": "출전할 파리",
+      "noFlies": "이 지갑에 Trader Flies가 없습니다.",
+      "fliesNote": "시즌마다 지갑당 최대 {n}마리. 체크한 파리만 그 순서대로 출전하고, 체크가 없으면 가장 강한 파리가 나갑니다.",
+      "strength": "강함 {n}",
+      "potions": "시즌마다 물약 (개당 {price} $FLYAI)",
+      "potionsNote": "파리당 최대 {n}개. 파리가 영구 보유한 물약은 항상 무료로 들어갑니다.",
+      "termsNeeded": "Fly Colosseum은 Fly Roulette의 18+ 약관을 사용하며 한 번만 동의하면 됩니다. 저장할 때 물어봅니다.",
+      "season": "{name}: 참가비 {entry} $FLYAI, 등록 마감 {time}.",
+      "entered": "출전",
+      "fighting": "전투 중…",
+      "refunded": "환불됨",
+      "out": "탈락",
+      "place": "{n}위",
+      "shop": "상점.",
+      "shopText": "파리를 위한 영구 물약과 오라, 패스에서 결제합니다. 파리와 함께 남습니다.",
+      "fly": "파리",
+      "item": "아이템",
+      "choose": "선택…",
+      "ownsAll": "모두 보유",
+      "buy": "구매",
+      "auraName": "{name} 오라",
+      "owned": "보유: {list}",
+      "short": "패스 잔액이 부족합니다. 먼저 충전하세요.",
+      "bought": "Trader Fly #{fly}에게 {what} 구매 완료.",
+      "stat": {"pow": "파워", "grd": "가드", "vit": "활력", "fury": "분노"},
+      "status": {"listed": "패스가 판매 등록 중이라 일시정지됐습니다.", "closed": "자동 조종 켜짐. 다음 시즌이 열리면 파리가 출전합니다.", "entryHigh": "이번 시즌 참가비는 {entry} $FLYAI로 최대치 {max}보다 높습니다. 참가하려면 올리세요.", "entered": "이번 시즌: {seats}마리 중 {n}마리 출전.", "noFlies": "출전할 파리가 없습니다: 이 지갑에 Trader Flies가 없거나 체크한 파리가 여기에 없습니다.", "terms": "18+ 약관에 동의하면 파리가 출전을 시작합니다.", "lowBalance": "패스에 참가비({need} $FLYAI)가 부족합니다. 충전하고 참가하세요.", "waiting": "자동 조종 켜짐. 1분 안에 파리가 출전합니다."}
     },
     "race": {
       "stake": "레이스당 베팅액 ($FLYAI)",

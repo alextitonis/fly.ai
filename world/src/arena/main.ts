@@ -68,9 +68,20 @@ const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 const fmt = (s: string | number) => Number(s).toLocaleString(undefined, { maximumFractionDigits: 2 });
 const randomHex = (bytes: number) => [...crypto.getRandomValues(new Uint8Array(bytes))].map((x) => x.toString(16).padStart(2, "0")).join("");
 const WEI = 10n ** 18n;
+/** An amount as people type it ("90000", "90,000", "90 000", "90k", "1.5m") as a plain number of tokens, or null. */
+function amountText(s: string): string | null {
+  const m = /^(\d+)(?:\.(\d+))?([km])?$/i.exec(s.trim().replace(/[\s,_']/g, ""));
+  if (!m) return null;
+  const shift = m[3] ? (m[3].toLowerCase() === "k" ? 3 : 6) : 0;
+  const frac = (m[2] ?? "").padEnd(shift, "0");
+  const whole = (m[1] + frac.slice(0, shift)).replace(/^0+(?=\d)/, ""), rest = frac.slice(shift).replace(/0+$/, "");
+  return rest.length > 18 ? null : rest ? `${whole}.${rest}` : whole;
+}
 function toWei(s: string): bigint | null {
-  const m = /^(\d+)(?:\.(\d{1,18}))?$/.exec(s.trim());
-  return m ? BigInt(m[1]) * WEI + BigInt((m[2] ?? "").padEnd(18, "0")) : null;
+  const a = amountText(s);
+  if (a === null) return null;
+  const [w, f = ""] = a.split(".");
+  return BigInt(w) * WEI + BigInt(f.padEnd(18, "0"));
 }
 class ApiError extends Error {
   constructor(readonly status: number, message: string) { super(message); }
@@ -702,9 +713,10 @@ async function deposit(): Promise<void> {
 }
 async function withdraw(): Promise<void> {
   const amountEl = $<HTMLInputElement>("wd-amount"), status = $("wd-status");
-  if (!toWei(amountEl.value)) { status.textContent = t("colosseum.bet.enterAmount"); return; }
+  const amount = amountText(amountEl.value);
+  if (!amount || !toWei(amount)) { status.textContent = t("colosseum.bet.enterAmount"); return; }
   try {
-    await api("/api/balance/withdraw-request", { amount: amountEl.value.trim() });
+    await api("/api/balance/withdraw-request", { amount });
     status.textContent = t("colosseum.bet.withdrawOk");
     amountEl.value = "";
     await refreshMe();

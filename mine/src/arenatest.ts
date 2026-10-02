@@ -13,7 +13,10 @@
  *   real brain gives exactly the served fights and podium; prizes are claimed once;
  * - too few flies: void, everything paid back once;
  * - a server killed mid-tournament plays it on from its seeds after a restart, to the same fights;
- * - auras: bought by the owner, worn, kept with the fly; the operator's view; the off switch.
+ * - auras: bought by the owner, worn, kept with the fly; the operator's view; the off switch;
+ * - FlightPass autopilot (2026-10-02): a pass enters its owner's flies (the strongest, or the picked ones) with the
+ *   owner's potions, paid from the pass; buys potions for good and auras from the pass; refunds and prizes go back to
+ *   the pass by themselves, never to the wallet.
  * Plays real brain fights on the CPU (a minute or two).
  *
  *   npm run test:arena
@@ -49,6 +52,8 @@ const TRADERFLY = "0x18d4D831cA89672126172B73bA05f5A318ad5A72";
 const LEDGER = checksumAddress("0x5fbdb2315678afecb367f032d93f642f64180aa3");
 const LEDGER_KEY = "11".repeat(32);
 const FEE_TO = checksumAddress("0x70997970c51812dc3a010c7d01b50e0d17dc79c8");
+/** a FlightPass stand-in: pass #1, alice's */
+const PASS = checksumAddress("0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae");
 const WEI = 10n ** 18n;
 let failed = 0;
 const check = (name: string, ok: boolean, detail = "") => {
@@ -234,6 +239,12 @@ const chain = createServer((req, res) => {
       return answer(`0x${sha256hex(raw.toString("hex"))}`);
     }
     if (method === "eth_call" && params[0].to.toLowerCase() === LEDGER.toLowerCase()) return answer(`0x${word(ledgerLast)}`);   // lastSeason()
+    if (method === "eth_call" && params[0].to.toLowerCase() === PASS.toLowerCase()) {
+      const data: string = params[0].data;
+      if (data.startsWith(selector("totalSupply()"))) return answer(`0x${word(1)}`);
+      if (data.startsWith(selector("ownerOf(uint256)")) && BigInt(`0x${data.slice(10)}`) === 1n) return answer(`0x${alice.address.slice(2).toLowerCase().padStart(64, "0")}`);
+      return revert();
+    }
     if (method !== "eth_call" || params[0].to.toLowerCase() !== TRADERFLY.toLowerCase()) return revert();
     const data: string = params[0].data, fly = Number(BigInt(`0x${data.slice(10)}`));
     if (data.startsWith(selector("ownerOf(uint256)"))) return OWNER.has(fly) ? answer(`0x${OWNER.get(fly)!.slice(2).toLowerCase().padStart(64, "0")}`) : revert();
@@ -267,7 +278,7 @@ async function startServer(extra: Record<string, string> = {}): Promise<void> {
       ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "50",
       ADMIN_TOKEN: ADMIN, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "none", CLAIM_RPC: "http://127.0.0.1:9", CLAIM_EXPLORER: "http://localhost",
       SEED_PAID: "0",
-      ARENA_ON: "1", ARENA_TRADERFLY: TRADERFLY, ARENA_RPC: `http://127.0.0.1:${CHAIN_PORT}`, ARENA_MAX_ID: "10", ARENA_TICK_SEC: "1", ARENA_OWNERS_TTL_SEC: "1",
+      ARENA_ON: "1", ARENA_AUTO: "0", ARENA_TRADERFLY: TRADERFLY, ARENA_RPC: `http://127.0.0.1:${CHAIN_PORT}`, ARENA_MAX_ID: "10", ARENA_TICK_SEC: "1", ARENA_OWNERS_TTL_SEC: "1",
       ARENA_FEE_TO: FEE_TO, ARENA_FEE_KEY: LEDGER_KEY, ARENA_POTION_FOREVER: "2500",
       ARENA_LEDGER: LEDGER, ARENA_LEDGER_KEY: LEDGER_KEY, ARENA_EXPLORER: "https://scan.test/",
       ARENA_IMAGE: "https://img.test/{id}.png", ARENA_ENTRY: "1000", ARENA_POTION: "400", ARENA_FEE_BPS: "1000", ARENA_MIN_ENTRANTS: "4", ARENA_MAX_PER_WALLET: "3",
@@ -583,6 +594,83 @@ try {
   const sent = transfers.filter((x) => x.to.toLowerCase() === FEE_TO.toLowerCase()).reduce((n, x) => n + x.amount, 0n);
   check("the dev wallet got the fees plus the shop's money, exactly", sent === expected && transfers.every((x) => x.to.toLowerCase() === FEE_TO.toLowerCase())
     && doneSeasons.every((x: any) => typeof x.fee_tx === "string" && x.fee_tx.startsWith("0x") && x.fee_to === FEE_TO), `${sent / WEI} vs ${expected / WEI}`);
+  await stopServer();
+  await startServer({ ARENA_AUTO: "1", ARENA_HOURS: "24" });
+  await sleep(2500);
+  const autoAll = (await api("/api/arena/tournaments", null)).json.tournaments;
+  const autoOpen = autoAll.filter((x: any) => x.status === "open");
+  check("auto: with the last season over, the next opens on its own for 24 hours, just one", autoOpen.length === 1 && autoAll.length === seasons.length + 2
+    && Math.abs(autoOpen[0].closes_at - autoOpen[0].opens_at - 24 * 3_600_000) < 1000, JSON.stringify(autoOpen.map((x: any) => [x.name, x.opens_at, x.closes_at])));
+  await api("/api/admin/arena/close", null, { id: autoOpen[0]?.id, cancel: true }, true);
+  await stopServer();
+
+  // ---- FlightPass autopilot: pass #1 is alice's; she holds flies 2, 3 and 4 now (fly 2 has Hopium for good)
+  await startServer({ FLIGHTPASS: PASS, FLIGHTPASS_RPC: `http://127.0.0.1:${CHAIN_PORT}`, FLIGHTPASS_TICK_SEC: "1", FLIGHTPASS_PREFUND: "0" });
+  await PG.pg.run("insert into mine.ledger (wallet, order_id, kind, amount_wei, tx, at) values ('pass:1', null, 'deposit', ?, ?, ?)", (40_000n * WEI).toString(), "0x" + "fa".repeat(32), Date.now());
+  const passOf = async () => (await api("/api/flightpass/mine", a)).json.passes?.[0];
+  const passBal = async () => Number((await passOf()).balance);
+  const fpCfg = (await api("/api/flightpass/config", null)).json;
+  check("pass config: the colosseum is a game, with its prices", fpCfg.games.includes("colosseum") && fpCfg.colosseum?.entry === "1000" && fpCfg.colosseum?.potion_price === "400"
+    && fpCfg.colosseum?.max_per_wallet === 3, JSON.stringify(fpCfg.colosseum));
+  const p0 = await passOf();
+  check("the pass page: the owner's flies for the shop, autopilot off, no season", p0?.balance === "40000" && p0.colosseum_flies.map((f: any) => f.fly).join() === "2,3,4"
+    && p0.colosseum_flies[0].potions_owned.join() === "hopium" && p0.colosseum_status.state === "off" && p0.colosseum_status.season === null, JSON.stringify(p0?.colosseum_status));
+  const setCo = (x: object) => api("/api/flightpass/1/settings", a, { colosseum: x });
+  check("settings: bad flies, bad potions, no max entry are refused; someone else can't set them", (await setCo({ on: true, flies: [0], max_entry: "1000" })).status === 400
+    && (await setCo({ on: true, potions: ["copium", "copium"], max_entry: "1000" })).status === 400 && (await setCo({ on: true, max_entry: "0" })).status === 400
+    && (await api("/api/flightpass/1/settings", b, { colosseum: { on: true, max_entry: "1000" } })).status === 403);
+  const saved = await setCo({ on: true, flies: [], potions: ["copium"], max_entry: "1000" });
+  check("the colosseum on: no season open yet, it waits", saved.status === 200 && saved.json.settings.colosseum.on === true && saved.json.colosseum_status.state === "closed", JSON.stringify(saved.json?.colosseum_status ?? saved.json));
+  const cashA = await balance(a);
+  const o6 = await api("/api/admin/arena/open", null, {}, true);
+  const T6 = o6.json.id as string;
+  await sleep(4000);
+  const t6 = (await api(`/api/arena/tournaments/${T6}`, null)).json;
+  const pe = t6.entries.filter((e: any) => e.pass === 1);
+  check("the pass enters all three of alice's flies, with Copium (and fly 2's Hopium, free), paid by the pass", pe.length === 3 && pe.map((e: any) => e.fly).sort().join() === "2,3,4"
+    && pe.every((e: any) => e.wallet === alice.address && e.potions.includes("copium")) && pe.find((e: any) => e.fly === 2).potions.join() === "hopium,copium"
+    && (await passBal()) === 40_000 - 3 * 1400 && (await balance(a)) === cashA, `${JSON.stringify(pe.map((e: any) => [e.fly, e.potions]))} pass ${await passBal()}`);
+  const p1 = await passOf();
+  check("the pass page: entered 3 of 3, the season and the entries", p1.colosseum_status.state === "entered" && p1.colosseum_status.n === 3 && p1.colosseum_status.season?.id === T6
+    && p1.colosseum_status.entries.length === 3, JSON.stringify(p1.colosseum_status).slice(0, 300));
+  check("alice can't enter a fourth by hand", (await enter(a, { fly: 4 })).status === 409);
+  const buy = (body: object, s2 = a) => api("/api/flightpass/1/colosseum-buy", s2, body);
+  const pb = await buy({ kind: "potion", fly: 3, potion: "preworkout" });
+  const pa = await buy({ kind: "aura", fly: 3, aura: "frost" });
+  check("the pass buys a potion for good and an aura, from its balance", pb.status === 200 && pb.json.fly.potions_owned.join() === "preworkout" && pa.status === 200 && pa.json.fly.aura === "frost"
+    && Number(pa.json.pass.balance) === 40_000 - 4200 - 2500 - 25_000 && (await balance(a)) === cashA, `${pb.status} ${pa.status} ${pa.json?.pass?.balance ?? JSON.stringify(pa.json)}`);
+  check("not for someone else's fly, not twice, not past the balance, not by someone else", (await buy({ kind: "potion", fly: 5, potion: "copium" })).status === 403
+    && (await buy({ kind: "aura", fly: 3, aura: "frost" })).status === 409 && (await buy({ kind: "aura", fly: 4, aura: "cosmic" })).status === 402
+    && (await buy({ kind: "potion", fly: 3, potion: "copium" }, b)).status === 403 && (await buy({ kind: "hat", fly: 3 })).status === 400);
+  const before6 = await passBal();
+  await api("/api/admin/arena/close", null, { id: T6, cancel: true }, true);
+  await sleep(1500);
+  check("a season called off: the pass gets its entries and potions back, the wallet nothing", (await passBal()) === before6 + 4200 && (await balance(a)) === cashA, `${await passBal()} vs ${before6 + 4200}`);
+
+  // the picked flies only, in that order; the prizes go straight to the pass
+  await setCo({ flies: [4, 3], potions: [] });
+  await fund(bob, 5_000n, "bb");
+  const o7 = await api("/api/admin/arena/open", null, {}, true);
+  const T7 = o7.json.id as string;
+  await sleep(4000);
+  const before7 = await passBal();
+  await enter(b, { fly: 1, client_seed: "bob-7-1" });
+  await enter(b, { fly: 5, client_seed: "bob-7-5" });
+  const t7in = (await api(`/api/arena/tournaments/${T7}`, null)).json;
+  const pe7 = t7in.entries.filter((e: any) => e.pass === 1);
+  check("only the picked flies: 4 and 3; fly 3's own potion goes in free", pe7.map((e: any) => e.fly).join() === "4,3" && pe7.find((e: any) => e.fly === 3).potions.join() === "preworkout"
+    && pe7.find((e: any) => e.fly === 4).potions.length === 0, JSON.stringify(pe7.map((e: any) => [e.fly, e.potions])));
+  await api("/api/admin/arena/close", null, { id: T7 }, true);
+  const t7 = await finished(T7);
+  await sleep(2000);
+  const won = t7.entries.filter((e: any) => e.pass === 1 && e.prize !== null);
+  const wonSum = won.reduce((n: number, e: any) => n + Number(e.prize), 0);
+  const meA = (await api("/api/arena/me", a)).json;
+  check("the pass's prizes are on the pass at once, claimed; alice has none to claim", t7.status === "done" && won.every((e: any) => e.claimed)
+    && (await passBal()) === before7 + wonSum && !meA.prizes.some((x: any) => x.tournament === T7) && (await ledger(`arena-prize:${T7}:%`)).every((r) => r.wallet === "pass:1" || r.wallet === bob.address),
+    `won ${wonSum}, pass ${await passBal()} vs ${before7 + wonSum}`);
+  check("bob's prizes wait for his claim as before", t7.entries.filter((e: any) => e.pass === null && e.prize !== null).every((e: any) => !e.claimed)
+    && (await api("/api/arena/me", b)).json.prizes.filter((x: any) => x.tournament === T7).length === t7.entries.filter((e: any) => e.pass === null && e.prize !== null).length);
   await stopServer();
   await startServer({ ARENA_ON: "0" });
   check("off means off", (await api("/api/arena/config", null)).json.on === false && (await api("/api/admin/arena/open", null, {}, true)).status === 503

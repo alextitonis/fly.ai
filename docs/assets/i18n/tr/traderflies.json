@@ -557,7 +557,7 @@
       "duelsText": "Sineklerin kavga arar.",
       "breed": "Flybook üreme",
       "breedText": "Sineklerin eş bulur.",
-      "deskClaim": "Fly Desk ödülleri", "deskClaimText": "Trader Flies'ının Fly Desk haftalık havuzundaki payını doğrudan bu pass'e al.", "soon": "Yakında"
+      "deskClaim": "Fly Desk ödülleri", "deskClaimText": "Trader Flies'ının Fly Desk haftalık havuzundaki payını doğrudan bu pass'e al.", "soon": "Yakında", "colosseum": "Fly Colosseum", "colosseumText": "Trader Flies'ını her sezona pass bakiyesinden kaydeder. Ödüller ve iadeler pass'e geri döner."
     },
     "limits": {
       "stake": "Oyun başı bahis ($FLYAI)",
@@ -579,7 +579,7 @@
       "slots_payout": "Slot kazancı",
       "race_bet": "Yarış bahsi",
       "race_payout": "Yarış kazancı",
-      "race_refund": "Yarış iadesi"
+      "race_refund": "Yarış iadesi", "arena_bet": "Colosseum girişi", "arena_payout": "Colosseum ödülü", "arena_refund": "Colosseum iadesi", "arena_shop": "Colosseum mağazası"
     },
     "terms": {
       "title": "Fly Roulette şartları",
@@ -679,6 +679,35 @@
         "lowBalance": "Pass'te bir çevirmeye yetecek bakiye yok ({need} $FLYAI). Oynamaya devam etmek için yükle.",
         "waiting": "Otomatik pilot açık. Sonraki çevirme {time} civarı."
       }
+    },
+    "colosseum": {
+      "maxEntry": "Sinek başına en fazla giriş ($FLYAI)",
+      "flies": "Kaydedilecek sinekler",
+      "noFlies": "Bu cüzdanda Trader Fly yok.",
+      "fliesNote": "Her sezon cüzdan başına en fazla {n} sinek. Sadece onları o sırayla kaydetmek için işaretle; hiçbiri işaretli değilse = en güçlüler.",
+      "strength": "güç {n}",
+      "potions": "Her sezon iksirler (tanesi {price} $FLYAI)",
+      "potionsNote": "Sinek başına en fazla {n}. Sineğin kalıcı iksirleri her zaman ücretsiz girer.",
+      "termsNeeded": "Fly Colosseum, Fly Roulette'in 18+ şartlarını kullanır, bir kez kabul edilir. Kaydederken sorulur.",
+      "season": "{name}: giriş {entry} $FLYAI, kayıt {time} kapanır.",
+      "entered": "kayıtlı",
+      "fighting": "dövüşüyor…",
+      "refunded": "iade edildi",
+      "out": "elendi",
+      "place": "{n}. sıra",
+      "shop": "Mağaza.",
+      "shopText": "Sineklerin için kalıcı iksirler ve auralar, pass'ten ödenir. Sinekle kalırlar.",
+      "fly": "Sinek",
+      "item": "Ürün",
+      "choose": "Seç…",
+      "ownsAll": "Hepsine sahip",
+      "buy": "Satın al",
+      "auraName": "{name} aurası",
+      "owned": "Sahip: {list}",
+      "short": "Pass'te yeterli bakiye yok. Önce yükle.",
+      "bought": "{what}, Trader Fly #{fly} için alındı.",
+      "stat": {"pow": "Güç", "grd": "Savunma", "vit": "Can", "fury": "Öfke"},
+      "status": {"listed": "Pass satışta olduğu için duraklatıldı.", "closed": "Otopilot açık. Sineklerin bir sonraki sezon açılınca katılır.", "entryHigh": "Bu sezonun girişi {entry} $FLYAI, en fazla {max} sınırından yüksek. Katılmak için artır.", "entered": "Bu sezon: {seats} sinekten {n} tanesi kayıtlı.", "noFlies": "Kaydedilecek sinek yok: bu cüzdanda Trader Fly yok ya da işaretlenenler burada değil.", "terms": "18+ şartları kabul et, sineklerin kaydolmaya başlasın.", "lowBalance": "Pass'te bir giriş için yeterli bakiye yok ({need} $FLYAI). Katılmak için yükle.", "waiting": "Otopilot açık. Sineklerin bir dakika içinde kaydolur."}
     },
     "race": {
       "stake": "Yarış başına bahis ($FLYAI)",
