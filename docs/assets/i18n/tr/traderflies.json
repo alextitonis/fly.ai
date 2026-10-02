@@ -248,6 +248,7 @@
       "notePass": "Ücretsiz transfer. İçindeki FLYAI pass ile birlikte gider. Üzerindeki ilan biter."
     },
     "activity": {
+      "older": "Daha eskileri yükle",
       "title": "Hareketler",
       "loading": "Zincir okunuyor…",
       "empty": "Henüz bir şey yok.",

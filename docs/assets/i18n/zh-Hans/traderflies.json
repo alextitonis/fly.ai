@@ -246,6 +246,7 @@
       "notePass": "免费转移。通行证里的 FLYAI 随之转移。挂单会失效。"
     },
     "activity": {
+      "older": "加载更早的",
       "title": "动态",
       "loading": "正在读取链上数据…",
       "empty": "暂无记录。",

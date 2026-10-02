@@ -246,6 +246,7 @@
       "notePass": "免費轉移。通行證裡的 FLYAI 隨之轉移。掛單會失效。"
     },
     "activity": {
+      "older": "載入更早的",
       "title": "動態",
       "loading": "正在讀取鏈上資料…",
       "empty": "暫無紀錄。",

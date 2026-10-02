@@ -248,6 +248,7 @@
       "notePass": "Transferencia gratis. El FLYAI de dentro va con el pase. Si estaba listado, la venta se cancela."
     },
     "activity": {
+      "older": "Cargar anteriores",
       "title": "Actividad",
       "loading": "Leyendo la cadena…",
       "empty": "Aún no hay nada.",

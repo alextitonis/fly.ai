@@ -248,6 +248,7 @@
       "notePass": "Free transfer. The FLYAI inside goes with the pass. A listing on it ends."
     },
     "activity": {
+      "older": "Load older",
       "title": "Activity",
       "loading": "Reading the chain…",
       "empty": "Nothing here yet.",
