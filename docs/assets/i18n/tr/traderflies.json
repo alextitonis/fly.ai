@@ -10,6 +10,7 @@
     "deskText": "Fly Desk ayrı, ortak bir masa: haftalık kârının bir kısmı tüm aktif sineklere nadirliğe göre bölünür. Sineklerinin ödemelerini burada talep et."
   },
   "traders": {
+    "more": "{n} tane daha göster",
     "title": "Trader Flies'ların",
     "connect": "Sineklerini görmek için cüzdanını bağla.",
     "loading": "Sineklerin bulunuyor…",

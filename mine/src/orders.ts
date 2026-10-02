@@ -21,6 +21,7 @@
  * `kind` names the work: "connectome-sweep" (the brain, checked by the server) or a buyer's own program, "wasm" or
  * "wgsl" (see `openSpec`), which miners run in a sandbox and the buyer judges (agreement, or disputed answers).
  */
+import { postRpc } from "./rpcpool.ts";
 import { keccak_256 } from "@noble/hashes/sha3.js";
 import { CHANNELS } from "./model.ts";
 import { fromWei, toWei } from "./payouts.ts";
@@ -210,13 +211,7 @@ export interface Transfer {
 }
 
 export async function rpc(url: string, method: string, params: unknown[]): Promise<any> {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
-    signal: AbortSignal.timeout(10_000),
-  });
-  const body = await res.json();
+  const body = await postRpc(url, { jsonrpc: "2.0", id: 1, method, params });   // the next public RPC if this one fails
   if (body.error) throw new Error(`${method}: ${body.error.message ?? JSON.stringify(body.error)}`);
   return body.result;
 }

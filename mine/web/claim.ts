@@ -151,4 +151,4 @@ onAccount((wallet) => {
 });
 $("connect").addEventListener("click", () => void (account ? load() : requireWallet()));
 // this month's pool grows as buyers' orders are charged
-setInterval(() => { if (account && !document.hidden) void api(API, "/api/month", null).then(showMonth, () => {}); }, 60_000);
+setInterval(() => { if (account && !document.hidden) void api(API, "/api/month", null).then(showMonth, () => {}); }, 120_000);

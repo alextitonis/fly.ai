@@ -7,6 +7,7 @@
  *
  * Off until STAKING_CONTRACT is set: every wallet counts 1x, as before staking existed.
  */
+import { postRpc } from "./rpcpool.ts";
 import { keccak_256 } from "@noble/hashes/sha3.js";
 import { checksumAddress } from "./wallet.ts";
 
@@ -61,13 +62,8 @@ export function tierFor(tiers: Tier[], stakedWei: bigint): Tier | null {
 
 /** FlyStaking.stakedOf(wallet) through a JSON-RPC endpoint. */
 export async function readStake(rpc: string, contract: string, wallet: string): Promise<bigint> {
-  const res = await fetch(rpc, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call", params: [{ to: contract, data: STAKE_SELECTORS.stakedOf + addressWord(wallet) }, "latest"] }),
-    signal: AbortSignal.timeout(10_000),
-  });
-  const body = await res.json();
+  const body = await postRpc(rpc, { jsonrpc: "2.0", id: 1, method: "eth_call",
+    params: [{ to: contract, data: STAKE_SELECTORS.stakedOf + addressWord(wallet) }, "latest"] });
   if (body.error || typeof body.result !== "string") throw new Error(`stakedOf: ${JSON.stringify(body.error ?? body)}`);
   return BigInt(body.result);
 }

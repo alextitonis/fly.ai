@@ -10,6 +10,7 @@
     "deskText": "El Fly Desk es un desk aparte y compartido: parte de su beneficio semanal se reparte entre todas las moscas activas según su rareza. Reclama aquí los pagos de tus moscas."
   },
   "traders": {
+    "more": "Mostrar {n} más",
     "title": "Tus Trader Flies",
     "connect": "Conecta tu wallet para ver tus moscas.",
     "loading": "Buscando tus moscas…",

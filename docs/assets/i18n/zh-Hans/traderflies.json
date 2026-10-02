@@ -10,6 +10,7 @@
     "deskText": "Fly Desk 是另一个共享交易台：每周利润的一部分按稀有度分给所有活跃的苍蝇。在这里领取你的苍蝇的收益。"
   },
   "traders": {
+    "more": "再显示 {n} 个",
     "title": "你的 Trader Flies",
     "connect": "连接钱包查看你的苍蝇。",
     "loading": "正在查找你的苍蝇…",

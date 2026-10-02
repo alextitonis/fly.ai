@@ -652,7 +652,10 @@ async function listOrders(): Promise<void> {
     if (o.guest) state.append(link(`${location.pathname}?order=${o.id}`, t("compute.jobs.orderLink")));
     return row;
   }));
-  if (shown.some((o) => o.status === "live" || o.card?.state === "open")) polling = setTimeout(() => void listOrders().catch(() => {}), 15_000);
+  if (shown.some((o) => o.status === "live" || o.card?.state === "open")) {   // a live order: every 2 minutes while in view (a hidden tab waits)
+    const again = () => { if (document.hidden) { polling = setTimeout(again, 120_000); return; } void listOrders().catch(() => {}); };
+    polling = setTimeout(again, 120_000);
+  }
 }
 
 // ---- boot ---------------------------------------------------------------------------------------------------

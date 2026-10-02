@@ -8,19 +8,14 @@
  */
 import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { keccak_256 } from "@noble/hashes/sha3.js";
+import { postRpc } from "./rpcpool.ts";
 import { checksumAddress } from "./wallet.ts";
 
 const hex = (b: Uint8Array) => Buffer.from(b).toString("hex");
 const bytes = (h: string) => Uint8Array.from(Buffer.from(h.replace(/^0x/, ""), "hex"));
 
 async function rpc(url: string, method: string, params: unknown[]): Promise<any> {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
-    signal: AbortSignal.timeout(15_000),
-  });
-  const body = await res.json();
+  const body = await postRpc(url, { jsonrpc: "2.0", id: 1, method, params }, 15_000);   // the next public RPC if this one fails
   if (body.error) throw Object.assign(new Error(body.error.message ?? JSON.stringify(body.error)), { rpc: true });
   return body.result;
 }

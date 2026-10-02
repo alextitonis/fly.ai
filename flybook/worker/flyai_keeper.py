@@ -27,6 +27,24 @@ from eth_utils import keccak
 
 FLYAI = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C"
 RPC = os.environ.get("RPC", "https://rpc.mainnet.chain.robinhood.com")
+
+
+# 2026-10-03: QuickNode first (the user), then the public RPCs; the next one when one can't be reached / rate-limits / answers 5xx (a JSON-RPC error is returned
+# as it is). Robinhood's own RPC first, then dRPC's free one.
+RPCS = ["https://burned-empty-flower.robinhood-mainnet.quiknode.pro/c9f48ae36c3802678cd394c5c52021000a8076b0/"] * (RPC == "https://rpc.mainnet.chain.robinhood.com") + [RPC] + [u for u in ("https://rpc.mainnet.chain.robinhood.com", "https://robinhood.drpc.org") if u != RPC]
+
+
+def _post(payload: dict, timeout: float = 15) -> dict:
+    last = None
+    for url in RPCS:
+        try:
+            r = requests.post(url, json=payload, timeout=timeout)
+            if r.status_code in (401, 403, 429) or r.status_code >= 500:
+                raise requests.HTTPError(f"HTTP {r.status_code} from {url}")
+            return r.json()
+        except (requests.RequestException, ValueError) as e:
+            last = e
+    raise last
 FLY = os.environ.get("TRADERFLY_ADDRESS", "")
 MOVE, MAX_AGE, STEP, AGREE, EVERY, CAP = 0.03, 30 * 60, 0.28, 0.10, 300, 0.30
 
@@ -36,7 +54,7 @@ def sel(sig: str) -> str:
 
 
 def rpc(method: str, params: list):
-    r = requests.post(RPC, json={"jsonrpc": "2.0", "id": 1, "method": method, "params": params}, timeout=20).json()
+    r = _post({"jsonrpc": "2.0", "id": 1, "method": method, "params": params}, 20)
     if "error" in r:
         raise RuntimeError(f"{method}: {r['error'].get('message', r['error'])}")
     return r["result"]

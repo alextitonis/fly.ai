@@ -322,7 +322,10 @@ async function refreshMining(): Promise<void> {
   }));
 }
 
+// 2026-10-03 (the user: "don't overdo 5 or 15 second polls, especially on pages like mining that stay open"): once a
+// 2 minutes (user: "2 minutes when active is fine"), never while the tab is in the background, and once on coming back to it
 refresh();
-setInterval(refresh, 20_000);
 void refreshMining();
-setInterval(() => void refreshMining(), 60_000);
+setInterval(() => { if (!document.hidden) refresh(); }, 120_000);
+setInterval(() => { if (!document.hidden) void refreshMining(); }, 120_000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) { refresh(); void refreshMining(); } });

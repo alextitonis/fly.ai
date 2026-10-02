@@ -118,4 +118,4 @@ void whoAmI().then(() => {
   } catch { /* nothing kept */ }
 });
 // the pool grows as buyers' orders are charged: keep this month's numbers current
-setInterval(() => { if (!document.hidden) void load().catch(() => {}); }, 60_000);
+setInterval(() => { if (!document.hidden) void load().catch(() => {}); }, 120_000);

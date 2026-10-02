@@ -13,6 +13,24 @@ from decimal import Decimal
 import requests
 
 RPC = os.environ.get("ROBINHOOD_RPC", "https://rpc.mainnet.chain.robinhood.com")
+
+
+# 2026-10-03: QuickNode first (the user), then the public RPCs; the next one when one can't be reached / rate-limits / answers 5xx (a JSON-RPC error is returned
+# as it is). Robinhood's own RPC first, then dRPC's free one.
+RPCS = ["https://burned-empty-flower.robinhood-mainnet.quiknode.pro/c9f48ae36c3802678cd394c5c52021000a8076b0/"] * (RPC == "https://rpc.mainnet.chain.robinhood.com") + [RPC] + [u for u in ("https://rpc.mainnet.chain.robinhood.com", "https://robinhood.drpc.org") if u != RPC]
+
+
+def _post(payload: dict, timeout: float = 15) -> dict:
+    last = None
+    for url in RPCS:
+        try:
+            r = requests.post(url, json=payload, timeout=timeout)
+            if r.status_code in (401, 403, 429) or r.status_code >= 500:
+                raise requests.HTTPError(f"HTTP {r.status_code} from {url}")
+            return r.json()
+        except (requests.RequestException, ValueError) as e:
+            last = e
+    raise last
 TOKEN = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C"
 CHAIN_ID = 4663
 DECIMALS = 18
@@ -26,10 +44,7 @@ def balance_of(wallet: str, timeout: float = 15) -> int:
     if not ADDRESS.match(wallet):
         raise ValueError(f"not an address: {wallet!r}")
     data = "0x70a08231" + wallet[2:].lower().rjust(64, "0")
-    r = requests.post(RPC, timeout=timeout, json={
-        "jsonrpc": "2.0", "id": 1, "method": "eth_call", "params": [{"to": TOKEN, "data": data}, "latest"]})
-    r.raise_for_status()
-    body = r.json()
+    body = _post({"jsonrpc": "2.0", "id": 1, "method": "eth_call", "params": [{"to": TOKEN, "data": data}, "latest"]}, timeout)
     if "error" in body:
         raise RuntimeError(f"rpc error: {body['error']}")
     return int(body["result"], 16)
@@ -48,9 +63,7 @@ TX_HASH = re.compile(r"^0x[0-9a-fA-F]{64}$")
 
 
 def rpc(method: str, params: list, timeout: float = 15):
-    r = requests.post(RPC, timeout=timeout, json={"jsonrpc": "2.0", "id": 1, "method": method, "params": params})
-    r.raise_for_status()
-    body = r.json()
+    body = _post({"jsonrpc": "2.0", "id": 1, "method": method, "params": params}, timeout)
     if "error" in body:
         raise RuntimeError(f"rpc error: {body['error']}")
     return body["result"]

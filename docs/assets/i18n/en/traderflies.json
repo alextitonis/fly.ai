@@ -10,6 +10,7 @@
     "deskText": "The Fly Desk is a separate, shared desk: part of its weekly profit is split among all active flies by rarity. Claim your flies' payouts here."
   },
   "traders": {
+    "more": "Show {n} more",
     "title": "Your Trader Flies",
     "connect": "Connect your wallet to see your flies.",
     "loading": "Finding your flies…",
