@@ -87,6 +87,10 @@
     "follow": {
       "label": "Follow @flydotai"
     },
+    "traderflies_traders": {
+      "label": "Traders",
+      "desc": "All your flies and their wallets"
+    },
     "traderflies_market": {
       "label": "Fly Market",
       "desc": "Buy and sell Trader Flies"

@@ -1,5 +1,15 @@
 {
+  "traders": {
+    "title": "내 Trader Flies",
+    "connect": "지갑을 연결하면 내 파리가 보입니다.",
+    "loading": "파리를 찾는 중…",
+    "none": "이 지갑에는 Trader Fly가 없습니다.",
+    "count": "이 지갑에 {n}마리. 파리를 열어 지갑, 설정, 거래를 보세요.",
+    "wallet": "지갑",
+    "empty": "지갑이 비어 있음 - 열어서 입금하세요"
+  },
   "nav": {
+    "traders": "트레이더",
     "scoreboard": "순위표",
     "mint": "민팅",
     "market": "마켓",

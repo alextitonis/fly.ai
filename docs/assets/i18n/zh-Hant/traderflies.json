@@ -1,5 +1,15 @@
 {
+  "traders": {
+    "title": "你的 Trader Flies",
+    "connect": "連接錢包查看你的蒼蠅。",
+    "loading": "正在尋找你的蒼蠅…",
+    "none": "這個錢包沒有 Trader Fly。",
+    "count": "這個錢包裡有 {n} 隻。打開一隻蒼蠅查看牠的錢包、設定和交易。",
+    "wallet": "錢包",
+    "empty": "錢包是空的——打開後充值"
+  },
   "nav": {
+    "traders": "交易蠅",
     "scoreboard": "排行榜",
     "mint": "鑄造",
     "market": "市場",

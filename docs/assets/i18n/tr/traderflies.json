@@ -1,5 +1,15 @@
 {
+  "traders": {
+    "title": "Trader Flies'ların",
+    "connect": "Sineklerini görmek için cüzdanını bağla.",
+    "loading": "Sineklerin bulunuyor…",
+    "none": "Bu cüzdanda Trader Fly yok.",
+    "count": "Bu cüzdanda: {n}. Cüzdanı, ayarları ve işlemleri için bir sinek aç.",
+    "wallet": "Cüzdan",
+    "empty": "Cüzdan boş - yatırmak için aç"
+  },
   "nav": {
+    "traders": "Traders",
     "scoreboard": "Skor tablosu",
     "mint": "Mint",
     "market": "Pazar",

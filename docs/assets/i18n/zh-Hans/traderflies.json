@@ -1,5 +1,15 @@
 {
+  "traders": {
+    "title": "你的 Trader Flies",
+    "connect": "连接钱包查看你的苍蝇。",
+    "loading": "正在查找你的苍蝇…",
+    "none": "这个钱包没有 Trader Fly。",
+    "count": "这个钱包里有 {n} 只。打开一只苍蝇查看它的钱包、设置和交易。",
+    "wallet": "钱包",
+    "empty": "钱包为空——打开后充值"
+  },
   "nav": {
+    "traders": "交易蝇",
     "scoreboard": "排行榜",
     "mint": "铸造",
     "market": "市场",

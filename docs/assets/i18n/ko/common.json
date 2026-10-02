@@ -87,6 +87,10 @@
     "follow": {
       "label": "@flydotai 팔로우"
     },
+    "traderflies_traders": {
+      "label": "트레이더",
+      "desc": "내 모든 파리와 지갑"
+    },
     "traderflies_market": {
       "label": "플라이 마켓",
       "desc": "Trader Flies 사고팔기"

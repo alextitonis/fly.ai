@@ -87,6 +87,10 @@
     "follow": {
       "label": "关注 @flydotai"
     },
+    "traderflies_traders": {
+      "label": "交易蝇",
+      "desc": "你所有的苍蝇和它们的钱包"
+    },
     "traderflies_market": {
       "label": "苍蝇市场",
       "desc": "买卖 Trader Flies"

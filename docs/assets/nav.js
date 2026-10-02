@@ -12,6 +12,7 @@
   const NAV = [
     ["Home", "/"],
     ["Fly Colosseum", "/colosseum/"],
+    ["Traders", "/traderflies/traders"],
     ["research", "Research", [
       ["All findings", "/research", "Fighting, the 3-D world, what failed"],
       ["Talking flies", "/research/flybook", "Flybook: can two brains signal?"],

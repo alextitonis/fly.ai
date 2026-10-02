@@ -1,5 +1,15 @@
 {
+  "traders": {
+    "title": "Your Trader Flies",
+    "connect": "Connect your wallet to see your flies.",
+    "loading": "Finding your flies…",
+    "none": "This wallet holds no Trader Flies.",
+    "count": "In this wallet: {n}. Open a fly for its wallet, settings and trades.",
+    "wallet": "Wallet",
+    "empty": "Wallet empty - open to fund it"
+  },
   "nav": {
+    "traders": "Traders",
     "scoreboard": "Scoreboard",
     "mint": "Mint",
     "market": "Market",

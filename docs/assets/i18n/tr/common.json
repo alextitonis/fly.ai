@@ -87,6 +87,10 @@
     "follow": {
       "label": "@flydotai'yi takip et"
     },
+    "traderflies_traders": {
+      "label": "Traders",
+      "desc": "Tüm sineklerin ve cüzdanları"
+    },
     "traderflies_market": {
       "label": "Sinek Pazarı",
       "desc": "Trader Flies al ve sat"
