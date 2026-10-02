@@ -108,12 +108,15 @@ export function createVaults(d: VaultsDeps) {
     isOn();
     const [wallet, owner, granted] = await Promise.all([walletOf(fly), ownerOfFly(fly),
       pg.one<{ pass_id: number; status: string }>("select pass_id, status from mine.vault_grants where fly_id = ?", fly)]);
-    const one = async (chain: string) => wallet
-      ? { chain, ledger: await ledgerOf(wallet, chain), stats: await publicOf(statsKey(wallet, chain)),
-          settings: (await settingsOf(settingsKey(wallet, chain)))?.doc ?? null }
-      : { chain, ledger: null, stats: null, settings: null };
-    const home = await one("robinhood");
-    return { fly, owner, wallet, ...home, pass: granted ?? null, away: await Promise.all(AWAY.map(one)) };
+    // every read at once (2026-10-03: one after another took 1.3-2 s)
+    const one = async (chain: string) => {
+      if (!wallet) return { chain, ledger: null, stats: null, settings: null };
+      const [ledger, stats, settings] = await Promise.all([ledgerOf(wallet, chain), publicOf(statsKey(wallet, chain)),
+        settingsOf(settingsKey(wallet, chain))]);
+      return { chain, ledger, stats, settings: settings?.doc ?? null };
+    };
+    const [home, ...away] = await Promise.all([one("robinhood"), ...AWAY.map(one)]);
+    return { fly, owner, wallet, ...home, pass: granted ?? null, away };
   }
 
   // ---- the owner's settings ---------------------------------------------------------------------------------
