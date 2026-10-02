@@ -1,6 +1,7 @@
 /**
- * Fly Wallets on the compute server (src/vaults.ts): who may save a vault's settings, what the site reads, and the
- * FlightPass burn -> grant worker, against a stand-in chain and a real Postgres.
+ * Fly Wallets on the compute server (src/vaults.ts, the plain-wallet redesign): what the site reads, who may save a fly
+ * wallet's settings and ask for a withdrawal, and the FlightPass burn -> grant worker, against a stand-in chain and a
+ * real Postgres.
  *   npm run test:vaults
  */
 import { spawn } from "node:child_process";
@@ -21,7 +22,6 @@ const BASE = `http://localhost:${PORT}`;
 const ADMIN = "test-admin-token";
 const DB = join(tmpdir(), `mine-vaultstest-${process.pid}.db`);
 const TRADERFLY = "0x18d4D831cA89672126172B73bA05f5A318ad5A72";
-const FACTORY = checksumAddress("0x" + "fa".repeat(20));
 const TOKEN = checksumAddress("0x" + "f1".repeat(20));
 const GRANTER_KEY = "22".repeat(32);
 const WEI = 10n ** 18n;
@@ -45,20 +45,15 @@ const [alice, bob] = [0, 1].map(() => {
   return { address: checksumAddress(`0x${hex(keccak_256(secp256k1.getPublicKey(sk, false).subarray(1))).slice(-40)}`), sign };
 });
 
-// ---- the chain's stand-in: fly 3 is alice's, its vault V3 (not made until "funded"), fly 4's vault is a pot member
-const V3 = checksumAddress("0x" + "03".repeat(20));
-const FACTORY_BASE = checksumAddress("0x" + "fb".repeat(20));   // the Base factory (same stand-in RPC)
-const VB3 = checksumAddress("0x" + "b3".repeat(20));            // fly 3's vault on Base
-const FACTORY_POLY = checksumAddress("0x" + "fc".repeat(20));   // the Polygon (Polymarket) factory
-const VP3 = checksumAddress("0x" + "c3".repeat(20));            // fly 3's Polymarket vault
-const POT = checksumAddress("0x" + "0f".repeat(20));
-let v3Made = false, v3Holder = "0x" + "0".repeat(40);
-let allowance = 0n;
+// ---- the chain's stand-in: flies 3 and 4 are alice's; FlightPass #9 is alice's until she sends it to 0x...dEaD
+const W3 = checksumAddress("0x" + "03".repeat(20));          // fly 3's wallet (the desk made it)
+const W4 = checksumAddress("0x" + "04".repeat(20));
+const FLIGHTPASS = checksumAddress("0x" + "9a".repeat(20));
+const DEAD = "0x000000000000000000000000000000000000dEaD";
+let pass9Owner = "";
 const sent: { to: string; data: string }[] = [];
 let nonce = 0;
 let head = 100;
-const burnLogs: any[] = [];
-const PASS_TOPIC = "0x" + hex(keccak_256(new TextEncoder().encode("PassBurned(uint256,uint256,address,address)")));
 
 function rlpDecode(b: Buffer, at = 0): [unknown, number] {
   const t = b[at];
@@ -81,8 +76,6 @@ const chain = createServer((req, res) => {
     const revert = () => res.end(JSON.stringify({ jsonrpc: "2.0", id, error: { code: 3, message: "execution reverted" } }));
     res.setHeader("content-type", "application/json");
     if (method === "eth_blockNumber") return answer(`0x${(head++).toString(16)}`);   // the chain moves on
-    if (method === "eth_getLogs") return answer(burnLogs);
-    if (method === "eth_getCode") return answer(params[0].toLowerCase() === V3.toLowerCase() && v3Made ? "0x6080" : "0x");
     if (method === "eth_estimateGas") return answer("0x30000");
     if (method === "eth_chainId") return answer("0x7a69");
     if (method === "eth_getTransactionCount") return answer(`0x${nonce.toString(16)}`);
@@ -95,31 +88,18 @@ const chain = createServer((req, res) => {
       const f = rlpDecode(raw.subarray(1))[0] as Buffer[];
       const to = `0x${f[5].toString("hex")}`, data = f[7].toString("hex");
       sent.push({ to, data });
-      if (data.startsWith(selector("approve(address,uint256)").slice(2))) allowance = (1n << 256n) - 1n;
       nonce++;
       return answer(`0x${createHash("sha256").update(raw).digest("hex")}`);
     }
     if (method !== "eth_call") return revert();
     const to: string = params[0].to.toLowerCase(), data: string = params[0].data;
     const arg = BigInt(`0x${data.slice(10, 74) || "0"}`);
-    if (to === FACTORY_BASE.toLowerCase() && data.startsWith(selector("vaultOf(uint256)"))) {
-      return answer(`0x${word(arg === 3n ? VB3 : "0x" + word(arg).slice(-40))}`);
-    }
-    if (to === FACTORY_POLY.toLowerCase() && data.startsWith(selector("vaultOf(uint256)"))) {
-      return answer(`0x${word(arg === 3n ? VP3 : "0x" + word(arg).slice(-40))}`);
-    }
-    if (to === FACTORY.toLowerCase()) {
-      if (data.startsWith(selector("vaultOf(uint256)"))) return answer(`0x${word(arg === 3n ? V3 : "0x" + word(arg).slice(-40))}`);
-      if (data.startsWith(selector("potOf(uint256)"))) return answer(`0x${word(arg === 4n ? POT : "0x" + "0".repeat(40))}`);
-      return revert();
-    }
-    if (to === V3.toLowerCase() && data.startsWith(selector("holder()"))) return answer(`0x${word(v3Holder)}`);
     if (to === TRADERFLY.toLowerCase()) {
       if (data.startsWith(selector("ownerOf(uint256)"))) return arg === 3n || arg === 4n ? answer(`0x${word(alice.address)}`) : revert();
       if (data.startsWith(selector("flyaiPerDollar()"))) return answer(`0x${word(PER_DOLLAR)}`);
       return revert();
     }
-    if (to === TOKEN.toLowerCase() && data.startsWith(selector("allowance(address,address)"))) return answer(`0x${word(allowance)}`);
+    if (to === FLIGHTPASS.toLowerCase() && data.startsWith(selector("ownerOf(uint256)")) && arg === 9n) return answer(`0x${word(pass9Owner)}`);
     revert();
   });
 });
@@ -143,10 +123,8 @@ async function startServer(extra: Record<string, string> = {}): Promise<void> {
       ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0",
       AUDITS: "0", OPEN_TARGET: "50", ADMIN_TOKEN: ADMIN, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "none",
       CLAIM_RPC: "http://127.0.0.1:9", CLAIM_EXPLORER: "http://localhost", SEED_PAID: "0", ARENA_ON: "0",
-      TOKEN_ADDRESS: TOKEN, VAULT_ON: "1", VAULT_FACTORY: FACTORY, VAULT_RPC: `http://127.0.0.1:${CHAIN_PORT}`,
-      VAULT_TICK_SEC: "1", VAULT_GRANTER_KEY: GRANTER_KEY, ARENA_TRADERFLY: TRADERFLY,
-      VAULT_FACTORY_BASE: FACTORY_BASE, VAULT_RPC_BASE: `http://127.0.0.1:${CHAIN_PORT}`,
-      VAULT_FACTORY_POLYGON: FACTORY_POLY, VAULT_RPC_POLYGON: `http://127.0.0.1:${CHAIN_PORT}`,
+      TOKEN_ADDRESS: TOKEN, VAULT_ON: "1", VAULT_RPC: `http://127.0.0.1:${CHAIN_PORT}`, VAULT_CHAINS: "base,polygon",
+      VAULT_TICK_SEC: "1", VAULT_GRANTER_KEY: GRANTER_KEY, ARENA_TRADERFLY: TRADERFLY, VAULT_FLIGHTPASS: FLIGHTPASS,
       ...extra,
     },
     stdio: ["ignore", "ignore", "inherit"],
@@ -166,76 +144,98 @@ try {
   };
   const a = await signIn(alice), b = await signIn(bob);
   const doc = { starter: "dip_buyer", risk: 2 };
+  // the desk made the flies' wallets (keys encrypted; mine only ever reads addresses)
+  await PG.pg.run(`insert into mine.vault_wallets (id, fly_id, address, enc_key, nonce) values ('fly:3', 3, ?, 'x', 'y'), ('fly:4', 4, ?, 'x', 'y')`, W3, W4);
 
   // what the site reads
   const cfg = (await api("/api/vaults/config", null)).json;
-  check("config: on, the factory, the $10 grant", cfg.on === true && cfg.factory === FACTORY && cfg.grant_usd === 10);
+  check("config: on, the $10 grant, where passes are burnt", cfg.on === true && cfg.grant_usd === 10 && cfg.dead === DEAD
+    && cfg.flightpass === FLIGHTPASS, JSON.stringify(cfg));
+  check("the other chains offered (VAULT_CHAINS)", cfg.chains?.length === 2 && cfg.chains[0].chain === "base" && cfg.chains[0].stable_sym === "USDC"
+    && cfg.chains[1].chain === "polygon" && cfg.chains[1].poly === true && cfg.chains[1].stable_sym === "USDC.e", JSON.stringify(cfg.chains));
   const fly3 = (await api("/api/vaults/fly/3", null)).json;
-  check("a fly's view: its vault, owner, no pot, nothing yet", fly3.vault === V3 && fly3.owner === alice.address && fly3.pot === null
-    && fly3.stats === null && fly3.settings === null, JSON.stringify(fly3));
-  check("a pot member shows its pot", (await api("/api/vaults/fly/4", null)).json.pot === POT);
-  check("the other chains offered", cfg.chains?.length === 2 && cfg.chains[0].chain === "base" && cfg.chains[0].factory === FACTORY_BASE
-    && cfg.chains[0].stable_sym === "USDC" && !cfg.chains[0].poly, JSON.stringify(cfg.chains));
-  check("Polymarket offered: USDC.e on Polygon", cfg.chains[1]?.chain === "polygon" && cfg.chains[1].poly === true
-    && cfg.chains[1].chain_id === 137 && cfg.chains[1].stable_sym === "USDC.e", JSON.stringify(cfg.chains));
-  check("a fly's vault on Base too", fly3.away?.[0]?.chain === "base" && fly3.away[0].vault === VB3, JSON.stringify(fly3.away));
-  check("and its Polymarket vault", fly3.away?.[1]?.chain === "polygon" && fly3.away[1].vault === VP3, JSON.stringify(fly3.away));
-  check("Polymarket settings: the fly's owner sets them up",
-    (await api(`/api/vaults/${VP3}/settings`, a, { fly: 3, chain: "polygon", settings: doc })).status === 200);
-  check("the Polymarket leaderboard is its own", (await api("/api/vaults/leaderboard?chain=polygon", null)).status === 200);
-  check("Base settings: the fly's owner sets them up", (await api(`/api/vaults/${VB3}/settings`, b, { fly: 3, chain: "base", settings: doc })).status === 403
-    && (await api(`/api/vaults/${VB3}/settings`, a, { fly: 3, chain: "base", settings: { ...doc, risk: 5 } })).status === 200);
-  check("an unknown chain is refused", (await api(`/api/vaults/${VB3}/settings`, a, { fly: 3, chain: "solana", settings: doc })).status === 400);
-  check("the Base vault's settings read back", (await api("/api/vaults/fly/3", null)).json.away[0].settings?.risk === 5);
+  check("a fly's view: its wallet, owner, nobody's money yet", fly3.wallet === W3 && fly3.owner === alice.address && fly3.ledger === null
+    && fly3.stats === null && fly3.settings === null && fly3.pass === null, JSON.stringify(fly3));
+  check("the same wallet on every chain", fly3.away?.length === 2 && fly3.away[0].chain === "base" && fly3.away[1].chain === "polygon");
+  check("no wallet yet for a fly the desk hasn't reached", (await api("/api/vaults/fly/5", null)).json.wallet === null);
 
-  // settings before the vault is made: the fly's owner only, naming the fly
-  check("no session, no settings", (await api(`/api/vaults/${V3}/settings`, null, { fly: 3, settings: doc })).status === 401);
-  check("bob can't set up alice's fly", (await api(`/api/vaults/${V3}/settings`, b, { fly: 3, settings: doc })).status === 403);
-  check("the fly must be the vault's", (await api(`/api/vaults/${V3}/settings`, a, { fly: 4, settings: doc })).status === 400);
-  check("settings must be an object", (await api(`/api/vaults/${V3}/settings`, a, { fly: 3, settings: [1] })).status === 400);
-  check("and not huge", (await api(`/api/vaults/${V3}/settings`, a, { fly: 3, settings: { x: "y".repeat(20_000) } })).status === 400);
-  const saved = await api(`/api/vaults/${V3}/settings`, a, { fly: 3, settings: doc });
+  // settings while nobody's money is in it: the fly's owner
+  check("no session, no settings", (await api(`/api/vaults/${W3}/settings`, null, { settings: doc })).status === 401);
+  check("bob can't set up alice's fly", (await api(`/api/vaults/${W3}/settings`, b, { settings: doc })).status === 403);
+  check("not a fly wallet", (await api(`/api/vaults/${checksumAddress("0x" + "77".repeat(20))}/settings`, a, { settings: doc })).status === 404);
+  check("settings must be an object", (await api(`/api/vaults/${W3}/settings`, a, { settings: [1] })).status === 400);
+  check("and not huge", (await api(`/api/vaults/${W3}/settings`, a, { settings: { x: "y".repeat(20_000) } })).status === 400);
+  check("an unknown chain is refused", (await api(`/api/vaults/${W3}/settings`, a, { chain: "solana", settings: doc })).status === 400);
+  const saved = await api(`/api/vaults/${W3}/settings`, a, { settings: doc });
   check("alice sets up her fly's wallet", saved.status === 200 && saved.json.settings.starter === "dip_buyer");
-  check("and it reads back", (await api("/api/vaults/fly/3", null)).json.settings?.starter === "dip_buyer");
-  const stored = await PG.pg.one<{ t: string }>("select jsonb_typeof(doc) as t from mine.vault_settings where vault = ?", V3);
-  check("stored as a JSON object (what the vault desk reads)", stored?.t === "object", stored?.t);
+  check("Polymarket settings are their own", (await api(`/api/vaults/${W3}/settings`, a, { chain: "polygon", settings: { ...doc, risk: 5 } })).status === 200);
+  const v3 = (await api("/api/vaults/fly/3", null)).json;
+  check("and they read back per chain", v3.settings?.starter === "dip_buyer" && v3.away[1].settings?.risk === 5 && v3.away[0].settings === null);
+  const keys = (await PG.pg.all<{ vault: string; t: string }>("select vault, jsonb_typeof(doc) as t from mine.vault_settings order by vault")).map((r) => `${r.vault}:${r.t}`);
+  check("stored per chain as JSON objects (what the desk reads)", keys.join(",") === `${W3}:object,polygon:${W3}:object`, keys.join(","));
 
-  // funded: the vault's holder decides
-  v3Made = true;
-  v3Holder = bob.address;   // (say bob funded it before alice bought the fly: the holder is who counts)
-  check("a made vault: only its holder", (await api(`/api/vaults/${V3}/settings`, a, { settings: doc })).status === 403);
-  check("the holder may", (await api(`/api/vaults/${V3}/settings`, b, { settings: { ...doc, risk: 4 } })).status === 200);
-  v3Holder = alice.address;
+  // money in (the desk's ledger): the holder decides and withdraws
+  await PG.pg.run("insert into mine.vault_ledger (wallet, chain, holder, principal_usd) values (?, 'robinhood', ?, 100)", W3, bob.address);
+  check("with money in it: only its holder", (await api(`/api/vaults/${W3}/settings`, a, { settings: doc })).status === 403);
+  check("the holder may", (await api(`/api/vaults/${W3}/settings`, b, { settings: { ...doc, risk: 4 } })).status === 200);
+  check("the ledger shows on the fly", (await api("/api/vaults/fly/3", null)).json.ledger?.holder === bob.address);
+  check("only the holder withdraws", (await api(`/api/vaults/${W3}/withdraw`, a, { bps: 5000 })).status === 403);
+  check("bps 1..10000", (await api(`/api/vaults/${W3}/withdraw`, b, { bps: 0 })).status === 400);
+  const w = await api(`/api/vaults/${W3}/withdraw`, b, { bps: 5000 });
+  check("a withdrawal request for the desk", w.status === 200 && w.json.status === "new", JSON.stringify(w.json));
+  check("one at a time", (await api(`/api/vaults/${W3}/withdraw`, b, { bps: 5000 })).status === 409);
+  const r = (await api(`/api/vaults/requests/${w.json.id}`, null)).json;
+  check("it can be followed", r.kind === "withdraw" && r.status === "new" && r.wallet === W3, JSON.stringify(r));
+  check("no withdrawal on a chain with nobody's money", (await api(`/api/vaults/${W3}/withdraw`, b, { chain: "base", bps: 5000 })).status === 403);
+  check("one withdrawal or move at a time", (await api(`/api/vaults/${W3}/move`, b, { to_chain: "polygon", usd: 20 })).status === 409);
+  await PG.pg.run("update mine.vault_requests set status = 'done' where id = ?", w.json.id);
+  check("only the holder moves money", (await api(`/api/vaults/${W3}/move`, a, { to_chain: "polygon", usd: 20 })).status === 403);
+  check("a move needs another offered chain", (await api(`/api/vaults/${W3}/move`, b, { to_chain: "robinhood", usd: 20 })).status === 400
+    && (await api(`/api/vaults/${W3}/move`, b, { to_chain: "solana", usd: 20 })).status === 400);
+  check("at least $5", (await api(`/api/vaults/${W3}/move`, b, { to_chain: "polygon", usd: 1 })).status === 400);
+  const mv = await api(`/api/vaults/${W3}/move`, b, { to_chain: "polygon", usd: 20 });
+  check("a move to Polymarket for the desk", mv.status === 200 && (await api(`/api/vaults/requests/${mv.json.id}`, null)).json.kind === "move");
 
-  // the vault desk's snapshots
-  await PG.pg.run("insert into mine.vault_public (key, value) values ('leaderboard', ?::text::jsonb), (?, ?::text::jsonb)",
-    JSON.stringify({ all: [{ vault: V3, profit: 12.5 }], d7: [], h24: [] }), `vault:${V3}`, JSON.stringify({ vault: V3, value: 112.5 }));
-  check("leaderboard", (await api("/api/vaults/leaderboard", null)).json.all[0].vault === V3);
-  check("a vault's stats", (await api(`/api/vaults/${V3}`, null)).json.stats.value === 112.5);
+  // the desk's snapshots
+  await PG.pg.run("insert into mine.vault_public (key, value) values ('leaderboard', ?::text::jsonb), (?, ?::text::jsonb), (?, ?::text::jsonb)",
+    JSON.stringify({ all: [{ vault: W3, profit: 12.5 }], d7: [], h24: [] }), `vault:${W3}`, JSON.stringify({ vault: W3, value: 112.5 }),
+    `vault:polygon:${W3}`, JSON.stringify({ vault: W3, value: 7 }));
+  check("leaderboard", (await api("/api/vaults/leaderboard", null)).json.all[0].vault === W3);
+  const v3b = (await api("/api/vaults/fly/3", null)).json;
+  check("the stats per chain", v3b.stats?.value === 112.5 && v3b.away[1].stats?.value === 7);
 
-  // FlightPass #9 (balance 50,000 FLYAI) burned into fly 3
+  // FlightPass #9 (balance 50,000 FLYAI) burnt into fly 4
   await PG.pg.run("insert into mine.ledger (wallet, kind, amount_wei, tx, at) values ('pass:9', 'deposit', ?, 'test', ?)", (50_000n * WEI).toString(), Date.now());
-  burnLogs.push({ address: FACTORY, topics: [PASS_TOPIC, `0x${word(9)}`, `0x${word(3)}`, `0x${word(alice.address)}`], data: `0x${word(V3)}`,
-                  transactionHash: "0x" + "ab".repeat(32), blockNumber: "0x63", logIndex: "0x0" });
+  pass9Owner = bob.address;
+  check("only the pass's owner registers its burn", (await api("/api/vaults/fly/4/pass", a, { pass: 9 })).status === 403);
+  pass9Owner = alice.address;
+  check("only the fly's owner", (await api("/api/vaults/fly/4/pass", b, { pass: 9 })).status === 403);
+  const reg = await api("/api/vaults/fly/4/pass", a, { pass: 9 });
+  check("alice registers it: send the pass to 0x...dEaD", reg.status === 200 && reg.json.send_to === DEAD && reg.json.wallet === W4, JSON.stringify(reg.json));
+  await sleep(2500);
+  check("nothing paid before the pass is burnt", sent.length === 0);
+  pass9Owner = DEAD;
   let g: any = null;
   for (let i = 0; i < 30 && g?.status !== "paid"; i++) {
     await sleep(500);
     g = await PG.pg.one<any>("select * from mine.vault_grants where pass_id = 9");
   }
-  check("the burn becomes a paid grant", g?.status === "paid" && g.fly_id === 3 && g.vault === V3, JSON.stringify(g));
+  check("the burn becomes a paid grant", g?.status === "paid" && g.fly_id === 4 && g.vault === W4, JSON.stringify(g));
   const bal = await PG.pg.one<{ s: string }>("select coalesce(sum(case when kind = 'deposit' then amount_wei::numeric else -amount_wei::numeric end), 0)::text as s from mine.ledger where wallet = 'pass:9'");
   check("the pass's balance moved out (one ledger row)", bal?.s === "0" && (await PG.pg.all("select 1 from mine.ledger where tx = 'vault-grant:9'")).length === 1);
-  const grantSel = selector("grant(uint256,address,uint256,bool)").slice(2), approveSel = selector("approve(address,uint256)").slice(2);
-  const grants = sent.filter((s) => s.data.startsWith(grantSel));
-  const amount = grants[0] ? BigInt(`0x${grants[0].data.slice(8 + 128, 8 + 192)}`) : 0n;
-  check("approve first, then one grant(fly 3, FLYAI, pass + $10, locked)", sent[0]?.data.startsWith(approveSel) && grants.length === 1
-    && grants[0].to.toLowerCase() === FACTORY.toLowerCase() && amount === 50_000n * WEI + 10n * PER_DOLLAR
-    && BigInt(`0x${grants[0].data.slice(8, 72)}`) === 3n && BigInt(`0x${grants[0].data.slice(8 + 192, 8 + 256)}`) === 1n,
-    `${sent.length} sent, amount ${amount}`);
+  const transferSel = selector("transfer(address,uint256)").slice(2);
+  const tx = sent.filter((x) => x.data.startsWith(transferSel));
+  const amount = tx[0] ? BigInt(`0x${tx[0].data.slice(8 + 64, 8 + 128)}`) : 0n;
+  check("one FLYAI transfer of the pass + $10 into the fly's wallet", tx.length === 1 && tx[0].to.toLowerCase() === TOKEN.toLowerCase()
+    && `0x${tx[0].data.slice(8 + 24, 8 + 64)}`.toLowerCase() === W4.toLowerCase() && amount === 50_000n * WEI + 10n * PER_DOLLAR, `${sent.length} sent, ${amount}`);
+  const lock = await PG.pg.one<any>("select * from mine.vault_requests where kind = 'pass_burn'");
+  check("the desk is asked to lock it all", lock?.wallet === W4 && Math.abs(lock.params.grant_usd - (50_000 / 6858 + 10)) < 0.01, JSON.stringify(lock?.params));
+  check("one pass per fly, ever", (await api("/api/vaults/fly/4/pass", a, { pass: 10 })).status === 409);
   await sleep(2500);
-  check("never paid twice", sent.filter((s) => s.data.startsWith(grantSel)).length === 1);
+  check("never paid twice", sent.filter((x) => x.data.startsWith(transferSel)).length === 1);
   const adm = await api("/api/admin/vaults", null, undefined, true);
-  check("admin sees the grants", adm.status === 200 && adm.json.grants.length === 1);
+  check("admin sees wallets, funded, requests, grants", adm.status === 200 && adm.json.wallets === 2 && adm.json.funded.length === 1
+    && adm.json.requests.length === 3 && adm.json.grants.length === 1, JSON.stringify(adm.json).slice(0, 200));
   check("admin only", (await api("/api/admin/vaults", a)).status === 403);
 } catch (err) {
   console.error(err);

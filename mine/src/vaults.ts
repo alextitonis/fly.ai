@@ -1,16 +1,21 @@
 /**
- * Fly Wallets (flytrade/FLYWALLET-PLAN.md): each Trader Fly's own on-chain vault, or a pot several of one holder's
- * flies share, traded by the fly's brain and the options its owner switched on (the vault desk, flytrade/vaults).
- * The money lives in the contracts (FlyVaultFactory / FlyVault); this module is the site's side:
+ * Fly Wallets (flytrade/FLYWALLET-PLAN.md): every Trader Fly trades its own plain wallet. Redesign 2026-10-02 (user):
+ * one wallet per fly whose key the vault desk keeps encrypted (flytrade/vaults/keystore.py) - no vault contracts. The
+ * same address serves every chain. This module is the site's side; it never sees a key:
  *
- * - settings: the owner's document per vault (mine.vault_settings). Only the vault's holder may save it - or, before
- *   the fly's vault was ever funded, the fly's owner. The vault desk validates every document it reads
- *   (flytrade/vaults/wsettings.py), so here it only has to be a JSON object of sane size.
- * - stats and the leaderboard: what the vault desk publishes each bar (mine.vault_public).
- * - FlightPass burns into a fly (FlyVaultFactory.PassBurned): the pass's whole balance here plus the house grant
- *   (VAULT_GRANT_USD of FLYAI, $10) are paid into the fly's vault by the granter wallet with factory.grant(..., locked
- *   = true). The pass's ledger is emptied first (one row, tx "vault-grant:<pass>"), so it is paid once; a grant that
- *   provably never left is retried, one that may have left waits for the operator (status 'error').
+ * - views: the fly's wallet address (mine.vault_wallets, made by the desk for every minted fly), whose money is in it
+ *   per chain (mine.vault_ledger: holder, principal, locked, closing), the desk's stats and leaderboards
+ *   (mine.vault_public). Depositing is just sending coins to that address: the desk credits the fly's owner.
+ * - settings: the owner's document per wallet per chain (mine.vault_settings, key "<address>" on Robinhood Chain,
+ *   "<chain>:<address>" elsewhere). Only the holder may save it - or, while nobody's money is in it, the fly's owner.
+ * - withdrawals: the signed-in holder asks (mine.vault_requests); the desk pays it in kind within a bar, minus the
+ *   profit fee. GET /api/vaults/requests/:id follows it.
+ * - moves: the holder moves some of the fly's cash to another chain (the desk bridges it through Relay, relay.link,
+ *   into the same wallet address there).
+ * - FlightPass burns: the owner of a fly and a pass registers the burn, sends the pass to 0x...dEaD, and this worker
+ *   then pays the pass's whole balance plus the house grant (VAULT_GRANT_USD of FLYAI, $10) from the granter wallet into
+ *   the fly's wallet, and asks the desk to lock that much (kind pass_burn). The pass's ledger is emptied first (one row,
+ *   tx "vault-grant:<pass>"), so it is paid once; one pass per fly, ever.
  */
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Pg, Q } from "./pg.ts";
@@ -32,7 +37,7 @@ export interface VaultsDeps {
   env: NodeJS.ProcessEnv;
   /** the FLYAI token */
   token: string;
-  /** the wallet that pays grants into vaults (the factory's granter key) */
+  /** the wallet that pays FlightPass grants into fly wallets (holds a FLYAI float and gas) */
   granter: { address: string; send: (to: string, data: string) => Promise<string> } | null;
 }
 
@@ -40,169 +45,180 @@ const word = (v: bigint | number | string) =>
   typeof v === "string" ? v.replace(/^0x/, "").toLowerCase().padStart(64, "0") : BigInt(v).toString(16).padStart(64, "0");
 const ADDRESS = /^0x[0-9a-fA-F]{40}$/;
 const MAX_DOC = 16_000;
-const PASS_BURNED_SIG = "PassBurned(uint256,uint256,address,address)";
+const DEAD = "0x000000000000000000000000000000000000dEaD";
+
+/** The chains a fly's wallet trades on besides Robinhood Chain (switched on with VAULT_CHAINS=base,arbitrum,...). */
+const NETS: Record<string, { chainId: number; native: string; stable: string; stableDec: number; stableSym: string; poly?: boolean }> = {
+  base: { chainId: 8453, native: "ETH", stable: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", stableDec: 6, stableSym: "USDC" },
+  arbitrum: { chainId: 42161, native: "ETH", stable: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831", stableDec: 6, stableSym: "USDC" },
+  bsc: { chainId: 56, native: "BNB", stable: "0x55d398326f99059fF775485246999027B3197955", stableDec: 18, stableSym: "USDT" },
+  polygon: { chainId: 137, native: "POL", stable: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", stableDec: 6, stableSym: "USDC.e", poly: true },
+};
+
+type Ledger = { holder: string | null; principal_usd: number; locked_usd: number; closing: boolean };
 
 export function createVaults(d: VaultsDeps) {
   const { pg, HttpError, fromWei } = d;
   const CFG = {
-    factory: d.env.VAULT_FACTORY ? checksumAddress(d.env.VAULT_FACTORY) : null,
-    deployBlock: Number(d.env.VAULT_DEPLOY_BLOCK ?? "0"),
     traderFly: checksumAddress(d.env.ARENA_TRADERFLY ?? "0x18d4D831cA89672126172B73bA05f5A318ad5A72"),
+    flightPass: checksumAddress(d.env.VAULT_FLIGHTPASS ?? "0x89eFFb63578A09065c2BbfDd729E161be7D479Da"),
     grantUsd: Number(d.env.VAULT_GRANT_USD ?? "10"),
     tickMs: Number(d.env.VAULT_TICK_SEC ?? "60") * 1000,
   };
-  const on = d.env.VAULT_ON === "1" && !!CFG.factory;
-  /**
-   * The other chains (phase 5): each one's factory (VAULT_FACTORY_BASE, _ARBITRUM, _BSC, _POLYGON) and RPC
-   * (VAULT_RPC_<CHAIN>). A chain without a factory isn't offered. There the depositor holds; the fly's owner is read on
-   * Robinhood Chain. Polygon (phase 6) is Polymarket: FlyPolyFactory, USDC.e deposits only, outcome shares as positions.
-   */
-  type AwayNet = { factory: string; rpc: string; chainId: number; native: string; stable: string; stableDec: number; stableSym: string; poly?: boolean };
-  const AWAY: Record<string, AwayNet> = {};
-  const NETS: Record<string, Omit<AwayNet, "factory">> = {
-    base: { rpc: "https://mainnet.base.org", chainId: 8453, native: "ETH", stable: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", stableDec: 6, stableSym: "USDC" },
-    arbitrum: { rpc: "https://arb1.arbitrum.io/rpc", chainId: 42161, native: "ETH", stable: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831", stableDec: 6, stableSym: "USDC" },
-    bsc: { rpc: "https://bsc-dataseed.binance.org", chainId: 56, native: "BNB", stable: "0x55d398326f99059fF775485246999027B3197955", stableDec: 18, stableSym: "USDT" },
-    polygon: { rpc: "https://polygon.drpc.org", chainId: 137, native: "POL", stable: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", stableDec: 6, stableSym: "USDC.e", poly: true },
-  };
-  for (const [name, n] of Object.entries(NETS)) {
-    const f = d.env[`VAULT_FACTORY_${name.toUpperCase()}`];
-    if (f) AWAY[name] = { ...n, factory: checksumAddress(f), rpc: d.env[`VAULT_RPC_${name.toUpperCase()}`] ?? n.rpc };
-  }
-  const rpcOf = (chain?: string) => (chain && AWAY[chain] ? AWAY[chain].rpc : d.rpcUrl);
-  const factoryOf = (chain?: string) => (chain && AWAY[chain] ? AWAY[chain].factory : CFG.factory!);
-  const callOn = (chain: string | undefined, to: string, data: string) =>
-    rpc(rpcOf(chain), "eth_call", [{ to, data }, "latest"]) as Promise<string>;
-  const call = (to: string, data: string) => callOn(undefined, to, data);
+  const on = d.env.VAULT_ON === "1";
+  const AWAY = (d.env.VAULT_CHAINS ?? "").split(",").map((c) => c.trim().toLowerCase()).filter((c) => NETS[c]);
+  const call = (to: string, data: string) => rpc(d.rpcUrl, "eth_call", [{ to, data }, "latest"]) as Promise<string>;
   const addr = (ret: string) => checksumAddress(`0x${ret.slice(-40)}`);
   const isOn = () => { if (!on) throw new HttpError(503, "Fly Wallets aren't open yet"); };
+  const chainOf = (c: unknown) => {
+    const chain = c && c !== "robinhood" ? String(c) : "robinhood";
+    if (chain !== "robinhood" && !AWAY.includes(chain)) throw new HttpError(400, "that chain isn't offered");
+    return chain;
+  };
+  const settingsKey = (wallet: string, chain: string) => (chain === "robinhood" ? wallet : `${chain}:${wallet}`);
+  const statsKey = (wallet: string, chain: string) => (chain === "robinhood" ? `vault:${wallet}` : `vault:${chain}:${wallet}`);
 
-  async function vaultOf(fly: number, chain?: string): Promise<string> {
-    return addr(await callOn(chain, factoryOf(chain), `${selector("vaultOf(uint256)")}${word(fly)}`));
-  }
-  async function potOf(fly: number): Promise<string | null> {
-    const a = addr(await call(CFG.factory!, `${selector("potOf(uint256)")}${word(fly)}`));
-    return /^0x0{40}$/i.test(a) ? null : a;
-  }
   async function ownerOfFly(fly: number): Promise<string | null> {
     try { return addr(await call(CFG.traderFly, `${selector("ownerOf(uint256)")}${word(fly)}`)); } catch { return null; }
   }
-  /** The vault's holder, 0x0 if it has none, null if the vault isn't made yet. */
-  async function holderOf(vault: string, chain?: string): Promise<string | null> {
-    const code = await rpc(rpcOf(chain), "eth_getCode", [vault, "latest"]) as string;
-    if (!code || code === "0x") return null;
-    return addr(await callOn(chain, vault, `${selector("holder()")}`));
+  async function walletOf(fly: number): Promise<string | null> {
+    return (await pg.one<{ address: string }>("select address from mine.vault_wallets where fly_id = ?", fly))?.address ?? null;
+  }
+  async function flyOfWallet(wallet: string): Promise<number | null> {
+    return (await pg.one<{ fly_id: number }>("select fly_id from mine.vault_wallets where lower(address) = lower(?)", wallet))?.fly_id ?? null;
+  }
+  async function ledgerOf(wallet: string, chain: string): Promise<Ledger | null> {
+    return (await pg.one<Ledger>("select holder, principal_usd, locked_usd, closing from mine.vault_ledger where wallet = ? and chain = ?",
+      wallet, chain)) ?? null;
   }
   const publicOf = async (key: string) =>
     (await pg.one<{ value: any }>("select value from mine.vault_public where key = ?", key))?.value ?? null;
-  const settingsOf = async (vault: string) =>
-    (await pg.one<{ doc: any; updated_at_ms: number }>("select doc, updated_at_ms from mine.vault_settings where vault = ?", vault)) ?? null;
+  const settingsOf = async (key: string) =>
+    (await pg.one<{ doc: any; updated_at_ms: number }>("select doc, updated_at_ms from mine.vault_settings where vault = ?", key)) ?? null;
 
   // ---- views -------------------------------------------------------------------------------------------------
   async function config() {
-    return { on, factory: CFG.factory, grant_usd: CFG.grantUsd, starters: await publicOf("starters"),
-             chains: Object.entries(AWAY).map(([chain, n]) => ({ chain, factory: n.factory, chain_id: n.chainId, native: n.native,
-               stable: n.stable, stable_dec: n.stableDec, stable_sym: n.stableSym, ...(n.poly ? { poly: true } : {}) })) };
+    return { on, grant_usd: CFG.grantUsd, starters: await publicOf("starters"), flightpass: CFG.flightPass, dead: DEAD,
+             hold_flyai: Number(d.env.VAULT_HOLD_FLYAI ?? "200000"),
+             chains: AWAY.map((chain) => { const n = NETS[chain]; return { chain, chain_id: n.chainId, native: n.native,
+               stable: n.stable, stable_dec: n.stableDec, stable_sym: n.stableSym, ...(n.poly ? { poly: true } : {}) }; }) };
   }
 
   async function flyView(fly: number) {
     isOn();
-    const [vault, pot, owner] = await Promise.all([vaultOf(fly), potOf(fly), ownerOfFly(fly)]);
-    const s = await settingsOf(vault);
-    // its vault on every other chain (made or not: the address is fixed by the fly id)
-    const away = await Promise.all(Object.keys(AWAY).map(async (chain) => {
-      try {
-        const v = await vaultOf(fly, chain);
-        return { chain, vault: v, stats: await publicOf(`vault:${v}`), settings: (await settingsOf(v))?.doc ?? null };
-      } catch {
-        return null;
-      }
-    }));
-    return { fly, owner, vault, pot, stats: await publicOf(`vault:${vault}`), settings: s?.doc ?? null,
-             pot_stats: pot ? await publicOf(`vault:${pot}`) : null, away: away.filter(Boolean) };
-  }
-
-  async function vaultView(vault: string) {
-    isOn();
-    const s = await settingsOf(vault);
-    return { vault, stats: await publicOf(`vault:${vault}`), settings: s?.doc ?? null };
+    const [wallet, owner, granted] = await Promise.all([walletOf(fly), ownerOfFly(fly),
+      pg.one<{ pass_id: number; status: string }>("select pass_id, status from mine.vault_grants where fly_id = ?", fly)]);
+    const one = async (chain: string) => wallet
+      ? { chain, ledger: await ledgerOf(wallet, chain), stats: await publicOf(statsKey(wallet, chain)),
+          settings: (await settingsOf(settingsKey(wallet, chain)))?.doc ?? null }
+      : { chain, ledger: null, stats: null, settings: null };
+    const home = await one("robinhood");
+    return { fly, owner, wallet, ...home, pass: granted ?? null, away: await Promise.all(AWAY.map(one)) };
   }
 
   // ---- the owner's settings ---------------------------------------------------------------------------------
-  async function saveSettings(req: IncomingMessage, vault: string, body: any) {
+  async function saveSettings(req: IncomingMessage, wallet: string, body: any) {
     isOn();
-    const wallet = await d.sessionWallet(req);
+    const me = await d.sessionWallet(req);
     const doc = body?.settings;
     if (!doc || typeof doc !== "object" || Array.isArray(doc)) throw new HttpError(400, "settings must be an object");
     const text = JSON.stringify(doc);
     if (text.length > MAX_DOC) throw new HttpError(400, "settings are too long");
-    const chain = body?.chain && body.chain !== "robinhood" ? String(body.chain) : undefined;
-    if (chain && !AWAY[chain]) throw new HttpError(400, "that chain isn't offered");
-    const holder = await holderOf(vault, chain);
-    if (holder && !/^0x0{40}$/i.test(holder)) {
-      if (holder.toLowerCase() !== wallet.toLowerCase()) throw new HttpError(403, "only the vault's holder can change its settings");
-    } else {
-      // not funded yet: the fly's owner sets it up first (a fly's own vault only; pots always have their holder)
-      const fly = Number(body?.fly);
-      if (!Number.isInteger(fly) || fly < 1) throw new HttpError(400, "fly is the vault's fly id");
-      if ((await vaultOf(fly, chain)).toLowerCase() !== vault.toLowerCase()) throw new HttpError(400, "that isn't this fly's vault");
-      if ((await ownerOfFly(fly))?.toLowerCase() !== wallet.toLowerCase()) throw new HttpError(403, "only the fly's owner can set up its wallet");
+    const chain = chainOf(body?.chain);
+    const fly = await flyOfWallet(wallet);
+    if (fly == null) throw new HttpError(404, "no such fly wallet");
+    const holder = (await ledgerOf(wallet, chain))?.holder;
+    if (holder) {
+      if (holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can change its settings");
+    } else if ((await ownerOfFly(fly))?.toLowerCase() !== me.toLowerCase()) {
+      throw new HttpError(403, "only the fly's owner can set up its wallet");
     }
+    const key = settingsKey(wallet, chain);
     const version = (await import("node:crypto")).createHash("sha1").update(text).digest("hex").slice(0, 12);
     await pg.run(`insert into mine.vault_settings (vault, doc, version, updated_by, updated_at_ms) values (?, ?::text::jsonb, ?, ?, ?)
       on conflict (vault) do update set doc = excluded.doc, version = excluded.version, updated_by = excluded.updated_by,
-      updated_at_ms = excluded.updated_at_ms`, vault, text, version, wallet, Date.now());   // (text, cast: a jsonb param would be stored as a JSON string)
-    return { vault, version, settings: doc };
+      updated_at_ms = excluded.updated_at_ms`, key, text, version, me, Date.now());   // (text, cast: a jsonb param would be stored as a JSON string)
+    return { wallet, chain, version, settings: doc };
   }
 
-  // ---- FlightPass burns: the pass's balance and the grant into the vault ----------------------------------------
-  let topic: string | null = null;
-  const burnedTopic = async () => {
-    if (!topic) {
-      const { keccak_256 } = await import("@noble/hashes/sha3.js");
-      topic = "0x" + Buffer.from(keccak_256(new TextEncoder().encode(PASS_BURNED_SIG))).toString("hex");
+  // ---- withdrawals: the holder asks, the desk pays ----------------------------------------------------------
+  async function withdraw(req: IncomingMessage, wallet: string, body: any) {
+    isOn();
+    const me = await d.sessionWallet(req);
+    const chain = chainOf(body?.chain);
+    const bps = Number(body?.bps);
+    if (!Number.isInteger(bps) || bps < 1 || bps > 10_000) throw new HttpError(400, "bps is 1..10000");
+    const led = await ledgerOf(wallet, chain);
+    if (!led?.holder || led.holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can withdraw");
+    const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = ? and kind = 'withdraw'
+      and status in ('new', 'doing')`, wallet, chain);
+    if (open) throw new HttpError(409, "a withdrawal is already on its way");
+    const row = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
+      values (?, ?, 'withdraw', ?, ?::text::jsonb) returning id`, wallet, chain, me, JSON.stringify({ bps }));
+    return { id: row!.id, status: "new" };
+  }
+
+  async function move(req: IncomingMessage, wallet: string, body: any) {
+    isOn();
+    const me = await d.sessionWallet(req);
+    const chain = chainOf(body?.chain);
+    const to = chainOf(body?.to_chain);
+    if (to === chain) throw new HttpError(400, "pick another chain");
+    const usd = Number(body?.usd);
+    if (!Number.isFinite(usd) || usd < 5 || usd > 1_000_000) throw new HttpError(400, "usd is at least 5");
+    const led = await ledgerOf(wallet, chain);
+    if (!led?.holder || led.holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can move its money");
+    const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = ? and kind in ('withdraw', 'move')
+      and status in ('new', 'doing')`, wallet, chain);
+    if (open) throw new HttpError(409, "a withdrawal or move is already on its way");
+    const row = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
+      values (?, ?, 'move', ?, ?::text::jsonb) returning id`, wallet, chain, me, JSON.stringify({ to_chain: to, usd }));
+    return { id: row!.id, status: "new" };
+  }
+
+  async function requestView(id: number) {
+    const r = await pg.one<any>("select id, wallet, chain, kind, status, result, extract(epoch from at) as at from mine.vault_requests where id = ?", id);
+    if (!r) throw new HttpError(404, "no such request");
+    return r;
+  }
+
+  // ---- FlightPass burns: the pass's balance and the grant into the fly's wallet ----------------------------
+  async function registerBurn(req: IncomingMessage, fly: number, body: any) {
+    isOn();
+    const me = await d.sessionWallet(req);
+    const pass = Number(body?.pass);
+    if (!Number.isInteger(pass) || pass < 1) throw new HttpError(400, "pass is the FlightPass id");
+    const wallet = await walletOf(fly);
+    if (!wallet) throw new HttpError(409, "this fly's wallet is still being made");
+    if ((await ownerOfFly(fly))?.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the fly's owner");
+    if (await pg.one("select 1 from mine.vault_grants where fly_id = ?", fly)) throw new HttpError(409, "this fly already took a FlightPass");
+    const passOwner = addr(await call(CFG.flightPass, `${selector("ownerOf(uint256)")}${word(pass)}`));
+    if (passOwner.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "that pass isn't yours");
+    await pg.run(`insert into mine.vault_grants (pass_id, fly_id, holder, vault, burn_tx, status, created_at_ms)
+      values (?, ?, ?, ?, '', 'pending', ?) on conflict (pass_id) do nothing`, pass, fly, me, wallet, Date.now());
+    return { pass, fly, wallet, send_to: DEAD };
+  }
+
+  /** Registered burns whose pass now sits at 0x...dEaD become grants to pay (status 'new'). */
+  async function seeBurns(): Promise<void> {
+    for (const g of await pg.all<{ pass_id: number }>("select pass_id from mine.vault_grants where status = 'pending'")) {
+      try {
+        const owner = addr(await call(CFG.flightPass, `${selector("ownerOf(uint256)")}${word(g.pass_id)}`));
+        if (owner.toLowerCase() === DEAD.toLowerCase()) {
+          await pg.run("update mine.vault_grants set status = 'new', burn_tx = 'dead' where pass_id = ? and status = 'pending'", g.pass_id);
+        }
+      } catch { /* not readable now: next tick */ }
     }
-    return topic;
-  };
-
-  /** New PassBurned events since the last read become grant rows (status 'new'). */
-  async function scanBurns(): Promise<void> {
-    const cur = await pg.one<{ value: any }>("select value from mine.vault_state where key = 'grant_cursor'");
-    const head = Number(BigInt(await rpc(d.rpcUrl, "eth_blockNumber", []) as string));
-    let from = Number(cur?.value?.block ?? CFG.deployBlock) + 1;
-    while (from <= head) {
-      const to = Math.min(head, from + 9_000_000);
-      const logs = await rpc(d.rpcUrl, "eth_getLogs", [{ address: CFG.factory, fromBlock: `0x${from.toString(16)}`,
-        toBlock: `0x${to.toString(16)}`, topics: [await burnedTopic()] }]) as any[];
-      for (const l of logs) {
-        const pass = Number(BigInt(l.topics[1])), fly = Number(BigInt(l.topics[2]));
-        const holder = addr(l.topics[3]), vault = addr(l.data);
-        await pg.run(`insert into mine.vault_grants (pass_id, fly_id, holder, vault, burn_tx, status, created_at_ms)
-          values (?, ?, ?, ?, ?, 'new', ?) on conflict (pass_id) do nothing`, pass, fly, holder, vault, l.transactionHash, Date.now());
-      }
-      from = to + 1;
-    }
-    await pg.run(`insert into mine.vault_state (key, value) values ('grant_cursor', ?::text::jsonb)
-      on conflict (key) do update set value = excluded.value, updated_at = now()`, JSON.stringify({ block: head }));
   }
 
-  /** FLYAI base units for $usd at TraderFly's posted price. */
-  async function flyaiFor(usd: number): Promise<bigint> {
-    const perDollar = BigInt(await call(CFG.traderFly, `${selector("flyaiPerDollar()")}`));
-    return perDollar * BigInt(Math.round(usd * 100)) / 100n;
-  }
-
-  async function ensureAllowance(need: bigint): Promise<void> {
-    const allowed = BigInt(await call(d.token, `${selector("allowance(address,address)")}${word(d.granter!.address)}${word(CFG.factory!)}`));
-    if (allowed >= need) return;
-    await d.granter!.send(d.token, `${selector("approve(address,uint256)")}${word(CFG.factory!)}${word((1n << 256n) - 1n)}`);
-  }
+  /** FLYAI base units per dollar at TraderFly's posted price. */
+  const perDollar = async () => BigInt(await call(CFG.traderFly, `${selector("flyaiPerDollar()")}`));
 
   async function payGrants(): Promise<void> {
     if (!d.granter) return;
     // empty each new burn's pass first (claimed once: the ledger row's tx is unique per pass)
     for (const g of await pg.all<{ pass_id: number }>("select pass_id from mine.vault_grants where status = 'new' order by pass_id")) {
-      const grant = await flyaiFor(CFG.grantUsd);
+      const grant = await perDollar() * BigInt(Math.round(CFG.grantUsd * 100)) / 100n;
       await pg.tx(async (q) => {
         const row = await q.one<{ status: string }>("select status from mine.vault_grants where pass_id = ?", g.pass_id);
         if (row?.status !== "new") return;
@@ -213,14 +229,17 @@ export function createVaults(d: VaultsDeps) {
           (bal > 0n ? bal : 0n).toString(), grant.toString(), g.pass_id);
       }, `pass:${g.pass_id}`);
     }
-    for (const g of await pg.all<{ pass_id: number; fly_id: number; pass_wei: string; grant_wei: string }>(
-      "select pass_id, fly_id, pass_wei, grant_wei from mine.vault_grants where status = 'claimed' order by pass_id")) {
+    for (const g of await pg.all<{ pass_id: number; fly_id: number; vault: string; pass_wei: string; grant_wei: string }>(
+      "select pass_id, fly_id, vault, pass_wei, grant_wei from mine.vault_grants where status = 'claimed' order by pass_id")) {
       const amount = BigInt(g.pass_wei) + BigInt(g.grant_wei);
       if (await pg.run("update mine.vault_grants set status = 'sending' where pass_id = ? and status = 'claimed'", g.pass_id) !== 1) continue;
       try {
-        await ensureAllowance(amount);
-        const tx = await d.granter.send(CFG.factory!, `${selector("grant(uint256,address,uint256,bool)")}${word(g.fly_id)}${word(d.token)}${word(amount)}${word(1)}`);
+        const tx = await d.granter.send(d.token, `${selector("transfer(address,uint256)")}${word(g.vault)}${word(amount)}`);
         await pg.run("update mine.vault_grants set status = 'paid', grant_tx = ?, done_at_ms = ? where pass_id = ?", tx.toLowerCase(), Date.now(), g.pass_id);
+        // the desk locks it (all of it: the pass's balance and the grant, user 2026-10-02)
+        const usd = Number(amount * 10_000n / (await perDollar())) / 10_000;
+        await pg.run(`insert into mine.vault_requests (wallet, chain, kind, requester, params) values (?, 'robinhood', 'pass_burn', 'mine', ?::text::jsonb)`,
+          g.vault, JSON.stringify({ pass: g.pass_id, fly: g.fly_id, grant_usd: usd, wei: amount.toString(), tx }));
         console.log(`vault grant: pass #${g.pass_id} -> fly #${g.fly_id}: ${fromWei(amount)} FLYAI (${tx})`);
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
@@ -237,7 +256,7 @@ export function createVaults(d: VaultsDeps) {
     if (ticking) return;
     ticking = true;
     try {
-      await scanBurns();
+      await seeBurns();
       await payGrants();
     } catch (err) {
       console.error("vaults tick:", (err as Error)?.message ?? err);
@@ -253,7 +272,10 @@ export function createVaults(d: VaultsDeps) {
 
   async function admin() {
     return {
-      on, factory: CFG.factory, granter: d.granter?.address ?? null,
+      on, chains: AWAY, granter: d.granter?.address ?? null,
+      wallets: (await pg.one<{ n: number }>("select count(*)::int as n from mine.vault_wallets"))?.n ?? 0,
+      funded: await pg.all("select * from mine.vault_ledger where holder is not null order by principal_usd desc limit 100"),
+      requests: await pg.all("select * from mine.vault_requests order by id desc limit 100"),
       grants: await pg.all("select * from mine.vault_grants order by pass_id desc limit 100"),
     };
   }
@@ -266,18 +288,24 @@ export function createVaults(d: VaultsDeps) {
       if (p === "/api/vaults/config") return d.send(res, 200, await config()), true;
       if (p === "/api/vaults/leaderboard") {
         isOn();
-        const chain = url.searchParams.get("chain");
-        const key = !chain || chain === "robinhood" ? "leaderboard" : `leaderboard:${chain}`;
+        const chain = chainOf(url.searchParams.get("chain"));
+        const key = chain === "robinhood" ? "leaderboard" : `leaderboard:${chain}`;
         return d.send(res, 200, (await publicOf(key)) ?? { all: [], d7: [], h24: [] }), true;
       }
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})$/.exec(p))) return d.send(res, 200, await flyView(Number(m[1]))), true;
-      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})$/.exec(p))) return d.send(res, 200, await vaultView(checksumAddress(m[1]))), true;
+      if ((m = /^\/api\/vaults\/requests\/(\d{1,12})$/.exec(p))) return d.send(res, 200, await requestView(Number(m[1]))), true;
       if (p === "/api/admin/vaults") { d.adminOnly(req); return d.send(res, 200, await admin()), true; }
     }
     if (req.method === "POST") {
-      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/settings$/.exec(p))) {
-        if (!ADDRESS.test(m[1])) throw new HttpError(400, "bad vault address");
-        return d.send(res, 200, await saveSettings(req, checksumAddress(m[1]), await d.readJson(req))), true;
+      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move)$/.exec(p))) {
+        if (!ADDRESS.test(m[1])) throw new HttpError(400, "bad wallet address");
+        const wallet = checksumAddress(m[1]);
+        const body = await d.readJson(req);
+        const go = m[2] === "settings" ? saveSettings : m[2] === "withdraw" ? withdraw : move;
+        return d.send(res, 200, await go(req, wallet, body)), true;
+      }
+      if ((m = /^\/api\/vaults\/fly\/(\d{1,6})\/pass$/.exec(p))) {
+        return d.send(res, 200, await registerBurn(req, Number(m[1]), await d.readJson(req))), true;
       }
     }
     return false;
