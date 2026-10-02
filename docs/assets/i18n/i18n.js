@@ -166,8 +166,8 @@ function route(href) {
 }
 
 /**
- * Translates the site's shared top nav (the same markup on every page) by where each link goes, so the
- * nav's many copies need no markup of their own: common.nav.<route>.label / .desc, common.nav.menu.<id>.
+ * Translates the site's shared top nav (built by assets/nav.js on every page) by where each link goes, so the
+ * nav needs no i18n markup of its own: common.nav.<route>.label / .desc, common.nav.menu.<id>.
  */
 export function translateNav(nav = document.querySelector('nav[aria-label="Main"]')) {
   if (!nav || lang === DEFAULT_LANG) return;
@@ -177,7 +177,8 @@ export function translateNav(nav = document.querySelector('nav[aria-label="Main"
     if (text && has(`common.nav.menu.${id}`)) text.textContent = `${t(`common.nav.menu.${id}`)} `;
   }
   for (const a of nav.querySelectorAll("ul a")) {
-    const r = a.href.startsWith("https://x.com/") ? "follow" : route(a.getAttribute("href"));
+    const r = a.href.startsWith("https://x.com/") ? "follow"
+      : a.href.startsWith("https://opensea.io/") ? "opensea" : route(a.getAttribute("href"));
     if (!r) continue;
     const key = `common.nav.${r.replace(/\//g, "_")}`;
     const text = [...a.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim());

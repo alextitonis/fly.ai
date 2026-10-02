@@ -38,8 +38,8 @@ Keys are `<namespace>.<path>`: `t("roulette.bet.spin")` reads `bet.spin` from `<
   English pages need no script at all.
 - Add the English to `en/<namespace>.json`, then the other languages (or leave them: they fall back to English).
 
-The shared top nav and footer are translated by where their links go (`common.nav.<route>`), so their many
-copies across the pages need no markup.
+The shared top nav (one copy, in `assets/nav.js`, which every page renders into its empty `<nav aria-label="Main">`)
+and the footer are translated by where their links go (`common.nav.<route>`), so they need no i18n markup.
 
 ## Wiring a page
 

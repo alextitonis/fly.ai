@@ -6,7 +6,8 @@
       "token": "$FLYAI",
       "traderflies": "Trader Flies",
       "nfts": "NFT'ler",
-      "flydesk": "Fly Desk"
+      "flydesk": "Fly Desk",
+      "market": "Pazar"
     },
     "home": {
       "label": "Ana sayfa"
@@ -87,8 +88,12 @@
       "label": "@flydotai'yi takip et"
     },
     "traderflies_market": {
-      "label": "Pazar",
+      "label": "Sinek Pazarı",
       "desc": "Trader Flies al ve sat"
+    },
+    "opensea": {
+      "label": "OpenSea",
+      "desc": "OpenSea'da Trader Flies"
     },
     "traderflies_breed": {
       "label": "Üret",

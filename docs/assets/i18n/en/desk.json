@@ -98,6 +98,12 @@
     "thCurve": "Curve",
     "cash": "cash"
   },
+  "ghosts": {
+    "title": "Test books",
+    "lede": "The same flies on the same bars, each book trying one change to how they trade. The ones in profit right now; the best ideas move into the main books.",
+    "thBook": "Book",
+    "label": "Test · {name}"
+  },
   "pos": {
     "title": "Positions",
     "lede": "What each fly holds right now, biggest first, at the latest price.",
@@ -172,7 +178,8 @@
     "fills": "Recent fills",
     "house": "House",
     "bonding": "{n} on bonding curves",
-    "thHeld": "Held here"
+    "thHeld": "Held here",
+    "homeOnly": "For now the flies only buy on Robinhood Chain. Below is what they still hold or bet elsewhere."
   },
   "rec": {
     "title": "All-time records",

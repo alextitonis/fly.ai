@@ -37,7 +37,8 @@
   nav ul a { color: var(--muted); text-decoration: none; }
   nav ul a:hover { color: var(--text); }
   @media (max-width: 1080px) {
-    nav ul { gap: 14px; font-size: 13px; }
+    nav .wrap { height: auto; min-height: 58px; padding-block: 8px; flex-wrap: wrap; }
+    nav ul { gap: 14px; font-size: 13px; flex-wrap: wrap; }
   }
   @media (max-width: 760px) {
     nav .wrap { height: auto; padding-block: 10px; flex-wrap: wrap; gap: 8px 14px; }
@@ -311,7 +312,8 @@
   /* nav: a glass bar, hover pills */
   nav { background: rgba(0,0,0,.62); backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px);
         border-bottom-color: rgba(255,255,255,.06); }
-  nav ul > li > a:not(.btn), nav .ddlabel { padding: 6px 10px !important; border-radius: 999px; transition: background .15s, color .15s; }
+  nav ul > li > a:not(.btn), nav .ddlabel { padding: 6px 8px !important; border-radius: 999px; transition: background .15s, color .15s; }
+  nav ul > li { white-space: nowrap; }        /* a crowded bar wraps whole items (or scrolls), never a label's words */
   nav ul > li > a:not(.btn):hover, nav .ddlabel:hover { background: rgba(255,255,255,.06); }
   nav ul { gap: 6px; }
   nav ul a.on::after, nav .ddlabel.on::after { margin: 3px auto 0; width: 16px; }

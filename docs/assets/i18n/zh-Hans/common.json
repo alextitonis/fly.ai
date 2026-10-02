@@ -6,7 +6,8 @@
       "token": "$FLYAI",
       "traderflies": "Trader Flies",
       "nfts": "NFT",
-      "flydesk": "Fly Desk"
+      "flydesk": "Fly Desk",
+      "market": "市场"
     },
     "home": {
       "label": "首页"
@@ -87,8 +88,12 @@
       "label": "关注 @flydotai"
     },
     "traderflies_market": {
-      "label": "市场",
+      "label": "苍蝇市场",
       "desc": "买卖 Trader Flies"
+    },
+    "opensea": {
+      "label": "OpenSea",
+      "desc": "OpenSea 上的 Trader Flies"
     },
     "traderflies_breed": {
       "label": "繁殖",

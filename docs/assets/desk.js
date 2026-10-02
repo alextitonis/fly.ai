@@ -211,7 +211,11 @@
     const n = parseInt(String(name).replace(/\D/g, ""), 10);
     return FLY_COLORS[Number.isFinite(n) ? (n - 1) % FLY_COLORS.length : 0];
   };
-  const bookLabel = (name) => (name === "house" ? t("chains.house") : String(name).replace(/^fly:/, "Fly #"));
+  /** The test books shown on the page: the ones in profit, not the brain flies' total or the basket benchmark. */
+  const winners = (G) => Object.keys(G).filter((n) => n !== "main" && n !== "basket" && G[n] && G[n].return_pct > 0);
+  const bookLabel = (name) => (name === "house" ? t("chains.house")
+    : String(name).startsWith("ghost:") ? t("ghosts.label", { name: String(name).slice(6) })
+    : String(name).replace(/^fly:/, "Fly #"));
   /** Which chain a token is on: "base:BRETT" is Base, a bare ticker is Robinhood Chain (the desk's home). */
   const CHAIN_NAMES = { robinhood: "Robinhood", base: "Base", bsc: "BNB", solana: "Solana", arbitrum: "Arbitrum",
                         abstract: "Abstract", poly: "Polymarket" };
@@ -299,11 +303,19 @@
 
   /** 06: the flies on other chains - the same books as above, one wallet across every chain: per chain what each fly
    * holds there and what it is worth, its fills there, and the chain's token list. */
-  function renderChains(cs) {
+  function renderChains(cs, ghosts) {
+    // a test book's rows only while it is in profit (see winners); the flies' own rows always
+    const win = new Set(winners(ghosts || {}));
+    cs = Object.fromEntries(Object.entries(cs).map(([k, c]) => [k, c && {
+      ...c, books: (c.books || []).filter((x) => !String(x.book).startsWith("ghost:") || win.has(String(x.book).slice(6))) }]));
     // Polymarket first: its bets are what people come to this section for (the user 2026-09-29)
-    const keys = Object.keys(cs).filter((k) => cs[k] && (cs[k].books || []).length)
+    // a chain shows when a fly holds or traded something there (or has bet history); empty rows are not sent
+    const keys = Object.keys(cs).filter((k) => cs[k] && ((cs[k].books || []).length || (cs[k].tape || []).length ||
+        (cs[k].bets || []).length || (cs[k].settled || []).length))
       .sort((a, b) => (b === "poly" ? 1 : 0) - (a === "poly" ? 1 : 0));
     $("chains").hidden = !keys.length;
+    const home = Object.values(cs).some((c) => c && c.home_only);   // entry.home_only: the flies buy Robinhood Chain only
+    $("chains-note").hidden = !home;
     const head = (cols) => `<thead><tr>${cols.map(([h, r]) => `<th${r ? ' class="r"' : ""}>${esc(h)}</th>`).join("")}</tr></thead>`;
     $("chains-body").innerHTML = keys.map((k) => {
       const c = cs[k];
@@ -405,6 +417,21 @@
           <td class="r">${nf(0).format(x.trades)}</td><td>${holds}</td><td>${spark((s.books[x.book] || []), flyColor(x.book))}</td></tr>`;
       }));
 
+    // test books (ghosts): the same flies and bars with one change each - only the ones in profit (the user
+    // 2026-10-02: "show winners"); not "main" (the brain flies) or "basket" (hold-the-basket benchmark)
+    const G = b.ghosts || {};
+    const gnames = winners(G).sort((x, y) => G[y].return_pct - G[x].return_pct);
+    $("ghosts-wrap").hidden = !gnames.length;
+    const gname = (n) => n;
+    table("ghosts-tbl", [[t("ghosts.thBook")], [t("books.thValue"), 1], [t("books.thReturn"), 1], [t("books.thTrades"), 1], [t("books.thHolds")]],
+      gnames.map((n) => {
+        const x = G[n], h = x.holdings || [];   // no holdings field (basket, or a desk before 10-02): a dash, not "cash"
+        const holds = h.length ? h.slice(0, 4).map(tok).join(", ") + (h.length > 4 ? " …" : "") : `<span class="dim">${esc(x.holdings ? t("books.cash") : "—")}</span>`;
+        return `<tr><td class="strong">${esc(gname(n))}</td><td class="r strong">${usd(x.value_usd)}</td>
+          <td class="r"><span class="${cls(x.return_pct)}">${pct(x.return_pct)}</span></td>
+          <td class="r">${nf(0).format(x.trades || 0)}</td><td>${holds}</td></tr>`;
+      }));
+
     // 04 positions
     const pos = b.positions || {};
     const names = b.books.map((x) => x.book).filter((n) => pos[n]);
@@ -428,7 +455,7 @@
           <td class="${sell ? "up" : ""}">${esc(sideName(r.side))}</td><td class="strong">${tok(r.symbol)}</td><td class="r">${usd(r.usd)}</td></tr>`;
       }), t("tape.none"));
     LABELS = b.labels || {};
-    renderChains(b.chains || {});
+    renderChains(b.chains || {}, b.ghosts);
 
     // launches
     const launches = b.launches || [];

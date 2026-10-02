@@ -6,7 +6,8 @@
       "token": "$FLYAI",
       "traderflies": "Trader Flies",
       "nfts": "NFTs",
-      "flydesk": "Fly Desk"
+      "flydesk": "Fly Desk",
+      "market": "Mercado"
     },
     "home": {
       "label": "Inicio"
@@ -87,8 +88,12 @@
       "label": "Seguir a @flydotai"
     },
     "traderflies_market": {
-      "label": "Mercado",
+      "label": "Mercado de moscas",
       "desc": "Compra y vende Trader Flies"
+    },
+    "opensea": {
+      "label": "OpenSea",
+      "desc": "Trader Flies en OpenSea"
     },
     "traderflies_breed": {
       "label": "Criar",

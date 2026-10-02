@@ -6,7 +6,8 @@
       "token": "$FLYAI",
       "traderflies": "Trader Flies",
       "nfts": "NFT",
-      "flydesk": "Fly Desk"
+      "flydesk": "Fly Desk",
+      "market": "마켓"
     },
     "home": {
       "label": "홈"
@@ -87,8 +88,12 @@
       "label": "@flydotai 팔로우"
     },
     "traderflies_market": {
-      "label": "마켓",
+      "label": "플라이 마켓",
       "desc": "Trader Flies 사고팔기"
+    },
+    "opensea": {
+      "label": "OpenSea",
+      "desc": "OpenSea의 Trader Flies"
     },
     "traderflies_breed": {
       "label": "교배",

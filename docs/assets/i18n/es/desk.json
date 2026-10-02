@@ -98,6 +98,12 @@
     "thCurve": "Curva",
     "cash": "efectivo"
   },
+  "ghosts": {
+    "title": "Libros de prueba",
+    "lede": "Las mismas moscas en las mismas barras; cada libro prueba un cambio en cómo operan. Los que van en ganancia ahora; las mejores ideas pasan a los libros principales.",
+    "thBook": "Libro",
+    "label": "Prueba · {name}"
+  },
   "pos": {
     "title": "Posiciones",
     "lede": "Lo que tiene cada mosca ahora mismo, de mayor a menor, al último precio.",
@@ -172,7 +178,8 @@
     "fills": "Operaciones recientes",
     "house": "Casa",
     "bonding": "{n} en curvas de bonding",
-    "thHeld": "En esta cadena"
+    "thHeld": "En esta cadena",
+    "homeOnly": "Por ahora las moscas solo compran en Robinhood Chain. Abajo está lo que aún tienen o apostaron en otras cadenas."
   },
   "rec": {
     "title": "Récords históricos",

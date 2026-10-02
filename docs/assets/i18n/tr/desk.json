@@ -98,6 +98,12 @@
     "thCurve": "Eğri",
     "cash": "nakit"
   },
+  "ghosts": {
+    "title": "Test defterleri",
+    "lede": "Aynı sinekler, aynı çubuklar; her defter işlem şekline tek bir değişiklik deniyor. Şu an kârda olanlar; en iyi fikirler ana defterlere geçer.",
+    "thBook": "Defter",
+    "label": "Test · {name}"
+  },
   "pos": {
     "title": "Pozisyonlar",
     "lede": "Her sineğin şu anda elinde tuttukları, büyükten küçüğe, son fiyatla.",
@@ -172,7 +178,8 @@
     "fills": "Son işlemler",
     "house": "Kasa",
     "bonding": "{n} bonding eğrisinde",
-    "thHeld": "Bu zincirde"
+    "thHeld": "Bu zincirde",
+    "homeOnly": "Şimdilik sinekler yalnızca Robinhood Chain'de alım yapıyor. Aşağıda başka zincirlerde hâlâ tuttukları ya da bahis yaptıkları var."
   },
   "rec": {
     "title": "Tüm zamanların rekorları",

@@ -40,6 +40,7 @@ import { ADDRESS, checksumAddress, recoverAddress, siweMessage } from "./wallet.
 import { createRoulette } from "./roulette.ts";
 import { createSlots } from "./slots.ts";
 import { createArena } from "./arena.ts";
+import { createVaults } from "./vaults.ts";
 import { createRace } from "./race.ts";
 import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
 import { connectPg, lockWallet, type Q } from "./pg.ts";
@@ -3426,6 +3427,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/flightpass/") || p.startsWith("/api/admin/flightpass"))) {
     if (await flightpass.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/vaults/") || p === "/api/admin/vaults")) {
+    if (await vaults.route(req, res, url)) return;
+  }
   if (req.method === "OPTIONS") {
     res.writeHead(204, { ...CORS, "access-control-allow-methods": "GET, POST" });
     return void res.end();
@@ -3663,6 +3667,17 @@ const flightpass = createFlightPass({
   payer: payoutRelayer,
 });
 if (USER) flightpass.start();
+// Fly Wallets (src/vaults.ts): owners' settings, the vault desk's stats, FlightPass burns paid into fly vaults by the
+// factory's granter (VAULT_GRANTER_KEY, or the FlightPass payout wallet that already holds the FLYAI float)
+const vaults = createVaults({
+  pg, book, balanceOf, adminOnly, HttpError, fromWei, send, readJson,
+  sessionWallet: sessionAddress,
+  rpcUrl: env("VAULT_RPC", CLAIMS.rpc),
+  env: process.env,
+  token: ORDERS.token,
+  granter: process.env.VAULT_GRANTER_KEY ? new Relayer(process.env.VAULT_GRANTER_KEY, env("VAULT_RPC", CLAIMS.rpc), "VAULT_GRANTER_KEY") : payoutRelayer,
+});
+if (USER) vaults.start();
 // the mining side's timers: orders, card checkouts, webhooks, staking samples and the research summaries
 if (MINING) {
   refreshTableCounts(); // /api/stats' job totals, in the background from the start
