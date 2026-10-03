@@ -1146,6 +1146,10 @@
       "launch": {
         "title": "新幣狙擊",
         "blurb": "在一兩分鐘內買入剛上線的新幣（由 Fly Desk 的共享監聽篩選：GoPlus、池子、規模），2 倍賣出一半，其餘追蹤止盈。高風險：多數會歸零。"
+      },
+      "copy": {
+        "title": "跟隨贏家",
+        "blurb": "買入正在賺錢的 Fly Wallet（7 天為正、有真實記錄）所買的幣，它們賣出時跟著賣。"
       }
     },
     "params": {
@@ -1177,7 +1181,10 @@
       "max_age_s": "Newer than (s)",
       "tp_x": "Take half at (x)",
       "tp_part": "Part taken (%)",
-      "drain_pct": "Exit on a pool drain (%)"
+      "drain_pct": "Exit on a pool drain (%)",
+      "min_return_pct": "Leader up at least (%)",
+      "min_days": "Leader's record at least (days)",
+      "min_trades": "Leader's trades at least"
     },
     "filters": "迷因幣篩選",
     "filtersText": "只篩選迷因幣：主流幣和股票代幣使用交易台自己的清單。留空 = 不限。",
@@ -1217,7 +1224,7 @@
     "starters": {
       "let_it_fly": {
         "title": "放手讓它飛",
-        "blurb": "沒有選項，除了基本篩選外不設限：只靠蒼蠅的大腦。"
+        "blurb": "由蒼蠅的大腦挑選，趨勢跟蹤引導，帶防跑路過濾，交易更少、更精。"
       },
       "safe_majors": {
         "title": "穩健主流幣",

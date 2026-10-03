@@ -1146,6 +1146,10 @@
       "launch": {
         "title": "新币狙击",
         "blurb": "在一两分钟内买入刚上线的新币（由 Fly Desk 的共享监听筛选：GoPlus、池子、规模），2 倍卖出一半，其余跟踪止盈。高风险：多数会归零。"
+      },
+      "copy": {
+        "title": "跟随赢家",
+        "blurb": "买入正在赚钱的 Fly Wallet（7 天为正、有真实记录）所买的币，它们卖出时跟着卖。"
       }
     },
     "params": {
@@ -1177,7 +1181,10 @@
       "max_age_s": "Newer than (s)",
       "tp_x": "Take half at (x)",
       "tp_part": "Part taken (%)",
-      "drain_pct": "Exit on a pool drain (%)"
+      "drain_pct": "Exit on a pool drain (%)",
+      "min_return_pct": "Leader up at least (%)",
+      "min_days": "Leader's record at least (days)",
+      "min_trades": "Leader's trades at least"
     },
     "filters": "Meme 币筛选",
     "filtersText": "只筛选 Meme 币：主流币和股票代币用的是交易台自己的列表。留空 = 不限。",
@@ -1217,7 +1224,7 @@
     "starters": {
       "let_it_fly": {
         "title": "放飞自我",
-        "blurb": "不开选项，除基础项外不加筛选：只靠苍蝇的大脑。"
+        "blurb": "由苍蝇的大脑挑选，趋势跟踪引导，带防跑路过滤，交易更少、更精。"
       },
       "safe_majors": {
         "title": "稳健主流",

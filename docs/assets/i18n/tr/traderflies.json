@@ -1148,6 +1148,10 @@
       "launch": {
         "title": "Lansman avcısı",
         "blurb": "Yeni çıkan tokenları bir iki dakika içinde alır (Fly Desk'in ortak dinleyicisi eler: GoPlus, havuz, boyut), 2x'te yarısını satar, kalanı izler. Yüksek risk: çoğu sıfıra gider."
+      },
+      "copy": {
+        "title": "Kazananları kopyala",
+        "blurb": "Para kazanan Fly Wallet'ların aldıklarını alır (7 günde artıda, gerçek geçmişi olan) ve onlar satınca satar."
       }
     },
     "params": {
@@ -1179,7 +1183,10 @@
       "max_age_s": "Newer than (s)",
       "tp_x": "Take half at (x)",
       "tp_part": "Part taken (%)",
-      "drain_pct": "Exit on a pool drain (%)"
+      "drain_pct": "Exit on a pool drain (%)",
+      "min_return_pct": "Leader up at least (%)",
+      "min_days": "Leader's record at least (days)",
+      "min_trades": "Leader's trades at least"
     },
     "filters": "Meme filtreleri",
     "filtersText": "Yalnızca memeler filtrelenir: büyükler ve hisse token'ları masanın kendi listesidir. Boş = sınır yok.",
@@ -1219,7 +1226,7 @@
     "starters": {
       "let_it_fly": {
         "title": "Bırak uçsun",
-        "blurb": "Seçenek yok, temel olanların ötesinde filtre yok: yalnızca sineğin beyni."
+        "blurb": "Sineğin beyni seçer; trend takibiyle yönlenir, rug filtreleri ve daha az ama daha iyi işlemlerle."
       },
       "safe_majors": {
         "title": "Güvenli Büyükler",

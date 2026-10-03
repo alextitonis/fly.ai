@@ -1148,6 +1148,10 @@
       "launch": {
         "title": "Francotirador de lanzamientos",
         "blurb": "Compra lanzamientos nuevos en uno o dos minutos (el listener compartido del Fly Desk los filtra: GoPlus, pool, tamaño), vende la mitad a 2x y sigue el resto. Riesgo alto: la mayoría llega a cero."
+      },
+      "copy": {
+        "title": "Copiar a los ganadores",
+        "blurb": "Compra lo que compran los Fly Wallets que están ganando (en positivo 7 días, con historial real) y vende cuando venden."
       }
     },
     "params": {
@@ -1179,7 +1183,10 @@
       "max_age_s": "Newer than (s)",
       "tp_x": "Take half at (x)",
       "tp_part": "Part taken (%)",
-      "drain_pct": "Exit on a pool drain (%)"
+      "drain_pct": "Exit on a pool drain (%)",
+      "min_return_pct": "Leader up at least (%)",
+      "min_days": "Leader's record at least (days)",
+      "min_trades": "Leader's trades at least"
     },
     "filters": "Filtros de memes",
     "filtersText": "Solo se filtran los memes: los majors y los tokens de acciones son la lista propia de la mesa. Vacío = sin límite.",
@@ -1219,7 +1226,7 @@
     "starters": {
       "let_it_fly": {
         "title": "Déjala volar",
-        "blurb": "Sin opciones ni filtros más allá de lo básico: solo el cerebro de la mosca."
+        "blurb": "El cerebro de la mosca elige, guiado por el seguimiento de tendencia, con filtros anti-rug y menos operaciones, mejores."
       },
       "safe_majors": {
         "title": "Majors seguros",

@@ -1148,6 +1148,10 @@
       "launch": {
         "title": "Launch sniper",
         "blurb": "Buys brand-new launches within a minute or two (the Fly Desk's shared listener screens them: GoPlus, pool, size), sells half at 2x and trails the rest. High risk: most launches go to zero."
+      },
+      "copy": {
+        "title": "Copy the winners",
+        "blurb": "Buys what the Fly Wallets that are making money buy (up over 7 days, with a real track record) and sells when they sell."
       }
     },
     "params": {
@@ -1179,7 +1183,10 @@
       "max_age_s": "Newer than (s)",
       "tp_x": "Take half at (x)",
       "tp_part": "Part taken (%)",
-      "drain_pct": "Exit on a pool drain (%)"
+      "drain_pct": "Exit on a pool drain (%)",
+      "min_return_pct": "Leader up at least (%)",
+      "min_days": "Leader's record at least (days)",
+      "min_trades": "Leader's trades at least"
     },
     "filters": "Meme filters",
     "filtersText": "Only memes are filtered: majors and stock tokens are the desk's own list. Empty = no limit.",
@@ -1219,7 +1226,7 @@
     "starters": {
       "let_it_fly": {
         "title": "Let it fly",
-        "blurb": "No options, no filters beyond the basics: the fly's brain alone."
+        "blurb": "The fly's brain picks, steered by trend-following, with rug filters and fewer, better trades."
       },
       "safe_majors": {
         "title": "Safe Majors",

@@ -1146,6 +1146,10 @@
       "launch": {
         "title": "런칭 스나이퍼",
         "blurb": "새로 출시된 토큰을 1~2분 안에 매수합니다 (Fly Desk 공유 리스너가 GoPlus·풀·규모로 걸러냄). 2배에서 절반을 팔고 나머지는 추적합니다. 고위험: 대부분 0이 됩니다."
+      },
+      "copy": {
+        "title": "승자 따라하기",
+        "blurb": "수익을 내는 Fly Wallet(7일간 플러스, 실제 기록 보유)이 사는 것을 사고, 그들이 팔면 팝니다."
       }
     },
     "params": {
@@ -1177,7 +1181,10 @@
       "max_age_s": "Newer than (s)",
       "tp_x": "Take half at (x)",
       "tp_part": "Part taken (%)",
-      "drain_pct": "Exit on a pool drain (%)"
+      "drain_pct": "Exit on a pool drain (%)",
+      "min_return_pct": "Leader up at least (%)",
+      "min_days": "Leader's record at least (days)",
+      "min_trades": "Leader's trades at least"
     },
     "filters": "밈 필터",
     "filtersText": "밈만 필터링해요: 메이저와 주식 토큰은 데스크가 정한 목록이에요. 비워 두면 = 제한 없음.",
@@ -1217,7 +1224,7 @@
     "starters": {
       "let_it_fly": {
         "title": "그냥 날게 두기",
-        "blurb": "옵션 없음, 기본 외 필터 없음: 파리의 브레인만."
+        "blurb": "파리의 두뇌가 고르고, 추세 추종이 방향을 잡습니다. 러그 필터와 더 적고 더 나은 거래."
       },
       "safe_majors": {
         "title": "안전한 메이저",
