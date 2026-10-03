@@ -17,7 +17,8 @@
     "none": "这个钱包没有 Trader Fly。",
     "count": "这个钱包里有 {n} 只。打开一只苍蝇查看它的钱包、设置和交易。",
     "wallet": "钱包",
-    "empty": "钱包为空——打开后充值", "funded": "钱包已充值 - 打开查看交易"
+    "empty": "钱包为空——打开后充值",
+    "funded": "钱包已充值 - 打开查看交易"
   },
   "nav": {
     "traders": "交易蝇",
@@ -159,15 +160,119 @@
     "generation": "第 {n} 代",
     "lastMerge": "上次合并：#{id} 已被销毁并融入这只苍蝇。",
     "incubating": "孵化中 · {time} 后孵化",
-    "incubatingShort": "孵化中","notLiveTitle": "Fly Desk 尚未上线：暂无可领取。", "notLiveText": "Desk 开始真实交易后才会开始派发。在此之前，这里显示的是每只苍蝇在持有者份额中的比例，而不是应付金额。", "yours": "你的苍蝇", "yoursN": "你的苍蝇（{n}）", "none": "此钱包没有 Trader Fly。", "total": "合计：在 {n} 只已激活苍蝇中占持有者份额的 {pct}。", "shareActive": "持有者份额 · {n} 只已激活", "shareIfActive": "若激活 · 当前 {n} 只已激活", "shareAtReveal": "揭晓后显示份额：由每只苍蝇的稀有度决定。", "active": "已激活", "inactive": "未激活", "weight": "派发权重", "weightNote": "普通 1 · 罕见 1.5 · 稀有 2 · 传奇 3", "atReveal": "揭晓时确定", "share": "份额", "status": "状态", "until": "至 {when}", "forever": "无结束日期", "activateHint": "持有者钱包需要 {amount} $FLYAI", "holdOn": "持有者持有 {amount}+ $FLYAI", "howShare": "每周 Desk 超出前高的利润中 {pct}% 归持有者，按权重分给已激活的苍蝇：你的份额 = 你的苍蝇权重 / 全部激活权重。", "traits": "特征", "traitsAtReveal": "特征随系列揭晓。", "holder": "持有者", "onMarket": "市场", "find": "查询", "findPlaceholder": "苍蝇 #", "inventory": "背包", "noAuras": "还没有光环。", "auraWorn": "已佩戴", "auraNote": "永久购买的光环和药水跟着果蝇走：果蝇卖掉，它们归新主人。", "colosseum": "Fly Colosseum", "pow": "力量", "grd": "防御", "vit": "体质", "fury": "狂怒", "strength": "战力", "record": "战绩", "recordText": "{fights} 战 {wins} 胜，{titles} 个冠军", "openColosseum": "打开 Fly Colosseum", "noPotions": "还没有永久药水。", "cantRead": "无法从链上读取这只苍蝇，请重试。"},
-  "lb": {"tab": "排行榜", "title": "交易排行榜", "text": "两周一个赛季。你的分数是在本市场买入和卖出的 $FLYAI 交易量。前 3 名获奖。", "season": "第 {n} 季", "left": "剩余 {d} 天 {h} 小时", "ended": "已结束", "place1": "第 1 名", "place2": "第 2 名", "place3": "第 3 名", "wallet": "钱包", "volume": "交易量（$FLYAI）", "trades": "成交", "you": "你", "empty": "本赛季还没有成交：来做第一个吧。", "cantRead": "无法读取市场成交，请稍后重试。", "yourRank": "你排第 {rank} 名，交易量 {points} $FLYAI。", "rules": "买入和卖出都计入，包括被接受的出价和集合出价。同一对钱包之间的成交每季最多计入 {max} 次，在两者之间来回转手的同一只苍蝇只计一次。团队钱包不参赛。每季结束发奖前，会核查获奖者是否存在钱包串通。 仅计入不少于 {min} $FLYAI 的成交。"},
+    "incubatingShort": "孵化中",
+    "notLiveTitle": "Fly Desk 尚未上线：暂无可领取。",
+    "notLiveText": "Desk 开始真实交易后才会开始派发。在此之前，这里显示的是每只苍蝇在持有者份额中的比例，而不是应付金额。",
+    "yours": "你的苍蝇",
+    "yoursN": "你的苍蝇（{n}）",
+    "none": "此钱包没有 Trader Fly。",
+    "total": "合计：在 {n} 只已激活苍蝇中占持有者份额的 {pct}。",
+    "shareActive": "持有者份额 · {n} 只已激活",
+    "shareIfActive": "若激活 · 当前 {n} 只已激活",
+    "shareAtReveal": "揭晓后显示份额：由每只苍蝇的稀有度决定。",
+    "active": "已激活",
+    "inactive": "未激活",
+    "weight": "派发权重",
+    "weightNote": "普通 1 · 罕见 1.5 · 稀有 2 · 传奇 3",
+    "atReveal": "揭晓时确定",
+    "share": "份额",
+    "status": "状态",
+    "until": "至 {when}",
+    "forever": "无结束日期",
+    "activateHint": "持有者钱包需要 {amount} $FLYAI",
+    "holdOn": "持有者持有 {amount}+ $FLYAI",
+    "howShare": "每周 Desk 超出前高的利润中 {pct}% 归持有者，按权重分给已激活的苍蝇：你的份额 = 你的苍蝇权重 / 全部激活权重。",
+    "traits": "特征",
+    "traitsAtReveal": "特征随系列揭晓。",
+    "holder": "持有者",
+    "onMarket": "市场",
+    "find": "查询",
+    "findPlaceholder": "苍蝇 #",
+    "inventory": "背包",
+    "noAuras": "还没有光环。",
+    "auraWorn": "已佩戴",
+    "auraNote": "永久购买的光环和药水跟着果蝇走：果蝇卖掉，它们归新主人。",
+    "colosseum": "Fly Colosseum",
+    "pow": "力量",
+    "grd": "防御",
+    "vit": "体质",
+    "fury": "狂怒",
+    "strength": "战力",
+    "record": "战绩",
+    "recordText": "{fights} 战 {wins} 胜，{titles} 个冠军",
+    "openColosseum": "打开 Fly Colosseum",
+    "noPotions": "还没有永久药水。",
+    "cantRead": "无法从链上读取这只苍蝇，请重试。"
+  },
+  "lb": {
+    "tab": "排行榜",
+    "title": "交易排行榜",
+    "text": "两周一个赛季。你的分数是在本市场买入和卖出的 $FLYAI 交易量。前 3 名获奖。",
+    "season": "第 {n} 季",
+    "left": "剩余 {d} 天 {h} 小时",
+    "ended": "已结束",
+    "place1": "第 1 名",
+    "place2": "第 2 名",
+    "place3": "第 3 名",
+    "wallet": "钱包",
+    "volume": "交易量（$FLYAI）",
+    "trades": "成交",
+    "you": "你",
+    "empty": "本赛季还没有成交：来做第一个吧。",
+    "cantRead": "无法读取市场成交，请稍后重试。",
+    "yourRank": "你排第 {rank} 名，交易量 {points} $FLYAI。",
+    "rules": "买入和卖出都计入，包括被接受的出价和集合出价。同一对钱包之间的成交每季最多计入 {max} 次，在两者之间来回转手的同一只苍蝇只计一次。团队钱包不参赛。每季结束发奖前，会核查获奖者是否存在钱包串通。 仅计入不少于 {min} $FLYAI 的成交。"
+  },
   "market": {
-    "view": { "label": "视图", "grid": "网格", "list": "列表" },
-    "browse": {"sortRarity": "稀有度：最稀有优先", "rarityAll": "全部", "search": "搜索 #", "searchLabel": "按编号查找", "notListed": "{name} 未在出售。", "noSuch": "还没有 #{id}。", "offer": "出价", "sweep": "扫货", "sweepHint": "最便宜的 {n} 个", "lastSale": "上次成交 {amount}"},
-    "coll": {"title": "集合出价", "text": "为任意苍蝇出每只的价格，最多 50 只。资金由市场托管，直到持有者卖给你或你撤回。每笔成交收取 {pct}% 手续费。", "qty": "数量", "price": "每只价格（{token}）", "make": "发起集合出价", "update": "更新集合出价", "yours": "你的集合出价 · 还要 {n} 只", "top": "最高出价", "forN": "共 {n} 只", "topShort": "集合出价 {price}", "sell": "以 {price} 卖出", "sellPicked": "以每只 {price} 卖出 {n} 只", "made": "已发起集合出价：{n} 只，每只 {price}。", "cancelled": "已撤回集合出价。", "sold": "已以每只 {price} 向集合出价卖出 {n} 只。", "why": {"BadQuantity": "请选择 1 到 50 只。"}},
-    "launch": {"title": "上线优惠", "text": "10 月 4 日（周日）前，在这里每笔成交手续费仅 {pct}%。"},
-    "vol24": "24 小时成交额", "salesN": "{n} 笔成交",
-    "page": {"label": "分页", "prev": "上一页", "next": "下一页", "of": "第 {page} / {pages} 页 · 共 {total} 个"},
+    "view": {
+      "label": "视图",
+      "grid": "网格",
+      "list": "列表"
+    },
+    "browse": {
+      "sortRarity": "稀有度：最稀有优先",
+      "rarityAll": "全部",
+      "search": "搜索 #",
+      "searchLabel": "按编号查找",
+      "notListed": "{name} 未在出售。",
+      "noSuch": "还没有 #{id}。",
+      "offer": "出价",
+      "sweep": "扫货",
+      "sweepHint": "最便宜的 {n} 个",
+      "lastSale": "上次成交 {amount}"
+    },
+    "coll": {
+      "title": "集合出价",
+      "text": "为任意苍蝇出每只的价格，最多 50 只。资金由市场托管，直到持有者卖给你或你撤回。每笔成交收取 {pct}% 手续费。",
+      "qty": "数量",
+      "price": "每只价格（{token}）",
+      "make": "发起集合出价",
+      "update": "更新集合出价",
+      "yours": "你的集合出价 · 还要 {n} 只",
+      "top": "最高出价",
+      "forN": "共 {n} 只",
+      "topShort": "集合出价 {price}",
+      "sell": "以 {price} 卖出",
+      "sellPicked": "以每只 {price} 卖出 {n} 只",
+      "made": "已发起集合出价：{n} 只，每只 {price}。",
+      "cancelled": "已撤回集合出价。",
+      "sold": "已以每只 {price} 向集合出价卖出 {n} 只。",
+      "why": {
+        "BadQuantity": "请选择 1 到 50 只。"
+      }
+    },
+    "launch": {
+      "title": "上线优惠",
+      "text": "10 月 4 日（周日）前，在这里每笔成交手续费仅 {pct}%。"
+    },
+    "vol24": "24 小时成交额",
+    "salesN": "{n} 笔成交",
+    "page": {
+      "label": "分页",
+      "prev": "上一页",
+      "next": "下一页",
+      "of": "第 {page} / {pages} 页 · 共 {total} 个"
+    },
     "usdFollows": "随 $FLYAI 价格浮动",
     "title": "市场",
     "text": "用 {token} 与其他持有者买卖 Trader Flies。卖家立即收款，扣除 {pct}% 手续费。",
@@ -516,7 +621,11 @@
     "preordered": "已预订"
   },
   "pass": {
-    "wdLimits": {"today": "今日已发送：{sent} / {cap} FLYAI", "each": "每次提现最多 {each}", "note": "每日总额由所有通行证共享，于 00:00 UTC 重置。更大的提现或超出今日总额的提现由团队发送，可能需要更长时间。"},
+    "wdLimits": {
+      "today": "今日已发送：{sent} / {cap} FLYAI",
+      "each": "每次提现最多 {each}",
+      "note": "每日总额由所有通行证共享，于 00:00 UTC 重置。更大的提现或超出今日总额的提现由团队发送，可能需要更长时间。"
+    },
     "name": "FlightPass #{id}",
     "soon": "FlightPass 即将降落。",
     "title": "FlightPass",
@@ -577,7 +686,11 @@
       "duelsText": "你的苍蝇主动约架。",
       "breed": "Flybook 繁殖",
       "breedText": "你的苍蝇去找对象。",
-      "deskClaim": "Fly Desk 奖励", "deskClaimText": "把你的 Trader Flies 在 Fly Desk 每周奖池中的份额直接领取到这个 Pass。", "soon": "即将推出", "colosseum": "Fly Colosseum", "colosseumText": "每个赛季用通行证余额报名你的 Trader Flies。奖金和退款回到通行证。"
+      "deskClaim": "Fly Desk 奖励",
+      "deskClaimText": "把你的 Trader Flies 在 Fly Desk 每周奖池中的份额直接领取到这个 Pass。",
+      "soon": "即将推出",
+      "colosseum": "Fly Colosseum",
+      "colosseumText": "每个赛季用通行证余额报名你的 Trader Flies。奖金和退款回到通行证。"
     },
     "limits": {
       "stake": "每局下注（$FLYAI）",
@@ -599,7 +712,11 @@
       "slots_payout": "老虎机奖金",
       "race_bet": "赛跑下注",
       "race_payout": "赛跑奖金",
-      "race_refund": "赛跑退款", "arena_bet": "Colosseum 报名", "arena_payout": "Colosseum 奖金", "arena_refund": "Colosseum 退款", "arena_shop": "Colosseum 商店"
+      "race_refund": "赛跑退款",
+      "arena_bet": "Colosseum 报名",
+      "arena_payout": "Colosseum 奖金",
+      "arena_refund": "Colosseum 退款",
+      "arena_shop": "Colosseum 商店"
     },
     "terms": {
       "title": "Fly Roulette 条款",
@@ -726,8 +843,22 @@
       "owned": "已拥有：{list}",
       "short": "通行证余额不足，请先充值。",
       "bought": "已为 Trader Fly #{fly} 购买 {what}。",
-      "stat": {"pow": "力量", "grd": "防御", "vit": "活力", "fury": "怒气"},
-      "status": {"listed": "通行证挂卖期间暂停。", "closed": "自动驾驶已开启。下个赛季开放时你的苍蝇会报名。", "entryHigh": "本赛季报名费为 {entry} $FLYAI，高于你的上限 {max}。调高即可参加。", "entered": "本赛季：已报名 {n}/{seats} 只苍蝇。", "noFlies": "没有可报名的苍蝇：这个钱包没有 Trader Flies，或勾选的不在这里。", "terms": "同意 18+ 条款后，你的苍蝇就会开始报名。", "lowBalance": "通行证余额不够一次报名（{need} $FLYAI）。充值即可参加。", "waiting": "自动驾驶已开启。你的苍蝇一分钟内报名。"}
+      "stat": {
+        "pow": "力量",
+        "grd": "防御",
+        "vit": "活力",
+        "fury": "怒气"
+      },
+      "status": {
+        "listed": "通行证挂卖期间暂停。",
+        "closed": "自动驾驶已开启。下个赛季开放时你的苍蝇会报名。",
+        "entryHigh": "本赛季报名费为 {entry} $FLYAI，高于你的上限 {max}。调高即可参加。",
+        "entered": "本赛季：已报名 {n}/{seats} 只苍蝇。",
+        "noFlies": "没有可报名的苍蝇：这个钱包没有 Trader Flies，或勾选的不在这里。",
+        "terms": "同意 18+ 条款后，你的苍蝇就会开始报名。",
+        "lowBalance": "通行证余额不够一次报名（{need} $FLYAI）。充值即可参加。",
+        "waiting": "自动驾驶已开启。你的苍蝇一分钟内报名。"
+      }
     },
     "race": {
       "stake": "每场注额 ($FLYAI)",
@@ -849,7 +980,13 @@
     "stakeCut": "质押 $FLYAI 减免 {pct}%",
     "holdings": "钱包",
     "gasCoin": "用于 gas",
-    "col": {"token": "代币", "amount": "数量", "price": "价格", "value": "价值", "pnl": "盈亏"},
+    "col": {
+      "token": "代币",
+      "amount": "数量",
+      "price": "价格",
+      "value": "价值",
+      "pnl": "盈亏"
+    },
     "moveTitle": "把钱转到另一条链",
     "moveText": "最多 {usd} 的苍蝇现金（锁定的 FlightPass 资金保留）。几分钟内以现金到达另一条链上的同一个钱包。",
     "moveTo": "转到",
@@ -1005,6 +1142,10 @@
       "reversal": {
         "title": "反转",
         "blurb": "Fly Desk 自家出品：持有近期跌幅最大的代币几个小时，押注它们反弹。"
+      },
+      "launch": {
+        "title": "新币狙击",
+        "blurb": "在一两分钟内买入刚上线的新币（由 Fly Desk 的共享监听筛选：GoPlus、池子、规模），2 倍卖出一半，其余跟踪止盈。高风险：多数会归零。"
       }
     },
     "params": {
@@ -1030,7 +1171,13 @@
       "taker_buy": "买方占比",
       "hold_bars": "持有（15 分钟 K 线数）",
       "lookback_bars": "回看（K 线数）",
-      "max_positions": "最多代币数"
+      "max_positions": "最多代币数",
+      "usd_per_launch": "$ per launch",
+      "max_open": "Most at once",
+      "max_age_s": "Newer than (s)",
+      "tp_x": "Take half at (x)",
+      "tp_part": "Part taken (%)",
+      "drain_pct": "Exit on a pool drain (%)"
     },
     "filters": "Meme 币筛选",
     "filtersText": "只筛选 Meme 币：主流币和股票代币用的是交易台自己的列表。留空 = 不限。",

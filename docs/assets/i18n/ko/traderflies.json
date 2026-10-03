@@ -17,7 +17,8 @@
     "none": "이 지갑에는 Trader Fly가 없습니다.",
     "count": "이 지갑에 {n}마리. 파리를 열어 지갑, 설정, 거래를 보세요.",
     "wallet": "지갑",
-    "empty": "지갑이 비어 있음 - 열어서 입금하세요", "funded": "지갑 충전됨 - 열어서 거래 보기"
+    "empty": "지갑이 비어 있음 - 열어서 입금하세요",
+    "funded": "지갑 충전됨 - 열어서 거래 보기"
   },
   "nav": {
     "traders": "트레이더",
@@ -159,15 +160,119 @@
     "generation": "{n}세대",
     "lastMerge": "최근 합치기: #{id}가 소각되어 이 파리에 합쳐졌습니다.",
     "incubating": "부화 중 · {time} 후 부화",
-    "incubatingShort": "부화 중","notLiveTitle": "Fly Desk는 아직 운영 전입니다: 청구할 것이 없습니다.", "notLiveText": "데스크가 실제로 거래를 시작하면 지급이 시작됩니다. 그 전까지는 보유자 몫에서 각 파리의 비율일 뿐, 지급될 금액이 아닙니다.", "yours": "내 파리", "yoursN": "내 파리 ({n})", "none": "이 지갑에는 Trader Fly가 없습니다.", "total": "합계: 활성 파리 {n}마리 중 보유자 몫의 {pct}.", "shareActive": "보유자 몫 · 활성 파리 {n}마리", "shareIfActive": "활성 시 · 현재 활성 파리 {n}마리", "shareAtReveal": "비율은 리빌 후에 표시됩니다: 각 파리의 희귀도로 정해집니다.", "active": "활성", "inactive": "비활성", "weight": "지급 가중치", "weightNote": "커먼 1 · 언커먼 1.5 · 레어 2 · 레전더리 3", "atReveal": "리빌 때 정해짐", "share": "비율", "status": "상태", "until": "{when}까지", "forever": "종료일 없음", "activateHint": "보유자 지갑에 {amount} $FLYAI가 필요합니다", "holdOn": "보유자가 {amount} $FLYAI 이상 보유 중", "howShare": "매주 데스크의 이전 최고점을 넘는 수익의 {pct}%가 보유자에게 가며, 활성 파리의 가중치로 나눕니다: 내 몫 = 내 파리 가중치 / 전체 활성 가중치.", "traits": "특성", "traitsAtReveal": "특성은 컬렉션 리빌 때 공개됩니다.", "holder": "보유자", "onMarket": "마켓플레이스", "find": "조회", "findPlaceholder": "파리 #", "inventory": "인벤토리", "noAuras": "아직 오라가 없어요.", "auraWorn": "착용 중", "auraNote": "영구로 산 오라와 포션은 파리에 남아요. 파리를 팔면 새 주인에게 넘어가요.", "colosseum": "Fly Colosseum", "pow": "파워", "grd": "가드", "vit": "활력", "fury": "분노", "strength": "전투력", "record": "전적", "recordText": "{fights}전 {wins}승, 타이틀 {titles}회", "openColosseum": "Fly Colosseum 열기", "noPotions": "아직 영구 포션이 없어요.", "cantRead": "체인에서 이 파리를 읽지 못했습니다. 다시 시도하세요."},
-  "lb": {"tab": "리더보드", "title": "거래 리더보드", "text": "2주 시즌. 점수는 이 마켓에서 사고판 $FLYAI 거래량입니다. 상위 3명이 상금을 받습니다.", "season": "시즌 {n}", "left": "{d}일 {h}시간 남음", "ended": "종료", "place1": "1위", "place2": "2위", "place3": "3위", "wallet": "지갑", "volume": "거래량 ($FLYAI)", "trades": "거래", "you": "나", "empty": "이번 시즌 거래가 아직 없습니다: 첫 거래를 해보세요.", "cantRead": "마켓 거래를 읽지 못했습니다. 잠시 후 다시 시도하세요.", "yourRank": "{points} $FLYAI로 #{rank}위입니다.", "rules": "구매와 판매 모두, 수락된 제안과 컬렉션 제안도 포함해 집계됩니다. 같은 두 지갑 간 거래는 시즌당 최대 {max}회만 집계되며, 둘 사이를 오간 같은 파리는 한 번만 집계됩니다. 팀 지갑은 참여하지 않습니다. 각 시즌 종료 후 상금을 보내기 전에 지갑 조작 여부를 확인합니다. {min} $FLYAI 이상의 거래만 집계됩니다."},
+    "incubatingShort": "부화 중",
+    "notLiveTitle": "Fly Desk는 아직 운영 전입니다: 청구할 것이 없습니다.",
+    "notLiveText": "데스크가 실제로 거래를 시작하면 지급이 시작됩니다. 그 전까지는 보유자 몫에서 각 파리의 비율일 뿐, 지급될 금액이 아닙니다.",
+    "yours": "내 파리",
+    "yoursN": "내 파리 ({n})",
+    "none": "이 지갑에는 Trader Fly가 없습니다.",
+    "total": "합계: 활성 파리 {n}마리 중 보유자 몫의 {pct}.",
+    "shareActive": "보유자 몫 · 활성 파리 {n}마리",
+    "shareIfActive": "활성 시 · 현재 활성 파리 {n}마리",
+    "shareAtReveal": "비율은 리빌 후에 표시됩니다: 각 파리의 희귀도로 정해집니다.",
+    "active": "활성",
+    "inactive": "비활성",
+    "weight": "지급 가중치",
+    "weightNote": "커먼 1 · 언커먼 1.5 · 레어 2 · 레전더리 3",
+    "atReveal": "리빌 때 정해짐",
+    "share": "비율",
+    "status": "상태",
+    "until": "{when}까지",
+    "forever": "종료일 없음",
+    "activateHint": "보유자 지갑에 {amount} $FLYAI가 필요합니다",
+    "holdOn": "보유자가 {amount} $FLYAI 이상 보유 중",
+    "howShare": "매주 데스크의 이전 최고점을 넘는 수익의 {pct}%가 보유자에게 가며, 활성 파리의 가중치로 나눕니다: 내 몫 = 내 파리 가중치 / 전체 활성 가중치.",
+    "traits": "특성",
+    "traitsAtReveal": "특성은 컬렉션 리빌 때 공개됩니다.",
+    "holder": "보유자",
+    "onMarket": "마켓플레이스",
+    "find": "조회",
+    "findPlaceholder": "파리 #",
+    "inventory": "인벤토리",
+    "noAuras": "아직 오라가 없어요.",
+    "auraWorn": "착용 중",
+    "auraNote": "영구로 산 오라와 포션은 파리에 남아요. 파리를 팔면 새 주인에게 넘어가요.",
+    "colosseum": "Fly Colosseum",
+    "pow": "파워",
+    "grd": "가드",
+    "vit": "활력",
+    "fury": "분노",
+    "strength": "전투력",
+    "record": "전적",
+    "recordText": "{fights}전 {wins}승, 타이틀 {titles}회",
+    "openColosseum": "Fly Colosseum 열기",
+    "noPotions": "아직 영구 포션이 없어요.",
+    "cantRead": "체인에서 이 파리를 읽지 못했습니다. 다시 시도하세요."
+  },
+  "lb": {
+    "tab": "리더보드",
+    "title": "거래 리더보드",
+    "text": "2주 시즌. 점수는 이 마켓에서 사고판 $FLYAI 거래량입니다. 상위 3명이 상금을 받습니다.",
+    "season": "시즌 {n}",
+    "left": "{d}일 {h}시간 남음",
+    "ended": "종료",
+    "place1": "1위",
+    "place2": "2위",
+    "place3": "3위",
+    "wallet": "지갑",
+    "volume": "거래량 ($FLYAI)",
+    "trades": "거래",
+    "you": "나",
+    "empty": "이번 시즌 거래가 아직 없습니다: 첫 거래를 해보세요.",
+    "cantRead": "마켓 거래를 읽지 못했습니다. 잠시 후 다시 시도하세요.",
+    "yourRank": "{points} $FLYAI로 #{rank}위입니다.",
+    "rules": "구매와 판매 모두, 수락된 제안과 컬렉션 제안도 포함해 집계됩니다. 같은 두 지갑 간 거래는 시즌당 최대 {max}회만 집계되며, 둘 사이를 오간 같은 파리는 한 번만 집계됩니다. 팀 지갑은 참여하지 않습니다. 각 시즌 종료 후 상금을 보내기 전에 지갑 조작 여부를 확인합니다. {min} $FLYAI 이상의 거래만 집계됩니다."
+  },
   "market": {
-    "view": { "label": "보기", "grid": "그리드", "list": "목록" },
-    "browse": {"sortRarity": "희귀도: 희귀한 순", "rarityAll": "전체", "search": "# 검색", "searchLabel": "번호로 찾기", "notListed": "{name}은(는) 판매 중이 아닙니다.", "noSuch": "아직 #{id}이(가) 없습니다.", "offer": "제안하기", "sweep": "스윕", "sweepHint": "가장 싼 {n}개", "lastSale": "최근 거래 {amount}"},
-    "coll": {"title": "컬렉션 제안", "text": "어떤 파리든 파리당 가격을 제안하세요(최대 50마리). 보유자가 판매하거나 회수할 때까지 마켓이 금액을 보관합니다. 판매마다 {pct}% 수수료.", "qty": "파리 수", "price": "파리당 가격 ({token})", "make": "컬렉션 제안하기", "update": "컬렉션 제안 수정", "yours": "내 컬렉션 제안 · {n}마리 남음", "top": "최고 제안", "forN": "{n}마리", "topShort": "컬렉션 제안 {price}", "sell": "{price}에 판매", "sellPicked": "{n}마리를 각 {price}에 판매", "made": "컬렉션 제안 완료: {n}마리, 각 {price}.", "cancelled": "컬렉션 제안을 회수했습니다.", "sold": "컬렉션 제안에 {n}마리를 각 {price}에 판매했습니다.", "why": {"BadQuantity": "1~50마리를 선택하세요."}},
-    "launch": {"title": "런칭 혜택", "text": "10월 4일 일요일까지 여기서의 모든 거래 수수료는 {pct}%입니다."},
-    "vol24": "24시간 거래량", "salesN": "{n}건 판매",
-    "page": {"label": "페이지", "prev": "이전", "next": "다음", "of": "{pages}페이지 중 {page} · {total}개"},
+    "view": {
+      "label": "보기",
+      "grid": "그리드",
+      "list": "목록"
+    },
+    "browse": {
+      "sortRarity": "희귀도: 희귀한 순",
+      "rarityAll": "전체",
+      "search": "# 검색",
+      "searchLabel": "번호로 찾기",
+      "notListed": "{name}은(는) 판매 중이 아닙니다.",
+      "noSuch": "아직 #{id}이(가) 없습니다.",
+      "offer": "제안하기",
+      "sweep": "스윕",
+      "sweepHint": "가장 싼 {n}개",
+      "lastSale": "최근 거래 {amount}"
+    },
+    "coll": {
+      "title": "컬렉션 제안",
+      "text": "어떤 파리든 파리당 가격을 제안하세요(최대 50마리). 보유자가 판매하거나 회수할 때까지 마켓이 금액을 보관합니다. 판매마다 {pct}% 수수료.",
+      "qty": "파리 수",
+      "price": "파리당 가격 ({token})",
+      "make": "컬렉션 제안하기",
+      "update": "컬렉션 제안 수정",
+      "yours": "내 컬렉션 제안 · {n}마리 남음",
+      "top": "최고 제안",
+      "forN": "{n}마리",
+      "topShort": "컬렉션 제안 {price}",
+      "sell": "{price}에 판매",
+      "sellPicked": "{n}마리를 각 {price}에 판매",
+      "made": "컬렉션 제안 완료: {n}마리, 각 {price}.",
+      "cancelled": "컬렉션 제안을 회수했습니다.",
+      "sold": "컬렉션 제안에 {n}마리를 각 {price}에 판매했습니다.",
+      "why": {
+        "BadQuantity": "1~50마리를 선택하세요."
+      }
+    },
+    "launch": {
+      "title": "런칭 혜택",
+      "text": "10월 4일 일요일까지 여기서의 모든 거래 수수료는 {pct}%입니다."
+    },
+    "vol24": "24시간 거래량",
+    "salesN": "{n}건 판매",
+    "page": {
+      "label": "페이지",
+      "prev": "이전",
+      "next": "다음",
+      "of": "{pages}페이지 중 {page} · {total}개"
+    },
     "usdFollows": "$FLYAI 시세 연동",
     "title": "마켓",
     "text": "다른 홀더와 Trader Flies를 {token}로 사고팝니다. 판매자는 {pct}% 수수료를 뺀 금액을 바로 받습니다.",
@@ -516,7 +621,11 @@
     "preordered": "사전 주문됨"
   },
   "pass": {
-    "wdLimits": {"today": "오늘 전송: {sent} / {cap} FLYAI", "each": "출금 1회당 최대 {each}", "note": "일일 한도는 모든 패스가 함께 쓰며 00:00 UTC에 초기화됩니다. 더 큰 출금이나 오늘 한도를 넘는 출금은 팀이 보내며 더 오래 걸릴 수 있습니다."},
+    "wdLimits": {
+      "today": "오늘 전송: {sent} / {cap} FLYAI",
+      "each": "출금 1회당 최대 {each}",
+      "note": "일일 한도는 모든 패스가 함께 쓰며 00:00 UTC에 초기화됩니다. 더 큰 출금이나 오늘 한도를 넘는 출금은 팀이 보내며 더 오래 걸릴 수 있습니다."
+    },
     "name": "FlightPass #{id}",
     "soon": "FlightPass가 곧 착륙합니다.",
     "title": "FlightPass",
@@ -577,7 +686,11 @@
       "duelsText": "파리들이 싸움을 겁니다.",
       "breed": "Flybook 번식",
       "breedText": "파리들이 짝을 찾습니다.",
-      "deskClaim": "Fly Desk 보상", "deskClaimText": "Fly Desk 주간 풀에서 내 Trader Flies의 몫을 이 패스로 바로 받아요.", "soon": "곧 출시", "colosseum": "Fly Colosseum", "colosseumText": "패스 잔액으로 매 시즌 Trader Flies를 출전시킵니다. 상금과 환불은 패스로 돌아옵니다."
+      "deskClaim": "Fly Desk 보상",
+      "deskClaimText": "Fly Desk 주간 풀에서 내 Trader Flies의 몫을 이 패스로 바로 받아요.",
+      "soon": "곧 출시",
+      "colosseum": "Fly Colosseum",
+      "colosseumText": "패스 잔액으로 매 시즌 Trader Flies를 출전시킵니다. 상금과 환불은 패스로 돌아옵니다."
     },
     "limits": {
       "stake": "게임당 베팅 ($FLYAI)",
@@ -599,7 +712,11 @@
       "slots_payout": "슬롯 당첨",
       "race_bet": "레이스 베팅",
       "race_payout": "레이스 당첨",
-      "race_refund": "레이스 환불", "arena_bet": "Colosseum 참가비", "arena_payout": "Colosseum 상금", "arena_refund": "Colosseum 환불", "arena_shop": "Colosseum 상점"
+      "race_refund": "레이스 환불",
+      "arena_bet": "Colosseum 참가비",
+      "arena_payout": "Colosseum 상금",
+      "arena_refund": "Colosseum 환불",
+      "arena_shop": "Colosseum 상점"
     },
     "terms": {
       "title": "Fly Roulette 약관",
@@ -726,8 +843,22 @@
       "owned": "보유: {list}",
       "short": "패스 잔액이 부족합니다. 먼저 충전하세요.",
       "bought": "Trader Fly #{fly}에게 {what} 구매 완료.",
-      "stat": {"pow": "파워", "grd": "가드", "vit": "활력", "fury": "분노"},
-      "status": {"listed": "패스가 판매 등록 중이라 일시정지됐습니다.", "closed": "자동 조종 켜짐. 다음 시즌이 열리면 파리가 출전합니다.", "entryHigh": "이번 시즌 참가비는 {entry} $FLYAI로 최대치 {max}보다 높습니다. 참가하려면 올리세요.", "entered": "이번 시즌: {seats}마리 중 {n}마리 출전.", "noFlies": "출전할 파리가 없습니다: 이 지갑에 Trader Flies가 없거나 체크한 파리가 여기에 없습니다.", "terms": "18+ 약관에 동의하면 파리가 출전을 시작합니다.", "lowBalance": "패스에 참가비({need} $FLYAI)가 부족합니다. 충전하고 참가하세요.", "waiting": "자동 조종 켜짐. 1분 안에 파리가 출전합니다."}
+      "stat": {
+        "pow": "파워",
+        "grd": "가드",
+        "vit": "활력",
+        "fury": "분노"
+      },
+      "status": {
+        "listed": "패스가 판매 등록 중이라 일시정지됐습니다.",
+        "closed": "자동 조종 켜짐. 다음 시즌이 열리면 파리가 출전합니다.",
+        "entryHigh": "이번 시즌 참가비는 {entry} $FLYAI로 최대치 {max}보다 높습니다. 참가하려면 올리세요.",
+        "entered": "이번 시즌: {seats}마리 중 {n}마리 출전.",
+        "noFlies": "출전할 파리가 없습니다: 이 지갑에 Trader Flies가 없거나 체크한 파리가 여기에 없습니다.",
+        "terms": "18+ 약관에 동의하면 파리가 출전을 시작합니다.",
+        "lowBalance": "패스에 참가비({need} $FLYAI)가 부족합니다. 충전하고 참가하세요.",
+        "waiting": "자동 조종 켜짐. 1분 안에 파리가 출전합니다."
+      }
     },
     "race": {
       "stake": "레이스당 베팅액 ($FLYAI)",
@@ -849,7 +980,13 @@
     "stakeCut": "$FLYAI 스테이킹으로 −{pct}%",
     "holdings": "지갑",
     "gasCoin": "가스용",
-    "col": {"token": "토큰", "amount": "수량", "price": "가격", "value": "가치", "pnl": "손익"},
+    "col": {
+      "token": "토큰",
+      "amount": "수량",
+      "price": "가격",
+      "value": "가치",
+      "pnl": "손익"
+    },
     "moveTitle": "다른 체인으로 돈 옮기기",
     "moveText": "파리 현금 중 최대 {usd}(잠긴 FlightPass 돈은 남습니다). 몇 분 안에 다른 체인의 같은 지갑에 현금으로 도착합니다.",
     "moveTo": "받는 곳",
@@ -1005,6 +1142,10 @@
       "reversal": {
         "title": "반전",
         "blurb": "Fly Desk 고유 옵션: 최근 하락한 토큰을 몇 시간 보유하며 반등에 걸어요."
+      },
+      "launch": {
+        "title": "런칭 스나이퍼",
+        "blurb": "새로 출시된 토큰을 1~2분 안에 매수합니다 (Fly Desk 공유 리스너가 GoPlus·풀·규모로 걸러냄). 2배에서 절반을 팔고 나머지는 추적합니다. 고위험: 대부분 0이 됩니다."
       }
     },
     "params": {
@@ -1030,7 +1171,13 @@
       "taker_buy": "매수자 비중",
       "hold_bars": "보유 (15분 봉)",
       "lookback_bars": "되돌아보기 (봉)",
-      "max_positions": "최대 토큰 수"
+      "max_positions": "최대 토큰 수",
+      "usd_per_launch": "$ per launch",
+      "max_open": "Most at once",
+      "max_age_s": "Newer than (s)",
+      "tp_x": "Take half at (x)",
+      "tp_part": "Part taken (%)",
+      "drain_pct": "Exit on a pool drain (%)"
     },
     "filters": "밈 필터",
     "filtersText": "밈만 필터링해요: 메이저와 주식 토큰은 데스크가 정한 목록이에요. 비워 두면 = 제한 없음.",

@@ -17,7 +17,8 @@
     "none": "這個錢包沒有 Trader Fly。",
     "count": "這個錢包裡有 {n} 隻。打開一隻蒼蠅查看牠的錢包、設定和交易。",
     "wallet": "錢包",
-    "empty": "錢包是空的——打開後充值", "funded": "錢包已儲值 - 打開查看交易"
+    "empty": "錢包是空的——打開後充值",
+    "funded": "錢包已儲值 - 打開查看交易"
   },
   "nav": {
     "traders": "交易蠅",
@@ -159,15 +160,119 @@
     "generation": "第 {n} 代",
     "lastMerge": "上次合併：#{id} 已被銷毀並融入這隻蒼蠅。",
     "incubating": "孵化中 · {time} 後孵化",
-    "incubatingShort": "孵化中","notLiveTitle": "Fly Desk 尚未上線：暫無可領取。", "notLiveText": "Desk 開始真實交易後才會開始派發。在此之前，這裡顯示的是每隻蒼蠅在持有者份額中的比例，而不是應付金額。", "yours": "你的蒼蠅", "yoursN": "你的蒼蠅（{n}）", "none": "此錢包沒有 Trader Fly。", "total": "合計：在 {n} 隻已啟用蒼蠅中占持有者份額的 {pct}。", "shareActive": "持有者份額 · {n} 隻已啟用", "shareIfActive": "若啟用 · 目前 {n} 隻已啟用", "shareAtReveal": "揭曉後顯示份額：由每隻蒼蠅的稀有度決定。", "active": "已啟用", "inactive": "未啟用", "weight": "派發權重", "weightNote": "普通 1 · 罕見 1.5 · 稀有 2 · 傳奇 3", "atReveal": "揭曉時確定", "share": "份額", "status": "狀態", "until": "至 {when}", "forever": "無結束日期", "activateHint": "持有者錢包需要 {amount} $FLYAI", "holdOn": "持有者持有 {amount}+ $FLYAI", "howShare": "每週 Desk 超出前高的利潤中 {pct}% 歸持有者，按權重分給已啟用的蒼蠅：你的份額 = 你的蒼蠅權重 / 全部啟用權重。", "traits": "特徵", "traitsAtReveal": "特徵隨系列揭曉。", "holder": "持有者", "onMarket": "市場", "find": "查詢", "findPlaceholder": "蒼蠅 #", "inventory": "背包", "noAuras": "還沒有光環。", "auraWorn": "已佩戴", "auraNote": "永久購買的光環和藥水跟著蒼蠅走：賣掉蒼蠅，它們就歸新主人。", "colosseum": "Fly Colosseum", "pow": "力量", "grd": "防禦", "vit": "體力", "fury": "怒氣", "strength": "實力", "record": "戰績", "recordText": "{fights} 戰 {wins} 勝，{titles} 座冠軍", "openColosseum": "進入 Fly Colosseum", "noPotions": "還沒有永久藥水。", "cantRead": "無法從鏈上讀取這隻蒼蠅，請重試。"},
-  "lb": {"tab": "排行榜", "title": "交易排行榜", "text": "兩週一個賽季。你的分數是在本市場買入和賣出的 $FLYAI 交易量。前 3 名獲獎。", "season": "第 {n} 季", "left": "剩餘 {d} 天 {h} 小時", "ended": "已結束", "place1": "第 1 名", "place2": "第 2 名", "place3": "第 3 名", "wallet": "錢包", "volume": "交易量（$FLYAI）", "trades": "成交", "you": "你", "empty": "本賽季還沒有成交：來做第一個吧。", "cantRead": "無法讀取市場成交，請稍後重試。", "yourRank": "你排第 {rank} 名，交易量 {points} $FLYAI。", "rules": "買入和賣出都計入，包括被接受的出價和集合出價。同一對錢包之間的成交每季最多計入 {max} 次，在兩者之間來回轉手的同一隻蒼蠅只計一次。團隊錢包不參賽。每季結束發獎前，會核查獲獎者是否存在錢包串通。 僅計入不少於 {min} $FLYAI 的成交。"},
+    "incubatingShort": "孵化中",
+    "notLiveTitle": "Fly Desk 尚未上線：暫無可領取。",
+    "notLiveText": "Desk 開始真實交易後才會開始派發。在此之前，這裡顯示的是每隻蒼蠅在持有者份額中的比例，而不是應付金額。",
+    "yours": "你的蒼蠅",
+    "yoursN": "你的蒼蠅（{n}）",
+    "none": "此錢包沒有 Trader Fly。",
+    "total": "合計：在 {n} 隻已啟用蒼蠅中占持有者份額的 {pct}。",
+    "shareActive": "持有者份額 · {n} 隻已啟用",
+    "shareIfActive": "若啟用 · 目前 {n} 隻已啟用",
+    "shareAtReveal": "揭曉後顯示份額：由每隻蒼蠅的稀有度決定。",
+    "active": "已啟用",
+    "inactive": "未啟用",
+    "weight": "派發權重",
+    "weightNote": "普通 1 · 罕見 1.5 · 稀有 2 · 傳奇 3",
+    "atReveal": "揭曉時確定",
+    "share": "份額",
+    "status": "狀態",
+    "until": "至 {when}",
+    "forever": "無結束日期",
+    "activateHint": "持有者錢包需要 {amount} $FLYAI",
+    "holdOn": "持有者持有 {amount}+ $FLYAI",
+    "howShare": "每週 Desk 超出前高的利潤中 {pct}% 歸持有者，按權重分給已啟用的蒼蠅：你的份額 = 你的蒼蠅權重 / 全部啟用權重。",
+    "traits": "特徵",
+    "traitsAtReveal": "特徵隨系列揭曉。",
+    "holder": "持有者",
+    "onMarket": "市場",
+    "find": "查詢",
+    "findPlaceholder": "蒼蠅 #",
+    "inventory": "背包",
+    "noAuras": "還沒有光環。",
+    "auraWorn": "已佩戴",
+    "auraNote": "永久購買的光環和藥水跟著蒼蠅走：賣掉蒼蠅，它們就歸新主人。",
+    "colosseum": "Fly Colosseum",
+    "pow": "力量",
+    "grd": "防禦",
+    "vit": "體力",
+    "fury": "怒氣",
+    "strength": "實力",
+    "record": "戰績",
+    "recordText": "{fights} 戰 {wins} 勝，{titles} 座冠軍",
+    "openColosseum": "進入 Fly Colosseum",
+    "noPotions": "還沒有永久藥水。",
+    "cantRead": "無法從鏈上讀取這隻蒼蠅，請重試。"
+  },
+  "lb": {
+    "tab": "排行榜",
+    "title": "交易排行榜",
+    "text": "兩週一個賽季。你的分數是在本市場買入和賣出的 $FLYAI 交易量。前 3 名獲獎。",
+    "season": "第 {n} 季",
+    "left": "剩餘 {d} 天 {h} 小時",
+    "ended": "已結束",
+    "place1": "第 1 名",
+    "place2": "第 2 名",
+    "place3": "第 3 名",
+    "wallet": "錢包",
+    "volume": "交易量（$FLYAI）",
+    "trades": "成交",
+    "you": "你",
+    "empty": "本賽季還沒有成交：來做第一個吧。",
+    "cantRead": "無法讀取市場成交，請稍後重試。",
+    "yourRank": "你排第 {rank} 名，交易量 {points} $FLYAI。",
+    "rules": "買入和賣出都計入，包括被接受的出價和集合出價。同一對錢包之間的成交每季最多計入 {max} 次，在兩者之間來回轉手的同一隻蒼蠅只計一次。團隊錢包不參賽。每季結束發獎前，會核查獲獎者是否存在錢包串通。 僅計入不少於 {min} $FLYAI 的成交。"
+  },
   "market": {
-    "view": { "label": "檢視", "grid": "網格", "list": "列表" },
-    "browse": {"sortRarity": "稀有度：最稀有優先", "rarityAll": "全部", "search": "搜尋 #", "searchLabel": "依編號查找", "notListed": "{name} 未在出售。", "noSuch": "還沒有 #{id}。", "offer": "出價", "sweep": "掃貨", "sweepHint": "最便宜的 {n} 個", "lastSale": "上次成交 {amount}"},
-    "coll": {"title": "集合出價", "text": "為任意蒼蠅出每隻的價格，最多 50 隻。資金由市場託管，直到持有者賣給你或你撤回。每筆成交收取 {pct}% 手續費。", "qty": "數量", "price": "每隻價格（{token}）", "make": "發起集合出價", "update": "更新集合出價", "yours": "你的集合出價 · 還要 {n} 隻", "top": "最高出價", "forN": "共 {n} 隻", "topShort": "集合出價 {price}", "sell": "以 {price} 賣出", "sellPicked": "以每隻 {price} 賣出 {n} 隻", "made": "已發起集合出價：{n} 隻，每隻 {price}。", "cancelled": "已撤回集合出價。", "sold": "已以每隻 {price} 向集合出價賣出 {n} 隻。", "why": {"BadQuantity": "請選擇 1 到 50 隻。"}},
-    "launch": {"title": "上線優惠", "text": "10 月 4 日（週日）前，在這裡每筆成交手續費僅 {pct}%。"},
-    "vol24": "24 小時成交額", "salesN": "{n} 筆成交",
-    "page": {"label": "分頁", "prev": "上一頁", "next": "下一頁", "of": "第 {page} / {pages} 頁 · 共 {total} 個"},
+    "view": {
+      "label": "檢視",
+      "grid": "網格",
+      "list": "列表"
+    },
+    "browse": {
+      "sortRarity": "稀有度：最稀有優先",
+      "rarityAll": "全部",
+      "search": "搜尋 #",
+      "searchLabel": "依編號查找",
+      "notListed": "{name} 未在出售。",
+      "noSuch": "還沒有 #{id}。",
+      "offer": "出價",
+      "sweep": "掃貨",
+      "sweepHint": "最便宜的 {n} 個",
+      "lastSale": "上次成交 {amount}"
+    },
+    "coll": {
+      "title": "集合出價",
+      "text": "為任意蒼蠅出每隻的價格，最多 50 隻。資金由市場託管，直到持有者賣給你或你撤回。每筆成交收取 {pct}% 手續費。",
+      "qty": "數量",
+      "price": "每隻價格（{token}）",
+      "make": "發起集合出價",
+      "update": "更新集合出價",
+      "yours": "你的集合出價 · 還要 {n} 隻",
+      "top": "最高出價",
+      "forN": "共 {n} 隻",
+      "topShort": "集合出價 {price}",
+      "sell": "以 {price} 賣出",
+      "sellPicked": "以每隻 {price} 賣出 {n} 隻",
+      "made": "已發起集合出價：{n} 隻，每隻 {price}。",
+      "cancelled": "已撤回集合出價。",
+      "sold": "已以每隻 {price} 向集合出價賣出 {n} 隻。",
+      "why": {
+        "BadQuantity": "請選擇 1 到 50 隻。"
+      }
+    },
+    "launch": {
+      "title": "上線優惠",
+      "text": "10 月 4 日（週日）前，在這裡每筆成交手續費僅 {pct}%。"
+    },
+    "vol24": "24 小時成交額",
+    "salesN": "{n} 筆成交",
+    "page": {
+      "label": "分頁",
+      "prev": "上一頁",
+      "next": "下一頁",
+      "of": "第 {page} / {pages} 頁 · 共 {total} 個"
+    },
     "usdFollows": "隨 $FLYAI 價格浮動",
     "title": "市場",
     "text": "用 {token} 與其他持有者買賣 Trader Flies。賣家立即收款，扣除 {pct}% 手續費。",
@@ -516,7 +621,11 @@
     "preordered": "已預訂"
   },
   "pass": {
-    "wdLimits": {"today": "今日已發送：{sent} / {cap} FLYAI", "each": "每次提領最多 {each}", "note": "每日總額由所有通行證共用，於 00:00 UTC 重置。更大的提領或超出今日總額的提領由團隊發送，可能需要更長時間。"},
+    "wdLimits": {
+      "today": "今日已發送：{sent} / {cap} FLYAI",
+      "each": "每次提領最多 {each}",
+      "note": "每日總額由所有通行證共用，於 00:00 UTC 重置。更大的提領或超出今日總額的提領由團隊發送，可能需要更長時間。"
+    },
     "name": "FlightPass #{id}",
     "soon": "FlightPass 即將降落。",
     "title": "FlightPass",
@@ -577,7 +686,11 @@
       "duelsText": "你的蒼蠅主動約架。",
       "breed": "Flybook 繁殖",
       "breedText": "你的蒼蠅去找對象。",
-      "deskClaim": "Fly Desk 獎勵", "deskClaimText": "把你的 Trader Flies 在 Fly Desk 每週獎池中的份額直接領取到這個 Pass。", "soon": "即將推出", "colosseum": "Fly Colosseum", "colosseumText": "每個賽季用通行證餘額報名你的 Trader Flies。獎金和退款回到通行證。"
+      "deskClaim": "Fly Desk 獎勵",
+      "deskClaimText": "把你的 Trader Flies 在 Fly Desk 每週獎池中的份額直接領取到這個 Pass。",
+      "soon": "即將推出",
+      "colosseum": "Fly Colosseum",
+      "colosseumText": "每個賽季用通行證餘額報名你的 Trader Flies。獎金和退款回到通行證。"
     },
     "limits": {
       "stake": "每局下注（$FLYAI）",
@@ -599,7 +712,11 @@
       "slots_payout": "拉霸獎金",
       "race_bet": "賽跑下注",
       "race_payout": "賽跑獎金",
-      "race_refund": "賽跑退款", "arena_bet": "Colosseum 報名", "arena_payout": "Colosseum 獎金", "arena_refund": "Colosseum 退款", "arena_shop": "Colosseum 商店"
+      "race_refund": "賽跑退款",
+      "arena_bet": "Colosseum 報名",
+      "arena_payout": "Colosseum 獎金",
+      "arena_refund": "Colosseum 退款",
+      "arena_shop": "Colosseum 商店"
     },
     "terms": {
       "title": "Fly Roulette 條款",
@@ -726,8 +843,22 @@
       "owned": "已擁有：{list}",
       "short": "通行證餘額不足，請先儲值。",
       "bought": "已為 Trader Fly #{fly} 購買 {what}。",
-      "stat": {"pow": "力量", "grd": "防禦", "vit": "活力", "fury": "怒氣"},
-      "status": {"listed": "通行證掛賣期間暫停。", "closed": "自動駕駛已開啟。下個賽季開放時你的蒼蠅會報名。", "entryHigh": "本賽季報名費為 {entry} $FLYAI，高於你的上限 {max}。調高即可參加。", "entered": "本賽季：已報名 {n}/{seats} 隻蒼蠅。", "noFlies": "沒有可報名的蒼蠅：這個錢包沒有 Trader Flies，或勾選的不在這裡。", "terms": "同意 18+ 條款後，你的蒼蠅就會開始報名。", "lowBalance": "通行證餘額不夠一次報名（{need} $FLYAI）。儲值即可參加。", "waiting": "自動駕駛已開啟。你的蒼蠅一分鐘內報名。"}
+      "stat": {
+        "pow": "力量",
+        "grd": "防禦",
+        "vit": "活力",
+        "fury": "怒氣"
+      },
+      "status": {
+        "listed": "通行證掛賣期間暫停。",
+        "closed": "自動駕駛已開啟。下個賽季開放時你的蒼蠅會報名。",
+        "entryHigh": "本賽季報名費為 {entry} $FLYAI，高於你的上限 {max}。調高即可參加。",
+        "entered": "本賽季：已報名 {n}/{seats} 隻蒼蠅。",
+        "noFlies": "沒有可報名的蒼蠅：這個錢包沒有 Trader Flies，或勾選的不在這裡。",
+        "terms": "同意 18+ 條款後，你的蒼蠅就會開始報名。",
+        "lowBalance": "通行證餘額不夠一次報名（{need} $FLYAI）。儲值即可參加。",
+        "waiting": "自動駕駛已開啟。你的蒼蠅一分鐘內報名。"
+      }
     },
     "race": {
       "stake": "每場注額 ($FLYAI)",
@@ -849,7 +980,13 @@
     "stakeCut": "質押 $FLYAI 減免 {pct}%",
     "holdings": "錢包",
     "gasCoin": "用於 gas",
-    "col": {"token": "代幣", "amount": "數量", "price": "價格", "value": "價值", "pnl": "盈虧"},
+    "col": {
+      "token": "代幣",
+      "amount": "數量",
+      "price": "價格",
+      "value": "價值",
+      "pnl": "盈虧"
+    },
     "moveTitle": "把錢轉到另一條鏈",
     "moveText": "最多 {usd} 的蒼蠅現金（鎖定的 FlightPass 資金保留）。幾分鐘內以現金到達另一條鏈上的同一個錢包。",
     "moveTo": "轉到",
@@ -1005,6 +1142,10 @@
       "reversal": {
         "title": "反轉",
         "blurb": "Fly Desk 自家的選項：持有近期跌幅最大的代幣幾個小時，押注它們反彈。"
+      },
+      "launch": {
+        "title": "新幣狙擊",
+        "blurb": "在一兩分鐘內買入剛上線的新幣（由 Fly Desk 的共享監聽篩選：GoPlus、池子、規模），2 倍賣出一半，其餘追蹤止盈。高風險：多數會歸零。"
       }
     },
     "params": {
@@ -1030,7 +1171,13 @@
       "taker_buy": "買方佔比",
       "hold_bars": "持有（15 分鐘 K 線）",
       "lookback_bars": "回看（K 線）",
-      "max_positions": "最多代幣數"
+      "max_positions": "最多代幣數",
+      "usd_per_launch": "$ per launch",
+      "max_open": "Most at once",
+      "max_age_s": "Newer than (s)",
+      "tp_x": "Take half at (x)",
+      "tp_part": "Part taken (%)",
+      "drain_pct": "Exit on a pool drain (%)"
     },
     "filters": "迷因幣篩選",
     "filtersText": "只篩選迷因幣：主流幣和股票代幣使用交易台自己的清單。留空 = 不限。",

@@ -17,7 +17,8 @@
     "none": "Esta wallet no tiene Trader Flies.",
     "count": "En esta wallet: {n}. Abre una mosca para ver su wallet, ajustes y operaciones.",
     "wallet": "Wallet",
-    "empty": "Wallet vacía: ábrela para fondearla", "funded": "Wallet con fondos: ábrela para ver sus trades"
+    "empty": "Wallet vacía: ábrela para fondearla",
+    "funded": "Wallet con fondos: ábrela para ver sus trades"
   },
   "nav": {
     "traders": "Traders",
@@ -161,15 +162,119 @@
     "generation": "Generación {n}",
     "lastMerge": "Última fusión: #{id} se quemó dentro de esta mosca.",
     "incubating": "Incubando · nace en {time}",
-    "incubatingShort": "Incubando","notLiveTitle": "El Fly Desk aún no está activo: no hay nada que reclamar.", "notLiveText": "Los pagos empiezan cuando el desk opere de verdad. Hasta entonces, esto es la parte de cada mosca en la porción de los holders, no dinero adeudado.", "yours": "Tus moscas", "yoursN": "Tus moscas ({n})", "none": "Esta billetera no tiene Trader Flies.", "total": "En total: {pct} de la porción de los holders, entre {n} moscas activas.", "shareActive": "de la porción de los holders · {n} moscas activas", "shareIfActive": "si está activa · {n} moscas activas ahora", "shareAtReveal": "Las partes se ven tras el reveal: dependen de la rareza de cada mosca.", "active": "Activa", "inactive": "No activa", "weight": "Peso de pago", "weightNote": "Común 1 · Poco común 1.5 · Rara 2 · Legendaria 3", "atReveal": "se fija en el reveal", "share": "Parte", "status": "Estado", "until": "hasta {when}", "forever": "sin fecha de fin", "activateHint": "su holder necesita {amount} $FLYAI en la wallet", "holdOn": "su holder tiene {amount}+ $FLYAI", "howShare": "Cada semana el {pct}% de la ganancia del desk por encima de su máximo anterior va a los holders, repartido entre moscas activas por peso: tu parte = peso de tu mosca / peso activo total.", "traits": "Rasgos", "traitsAtReveal": "Los rasgos se revelan con la colección.", "holder": "En manos de", "onMarket": "Marketplace", "find": "Buscar", "findPlaceholder": "Mosca #", "inventory": "Inventario", "noAuras": "Aún no tienes auras.", "auraWorn": "puesta", "auraNote": "Las auras y pociones compradas para siempre se quedan con la mosca: si se vende, pasan al nuevo dueño.", "colosseum": "Fly Colosseum", "pow": "Poder", "grd": "Guardia", "vit": "Vitalidad", "fury": "Furia", "strength": "Fuerza", "record": "Récord", "recordText": "{wins} victorias en {fights} combates, {titles} títulos", "openColosseum": "Abrir el Fly Colosseum", "noPotions": "Aún no tienes pociones para siempre.", "cantRead": "No se pudo leer esta mosca de la cadena; inténtalo de nuevo."},
-  "lb": {"tab": "Clasificación", "title": "Clasificación de trading", "text": "Temporadas de dos semanas. Tu puntuación es el volumen en $FLYAI que operas en este mercado, comprando y vendiendo. Ganan los 3 primeros.", "season": "Temporada {n}", "left": "quedan {d} d {h} h", "ended": "Terminada", "place1": "1.º", "place2": "2.º", "place3": "3.º", "wallet": "Billetera", "volume": "Volumen ($FLYAI)", "trades": "Operaciones", "you": "tú", "empty": "Aún no hay operaciones esta temporada: sé el primero.", "cantRead": "No se pudieron leer las operaciones del mercado; inténtalo pronto.", "yourRank": "Eres el #{rank} con {points} $FLYAI.", "rules": "Cuentan compras y ventas, incluidas ofertas aceptadas y ofertas por colección. Las operaciones entre las mismas dos billeteras cuentan como máximo {max} veces por temporada, y una mosca que va y vuelve entre ellas cuenta una vez. Las billeteras del equipo no compiten. Antes de enviar los premios, al terminar cada temporada, se revisan los ganadores en busca de redes de billeteras. Solo cuentan ventas de al menos {min} $FLYAI."},
+    "incubatingShort": "Incubando",
+    "notLiveTitle": "El Fly Desk aún no está activo: no hay nada que reclamar.",
+    "notLiveText": "Los pagos empiezan cuando el desk opere de verdad. Hasta entonces, esto es la parte de cada mosca en la porción de los holders, no dinero adeudado.",
+    "yours": "Tus moscas",
+    "yoursN": "Tus moscas ({n})",
+    "none": "Esta billetera no tiene Trader Flies.",
+    "total": "En total: {pct} de la porción de los holders, entre {n} moscas activas.",
+    "shareActive": "de la porción de los holders · {n} moscas activas",
+    "shareIfActive": "si está activa · {n} moscas activas ahora",
+    "shareAtReveal": "Las partes se ven tras el reveal: dependen de la rareza de cada mosca.",
+    "active": "Activa",
+    "inactive": "No activa",
+    "weight": "Peso de pago",
+    "weightNote": "Común 1 · Poco común 1.5 · Rara 2 · Legendaria 3",
+    "atReveal": "se fija en el reveal",
+    "share": "Parte",
+    "status": "Estado",
+    "until": "hasta {when}",
+    "forever": "sin fecha de fin",
+    "activateHint": "su holder necesita {amount} $FLYAI en la wallet",
+    "holdOn": "su holder tiene {amount}+ $FLYAI",
+    "howShare": "Cada semana el {pct}% de la ganancia del desk por encima de su máximo anterior va a los holders, repartido entre moscas activas por peso: tu parte = peso de tu mosca / peso activo total.",
+    "traits": "Rasgos",
+    "traitsAtReveal": "Los rasgos se revelan con la colección.",
+    "holder": "En manos de",
+    "onMarket": "Marketplace",
+    "find": "Buscar",
+    "findPlaceholder": "Mosca #",
+    "inventory": "Inventario",
+    "noAuras": "Aún no tienes auras.",
+    "auraWorn": "puesta",
+    "auraNote": "Las auras y pociones compradas para siempre se quedan con la mosca: si se vende, pasan al nuevo dueño.",
+    "colosseum": "Fly Colosseum",
+    "pow": "Poder",
+    "grd": "Guardia",
+    "vit": "Vitalidad",
+    "fury": "Furia",
+    "strength": "Fuerza",
+    "record": "Récord",
+    "recordText": "{wins} victorias en {fights} combates, {titles} títulos",
+    "openColosseum": "Abrir el Fly Colosseum",
+    "noPotions": "Aún no tienes pociones para siempre.",
+    "cantRead": "No se pudo leer esta mosca de la cadena; inténtalo de nuevo."
+  },
+  "lb": {
+    "tab": "Clasificación",
+    "title": "Clasificación de trading",
+    "text": "Temporadas de dos semanas. Tu puntuación es el volumen en $FLYAI que operas en este mercado, comprando y vendiendo. Ganan los 3 primeros.",
+    "season": "Temporada {n}",
+    "left": "quedan {d} d {h} h",
+    "ended": "Terminada",
+    "place1": "1.º",
+    "place2": "2.º",
+    "place3": "3.º",
+    "wallet": "Billetera",
+    "volume": "Volumen ($FLYAI)",
+    "trades": "Operaciones",
+    "you": "tú",
+    "empty": "Aún no hay operaciones esta temporada: sé el primero.",
+    "cantRead": "No se pudieron leer las operaciones del mercado; inténtalo pronto.",
+    "yourRank": "Eres el #{rank} con {points} $FLYAI.",
+    "rules": "Cuentan compras y ventas, incluidas ofertas aceptadas y ofertas por colección. Las operaciones entre las mismas dos billeteras cuentan como máximo {max} veces por temporada, y una mosca que va y vuelve entre ellas cuenta una vez. Las billeteras del equipo no compiten. Antes de enviar los premios, al terminar cada temporada, se revisan los ganadores en busca de redes de billeteras. Solo cuentan ventas de al menos {min} $FLYAI."
+  },
   "market": {
-    "view": { "label": "Vista", "grid": "Cuadrícula", "list": "Lista" },
-    "browse": {"sortRarity": "Rareza: las más raras primero", "rarityAll": "Todas", "search": "Buscar #", "searchLabel": "Buscar por número", "notListed": "{name} no está a la venta.", "noSuch": "Aún no existe el #{id}.", "offer": "Hacer una oferta", "sweep": "Barrer", "sweepHint": "los {n} más baratos", "lastSale": "Última venta {amount}"},
-    "coll": {"title": "Oferta por colección", "text": "Ofrece un precio por mosca para cualquier mosca, hasta 50. El mercado guarda el dinero hasta que un holder te venda una, o lo retires. Comisión del {pct}% en cada venta.", "qty": "Moscas", "price": "Precio por mosca ({token})", "make": "Hacer oferta por colección", "update": "Actualizar oferta", "yours": "Tu oferta por colección · {n} más", "top": "Mejor oferta", "forN": "por {n} moscas", "topShort": "Oferta por colección {price}", "sell": "Vender por {price}", "sellPicked": "Vender {n} a {price} cada una", "made": "Oferta hecha: {n} moscas a {price} cada una.", "cancelled": "Oferta por colección retirada.", "sold": "Vendidas {n} a la oferta por colección a {price} cada una.", "why": {"BadQuantity": "Elige de 1 a 50 moscas."}},
-    "launch": {"title": "Ofertas de lanzamiento", "text": "Comisión del {pct}% en cada venta aquí hasta el domingo 4 de octubre."},
-    "vol24": "Volumen 24 h", "salesN": "{n} ventas",
-    "page": {"label": "Páginas", "prev": "Anterior", "next": "Siguiente", "of": "Página {page} de {pages} · {total} elementos"},
+    "view": {
+      "label": "Vista",
+      "grid": "Cuadrícula",
+      "list": "Lista"
+    },
+    "browse": {
+      "sortRarity": "Rareza: las más raras primero",
+      "rarityAll": "Todas",
+      "search": "Buscar #",
+      "searchLabel": "Buscar por número",
+      "notListed": "{name} no está a la venta.",
+      "noSuch": "Aún no existe el #{id}.",
+      "offer": "Hacer una oferta",
+      "sweep": "Barrer",
+      "sweepHint": "los {n} más baratos",
+      "lastSale": "Última venta {amount}"
+    },
+    "coll": {
+      "title": "Oferta por colección",
+      "text": "Ofrece un precio por mosca para cualquier mosca, hasta 50. El mercado guarda el dinero hasta que un holder te venda una, o lo retires. Comisión del {pct}% en cada venta.",
+      "qty": "Moscas",
+      "price": "Precio por mosca ({token})",
+      "make": "Hacer oferta por colección",
+      "update": "Actualizar oferta",
+      "yours": "Tu oferta por colección · {n} más",
+      "top": "Mejor oferta",
+      "forN": "por {n} moscas",
+      "topShort": "Oferta por colección {price}",
+      "sell": "Vender por {price}",
+      "sellPicked": "Vender {n} a {price} cada una",
+      "made": "Oferta hecha: {n} moscas a {price} cada una.",
+      "cancelled": "Oferta por colección retirada.",
+      "sold": "Vendidas {n} a la oferta por colección a {price} cada una.",
+      "why": {
+        "BadQuantity": "Elige de 1 a 50 moscas."
+      }
+    },
+    "launch": {
+      "title": "Ofertas de lanzamiento",
+      "text": "Comisión del {pct}% en cada venta aquí hasta el domingo 4 de octubre."
+    },
+    "vol24": "Volumen 24 h",
+    "salesN": "{n} ventas",
+    "page": {
+      "label": "Páginas",
+      "prev": "Anterior",
+      "next": "Siguiente",
+      "of": "Página {page} de {pages} · {total} elementos"
+    },
     "usdFollows": "sigue a $FLYAI",
     "title": "Mercado",
     "text": "Compra y vende Trader Flies con otros holders, en {token}. El vendedor cobra al instante, menos una comisión del {pct}%.",
@@ -518,7 +623,11 @@
     "preordered": "reservadas"
   },
   "pass": {
-    "wdLimits": {"today": "Enviado hoy: {sent} de {cap} FLYAI", "each": "hasta {each} por retiro", "note": "El total diario es compartido por todos los pases y se reinicia a las 00:00 UTC. Un retiro mayor, o uno que supere el total de hoy, lo envía el equipo y puede tardar más."},
+    "wdLimits": {
+      "today": "Enviado hoy: {sent} de {cap} FLYAI",
+      "each": "hasta {each} por retiro",
+      "note": "El total diario es compartido por todos los pases y se reinicia a las 00:00 UTC. Un retiro mayor, o uno que supere el total de hoy, lo envía el equipo y puede tardar más."
+    },
     "name": "FlightPass #{id}",
     "soon": "FlightPass llega pronto.",
     "title": "FlightPass",
@@ -579,7 +688,11 @@
       "duelsText": "Tus moscas buscan pelea.",
       "breed": "Crianza de Flybook",
       "breedText": "Tus moscas buscan pareja.",
-      "deskClaim": "Recompensas del Fly Desk", "deskClaimText": "Reclama la parte de tus Trader Flies del pool semanal del Fly Desk directamente en este pass.", "soon": "Próximamente", "colosseum": "Fly Colosseum", "colosseumText": "Inscribe tus Trader Flies en cada temporada con el saldo del pase. Premios y reembolsos vuelven al pase."
+      "deskClaim": "Recompensas del Fly Desk",
+      "deskClaimText": "Reclama la parte de tus Trader Flies del pool semanal del Fly Desk directamente en este pass.",
+      "soon": "Próximamente",
+      "colosseum": "Fly Colosseum",
+      "colosseumText": "Inscribe tus Trader Flies en cada temporada con el saldo del pase. Premios y reembolsos vuelven al pase."
     },
     "limits": {
       "stake": "Apuesta por partida ($FLYAI)",
@@ -601,7 +714,11 @@
       "slots_payout": "Premio de slots",
       "race_bet": "Apuesta de carrera",
       "race_payout": "Premio de carrera",
-      "race_refund": "Devolución de carrera", "arena_bet": "Entrada al Colosseum", "arena_payout": "Premio del Colosseum", "arena_refund": "Reembolso del Colosseum", "arena_shop": "Tienda del Colosseum"
+      "race_refund": "Devolución de carrera",
+      "arena_bet": "Entrada al Colosseum",
+      "arena_payout": "Premio del Colosseum",
+      "arena_refund": "Reembolso del Colosseum",
+      "arena_shop": "Tienda del Colosseum"
     },
     "terms": {
       "title": "Términos de Fly Roulette",
@@ -728,8 +845,22 @@
       "owned": "Tiene: {list}",
       "short": "No hay suficiente en el pase. Recarga primero.",
       "bought": "{what} comprado para Trader Fly #{fly}.",
-      "stat": {"pow": "Poder", "grd": "Guardia", "vit": "Vitalidad", "fury": "Furia"},
-      "status": {"listed": "En pausa mientras el pase está a la venta.", "closed": "El piloto automático está activo. Tus moscas entran cuando abra la próxima temporada.", "entryHigh": "La entrada de esta temporada es {entry} $FLYAI, más que tu máximo de {max}. Súbelo para participar.", "entered": "En esta temporada: {n} de {seats} moscas inscritas.", "noFlies": "Ninguna mosca para inscribir: esta wallet no tiene Trader Flies, o las marcadas no están aquí.", "terms": "Acepta los términos +18 y tus moscas empiezan a inscribirse.", "lowBalance": "No hay suficiente en el pase para una entrada ({need} $FLYAI). Recarga para participar.", "waiting": "El piloto automático está activo. Tus moscas entran en menos de un minuto."}
+      "stat": {
+        "pow": "Poder",
+        "grd": "Guardia",
+        "vit": "Vitalidad",
+        "fury": "Furia"
+      },
+      "status": {
+        "listed": "En pausa mientras el pase está a la venta.",
+        "closed": "El piloto automático está activo. Tus moscas entran cuando abra la próxima temporada.",
+        "entryHigh": "La entrada de esta temporada es {entry} $FLYAI, más que tu máximo de {max}. Súbelo para participar.",
+        "entered": "En esta temporada: {n} de {seats} moscas inscritas.",
+        "noFlies": "Ninguna mosca para inscribir: esta wallet no tiene Trader Flies, o las marcadas no están aquí.",
+        "terms": "Acepta los términos +18 y tus moscas empiezan a inscribirse.",
+        "lowBalance": "No hay suficiente en el pase para una entrada ({need} $FLYAI). Recarga para participar.",
+        "waiting": "El piloto automático está activo. Tus moscas entran en menos de un minuto."
+      }
     },
     "race": {
       "stake": "Apuesta por carrera ($FLYAI)",
@@ -851,7 +982,13 @@
     "stakeCut": "−{pct}% por hacer staking de $FLYAI",
     "holdings": "Wallet",
     "gasCoin": "para gas",
-    "col": {"token": "Token", "amount": "Cantidad", "price": "Precio", "value": "Valor", "pnl": "G/P"},
+    "col": {
+      "token": "Token",
+      "amount": "Cantidad",
+      "price": "Precio",
+      "value": "Valor",
+      "pnl": "G/P"
+    },
     "moveTitle": "Mover dinero a otra red",
     "moveText": "Hasta {usd} del efectivo de la mosca (el dinero bloqueado del FlightPass se queda). Llega como efectivo a la misma wallet en la otra red, en minutos.",
     "moveTo": "A",
@@ -1007,6 +1144,10 @@
       "reversal": {
         "title": "Reversión",
         "blurb": "La propia de Fly Desk: mantiene a los perdedores recientes unas horas, apostando a que rebotan."
+      },
+      "launch": {
+        "title": "Francotirador de lanzamientos",
+        "blurb": "Compra lanzamientos nuevos en uno o dos minutos (el listener compartido del Fly Desk los filtra: GoPlus, pool, tamaño), vende la mitad a 2x y sigue el resto. Riesgo alto: la mayoría llega a cero."
       }
     },
     "params": {
@@ -1032,7 +1173,13 @@
       "taker_buy": "Parte de compradores",
       "hold_bars": "Mantener (velas de 15 min)",
       "lookback_bars": "Mirar atrás (velas)",
-      "max_positions": "Máximo de tokens"
+      "max_positions": "Máximo de tokens",
+      "usd_per_launch": "$ per launch",
+      "max_open": "Most at once",
+      "max_age_s": "Newer than (s)",
+      "tp_x": "Take half at (x)",
+      "tp_part": "Part taken (%)",
+      "drain_pct": "Exit on a pool drain (%)"
     },
     "filters": "Filtros de memes",
     "filtersText": "Solo se filtran los memes: los majors y los tokens de acciones son la lista propia de la mesa. Vacío = sin límite.",
