@@ -174,6 +174,21 @@ try {
   const keys = (await PG.pg.all<{ vault: string; t: string }>("select vault, jsonb_typeof(doc) as t from mine.vault_settings order by vault")).map((r) => `${r.vault}:${r.t}`);
   check("stored per chain as JSON objects (what the desk reads)", keys.join(",") === `${W3}:object,polygon:${W3}:object`, keys.join(","));
 
+  // nicknames for the leaderboards (src/profiles.ts)
+  check("a nickname needs a signed-in wallet", (await api("/api/profile", null, { nickname: "Alice" })).status === 401);
+  check("too short or odd characters are refused", (await api("/api/profile", a, { nickname: "al" })).status === 400
+    && (await api("/api/profile", a, { nickname: "<script>" })).status === 400);
+  check("names posing as the team or an address are refused", (await api("/api/profile", a, { nickname: "FlyAI" })).status === 400
+    && (await api("/api/profile", a, { nickname: "0x1234abcd" })).status === 400);
+  check("alice sets hers", (await api("/api/profile", a, { nickname: "Alice  Fly" })).json.nickname === "Alice Fly");
+  check("bob can't take it, in any case", (await api("/api/profile", b, { nickname: "alice fly" })).status === 409);
+  check("bob sets his", (await api("/api/profile", b, { nickname: "bob_trades" })).status === 200);
+  const names = (await api(`/api/profiles?wallets=${alice.address},${bob.address},0x${"12".repeat(20)}`, null)).json;
+  check("anyone reads them in bulk", names[alice.address.toLowerCase()] === "Alice Fly" && names[bob.address.toLowerCase()] === "bob_trades"
+    && Object.keys(names).length === 2, JSON.stringify(names));
+  check("and clears his own", (await api("/api/profile", b, { nickname: "" })).json.nickname === null
+    && (await api("/api/profile", b)).json.nickname === null);
+
   // money in (the desk's ledger): the holder decides and withdraws
   await PG.pg.run("insert into mine.vault_ledger (wallet, chain, holder, principal_usd) values (?, 'robinhood', ?, 100)", W3, bob.address);
   check("with money in it: only its holder", (await api(`/api/vaults/${W3}/settings`, a, { settings: doc })).status === 403);

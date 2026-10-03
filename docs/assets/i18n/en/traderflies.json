@@ -18,7 +18,8 @@
     "count": "In this wallet: {n}. Open a fly for its wallet, settings and trades.",
     "wallet": "Wallet",
     "empty": "Wallet empty - open to fund it",
-    "funded": "Wallet funded - open for its trades"
+    "funded": "Wallet funded - open for its trades",
+    "tab": "My flies"
   },
   "nav": {
     "traders": "Traders",
@@ -1255,6 +1256,9 @@
       "fresh_launch_hunter": {
         "title": "Fresh Launch Hunter",
         "blurb": "Brand-new tokens (1 h to 3 days old) with real pools and rising volume. Tiny sizes, wide stops."
+      },
+      "custom": {
+        "title": "Custom"
       }
     },
     "best": "Best Fly Wallets",
@@ -1277,5 +1281,33 @@
       "positions": "The wallet holds too many tokens.",
       "amount": "Enter an amount."
     }
+  },
+  "profile": {
+    "title": "Your profile",
+    "text": "A nickname for the leaderboards instead of your address. 3-20 letters, digits, spaces, _ . or -. Saving asks your wallet for one free signature.",
+    "placeholder": "Nickname",
+    "save": "Save",
+    "saved": "Saved: you show as {name}.",
+    "cleared": "Nickname removed: your address shows again."
+  },
+  "board": {
+    "tab": "Leaderboard",
+    "title": "Fly Wallets leaderboard",
+    "text": "Every funded fly's own wallet, live from the chain: what its owner put in, what it's worth now, and its profit. Updated every few minutes.",
+    "wallets": "Fly Wallets",
+    "holders": "{n} owners",
+    "deposited": "Deposited",
+    "value": "Worth now",
+    "profit": "Profit",
+    "trades": "Trades",
+    "fly": "Fly",
+    "holder": "Owner",
+    "setup": "Setup",
+    "profit_all": "Profit",
+    "profit_d7": "7 days",
+    "profit_h24": "24 h",
+    "winRate": "Wins",
+    "updated": "Updated {when}",
+    "cantRead": "Couldn't load the leaderboard; try again soon."
   }
 }

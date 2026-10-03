@@ -41,6 +41,7 @@ import { createRoulette } from "./roulette.ts";
 import { createSlots } from "./slots.ts";
 import { createArena } from "./arena.ts";
 import { createVaults } from "./vaults.ts";
+import { createProfiles } from "./profiles.ts";
 import { createRace } from "./race.ts";
 import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
 import { connectPg, lockWallet, type Q } from "./pg.ts";
@@ -3439,6 +3440,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/vaults/") || p === "/api/admin/vaults")) {
     if (await vaults.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p === "/api/profiles" || p === "/api/profile")) {
+    if (await profiles.route(req, res, url)) return;
+  }
   if (req.method === "OPTIONS") {
     res.writeHead(204, { ...CORS, "access-control-allow-methods": "GET, POST" });
     return void res.end();
@@ -3687,6 +3691,8 @@ const vaults = createVaults({
   granter: process.env.VAULT_GRANTER_KEY ? new Relayer(process.env.VAULT_GRANTER_KEY, env("VAULT_RPC", CLAIMS.rpc), "VAULT_GRANTER_KEY") : payoutRelayer,
 });
 if (USER) vaults.start();
+// nicknames for the leaderboards (src/profiles.ts): set by the signed-in wallet, read by anyone
+const profiles = createProfiles({ pg, HttpError, send, readJson, sessionWallet: sessionAddress });
 // the mining side's timers: orders, card checkouts, webhooks, staking samples and the research summaries
 if (MINING) {
   refreshTableCounts(); // /api/stats' job totals, in the background from the start

@@ -18,7 +18,8 @@
     "count": "En esta wallet: {n}. Abre una mosca para ver su wallet, ajustes y operaciones.",
     "wallet": "Wallet",
     "empty": "Wallet vacía: ábrela para fondearla",
-    "funded": "Wallet con fondos: ábrela para ver sus trades"
+    "funded": "Wallet con fondos: ábrela para ver sus trades",
+    "tab": "Mis moscas"
   },
   "nav": {
     "traders": "Traders",
@@ -1255,6 +1256,9 @@
       "fresh_launch_hunter": {
         "title": "Cazador de lanzamientos",
         "blurb": "Tokens recién lanzados (de 1 h a 3 días) con pools reales y volumen creciente. Tamaños mínimos, stops amplios."
+      },
+      "custom": {
+        "title": "Personalizada"
       }
     },
     "best": "Mejores Fly Wallets",
@@ -1277,5 +1281,33 @@
       "positions": "La wallet tiene demasiados tokens.",
       "amount": "Ingresa un monto."
     }
+  },
+  "profile": {
+    "title": "Tu perfil",
+    "text": "Un apodo para las clasificaciones en lugar de tu dirección. 3-20 letras, dígitos, espacios, _ . o -. Guardar pide a tu wallet una firma gratuita.",
+    "placeholder": "Apodo",
+    "save": "Guardar",
+    "saved": "Guardado: apareces como {name}.",
+    "cleared": "Apodo eliminado: vuelve a verse tu dirección."
+  },
+  "board": {
+    "tab": "Clasificación",
+    "title": "Clasificación de Fly Wallets",
+    "text": "El wallet de cada mosca con fondos, en vivo desde la cadena: lo que puso su dueño, lo que vale ahora y su ganancia. Se actualiza cada pocos minutos.",
+    "wallets": "Fly Wallets",
+    "holders": "{n} dueños",
+    "deposited": "Depositado",
+    "value": "Vale ahora",
+    "profit": "Ganancia",
+    "trades": "Operaciones",
+    "fly": "Mosca",
+    "holder": "Dueño",
+    "setup": "Estrategia",
+    "profit_all": "Ganancia",
+    "profit_d7": "7 días",
+    "profit_h24": "24 h",
+    "winRate": "Aciertos",
+    "updated": "Actualizado {when}",
+    "cantRead": "No se pudo cargar la clasificación; inténtalo pronto."
   }
 }

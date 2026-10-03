@@ -18,7 +18,8 @@
     "count": "這個錢包裡有 {n} 隻。打開一隻蒼蠅查看牠的錢包、設定和交易。",
     "wallet": "錢包",
     "empty": "錢包是空的——打開後充值",
-    "funded": "錢包已儲值 - 打開查看交易"
+    "funded": "錢包已儲值 - 打開查看交易",
+    "tab": "我的蒼蠅"
   },
   "nav": {
     "traders": "交易蠅",
@@ -1253,6 +1254,9 @@
       "fresh_launch_hunter": {
         "title": "新幣獵人",
         "blurb": "全新代幣（上線 1 h 到 3 天），有真實流動池且成交量上升。極小部位，寬停損。"
+      },
+      "custom": {
+        "title": "自訂"
       }
     },
     "best": "最佳 Fly Wallets",
@@ -1275,5 +1279,33 @@
       "positions": "錢包持有的代幣太多了。",
       "amount": "請輸入數量。"
     }
+  },
+  "profile": {
+    "title": "你的資料",
+    "text": "在排行榜上用暱稱代替你的地址。3-20 個字母、數字、空格、_ . 或 -。儲存時錢包會請求一次免費簽名。",
+    "placeholder": "暱稱",
+    "save": "儲存",
+    "saved": "已儲存：你顯示為 {name}。",
+    "cleared": "已刪除暱稱：重新顯示你的地址。"
+  },
+  "board": {
+    "tab": "排行榜",
+    "title": "Fly Wallet 排行榜",
+    "text": "每隻已注資蒼蠅的錢包，鏈上即時：主人存入多少、現在價值多少、盈利多少。每幾分鐘更新。",
+    "wallets": "Fly Wallet",
+    "holders": "{n} 位主人",
+    "deposited": "存入",
+    "value": "目前價值",
+    "profit": "盈利",
+    "trades": "交易",
+    "fly": "蒼蠅",
+    "holder": "主人",
+    "setup": "策略",
+    "profit_all": "盈利",
+    "profit_d7": "7 天",
+    "profit_h24": "24 小時",
+    "winRate": "勝率",
+    "updated": "更新於 {when}",
+    "cantRead": "無法載入排行榜，請稍後再試。"
   }
 }

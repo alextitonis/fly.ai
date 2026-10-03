@@ -18,7 +18,8 @@
     "count": "这个钱包里有 {n} 只。打开一只苍蝇查看它的钱包、设置和交易。",
     "wallet": "钱包",
     "empty": "钱包为空——打开后充值",
-    "funded": "钱包已充值 - 打开查看交易"
+    "funded": "钱包已充值 - 打开查看交易",
+    "tab": "我的苍蝇"
   },
   "nav": {
     "traders": "交易蝇",
@@ -1253,6 +1254,9 @@
       "fresh_launch_hunter": {
         "title": "新币猎手",
         "blurb": "全新代币（上线 1 h 至 3 天），有真实资金池且成交量上升。极小仓位，宽止损。"
+      },
+      "custom": {
+        "title": "自定义"
       }
     },
     "best": "最佳 Fly Wallets",
@@ -1275,5 +1279,33 @@
       "positions": "钱包持有的代币太多了。",
       "amount": "请输入数量。"
     }
+  },
+  "profile": {
+    "title": "你的资料",
+    "text": "在排行榜上用昵称代替你的地址。3-20 个字母、数字、空格、_ . 或 -。保存时钱包会请求一次免费签名。",
+    "placeholder": "昵称",
+    "save": "保存",
+    "saved": "已保存：你显示为 {name}。",
+    "cleared": "已删除昵称：重新显示你的地址。"
+  },
+  "board": {
+    "tab": "排行榜",
+    "title": "Fly Wallet 排行榜",
+    "text": "每只已注资苍蝇的钱包，链上实时：主人存入多少、现在价值多少、盈利多少。每几分钟更新。",
+    "wallets": "Fly Wallet",
+    "holders": "{n} 位主人",
+    "deposited": "存入",
+    "value": "当前价值",
+    "profit": "盈利",
+    "trades": "交易",
+    "fly": "苍蝇",
+    "holder": "主人",
+    "setup": "策略",
+    "profit_all": "盈利",
+    "profit_d7": "7 天",
+    "profit_h24": "24 小时",
+    "winRate": "胜率",
+    "updated": "更新于 {when}",
+    "cantRead": "无法加载排行榜，请稍后再试。"
   }
 }

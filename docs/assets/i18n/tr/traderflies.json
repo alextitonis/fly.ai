@@ -18,7 +18,8 @@
     "count": "Bu cüzdanda: {n}. Cüzdanı, ayarları ve işlemleri için bir sinek aç.",
     "wallet": "Cüzdan",
     "empty": "Cüzdan boş - yatırmak için aç",
-    "funded": "Cüzdan dolu - işlemleri için aç"
+    "funded": "Cüzdan dolu - işlemleri için aç",
+    "tab": "Sineklerim"
   },
   "nav": {
     "traders": "Traders",
@@ -1255,6 +1256,9 @@
       "fresh_launch_hunter": {
         "title": "Yeni Lansman Avcısı",
         "blurb": "Yepyeni token'lar (1 h ile 3 günlük arası), gerçek havuzlar ve artan hacimle. Çok küçük miktarlar, geniş stoplar."
+      },
+      "custom": {
+        "title": "Özel"
       }
     },
     "best": "En iyi Fly Wallets",
@@ -1277,5 +1281,33 @@
       "positions": "Cüzdanda çok fazla token var.",
       "amount": "Bir miktar gir."
     }
+  },
+  "profile": {
+    "title": "Profilin",
+    "text": "Sıralamalarda adresin yerine bir takma ad. 3-20 harf, rakam, boşluk, _ . veya -. Kaydetmek cüzdanından ücretsiz bir imza ister.",
+    "placeholder": "Takma ad",
+    "save": "Kaydet",
+    "saved": "Kaydedildi: {name} olarak görünüyorsun.",
+    "cleared": "Takma ad kaldırıldı: adresin yeniden görünüyor."
+  },
+  "board": {
+    "tab": "Sıralama",
+    "title": "Fly Wallet sıralaması",
+    "text": "Fonlanmış her sineğin kendi cüzdanı, zincirden canlı: sahibinin yatırdığı, şu anki değeri ve kârı. Birkaç dakikada bir güncellenir.",
+    "wallets": "Fly Wallet",
+    "holders": "{n} sahip",
+    "deposited": "Yatırılan",
+    "value": "Şu anki değer",
+    "profit": "Kâr",
+    "trades": "İşlemler",
+    "fly": "Sinek",
+    "holder": "Sahip",
+    "setup": "Kurulum",
+    "profit_all": "Kâr",
+    "profit_d7": "7 gün",
+    "profit_h24": "24 sa",
+    "winRate": "Kazanç",
+    "updated": "Güncellendi {when}",
+    "cantRead": "Sıralama yüklenemedi; birazdan tekrar dene."
   }
 }
