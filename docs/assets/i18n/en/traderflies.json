@@ -1047,7 +1047,7 @@
     "empty": "This fly's wallet is empty. Fund it and it starts trading on the next 5-minute bar.",
     "potEmpty": "This pot is empty.",
     "fund": "Fund the fly",
-    "fundText": "ETH, USDG or $FLYAI, $10 at least. ETH becomes trading cash (USDG); $FLYAI stays $FLYAI until the fly decides.",
+    "fundText": "ETH, USDG or $FLYAI, $2 at least. ETH becomes trading cash (USDG); $FLYAI stays $FLYAI until the fly decides.",
     "token": "Token",
     "amount": "Amount",
     "deposit": "Deposit",
@@ -1160,6 +1160,10 @@
       "track": {
         "title": "Copy wallets",
         "blurb": "Paste any wallets you want to follow: when one buys a token, your fly buys it too, and sells when they sell."
+      },
+      "fomo": {
+        "title": "Follow FOMO's top traders",
+        "blurb": "Buys what the week's most profitable traders on FOMO buy on Robinhood Chain, within seconds, and sells when they sell."
       }
     },
     "params": {
@@ -1194,7 +1198,11 @@
       "drain_pct": "Exit on a pool drain (%)",
       "min_return_pct": "Leader up at least (%)",
       "min_days": "Leader's record at least (days)",
-      "min_trades": "Leader's trades at least"
+      "min_trades": "Leader's trades at least",
+      "min_traders": "Top traders buying it",
+      "min_usd": "Their buy at least ($)",
+      "window_minutes": "Within (minutes)",
+      "follow_sells": "Sell when they sell (1 = yes)"
     },
     "filters": "Meme filters",
     "filtersText": "Only memes are filtered: majors and stock tokens are the desk's own list. Empty = no limit.",
@@ -1305,8 +1313,8 @@
     "picked": "{name} picked. It applies from the next bar.",
     "unsaved": "Unsaved changes",
     "minFund": "This setup trades every part from {min}.",
-    "partsText": "This setup splits the money into {n} parts. A trade needs $5, so put in {min} or more.",
-    "minLow": "With {usd} in, the smallest part would get {part}, under the $5 a trade needs: the fly trades fewer parts for now. {min} or more lets every part trade.",
+    "partsText": "This setup splits the money into {n} parts. A trade needs $1, so put in {min} or more.",
+    "minLow": "With {usd} in, the smallest part would get {part}, under the $1 a trade needs: the fly trades fewer parts for now. {min} or more lets every part trade.",
     "steps": {
       "title": "Set up this fly",
       "hold": "Hold {need} $FLYAI in your wallet",

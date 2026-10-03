@@ -18,7 +18,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Pg } from "./pg.ts";
 import { rpc } from "./orders.ts";
 import { selector } from "./staking.ts";
-import { checksumAddress } from "./wallet.ts";
+import { checksumAddress, personalMessageHash, recoverAddress } from "./wallet.ts";
 
 export interface RuyuiDeps {
   pg: Pg;
@@ -51,6 +51,20 @@ const MAX_DOC = 16_000;
 const NEEDS_GAS_WEI = 5n * 10n ** 13n;
 const SUGGESTED_GAS_ETH = 0.0005;
 
+// linked wallets (2026-10-03, the user): a RUYUI held by an Abstract Global Wallet is run by a Robinhood Chain wallet the
+// AGW names once (LINK_MESSAGE, checked with ERC-1271 on Abstract); a signed link is good this long after it's issued
+const LINK_FRESH_MS = 30 * 60_000;
+const ERC1271_OK = "0x1626ba7e";
+export const LINK_MESSAGE = (owner: string, signer: string, issuedAt: string) => [
+  "RUYUI on fly.ai: link a Robinhood Chain wallet",
+  "",
+  `My wallet on Abstract (it holds my RUYUIs): ${owner}`,
+  `lets this Robinhood Chain wallet act for it: ${signer}`,
+  "It signs in, holds my 200,000 $FLYAI, funds and manages my RUYUIs' trading wallets, and is paid their withdrawals.",
+  "",
+  `Issued at: ${issuedAt}`,
+].join("\n");
+
 const word = (v: bigint | number | string) =>
   typeof v === "string" ? v.replace(/^0x/, "").toLowerCase().padStart(64, "0") : BigInt(v).toString(16).padStart(64, "0");
 
@@ -77,7 +91,75 @@ export function createRuyui(d: RuyuiDeps) {
 
   // ---- chain reads (Abstract: owners, cached briefly; Robinhood: $FLYAI) -----------------------------------------
   const owners = new Map<number, { owner: string | null; at: number }>();
+  /**
+   * Who runs a RUYUI: the Robinhood Chain wallet its Abstract owner linked (an AGW can't sign in, hold $FLYAI or be paid
+   * on Robinhood Chain), else that owner itself. Every check here goes through this - setup, settings, withdrawals, the
+   * status - and the desk maps its owners the same way (flytrade/vaults/ruyui.py), so the holder is the linked wallet.
+   */
   async function ownerOf(id: number, fresh = false): Promise<string | null> {
+    const nft = await nftOwnerOf(id, fresh);
+    return nft ? (await linkOf(nft, fresh)) ?? nft : null;
+  }
+  const links = new Map<string, { signer: string | null; at: number }>();
+  async function linkOf(owner: string, fresh = false): Promise<string | null> {
+    const k = owner.toLowerCase(), hit = links.get(k);
+    if (!fresh && hit && Date.now() - hit.at < ownerTtlMs) return hit.signer;
+    const row = await pg.one<{ signer: string }>("select signer from mine.ruyui_links where owner = ?", k);
+    const signer = row ? checksumAddress(row.signer) : null;
+    links.set(k, { signer, at: Date.now() });
+    if (links.size > 10_000) links.clear();
+    return signer;
+  }
+  // staked RUYUIs (2026-10-04, the user: "it should first check if staked, if yes, return as fine, if not then check
+  // chain"): Ruyui's staking contract holds a staked RUYUI, so ownerOf names the contract. Their API (one call lists
+  // every staker, cached STAKED_TTL_MS) is asked first; a RUYUI the chain says the contract holds but the API doesn't
+  // list is an error (try again), never "someone else owns it". Same rule on the desk: flytrade/vaults/ruyui.py owners_of.
+  const stakingApi = d.env.RUYUI_STAKING_API ?? "https://api.ruyui.com/quest/nft/staking/wallets";
+  const stakingContract = (d.env.RUYUI_STAKING_CONTRACT ?? "0xb60fa32c8041c8b0f56220420b56ce6b86decde9").toLowerCase();
+  const STAKED_TTL_MS = 60_000;
+  let staked: { at: number; map: Map<number, string> | null; loading?: Promise<Map<number, string> | null> } = { at: 0, map: null };
+  async function stakedOwners(fresh = false, force = false): Promise<Map<number, string> | null> {
+    // force: a RUYUI just staked isn't on a cached list yet - re-read, at most every 5 s
+    const ttl = force ? 5_000 : fresh ? 10_000 : STAKED_TTL_MS;
+    if (staked.map && Date.now() - staked.at < ttl) return staked.map;
+    if (staked.loading) return staked.loading;
+    staked.loading = (async () => {
+      try {
+        const res = await fetch(stakingApi, { headers: { accept: "application/json" }, signal: AbortSignal.timeout(10_000) });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const rows = await res.json() as { address?: string; nftList?: number[] }[];
+        const map = new Map<number, string>();
+        for (const r of Array.isArray(rows) ? rows : []) {
+          if (!ADDRESS.test(String(r.address ?? ""))) continue;
+          for (const i of r.nftList ?? []) if (Number.isInteger(i) && i >= RUYUI.firstId && i <= RUYUI.lastId) map.set(i, checksumAddress(String(r.address)));
+        }
+        staked = { at: Date.now(), map };
+        return map;
+      } catch {
+        // unreadable: the last list for up to 10 minutes, else nothing (a staked RUYUI then can't be confirmed)
+        return staked.map && Date.now() - staked.at < 10 * STAKED_TTL_MS ? staked.map : null;
+      } finally {
+        staked.loading = undefined;
+      }
+    })();
+    return staked.loading;
+  }
+
+  async function nftOwnerOf(id: number, fresh = false): Promise<string | null> {
+    const stakers = await stakedOwners(fresh);
+    const staker = stakers?.get(id);
+    if (staker) return staker;                         // staked: its staker, no chain read
+    const onChain = await chainOwnerOf(id, fresh);
+    if (onChain && onChain.toLowerCase() === stakingContract) {
+      const again = (await stakedOwners(true, true))?.get(id);   // staked since the list was read
+      if (again) return again;
+      throw new HttpError(503, "this RUYUI is staked and Ruyui's staking list can't be read right now; try again shortly");
+    }
+    return onChain;
+  }
+  const isStaked = async (id: number) => !!(await stakedOwners())?.has(id);
+
+  async function chainOwnerOf(id: number, fresh = false): Promise<string | null> {
     const hit = owners.get(id);
     if (!fresh && hit && Date.now() - hit.at < ownerTtlMs) return hit.owner;
     let owner: string | null;
@@ -148,7 +230,7 @@ export function createRuyui(d: RuyuiDeps) {
 
   async function tokenView(id: number) {
     isOn();
-    const [wallet, owner] = await Promise.all([walletOf(id), ownerOf(id)]);
+    const [wallet, owner, nftOwner] = await Promise.all([walletOf(id), ownerOf(id), nftOwnerOf(id)]);
     const [w, setup, flyai, pool, gasWei] = await Promise.all([
       walletView(wallet), wallet ? null : openSetup(id), owner ? flyaiOf(owner).catch(() => null) : null,
       owner ? poolHolder(owner) : null, wallet ? ethWei(wallet).catch(() => null) : null,
@@ -156,7 +238,10 @@ export function createRuyui(d: RuyuiDeps) {
     const needsGas = gasWei != null && gasWei < NEEDS_GAS_WEI;
     const holder = w.ledger?.holder ?? null;
     return {
-      token: id, owner, wallet, setup: setup ?? null, ...w,
+      // owner: who runs it (the linked Robinhood Chain wallet, else the holder on Abstract); nft_owner: the holder on Abstract
+      token: id, owner, nft_owner: nftOwner, linked: !!(owner && nftOwner && owner.toLowerCase() !== nftOwner.toLowerCase()),
+      staked: await isStaked(id),
+      wallet, setup: setup ?? null, ...w,
       hold: { flyai, needed: holdFlyai, ok: flyai == null ? null : flyai >= holdFlyai },
       gas: wallet ? { eth: gasWei == null ? null : Number(gasWei) / 1e18, needs_gas: needsGas, suggested_eth: SUGGESTED_GAS_ETH } : null,
       // trading opens when the RUYUI's owner is the holder of the money, holds 200k $FLYAI and trading is on
@@ -197,6 +282,68 @@ export function createRuyui(d: RuyuiDeps) {
       pool: pool ? { qualifies: pool.qualifies ?? false, epoch_hours: pool.epoch_hours ?? 0, epoch_est_usd: pool.epoch_est_usd ?? 0,
                      owed_usd: pool.owed_usd ?? 0 } : null,
     };
+  }
+
+  // ---- linking an Abstract Global Wallet to a Robinhood Chain wallet -------------------------------------------
+  function linkMessage(rawOwner: string, rawSigner: string, issuedAt?: string) {
+    const owner = addressOf(rawOwner), signer = addressOf(rawSigner);
+    if (owner.toLowerCase() === signer.toLowerCase()) throw new HttpError(400, "link two different wallets");
+    const at = issuedAt ?? new Date().toISOString();
+    if (!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?Z$/.test(at)) throw new HttpError(400, "issued_at is an ISO time (UTC)");
+    return { owner, signer, issued_at: at, message: LINK_MESSAGE(owner, signer, at) };
+  }
+
+  /** Did `owner` sign `message`? A contract account (an AGW) answers ERC-1271 on Abstract; a plain wallet is recovered. */
+  async function ownerSigned(owner: string, message: string, signature: string): Promise<boolean> {
+    if (!/^0x([0-9a-fA-F]{2})+$/.test(signature) || signature.length > 20_000) throw new HttpError(400, "bad signature");
+    let code: string;
+    try { code = await rpc(abstractRpc, "eth_getCode", [owner, "latest"]) as string; }
+    catch { throw new HttpError(502, "Abstract can't be read right now; try again"); }
+    if (code && code !== "0x") {
+      const sig = signature.slice(2), len = sig.length / 2;
+      const data = `${selector("isValidSignature(bytes32,bytes)")}${word(`0x${Buffer.from(personalMessageHash(message)).toString("hex")}`)}`
+        + `${word(64)}${word(len)}${sig.padEnd(Math.ceil(sig.length / 64) * 64, "0")}`;
+      try {
+        const ret = await rpc(abstractRpc, "eth_call", [{ to: owner, data }, "latest"]) as string;
+        return ret.slice(0, 10).toLowerCase() === ERC1271_OK;
+      } catch { return false; }
+    }
+    // no code: a plain wallet, or an AGW not deployed yet (its signature is ERC-6492-wrapped, not checkable here)
+    if (/6492649264926492649264926492649264926492649264926492649264926492$/i.test(signature)) {
+      throw new HttpError(400, "this Abstract wallet isn't deployed yet: make any transaction with it on Abstract, then sign again");
+    }
+    try { return recoverAddress(message, signature).toLowerCase() === owner.toLowerCase(); } catch { return false; }
+  }
+
+  async function link(req: IncomingMessage, body: any) {
+    isOn();
+    const me = await d.sessionWallet(req);                 // the Robinhood Chain wallet, signed in
+    const m = linkMessage(String(body?.owner ?? ""), String(body?.signer ?? me), String(body?.issued_at ?? ""));
+    if (m.signer.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "sign in with the wallet being linked");
+    const issued = Date.parse(m.issued_at);
+    if (!(Math.abs(Date.now() - issued) < LINK_FRESH_MS)) throw new HttpError(400, "the signed link is too old: sign a new one");
+    if (!(await ownerSigned(m.owner, m.message, String(body?.signature ?? "")))) {
+      throw new HttpError(401, "that isn't the Abstract wallet's signature of this link");
+    }
+    const row = await pg.one<{ owner: string }>(`insert into mine.ruyui_links (owner, signer, issued_at_ms, signature, updated_at_ms)
+      values (?, ?, ?, ?, ?) on conflict (owner) do update set signer = excluded.signer, issued_at_ms = excluded.issued_at_ms,
+      signature = excluded.signature, updated_at_ms = excluded.updated_at_ms
+      where mine.ruyui_links.issued_at_ms < excluded.issued_at_ms returning owner`,
+      m.owner.toLowerCase(), m.signer.toLowerCase(), issued, String(body.signature), Date.now());
+    if (!row) throw new HttpError(409, "a newer link is already in place");
+    links.delete(m.owner.toLowerCase());
+    return { owner: m.owner, signer: m.signer, issued_at: m.issued_at, linked: true };
+  }
+
+  async function linkView(raw: string) {
+    isOn();
+    const address = addressOf(raw);
+    const asOwner = await pg.one<{ signer: string; issued_at_ms: number }>(
+      "select signer, issued_at_ms from mine.ruyui_links where owner = ?", address.toLowerCase());
+    const asSigner = await pg.all<{ owner: string }>("select owner from mine.ruyui_links where signer = ?", address.toLowerCase());
+    return { address, signer: asOwner ? checksumAddress(asOwner.signer) : null,
+             issued_at: asOwner ? new Date(Number(asOwner.issued_at_ms)).toISOString() : null,
+             acts_for: asSigner.map((r) => checksumAddress(r.owner)) };
   }
 
   // ---- the owner's actions (signed in) -----------------------------------------------------------------------
@@ -287,6 +434,11 @@ export function createRuyui(d: RuyuiDeps) {
       if ((m = /^\/api\/ruyui\/wallet\/(0x[0-9a-fA-F]{40})$/.exec(p))) return d.send(res, 200, await walletLookup(m[1])), true;
       if ((m = /^\/api\/ruyui\/holder\/(0x[0-9a-fA-F]{40})$/.exec(p))) return d.send(res, 200, await holderView(m[1])), true;
       if ((m = /^\/api\/ruyui\/requests\/(\d{1,12})$/.exec(p))) return d.send(res, 200, await requestView(Number(m[1]))), true;
+      if (p === "/api/ruyui/link/message") {
+        isOn();
+        return d.send(res, 200, linkMessage(url.searchParams.get("owner") ?? "", url.searchParams.get("signer") ?? "")), true;
+      }
+      if ((m = /^\/api\/ruyui\/link\/(0x[0-9a-fA-F]{40})$/.exec(p))) return d.send(res, 200, await linkView(m[1])), true;
       if (p === "/api/ruyui/leaderboard") {
         isOn();
         return d.send(res, 200, (await publicOf("leaderboard:ruyui")) ?? { all: [], d7: [], h24: [] }), true;
@@ -302,6 +454,7 @@ export function createRuyui(d: RuyuiDeps) {
     }
     if (req.method === "POST") {
       if ((m = /^\/api\/ruyui\/token\/(\d{1,6})\/setup$/.exec(p))) return d.send(res, 200, await setup(req, tokenOf(m[1]))), true;
+      if (p === "/api/ruyui/link") return d.send(res, 200, await link(req, await d.readJson(req))), true;
       if ((m = /^\/api\/ruyui\/wallet\/(0x[0-9a-fA-F]{40})\/(settings|withdraw)$/.exec(p))) {
         const body = await d.readJson(req);
         return d.send(res, 200, await (m[2] === "settings" ? saveSettings : withdraw)(req, m[1], body)), true;

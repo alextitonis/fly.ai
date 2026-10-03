@@ -1045,7 +1045,7 @@
     "empty": "这只苍蝇的钱包是空的。充值后，它会从下一根 5 分钟 K 线开始交易。",
     "potEmpty": "这个资金池是空的。",
     "fund": "给苍蝇充值",
-    "fundText": "ETH、USDG 或 $FLYAI，至少 $10。ETH 会换成交易现金（USDG）；$FLYAI 保持为 $FLYAI，由苍蝇决定如何处理。",
+    "fundText": "ETH、USDG 或 $FLYAI，至少 $2。ETH 会换成交易现金（USDG）；$FLYAI 保持为 $FLYAI，由苍蝇决定如何处理。",
     "token": "代币",
     "amount": "数量",
     "deposit": "充值",
@@ -1158,6 +1158,10 @@
       "track": {
         "title": "跟单钱包",
         "blurb": "粘贴你想跟随的钱包：它买入代币时，你的苍蝇也买入；它卖出时一起卖出。"
+      },
+      "fomo": {
+        "title": "跟随 FOMO 顶级交易员",
+        "blurb": "几秒内买入 FOMO 本周最赚钱的交易员在 Robinhood Chain 上买的代币，他们卖出时卖出。"
       }
     },
     "params": {
@@ -1192,7 +1196,11 @@
       "drain_pct": "Exit on a pool drain (%)",
       "min_return_pct": "Leader up at least (%)",
       "min_days": "Leader's record at least (days)",
-      "min_trades": "Leader's trades at least"
+      "min_trades": "Leader's trades at least",
+      "min_traders": "买入的顶级交易员数",
+      "min_usd": "其买入至少 ($)",
+      "window_minutes": "时间内（分钟）",
+      "follow_sells": "他们卖时卖出（1 = 是）"
     },
     "filters": "Meme 币筛选",
     "filtersText": "只筛选 Meme 币：主流币和股票代币用的是交易台自己的列表。留空 = 不限。",
@@ -1303,8 +1311,8 @@
     "picked": "已选 {name}。从下一根 K 线起生效。",
     "unsaved": "有未保存的更改",
     "minFund": "此设置从 {min} 起每一部分都能交易。",
-    "partsText": "此设置把资金分成 {n} 部分。每笔交易需要 $5，请存入 {min} 或更多。",
-    "minLow": "存入 {usd} 时，最小的部分只有 {part}，低于一笔交易所需的 $5：苍蝇暂时用更少的部分交易。存入 {min} 或更多，每一部分都能交易。",
+    "partsText": "此设置把资金分成 {n} 部分。每笔交易需要 $1，请存入 {min} 或更多。",
+    "minLow": "存入 {usd} 时，最小的部分只有 {part}，低于一笔交易所需的 $1：苍蝇暂时用更少的部分交易。存入 {min} 或更多，每一部分都能交易。",
     "steps": {
       "title": "设置这只苍蝇",
       "hold": "钱包里持有 {need} $FLYAI",

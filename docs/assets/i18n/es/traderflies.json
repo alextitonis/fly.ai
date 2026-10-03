@@ -1047,7 +1047,7 @@
     "empty": "La wallet de esta mosca está vacía. Deposítale fondos y empieza a operar en la siguiente vela de 5 minutos.",
     "potEmpty": "Este pozo está vacío.",
     "fund": "Fondear la mosca",
-    "fundText": "ETH, USDG o $FLYAI, mínimo $10. El ETH se convierte en efectivo para operar (USDG); el $FLYAI sigue siendo $FLYAI hasta que la mosca decida.",
+    "fundText": "ETH, USDG o $FLYAI, mínimo $2. El ETH se convierte en efectivo para operar (USDG); el $FLYAI sigue siendo $FLYAI hasta que la mosca decida.",
     "token": "Token",
     "amount": "Monto",
     "deposit": "Depositar",
@@ -1160,6 +1160,10 @@
       "track": {
         "title": "Copiar carteras",
         "blurb": "Pega las carteras que quieras seguir: cuando una compra un token, tu mosca también lo compra, y vende cuando ellas venden."
+      },
+      "fomo": {
+        "title": "Seguir a los top traders de FOMO",
+        "blurb": "Compra lo que compran en Robinhood Chain los traders más rentables de la semana en FOMO, en segundos, y vende cuando venden."
       }
     },
     "params": {
@@ -1194,7 +1198,11 @@
       "drain_pct": "Exit on a pool drain (%)",
       "min_return_pct": "Leader up at least (%)",
       "min_days": "Leader's record at least (days)",
-      "min_trades": "Leader's trades at least"
+      "min_trades": "Leader's trades at least",
+      "min_traders": "Top traders comprándolo",
+      "min_usd": "Su compra mínima ($)",
+      "window_minutes": "En (minutos)",
+      "follow_sells": "Vender cuando venden (1 = sí)"
     },
     "filters": "Filtros de memes",
     "filtersText": "Solo se filtran los memes: los majors y los tokens de acciones son la lista propia de la mesa. Vacío = sin límite.",
@@ -1305,8 +1313,8 @@
     "picked": "{name} elegido. Se aplica desde la próxima barra.",
     "unsaved": "Cambios sin guardar",
     "minFund": "Con {min} esta configuración opera todas sus partes.",
-    "partsText": "Esta configuración reparte el dinero en {n} partes. Una operación necesita $5: deposita {min} o más.",
-    "minLow": "Con {usd}, la parte más pequeña recibiría {part}, menos de los $5 que necesita una operación: por ahora la mosca opera menos partes. Con {min} o más operan todas.",
+    "partsText": "Esta configuración reparte el dinero en {n} partes. Una operación necesita $1: deposita {min} o más.",
+    "minLow": "Con {usd}, la parte más pequeña recibiría {part}, menos de los $1 que necesita una operación: por ahora la mosca opera menos partes. Con {min} o más operan todas.",
     "steps": {
       "title": "Configura esta mosca",
       "hold": "Ten {need} $FLYAI en tu wallet",

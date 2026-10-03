@@ -1045,7 +1045,7 @@
     "empty": "這隻蒼蠅的錢包是空的。存入資金後，它會從下一根 5 分鐘 K 線開始交易。",
     "potEmpty": "這個資金池是空的。",
     "fund": "為蒼蠅存入資金",
-    "fundText": "ETH、USDG 或 $FLYAI，至少 $10。ETH 會轉成交易現金（USDG）；$FLYAI 維持 $FLYAI，直到蒼蠅決定如何操作。",
+    "fundText": "ETH、USDG 或 $FLYAI，至少 $2。ETH 會轉成交易現金（USDG）；$FLYAI 維持 $FLYAI，直到蒼蠅決定如何操作。",
     "token": "代幣",
     "amount": "數量",
     "deposit": "存入",
@@ -1158,6 +1158,10 @@
       "track": {
         "title": "跟單錢包",
         "blurb": "貼上你想跟隨的錢包：它買入代幣時，你的蒼蠅也買入；它賣出時一起賣出。"
+      },
+      "fomo": {
+        "title": "跟隨 FOMO 頂級交易員",
+        "blurb": "幾秒內買入 FOMO 本週最賺錢的交易員在 Robinhood Chain 上買的代幣，他們賣出時賣出。"
       }
     },
     "params": {
@@ -1192,7 +1196,11 @@
       "drain_pct": "Exit on a pool drain (%)",
       "min_return_pct": "Leader up at least (%)",
       "min_days": "Leader's record at least (days)",
-      "min_trades": "Leader's trades at least"
+      "min_trades": "Leader's trades at least",
+      "min_traders": "買入的頂級交易員數",
+      "min_usd": "其買入至少 ($)",
+      "window_minutes": "時間內（分鐘）",
+      "follow_sells": "他們賣時賣出（1 = 是）"
     },
     "filters": "迷因幣篩選",
     "filtersText": "只篩選迷因幣：主流幣和股票代幣使用交易台自己的清單。留空 = 不限。",
@@ -1303,8 +1311,8 @@
     "picked": "已選 {name}。從下一根 K 線起生效。",
     "unsaved": "有未儲存的變更",
     "minFund": "此設定從 {min} 起每一部分都能交易。",
-    "partsText": "此設定把資金分成 {n} 部分。每筆交易需要 $5，請存入 {min} 或更多。",
-    "minLow": "存入 {usd} 時，最小的部分只有 {part}，低於一筆交易所需的 $5：蒼蠅暫時用更少的部分交易。存入 {min} 或更多，每一部分都能交易。",
+    "partsText": "此設定把資金分成 {n} 部分。每筆交易需要 $1，請存入 {min} 或更多。",
+    "minLow": "存入 {usd} 時，最小的部分只有 {part}，低於一筆交易所需的 $1：蒼蠅暫時用更少的部分交易。存入 {min} 或更多，每一部分都能交易。",
     "steps": {
       "title": "設定這隻蒼蠅",
       "hold": "錢包裡持有 {need} $FLYAI",

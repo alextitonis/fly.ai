@@ -1047,7 +1047,7 @@
     "empty": "Bu sineğin cüzdanı boş. Yükleme yap, bir sonraki 5 dakikalık mumda işleme başlasın.",
     "potEmpty": "Bu havuz boş.",
     "fund": "Sineğe yükleme yap",
-    "fundText": "ETH, USDG veya $FLYAI, en az $10. ETH işlem nakdine (USDG) dönüşür; $FLYAI, sinek karar verene kadar $FLYAI olarak kalır.",
+    "fundText": "ETH, USDG veya $FLYAI, en az $2. ETH işlem nakdine (USDG) dönüşür; $FLYAI, sinek karar verene kadar $FLYAI olarak kalır.",
     "token": "Token",
     "amount": "Miktar",
     "deposit": "Yükle",
@@ -1160,6 +1160,10 @@
       "track": {
         "title": "Cüzdan kopyala",
         "blurb": "Takip etmek istediğin cüzdanları yapıştır: biri bir token aldığında sineğin de alır, onlar satınca satar."
+      },
+      "fomo": {
+        "title": "FOMO'nun en iyi trader'larını takip et",
+        "blurb": "FOMO'da haftanın en kârlı trader'larının Robinhood Chain'de aldığını saniyeler içinde alır, onlar satınca satar."
       }
     },
     "params": {
@@ -1194,7 +1198,11 @@
       "drain_pct": "Exit on a pool drain (%)",
       "min_return_pct": "Leader up at least (%)",
       "min_days": "Leader's record at least (days)",
-      "min_trades": "Leader's trades at least"
+      "min_trades": "Leader's trades at least",
+      "min_traders": "Alan en iyi trader sayısı",
+      "min_usd": "Alımları en az ($)",
+      "window_minutes": "İçinde (dakika)",
+      "follow_sells": "Onlar satınca sat (1 = evet)"
     },
     "filters": "Meme filtreleri",
     "filtersText": "Yalnızca memeler filtrelenir: büyükler ve hisse token'ları masanın kendi listesidir. Boş = sınır yok.",
@@ -1305,8 +1313,8 @@
     "picked": "{name} seçildi. Bir sonraki bardan itibaren geçerli.",
     "unsaved": "Kaydedilmemiş değişiklikler",
     "minFund": "Bu kurulum {min} ile tüm parçalarında işlem yapar.",
-    "partsText": "Bu kurulum parayı {n} parçaya böler. Bir işlem $5 ister: {min} veya daha fazla yatır.",
-    "minLow": "{usd} ile en küçük parça {part} alırdı, bir işlemin istediği $5'ın altında: sinek şimdilik daha az parçayla işlem yapıyor. {min} veya fazlasıyla tüm parçalar işlem yapar.",
+    "partsText": "Bu kurulum parayı {n} parçaya böler. Bir işlem $1 ister: {min} veya daha fazla yatır.",
+    "minLow": "{usd} ile en küçük parça {part} alırdı, bir işlemin istediği $1'ın altında: sinek şimdilik daha az parçayla işlem yapıyor. {min} veya fazlasıyla tüm parçalar işlem yapar.",
     "steps": {
       "title": "Bu sineği kur",
       "hold": "Cüzdanında {need} $FLYAI tut",

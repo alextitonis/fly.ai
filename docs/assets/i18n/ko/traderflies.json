@@ -1045,7 +1045,7 @@
     "empty": "이 파리의 지갑이 비어 있어요. 입금하면 다음 5분 봉부터 거래를 시작해요.",
     "potEmpty": "이 팟은 비어 있어요.",
     "fund": "파리에 입금",
-    "fundText": "ETH, USDG 또는 $FLYAI, 최소 $10. ETH는 거래용 현금(USDG)이 되고, $FLYAI는 파리가 정할 때까지 $FLYAI로 남아요.",
+    "fundText": "ETH, USDG 또는 $FLYAI, 최소 $2. ETH는 거래용 현금(USDG)이 되고, $FLYAI는 파리가 정할 때까지 $FLYAI로 남아요.",
     "token": "토큰",
     "amount": "금액",
     "deposit": "입금",
@@ -1158,6 +1158,10 @@
       "track": {
         "title": "지갑 따라 하기",
         "blurb": "따라 할 지갑을 붙여 넣으세요. 그 지갑이 토큰을 사면 내 파리도 사고, 팔면 같이 팝니다."
+      },
+      "fomo": {
+        "title": "FOMO 탑 트레이더 따라하기",
+        "blurb": "FOMO에서 이번 주 가장 수익 높은 트레이더들이 Robinhood Chain에서 사는 토큰을 몇 초 안에 사고, 그들이 팔면 팝니다."
       }
     },
     "params": {
@@ -1192,7 +1196,11 @@
       "drain_pct": "Exit on a pool drain (%)",
       "min_return_pct": "Leader up at least (%)",
       "min_days": "Leader's record at least (days)",
-      "min_trades": "Leader's trades at least"
+      "min_trades": "Leader's trades at least",
+      "min_traders": "매수한 탑 트레이더 수",
+      "min_usd": "최소 매수 금액 ($)",
+      "window_minutes": "기간 (분)",
+      "follow_sells": "그들이 팔면 매도 (1 = 예)"
     },
     "filters": "밈 필터",
     "filtersText": "밈만 필터링해요: 메이저와 주식 토큰은 데스크가 정한 목록이에요. 비워 두면 = 제한 없음.",
@@ -1303,8 +1311,8 @@
     "picked": "{name} 선택됨. 다음 바부터 적용됩니다.",
     "unsaved": "저장되지 않은 변경",
     "minFund": "이 설정은 {min}부터 모든 부분이 거래합니다.",
-    "partsText": "이 설정은 자금을 {n}개 부분으로 나눕니다. 거래 1건에 $5가 필요하니 {min} 이상 넣으세요.",
-    "minLow": "{usd}로는 가장 작은 부분이 {part}을 받아 거래에 필요한 $5보다 적습니다: 지금은 더 적은 부분으로 거래합니다. {min} 이상이면 모든 부분이 거래합니다.",
+    "partsText": "이 설정은 자금을 {n}개 부분으로 나눕니다. 거래 1건에 $1가 필요하니 {min} 이상 넣으세요.",
+    "minLow": "{usd}로는 가장 작은 부분이 {part}을 받아 거래에 필요한 $1보다 적습니다: 지금은 더 적은 부분으로 거래합니다. {min} 이상이면 모든 부분이 거래합니다.",
     "steps": {
       "title": "이 파리 설정하기",
       "hold": "지갑에 {need} $FLYAI 보유",

@@ -48,20 +48,33 @@ const owner: Record<number, string> = {};
 const flyai: Record<string, bigint> = {};
 const ethOf: Record<string, bigint> = {};
 const W7 = checksumAddress("0x" + "07".repeat(20));          // RUYUI #7's wallet (the desk makes it on request)
+// an Abstract Global Wallet (a contract account): ERC-1271 says yes to the signatures in agwOk
+const AGW = checksumAddress("0x" + "a9".repeat(20));
+const agwOk = new Set<string>();
+// Ruyui's staking: the contract holds staked RUYUIs; their API (served by the stand-in at /staking) lists the stakers
+const STAKING = checksumAddress("0x" + "5a".repeat(20));
+const stakers: { address: string; stakedCount: number; nftList: number[] }[] = [];
 const chain = createServer((req, res) => {
   let body = "";
   req.on("data", (c) => { body += c; });
   req.on("end", () => {
+    if (req.method === "GET" && req.url === "/staking") { res.setHeader("content-type", "application/json"); return res.end(JSON.stringify(stakers)); }
     const { id, method, params } = JSON.parse(body);
     const answer = (result: unknown) => res.end(JSON.stringify({ jsonrpc: "2.0", id, result }));
     const revert = () => res.end(JSON.stringify({ jsonrpc: "2.0", id, error: { code: 3, message: "execution reverted" } }));
     res.setHeader("content-type", "application/json");
     if (method === "eth_getBalance") return answer(`0x${(ethOf[String(params[0]).toLowerCase()] ?? 0n).toString(16)}`);
+    if (method === "eth_getCode") return answer(String(params[0]).toLowerCase() === AGW.toLowerCase() ? "0x6080" : "0x");
     if (method !== "eth_call") return revert();
     const to: string = params[0].to.toLowerCase(), data: string = params[0].data;
     if (to === RUYUI && data.startsWith(selector("ownerOf(uint256)"))) {
       const n = Number(BigInt(`0x${data.slice(10, 74)}`));
       return owner[n] ? answer(`0x${word(owner[n])}`) : revert();
+    }
+    if (to === AGW.toLowerCase() && data.startsWith(selector("isValidSignature(bytes32,bytes)"))) {
+      const len = Number(BigInt(`0x${data.slice(10 + 128, 10 + 192)}`));
+      const sig = `0x${data.slice(10 + 192, 10 + 192 + len * 2)}`.toLowerCase();
+      return answer(`0x${agwOk.has(sig) ? "1626ba7e" : "ffffffff"}${"0".repeat(56)}`);
     }
     if (to === FLYAI.toLowerCase() && data.startsWith(selector("balanceOf(address)"))) {
       return answer(`0x${word(flyai[`0x${data.slice(34, 74)}`.toLowerCase()] ?? 0n)}`);
@@ -89,7 +102,7 @@ try {
       ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0",
       AUDITS: "0", OPEN_TARGET: "50", ADMIN_TOKEN: ADMIN, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "none",
       CLAIM_RPC: "http://127.0.0.1:9", CLAIM_EXPLORER: "http://localhost", SEED_PAID: "0", ARENA_ON: "0",
-      RUYUI_ON: "1", RUYUI_OWNER_TTL_SEC: "1", VAULT_RPC: rpcUrl, ABSTRACT_RPC: rpcUrl, PARTNER_ORIGINS: `${PARTNER}, https://other.example/`,
+      RUYUI_ON: "1", RUYUI_OWNER_TTL_SEC: "1", RUYUI_STAKING_API: `${rpcUrl}/staking`, RUYUI_STAKING_CONTRACT: STAKING, VAULT_RPC: rpcUrl, ABSTRACT_RPC: rpcUrl, PARTNER_ORIGINS: `${PARTNER}, https://other.example/`,
     },
     stdio: ["ignore", "ignore", "inherit"],
   });
@@ -204,6 +217,44 @@ try {
   const adm = await api("/api/admin/ruyui", null, undefined, { authorization: `Bearer ${ADMIN}` });
   check("admin", adm.status === 200 && adm.json.wallets === 1 && adm.json.funded.length === 1 && adm.json.requests.length === 2, JSON.stringify(adm.json).slice(0, 200));
   check("admin only", (await api("/api/admin/ruyui", a)).status === 403);
+
+  // ---- an Abstract Global Wallet holds RUYUI #9; bob's Robinhood Chain wallet runs it once the AGW signed the link
+  owner[9] = AGW;
+  const t9 = (await api("/api/ruyui/token/9", null)).json;
+  check("unlinked: the AGW is the owner", t9.owner === AGW && t9.nft_owner === AGW && t9.linked === false, JSON.stringify(t9).slice(0, 160));
+  check("bob can't set up the AGW's RUYUI", (await api("/api/ruyui/token/9/setup", b, {})).status === 403);
+  const lm = (await api(`/api/ruyui/link/message?owner=${AGW}&signer=${bob.address}`, null)).json;
+  check("the link message names both wallets", lm.message.includes(AGW) && lm.message.includes(bob.address) && !!lm.issued_at, lm.message);
+  const good = alice.sign(lm.message);                  // stands in for the AGW's own ERC-1271 signature
+  agwOk.add(good.toLowerCase());
+  check("linking needs a session", (await api("/api/ruyui/link", null, { owner: AGW, issued_at: lm.issued_at, signature: good })).status === 401);
+  check("a wrong signature is refused", (await api("/api/ruyui/link", b, { owner: AGW, issued_at: lm.issued_at, signature: bob.sign(lm.message) })).status === 401);
+  check("alice can't take bob's link", (await api("/api/ruyui/link", a, { owner: AGW, signer: bob.address, issued_at: lm.issued_at, signature: good })).status === 403);
+  const ln = await api("/api/ruyui/link", b, { owner: AGW, issued_at: lm.issued_at, signature: good });
+  check("the AGW's signature links bob", ln.status === 200 && ln.json.signer === bob.address && ln.json.linked === true, JSON.stringify(ln.json));
+  check("an older link can't replace it", (await api("/api/ruyui/link", b, { owner: AGW, issued_at: new Date(Date.parse(lm.issued_at) - 60_000).toISOString(), signature: good })).status !== 200);
+  check("a stale link is refused", (await api("/api/ruyui/link", b, { owner: AGW, issued_at: "2026-01-01T00:00:00.000Z", signature: good })).status === 400);
+  const lv = (await api(`/api/ruyui/link/${AGW}`, null)).json, lb = (await api(`/api/ruyui/link/${bob.address}`, null)).json;
+  check("the link reads both ways", lv.signer === bob.address && JSON.stringify(lb.acts_for) === JSON.stringify([AGW]), JSON.stringify([lv, lb]));
+  await sleep(1100);                                     // the owner cache (RUYUI_OWNER_TTL_SEC=1)
+  const t9b = (await api("/api/ruyui/token/9", null)).json;
+  check("linked: bob runs it, the AGW still holds the NFT", t9b.owner === bob.address && t9b.nft_owner === AGW && t9b.linked === true, JSON.stringify(t9b).slice(0, 160));
+  const s9 = await api("/api/ruyui/token/9/setup", b, {});
+  check("bob sets up the AGW's RUYUI", s9.status === 200 && s9.json.status === "new", JSON.stringify(s9.json));
+  check("alice (not linked) still can't", (await api("/api/ruyui/token/9/setup", a, {})).status === 403);
+
+  // ---- staked RUYUIs: the staking contract holds them; the staking API (asked first) says whose they are
+  owner[10] = STAKING; owner[11] = STAKING;
+  stakers.push({ address: alice.address.toLowerCase(), stakedCount: 1, nftList: [10] });
+  await sleep(5200);                                     // the staking list is re-read on a miss at most every 5 s
+  const t10 = (await api("/api/ruyui/token/10", null)).json;
+  check("staked: the staker owns it", t10.owner === alice.address && t10.nft_owner === alice.address && t10.staked === true, JSON.stringify(t10).slice(0, 180));
+  const s10 = await api("/api/ruyui/token/10/setup", a, {});
+  check("the staker sets it up", s10.status === 200 && s10.json.token === 10, JSON.stringify(s10.json));
+  check("bob can't", (await api("/api/ruyui/token/10/setup", b, {})).status === 403);
+  const t11 = await api("/api/ruyui/token/11", null);
+  check("staked but not on the list: try again (503), never someone else's", t11.status === 503, JSON.stringify(t11.json));
+  check("not staked: as before", (await api("/api/ruyui/token/7", null)).json.staked === false);
 } catch (err) {
   console.error(err);
   failed++;
