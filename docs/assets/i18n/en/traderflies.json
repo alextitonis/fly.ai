@@ -1297,7 +1297,9 @@
       "maxBuy": "Max buy (ETH)",
       "maxSell": "Max sell (ETH)",
       "soon": "soon",
-      "capsHint": "Copied within seconds. Leave a max empty for no limit; each buy is still at most the option's share of its money."
+      "capsHint": "Copied within seconds. Leave a max empty for no limit; each buy is still at most the option's share of its money.",
+      "pickFly": "Pick another Trader Fly to copy…",
+      "external": "Or paste any wallet address (0x…)"
     },
     "pickSaves": "Tap a style and it's saved at once. Fine-tune it under Every setting.",
     "picked": "{name} picked. It applies from the next bar.",

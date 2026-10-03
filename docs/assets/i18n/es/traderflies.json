@@ -1297,7 +1297,9 @@
       "maxBuy": "Compra máx. (ETH)",
       "maxSell": "Venta máx. (ETH)",
       "soon": "pronto",
-      "capsHint": "Se copia en segundos. Deja un máximo vacío para no limitar; cada compra sigue siendo como mucho su parte del dinero."
+      "capsHint": "Se copia en segundos. Deja un máximo vacío para no limitar; cada compra sigue siendo como mucho su parte del dinero.",
+      "pickFly": "Elige otra Trader Fly para copiar…",
+      "external": "O pega cualquier dirección de wallet (0x…)"
     },
     "pickSaves": "Toca un estilo y se guarda al instante. Ajústalo en Todos los ajustes.",
     "picked": "{name} elegido. Se aplica desde la próxima barra.",

@@ -1297,7 +1297,9 @@
       "maxBuy": "Maks. alım (ETH)",
       "maxSell": "Maks. satış (ETH)",
       "soon": "yakında",
-      "capsHint": "Saniyeler içinde kopyalanır. Sınır istemiyorsan maksimumu boş bırak; her alım yine de seçeneğin payını aşmaz."
+      "capsHint": "Saniyeler içinde kopyalanır. Sınır istemiyorsan maksimumu boş bırak; her alım yine de seçeneğin payını aşmaz.",
+      "pickFly": "Kopyalamak için başka bir Trader Fly seç…",
+      "external": "Ya da herhangi bir cüzdan adresi yapıştır (0x…)"
     },
     "pickSaves": "Bir stile dokun, hemen kaydedilir. İnce ayarı Tüm ayarlar altında yap.",
     "picked": "{name} seçildi. Bir sonraki bardan itibaren geçerli.",
