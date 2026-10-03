@@ -33,7 +33,9 @@
     "disconnect": "연결 해제",
     "afterMint": "민팅이 끝나면 열립니다",
     "pets": "Hardware NFTs",
-    "pass": "FlightPass"
+    "pass": "FlightPass",
+    "inventory": "인벤토리",
+    "leaderboard": "리더보드"
   },
   "flyAlt": "Trader Fly 한 마리",
   "flyName": "Trader Fly #{id}",
@@ -1039,7 +1041,7 @@
       "take_profit": "익절",
       "panic_sell": "매도"
     },
-    "empty": "이 파리의 지갑이 비어 있어요. 입금하면 다음 15분 봉부터 거래를 시작해요.",
+    "empty": "이 파리의 지갑이 비어 있어요. 입금하면 다음 5분 봉부터 거래를 시작해요.",
     "potEmpty": "이 팟은 비어 있어요.",
     "fund": "파리에 입금",
     "fundText": "ETH, USDG 또는 $FLYAI, 최소 $10. ETH는 거래용 현금(USDG)이 되고, $FLYAI는 파리가 정할 때까지 $FLYAI로 남아요.",
@@ -1293,6 +1295,19 @@
       "maxSell": "최대 매도 (ETH)",
       "soon": "곧",
       "capsHint": "몇 초 안에 따라 합니다. 최대값을 비우면 제한이 없고, 매수는 여전히 옵션의 몫 안에서만 합니다."
+    },
+    "pickSaves": "스타일을 누르면 바로 저장됩니다. 세부 조정은 모든 설정에서 하세요.",
+    "picked": "{name} 선택됨. 다음 바부터 적용됩니다.",
+    "unsaved": "저장되지 않은 변경",
+    "minFund": "이 설정은 {min}부터 모든 부분이 거래합니다.",
+    "partsText": "이 설정은 자금을 {n}개 부분으로 나눕니다. 거래 1건에 $5가 필요하니 {min} 이상 넣으세요.",
+    "minLow": "{usd}로는 가장 작은 부분이 {part}을 받아 거래에 필요한 $5보다 적어 쉬고 있습니다. 자금을 추가하거나({min}까지) 옵션을 줄이세요.",
+    "steps": {
+      "title": "이 파리 설정하기",
+      "hold": "지갑에 {need} $FLYAI 보유",
+      "pick": "거래 방식 선택 (아래에서 한 번 탭)",
+      "fund": "자금 넣기: {min} 이상",
+      "go": "5분마다 스스로 거래합니다"
     }
   },
   "profile": {

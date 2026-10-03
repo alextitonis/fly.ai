@@ -118,6 +118,14 @@
     "desk-api": {
       "label": "API y skills",
       "desc": "Compra las respuestas del desk por x402"
+    },
+    "traderflies_inventory": {
+      "label": "Inventario",
+      "desc": "Tus moscas y sus wallets"
+    },
+    "traderflies_leaderboard": {
+      "label": "Clasificación",
+      "desc": "Las mejores Fly Wallets, en vivo"
     }
   },
   "footer": {

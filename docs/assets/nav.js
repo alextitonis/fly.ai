@@ -29,6 +29,9 @@
     ]],
     ["nfts", "NFTs", [
       ["Trader Flies", "/traderflies/", "The collection and your flies"],
+      // 2026-10-03, the user: the inventory and the leaderboard under NFTs, each a page of its own
+      ["Inventory", "/traderflies/inventory", "Your flies and their wallets"],
+      ["Leaderboard", "/traderflies/leaderboard", "The best Fly Wallets, live"],
       ["Breed", "/traderflies/breed", "Merge two flies into one"],
       ["Claim", "/traderflies/claim", "Collect your flies' $FLYAI"],
       ["FlightPass", "/traderflies/pass", "Put your flies on autopilot"],

@@ -118,6 +118,14 @@
     "desk-api": {
       "label": "API & skills",
       "desc": "Buy the desk's answers over x402"
+    },
+    "traderflies_inventory": {
+      "label": "Inventory",
+      "desc": "Your flies and their wallets"
+    },
+    "traderflies_leaderboard": {
+      "label": "Leaderboard",
+      "desc": "The best Fly Wallets, live"
     }
   },
   "footer": {

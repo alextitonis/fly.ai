@@ -118,6 +118,14 @@
     "desk-api": {
       "label": "API 与技能",
       "desc": "通过 x402 购买 desk 的答案"
+    },
+    "traderflies_inventory": {
+      "label": "库存",
+      "desc": "你的苍蝇和它们的钱包"
+    },
+    "traderflies_leaderboard": {
+      "label": "排行榜",
+      "desc": "最佳 Fly Wallet，实时"
     }
   },
   "footer": {

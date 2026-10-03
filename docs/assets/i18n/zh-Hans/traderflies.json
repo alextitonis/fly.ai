@@ -33,7 +33,9 @@
     "disconnect": "断开连接",
     "afterMint": "铸造结束后开放",
     "pets": "Hardware NFTs",
-    "pass": "FlightPass"
+    "pass": "FlightPass",
+    "inventory": "库存",
+    "leaderboard": "排行榜"
   },
   "flyAlt": "一只 Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1039,7 +1041,7 @@
       "take_profit": "止盈",
       "panic_sell": "卖出"
     },
-    "empty": "这只苍蝇的钱包是空的。充值后，它会从下一根 15 分钟 K 线开始交易。",
+    "empty": "这只苍蝇的钱包是空的。充值后，它会从下一根 5 分钟 K 线开始交易。",
     "potEmpty": "这个资金池是空的。",
     "fund": "给苍蝇充值",
     "fundText": "ETH、USDG 或 $FLYAI，至少 $10。ETH 会换成交易现金（USDG）；$FLYAI 保持为 $FLYAI，由苍蝇决定如何处理。",
@@ -1293,6 +1295,19 @@
       "maxSell": "最大卖出 (ETH)",
       "soon": "即将",
       "capsHint": "几秒内跟单。上限留空即不限；每次买入仍不超过该选项的资金份额。"
+    },
+    "pickSaves": "点一个风格即刻保存。在“全部设置”里微调。",
+    "picked": "已选 {name}。从下一根 K 线起生效。",
+    "unsaved": "有未保存的更改",
+    "minFund": "此设置从 {min} 起每一部分都能交易。",
+    "partsText": "此设置把资金分成 {n} 部分。每笔交易需要 $5，请存入 {min} 或更多。",
+    "minLow": "存入 {usd} 时，最小的部分只有 {part}：低于一笔交易所需的 $5，所以闲置。请加钱（到 {min}）或少开几个选项。",
+    "steps": {
+      "title": "设置这只苍蝇",
+      "hold": "钱包里持有 {need} $FLYAI",
+      "pick": "选择交易方式（下方点一下）",
+      "fund": "注资：{min} 或更多",
+      "go": "每 5 分钟自动交易"
     }
   },
   "profile": {

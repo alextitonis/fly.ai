@@ -33,7 +33,9 @@
     "disconnect": "中斷連接",
     "afterMint": "鑄造結束後開放",
     "pets": "Hardware NFTs",
-    "pass": "FlightPass"
+    "pass": "FlightPass",
+    "inventory": "庫存",
+    "leaderboard": "排行榜"
   },
   "flyAlt": "一隻 Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1039,7 +1041,7 @@
       "take_profit": "停利",
       "panic_sell": "賣出"
     },
-    "empty": "這隻蒼蠅的錢包是空的。存入資金後，它會從下一根 15 分鐘 K 線開始交易。",
+    "empty": "這隻蒼蠅的錢包是空的。存入資金後，它會從下一根 5 分鐘 K 線開始交易。",
     "potEmpty": "這個資金池是空的。",
     "fund": "為蒼蠅存入資金",
     "fundText": "ETH、USDG 或 $FLYAI，至少 $10。ETH 會轉成交易現金（USDG）；$FLYAI 維持 $FLYAI，直到蒼蠅決定如何操作。",
@@ -1293,6 +1295,19 @@
       "maxSell": "最大賣出 (ETH)",
       "soon": "即將",
       "capsHint": "幾秒內跟單。上限留空即不限；每次買入仍不超過該選項的資金份額。"
+    },
+    "pickSaves": "點一個風格即刻儲存。在「全部設定」裡微調。",
+    "picked": "已選 {name}。從下一根 K 線起生效。",
+    "unsaved": "有未儲存的變更",
+    "minFund": "此設定從 {min} 起每一部分都能交易。",
+    "partsText": "此設定把資金分成 {n} 部分。每筆交易需要 $5，請存入 {min} 或更多。",
+    "minLow": "存入 {usd} 時，最小的部分只有 {part}：低於一筆交易所需的 $5，所以閒置。請加錢（到 {min}）或少開幾個選項。",
+    "steps": {
+      "title": "設定這隻蒼蠅",
+      "hold": "錢包裡持有 {need} $FLYAI",
+      "pick": "選擇交易方式（下方點一下）",
+      "fund": "注資：{min} 或更多",
+      "go": "每 5 分鐘自動交易"
     }
   },
   "profile": {

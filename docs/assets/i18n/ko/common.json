@@ -118,6 +118,14 @@
     "desk-api": {
       "label": "API 및 스킬",
       "desc": "x402로 데스크의 답변 구매"
+    },
+    "traderflies_inventory": {
+      "label": "인벤토리",
+      "desc": "내 파리와 지갑"
+    },
+    "traderflies_leaderboard": {
+      "label": "리더보드",
+      "desc": "최고의 Fly Wallet, 실시간"
     }
   },
   "footer": {

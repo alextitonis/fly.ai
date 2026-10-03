@@ -33,7 +33,9 @@
     "disconnect": "Bağlantıyı kes",
     "afterMint": "Mint bitince açılır",
     "pets": "Hardware NFTs",
-    "pass": "FlightPass"
+    "pass": "FlightPass",
+    "inventory": "Envanter",
+    "leaderboard": "Sıralama"
   },
   "flyAlt": "Bir Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1041,7 +1043,7 @@
       "take_profit": "kâr al",
       "panic_sell": "sat"
     },
-    "empty": "Bu sineğin cüzdanı boş. Yükleme yap, bir sonraki 15 dakikalık mumda işleme başlasın.",
+    "empty": "Bu sineğin cüzdanı boş. Yükleme yap, bir sonraki 5 dakikalık mumda işleme başlasın.",
     "potEmpty": "Bu havuz boş.",
     "fund": "Sineğe yükleme yap",
     "fundText": "ETH, USDG veya $FLYAI, en az $10. ETH işlem nakdine (USDG) dönüşür; $FLYAI, sinek karar verene kadar $FLYAI olarak kalır.",
@@ -1295,6 +1297,19 @@
       "maxSell": "Maks. satış (ETH)",
       "soon": "yakında",
       "capsHint": "Saniyeler içinde kopyalanır. Sınır istemiyorsan maksimumu boş bırak; her alım yine de seçeneğin payını aşmaz."
+    },
+    "pickSaves": "Bir stile dokun, hemen kaydedilir. İnce ayarı Tüm ayarlar altında yap.",
+    "picked": "{name} seçildi. Bir sonraki bardan itibaren geçerli.",
+    "unsaved": "Kaydedilmemiş değişiklikler",
+    "minFund": "Bu kurulum {min} ile tüm parçalarında işlem yapar.",
+    "partsText": "Bu kurulum parayı {n} parçaya böler. Bir işlem $5 ister: {min} veya daha fazla yatır.",
+    "minLow": "{usd} ile en küçük parça {part} alıyor: bir işlemin istediği $5'ın altında, bu yüzden boş bekliyor. Para ekle ({min} olana kadar) ya da daha az seçenek aç.",
+    "steps": {
+      "title": "Bu sineği kur",
+      "hold": "Cüzdanında {need} $FLYAI tut",
+      "pick": "Nasıl işlem yapacağını seç (aşağıda tek dokunuş)",
+      "fund": "Yükle: {min} veya fazlası",
+      "go": "Her 5 dakikada kendi başına işlem yapar"
     }
   },
   "profile": {

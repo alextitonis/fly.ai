@@ -33,7 +33,9 @@
     "disconnect": "Desconectar",
     "afterMint": "Se abre cuando termine el mint",
     "pets": "Hardware NFTs",
-    "pass": "FlightPass"
+    "pass": "FlightPass",
+    "inventory": "Inventario",
+    "leaderboard": "Clasificación"
   },
   "flyAlt": "Una Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1041,7 +1043,7 @@
       "take_profit": "toma de ganancia",
       "panic_sell": "venta"
     },
-    "empty": "La wallet de esta mosca está vacía. Deposítale fondos y empieza a operar en la siguiente vela de 15 minutos.",
+    "empty": "La wallet de esta mosca está vacía. Deposítale fondos y empieza a operar en la siguiente vela de 5 minutos.",
     "potEmpty": "Este pozo está vacío.",
     "fund": "Fondear la mosca",
     "fundText": "ETH, USDG o $FLYAI, mínimo $10. El ETH se convierte en efectivo para operar (USDG); el $FLYAI sigue siendo $FLYAI hasta que la mosca decida.",
@@ -1295,6 +1297,19 @@
       "maxSell": "Venta máx. (ETH)",
       "soon": "pronto",
       "capsHint": "Se copia en segundos. Deja un máximo vacío para no limitar; cada compra sigue siendo como mucho su parte del dinero."
+    },
+    "pickSaves": "Toca un estilo y se guarda al instante. Ajústalo en Todos los ajustes.",
+    "picked": "{name} elegido. Se aplica desde la próxima barra.",
+    "unsaved": "Cambios sin guardar",
+    "minFund": "Con {min} esta configuración opera todas sus partes.",
+    "partsText": "Esta configuración reparte el dinero en {n} partes. Una operación necesita $5: deposita {min} o más.",
+    "minLow": "Con {usd}, la parte más pequeña recibe {part}: menos de los $5 que necesita una operación, así que no opera. Añade dinero (hasta {min}) o activa menos opciones.",
+    "steps": {
+      "title": "Configura esta mosca",
+      "hold": "Ten {need} $FLYAI en tu wallet",
+      "pick": "Elige cómo opera (un toque, abajo)",
+      "fund": "Deposita: {min} o más",
+      "go": "Opera sola cada 5 minutos"
     }
   },
   "profile": {

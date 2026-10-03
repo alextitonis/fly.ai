@@ -118,6 +118,14 @@
     "desk-api": {
       "label": "API ve skill'ler",
       "desc": "Desk'in cevaplarını x402 ile al"
+    },
+    "traderflies_inventory": {
+      "label": "Envanter",
+      "desc": "Sineklerin ve cüzdanları"
+    },
+    "traderflies_leaderboard": {
+      "label": "Sıralama",
+      "desc": "En iyi Fly Wallet'lar, canlı"
     }
   },
   "footer": {

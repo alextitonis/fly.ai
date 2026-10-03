@@ -33,7 +33,9 @@
     "disconnect": "Disconnect",
     "afterMint": "Opens when the mint ends",
     "pets": "Hardware NFTs",
-    "pass": "FlightPass"
+    "pass": "FlightPass",
+    "inventory": "Inventory",
+    "leaderboard": "Leaderboard"
   },
   "flyAlt": "A Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1041,7 +1043,7 @@
       "take_profit": "take profit",
       "panic_sell": "sell"
     },
-    "empty": "This fly's wallet is empty. Fund it and it starts trading on the next 15-minute bar.",
+    "empty": "This fly's wallet is empty. Fund it and it starts trading on the next 5-minute bar.",
     "potEmpty": "This pot is empty.",
     "fund": "Fund the fly",
     "fundText": "ETH, USDG or $FLYAI, $10 at least. ETH becomes trading cash (USDG); $FLYAI stays $FLYAI until the fly decides.",
@@ -1295,6 +1297,19 @@
       "maxSell": "Max sell (ETH)",
       "soon": "soon",
       "capsHint": "Copied within seconds. Leave a max empty for no limit; each buy is still at most the option's share of its money."
+    },
+    "pickSaves": "Tap a style and it's saved at once. Fine-tune it under Every setting.",
+    "picked": "{name} picked. It applies from the next bar.",
+    "unsaved": "Unsaved changes",
+    "minFund": "This setup trades every part from {min}.",
+    "partsText": "This setup splits the money into {n} parts. A trade needs $5, so put in {min} or more.",
+    "minLow": "With {usd} in, the smallest part gets {part}: under the $5 a trade needs, so it sits idle. Add money (to {min}) or switch fewer options on.",
+    "steps": {
+      "title": "Set up this fly",
+      "hold": "Hold {need} $FLYAI in your wallet",
+      "pick": "Pick how it trades (one tap, below)",
+      "fund": "Fund it: {min} or more",
+      "go": "It trades on its own every 5 minutes"
     }
   },
   "profile": {
