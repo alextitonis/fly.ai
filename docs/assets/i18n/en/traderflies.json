@@ -1153,6 +1153,10 @@
       "copy": {
         "title": "Copy the winners",
         "blurb": "Buys what the Fly Wallets that are making money buy (up over 7 days, with a real track record) and sells when they sell."
+      },
+      "track": {
+        "title": "Copy wallets",
+        "blurb": "Paste any wallets you want to follow: when one buys a token, your fly buys it too, and sells when they sell."
       }
     },
     "params": {
@@ -1280,6 +1284,17 @@
       "badToken": "That token can't be deposited.",
       "positions": "The wallet holds too many tokens.",
       "amount": "Enter an amount."
+    },
+    "track": {
+      "label": "Wallets to copy ({n}/5)",
+      "add": "Add",
+      "remove": "Remove",
+      "bad": "That's not a wallet address (0x + 40 characters).",
+      "chain": "Chain",
+      "maxBuy": "Max buy (ETH)",
+      "maxSell": "Max sell (ETH)",
+      "soon": "soon",
+      "capsHint": "Copied within seconds. Leave a max empty for no limit; each buy is still at most the option's share of its money."
     }
   },
   "profile": {

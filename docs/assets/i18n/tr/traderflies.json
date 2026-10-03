@@ -1153,6 +1153,10 @@
       "copy": {
         "title": "Kazananları kopyala",
         "blurb": "Para kazanan Fly Wallet'ların aldıklarını alır (7 günde artıda, gerçek geçmişi olan) ve onlar satınca satar."
+      },
+      "track": {
+        "title": "Cüzdan kopyala",
+        "blurb": "Takip etmek istediğin cüzdanları yapıştır: biri bir token aldığında sineğin de alır, onlar satınca satar."
       }
     },
     "params": {
@@ -1280,6 +1284,17 @@
       "badToken": "O token yüklenemez.",
       "positions": "Cüzdanda çok fazla token var.",
       "amount": "Bir miktar gir."
+    },
+    "track": {
+      "label": "Kopyalanan cüzdanlar ({n}/5)",
+      "add": "Ekle",
+      "remove": "Kaldır",
+      "bad": "Bu bir cüzdan adresi değil (0x + 40 karakter).",
+      "chain": "Zincir",
+      "maxBuy": "Maks. alım (ETH)",
+      "maxSell": "Maks. satış (ETH)",
+      "soon": "yakında",
+      "capsHint": "Saniyeler içinde kopyalanır. Sınır istemiyorsan maksimumu boş bırak; her alım yine de seçeneğin payını aşmaz."
     }
   },
   "profile": {

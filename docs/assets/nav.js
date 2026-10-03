@@ -110,8 +110,8 @@
     const panel = el("div", { class: "mnav", id: "mnav", hidden: "" });
     for (const item of NAV) {
       if (!Array.isArray(item[2])) { panel.append(el("ul", { class: "mnav-top" }, el("li", null, link([item[0], item[1]])))); continue; }
-      panel.append(el("p", { class: "mnav-h", "data-menu": item[0] }, item[1]),
-        el("ul", null, ...item[2].map(([label, href, , newTab]) => el("li", null, link([label, href, undefined, newTab])))));
+      panel.append(el("section", { class: "mnav-sec" }, el("p", { class: "mnav-h", "data-menu": item[0] }, item[1]),
+        el("ul", null, ...item[2].map(([label, href, , newTab]) => el("li", null, link([label, href, undefined, newTab]))))));
     }
     for (const item of NAV) {
       if (!Array.isArray(item[2])) { ul.append(el("li", { class: "main" }, link(item))); continue; }
@@ -123,7 +123,8 @@
       if (menu.querySelector("a.on")) btn.classList.add("on");
       ul.append(el("li", { class: "dd main" }, btn, menu));
     }
-    const burger = el("button", { class: "burger-btn", type: "button", "aria-expanded": "false", "aria-controls": "mnav", "aria-label": "Menu" }, "☰");
+    const burger = el("button", { class: "burger-btn", type: "button", "aria-expanded": "false", "aria-controls": "mnav", "aria-label": "Menu" },
+      el("i"), el("i"), el("i"));                         // three drawn bars that turn into an X (CSS), not the ☰ glyph
     ul.append(searchBox(el), ...(session() ? [bell(el)] : []), account(el, fileHref), el("li", { class: "burger" }, burger));
 
     const brand = el("a", { class: "brand", href: fileHref("/") },
@@ -133,7 +134,7 @@
   {
     const burger = nav.querySelector(".burger-btn"), panel = nav.querySelector("#mnav");
     if (burger && panel) {
-      const set = (open) => { panel.hidden = !open; burger.setAttribute("aria-expanded", String(open)); burger.textContent = open ? "✕" : "☰";
+      const set = (open) => { panel.hidden = !open; burger.setAttribute("aria-expanded", String(open));
         document.documentElement.classList.toggle("mnav-open", open); };
       burger.addEventListener("click", (e) => { e.stopPropagation(); set(panel.hidden); });
       document.addEventListener("click", (e) => { if (!panel.hidden && !panel.contains(e.target)) set(false); });
