@@ -43,6 +43,7 @@ import { createArena } from "./arena.ts";
 import { createVaults } from "./vaults.ts";
 import { createRuyui } from "./ruyui.ts";
 import { createProfiles } from "./profiles.ts";
+import { createBounties } from "./bounties.ts";
 import { createRace } from "./race.ts";
 import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
 import { connectPg, lockWallet, type Q } from "./pg.ts";
@@ -3470,6 +3471,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p === "/api/profiles" || p === "/api/profile" || p.startsWith("/api/profile/") || p.startsWith("/api/profiles/"))) {
     if (await profiles.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/bounties") || p.startsWith("/api/admin/bounties"))) {
+    if (await bounties.route(req, res, url)) return;
+  }
   if (req.method === "OPTIONS") {
     res.writeHead(204, { ...CORS, "access-control-allow-methods": "GET, POST" });
     return void res.end();
@@ -3769,6 +3773,11 @@ const ruyui = createRuyui({
 });
 // nicknames for the leaderboards (src/profiles.ts): set by the signed-in wallet, read by anyone
 const profiles = createProfiles({ pg, HttpError, send, readJson, sessionWallet: sessionAddress });
+// bounties (src/bounties.ts): the team posts them on /bounties, signed-in wallets enter; admins = BOUNTY_ADMINS wallets
+const bounties = createBounties({
+  pg, HttpError, send, readJson, sessionWallet: sessionAddress, isAdminToken: isAdmin,
+  admins: (process.env.BOUNTY_ADMINS ?? "").split(","), explorer: CLAIMS.explorer,
+});
 // the mining side's timers: orders, card checkouts, webhooks, staking samples and the research summaries
 if (MINING) {
   refreshTableCounts(); // /api/stats' job totals, in the background from the start
