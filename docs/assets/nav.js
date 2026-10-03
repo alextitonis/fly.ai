@@ -26,6 +26,7 @@
       ["Flinder", "/flinder/", "A fly brain swipes on dating profiles"],
       ["Hardware NFTs", "/traderflies/pets", "FLYAI pets: pre-order a pocket fly"],
       ["Compute", "/compute/", "Mine with your browser, earn $FLYAI"],
+      ["Bounties", "/bounties", "Get paid in $FLYAI for memes, bots, research"],
     ]],
     ["nfts", "NFTs", [
       ["Trader Flies", "/traderflies/", "The collection and your flies"],
@@ -45,8 +46,6 @@
       ["Fly Desk", "/desk", "Fly brains trade a paper book"],
       ["Roadmap", "/roadmap", "What's done and what's next"],
     ]],
-    // 2026-10-03, the user: bounties as a top-level link, not inside a menu
-    ["Bounties", "/bounties"],
     ["token", "$FLYAI", [
       ["Token", "/token", "Contract, chain, where to buy"],
       ["Merch", "/shop", "Fly shirts and more", true],
