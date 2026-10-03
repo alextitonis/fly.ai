@@ -583,9 +583,15 @@ nav li.burger, .mnav { display: none; }
   .hero .tagline { font-size: 17px; }
   .hero .sub { display: none; }
   .hero .start-cta { margin-top: 18px; }
-  .hero .firstvisit { padding: 12px 36px 12px 12px; gap: 6px; display: flex; flex-wrap: wrap; justify-content: center; text-align: center; }
-  .hero .firstvisit b { width: 100%; font-size: 13px; }
-  .hero .firstvisit a { font-size: 13px; padding: 6px 10px; border: 1px solid rgba(94,242,204,.35); border-radius: 999px; }
+  /* no box on a phone: a quiet line and one row of chips that scrolls sideways */
+  .hero .firstvisit { display: block; align-self: stretch; width: 100%; max-width: 100%; box-sizing: border-box; margin: 14px 0 0; padding: 0; border: 0; border-radius: 0; background: none; text-align: center; }
+  .hero .firstvisit b { display: block; margin: 0 0 8px; font: 500 12px var(--mono); letter-spacing: .04em; color: var(--muted); }
+  .hero .firstvisit .fv-chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .hero .firstvisit .fv-chips::-webkit-scrollbar { display: none; }
+  .hero .firstvisit a { flex: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 999px;
+    background: rgba(94,242,204,.1); border: 1px solid rgba(94,242,204,.25); white-space: nowrap; }
+  .hero .firstvisit a:hover { text-decoration: none; }
+  .hero .firstvisit .fv-x { top: -4px; right: 0; font-size: 16px; }
   .token-top { padding: 14px 12px; gap: 8px; margin-top: 18px; }
   .token-top .ticker-line > span:not(.ticker) { display: none; }
   .token-top .quiet { display: none; }
@@ -598,3 +604,6 @@ nav li.burger, .mnav { display: none; }
   .hero .spec { display: none; }
 }
 @media (max-width: 600px) { .hero .apps-launch { width: 100%; max-width: none; align-self: stretch; } .apps-launch h2 { text-align: left; } }
+.hero .firstvisit .fv-chips { display: contents; }
+@media (max-width: 600px) { .hero .firstvisit .fv-chips { display: flex; } }
+@media (max-width: 600px) { .hero .firstvisit .fv-chips { justify-content: flex-start; } .hero .firstvisit .fv-chips::after { content: ""; flex: 0 0 4px; } }
