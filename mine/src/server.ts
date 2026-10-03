@@ -344,6 +344,10 @@ if (hasTables && version < 18 && db.prepare("select 1 from sqlite_master where n
 }
 db.exec(`
   pragma journal_mode = wal;
+  -- 2026-10-03: a profile of the mining thread put 53% of its time in commit (claim and submit, one transaction each,
+  -- every one flushed to disk). In WAL mode "normal" flushes at checkpoints instead: a crash of the process loses
+  -- nothing, a power cut at most the last moments of jobs (money and credit live in Postgres since schema 21)
+  pragma synchronous = normal;
   pragma busy_timeout = 5000;
   pragma journal_size_limit = 536870912;
   pragma user_version = ${SCHEMA};
@@ -1731,8 +1735,9 @@ const stats = cached(60_000, (_: null) => {
     miners_online: count("select count(*) as n from miners where last_seen > ?", Date.now() - 10 * 60_000),
     jobs_today: count("select coalesce(sum(accepted + pending + rejected), 0) as n from day_credit where day = ?", today()),
     // null until the first background count is in (a few seconds after a start)
-    tasks: c ? c.tasks + counter("pruned_tasks") : null,
-    tasks_done: c ? c.tasks_done + counter("pruned_tasks") : null,
+    // pruned jobs included (src/stats.worker.ts counts every id ever made)
+    tasks: c?.tasks ?? null,
+    tasks_done: c?.tasks_done ?? null,
     tasks_checked: c?.tasks_checked ?? null,
     rounds: c?.rounds ?? null,
     verifiers: pool.filter((v) => v.ready).length,

@@ -46,6 +46,10 @@ const FLYAI = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C";
 const USDG = "0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168";
 const ADDRESS = /^0x[0-9a-fA-F]{40}$/;
 const MAX_DOC = 16_000;
+// no gas loans for RUYUI (user 2026-10-03): under this much ETH a wallet can't send a transaction and waits for its
+// holder to send some (flytrade/vaults/ruyui.py NEEDS_GAS_WEI); SUGGESTED_GAS_ETH lasts a long while
+const NEEDS_GAS_WEI = 5n * 10n ** 13n;
+const SUGGESTED_GAS_ETH = 0.0005;
 
 const word = (v: bigint | number | string) =>
   typeof v === "string" ? v.replace(/^0x/, "").toLowerCase().padStart(64, "0") : BigInt(v).toString(16).padStart(64, "0");
@@ -88,6 +92,9 @@ export function createRuyui(d: RuyuiDeps) {
     if (owners.size > 10_000) owners.clear();
     return owner;
   }
+  async function ethWei(wallet: string): Promise<bigint> {
+    return BigInt(await rpc(d.rpcUrl, "eth_getBalance", [wallet, "latest"]) as string);
+  }
   async function flyaiOf(wallet: string): Promise<number> {
     const ret = await rpc(d.rpcUrl, "eth_call", [{ to: FLYAI, data: `${selector("balanceOf(address)")}${word(wallet)}` }, "latest"]) as string;
     return Number(BigInt(ret) / 10n ** 14n) / 10_000;
@@ -122,6 +129,8 @@ export function createRuyui(d: RuyuiDeps) {
         chain: ROBINHOOD.chain, chain_id: ROBINHOOD.chainId, explorer: ROBINHOOD.explorer,
         deposit: [{ symbol: "ETH", native: true, decimals: 18 }, { symbol: "USDG", address: USDG, decimals: 6 }],
         withdrawals_paid_in: { symbol: "FLYAI", address: FLYAI, decimals: 18 },
+        // each wallet pays its own gas from ETH its holder sends: no ETH, no trading (status "needs_gas")
+        gas: { min_eth: Number(NEEDS_GAS_WEI) / 1e18, suggested_eth: SUGGESTED_GAS_ETH },
         fee: { profit_bps: RUYUI.feeBps },
       },
       hold: { symbol: "FLYAI", address: FLYAI, chain: ROBINHOOD.chain, amount: holdFlyai, staked_counts: false },
@@ -140,18 +149,21 @@ export function createRuyui(d: RuyuiDeps) {
   async function tokenView(id: number) {
     isOn();
     const [wallet, owner] = await Promise.all([walletOf(id), ownerOf(id)]);
-    const [w, setup, flyai, pool] = await Promise.all([
+    const [w, setup, flyai, pool, gasWei] = await Promise.all([
       walletView(wallet), wallet ? null : openSetup(id), owner ? flyaiOf(owner).catch(() => null) : null,
-      owner ? poolHolder(owner) : null,
+      owner ? poolHolder(owner) : null, wallet ? ethWei(wallet).catch(() => null) : null,
     ]);
+    const needsGas = gasWei != null && gasWei < NEEDS_GAS_WEI;
     const holder = w.ledger?.holder ?? null;
     return {
       token: id, owner, wallet, setup: setup ?? null, ...w,
       hold: { flyai, needed: holdFlyai, ok: flyai == null ? null : flyai >= holdFlyai },
+      gas: wallet ? { eth: gasWei == null ? null : Number(gasWei) / 1e18, needs_gas: needsGas, suggested_eth: SUGGESTED_GAS_ETH } : null,
       // trading opens when the RUYUI's owner is the holder of the money, holds 200k $FLYAI and trading is on
       status: !wallet ? "no_wallet" : w.ledger?.closing ? "closing" : !holder ? "not_funded"
         : !owner || owner.toLowerCase() !== holder.toLowerCase() ? "owner_changed"
-        : flyai != null && flyai < holdFlyai ? "below_hold" : w.settings?.trading === false ? "paused" : "active",
+        : flyai != null && flyai < holdFlyai ? "below_hold" : needsGas ? "needs_gas"
+        : w.settings?.trading === false ? "paused" : "active",
       pool: pool ? { qualifies: pool.qualifies ?? false, epoch_hours: pool.epoch_hours ?? 0, epoch_est_usd: pool.epoch_est_usd ?? 0,
                      owed_usd: pool.owed_usd ?? 0 } : null,
     };

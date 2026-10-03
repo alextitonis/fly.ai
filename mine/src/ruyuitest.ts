@@ -46,6 +46,7 @@ const [alice, bob] = [0, 1].map(() => {
 // ---- the chains' stand-in: RUYUI #7 and #8 are alice's; alice holds 250k $FLYAI, bob 10
 const owner: Record<number, string> = {};
 const flyai: Record<string, bigint> = {};
+const ethOf: Record<string, bigint> = {};
 const W7 = checksumAddress("0x" + "07".repeat(20));          // RUYUI #7's wallet (the desk makes it on request)
 const chain = createServer((req, res) => {
   let body = "";
@@ -55,6 +56,7 @@ const chain = createServer((req, res) => {
     const answer = (result: unknown) => res.end(JSON.stringify({ jsonrpc: "2.0", id, result }));
     const revert = () => res.end(JSON.stringify({ jsonrpc: "2.0", id, error: { code: 3, message: "execution reverted" } }));
     res.setHeader("content-type", "application/json");
+    if (method === "eth_getBalance") return answer(`0x${(ethOf[String(params[0]).toLowerCase()] ?? 0n).toString(16)}`);
     if (method !== "eth_call") return revert();
     const to: string = params[0].to.toLowerCase(), data: string = params[0].data;
     if (to === RUYUI && data.startsWith(selector("ownerOf(uint256)"))) {
@@ -117,7 +119,7 @@ try {
   check("config: the collection, deposits, hold, fee, pool", cfg.on === true && cfg.collection.chain_id === 2741
     && cfg.collection.contract.toLowerCase() === RUYUI && cfg.wallets.chain_id === 4663 && cfg.wallets.fee.profit_bps === 200
     && cfg.hold.amount === 200000 && cfg.hold.staked_counts === false && cfg.pool.fee_bps === 50
-    && cfg.wallets.deposit.map((x: any) => x.symbol).join(",") === "ETH,USDG", JSON.stringify(cfg));
+    && cfg.wallets.deposit.map((x: any) => x.symbol).join(",") === "ETH,USDG" && cfg.wallets.gas.min_eth === 0.00005, JSON.stringify(cfg));
 
   const t7 = (await api("/api/ruyui/token/7", null)).json;
   check("a RUYUI with no wallet yet", t7.token === 7 && t7.owner === alice.address && t7.wallet === null && t7.status === "no_wallet"
@@ -160,7 +162,10 @@ try {
 
   // money in (the desk's ledger under 'ruyui'): the holder decides and withdraws
   await PG.pg.run("insert into mine.vault_ledger (wallet, chain, holder, principal_usd) values (?, 'ruyui', ?, 100)", W7, alice.address);
-  check("funded and active", (await api("/api/ruyui/token/7", null)).json.status === "active");
+  check("funded in USDG only: needs gas (no loans)", (await api("/api/ruyui/token/7", null)).json.status === "needs_gas");
+  ethOf[W7.toLowerCase()] = 4n * 10n ** 14n;               // the holder sends 0.0004 ETH
+  const g7 = (await api("/api/ruyui/token/7", null)).json;
+  check("funded and active", g7.status === "active" && g7.gas.eth === 0.0004 && g7.gas.needs_gas === false, JSON.stringify(g7.gas));
   flyai[alice.address.toLowerCase()] = 199_999n * WEI;
   check("under 200k $FLYAI: below_hold", (await api("/api/ruyui/token/7", null)).json.status === "below_hold");
   flyai[alice.address.toLowerCase()] = 250_000n * WEI;
