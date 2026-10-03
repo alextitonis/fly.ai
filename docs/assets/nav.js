@@ -98,7 +98,7 @@
     ul.append(el("li", null, el("a", { class: "btn sm", href: FOLLOW, target: "_blank", rel: "noopener" }, "Follow @flydotai")));
 
     const brand = el("a", { class: "brand", href: fileHref("/") },
-      el("img", { class: "logo", src: root ? `${root}assets/logo-t.webp` : "/assets/logo-t.webp", alt: "fly.ai", width: "988", height: "439" }), "$FLYAI");
+      el("img", { class: "logo", src: root ? `${root}assets/logo-t.webp` : "/assets/logo-t.webp", alt: "fly.ai", width: "988", height: "439" }));
     nav.replaceChildren(el("div", { class: "wrap" }, brand, ul));
   }
 

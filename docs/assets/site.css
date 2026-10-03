@@ -30,6 +30,11 @@
   .brand { display: flex; align-items: center; gap: 10px; font: 700 18px var(--display); text-decoration: none; }
   .logo { display: block; }                   /* logo-t.webp: the logo on transparency (logo.webp has a black plate) */
   .brand .logo { height: 24px; width: auto; }
+  /* the logo never shrinks under the links (2026-10-03: "Home" was drawn over it at 1100-1280 px); the links wrap */
+  nav .wrap > .brand { flex: none; }
+  nav .wrap { height: auto; min-height: 58px; }
+  @media (min-width: 521px) { nav .wrap > ul { min-width: 0; flex-wrap: wrap; justify-content: flex-end; row-gap: 4px; } }
+  @media (max-width: 520px) { nav .wrap > ul { flex-wrap: wrap; justify-content: flex-start; row-gap: 4px; } }
   .hero-logo { width: min(260px, 58vw); height: auto; margin: 0 0 26px; filter: drop-shadow(0 0 28px var(--glow)); }
   .eye { width: 10px; height: 10px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 14px var(--glow); animation: blink 3.2s infinite; }
   @keyframes blink { 0%, 92%, 100% { opacity: 1; } 95% { opacity: .25; } }
