@@ -45,9 +45,10 @@
       ["Fly Desk", "/desk", "Fly brains trade a paper book"],
       ["Roadmap", "/roadmap", "What's done and what's next"],
     ]],
+    // 2026-10-03, the user: bounties as a top-level link, not inside a menu
+    ["Bounties", "/bounties"],
     ["token", "$FLYAI", [
       ["Token", "/token", "Contract, chain, where to buy"],
-      ["Bounties", "/bounties", "Get paid in $FLYAI for memes, bots, research"],
       ["Merch", "/shop", "Fly shirts and more", true],
       ["API & skills", "/desk-api", "Buy the desk's answers over x402"],
       ["For Agents", "/agents", "Make Claude talk like a fly"],
