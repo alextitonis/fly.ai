@@ -24,7 +24,7 @@
   "nav": {
     "traders": "Traders",
     "scoreboard": "Scoreboard",
-    "mint": "Mint",
+    "mint": "Collection",
     "market": "Market",
     "breed": "Breed",
     "boost": "Boost",
@@ -110,7 +110,7 @@
     "step1": "Step 1 of 2: approve the payment in your wallet."
   },
   "mint": {
-    "head": "A genesis collection of trading flies. Each one is a real fruit-fly connectome that trades on Robinhood Chain. Mint one, and your fly is revealed when minting ends. Hold $FLYAI in the same wallet and it's on the desk.",
+    "head": "A genesis collection of 1,000 trading flies, sold out. Each one runs on a real fruit-fly connectome, trades from its own wallet, battles and breeds. Get one on the market.",
     "soon": "The mint opens soon.",
     "minted": "minted",
     "price": "price",
@@ -1309,5 +1309,59 @@
     "winRate": "Wins",
     "updated": "Updated {when}",
     "cantRead": "Couldn't load the leaderboard; try again soon."
+  },
+  "utility": {
+    "title": "What a Trader Fly does",
+    "mintFold": "The mint (sold out)",
+    "wallet": {
+      "title": "Trades from its own wallet",
+      "text": "Fund your fly and its brain trades for you, with built-in trend following and rug filters. See every fly's results on the leaderboard."
+    },
+    "colosseum": {
+      "title": "Battles in the Colosseum",
+      "text": "Its traits become fighting stats. Enter seasons and win $FLYAI."
+    },
+    "breed": {
+      "title": "Breeds",
+      "text": "Merge two flies into one: traits from both parents, a chance of a rarer child. Try it without a wallet."
+    },
+    "payouts": {
+      "title": "Earns weekly payouts",
+      "text": "While your wallet holds 200,000 $FLYAI your flies are active and share the desk's profits, more for rarer flies."
+    },
+    "autopilot": {
+      "title": "Runs on autopilot",
+      "text": "With a FlightPass your flies play the games and enter the Colosseum by themselves."
+    },
+    "market": {
+      "title": "Trades on the market",
+      "text": "Buy and sell flies here or on OpenSea, by rarity and price."
+    }
+  },
+  "breedDemo": {
+    "title": "Try breeding: two random flies",
+    "text": "Two real Trader Flies picked at random. Here's what merging them can give - no wallet needed.",
+    "stays": "Becomes the child (keeps its number)",
+    "burned": "Burned in the merge",
+    "childRarity": "Child's rarity",
+    "eachTrait": "Each trait",
+    "traitOdds": "40% parent A · 40% parent B · 20% new",
+    "fee": "Fee",
+    "inFlyai": "in $FLYAI",
+    "result": "Result",
+    "resultText": "#{keep} gets new traits, #{burn} is burned, supply drops by one",
+    "roll": "Roll a sample child",
+    "shuffle": "Pick two others",
+    "sample": "A possible #{id}:",
+    "mutation": "something new",
+    "illustration": "An illustration with the real odds. A real merge rolls from a later block's hash, so nobody can pick the outcome.",
+    "cantRead": "Couldn't load two flies just now."
+  },
+  "trait": {
+    "Pose": "Pose",
+    "Colorway": "Colorway",
+    "Background": "Background",
+    "Gear": "Gear",
+    "Extra": "Extra"
   }
 }

@@ -41,12 +41,61 @@
   <div class="wrap">
     <div class="hero-main">
       <img class="logo hero-logo" src="assets/logo-t.webp" alt="fly.ai" width="988" height="439">
-      <p class="eyebrow" data-i18n="index.hero.eyebrow">Live on Pons &middot; Robinhood Chain</p>
-      <h1 class="ticker"><span>$</span>FLYAI</h1>
-      <p class="tagline" data-i18n="index.hero.tagline">A real fruit fly's brain. Every neuron. Open source.</p>
-      <p class="sub" data-i18n="index.hero.sub">Not a model trained to look like a fly. The actual wiring of a real fruit fly's nervous
-        system, mapped synapse by synapse under an electron microscope, running live on a computer.
-        $FLYAI funds fly.ai, the open-source project that runs it.</p>
+      <!-- 2026-10-03 (the user: "make Fly AI feel like one product ... Raise AI Flies, no wallet required"): what you can
+           do first, the science and the token after -->
+      <h1 class="raise" data-i18n="index.start.title">Raise AI flies.</h1>
+      <p class="tagline" data-i18n="index.start.tagline">Train them. Battle them. Breed them. Watch them learn.</p>
+      <p class="sub" data-i18n="index.start.sub">Every fly runs on a real fruit fly's brain: 166,700 neurons, mapped synapse by synapse.
+        Free to start, no wallet needed.</p>
+      <div class="cta start-cta">
+        <a class="btn red" href="/flybook/" data-i18n="index.start.play">Play free</a>
+        <button class="btn" type="button" id="start-connect" data-i18n="index.start.connect">Connect wallet</button>
+      </div>
+      <p class="welcome" id="welcome" hidden></p>
+      <div class="firstvisit" id="firstvisit" hidden>
+        <b data-i18n="index.start.new">New here? No wallet needed:</b>
+        <a href="/flybook/" data-i18n="index.start.try1">Meet the flies on Flybook</a>
+        <a href="/simulation/" data-i18n="index.start.try2">Watch them live in the Simulation</a>
+        <a href="/slots/" data-i18n="index.start.try3">Spin Fly Slots for free</a>
+        <button type="button" class="fv-x" aria-label="Close" id="fv-x">×</button>
+      </div>
+      <div class="apps-launch" id="apps">
+    <div class="continue" id="continue" hidden>
+      <a class="btn sm" href="/traderflies/traders?view=mine" data-i18n="index.apps.mine">My flies</a>
+      <a class="btn sm ghost" href="/traderflies/traders?view=board" data-i18n="index.apps.board">Leaderboard</a>
+      <a class="btn sm ghost" href="/colosseum/" data-i18n="index.apps.colosseum.name">Fly Colosseum</a>
+    </div>
+    <h2 data-i18n="index.apps.title">The apps</h2>
+    <div class="app-grid">
+      <a class="app-card" href="/flybook/"><b data-i18n="index.apps.flybook.name">Flybook</b><span data-i18n="index.apps.flybook.text">Your fly's own social feed: it posts, talks and makes friends.</span>
+        <em class="tag-free" data-i18n="index.apps.tag.free">Free</em></a>
+      <a class="app-card" href="/simulation/"><b data-i18n="index.apps.simulation.name">Simulation</b><span data-i18n="index.apps.simulation.text">Flies with real brains live, eat and breed in a 3-D world.</span>
+        <em class="tag-free" data-i18n="index.apps.tag.free">Free</em></a>
+      <a class="app-card" href="/colosseum/"><b data-i18n="index.apps.colosseum.name">Fly Colosseum</b><span data-i18n="index.apps.colosseum.text">Trader Flies battle in seasons for $FLYAI.</span>
+        <em class="tag-wallet" data-i18n="index.apps.tag.wallet">Wallet</em></a>
+      <a class="app-card" href="/traderflies/traders"><b data-i18n="index.apps.traders.name">Trader Flies</b><span data-i18n="index.apps.traders.text">Flies that trade from their own wallets. See the leaderboard.</span>
+        <em class="tag-wallet" data-i18n="index.apps.tag.wallet">Wallet</em></a>
+      <a class="app-card" href="/traderflies/market"><b data-i18n="index.apps.market.name">Fly Market</b><span data-i18n="index.apps.market.text">Buy and sell Trader Flies.</span>
+        <em class="tag-wallet" data-i18n="index.apps.tag.wallet">Wallet</em></a>
+      <a class="app-card" href="/roulette/"><b data-i18n="index.apps.roulette.name">Fly Roulette</b><span data-i18n="index.apps.roulette.text">Fly brains vs a toy cap gun. Play free or bet.</span>
+        <em class="tag-both" data-i18n="index.apps.tag.both">Free + $FLYAI</em></a>
+      <a class="app-card" href="/slots/"><b data-i18n="index.apps.slots.name">Fly Slots</b><span data-i18n="index.apps.slots.text">Spin the reels while a fly brain reacts.</span>
+        <em class="tag-both" data-i18n="index.apps.tag.both">Free + $FLYAI</em></a>
+      <a class="app-card" href="/race/"><b data-i18n="index.apps.race.name">Fly Race</b><span data-i18n="index.apps.race.text">Six fly brains race to the fruit. Pick the winner.</span>
+        <em class="tag-both" data-i18n="index.apps.tag.both">Free + $FLYAI</em></a>
+      <a class="app-card" href="/radio/"><b data-i18n="index.apps.radio.name">Fly Radio</b><span data-i18n="index.apps.radio.text">A radio station played by a real fly brain.</span>
+        <em class="tag-free" data-i18n="index.apps.tag.free">Free</em></a>
+      <a class="app-card" href="/flinder/"><b data-i18n="index.apps.flinder.name">Flinder</b><span data-i18n="index.apps.flinder.text">A fly brain swipes on dating profiles.</span>
+        <em class="tag-free" data-i18n="index.apps.tag.free">Free</em></a>
+      <a class="app-card" href="/compute/"><b data-i18n="index.apps.compute.name">Compute</b><span data-i18n="index.apps.compute.text">Lend your browser to the fly brain and earn $FLYAI.</span>
+        <em class="tag-earn" data-i18n="index.apps.tag.earn">Earn $FLYAI</em></a>
+      <a class="app-card" href="/traderflies/pets"><b data-i18n="index.apps.pets.name">Fly Pets</b><span data-i18n="index.apps.pets.text">Pre-order a pocket fly: a real device with a fly brain.</span>
+        <em class="tag-wallet" data-i18n="index.apps.tag.wallet">Wallet</em></a>
+    </div>
+  </div>
+      <p class="eyebrow token-eyebrow" data-i18n="index.hero.eyebrow">Live on Pons &middot; Robinhood Chain</p>
+      <p class="ticker-line"><span class="ticker"><span>$</span>FLYAI</span>
+        <span data-i18n="index.hero.tagline">A real fruit fly's brain. Every neuron. Open source.</span></p>
       <!-- site.js puts "Buy $FLYAI on Pons" (primary) and "View on explorer" here -->
       <div class="cta buylinks"></div>
       <p class="quiet">
@@ -258,7 +307,44 @@
 </footer>
 
 <script src="assets/site.js"></script>
-<script src="assets/nav.js?v=20261003"></script>
+<script src="assets/nav.js?v=20261003b"></script>
 <script type="module" src="assets/i18n/page.js"></script>
+<script type="module">
+  // "Welcome back" and the Continue row for a signed-in visitor; "Connect wallet" signs in with the site's one session
+  const KEY = "flyai.compute.session", API = "https://flyai-mine.fly.dev";
+  let s = null;
+  try { s = JSON.parse(localStorage.getItem(KEY) || "null"); } catch {}
+  if (s && s.expires_at > Date.now() && s.wallet) {
+    document.getElementById("continue").hidden = false;
+    // the numbers come with the nav's one summary read (nav.js loadSummary)
+    const fill = (v) => {
+      if (!v) return;
+      const c = document.querySelector("#continue a[href*='view=mine']");
+      const usd = (n) => `$${Number(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      if (c && v.wallets && v.wallets.count) c.textContent += ` · ${usd(v.wallets.value)} (${v.wallets.profit >= 0 ? "+" : "−"}${usd(Math.abs(v.wallets.profit))})`;
+      const k = document.querySelector("#continue a[href='/colosseum/']");
+      if (k && v.colosseum && v.colosseum.entries) k.textContent += ` · ${v.colosseum.wins}/${v.colosseum.entries}`;
+    };
+    if (window.flySummary) fill(window.flySummary); else window.addEventListener("fly:summary", (e) => fill(e.detail), { once: true });
+    document.getElementById("start-connect").hidden = true;
+    const w = document.getElementById("welcome");
+    const show = (name) => { w.textContent = (window.flyI18n?.t?.("index.start.welcome") || "Welcome back, {name}").replace("{name}", name); w.hidden = false; };
+    show(`${s.wallet.slice(0, 6)}…${s.wallet.slice(-4)}`);
+    fetch(`${API}/api/profiles?wallets=${s.wallet}`).then((r) => r.json()).then((n) => { if (n[s.wallet.toLowerCase()]) show(n[s.wallet.toLowerCase()]); }).catch(() => {});
+  }
+  else {
+    let seen = "1";
+    try { seen = localStorage.getItem("flyai.welcomed") || ""; } catch {}
+    if (!seen) document.getElementById("firstvisit").hidden = false;
+  }
+  document.getElementById("fv-x").addEventListener("click", () => {
+    document.getElementById("firstvisit").hidden = true;
+    try { localStorage.setItem("flyai.welcomed", "1"); } catch {}
+  });
+  document.getElementById("start-connect").addEventListener("click", async () => {
+    try { const a = await import("/compute/mine/web/account.js"); if (await a.signIn()) location.reload(); }
+    catch (e) { console.warn(e); }
+  });
+</script>
 </body>
 </html>

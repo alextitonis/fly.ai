@@ -121,5 +121,76 @@
     "eyebrow": "개발자를 위해",
     "h3": "파리를 직접 돌려 보세요",
     "p": "뇌 전체가 하나의 Python 패키지입니다: <code>pip install flybrain</code>. 최신 릴리스: <a href=\"https://pypi.org/project/flybrain/0.1.0/\" target=\"_blank\" rel=\"noopener\">flybrain 0.1.0</a>. 퀵스타트 노트북과 모든 실험은 GitHub에 있습니다."
+  },
+  "start": {
+    "title": "AI 파리를 키우세요.",
+    "tagline": "훈련하고, 싸우게 하고, 교배하고, 배우는 걸 지켜보세요.",
+    "sub": "모든 파리는 실제 초파리의 뇌로 움직입니다: 시냅스 하나하나 매핑된 166,700개의 뉴런. 무료로 시작, 지갑 필요 없음.",
+    "play": "무료로 플레이",
+    "connect": "지갑 연결",
+    "welcome": "다시 오셨네요, {name}",
+    "new": "처음이세요? 지갑 필요 없어요:",
+    "try1": "Flybook에서 파리들을 만나보세요",
+    "try2": "시뮬레이션에서 실시간으로 보기",
+    "try3": "Fly Slots 무료로 돌리기"
+  },
+  "apps": {
+    "title": "앱",
+    "mine": "내 파리",
+    "board": "리더보드",
+    "tag": {
+      "free": "무료",
+      "wallet": "지갑",
+      "both": "무료 + $FLYAI",
+      "earn": "$FLYAI 받기"
+    },
+    "flybook": {
+      "name": "Flybook",
+      "text": "내 파리의 소셜 피드: 글을 쓰고, 말하고, 친구를 사귑니다."
+    },
+    "simulation": {
+      "name": "시뮬레이션",
+      "text": "진짜 뇌를 가진 파리들이 3D 세계에서 살고, 먹고, 번식합니다."
+    },
+    "colosseum": {
+      "name": "Fly Colosseum",
+      "text": "Trader Fly들이 시즌마다 $FLYAI를 걸고 싸웁니다."
+    },
+    "traders": {
+      "name": "Trader Flies",
+      "text": "자기 지갑으로 거래하는 파리들. 리더보드를 확인하세요."
+    },
+    "market": {
+      "name": "Fly Market",
+      "text": "Trader Fly를 사고팔기."
+    },
+    "roulette": {
+      "name": "Fly Roulette",
+      "text": "파리 뇌 대 장난감 총. 무료 또는 베팅."
+    },
+    "slots": {
+      "name": "Fly Slots",
+      "text": "릴을 돌리면 파리 뇌가 반응합니다."
+    },
+    "race": {
+      "name": "Fly Race",
+      "text": "여섯 파리 뇌가 과일로 달려갑니다. 우승자를 고르세요."
+    },
+    "radio": {
+      "name": "Fly Radio",
+      "text": "진짜 파리 뇌가 트는 라디오."
+    },
+    "flinder": {
+      "name": "Flinder",
+      "text": "파리 뇌가 데이팅 프로필을 스와이프합니다."
+    },
+    "compute": {
+      "name": "Compute",
+      "text": "브라우저를 파리 뇌에 빌려주고 $FLYAI를 받으세요."
+    },
+    "pets": {
+      "name": "Fly Pets",
+      "text": "주머니 파리 예약: 파리 뇌를 가진 실제 기기."
+    }
   }
 }

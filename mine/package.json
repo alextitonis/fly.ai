@@ -26,6 +26,7 @@
     "test:race": "node --disable-warning=ExperimentalWarning src/racetest.ts",
     "test:arena": "node --disable-warning=ExperimentalWarning src/arenatest.ts",
     "test:vaults": "node --disable-warning=ExperimentalWarning src/vaultstest.ts",
+    "test:ruyui": "node --disable-warning=ExperimentalWarning src/ruyuitest.ts",
     "test:flightpass": "node --disable-warning=ExperimentalWarning src/flightpasstest.ts",
     "test:drypool": "node --disable-warning=ExperimentalWarning src/drypooltest.ts",
     "test:supervisor": "node --disable-warning=ExperimentalWarning src/supervisortest.ts",

@@ -24,7 +24,7 @@
   "nav": {
     "traders": "交易蝇",
     "scoreboard": "排行榜",
-    "mint": "铸造",
+    "mint": "系列",
     "market": "市场",
     "breed": "繁殖",
     "boost": "加速",
@@ -109,7 +109,7 @@
     "step1": "第 1 步（共 2 步）：请在钱包中授权付款。"
   },
   "mint": {
-    "head": "一套交易果蝇的创世系列。每一只都是真实的果蝇连接组，在 Robinhood Chain 上交易。铸造一只，你的果蝇会在铸造结束后揭晓。在同一个钱包持有 $FLYAI，它就会上交易台。",
+    "head": "由 1,000 只交易苍蝇组成的创世系列，已售罄。每只都运行真实的果蝇连接组，用自己的钱包交易、战斗、繁育。到市场入手一只。",
     "soon": "铸造即将开放。",
     "minted": "已铸造",
     "price": "价格",
@@ -1307,5 +1307,59 @@
     "winRate": "胜率",
     "updated": "更新于 {when}",
     "cantRead": "无法加载排行榜，请稍后再试。"
+  },
+  "utility": {
+    "title": "Trader Fly 能做什么",
+    "mintFold": "铸造（已售罄）",
+    "wallet": {
+      "title": "用自己的钱包交易",
+      "text": "给苍蝇注资，它的大脑替你交易，内置趋势跟踪和防跑路过滤。在排行榜看结果。"
+    },
+    "colosseum": {
+      "title": "竞技场战斗",
+      "text": "特征变成战斗属性。参加赛季赢取 $FLYAI。"
+    },
+    "breed": {
+      "title": "繁育",
+      "text": "把两只苍蝇合成一只：继承双亲特征，有机会更稀有。无需钱包即可试玩。"
+    },
+    "payouts": {
+      "title": "每周分红",
+      "text": "钱包持有 200,000 $FLYAI 时苍蝇处于激活状态，分享交易台利润，越稀有分得越多。"
+    },
+    "autopilot": {
+      "title": "自动驾驶",
+      "text": "有 FlightPass，苍蝇会自己玩游戏、自己参加竞技场。"
+    },
+    "market": {
+      "title": "市场交易",
+      "text": "在这里或 OpenSea 按稀有度和价格买卖。"
+    }
+  },
+  "breedDemo": {
+    "title": "试试繁育：随机两只",
+    "text": "随机挑选两只真实的 Trader Fly。看看合成会得到什么，无需钱包。",
+    "stays": "成为后代（保留编号）",
+    "burned": "合成时销毁",
+    "childRarity": "后代稀有度",
+    "eachTrait": "每个特征",
+    "traitOdds": "亲代 A 40% · 亲代 B 40% · 新特征 20%",
+    "fee": "费用",
+    "inFlyai": "以 $FLYAI 支付",
+    "result": "结果",
+    "resultText": "#{keep} 获得新特征，#{burn} 被销毁，总量减一",
+    "roll": "生成示例后代",
+    "shuffle": "换两只",
+    "sample": "可能的 #{id}：",
+    "mutation": "新特征",
+    "illustration": "按真实概率的示例。真实合成由之后区块的哈希决定。",
+    "cantRead": "暂时无法加载两只苍蝇。"
+  },
+  "trait": {
+    "Pose": "姿势",
+    "Colorway": "配色",
+    "Background": "背景",
+    "Gear": "装备",
+    "Extra": "额外"
   }
 }

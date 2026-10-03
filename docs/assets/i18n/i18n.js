@@ -177,6 +177,7 @@ export function translateNav(nav = document.querySelector('nav[aria-label="Main"
     if (text && has(`common.nav.menu.${id}`)) text.textContent = `${t(`common.nav.menu.${id}`)} `;
   }
   for (const a of nav.querySelectorAll("ul a")) {
+    if (a.closest(".acct")) continue;                 // the account menu carries its own words (nav.js ACCT_TEXT)
     const r = a.href.startsWith("https://x.com/") ? "follow"
       : a.href.startsWith("https://opensea.io/") ? "opensea" : route(a.getAttribute("href"));
     if (!r) continue;

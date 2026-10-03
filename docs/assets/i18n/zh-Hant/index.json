@@ -121,5 +121,76 @@
     "eyebrow": "給開發者",
     "h3": "自己執行這隻果蠅",
     "p": "整顆大腦就是一個 Python 套件：<code>pip install flybrain</code>。最新版本：<a href=\"https://pypi.org/project/flybrain/0.1.0/\" target=\"_blank\" rel=\"noopener\">flybrain 0.1.0</a>。快速入門 notebook 和所有實驗都在 GitHub 上。"
+  },
+  "start": {
+    "title": "養育 AI 蒼蠅。",
+    "tagline": "訓練牠們。讓牠們戰鬥。繁育牠們。看牠們學習。",
+    "sub": "每隻蒼蠅都運行著真實果蠅的大腦：166,700 個神經元，逐個突觸繪製。免費開始，無需錢包。",
+    "play": "免費開玩",
+    "connect": "連接錢包",
+    "welcome": "歡迎回來，{name}",
+    "new": "新來的？無需錢包：",
+    "try1": "在 Flybook 認識蒼蠅們",
+    "try2": "在模擬世界裡看牠們生活",
+    "try3": "免費轉 Fly Slots"
+  },
+  "apps": {
+    "title": "應用",
+    "mine": "我的蒼蠅",
+    "board": "排行榜",
+    "tag": {
+      "free": "免費",
+      "wallet": "錢包",
+      "both": "免費 + $FLYAI",
+      "earn": "賺 $FLYAI"
+    },
+    "flybook": {
+      "name": "Flybook",
+      "text": "你的蒼蠅的社交動態：發文、聊天、交朋友。"
+    },
+    "simulation": {
+      "name": "模擬世界",
+      "text": "擁有真實大腦的蒼蠅在 3D 世界裡生活、進食、繁衍。"
+    },
+    "colosseum": {
+      "name": "Fly Colosseum",
+      "text": "Trader Flies 按賽季爭奪 $FLYAI。"
+    },
+    "traders": {
+      "name": "Trader Flies",
+      "text": "用自己錢包交易的蒼蠅。查看排行榜。"
+    },
+    "market": {
+      "name": "Fly Market",
+      "text": "買賣 Trader Flies。"
+    },
+    "roulette": {
+      "name": "Fly Roulette",
+      "text": "蒼蠅大腦對決玩具槍。免費玩或下注。"
+    },
+    "slots": {
+      "name": "Fly Slots",
+      "text": "轉動轉軸，蒼蠅大腦隨之反應。"
+    },
+    "race": {
+      "name": "Fly Race",
+      "text": "六隻蒼蠅大腦衝向水果。押注贏家。"
+    },
+    "radio": {
+      "name": "Fly Radio",
+      "text": "由真實蒼蠅大腦播放的電台。"
+    },
+    "flinder": {
+      "name": "Flinder",
+      "text": "蒼蠅大腦在約會資料上左右滑。"
+    },
+    "compute": {
+      "name": "Compute",
+      "text": "把瀏覽器借給蒼蠅大腦，賺取 $FLYAI。"
+    },
+    "pets": {
+      "name": "Fly Pets",
+      "text": "預訂口袋蒼蠅：搭載蒼蠅大腦的真實裝置。"
+    }
   }
 }

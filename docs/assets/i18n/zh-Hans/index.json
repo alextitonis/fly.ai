@@ -121,5 +121,76 @@
     "eyebrow": "面向开发者",
     "h3": "自己运行这只果蝇",
     "p": "整颗大脑就是一个 Python 包：<code>pip install flybrain</code>。最新版本：<a href=\"https://pypi.org/project/flybrain/0.1.0/\" target=\"_blank\" rel=\"noopener\">flybrain 0.1.0</a>。快速入门 notebook 和所有实验都在 GitHub 上。"
+  },
+  "start": {
+    "title": "养育 AI 苍蝇。",
+    "tagline": "训练它们。让它们战斗。繁育它们。看它们学习。",
+    "sub": "每只苍蝇都运行着真实果蝇的大脑：166,700 个神经元，逐个突触绘制。免费开始，无需钱包。",
+    "play": "免费开玩",
+    "connect": "连接钱包",
+    "welcome": "欢迎回来，{name}",
+    "new": "新来的？无需钱包：",
+    "try1": "在 Flybook 认识苍蝇们",
+    "try2": "在模拟世界里看它们生活",
+    "try3": "免费转 Fly Slots"
+  },
+  "apps": {
+    "title": "应用",
+    "mine": "我的苍蝇",
+    "board": "排行榜",
+    "tag": {
+      "free": "免费",
+      "wallet": "钱包",
+      "both": "免费 + $FLYAI",
+      "earn": "赚 $FLYAI"
+    },
+    "flybook": {
+      "name": "Flybook",
+      "text": "你的苍蝇的社交动态：发帖、聊天、交朋友。"
+    },
+    "simulation": {
+      "name": "模拟世界",
+      "text": "拥有真实大脑的苍蝇在 3D 世界里生活、进食、繁衍。"
+    },
+    "colosseum": {
+      "name": "Fly Colosseum",
+      "text": "Trader Flies 按赛季争夺 $FLYAI。"
+    },
+    "traders": {
+      "name": "Trader Flies",
+      "text": "用自己钱包交易的苍蝇。查看排行榜。"
+    },
+    "market": {
+      "name": "Fly Market",
+      "text": "买卖 Trader Flies。"
+    },
+    "roulette": {
+      "name": "Fly Roulette",
+      "text": "苍蝇大脑对决玩具枪。免费玩或下注。"
+    },
+    "slots": {
+      "name": "Fly Slots",
+      "text": "转动转轴，苍蝇大脑随之反应。"
+    },
+    "race": {
+      "name": "Fly Race",
+      "text": "六只苍蝇大脑冲向水果。押注赢家。"
+    },
+    "radio": {
+      "name": "Fly Radio",
+      "text": "由真实苍蝇大脑播放的电台。"
+    },
+    "flinder": {
+      "name": "Flinder",
+      "text": "苍蝇大脑在约会资料上左右滑。"
+    },
+    "compute": {
+      "name": "Compute",
+      "text": "把浏览器借给苍蝇大脑，赚取 $FLYAI。"
+    },
+    "pets": {
+      "name": "Fly Pets",
+      "text": "预订口袋苍蝇：搭载苍蝇大脑的真实设备。"
+    }
   }
 }

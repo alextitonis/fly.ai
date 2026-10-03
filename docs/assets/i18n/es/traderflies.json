@@ -24,7 +24,7 @@
   "nav": {
     "traders": "Traders",
     "scoreboard": "Clasificación",
-    "mint": "Mint",
+    "mint": "Colección",
     "market": "Mercado",
     "breed": "Criar",
     "boost": "Impulso",
@@ -110,7 +110,7 @@
     "step1": "Paso 1 de 2: aprueba el pago en tu billetera."
   },
   "mint": {
-    "head": "Una colección génesis de moscas traders. Cada una es un conectoma real de mosca de la fruta que opera en Robinhood Chain. Haz mint de una y tu mosca se revela cuando termine el mint. Mantén $FLYAI en la misma wallet y estará en la mesa.",
+    "head": "Una colección génesis de 1.000 moscas traders, agotada. Cada una funciona con un conectoma real de mosca, opera desde su propio wallet, lucha y se cruza. Consigue una en el mercado.",
     "soon": "El mint abre pronto.",
     "minted": "minteadas",
     "price": "precio",
@@ -1309,5 +1309,59 @@
     "winRate": "Aciertos",
     "updated": "Actualizado {when}",
     "cantRead": "No se pudo cargar la clasificación; inténtalo pronto."
+  },
+  "utility": {
+    "title": "Qué hace una Trader Fly",
+    "mintFold": "El mint (agotado)",
+    "wallet": {
+      "title": "Opera desde su propio wallet",
+      "text": "Fondea tu mosca y su cerebro opera por ti, con seguimiento de tendencia y filtros anti-rug. Mira los resultados en la clasificación."
+    },
+    "colosseum": {
+      "title": "Lucha en el Colosseum",
+      "text": "Sus rasgos se vuelven estadísticas de combate. Entra en temporadas y gana $FLYAI."
+    },
+    "breed": {
+      "title": "Se cruza",
+      "text": "Une dos moscas en una: rasgos de ambos padres y opción a una cría más rara. Pruébalo sin wallet."
+    },
+    "payouts": {
+      "title": "Gana pagos semanales",
+      "text": "Mientras tu wallet tenga 200.000 $FLYAI tus moscas están activas y reparten los beneficios del desk, más las raras."
+    },
+    "autopilot": {
+      "title": "Va en piloto automático",
+      "text": "Con un FlightPass tus moscas juegan y entran al Colosseum solas."
+    },
+    "market": {
+      "title": "Se compra y vende",
+      "text": "Compra y vende moscas aquí o en OpenSea, por rareza y precio."
+    }
+  },
+  "breedDemo": {
+    "title": "Prueba a cruzar: dos moscas al azar",
+    "text": "Dos Trader Flies reales al azar. Esto es lo que puede dar cruzarlas, sin wallet.",
+    "stays": "Se convierte en la cría (conserva su número)",
+    "burned": "Se quema en el cruce",
+    "childRarity": "Rareza de la cría",
+    "eachTrait": "Cada rasgo",
+    "traitOdds": "40% padre A · 40% padre B · 20% nuevo",
+    "fee": "Tarifa",
+    "inFlyai": "en $FLYAI",
+    "result": "Resultado",
+    "resultText": "#{keep} recibe rasgos nuevos, #{burn} se quema, el suministro baja en uno",
+    "roll": "Generar una cría de ejemplo",
+    "shuffle": "Elegir otras dos",
+    "sample": "Un posible #{id}:",
+    "mutation": "algo nuevo",
+    "illustration": "Una ilustración con las probabilidades reales. Un cruce real se decide con el hash de un bloque posterior.",
+    "cantRead": "No se pudieron cargar dos moscas ahora."
+  },
+  "trait": {
+    "Pose": "Pose",
+    "Colorway": "Colores",
+    "Background": "Fondo",
+    "Gear": "Equipo",
+    "Extra": "Extra"
   }
 }

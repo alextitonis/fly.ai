@@ -41,6 +41,7 @@ import { createRoulette } from "./roulette.ts";
 import { createSlots } from "./slots.ts";
 import { createArena } from "./arena.ts";
 import { createVaults } from "./vaults.ts";
+import { createRuyui } from "./ruyui.ts";
 import { createProfiles } from "./profiles.ts";
 import { createRace } from "./race.ts";
 import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
@@ -344,6 +345,7 @@ if (hasTables && version < 18 && db.prepare("select 1 from sqlite_master where n
 db.exec(`
   pragma journal_mode = wal;
   pragma busy_timeout = 5000;
+  pragma journal_size_limit = 536870912;
   pragma user_version = ${SCHEMA};
   create table if not exists tasks (
     id integer primary key,
@@ -975,16 +977,25 @@ function verifySignIn(body: any) {
 const SESSION_TTL_MS = Number(env("SESSION_DAYS", "30")) * 86_400_000;
 const sessionNonces = new Map<string, { address: string; message: string; expires: number }>();
 
+// partners' sites that sign their users in here (RUYUI, src/ruyui.ts): the SIWE message names THEIR origin, so the
+// wallet doesn't warn that the site asks to sign in to another domain. Only exact origins listed in PARTNER_ORIGINS.
+const PARTNER_ORIGINS = new Set((process.env.PARTNER_ORIGINS ?? "").split(",").map((o) => o.trim().replace(/\/$/, "")).filter(Boolean));
+
 function sessionNonce(req: IncomingMessage, body: any) {
   if (typeof body.address !== "string" || !ADDRESS.test(body.address)) throw new HttpError(400, "address must be 0x followed by 40 hex digits");
   prune(sessionNonces);
-  const origin = originOf(req);
+  const from = String(req.headers.origin ?? "");
+  const partner = PARTNER_ORIGINS.has(from);
+  const origin = partner ? new URL(from) : originOf(req);
   const nonce = randomBytes(12).toString("hex");
   const now = new Date();
+  const days = Math.round(SESSION_TTL_MS / 86_400_000);
   const message = siweMessage({
     domain: origin.host,
     address: body.address,
-    statement: `Sign in to fly.ai (compute and Fly Roulette) for ${Math.round(SESSION_TTL_MS / 86_400_000)} days. Free, and sends no transaction.`,
+    statement: partner
+      ? `Sign in to your trading wallets (powered by fly.ai) for ${days} days. Free, and sends no transaction.`
+      : `Sign in to fly.ai (compute and Fly Roulette) for ${days} days. Free, and sends no transaction.`,
     uri: origin.origin,
     chainId: CHAIN_ID,
     nonce,
@@ -1395,15 +1406,23 @@ const MONTH_FRESH_MS = Number(env("MONTH_FRESH_MS", ROLE === "all" ? "0" : "3000
 const MONTH_WAIT_MS = Number(env("MONTH_WAIT_MS", "1500"));
 type MonthView = Awaited<ReturnType<typeof month>>;
 const monthViews = new Map<string, { at: number; value: MonthView; refresh: Promise<MonthView | null> | null }>();
+const monthFirst = new Map<string, Promise<MonthView>>();     // a first load in flight, shared
 async function monthView(m: string): Promise<MonthView> {
   const hit = monthViews.get(m);
-  if (!hit || MONTH_FRESH_MS <= 0) {
-    const value = await month(m);
-    if (MONTH_FRESH_MS > 0) {
-      if (monthViews.size > 60) monthViews.clear();    // ?month= is anyone's to ask: no unbounded map
-      monthViews.set(m, { at: Date.now(), value, refresh: null });
+  if (MONTH_FRESH_MS <= 0) return month(m);
+  if (!hit) {
+    // the first ask (after a restart, every miner's page at once): ONE load that all of them wait on (2026-10-03: each
+    // request ran its own month() - hundreds of copies of the same queries on 5 connections, all timing out together)
+    let first = monthFirst.get(m);
+    if (!first) {
+      first = month(m).then((value) => {
+        if (monthViews.size > 60) monthViews.clear();    // ?month= is anyone's to ask: no unbounded map
+        monthViews.set(m, { at: Date.now(), value, refresh: null });
+        return value;
+      }).finally(() => monthFirst.delete(m));
+      monthFirst.set(m, first);
     }
-    return value;
+    return first;
   }
   if (Date.now() - hit.at <= MONTH_FRESH_MS) return hit.value;
   hit.refresh ??= month(m).then((value) => { hit.value = value; hit.at = Date.now(); return value; })
@@ -3440,7 +3459,10 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/vaults/") || p === "/api/admin/vaults")) {
     if (await vaults.route(req, res, url)) return;
   }
-  if (req.method !== "OPTIONS" && (p === "/api/profiles" || p === "/api/profile")) {
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/ruyui/") || p === "/api/admin/ruyui")) {
+    if (await ruyui.route(req, res, url)) return;
+  }
+  if (req.method !== "OPTIONS" && (p === "/api/profiles" || p === "/api/profile" || p.startsWith("/api/profile/") || p.startsWith("/api/profiles/"))) {
     if (await profiles.route(req, res, url)) return;
   }
   if (req.method === "OPTIONS") {
@@ -3611,7 +3633,49 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   throw new HttpError(404, "not found");
 }
 
+/**
+ * The WAL kept small (2026-10-03: mine.db-wal had grown to 12 GB next to a 28 GB database, with 7.6 GB of disk left).
+ * SQLite's own automatic checkpoint is PASSIVE and gives up whenever a reader is in the way - with three processes
+ * reading all the time it never got the WAL back to the start, so every read and write walked a 12 GB log, and the
+ * checkpoints it did run froze the mining thread for minutes (a 240 s stall at 11:21; the proxy then hit its 800-request
+ * limit and every page of the site timed out). A worker thread with its own connection checkpoints every minute
+ * (PASSIVE: copies what it can, never waits) and TRUNCATEs once the WAL is past WAL_TRUNCATE_BYTES, so the file
+ * shrinks back (journal_size_limit); a busy reader only means the next minute tries again.
+ */
+function startCheckpointer(): void {
+  const every = Number(env("WAL_CHECKPOINT_MS", "60000"));
+  const limit = Number(env("WAL_TRUNCATE_BYTES", String(1024 ** 3)));
+  const w = new Worker(`
+    const { DatabaseSync } = require("node:sqlite");
+    const { statSync } = require("node:fs");
+    const { workerData, parentPort } = require("node:worker_threads");
+    const db = new DatabaseSync(workerData.db);
+    db.exec("pragma busy_timeout = 2000");
+    const size = () => { try { return statSync(workerData.db + "-wal").size; } catch { return 0; } };
+    const tick = () => {
+      const before = size();
+      let mode = before > workerData.limit ? "TRUNCATE" : "PASSIVE", r = null, err = null;
+      const t = Date.now();
+      try { r = db.prepare("pragma wal_checkpoint(" + mode + ")").get(); } catch (e) { err = String(e.message || e); }
+      parentPort.postMessage({ mode, before, after: size(), ms: Date.now() - t, r, err });
+    };
+    tick();
+    setInterval(tick, workerData.every);`, { eval: true, workerData: { db: DB_PATH, every, limit } });
+  let last = 0;
+  w.on("message", (m: { mode: string; before: number; after: number; ms: number; r: any; err: string | null }) => {
+    const gb = (n: number) => (n / 1024 ** 3).toFixed(2);
+    // every truncate, every failure, and the WAL's size once an hour
+    if (m.mode === "TRUNCATE" || m.err || m.ms > 5000 || Date.now() - last > 3_600_000) {
+      last = Date.now();
+      console.log(`wal checkpoint ${m.mode}: ${gb(m.before)} -> ${gb(m.after)} GB in ${m.ms} ms${m.err ? ` (${m.err})` : ""}${m.r?.busy ? " (busy: readers in the way, next minute)" : ""}`);
+    }
+  });
+  w.on("error", (err) => console.error(`wal checkpointer failed: ${err.message}`));
+  w.unref();
+}
+
 // jobs a verifier was working on when the server stopped have no assignment to expire
+if (MINING) startCheckpointer();
 if (MINING) {
   db.prepare(`update tasks set state = 'open' where state = 'out' and truth is null
     and not exists (select 1 from assignments where task = tasks.id and status = 'issued')`).run();
@@ -3691,6 +3755,13 @@ const vaults = createVaults({
   granter: process.env.VAULT_GRANTER_KEY ? new Relayer(process.env.VAULT_GRANTER_KEY, env("VAULT_RPC", CLAIMS.rpc), "VAULT_GRANTER_KEY") : payoutRelayer,
 });
 if (USER) vaults.start();
+// RUYUI (src/ruyui.ts, flytrade/RUYUI-PLAN.md): Ruyui Studios' NFTs on our wallets and pool, for their own front-end
+const ruyui = createRuyui({
+  pg, adminOnly, HttpError, send, readJson,
+  sessionWallet: sessionAddress,
+  rpcUrl: env("VAULT_RPC", CLAIMS.rpc),
+  env: process.env,
+});
 // nicknames for the leaderboards (src/profiles.ts): set by the signed-in wallet, read by anyone
 const profiles = createProfiles({ pg, HttpError, send, readJson, sessionWallet: sessionAddress });
 // the mining side's timers: orders, card checkouts, webhooks, staking samples and the research summaries

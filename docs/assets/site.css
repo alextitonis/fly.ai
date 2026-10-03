@@ -427,3 +427,77 @@
   /* the current page: a mint pill, not an underline (the underline lifted the label above its neighbours) */
   nav ul a.on:not(.btn), nav .ddlabel.on { background: rgba(94,242,204,.1); color: var(--mint-hi) !important; }
   nav ul a.on::after, nav .ddlabel.on::after { display: none; }
+
+/* the account menu on every page (nav.js account): Sign in, or the nickname with my flies, the leaderboard, a nickname box */
+nav li.acct .acct-in { white-space: nowrap; }
+nav li.acct .acct-name { max-width: 12em; overflow: hidden; text-overflow: ellipsis; display: inline-block; vertical-align: bottom; }
+nav li.acct .ddmenu { min-width: 240px; }
+nav li.acct .acct-nick { padding: 8px 12px; display: grid; gap: 6px; }
+nav li.acct .acct-nick label { font-size: 12px; color: var(--muted); }
+nav li.acct .acct-nick div { display: flex; gap: 6px; }
+nav li.acct .acct-nick input { flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 6px 8px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--bg, #000); color: var(--text); }
+nav li.acct .acct-nick small { font-size: 12px; color: var(--muted); min-height: 1em; }
+nav li.acct .acct-out { background: none; border: 0; color: var(--muted); font: inherit; padding: 8px 12px; cursor: pointer; width: 100%; text-align: left; }
+nav li.acct .acct-out:hover { color: var(--text); }
+
+nav li.acct .acct-btn { border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px !important; font-size: 13px; }
+
+/* the homepage's start (index.html, 2026-10-03): raise a fly first, the token after; the app launcher right below */
+.hero h1.raise { font: 800 clamp(40px, 7vw, 76px)/1.02 var(--display); margin: 8px 0 10px; letter-spacing: -.02em; }
+.hero .start-cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 8px; }
+.hero .welcome { margin: 4px 0 0; color: var(--mint); font-weight: 600; }
+.hero .token-eyebrow { margin-top: 28px; }
+.hero .ticker-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin: 2px 0 10px; color: var(--muted); }
+.hero .ticker-line .ticker { font: 800 26px var(--display); color: var(--text); }
+.apps-launch { padding-top: 34px; }
+.apps-launch .continue { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin-top: 14px; }
+.app-card { display: grid; gap: 6px; align-content: start; padding: 16px; border: 1px solid var(--line); border-radius: 16px;
+  background: var(--panel); color: var(--text); text-decoration: none; transition: border-color .15s, transform .15s; }
+.app-card:hover { border-color: var(--mint); transform: translateY(-2px); }
+.app-card b { font: 700 18px var(--display); }
+.app-card span { color: var(--muted); font-size: 14px; line-height: 1.4; }
+.app-card em { justify-self: start; font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.app-card em.tag-free { color: var(--mint); border-color: rgba(94,242,204,.4); }
+@media (max-width: 520px) { .app-grid { grid-template-columns: 1fr 1fr; gap: 8px; } .app-card { padding: 12px; } .app-card span { font-size: 13px; } }
+
+.hero .apps-launch { padding-top: 26px; text-align: left; }
+.hero .apps-launch h2 { font: 700 22px var(--display); margin: 0; }
+.hero .ticker-line { justify-content: center; }
+
+.apps-launch .continue[hidden] { display: none; }
+/* the launcher wider than the hero text column on desktop */
+/* .home .hero-main is a centered flex column: a wider child is centered on it by itself */
+@media (min-width: 760px) { .hero .apps-launch { width: min(1100px, calc(100vw - 48px)); max-width: none; flex: none; } }
+
+/* search, notifications, badges in the nav (nav.js searchBox / bell / account badges) */
+nav li.srch .srch-btn, nav li.bell .bell-btn { font-size: 15px; padding: 6px 9px !important; position: relative; }
+nav li.srch .ddmenu, nav li.bell .ddmenu { width: min(340px, calc(100vw - 24px)); }
+nav li.srch .srch-box { padding: 10px 12px 6px; }
+nav li.srch .srch-box input { width: 100%; font: inherit; font-size: 16px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--bg, #000); color: var(--text); }
+nav li.srch .srch-out, nav li.bell .bell-list { display: grid; max-height: 60vh; overflow: auto; padding: 4px 0 8px; }
+nav li.srch .srch-out > small, nav li.bell .bell-list > small { padding: 8px 14px; color: var(--muted); }
+nav li.srch .srch-out a, nav li.bell .bell-list a { display: flex; justify-content: space-between; gap: 10px; padding: 8px 14px; text-decoration: none;
+  color: var(--text); font-size: 14px; }
+nav li.srch .srch-out a small, nav li.bell .bell-list a small { color: var(--muted); font-size: 12px; white-space: nowrap; }
+nav li.srch .srch-out a:hover, nav li.bell .bell-list a:hover { background: rgba(255,255,255,.05); }
+nav li.bell .bell-list a.new { border-left: 2px solid var(--mint); }
+nav li.bell .bell-n { position: absolute; top: 0; right: 0; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--mint);
+  color: #000; font: 700 10px/16px var(--sans, sans-serif); text-align: center; }
+nav li.acct .acct-badges { display: flex; flex-wrap: wrap; gap: 4px; padding: 10px 12px 4px; }
+nav li.acct .acct-badges .badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(94,242,204,.12);
+  color: var(--mint); border: 1px solid rgba(94,242,204,.35); }
+
+/* one menu at a time (nav.js only()): a shut menu stays closed even under hover or focus */
+nav li.dd.shut:not(.open) .ddmenu { display: none !important; }
+
+/* the homepage's first-visit welcome (index.html) */
+.hero .firstvisit { position: relative; margin: 16px 0 0; padding: 12px 40px 12px 16px; border: 1px solid rgba(94,242,204,.35); border-radius: 14px;
+  background: rgba(94,242,204,.06); display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; justify-content: center; text-align: left; }
+.hero .firstvisit[hidden] { display: none; }
+.hero .firstvisit a { color: var(--mint); text-decoration: none; font-weight: 600; }
+.hero .firstvisit a:hover { text-decoration: underline; }
+.hero .firstvisit .fv-x { position: absolute; top: 6px; right: 8px; background: none; border: 0; color: var(--muted); font-size: 20px; cursor: pointer; }

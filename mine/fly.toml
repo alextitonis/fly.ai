@@ -76,6 +76,11 @@ primary_region = "cdg"
   # wallet unless VAULT_GRANTER_KEY is set. VAULT_CHAINS: the other chains offered (base,arbitrum,bsc,polygon).
   VAULT_ON = "1"
   # VAULT_CHAINS = ""
+  # RUYUI (src/ruyui.ts, flytrade/RUYUI-PLAN.md): Ruyui Studios' NFTs on our wallets + pool, for THEIR front-end. On with
+  # RUYUI_ON; PARTNER_ORIGINS = their exact site origins (the sign-in message then names their domain). Optional:
+  # ABSTRACT_RPC (default the public https://api.mainnet.abs.xyz), RUYUI_OWNER_TTL_SEC (views' owner cache, 30).
+  RUYUI_ON = "1"
+  # PARTNER_ORIGINS = "https://ruyui.com,https://www.ruyui.com"
   # VAULT_GRANT_USD = "10"
 
 [mounts]

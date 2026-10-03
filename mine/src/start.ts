@@ -30,7 +30,7 @@ let stopping = false, running = 0;
  */
 /** The research summaries: worked out for 45 s at a time, in a process of their own. */
 const RESEARCH_PATHS = /^\/api\/experiments$/;
-const USER_PATHS = /^\/api\/(flightpass|roulette|slots|race|arena|session|vaults|admin\/vaults|admin\/flightpass|admin\/roulette|admin\/slots|admin\/race|admin\/arena)(\/|$)|^\/api\/balance\/(deposit|withdraw-request)$/;
+const USER_PATHS = /^\/api\/(flightpass|roulette|slots|race|arena|session|vaults|profiles?|admin\/vaults|admin\/flightpass|admin\/roulette|admin\/slots|admin\/race|admin\/arena)(\/|$)|^\/api\/balance\/(deposit|withdraw-request)$/;
 /**
  * Pages and read-only views anyone can open, served by the user side too (2026-09-29: "the hashing power rankings
  * page takes a long time to load and often freezes" - /api/month and even /api/stake-config took 4-12 s behind the

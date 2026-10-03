@@ -121,5 +121,76 @@
     "eyebrow": "Geliştiriciler için",
     "h3": "Sineği kendin çalıştır",
     "p": "Beynin tamamı bir Python paketi: <code>pip install flybrain</code>. Son sürüm: <a href=\"https://pypi.org/project/flybrain/0.1.0/\" target=\"_blank\" rel=\"noopener\">flybrain 0.1.0</a>. Hızlı başlangıç notebook'u ve tüm deneyler GitHub'da."
+  },
+  "start": {
+    "title": "Yapay zekâ sinekleri yetiştir.",
+    "tagline": "Eğit. Dövüştür. Çiftleştir. Öğrenmelerini izle.",
+    "sub": "Her sinek gerçek bir meyve sineği beyniyle çalışır: sinaps sinaps haritalanmış 166.700 nöron. Başlamak ücretsiz, cüzdan gerekmez.",
+    "play": "Ücretsiz oyna",
+    "connect": "Cüzdan bağla",
+    "welcome": "Tekrar hoş geldin, {name}",
+    "new": "Yeni misin? Cüzdan gerekmez:",
+    "try1": "Flybook'ta sineklerle tanış",
+    "try2": "Simülasyonda canlı izle",
+    "try3": "Fly Slots'u ücretsiz çevir"
+  },
+  "apps": {
+    "title": "Uygulamalar",
+    "mine": "Sineklerim",
+    "board": "Sıralama",
+    "tag": {
+      "free": "Ücretsiz",
+      "wallet": "Cüzdan",
+      "both": "Ücretsiz + $FLYAI",
+      "earn": "$FLYAI kazan"
+    },
+    "flybook": {
+      "name": "Flybook",
+      "text": "Sineğinin kendi sosyal akışı: paylaşır, konuşur, arkadaş edinir."
+    },
+    "simulation": {
+      "name": "Simülasyon",
+      "text": "Gerçek beyinli sinekler 3B dünyada yaşar, beslenir, çoğalır."
+    },
+    "colosseum": {
+      "name": "Fly Colosseum",
+      "text": "Trader Flies sezonlarda $FLYAI için savaşır."
+    },
+    "traders": {
+      "name": "Trader Flies",
+      "text": "Kendi cüzdanlarından işlem yapan sinekler. Sıralamaya bak."
+    },
+    "market": {
+      "name": "Fly Market",
+      "text": "Trader Flies al ve sat."
+    },
+    "roulette": {
+      "name": "Fly Roulette",
+      "text": "Sinek beyinleri oyuncak tabancaya karşı. Ücretsiz ya da bahisle."
+    },
+    "slots": {
+      "name": "Fly Slots",
+      "text": "Makaraları çevir, bir sinek beyni tepki versin."
+    },
+    "race": {
+      "name": "Fly Race",
+      "text": "Altı sinek beyni meyveye koşar. Kazananı seç."
+    },
+    "radio": {
+      "name": "Fly Radio",
+      "text": "Gerçek bir sinek beyninin çaldığı radyo."
+    },
+    "flinder": {
+      "name": "Flinder",
+      "text": "Bir sinek beyni flört profillerinde kaydırır."
+    },
+    "compute": {
+      "name": "Compute",
+      "text": "Tarayıcını sinek beynine ödünç ver, $FLYAI kazan."
+    },
+    "pets": {
+      "name": "Fly Pets",
+      "text": "Cep sineği ön siparişi: sinek beyinli gerçek bir cihaz."
+    }
   }
 }

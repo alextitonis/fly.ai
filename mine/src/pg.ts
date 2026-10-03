@@ -66,14 +66,66 @@ function wrap(sql: () => postgres.Sql | postgres.TransactionSql, timed: <T>(p: P
   };
 }
 
+/**
+ * Supabase's SESSION pooler instead of its transaction pooler (2026-10-03): through the transaction pooler (port 6543)
+ * connections kept ending up "active, waiting on the client" mid-query (the 09-30 hang, and bursts of PgTimeout /
+ * CONNECTION_DESTROYED every 10-30 minutes on 10-03 while Postgres itself idled and both ports answered in 0.1 s from
+ * outside). The session pooler (5432, the same host and credentials) gives each connection its own server session.
+ * Opt-in: PG_SESSION_POOLER=1 (see below).
+ */
+export function sessionPooler(url: string): string {
+  // OFF unless PG_SESSION_POOLER=1: switched on by default 2026-10-03 11:00, the user process stopped answering at all
+  // (every /api/vaults, /api/flightpass request timed out) and mine was rolled back at 11:05 - not safe until that's
+  // understood (likely the session pooler's per-pool client limit across mine's 3 processes)
+  if (process.env.PG_SESSION_POOLER !== "1") return url;
+  return url.replace(/(pooler\.supabase\.com):6543\b/, "$1:5432");
+}
+
+/**
+ * Straight to Postgres, past Supabase's pooler (2026-10-03): through the transaction pooler queries kept getting stuck
+ * half-delivered - Postgres "active, waiting on the client" for up to 117 s on 0.1 ms queries - with pipelining off too,
+ * and every query queued behind one timed out (PgTimeout / CONNECTION_DESTROYED every few minutes, the 09-30 hang).
+ * From the mine machine the direct host answers in 2-3 ms. Same credentials: postgres.<ref>@pooler -> postgres@db.<ref>.
+ * PG_DIRECT=0 keeps the pooler URL. Postgres allows 60 connections; mine's three processes take PG_POOL_MAX each.
+ */
+export function directUrl(url: string): string {
+  if (process.env.PG_DIRECT === "0") return url;
+  try {
+    const u = new URL(url);
+    const [user, ref] = decodeURIComponent(u.username).split(".");
+    if (!ref || !u.hostname.endsWith("pooler.supabase.com")) return url;
+    u.username = user;
+    u.hostname = `db.${ref}.supabase.co`;
+    u.port = "5432";
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
 export function connectPg(url: string, o: { max?: number; queryTimeoutMs?: number; txTimeoutMs?: number } = {}): Pg {
+  url = directUrl(sessionPooler(url));
+  const direct = /db\.[a-z0-9]+\.supabase\.co/.test(url);
   const open = () => postgres(url, {
-    // Supabase's transaction pooler (port 6543) shares its server connections with Flybook: a few each process is plenty
-    max: o.max ?? 5,
+    // Supabase's pooler shares the database with Flybook (60 connections in all): a few each process is plenty
+    // direct connections count against Postgres's own 60 (the pooler, Flybook, the desks share them): 4 a process
+    max: o.max ?? Number(process.env.PG_POOL_MAX ?? (direct ? 4 : 8)),   // 5 -> 8 (2026-10-03): ~250 miners' polls queued on five
     // the Supabase pooler hands a connection to whoever asks next: no named prepared statements
     prepare: false,
-    idle_timeout: 60,
+    // one query at a time per connection (2026-10-03): postgres.js pipelines by default, and through Supabase's
+    // transaction pooler a pipelined request sometimes lost its end - Postgres sat "active, waiting on the client"
+    // (ClientRead) for 74 s on a 0.09 ms query of a one-row table, the connection's other queries timed out behind it
+    // and the pool was dropped (the PgTimeout / CONNECTION_DESTROYED bursts; the 09-30 hang)
+    ...({ max_pipeline: 1 } as object),   // a runtime option the package's types leave out (src/index.js)
+    // connections are recycled before anything between here and Postgres can drop them silently (2026-10-03: bursts
+    // of PgTimeout / CONNECTION_DESTROYED every few minutes while a fresh connection from the same machine answered in
+    // 5 ms - a long-lived connection had gone dead and the next query waited 15 s on it): an idle one closes after
+    // 20 s, every one after 5 minutes at most, and TCP keepalive probes an idle socket every 15 s
+    idle_timeout: 20,
+    max_lifetime: 5 * 60,
+    keep_alive: 15,
     connect_timeout: 10,
+    ...(direct ? { ssl: "require" as const } : {}),
     onnotice: () => {},
     // int8 (times in ms, counts) as numbers, as SQLite gave them; numeric (sums) stays text
     types: { bigint: { to: 20, from: [20], serialize: (x: unknown) => String(x), parse: (x: string) => Number(x) } } as any,

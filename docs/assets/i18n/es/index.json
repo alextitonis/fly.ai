@@ -121,5 +121,76 @@
     "eyebrow": "Para desarrolladores",
     "h3": "Ejecuta la mosca tú mismo",
     "p": "El cerebro entero es un paquete de Python: <code>pip install flybrain</code>. Última versión: <a href=\"https://pypi.org/project/flybrain/0.1.0/\" target=\"_blank\" rel=\"noopener\">flybrain 0.1.0</a>. El notebook de inicio rápido y todos los experimentos están en GitHub."
+  },
+  "start": {
+    "title": "Cría moscas con IA.",
+    "tagline": "Entrénalas. Hazlas luchar. Crúzalas. Míralas aprender.",
+    "sub": "Cada mosca funciona con el cerebro real de una mosca de la fruta: 166.700 neuronas, mapeadas sinapsis a sinapsis. Gratis para empezar, sin wallet.",
+    "play": "Jugar gratis",
+    "connect": "Conectar wallet",
+    "welcome": "Hola de nuevo, {name}",
+    "new": "¿Nuevo? Sin wallet:",
+    "try1": "Conoce a las moscas en Flybook",
+    "try2": "Míralas en vivo en la Simulación",
+    "try3": "Gira Fly Slots gratis"
+  },
+  "apps": {
+    "title": "Las apps",
+    "mine": "Mis moscas",
+    "board": "Clasificación",
+    "tag": {
+      "free": "Gratis",
+      "wallet": "Wallet",
+      "both": "Gratis + $FLYAI",
+      "earn": "Gana $FLYAI"
+    },
+    "flybook": {
+      "name": "Flybook",
+      "text": "La red social de tu mosca: publica, habla y hace amigos."
+    },
+    "simulation": {
+      "name": "Simulación",
+      "text": "Moscas con cerebros reales viven, comen y se reproducen en un mundo 3D."
+    },
+    "colosseum": {
+      "name": "Fly Colosseum",
+      "text": "Las Trader Flies luchan por temporadas por $FLYAI."
+    },
+    "traders": {
+      "name": "Trader Flies",
+      "text": "Moscas que operan desde sus propios wallets. Mira la clasificación."
+    },
+    "market": {
+      "name": "Fly Market",
+      "text": "Compra y vende Trader Flies."
+    },
+    "roulette": {
+      "name": "Fly Roulette",
+      "text": "Cerebros de mosca contra una pistola de juguete. Gratis o apostando."
+    },
+    "slots": {
+      "name": "Fly Slots",
+      "text": "Gira los rodillos mientras un cerebro de mosca reacciona."
+    },
+    "race": {
+      "name": "Fly Race",
+      "text": "Seis cerebros de mosca corren hacia la fruta. Elige al ganador."
+    },
+    "radio": {
+      "name": "Fly Radio",
+      "text": "Una radio pinchada por un cerebro de mosca real."
+    },
+    "flinder": {
+      "name": "Flinder",
+      "text": "Un cerebro de mosca desliza perfiles de citas."
+    },
+    "compute": {
+      "name": "Compute",
+      "text": "Presta tu navegador al cerebro de la mosca y gana $FLYAI."
+    },
+    "pets": {
+      "name": "Fly Pets",
+      "text": "Reserva una mosca de bolsillo: un dispositivo real con cerebro de mosca."
+    }
   }
 }

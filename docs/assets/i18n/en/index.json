@@ -121,5 +121,76 @@
     "eyebrow": "For developers",
     "h3": "Run the fly yourself",
     "p": "The whole brain is a Python package: <code>pip install flybrain</code>. Latest release: <a href=\"https://pypi.org/project/flybrain/0.1.0/\" target=\"_blank\" rel=\"noopener\">flybrain 0.1.0</a>. The quickstart notebook and every experiment are on GitHub."
+  },
+  "start": {
+    "title": "Raise AI flies.",
+    "tagline": "Train them. Battle them. Breed them. Watch them learn.",
+    "sub": "Every fly runs on a real fruit fly's brain: 166,700 neurons, mapped synapse by synapse. Free to start, no wallet needed.",
+    "play": "Play free",
+    "connect": "Connect wallet",
+    "welcome": "Welcome back, {name}",
+    "new": "New here? No wallet needed:",
+    "try1": "Meet the flies on Flybook",
+    "try2": "Watch them live in the Simulation",
+    "try3": "Spin Fly Slots for free"
+  },
+  "apps": {
+    "title": "The apps",
+    "mine": "My flies",
+    "board": "Leaderboard",
+    "tag": {
+      "free": "Free",
+      "wallet": "Wallet",
+      "both": "Free + $FLYAI",
+      "earn": "Earn $FLYAI"
+    },
+    "flybook": {
+      "name": "Flybook",
+      "text": "Your fly's own social feed: it posts, talks and makes friends."
+    },
+    "simulation": {
+      "name": "Simulation",
+      "text": "Flies with real brains live, eat and breed in a 3-D world."
+    },
+    "colosseum": {
+      "name": "Fly Colosseum",
+      "text": "Trader Flies battle in seasons for $FLYAI."
+    },
+    "traders": {
+      "name": "Trader Flies",
+      "text": "Flies that trade from their own wallets. See the leaderboard."
+    },
+    "market": {
+      "name": "Fly Market",
+      "text": "Buy and sell Trader Flies."
+    },
+    "roulette": {
+      "name": "Fly Roulette",
+      "text": "Fly brains vs a toy cap gun. Play free or bet."
+    },
+    "slots": {
+      "name": "Fly Slots",
+      "text": "Spin the reels while a fly brain reacts."
+    },
+    "race": {
+      "name": "Fly Race",
+      "text": "Six fly brains race to the fruit. Pick the winner."
+    },
+    "radio": {
+      "name": "Fly Radio",
+      "text": "A radio station played by a real fly brain."
+    },
+    "flinder": {
+      "name": "Flinder",
+      "text": "A fly brain swipes on dating profiles."
+    },
+    "compute": {
+      "name": "Compute",
+      "text": "Lend your browser to the fly brain and earn $FLYAI."
+    },
+    "pets": {
+      "name": "Fly Pets",
+      "text": "Pre-order a pocket fly: a real device with a fly brain."
+    }
   }
 }

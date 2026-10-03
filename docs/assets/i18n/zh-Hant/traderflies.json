@@ -24,7 +24,7 @@
   "nav": {
     "traders": "交易蠅",
     "scoreboard": "排行榜",
-    "mint": "鑄造",
+    "mint": "系列",
     "market": "市場",
     "breed": "繁殖",
     "boost": "加速",
@@ -109,7 +109,7 @@
     "step1": "第 1 步（共 2 步）：請在錢包中授權付款。"
   },
   "mint": {
-    "head": "一套交易果蠅的創世系列。每一隻都是真實的果蠅連接體，在 Robinhood Chain 上交易。鑄造一隻，你的果蠅會在鑄造結束後揭曉。在同一個錢包持有 $FLYAI，它就會上交易台。",
+    "head": "由 1,000 隻交易蒼蠅組成的創世系列，已售罄。每隻都運行真實的果蠅連接組，用自己的錢包交易、戰鬥、繁育。到市場入手一隻。",
     "soon": "鑄造即將開放。",
     "minted": "已鑄造",
     "price": "價格",
@@ -1307,5 +1307,59 @@
     "winRate": "勝率",
     "updated": "更新於 {when}",
     "cantRead": "無法載入排行榜，請稍後再試。"
+  },
+  "utility": {
+    "title": "Trader Fly 能做什麼",
+    "mintFold": "鑄造（已售罄）",
+    "wallet": {
+      "title": "用自己的錢包交易",
+      "text": "替蒼蠅注資，牠的大腦替你交易，內建趨勢跟蹤和防跑路過濾。在排行榜看結果。"
+    },
+    "colosseum": {
+      "title": "競技場戰鬥",
+      "text": "特徵變成戰鬥屬性。參加賽季贏取 $FLYAI。"
+    },
+    "breed": {
+      "title": "繁育",
+      "text": "把兩隻蒼蠅合成一隻：繼承雙親特徵，有機會更稀有。無需錢包即可試玩。"
+    },
+    "payouts": {
+      "title": "每週分紅",
+      "text": "錢包持有 200,000 $FLYAI 時蒼蠅處於啟用狀態，分享交易台利潤，越稀有分得越多。"
+    },
+    "autopilot": {
+      "title": "自動駕駛",
+      "text": "有 FlightPass，蒼蠅會自己玩遊戲、自己參加競技場。"
+    },
+    "market": {
+      "title": "市場交易",
+      "text": "在這裡或 OpenSea 按稀有度和價格買賣。"
+    }
+  },
+  "breedDemo": {
+    "title": "試試繁育：隨機兩隻",
+    "text": "隨機挑選兩隻真實的 Trader Fly。看看合成會得到什麼，無需錢包。",
+    "stays": "成為後代（保留編號）",
+    "burned": "合成時銷毀",
+    "childRarity": "後代稀有度",
+    "eachTrait": "每個特徵",
+    "traitOdds": "親代 A 40% · 親代 B 40% · 新特徵 20%",
+    "fee": "費用",
+    "inFlyai": "以 $FLYAI 支付",
+    "result": "結果",
+    "resultText": "#{keep} 獲得新特徵，#{burn} 被銷毀，總量減一",
+    "roll": "生成示例後代",
+    "shuffle": "換兩隻",
+    "sample": "可能的 #{id}：",
+    "mutation": "新特徵",
+    "illustration": "按真實機率的示例。真實合成由之後區塊的雜湊決定。",
+    "cantRead": "暫時無法載入兩隻蒼蠅。"
+  },
+  "trait": {
+    "Pose": "姿勢",
+    "Colorway": "配色",
+    "Background": "背景",
+    "Gear": "裝備",
+    "Extra": "額外"
   }
 }

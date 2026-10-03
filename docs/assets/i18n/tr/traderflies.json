@@ -24,7 +24,7 @@
   "nav": {
     "traders": "Traders",
     "scoreboard": "Skor tablosu",
-    "mint": "Mint",
+    "mint": "Koleksiyon",
     "market": "Pazar",
     "breed": "Çiftleştir",
     "boost": "Boost",
@@ -110,7 +110,7 @@
     "step1": "Adım 1/2: ödemeyi cüzdanında onayla."
   },
   "mint": {
-    "head": "Trader sineklerden oluşan bir genesis koleksiyonu. Her biri Robinhood Chain'de işlem yapan gerçek bir meyve sineği konektomu. Birini mint et; sineğin mint bitince açılır. Aynı cüzdanda $FLYAI tut, masada olsun.",
+    "head": "1.000 trader sinekten oluşan, tükenmiş bir genesis koleksiyonu. Her biri gerçek bir sinek konnektomuyla çalışır, kendi cüzdanından işlem yapar, savaşır ve çiftleşir. Pazardan bir tane al.",
     "soon": "Mint yakında açılıyor.",
     "minted": "mint edildi",
     "price": "fiyat",
@@ -1309,5 +1309,59 @@
     "winRate": "Kazanç",
     "updated": "Güncellendi {when}",
     "cantRead": "Sıralama yüklenemedi; birazdan tekrar dene."
+  },
+  "utility": {
+    "title": "Bir Trader Fly ne yapar",
+    "mintFold": "Mint (tükendi)",
+    "wallet": {
+      "title": "Kendi cüzdanından işlem yapar",
+      "text": "Sineğini fonla, beyni senin için işlem yapsın; trend takibi ve rug filtreleriyle. Sonuçları sıralamada gör."
+    },
+    "colosseum": {
+      "title": "Colosseum'da savaşır",
+      "text": "Özellikleri dövüş istatistiğine dönüşür. Sezonlara gir, $FLYAI kazan."
+    },
+    "breed": {
+      "title": "Çiftleşir",
+      "text": "İki sineği birleştir: iki ebeveynden özellikler, daha nadir bir yavru şansı. Cüzdansız dene."
+    },
+    "payouts": {
+      "title": "Haftalık ödeme kazanır",
+      "text": "Cüzdanın 200.000 $FLYAI tuttuğu sürece sineklerin aktif olur ve desk kârını paylaşır, nadir olanlar daha fazla."
+    },
+    "autopilot": {
+      "title": "Otomatik pilotta çalışır",
+      "text": "FlightPass ile sineklerin oyunları kendi oynar, Colosseum'a kendi girer."
+    },
+    "market": {
+      "title": "Pazarda alınıp satılır",
+      "text": "Sinekleri burada ya da OpenSea'de nadirlik ve fiyatla al-sat."
+    }
+  },
+  "breedDemo": {
+    "title": "Çiftleştirmeyi dene: rastgele iki sinek",
+    "text": "Rastgele seçilmiş iki gerçek Trader Fly. Birleştirince neler çıkabilir, cüzdansız.",
+    "stays": "Yavru olur (numarası kalır)",
+    "burned": "Birleşmede yakılır",
+    "childRarity": "Yavrunun nadirliği",
+    "eachTrait": "Her özellik",
+    "traitOdds": "%40 ebeveyn A · %40 ebeveyn B · %20 yeni",
+    "fee": "Ücret",
+    "inFlyai": "$FLYAI ile",
+    "result": "Sonuç",
+    "resultText": "#{keep} yeni özellikler alır, #{burn} yakılır, arz bir azalır",
+    "roll": "Örnek yavru üret",
+    "shuffle": "Başka iki tane seç",
+    "sample": "Olası bir #{id}:",
+    "mutation": "yeni bir şey",
+    "illustration": "Gerçek olasılıklarla bir örnek. Gerçek birleşme sonraki bir bloğun hash'iyle belirlenir.",
+    "cantRead": "Şu an iki sinek yüklenemedi."
+  },
+  "trait": {
+    "Pose": "Poz",
+    "Colorway": "Renk",
+    "Background": "Arka plan",
+    "Gear": "Ekipman",
+    "Extra": "Ekstra"
   }
 }
