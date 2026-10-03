@@ -84,6 +84,10 @@
       "label": "Ajanlar için",
       "desc": "Claude'u sinek gibi konuştur"
     },
+    "bounties": {
+      "label": "Ödüller",
+      "desc": "Mem, bot, araştırma için $FLYAI kazan"
+    },
     "follow": {
       "label": "@flydotai'yi takip et"
     },

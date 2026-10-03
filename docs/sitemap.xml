@@ -61,6 +61,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://flyaiworld.com/bounties</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://flyaiworld.com/desk-api</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-i18n-ns="bounties">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bounties &mdash; build, make and break things for $FLYAI</title>
-<meta name="description" content="fly.ai bounties: memes, videos, bots, research and bug reports, paid in $FLYAI. Enter contests or apply to build, sign in with your wallet, every payout shown with its transaction.">
-<meta property="og:title" content="fly.ai bounties: get paid in $FLYAI">
-<meta property="og:description" content="Memes, videos, bots, research and bug reports, paid in $FLYAI. Every payout shown on-chain.">
+<title data-i18n="bounties.meta.title">Bounties &mdash; build, make and break things for $FLYAI</title>
+<meta name="description" content="fly.ai bounties: memes, videos, bots, research and bug reports, paid in $FLYAI. Enter contests or apply to build, sign in with your wallet, every payout shown with its transaction." data-i18n-attr="content:bounties.meta.description">
+<meta property="og:title" content="fly.ai bounties: get paid in $FLYAI" data-i18n-attr="content:bounties.meta.og_title">
+<meta property="og:description" content="Memes, videos, bots, research and bug reports, paid in $FLYAI. Every payout shown on-chain." data-i18n-attr="content:bounties.meta.og_description">
 <meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@flydotai">
@@ -79,9 +79,9 @@
 <nav aria-label="Main"></nav>
 <header class="pagehead">
   <div class="wrap">
-    <p class="eyebrow">Bounties</p>
-    <h1>Build it, make it, break it. Get paid in $FLYAI.</h1>
-    <p class="lede">Memes, videos, bots, research and bug reports for fly.ai. Sign in with your wallet, enter or apply, and we pay
+    <p class="eyebrow" data-i18n="bounties.head.eyebrow">Bounties</p>
+    <h1 data-i18n="bounties.head.title">Build it, make it, break it. Get paid in $FLYAI.</h1>
+    <p class="lede" data-i18n="bounties.head.lede">Memes, videos, bots, research and bug reports for fly.ai. Sign in with your wallet, enter or apply, and we pay
       the winners from the team wallet. Every payout is listed here with its transaction.</p>
   </div>
 </header>
@@ -89,9 +89,9 @@
 <section style="padding-top: 20px;">
   <div class="wrap">
     <div class="bsteps">
-      <div class="card"><span class="tag mint">Contest</span><h3>Anyone can enter</h3><p>Send your work before the deadline. When it ends we pick the best entries and pay them.</p></div>
-      <div class="card"><span class="tag mint">Apply</span><h3>Apply, then build</h3><p>Pitch your plan and show past work. We pick one builder, they hand in the final work, and we pay when it's approved.</p></div>
-      <div class="card"><span class="tag mint">Paid</span><h3>On-chain, in the open</h3><p>Winners are paid in $FLYAI to the wallet they signed in with. The payment transaction is listed on the bounty.</p></div>
+      <div class="card"><span class="tag mint" data-i18n="bounties.steps.contest_tag">Contest</span><h3 data-i18n="bounties.steps.contest_title">Anyone can enter</h3><p data-i18n="bounties.steps.contest_text">Send your work before the deadline. When it ends we pick the best entries and pay them.</p></div>
+      <div class="card"><span class="tag mint" data-i18n="bounties.steps.apply_tag">Apply</span><h3 data-i18n="bounties.steps.apply_title">Apply, then build</h3><p data-i18n="bounties.steps.apply_text">Pitch your plan and show past work. We pick one builder, they hand in the final work, and we pay when it's approved.</p></div>
+      <div class="card"><span class="tag mint" data-i18n="bounties.steps.paid_tag">Paid</span><h3 data-i18n="bounties.steps.paid_title">On-chain, in the open</h3><p data-i18n="bounties.steps.paid_text">Winners are paid in $FLYAI to the wallet they signed in with. The payment transaction is listed on the bounty.</p></div>
     </div>
   </div>
 </section>
@@ -99,26 +99,26 @@
 <section style="padding-top: 30px;">
   <div class="wrap">
     <div class="bfilters" id="filters"></div>
-    <div class="blist" id="list"><p class="msg">Loading bounties…</p></div>
+    <div class="blist" id="list"><p class="msg" data-i18n="bounties.list.loading">Loading bounties…</p></div>
   </div>
 </section>
 
 <section id="mine-sec" hidden>
   <div class="wrap">
-    <h2>Your entries</h2>
+    <h2 data-i18n="bounties.mine.title">Your entries</h2>
     <div class="mine" id="mine"></div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2>Rules</h2>
+    <h2 data-i18n="bounties.rules.title">Rules</h2>
     <ul class="rules">
-      <li>One X account per wallet, on every bounty. You're paid to the wallet you signed in with.</li>
-      <li>Your own work only. No bots, no AI-written spam, no farming with many wallets. We check winners' wallets on-chain before paying, and farmers are blocked.</li>
-      <li>You can edit your entry until we review it. Entries stay private until they win.</li>
-      <li>The team picks the winners. A bounty can end with fewer winners than planned if the entries aren't good enough.</li>
-      <li>Found a security bug? Don't post it publicly. Send a DM to <a href="https://x.com/flydotai" target="_blank" rel="noopener">@flydotai</a> first, then enter the security bounty with a private link.</li>
+      <li data-i18n="bounties.rules.r1">One X account per wallet, on every bounty. You're paid to the wallet you signed in with.</li>
+      <li data-i18n="bounties.rules.r2">Your own work only. No bots, no AI-written spam, no farming with many wallets. We check winners' wallets on-chain before paying, and farmers are blocked.</li>
+      <li data-i18n="bounties.rules.r3">You can edit your entry until we review it. Entries stay private until they win.</li>
+      <li data-i18n="bounties.rules.r4">The team picks the winners. A bounty can end with fewer winners than planned if the entries aren't good enough.</li>
+      <li data-i18n-html="bounties.rules.r5">Found a security bug? Don't post it publicly. Send a DM to <a href="https://x.com/flydotai" target="_blank" rel="noopener">@flydotai</a> first, then enter the security bounty with a private link.</li>
     </ul>
   </div>
 </section>
@@ -167,19 +167,25 @@
       <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
       <a href="/token">$FLYAI</a>
     </div>
-    <p>Bounties are a team promotion paid at the team's discretion, not a right attached to $FLYAI.</p>
+    <p data-i18n="bounties.footer.note">Bounties are a team promotion paid at the team's discretion, not a right attached to $FLYAI.</p>
   </div>
 </footer>
 
 <script src="assets/site.js"></script>
-<script src="assets/nav.js?v=20261003e"></script>
+<script src="assets/nav.js?v=20261003f"></script>
 <script type="module" src="assets/i18n/page.js"></script>
 <script type="module">
-const API = "https://flyai-mine.fly.dev";
+// a local mine server can stand in, on a local page only (a session token never goes to another host)
+const API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get("api") || "https://flyai-mine.fly.dev";
 const SESSION_KEY = "flyai.compute.session";
 const ACCOUNT_JS = "/compute/mine/web/account.js";
-const CAT = { content: "Content", dev: "Dev", research: "Research", art: "Art", security: "Security", community: "Community" };
-const STATUS = { pending: "Waiting for review", picked: "Picked: hand in your final work", approved: "Won: payout coming", rejected: "Not picked", paid: "Paid" };
+import { t, locale } from "./assets/i18n/i18n.js";
+// the page's words come from assets/i18n/<lang>/bounties.json (page.js loads them); bounty titles and details stay as written
+if (!window.flyI18n) await new Promise((r) => { addEventListener("i18n:ready", r, { once: true }); setTimeout(r, 3000); });
+const CAT = (c) => ({ content: t("bounties.cat.content"), dev: t("bounties.cat.dev"), research: t("bounties.cat.research"), art: t("bounties.cat.art"),
+  security: t("bounties.cat.security"), community: t("bounties.cat.community") })[c] || c;
+const STATUS = (s) => ({ pending: t("bounties.status.pending"), picked: t("bounties.status.picked"), approved: t("bounties.status.approved"),
+  rejected: t("bounties.status.rejected"), paid: t("bounties.status.paid") })[s] || s;
 
 // templates for the admin form (bounty ideas, 2026-10-03)
 const IDEAS = [
@@ -260,19 +266,20 @@ function linkify(s) {
   return out;
 }
 function left(ms) {
-  if (!ms) return "No deadline";
+  if (!ms) return t("bounties.card.no_deadline");
   const d = ms - Date.now();
-  if (d <= 0) return "Closed " + new Date(ms).toLocaleDateString();
+  if (d <= 0) return t("bounties.card.closed_on", { date: new Date(ms).toLocaleDateString(locale()) });
   const h = Math.floor(d / 3.6e6);
-  return h >= 48 ? `${Math.floor(h / 24)} days left` : h >= 1 ? `${h} h left` : `${Math.max(1, Math.floor(d / 6e4))} min left`;
+  return h >= 48 ? t("bounties.card.days_left", { count: Math.floor(h / 24) }) : h >= 1 ? t("bounties.card.hours_left", { count: h })
+    : t("bounties.card.minutes_left", { count: Math.max(1, Math.floor(d / 6e4)) });
 }
 
 let board = { bounties: [], explorer: "" }, me = null, filter = "open";
-const txLink = (h) => el("a", { href: `${board.explorer}/tx/${h}`, target: "_blank", rel: "noopener" }, `tx ${h.slice(0, 10)}…`);
+const txLink = (h) => el("a", { href: `${board.explorer}/tx/${h}`, target: "_blank", rel: "noopener" }, t("bounties.card.tx", { hash: `${h.slice(0, 10)}…` }));
 
 function renderFilters() {
   const cats = [...new Set(board.bounties.map((b) => b.category))];
-  const opts = [["open", "Open"], ["all", "All"], ...cats.map((c) => [c, CAT[c] || c])];
+  const opts = [["open", t("bounties.filter.open")], ["all", t("bounties.filter.all")], ...cats.map((c) => [c, CAT(c)])];
   $("filters").replaceChildren(...opts.map(([k, label]) =>
     el("button", { type: "button", class: filter === k ? "on" : "", on: { click: () => { filter = k; renderFilters(); renderList(); } } }, label)));
 }
@@ -281,19 +288,19 @@ function entryForm(b) {
   const s = session();
   const final = b.kind === "apply" && me && me.entries.some((e) => e.bounty_id === b.id && e.stage === "apply" && e.status === "picked");
   const closed = b.status !== "open" || (b.deadline_ms && b.deadline_ms < Date.now()) || (b.kind === "apply" && b.assignee);
-  if (!final && closed) return el("p", { class: "msg" }, b.status === "done" ? "This bounty is done." : "Entries are closed.");
-  if (!s) return el("div", null, el("button", { class: "btn red", type: "button", on: { click: signIn } }, "Sign in to enter"));
+  if (!final && closed) return el("p", { class: "msg" }, b.status === "done" ? t("bounties.form.done") : t("bounties.form.closed"));
+  if (!s) return el("div", null, el("button", { class: "btn red", type: "button", on: { click: signIn } }, t("bounties.form.sign_in")));
   const stage = final ? "final" : b.kind === "apply" ? "apply" : "entry";
   const had = me?.entries.find((e) => e.bounty_id === b.id && e.stage === stage);
   const handle = had?.x_handle || me?.entries[0]?.x_handle || "";
   const msg = el("p", { class: "msg" });
   const f = el("form", { class: "bform" },
-    el("label", null, "Your X handle", el("input", { name: "x_handle", placeholder: "@you", value: handle ? "@" + handle : "", required: true, maxlength: "16" })),
-    el("label", null, stage === "apply" ? "Link to your past work (GitHub, portfolio, X)" : stage === "final" ? "Link to the final work" : "Link to your entry (your X post, video, repo...)",
+    el("label", null, t("bounties.form.handle"), el("input", { name: "x_handle", placeholder: "@you", value: handle ? "@" + handle : "", required: true, maxlength: "16" })),
+    el("label", null, stage === "apply" ? t("bounties.form.link_apply") : stage === "final" ? t("bounties.form.link_final") : t("bounties.form.link_entry"),
       el("input", { name: "link", type: "url", placeholder: "https://", value: had?.link || "", required: true })),
-    el("label", null, stage === "apply" ? "Your plan: what you'll build and by when" : "Note (optional)",
+    el("label", null, stage === "apply" ? t("bounties.form.note_apply") : t("bounties.form.note"),
       el("textarea", { name: "note", maxlength: "2000", required: stage === "apply" }, had?.note || "")),
-    el("div", null, el("button", { class: "btn red", type: "submit" }, had ? "Update" : stage === "apply" ? "Apply" : stage === "final" ? "Hand in" : "Enter")),
+    el("div", null, el("button", { class: "btn red", type: "submit" }, had ? t("bounties.form.update") : stage === "apply" ? t("bounties.form.apply") : stage === "final" ? t("bounties.form.final") : t("bounties.form.enter"))),
     msg);
   f.addEventListener("submit", async (ev) => {
     ev.preventDefault();
@@ -301,17 +308,17 @@ function entryForm(b) {
     msg.className = "msg"; msg.textContent = "…";
     try {
       await call("/api/bounties/enter", { bounty: b.id, ...d });
-      msg.textContent = "Sent. You can edit it until we review it.";
+      msg.textContent = t("bounties.form.sent");
       await loadMine();
     } catch (e) { msg.className = "msg err"; msg.textContent = e.message; }
   });
-  return el("div", null, final ? el("p", { class: "msg" }, "You were picked for this one. Hand in the final work below.") : null, f);
+  return el("div", null, final ? el("p", { class: "msg" }, t("bounties.form.picked")) : null, f);
 }
 
 function renderList() {
   const list = board.bounties.filter((b) => filter === "all" || (filter === "open" ? b.status === "open" : b.category === filter));
   if (!list.length) {
-    $("list").replaceChildren(el("p", { class: "msg" }, filter === "open" ? "No open bounties right now. Follow @flydotai for the next ones." : "Nothing here yet."));
+    $("list").replaceChildren(el("p", { class: "msg" }, filter === "open" ? t("bounties.list.none_open") : t("bounties.list.none")));
     return;
   }
   const open = new URLSearchParams(location.hash.slice(1)).get("b");
@@ -322,21 +329,22 @@ function renderList() {
       el("summary", null,
         el("div", null,
           el("div", { class: "tags" },
-            el("span", { class: "tag mint" }, b.kind === "apply" ? "Apply" : "Contest"),
-            el("span", { class: "tag" }, CAT[b.category] || b.category),
-            b.status !== "open" ? el("span", { class: "tag dim" }, b.status) : null),
+            el("span", { class: "tag mint" }, b.kind === "apply" ? t("bounties.card.kind_apply") : t("bounties.card.kind_contest")),
+            el("span", { class: "tag" }, CAT(b.category)),
+            b.status !== "open" ? el("span", { class: "tag dim" }, b.status === "done" ? t("bounties.card.done") : t("bounties.card.closed")) : null),
           el("h3", null, b.title),
           el("p", { class: "sum" }, b.summary)),
         el("div", { class: "rew" }, b.reward,
-          el("small", null, `${b.winners > 1 && b.winners < 100 ? b.winners + " winners · " : ""}${left(b.deadline_ms)} · ${b.entries} ${b.kind === "apply" ? "applied" : "entered"}`))),
+          el("small", null, [b.winners > 1 && b.winners < 100 ? t("bounties.card.winners", { count: b.winners }) : null, left(b.deadline_ms),
+            b.kind === "apply" ? t("bounties.card.applied", { count: b.entries }) : t("bounties.card.entered", { count: b.entries })].filter(Boolean).join(" · ")))),
       el("div", { class: "bbody" },
         b.details ? el("p", { class: "details" }, ...linkify(b.details)) : null,
-        picked ? el("p", { class: "msg" }, `Being built by @${picked.x_handle}.`) : null,
-        winners.length ? el("div", null, el("h4", { style: "margin: 0 0 8px" }, "Winners"),
+        picked ? el("p", { class: "msg" }, t("bounties.card.building", { handle: picked.x_handle })) : null,
+        winners.length ? el("div", null, el("h4", { style: "margin: 0 0 8px" }, t("bounties.card.winners_title")),
           el("ul", { class: "winners" }, ...winners.map((w) => el("li", null,
             el("a", { href: `https://x.com/${w.x_handle}`, target: "_blank", rel: "noopener" }, `@${w.x_handle}`), " ",
-            w.link ? el("a", { href: w.link, target: "_blank", rel: "noopener nofollow" }, "work") : null,
-            w.reward ? ` · ${w.reward}` : "", w.tx_hash ? [" · ", txLink(w.tx_hash)] : w.status === "approved" ? " · payout coming" : "")))) : null,
+            w.link ? el("a", { href: w.link, target: "_blank", rel: "noopener nofollow" }, t("bounties.card.work")) : null,
+            w.reward ? ` · ${w.reward}` : "", w.tx_hash ? [" · ", txLink(w.tx_hash)] : w.status === "approved" ? ` · ${t("bounties.card.payout_coming")}` : "")))) : null,
         entryForm(b)));
   }));
   if (open) document.getElementById(`b${open}`)?.scrollIntoView({ block: "start" });
@@ -347,13 +355,13 @@ function renderMine() {
   $("mine-sec").hidden = false;
   const title = (id) => board.bounties.find((b) => b.id === id)?.title || `Bounty #${id}`;
   $("mine").replaceChildren(...me.entries.map((e) => el("div", { class: "card" },
-    el("b", { style: "color: var(--text)" }, title(e.bounty_id)), ` · ${e.stage === "apply" ? "application" : e.stage === "final" ? "final work" : "entry"} · `,
-    STATUS[e.status] || e.status, e.reward ? ` · ${e.reward}` : "", e.tx_hash ? [" · ", txLink(e.tx_hash)] : "",
-    e.review_note ? el("div", { style: "margin-top: 6px" }, "Team: ", e.review_note) : null)));
+    el("b", { style: "color: var(--text)" }, title(e.bounty_id)), ` · ${e.stage === "apply" ? t("bounties.mine.application") : e.stage === "final" ? t("bounties.mine.final") : t("bounties.mine.entry")} · `,
+    STATUS(e.status), e.reward ? ` · ${e.reward}` : "", e.tx_hash ? [" · ", txLink(e.tx_hash)] : "",
+    e.review_note ? el("div", { style: "margin-top: 6px" }, `${t("bounties.mine.team")} `, e.review_note) : null)));
 }
 
 async function loadBoard() {
-  try { board = await call("/api/bounties"); } catch (e) { $("list").replaceChildren(el("p", { class: "msg err" }, `Couldn't load the bounties: ${e.message}`)); return; }
+  try { board = await call("/api/bounties"); } catch (e) { $("list").replaceChildren(el("p", { class: "msg err" }, t("bounties.list.load_error", { error: e.message }))); return; }
   renderFilters(); renderList();
 }
 async function loadMine() {
@@ -366,7 +374,7 @@ async function loadMine() {
 // ---- admin --------------------------------------------------------------------------------------------------------
 let adm = null;
 const af = $("aform");
-$("idea").append(...IDEAS.map((x, i) => el("option", { value: String(i) }, `${CAT[x.category]}: ${x.title}`)));
+$("idea").append(...IDEAS.map((x, i) => el("option", { value: String(i) }, `${x.category}: ${x.title}`)));
 $("idea").addEventListener("change", () => { const x = IDEAS[Number($("idea").value)]; if (x) fill({ ...x, id: "", status: "draft", deadline_ms: null }); });
 const pad = (n) => String(n).padStart(2, "0");
 const localInput = (ms) => { if (!ms) return ""; const d = new Date(ms); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`; };
@@ -397,7 +405,6 @@ async function review(id, body, msg) {
 async function loadAdmin() {
   try { adm = await call("/api/admin/bounties"); } catch (e) { return; }
   $("admin").classList.add("show");
-  const handles = new Map();          // a handle seen with several wallets can't happen (server), but wallets with many entries are flagged
   $("abounties").replaceChildren(...adm.bounties.map((b) => {
     const entries = adm.entries.filter((e) => e.bounty_id === b.id);
     const pending = entries.filter((e) => e.status === "pending").length;
@@ -405,7 +412,7 @@ async function loadAdmin() {
       el("summary", null, `#${b.id} ${b.title} · ${b.status} · ${b.kind} · ${entries.length} entries${pending ? ` (${pending} to review)` : ""}`),
       el("div", { style: "margin: 10px 0; display: flex; gap: 8px; flex-wrap: wrap;" },
         el("button", { class: "btn sm", type: "button", on: { click: () => fill(b) } }, "Edit"),
-        el("a", { class: "btn sm", href: `#b=${b.id}`, on: { click: () => setTimeout(() => location.reload(), 0) } }, "Public link")),
+        el("a", { class: "btn sm", href: `/bounties#b=${b.id}`, target: "_blank" }, "Public link")),
       ...entries.map((e) => {
         const msg = el("span", { class: "msg" });
         const reward = el("input", { placeholder: "reward", value: e.reward || "", size: "14" });

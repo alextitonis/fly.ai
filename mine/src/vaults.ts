@@ -93,6 +93,28 @@ export function createVaults(d: VaultsDeps) {
   }
   const publicOf = async (key: string) =>
     (await pg.one<{ value: any }>("select value from mine.vault_public where key = ?", key))?.value ?? null;
+  /**
+   * The leaderboard from memory (2026-10-03, the user: "Fly Wallets leaderboard ... slow loading ... couldn't load"):
+   * one database read every BOARD_TTL_MS at most - the desk republishes it every 5 minutes - and the last copy is kept
+   * when the database is slow or failing (after a mine deploy it took 13 s and then nothing answered).
+   */
+  const BOARD_TTL_MS = 30_000;
+  const boards = new Map<string, { at: number; value: any; loading?: Promise<any> }>();
+  async function boardOf(key: string) {
+    const hit = boards.get(key);
+    if (hit && Date.now() - hit.at < BOARD_TTL_MS) return hit.value;
+    if (hit?.loading) return hit.value ?? hit.loading;      // one read at a time; the others get the last copy
+    const loading = publicOf(key).then((value) => {
+      boards.set(key, { at: Date.now(), value });
+      return value;
+    }, (err) => {
+      boards.set(key, { at: hit?.at ?? 0, value: hit?.value ?? null });
+      if (hit?.value != null) return hit.value;              // stale beats an error
+      throw err;
+    });
+    boards.set(key, { at: hit?.at ?? 0, value: hit?.value ?? null, loading });
+    return hit?.value != null ? hit.value : loading;          // a copy in hand answers at once; the read refreshes it
+  }
   const settingsOf = async (key: string) =>
     (await pg.one<{ doc: any; updated_at_ms: number }>("select doc, updated_at_ms from mine.vault_settings where vault = ?", key)) ?? null;
 
@@ -309,7 +331,7 @@ export function createVaults(d: VaultsDeps) {
         isOn();
         const chain = chainOf(url.searchParams.get("chain"));
         const key = chain === "robinhood" ? "leaderboard" : `leaderboard:${chain}`;
-        return d.send(res, 200, (await publicOf(key)) ?? { all: [], d7: [], h24: [] }), true;
+        return d.send(res, 200, (await boardOf(key)) ?? { all: [], d7: [], h24: [] }), true;
       }
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})$/.exec(p))) return d.send(res, 200, await flyView(Number(m[1]))), true;
       if ((m = /^\/api\/vaults\/requests\/(\d{1,12})$/.exec(p))) return d.send(res, 200, await requestView(Number(m[1]))), true;

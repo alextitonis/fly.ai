@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "title": "Recompensas — crea, construye y rompe cosas por $FLYAI",
+    "description": "Recompensas de fly.ai: memes, vídeos, bots, investigación y reportes de bugs, pagados en $FLYAI. Participa en concursos o postúlate para construir, entra con tu wallet; cada pago se muestra con su transacción.",
+    "og_title": "Recompensas de fly.ai: cobra en $FLYAI",
+    "og_description": "Memes, vídeos, bots, investigación y reportes de bugs, pagados en $FLYAI. Cada pago, visible on-chain."
+  },
+  "head": {
+    "eyebrow": "Recompensas",
+    "title": "Constrúyelo, créalo, rómpelo. Cobra en $FLYAI.",
+    "lede": "Memes, vídeos, bots, investigación y reportes de bugs para fly.ai. Entra con tu wallet, participa o postúlate, y pagamos a los ganadores desde la wallet del equipo. Cada pago aparece aquí con su transacción."
+  },
+  "steps": {
+    "contest_tag": "Concurso",
+    "contest_title": "Cualquiera puede participar",
+    "contest_text": "Envía tu trabajo antes de la fecha límite. Al terminar elegimos las mejores entradas y las pagamos.",
+    "apply_tag": "Postulación",
+    "apply_title": "Postúlate y luego construye",
+    "apply_text": "Presenta tu plan y muestra trabajos anteriores. Elegimos a una persona, entrega el trabajo final y pagamos cuando se aprueba.",
+    "paid_tag": "Pagado",
+    "paid_title": "On-chain, a la vista",
+    "paid_text": "Los ganadores cobran en $FLYAI en la wallet con la que entraron. La transacción del pago aparece en la recompensa."
+  },
+  "filter": {
+    "open": "Abiertas",
+    "all": "Todas"
+  },
+  "cat": {
+    "content": "Contenido",
+    "dev": "Dev",
+    "research": "Investigación",
+    "art": "Arte",
+    "security": "Seguridad",
+    "community": "Comunidad"
+  },
+  "list": {
+    "loading": "Cargando recompensas…",
+    "load_error": "No se pudieron cargar las recompensas: {error}",
+    "none_open": "No hay recompensas abiertas ahora. Sigue a @flydotai para las próximas.",
+    "none": "Aún no hay nada aquí."
+  },
+  "card": {
+    "kind_contest": "Concurso",
+    "kind_apply": "Postulación",
+    "closed": "cerrada",
+    "done": "terminada",
+    "winners": { "one": "{count} ganador", "other": "{count} ganadores" },
+    "no_deadline": "Sin fecha límite",
+    "closed_on": "Cerró el {date}",
+    "days_left": { "one": "Queda {count} día", "other": "Quedan {count} días" },
+    "hours_left": "Quedan {count} h",
+    "minutes_left": "Quedan {count} min",
+    "entered": "{count} participantes",
+    "applied": "{count} postulaciones",
+    "building": "La está construyendo @{handle}.",
+    "winners_title": "Ganadores",
+    "work": "trabajo",
+    "payout_coming": "pago en camino",
+    "tx": "tx {hash}"
+  },
+  "form": {
+    "done": "Esta recompensa ha terminado.",
+    "closed": "Las entradas están cerradas.",
+    "sign_in": "Entra para participar",
+    "picked": "Te elegimos para esta. Entrega el trabajo final abajo.",
+    "handle": "Tu usuario de X",
+    "link_entry": "Enlace a tu entrada (tu post de X, vídeo, repo...)",
+    "link_apply": "Enlace a tus trabajos anteriores (GitHub, portafolio, X)",
+    "link_final": "Enlace al trabajo final",
+    "note": "Nota (opcional)",
+    "note_apply": "Tu plan: qué construirás y para cuándo",
+    "enter": "Participar",
+    "apply": "Postularme",
+    "final": "Entregar",
+    "update": "Actualizar",
+    "sent": "Enviado. Puedes editarlo hasta que lo revisemos."
+  },
+  "mine": {
+    "title": "Tus entradas",
+    "entry": "entrada",
+    "application": "postulación",
+    "final": "trabajo final",
+    "team": "Equipo:"
+  },
+  "status": {
+    "pending": "Esperando revisión",
+    "picked": "Elegido: entrega tu trabajo final",
+    "approved": "Ganaste: pago en camino",
+    "rejected": "No elegido",
+    "paid": "Pagado"
+  },
+  "rules": {
+    "title": "Reglas",
+    "r1": "Una cuenta de X por wallet, en todas las recompensas. Cobras en la wallet con la que entraste.",
+    "r2": "Solo trabajo propio. Nada de bots, spam escrito por IA ni farmeo con muchas wallets. Revisamos on-chain las wallets ganadoras antes de pagar, y bloqueamos a los farmers.",
+    "r3": "Puedes editar tu entrada hasta que la revisemos. Las entradas son privadas hasta que ganan.",
+    "r4": "El equipo elige a los ganadores. Una recompensa puede terminar con menos ganadores de lo previsto si las entradas no son lo bastante buenas.",
+    "r5": "¿Encontraste un bug de seguridad? No lo publiques. Escribe primero por DM a <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">@flydotai</a> y luego participa en la recompensa de seguridad con un enlace privado."
+  },
+  "footer": {
+    "note": "Las recompensas son una promoción del equipo, pagadas a su criterio; no son un derecho asociado a $FLYAI."
+  }
+}

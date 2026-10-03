@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "title": "바운티 — $FLYAI를 받고 만들고, 개발하고, 깨뜨리세요",
+    "description": "fly.ai 바운티: 밈, 영상, 봇, 연구, 버그 제보에 $FLYAI로 보상합니다. 콘테스트에 참여하거나 개발에 지원하고, 지갑으로 로그인하세요. 모든 지급은 트랜잭션과 함께 공개됩니다.",
+    "og_title": "fly.ai 바운티: $FLYAI로 보상받기",
+    "og_description": "밈, 영상, 봇, 연구, 버그 제보에 $FLYAI로 보상. 모든 지급은 온체인에 공개됩니다."
+  },
+  "head": {
+    "eyebrow": "바운티",
+    "title": "만들고, 개발하고, 깨뜨리세요. $FLYAI로 보상받으세요.",
+    "lede": "fly.ai를 위한 밈, 영상, 봇, 연구, 버그 제보. 지갑으로 로그인해 참여하거나 지원하면, 팀 지갑에서 우승자에게 지급합니다. 모든 지급은 트랜잭션과 함께 여기에 표시됩니다."
+  },
+  "steps": {
+    "contest_tag": "콘테스트",
+    "contest_title": "누구나 참여 가능",
+    "contest_text": "마감 전에 작업물을 보내세요. 마감 후 가장 좋은 참여작을 골라 보상합니다.",
+    "apply_tag": "지원",
+    "apply_title": "지원 후 개발",
+    "apply_text": "계획과 이전 작업물을 보여주세요. 한 명을 선정하면 최종 작업물을 제출하고, 승인되면 지급합니다.",
+    "paid_tag": "지급 완료",
+    "paid_title": "온체인, 투명하게",
+    "paid_text": "우승자는 로그인한 지갑으로 $FLYAI를 받습니다. 지급 트랜잭션은 바운티에 표시됩니다."
+  },
+  "filter": {
+    "open": "진행 중",
+    "all": "전체"
+  },
+  "cat": {
+    "content": "콘텐츠",
+    "dev": "개발",
+    "research": "연구",
+    "art": "아트",
+    "security": "보안",
+    "community": "커뮤니티"
+  },
+  "list": {
+    "loading": "바운티 불러오는 중…",
+    "load_error": "바운티를 불러오지 못했습니다: {error}",
+    "none_open": "지금은 진행 중인 바운티가 없습니다. 다음 소식은 @flydotai를 팔로우하세요.",
+    "none": "아직 아무것도 없습니다."
+  },
+  "card": {
+    "kind_contest": "콘테스트",
+    "kind_apply": "지원",
+    "closed": "마감",
+    "done": "완료",
+    "winners": { "one": "우승자 {count}명", "other": "우승자 {count}명" },
+    "no_deadline": "마감 없음",
+    "closed_on": "{date} 마감",
+    "days_left": { "one": "{count}일 남음", "other": "{count}일 남음" },
+    "hours_left": "{count}시간 남음",
+    "minutes_left": "{count}분 남음",
+    "entered": "{count}명 참여",
+    "applied": "{count}명 지원",
+    "building": "@{handle} 님이 개발 중입니다.",
+    "winners_title": "우승자",
+    "work": "작업물",
+    "payout_coming": "지급 예정",
+    "tx": "tx {hash}"
+  },
+  "form": {
+    "done": "종료된 바운티입니다.",
+    "closed": "참여가 마감되었습니다.",
+    "sign_in": "로그인하고 참여하기",
+    "picked": "이 바운티에 선정되었습니다. 아래에서 최종 작업물을 제출하세요.",
+    "handle": "X 아이디",
+    "link_entry": "참여작 링크 (X 게시물, 영상, 저장소...)",
+    "link_apply": "이전 작업물 링크 (GitHub, 포트폴리오, X)",
+    "link_final": "최종 작업물 링크",
+    "note": "메모 (선택)",
+    "note_apply": "계획: 무엇을 언제까지 만들지",
+    "enter": "참여하기",
+    "apply": "지원하기",
+    "final": "제출하기",
+    "update": "수정하기",
+    "sent": "제출되었습니다. 검토 전까지 수정할 수 있습니다."
+  },
+  "mine": {
+    "title": "내 참여",
+    "entry": "참여",
+    "application": "지원",
+    "final": "최종 작업물",
+    "team": "팀:"
+  },
+  "status": {
+    "pending": "검토 대기 중",
+    "picked": "선정됨: 최종 작업물을 제출하세요",
+    "approved": "우승: 지급 예정",
+    "rejected": "미선정",
+    "paid": "지급 완료"
+  },
+  "rules": {
+    "title": "규칙",
+    "r1": "모든 바운티에서 지갑 하나당 X 계정 하나. 로그인한 지갑으로 지급됩니다.",
+    "r2": "본인 작업물만 가능합니다. 봇, AI로 쓴 스팸, 여러 지갑을 이용한 파밍은 금지입니다. 지급 전 우승 지갑을 온체인에서 확인하며, 파밍은 차단됩니다.",
+    "r3": "검토 전까지 참여작을 수정할 수 있습니다. 참여작은 우승 전까지 비공개입니다.",
+    "r4": "우승자는 팀이 선정합니다. 참여작의 수준이 충분하지 않으면 계획보다 적은 우승자로 끝날 수 있습니다.",
+    "r5": "보안 버그를 찾으셨나요? 공개적으로 올리지 마세요. 먼저 <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">@flydotai</a>에 DM을 보낸 뒤, 비공개 링크로 보안 바운티에 참여하세요."
+  },
+  "footer": {
+    "note": "바운티는 팀 재량으로 지급되는 팀 프로모션이며, $FLYAI에 부여된 권리가 아닙니다."
+  }
+}

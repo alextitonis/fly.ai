@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "title": "Bounties — build, make and break things for $FLYAI",
+    "description": "fly.ai bounties: memes, videos, bots, research and bug reports, paid in $FLYAI. Enter contests or apply to build, sign in with your wallet, every payout shown with its transaction.",
+    "og_title": "fly.ai bounties: get paid in $FLYAI",
+    "og_description": "Memes, videos, bots, research and bug reports, paid in $FLYAI. Every payout shown on-chain."
+  },
+  "head": {
+    "eyebrow": "Bounties",
+    "title": "Build it, make it, break it. Get paid in $FLYAI.",
+    "lede": "Memes, videos, bots, research and bug reports for fly.ai. Sign in with your wallet, enter or apply, and we pay the winners from the team wallet. Every payout is listed here with its transaction."
+  },
+  "steps": {
+    "contest_tag": "Contest",
+    "contest_title": "Anyone can enter",
+    "contest_text": "Send your work before the deadline. When it ends we pick the best entries and pay them.",
+    "apply_tag": "Apply",
+    "apply_title": "Apply, then build",
+    "apply_text": "Pitch your plan and show past work. We pick one builder, they hand in the final work, and we pay when it's approved.",
+    "paid_tag": "Paid",
+    "paid_title": "On-chain, in the open",
+    "paid_text": "Winners are paid in $FLYAI to the wallet they signed in with. The payment transaction is listed on the bounty."
+  },
+  "filter": {
+    "open": "Open",
+    "all": "All"
+  },
+  "cat": {
+    "content": "Content",
+    "dev": "Dev",
+    "research": "Research",
+    "art": "Art",
+    "security": "Security",
+    "community": "Community"
+  },
+  "list": {
+    "loading": "Loading bounties…",
+    "load_error": "Couldn't load the bounties: {error}",
+    "none_open": "No open bounties right now. Follow @flydotai for the next ones.",
+    "none": "Nothing here yet."
+  },
+  "card": {
+    "kind_contest": "Contest",
+    "kind_apply": "Apply",
+    "closed": "closed",
+    "done": "done",
+    "winners": { "one": "{count} winner", "other": "{count} winners" },
+    "no_deadline": "No deadline",
+    "closed_on": "Closed {date}",
+    "days_left": { "one": "{count} day left", "other": "{count} days left" },
+    "hours_left": "{count} h left",
+    "minutes_left": "{count} min left",
+    "entered": "{count} entered",
+    "applied": "{count} applied",
+    "building": "Being built by @{handle}.",
+    "winners_title": "Winners",
+    "work": "work",
+    "payout_coming": "payout coming",
+    "tx": "tx {hash}"
+  },
+  "form": {
+    "done": "This bounty is done.",
+    "closed": "Entries are closed.",
+    "sign_in": "Sign in to enter",
+    "picked": "You were picked for this one. Hand in the final work below.",
+    "handle": "Your X handle",
+    "link_entry": "Link to your entry (your X post, video, repo...)",
+    "link_apply": "Link to your past work (GitHub, portfolio, X)",
+    "link_final": "Link to the final work",
+    "note": "Note (optional)",
+    "note_apply": "Your plan: what you'll build and by when",
+    "enter": "Enter",
+    "apply": "Apply",
+    "final": "Hand in",
+    "update": "Update",
+    "sent": "Sent. You can edit it until we review it."
+  },
+  "mine": {
+    "title": "Your entries",
+    "entry": "entry",
+    "application": "application",
+    "final": "final work",
+    "team": "Team:"
+  },
+  "status": {
+    "pending": "Waiting for review",
+    "picked": "Picked: hand in your final work",
+    "approved": "Won: payout coming",
+    "rejected": "Not picked",
+    "paid": "Paid"
+  },
+  "rules": {
+    "title": "Rules",
+    "r1": "One X account per wallet, on every bounty. You're paid to the wallet you signed in with.",
+    "r2": "Your own work only. No bots, no AI-written spam, no farming with many wallets. We check winners' wallets on-chain before paying, and farmers are blocked.",
+    "r3": "You can edit your entry until we review it. Entries stay private until they win.",
+    "r4": "The team picks the winners. A bounty can end with fewer winners than planned if the entries aren't good enough.",
+    "r5": "Found a security bug? Don't post it publicly. Send a DM to <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">@flydotai</a> first, then enter the security bounty with a private link."
+  },
+  "footer": {
+    "note": "Bounties are a team promotion paid at the team's discretion, not a right attached to $FLYAI."
+  }
+}

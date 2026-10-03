@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "title": "賞金 — 創作、開發、找漏洞，賺 $FLYAI",
+    "description": "fly.ai 賞金：迷因圖、影片、機器人、研究和漏洞回報，以 $FLYAI 支付。參加比賽或申請開發，用錢包登入；每筆付款都附交易紀錄公開展示。",
+    "og_title": "fly.ai 賞金：賺取 $FLYAI",
+    "og_description": "迷因圖、影片、機器人、研究和漏洞回報，以 $FLYAI 支付。每筆付款鏈上可查。"
+  },
+  "head": {
+    "eyebrow": "賞金",
+    "title": "開發、創作、找漏洞。賺取 $FLYAI。",
+    "lede": "為 fly.ai 製作迷因圖、影片、機器人、研究和漏洞回報。用錢包登入，參賽或申請，我們從團隊錢包向獲勝者付款。每筆付款都會連同交易紀錄列在這裡。"
+  },
+  "steps": {
+    "contest_tag": "比賽",
+    "contest_title": "人人可參加",
+    "contest_text": "在截止前提交作品。結束後我們挑選最佳作品並付款。",
+    "apply_tag": "申請",
+    "apply_title": "先申請，再開發",
+    "apply_text": "說明你的計畫並展示過往作品。我們選出一位開發者，由其提交最終成果，審核通過後付款。",
+    "paid_tag": "已支付",
+    "paid_title": "鏈上公開",
+    "paid_text": "獲勝者以 $FLYAI 收款，匯到其登入所用的錢包。付款交易會列在該賞金下。"
+  },
+  "filter": {
+    "open": "進行中",
+    "all": "全部"
+  },
+  "cat": {
+    "content": "內容",
+    "dev": "開發",
+    "research": "研究",
+    "art": "美術",
+    "security": "安全",
+    "community": "社群"
+  },
+  "list": {
+    "loading": "正在載入賞金…",
+    "load_error": "無法載入賞金：{error}",
+    "none_open": "目前沒有進行中的賞金。追蹤 @flydotai 取得下一批。",
+    "none": "這裡還沒有內容。"
+  },
+  "card": {
+    "kind_contest": "比賽",
+    "kind_apply": "申請",
+    "closed": "已截止",
+    "done": "已結束",
+    "winners": { "one": "{count} 名獲勝者", "other": "{count} 名獲勝者" },
+    "no_deadline": "無截止時間",
+    "closed_on": "{date} 截止",
+    "days_left": { "one": "剩 {count} 天", "other": "剩 {count} 天" },
+    "hours_left": "剩 {count} 小時",
+    "minutes_left": "剩 {count} 分鐘",
+    "entered": "{count} 人參加",
+    "applied": "{count} 人申請",
+    "building": "由 @{handle} 開發中。",
+    "winners_title": "獲勝者",
+    "work": "作品",
+    "payout_coming": "即將付款",
+    "tx": "交易 {hash}"
+  },
+  "form": {
+    "done": "此賞金已結束。",
+    "closed": "已停止提交。",
+    "sign_in": "登入後參加",
+    "picked": "你已被選中。請在下方提交最終成果。",
+    "handle": "你的 X 使用者名稱",
+    "link_entry": "作品連結（你的 X 貼文、影片、程式庫…）",
+    "link_apply": "過往作品連結（GitHub、作品集、X）",
+    "link_final": "最終成果連結",
+    "note": "備註（選填）",
+    "note_apply": "你的計畫：做什麼，何時完成",
+    "enter": "參加",
+    "apply": "申請",
+    "final": "提交",
+    "update": "更新",
+    "sent": "已提交。審核前可隨時修改。"
+  },
+  "mine": {
+    "title": "我的提交",
+    "entry": "參賽作品",
+    "application": "申請",
+    "final": "最終成果",
+    "team": "團隊："
+  },
+  "status": {
+    "pending": "等待審核",
+    "picked": "已選中：請提交最終成果",
+    "approved": "獲勝：即將付款",
+    "rejected": "未入選",
+    "paid": "已支付"
+  },
+  "rules": {
+    "title": "規則",
+    "r1": "所有賞金中，每個錢包只能對應一個 X 帳號。款項匯到你登入所用的錢包。",
+    "r2": "只接受本人作品。禁止機器人、AI 產生的垃圾內容和多錢包刷獎。付款前我們會在鏈上核查獲勝錢包，刷獎者將被封鎖。",
+    "r3": "審核前你可以修改作品。作品在獲勝前不公開。",
+    "r4": "獲勝者由團隊挑選。如果作品品質不夠，獲勝人數可能少於計畫。",
+    "r5": "發現安全漏洞？請勿公開發布。先私訊 <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">@flydotai</a>，再用私密連結參加安全賞金。"
+  },
+  "footer": {
+    "note": "賞金是團隊推廣活動，由團隊酌情支付，並非 $FLYAI 附帶的權利。"
+  }
+}

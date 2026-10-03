@@ -84,6 +84,10 @@
       "label": "For Agents",
       "desc": "Make Claude talk like a fly"
     },
+    "bounties": {
+      "label": "Bounties",
+      "desc": "Get paid in $FLYAI for memes, bots, research"
+    },
     "follow": {
       "label": "Follow @flydotai"
     },

@@ -32,6 +32,7 @@
       // 2026-10-03, the user: the inventory and the leaderboard under NFTs, each a page of its own
       ["Inventory", "/traderflies/inventory", "Your flies and their wallets"],
       ["Leaderboard", "/traderflies/leaderboard", "The best Fly Wallets, live"],
+      ["Fly Market", "/traderflies/market", "Buy and sell Trader Flies"],
       ["Breed", "/traderflies/breed", "Merge two flies into one"],
       ["Claim", "/traderflies/claim", "Collect your flies' $FLYAI"],
       ["FlightPass", "/traderflies/pass", "Put your flies on autopilot"],
@@ -46,6 +47,7 @@
     ]],
     ["token", "$FLYAI", [
       ["Token", "/token", "Contract, chain, where to buy"],
+      ["Bounties", "/bounties", "Get paid in $FLYAI for memes, bots, research"],
       ["Merch", "/shop", "Fly shirts and more", true],
       ["API & skills", "/desk-api", "Buy the desk's answers over x402"],
       ["For Agents", "/agents", "Make Claude talk like a fly"],

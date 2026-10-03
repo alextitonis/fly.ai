@@ -1018,7 +1018,8 @@
       "trading": "Operando",
       "closing": "Mosca vendida: cerrando",
       "paused": "Pausada por ti",
-      "closeOnly": "Solo cierra"
+      "closeOnly": "Solo cierra",
+      "hold": "Su dueño necesita tener {need} $FLYAI: solo cierra operaciones"
     },
     "holder": "Holder",
     "value": "Valor",
@@ -1303,7 +1304,7 @@
     "unsaved": "Cambios sin guardar",
     "minFund": "Con {min} esta configuración opera todas sus partes.",
     "partsText": "Esta configuración reparte el dinero en {n} partes. Una operación necesita $5: deposita {min} o más.",
-    "minLow": "Con {usd}, la parte más pequeña recibe {part}: menos de los $5 que necesita una operación, así que no opera. Añade dinero (hasta {min}) o activa menos opciones.",
+    "minLow": "Con {usd}, la parte más pequeña recibiría {part}, menos de los $5 que necesita una operación: por ahora la mosca opera menos partes. Con {min} o más operan todas.",
     "steps": {
       "title": "Configura esta mosca",
       "hold": "Ten {need} $FLYAI en tu wallet",

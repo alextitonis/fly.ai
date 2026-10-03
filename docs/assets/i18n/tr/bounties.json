@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "title": "Ödüller — $FLYAI için yap, üret, kır",
+    "description": "fly.ai ödülleri: memler, videolar, botlar, araştırma ve hata bildirimleri, $FLYAI ile ödenir. Yarışmalara katıl ya da geliştirmek için başvur, cüzdanınla giriş yap; her ödeme işlemiyle birlikte gösterilir.",
+    "og_title": "fly.ai ödülleri: $FLYAI kazan",
+    "og_description": "Memler, videolar, botlar, araştırma ve hata bildirimleri, $FLYAI ile ödenir. Her ödeme zincir üstünde görünür."
+  },
+  "head": {
+    "eyebrow": "Ödüller",
+    "title": "Geliştir, üret, kır. $FLYAI kazan.",
+    "lede": "fly.ai için memler, videolar, botlar, araştırma ve hata bildirimleri. Cüzdanınla giriş yap, katıl ya da başvur; kazananlara ekip cüzdanından ödeme yaparız. Her ödeme işlemiyle birlikte burada listelenir."
+  },
+  "steps": {
+    "contest_tag": "Yarışma",
+    "contest_title": "Herkes katılabilir",
+    "contest_text": "İşini son tarihten önce gönder. Süre bitince en iyi katılımları seçip ödüllerini öderiz.",
+    "apply_tag": "Başvuru",
+    "apply_title": "Başvur, sonra geliştir",
+    "apply_text": "Planını anlat ve önceki işlerini göster. Bir kişiyi seçeriz, son işi teslim eder, onaylanınca öderiz.",
+    "paid_tag": "Ödendi",
+    "paid_title": "Zincir üstünde, herkesin önünde",
+    "paid_text": "Kazananlara giriş yaptıkları cüzdana $FLYAI ödenir. Ödeme işlemi ödülün altında listelenir."
+  },
+  "filter": {
+    "open": "Açık",
+    "all": "Tümü"
+  },
+  "cat": {
+    "content": "İçerik",
+    "dev": "Geliştirme",
+    "research": "Araştırma",
+    "art": "Sanat",
+    "security": "Güvenlik",
+    "community": "Topluluk"
+  },
+  "list": {
+    "loading": "Ödüller yükleniyor…",
+    "load_error": "Ödüller yüklenemedi: {error}",
+    "none_open": "Şu an açık ödül yok. Yenileri için @flydotai'yi takip et.",
+    "none": "Burada henüz bir şey yok."
+  },
+  "card": {
+    "kind_contest": "Yarışma",
+    "kind_apply": "Başvuru",
+    "closed": "kapandı",
+    "done": "bitti",
+    "winners": { "one": "{count} kazanan", "other": "{count} kazanan" },
+    "no_deadline": "Son tarih yok",
+    "closed_on": "{date} tarihinde kapandı",
+    "days_left": { "one": "{count} gün kaldı", "other": "{count} gün kaldı" },
+    "hours_left": "{count} sa kaldı",
+    "minutes_left": "{count} dk kaldı",
+    "entered": "{count} katılım",
+    "applied": "{count} başvuru",
+    "building": "@{handle} geliştiriyor.",
+    "winners_title": "Kazananlar",
+    "work": "iş",
+    "payout_coming": "ödeme yolda",
+    "tx": "işlem {hash}"
+  },
+  "form": {
+    "done": "Bu ödül tamamlandı.",
+    "closed": "Katılım kapandı.",
+    "sign_in": "Katılmak için giriş yap",
+    "picked": "Bu iş için seçildin. Son işi aşağıdan teslim et.",
+    "handle": "X kullanıcı adın",
+    "link_entry": "Katılımının bağlantısı (X gönderin, video, repo...)",
+    "link_apply": "Önceki işlerinin bağlantısı (GitHub, portfolyo, X)",
+    "link_final": "Son işin bağlantısı",
+    "note": "Not (isteğe bağlı)",
+    "note_apply": "Planın: ne geliştireceksin ve ne zamana kadar",
+    "enter": "Katıl",
+    "apply": "Başvur",
+    "final": "Teslim et",
+    "update": "Güncelle",
+    "sent": "Gönderildi. İnceleyene kadar düzenleyebilirsin."
+  },
+  "mine": {
+    "title": "Katılımların",
+    "entry": "katılım",
+    "application": "başvuru",
+    "final": "son iş",
+    "team": "Ekip:"
+  },
+  "status": {
+    "pending": "İnceleme bekliyor",
+    "picked": "Seçildin: son işini teslim et",
+    "approved": "Kazandın: ödeme yolda",
+    "rejected": "Seçilmedi",
+    "paid": "Ödendi"
+  },
+  "rules": {
+    "title": "Kurallar",
+    "r1": "Tüm ödüllerde cüzdan başına bir X hesabı. Ödeme, giriş yaptığın cüzdana yapılır.",
+    "r2": "Yalnızca kendi işin. Bot yok, yapay zekâ ile yazılmış spam yok, çok cüzdanla farm yok. Ödemeden önce kazanan cüzdanları zincir üstünde kontrol ederiz; farm yapanlar engellenir.",
+    "r3": "Katılımını biz inceleyene kadar düzenleyebilirsin. Katılımlar kazanana kadar gizli kalır.",
+    "r4": "Kazananları ekip seçer. Katılımlar yeterince iyi değilse bir ödül planlanandan az kazananla bitebilir.",
+    "r5": "Güvenlik açığı mı buldun? Herkese açık paylaşma. Önce <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">@flydotai</a> hesabına DM at, sonra güvenlik ödülüne gizli bir bağlantıyla katıl."
+  },
+  "footer": {
+    "note": "Ödüller ekibin takdirine göre ödenen bir ekip promosyonudur; $FLYAI'ye bağlı bir hak değildir."
+  }
+}

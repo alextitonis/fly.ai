@@ -1018,7 +1018,8 @@
       "trading": "İşlemde",
       "closing": "Sinek satıldı: kapanıyor",
       "paused": "Sen durdurdun",
-      "closeOnly": "Yalnızca kapatma"
+      "closeOnly": "Yalnızca kapatma",
+      "hold": "Sahibinin {need} $FLYAI tutması gerekiyor: yalnızca işlem kapatıyor"
     },
     "holder": "Holder",
     "value": "Değer",
@@ -1303,7 +1304,7 @@
     "unsaved": "Kaydedilmemiş değişiklikler",
     "minFund": "Bu kurulum {min} ile tüm parçalarında işlem yapar.",
     "partsText": "Bu kurulum parayı {n} parçaya böler. Bir işlem $5 ister: {min} veya daha fazla yatır.",
-    "minLow": "{usd} ile en küçük parça {part} alıyor: bir işlemin istediği $5'ın altında, bu yüzden boş bekliyor. Para ekle ({min} olana kadar) ya da daha az seçenek aç.",
+    "minLow": "{usd} ile en küçük parça {part} alırdı, bir işlemin istediği $5'ın altında: sinek şimdilik daha az parçayla işlem yapıyor. {min} veya fazlasıyla tüm parçalar işlem yapar.",
     "steps": {
       "title": "Bu sineği kur",
       "hold": "Cüzdanında {need} $FLYAI tut",

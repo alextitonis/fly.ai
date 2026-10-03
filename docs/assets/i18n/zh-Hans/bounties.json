@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "title": "赏金 — 创作、开发、找漏洞，赚 $FLYAI",
+    "description": "fly.ai 赏金：表情包、视频、机器人、研究和漏洞报告，以 $FLYAI 支付。参加比赛或申请开发，用钱包登录；每笔付款都附交易记录公开展示。",
+    "og_title": "fly.ai 赏金：赚取 $FLYAI",
+    "og_description": "表情包、视频、机器人、研究和漏洞报告，以 $FLYAI 支付。每笔付款链上可查。"
+  },
+  "head": {
+    "eyebrow": "赏金",
+    "title": "开发、创作、找漏洞。赚取 $FLYAI。",
+    "lede": "为 fly.ai 制作表情包、视频、机器人、研究和漏洞报告。用钱包登录，参赛或申请，我们从团队钱包向获胜者付款。每笔付款都会连同交易记录列在这里。"
+  },
+  "steps": {
+    "contest_tag": "比赛",
+    "contest_title": "人人可参加",
+    "contest_text": "在截止前提交作品。结束后我们挑选最佳作品并付款。",
+    "apply_tag": "申请",
+    "apply_title": "先申请，再开发",
+    "apply_text": "说明你的计划并展示过往作品。我们选出一位开发者，由其提交最终成果，审核通过后付款。",
+    "paid_tag": "已支付",
+    "paid_title": "链上公开",
+    "paid_text": "获胜者以 $FLYAI 收款，打到其登录所用的钱包。付款交易会列在该赏金下。"
+  },
+  "filter": {
+    "open": "进行中",
+    "all": "全部"
+  },
+  "cat": {
+    "content": "内容",
+    "dev": "开发",
+    "research": "研究",
+    "art": "美术",
+    "security": "安全",
+    "community": "社区"
+  },
+  "list": {
+    "loading": "正在加载赏金…",
+    "load_error": "无法加载赏金：{error}",
+    "none_open": "目前没有进行中的赏金。关注 @flydotai 获取下一批。",
+    "none": "这里还没有内容。"
+  },
+  "card": {
+    "kind_contest": "比赛",
+    "kind_apply": "申请",
+    "closed": "已截止",
+    "done": "已结束",
+    "winners": { "one": "{count} 名获胜者", "other": "{count} 名获胜者" },
+    "no_deadline": "无截止时间",
+    "closed_on": "{date} 截止",
+    "days_left": { "one": "剩 {count} 天", "other": "剩 {count} 天" },
+    "hours_left": "剩 {count} 小时",
+    "minutes_left": "剩 {count} 分钟",
+    "entered": "{count} 人参加",
+    "applied": "{count} 人申请",
+    "building": "由 @{handle} 开发中。",
+    "winners_title": "获胜者",
+    "work": "作品",
+    "payout_coming": "即将付款",
+    "tx": "交易 {hash}"
+  },
+  "form": {
+    "done": "此赏金已结束。",
+    "closed": "已停止提交。",
+    "sign_in": "登录后参加",
+    "picked": "你已被选中。请在下方提交最终成果。",
+    "handle": "你的 X 用户名",
+    "link_entry": "作品链接（你的 X 帖子、视频、代码仓库…）",
+    "link_apply": "过往作品链接（GitHub、作品集、X）",
+    "link_final": "最终成果链接",
+    "note": "备注（可选）",
+    "note_apply": "你的计划：做什么，何时完成",
+    "enter": "参加",
+    "apply": "申请",
+    "final": "提交",
+    "update": "更新",
+    "sent": "已提交。审核前可随时修改。"
+  },
+  "mine": {
+    "title": "我的提交",
+    "entry": "参赛作品",
+    "application": "申请",
+    "final": "最终成果",
+    "team": "团队："
+  },
+  "status": {
+    "pending": "等待审核",
+    "picked": "已选中：请提交最终成果",
+    "approved": "获胜：即将付款",
+    "rejected": "未入选",
+    "paid": "已支付"
+  },
+  "rules": {
+    "title": "规则",
+    "r1": "所有赏金中，每个钱包只能对应一个 X 账号。款项打到你登录所用的钱包。",
+    "r2": "只接受本人作品。禁止机器人、AI 生成的垃圾内容和多钱包刷奖。付款前我们会在链上核查获胜钱包，刷奖者将被封禁。",
+    "r3": "审核前你可以修改作品。作品在获胜前不公开。",
+    "r4": "获胜者由团队挑选。如果作品质量不够，获胜人数可能少于计划。",
+    "r5": "发现安全漏洞？请勿公开发布。先私信 <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">@flydotai</a>，再用私密链接参加安全赏金。"
+  },
+  "footer": {
+    "note": "赏金是团队推广活动，由团队酌情支付，并非 $FLYAI 附带的权利。"
+  }
+}

@@ -84,6 +84,10 @@
       "label": "에이전트용",
       "desc": "Claude가 파리처럼 말하게 하기"
     },
+    "bounties": {
+      "label": "바운티",
+      "desc": "밈, 봇, 연구로 $FLYAI 받기"
+    },
     "follow": {
       "label": "@flydotai 팔로우"
     },

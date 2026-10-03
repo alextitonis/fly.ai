@@ -1018,7 +1018,8 @@
       "trading": "Trading",
       "closing": "Fly sold: closing",
       "paused": "Paused by you",
-      "closeOnly": "Closing only"
+      "closeOnly": "Closing only",
+      "hold": "Needs {need} $FLYAI held by its owner: closing trades only"
     },
     "holder": "Holder",
     "value": "Value",
@@ -1303,7 +1304,7 @@
     "unsaved": "Unsaved changes",
     "minFund": "This setup trades every part from {min}.",
     "partsText": "This setup splits the money into {n} parts. A trade needs $5, so put in {min} or more.",
-    "minLow": "With {usd} in, the smallest part gets {part}: under the $5 a trade needs, so it sits idle. Add money (to {min}) or switch fewer options on.",
+    "minLow": "With {usd} in, the smallest part would get {part}, under the $5 a trade needs: the fly trades fewer parts for now. {min} or more lets every part trade.",
     "steps": {
       "title": "Set up this fly",
       "hold": "Hold {need} $FLYAI in your wallet",

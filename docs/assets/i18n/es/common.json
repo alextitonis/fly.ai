@@ -84,6 +84,10 @@
       "label": "Para agentes",
       "desc": "Haz que Claude hable como una mosca"
     },
+    "bounties": {
+      "label": "Recompensas",
+      "desc": "Cobra en $FLYAI por memes, bots, investigación"
+    },
     "follow": {
       "label": "Seguir a @flydotai"
     },

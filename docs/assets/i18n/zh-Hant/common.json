@@ -84,6 +84,10 @@
       "label": "給 AI 代理",
       "desc": "讓 Claude 像蒼蠅一樣說話"
     },
+    "bounties": {
+      "label": "賞金",
+      "desc": "做迷因圖、機器人、研究，賺 $FLYAI"
+    },
     "follow": {
       "label": "追蹤 @flydotai"
     },
