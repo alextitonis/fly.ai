@@ -176,6 +176,10 @@ export function translateNav(nav = document.querySelector('nav[aria-label="Main"
     const text = [...btn.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim());
     if (text && has(`common.nav.menu.${id}`)) text.textContent = `${t(`common.nav.menu.${id}`)} `;
   }
+  for (const h of nav.querySelectorAll(".mnav-h[data-menu]")) {      // the phone menu's group titles (nav.js)
+    const id = h.dataset.menu;
+    if (has(`common.nav.menu.${id}`)) h.textContent = t(`common.nav.menu.${id}`);
+  }
   for (const a of nav.querySelectorAll("ul a")) {
     if (a.closest(".acct")) continue;                 // the account menu carries its own words (nav.js ACCT_TEXT)
     const r = a.href.startsWith("https://x.com/") ? "follow"
@@ -241,6 +245,14 @@ export function mountNavPicker(nav = document.querySelector('nav[aria-label="Mai
   const follow = [...ul.children].find((c) => c.querySelector("a.btn"));
   if (follow) follow.before(li);
   else ul.append(li);
+  // phones: the bar has no room for it, so the ☰ panel carries its own (nav.js; the bar's one is hidden there in CSS)
+  const panel = nav.querySelector("#mnav");
+  if (panel && !panel.querySelector(".langpick")) {
+    const box = document.createElement("div");
+    box.className = "mnav-lang";
+    languagePicker(box);
+    panel.append(box);
+  }
 }
 
 /** Lets the page show itself again once translated (see boot.js, which hides a non-English page until then). */

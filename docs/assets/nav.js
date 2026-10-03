@@ -105,21 +105,41 @@
     };
 
     const ul = el("ul");
+    // phones (2026-10-03, the user: "the website view on mobile is awful"): the menus fold into one ☰ panel, so the
+    // bar is a single row - logo, search, bell, account, ☰ - instead of three
+    const panel = el("div", { class: "mnav", id: "mnav", hidden: "" });
     for (const item of NAV) {
-      if (!Array.isArray(item[2])) { ul.append(el("li", null, link(item))); continue; }
+      if (!Array.isArray(item[2])) { panel.append(el("ul", { class: "mnav-top" }, el("li", null, link([item[0], item[1]])))); continue; }
+      panel.append(el("p", { class: "mnav-h", "data-menu": item[0] }, item[1]),
+        el("ul", null, ...item[2].map(([label, href, , newTab]) => el("li", null, link([label, href, undefined, newTab])))));
+    }
+    for (const item of NAV) {
+      if (!Array.isArray(item[2])) { ul.append(el("li", { class: "main" }, link(item))); continue; }
       const [id, label, items, right] = item;
       const btn = el("button", { class: "ddbtn ddlabel", type: "button", "aria-expanded": "false", "aria-controls": `dd-${id}` },
         `${label} `, el("span", { "aria-hidden": "true" }, "▾"));
       const menu = el("ul", { class: right ? "ddmenu right" : "ddmenu", id: `dd-${id}` });
       for (const it of items) menu.append(el("li", null, link(it)));
       if (menu.querySelector("a.on")) btn.classList.add("on");
-      ul.append(el("li", { class: "dd" }, btn, menu));
+      ul.append(el("li", { class: "dd main" }, btn, menu));
     }
-    ul.append(searchBox(el), ...(session() ? [bell(el)] : []), account(el, fileHref));
+    const burger = el("button", { class: "burger-btn", type: "button", "aria-expanded": "false", "aria-controls": "mnav", "aria-label": "Menu" }, "☰");
+    ul.append(searchBox(el), ...(session() ? [bell(el)] : []), account(el, fileHref), el("li", { class: "burger" }, burger));
 
     const brand = el("a", { class: "brand", href: fileHref("/") },
       el("img", { class: "logo", src: root ? `${root}assets/logo-t.webp` : "/assets/logo-t.webp", alt: "fly.ai", width: "988", height: "439" }));
-    nav.replaceChildren(el("div", { class: "wrap" }, brand, ul));
+    nav.replaceChildren(el("div", { class: "wrap" }, brand, ul), panel);
+  }
+  {
+    const burger = nav.querySelector(".burger-btn"), panel = nav.querySelector("#mnav");
+    if (burger && panel) {
+      const set = (open) => { panel.hidden = !open; burger.setAttribute("aria-expanded", String(open)); burger.textContent = open ? "✕" : "☰";
+        document.documentElement.classList.toggle("mnav-open", open); };
+      burger.addEventListener("click", (e) => { e.stopPropagation(); set(panel.hidden); });
+      document.addEventListener("click", (e) => { if (!panel.hidden && !panel.contains(e.target)) set(false); });
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !panel.hidden) set(false); });
+      matchMedia("(min-width: 761px)").addEventListener("change", (m) => { if (m.matches) set(false); });
+    }
   }
 
   wireAccount(nav);

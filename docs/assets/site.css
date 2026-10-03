@@ -51,8 +51,7 @@
   }
   @media (max-width: 520px) {
     nav .wrap { gap: 6px 12px; }
-    nav ul { gap: 12px; font-size: 12px; width: 100%; justify-content: space-between; }
-    nav ul li:last-child { display: none; }   /* the Follow button: it is in the hero and footer too */
+    nav ul { gap: 12px; font-size: 12px; }
     .brand { font-size: 16px; }
   }
 
@@ -529,3 +528,66 @@ nav li.dd.shut:not(.open) .ddmenu { display: none !important; }
   .acct-sheet { align-items: flex-end; padding: 0; }
   .acct-panel { width: 100%; border-radius: 16px 16px 0 0; max-height: 85dvh; }
 }
+
+/* hidden means hidden, whatever display a class gives (2026-10-03: "Connect wallet" stayed on the homepage when signed in) */
+[hidden] { display: none !important; }
+/* the token block, moved up under the hero's buttons */
+.token-top { display: grid; justify-items: center; gap: 10px; margin: 26px auto 8px; padding: 18px 16px; max-width: 640px;
+  border: 1px solid var(--line); border-radius: 18px; background: rgba(94,242,204,.04); }
+.token-top .eyebrow, .token-top .ticker-line, .token-top .quiet, .token-top .cta { margin: 0; text-align: center; }
+.token-top .quiet { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; }
+.token-top .ca { margin: 0; max-width: 100%; }
+.token-top .ca code { overflow-wrap: anywhere; }
+
+/* the phone bar (2026-10-03): one row - logo, search, bell, account, ☰ - and the menus in a panel under it */
+nav li.burger, .mnav { display: none; }
+@media (max-width: 760px) {
+  nav .wrap { flex-wrap: nowrap !important; height: 56px !important; min-height: 0 !important; padding-block: 0 !important; gap: 10px !important; }
+  nav .wrap > ul { flex: 1; min-width: 0; flex-wrap: nowrap !important; justify-content: flex-end !important; gap: 6px !important; width: auto !important; }
+  nav li.main { display: none !important; }
+  nav li.burger { display: flex; }
+  .burger-btn { all: unset; cursor: pointer; width: 38px; height: 38px; display: grid; place-items: center; font-size: 20px;
+    border: 1px solid var(--line); border-radius: 12px; color: var(--text); }
+  .burger-btn:focus-visible { outline: 2px solid var(--mint); }
+  nav .acct-name { display: inline-block; max-width: 88px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: bottom; }
+  nav .acct-in { white-space: nowrap; }
+  nav .brand .logo { height: 22px; }
+  nav .ddmenu.right { position: fixed; top: 56px; left: 12px; right: 12px; min-width: 0; max-height: calc(100dvh - 72px); overflow-y: auto; }
+  .mnav:not([hidden]) { display: block; position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100dvh - 56px); overflow-y: auto;
+    background: #050505; border-bottom: 1px solid var(--line); padding: 8px 16px 20px; }
+  .mnav ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; }
+  .mnav ul.mnav-top { grid-template-columns: 1fr; }
+  .mnav a { display: block; padding: 10px 8px; border-radius: 10px; color: var(--text); text-decoration: none; font-size: 15px; }
+  .mnav a.on { background: rgba(94,242,204,.1); color: var(--mint); }
+  .mnav a:active { background: var(--line); }
+  .mnav-h { margin: 14px 8px 4px; font: 600 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+  html.mnav-open body { overflow: hidden; }
+}
+@media (max-width: 760px) {
+  nav li.langli { display: none !important; }
+  .mnav-lang { margin: 16px 8px 0; }
+}
+
+/* the homepage on a phone (2026-10-03, the user: "too much text clumped up"): the headline, the two buttons and the
+   token, then the apps as tiles - the long copy stays for wider screens */
+@media (max-width: 600px) {
+  .hero .hero-logo { display: none; }
+  .hero .raise { margin-top: 18px; font-size: 40px; }
+  .hero .tagline { font-size: 17px; }
+  .hero .sub { display: none; }
+  .hero .start-cta { margin-top: 18px; }
+  .hero .firstvisit { padding: 12px 36px 12px 12px; gap: 6px; display: flex; flex-wrap: wrap; justify-content: center; text-align: center; }
+  .hero .firstvisit b { width: 100%; font-size: 13px; }
+  .hero .firstvisit a { font-size: 13px; padding: 6px 10px; border: 1px solid rgba(94,242,204,.35); border-radius: 999px; }
+  .token-top { padding: 14px 12px; gap: 8px; margin-top: 18px; }
+  .token-top .ticker-line > span:not(.ticker) { display: none; }
+  .token-top .quiet { display: none; }
+  .token-top .ca { font-size: 11px; }
+  .app-card span { display: none; }
+  .app-card { padding: 12px; gap: 6px; }
+  .app-card b { font-size: 15px; }
+  .app-grid { gap: 8px; }
+  .apps-launch h2 { font-size: 22px; margin-bottom: 10px; }
+  .hero .spec { display: none; }
+}
+@media (max-width: 600px) { .hero .apps-launch { width: 100%; max-width: none; align-self: stretch; } .apps-launch h2 { text-align: left; } }

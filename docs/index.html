@@ -59,6 +59,25 @@
         <a href="/slots/" data-i18n="index.start.try3">Spin Fly Slots for free</a>
         <button type="button" class="fv-x" aria-label="Close" id="fv-x">×</button>
       </div>
+      <!-- the token up top (2026-10-03, the user: "put these on top of index too") -->
+      <div class="token-top">
+      <p class="eyebrow token-eyebrow" data-i18n="index.hero.eyebrow">Live on Pons &middot; Robinhood Chain</p>
+      <p class="ticker-line"><span class="ticker"><span>$</span>FLYAI</span>
+        <span data-i18n="index.hero.tagline">A real fruit fly's brain. Every neuron. Open source.</span></p>
+      <!-- site.js puts "Buy $FLYAI on Pons" (primary) and "View on explorer" here -->
+      <div class="cta buylinks"></div>
+      <p class="quiet">
+        <a href="/simulation/" data-i18n="index.hero.a2">Open the simulation</a>
+        <a href="#demo" data-i18n="index.hero.a3">Watch it fight</a>
+        <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://x.com/flydotai" target="_blank" rel="noopener" data-i18n="index.hero.a1">Follow @flydotai on X</a>
+      </p>
+      <div class="ca" id="ca-box">
+        <span class="label" data-i18n="index.hero.label">CA</span>
+        <code id="ca">Not deployed yet</code>
+        <button class="btn sm" id="ca-copy" type="button" disabled data-i18n="common.words.copy">Copy</button>
+      </div>
+      </div>
       <div class="apps-launch" id="apps">
     <div class="continue" id="continue" hidden>
       <a class="btn sm" href="/traderflies/traders?view=mine" data-i18n="index.apps.mine">My flies</a>
@@ -93,22 +112,6 @@
         <em class="tag-wallet" data-i18n="index.apps.tag.wallet">Wallet</em></a>
     </div>
   </div>
-      <p class="eyebrow token-eyebrow" data-i18n="index.hero.eyebrow">Live on Pons &middot; Robinhood Chain</p>
-      <p class="ticker-line"><span class="ticker"><span>$</span>FLYAI</span>
-        <span data-i18n="index.hero.tagline">A real fruit fly's brain. Every neuron. Open source.</span></p>
-      <!-- site.js puts "Buy $FLYAI on Pons" (primary) and "View on explorer" here -->
-      <div class="cta buylinks"></div>
-      <p class="quiet">
-        <a href="/simulation/" data-i18n="index.hero.a2">Open the simulation</a>
-        <a href="#demo" data-i18n="index.hero.a3">Watch it fight</a>
-        <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://x.com/flydotai" target="_blank" rel="noopener" data-i18n="index.hero.a1">Follow @flydotai on X</a>
-      </p>
-      <div class="ca" id="ca-box">
-        <span class="label" data-i18n="index.hero.label">CA</span>
-        <code id="ca">Not deployed yet</code>
-        <button class="btn sm" id="ca-copy" type="button" disabled data-i18n="common.words.copy">Copy</button>
-      </div>
     </div>
 
     <div class="spec" aria-label="Specimen card" data-i18n-attr="aria-label:index.hero.arialabel">
@@ -307,7 +310,7 @@
 </footer>
 
 <script src="assets/site.js"></script>
-<script src="assets/nav.js?v=20261003b"></script>
+<script src="assets/nav.js?v=20261003c"></script>
 <script type="module" src="assets/i18n/page.js"></script>
 <script type="module">
   // "Welcome back" and the Continue row for a signed-in visitor; "Connect wallet" signs in with the site's one session
