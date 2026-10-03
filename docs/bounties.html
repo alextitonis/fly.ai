@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bounties &mdash; build, make and break things for $FLYAI</title>
+<meta name="description" content="fly.ai bounties: memes, videos, bots, research and bug reports, paid in $FLYAI. Enter contests or apply to build, sign in with your wallet, every payout shown with its transaction.">
+<meta property="og:title" content="fly.ai bounties: get paid in $FLYAI">
+<meta property="og:description" content="Memes, videos, bots, research and bug reports, paid in $FLYAI. Every payout shown on-chain.">
+<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/bounties">
+<meta property="og:url" content="https://flyaiworld.com/bounties">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/dashboard.png">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .bsteps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 8px; }
+  .bsteps .card { padding: 20px; }
+  .bsteps h3 { margin: 0 0 6px; font-size: 17px; }
+  .bfilters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+  .bfilters button { font: 500 13px var(--mono); padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line);
+                     background: transparent; color: var(--muted); cursor: pointer; }
+  .bfilters button.on { border-color: var(--mint); color: var(--mint); }
+  .blist { display: grid; gap: 14px; }
+  .bounty { padding: 20px 22px; }
+  .bounty > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 18px; }
+  .bounty > summary::-webkit-details-marker { display: none; }
+  .bounty h3 { margin: 6px 0 4px; font-size: 19px; }
+  .bounty .sum { color: var(--muted); margin: 0; }
+  .bounty .rew { text-align: right; font: 600 17px var(--display, inherit); color: var(--mint); white-space: nowrap; }
+  .bounty .rew small { display: block; font: 400 12px var(--mono); color: var(--dim); margin-top: 4px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .04em; padding: 3px 9px; border-radius: 999px;
+         border: 1px solid var(--line); color: var(--muted); }
+  .tag.mint { border-color: var(--mint); color: var(--mint); }
+  .tag.dim { color: var(--dim); }
+  .bbody { margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--line); display: grid; gap: 18px; }
+  .details { white-space: pre-wrap; color: var(--muted); margin: 0; overflow-wrap: anywhere; }
+  .details a, .winners a, .mine a { color: var(--mint); }
+  .winners { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 14px; color: var(--muted); }
+  .bform { display: grid; gap: 10px; max-width: 560px; }
+  .bform label { font-size: 13px; color: var(--muted); display: grid; gap: 5px; }
+  .bform input, .bform textarea, .bform select { font: 14px var(--sans, inherit); color: var(--text); background: var(--bg-2);
+                     border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; width: 100%; box-sizing: border-box; }
+  .bform textarea { min-height: 90px; resize: vertical; }
+  .bform .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .msg { font-size: 13px; color: var(--muted); min-height: 1em; }
+  .msg.err { color: var(--red, #ff6b6b); }
+  .mine { display: grid; gap: 8px; }
+  .mine .card { padding: 14px 18px; font-size: 14px; color: var(--muted); }
+  .rules { color: var(--muted); padding-left: 20px; margin: 0; display: grid; gap: 6px; }
+  /* admin */
+  #admin { display: none; }
+  #admin.show { display: block; }
+  .adm-entry { display: grid; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+  .adm-entry .acts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .adm-entry input { font: 13px var(--mono); color: var(--text); background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; min-width: 0; }
+  .adm-entry .flag { color: var(--red, #ff6b6b); }
+  .adm-b { padding: 16px 20px; margin-bottom: 12px; }
+  .adm-b > summary { cursor: pointer; }
+  @media (max-width: 760px) {
+    .bsteps { grid-template-columns: 1fr; }
+    .bounty > summary { grid-template-columns: 1fr; }
+    .bounty .rew { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow">Bounties</p>
+    <h1>Build it, make it, break it. Get paid in $FLYAI.</h1>
+    <p class="lede">Memes, videos, bots, research and bug reports for fly.ai. Sign in with your wallet, enter or apply, and we pay
+      the winners from the team wallet. Every payout is listed here with its transaction.</p>
+  </div>
+</header>
+
+<section style="padding-top: 20px;">
+  <div class="wrap">
+    <div class="bsteps">
+      <div class="card"><span class="tag mint">Contest</span><h3>Anyone can enter</h3><p>Send your work before the deadline. When it ends we pick the best entries and pay them.</p></div>
+      <div class="card"><span class="tag mint">Apply</span><h3>Apply, then build</h3><p>Pitch your plan and show past work. We pick one builder, they hand in the final work, and we pay when it's approved.</p></div>
+      <div class="card"><span class="tag mint">Paid</span><h3>On-chain, in the open</h3><p>Winners are paid in $FLYAI to the wallet they signed in with. The payment transaction is listed on the bounty.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top: 30px;">
+  <div class="wrap">
+    <div class="bfilters" id="filters"></div>
+    <div class="blist" id="list"><p class="msg">Loading bounties…</p></div>
+  </div>
+</section>
+
+<section id="mine-sec" hidden>
+  <div class="wrap">
+    <h2>Your entries</h2>
+    <div class="mine" id="mine"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Rules</h2>
+    <ul class="rules">
+      <li>One X account per wallet, on every bounty. You're paid to the wallet you signed in with.</li>
+      <li>Your own work only. No bots, no AI-written spam, no farming with many wallets. We check winners' wallets on-chain before paying, and farmers are blocked.</li>
+      <li>You can edit your entry until we review it. Entries stay private until they win.</li>
+      <li>The team picks the winners. A bounty can end with fewer winners than planned if the entries aren't good enough.</li>
+      <li>Found a security bug? Don't post it publicly. Send a DM to <a href="https://x.com/flydotai" target="_blank" rel="noopener">@flydotai</a> first, then enter the security bounty with a private link.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="admin">
+  <div class="wrap">
+    <h2>Admin</h2>
+    <div class="card" style="padding: 22px; margin-bottom: 18px;">
+      <form class="bform" id="aform">
+        <label>Start from an idea <select id="idea"><option value="">—</option></select></label>
+        <input type="hidden" name="id">
+        <label>Title <input name="title" maxlength="120" required></label>
+        <div class="row">
+          <label>Kind <select name="kind"><option value="contest">Contest</option><option value="apply">Apply, then build</option></select></label>
+          <label>Category <select name="category"><option>content</option><option>dev</option><option>research</option><option>art</option><option>security</option><option>community</option></select></label>
+          <label>Status <select name="status"><option>draft</option><option>open</option><option>closed</option><option>done</option></select></label>
+        </div>
+        <div class="row">
+          <label>Reward (as shown) <input name="reward" maxlength="80" placeholder="250,000 $FLYAI" required></label>
+          <label>Winners <input name="winners" type="number" min="1" max="100" value="1"></label>
+          <label>Deadline (your time) <input name="deadline" type="datetime-local"></label>
+        </div>
+        <label>Summary (one line) <input name="summary" maxlength="300" required></label>
+        <label>Details: what to make, how it's judged, what to hand in <textarea name="details" maxlength="8000" style="min-height: 160px;"></textarea></label>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;"><button class="btn red" type="submit">Save bounty</button><button class="btn" type="reset" id="areset">New</button></div>
+        <p class="msg" id="amsg"></p>
+      </form>
+    </div>
+    <div id="abounties"></div>
+    <div class="card" style="padding: 20px; margin-top: 18px;">
+      <form class="bform" id="bform">
+        <label>Block or unblock a wallet or X handle <input name="value" placeholder="0x… or @handle" required></label>
+        <label>Reason <input name="reason" maxlength="200"></label>
+        <div style="display: flex; gap: 8px;"><button class="btn" type="submit">Block</button><button class="btn" type="button" id="unblock">Unblock</button></div>
+        <p class="msg" id="bmsg"></p>
+      </form>
+      <p class="msg" id="blocked"></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="/token">$FLYAI</a>
+    </div>
+    <p>Bounties are a team promotion paid at the team's discretion, not a right attached to $FLYAI.</p>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261003e"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script type="module">
+const API = "https://flyai-mine.fly.dev";
+const SESSION_KEY = "flyai.compute.session";
+const ACCOUNT_JS = "/compute/mine/web/account.js";
+const CAT = { content: "Content", dev: "Dev", research: "Research", art: "Art", security: "Security", community: "Community" };
+const STATUS = { pending: "Waiting for review", picked: "Picked: hand in your final work", approved: "Won: payout coming", rejected: "Not picked", paid: "Paid" };
+
+// templates for the admin form (bounty ideas, 2026-10-03)
+const IDEAS = [
+  { title: "Fly meme of the week", kind: "contest", category: "content", winners: 3, reward: "50,000 $FLYAI each",
+    summary: "Make the best meme about fly.ai, Flybook or Trader Flies.",
+    details: "Post it on X, tag @flydotai and enter the post's link here.\n\nJudged on: creativity first, then how funny it is and how well it does. Plain info posts and AI-made filler score low.\nOne entry per person." },
+  { title: "60-second explainer: a real fly brain trades crypto", kind: "contest", category: "content", winners: 2, reward: "250,000 $FLYAI",
+    summary: "A short video showing how Trader Flies work, for people who've never heard of us.",
+    details: "60-90 s, vertical or horizontal, on X, YouTube or TikTok. Show a real fly's wallet and trades (traderflies/traders).\n\nJudged on: clarity, editing, reach." },
+  { title: "My fly's life story", kind: "contest", category: "content", winners: 3, reward: "75,000 $FLYAI",
+    summary: "A thread telling the story of your Flybook fly or Trader Fly: friends, enemies, trades, matings.",
+    details: "Use real posts, duels, relationships and trades (screenshots welcome). The more dramatic and true, the better." },
+  { title: "Best clip from the fly games", kind: "contest", category: "content", winners: 3, reward: "40,000 $FLYAI",
+    summary: "Your best Fly Race, Colosseum, Roulette or Slots moment as a short clip.",
+    details: "Record it, post it on X with @flydotai, enter the link." },
+  { title: "Telegram / Discord bot for fly events", kind: "apply", category: "dev", winners: 1, reward: "500,000 $FLYAI",
+    summary: "A bot that posts fly market moves, Colosseum results, new matings and big trades to a chat.",
+    details: "Apply with: your plan, which events you'll post, and links to bots you've built.\n\nFinal: open-source repo + a running bot in our community chat. Data from the public APIs only." },
+  { title: "flybrain examples and notebooks", kind: "apply", category: "dev", winners: 1, reward: "300,000 $FLYAI",
+    summary: "Five clear notebooks for the flybrain pip package: \"make your fly react to X\".",
+    details: "pip install flybrain. Each notebook runs on a laptop CPU in under 5 min and explains what the neurons do.\n\nFinal: a PR to the repo." },
+  { title: "Independent fairness checker for Roulette and Slots", kind: "apply", category: "dev", winners: 1, reward: "300,000 $FLYAI",
+    summary: "A small tool anyone can run to check a game's provably fair seeds.",
+    details: "Takes a game id or seeds and recomputes the result from the published commit and reveal.\n\nFinal: open-source repo + a web page." },
+  { title: "Beat FLYBRAIN on sshfighter", kind: "contest", category: "dev", winners: 1, reward: "200,000 $FLYAI",
+    summary: "Build a bot that beats our connectome fighter on sshfighter.com.",
+    details: "Any method. Enter a link to the match replays and your code (can be private until judged)." },
+  { title: "Find a new sense the fly brain can read", kind: "apply", category: "research", winners: 1, reward: "up to 1,000,000 $FLYAI",
+    summary: "Show a sensory input whose effect can be read from the descending neurons, beyond threat, mate, wind, taste and touch.",
+    details: "Pre-register what you'll test and how you'll call it a pass, then run it on the public flybrain package.\n\nFinal: notebook + short write-up. Negative results with a clean method also count." },
+  { title: "Translate the site into a new language", kind: "apply", category: "community", winners: 1, reward: "150,000 $FLYAI",
+    summary: "Add a language we don't have yet (we have English, 简体, 繁體, 한국어, Türkçe, Español).",
+    details: "Native speakers only. Translate docs/assets/i18n/en/*.json.\n\nFinal: a PR." },
+  { title: "Fly skins and 3D models", kind: "contest", category: "art", winners: 3, reward: "100,000 $FLYAI",
+    summary: "Make fly skins or low-poly 3D models for the Simulation world.",
+    details: "glb/fbx under 2 MB, a CC0 or CC-BY license. Enter a link to the files and a render." },
+  { title: "Merch design", kind: "contest", category: "art", winners: 2, reward: "100,000 $FLYAI + the shirt",
+    summary: "Design a fly shirt or hoodie for shop.flyaiworld.com.",
+    details: "Print-ready PNG, 4500x5400. Winning designs go on sale in the store." },
+  { title: "Security bug bounty", kind: "contest", category: "security", winners: 100, reward: "$50 / $250 / $1,000+ in $FLYAI",
+    summary: "Report bugs in our contracts, games, wallets or desk. Paid by severity.",
+    details: "Low $50, medium $250, high/critical $1,000+ (paid in $FLYAI).\n\nDM @flydotai FIRST, don't post it publicly. Then enter here with a private link (gist or doc) to the report. No testing that spends other people's money, and no denial-of-service attacks." },
+];
+
+const $ = (id) => document.getElementById(id);
+const el = (tag, attrs, ...kids) => {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "on") for (const [ev, fn] of Object.entries(v)) e.addEventListener(ev, fn);
+    else if (v !== undefined && v !== null && v !== false) e.setAttribute(k, v === true ? "" : v);
+  }
+  e.append(...kids.flat().filter((k) => k !== null && k !== undefined && k !== false));
+  return e;
+};
+const session = () => {
+  try { const s = JSON.parse(localStorage.getItem(SESSION_KEY) || "null"); return s && s.expires_at > Date.now() && s.token ? s : null; } catch { return null; }
+};
+async function call(path, body) {
+  const s = session();
+  const r = await fetch(API + path, { method: body === undefined ? "GET" : "POST", body: body === undefined ? undefined : JSON.stringify(body),
+    headers: { "content-type": "application/json", ...(s ? { "x-flyai-session": s.token } : {}) } });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+  return j;
+}
+async function signIn() {
+  try { const acct = await import(ACCOUNT_JS); if (await acct.signIn()) location.reload(); } catch (e) { alert(String(e.message || e)); }
+}
+/** text with https links made clickable, nothing else interpreted */
+function linkify(s) {
+  const out = [];
+  let last = 0;
+  for (const m of s.matchAll(/https:\/\/[^\s<>"')]+/g)) {
+    out.push(s.slice(last, m.index), el("a", { href: m[0], target: "_blank", rel: "noopener nofollow" }, m[0]));
+    last = m.index + m[0].length;
+  }
+  out.push(s.slice(last));
+  return out;
+}
+function left(ms) {
+  if (!ms) return "No deadline";
+  const d = ms - Date.now();
+  if (d <= 0) return "Closed " + new Date(ms).toLocaleDateString();
+  const h = Math.floor(d / 3.6e6);
+  return h >= 48 ? `${Math.floor(h / 24)} days left` : h >= 1 ? `${h} h left` : `${Math.max(1, Math.floor(d / 6e4))} min left`;
+}
+
+let board = { bounties: [], explorer: "" }, me = null, filter = "open";
+const txLink = (h) => el("a", { href: `${board.explorer}/tx/${h}`, target: "_blank", rel: "noopener" }, `tx ${h.slice(0, 10)}…`);
+
+function renderFilters() {
+  const cats = [...new Set(board.bounties.map((b) => b.category))];
+  const opts = [["open", "Open"], ["all", "All"], ...cats.map((c) => [c, CAT[c] || c])];
+  $("filters").replaceChildren(...opts.map(([k, label]) =>
+    el("button", { type: "button", class: filter === k ? "on" : "", on: { click: () => { filter = k; renderFilters(); renderList(); } } }, label)));
+}
+
+function entryForm(b) {
+  const s = session();
+  const final = b.kind === "apply" && me && me.entries.some((e) => e.bounty_id === b.id && e.stage === "apply" && e.status === "picked");
+  const closed = b.status !== "open" || (b.deadline_ms && b.deadline_ms < Date.now()) || (b.kind === "apply" && b.assignee);
+  if (!final && closed) return el("p", { class: "msg" }, b.status === "done" ? "This bounty is done." : "Entries are closed.");
+  if (!s) return el("div", null, el("button", { class: "btn red", type: "button", on: { click: signIn } }, "Sign in to enter"));
+  const stage = final ? "final" : b.kind === "apply" ? "apply" : "entry";
+  const had = me?.entries.find((e) => e.bounty_id === b.id && e.stage === stage);
+  const handle = had?.x_handle || me?.entries[0]?.x_handle || "";
+  const msg = el("p", { class: "msg" });
+  const f = el("form", { class: "bform" },
+    el("label", null, "Your X handle", el("input", { name: "x_handle", placeholder: "@you", value: handle ? "@" + handle : "", required: true, maxlength: "16" })),
+    el("label", null, stage === "apply" ? "Link to your past work (GitHub, portfolio, X)" : stage === "final" ? "Link to the final work" : "Link to your entry (your X post, video, repo...)",
+      el("input", { name: "link", type: "url", placeholder: "https://", value: had?.link || "", required: true })),
+    el("label", null, stage === "apply" ? "Your plan: what you'll build and by when" : "Note (optional)",
+      el("textarea", { name: "note", maxlength: "2000", required: stage === "apply" }, had?.note || "")),
+    el("div", null, el("button", { class: "btn red", type: "submit" }, had ? "Update" : stage === "apply" ? "Apply" : stage === "final" ? "Hand in" : "Enter")),
+    msg);
+  f.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const d = Object.fromEntries(new FormData(f));
+    msg.className = "msg"; msg.textContent = "…";
+    try {
+      await call("/api/bounties/enter", { bounty: b.id, ...d });
+      msg.textContent = "Sent. You can edit it until we review it.";
+      await loadMine();
+    } catch (e) { msg.className = "msg err"; msg.textContent = e.message; }
+  });
+  return el("div", null, final ? el("p", { class: "msg" }, "You were picked for this one. Hand in the final work below.") : null, f);
+}
+
+function renderList() {
+  const list = board.bounties.filter((b) => filter === "all" || (filter === "open" ? b.status === "open" : b.category === filter));
+  if (!list.length) {
+    $("list").replaceChildren(el("p", { class: "msg" }, filter === "open" ? "No open bounties right now. Follow @flydotai for the next ones." : "Nothing here yet."));
+    return;
+  }
+  const open = new URLSearchParams(location.hash.slice(1)).get("b");
+  $("list").replaceChildren(...list.map((b) => {
+    const winners = b.winners_list.filter((w) => w.status !== "picked");
+    const picked = b.winners_list.find((w) => w.status === "picked");
+    return el("details", { class: "card bounty", id: `b${b.id}`, open: String(b.id) === open },
+      el("summary", null,
+        el("div", null,
+          el("div", { class: "tags" },
+            el("span", { class: "tag mint" }, b.kind === "apply" ? "Apply" : "Contest"),
+            el("span", { class: "tag" }, CAT[b.category] || b.category),
+            b.status !== "open" ? el("span", { class: "tag dim" }, b.status) : null),
+          el("h3", null, b.title),
+          el("p", { class: "sum" }, b.summary)),
+        el("div", { class: "rew" }, b.reward,
+          el("small", null, `${b.winners > 1 && b.winners < 100 ? b.winners + " winners · " : ""}${left(b.deadline_ms)} · ${b.entries} ${b.kind === "apply" ? "applied" : "entered"}`))),
+      el("div", { class: "bbody" },
+        b.details ? el("p", { class: "details" }, ...linkify(b.details)) : null,
+        picked ? el("p", { class: "msg" }, `Being built by @${picked.x_handle}.`) : null,
+        winners.length ? el("div", null, el("h4", { style: "margin: 0 0 8px" }, "Winners"),
+          el("ul", { class: "winners" }, ...winners.map((w) => el("li", null,
+            el("a", { href: `https://x.com/${w.x_handle}`, target: "_blank", rel: "noopener" }, `@${w.x_handle}`), " ",
+            w.link ? el("a", { href: w.link, target: "_blank", rel: "noopener nofollow" }, "work") : null,
+            w.reward ? ` · ${w.reward}` : "", w.tx_hash ? [" · ", txLink(w.tx_hash)] : w.status === "approved" ? " · payout coming" : "")))) : null,
+        entryForm(b)));
+  }));
+  if (open) document.getElementById(`b${open}`)?.scrollIntoView({ block: "start" });
+}
+
+function renderMine() {
+  if (!me || !me.entries.length) { $("mine-sec").hidden = true; return; }
+  $("mine-sec").hidden = false;
+  const title = (id) => board.bounties.find((b) => b.id === id)?.title || `Bounty #${id}`;
+  $("mine").replaceChildren(...me.entries.map((e) => el("div", { class: "card" },
+    el("b", { style: "color: var(--text)" }, title(e.bounty_id)), ` · ${e.stage === "apply" ? "application" : e.stage === "final" ? "final work" : "entry"} · `,
+    STATUS[e.status] || e.status, e.reward ? ` · ${e.reward}` : "", e.tx_hash ? [" · ", txLink(e.tx_hash)] : "",
+    e.review_note ? el("div", { style: "margin-top: 6px" }, "Team: ", e.review_note) : null)));
+}
+
+async function loadBoard() {
+  try { board = await call("/api/bounties"); } catch (e) { $("list").replaceChildren(el("p", { class: "msg err" }, `Couldn't load the bounties: ${e.message}`)); return; }
+  renderFilters(); renderList();
+}
+async function loadMine() {
+  if (!session()) return;
+  try { me = await call("/api/bounties/mine"); } catch { me = null; }
+  renderMine(); renderList();
+  if (me?.admin) loadAdmin();
+}
+
+// ---- admin --------------------------------------------------------------------------------------------------------
+let adm = null;
+const af = $("aform");
+$("idea").append(...IDEAS.map((x, i) => el("option", { value: String(i) }, `${CAT[x.category]}: ${x.title}`)));
+$("idea").addEventListener("change", () => { const x = IDEAS[Number($("idea").value)]; if (x) fill({ ...x, id: "", status: "draft", deadline_ms: null }); });
+const pad = (n) => String(n).padStart(2, "0");
+const localInput = (ms) => { if (!ms) return ""; const d = new Date(ms); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+function fill(b) {
+  for (const k of ["id", "title", "kind", "category", "status", "reward", "winners", "summary", "details"]) af.elements[k].value = b[k] ?? "";
+  af.elements.deadline.value = localInput(b.deadline_ms);
+  af.scrollIntoView({ block: "start" });
+}
+$("areset").addEventListener("click", () => { $("idea").value = ""; setTimeout(() => { af.elements.id.value = ""; }, 0); });
+af.addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const d = Object.fromEntries(new FormData(af));
+  const body = { ...d, id: d.id ? Number(d.id) : undefined, winners: Number(d.winners || 1), deadline_ms: d.deadline ? new Date(d.deadline).getTime() : null };
+  delete body.deadline;
+  $("amsg").className = "msg"; $("amsg").textContent = "…";
+  try {
+    const saved = await call("/api/admin/bounties", body);
+    af.elements.id.value = saved.id;
+    $("amsg").textContent = `Saved #${saved.id} (${saved.status}).${saved.status === "draft" ? " Set the status to open to publish it." : ""}`;
+    await Promise.all([loadAdmin(), loadBoard()]);
+  } catch (e) { $("amsg").className = "msg err"; $("amsg").textContent = e.message; }
+});
+async function review(id, body, msg) {
+  msg.textContent = "…";
+  try { await call("/api/admin/bounties/entry", { id, ...body }); await Promise.all([loadAdmin(), loadBoard()]); }
+  catch (e) { msg.className = "msg err"; msg.textContent = e.message; }
+}
+async function loadAdmin() {
+  try { adm = await call("/api/admin/bounties"); } catch (e) { return; }
+  $("admin").classList.add("show");
+  const handles = new Map();          // a handle seen with several wallets can't happen (server), but wallets with many entries are flagged
+  $("abounties").replaceChildren(...adm.bounties.map((b) => {
+    const entries = adm.entries.filter((e) => e.bounty_id === b.id);
+    const pending = entries.filter((e) => e.status === "pending").length;
+    return el("details", { class: "card adm-b" },
+      el("summary", null, `#${b.id} ${b.title} · ${b.status} · ${b.kind} · ${entries.length} entries${pending ? ` (${pending} to review)` : ""}`),
+      el("div", { style: "margin: 10px 0; display: flex; gap: 8px; flex-wrap: wrap;" },
+        el("button", { class: "btn sm", type: "button", on: { click: () => fill(b) } }, "Edit"),
+        el("a", { class: "btn sm", href: `#b=${b.id}`, on: { click: () => setTimeout(() => location.reload(), 0) } }, "Public link")),
+      ...entries.map((e) => {
+        const msg = el("span", { class: "msg" });
+        const reward = el("input", { placeholder: "reward", value: e.reward || "", size: "14" });
+        const tx = el("input", { placeholder: "payout tx 0x…", value: e.tx_hash || "", size: "22" });
+        const note = el("input", { placeholder: "note to them", value: e.review_note || "", size: "18" });
+        const btn = (label, status) => el("button", { class: "btn sm", type: "button", on: { click: () => review(e.id, { status, reward: reward.value, review_note: note.value }, msg) } }, label);
+        return el("div", { class: "adm-entry" },
+          el("div", null, el("b", { style: "color: var(--text)" }, `${e.stage} · ${e.status}`), " · ",
+            el("a", { href: `https://x.com/${e.x_handle}`, target: "_blank", rel: "noopener" }, `@${e.x_handle}`), " · ",
+            el("code", null, e.wallet), e.wallet_entries > 3 ? el("span", { class: "flag" }, ` · ${e.wallet_entries} entries from this wallet`) : null),
+          el("div", null, el("a", { href: e.link, target: "_blank", rel: "noopener nofollow" }, e.link)),
+          e.note ? el("div", { class: "details" }, e.note) : null,
+          el("div", { class: "acts" }, reward, note,
+            e.stage === "apply" ? btn("Pick", "picked") : btn("Approve", "approved"), btn("Reject", "rejected"), btn("Pending", "pending"),
+            tx, el("button", { class: "btn sm", type: "button", on: { click: () => review(e.id, { tx_hash: tx.value, reward: reward.value }, msg) } }, "Mark paid"),
+            msg));
+      }));
+  }));
+  $("blocked").textContent = `Blocked: ${adm.blocked.map((x) => x.value).join(", ") || "none"}`;
+}
+async function block(unblock) {
+  const f = $("bform");
+  $("bmsg").className = "msg"; $("bmsg").textContent = "…";
+  try { const r = await call("/api/admin/bounties/block", { value: f.elements.value.value, reason: f.elements.reason.value, unblock }); $("bmsg").textContent = `${r.value} ${r.blocked ? "blocked" : "unblocked"}`; loadAdmin(); }
+  catch (e) { $("bmsg").className = "msg err"; $("bmsg").textContent = e.message; }
+}
+$("bform").addEventListener("submit", (ev) => { ev.preventDefault(); block(false); });
+$("unblock").addEventListener("click", () => block(true));
+
+await loadBoard();
+await loadMine();
+</script>
+</body>
+</html>
