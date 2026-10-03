@@ -182,6 +182,10 @@ try {
   check("funded flies listed (the Breed page won't merge them)", JSON.stringify((await api("/api/vaults/funded", null)).json.flies) === "[3]");
   check("only the holder withdraws", (await api(`/api/vaults/${W3}/withdraw`, a, { bps: 5000 })).status === 403);
   check("bps 1..10000", (await api(`/api/vaults/${W3}/withdraw`, b, { bps: 0 })).status === 400);
+  await PG.pg.run("update mine.vault_ledger set closing = true where wallet = ?", W3);
+  const sold = await api(`/api/vaults/${W3}/withdraw`, b, { bps: 5000 });
+  check("no withdrawal while a sold fly is paid out (it could take the new owner's money)", sold.status === 409, JSON.stringify(sold.json));
+  await PG.pg.run("update mine.vault_ledger set closing = false where wallet = ?", W3);
   const w = await api(`/api/vaults/${W3}/withdraw`, b, { bps: 5000 });
   check("a withdrawal request for the desk", w.status === 200 && w.json.status === "new", JSON.stringify(w.json));
   check("one at a time", (await api(`/api/vaults/${W3}/withdraw`, b, { bps: 5000 })).status === 409);
@@ -213,6 +217,9 @@ try {
   check("only the fly's owner", (await api("/api/vaults/fly/4/pass", b, { pass: 9 })).status === 403);
   const reg = await api("/api/vaults/fly/4/pass", a, { pass: 9 });
   check("alice registers it: send the pass to 0x...dEaD", reg.status === 200 && reg.json.send_to === DEAD && reg.json.wallet === W4, JSON.stringify(reg.json));
+  const again = await api("/api/vaults/fly/4/pass", a, { pass: 9 });
+  check("a registration never burnt (cancelled in the wallet) can be made again", again.status === 200, JSON.stringify(again.json));
+  check("and stays one row", (await PG.pg.all("select 1 from mine.vault_grants where fly_id = 4")).length === 1);
   await sleep(2500);
   check("nothing paid before the pass is burnt", sent.length === 0);
   pass9Owner = DEAD;

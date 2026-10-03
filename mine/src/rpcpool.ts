@@ -20,7 +20,11 @@ const limited = (body: any): boolean => {
 };
 
 /** POST one JSON-RPC payload; the parsed body from the first RPC that answers properly. */
-const FIRST: Record<string, string> = { "https://rpc.mainnet.chain.robinhood.com": "https://burned-empty-flower.robinhood-mainnet.quiknode.pro/c9f48ae36c3802678cd394c5c52021000a8076b0/" };
+// QuickNode first for Robinhood Chain; its URL holds its key, so it comes from the env (fly secrets set QUICKNODE_RPC=...),
+// never the code (review 2026-10-03). Unset: the public RPCs only. Errors name the RPC's host, never the URL.
+const QUICKNODE = (process.env.QUICKNODE_RPC ?? "").trim();
+const FIRST: Record<string, string> = QUICKNODE ? { "https://rpc.mainnet.chain.robinhood.com": QUICKNODE } : {};
+const host = (u: string) => { try { return new URL(u).host; } catch { return "rpc"; } };
 
 export async function postRpc(url: string, payload: unknown, timeoutMs = 10_000): Promise<any> {
   const key = url.replace(/\/$/, "");
@@ -34,9 +38,9 @@ export async function postRpc(url: string, payload: unknown, timeoutMs = 10_000)
         body: JSON.stringify(payload),
         signal: AbortSignal.timeout(timeoutMs),
       });
-      if (res.status === 429 || res.status >= 500 || res.status === 401 || res.status === 403) throw new Error(`HTTP ${res.status} from ${u}`);
+      if (res.status === 429 || res.status >= 500 || res.status === 401 || res.status === 403) throw new Error(`HTTP ${res.status} from ${host(u)}`);
       const body = await res.json();
-      if (limited(body)) throw new Error(`rate limited by ${u}`);
+      if (limited(body)) throw new Error(`rate limited by ${host(u)}`);
       return body;
     } catch (err) {
       last = err;

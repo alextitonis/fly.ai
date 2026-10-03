@@ -153,6 +153,9 @@ export function createVaults(d: VaultsDeps) {
     if (!Number.isInteger(bps) || bps < 1 || bps > 10_000) throw new HttpError(400, "bps is 1..10000");
     const led = await ledgerOf(wallet, chain);
     if (!led?.holder || led.holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can withdraw");
+    // a sold fly is paid out to its old holder by itself (the desk's release); a withdrawal meanwhile could take the new
+    // owner's deposits (review 2026-10-03)
+    if (led.closing) throw new HttpError(409, "this fly was sold: its money is on its way to you");
     const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = ? and kind = 'withdraw'
       and status in ('new', 'doing')`, wallet, chain);
     if (open) throw new HttpError(409, "a withdrawal is already on its way");
@@ -202,9 +205,13 @@ export function createVaults(d: VaultsDeps) {
     const wallet = await walletOf(fly);
     if (!wallet) throw new HttpError(409, "this fly's wallet is still being made");
     if ((await ownerOfFly(fly))?.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the fly's owner");
-    if (await pg.one("select 1 from mine.vault_grants where fly_id = ?", fly)) throw new HttpError(409, "this fly already took a FlightPass");
+    // a registration whose burn never happened (the wallet prompt cancelled, a failed send) is replaced, not a dead end:
+    // left 'pending', the fly showed "on its way" forever and a retry got 409 (review 2026-10-03)
+    if (await pg.one("select 1 from mine.vault_grants where fly_id = ? and status <> 'pending'", fly)) throw new HttpError(409, "this fly already took a FlightPass");
     const passOwner = addr(await call(CFG.flightPass, `${selector("ownerOf(uint256)")}${word(pass)}`));
     if (passOwner.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "that pass isn't yours");
+    // only 'pending' rows go, and only while the pass is still its holder's (checked above): a burnt pass is past them
+    await pg.run("delete from mine.vault_grants where status = 'pending' and (fly_id = ? or pass_id = ?)", fly, pass);
     await pg.run(`insert into mine.vault_grants (pass_id, fly_id, holder, vault, burn_tx, status, created_at_ms)
       values (?, ?, ?, ?, '', 'pending', ?) on conflict (pass_id) do nothing`, pass, fly, me, wallet, Date.now());
     return { pass, fly, wallet, send_to: DEAD };
