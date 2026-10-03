@@ -1355,7 +1355,11 @@
     "sample": "Un posible #{id}:",
     "mutation": "algo nuevo",
     "illustration": "Una ilustración con las probabilidades reales. Un cruce real se decide con el hash de un bloque posterior.",
-    "cantRead": "No se pudieron cargar dos moscas ahora."
+    "cantRead": "No se pudieron cargar dos moscas ahora.",
+    "roll100": "Tirar 100 veces",
+    "tallyTitle": "{n} fusiones de estas dos:",
+    "tallyTraits": "Rasgos: {a}% de #{idA}, {b}% de #{idB}, {fresh}% mutaciones nuevas.",
+    "tallyNote": "Cada tirada es aleatoria: vuelve a tirar y los números se mueven un poco alrededor de las probabilidades reales."
   },
   "trait": {
     "Pose": "Pose",
@@ -1363,5 +1367,19 @@
     "Background": "Fondo",
     "Gear": "Equipo",
     "Extra": "Extra"
+  },
+  "breedHow": {
+    "title": "Cómo funciona la cría",
+    "text": "La cría fusiona dos de tus Trader Flies en una mosca más fuerte. Es la única forma de que lleguen rasgos nuevos y moscas más raras a la colección después del mint.",
+    "s1title": "Elige dos moscas",
+    "s1": "Las dos deben ser tuyas. Una se convierte en la cría y conserva su número; la otra se quema.",
+    "s2title": "Paga la tarifa",
+    "s2": "De $0,50 a $5 en $FLYAI, según el progenitor más raro. El 80% se quema para siempre.",
+    "s3title": "Incuba 2 horas",
+    "s3": "Los rasgos se sortean con un bloque posterior a la fusión, así que nadie puede elegir el resultado.",
+    "s4title": "Eclosiona",
+    "s4": "Cada rasgo viene de un progenitor o muta en algo nuevo; la rareza es la del progenitor más bajo, con un 5% de subir un nivel.",
+    "why": "Menos moscas, más raras: cada fusión saca una mosca del suministro para siempre y además quema $FLYAI.",
+    "fold": "Cómo funciona la cría · prueba las probabilidades"
   }
 }

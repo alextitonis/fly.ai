@@ -1355,7 +1355,11 @@
     "sample": "Olası bir #{id}:",
     "mutation": "yeni bir şey",
     "illustration": "Gerçek olasılıklarla bir örnek. Gerçek birleşme sonraki bir bloğun hash'iyle belirlenir.",
-    "cantRead": "Şu an iki sinek yüklenemedi."
+    "cantRead": "Şu an iki sinek yüklenemedi.",
+    "roll100": "100 kez at",
+    "tallyTitle": "Bu ikisinin {n} birleşmesi:",
+    "tallyTraits": "Özellikler: %{a} #{idA}'dan, %{b} #{idB}'den, %{fresh} yeni mutasyon.",
+    "tallyNote": "Her atış rastgele: tekrar at, sayılar gerçek olasılıkların etrafında biraz oynar."
   },
   "trait": {
     "Pose": "Poz",
@@ -1363,5 +1367,19 @@
     "Background": "Arka plan",
     "Gear": "Ekipman",
     "Extra": "Ekstra"
+  },
+  "breedHow": {
+    "title": "Üreme nasıl çalışır",
+    "text": "Üreme, iki Trader Fly'ını tek ve daha güçlü bir sineğe birleştirir. Mint'ten sonra koleksiyona yeni özelliklerin ve daha nadir sineklerin gelmesinin tek yolu budur.",
+    "s1title": "İki sinek seç",
+    "s1": "İkisi de senin olmalı. Biri yavru olur ve numarasını korur; diğeri yakılır.",
+    "s2title": "Ücreti öde",
+    "s2": "Daha nadir ebeveyne göre $FLYAI olarak $0,50 ile $5 arası. %80'i kalıcı olarak yakılır.",
+    "s3title": "2 saat kuluçka",
+    "s3": "Yavrunun özellikleri birleştirmeden sonraki bir bloktan çekilir, kimse sonucu seçemez.",
+    "s4title": "Yumurtadan çık",
+    "s4": "Her özellik bir ebeveynden gelir ya da yeni bir şeye mutasyona uğrar; nadirlik düşük ebeveyninkidir, %5 ihtimalle bir kademe yukarı.",
+    "why": "Daha az sinek, daha nadir sinekler: her birleştirme arzdan bir sineği kalıcı olarak çıkarır ve üstüne $FLYAI yakar.",
+    "fold": "Üreme nasıl çalışır · olasılıkları dene"
   }
 }

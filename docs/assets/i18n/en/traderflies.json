@@ -1355,7 +1355,11 @@
     "sample": "A possible #{id}:",
     "mutation": "something new",
     "illustration": "An illustration with the real odds. A real merge rolls from a later block's hash, so nobody can pick the outcome.",
-    "cantRead": "Couldn't load two flies just now."
+    "cantRead": "Couldn't load two flies just now.",
+    "roll100": "Roll 100 times",
+    "tallyTitle": "{n} merges of these two:",
+    "tallyTraits": "Traits: {a}% from #{idA}, {b}% from #{idB}, {fresh}% new mutations.",
+    "tallyNote": "Every roll is random: roll again and the numbers move a little around the real odds."
   },
   "trait": {
     "Pose": "Pose",
@@ -1363,5 +1367,19 @@
     "Background": "Background",
     "Gear": "Gear",
     "Extra": "Extra"
+  },
+  "breedHow": {
+    "title": "How breeding works",
+    "text": "Breeding merges two of your Trader Flies into one stronger fly. It's the only way new traits and rarer flies come into the collection after the mint.",
+    "s1title": "Pick two flies",
+    "s1": "Both must be yours. One becomes the child and keeps its number; the other is burned.",
+    "s2title": "Pay the fee",
+    "s2": "$0.50 to $5 in $FLYAI, set by the rarer parent. 80% of it is burned for good.",
+    "s3title": "Incubate 2 hours",
+    "s3": "The child's traits are rolled from a block that comes after you merge, so nobody can pick the result.",
+    "s4title": "Hatch",
+    "s4": "Each trait comes from one parent or mutates into something new; rarity is the lower parent's, with a 5% shot at one tier up.",
+    "why": "Fewer flies, rarer flies: every merge takes one fly out of the supply for good, and burns $FLYAI on top.",
+    "fold": "How breeding works · try the odds"
   }
 }
