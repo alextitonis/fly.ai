@@ -17,7 +17,7 @@
     "none": "Bu cüzdanda Trader Fly yok.",
     "count": "Bu cüzdanda: {n}. Cüzdanı, ayarları ve işlemleri için bir sinek aç.",
     "wallet": "Cüzdan",
-    "empty": "Cüzdan boş - yatırmak için aç"
+    "empty": "Cüzdan boş - yatırmak için aç", "funded": "Cüzdan dolu - işlemleri için aç"
   },
   "nav": {
     "traders": "Traders",

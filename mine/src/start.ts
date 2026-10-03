@@ -23,10 +23,14 @@ const PORT = Number(process.env.PORT ?? "8080");
 const MINING_PORT = PORT + 1, USER_PORT = PORT + 2, RESEARCH_PORT = PORT + 3;
 let stopping = false, running = 0;
 
-/** The user side: everything a player's page calls, and its admin endpoints. */
+/**
+ * The user side: everything a player's page calls, and its admin endpoints. Fly Wallets (/api/vaults) since
+ * 2026-10-03: left on the mining side, every Traders card and fly page waited 2-5 s behind its stalls (the arena,
+ * on this side, answered in 0.2 s); their timer already ran here.
+ */
 /** The research summaries: worked out for 45 s at a time, in a process of their own. */
 const RESEARCH_PATHS = /^\/api\/experiments$/;
-const USER_PATHS = /^\/api\/(flightpass|roulette|slots|race|arena|session|admin\/flightpass|admin\/roulette|admin\/slots|admin\/race|admin\/arena)(\/|$)|^\/api\/balance\/(deposit|withdraw-request)$/;
+const USER_PATHS = /^\/api\/(flightpass|roulette|slots|race|arena|session|vaults|admin\/vaults|admin\/flightpass|admin\/roulette|admin\/slots|admin\/race|admin\/arena)(\/|$)|^\/api\/balance\/(deposit|withdraw-request)$/;
 /**
  * Pages and read-only views anyone can open, served by the user side too (2026-09-29: "the hashing power rankings
  * page takes a long time to load and often freezes" - /api/month and even /api/stake-config took 4-12 s behind the

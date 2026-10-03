@@ -17,7 +17,7 @@
     "none": "Esta wallet no tiene Trader Flies.",
     "count": "En esta wallet: {n}. Abre una mosca para ver su wallet, ajustes y operaciones.",
     "wallet": "Wallet",
-    "empty": "Wallet vacía: ábrela para fondearla"
+    "empty": "Wallet vacía: ábrela para fondearla", "funded": "Wallet con fondos: ábrela para ver sus trades"
   },
   "nav": {
     "traders": "Traders",

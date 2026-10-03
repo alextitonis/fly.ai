@@ -1,7 +1,9 @@
 /**
  * Pruning on a real server: finished screen jobs older than PRUNE_AFTER_HOURS are summed into screen_sums and
  * deleted, and nothing anyone sees changes: /api/results reports the same rates, every miner keeps its credit, the
- * job totals in /api/stats hold, and canaries, paid jobs and recent jobs stay.
+ * job totals in /api/stats hold, and canaries, paid jobs and recent jobs stay. A mining order's jobs older than
+ * RETAIN_DAYS are emptied in place (their order_tasks rows keep pointing at them: deleting them failed on that foreign
+ * key and rolled every run back, 2026-10-03), but not a recent one or one a paid order shares.
  *
  *   npm run test:prune
  */
@@ -36,7 +38,7 @@ let server: ReturnType<typeof spawn> | null = null;
 const PG = await startPg(5536);
 async function start(): Promise<void> {
   server = spawn(process.execPath, ["--disable-warning=ExperimentalWarning", fileURLToPath(new URL("./server.ts", import.meta.url))], {
-    env: { ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, BLOBS_DIR: BLOBS, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "60", PRUNE_AFTER_HOURS: "1" },
+    env: { ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, BLOBS_DIR: BLOBS, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0", AUDITS: "0", OPEN_TARGET: "60", PRUNE_AFTER_HOURS: "1", RETAIN_DAYS: "0.04" },
     stdio: ["ignore", "ignore", "inherit"],
   });
   for (let i = 0; ; i++) {
@@ -103,6 +105,13 @@ try {
   const canaryResult = (rw.prepare("select result from assignments where task = ?").get(canary) as { result: string }).result;
   rw.prepare("update tasks set truth = ?, checked_at = ? where id = ?").run(canaryResult, Date.now(), canary);
   rw.prepare("insert into order_tasks (order_id, task, state) values ('test-order', ?, 2)").run(paid);
+  // a finished mining order: six old jobs, one old job a paid order shares, one recent job (program jobs, as in production)
+  const mineOld = done.slice(2, 8), shared = done[8];
+  rw.prepare(`insert into orders (id, wallet, spec, jobs, bid_wei, budget_wei, tag, max_parallel, status, created_at, expires_at, house, label)
+    values ('mining-order', '0x0000000000000000000000000000000000000001', '{}', 8, '0', '0', 1, 1, 'done', 0, 0, 1, 'mining/test')`).run();
+  for (const id of [...mineOld, shared, recent[0]]) rw.prepare("insert into order_tasks (order_id, task, state) values ('mining-order', ?, 2)").run(id);
+  rw.prepare("insert into order_tasks (order_id, task, state) values ('test-order', ?, 2)").run(shared);
+  rw.prepare(`update tasks set kind = 'wasm' where id in (${[...mineOld, shared].join(",")})`).run();
   const creditBefore = JSON.stringify(rw.prepare("select * from day_credit order by day, miner").all());
   rw.close();
   await start();
@@ -116,15 +125,30 @@ try {
     if (i > 60) throw new Error("nothing was pruned");
     await sleep(1000);
   }
+  for (let i = 0; ; i++) {
+    const r = new DatabaseSync(DB, { readOnly: true });
+    const emptied = (r.prepare("select count(*) as n from tasks where params like 'pruned:%'").get() as { n: number }).n;
+    r.close();
+    if (emptied) break;
+    if (i > 60) throw new Error("no mining job was emptied");
+    await sleep(1000);
+  }
   await sleep(1000);
   const ro = new DatabaseSync(DB, { readOnly: true });
   const left = new Set((ro.prepare("select id from tasks where state = 'done'").all() as { id: number }[]).map((r) => r.id));
   const pruned = (ro.prepare("select n from counters where name = 'pruned_tasks'").get() as { n: number }).n;
-  check("old finished jobs are pruned", pruned === done.length - 5, `${pruned} of ${done.length}`);
+  check("old finished jobs are pruned", pruned === done.length - 12, `${pruned} of ${done.length}`);
   check("their assignments go with them", !(ro.prepare(`select 1 from assignments where task not in (select id from tasks)`).get()));
   check("recent jobs stay", recent.every((id) => left.has(id)));
   check("the canary stays", left.has(canary));
   check("the paid job stays", left.has(paid));
+  const params = (id: number) => (ro.prepare("select params from tasks where id = ?").get(id) as { params: string } | undefined)?.params;
+  const answers = (id: number) => (ro.prepare("select count(*) as n from assignments where task = ?").get(id) as { n: number }).n;
+  check("old mining jobs are emptied in place", mineOld.every((id) => params(id) === `pruned:${id}` && answers(id) === 0),
+    mineOld.map((id) => `${params(id)?.slice(0, 12)}/${answers(id)}`).join(" "));
+  check("their order_tasks rows stay", (ro.prepare("select count(*) as n from order_tasks where order_id = 'mining-order'").get() as { n: number }).n === 8);
+  check("a job a paid order shares stays whole", !params(shared)!.startsWith("pruned:") && answers(shared) > 0);
+  check("a recent mining job stays whole", !params(recent[0])!.startsWith("pruned:") && answers(recent[0]) > 0);
   check("no miner loses credit", JSON.stringify(ro.prepare("select * from day_credit order by day, miner").all()) === creditBefore);
   ro.close();
 

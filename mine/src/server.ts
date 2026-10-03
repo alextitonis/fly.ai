@@ -2933,36 +2933,45 @@ async function pruneOld(): Promise<void> {
       retainFloor = from + RETAIN_BATCH;
       await new Promise((resolve) => setTimeout(resolve, Math.max(5, 2 * (Date.now() - batchStart))));
     }
-    // the mining orders' old jobs, order by order
-    const mining = db.prepare("select id from orders where house = 1 and label like 'mining/%'").all() as { id: string }[];
-    const oldJobs = db.prepare(`select ot.task as id, t.params from order_tasks ot join tasks t on t.id = ot.task
-      where ot.order_id = ? and ot.state != 1
-        and not exists (select 1 from assignments a where a.task = ot.task and (a.status = 'issued' or coalesce(a.submitted_at, a.issued_at) >= ?))
-      limit ?`);
+    // the mining orders' old jobs. 2026-10-03: deleting the job itself broke on its order_tasks row (a foreign key), so
+    // every run since 10-01 rolled back and deleted nothing while /data filled up. The job row now stays, emptied: its
+    // params become "pruned:<id>" (still unique, and the old params are free for a new job, as a delete left them) and
+    // its answers and files go. order_tasks walks forward by rowid (= time) from a floor kept in counters, and stops at
+    // the first stretch with a mining job still out or answered within RETAIN_DAYS.
+    const mining = new Set((db.prepare("select id from orders where house = 1 and label like 'mining/%'").all() as { id: string }[]).map((o) => o.id));
+    const otTop = one<{ n: number | null }>("select max(rowid) as n from order_tasks").n ?? 0;
+    const inRange = db.prepare(`select ot.order_id, ot.task as id, ot.state, t.params,
+        exists (select 1 from assignments a where a.task = ot.task and (a.status = 'issued' or coalesce(a.submitted_at, a.issued_at) >= ?)) as recent,
+        exists (select 1 from order_tasks o2 where o2.task = ot.task and o2.order_id != ot.order_id) as shared
+      from order_tasks ot join tasks t on t.id = ot.task where ot.rowid >= ? and ot.rowid < ?`);
     const resultsOf = db.prepare("select result from assignments where task = ? and result is not null");
     const unkeep = db.prepare("update blobs set keep = 0 where hash = ?");
     const dropAnswers = db.prepare("delete from assignments where task = ?");
-    const dropTask = db.prepare("delete from tasks where id = ?");
-    for (const { id } of mining) {
-      for (;;) {
-        const batchStart = Date.now();
-        const rows = oldJobs.all(id, cutoff, 250) as { id: number; params: string }[];
-        if (!rows.length) break;
-        transaction(() => {
-          for (const row of rows) {
-            const hashes = new Set<string>();
-            try { const p = JSON.parse(row.params); if (typeof p.input === "string") hashes.add(p.input); } catch { /* not JSON */ }
-            for (const { result } of resultsOf.all(row.id) as { result: string }[]) {
-              try { const r = JSON.parse(result); if (typeof r.output === "string") hashes.add(r.output); } catch { /* not JSON */ }
-            }
-            for (const h of hashes) unkeep.run(h);
-            dropAnswers.run(row.id);
-            dropTask.run(row.id);
+    const emptyTask = db.prepare("update tasks set params = 'pruned:' || id, truth = null where id = ?");
+    const setFloor = db.prepare("insert into counters (name, n) values ('retain_order_tasks_floor', ?) on conflict (name) do update set n = excluded.n");
+    for (let from = counter("retain_order_tasks_floor"); mining.size && from <= otTop; from += 500) {
+      const batchStart = Date.now();
+      const rows = (inRange.all(cutoff, from, from + 500) as { order_id: string; id: number; state: number; params: string; recent: number; shared: number }[])
+        .filter((r) => mining.has(r.order_id));
+      const old = rows.filter((r) => r.state !== 1 && !r.recent && !r.shared && !r.params.startsWith("pruned:"));
+      const reachedNow = rows.some((r) => r.state === 1 || r.recent);
+      transaction(() => {
+        for (const row of old) {
+          const hashes = new Set<string>();
+          try { const p = JSON.parse(row.params); if (typeof p.input === "string") hashes.add(p.input); } catch { /* not JSON */ }
+          for (const { result } of resultsOf.all(row.id) as { result: string }[]) {
+            try { const r = JSON.parse(result); if (typeof r.output === "string") hashes.add(r.output); } catch { /* not JSON */ }
           }
-        });
-        miningJobs += rows.length;
-        await new Promise((resolve) => setTimeout(resolve, Math.max(5, 2 * (Date.now() - batchStart))));
-      }
+          for (const h of hashes) unkeep.run(h);
+          dropAnswers.run(row.id);
+          emptyTask.run(row.id);
+        }
+        // a stretch still in use is walked again next time (its old jobs are already empty, so that is cheap)
+        if (!reachedNow) setFloor.run(from + 500);
+      });
+      miningJobs += old.length;
+      if (reachedNow) break;
+      await new Promise((resolve) => setTimeout(resolve, Math.max(5, 2 * (Date.now() - batchStart))));
     }
     if (answers || miningJobs) console.log(`retention: ${answers} old answers to known jobs and ${miningJobs} old mining jobs deleted in ${Math.round((Date.now() - started) / 1000)} s`);
   } catch (err) {

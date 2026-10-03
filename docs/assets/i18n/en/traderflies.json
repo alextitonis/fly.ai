@@ -17,7 +17,7 @@
     "none": "This wallet holds no Trader Flies.",
     "count": "In this wallet: {n}. Open a fly for its wallet, settings and trades.",
     "wallet": "Wallet",
-    "empty": "Wallet empty - open to fund it"
+    "empty": "Wallet empty - open to fund it", "funded": "Wallet funded - open for its trades"
   },
   "nav": {
     "traders": "Traders",
