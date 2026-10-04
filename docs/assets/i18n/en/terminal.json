@@ -124,7 +124,13 @@
     "split": "trading {trading} · in pool {pool}",
     "trading": "all of it in the flies' books",
     "updated": "updated {ago} ago",
-    "days": "{d}d {hms}"
+    "days": "{d}d {hms}",
+    "build": {
+      "chip": "BUILDING",
+      "title": "UNDER CONSTRUCTION",
+      "line": "The flies are building the Fly Desk.",
+      "sub": "One desk. Real trades. Holders paid every Sunday."
+    }
   },
   "foot": {
     "mine": "MINE",
@@ -133,5 +139,21 @@
     "bar": "LAST BAR",
     "down": "DOWN",
     "src": "read-only · every number from the Fly Wallets and the Fly Desk"
+  },
+  "why": {
+    "brain": "the brain's call",
+    "target": "hit its target",
+    "stop": "stop loss",
+    "time": "held long enough",
+    "flat": "going nowhere",
+    "pool_drain": "pool drained: got out",
+    "fly_sold": "the fly was sold",
+    "funding": "funding the parts",
+    "house_buy": "house buy",
+    "fast_take_profit": "quick take-profit",
+    "fast_stop": "quick stop",
+    "master_take_profit": "take-profit",
+    "week_end_cash_out": "weekend cash-out",
+    "colony": "colony"
   }
 }

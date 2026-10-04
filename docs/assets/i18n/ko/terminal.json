@@ -124,7 +124,13 @@
     "split": "거래 중 {trading} · 풀 {pool}",
     "trading": "전부 파리들의 장부에서 거래 중",
     "updated": "{ago} 전 업데이트",
-    "days": "{d}일 {hms}"
+    "days": "{d}일 {hms}",
+    "build": {
+      "chip": "건설 중",
+      "title": "공사 중",
+      "line": "파리들이 Fly Desk를 짓고 있어요.",
+      "sub": "하나의 데스크. 실제 거래. 매주 일요일 홀더 지급."
+    }
   },
   "foot": {
     "mine": "MINE",
@@ -133,5 +139,21 @@
     "bar": "마지막 바",
     "down": "중단",
     "src": "읽기 전용 · 모든 숫자는 Fly Wallets와 Fly Desk에서 옵니다"
+  },
+  "why": {
+    "brain": "뇌의 판단",
+    "target": "목표 도달",
+    "stop": "손절",
+    "time": "보유 기간 종료",
+    "flat": "횡보",
+    "pool_drain": "풀 유출: 탈출",
+    "fly_sold": "파리 판매됨",
+    "funding": "파트 자금 배분",
+    "house_buy": "하우스 매수",
+    "fast_take_profit": "빠른 익절",
+    "fast_stop": "빠른 손절",
+    "master_take_profit": "익절",
+    "week_end_cash_out": "주말 현금화",
+    "colony": "콜로니"
   }
 }

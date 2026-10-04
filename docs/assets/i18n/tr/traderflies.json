@@ -19,7 +19,8 @@
     "wallet": "Cüzdan",
     "empty": "Cüzdan boş - yatırmak için aç",
     "funded": "Cüzdan dolu - işlemleri için aç",
-    "tab": "Sineklerim"
+    "tab": "Sineklerim",
+    "copyPick": "{fly} sineğini hangi sineğinin kopyalayacağını seç."
   },
   "nav": {
     "traders": "Traders",
@@ -84,23 +85,20 @@
   },
   "buyFlyai": "$FLYAI al →",
   "why": {
-    "MintClosed": "Mint şu an açık değil.",
-    "NotAllowlisted": "Bu cüzdan listede değil.",
-    "SoldOut": "O kadar sinek kalmadı.",
-    "WalletLimit": "Bu, bir cüzdanın mint edebileceğinden fazla.",
-    "AlreadyRevealed": "Mint bitti.",
-    "NotHolder": "O sinek sende değil.",
-    "PriceStale": "$FLYAI ile ödeme kısa bir süre duraklatıldı (fiyat güncelleniyor). Birazdan tekrar dene ya da USDG ile öde.",
-    "TooMuchFlyai": "$FLYAI fiyatı az önce değişti. Yeni tutarı kontrol edip tekrar dene.",
-    "ERC20InsufficientBalance": "Bu cüzdanda yeterli bakiye yok.",
-    "NoProvenance": "Mint henüz başlamadı.",
-    "NotEnoughFlyai": "Bu cüzdanda ücretsiz mint için yeterli $FLYAI yok.",
-    "AlreadyClaimed": "Bu cüzdan ücretsiz sineğini zaten aldı.",
-    "NotInStock": "O sinek az önce satıldı.",
-    "cancelled": "Cüzdanda iptal edildi.",
-    "noGas": "Bu cüzdanda ağ ücretini ödeyecek kadar ETH yok.",
-    "failedOnChain": "İşlem zincirde başarısız oldu.",
-    "cantRead": "Mint şu an okunamıyor. {reason}"
+    "brain": "beynin kararı",
+    "target": "hedefe ulaştı",
+    "stop": "zarar durdur",
+    "time": "süre doldu",
+    "flat": "yerinde sayıyor",
+    "pool_drain": "havuz boşaldı: çıktı",
+    "fly_sold": "sinek satıldı",
+    "funding": "parçaları fonluyor",
+    "house_buy": "kasa alımı",
+    "fast_take_profit": "hızlı kâr al",
+    "fast_stop": "hızlı stop",
+    "master_take_profit": "kâr al",
+    "week_end_cash_out": "hafta sonu nakde çevirme",
+    "colony": "koloni"
   },
   "tx": {
     "waiting": "{label}: blok bekleniyor…",
@@ -1323,7 +1321,10 @@
       "pick": "Nasıl işlem yapacağını seç (aşağıda tek dokunuş)",
       "fund": "Yükle: {min} veya fazlası",
       "go": "Her 5 dakikada kendi başına işlem yapar"
-    }
+    },
+    "maxDrop": "Maks. düşüş 7g",
+    "bestWorst": "en iyi {best} · en kötü {worst}",
+    "copyReady": "Track o sineğin cüzdanıyla açık: payı kontrol et ve kopyalamaya başlamak için Kaydet'e bas."
   },
   "profile": {
     "title": "Profilin",
@@ -1356,7 +1357,8 @@
     "holding": "tutuyor",
     "movedUp": "24 saatte {n} yükseldi",
     "movedDown": "24 saatte {n} düştü",
-    "holdingNote": "\"tutuyor\" = sinek henüz hiçbir şey satmadı. Yeni bir cüzdan başta küçük bir eksi gösterir: her alım havuz ücreti ve gas öder, bu yüzden açık pozisyonlar maliyetlerinin biraz altında başlar. Yükselince ya da satılınca döner."
+    "holdingNote": "\"tutuyor\" = sinek henüz hiçbir şey satmadı. Yeni bir cüzdan başta küçük bir eksi gösterir: her alım havuz ücreti ve gas öder, bu yüzden açık pozisyonlar maliyetlerinin biraz altında başlar. Yükselince ya da satılınca döner.",
+    "maxDrop": "Maks. düşüş"
   },
   "utility": {
     "title": "Bir Trader Fly ne yapar",
@@ -1454,5 +1456,13 @@
     "attachHint": "Görsel indirildi: gönderiye ekle.",
     "post": "{name} kendi gerçek sinek beyniyle işlem yaparak {profit} {pct} ({span}) kârda 🪰🧠",
     "postTrade": "{name} az önce {what} işlemini {pct} ile kapattı 🪰🧠"
+  },
+  "follow": {
+    "on": "Takip ediliyor",
+    "off": "Takip et",
+    "hint": "İşlemlerini 🔔 ve bildirim olarak al",
+    "unfollowHint": "Takibi bırak",
+    "copy": "Bu sineği kopyala",
+    "copyHint": "Kendi sineğin bu sineğin işlemlerini kopyalar (Track)"
   }
 }

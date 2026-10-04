@@ -37,6 +37,15 @@ const ago = (t) => { const s = Math.max(0, Date.now() / 1000 - t); return s < 90
 /** "#168 took profit on FLYAI" in the page's language (fly and symbol come in as text or HTML) */
 const said = (side, fly, sym) => t(`terminal.stream.${["buy", "sell", "take_profit", "panic_sell", "stop"].includes(side) ? side : "sell"}`, { fly, sym });
 const isSell = (s) => s !== "buy";
+/** why it traded (2026-10-04: the desk publishes the reason it wrote - "target", "stop", an option's "RSI 27 then a
+ *  bounce"); a brain trade with none is the brain's own call. Known words are translated, the rest shown as written. */
+const whyOf = (tr) => {
+  const w = String(tr.why ?? "").trim();
+  if (!w) return tr.tag === "brain" ? t("terminal.why.brain") : "";
+  const k = w.startsWith("funding") ? "funding" : w.startsWith("colony") ? "colony" : w.replace(/[^a-z]+/gi, "_").toLowerCase();
+  const v = t(`terminal.why.${k}`);
+  return v === `terminal.why.${k}` ? w : v;
+};
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const state = {
@@ -178,7 +187,7 @@ function fire(tr) {
   lightPart(p.key); lightPart("exec");
   core.pulse(p.key, isSell(tr.side) && (tr.pnl_pct ?? 0) < 0 ? "#ff5a52" : p.c, Math.min(1, 0.35 + (tr.usd ?? 1) / 40));
   beat.spike(Math.min(1, 0.3 + (tr.usd ?? 1) / 30), isSell(tr.side) && (tr.pnl_pct ?? 0) < 0);
-  $("core-sub").textContent = `${p.name} · ${said(tr.side, `#${tr.fly}`, tr.label ?? tr.symbol)}`;
+  $("core-sub").textContent = `${p.name} · ${said(tr.side, `#${tr.fly}`, tr.label ?? tr.symbol)}${whyOf(tr) ? ` · ${whyOf(tr)}` : ""}`;
 }
 
 function lightPart(key) {
@@ -206,7 +215,8 @@ function log(tr, fresh) {
   if (state.watch === tr.fly) li.classList.add("watch");
   li.dataset.fly = tr.fly;
   li.innerHTML = `<span class="tm-tag" style="--c:${p.c}">${p.name}</span>`
-    + `<span>${said(tr.side, `<a href="/traderflies/fly?id=${tr.fly}" class="dim">#${tr.fly}</a>`, `<b>${esc(tr.label ?? tr.symbol)}</b>`)}${res}</span>`
+    + `<span title="${esc(whyOf(tr))}">${said(tr.side, `<a href="/traderflies/fly?id=${tr.fly}" class="dim">#${tr.fly}</a>`, `<b>${esc(tr.label ?? tr.symbol)}</b>`)}${res}`
+    + `${whyOf(tr) ? ` <small class="dim">· ${esc(whyOf(tr))}</small>` : ""}</span>`
     + `<span class="dim">${usd(tr.usd)}</span>`;
   push(li);
 }
@@ -277,7 +287,7 @@ function drawTape() {
     const flash = f != null ? ` new ${sell ? "sell" : "buy"}" style="animation-delay:${-Math.round(now - f)}ms` : "";
     const res = x.pnl_pct != null && sell ? `<span class="${x.pnl_pct >= 0 ? "up" : "down"}">${pct(x.pnl_pct)}</span>` : "";
     const tx = x.tx ? `<a href="${EXPLORER}/tx/${esc(x.tx.split(",")[0])}" target="_blank" rel="noreferrer">${esc(x.tx.slice(0, 6))}…↗</a>` : "";
-    return `<tr class="${state.watch === x.fly ? "watch" : ""}${flash}"><td class="dim">${hhmmss(x.at)}</td><td>#${x.fly}</td>`
+    return `<tr class="${state.watch === x.fly ? "watch" : ""}${flash}" title="${esc(whyOf(x))}"><td class="dim">${hhmmss(x.at)}</td><td>#${x.fly}</td>`
       + `<td class="${sell ? "down" : "up"}">${t(sell ? "terminal.tape.sell" : "terminal.tape.buy")}</td><td><b>${esc(x.label ?? x.symbol)}</b></td>`
       + `<td>${usd(x.usd)}</td><td>${res}</td><td><span class="tm-tag" style="--c:${p.c}">${p.name}</span></td><td>${tx}</td></tr>`;
   }).join("");
@@ -631,8 +641,13 @@ async function pollDesk() {
 }
 function drawDesk(b) {
   const mode = ["paper", "shadow", "live"].includes(String(b.mode).toLowerCase()) ? String(b.mode).toLowerCase() : "paper", chip = $("dk-mode");
-  chip.textContent = t(`terminal.desk.mode.${mode}`); chip.dataset.mode = mode;
+  // paper: the desk is not trading for real yet - the workshop teaser, no numbers at all
+  const building = mode === "paper";
+  chip.textContent = building ? t("terminal.desk.build.chip") : t(`terminal.desk.mode.${mode}`);
+  chip.dataset.mode = building ? "build" : mode;
   $("f-mode").textContent = chip.textContent;
+  $("dk-build").hidden = !building; $("dk-live").hidden = building; $("dk-meta").hidden = building;
+  if (building) return;
   // live: the pool wallet's money with what the desk trades, then the split; paper today: what it trades
   const pooled = b.pool && b.total_usd != null;
   tween("dk-total", pooled ? b.total_usd : b.pot_usd, (x) => usd(x));
@@ -649,6 +664,37 @@ function drawDesk(b) {
     ? c.points.map(([, vals]) => vals.reduce((s, v, i) => s + (String(c.books[i]).startsWith("fly") && v != null ? v : 0), 0)) : [];
   drawDeskSpark();
 }
+/** the workshop (paper): three cogwheels turning against each other, flies at work around them */
+function gear(cx, cy, r, teeth, cls) {
+  const pts = [], n = teeth * 4;
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * Math.PI * 2, rr = i % 4 < 2 ? r : r - 7;
+    pts.push(`${(cx + rr * Math.cos(a)).toFixed(1)},${(cy + rr * Math.sin(a)).toFixed(1)}`);
+  }
+  return `<g class="cog ${cls}" style="transform-origin:${cx}px ${cy}px"><polygon points="${pts.join(" ")}"/>` +
+    `<circle cx="${cx}" cy="${cy}" r="${(r * 0.55).toFixed(1)}" class="hole"/><circle cx="${cx}" cy="${cy}" r="3.2" class="hub"/></g>`;
+}
+const FLY = `<g class="fly" transform="scale(1.4)"><ellipse class="wing l" cx="-3" cy="-4" rx="5" ry="3"/><ellipse class="wing r" cx="3" cy="-4" rx="5" ry="3"/>` +
+  `<ellipse class="body" cx="0" cy="0" rx="3.4" ry="5"/><circle class="head" cx="0" cy="-5.6" r="2.4"/>` +
+  `<circle class="eye" cx="-1" cy="-6" r=".8"/><circle class="eye" cx="1" cy="-6" r=".8"/></g>`;
+(function buildWorks() {
+  const svg = $("dk-works");
+  if (!svg) return;
+  const tiny = Array.from({ length: 20 }, (_, i) => {
+    const a = (i / 20) * Math.PI * 2, rr = i % 4 < 2 ? 5 : 3.4;
+    return `${(rr * Math.cos(a)).toFixed(1)},${(9 + rr * Math.sin(a)).toFixed(1)}`;
+  }).join(" ");
+  svg.innerHTML = gear(92, 66, 40, 12, "big") + gear(158, 40, 26, 8, "mid") + gear(162, 92, 18, 6, "small") +
+    `<g class="spark s1"><circle cx="128" cy="54" r="1.4"/></g><g class="spark s2"><circle cx="140" cy="76" r="1.2"/></g>` +
+    // a fly carrying a little cog between the wheels and the stack of finished parts
+    `<g class="carrier"><g transform="translate(0 -2)">${FLY}</g><g class="cog tiny" style="transform-origin:0px 9px"><polygon points="${tiny}"/></g></g>` +
+    // a fly hammering at the big wheel
+    `<g class="smith" transform="translate(40 30)"><g class="bob">${FLY}<rect class="hammer" x="4" y="-2" width="9" height="2" rx="1"/></g></g>` +
+    // a fly circling above, keeping watch
+    `<g class="orbit"><g transform="translate(205 30)">${FLY}</g></g>` +
+    `<g class="stack"><rect x="224" y="98" width="34" height="6" rx="2"/><rect x="228" y="91" width="26" height="6" rx="2"/>` +
+    `<rect x="232" y="84" width="18" height="6" rx="2"/></g>`;
+})();
 function drawDeskSpark() {
   const { ctx, w, h } = fit($("dk-spark")), v = desk.curve.slice(-400);
   ctx.clearRect(0, 0, w, h);

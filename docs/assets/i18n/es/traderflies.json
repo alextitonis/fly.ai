@@ -19,7 +19,8 @@
     "wallet": "Wallet",
     "empty": "Wallet vacía: ábrela para fondearla",
     "funded": "Wallet con fondos: ábrela para ver sus trades",
-    "tab": "Mis moscas"
+    "tab": "Mis moscas",
+    "copyPick": "Elige cuál de tus moscas copia a {fly}."
   },
   "nav": {
     "traders": "Traders",
@@ -84,23 +85,20 @@
   },
   "buyFlyai": "Comprar $FLYAI →",
   "why": {
-    "MintClosed": "El mint no está abierto ahora.",
-    "NotAllowlisted": "Esta billetera no está en la lista.",
-    "SoldOut": "No quedan tantas moscas.",
-    "WalletLimit": "Es más de lo que puede mintear una billetera.",
-    "AlreadyRevealed": "El mint terminó.",
-    "NotHolder": "Esa mosca no es tuya.",
-    "PriceStale": "Pagar con $FLYAI está en pausa un momento (el precio se está actualizando). Inténtalo pronto o paga con USDG.",
-    "TooMuchFlyai": "El precio de $FLYAI acaba de cambiar. Revisa el nuevo monto e inténtalo de nuevo.",
-    "ERC20InsufficientBalance": "No hay suficiente en esta billetera.",
-    "NoProvenance": "El mint todavía no empezó.",
-    "NotEnoughFlyai": "Esta billetera no tiene suficiente $FLYAI para el mint gratis.",
-    "AlreadyClaimed": "Esta billetera ya reclamó su mosca gratis.",
-    "NotInStock": "Esa mosca se acaba de vender.",
-    "cancelled": "Cancelado en la billetera.",
-    "noGas": "No hay suficiente ETH en esta billetera para pagar la comisión de red.",
-    "failedOnChain": "La transacción falló en la cadena.",
-    "cantRead": "No se puede leer el mint ahora. {reason}"
+    "brain": "decisión del cerebro",
+    "target": "alcanzó su objetivo",
+    "stop": "stop loss",
+    "time": "tiempo cumplido",
+    "flat": "sin movimiento",
+    "pool_drain": "pool vaciado: salió",
+    "fly_sold": "la mosca se vendió",
+    "funding": "financiando las partes",
+    "house_buy": "compra de la casa",
+    "fast_take_profit": "toma de ganancia rápida",
+    "fast_stop": "stop rápido",
+    "master_take_profit": "toma de ganancia",
+    "week_end_cash_out": "retiro de fin de semana",
+    "colony": "colonia"
   },
   "tx": {
     "waiting": "{label}: esperando el bloque…",
@@ -1323,7 +1321,10 @@
       "pick": "Elige cómo opera (un toque, abajo)",
       "fund": "Deposita: {min} o más",
       "go": "Opera sola cada 5 minutos"
-    }
+    },
+    "maxDrop": "Caída máx. 7d",
+    "bestWorst": "mejor {best} · peor {worst}",
+    "copyReady": "Track está activado con la billetera de esa mosca: revisa la parte y pulsa Guardar para empezar a copiar."
   },
   "profile": {
     "title": "Tu perfil",
@@ -1356,7 +1357,8 @@
     "holding": "manteniendo",
     "movedUp": "sube {n} en 24 h",
     "movedDown": "baja {n} en 24 h",
-    "holdingNote": "\"manteniendo\" = la mosca aún no ha vendido nada. Una billetera nueva muestra al principio un pequeño negativo: cada compra paga la comisión del pool y el gas, así que las posiciones abiertas empiezan un poco por debajo de su costo. Cambia cuando suben o se venden."
+    "holdingNote": "\"manteniendo\" = la mosca aún no ha vendido nada. Una billetera nueva muestra al principio un pequeño negativo: cada compra paga la comisión del pool y el gas, así que las posiciones abiertas empiezan un poco por debajo de su costo. Cambia cuando suben o se venden.",
+    "maxDrop": "Caída máx."
   },
   "utility": {
     "title": "Qué hace una Trader Fly",
@@ -1454,5 +1456,13 @@
     "attachHint": "Imagen descargada: adjúntala al post.",
     "post": "{name} va {profit} {pct} ({span}) operando con su propio cerebro de mosca real 🪰🧠",
     "postTrade": "{name} acaba de cerrar {what} en {pct} 🪰🧠"
+  },
+  "follow": {
+    "on": "Siguiendo",
+    "off": "Seguir",
+    "hint": "Recibe sus operaciones en tu 🔔 y como notificaciones",
+    "unfollowHint": "Dejar de seguir",
+    "copy": "Copiar esta mosca",
+    "copyHint": "Tu propia mosca copia las operaciones de esta (Track)"
   }
 }

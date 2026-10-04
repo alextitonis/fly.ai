@@ -19,7 +19,8 @@
     "wallet": "Wallet",
     "empty": "Wallet empty - open to fund it",
     "funded": "Wallet funded - open for its trades",
-    "tab": "My flies"
+    "tab": "My flies",
+    "copyPick": "Pick which of your flies copies {fly}."
   },
   "nav": {
     "traders": "Traders",
@@ -84,23 +85,20 @@
   },
   "buyFlyai": "Buy $FLYAI →",
   "why": {
-    "MintClosed": "Minting isn't open right now.",
-    "NotAllowlisted": "This wallet isn't on the list.",
-    "SoldOut": "Not enough flies left for that many.",
-    "WalletLimit": "That's more than one wallet can mint.",
-    "AlreadyRevealed": "Minting has ended.",
-    "NotHolder": "You don't hold that fly.",
-    "PriceStale": "Paying in $FLYAI is paused for a moment (the price is updating). Try again soon, or pay in USDG.",
-    "TooMuchFlyai": "The $FLYAI price just moved. Check the new amount and try again.",
-    "ERC20InsufficientBalance": "Not enough in this wallet.",
-    "NoProvenance": "Minting hasn't started yet.",
-    "NotEnoughFlyai": "This wallet doesn't hold enough $FLYAI for the free mint.",
-    "AlreadyClaimed": "This wallet already claimed its free fly.",
-    "NotInStock": "That fly was just bought.",
-    "cancelled": "Cancelled in the wallet.",
-    "noGas": "Not enough ETH in this wallet to pay the network fee.",
-    "failedOnChain": "The transaction failed on chain.",
-    "cantRead": "Can't read the mint right now. {reason}"
+    "brain": "the brain's call",
+    "target": "hit its target",
+    "stop": "stop loss",
+    "time": "held long enough",
+    "flat": "going nowhere",
+    "pool_drain": "pool drained: got out",
+    "fly_sold": "the fly was sold",
+    "funding": "funding the parts",
+    "house_buy": "house buy",
+    "fast_take_profit": "quick take-profit",
+    "fast_stop": "quick stop",
+    "master_take_profit": "take-profit",
+    "week_end_cash_out": "weekend cash-out",
+    "colony": "colony"
   },
   "tx": {
     "waiting": "{label}: waiting for the block…",
@@ -1323,7 +1321,10 @@
       "pick": "Pick how it trades (one tap, below)",
       "fund": "Fund it: {min} or more",
       "go": "It trades on its own every 5 minutes"
-    }
+    },
+    "maxDrop": "Max drop 7d",
+    "bestWorst": "best {best} · worst {worst}",
+    "copyReady": "Track is on with that fly's wallet: check the share and press Save to start copying."
   },
   "profile": {
     "title": "Your profile",
@@ -1356,7 +1357,8 @@
     "holding": "holding",
     "movedUp": "up {n} in 24 h",
     "movedDown": "down {n} in 24 h",
-    "holdingNote": "\"holding\" = the fly hasn't sold anything yet. A fresh wallet shows a small minus at first: every buy pays the pool fee and gas, so open positions start a little under what they cost. It turns when they rise or sell."
+    "holdingNote": "\"holding\" = the fly hasn't sold anything yet. A fresh wallet shows a small minus at first: every buy pays the pool fee and gas, so open positions start a little under what they cost. It turns when they rise or sell.",
+    "maxDrop": "Max drop"
   },
   "utility": {
     "title": "What a Trader Fly does",
@@ -1454,5 +1456,13 @@
     "attachHint": "Image downloaded: attach it to the post.",
     "post": "{name} is up {profit} {pct} ({span}) trading on its own real fly brain 🪰🧠",
     "postTrade": "{name} just closed {what} at {pct} 🪰🧠"
+  },
+  "follow": {
+    "on": "Following",
+    "off": "Follow",
+    "hint": "Get its trades in your 🔔 and as notifications",
+    "unfollowHint": "Stop following",
+    "copy": "Copy this fly",
+    "copyHint": "Your own fly copies this fly's trades (Track)"
   }
 }

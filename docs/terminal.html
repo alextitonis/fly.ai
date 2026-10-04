@@ -104,8 +104,19 @@
 
   <!-- the house desk (desk.html): its public flies-only snapshot, the total, the P&L and the weekly payout clock -->
   <section class="tm-panel tm-desk" aria-label="Fly Desk">
-    <h2><span><span data-i18n="terminal.desk.title">FLY DESK</span> <em class="tm-mode" id="dk-mode">—</em></span> <small><span id="dk-updated"></span> · <a href="/desk" data-i18n="terminal.desk.open">open the desk ↗</a></small></h2>
-    <div class="dk">
+    <h2><span><span data-i18n="terminal.desk.title">FLY DESK</span> <em class="tm-mode" id="dk-mode">—</em></span> <small id="dk-meta" hidden><span id="dk-updated"></span> · <a href="/desk" data-i18n="terminal.desk.open">open the desk ↗</a></small></h2>
+    <!-- before the desk trades for real (paper): no numbers, the flies are still building it (2026-10-04, the user:
+         "make it writing like a building, some gears/cogwheels with flies working as a teasing") -->
+    <div class="dk-build" id="dk-build">
+      <svg id="dk-works" viewBox="0 0 280 120" aria-hidden="true"></svg>
+      <div class="dk-build-text">
+        <b data-i18n="terminal.desk.build.title">UNDER CONSTRUCTION</b>
+        <span data-i18n="terminal.desk.build.line">The flies are building the Fly Desk.</span>
+        <div class="dk-bar"><i></i></div>
+        <small data-i18n="terminal.desk.build.sub">One desk. Real trades. Holders paid every Sunday.</small>
+      </div>
+    </div>
+    <div class="dk" id="dk-live" hidden>
       <div class="dk-main">
         <span data-i18n="terminal.desk.total">TOTAL</span>
         <b id="dk-total">—</b>

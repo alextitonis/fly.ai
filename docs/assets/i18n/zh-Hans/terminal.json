@@ -124,7 +124,13 @@
     "split": "交易中 {trading} · 资金池 {pool}",
     "trading": "全部在苍蝇的账本里交易",
     "updated": "{ago}前更新",
-    "days": "{d}天 {hms}"
+    "days": "{d}天 {hms}",
+    "build": {
+      "chip": "建造中",
+      "title": "施工中",
+      "line": "果蝇们正在建造 Fly Desk。",
+      "sub": "一个交易台。真实交易。每周日向持有人分红。"
+    }
   },
   "foot": {
     "mine": "MINE",
@@ -133,5 +139,21 @@
     "bar": "最近一根",
     "down": "离线",
     "src": "只读 · 每个数字都来自 Fly Wallets 和 Fly Desk"
+  },
+  "why": {
+    "brain": "大脑的决定",
+    "target": "达到目标",
+    "stop": "止损",
+    "time": "持有到期",
+    "flat": "横盘不动",
+    "pool_drain": "池子被抽干：已离场",
+    "fly_sold": "苍蝇已售出",
+    "funding": "为各部件注资",
+    "house_buy": "官方买入",
+    "fast_take_profit": "快速止盈",
+    "fast_stop": "快速止损",
+    "master_take_profit": "止盈",
+    "week_end_cash_out": "周末兑现",
+    "colony": "群落"
   }
 }

@@ -124,7 +124,13 @@
     "split": "交易中 {trading} · 資金池 {pool}",
     "trading": "全部在蒼蠅的帳本裡交易",
     "updated": "{ago}前更新",
-    "days": "{d}天 {hms}"
+    "days": "{d}天 {hms}",
+    "build": {
+      "chip": "建造中",
+      "title": "施工中",
+      "line": "果蠅們正在建造 Fly Desk。",
+      "sub": "一個交易台。真實交易。每週日向持有人分紅。"
+    }
   },
   "foot": {
     "mine": "MINE",
@@ -133,5 +139,21 @@
     "bar": "最近一根",
     "down": "離線",
     "src": "唯讀 · 每個數字都來自 Fly Wallets 和 Fly Desk"
+  },
+  "why": {
+    "brain": "大腦的決定",
+    "target": "達到目標",
+    "stop": "停損",
+    "time": "持有到期",
+    "flat": "橫盤不動",
+    "pool_drain": "池子被抽乾：已離場",
+    "fly_sold": "蒼蠅已售出",
+    "funding": "為各部件注資",
+    "house_buy": "官方買入",
+    "fast_take_profit": "快速停利",
+    "fast_stop": "快速停損",
+    "master_take_profit": "停利",
+    "week_end_cash_out": "週末兌現",
+    "colony": "群落"
   }
 }

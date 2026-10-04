@@ -124,7 +124,13 @@
     "split": "operando {trading} · en el pool {pool}",
     "trading": "todo en los libros de las moscas",
     "updated": "actualizado hace {ago}",
-    "days": "{d}d {hms}"
+    "days": "{d}d {hms}",
+    "build": {
+      "chip": "EN OBRAS",
+      "title": "EN CONSTRUCCIÓN",
+      "line": "Las moscas están construyendo el Fly Desk.",
+      "sub": "Un desk. Operaciones reales. Holders cobran cada domingo."
+    }
   },
   "foot": {
     "mine": "MINE",
@@ -133,5 +139,21 @@
     "bar": "ÚLTIMA BARRA",
     "down": "CAÍDA",
     "src": "solo lectura · cada número viene de las Fly Wallets y la Fly Desk"
+  },
+  "why": {
+    "brain": "decisión del cerebro",
+    "target": "alcanzó su objetivo",
+    "stop": "stop loss",
+    "time": "tiempo cumplido",
+    "flat": "sin movimiento",
+    "pool_drain": "pool vaciado: salió",
+    "fly_sold": "la mosca se vendió",
+    "funding": "financiando las partes",
+    "house_buy": "compra de la casa",
+    "fast_take_profit": "toma de ganancia rápida",
+    "fast_stop": "stop rápido",
+    "master_take_profit": "toma de ganancia",
+    "week_end_cash_out": "retiro de fin de semana",
+    "colony": "colonia"
   }
 }

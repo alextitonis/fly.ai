@@ -19,7 +19,8 @@
     "wallet": "钱包",
     "empty": "钱包为空——打开后充值",
     "funded": "钱包已充值 - 打开查看交易",
-    "tab": "我的苍蝇"
+    "tab": "我的苍蝇",
+    "copyPick": "选择你的哪只苍蝇来复制 {fly}。"
   },
   "nav": {
     "traders": "交易蝇",
@@ -83,23 +84,20 @@
   },
   "buyFlyai": "购买 $FLYAI →",
   "why": {
-    "MintClosed": "现在没有开放铸造。",
-    "NotAllowlisted": "这个钱包不在名单上。",
-    "SoldOut": "剩下的果蝇不够这么多。",
-    "WalletLimit": "超过了单个钱包可以铸造的数量。",
-    "AlreadyRevealed": "铸造已结束。",
-    "NotHolder": "你没有持有这只果蝇。",
-    "PriceStale": "$FLYAI 支付暂时暂停（价格正在更新）。请稍后再试，或用 USDG 支付。",
-    "TooMuchFlyai": "$FLYAI 价格刚刚变动。请查看新的金额后再试。",
-    "ERC20InsufficientBalance": "这个钱包余额不足。",
-    "NoProvenance": "铸造还没开始。",
-    "NotEnoughFlyai": "这个钱包持有的 $FLYAI 不足以免费铸造。",
-    "AlreadyClaimed": "这个钱包已经领取过免费果蝇。",
-    "NotInStock": "这只果蝇刚被买走了。",
-    "cancelled": "已在钱包中取消。",
-    "noGas": "这个钱包的 ETH 不足以支付网络手续费。",
-    "failedOnChain": "交易在链上失败了。",
-    "cantRead": "现在无法读取铸造信息。{reason}"
+    "brain": "大脑的决定",
+    "target": "达到目标",
+    "stop": "止损",
+    "time": "持有到期",
+    "flat": "横盘不动",
+    "pool_drain": "池子被抽干：已离场",
+    "fly_sold": "苍蝇已售出",
+    "funding": "为各部件注资",
+    "house_buy": "官方买入",
+    "fast_take_profit": "快速止盈",
+    "fast_stop": "快速止损",
+    "master_take_profit": "止盈",
+    "week_end_cash_out": "周末兑现",
+    "colony": "群落"
   },
   "tx": {
     "waiting": "{label}：等待区块确认…",
@@ -1321,7 +1319,10 @@
       "pick": "选择交易方式（下方点一下）",
       "fund": "注资：{min} 或更多",
       "go": "每 5 分钟自动交易"
-    }
+    },
+    "maxDrop": "7天最大回撤",
+    "bestWorst": "最好 {best} · 最差 {worst}",
+    "copyReady": "已用那只苍蝇的钱包开启 Track：检查份额并点击保存即可开始复制。"
   },
   "profile": {
     "title": "你的资料",
@@ -1354,7 +1355,8 @@
     "holding": "持仓中",
     "movedUp": "24 小时上升 {n} 名",
     "movedDown": "24 小时下降 {n} 名",
-    "holdingNote": "“持仓中” = 这只苍蝇还没卖出过。新钱包一开始会显示小幅负数：每次买入都要付池子手续费和 gas，所以未平仓头寸一开始略低于成本。上涨或卖出后就会转正。"
+    "holdingNote": "“持仓中” = 这只苍蝇还没卖出过。新钱包一开始会显示小幅负数：每次买入都要付池子手续费和 gas，所以未平仓头寸一开始略低于成本。上涨或卖出后就会转正。",
+    "maxDrop": "最大回撤"
   },
   "utility": {
     "title": "Trader Fly 能做什么",
@@ -1452,5 +1454,13 @@
     "attachHint": "图片已下载：请附加到帖子。",
     "post": "{name} 用自己真实的苍蝇大脑交易，{span}收益 {profit} {pct} 🪰🧠",
     "postTrade": "{name} 刚以 {pct} 平仓 {what} 🪰🧠"
+  },
+  "follow": {
+    "on": "已关注",
+    "off": "关注",
+    "hint": "在 🔔 和通知中收到它的交易",
+    "unfollowHint": "取消关注",
+    "copy": "复制这只苍蝇",
+    "copyHint": "你自己的苍蝇会跟随这只苍蝇的交易（Track）"
   }
 }

@@ -124,7 +124,13 @@
     "split": "işlemde {trading} · havuzda {pool}",
     "trading": "tamamı sineklerin defterlerinde",
     "updated": "{ago} önce güncellendi",
-    "days": "{d}g {hms}"
+    "days": "{d}g {hms}",
+    "build": {
+      "chip": "YAPIMDA",
+      "title": "YAPIM AŞAMASINDA",
+      "line": "Sinekler Fly Desk'i inşa ediyor.",
+      "sub": "Tek masa. Gerçek işlemler. Her pazar holder'lara ödeme."
+    }
   },
   "foot": {
     "mine": "MINE",
@@ -133,5 +139,21 @@
     "bar": "SON BAR",
     "down": "KAPALI",
     "src": "salt okunur · her sayı Fly Wallets ve Fly Desk'ten"
+  },
+  "why": {
+    "brain": "beynin kararı",
+    "target": "hedefe ulaştı",
+    "stop": "zarar durdur",
+    "time": "süre doldu",
+    "flat": "yerinde sayıyor",
+    "pool_drain": "havuz boşaldı: çıktı",
+    "fly_sold": "sinek satıldı",
+    "funding": "parçaları fonluyor",
+    "house_buy": "kasa alımı",
+    "fast_take_profit": "hızlı kâr al",
+    "fast_stop": "hızlı stop",
+    "master_take_profit": "kâr al",
+    "week_end_cash_out": "hafta sonu nakde çevirme",
+    "colony": "koloni"
   }
 }

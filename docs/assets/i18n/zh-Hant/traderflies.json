@@ -19,7 +19,8 @@
     "wallet": "錢包",
     "empty": "錢包是空的——打開後充值",
     "funded": "錢包已儲值 - 打開查看交易",
-    "tab": "我的蒼蠅"
+    "tab": "我的蒼蠅",
+    "copyPick": "選擇你的哪隻蒼蠅來複製 {fly}。"
   },
   "nav": {
     "traders": "交易蠅",
@@ -83,23 +84,20 @@
   },
   "buyFlyai": "購買 $FLYAI →",
   "why": {
-    "MintClosed": "現在沒有開放鑄造。",
-    "NotAllowlisted": "這個錢包不在名單上。",
-    "SoldOut": "剩下的果蠅不夠這麼多。",
-    "WalletLimit": "超過了單一錢包可以鑄造的數量。",
-    "AlreadyRevealed": "鑄造已結束。",
-    "NotHolder": "你沒有持有這隻果蠅。",
-    "PriceStale": "$FLYAI 付款暫時暫停（價格正在更新）。請稍後再試，或用 USDG 付款。",
-    "TooMuchFlyai": "$FLYAI 價格剛剛變動。請查看新的金額後再試。",
-    "ERC20InsufficientBalance": "這個錢包餘額不足。",
-    "NoProvenance": "鑄造還沒開始。",
-    "NotEnoughFlyai": "這個錢包持有的 $FLYAI 不足以免費鑄造。",
-    "AlreadyClaimed": "這個錢包已經領取過免費果蠅。",
-    "NotInStock": "這隻果蠅剛被買走了。",
-    "cancelled": "已在錢包中取消。",
-    "noGas": "這個錢包的 ETH 不足以支付網路手續費。",
-    "failedOnChain": "交易在鏈上失敗了。",
-    "cantRead": "現在無法讀取鑄造資訊。{reason}"
+    "brain": "大腦的決定",
+    "target": "達到目標",
+    "stop": "停損",
+    "time": "持有到期",
+    "flat": "橫盤不動",
+    "pool_drain": "池子被抽乾：已離場",
+    "fly_sold": "蒼蠅已售出",
+    "funding": "為各部件注資",
+    "house_buy": "官方買入",
+    "fast_take_profit": "快速停利",
+    "fast_stop": "快速停損",
+    "master_take_profit": "停利",
+    "week_end_cash_out": "週末兌現",
+    "colony": "群落"
   },
   "tx": {
     "waiting": "{label}：等待區塊確認…",
@@ -1321,7 +1319,10 @@
       "pick": "選擇交易方式（下方點一下）",
       "fund": "注資：{min} 或更多",
       "go": "每 5 分鐘自動交易"
-    }
+    },
+    "maxDrop": "7天最大回撤",
+    "bestWorst": "最好 {best} · 最差 {worst}",
+    "copyReady": "已用那隻蒼蠅的錢包開啟 Track：檢查份額並按儲存即可開始複製。"
   },
   "profile": {
     "title": "你的資料",
@@ -1354,7 +1355,8 @@
     "holding": "持倉中",
     "movedUp": "24 小時上升 {n} 名",
     "movedDown": "24 小時下降 {n} 名",
-    "holdingNote": "「持倉中」= 這隻蒼蠅還沒賣出過。新錢包一開始會顯示小幅負數：每次買入都要付池子手續費和 gas，所以未平倉部位一開始略低於成本。上漲或賣出後就會轉正。"
+    "holdingNote": "「持倉中」= 這隻蒼蠅還沒賣出過。新錢包一開始會顯示小幅負數：每次買入都要付池子手續費和 gas，所以未平倉部位一開始略低於成本。上漲或賣出後就會轉正。",
+    "maxDrop": "最大回撤"
   },
   "utility": {
     "title": "Trader Fly 能做什麼",
@@ -1452,5 +1454,13 @@
     "attachHint": "圖片已下載：請附加到貼文。",
     "post": "{name} 用自己真實的蒼蠅大腦交易，{span}收益 {profit} {pct} 🪰🧠",
     "postTrade": "{name} 剛以 {pct} 平倉 {what} 🪰🧠"
+  },
+  "follow": {
+    "on": "已關注",
+    "off": "關注",
+    "hint": "在 🔔 和通知中收到它的交易",
+    "unfollowHint": "取消關注",
+    "copy": "複製這隻蒼蠅",
+    "copyHint": "你自己的蒼蠅會跟隨這隻蒼蠅的交易（Track）"
   }
 }

@@ -19,7 +19,8 @@
     "wallet": "지갑",
     "empty": "지갑이 비어 있음 - 열어서 입금하세요",
     "funded": "지갑 충전됨 - 열어서 거래 보기",
-    "tab": "내 파리"
+    "tab": "내 파리",
+    "copyPick": "{fly}를 복사할 내 파리를 고르세요."
   },
   "nav": {
     "traders": "트레이더",
@@ -83,23 +84,20 @@
   },
   "buyFlyai": "$FLYAI 사기 →",
   "why": {
-    "MintClosed": "지금은 민팅이 열려 있지 않아요.",
-    "NotAllowlisted": "이 지갑은 명단에 없어요.",
-    "SoldOut": "남은 파리가 그만큼 없어요.",
-    "WalletLimit": "지갑 하나가 민팅할 수 있는 수를 넘었어요.",
-    "AlreadyRevealed": "민팅이 끝났어요.",
-    "NotHolder": "그 파리를 보유하고 있지 않아요.",
-    "PriceStale": "$FLYAI 결제가 잠시 멈췄어요 (가격 업데이트 중). 잠시 후 다시 시도하거나 USDG로 결제하세요.",
-    "TooMuchFlyai": "$FLYAI 가격이 방금 바뀌었어요. 새 금액을 확인하고 다시 시도하세요.",
-    "ERC20InsufficientBalance": "이 지갑의 잔액이 부족해요.",
-    "NoProvenance": "민팅이 아직 시작되지 않았어요.",
-    "NotEnoughFlyai": "이 지갑은 무료 민팅에 필요한 $FLYAI가 부족해요.",
-    "AlreadyClaimed": "이 지갑은 이미 무료 파리를 받았어요.",
-    "NotInStock": "그 파리는 방금 팔렸어요.",
-    "cancelled": "지갑에서 취소됐어요.",
-    "noGas": "이 지갑에 네트워크 수수료를 낼 ETH가 부족해요.",
-    "failedOnChain": "트랜잭션이 체인에서 실패했어요.",
-    "cantRead": "지금은 민팅 정보를 읽을 수 없어요. {reason}"
+    "brain": "뇌의 판단",
+    "target": "목표 도달",
+    "stop": "손절",
+    "time": "보유 기간 종료",
+    "flat": "횡보",
+    "pool_drain": "풀 유출: 탈출",
+    "fly_sold": "파리 판매됨",
+    "funding": "파트 자금 배분",
+    "house_buy": "하우스 매수",
+    "fast_take_profit": "빠른 익절",
+    "fast_stop": "빠른 손절",
+    "master_take_profit": "익절",
+    "week_end_cash_out": "주말 현금화",
+    "colony": "콜로니"
   },
   "tx": {
     "waiting": "{label}: 블록을 기다리는 중…",
@@ -1321,7 +1319,10 @@
       "pick": "거래 방식 선택 (아래에서 한 번 탭)",
       "fund": "자금 넣기: {min} 이상",
       "go": "5분마다 스스로 거래합니다"
-    }
+    },
+    "maxDrop": "7일 최대 하락",
+    "bestWorst": "최고 {best} · 최저 {worst}",
+    "copyReady": "그 파리의 지갑으로 Track이 켜졌습니다: 비중을 확인하고 저장을 눌러 복사를 시작하세요."
   },
   "profile": {
     "title": "내 프로필",
@@ -1354,7 +1355,8 @@
     "holding": "보유 중",
     "movedUp": "24시간 동안 {n}계단 상승",
     "movedDown": "24시간 동안 {n}계단 하락",
-    "holdingNote": "\"보유 중\" = 파리가 아직 아무것도 팔지 않았습니다. 새 지갑은 처음에 작은 마이너스를 보입니다: 매수마다 풀 수수료와 가스를 내므로 열린 포지션은 원가보다 조금 아래에서 시작합니다. 오르거나 팔리면 바뀝니다."
+    "holdingNote": "\"보유 중\" = 파리가 아직 아무것도 팔지 않았습니다. 새 지갑은 처음에 작은 마이너스를 보입니다: 매수마다 풀 수수료와 가스를 내므로 열린 포지션은 원가보다 조금 아래에서 시작합니다. 오르거나 팔리면 바뀝니다.",
+    "maxDrop": "최대 하락"
   },
   "utility": {
     "title": "Trader Fly가 하는 일",
@@ -1452,5 +1454,13 @@
     "attachHint": "이미지 다운로드됨: 게시물에 첨부하세요.",
     "post": "{name}, 진짜 파리 뇌로 직접 거래해서 {profit} {pct} ({span}) 🪰🧠",
     "postTrade": "{name}, 방금 {what} 거래를 {pct}로 마감 🪰🧠"
+  },
+  "follow": {
+    "on": "팔로잉",
+    "off": "팔로우",
+    "hint": "거래를 🔔와 알림으로 받기",
+    "unfollowHint": "팔로우 해제",
+    "copy": "이 파리 복사",
+    "copyHint": "내 파리가 이 파리의 거래를 따라 합니다 (Track)"
   }
 }

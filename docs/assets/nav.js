@@ -128,7 +128,7 @@
     }
     const burger = el("button", { class: "burger-btn", type: "button", "aria-expanded": "false", "aria-controls": "mnav", "aria-label": "Menu" },
       el("i"), el("i"), el("i"));                         // three drawn bars that turn into an X (CSS), not the ☰ glyph
-    ul.append(searchBox(el), ...(session() ? [bell(el)] : []), account(el, fileHref), el("li", { class: "burger" }, burger));
+    ul.append(searchBox(el), ...(session() || follows().length ? [bell(el)] : []), account(el, fileHref), el("li", { class: "burger" }, burger));
 
     const brand = el("a", { class: "brand", href: fileHref("/") },
       el("img", { class: "logo", src: root ? `${root}assets/logo-t.webp` : "/assets/logo-t.webp", alt: "fly.ai", width: "988", height: "439" }));
@@ -415,31 +415,82 @@
   }
   function wireBell(nav, textReady) {
     const li = nav.querySelector("li.bell");
-    if (!session()) return;
-    void Promise.all([loadSummary(), textReady]).then(([v]) => {
+    if (!session() && !follows().length) return;
+    void Promise.all([loadSummary(), textReady, followFeed()]).then(([v, , followed]) => {
       window.flySummary = v;
       window.dispatchEvent(new CustomEvent("fly:summary", { detail: v }));
-      if (!v) return;
-      if (v.nickname) { const n_ = nav.querySelector(".acct-name"); if (n_) n_.textContent = v.nickname; }
+      if (v && v.nickname) { const n_ = nav.querySelector(".acct-name"); if (n_) n_.textContent = v.nickname; }
       const badges = nav.querySelector(".acct-badges");
-      if (badges && v.badges && v.badges.length) {
+      if (v && badges && v.badges && v.badges.length) {
         badges.hidden = false;
         badges.replaceChildren(...v.badges.map((b) => Object.assign(document.createElement("span"), { className: "badge", textContent: L("b_" + b), title: L("b_" + b) })));
       }
       if (!li) return;
+      // the account's own news and the followed flies' trades, newest first (one row per trade)
+      const key = (f) => `${f.kind}:${f.fly}:${f.at}:${f.symbol}`;
+      const feed = [...new Map([...((v && v.feed) || []), ...followed].map((f) => [key(f), f])).values()]
+        .sort((a, b) => b.at - a.at).slice(0, 30);
       let seen = 0;
       try { seen = Number(localStorage.getItem("flyai.notif.seen") || 0); } catch {}
-      const unread = (v.feed || []).filter((f) => f.at > seen).length;
+      const unread = feed.filter((f) => f.at > seen).length;
       const n = li.querySelector(".bell-n");
       if (unread) { n.textContent = unread > 9 ? "9+" : String(unread); n.hidden = false; }
       const list = li.querySelector(".bell-list");
-      list.replaceChildren(...((v.feed || []).length ? v.feed.map((f) => feedRow(f, f.at > seen)) : [Object.assign(document.createElement("small"), { textContent: L("nothingYet") })]));
+      list.replaceChildren(...(feed.length ? feed.map((f) => feedRow(f, f.at > seen)) : [Object.assign(document.createElement("small"), { textContent: L("nothingYet") })]));
       li.querySelector(".bell-btn").addEventListener("click", () => {
         try { localStorage.setItem("flyai.notif.seen", String(Date.now())); } catch {}
         n.hidden = true;
       });
     });
   }
+
+  /**
+   * Following flies (2026-10-04, from what Fomo does: "watched your trades and want the next one pushed"): the fly numbers
+   * this browser follows (localStorage flyai.follows; the Follow buttons on the fly page and the leaderboard use
+   * window.flyFollow). Their trades come from the mine server's combined feed (one read, cached there) into the bell,
+   * and while a page is open a new one also shows as a browser notification when the person allowed them.
+   */
+  function follows() {
+    try { return (JSON.parse(localStorage.getItem("flyai.follows") || "[]") || []).map(Number).filter((x) => x > 0); } catch { return []; }
+  }
+  async function followFeed() {
+    const ids = follows();
+    if (!ids.length) return [];
+    try {
+      const f = await fetch(`${MINE_API}/api/vaults/feed?chain=robinhood`).then((r) => r.json());
+      return ids.flatMap((id) => (((f.flies || {})[id] || {}).recent || []).map((r) => ({ kind: "trade", fly: id,
+        side: r.side === "buy" ? "buy" : "sell", symbol: r.label || r.symbol, usd: r.usd, pnl_pct: r.pnl_pct, at: r.at * 1000 })));
+    } catch { return []; }
+  }
+  window.flyFollow = {
+    list: follows,
+    has: (id) => follows().includes(Number(id)),
+    /** follow or unfollow; following asks once to allow notifications */
+    toggle(id) {
+      id = Number(id);
+      const now = follows(), on = !now.includes(id);
+      const next = on ? [...now, id].slice(-50) : now.filter((x) => x !== id);
+      try { localStorage.setItem("flyai.follows", JSON.stringify(next)); } catch {}
+      if (on && "Notification" in window && Notification.permission === "default") Notification.requestPermission().catch(() => {});
+      window.dispatchEvent(new CustomEvent("fly:follows", { detail: next }));
+      return on;
+    },
+  };
+  // while a page is open: a followed fly's new trade pops up (every 2 minutes, only when the tab is in view)
+  setInterval(async () => {
+    if (document.hidden || !follows().length || !("Notification" in window) || Notification.permission !== "granted") return;
+    let last = 0;
+    try { last = Number(localStorage.getItem("flyai.follows.notified") || Date.now()); } catch {}
+    const fresh = (await followFeed()).filter((f) => f.at > last).sort((a, b) => a.at - b.at);
+    if (!fresh.length) return;
+    try { localStorage.setItem("flyai.follows.notified", String(fresh[fresh.length - 1].at)); } catch {}
+    for (const f of fresh.slice(-3)) {
+      const pnl = f.pnl_pct != null ? ` ${f.pnl_pct >= 0 ? "+" : ""}${Number(f.pnl_pct).toFixed(1)}%` : "";
+      const note = new Notification(`#${f.fly} ${L(f.side === "buy" ? "bought" : "sold")} ${f.symbol}${pnl}`, { body: "fly.ai", icon: "/assets/logo.webp", tag: `fly-${f.fly}-${f.at}` });
+      note.onclick = () => { window.focus(); location.href = `/traderflies/fly?id=${f.fly}`; };
+    }
+  }, 120_000);
+  try { if (!localStorage.getItem("flyai.follows.notified")) localStorage.setItem("flyai.follows.notified", String(Date.now())); } catch {}
   function feedRow(f, isNew) {
     const a = document.createElement("a");
     const ago = (t) => {
