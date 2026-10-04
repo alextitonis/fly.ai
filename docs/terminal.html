@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="terminal">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="terminal.meta.title">fly.ai terminal &mdash; real fly brains trading live</title>
+<meta name="description" data-i18n-attr="content:terminal.meta.description" content="Watch the Trader Flies trade live on Robinhood Chain: every fly wallet's buys and sells, the parts of the desk lighting up, the tape, the curve, who holds what.">
+<meta property="og:title" content="fly.ai terminal &mdash; real fly brains trading live">
+<meta property="og:description" content="Watch the Trader Flies trade live on Robinhood Chain: the tape, the curve, the brain and its parts lighting up on every real trade.">
+<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/terminal">
+<meta property="og:url" content="https://flyaiworld.com/terminal">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/terminal.css">
+</head>
+<body class="term">
+
+<nav aria-label="Main"></nav>
+
+<!-- the terminal (2026-10-04, the user: "a /terminal ... a cool ui of trading", "futuristic" like NEXUS//FLOW, Grok Desk,
+     GRAN): every number here is the live Fly Wallets' own, from the mine server (assets/terminal.js) -->
+<main class="tm" id="tm">
+  <header class="tm-top">
+    <div class="tm-brand">
+      <span class="tm-glyph" aria-hidden="true"></span>
+      <div><b>fly.ai <i>//</i> TERMINAL</b><small data-i18n="terminal.sub">real fly brains trading live · Robinhood Chain</small></div>
+    </div>
+    <div class="tm-status"><span class="tm-live" id="tm-live" data-i18n="terminal.status.connecting">CONNECTING</span><span class="tm-clock mono" id="tm-clock">--:--:--</span></div>
+  </header>
+
+  <section class="tm-kpis" aria-label="Totals">
+    <div class="tm-kpi"><span data-i18n="terminal.kpi.value">IN THE FLIES</span><b id="k-value">—</b><em id="k-wallets"></em></div>
+    <div class="tm-kpi"><span data-i18n="terminal.kpi.profit">NET P&amp;L</span><b id="k-profit">—</b><em id="k-profit-pct">—</em></div>
+    <div class="tm-kpi"><span data-i18n="terminal.kpi.day">P&amp;L 24H</span><b id="k-day">—</b><em id="k-week"></em></div>
+    <div class="tm-kpi"><span data-i18n="terminal.kpi.trades">TRADES 24H</span><b id="k-trades">—</b><em id="k-last"></em></div>
+    <div class="tm-kpi"><span data-i18n="terminal.kpi.hit">HIT RATE</span><b id="k-hit">—</b><em id="k-wl"></em></div>
+  </section>
+
+  <section class="tm-panel tm-stream" aria-label="Activity stream">
+    <h2><span data-i18n="terminal.panel.stream">ACTIVITY STREAM</span> <small id="s-count"></small></h2>
+    <ol id="stream" class="tm-scroll"></ol>
+  </section>
+
+  <section class="tm-panel tm-core" aria-label="The brain">
+    <h2><span data-i18n="terminal.panel.core">BRAIN CORE / PART FIELD</span> <small data-i18n="terminal.panel.coreNote">connectome · 166,700 neurons</small></h2>
+    <canvas id="core" aria-hidden="true"></canvas>
+    <div class="tm-corestat"><b id="core-mode" data-i18n="terminal.panel.mode">MODE: LIVE</b><span id="core-sub"></span></div>
+    <form class="tm-cmd" id="cmd" autocomplete="off">
+      <label for="cmd-in">fly&gt;</label>
+      <input id="cmd-in" placeholder="help · top · watch 168 · token FLYAI · share 849" data-i18n-attr="placeholder:terminal.panel.placeholder" spellcheck="false">
+      <button type="submit" data-i18n="terminal.panel.run">RUN</button>
+    </form>
+  </section>
+
+  <section class="tm-panel tm-equity" aria-label="Combined profit">
+    <h2><span data-i18n="terminal.panel.equity">ALL FLIES · PROFIT 7D</span> <small id="eq-total">—</small></h2>
+    <canvas id="equity" aria-hidden="true"></canvas>
+  </section>
+
+  <section class="tm-panel tm-pulse" aria-label="What the flies hold">
+    <h2><span data-i18n="terminal.panel.pulse">MARKET PULSE</span> <small data-i18n="terminal.panel.pulseNote">what the flies hold</small></h2>
+    <div id="pulse" class="tm-pulsegrid"></div>
+  </section>
+
+  <section class="tm-panel tm-tape" aria-label="Trade tape">
+    <h2><span data-i18n="terminal.panel.tape">TRADE TAPE</span> <small id="tape-count"></small></h2>
+    <div class="tm-scroll"><table><tbody id="tape"></tbody></table></div>
+  </section>
+
+  <section class="tm-panel tm-heat" aria-label="Flies by tokens">
+    <h2><span data-i18n="terminal.panel.heat">FLIES × TOKENS</span> <small data-i18n="terminal.panel.heatNote">size = value · colour = P&amp;L</small></h2>
+    <div id="heat" class="tm-heatgrid"></div>
+  </section>
+
+  <section class="tm-panel tm-leaders" aria-label="Top flies">
+    <h2><span data-i18n="terminal.panel.leaders">TOP FLIES</span> <small data-i18n="terminal.panel.leadersNote">all time</small></h2>
+    <ol id="leaders"></ol>
+  </section>
+
+  <section class="tm-panel tm-beat" aria-label="Desk pulse">
+    <h2><span data-i18n="terminal.panel.beat">DESK PULSE</span> <small id="beat-rate"></small></h2>
+    <canvas id="beat" aria-hidden="true"></canvas>
+  </section>
+
+  <section class="tm-parts" id="parts" aria-label="The desk's parts"></section>
+</main>
+
+<script src="assets/nav.js?v=20261004a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script type="module" src="assets/terminal.js"></script>
+</body>
+</html>

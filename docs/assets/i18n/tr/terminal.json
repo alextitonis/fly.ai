@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "fly.ai terminal — gerçek sinek beyinleri canlı işlemde",
+    "description": "Trader Flies'ın Robinhood Chain'de canlı işlem yapışını izle: her sinek cüzdanının alım satımları, masanın parçalarının yanışı, işlem akışı, eğri, kim neyi tutuyor."
+  },
+  "sub": "gerçek sinek beyinleri canlı işlemde · Robinhood Chain",
+  "status": {
+    "connecting": "BAĞLANIYOR",
+    "live": "CANLI BAĞLANTI",
+    "reconnecting": "YENİDEN BAĞLANIYOR"
+  },
+  "kpi": {
+    "value": "SİNEKLERDE",
+    "profit": "NET K/Z",
+    "day": "K/Z 24S",
+    "trades": "İŞLEM 24S",
+    "hit": "İSABET"
+  },
+  "panel": {
+    "stream": "ETKİNLİK AKIŞI",
+    "core": "BEYİN ÇEKİRDEĞİ / PARÇALAR",
+    "coreNote": "konektom · 166.700 nöron",
+    "mode": "MOD: CANLI",
+    "equity": "TÜM SİNEKLER · 7G KÂR",
+    "pulse": "PİYASA NABZI",
+    "pulseNote": "sineklerin tuttukları",
+    "tape": "İŞLEM AKIŞI",
+    "heat": "SİNEKLER × TOKENLER",
+    "heatNote": "boyut = değer · renk = K/Z",
+    "leaders": "EN İYİ SİNEKLER",
+    "leadersNote": "tüm zamanlar",
+    "beat": "MASA NABZI",
+    "placeholder": "help · top · watch 168 · token FLYAI · share 849",
+    "run": "ÇALIŞTIR"
+  },
+  "stream": {
+    "buy": "{fly} {sym} aldı",
+    "sell": "{fly} {sym} sattı",
+    "take_profit": "{fly} {sym} kârını aldı",
+    "panic_sell": "{fly} {sym} kesti",
+    "stop": "{fly} {sym} stop oldu",
+    "linking": "Fly Wallets masasına bağlanıyor…",
+    "listening": "masayı dinliyor",
+    "linked": "bağlandı · {wallets} sinek cüzdanı · {fills} son işlem yüklendi",
+    "count": "{fills} işlem · {live} canlı"
+  },
+  "kpis": {
+    "wallets": "{count} cüzdan canlı",
+    "on": "{usd} yatırılana {pct}",
+    "week": "7g {usd}",
+    "last": "son {ago} önce",
+    "lastNone": "son —",
+    "wl": "{w}K / {l}Z",
+    "closedNone": "— kapanan"
+  },
+  "tape": {
+    "buy": "▲ AL",
+    "sell": "▼ SAT",
+    "count": "{count} işlem"
+  },
+  "pulse": {
+    "flies": {
+      "one": "{count} sinek",
+      "other": "{count} sinek"
+    },
+    "reading": "cüzdanlar okunuyor…"
+  },
+  "equity": {
+    "reading": "eğriler okunuyor…"
+  },
+  "beat": {
+    "rate": "{n} işlem/sa · {w} cüzdan"
+  },
+  "parts": {
+    "live": "CANLI",
+    "idle": "BOŞTA",
+    "routed": "{n} işlem yönlendirildi",
+    "fills": "{n} işlem",
+    "won": "{w}/{c} kazandı"
+  },
+  "role": {
+    "brain": "konektom",
+    "trend": "trende biner",
+    "dip": "düşüşü alır",
+    "momentum": "gücü kovalar",
+    "fomo": "top trader alımları",
+    "copy": "cüzdan kopyalar",
+    "launch": "yeni havuzlar",
+    "exec": "her işlemi yönlendirir"
+  },
+  "cmd": {
+    "help": "help · top · watch 168 · unwatch · token FLYAI · open 168 · share 168 · clear",
+    "top": "{rank}. {fly} {profit} · {value} · {n} işlem",
+    "watch": "{fly} izleniyor · {value} · {profit} · işlemleri yanar",
+    "noWallet": "{fly} cüzdanında henüz para yok",
+    "unwatch": "tüm sinekler izleniyor",
+    "token": "{sym} {price} · {n} sinek {value} tutuyor · maliyete {pct} · {list}",
+    "tokenNone": "şu an hiçbir sinek {sym} tutmuyor",
+    "unknown": "bilinmeyen komut · {help}"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "terminal de fly.ai — cerebros de mosca reales operando en vivo",
+    "description": "Mira a las Trader Flies operar en vivo en Robinhood Chain: compras y ventas de cada billetera, las partes del desk encendiéndose, la cinta, la curva, quién tiene qué."
+  },
+  "sub": "cerebros de mosca reales operando en vivo · Robinhood Chain",
+  "status": {
+    "connecting": "CONECTANDO",
+    "live": "EN VIVO",
+    "reconnecting": "RECONECTANDO"
+  },
+  "kpi": {
+    "value": "EN LAS MOSCAS",
+    "profit": "P&L NETO",
+    "day": "P&L 24H",
+    "trades": "OPERACIONES 24H",
+    "hit": "ACIERTO"
+  },
+  "panel": {
+    "stream": "FLUJO DE ACTIVIDAD",
+    "core": "NÚCLEO / CAMPO DE PARTES",
+    "coreNote": "conectoma · 166.700 neuronas",
+    "mode": "MODO: EN VIVO",
+    "equity": "TODAS LAS MOSCAS · GANANCIA 7D",
+    "pulse": "PULSO DEL MERCADO",
+    "pulseNote": "lo que tienen las moscas",
+    "tape": "CINTA",
+    "heat": "MOSCAS × TOKENS",
+    "heatNote": "tamaño = valor · color = P&L",
+    "leaders": "TOP MOSCAS",
+    "leadersNote": "histórico",
+    "beat": "PULSO DEL DESK",
+    "placeholder": "help · top · watch 168 · token FLYAI · share 849",
+    "run": "EJECUTAR"
+  },
+  "stream": {
+    "buy": "{fly} compró {sym}",
+    "sell": "{fly} vendió {sym}",
+    "take_profit": "{fly} tomó ganancia en {sym}",
+    "panic_sell": "{fly} cortó {sym}",
+    "stop": "{fly} salió por stop de {sym}",
+    "linking": "conectando con el desk de Fly Wallets…",
+    "listening": "escuchando al desk",
+    "linked": "conectado · {wallets} billeteras · {fills} operaciones recientes",
+    "count": "{fills} operaciones · {live} en vivo"
+  },
+  "kpis": {
+    "wallets": "{count} billeteras activas",
+    "on": "{pct} sobre {usd} aportados",
+    "week": "7d {usd}",
+    "last": "última hace {ago}",
+    "lastNone": "última —",
+    "wl": "{w}G / {l}P",
+    "closedNone": "— cerradas"
+  },
+  "tape": {
+    "buy": "▲ COMPRA",
+    "sell": "▼ VENTA",
+    "count": "{count} operaciones"
+  },
+  "pulse": {
+    "flies": {
+      "one": "{count} mosca",
+      "other": "{count} moscas"
+    },
+    "reading": "leyendo las billeteras…"
+  },
+  "equity": {
+    "reading": "leyendo las curvas…"
+  },
+  "beat": {
+    "rate": "{n} operaciones/h · {w} billeteras"
+  },
+  "parts": {
+    "live": "EN VIVO",
+    "idle": "INACTIVO",
+    "routed": "{n} operaciones enrutadas",
+    "fills": "{n} operaciones",
+    "won": "{w}/{c} ganadas"
+  },
+  "role": {
+    "brain": "el conectoma",
+    "trend": "sigue la tendencia",
+    "dip": "compra la caída",
+    "momentum": "persigue la fuerza",
+    "fomo": "compras de top traders",
+    "copy": "copia billeteras",
+    "launch": "pools nuevos",
+    "exec": "enruta cada orden"
+  },
+  "cmd": {
+    "help": "help · top · watch 168 · unwatch · token FLYAI · open 168 · share 168 · clear",
+    "top": "{rank}. {fly} {profit} · {value} · {n} operaciones",
+    "watch": "siguiendo a {fly} · {value} · {profit} · sus operaciones se iluminan",
+    "noWallet": "{fly} aún no tiene dinero en su billetera",
+    "unwatch": "siguiendo a todas las moscas",
+    "token": "{sym} {price} · {n} moscas tienen {value} · {pct} sobre costo · {list}",
+    "tokenNone": "ninguna mosca tiene {sym} ahora",
+    "unknown": "comando desconocido · {help}"
+  }
+}

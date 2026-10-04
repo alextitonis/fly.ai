@@ -163,6 +163,10 @@
       "b_champion": "Champion",
       "b_player": "Player",
       "b_regular": "Regular"
+    },
+    "terminal": {
+      "label": "Fly Terminal",
+      "desc": "Watch the flies trade live"
     }
   },
   "footer": {

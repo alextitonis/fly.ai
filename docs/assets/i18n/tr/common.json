@@ -163,6 +163,10 @@
       "b_champion": "Şampiyon",
       "b_player": "Oyuncu",
       "b_regular": "Müdavim"
+    },
+    "terminal": {
+      "label": "Fly Terminal",
+      "desc": "Sineklerin canlı işlemini izle"
     }
   },
   "footer": {

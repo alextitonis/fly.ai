@@ -163,6 +163,10 @@
       "b_champion": "冠軍",
       "b_player": "玩家",
       "b_regular": "常客"
+    },
+    "terminal": {
+      "label": "Fly 終端",
+      "desc": "即時觀看蒼蠅交易"
     }
   },
   "footer": {

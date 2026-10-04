@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "fly.ai 终端 — 真实苍蝇大脑实时交易",
+    "description": "实时观看 Trader Flies 在 Robinhood Chain 上交易：每个苍蝇钱包的买卖、交易台各部分亮起、成交带、收益曲线、谁持有什么。"
+  },
+  "sub": "真实苍蝇大脑实时交易 · Robinhood Chain",
+  "status": {
+    "connecting": "连接中",
+    "live": "实时连接",
+    "reconnecting": "重新连接中"
+  },
+  "kpi": {
+    "value": "苍蝇资金",
+    "profit": "净盈亏",
+    "day": "24小时盈亏",
+    "trades": "24小时交易",
+    "hit": "胜率"
+  },
+  "panel": {
+    "stream": "活动流",
+    "core": "大脑核心 / 部件场",
+    "coreNote": "连接组 · 166,700 个神经元",
+    "mode": "模式：实时",
+    "equity": "全部苍蝇 · 7天收益",
+    "pulse": "市场脉搏",
+    "pulseNote": "苍蝇们持有的",
+    "tape": "成交带",
+    "heat": "苍蝇 × 代币",
+    "heatNote": "大小 = 价值 · 颜色 = 盈亏",
+    "leaders": "顶级苍蝇",
+    "leadersNote": "全部时间",
+    "beat": "交易台脉搏",
+    "placeholder": "help · top · watch 168 · token FLYAI · share 849",
+    "run": "执行"
+  },
+  "stream": {
+    "buy": "{fly} 买入 {sym}",
+    "sell": "{fly} 卖出 {sym}",
+    "take_profit": "{fly} 对 {sym} 止盈",
+    "panic_sell": "{fly} 割肉 {sym}",
+    "stop": "{fly} {sym} 止损出局",
+    "linking": "正在连接 Fly Wallets 交易台…",
+    "listening": "正在监听交易台",
+    "linked": "已连接 · {wallets} 个苍蝇钱包 · 已载入 {fills} 笔近期成交",
+    "count": "{fills} 笔成交 · {live} 笔实时"
+  },
+  "kpis": {
+    "wallets": "{count} 个钱包运行中",
+    "on": "投入 {usd}，{pct}",
+    "week": "7天 {usd}",
+    "last": "上一笔 {ago} 前",
+    "lastNone": "上一笔 —",
+    "wl": "{w}胜 / {l}负",
+    "closedNone": "— 已平仓"
+  },
+  "tape": {
+    "buy": "▲ 买入",
+    "sell": "▼ 卖出",
+    "count": "{count} 笔成交"
+  },
+  "pulse": {
+    "flies": {
+      "one": "{count} 只苍蝇",
+      "other": "{count} 只苍蝇"
+    },
+    "reading": "正在读取钱包…"
+  },
+  "equity": {
+    "reading": "正在读取曲线…"
+  },
+  "beat": {
+    "rate": "每小时 {n} 笔 · {w} 个钱包"
+  },
+  "parts": {
+    "live": "实时",
+    "idle": "空闲",
+    "routed": "已路由 {n} 笔成交",
+    "fills": "{n} 笔成交",
+    "won": "{w}/{c} 盈利"
+  },
+  "role": {
+    "brain": "连接组",
+    "trend": "顺势而行",
+    "dip": "逢低买入",
+    "momentum": "追逐强势",
+    "fomo": "顶级交易者买入",
+    "copy": "复制钱包",
+    "launch": "新池子",
+    "exec": "路由每笔成交"
+  },
+  "cmd": {
+    "help": "help · top · watch 168 · unwatch · token FLYAI · open 168 · share 168 · clear",
+    "top": "{rank}. {fly} {profit} · {value} · {n} 笔交易",
+    "watch": "正在关注 {fly} · {value} · {profit} · 它的交易会高亮",
+    "noWallet": "{fly} 的钱包还没有资金",
+    "unwatch": "关注全部苍蝇",
+    "token": "{sym} {price} · {n} 只苍蝇持有 {value} · 相对成本 {pct} · {list}",
+    "tokenNone": "目前没有苍蝇持有 {sym}",
+    "unknown": "未知命令 · {help}"
+  }
+}

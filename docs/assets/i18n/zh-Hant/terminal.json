@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "fly.ai 終端 — 真實蒼蠅大腦即時交易",
+    "description": "即時觀看 Trader Flies 在 Robinhood Chain 上交易：每個蒼蠅錢包的買賣、交易台各部件亮起、成交帶、收益曲線、誰持有什麼。"
+  },
+  "sub": "真實蒼蠅大腦即時交易 · Robinhood Chain",
+  "status": {
+    "connecting": "連線中",
+    "live": "即時連線",
+    "reconnecting": "重新連線中"
+  },
+  "kpi": {
+    "value": "蒼蠅資金",
+    "profit": "淨盈虧",
+    "day": "24小時盈虧",
+    "trades": "24小時交易",
+    "hit": "勝率"
+  },
+  "panel": {
+    "stream": "活動流",
+    "core": "大腦核心 / 部件場",
+    "coreNote": "連接組 · 166,700 個神經元",
+    "mode": "模式：即時",
+    "equity": "全部蒼蠅 · 7天收益",
+    "pulse": "市場脈搏",
+    "pulseNote": "蒼蠅們持有的",
+    "tape": "成交帶",
+    "heat": "蒼蠅 × 代幣",
+    "heatNote": "大小 = 價值 · 顏色 = 盈虧",
+    "leaders": "頂級蒼蠅",
+    "leadersNote": "全部時間",
+    "beat": "交易台脈搏",
+    "placeholder": "help · top · watch 168 · token FLYAI · share 849",
+    "run": "執行"
+  },
+  "stream": {
+    "buy": "{fly} 買入 {sym}",
+    "sell": "{fly} 賣出 {sym}",
+    "take_profit": "{fly} 對 {sym} 停利",
+    "panic_sell": "{fly} 認賠 {sym}",
+    "stop": "{fly} {sym} 停損出場",
+    "linking": "正在連線 Fly Wallets 交易台…",
+    "listening": "正在監聽交易台",
+    "linked": "已連線 · {wallets} 個蒼蠅錢包 · 已載入 {fills} 筆近期成交",
+    "count": "{fills} 筆成交 · {live} 筆即時"
+  },
+  "kpis": {
+    "wallets": "{count} 個錢包運行中",
+    "on": "投入 {usd}，{pct}",
+    "week": "7天 {usd}",
+    "last": "上一筆 {ago} 前",
+    "lastNone": "上一筆 —",
+    "wl": "{w}勝 / {l}負",
+    "closedNone": "— 已平倉"
+  },
+  "tape": {
+    "buy": "▲ 買入",
+    "sell": "▼ 賣出",
+    "count": "{count} 筆成交"
+  },
+  "pulse": {
+    "flies": {
+      "one": "{count} 隻蒼蠅",
+      "other": "{count} 隻蒼蠅"
+    },
+    "reading": "正在讀取錢包…"
+  },
+  "equity": {
+    "reading": "正在讀取曲線…"
+  },
+  "beat": {
+    "rate": "每小時 {n} 筆 · {w} 個錢包"
+  },
+  "parts": {
+    "live": "即時",
+    "idle": "閒置",
+    "routed": "已路由 {n} 筆成交",
+    "fills": "{n} 筆成交",
+    "won": "{w}/{c} 獲利"
+  },
+  "role": {
+    "brain": "連接組",
+    "trend": "順勢而行",
+    "dip": "逢低買入",
+    "momentum": "追逐強勢",
+    "fomo": "頂級交易者買入",
+    "copy": "複製錢包",
+    "launch": "新池子",
+    "exec": "路由每筆成交"
+  },
+  "cmd": {
+    "help": "help · top · watch 168 · unwatch · token FLYAI · open 168 · share 168 · clear",
+    "top": "{rank}. {fly} {profit} · {value} · {n} 筆交易",
+    "watch": "正在關注 {fly} · {value} · {profit} · 它的交易會高亮",
+    "noWallet": "{fly} 的錢包還沒有資金",
+    "unwatch": "關注全部蒼蠅",
+    "token": "{sym} {price} · {n} 隻蒼蠅持有 {value} · 相對成本 {pct} · {list}",
+    "tokenNone": "目前沒有蒼蠅持有 {sym}",
+    "unknown": "未知命令 · {help}"
+  }
+}

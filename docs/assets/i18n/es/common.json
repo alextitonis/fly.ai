@@ -163,6 +163,10 @@
       "b_champion": "Campeón",
       "b_player": "Jugador",
       "b_regular": "Habitual"
+    },
+    "terminal": {
+      "label": "Fly Terminal",
+      "desc": "Mira a las moscas operar en vivo"
     }
   },
   "footer": {

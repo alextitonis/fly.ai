@@ -163,6 +163,10 @@
       "b_champion": "챔피언",
       "b_player": "플레이어",
       "b_regular": "단골"
+    },
+    "terminal": {
+      "label": "Fly 터미널",
+      "desc": "파리들의 실시간 거래 보기"
     }
   },
   "footer": {

@@ -163,6 +163,10 @@
       "b_champion": "冠军",
       "b_player": "玩家",
       "b_regular": "常客"
+    },
+    "terminal": {
+      "label": "Fly 终端",
+      "desc": "实时观看苍蝇交易"
     }
   },
   "footer": {

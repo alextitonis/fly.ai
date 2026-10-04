@@ -19,6 +19,7 @@
       ["Fly Colosseum", "/colosseum/", "Trader Flies battle for $FLYAI"],
       ["Trader Flies", "/traderflies/traders", "Every fly's wallet, the leaderboard, yours"],
       ["Fly Market", "/traderflies/market", "Buy and sell Trader Flies"],
+      ["Fly Terminal", "/terminal", "Watch the flies trade live"],
       ["Fly Roulette", "/roulette/", "Fly brains vs a toy cap gun"],
       ["Fly Slots", "/slots/", "Spin the reels, a fly brain reacts"],
       ["Fly Race", "/race/", "Six fly brains race to the fruit"],

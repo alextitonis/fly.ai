@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "fly.ai terminal — real fly brains trading live",
+    "description": "Watch the Trader Flies trade live on Robinhood Chain: every fly wallet's buys and sells, the parts of the desk lighting up, the tape, the curve, who holds what."
+  },
+  "sub": "real fly brains trading live · Robinhood Chain",
+  "status": {
+    "connecting": "CONNECTING",
+    "live": "LIVE LINK",
+    "reconnecting": "RECONNECTING"
+  },
+  "kpi": {
+    "value": "IN THE FLIES",
+    "profit": "NET P&L",
+    "day": "P&L 24H",
+    "trades": "TRADES 24H",
+    "hit": "HIT RATE"
+  },
+  "panel": {
+    "stream": "ACTIVITY STREAM",
+    "core": "BRAIN CORE / PART FIELD",
+    "coreNote": "connectome · 166,700 neurons",
+    "mode": "MODE: LIVE",
+    "equity": "ALL FLIES · PROFIT 7D",
+    "pulse": "MARKET PULSE",
+    "pulseNote": "what the flies hold",
+    "tape": "TRADE TAPE",
+    "heat": "FLIES × TOKENS",
+    "heatNote": "size = value · colour = P&L",
+    "leaders": "TOP FLIES",
+    "leadersNote": "all time",
+    "beat": "DESK PULSE",
+    "placeholder": "help · top · watch 168 · token FLYAI · share 849",
+    "run": "RUN"
+  },
+  "stream": {
+    "buy": "{fly} bought {sym}",
+    "sell": "{fly} sold {sym}",
+    "take_profit": "{fly} took profit on {sym}",
+    "panic_sell": "{fly} cut {sym}",
+    "stop": "{fly} stopped out of {sym}",
+    "linking": "linking to the Fly Wallets desk…",
+    "listening": "listening to the desk",
+    "linked": "linked · {wallets} fly wallets · {fills} recent fills loaded",
+    "count": "{fills} fills · {live} live"
+  },
+  "kpis": {
+    "wallets": "{count} wallets live",
+    "on": "{pct} on {usd} put in",
+    "week": "7d {usd}",
+    "last": "last {ago} ago",
+    "lastNone": "last —",
+    "wl": "{w}W / {l}L",
+    "closedNone": "— closed"
+  },
+  "tape": {
+    "buy": "▲ BUY",
+    "sell": "▼ SELL",
+    "count": "{count} fills"
+  },
+  "pulse": {
+    "flies": {
+      "one": "{count} fly",
+      "other": "{count} flies"
+    },
+    "reading": "reading the wallets…"
+  },
+  "equity": {
+    "reading": "reading the curves…"
+  },
+  "beat": {
+    "rate": "{n} trades/h · {w} wallets"
+  },
+  "parts": {
+    "live": "LIVE",
+    "idle": "IDLE",
+    "routed": "{n} fills routed",
+    "fills": "{n} fills",
+    "won": "{w}/{c} won"
+  },
+  "role": {
+    "brain": "the connectome",
+    "trend": "rides the move",
+    "dip": "buys the drop",
+    "momentum": "chases strength",
+    "fomo": "top traders' buys",
+    "copy": "copies wallets",
+    "launch": "fresh pools",
+    "exec": "routes every fill"
+  },
+  "cmd": {
+    "help": "help · top · watch 168 · unwatch · token FLYAI · open 168 · share 168 · clear",
+    "top": "{rank}. {fly} {profit} · {value} · {n} trades",
+    "watch": "watching {fly} · {value} · {profit} · its trades light up",
+    "noWallet": "{fly} has no wallet money yet",
+    "unwatch": "watching every fly",
+    "token": "{sym} {price} · {n} flies hold {value} · {pct} on cost · {list}",
+    "tokenNone": "no fly holds {sym} right now",
+    "unknown": "unknown command · {help}"
+  }
+}

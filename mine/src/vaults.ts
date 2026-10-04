@@ -98,13 +98,16 @@ export function createVaults(d: VaultsDeps) {
    * one database read every BOARD_TTL_MS at most - the desk republishes it every 5 minutes - and the last copy is kept
    * when the database is slow or failing (after a mine deploy it took 13 s and then nothing answered).
    */
-  const BOARD_TTL_MS = 30_000;
+  const BOARD_TTL_MS = 30_000, FEED_TTL_MS = 10_000;
   const boards = new Map<string, { at: number; value: any; loading?: Promise<any> }>();
-  async function boardOf(key: string) {
+  const boardOf = (key: string) => cached(key, BOARD_TTL_MS, () => publicOf(key));
+  /** a read kept in memory for ttl (the leaderboard; the terminal's feed): one database read at a time, the last copy
+   *  kept when the database is slow or failing */
+  async function cached(key: string, ttl: number, read: () => Promise<any>) {
     const hit = boards.get(key);
-    if (hit && Date.now() - hit.at < BOARD_TTL_MS) return hit.value;
+    if (hit && Date.now() - hit.at < ttl) return hit.value;
     if (hit?.loading) return hit.value ?? hit.loading;      // one read at a time; the others get the last copy
-    const loading = publicOf(key).then((value) => {
+    const loading = read().then((value) => {
       boards.set(key, { at: Date.now(), value });
       return value;
     }, (err) => {
@@ -202,6 +205,22 @@ export function createVaults(d: VaultsDeps) {
     const row = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
       values (?, ?, 'move', ?, ?::text::jsonb) returning id`, wallet, chain, me, JSON.stringify({ to_chain: to, usd }));
     return { id: row!.id, status: "new" };
+  }
+
+  /**
+   * Every funded fly's published stats in one read, for the terminal (docs/terminal.html, 2026-10-04): its trades,
+   * holdings and curve, keyed by fly. One query every FEED_TTL_MS however many people watch (it read each fly's view
+   * before: ~0.25 requests a second per visitor).
+   */
+  async function feed(chain: string) {
+    const prefix = chain === "robinhood" ? "vault:" : `vault:${chain}:`;
+    const rows = await pg.all<{ fly_id: number; value: any }>(`select w.fly_id, p.value from mine.vault_ledger l
+      join mine.vault_wallets w on lower(w.address) = lower(l.wallet)
+      join mine.vault_public p on p.key = ?::text || w.address
+      where l.chain = ? and l.holder is not null and w.fly_id is not null`, prefix, chain);
+    const flies: Record<number, unknown> = {};
+    for (const r of rows) if (r.value) flies[r.fly_id] = r.value;
+    return { updated: Date.now() / 1000, chain, flies };
   }
 
   /** Flies whose wallet holds someone's money on any chain (the Breed page refuses to merge them, user 2026-10-02). */
@@ -332,6 +351,11 @@ export function createVaults(d: VaultsDeps) {
         const chain = chainOf(url.searchParams.get("chain"));
         const key = chain === "robinhood" ? "leaderboard" : `leaderboard:${chain}`;
         return d.send(res, 200, (await boardOf(key)) ?? { all: [], d7: [], h24: [] }), true;
+      }
+      if (p === "/api/vaults/feed") {
+        isOn();
+        const chain = chainOf(url.searchParams.get("chain"));
+        return d.send(res, 200, await cached(`feed:${chain}`, FEED_TTL_MS, () => feed(chain))), true;
       }
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})$/.exec(p))) return d.send(res, 200, await flyView(Number(m[1]))), true;
       if ((m = /^\/api\/vaults\/requests\/(\d{1,12})$/.exec(p))) return d.send(res, 200, await requestView(Number(m[1]))), true;

@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "fly.ai 터미널 — 진짜 파리 뇌가 실시간 거래 중",
+    "description": "Robinhood Chain에서 Trader Flies의 실시간 거래를 지켜보세요: 모든 파리 지갑의 매수·매도, 데스크 파트가 켜지는 모습, 체결 테이프, 수익 곡선, 누가 무엇을 보유하는지."
+  },
+  "sub": "진짜 파리 뇌가 실시간 거래 중 · Robinhood Chain",
+  "status": {
+    "connecting": "연결 중",
+    "live": "실시간 연결",
+    "reconnecting": "재연결 중"
+  },
+  "kpi": {
+    "value": "파리들의 자금",
+    "profit": "순손익",
+    "day": "24시간 손익",
+    "trades": "24시간 거래",
+    "hit": "적중률"
+  },
+  "panel": {
+    "stream": "활동 스트림",
+    "core": "뇌 코어 / 파트 필드",
+    "coreNote": "커넥톰 · 뉴런 166,700개",
+    "mode": "모드: 실시간",
+    "equity": "전체 파리 · 7일 수익",
+    "pulse": "시장 펄스",
+    "pulseNote": "파리들이 보유한 것",
+    "tape": "체결 테이프",
+    "heat": "파리 × 토큰",
+    "heatNote": "크기 = 가치 · 색 = 손익",
+    "leaders": "톱 파리",
+    "leadersNote": "전체 기간",
+    "beat": "데스크 펄스",
+    "placeholder": "help · top · watch 168 · token FLYAI · share 849",
+    "run": "실행"
+  },
+  "stream": {
+    "buy": "{fly} {sym} 매수",
+    "sell": "{fly} {sym} 매도",
+    "take_profit": "{fly} {sym} 익절",
+    "panic_sell": "{fly} {sym} 손절",
+    "stop": "{fly} {sym} 스톱 청산",
+    "linking": "Fly Wallets 데스크에 연결 중…",
+    "listening": "데스크를 듣는 중",
+    "linked": "연결됨 · 파리 지갑 {wallets}개 · 최근 체결 {fills}건",
+    "count": "체결 {fills}건 · 실시간 {live}건"
+  },
+  "kpis": {
+    "wallets": "지갑 {count}개 운용 중",
+    "on": "투입 {usd} 대비 {pct}",
+    "week": "7일 {usd}",
+    "last": "마지막 {ago} 전",
+    "lastNone": "마지막 —",
+    "wl": "{w}승 / {l}패",
+    "closedNone": "— 청산"
+  },
+  "tape": {
+    "buy": "▲ 매수",
+    "sell": "▼ 매도",
+    "count": "체결 {count}건"
+  },
+  "pulse": {
+    "flies": {
+      "one": "파리 {count}마리",
+      "other": "파리 {count}마리"
+    },
+    "reading": "지갑 읽는 중…"
+  },
+  "equity": {
+    "reading": "곡선 읽는 중…"
+  },
+  "beat": {
+    "rate": "시간당 {n}건 · 지갑 {w}개"
+  },
+  "parts": {
+    "live": "실시간",
+    "idle": "대기",
+    "routed": "{n}건 체결 라우팅",
+    "fills": "{n}건 체결",
+    "won": "{w}/{c} 승"
+  },
+  "role": {
+    "brain": "커넥톰",
+    "trend": "추세를 탄다",
+    "dip": "하락을 산다",
+    "momentum": "강세를 쫓는다",
+    "fomo": "톱 트레이더 매수",
+    "copy": "지갑 카피",
+    "launch": "새 풀",
+    "exec": "모든 체결 라우팅"
+  },
+  "cmd": {
+    "help": "help · top · watch 168 · unwatch · token FLYAI · open 168 · share 168 · clear",
+    "top": "{rank}. {fly} {profit} · {value} · {n}건",
+    "watch": "{fly} 지켜보는 중 · {value} · {profit} · 거래가 강조됩니다",
+    "noWallet": "{fly} 지갑에 아직 자금이 없습니다",
+    "unwatch": "모든 파리를 지켜보는 중",
+    "token": "{sym} {price} · 파리 {n}마리가 {value} 보유 · 원가 대비 {pct} · {list}",
+    "tokenNone": "지금 {sym}을(를) 보유한 파리가 없습니다",
+    "unknown": "알 수 없는 명령 · {help}"
+  }
+}

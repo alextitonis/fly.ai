@@ -223,6 +223,9 @@ try {
   check("leaderboard", (await api("/api/vaults/leaderboard", null)).json.all[0].vault === W3);
   const v3b = (await api("/api/vaults/fly/3", null)).json;
   check("the stats per chain", v3b.stats?.value === 112.5 && v3b.away[1].stats?.value === 7);
+  // the terminal's feed: every funded fly's stats in one read (fly 3 holds bob's money; fly 4 nobody's)
+  const fd = (await api("/api/vaults/feed", null)).json;
+  check("the terminal feed", fd.flies?.["3"]?.value === 112.5 && !fd.flies?.["4"] && Object.keys(fd.flies).length === 1, JSON.stringify(fd).slice(0, 120));
 
   // FlightPass #9 (balance 50,000 FLYAI) burnt into fly 4
   await PG.pg.run("insert into mine.ledger (wallet, kind, amount_wei, tx, at) values ('pass:9', 'deposit', ?, 'test', ?)", (50_000n * WEI).toString(), Date.now());

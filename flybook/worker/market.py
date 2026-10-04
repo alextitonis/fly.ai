@@ -53,6 +53,11 @@ STABLE_FEE = 0.0001            # a stablecoin swap (real stable pools charge ~0.
 CASH_START = 2500.0            # fallback start: a new wallet gets 1 ETH's worth of paper USDG (set_eth_usd), ~this
 _eth_usd = [CASH_START]        # the latest real ETH price, for new wallets
 MIN_TRADE_ETH = 2.5            # smallest trade, in paper dollars: ~0.1% of a starting wallet, as 0.001 ETH was
+# the Fly Wallets desk (flytrade/vaults/vdesk.py brain_group) sets these for its round only, then puts them back: small
+# real wallets ($4 brain books) wanted $0.40-1.60 buys and held forever (2026-10-04). LIFT_TO_MIN: a buy the brain chose
+# under MIN_TRADE_ETH is raised to it when the cash is there; MIN_SELL_ETH: the sell floor (None = MIN_TRADE_ETH)
+LIFT_TO_MIN = False
+MIN_SELL_ETH: float | None = None
 LAUNCHES = os.environ.get("FLYBOOK_FLY_COINS", "0") == "1"
 # Field of view (live market, 2026-09-18): each round a fly watches VIEW tokens, drawn at random weighted by its tubes
 # (what paid before is likelier to be in view), plus everything it holds. With every fly seeing every token, the first
@@ -439,7 +444,9 @@ def decide(portfolio: dict, did: list[dict], drive: dict, prices: dict, mind: di
     if action == "buy":
         spend = min(portfolio["eth"], portfolio["eth"] * mind["traits"]["risk"] * (1.5 if "buzzed" in keys else 1.0) * size)
         if spend < MIN_TRADE_ETH:
-            return None, "hold", {}
+            if not (LIFT_TO_MIN and portfolio["eth"] >= MIN_TRADE_ETH):
+                return None, "hold", {}
+            spend = MIN_TRADE_ETH
         if symbol in pools:
             qty = launches.buy(pools[symbol], spend)
             prices[symbol] = pools[symbol]["price"]
@@ -457,13 +464,13 @@ def decide(portfolio: dict, did: list[dict], drive: dict, prices: dict, mind: di
     if symbol in pools:
         if not launches.live(pools[symbol]):
             return None, "hold", {}
-        if launches.quote_sell(pools[symbol], qty) < MIN_TRADE_ETH:              # quote first: tiny sells are skipped
+        if launches.quote_sell(pools[symbol], qty) < (MIN_TRADE_ETH if MIN_SELL_ETH is None else MIN_SELL_ETH):              # quote first: tiny sells are skipped
             return None, "hold", {}
         got = launches.sell(pools[symbol], qty)
         prices[symbol] = pools[symbol]["price"]
     else:
         got = qty * prices[symbol] * (1 - fee_of(symbol))
-    if got < MIN_TRADE_ETH:
+    if got < (MIN_TRADE_ETH if MIN_SELL_ETH is None else MIN_SELL_ETH):
         return None, "hold", {}
     h["cost_eth"] *= (1 - share)
     h["qty"] -= qty
