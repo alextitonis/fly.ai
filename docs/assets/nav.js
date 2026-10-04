@@ -20,6 +20,7 @@
       ["Trader Flies", "/traderflies/traders", "Every fly's wallet, the leaderboard, yours"],
       ["Fly Market", "/traderflies/market", "Buy and sell Trader Flies"],
       ["Fly Terminal", "/terminal", "Watch the flies trade live"],
+      ["Fly Desk", "/desk", "Real fly brains trade live; Trader Flies share the profit"],   // live since 2026-10-05: under Apps and NFTs, not Research
       ["Fly Roulette", "/roulette/", "Fly brains vs a toy cap gun"],
       ["Fly Slots", "/slots/", "Spin the reels, a fly brain reacts"],
       ["Fly Race", "/race/", "Six fly brains race to the fruit"],
@@ -37,6 +38,7 @@
       ["Fly Market", "/traderflies/market", "Buy and sell Trader Flies"],
       ["Breed", "/traderflies/breed", "Merge two flies into one"],
       ["Claim", "/traderflies/claim", "Collect your flies' $FLYAI"],
+      ["Fly Desk", "/desk", "Real fly brains trade live; Trader Flies share the profit"],
       ["FlightPass", "/traderflies/pass", "Put your flies on autopilot"],
       ["OpenSea", "https://opensea.io/collection/trader-fly-294099831", "Trader Flies on OpenSea"],
     ]],
@@ -44,7 +46,6 @@
       ["All findings", "/research", "Fighting, the 3-D world, what failed"],
       ["Talking flies", "/research/flybook", "Flybook: can two brains signal?"],
       ["On air", "/research/radio", "How a radio station run by a real fly brain works"],
-      ["Fly Desk", "/desk", "Fly brains trade a paper book"],
       ["Roadmap", "/roadmap", "What's done and what's next"],
     ]],
     ["token", "$FLYAI", [

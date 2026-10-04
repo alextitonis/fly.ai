@@ -62,7 +62,7 @@
     },
     "desk": {
       "label": "Fly Desk",
-      "desc": "파리 뇌가 모의 포트폴리오를 거래합니다"
+      "desc": "실제 파리 뇌가 라이브로 거래하고, Trader Flies가 수익을 나눕니다"
     },
     "traderflies": {
       "label": "Trader Flies",
