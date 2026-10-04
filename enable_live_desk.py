@@ -10,7 +10,7 @@ What it writes into desk_config (settings only; the code is houseexec.py + engin
                                         round trip <= 3%, no curves, Robinhood Chain only) + patience and churn band
                                     reversal off (its one good paper book holds the same young memes its twins lost on)
     rug gates                       entry gate on for the sleeves' buys too (entry.sleeves); pool-drain exit 50%
-    funding                         FLYAI in the house wallet sold for the books' cash, <= $100 a bar, 0.5% of depth
+    funding                         FLYAI in the house wallet sold for the books' cash, <= $50 a bar, 0.25% of depth, not into a 5% dip
     pool_wallet                     the pool wallet (POOL_ADDRESS in flytrade/.env) shown beside it on the site
     limits                          max $50 a trade; the house wallet's own day cap is DESK_HOUSE_DAY_USD (default $2k)
     mode                            shadow (default: real quotes, nothing sent) or live (--mode live)
@@ -73,7 +73,9 @@ def plan(cap: float, flies: int) -> tuple[dict, list[str]]:
             "stockgap": {"on": True, "allocation_usd": round(cap * MIX["stockgap"], 2), "entry_pct": 1.5,
                          "min_pool_usd": 100000.0, "max_positions": gap_slots},
         },
-        "funding": {"on": True, "max_pool_share": 0.005, "max_bar_usd": 100.0, "min_step_usd": 5.0},
+        # gentle on the FLYAI chart (2026-10-05, the user): <= $50 a bar, <= 0.25% of the pool's depth, and no selling
+        # while FLYAI is 5%+ under its 1 h high
+        "funding": {"on": True, "max_pool_share": 0.0025, "max_bar_usd": 50.0, "min_step_usd": 5.0, "max_dip_pct": 5.0},
         "pool_wallet": {"address": pool_address(), "tokens": ["FLYAI", "USDG", "ETH"]},
         "limits": {"max_trade_usd": 50.0},
         "launches": {"live": False},

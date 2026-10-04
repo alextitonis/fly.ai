@@ -88,13 +88,13 @@
       return { times: s.map((d) => d.day + "T23:59:00Z"), pot: s.map((d) => d.pot_usd), books: {}, variants: {} };
     }
     const books = {}, variants = {};
-    c.books.forEach((n) => (books[n] = []));
-    c.variants.forEach((n) => (variants[n] = []));
+    (c.books || []).forEach((n) => (books[n] = []));
+    (c.variants || []).forEach((n) => (variants[n] = []));
     const out = { times: [], pot: [], books, variants };
     for (const [ts, vals, gv] of c.points) {
       let pot = 0;
-      vals.forEach((v, i) => { books[c.books[i]].push(v); if (v != null) pot += v; });
-      gv.forEach((v, i) => variants[c.variants[i]].push(v));
+      (vals || []).forEach((v, i) => { if (books[c.books[i]]) books[c.books[i]].push(v); if (v != null) pot += v; });
+      (gv || []).forEach((v, i) => variants[c.variants[i]].push(v));   // live: no test books, so no variant values (2026-10-05)
       out.times.push(ts); out.pot.push(+pot.toFixed(2));
     }
     return out;
@@ -123,6 +123,7 @@
   let zoom = "ret";
   function drawChart(host, s, starts) {
     host.innerHTML = "";
+    if (!s) return;                                             // no curve yet (it failed to read): nothing to draw
     const W = host.clientWidth, H = host.clientHeight;
     const m = { l: 62, r: 14, t: 10, b: 26 };
     const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: "none" }, host);
