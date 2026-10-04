@@ -61,6 +61,9 @@ nav .ddlabel:hover, nav li.dd.open .ddlabel, nav .ddlabel.on { color: var(--text
 nav .ddlabel.on::after { content: ""; display: block; height: 2px; border-radius: 2px; background: var(--mint, #5ef2cc); margin-top: 4px; box-shadow: 0 0 8px var(--glow, rgba(94,242,204,.28)); }
 nav .ddmenu.right { left: auto; right: -12px; }
 nav .ddmenu { align-items: stretch; }        /* not centred like the bar's own items: rows line up */
+/* a long menu (nav.js: more than 8 items, Apps) in two columns, so it fits a laptop screen's height */
+nav li.dd:hover .ddmenu.wide, nav li.dd:focus-within .ddmenu.wide, nav li.dd.open .ddmenu.wide {
+  display: grid; grid-template-columns: repeat(2, minmax(240px, 280px)); column-gap: 4px; }
 /* a phone: a menu opens full width under the whole bar, not hung off its label (2026-10-02: the menus by either
    edge - Apps, Market, $FLYAI - ran off the screen) */
 @media (max-width: 760px) {

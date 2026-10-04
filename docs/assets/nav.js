@@ -120,7 +120,8 @@
       const [id, label, items, right] = item;
       const btn = el("button", { class: "ddbtn ddlabel", type: "button", "aria-expanded": "false", "aria-controls": `dd-${id}` },
         `${label} `, el("span", { "aria-hidden": "true" }, "▾"));
-      const menu = el("ul", { class: right ? "ddmenu right" : "ddmenu", id: `dd-${id}` });
+      // a long menu goes two columns (2026-10-04, the user: Apps "going down of the screen because it's too long")
+      const menu = el("ul", { class: `ddmenu${right ? " right" : ""}${items.length > 8 ? " wide" : ""}`, id: `dd-${id}` });
       for (const it of items) menu.append(el("li", null, link(it)));
       if (menu.querySelector("a.on")) btn.classList.add("on");
       ul.append(el("li", { class: "dd main" }, btn, menu));
