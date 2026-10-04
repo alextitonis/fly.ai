@@ -246,5 +246,18 @@
     "paper": "PAPEL",
     "shadow": "SOMBRA",
     "live": "EN VIVO"
+  },
+  "pay": {
+    "title": "El pago de esta semana",
+    "when": "se liquida {date} · en {in}",
+    "sum": "Si la semana cerrara ahora: {profit} por encima del máximo, el {share}% para los holders = {holders}, repartido entre {n} moscas activadas según rareza y tiempo activas.",
+    "none": "El desk está {gap} por debajo de su máximo, así que esta semana aún no paga nada. {n} moscas están activadas y acumulan su parte para cuando pague.",
+    "off": "Los pagos aún no están activados: estas son las cantidades que recibiría cada mosca. Cuando lo estén, el pago de una semana se liquida el domingo a las 23:00 UTC y se puede reclamar en la página Claim dos días después.",
+    "thFly": "Mosca",
+    "thWeight": "Rareza",
+    "thActive": "Activa esta semana",
+    "thShare": "Parte",
+    "thUsd": "$ ahora",
+    "empty": "Aún no hay moscas activadas: una mosca está activa mientras su holder tenga 200.000 $FLYAI."
   }
 }

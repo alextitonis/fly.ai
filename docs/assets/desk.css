@@ -321,6 +321,7 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
     "stats stats stats stats stats stats stats stats stats stats stats stats"
     "chart chart chart chart chart chart chart chart pos pos pos pos"
     "tape tape tape tape tape tape books books books books books books"
+    "pay pay pay pay pay pay pay pay pay pay pay pay"
     "vote vote vote vote vote vote vote vote vote vote vote vote"
     "foot foot foot foot foot foot foot foot foot foot foot foot"
     "how how how how how how how how how how how how";
@@ -347,6 +348,12 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
 .dkt-tape { grid-area: tape; max-height: 440px; }
 .dkt-books { grid-area: books; max-height: 440px; }
 .dkt-vote { grid-area: vote; }
+.dkt-pay { grid-area: pay; max-height: 520px; }
+.dkt-pay[hidden] { display: none; }
+.desk .dkt .dkt-pay-note { color: #f2b33d; }
+.desk .dkt .dkt-pay h2 small { color: var(--t-dim); letter-spacing: .04em; text-transform: none; font-weight: 500; }
+.desk .dkt #pay-tbl a { color: var(--t-text); text-decoration: none; } .desk .dkt #pay-tbl a:hover { color: var(--t-mint); }
+.desk .dkt #pay-tbl tr.off td { color: var(--t-dim); }
 .dkt-foot { grid-area: foot; }
 .dkt-how { grid-area: how; }
 /* the site's serif headings and plates give way to the terminal's */
@@ -393,6 +400,7 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
     "chart chart chart chart chart chart chart chart chart chart chart chart"
     "pos pos pos pos pos pos books books books books books books"
     "tape tape tape tape tape tape tape tape tape tape tape tape"
+    "pay pay pay pay pay pay pay pay pay pay pay pay"
     "vote vote vote vote vote vote vote vote vote vote vote vote"
     "foot foot foot foot foot foot foot foot foot foot foot foot"
     "how how how how how how how how how how how how"; }

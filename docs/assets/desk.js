@@ -408,6 +408,12 @@
     const med = (xs) => { const v = xs.slice().sort((a, c) => a - c), m = v.length >> 1; return v.length ? (v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2) : null; };
     const mv = med(b.books.map((x) => x.value_usd)), mr = med(b.books.map((x) => x.return_pct));
     $("k-median").innerHTML = mv == null ? "—" : `${usd(mv)} <span class="sub ${cls(mr)}">${pct(mr)}</span>`;
+    // one fly trades the desk (2026-10-05): "median fly" and "best fly" say nothing then - only the pot and the P&L
+    const one = b.books.length <= 1;
+    ["k-median", "k-best"].forEach((id) => { const k = $(id) && $(id).closest(".tm-kpi"); if (k) k.style.display = one ? "none" : ""; });
+    const kp = $("k-pot") && $("k-pot").closest(".dkt-kpis");
+    if (kp) kp.style.gridTemplateColumns = one ? "repeat(2, minmax(0, 1fr))" : "";
+    renderPayout(b.payout);
     renderStats(s, start);
     renderRecords(b.records);
     drawChart($("chart"), s, starts());
@@ -827,6 +833,28 @@
     box.dataset.k = k;
     box.hidden = false;
     box.innerHTML = `<div class="tk-track">${html}${html}</div>`;
+  }
+
+  // ------------------------------------------------------------------ the week's payout (publish.payout_preview)
+  /** Every activated Trader Fly with what it would get if the week closed now: the profit above the high x the holders'
+   *  share, split by rarity weight x the share of the week it was active. Settles Sunday 23:00 UTC. */
+  function renderPayout(p) {
+    const box = $("payout");
+    if (!box) return;
+    if (!p || !p.flies) { box.hidden = true; return; }
+    box.hidden = false;
+    const when = new Date(p.settles_at * 1000);
+    const left = Math.max(0, p.settles_at * 1000 - Date.now()), d = Math.floor(left / 86_400_000), h = Math.floor(left / 3_600_000) % 24;
+    $("pay-when").textContent = t("pay.when", { date: when.toLocaleString(lang(), { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }), in: d ? `${d}d ${h}h` : `${h}h` });
+    $("pay-sum").innerHTML = p.profit_usd > 0
+      ? t("pay.sum", { profit: `<b class="up">${esc(usd(p.profit_usd))}</b>`, share: Math.round(p.holders_share * 100), holders: `<b class="up">${esc(usd(p.holders_usd))}</b>`, n: p.active })
+      : t("pay.none", { gap: `<b>${esc(usd(p.peak_usd - p.pot_usd))}</b>`, n: p.active });
+    const rows = p.flies;
+    $("pay-tbl").innerHTML = `<thead><tr><th>${esc(t("pay.thFly"))}</th><th class="r">${esc(t("pay.thWeight"))}</th><th class="r">${esc(t("pay.thActive"))}</th><th class="r">${esc(t("pay.thShare"))}</th><th class="r">${esc(t("pay.thUsd"))}</th></tr></thead><tbody>` +
+      (rows.length ? rows.map((f) => `<tr class="${f.active_now ? "" : "off"}"><td><a href="/traderflies/fly?id=${encodeURIComponent(f.fly)}">Trader Fly #${esc(f.fly)}</a></td>` +
+        `<td class="r">×${esc(f.weight)}</td><td class="r">${nf(0).format(f.active_pct)}%</td><td class="r">${nf(2).format(f.share_pct)}%</td>` +
+        `<td class="r"><b class="${f.usd > 0 ? "up" : ""}">${esc(usd(f.usd))}</b></td></tr>`).join("")
+        : `<tr class="empty"><td colspan="5">${esc(t("pay.empty"))}</td></tr>`) + "</tbody>";
   }
 
   // the clock in the top bar (local time, like /terminal's)

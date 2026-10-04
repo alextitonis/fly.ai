@@ -452,3 +452,9 @@
 .hero .firstvisit .fv-chips { display: contents; }
 @media (max-width: 600px) { .hero .firstvisit .fv-chips { display: flex; } }
 @media (max-width: 600px) { .hero .firstvisit .fv-chips { justify-content: flex-start; } .hero .firstvisit .fv-chips::after { content: ""; flex: 0 0 4px; } }
+
+/* the landing's first button while the Fly Desk is newly live (index.html, 2026-10-05) */
+.desk-live-btn { display: inline-flex; align-items: center; gap: 9px; }
+.desk-live-dot { width: 8px; height: 8px; border-radius: 50%; background: #000; flex: none; animation: desk-live-pulse 1.6s ease-in-out infinite; }
+@keyframes desk-live-pulse { 50% { opacity: .25; transform: scale(.8); } }
+@media (prefers-reduced-motion: reduce) { .desk-live-dot { animation: none; } }

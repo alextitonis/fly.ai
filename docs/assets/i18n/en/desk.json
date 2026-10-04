@@ -246,5 +246,18 @@
     "paper": "PAPER",
     "shadow": "SHADOW",
     "live": "LIVE"
+  },
+  "pay": {
+    "title": "This week's payout",
+    "when": "settles {date} · in {in}",
+    "sum": "If the week closed now: {profit} above the high, {share}% of it to holders = {holders}, split over {n} activated flies by rarity and time active.",
+    "none": "The desk is {gap} under its high, so this week pays nothing yet. {n} flies are activated and earning their share for when it does.",
+    "off": "Payouts aren't switched on yet: these are the amounts each fly would get. Once they are, a week's payout settles on Sunday at 23:00 UTC and can be claimed on the Claim page two days later.",
+    "thFly": "Fly",
+    "thWeight": "Rarity",
+    "thActive": "Active this week",
+    "thShare": "Share",
+    "thUsd": "$ now",
+    "empty": "No activated flies yet: a fly is activated while its holder holds 200,000 $FLYAI."
   }
 }

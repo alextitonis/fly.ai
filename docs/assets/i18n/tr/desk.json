@@ -246,5 +246,18 @@
     "paper": "KÂĞIT",
     "shadow": "GÖLGE",
     "live": "CANLI"
+  },
+  "pay": {
+    "title": "Bu haftanın ödemesi",
+    "when": "{date} hesaplanır · {in} kaldı",
+    "sum": "Hafta şimdi kapansa: zirvenin {profit} üstünde, %{share}'i sahiplere = {holders}, nadirliğe ve aktif süreye göre {n} aktif sineğe bölünür.",
+    "none": "Masa zirvesinin {gap} altında, bu yüzden bu hafta henüz ödeme yok. {n} sinek aktif ve ödeme olduğunda paylarını biriktiriyor.",
+    "off": "Ödemeler henüz açılmadı: bunlar her sineğin alacağı tutarlar. Açıldığında bir haftanın ödemesi pazar 23:00 UTC'de hesaplanır ve iki gün sonra Claim sayfasından talep edilebilir.",
+    "thFly": "Sinek",
+    "thWeight": "Nadirlik",
+    "thActive": "Bu hafta aktif",
+    "thShare": "Pay",
+    "thUsd": "Şimdi $",
+    "empty": "Henüz aktif sinek yok: sahibi 200.000 $FLYAI tuttuğu sürece sinek aktiftir."
   }
 }
