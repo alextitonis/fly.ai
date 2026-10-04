@@ -7,9 +7,10 @@
  * exactly on the spin's stops. The fly (fly.ts) reacts after the reels stop; it never changes a result.
  */
 import { BIG, Fly } from "./fly.ts";
-import { Cancelled, fmt, initBets, type BetSpin } from "./bet.ts";
+import { Cancelled, initBets, type BetSpin } from "./bet.ts";
 import { PAYS, STRIP, deriveRng, rtp, spinWith, type Line, type Sym } from "./game.ts";
 import { setupI18n, t } from "./i18n.ts";
+import { fmt, randomHex } from "../util.ts";
 
 // the page's language first: every text below is in it
 await setupI18n();
@@ -24,7 +25,6 @@ const modeFun = $<HTMLButtonElement>("mode-fun"), modeBet = $<HTMLButtonElement>
 
 const icon = (s: Sym, cls = "") => `<svg viewBox="0 0 100 100" class="${cls}" aria-hidden="true"><use href="#s-${s}"/></svg>`;
 const say = (text: string, cls = "") => { msgEl.textContent = text; msgEl.className = cls; };
-const randomHex = () => [...crypto.getRandomValues(new Uint8Array(16))].map((x) => x.toString(16).padStart(2, "0")).join("");
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 // ---- the reels ---------------------------------------------------------------------------------------------

@@ -5,10 +5,10 @@
  */
 import type { TaskParams, TaskResult } from "../src/runner.ts";
 import { t } from "./i18n.ts";
+import { $ } from "./format.ts";
 import { API, CONNECTOME } from "./config.ts";
 import { fetchModelInfo } from "./download.ts";
 
-const $ = (id: string) => document.getElementById(id)!;
 const log = (line: string) => { $("log").textContent += line + "\n"; };
 const status = (text: string) => { $("status").textContent = text; };
 

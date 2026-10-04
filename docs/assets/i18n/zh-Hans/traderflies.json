@@ -1200,7 +1200,9 @@
       "min_traders": "买入的顶级交易员数",
       "min_usd": "其买入至少 ($)",
       "window_minutes": "时间内（分钟）",
-      "follow_sells": "他们卖时卖出（1 = 是）"
+      "follow_sells": "他们卖时卖出（1 = 是）",
+      "min_holders": "最少持有人数",
+      "house": "也跟买 FLYAI（1 = 是）"
     },
     "filters": "Meme 币筛选",
     "filtersText": "只筛选 Meme 币：主流币和股票代币用的是交易台自己的列表。留空 = 不限。",
@@ -1420,5 +1422,30 @@
     "s4": "每个特征来自一方亲代或突变为新特征；稀有度取较低的亲代，有 5% 几率升一级。",
     "why": "苍蝇更少、更稀有：每次合并都会永久减少一只苍蝇的供应，并额外销毁 $FLYAI。",
     "fold": "繁殖如何运作 · 试试概率"
+  },
+  "share": {
+    "button": "分享盈亏",
+    "title": "分享你的苍蝇盈亏",
+    "close": "关闭",
+    "span": {
+      "all": "总收益",
+      "d7": "收益 · 7 天",
+      "h24": "收益 · 24 小时"
+    },
+    "trade": "{side} {what}",
+    "size": "规模 {usd}",
+    "trades": "{n} 笔交易",
+    "winRate": "胜率 {pct}%",
+    "value": "钱包 {usd}",
+    "share": "分享",
+    "x": "发到 X",
+    "download": "下载",
+    "copy": "复制图片",
+    "copied": "图片已复制：可随处粘贴。",
+    "copyFail": "此浏览器无法复制图片：请用下载。",
+    "pasteHint": "图片已复制：粘贴到帖子里 (Ctrl/Cmd+V)。",
+    "attachHint": "图片已下载：请附加到帖子。",
+    "post": "{name} 用自己真实的苍蝇大脑交易，{span}收益 {profit} {pct} 🪰🧠",
+    "postTrade": "{name} 刚以 {pct} 平仓 {what} 🪰🧠"
   }
 }

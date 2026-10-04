@@ -6,7 +6,7 @@
  * per-voice pitch and the noise floor are a sonification choice, ported 1:1 from radio/audio.py.
  */
 import radio from "./radio.json";
-import { progress, setupRadio, t, tx } from "../i18n.ts";
+import { connectomeBase, progress, setupRadio, t, tx } from "../i18n.ts";
 
 // the page's language first: everything below writes text
 await setupRadio();
@@ -75,7 +75,7 @@ const castName = (s: Show, name: string) => {
 };
 
 const worker = new Worker(new URL("./radio.worker.ts", import.meta.url), { type: "module" });
-const base = new URL(import.meta.env.DEV ? `${import.meta.env.BASE_URL}connectome/` : "/simulation/connectome/", location.href).href;
+const base = connectomeBase();
 
 worker.onmessage = (e: MessageEvent) => {
   const m = e.data;

@@ -1,4 +1,5 @@
-// Types for kit.js, the wagmi bundle built from mine/wallet/src/kit.ts (see that file; keep the two in step).
+// Types for kit.js, the wagmi bundle built from mine/wallet/src/kit.ts. `npm run types` in mine/wallet (part of
+// `npm run build` there since 2026-10-04) regenerates this file from it; until then keep the two in step by hand.
 export interface WalletOption { uid: string; name: string; icon: string | null; kind: "browser" | "walletconnect" }
 export interface Connection { address: string; chainId: number | undefined; wallet: string }
 export interface ChainInfo { chain_id: number; chain_name: string; rpc: string; explorer: string }

@@ -10,10 +10,12 @@
  * The brain work and the animation run side by side: the race's legs are pulled into a queue as the worker (or the
  * server) produces them, while the track tweens the flies through the legs already in hand.
  */
-import { Cancelled, fmt, initBets, type BetRace } from "./bet.ts";
+import { Cancelled, initBets, type BetRace } from "./bet.ts";
 import { BET_TYPES, LANES, LEGS, betWon, deriveRng, multiplier, playRace, setupRace, type BetType, type Race, type RaceEvent } from "./game.ts";
+import { connectomeBase, progress } from "../i18n.ts";
 import { placeText, setupI18n, t } from "./i18n.ts";
 import { COLORS, Track } from "./scene.ts";
+import { esc, fmt, randomHex } from "../util.ts";
 
 // the page's language first: every text below is in it
 await setupI18n();
@@ -26,8 +28,6 @@ const speedBtn = $<HTMLButtonElement>("speed"), soundBtn = $<HTMLButtonElement>(
 const typeBtns = [...document.querySelectorAll<HTMLButtonElement>("[data-bet]")];
 
 const say = (text: string, cls = "") => { msgEl.textContent = text; msgEl.className = cls; };
-const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]!);
-const randomHex = () => [...crypto.getRandomValues(new Uint8Array(16))].map((x) => x.toString(16).padStart(2, "0")).join("");
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 /** the house edge the pays show before the server says otherwise (the design: 5.7x a win, 1.9x a podium) */
 const DEFAULT_EDGE = 0.05;
@@ -50,10 +50,10 @@ function brainFailed(): void {
 
 try {
   worker = new Worker(new URL("./brain.worker.ts", import.meta.url), { type: "module" });
-  const base = new URL(import.meta.env.DEV ? `${import.meta.env.BASE_URL}connectome/` : "/simulation/connectome/", location.href).href;
+  const base = connectomeBase();
   worker.onmessage = (e: MessageEvent) => {
     const m = e.data;
-    if (m.type === "progress") statusEl.textContent = t("race.status.progress", { text: progressText(m.text) });
+    if (m.type === "progress") statusEl.textContent = t("race.status.progress", { text: progress("race.status", m.text) });
     else if (m.type === "error") brainFailed();
     else if (m.type === "ready") {
       brainState = "ready";
@@ -70,12 +70,6 @@ try {
   worker.postMessage({ type: "load", base });
 } catch {
   queueMicrotask(brainFailed);
-}
-
-/** The worker's progress ("fly brain 40 / 210 MB") in the page's language. */
-function progressText(text: string): string {
-  if (text === "wiring 25 M synapses") return t("race.status.wiring");
-  return text.replace(/^labels/, t("race.status.labels")).replace(/^fly brain/, t("race.status.brain"));
 }
 
 /** game.ts LegBrain: one lane's brain for one leg, in the worker. */

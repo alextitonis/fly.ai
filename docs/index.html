@@ -300,6 +300,7 @@
     </div>
   </div>
 </section>
+<!-- @footer -->
 <footer>
   <div class="wrap">
     <div class="links">
@@ -310,46 +311,11 @@
     <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
   </div>
 </footer>
+<!-- /@footer -->
 
 <script src="assets/site.js"></script>
 <script src="assets/nav.js?v=20261004a"></script>
 <script type="module" src="assets/i18n/page.js"></script>
-<script type="module">
-  // "Welcome back" and the Continue row for a signed-in visitor; "Connect wallet" signs in with the site's one session
-  const KEY = "flyai.compute.session", API = "https://flyai-mine.fly.dev";
-  let s = null;
-  try { s = JSON.parse(localStorage.getItem(KEY) || "null"); } catch {}
-  if (s && s.expires_at > Date.now() && s.wallet) {
-    document.getElementById("continue").hidden = false;
-    // the numbers come with the nav's one summary read (nav.js loadSummary)
-    const fill = (v) => {
-      if (!v) return;
-      const c = document.querySelector("#continue a[href*='view=mine']");
-      const usd = (n) => `$${Number(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      if (c && v.wallets && v.wallets.count) c.textContent += ` · ${usd(v.wallets.value)} (${v.wallets.profit >= 0 ? "+" : "−"}${usd(Math.abs(v.wallets.profit))})`;
-      const k = document.querySelector("#continue a[href='/colosseum/']");
-      if (k && v.colosseum && v.colosseum.entries) k.textContent += ` · ${v.colosseum.wins}/${v.colosseum.entries}`;
-    };
-    if (window.flySummary) fill(window.flySummary); else window.addEventListener("fly:summary", (e) => fill(e.detail), { once: true });
-    document.getElementById("start-connect").hidden = true;
-    const w = document.getElementById("welcome");
-    const show = (name) => { w.textContent = (window.flyI18n?.t?.("index.start.welcome") || "Welcome back, {name}").replace("{name}", name); w.hidden = false; };
-    show(`${s.wallet.slice(0, 6)}…${s.wallet.slice(-4)}`);
-    fetch(`${API}/api/profiles?wallets=${s.wallet}`).then((r) => r.json()).then((n) => { if (n[s.wallet.toLowerCase()]) show(n[s.wallet.toLowerCase()]); }).catch(() => {});
-  }
-  else {
-    let seen = "1";
-    try { seen = localStorage.getItem("flyai.welcomed") || ""; } catch {}
-    if (!seen) document.getElementById("firstvisit").hidden = false;
-  }
-  document.getElementById("fv-x").addEventListener("click", () => {
-    document.getElementById("firstvisit").hidden = true;
-    try { localStorage.setItem("flyai.welcomed", "1"); } catch {}
-  });
-  document.getElementById("start-connect").addEventListener("click", async () => {
-    try { const a = await import("/compute/mine/web/account.js"); if (await a.signIn()) location.reload(); }
-    catch (e) { console.warn(e); }
-  });
-</script>
+<script type="module" src="assets/home.js"></script>
 </body>
 </html>

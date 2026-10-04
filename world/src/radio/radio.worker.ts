@@ -11,7 +11,8 @@
  *      {type: "caption", show, speaker, text, confidence, t}        decoded every 2 s of radio time
  *      {type: "perf", ms}                                          milliseconds per brain step
  */
-import { ConnectomeBrain, cells, parseMeta, parseWeights, type ConnectomeMeta, type ConnectomeWeights } from "../connectome.ts";
+import { loadConnectome } from "../brainload.ts";
+import { ConnectomeBrain, cells, type ConnectomeMeta, type ConnectomeWeights } from "../connectome.ts";
 import radio from "./radio.json";
 
 const ctx = self as unknown as {
@@ -22,30 +23,6 @@ const ctx = self as unknown as {
 type Show = (typeof radio.shows)[number];
 const CHUNK_STEPS = 5;                                   // 100 ms at dt 20 ms
 const WARM_S = 0.5;                                      // settle before a show goes on air, like flytalk's warmup
-
-/** One gzip stream in one or more parts (see connectome.worker.ts): join, then decompress if still gzipped. */
-async function fetchGz(urls: string[], label: string, totalMb = 0): Promise<ArrayBuffer> {
-  const chunks: Uint8Array[] = [];
-  let got = 0, lastReport = 0;
-  for (const url of urls) {
-    const res = await fetch(url);
-    if (!res.ok || !res.body) throw new Error(`${url}: HTTP ${res.status}`);
-    const reader = res.body.getReader();
-    for (;;) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      chunks.push(value);
-      got += value.length;
-      if (got - lastReport > 1_000_000) {
-        lastReport = got;
-        ctx.postMessage({ type: "progress", text: `${label} ${(got / 1e6).toFixed(0)}${totalMb ? ` / ${totalMb.toFixed(0)}` : ""} MB` });
-      }
-    }
-  }
-  const blob = new Blob(chunks as BlobPart[]);
-  if (!(chunks[0]?.[0] === 0x1f && chunks[0]?.[1] === 0x8b)) return blob.arrayBuffer();
-  return new Response(blob.stream().pipeThrough(new DecompressionStream("gzip"))).arrayBuffer();
-}
 
 let meta: ConnectomeMeta | null = null;
 let weights: ConnectomeWeights | null = null;
@@ -149,14 +126,9 @@ function loop(gen: number, dueAt: number): void {
 }
 
 async function load(base: string): Promise<void> {
-  const res = await fetch(`${base}brain.json`);
-  if (!res.ok) throw new Error(`${base}brain.json: HTTP ${res.status}`);
-  const info: { parts: string[]; weights_mb: number } = await res.json();
-  meta = parseMeta(await fetchGz([`${base}meta.bin`], "labels"));
-  if (Math.abs(meta.params.dt - radio.dt) > 1e-9) throw new Error(`brain dt ${meta.params.dt} but radio expects ${radio.dt}`);
-  const buf = await fetchGz(info.parts.map((p) => base + p), "fly brain", info.weights_mb);
-  ctx.postMessage({ type: "progress", text: "wiring 25 M synapses" });
-  weights = parseWeights(buf);
+  ({ meta, weights } = await loadConnectome(base, ctx, {
+    check: (m) => { if (Math.abs(m.params.dt - radio.dt) > 1e-9) throw new Error(`brain dt ${m.params.dt} but radio expects ${radio.dt}`); },
+  }));
   isWing = new Uint8Array(meta.n);
   for (const side of ["L", "R"] as const) for (const i of cells(meta, radio.wing_mn, side)) isWing[i] = 1;
   for (const name of radio.names) {

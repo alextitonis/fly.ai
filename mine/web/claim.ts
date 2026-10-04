@@ -5,10 +5,9 @@
  */
 import { t } from "./i18n.ts";
 import { API } from "./config.ts";
-import { compact } from "./format.ts";
-import { errorText, mined, mountAccount, onAccount, requireWallet, transact } from "./account.ts";
+import { $, compact, num } from "./format.ts";
+import { bindWalletRow, errorText, mined, mountAccount, transact } from "./account.ts";
 import { api } from "./mine-core.ts";
-import { shortAddress } from "./wallet.ts";
 
 interface Claim {
   month: string; month_id: number; points: number; amount: string; amount_wei: string;
@@ -19,7 +18,6 @@ interface Claims {
   claims: Claim[];
 }
 
-const $ = (id: string) => document.getElementById(id)!;
 let account: string | null = null;
 let data: Claims | null = null;
 
@@ -34,7 +32,6 @@ async function rpc(method: string, params: unknown[]): Promise<any> {
   return body.result;
 }
 const call = (to: string, input: string) => rpc("eth_call", [{ to, data: input }, "latest"]) as Promise<string>;
-const fmt = (n: number) => n.toLocaleString("en-US", { maximumFractionDigits: 2 });
 
 async function load(): Promise<void> {
   if (!account) return;
@@ -62,7 +59,7 @@ async function load(): Promise<void> {
     row.innerHTML = `<div><b class="month"></b> <span class="meta"></span></div><div class="amount"></div><div class="state"></div>`;
     (row.querySelector(".state") as HTMLElement).textContent = t("compute.claim.checking");
     (row.querySelector(".month") as HTMLElement).textContent = c.month;
-    (row.querySelector(".meta") as HTMLElement).textContent = t("compute.common.points", { points: fmt(c.points) });
+    (row.querySelector(".meta") as HTMLElement).textContent = t("compute.common.points", { points: num(c.points) });
     (row.querySelector(".amount") as HTMLElement).textContent = `${compact(Number(c.amount))} $${claims.token_symbol}`;
     void showState(c, row.querySelector(".state") as HTMLElement);
     return row;
@@ -75,7 +72,7 @@ function showMonth(current: { month: string; days_left: number; announced_pool: 
   const ends = t("compute.common.endsIn", { count: current.days_left });
   $("this-month").textContent = mine
     ? [
-      t("compute.common.pointsShare", { points: fmt(mine.points), share: (mine.share * 100).toFixed(2) }),
+      t("compute.common.pointsShare", { points: num(mine.points), share: (mine.share * 100).toFixed(2) }),
       t("compute.common.rankOf", { rank: mine.rank, wallets: current.wallets.length }),
       current.announced_pool ? t("compute.claim.atThisShare", { amount: compact(Number(current.announced_pool) * mine.share) }) : null,
       ends,
@@ -137,18 +134,19 @@ async function claim(c: Claim, el: HTMLElement, button: HTMLButtonElement): Prom
 }
 
 mountAccount();
-onAccount((wallet) => {
-  account = wallet;
-  $("account").textContent = wallet ? shortAddress(wallet) : t("compute.common.notSignedIn");
-  $("account").title = wallet ?? "";
-  $("connect").textContent = wallet ? t("compute.common.refresh") : t("compute.common.signIn");
-  if (wallet) void load().catch((err) => { $("note").textContent = errorText(err); });
-  else {
-    $("claims").replaceChildren();
-    $("this-month").textContent = "—";
-    $("note").textContent = t("compute.claim.signInToSee");
-  }
+const showError = (err: unknown) => { $("note").textContent = errorText(err); };
+bindWalletRow({
+  onChange: (wallet) => {
+    account = wallet;
+    if (wallet) void load().catch(showError);
+    else {
+      $("claims").replaceChildren();
+      $("this-month").textContent = "—";
+      $("note").textContent = t("compute.claim.signInToSee");
+    }
+  },
+  onRefresh: load,
+  onError: showError,
 });
-$("connect").addEventListener("click", () => void (account ? load() : requireWallet()));
 // this month's pool grows as buyers' orders are charged
 setInterval(() => { if (account && !document.hidden) void api(API, "/api/month", null).then(showMonth, () => {}); }, 120_000);

@@ -1200,7 +1200,9 @@
       "min_traders": "買入的頂級交易員數",
       "min_usd": "其買入至少 ($)",
       "window_minutes": "時間內（分鐘）",
-      "follow_sells": "他們賣時賣出（1 = 是）"
+      "follow_sells": "他們賣時賣出（1 = 是）",
+      "min_holders": "最少持有人數",
+      "house": "也跟買 FLYAI（1 = 是）"
     },
     "filters": "迷因幣篩選",
     "filtersText": "只篩選迷因幣：主流幣和股票代幣使用交易台自己的清單。留空 = 不限。",
@@ -1420,5 +1422,30 @@
     "s4": "每個特徵來自一方親代或突變為新特徵；稀有度取較低的親代，有 5% 機率升一級。",
     "why": "蒼蠅更少、更稀有：每次合併都會永久減少一隻蒼蠅的供應，並額外銷毀 $FLYAI。",
     "fold": "繁殖如何運作 · 試試機率"
+  },
+  "share": {
+    "button": "分享盈虧",
+    "title": "分享你的蒼蠅盈虧",
+    "close": "關閉",
+    "span": {
+      "all": "總收益",
+      "d7": "收益 · 7 天",
+      "h24": "收益 · 24 小時"
+    },
+    "trade": "{side} {what}",
+    "size": "規模 {usd}",
+    "trades": "{n} 筆交易",
+    "winRate": "勝率 {pct}%",
+    "value": "錢包 {usd}",
+    "share": "分享",
+    "x": "發到 X",
+    "download": "下載",
+    "copy": "複製圖片",
+    "copied": "圖片已複製：可隨處貼上。",
+    "copyFail": "此瀏覽器無法複製圖片：請用下載。",
+    "pasteHint": "圖片已複製：貼到貼文裡 (Ctrl/Cmd+V)。",
+    "attachHint": "圖片已下載：請附加到貼文。",
+    "post": "{name} 用自己真實的蒼蠅大腦交易，{span}收益 {profit} {pct} 🪰🧠",
+    "postTrade": "{name} 剛以 {pct} 平倉 {what} 🪰🧠"
   }
 }

@@ -1202,7 +1202,9 @@
       "min_traders": "Alan en iyi trader sayısı",
       "min_usd": "Alımları en az ($)",
       "window_minutes": "İçinde (dakika)",
-      "follow_sells": "Onlar satınca sat (1 = evet)"
+      "follow_sells": "Onlar satınca sat (1 = evet)",
+      "min_holders": "En az holder sayısı",
+      "house": "FLYAI alımlarını da kopyala (1 = evet)"
     },
     "filters": "Meme filtreleri",
     "filtersText": "Yalnızca memeler filtrelenir: büyükler ve hisse token'ları masanın kendi listesidir. Boş = sınır yok.",
@@ -1422,5 +1424,30 @@
     "s4": "Her özellik bir ebeveynden gelir ya da yeni bir şeye mutasyona uğrar; nadirlik düşük ebeveyninkidir, %5 ihtimalle bir kademe yukarı.",
     "why": "Daha az sinek, daha nadir sinekler: her birleştirme arzdan bir sineği kalıcı olarak çıkarır ve üstüne $FLYAI yakar.",
     "fold": "Üreme nasıl çalışır · olasılıkları dene"
+  },
+  "share": {
+    "button": "K/Z paylaş",
+    "title": "Sineğinin K/Z'sini paylaş",
+    "close": "Kapat",
+    "span": {
+      "all": "Toplam kâr",
+      "d7": "Kâr · 7 gün",
+      "h24": "Kâr · 24 saat"
+    },
+    "trade": "{side} {what}",
+    "size": "Büyüklük {usd}",
+    "trades": "{n} işlem",
+    "winRate": "%{pct} kazanç",
+    "value": "Cüzdan {usd}",
+    "share": "Paylaş",
+    "x": "X'te paylaş",
+    "download": "İndir",
+    "copy": "Görseli kopyala",
+    "copied": "Görsel kopyalandı: istediğin yere yapıştır.",
+    "copyFail": "Bu tarayıcı görsel kopyalayamıyor: İndir'i kullan.",
+    "pasteHint": "Görsel kopyalandı: gönderiye yapıştır (Ctrl/Cmd+V).",
+    "attachHint": "Görsel indirildi: gönderiye ekle.",
+    "post": "{name} kendi gerçek sinek beyniyle işlem yaparak {profit} {pct} ({span}) kârda 🪰🧠",
+    "postTrade": "{name} az önce {what} işlemini {pct} ile kapattı 🪰🧠"
   }
 }

@@ -1202,7 +1202,9 @@
       "min_traders": "Top traders comprándolo",
       "min_usd": "Su compra mínima ($)",
       "window_minutes": "En (minutos)",
-      "follow_sells": "Vender cuando venden (1 = sí)"
+      "follow_sells": "Vender cuando venden (1 = sí)",
+      "min_holders": "Holders mínimos",
+      "house": "Copiar también compras de FLYAI (1 = sí)"
     },
     "filters": "Filtros de memes",
     "filtersText": "Solo se filtran los memes: los majors y los tokens de acciones son la lista propia de la mesa. Vacío = sin límite.",
@@ -1422,5 +1424,30 @@
     "s4": "Cada rasgo viene de un progenitor o muta en algo nuevo; la rareza es la del progenitor más bajo, con un 5% de subir un nivel.",
     "why": "Menos moscas, más raras: cada fusión saca una mosca del suministro para siempre y además quema $FLYAI.",
     "fold": "Cómo funciona la cría · prueba las probabilidades"
+  },
+  "share": {
+    "button": "Compartir P&L",
+    "title": "Comparte el P&L de tu mosca",
+    "close": "Cerrar",
+    "span": {
+      "all": "Ganancia total",
+      "d7": "Ganancia · 7 días",
+      "h24": "Ganancia · 24 horas"
+    },
+    "trade": "{side} {what}",
+    "size": "Tamaño {usd}",
+    "trades": "{n} operaciones",
+    "winRate": "{pct}% ganadas",
+    "value": "Billetera {usd}",
+    "share": "Compartir",
+    "x": "Publicar en X",
+    "download": "Descargar",
+    "copy": "Copiar imagen",
+    "copied": "Imagen copiada: pégala donde quieras.",
+    "copyFail": "Este navegador no copia imágenes: usa Descargar.",
+    "pasteHint": "Imagen copiada: pégala en el post (Ctrl/Cmd+V).",
+    "attachHint": "Imagen descargada: adjúntala al post.",
+    "post": "{name} va {profit} {pct} ({span}) operando con su propio cerebro de mosca real 🪰🧠",
+    "postTrade": "{name} acaba de cerrar {what} en {pct} 🪰🧠"
   }
 }

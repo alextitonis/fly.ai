@@ -5,6 +5,7 @@
 import { locale, t } from "./i18n.ts";
 import { API } from "./config.ts";
 import { mountAccount } from "./account.ts";
+import { $, num } from "./format.ts";
 import { api } from "./mine-core.ts";
 
 interface Summary {
@@ -12,7 +13,6 @@ interface Summary {
   table?: string[][]; runs_read: number; status?: string; jobs?: number; settled?: number; order?: string;
 }
 
-const $ = (id: string) => document.getElementById(id)!;
 const FAMILIES: { key: string; title: string; about: string }[] = ["tuning", "encoding", "colosseum", "world", "demo"].map((key) => ({
   key, title: t(`compute.results.family.${key}.title`), about: t(`compute.results.family.${key}.about`),
 }));
@@ -30,9 +30,9 @@ function card(s: Summary): HTMLElement {
   c.append(el("h3", undefined, s.question));
   c.append(el("p", "lede", s.headline));
   const rows: [string, string][] = s.figures.map((f) => [f.k, f.v]);
-  if (s.jobs) rows.push([t("compute.results.progress"), t("compute.results.progressLine", { settled: (s.settled ?? 0).toLocaleString(locale()), jobs: s.jobs.toLocaleString(locale()) })
+  if (s.jobs) rows.push([t("compute.results.progress"), t("compute.results.progressLine", { settled: num(s.settled ?? 0), jobs: num(s.jobs) })
     + (s.status === "ended" ? t("compute.results.paused") : s.status === "done" ? t("compute.results.finishedSuffix") : "")]);
-  if (s.jobs && s.runs_read < (s.settled ?? 0)) rows.push([t("compute.results.summarizedFrom"), t("compute.results.sample", { count: s.runs_read.toLocaleString(locale()) })]);
+  if (s.jobs && s.runs_read < (s.settled ?? 0)) rows.push([t("compute.results.summarizedFrom"), t("compute.results.sample", { count: num(s.runs_read) })]);
   for (const [k, v] of rows) {
     const r = el("div", "row");
     r.append(el("span", "k", k), el("span", "v", v));
@@ -72,7 +72,7 @@ async function load(): Promise<void> {
   const list = data.experiments as Summary[];
   $("empty").hidden = list.length > 0;
   $("n-exp").textContent = String(list.length);
-  $("n-runs").textContent = list.reduce((sum, s) => sum + (s.settled ?? 0), 0).toLocaleString(locale());
+  $("n-runs").textContent = num(list.reduce((sum, s) => sum + (s.settled ?? 0), 0));
   $("n-done").textContent = String(list.filter((s) => s.status === "done").length);
   $("updated").textContent = data.updated_at ? new Date(data.updated_at).toLocaleTimeString(locale(), { hour: "2-digit", minute: "2-digit" }) : "—";
   const host = $("families");

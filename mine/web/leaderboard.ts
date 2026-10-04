@@ -4,14 +4,12 @@
  */
 import { locale, t } from "./i18n.ts";
 import { API } from "./config.ts";
-import { compact } from "./format.ts";
+import { $, compact, num } from "./format.ts";
 import { mountAccount, signedIn } from "./account.ts";
 import { api } from "./mine-core.ts";
 import { shortAddress } from "./wallet.ts";
 
-const $ = (id: string) => document.getElementById(id)!;
 const TOP = 50;
-const fmt = (n: number, digits = 1) => n.toLocaleString(locale(), { maximumFractionDigits: digits });
 
 function shiftMonth(m: string, by: number): string {
   const [y, mo] = m.split("-").map(Number);
@@ -59,7 +57,7 @@ function render(data: any): void {
   $("next").hidden = next > current;
 
   $("wallets").textContent = String(data.wallets.length);
-  $("points").textContent = fmt(data.total_points, 0);
+  $("points").textContent = num(data.total_points, 0);
   $("days").textContent = data.closed ? t("compute.leaderboard.ended") : String(data.days_left);
   $("days-label").textContent = data.closed ? new Date(data.ends_at).toLocaleDateString(locale(), { timeZone: "UTC" }) : t("compute.leaderboard.daysLeft");
   const pool = data.snapshot?.pool ?? data.announced_pool;
@@ -82,7 +80,7 @@ function render(data: any): void {
   $("you").hidden = !mine;
   if (mine) {
     $("you-text").textContent = me
-      ? t("compute.leaderboard.you", { rank: me.rank, wallets: rows.length, points: fmt(me.points), share: (me.share * 100).toFixed(2) })
+      ? t("compute.leaderboard.you", { rank: me.rank, wallets: rows.length, points: num(me.points, 1), share: (me.share * 100).toFixed(2) })
         + (pool ? t("compute.leaderboard.youAtShare", { amount: compact(Number(pool) * me.share) }) : "")
       : t("compute.leaderboard.youNone", { wallet: shortAddress(mine) });
   }
@@ -93,7 +91,7 @@ function render(data: any): void {
   $("board").replaceChildren(...shown.map((r) => {
     const tr = document.createElement("tr");
     if (r.wallet === mine) tr.className = "me";
-    for (const [text, cls, title] of [[`#${r.rank}`, "", ""], [shortAddress(r.wallet), "", r.wallet], [fmt(r.points), "r", ""], [`${(r.share * 100).toFixed(2)}%`, "r", ""]]) {
+    for (const [text, cls, title] of [[`#${r.rank}`, "", ""], [shortAddress(r.wallet), "", r.wallet], [num(r.points, 1), "r", ""], [`${(r.share * 100).toFixed(2)}%`, "r", ""]]) {
       const td = document.createElement("td");
       td.textContent = text;
       if (cls) td.className = cls;

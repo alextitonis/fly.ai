@@ -1,0 +1,50 @@
+/* docs/bounties.html (moved out of the page 2026-10-04) */
+.bsteps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 8px; }
+.bsteps .card { padding: 20px; }
+.bsteps h3 { margin: 0 0 6px; font-size: 17px; }
+.bfilters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+.bfilters button { font: 500 13px var(--mono); padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line);
+                   background: transparent; color: var(--muted); cursor: pointer; }
+.bfilters button.on { border-color: var(--mint); color: var(--mint); }
+.blist { display: grid; gap: 14px; }
+.bounty { padding: 20px 22px; }
+.bounty > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 18px; }
+.bounty > summary::-webkit-details-marker { display: none; }
+.bounty h3 { margin: 6px 0 4px; font-size: 19px; }
+.bounty .sum { color: var(--muted); margin: 0; }
+.bounty .rew { text-align: right; font: 600 17px var(--display, inherit); color: var(--mint); white-space: nowrap; }
+.bounty .rew small { display: block; font: 400 12px var(--mono); color: var(--dim); margin-top: 4px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .04em; padding: 3px 9px; border-radius: 999px;
+       border: 1px solid var(--line); color: var(--muted); }
+.tag.mint { border-color: var(--mint); color: var(--mint); }
+.tag.dim { color: var(--dim); }
+.bbody { margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--line); display: grid; gap: 18px; }
+.details { white-space: pre-wrap; color: var(--muted); margin: 0; overflow-wrap: anywhere; }
+.details a, .winners a, .mine a { color: var(--mint); }
+.winners { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 14px; color: var(--muted); }
+.bform { display: grid; gap: 10px; max-width: 560px; }
+.bform label { font-size: 13px; color: var(--muted); display: grid; gap: 5px; }
+.bform input, .bform textarea, .bform select { font: 14px var(--sans, inherit); color: var(--text); background: var(--bg-2);
+                   border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; width: 100%; box-sizing: border-box; }
+.bform textarea { min-height: 90px; resize: vertical; }
+.bform .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.msg { font-size: 13px; color: var(--muted); min-height: 1em; }
+.msg.err { color: var(--red, #ff6b6b); }
+.mine { display: grid; gap: 8px; }
+.mine .card { padding: 14px 18px; font-size: 14px; color: var(--muted); }
+.rules { color: var(--muted); padding-left: 20px; margin: 0; display: grid; gap: 6px; }
+/* admin */
+#admin { display: none; }
+#admin.show { display: block; }
+.adm-entry { display: grid; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.adm-entry .acts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.adm-entry input { font: 13px var(--mono); color: var(--text); background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; min-width: 0; }
+.adm-entry .flag { color: var(--red, #ff6b6b); }
+.adm-b { padding: 16px 20px; margin-bottom: 12px; }
+.adm-b > summary { cursor: pointer; }
+@media (max-width: 760px) {
+  .bsteps { grid-template-columns: 1fr; }
+  .bounty > summary { grid-template-columns: 1fr; }
+  .bounty .rew { text-align: left; }
+}

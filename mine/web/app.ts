@@ -2,14 +2,13 @@
  * The miner page: shows this machine and runs web/mine-core.ts's Miner on the GPU or CPU threads.
  * The miner token lives in localStorage; losing it just means registering again.
  */
-import { locale, t } from "./i18n.ts";
+import { t } from "./i18n.ts";
 import { API, CONNECTOME } from "./config.ts";
-import { compact } from "./format.ts";
+import { $, compact, num } from "./format.ts";
 import { api, ApiError, Miner, probeGpu, setMinerText } from "./mine-core.ts";
 import { isPhone, mountAccount, onAccount, requireWallet, sessionHeaders, sessionLost, signedIn } from "./account.ts";
 import { shortAddress } from "./wallet.ts";
 
-const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
 const TOKEN_KEY = "flymine.token";
 const LABEL_KEY = "flymine.label";
@@ -304,7 +303,7 @@ async function refreshMining(): Promise<void> {
     v.textContent = [
       c.earned === null ? t("compute.index.poolUnavailable") : `${c.earned.toFixed(digits)} ${c.coin}`,
       c.usd === null || c.usd === undefined ? null : `≈ $${c.usd.toFixed(2)}`,
-      t("compute.index.coinJobs", { count: Number(c.jobs_settled).toLocaleString(locale()) }),
+      t("compute.index.coinJobs", { count: num(Number(c.jobs_settled)) }),
       c.live ? null : t("compute.index.paused"),
     ].filter(Boolean).join(" · ");
     if (c.pending) v.title = t("compute.index.pendingPaid", { pending: c.pending.toFixed(digits), coin: c.coin, paid: Number(c.paid ?? 0).toFixed(digits) });

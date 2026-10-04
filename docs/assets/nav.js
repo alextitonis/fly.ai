@@ -56,26 +56,22 @@
   const SESSION_KEY = "flyai.compute.session";            // mine/web/account.ts: one session for every app
   const ACCOUNT_JS = "/compute/mine/web/account.js";       // the shared sign-in (built from mine/web)
   const MINE_API = "https://flyai-mine.fly.dev";
-  const ACCT_TEXT = {
-    en: { signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
-          save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out" ,
-          search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular" },
-    es: { signInHint: "Entra arriba a la derecha ↗", signIn: "Entrar", myFlies: "Mis moscas", leaderboard: "Clasificación", nickname: "Apodo", nickHint: "3-20 letras",
-          save: "Guardar", saved: "Guardado", compute: "Compute y saldo", signOut: "Salir" ,
-          search: "Buscar", searchHint: "Apps, #mosca, gente", openFly: "Abrir la mosca", flies: "Moscas", noResults: "Sin resultados", notifications: "Notificaciones", nothingYet: "Nada aún: financia una mosca o juega", bought: "compró", sold: "vendió", colosseum: "Colosseum", place: "puesto {n}", finished: "terminado", payout: "Pago", b_nickname: "Con nombre", b_funded: "Financió una mosca", b_profit: "En ganancia", b_trader: "10+ operaciones", b_gladiator: "Gladiador", b_champion: "Campeón", b_player: "Jugador", b_regular: "Habitual" },
-    tr: { signInHint: "Sağ üstten giriş yap ↗", signIn: "Giriş yap", myFlies: "Sineklerim", leaderboard: "Sıralama", nickname: "Takma ad", nickHint: "3-20 harf",
-          save: "Kaydet", saved: "Kaydedildi", compute: "Compute ve bakiye", signOut: "Çıkış" ,
-          search: "Ara", searchHint: "Uygulama, #sinek, kişi", openFly: "Sineği aç", flies: "Sinekler", noResults: "Bulunamadı", notifications: "Bildirimler", nothingYet: "Henüz yok: bir sineği fonla ya da oyna", bought: "aldı", sold: "sattı", colosseum: "Colosseum", place: "{n}. sıra", finished: "bitti", payout: "Ödeme", b_nickname: "İsimli", b_funded: "Sinek fonladı", b_profit: "Kârda", b_trader: "10+ işlem", b_gladiator: "Gladyatör", b_champion: "Şampiyon", b_player: "Oyuncu", b_regular: "Müdavim" },
-    ko: { signInHint: "오른쪽 위에서 로그인 ↗", signIn: "로그인", myFlies: "내 파리", leaderboard: "리더보드", nickname: "닉네임", nickHint: "3-20자",
-          save: "저장", saved: "저장됨", compute: "Compute와 잔액", signOut: "로그아웃" ,
-          search: "검색", searchHint: "앱, #파리, 사람", openFly: "파리 열기", flies: "파리", noResults: "결과 없음", notifications: "알림", nothingYet: "아직 없음: 파리에 자금을 넣거나 게임을 해보세요", bought: "매수", sold: "매도", colosseum: "콜로세움", place: "{n}위", finished: "종료", payout: "지급", b_nickname: "이름 설정", b_funded: "파리 자금", b_profit: "수익 중", b_trader: "거래 10회+", b_gladiator: "검투사", b_champion: "챔피언", b_player: "플레이어", b_regular: "단골" },
-    "zh-Hans": { signInHint: "请在右上角登录 ↗", signIn: "登录", myFlies: "我的苍蝇", leaderboard: "排行榜", nickname: "昵称", nickHint: "3-20 个字符",
-          save: "保存", saved: "已保存", compute: "Compute 与余额", signOut: "退出" ,
-          search: "搜索", searchHint: "应用、#苍蝇、用户", openFly: "打开苍蝇", flies: "苍蝇", noResults: "无结果", notifications: "通知", nothingYet: "暂无：给苍蝇注资或玩个游戏", bought: "买入", sold: "卖出", colosseum: "竞技场", place: "第 {n} 名", finished: "已结束", payout: "支付", b_nickname: "已起名", b_funded: "注资苍蝇", b_profit: "盈利中", b_trader: "10+ 笔交易", b_gladiator: "角斗士", b_champion: "冠军", b_player: "玩家", b_regular: "常客" },
-    "zh-Hant": { signInHint: "請在右上角登入 ↗", signIn: "登入", myFlies: "我的蒼蠅", leaderboard: "排行榜", nickname: "暱稱", nickHint: "3-20 個字元",
-          save: "儲存", saved: "已儲存", compute: "Compute 與餘額", signOut: "登出" ,
-          search: "搜尋", searchHint: "應用、#蒼蠅、用戶", openFly: "打開蒼蠅", flies: "蒼蠅", noResults: "無結果", notifications: "通知", nothingYet: "暫無：替蒼蠅注資或玩個遊戲", bought: "買入", sold: "賣出", colosseum: "競技場", place: "第 {n} 名", finished: "已結束", payout: "支付", b_nickname: "已命名", b_funded: "注資蒼蠅", b_profit: "盈利中", b_trader: "10+ 筆交易", b_gladiator: "角鬥士", b_champion: "冠軍", b_player: "玩家", b_regular: "常客" },
-  };
+  // the account/search/bell words: English here so the bar renders at once; the page's language comes from
+  // /assets/i18n/<lang>/common.json nav.acct (the same file and URL i18n.js loads, so the browser cache is shared) and
+  // relabels the bar when it lands (2026-10-04: one home for the translations instead of a table here)
+  const ACCT_EN = {
+      signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
+      save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out",
+      search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular" };
+  const LANGS = ["en", "zh-Hans", "zh-Hant", "ko", "tr", "es"];   // i18n.js LANGUAGES
+  let acctText = ACCT_EN;
+
+  let hintCss = null;                                      // pageSignIns' style, rebuilt by relabel()
+
+  // 2026-10-04: pages read the session, the mine server and nicknames from here instead of their own copies
+  // (they keep a fallback: this loads at the end of <body> and may fail)
+  const nickCache = new Map();                             // wallet -> Promise<nickname | null>, for names()
+  window.flyNav = { session, MINE_API, short, names };
 
   const nav = document.querySelector('nav[aria-label="Main"]');
   if (!nav) return;
@@ -148,10 +144,11 @@
     }
   }
 
+  const textReady = loadText(nav);
   wireAccount(nav);
   pageSignIns(nav);
-  wireSearch(nav, NAV, fileHref_(nav));
-  wireBell(nav);
+  wireSearch(nav, NAV);
+  wireBell(nav, textReady);
   const menus = [...nav.querySelectorAll("li.dd")];
   const close = (dd) => { dd.classList.remove("open"); dd.querySelector(".ddbtn").setAttribute("aria-expanded", "false"); };
   // one menu at a time (2026-10-03, the user: "open a dropdown and then another, the previous stays open"): a menu shows
@@ -197,22 +194,22 @@
     const btn = el("button", { class: "ddbtn ddlabel acct-btn", type: "button", "aria-expanded": "false", "aria-controls": "dd-acct" });
     const menu = el("ul", { class: "ddmenu right", id: "dd-acct" });
     if (!s) {
-      const b = el("button", { class: "btn sm acct-in", type: "button" }, L("signIn"));   // a button, not a menu
+      const b = el("button", { class: "btn sm acct-in", type: "button", "data-l": "signIn" }, L("signIn"));   // a button, not a menu
       const plain = el("li", { class: "acct" }, b);
       plain.dataset.signin = "1";
       return plain;
     }
     btn.append(el("span", { class: "acct-name" }, short(s.wallet)), el("span", { "aria-hidden": "true" }, " ▾"));
-    const item = (label, href) => el("li", null, el("a", { href: fileHref(href) }, label));
+    const item = (key, href) => el("li", null, el("a", { href: fileHref(href), ...(key in ACCT_EN ? { "data-l": key } : {}) }, L(key)));
     const form = el("li", { class: "acct-nick" },
-      el("label", { for: "acct-nick" }, L("nickname")),
-      el("div", null, el("input", { id: "acct-nick", maxlength: "20", placeholder: L("nickHint") }),
-        el("button", { type: "button", class: "btn sm" }, L("save"))),
+      el("label", { for: "acct-nick", "data-l": "nickname" }, L("nickname")),
+      el("div", null, el("input", { id: "acct-nick", maxlength: "20", placeholder: L("nickHint"), "data-l-ph": "nickHint" }),
+        el("button", { type: "button", class: "btn sm", "data-l": "save" }, L("save"))),
       el("small", { class: "acct-msg" }));
     menu.append(el("li", { class: "acct-badges", hidden: "" }),
-      item(L("myFlies"), "/traderflies/traders?view=mine"), item(L("leaderboard"), "/traderflies/traders?view=board"),
-      form, item("Flybook", "/flybook/"), item(L("compute"), "/compute/"),
-      el("li", null, el("button", { type: "button", class: "acct-out" }, L("signOut"))));
+      item("myFlies", "/traderflies/traders?view=mine"), item("leaderboard", "/traderflies/traders?view=board"),
+      form, item("Flybook", "/flybook/"), item("compute", "/compute/"),
+      el("li", null, el("button", { type: "button", class: "acct-out", "data-l": "signOut" }, L("signOut"))));
     li.append(btn, menu);
     return li;
   }
@@ -233,7 +230,7 @@
     }
     const s = session();
     // the nickname instead of 0x... once the server answers
-    fetch(`${MINE_API}/api/profiles?wallets=${s.wallet}`).then((r) => r.json()).then((got) => {
+    names([s.wallet]).then((got) => {
       const nick = got[s.wallet.toLowerCase()];
       if (nick) {
         li.querySelector(".acct-name").textContent = nick;
@@ -263,7 +260,7 @@
 
   /**
    * One sign-in button per page (2026-10-04, the user: "double login buttons to some pages while the navbar has 1"):
-   * signed out, a page's own sign-in button (marked data-nav-signin) shows as a pointer to the nav's (site.css) and a
+   * signed out, a page's own sign-in button (marked data-nav-signin) shows as a pointer to the nav's and a
    * click on it runs the nav's sign-in. Signed in, the page's buttons are back as they were (a Trader Flies page may
    * still need its wallet reconnected).
    */
@@ -272,7 +269,10 @@
     if (!btn) return;
     const root = document.documentElement;
     root.classList.add("nav-signed-out");
-    root.style.setProperty("--nav-signin-hint", JSON.stringify(L("signInHint")));
+    // the look lives here, not in site.css: the game pages don't load site.css
+    hintCss = document.createElement("style");
+    hintCss.textContent = hintStyle();
+    document.head.append(hintCss);
     document.addEventListener("click", (e) => {
       if (!e.target.closest || !e.target.closest("[data-nav-signin]")) return;
       e.preventDefault();
@@ -280,6 +280,13 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
       btn.click();
     }, true);   // capture: before the page's own handler
+  }
+  function hintStyle() {
+    return `.nav-signed-out [data-nav-signin] { background: none !important; border: 0 !important; box-shadow: none !important;
+      padding: 0 !important; width: auto !important; min-width: 0 !important; font-size: 0 !important; cursor: pointer; }
+    .nav-signed-out [data-nav-signin] * { display: none !important; }
+    .nav-signed-out [data-nav-signin]::after { content: ${JSON.stringify(L("signInHint"))}; font: 600 14px/1.4 var(--sans, inherit);
+      color: var(--mint, #5ef2cc); text-decoration: underline; text-underline-offset: 3px; }`;
   }
 
   function session() {
@@ -289,23 +296,59 @@
     } catch { return null; }
   }
   function short(w) { return `${w.slice(0, 6)}…${w.slice(-4)}`; }
-  function L(key) {
+  /** wallet (lowercase) -> nickname for a list of wallets, one /api/profiles call per uncached batch; never throws. */
+  async function names(wallets) {
+    const want = [...new Set((wallets || []).filter(Boolean).map((w) => String(w).toLowerCase()))];
+    const miss = want.filter((w) => !nickCache.has(w));
+    for (let i = 0; i < miss.length; i += 100) {
+      const part = miss.slice(i, i + 100);
+      const got = fetch(`${MINE_API}/api/profiles?wallets=${part.join(",")}`).then((r) => r.ok ? r.json() : {}).catch(() => ({}));
+      for (const w of part) nickCache.set(w, got.then((m) => (m && m[w]) || null));
+    }
+    const out = {};
+    for (const w of want) { const n = await nickCache.get(w); if (n) out[w] = n; }
+    return out;
+  }
+  function L(key) { return acctText[key] || ACCT_EN[key] || key; }
+  /** The page's language, picked like i18n/boot.js: ?lang=, then the saved choice. */
+  function pageLang() {
     let lang = "en";
-    try { lang = localStorage.getItem("flyai.lang") || "en"; } catch {}
-    return (ACCT_TEXT[lang] || ACCT_TEXT.en)[key] || ACCT_TEXT.en[key];
+    try { lang = new URLSearchParams(location.search).get("lang") || localStorage.getItem("flyai.lang") || "en"; } catch {}
+    return LANGS.includes(lang) ? lang : "en";
+  }
+  /** Loads nav.acct for the page's language (never rejects; English stays on any failure), then relabels the bar. */
+  function loadText(nav) {
+    const lang = pageLang();
+    if (lang === "en") return Promise.resolve();
+    // i18n.js's own URL for common.json; a docs page opened from disk reads the folder beside it
+    const docs = location.protocol === "file:" ? location.pathname.lastIndexOf("/docs/") : -1;
+    const base = docs >= 0 ? `${location.pathname.slice(0, docs + 6)}assets/i18n/` : "/assets/i18n/";
+    return fetch(`${base}${lang}/common.json`).then((r) => (r.ok ? r.json() : null)).then((j) => {
+      const got = j && j.nav && j.nav.acct;
+      if (!got) return;
+      acctText = { ...ACCT_EN, ...got };
+      relabel(nav);
+    }).catch(() => {});
+  }
+  /** Puts L() words on everything built before they loaded: data-l text, data-l-ph placeholder, data-l-aria label. */
+  function relabel(nav) {
+    if (nav) {
+      for (const e of nav.querySelectorAll("[data-l]")) e.textContent = L(e.dataset.l);
+      for (const e of nav.querySelectorAll("[data-l-ph]")) e.placeholder = L(e.dataset.lPh);
+      for (const e of nav.querySelectorAll("[data-l-aria]")) { e.setAttribute("aria-label", L(e.dataset.lAria)); e.title = L(e.dataset.lAria); }
+    }
+    if (hintCss) hintCss.textContent = hintStyle();
   }
 
   // ---- search, notifications, badges (2026-10-03, "one product": global search, a notification center, achievements) ----
-
-  function fileHref_(nav) { return (href) => href; }
 
   /** 🔍 for everyone: apps by name (the menu itself), a fly by number (#471), people by nickname (the mine server). */
   function searchBox(el) {
     return el("li", { class: "dd srch" },
       el("button", { class: "ddbtn ddlabel srch-btn", type: "button", "aria-expanded": "false", "aria-controls": "dd-srch",
-        "aria-label": L("search"), title: L("search") }, "🔍"),
+        "aria-label": L("search"), title: L("search"), "data-l-aria": "search" }, "🔍"),
       el("ul", { class: "ddmenu right", id: "dd-srch" },
-        el("li", { class: "srch-box" }, el("input", { type: "search", id: "srch-q", placeholder: L("searchHint"), autocomplete: "off" })),
+        el("li", { class: "srch-box" }, el("input", { type: "search", id: "srch-q", placeholder: L("searchHint"), "data-l-ph": "searchHint", autocomplete: "off" })),
         el("li", { class: "srch-out" })));
   }
   function wireSearch(nav, NAV) {
@@ -350,7 +393,7 @@
   function bell(el) {
     return el("li", { class: "dd bell" },
       el("button", { class: "ddbtn ddlabel bell-btn", type: "button", "aria-expanded": "false", "aria-controls": "dd-bell",
-        "aria-label": L("notifications"), title: L("notifications") }, "🔔", el("b", { class: "bell-n", hidden: "" })),
+        "aria-label": L("notifications"), title: L("notifications"), "data-l-aria": "notifications" }, "🔔", el("b", { class: "bell-n", hidden: "" })),
       el("ul", { class: "ddmenu right", id: "dd-bell" }, el("li", { class: "bell-list" }, el("small", null, "…"))));
   }
   async function loadSummary() {
@@ -368,10 +411,10 @@
       return v;
     } catch { return null; }
   }
-  function wireBell(nav) {
+  function wireBell(nav, textReady) {
     const li = nav.querySelector("li.bell");
     if (!session()) return;
-    void loadSummary().then((v) => {
+    void Promise.all([loadSummary(), textReady]).then(([v]) => {
       window.flySummary = v;
       window.dispatchEvent(new CustomEvent("fly:summary", { detail: v }));
       if (!v) return;

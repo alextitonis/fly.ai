@@ -4,12 +4,12 @@
  * The wallet is the one signed in on the compute pages; signing in happens here if it hasn't yet.
  */
 import { t } from "./i18n.ts";
+import { $ } from "./format.ts";
 import { API } from "./config.ts";
 import { mountAccount, onAccount, requireWallet, sessionHeaders, sessionLost } from "./account.ts";
 import { api } from "./mine-core.ts";
 import { shortAddress } from "./wallet.ts";
 
-const $ = (id: string) => document.getElementById(id)!;
 const code = location.hash.slice(1);
 let token: string | null = null;
 try { token = localStorage.getItem("flymine.token"); } catch { /* private window */ }

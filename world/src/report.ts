@@ -5,6 +5,7 @@
 import type { Row } from "./datalog.ts";
 import { BROOD, REWARD, type World } from "./sim.ts";
 import { MEMORY, PLASTICITY } from "./brain.ts";
+import { esc as escHtml } from "./util.ts";
 
 /** Traits for the parent-child comparison: genes (inherited by construction) and lived outcomes (not). */
 export const TRAITS: { key: string; label: string }[] = [
@@ -51,7 +52,7 @@ export function regression(world: World, key: string): { n: number; slope: numbe
   return { n, slope, intercept: my - slope * mx, r: sxx && syy ? sxy / Math.sqrt(sxx * syy) : NaN, points };
 }
 
-const esc = (s: unknown) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+const esc = (s: unknown) => escHtml(String(s ?? ""));
 const fmt = (v: number, dp = 2) => (Number.isFinite(v) ? v.toFixed(dp) : "—");
 const mean = (xs: number[]) => { const f = xs.filter(Number.isFinite); return f.length ? f.reduce((a, b) => a + b, 0) / f.length : NaN; };
 

@@ -8,8 +8,8 @@
  */
 import { locale, t } from "./i18n.ts";
 import { API } from "./config.ts";
-import { compact } from "./format.ts";
-import { errorText, mined, mountAccount, onAccount, requireWallet, sessionHeaders, sessionLost, transact } from "./account.ts";
+import { $, compact, num } from "./format.ts";
+import { bindWalletRow, errorText, mined, mountAccount, requireWallet, sessionHeaders, sessionLost, transact } from "./account.ts";
 import { api } from "./mine-core.ts";
 import { shortAddress } from "./wallet.ts";
 interface Config {
@@ -56,7 +56,6 @@ const isProgram = () => pressed("modes") === "program" || isEmbed();
 const timeoutS = () => (isEmbed() ? 60 : Number(input("timeout").value || 60));
 const SPEEDS = [{ x: 1, name: t("compute.jobs.speedChoice.normal") }, { x: 2, name: t("compute.jobs.speedChoice.faster") }, { x: 5, name: t("compute.jobs.speedChoice.fastest") }];
 
-const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const input = (id: string) => $<HTMLInputElement>(id);
 const PENDING = "flyai-compute-pending-payment";
 let config: Config;
@@ -67,7 +66,6 @@ let balance = 0;
 let fullCost = 0;
 
 const fmt = (tokens: string | number) => `${compact(Number(tokens))} $${config.token_symbol}`;
-const count = (n: number) => n.toLocaleString(locale());
 const numbers = (id: string) => input(id).value.split(",").map((x) => x.trim()).filter(Boolean).map(Number);
 const store = {
   get: (): { order: string; tx: string; chain?: "base" } | null => {
@@ -262,7 +260,7 @@ async function requote(): Promise<void> {
       fullCost = Number(q.full_cost);
       const budget = input("budget").value.trim();
       $("summary").innerHTML = [
-        t("compute.jobs.summaryEmbed", { texts: count(embedUpload.texts), batches: count(q.jobs), model: $<HTMLSelectElement>("embed-model").value, bid: fmt(q.bid) }),
+        t("compute.jobs.summaryEmbed", { texts: num(embedUpload.texts), batches: num(q.jobs), model: $<HTMLSelectElement>("embed-model").value, bid: fmt(q.bid) }),
         budget && Number(budget) < fullCost ? t("compute.jobs.stopsAfter", { amount: fmt(budget) }) : t("compute.jobs.costsAtMost", { cost: fmt(q.full_cost), pool: fmt(q.full_to_pool) }),
       ].join(" ") + dollars(fullCost);
       $("note").textContent = "";
@@ -282,7 +280,7 @@ async function requote(): Promise<void> {
       fullCost = Number(q.full_cost);
       const budget = input("budget").value.trim();
       $("summary").innerHTML = [
-        t(upload.program.kind === "wasm" ? "compute.jobs.summaryWasm" : "compute.jobs.summaryShader", { jobs: count(q.jobs), bid: fmt(q.bid), min: fmt(q.min_bid), limit: input("timeout").value }),
+        t(upload.program.kind === "wasm" ? "compute.jobs.summaryWasm" : "compute.jobs.summaryShader", { jobs: num(q.jobs), bid: fmt(q.bid), min: fmt(q.min_bid), limit: input("timeout").value }),
         budget && Number(budget) < fullCost ? t("compute.jobs.stopsAfter", { amount: fmt(budget) }) : t("compute.jobs.costsAtMost", { cost: fmt(q.full_cost), pool: fmt(q.full_to_pool) }),
         input("keep-open").checked ? t("compute.jobs.staysOpen") : "",
       ].filter(Boolean).join(" ") + dollars(fullCost);
@@ -301,11 +299,11 @@ async function requote(): Promise<void> {
     const budget = input("budget").value.trim();
     const hours = input("hours").value.trim();
     const parts = [
-      t("compute.jobs.summaryBrain", { jobs: count(q.jobs), name, conditions: count(perRepeat), repeats: count(q.spec.seeds.length), bid: fmt(q.bid) }),
+      t("compute.jobs.summaryBrain", { jobs: num(q.jobs), name, conditions: num(perRepeat), repeats: num(q.spec.seeds.length), bid: fmt(q.bid) }),
       budget && Number(budget) < fullCost
         ? t("compute.jobs.stopsAfterOf", { amount: fmt(budget), cost: fmt(q.full_cost) })
         : t("compute.jobs.wholeCosts", { cost: fmt(q.full_cost), pool: fmt(q.full_to_pool) }),
-      q.cached ? t("compute.jobs.cachedRuns", { count: count(q.cached) }) : "",
+      q.cached ? t("compute.jobs.cachedRuns", { count: num(q.cached) }) : "",
       hours ? t("compute.jobs.stopsAfterHours", { hours }) : "",
     ];
     // numbers and names here come from the server's normalized spec or our own constants
@@ -594,7 +592,7 @@ async function listOrders(): Promise<void> {
     const row = document.createElement("div");
     row.className = "item";
     row.innerHTML = `<div><b class="what"></b><div class="meta"></div></div><div class="amount"></div><div class="state"></div>`;
-    (row.querySelector(".what") as HTMLElement).textContent = t("compute.jobs.runsDone", { settled: count(o.settled), jobs: count(o.jobs) });
+    (row.querySelector(".what") as HTMLElement).textContent = t("compute.jobs.runsDone", { settled: num(o.settled), jobs: num(o.jobs) });
     (row.querySelector(".meta") as HTMLElement).textContent = t("compute.jobs.orderMeta", { date: new Date(o.created_at).toLocaleString(locale()), what: describe(o), bid: fmt(o.bid), id: o.id });
     // a card order in dollars: the share of what was paid that the runs have used
     const paidUsd = o.card?.state === "paid" ? Number(o.card.usdc) : 0;
@@ -701,15 +699,16 @@ async function boot(): Promise<void> {
     changed();
   });
   mountAccount();
-  onAccount((wallet) => {
-    account = wallet;
-    $("account").textContent = wallet ? shortAddress(wallet) : t("compute.common.notSignedIn");
-    $("account").title = wallet ?? "";
-    $("connect").textContent = wallet ? t("compute.common.refresh") : t("compute.common.signIn");
-    // signed in or not, the list shows this browser's card orders too
-    void listOrders().catch((err) => { $("note").textContent = errorText(err); });
+  const showError = (err: unknown) => { $("note").textContent = errorText(err); };
+  bindWalletRow({
+    onChange: (wallet) => {
+      account = wallet;
+      // signed in or not, the list shows this browser's card orders too
+      void listOrders().catch(showError);
+    },
+    onRefresh: listOrders,
+    onError: showError,
   });
-  $("connect").addEventListener("click", () => void (account ? listOrders() : requireWallet()).catch((err) => { $("note").textContent = errorText(err); }));
   $("buy").addEventListener("click", () => void order("flyai"));
   $("buy-usdc").addEventListener("click", () => {
     // open the checkout tab during the click, or the browser blocks it
@@ -754,8 +753,8 @@ async function boot(): Promise<void> {
       }
       embedUpload.inputs = inputs;
       embedUpload.texts = texts.length;
-      $("embed-status").textContent = t("compute.jobs.embedStatus", { file: file.name, texts: count(texts.length), batches: count(embedUpload.inputs.length) })
-        + (texts.some((text) => text.length > limit) ? t("compute.jobs.embedCut", { limit: count(limit) }) : "");
+      $("embed-status").textContent = t("compute.jobs.embedStatus", { file: file.name, texts: num(texts.length), batches: num(embedUpload.inputs.length) })
+        + (texts.some((text) => text.length > limit) ? t("compute.jobs.embedCut", { limit: num(limit) }) : "");
     } catch (err) {
       if (run !== embedRun) return;
       embedUpload.inputs = [];

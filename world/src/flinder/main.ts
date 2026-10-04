@@ -7,6 +7,7 @@
  */
 import { DateNight } from "./datenight.ts";
 import { Fx } from "./fx.ts";
+import { connectomeBase, progress } from "../i18n.ts";
 import { setupI18n, t } from "./i18n.ts";
 import { EX_OPENERS, UNSENT, botSay, dateOutcome, endLine, nervousOpener, opener, say, seenAt, voiceNote } from "./lines.ts";
 import { Portrait } from "./portrait.ts";
@@ -15,6 +16,7 @@ import {
   CHAT, READOUT, TRAITS, carried, dateEnd, ending, sensed, type ChatCounts, type Ending, type Reply, type Traits,
 } from "./readout.ts";
 import { categories, emptyStats, flyLink, loadBoard, saveBoard, statsCard, thumb, tweetText, type BoardRow, type Stats } from "./share.ts";
+import { esc as escapeHtml } from "../util.ts";
 
 // the page's language first: every text below is in it
 await setupI18n();
@@ -31,7 +33,7 @@ const box = legEl.parentElement!;
 
 // ---- the brain ------------------------------------------------------------------------------------------
 const worker = new Worker(new URL("./brain.worker.ts", import.meta.url), { type: "module" });
-const base = new URL(import.meta.env.DEV ? `${import.meta.env.BASE_URL}connectome/` : "/simulation/connectome/", location.href).href;
+const base = connectomeBase();
 let brainReady = false;
 type Counts = { heart: number; vpo: number };
 type Decided = Counts & { choice: "right" | "left" };
@@ -41,7 +43,7 @@ const replies = new Map<string, (r: Replied) => void>();
 
 worker.onmessage = (e: MessageEvent) => {
   const m = e.data;
-  if (m.type === "progress") statusEl.textContent = t("flinder.status.progress", { text: progressText(m.text) });
+  if (m.type === "progress") statusEl.textContent = t("flinder.status.progress", { text: progress("flinder.status", m.text) });
   else if (m.type === "error") statusEl.textContent = t("flinder.status.error", { text: m.text });
   else if (m.type === "ready") {
     brainReady = true;
@@ -61,12 +63,6 @@ worker.onmessage = (e: MessageEvent) => {
   }
 };
 worker.postMessage({ type: "load", base });
-
-/** The worker's progress ("fly brain 40 / 210 MB") in the page's language. */
-function progressText(text: string): string {
-  if (text === "wiring 25 M synapses") return t("flinder.status.wiring");
-  return text.replace(/^labels/, t("flinder.status.labels")).replace(/^fly brain/, t("flinder.status.brain"));
-}
 
 /** What a swiper senses from a profile: its traits, plus a rival's smell if it just left another date. */
 const smellOf = (p: Profile) => sensed(p.traits, p.rival);
@@ -137,7 +133,6 @@ const photoOf = (p: Profile) => {
   if (!url) { url = portrait.snapshot(p, 360, 480, deck[0] ?? null); photos.set(p.id, url); }
   return url;
 };
-const escapeHtml = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]!);
 const anyOf = <T>(xs: T[]) => xs[Math.floor(Math.random() * xs.length)];
 const dots = (v: number) => "●".repeat(Math.round(v * 5)) + "○".repeat(5 - Math.round(v * 5));
 const chips = (t: Traits) => TRAITS.map((k) => `<span class="chip${t[k] >= 0.6 ? " hot" : ""}">${traitLabel(k)}<i>${dots(t[k])}</i></span>`).join("");

@@ -11,9 +11,11 @@
  * (brain.worker.ts), loaded only when someone asks for it; watching a stored fight needs no brain, the ring just plays
  * its events.
  *
- * Sign-in, wallet transactions and the API address are the compute site's own modules, loaded at run time from
- * /compute/ (the same account as Fly Roulette, Fly Slots, Fly Race and compute).
+ * The account (sign-in, deposits, withdrawals, the 18+ terms) is bets/core.ts, the same for every game.
  */
+import { Cancelled, createAccount } from "../bets/core.ts";
+import { connectomeBase, progress } from "../i18n.ts";
+import { esc, fmt, randomHex } from "../util.ts";
 import { BRONZE, fightLabel, fightRng, maxHp, playFight, roundsFor, setupFight, sha256Hex, type FightEvent } from "./game.ts";
 import type { Counts } from "./readout.ts";
 import { setupI18n, t } from "./i18n.ts";
@@ -25,17 +27,6 @@ import { BACKGROUNDS, breakdown, COLORWAYS, EXTRAS, GEAR, MAX_POTIONS, POSES, PO
 // the page's language first: every text below is in it
 await setupI18n();
 
-/** The compute site's account module (mine/web/account.ts). */
-interface Account {
-  signedIn(): string | null;
-  sessionHeaders(): Record<string, string>;
-  onAccount(fn: (wallet: string | null) => void): void;
-  signIn(): Promise<string | null>;
-  signOut(): Promise<void>;
-  transact(to: string, data: string, step?: (text: string) => void, chainId?: number): Promise<string>;
-  mined(hash: string, chainId?: number): Promise<void>;
-  errorText(err: unknown): string;
-}
 interface Config { on: boolean; contract: string | null; image: string; ledger?: string | null; rpc?: string; explorer?: string | null; potion_price?: string; potion_forever_price?: string; potions: { id: PotionId; name: string; add: Partial<Stats> }[]; max_potions: number }
 interface Entrant {
   fly: number; wallet: string; traits: Traits; potions: PotionId[]; stats: Stats; hp: number; aura: string | null;
@@ -64,30 +55,6 @@ interface MatchView {
 }
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
-const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]!);
-const fmt = (s: string | number) => Number(s).toLocaleString(undefined, { maximumFractionDigits: 2 });
-const randomHex = (bytes: number) => [...crypto.getRandomValues(new Uint8Array(bytes))].map((x) => x.toString(16).padStart(2, "0")).join("");
-const WEI = 10n ** 18n;
-/** An amount as people type it ("90000", "90,000", "90 000", "90k", "1.5m") as a plain number of tokens, or null. */
-function amountText(s: string): string | null {
-  const m = /^(\d+)(?:\.(\d+))?([km])?$/i.exec(s.trim().replace(/[\s,_']/g, ""));
-  if (!m) return null;
-  const shift = m[3] ? (m[3].toLowerCase() === "k" ? 3 : 6) : 0;
-  const frac = (m[2] ?? "").padEnd(shift, "0");
-  const whole = (m[1] + frac.slice(0, shift)).replace(/^0+(?=\d)/, ""), rest = frac.slice(shift).replace(/0+$/, "");
-  return rest.length > 18 ? null : rest ? `${whole}.${rest}` : whole;
-}
-function toWei(s: string): bigint | null {
-  const a = amountText(s);
-  if (a === null) return null;
-  const [w, f = ""] = a.split(".");
-  return BigInt(w) * WEI + BigInt(f.padEnd(18, "0"));
-}
-class ApiError extends Error {
-  constructor(readonly status: number, message: string) { super(message); }
-}
-class Cancelled extends Error {}
-
 // ---- the brains (a Web Worker): Verify only, loaded when it is asked for ---------------------------------------
 type BrainState = "idle" | "loading" | "ready" | "failed";
 let brainState: BrainState = "idle";
@@ -97,10 +64,6 @@ let brainLoad: Promise<void> | null = null;
 /** where the loading progress is shown (the caller sets it) */
 let brainNote: (text: string) => void = () => {};
 
-function progressText(text: string): string {
-  if (text === "wiring 25 M synapses") return t("colosseum.status.wiring");
-  return text.replace(/^labels/, t("colosseum.status.labels")).replace(/^fly brain/, t("colosseum.status.brain"));
-}
 /** Starts the worker on the first call (the brain files are about 60 MB) and resolves when the brains are ready. */
 function loadBrains(): Promise<void> {
   brainLoad ??= new Promise<void>((resolve, reject) => {
@@ -114,10 +77,10 @@ function loadBrains(): Promise<void> {
     brainState = "loading";
     try {
       worker = new Worker(new URL("./brain.worker.ts", import.meta.url), { type: "module" });
-      const base = new URL(import.meta.env.DEV ? `${import.meta.env.BASE_URL}connectome/` : "/simulation/connectome/", location.href).href;
+      const base = connectomeBase();
       worker.onmessage = (e: MessageEvent) => {
         const m = e.data;
-        if (m.type === "progress") brainNote(t("colosseum.status.progress", { text: progressText(m.text) }));
+        if (m.type === "progress") brainNote(t("colosseum.status.progress", { text: progress("colosseum.status", m.text) }));
         else if (m.type === "error") fail();
         else if (m.type === "ready") { brainState = "ready"; resolve(); }
         else if (m.type === "counts") {
@@ -142,8 +105,6 @@ const brainRound = (side: 0 | 1, _round: number, scent: number, loom: number) =>
 });
 
 // ---- the account and the server ---------------------------------------------------------------------------
-let API = "";
-let acct: Account | null = null;
 let cfg: Config | null = null;
 let me: Me | null = null;
 /** the latest season (the live one), and the one on show (the same, or a past one picked in the strip) */
@@ -151,22 +112,9 @@ let cur: Tournament | null = null;
 let view: Tournament | null = null;
 let viewId: string | null = null;
 let seasons: Summary[] = [];
-let chain: { token: string; pay_to: string; chain_id: number } | null = null;
 
-async function api(path: string, body?: unknown): Promise<any> {
-  const res = await fetch(API + path, {
-    method: body === undefined ? "GET" : "POST",
-    headers: { "content-type": "application/json", ...(acct?.sessionHeaders() ?? {}) },
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
-  const data = await res.json().catch(() => ({}));
-  if (res.status === 401 && acct?.signedIn()) {
-    await acct.signOut();
-    throw new ApiError(401, t("colosseum.bet.sessionExpired"));
-  }
-  if (!res.ok) throw new ApiError(res.status, data.error ?? `HTTP ${res.status}`);
-  return data;
-}
+const account = createAccount({ prefix: "colosseum.bet", refresh, refreshMe, busy: () => acting });
+const { api, acceptTerms } = account;
 
 const imageOf = (fly: number) => (import.meta.env.DEV ? `${import.meta.env.BASE_URL}flies/${fly}.webp` : cfg?.image ? cfg.image.replace("{id}", String(fly)) : null);
 const flyName = (fly: number) => t("colosseum.fly.name", { id: fly });
@@ -378,7 +326,7 @@ function renderHero(): void {
     const w = v.entries.find((x) => x.fly === v.places![0]);
     right = `<div class="champ">${img(v.places[0], flyName(v.places[0]))}<div><small>${t("colosseum.hero.champion")}</small><b>${esc(flyName(v.places[0]))}</b><span>${w?.prize ? `${fmt(w.prize)} $FLYAI` : ""}</span></div></div>`;
   }
-  const signed = !!acct?.signedIn();
+  const signed = !!account.wallet();
   const cta = v.status === "open" && live
     ? `<div class="hero-cta">${signed ? `<button class="gbtn gold" type="button" id="cta-squad">${t("colosseum.hero.choose")}</button>` : `<button class="gbtn gold" type="button" id="cta-signin" data-nav-signin>${t("colosseum.bet.signIn")}</button>`}<p class="note">${t("colosseum.hero.noEntry")}</p></div>` : "";
   el.innerHTML = `
@@ -575,7 +523,7 @@ function flyCard(f: MyFly): string {
 
 function renderMine(): void {
   const el = $("mine");
-  if (!acct?.signedIn() || !me) { el.innerHTML = `<p class="notice">${t("colosseum.fly.signIn")}</p>`; return; }
+  if (!account.wallet() || !me) { el.innerHTML = `<p class="notice">${t("colosseum.fly.signIn")}</p>`; return; }
   el.innerHTML = me.flies.length ? `<div class="cards">${me.flies.map(flyCard).join("")}</div>` : `<p class="notice">${t("colosseum.fly.none")}</p>`;
   el.querySelectorAll<HTMLElement>("[data-pick]").forEach((b) => {
     b.onclick = () => {
@@ -625,33 +573,7 @@ async function enter(fly: number): Promise<void> {
   picked.delete(fly);
 }
 
-// ---- terms, prizes, deposits ---------------------------------------------------------------------------------
-function acceptTerms(): Promise<boolean> {
-  const d = $<HTMLDialogElement>("terms-dlg");
-  const age = $<HTMLInputElement>("terms-18"), ok = $<HTMLInputElement>("terms-ok"), go = $<HTMLButtonElement>("terms-go");
-  age.checked = ok.checked = false;
-  go.disabled = true;
-  const syncGo = () => { go.disabled = !(age.checked && ok.checked); };
-  age.onchange = ok.onchange = syncGo;
-  d.showModal();
-  return new Promise((resolve) => {
-    d.oncancel = () => resolve(false);
-    $("terms-cancel").onclick = () => { d.close(); resolve(false); };
-    go.onclick = async () => {
-      go.disabled = true;
-      try {
-        // Fly Roulette's terms: one acceptance covers every game
-        await api("/api/roulette/terms", { over18: true, accept: true });
-        d.close();
-        resolve(true);
-      } catch (err) {
-        $("terms-msg").textContent = String((err as Error).message);
-        syncGo();
-      }
-    };
-  });
-}
-
+// ---- prizes ------------------------------------------------------------------------------------------------
 function renderPrizes(): void {
   const list = me?.prizes ?? [];
   $("prize-card").hidden = !list.length;
@@ -670,60 +592,6 @@ $("claim").onclick = async () => {
     await refreshMe();
   }
 };
-
-function showAccount(): void {
-  const wallet = acct?.signedIn() ?? null;
-  $("bet-out").hidden = !!wallet || !acct;
-  $("bet-in").hidden = !wallet;
-  if (wallet && me) {
-    $("bet-who").textContent = `${wallet.slice(0, 6)}…${wallet.slice(-4)}`;
-    $("bet-balance").textContent = `${fmt(me.balance)} FLYAI`;
-  }
-}
-
-async function deposit(): Promise<void> {
-  const amountEl = $<HTMLInputElement>("dep-amount"), status = $("dep-status");
-  const wei = toWei(amountEl.value);
-  if (!wei || wei <= 0n) { status.textContent = t("colosseum.bet.enterAmount"); return; }
-  if (!acct || !chain) return;
-  const btn = $<HTMLButtonElement>("dep-go");
-  btn.disabled = true;
-  try {
-    const data = `0xa9059cbb${chain.pay_to.slice(2).toLowerCase().padStart(64, "0")}${wei.toString(16).padStart(64, "0")}`;
-    const tx = await acct.transact(chain.token, data, (text) => { status.textContent = text; }, chain.chain_id);
-    status.textContent = t("colosseum.bet.mining");
-    await acct.mined(tx, chain.chain_id);
-    for (let i = 0; ; i++) {
-      try {
-        const r = await api("/api/balance/deposit", { tx });
-        status.textContent = t("colosseum.bet.deposited", { amount: fmt(r.deposited) });
-        break;
-      } catch (err) {
-        if (!(err instanceof ApiError && err.status === 409 && /mined/.test(err.message)) || i > 20) throw err;
-        await new Promise((r) => setTimeout(r, 2000));
-      }
-    }
-    amountEl.value = "";
-    await refreshMe();
-  } catch (err) {
-    status.textContent = acct.errorText(err);
-  } finally {
-    btn.disabled = false;
-  }
-}
-async function withdraw(): Promise<void> {
-  const amountEl = $<HTMLInputElement>("wd-amount"), status = $("wd-status");
-  const amount = amountText(amountEl.value);
-  if (!amount || !toWei(amount)) { status.textContent = t("colosseum.bet.enterAmount"); return; }
-  try {
-    await api("/api/balance/withdraw-request", { amount });
-    status.textContent = t("colosseum.bet.withdrawOk");
-    amountEl.value = "";
-    await refreshMe();
-  } catch (err) {
-    status.textContent = String((err as Error).message);
-  }
-}
 
 // ---- keeping the page current ------------------------------------------------------------------------------
 /** the buttons that depend on the brains and on whether the ring is busy */
@@ -745,11 +613,11 @@ function renderAll(): void {
 }
 
 async function refreshMe(): Promise<void> {
-  if (!acct?.signedIn()) me = null;
+  if (!account.wallet()) me = null;
   else {
-    try { me = await api("/api/arena/me"); } catch (err) { me = null; $("bet-msg").textContent = String((err as Error).message); }
+    try { me = await api("/api/arena/me"); } catch (err) { me = null; account.say(String((err as Error).message), true); }
   }
-  showAccount();
+  account.header(me);
   renderAll();
 }
 async function refreshCurrent(): Promise<void> {
@@ -785,33 +653,12 @@ function renderTables(): void {
 
 // ---- start ------------------------------------------------------------------------------------------------
 async function start(): Promise<void> {
-  const offEl = $("bet-off");
   renderTables();
   renderAll();
   sync();
-  try {
-    const config = await import(/* @vite-ignore */ new URL("/compute/mine/web/config.js", location.href).href);
-    API = import.meta.env.DEV ? "" : config.API;
-    cfg = await api("/api/arena/config");
-    if (!cfg!.on) { offEl.textContent = t("colosseum.bet.closed"); renderAll(); return; }
-    acct = await import(/* @vite-ignore */ new URL("/compute/mine/web/account.js", location.href).href) as Account;
-    const oc = await api("/api/orders/config").catch(() => null);
-    if (oc?.pay_to) chain = { token: oc.token, pay_to: oc.pay_to, chain_id: oc.chain_id ?? oc.chain?.id };
-  } catch {
-    offEl.textContent = t("colosseum.bet.unreachable");
-    return;
-  }
-  offEl.hidden = true;
-  acct.onAccount(() => void refresh());
-  $("bet-signin").onclick = async () => {
-    try { await acct!.signIn(); } catch (err) { $("bet-msg").textContent = acct!.errorText(err); }
-    await refresh();
-  };
-  $("bet-signout").onclick = async () => { await acct!.signOut(); await refresh(); };
-  $("bet-deposit").onclick = () => { $("bet-deposit-box").hidden = !$("bet-deposit-box").hidden; $("bet-withdraw-box").hidden = true; };
-  $("bet-withdraw").onclick = () => { $("bet-withdraw-box").hidden = !$("bet-withdraw-box").hidden; $("bet-deposit-box").hidden = true; };
-  $("dep-go").onclick = () => void deposit();
-  $("wd-go").onclick = () => void withdraw();
+  const r = await account.boot<Config>("/api/arena/config", (c) => { cfg = c; });
+  if (r !== "open") { if (r === "closed") renderAll(); return; }
+  account.wire();
   await refresh();
   // the season changes slowly while registration is open and quickly while the fights are being played
   const poll = () => setTimeout(async () => {

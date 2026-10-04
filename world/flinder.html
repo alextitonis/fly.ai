@@ -30,57 +30,10 @@
   body{margin:0; background:var(--ground); color:var(--ink); font:15px/1.5 'Inter',system-ui,sans-serif; overflow-x:hidden;}
   a{color:inherit;}
   .mono{font-family:'JetBrains Mono',ui-monospace,monospace; font-variant-numeric:tabular-nums;}
-  /* nav (same markup/classes as every docs/*.html page) */
-  nav{position:sticky; top:0; z-index:10; background:rgba(0,0,0,.78); backdrop-filter:blur(10px);
-      -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
-  nav .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; height:58px; max-width:1120px; margin:0 auto; padding-inline:24px;}
-  .brand{display:flex; align-items:center; gap:10px; font:700 18px var(--display); text-decoration:none;}
-  .brand .logo{display:block; height:24px; width:auto;}   /* logo-t.webp: the logo on transparency */
-  nav ul{display:flex; gap:22px; list-style:none; margin:0; padding:0; font-size:14px; align-items:center;}
-  nav ul a{color:var(--muted); text-decoration:none;}
-  nav ul a:hover{color:var(--ink);}
-  nav ul a.on{color:var(--ink);}
-  nav ul a.on::after{content:""; display:block; height:2px; border-radius:2px; background:var(--accent); margin-top:4px; box-shadow:0 0 8px var(--glow);}
-  nav li.dd{position:relative; display:flex; align-items:center; gap:2px;}
-  nav .ddbtn{all:unset; cursor:pointer; color:var(--muted); font-size:11px; line-height:1; padding:5px 4px; border-radius:4px;}
-  nav .ddbtn:hover{color:var(--ink);}
-  nav .ddbtn:focus-visible, nav a:focus-visible{outline:2px solid var(--accent-hi); outline-offset:2px;}
-  nav .ddmenu{position:absolute; top:calc(100% + 12px); left:-12px; min-width:240px; margin:0; padding:6px;
-              display:none; flex-direction:column; gap:2px; background:var(--surface); border:1px solid var(--line);
-              border-radius:14px; box-shadow:0 14px 34px rgba(0,0,0,.7); z-index:20; list-style:none;}
-  nav .ddmenu::before{content:""; position:absolute; left:0; right:0; top:-14px; height:14px;}
-  nav li.dd:hover .ddmenu, nav li.dd:focus-within .ddmenu, nav li.dd.open .ddmenu{display:flex;}
-  nav .ddmenu li{display:block;}
-  nav .ddmenu a{display:block; padding:9px 11px; border-radius:7px; color:var(--ink); font-size:14px; white-space:nowrap;}
-  nav .ddmenu a:hover{background:var(--surface-2);}
-  nav .ddmenu a.on{background:var(--surface-2);}
-  nav .ddmenu a.on::after{display:none;}
-  nav .ddmenu small{display:block; color:var(--dim); font:12px/1.4 'JetBrains Mono',monospace; margin-top:2px; white-space:normal;}
-  nav .ddlabel{font-size:inherit; color:var(--muted); padding:4px 2px;}
-  nav .ddlabel span{font-size:10px; margin-left:2px;}
-  nav .ddlabel:hover, nav li.dd.open .ddlabel, nav .ddlabel.on{color:var(--ink);}
-  nav .ddlabel.on::after{content:""; display:block; height:2px; border-radius:2px; background:var(--accent); margin-top:4px; box-shadow:0 0 8px var(--glow);}
-  nav .ddmenu.right{left:auto; right:-12px;}
-  nav .ddmenu{align-items:stretch;}
-  /* the language menu (i18n.js injects a neutral default under :where; this matches the site's) */
-  nav .langpick{font:500 13px/1.2 'Inter',system-ui,sans-serif; color:var(--muted); background:transparent; border:1px solid var(--line); border-radius:999px; padding:6px 10px;}
-  nav .langpick:hover{color:var(--ink); border-color:var(--accent);}
-  nav .langpick option{background:var(--surface); color:var(--ink);}
-  @media (max-width:1080px){
-    nav ul{gap:14px; font-size:13px;}
-  }
-  @media (max-width:760px){
-    nav .wrap{height:auto; padding-block:10px; flex-wrap:wrap; gap:8px 14px;}
-    nav ul{gap:14px; font-size:13px; flex-wrap:wrap;}
-  }
-  @media (max-width:520px){
-    nav ul{gap:12px; font-size:12px; width:100%; justify-content:space-between;}
-    nav ul li:last-child{display:none;}
-    nav .ddmenu{left:-40px; min-width:220px;}
-    nav .ddmenu.right{left:auto; right:-8px;}
-    .brand{font-size:16px;}
-  }
-
+</style>
+<!-- the site nav's rules: one copy for every page since 2026-10-04 (its token fallbacks are this page's colours) -->
+<link rel="stylesheet" href="/assets/nav.css">
+<style>
   .btn{display:inline-flex; align-items:center; gap:8px; padding:12px 22px; border-radius:999px; font-weight:600;
        font-size:15px; text-decoration:none; border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer;
        transition:border-color .15s, background .15s, box-shadow .15s;}
@@ -413,6 +366,6 @@
   </div>
 </main>
 <script type="module" src="/src/flinder/main.ts"></script>
-<script src="/assets/nav.js?v=20261003d"></script>
+<script src="/assets/nav.js?v=20261004a"></script>
 </body>
 </html>

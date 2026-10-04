@@ -7,7 +7,8 @@
  * out: {type: "progress", text} · {type: "ready", n, nnz, outputs} · {type: "error", text}
  *      {type: "rates", hz: number[], fired, ms, steps}  smoothed Hz per output group
  */
-import { ConnectomeBrain, cells, cellsWithPrefix, parseMeta, parseWeights, type ConnectomeMeta } from "./connectome.ts";
+import { loadConnectome } from "./brainload.ts";
+import { ConnectomeBrain, cells, cellsWithPrefix, type ConnectomeMeta } from "./connectome.ts";
 
 const ctx = self as unknown as {
   postMessage(message: unknown): void;
@@ -44,46 +45,12 @@ function outputGroups(meta: ConnectomeMeta): [string, Int32Array][] {
   return out;
 }
 
-/**
- * Fetch one gzip stream stored in one or more parts, join the parts in order and decompress.
- * A server may already have unpacked a part (Content-Encoding: gzip), so decompress only if the
- * gzip magic bytes are still at the start.
- */
-async function fetchGz(urls: string[], label: string, totalMb = 0): Promise<ArrayBuffer> {
-  const chunks: Uint8Array[] = [];
-  let got = 0, lastReport = 0;
-  for (const url of urls) {
-    const res = await fetch(url);
-    if (!res.ok || !res.body) throw new Error(`${url}: HTTP ${res.status}`);
-    const reader = res.body.getReader();
-    for (;;) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      chunks.push(value);
-      got += value.length;
-      if (got - lastReport > 1_000_000) {
-        lastReport = got;
-        ctx.postMessage({ type: "progress", text: `${label} ${(got / 1e6).toFixed(0)}${totalMb ? ` / ${totalMb.toFixed(0)}` : ""} MB` });
-      }
-    }
-  }
-  const blob = new Blob(chunks as BlobPart[]);
-  if (!(chunks[0]?.[0] === 0x1f && chunks[0]?.[1] === 0x8b)) return blob.arrayBuffer();
-  return new Response(blob.stream().pipeThrough(new DecompressionStream("gzip"))).arrayBuffer();
-}
-
 let brain: ConnectomeBrain | null = null;
 let inputs = new Map<string, Int32Array>();
 let drive: Record<string, number> = {};
 
 async function load(base: string): Promise<void> {
-  const res = await fetch(`${base}brain.json`);
-  if (!res.ok) throw new Error(`${base}brain.json: HTTP ${res.status}`);
-  const info: { parts: string[]; weights_mb: number } = await res.json();
-  const meta = parseMeta(await fetchGz([`${base}meta.bin`], "labels"));
-  const weightsBuf = await fetchGz(info.parts.map((p) => base + p), "connectome", info.weights_mb);
-  ctx.postMessage({ type: "progress", text: "wiring 25 M synapses" });
-  const w = parseWeights(weightsBuf);
+  const { meta, weights: w } = await loadConnectome(base, ctx, { label: "connectome" });
   brain = new ConnectomeBrain(w, meta.params, 64);
   inputs = inputGroups(meta);
   const outputs = outputGroups(meta);

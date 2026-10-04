@@ -1,3 +1,4 @@
+@import url("nav.css");   /* the nav's rules (2026-10-04): must stay the first line */
   :root {
     /* the logo's palette (2026-09-23): pure black, white, and the fly's mint glow. Red is kept for losses and
        warnings only, never as the brand colour. */
@@ -24,36 +25,9 @@
   .lede { color: var(--muted); font-size: 18px; max-width: 640px; margin-bottom: 40px; }
   .mono { font-family: var(--mono); }
 
-  nav { position: sticky; top: 0; z-index: 10; background: rgba(0,0,0,.78); backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
-  nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 58px; }
-  .brand { display: flex; align-items: center; gap: 10px; font: 700 18px var(--display); text-decoration: none; }
-  .logo { display: block; }                   /* logo-t.webp: the logo on transparency (logo.webp has a black plate) */
-  .brand .logo { height: 24px; width: auto; }
-  /* the logo never shrinks under the links (2026-10-03: "Home" was drawn over it at 1100-1280 px); the links wrap */
-  nav .wrap > .brand { flex: none; }
-  nav .wrap { height: auto; min-height: 58px; }
-  @media (min-width: 521px) { nav .wrap > ul { min-width: 0; flex-wrap: wrap; justify-content: flex-end; row-gap: 4px; } }
-  @media (max-width: 520px) { nav .wrap > ul { flex-wrap: wrap; justify-content: flex-start; row-gap: 4px; } }
   .hero-logo { width: min(260px, 58vw); height: auto; margin: 0 0 26px; filter: drop-shadow(0 0 28px var(--glow)); }
   .eye { width: 10px; height: 10px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 14px var(--glow); animation: blink 3.2s infinite; }
   @keyframes blink { 0%, 92%, 100% { opacity: 1; } 95% { opacity: .25; } }
-  nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-size: 14px; align-items: center; }
-  nav ul a { color: var(--muted); text-decoration: none; }
-  nav ul a:hover { color: var(--text); }
-  @media (max-width: 1080px) {
-    nav .wrap { height: auto; min-height: 58px; padding-block: 8px; flex-wrap: wrap; }
-    nav ul { gap: 14px; font-size: 13px; flex-wrap: wrap; }
-  }
-  @media (max-width: 760px) {
-    nav .wrap { height: auto; padding-block: 10px; flex-wrap: wrap; gap: 8px 14px; }
-    nav ul { gap: 14px; font-size: 13px; flex-wrap: wrap; }
-  }
-  @media (max-width: 520px) {
-    nav .wrap { gap: 6px 12px; }
-    nav ul { gap: 12px; font-size: 12px; }
-    .brand { font-size: 16px; }
-  }
 
   .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font-weight: 600;
          font-size: 15px; text-decoration: none; border: 1px solid var(--line); background: transparent; color: var(--text); cursor: pointer;
@@ -159,8 +133,6 @@
   }
 
   /* --- multi-page additions ------------------------------------------- */
-  nav ul a.on { color: var(--text); }
-  nav ul a.on::after { content: ""; display: block; height: 2px; border-radius: 2px; background: var(--mint); margin-top: 4px; box-shadow: 0 0 8px var(--glow); }
 
   .pagehead { padding-block: 72px 0; border-top: none; }
   .pagehead h1 { font-size: clamp(34px, 6vw, 58px); margin-bottom: 16px; }
@@ -202,37 +174,6 @@
     .btn { padding: 11px 16px; font-size: 14px; }
   }
 
-  /* --- nav menus -------------------------------------------------------- */
-  nav li.dd { position: relative; display: flex; align-items: center; gap: 2px; }
-  nav .ddbtn { all: unset; cursor: pointer; color: var(--muted); font-size: 11px; line-height: 1; padding: 5px 4px; border-radius: 4px; }
-  nav .ddbtn:hover { color: var(--text); }
-  nav .ddbtn:focus-visible, nav a:focus-visible { outline: 2px solid var(--cool); outline-offset: 2px; }
-  nav .ddmenu { position: absolute; top: calc(100% + 12px); left: -12px; min-width: 240px; margin: 0; padding: 6px;
-                display: none; flex-direction: column; gap: 2px; background: var(--panel); border: 1px solid var(--line);
-                border-radius: 14px; box-shadow: 0 14px 34px rgba(0,0,0,.7); z-index: 20; }
-  nav .ddmenu::before { content: ""; position: absolute; left: 0; right: 0; top: -14px; height: 14px; }
-  nav li.dd:hover .ddmenu, nav li.dd:focus-within .ddmenu, nav li.dd.open .ddmenu { display: flex; }
-  nav .ddmenu li, nav .ddmenu li:last-child { display: block; }
-  nav .ddmenu a { display: block; padding: 9px 11px; border-radius: 7px; color: var(--text); font-size: 14px; white-space: nowrap; }
-  nav .ddmenu a:hover { background: var(--bg-2); }
-  nav .ddmenu a.on { background: var(--bg-2); }
-  nav .ddmenu a.on::after { display: none; }
-  nav .ddmenu small { display: block; color: var(--dim); font: 12px/1.4 var(--mono); margin-top: 2px; white-space: normal; }
-  /* menus whose label is the whole button (Research, Apps, $FLYAI) */
-  nav .ddlabel { font-size: inherit; color: var(--muted); padding: 4px 2px; }
-  nav .ddlabel span { font-size: 10px; margin-left: 2px; }
-  nav .ddlabel:hover, nav li.dd.open .ddlabel, nav .ddlabel.on { color: var(--text); }
-  nav .ddlabel.on::after { content: ""; display: block; height: 2px; border-radius: 2px; background: var(--mint); margin-top: 4px; box-shadow: 0 0 8px var(--glow); }
-  nav .ddmenu.right { left: auto; right: -12px; }
-  nav .ddmenu { align-items: stretch; }        /* not centred like the bar's own items: rows line up */
-  /* a phone: a menu opens full width under the whole bar, not hung off its label (2026-10-02: the menus by either
-     edge - Apps, Market, $FLYAI - ran off the screen) */
-  @media (max-width: 760px) {
-    nav li.dd { position: static; }
-    nav .ddmenu, nav .ddmenu.right { top: calc(100% - 4px); left: 12px; right: 12px; width: auto; min-width: 0; }
-    nav .ddmenu a { white-space: normal; }
-  }
-
   /* For Agents page: code blocks, the results table, plain lists */
   .codeblock { margin: 14px 0 0; padding: 14px 16px; background: #050606; border: 1px solid var(--line); border-radius: 10px;
     overflow-x: auto; font: 13px/1.6 var(--mono); color: #cfe9df; white-space: pre; }
@@ -246,12 +187,6 @@
   .agenttable td b { color: var(--text); }
   .plainlist { margin: 0; padding-left: 18px; color: var(--muted); display: grid; gap: 8px; }
   .plainlist b { color: var(--text); }
-
-  /* the language menu (i18n.js injects a neutral default under :where, so this wins on the site only) */
-  nav .langpick { font: 500 13px/1.2 var(--sans); color: var(--muted); background: transparent; border: 1px solid var(--line);
-                  border-radius: 999px; padding: 6px 10px; }
-  nav .langpick:hover { color: var(--text); border-color: var(--mint); }
-  nav .langpick option { background: var(--panel); color: var(--text); }
 
   /* --- the home page (body.home), 2026-09-23: calmer, like the logo - one centred hero, space instead of boxes -- */
   .home section { border-top: 0; padding-block: 104px; }
@@ -318,19 +253,6 @@
   .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px;
              border: 1px solid rgba(94,242,204,.25); background: rgba(94,242,204,.06); font-size: 11px; }
   .eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 10px var(--glow); }
-
-  /* nav: a glass bar, hover pills */
-  nav { background: rgba(0,0,0,.62); backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px);
-        border-bottom-color: rgba(255,255,255,.06); }
-  nav ul > li > a:not(.btn), nav .ddlabel { padding: 6px 8px !important; border-radius: 999px; transition: background .15s, color .15s; }
-  nav ul > li { white-space: nowrap; }        /* a crowded bar wraps whole items (or scrolls), never a label's words */
-  nav ul > li > a:not(.btn):hover, nav .ddlabel:hover { background: rgba(255,255,255,.06); }
-  nav ul { gap: 6px; }
-  nav ul a.on::after, nav .ddlabel.on::after { margin: 3px auto 0; width: 16px; }
-  nav .ddmenu { background: rgba(10,11,11,.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-                border-color: var(--edge); border-radius: var(--r-md); }
-  nav .ddmenu a { border-radius: 10px; }
-  @media (max-width: 760px) { nav ul { gap: 2px; } nav ul > li > a:not(.btn), nav .ddlabel { padding: 5px 7px !important; } }
 
   /* buttons: a touch more presence */
   .btn { border-color: rgba(255,255,255,.12); background: rgba(255,255,255,.03);
@@ -423,31 +345,6 @@
     .card, .btn { transition: none; }
   }
 
-  /* the current page: a mint pill, not an underline (the underline lifted the label above its neighbours) */
-  nav ul a.on:not(.btn), nav .ddlabel.on { background: rgba(94,242,204,.1); color: var(--mint-hi) !important; }
-  nav ul a.on::after, nav .ddlabel.on::after { display: none; }
-
-/* the account menu on every page (nav.js account): Sign in, or the nickname with my flies, the leaderboard, a nickname box */
-nav li.acct .acct-in { white-space: nowrap; }
-/* a page's own sign-in button while signed out: a pointer to the nav's one (nav.js pageSignIns) */
-.nav-signed-out [data-nav-signin] { background: none !important; border: 0 !important; box-shadow: none !important; padding: 0 !important;
-  width: auto !important; min-width: 0 !important; font-size: 0 !important; cursor: pointer; }
-.nav-signed-out [data-nav-signin] * { display: none !important; }
-.nav-signed-out [data-nav-signin]::after { content: var(--nav-signin-hint, "Sign in at the top right ↗"); font: 600 14px/1.4 var(--sans, inherit);
-  color: var(--mint); text-decoration: underline; text-underline-offset: 3px; }
-nav li.acct .acct-name { max-width: 12em; overflow: hidden; text-overflow: ellipsis; display: inline-block; vertical-align: bottom; }
-nav li.acct .ddmenu { min-width: 240px; }
-nav li.acct .acct-nick { padding: 8px 12px; display: grid; gap: 6px; }
-nav li.acct .acct-nick label { font-size: 12px; color: var(--muted); }
-nav li.acct .acct-nick div { display: flex; gap: 6px; }
-nav li.acct .acct-nick input { flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 6px 8px; border-radius: 8px;
-  border: 1px solid var(--line); background: var(--bg, #000); color: var(--text); }
-nav li.acct .acct-nick small { font-size: 12px; color: var(--muted); min-height: 1em; }
-nav li.acct .acct-out { background: none; border: 0; color: var(--muted); font: inherit; padding: 8px 12px; cursor: pointer; width: 100%; text-align: left; }
-nav li.acct .acct-out:hover { color: var(--text); }
-
-nav li.acct .acct-btn { border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px !important; font-size: 13px; }
-
 /* the homepage's start (index.html, 2026-10-03): raise a fly first, the token after; the app launcher right below */
 .hero h1.raise { font: 800 clamp(40px, 7vw, 76px)/1.02 var(--display); margin: 8px 0 10px; letter-spacing: -.02em; }
 .hero .start-cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 8px; }
@@ -476,28 +373,6 @@ nav li.acct .acct-btn { border: 1px solid var(--line); border-radius: 999px; pad
 /* the launcher wider than the hero text column on desktop */
 /* .home .hero-main is a centered flex column: a wider child is centered on it by itself */
 @media (min-width: 760px) { .hero .apps-launch { width: min(1100px, calc(100vw - 48px)); max-width: none; flex: none; } }
-
-/* search, notifications, badges in the nav (nav.js searchBox / bell / account badges) */
-nav li.srch .srch-btn, nav li.bell .bell-btn { font-size: 15px; padding: 6px 9px !important; position: relative; }
-nav li.srch .ddmenu, nav li.bell .ddmenu { width: min(340px, calc(100vw - 24px)); }
-nav li.srch .srch-box { padding: 10px 12px 6px; }
-nav li.srch .srch-box input { width: 100%; font: inherit; font-size: 16px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line);
-  background: var(--bg, #000); color: var(--text); }
-nav li.srch .srch-out, nav li.bell .bell-list { display: grid; max-height: 60vh; overflow: auto; padding: 4px 0 8px; }
-nav li.srch .srch-out > small, nav li.bell .bell-list > small { padding: 8px 14px; color: var(--muted); }
-nav li.srch .srch-out a, nav li.bell .bell-list a { display: flex; justify-content: space-between; gap: 10px; padding: 8px 14px; text-decoration: none;
-  color: var(--text); font-size: 14px; }
-nav li.srch .srch-out a small, nav li.bell .bell-list a small { color: var(--muted); font-size: 12px; white-space: nowrap; }
-nav li.srch .srch-out a:hover, nav li.bell .bell-list a:hover { background: rgba(255,255,255,.05); }
-nav li.bell .bell-list a.new { border-left: 2px solid var(--mint); }
-nav li.bell .bell-n { position: absolute; top: 0; right: 0; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--mint);
-  color: #000; font: 700 10px/16px var(--sans, sans-serif); text-align: center; }
-nav li.acct .acct-badges { display: flex; flex-wrap: wrap; gap: 4px; padding: 10px 12px 4px; }
-nav li.acct .acct-badges .badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(94,242,204,.12);
-  color: var(--mint); border: 1px solid rgba(94,242,204,.35); }
-
-/* one menu at a time (nav.js only()): a shut menu stays closed even under hover or focus */
-nav li.dd.shut:not(.open) .ddmenu { display: none !important; }
 
 /* the homepage's first-visit welcome (index.html) */
 .hero .firstvisit { position: relative; margin: 16px 0 0; padding: 12px 40px 12px 16px; border: 1px solid rgba(94,242,204,.35); border-radius: 14px;
@@ -544,42 +419,6 @@ nav li.dd.shut:not(.open) .ddmenu { display: none !important; }
 .token-top .quiet { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; }
 .token-top .ca { margin: 0; max-width: 100%; }
 .token-top .ca code { overflow-wrap: anywhere; }
-
-/* the phone bar (2026-10-03): one row - logo, search, bell, account, ☰ - and the menus in a panel under it */
-nav li.burger, .mnav { display: none; }
-@media (max-width: 760px) {
-  nav .wrap { flex-wrap: nowrap !important; height: 56px !important; min-height: 0 !important; padding-block: 0 !important; gap: 10px !important; }
-  nav .wrap > ul { flex: 1; min-width: 0; flex-wrap: nowrap !important; justify-content: flex-end !important; gap: 6px !important; width: auto !important; }
-  nav li.main { display: none !important; }
-  nav li.burger { display: flex; }
-  .burger-btn { all: unset; cursor: pointer; width: 40px; height: 40px; display: grid; place-content: center; gap: 4px;
-    border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.03); }
-  .burger-btn i { display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--text); transition: transform .2s, opacity .2s; }
-  .burger-btn[aria-expanded="true"] i:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-  .burger-btn[aria-expanded="true"] i:nth-child(2) { opacity: 0; }
-  .burger-btn[aria-expanded="true"] i:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-  .burger-btn:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
-  nav .acct-name { display: inline-block; max-width: 88px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: bottom; }
-  nav .acct-in { white-space: nowrap; }
-  nav .brand .logo { height: 22px; }
-  nav .ddmenu.right { position: fixed; top: 56px; left: 12px; right: 12px; min-width: 0; max-height: calc(100dvh - 72px); overflow-y: auto; }
-  .mnav:not([hidden]) { display: grid; align-content: start; grid-auto-rows: max-content; gap: 10px; position: absolute; top: 100%; left: 0; right: 0; height: calc(100dvh - 56px); overflow-y: auto;
-    background: #050505; padding: 12px 14px 32px; animation: mnav-in .18s ease-out; }
-  @keyframes mnav-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
-  .mnav ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
-  .mnav ul.mnav-top { grid-template-columns: 1fr; }
-  nav .mnav-sec { border: 1px solid var(--line); border-radius: 16px; padding: 10px; margin: 0; min-height: 0; background: #0b0d0c; }
-  .mnav a { display: block; padding: 11px 10px; border-radius: 10px; color: var(--text); text-decoration: none; font-size: 15px; }
-  .mnav ul.mnav-top a { border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
-  .mnav a.on { background: rgba(94,242,204,.12); color: var(--mint); }
-  .mnav a:active { background: var(--line); }
-  .mnav-h { margin: 2px 10px 6px; font: 600 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--mint); opacity: .8; }
-  html.mnav-open body { overflow: hidden; }
-}
-@media (max-width: 760px) {
-  nav li.langli { display: none !important; }
-  .mnav-lang { margin: 16px 8px 0; }
-}
 
 /* the homepage on a phone (2026-10-03, the user: "too much text clumped up"): the headline, the two buttons and the
    token, then the apps as tiles - the long copy stays for wider screens */

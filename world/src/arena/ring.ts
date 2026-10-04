@@ -5,6 +5,7 @@
  */
 import type { FightEvent, RoundEvent } from "./game.ts";
 import { auraOf } from "./shop.ts";
+import { esc } from "../util.ts";
 import type { Stats } from "./stats.ts";
 
 export interface Fighter {
@@ -26,7 +27,6 @@ export interface RingText {
 }
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
-const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]!);
 /** shown when a fly has no picture (or it doesn't load) */
 const STAND_IN = "data:image/svg+xml," + encodeURIComponent(
   "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='#101413'/><text x='50' y='66' font-size='52' text-anchor='middle'>🪰</text></svg>");

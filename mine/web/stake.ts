@@ -4,10 +4,9 @@
  */
 import { locale, t } from "./i18n.ts";
 import { API } from "./config.ts";
-import { compact } from "./format.ts";
-import { errorText, mined, mountAccount, onAccount, requireWallet, transact } from "./account.ts";
+import { $, compact } from "./format.ts";
+import { bindWalletRow, errorText, mined, mountAccount, requireWallet, transact } from "./account.ts";
 import { api } from "./mine-core.ts";
-import { shortAddress } from "./wallet.ts";
 
 interface Config {
   contract: string | null; token: string; rpc: string; explorer: string; chain_id: number; chain_name: string; token_symbol: string;
@@ -15,7 +14,6 @@ interface Config {
   selectors: Record<"stake" | "requestUnstake" | "cancelUnstake" | "withdraw" | "stakedOf" | "unstaking" | "cooldown" | "totalStaked" | "approve" | "allowance" | "balanceOf", string>;
 }
 
-const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const WEI = 10n ** 18n;
 let config: Config;
 let account: string | null = null;
@@ -136,16 +134,17 @@ async function boot(): Promise<void> {
   if (!config.contract) $("note").textContent = t("compute.stake.notLive");
 
   mountAccount();
-  onAccount((wallet) => {
-    account = wallet;
-    $("account").textContent = wallet ? shortAddress(wallet) : t("compute.common.notSignedIn");
-    $("account").title = wallet ?? "";
-    $("connect").textContent = wallet ? t("compute.common.refresh") : t("compute.common.signIn");
-    for (const id of ["staked", "tier", "balance"]) $(id).textContent = "—";
-    $("pending").hidden = true;
-    void refresh().catch((err) => { $("note").textContent = errorText(err); });
+  const showError = (err: unknown) => { $("note").textContent = errorText(err); };
+  bindWalletRow({
+    onChange: (wallet) => {
+      account = wallet;
+      for (const id of ["staked", "tier", "balance"]) $(id).textContent = "—";
+      $("pending").hidden = true;
+      void refresh().catch(showError);
+    },
+    onRefresh: refresh,
+    onError: showError,
   });
-  $("connect").addEventListener("click", () => void (account ? refresh() : requireWallet()));
   $("stake").addEventListener("click", () => void act(async () => {
     const amount = toWei($<HTMLInputElement>("amount").value);
     const allowance = BigInt(await read(config.token, data(config.selectors.allowance, account!, config.contract!)));

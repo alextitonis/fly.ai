@@ -9,6 +9,7 @@
  */
 import { API, WALLETCONNECT_PROJECT_ID } from "./config.ts";
 import { t } from "./i18n.ts";
+import { $ } from "./format.ts";
 import { api, ApiError } from "./mine-core.ts";
 import { shortAddress } from "./wallet.ts";
 import type * as KitModule from "./wallet/kit.js";
@@ -287,37 +288,27 @@ export async function signTyped(typed: Parameters<Kit["signTyped"]>[0], step: (t
   return k.signTyped(typed);
 }
 
-// ---- the account button on every page ------------------------------------------------------------------------
-/** Puts the sign-in button at the end of the page's tabs. */
+// ---- every page: the session check ------------------------------------------------------------------------------
+/**
+ * Checks the saved session is still good (a stale one signs out). The sign-in button itself is the site nav's
+ * (docs/assets/nav.js): 2026-10-04, the user: "double login buttons" - this used to add a second one to the tabs.
+ */
 export function mountAccount(): void {
-  const tabs = document.querySelector(".tabs");
-  if (!tabs) return;
-  const box = document.createElement("span");
-  box.className = "acct";
-  tabs.append(box);
-  const validate = async () => {
-    if (!session) return;
-    try {
-      await api(API, "/api/session", null, undefined, sessionHeaders());
-    } catch (err) {
-      sessionLost(err);
-    }
-  };
+  if (!session) return;
+  api(API, "/api/session", null, undefined, sessionHeaders()).catch(sessionLost);
+}
+
+/**
+ * The "Wallet: <address> [Sign in | Refresh]" row (#account, #connect) on claim, stake and jobs - 2026-10-04: one
+ * copy instead of three. Calls onChange now and on every sign-in change; the button refreshes when signed in and
+ * signs in otherwise (signed out, nav.js turns its data-nav-signin button into a pointer to the nav's sign-in).
+ */
+export function bindWalletRow(opts: { onChange: (wallet: string | null) => void; onRefresh: () => Promise<unknown>; onError?: (err: unknown) => void }): void {
   onAccount((wallet) => {
-    box.replaceChildren();
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = wallet ? "btn sm" : "btn red sm";
-    if (wallet) {
-      const who = Object.assign(document.createElement("span"), { className: "acct-who mono", textContent: shortAddress(wallet), title: wallet });
-      button.textContent = t("compute.account.signOut");
-      button.addEventListener("click", () => void signOut());
-      box.append(who, button);
-    } else {
-      button.textContent = t("compute.account.signIn");
-      button.addEventListener("click", () => void signIn());
-      box.append(button);
-    }
+    $("account").textContent = wallet ? shortAddress(wallet) : t("compute.common.notSignedIn");
+    $("account").title = wallet ?? "";
+    $("connect").textContent = wallet ? t("compute.common.refresh") : t("compute.common.signIn");
+    opts.onChange(wallet);
   });
-  void validate();
+  $("connect").addEventListener("click", () => void (signedIn() ? opts.onRefresh() : requireWallet()).catch(opts.onError ?? (() => {})));
 }

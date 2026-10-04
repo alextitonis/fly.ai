@@ -5,6 +5,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 (cd world && npm run build && npm run build:radio && npm run build:roulette && npm run build:slots && npm run build:race && npm run build:colosseum && npm run build:flinder)
 (cd flybook/web && npm run build)
+# the shared footer and compute tab bar into the pages (docs/ and mine/web/, which build-web.mjs reads from here)
+node scripts/partials.mjs
 rm -rf .vercel-out
 mkdir -p .vercel-out/simulation .vercel-out/flybook .vercel-out/radio .vercel-out/roulette .vercel-out/slots .vercel-out/race .vercel-out/colosseum .vercel-out/flinder
 cp -r docs/. .vercel-out/

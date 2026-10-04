@@ -9,6 +9,7 @@
  * and bets never wait for it.
  */
 import { READOUT } from "../roulette/readout.ts";
+import { connectomeBase, progress } from "../i18n.ts";
 import { anyPop, t } from "./i18n.ts";
 
 type Counts = { wing: number; grip: number; gf: number };
@@ -34,10 +35,10 @@ export class Fly {
       this.fail();
       return;
     }
-    const base = new URL(import.meta.env.DEV ? `${import.meta.env.BASE_URL}connectome/` : "/simulation/connectome/", location.href).href;
+    const base = connectomeBase();
     this.worker.onmessage = (e: MessageEvent) => {
       const m = e.data;
-      if (m.type === "progress") statusEl.textContent = t("slots.status.progress", { text: progressText(m.text) });
+      if (m.type === "progress") statusEl.textContent = t("slots.status.progress", { text: progress("slots.status", m.text) });
       else if (m.type === "error") this.fail();
       else if (m.type === "ready") {
         this.ready = true;
@@ -146,9 +147,3 @@ export class Fly {
 
 /** a win this big (times the stake) counts as a big win: the big dance, and auto-spin stops */
 export const BIG = 20;
-
-/** The worker's progress ("fly brain 40 / 210 MB") in the page's language. */
-function progressText(text: string): string {
-  if (text === "wiring 25 M synapses") return t("slots.status.wiring");
-  return text.replace(/^labels/, t("slots.status.labels")).replace(/^fly brain/, t("slots.status.brain"));
-}

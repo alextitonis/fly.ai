@@ -5,7 +5,8 @@
   "type": "module",
   "description": "wagmi for the compute pages, bundled into one browser module (the pages have no bundler of their own)",
   "scripts": {
-    "build": "node build.mjs",
+    "build": "node build.mjs && npm run types",
+    "types": "tsc -p tsconfig.json --noEmit false --declaration --emitDeclarationOnly --outDir ../web/wallet",
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {

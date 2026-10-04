@@ -7,9 +7,11 @@
  */
 import { initBets } from "./bet.ts";
 import { deriveRng, playGame, setup, type GameEvent, type Table } from "./game.ts";
+import { connectomeBase, progress } from "../i18n.ts";
 import { anyPop, setupI18n, t } from "./i18n.ts";
 import { READOUT } from "./readout.ts";
 import { Stage, type Seat } from "./scene.ts";
+import { esc as escapeHtml, randomHex } from "../util.ts";
 
 // the page's language first: every text below is in it
 await setupI18n();
@@ -27,7 +29,7 @@ const COLORS = ["#e0342c", "#3d8bff", "#ffc83d", "#3ddc84", "#c46bff", "#ff8a1f"
 
 // ---- the brain ------------------------------------------------------------------------------------------
 const worker = new Worker(new URL("./brain.worker.ts", import.meta.url), { type: "module" });
-const base = new URL(import.meta.env.DEV ? `${import.meta.env.BASE_URL}connectome/` : "/simulation/connectome/", location.href).href;
+const base = connectomeBase();
 let brainReady = false;
 type Counts = { wing: number; grip: number; gf: number };
 type Decided = Counts & { choice: "fly" | "pull" };
@@ -36,7 +38,7 @@ let onDecided: ((c: Decided) => void) | null = null;
 
 worker.onmessage = (e: MessageEvent) => {
   const m = e.data;
-  if (m.type === "progress") statusEl.textContent = t("roulette.status.progress", { text: progressText(m.text) });
+  if (m.type === "progress") statusEl.textContent = t("roulette.status.progress", { text: progress("roulette.status", m.text) });
   else if (m.type === "error") statusEl.textContent = t("roulette.status.error", { text: m.text });
   else if (m.type === "ready") {
     brainReady = true;
@@ -47,12 +49,6 @@ worker.onmessage = (e: MessageEvent) => {
   else if (m.type === "decided") onDecided?.(m);
 };
 worker.postMessage({ type: "load", base });
-
-/** The worker's progress ("fly brain 40 / 210 MB") in the page's language. */
-function progressText(text: string): string {
-  if (text === "wiring 25 M synapses") return t("roulette.status.wiring");
-  return text.replace(/^labels/, t("roulette.status.labels")).replace(/^fly brain/, t("roulette.status.brain"));
-}
 
 function brainTurn(fly: number, chamber: number, live: (c: Counts & { t: number }) => void): Promise<Decided> {
   return new Promise((resolve) => {
@@ -128,8 +124,6 @@ function showTally(): void {
   tallyEl.textContent = s.games
     ? `${t("roulette.tally.games", { count: s.games })} · ${t("roulette.tally.rest", { wins: s.wins, dead: s.dead, chickens: s.chickens })}` : "";
 }
-
-const randomHex = () => [...crypto.getRandomValues(new Uint8Array(16))].map((x) => x.toString(16).padStart(2, "0")).join("");
 
 /** Seats a table: these names, a colour per seat. Keeps the backed seat if it still exists. */
 function seatTable(names: string[], keepChampion = false): void {
@@ -226,7 +220,6 @@ function log(html: string, cls = ""): void {
   while (logEl.children.length > 40) logEl.lastChild!.remove();
 }
 const who = (i: number) => `<b style="color:${players[i].color}">${escapeHtml(players[i].name)}</b>`;
-const escapeHtml = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]!);
 
 function setMeter(c: Counts): void {
   const wingPct = Math.min(100, (c.wing / (READOUT.wingBail * 1.6)) * 100);

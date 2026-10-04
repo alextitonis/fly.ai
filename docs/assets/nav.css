@@ -1,0 +1,167 @@
+/* The site's top nav (nav.js builds it): the bar, the menus, search, the bell, the account menu and the phone panel.
+   2026-10-04: moved out of site.css (which @imports it first) so pages without site.css - the world apps - can link
+   this alone; every token has a fallback equal to site.css's :root value. */
+nav, nav * { box-sizing: border-box; }
+/* the bar's box, which docs pages get from site.css .wrap */
+nav .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 24px; }
+@media (max-width: 600px) { nav .wrap { padding-inline: 16px; } }
+
+nav { position: sticky; top: 0; z-index: 10; background: rgba(0,0,0,.78); backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line, #1a1d1c); }
+nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 58px; }
+.brand { display: flex; align-items: center; gap: 10px; font: 700 18px var(--display, "Outfit", "Inter", system-ui, sans-serif); text-decoration: none; }
+.logo { display: block; }                   /* logo-t.webp: the logo on transparency (logo.webp has a black plate) */
+.brand .logo { height: 24px; width: auto; }
+/* the logo never shrinks under the links (2026-10-03: "Home" was drawn over it at 1100-1280 px); the links wrap */
+nav .wrap > .brand { flex: none; }
+nav .wrap { height: auto; min-height: 58px; }
+@media (min-width: 521px) { nav .wrap > ul { min-width: 0; flex-wrap: wrap; justify-content: flex-end; row-gap: 4px; } }
+@media (max-width: 520px) { nav .wrap > ul { flex-wrap: wrap; justify-content: flex-start; row-gap: 4px; } }
+
+nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-size: 14px; align-items: center; }
+nav ul a { color: var(--muted, #9ba5a1); text-decoration: none; }
+nav ul a:hover { color: var(--text, #f4f7f6); }
+@media (max-width: 1080px) {
+  nav .wrap { height: auto; min-height: 58px; padding-block: 8px; flex-wrap: wrap; }
+  nav ul { gap: 14px; font-size: 13px; flex-wrap: wrap; }
+}
+@media (max-width: 760px) {
+  nav .wrap { height: auto; padding-block: 10px; flex-wrap: wrap; gap: 8px 14px; }
+  nav ul { gap: 14px; font-size: 13px; flex-wrap: wrap; }
+}
+@media (max-width: 520px) {
+  nav .wrap { gap: 6px 12px; }
+  nav ul { gap: 12px; font-size: 12px; }
+  .brand { font-size: 16px; }
+}
+
+nav ul a.on { color: var(--text, #f4f7f6); }
+nav ul a.on::after { content: ""; display: block; height: 2px; border-radius: 2px; background: var(--mint, #5ef2cc); margin-top: 4px; box-shadow: 0 0 8px var(--glow, rgba(94,242,204,.28)); }
+
+/* --- nav menus -------------------------------------------------------- */
+nav li.dd { position: relative; display: flex; align-items: center; gap: 2px; }
+nav .ddbtn { all: unset; cursor: pointer; color: var(--muted, #9ba5a1); font-size: 11px; line-height: 1; padding: 5px 4px; border-radius: 4px; }
+nav .ddbtn:hover { color: var(--text, #f4f7f6); }
+nav .ddbtn:focus-visible, nav a:focus-visible { outline: 2px solid var(--cool, #a4fbe6); outline-offset: 2px; }
+nav .ddmenu { position: absolute; top: calc(100% + 12px); left: -12px; min-width: 240px; margin: 0; padding: 6px;
+              display: none; flex-direction: column; gap: 2px; background: var(--panel, #0a0b0b); border: 1px solid var(--line, #1a1d1c);
+              border-radius: 14px; box-shadow: 0 14px 34px rgba(0,0,0,.7); z-index: 20; }
+nav .ddmenu::before { content: ""; position: absolute; left: 0; right: 0; top: -14px; height: 14px; }
+nav li.dd:hover .ddmenu, nav li.dd:focus-within .ddmenu, nav li.dd.open .ddmenu { display: flex; }
+nav .ddmenu li, nav .ddmenu li:last-child { display: block; }
+nav .ddmenu a { display: block; padding: 9px 11px; border-radius: 7px; color: var(--text, #f4f7f6); font-size: 14px; white-space: nowrap; }
+nav .ddmenu a:hover { background: var(--bg-2, #060707); }
+nav .ddmenu a.on { background: var(--bg-2, #060707); }
+nav .ddmenu a.on::after { display: none; }
+nav .ddmenu small { display: block; color: var(--dim, #5f6865); font: 12px/1.4 var(--mono, "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace); margin-top: 2px; white-space: normal; }
+/* menus whose label is the whole button (Research, Apps, $FLYAI) */
+nav .ddlabel { font-size: inherit; color: var(--muted, #9ba5a1); padding: 4px 2px; }
+nav .ddlabel span { font-size: 10px; margin-left: 2px; }
+nav .ddlabel:hover, nav li.dd.open .ddlabel, nav .ddlabel.on { color: var(--text, #f4f7f6); }
+nav .ddlabel.on::after { content: ""; display: block; height: 2px; border-radius: 2px; background: var(--mint, #5ef2cc); margin-top: 4px; box-shadow: 0 0 8px var(--glow, rgba(94,242,204,.28)); }
+nav .ddmenu.right { left: auto; right: -12px; }
+nav .ddmenu { align-items: stretch; }        /* not centred like the bar's own items: rows line up */
+/* a phone: a menu opens full width under the whole bar, not hung off its label (2026-10-02: the menus by either
+   edge - Apps, Market, $FLYAI - ran off the screen) */
+@media (max-width: 760px) {
+  nav li.dd { position: static; }
+  nav .ddmenu, nav .ddmenu.right { top: calc(100% - 4px); left: 12px; right: 12px; width: auto; min-width: 0; }
+  nav .ddmenu a { white-space: normal; }
+}
+
+/* the language menu (i18n.js injects a neutral default under :where, so this wins on the site only) */
+nav .langpick { font: 500 13px/1.2 var(--sans, "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif); color: var(--muted, #9ba5a1); background: transparent; border: 1px solid var(--line, #1a1d1c);
+                border-radius: 999px; padding: 6px 10px; }
+nav .langpick:hover { color: var(--text, #f4f7f6); border-color: var(--mint, #5ef2cc); }
+nav .langpick option { background: var(--panel, #0a0b0b); color: var(--text, #f4f7f6); }
+
+/* nav: a glass bar, hover pills */
+nav { background: rgba(0,0,0,.62); backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px);
+      border-bottom-color: rgba(255,255,255,.06); }
+nav ul > li > a:not(.btn), nav .ddlabel { padding: 6px 8px !important; border-radius: 999px; transition: background .15s, color .15s; }
+nav ul > li { white-space: nowrap; }        /* a crowded bar wraps whole items (or scrolls), never a label's words */
+nav ul > li > a:not(.btn):hover, nav .ddlabel:hover { background: rgba(255,255,255,.06); }
+nav ul { gap: 6px; }
+nav ul a.on::after, nav .ddlabel.on::after { margin: 3px auto 0; width: 16px; }
+nav .ddmenu { background: rgba(10,11,11,.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+              border-color: var(--edge, rgba(255,255,255,.07)); border-radius: var(--r-md, 16px); }
+nav .ddmenu a { border-radius: 10px; }
+@media (max-width: 760px) { nav ul { gap: 2px; } nav ul > li > a:not(.btn), nav .ddlabel { padding: 5px 7px !important; } }
+
+/* the current page: a mint pill, not an underline (the underline lifted the label above its neighbours) */
+nav ul a.on:not(.btn), nav .ddlabel.on { background: rgba(94,242,204,.1); color: var(--mint-hi, #a4fbe6) !important; }
+nav ul a.on::after, nav .ddlabel.on::after { display: none; }
+
+/* the account menu on every page (nav.js account): Sign in, or the nickname with my flies, the leaderboard, a nickname box */
+nav li.acct .acct-in { white-space: nowrap; }
+nav li.acct .acct-name { max-width: 12em; overflow: hidden; text-overflow: ellipsis; display: inline-block; vertical-align: bottom; }
+nav li.acct .ddmenu { min-width: 240px; }
+nav li.acct .acct-nick { padding: 8px 12px; display: grid; gap: 6px; }
+nav li.acct .acct-nick label { font-size: 12px; color: var(--muted, #9ba5a1); }
+nav li.acct .acct-nick div { display: flex; gap: 6px; }
+nav li.acct .acct-nick input { flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 6px 8px; border-radius: 8px;
+  border: 1px solid var(--line, #1a1d1c); background: var(--bg, #000000); color: var(--text, #f4f7f6); }
+nav li.acct .acct-nick small { font-size: 12px; color: var(--muted, #9ba5a1); min-height: 1em; }
+nav li.acct .acct-out { background: none; border: 0; color: var(--muted, #9ba5a1); font: inherit; padding: 8px 12px; cursor: pointer; width: 100%; text-align: left; }
+nav li.acct .acct-out:hover { color: var(--text, #f4f7f6); }
+
+nav li.acct .acct-btn { border: 1px solid var(--line, #1a1d1c); border-radius: 999px; padding: 6px 12px !important; font-size: 13px; }
+
+/* search, notifications, badges in the nav (nav.js searchBox / bell / account badges) */
+nav li.srch .srch-btn, nav li.bell .bell-btn { font-size: 15px; padding: 6px 9px !important; position: relative; }
+nav li.srch .ddmenu, nav li.bell .ddmenu { width: min(340px, calc(100vw - 24px)); }
+nav li.srch .srch-box { padding: 10px 12px 6px; }
+nav li.srch .srch-box input { width: 100%; font: inherit; font-size: 16px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line, #1a1d1c);
+  background: var(--bg, #000000); color: var(--text, #f4f7f6); }
+nav li.srch .srch-out, nav li.bell .bell-list { display: grid; max-height: 60vh; overflow: auto; padding: 4px 0 8px; }
+nav li.srch .srch-out > small, nav li.bell .bell-list > small { padding: 8px 14px; color: var(--muted, #9ba5a1); }
+nav li.srch .srch-out a, nav li.bell .bell-list a { display: flex; justify-content: space-between; gap: 10px; padding: 8px 14px; text-decoration: none;
+  color: var(--text, #f4f7f6); font-size: 14px; }
+nav li.srch .srch-out a small, nav li.bell .bell-list a small { color: var(--muted, #9ba5a1); font-size: 12px; white-space: nowrap; }
+nav li.srch .srch-out a:hover, nav li.bell .bell-list a:hover { background: rgba(255,255,255,.05); }
+nav li.bell .bell-list a.new { border-left: 2px solid var(--mint, #5ef2cc); }
+nav li.bell .bell-n { position: absolute; top: 0; right: 0; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--mint, #5ef2cc);
+  color: #000; font: 700 10px/16px var(--sans, "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif); text-align: center; }
+nav li.acct .acct-badges { display: flex; flex-wrap: wrap; gap: 4px; padding: 10px 12px 4px; }
+nav li.acct .acct-badges .badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(94,242,204,.12);
+  color: var(--mint, #5ef2cc); border: 1px solid rgba(94,242,204,.35); }
+
+/* one menu at a time (nav.js only()): a shut menu stays closed even under hover or focus */
+nav li.dd.shut:not(.open) .ddmenu { display: none !important; }
+
+/* the phone bar (2026-10-03): one row - logo, search, bell, account, ☰ - and the menus in a panel under it */
+nav li.burger, .mnav { display: none; }
+@media (max-width: 760px) {
+  nav .wrap { flex-wrap: nowrap !important; height: 56px !important; min-height: 0 !important; padding-block: 0 !important; gap: 10px !important; }
+  nav .wrap > ul { flex: 1; min-width: 0; flex-wrap: nowrap !important; justify-content: flex-end !important; gap: 6px !important; width: auto !important; }
+  nav li.main { display: none !important; }
+  nav li.burger { display: flex; }
+  .burger-btn { all: unset; cursor: pointer; width: 40px; height: 40px; display: grid; place-content: center; gap: 4px;
+    border: 1px solid var(--line, #1a1d1c); border-radius: 12px; background: rgba(255,255,255,.03); }
+  .burger-btn i { display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--text, #f4f7f6); transition: transform .2s, opacity .2s; }
+  .burger-btn[aria-expanded="true"] i:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .burger-btn[aria-expanded="true"] i:nth-child(2) { opacity: 0; }
+  .burger-btn[aria-expanded="true"] i:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  .burger-btn:focus-visible { outline: 2px solid var(--mint, #5ef2cc); outline-offset: 2px; }
+  nav .acct-name { display: inline-block; max-width: 88px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: bottom; }
+  nav .acct-in { white-space: nowrap; }
+  nav .brand .logo { height: 22px; }
+  nav .ddmenu.right { position: fixed; top: 56px; left: 12px; right: 12px; min-width: 0; max-height: calc(100dvh - 72px); overflow-y: auto; }
+  .mnav:not([hidden]) { display: grid; align-content: start; grid-auto-rows: max-content; gap: 10px; position: absolute; top: 100%; left: 0; right: 0; height: calc(100dvh - 56px); overflow-y: auto;
+    background: #050505; padding: 12px 14px 32px; animation: mnav-in .18s ease-out; }
+  @keyframes mnav-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  .mnav ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .mnav ul.mnav-top { grid-template-columns: 1fr; }
+  /* .mnav-sec is a <section>: .mnav in the selector outranks site.css's `.home section`, which now loads after this */
+  nav .mnav .mnav-sec { border: 1px solid var(--line, #1a1d1c); border-radius: 16px; padding: 10px; margin: 0; min-height: 0; background: #0b0d0c; }
+  .mnav a { display: block; padding: 11px 10px; border-radius: 10px; color: var(--text, #f4f7f6); text-decoration: none; font-size: 15px; }
+  .mnav ul.mnav-top a { border: 1px solid var(--line, #1a1d1c); border-radius: 14px; padding: 12px 14px; }
+  .mnav a.on { background: rgba(94,242,204,.12); color: var(--mint, #5ef2cc); }
+  .mnav a:active { background: var(--line, #1a1d1c); }
+  .mnav-h { margin: 2px 10px 6px; font: 600 11px var(--mono, "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace); letter-spacing: .1em; text-transform: uppercase; color: var(--mint, #5ef2cc); opacity: .8; }
+  html.mnav-open body { overflow: hidden; }
+}
+@media (max-width: 760px) {
+  nav li.langli { display: none !important; }
+  .mnav-lang { margin: 16px 8px 0; }
+}

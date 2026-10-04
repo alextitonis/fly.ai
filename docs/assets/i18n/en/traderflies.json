@@ -1202,7 +1202,9 @@
       "min_traders": "Top traders buying it",
       "min_usd": "Their buy at least ($)",
       "window_minutes": "Within (minutes)",
-      "follow_sells": "Sell when they sell (1 = yes)"
+      "follow_sells": "Sell when they sell (1 = yes)",
+      "min_holders": "Holders at least",
+      "house": "Copy FLYAI buys too (1 = yes)"
     },
     "filters": "Meme filters",
     "filtersText": "Only memes are filtered: majors and stock tokens are the desk's own list. Empty = no limit.",
@@ -1422,5 +1424,30 @@
     "s4": "Each trait comes from one parent or mutates into something new; rarity is the lower parent's, with a 5% shot at one tier up.",
     "why": "Fewer flies, rarer flies: every merge takes one fly out of the supply for good, and burns $FLYAI on top.",
     "fold": "How breeding works · try the odds"
+  },
+  "share": {
+    "button": "Share P&L",
+    "title": "Share your fly's P&L",
+    "close": "Close",
+    "span": {
+      "all": "All-time profit",
+      "d7": "Profit · 7 days",
+      "h24": "Profit · 24 hours"
+    },
+    "trade": "{side} {what}",
+    "size": "Size {usd}",
+    "trades": "{n} trades",
+    "winRate": "{pct}% wins",
+    "value": "Wallet {usd}",
+    "share": "Share",
+    "x": "Post on X",
+    "download": "Download",
+    "copy": "Copy image",
+    "copied": "Image copied: paste it anywhere.",
+    "copyFail": "This browser can't copy images: use Download.",
+    "pasteHint": "Image copied: paste it into the post (Ctrl/Cmd+V).",
+    "attachHint": "Image downloaded: attach it to the post.",
+    "post": "{name} is up {profit} {pct} ({span}) trading on its own real fly brain 🪰🧠",
+    "postTrade": "{name} just closed {what} at {pct} 🪰🧠"
   }
 }
