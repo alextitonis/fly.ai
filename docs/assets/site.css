@@ -429,6 +429,12 @@
 
 /* the account menu on every page (nav.js account): Sign in, or the nickname with my flies, the leaderboard, a nickname box */
 nav li.acct .acct-in { white-space: nowrap; }
+/* a page's own sign-in button while signed out: a pointer to the nav's one (nav.js pageSignIns) */
+.nav-signed-out [data-nav-signin] { background: none !important; border: 0 !important; box-shadow: none !important; padding: 0 !important;
+  width: auto !important; min-width: 0 !important; font-size: 0 !important; cursor: pointer; }
+.nav-signed-out [data-nav-signin] * { display: none !important; }
+.nav-signed-out [data-nav-signin]::after { content: var(--nav-signin-hint, "Sign in at the top right ↗"); font: 600 14px/1.4 var(--sans, inherit);
+  color: var(--mint); text-decoration: underline; text-underline-offset: 3px; }
 nav li.acct .acct-name { max-width: 12em; overflow: hidden; text-overflow: ellipsis; display: inline-block; vertical-align: bottom; }
 nav li.acct .ddmenu { min-width: 240px; }
 nav li.acct .acct-nick { padding: 8px 12px; display: grid; gap: 6px; }

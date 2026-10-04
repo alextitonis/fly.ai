@@ -57,22 +57,22 @@
   const ACCOUNT_JS = "/compute/mine/web/account.js";       // the shared sign-in (built from mine/web)
   const MINE_API = "https://flyai-mine.fly.dev";
   const ACCT_TEXT = {
-    en: { signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
+    en: { signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
           save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out" ,
           search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular" },
-    es: { signIn: "Entrar", myFlies: "Mis moscas", leaderboard: "Clasificación", nickname: "Apodo", nickHint: "3-20 letras",
+    es: { signInHint: "Entra arriba a la derecha ↗", signIn: "Entrar", myFlies: "Mis moscas", leaderboard: "Clasificación", nickname: "Apodo", nickHint: "3-20 letras",
           save: "Guardar", saved: "Guardado", compute: "Compute y saldo", signOut: "Salir" ,
           search: "Buscar", searchHint: "Apps, #mosca, gente", openFly: "Abrir la mosca", flies: "Moscas", noResults: "Sin resultados", notifications: "Notificaciones", nothingYet: "Nada aún: financia una mosca o juega", bought: "compró", sold: "vendió", colosseum: "Colosseum", place: "puesto {n}", finished: "terminado", payout: "Pago", b_nickname: "Con nombre", b_funded: "Financió una mosca", b_profit: "En ganancia", b_trader: "10+ operaciones", b_gladiator: "Gladiador", b_champion: "Campeón", b_player: "Jugador", b_regular: "Habitual" },
-    tr: { signIn: "Giriş yap", myFlies: "Sineklerim", leaderboard: "Sıralama", nickname: "Takma ad", nickHint: "3-20 harf",
+    tr: { signInHint: "Sağ üstten giriş yap ↗", signIn: "Giriş yap", myFlies: "Sineklerim", leaderboard: "Sıralama", nickname: "Takma ad", nickHint: "3-20 harf",
           save: "Kaydet", saved: "Kaydedildi", compute: "Compute ve bakiye", signOut: "Çıkış" ,
           search: "Ara", searchHint: "Uygulama, #sinek, kişi", openFly: "Sineği aç", flies: "Sinekler", noResults: "Bulunamadı", notifications: "Bildirimler", nothingYet: "Henüz yok: bir sineği fonla ya da oyna", bought: "aldı", sold: "sattı", colosseum: "Colosseum", place: "{n}. sıra", finished: "bitti", payout: "Ödeme", b_nickname: "İsimli", b_funded: "Sinek fonladı", b_profit: "Kârda", b_trader: "10+ işlem", b_gladiator: "Gladyatör", b_champion: "Şampiyon", b_player: "Oyuncu", b_regular: "Müdavim" },
-    ko: { signIn: "로그인", myFlies: "내 파리", leaderboard: "리더보드", nickname: "닉네임", nickHint: "3-20자",
+    ko: { signInHint: "오른쪽 위에서 로그인 ↗", signIn: "로그인", myFlies: "내 파리", leaderboard: "리더보드", nickname: "닉네임", nickHint: "3-20자",
           save: "저장", saved: "저장됨", compute: "Compute와 잔액", signOut: "로그아웃" ,
           search: "검색", searchHint: "앱, #파리, 사람", openFly: "파리 열기", flies: "파리", noResults: "결과 없음", notifications: "알림", nothingYet: "아직 없음: 파리에 자금을 넣거나 게임을 해보세요", bought: "매수", sold: "매도", colosseum: "콜로세움", place: "{n}위", finished: "종료", payout: "지급", b_nickname: "이름 설정", b_funded: "파리 자금", b_profit: "수익 중", b_trader: "거래 10회+", b_gladiator: "검투사", b_champion: "챔피언", b_player: "플레이어", b_regular: "단골" },
-    "zh-Hans": { signIn: "登录", myFlies: "我的苍蝇", leaderboard: "排行榜", nickname: "昵称", nickHint: "3-20 个字符",
+    "zh-Hans": { signInHint: "请在右上角登录 ↗", signIn: "登录", myFlies: "我的苍蝇", leaderboard: "排行榜", nickname: "昵称", nickHint: "3-20 个字符",
           save: "保存", saved: "已保存", compute: "Compute 与余额", signOut: "退出" ,
           search: "搜索", searchHint: "应用、#苍蝇、用户", openFly: "打开苍蝇", flies: "苍蝇", noResults: "无结果", notifications: "通知", nothingYet: "暂无：给苍蝇注资或玩个游戏", bought: "买入", sold: "卖出", colosseum: "竞技场", place: "第 {n} 名", finished: "已结束", payout: "支付", b_nickname: "已起名", b_funded: "注资苍蝇", b_profit: "盈利中", b_trader: "10+ 笔交易", b_gladiator: "角斗士", b_champion: "冠军", b_player: "玩家", b_regular: "常客" },
-    "zh-Hant": { signIn: "登入", myFlies: "我的蒼蠅", leaderboard: "排行榜", nickname: "暱稱", nickHint: "3-20 個字元",
+    "zh-Hant": { signInHint: "請在右上角登入 ↗", signIn: "登入", myFlies: "我的蒼蠅", leaderboard: "排行榜", nickname: "暱稱", nickHint: "3-20 個字元",
           save: "儲存", saved: "已儲存", compute: "Compute 與餘額", signOut: "登出" ,
           search: "搜尋", searchHint: "應用、#蒼蠅、用戶", openFly: "打開蒼蠅", flies: "蒼蠅", noResults: "無結果", notifications: "通知", nothingYet: "暫無：替蒼蠅注資或玩個遊戲", bought: "買入", sold: "賣出", colosseum: "競技場", place: "第 {n} 名", finished: "已結束", payout: "支付", b_nickname: "已命名", b_funded: "注資蒼蠅", b_profit: "盈利中", b_trader: "10+ 筆交易", b_gladiator: "角鬥士", b_champion: "冠軍", b_player: "玩家", b_regular: "常客" },
   };
@@ -149,6 +149,7 @@
   }
 
   wireAccount(nav);
+  pageSignIns(nav);
   wireSearch(nav, NAV, fileHref_(nav));
   wireBell(nav);
   const menus = [...nav.querySelectorAll("li.dd")];
@@ -258,6 +259,27 @@
       try { localStorage.removeItem(SESSION_KEY); } catch {}
       location.reload();
     });
+  }
+
+  /**
+   * One sign-in button per page (2026-10-04, the user: "double login buttons to some pages while the navbar has 1"):
+   * signed out, a page's own sign-in button (marked data-nav-signin) shows as a pointer to the nav's (site.css) and a
+   * click on it runs the nav's sign-in. Signed in, the page's buttons are back as they were (a Trader Flies page may
+   * still need its wallet reconnected).
+   */
+  function pageSignIns(nav) {
+    const btn = nav.querySelector("li.acct[data-signin] button");
+    if (!btn) return;
+    const root = document.documentElement;
+    root.classList.add("nav-signed-out");
+    root.style.setProperty("--nav-signin-hint", JSON.stringify(L("signInHint")));
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest || !e.target.closest("[data-nav-signin]")) return;
+      e.preventDefault();
+      e.stopPropagation();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      btn.click();
+    }, true);   // capture: before the page's own handler
   }
 
   function session() {

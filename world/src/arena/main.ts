@@ -380,7 +380,7 @@ function renderHero(): void {
   }
   const signed = !!acct?.signedIn();
   const cta = v.status === "open" && live
-    ? `<div class="hero-cta">${signed ? `<button class="gbtn gold" type="button" id="cta-squad">${t("colosseum.hero.choose")}</button>` : `<button class="gbtn gold" type="button" id="cta-signin">${t("colosseum.bet.signIn")}</button>`}<p class="note">${t("colosseum.hero.noEntry")}</p></div>` : "";
+    ? `<div class="hero-cta">${signed ? `<button class="gbtn gold" type="button" id="cta-squad">${t("colosseum.hero.choose")}</button>` : `<button class="gbtn gold" type="button" id="cta-signin" data-nav-signin>${t("colosseum.bet.signIn")}</button>`}<p class="note">${t("colosseum.hero.noEntry")}</p></div>` : "";
   el.innerHTML = `
     <div class="hero-top">
       <div>
