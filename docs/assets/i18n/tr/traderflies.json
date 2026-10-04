@@ -5,6 +5,8 @@
     "desk": "Fly Desk",
     "live": "canlı",
     "soon": "yakında",
+    "terminal": "Terminal",
+    "terminalText": "Bu sineğin cüzdanının yaptığı her şey, canlı: her işlem ve onu yapan parça, atladığı işlemler ve nedenleri, giren ve çıkan para. Her 15 saniyede yeniden okunur.",
     "walletText": "Her sineğin kendi cüzdanı var ve yalnızca senin koyduğun parayla işlem yapar. Kâr ve zarar o cüzdanda kalır; sineğin sayfasından $FLYAI olarak çekersin. Şu an canlı.",
     "deskSoonText": "Fly Desk ayrı, ortak bir masa. Gerçek işlem yapmaya başladığında haftalık kârının bir kısmı tüm aktif sineklere nadirliğe göre bölünür ve burada talep edilir. Henüz canlı değil: aşağıdaki paylar her sineğin alacağı kısım, borçlu olunan bir şey yok.",
     "deskText": "Fly Desk ayrı, ortak bir masa: haftalık kârının bir kısmı tüm aktif sineklere nadirliğe göre bölünür. Sineklerinin ödemelerini burada talep et."
@@ -1474,5 +1476,182 @@
     "withdrawWarn": "{usd} yatırma bonusun {date} tarihine kadar kilitli: şimdi herhangi bir miktar çekersen bonus geri gider.",
     "remaining": "{left}/{slots} kaldı",
     "full": "🎁 Yatırma yarışması: {slots} bonusun hepsi alındı. Katılan herkese teşekkürler!"
+  },
+  "fterm": {
+    "aria": "Sinek #{id} terminali",
+    "title": "SİNEK #{id} // TERMİNAL",
+    "live": "CANLI",
+    "paused": "DURAKLADI",
+    "offline": "ÇEVRİMDIŞI",
+    "next": "{s} sn sonra yeniden okunur",
+    "cantRead": "Şu anda sunucuya ulaşılamıyor - son kopya gösteriliyor.",
+    "k": {
+      "value": "Değer",
+      "profit": "K/Z",
+      "day": "24s",
+      "trades": "İşlemler",
+      "open": "Açık"
+    },
+    "positions": "Pozisyonlar",
+    "noPositions": "açık pozisyon yok",
+    "filter": "Göster",
+    "f": {
+      "all": "Tümü",
+      "trades": "İşlemler",
+      "skipped": "Atlanan",
+      "money": "Para"
+    },
+    "kind": {
+      "buy": "AL",
+      "sell": "SAT",
+      "skip": "ATLA",
+      "pending": "GÖNDERİLDİ",
+      "failed": "HATA",
+      "event": "CÜZDAN"
+    },
+    "side": {
+      "panic_sell": "PANİK SATIŞ",
+      "take_profit": "KÂR AL"
+    },
+    "wantedBuy": "almak istedi",
+    "wantedSell": "satmak istedi",
+    "by": "{part} ile",
+    "tx": "tx",
+    "move": {
+      "deposit": "YATIRMA",
+      "withdraw": "ÇEKME",
+      "fee": "ÜCRET",
+      "grant": "HİBE",
+      "gas_advance": "GAS",
+      "gas_repay": "GAS İADE",
+      "release": "ÖDENDİ",
+      "promo_return": "BONUS İADE"
+    },
+    "moveText": {
+      "deposit": "para girdi",
+      "withdraw": "sahibine ödendi",
+      "fee": "kâr ücreti",
+      "grant": "FlightPass veya bonus parası, kilitli",
+      "gas_advance": "masanın ödünç verdiği gas",
+      "gas_repay": "gas masaya geri ödendi",
+      "release": "sahibine ödendi",
+      "promo_return": "yatırma bonusu kasaya döndü"
+    },
+    "ev": {
+      "settings_applied": "yeni ayarlar uygulandı",
+      "no_gas": "gas bitti - işlemler gas bekliyor",
+      "promo_revoked": "yatırma bonusu iptal: kilit süresinde para çekildi",
+      "promo_returned": "yatırma bonusu kasaya döndü",
+      "promo_unlocked": "yatırma bonusunun kilidi açıldı - artık senin",
+      "released": "sahibine ödendi"
+    },
+    "empty": "Henüz bir şey yok. Cüzdana para girince her işlem burada görünür.",
+    "emptyFilter": "Henüz bu türden bir şey yok.",
+    "noWallet": "Bu sineğin cüzdanı henüz oluşturulmadı."
+  },
+  "help": {
+    "market": {
+      "memes": "Robinhood Chain'deki meme coinler ve yeni tokenlar. En büyük dalgalanma, en büyük risk.",
+      "majors": "ETH ve BTC gibi büyük coinler. Memelerden daha az hareket eder.",
+      "stocks": "Robinhood Chain'deki tokenleştirilmiş hisseler, NVDA veya TSLA gibi. Coinlerden daha sakin.",
+      "polymarket": "Tahmin piyasaları. Kendi Polymarket sekmesinde işlem görür."
+    },
+    "brain": "Sineğin konektom beyninin işlem yapmasına izin verir. Ne alıp satacağını kendisi seçer.",
+    "brainShare": "Cüzdanın parasının yüzde kaçıyla beynin işlem yaptığı. Kalanı açtığın seçeneklere gider.",
+    "risk": "Beynin alımlarının büyüklüğü: 1 = küçük ve dikkatli, 5 = büyük ve cesur.",
+    "max_positions": "Cüzdanın aynı anda tuttuğu en fazla token sayısı.",
+    "optionShare": "Cüzdanın parasının yüzde kaçıyla bu seçeneğin işlem yaptığı.",
+    "param": {
+      "fast": "Hızlı hareketli ortalama, saatlik mumlarla. Trend, yavaş olanın üstündeyken alır.",
+      "slow": "Uzun hareketli ortalama, saatlik mumlarla. Büyük = sadece uzun, istikrarlı yükselişler sayılır.",
+      "rsi_min": "Hâlâ aldığı en düşük RSI (0-100). RSI son gücü ölçer: altında hareket zayıftır.",
+      "rsi_max": "Aldığı en yüksek RSI. Üstünde token aşırı ısınmıştır ve geri çekilmesi olasıdır.",
+      "rsi_period": "RSI'ın geriye baktığı saatlik mum sayısı.",
+      "stop_pct": "Zarar durdur: fiyat alışın bu % altına düşerse satar.",
+      "take_profit_pct": "Hedef: fiyat alıştan bu % yükselince satar.",
+      "max_hold_hours": "Ne olursa olsun bu kadar saat sonra satar; para yerinde sayan bir pozisyonda kalmasın.",
+      "size_pct": "Tek alımın bu seçeneğin parasının yüzde kaçını kullandığı. Küçük = daha çok, daha küçük pozisyon.",
+      "stop_atr": "ATR cinsinden durdurma mesafesi (tokenin normal saatlik salınımı). 2 = iki normal salınım düşerse satar.",
+      "take_profit_r": "Riskin katı olarak hedef: 2 = durdurmaya olan mesafenin iki katını kazanmayı hedefler.",
+      "hours": "Hareketin ölçüldüğü pencere, saat olarak.",
+      "min_pct": "Pencerede sayılan en küçük yükseliş, %.",
+      "max_pct": "Hâlâ aldığı en büyük yükseliş. Üstünde koşu muhtemelen bitmiştir.",
+      "volume_x": "Hacim normalinin en az bu katı olmalı. 2 = normalin iki katı.",
+      "trail_pct": "İz süren stop: fiyat alıştan sonraki en yüksek noktasından bu % düşünce satar.",
+      "drop_pct": "Fiyatın pencerede ne kadar düşmüş olması gerektiği, %.",
+      "oi_drop_pct": "Açık pozisyonların (vadeli bahisler) ne kadar düşmesi gerektiği: kaldıraçlı traderların zorla çıkması.",
+      "reclaim_pct": "Fiyatın son aralığında ne kadar yukarıda kapanması gerektiği, %: 0 = dipte, 100 = tepede.",
+      "taker_buy": "İşlemlerin alıcı olan payı (0-1). 0,5 üstü = alıcılar yeniden kontrolde.",
+      "hold_bars": "Bir pozisyonu kaç 15 dakikalık bar tuttuğu.",
+      "lookback_bars": "Son kaybedenleri bulmak için kaç bar geriye baktığı.",
+      "max_positions": "Bu seçeneğin aynı anda tuttuğu en fazla token sayısı.",
+      "usd_per_launch": "Her yeni lansmana harcanan dolar.",
+      "max_open": "Aynı anda tutulan en fazla lansman sayısı.",
+      "max_age_s": "Sadece bundan yeni lansmanları alır, saniye olarak.",
+      "tp_x": "Fiyat alışın bu katına ulaşınca kâr alır (2 = iki katı).",
+      "tp_part": "O noktada pozisyonun yüzde kaçının satıldığı. Kalanı iz süren stopla devam eder.",
+      "drain_pct": "Havuzdaki para bu % düşerse hepsini satar - rug pull işareti.",
+      "min_return_pct": "Kopyalanması için bir cüzdanın 7 günde en az bu % yükselmesi gerekir.",
+      "min_days": "Kopyalanmadan önce bir cüzdanın gereken işlem geçmişi günü.",
+      "min_trades": "Kopyalanmadan önce bir cüzdanın kayıtlı olması gereken işlem sayısı.",
+      "min_traders": "Sineğin almadan önce aynı tokeni alması gereken farklı en iyi trader sayısı.",
+      "min_usd": "Sayılan en küçük en iyi trader alımı, dolar.",
+      "window_minutes": "Bu alımların hepsi bu kadar dakika içinde olmalı.",
+      "follow_sells": "1 = kopyalanan trader satınca satar. 0 = sadece stop ve süre sınırı satar.",
+      "min_holders": "Bundan az sahibi olan tokenleri atlar - küçük tokenler kolay rug olur.",
+      "house": "1 = onların $FLYAI alımlarını da kopyalar. 0 = $FLYAI'yi atlar.",
+      "dip": {
+        "rsi_max": "Dip sadece RSI bu değerde veya altındayken alır: token aşırı satılmıştır."
+      },
+      "flush": {
+        "hours": "Düşüşün ölçüldüğü pencere, saat olarak.",
+        "stop_atr": "Alışın altında ATR (normal saatlik salınım) cinsinden durdurma mesafesi."
+      },
+      "fresh": {
+        "volume_x": "Yeni tokenin son saati, önceki saatlerin bu katı kadar işlem görmeli."
+      },
+      "launch": {
+        "stop_pct": "Fiyat alışın bu % altına düşerse satar. Lansmanlar sert sallanır, bu yüzden geniştir."
+      },
+      "track": {
+        "stop_pct": "Takip ettiğin cüzdan tutsa bile, kopyalanan pozisyon bu % düşerse satar."
+      },
+      "fomo": {
+        "stop_pct": "Traderlar tutsa bile, kopyalanan pozisyon bu % düşerse satar."
+      }
+    },
+    "filter": {
+      "min_mcap": "Toplam değeri (piyasa değeri) bundan az olan tokenleri atlar.",
+      "max_mcap": "Toplam değeri (piyasa değeri) bundan fazla olan tokenleri atlar.",
+      "min_fdv": "Tam seyreltilmiş değeri - fiyat çarpı var olacak tüm tokenler - bundan az olanları atlar.",
+      "max_fdv": "Tam seyreltilmiş değeri bundan fazla olanları atlar.",
+      "min_liquidity": "Havuzunda bundan az para olan tokenleri atlar. Küçük havuzlar pahalıdır ve kolay rug olur.",
+      "min_volume_24h": "Son 24 saatte bundan az işlem gören tokenleri atlar.",
+      "min_age_hours": "Bu kadar saatten genç tokenleri atlar.",
+      "max_age_hours": "Bu kadar saatten yaşlı tokenleri atlar.",
+      "max_tax_pct": "Alım veya satımda bu %'den fazla kesen tokenleri atlar.",
+      "goplus": "GoPlus güvenlik taramasının işaretlediği tokenleri atlar: honeypot, gizli basım, sahip hileleri."
+    },
+    "exit": {
+      "stop_pct": "Beynin pozisyonu alışın bu % altına düşerse satar. Boş = beyin karar verir.",
+      "stop_atr": "Beynin pozisyonu alışın bu kadar normal saatlik salınım (ATR) altına düşerse satar.",
+      "take_profit_pct": "Beynin pozisyonu bu % yükselince satar.",
+      "take_profit_r": "Beynin pozisyonu durdurma mesafesinin bu katını kazanınca satar.",
+      "trail_pct": "Beynin pozisyonu alıştan sonraki en yüksek noktasından bu % düşünce satar.",
+      "max_hold_hours": "Beynin pozisyonunu bu kadar saat sonra satar."
+    },
+    "eth_to_usdg": "Gönderdiğin ETH'yi USDG'ye (dolar) çevirir, böylece sinek onunla işlem yapabilir. Gas için biraz ETH hep kalır.",
+    "trading": "Kapalı = sinek yeni işlem açmaz. Elindekiler yine yönetilir."
+  },
+  "label": {
+    "add": "Gizli etiket ekle",
+    "edit": "Etiketi düzenle",
+    "save": "Kaydet",
+    "remove": "Kaldır",
+    "cancel": "İptal",
+    "placeholder": "örn. trend testi #2",
+    "aria": "Bu sinek için gizli etiket",
+    "private": "Bu etiketi sadece sen görebilirsin.",
+    "signInFailed": "Sineklerini etiketlemek için giriş yap."
   }
 }

@@ -5,6 +5,8 @@
     "desk": "Fly Desk",
     "live": "activo",
     "soon": "pronto",
+    "terminal": "Terminal",
+    "terminalText": "Todo lo que hace la wallet de esta mosca, en vivo: cada operación y la parte que la hizo, las que se saltó y por qué, y el dinero que entra y sale. Se vuelve a leer cada 15 segundos.",
     "walletText": "Cada mosca tiene su propia wallet y solo opera el dinero que pones en ella. Las ganancias y pérdidas se quedan en esa wallet y las retiras desde la página de la mosca, pagadas en $FLYAI. Ya está activo.",
     "deskSoonText": "El Fly Desk es un desk aparte y compartido. Cuando opere de verdad, parte de su beneficio semanal se reparte entre todas las moscas activas según su rareza y se reclama aquí. Aún no está activo: las partes de abajo son lo que recibiría cada mosca, no se debe nada.",
     "deskText": "El Fly Desk es un desk aparte y compartido: parte de su beneficio semanal se reparte entre todas las moscas activas según su rareza. Reclama aquí los pagos de tus moscas."
@@ -1474,5 +1476,182 @@
     "withdrawWarn": "Tu bono de depósito de {usd} está bloqueado hasta el {date}: si retiras cualquier cantidad ahora, el bono se devuelve.",
     "remaining": "quedan {left}/{slots}",
     "full": "🎁 Competencia de depósitos: los {slots} bonos ya fueron reclamados. ¡Gracias a todos los que participaron!"
+  },
+  "fterm": {
+    "aria": "Terminal de la mosca #{id}",
+    "title": "MOSCA #{id} // TERMINAL",
+    "live": "EN VIVO",
+    "paused": "EN PAUSA",
+    "offline": "SIN CONEXIÓN",
+    "next": "próxima lectura en {s}s",
+    "cantRead": "No se puede conectar con el servidor ahora - se muestra la última copia.",
+    "k": {
+      "value": "Valor",
+      "profit": "P&L",
+      "day": "24h",
+      "trades": "Operaciones",
+      "open": "Abiertas"
+    },
+    "positions": "Posiciones",
+    "noPositions": "sin posiciones abiertas",
+    "filter": "Mostrar",
+    "f": {
+      "all": "Todo",
+      "trades": "Operaciones",
+      "skipped": "Saltadas",
+      "money": "Dinero"
+    },
+    "kind": {
+      "buy": "COMPRA",
+      "sell": "VENTA",
+      "skip": "SALTADA",
+      "pending": "ENVIADA",
+      "failed": "FALLO",
+      "event": "WALLET"
+    },
+    "side": {
+      "panic_sell": "VENTA DE PÁNICO",
+      "take_profit": "TOMA DE GANANCIA"
+    },
+    "wantedBuy": "quería comprar",
+    "wantedSell": "quería vender",
+    "by": "por {part}",
+    "tx": "tx",
+    "move": {
+      "deposit": "DEPÓSITO",
+      "withdraw": "RETIRO",
+      "fee": "COMISIÓN",
+      "grant": "APORTE",
+      "gas_advance": "GAS",
+      "gas_repay": "GAS DEVUELTO",
+      "release": "PAGADO",
+      "promo_return": "BONO DEVUELTO"
+    },
+    "moveText": {
+      "deposit": "entra dinero",
+      "withdraw": "pagado al titular",
+      "fee": "comisión sobre ganancias",
+      "grant": "dinero de FlightPass o bono, bloqueado",
+      "gas_advance": "gas prestado por el desk",
+      "gas_repay": "gas devuelto al desk",
+      "release": "pagado al titular",
+      "promo_return": "bono de depósito devuelto a la casa"
+    },
+    "ev": {
+      "settings_applied": "nueva configuración aplicada",
+      "no_gas": "sin gas - las operaciones esperan gas",
+      "promo_revoked": "bono de depósito cancelado: se retiró dinero durante el bloqueo",
+      "promo_returned": "bono de depósito devuelto a la casa",
+      "promo_unlocked": "bono de depósito desbloqueado - ya es tuyo",
+      "released": "pagado al titular"
+    },
+    "empty": "Nada todavía. Cuando la wallet tenga dinero, cada operación aparecerá aquí.",
+    "emptyFilter": "Nada de este tipo todavía.",
+    "noWallet": "La wallet de esta mosca aún no está creada."
+  },
+  "help": {
+    "market": {
+      "memes": "Memecoins y tokens nuevos en Robinhood Chain. Los mayores movimientos y el mayor riesgo.",
+      "majors": "Monedas grandes como ETH y BTC. Se mueven menos que los memes.",
+      "stocks": "Acciones tokenizadas en Robinhood Chain, como NVDA o TSLA. Más tranquilas que las monedas.",
+      "polymarket": "Mercados de predicción. Se operan en su propia pestaña de Polymarket."
+    },
+    "brain": "Deja operar al cerebro conectoma de la mosca. Elige solo qué comprar y vender.",
+    "brainShare": "Cuánto del dinero de la wallet opera el cerebro, en %. El resto va a las opciones que actives.",
+    "risk": "Qué tan grandes son las compras del cerebro: 1 = pequeñas y prudentes, 5 = grandes y audaces.",
+    "max_positions": "La mayor cantidad de tokens que la wallet tiene a la vez.",
+    "optionShare": "Cuánto del dinero de la wallet opera esta opción, en %.",
+    "param": {
+      "fast": "La media móvil rápida, en velas de una hora. Trend compra cuando está por encima de la lenta.",
+      "slow": "La media móvil larga, en velas de una hora. Más alta = solo cuentan tendencias largas y estables.",
+      "rsi_min": "El RSI más bajo (0-100) con el que aún compra. El RSI mide la fuerza reciente: por debajo, el movimiento es débil.",
+      "rsi_max": "El RSI más alto con el que compra. Por encima, el token está sobrecalentado y suele retroceder.",
+      "rsi_period": "Cuántas velas de una hora mira el RSI.",
+      "stop_pct": "Stop loss: vende si el precio cae este % por debajo de la compra.",
+      "take_profit_pct": "Objetivo: vende cuando el precio sube este % desde la compra.",
+      "max_hold_hours": "Vende tras estas horas pase lo que pase, para que el dinero no quede atrapado en una posición quieta.",
+      "size_pct": "Cuánto del dinero de esta opción usa cada compra, en %. Menos = más posiciones, más pequeñas.",
+      "stop_atr": "Distancia del stop en ATR, el movimiento normal por hora del token. 2 = vende si cae dos movimientos normales.",
+      "take_profit_r": "Objetivo como múltiplo del riesgo: 2 = busca ganar el doble de la distancia al stop.",
+      "hours": "La ventana en la que se mide el movimiento, en horas.",
+      "min_pct": "La subida mínima en la ventana que cuenta, en %.",
+      "max_pct": "La mayor subida en la ventana con la que aún compra. Por encima, la carrera probablemente terminó.",
+      "volume_x": "El volumen debe ser al menos estas veces su nivel normal. 2 = el doble de lo habitual.",
+      "trail_pct": "Stop dinámico: vende cuando el precio cae este % desde su máximo desde la compra.",
+      "drop_pct": "Cuánto debe haber caído el precio en la ventana, en %.",
+      "oi_drop_pct": "Cuánto debe haber caído el interés abierto (apuestas de futuros): traders apalancados forzados a salir.",
+      "reclaim_pct": "Qué tan arriba de su rango reciente debe cerrar el precio, en %: 0 = en el mínimo, 100 = en el máximo.",
+      "taker_buy": "La proporción de operaciones que son compradores (0-1). Más de 0,5 = los compradores vuelven a mandar.",
+      "hold_bars": "Cuántas barras de 15 minutos mantiene una posición.",
+      "lookback_bars": "Cuántas barras mira atrás para encontrar a los perdedores recientes.",
+      "max_positions": "La mayor cantidad de tokens que esta opción tiene a la vez.",
+      "usd_per_launch": "Dólares que gasta en cada lanzamiento nuevo.",
+      "max_open": "La mayor cantidad de lanzamientos que mantiene a la vez.",
+      "max_age_s": "Solo compra lanzamientos más nuevos que esto, en segundos.",
+      "tp_x": "Toma ganancias cuando el precio llega a este múltiplo de la compra (2 = se duplicó).",
+      "tp_part": "Cuánto de la posición vende en ese punto, en %. El resto sigue con el stop dinámico.",
+      "drain_pct": "Vende todo si el dinero del pool cae este % - la señal de un rug pull.",
+      "min_return_pct": "Una wallet debe subir al menos este % en 7 días para copiarla.",
+      "min_days": "Días de historial que una wallet necesita antes de copiarla.",
+      "min_trades": "Operaciones que una wallet necesita registradas antes de copiarla.",
+      "min_traders": "Cuántos top traders distintos deben comprar el mismo token antes de que tu mosca lo compre.",
+      "min_usd": "La compra mínima de un top trader que cuenta, en dólares.",
+      "window_minutes": "Esas compras deben ocurrir dentro de estos minutos.",
+      "follow_sells": "1 = vende cuando vende un trader copiado. 0 = solo venden el stop y el límite de tiempo.",
+      "min_holders": "Salta tokens con menos holders que esto - los tokens pequeños son fáciles de ruguear.",
+      "house": "1 = también copia sus compras de $FLYAI. 0 = salta $FLYAI.",
+      "dip": {
+        "rsi_max": "Dip solo compra cuando el RSI está en esto o por debajo: el token está sobrevendido."
+      },
+      "flush": {
+        "hours": "La ventana en la que se mide la caída, en horas.",
+        "stop_atr": "Distancia del stop en ATR (el movimiento normal por hora) bajo la compra."
+      },
+      "fresh": {
+        "volume_x": "La última hora del token nuevo debe operar estas veces lo de las horas anteriores."
+      },
+      "launch": {
+        "stop_pct": "Vende si el precio cae este % bajo la compra. Los lanzamientos se mueven mucho, por eso es amplio."
+      },
+      "track": {
+        "stop_pct": "Vende una posición copiada si cae este % bajo la compra, aunque la wallet que sigues la mantenga."
+      },
+      "fomo": {
+        "stop_pct": "Vende una posición copiada si cae este % bajo la compra, aunque los traders la mantengan."
+      }
+    },
+    "filter": {
+      "min_mcap": "Salta tokens que valen menos que esto en total (market cap).",
+      "max_mcap": "Salta tokens que valen más que esto en total (market cap).",
+      "min_fdv": "Salta tokens cuyo valor totalmente diluido - precio por todos los tokens que existirán - es menor que esto.",
+      "max_fdv": "Salta tokens cuyo valor totalmente diluido es mayor que esto.",
+      "min_liquidity": "Salta tokens cuyo pool tiene menos que esto. Los pools pequeños cuestan más y son más fáciles de ruguear.",
+      "min_volume_24h": "Salta tokens que operaron menos que esto en las últimas 24 horas.",
+      "min_age_hours": "Salta tokens con menos horas de vida que esto.",
+      "max_age_hours": "Salta tokens con más horas de vida que esto.",
+      "max_tax_pct": "Salta tokens que cobran más de este % al comprar o vender.",
+      "goplus": "Salta tokens que el escaneo de seguridad de GoPlus marca: honeypots, mints ocultos, trucos del dueño."
+    },
+    "exit": {
+      "stop_pct": "Vende una posición del cerebro que cae este % bajo su compra. Vacío = decide el cerebro.",
+      "stop_atr": "Vende una posición del cerebro que cae estos movimientos normales por hora (ATR) bajo su compra.",
+      "take_profit_pct": "Vende una posición del cerebro cuando sube este %.",
+      "take_profit_r": "Vende una posición del cerebro cuando ganó estas veces la distancia a su stop.",
+      "trail_pct": "Vende una posición del cerebro cuando cae este % desde su máximo desde la compra.",
+      "max_hold_hours": "Vende una posición del cerebro tras estas horas."
+    },
+    "eth_to_usdg": "Convierte el ETH que envías en USDG (dólares) para que la mosca pueda operarlo. Siempre guarda un poco de ETH para el gas.",
+    "trading": "Apagado = la mosca no abre operaciones nuevas. Lo que ya tiene se sigue gestionando."
+  },
+  "label": {
+    "add": "Añadir etiqueta privada",
+    "edit": "Editar etiqueta",
+    "save": "Guardar",
+    "remove": "Quitar",
+    "cancel": "Cancelar",
+    "placeholder": "p. ej. prueba trend #2",
+    "aria": "Etiqueta privada para esta mosca",
+    "private": "Solo tú puedes ver esta etiqueta.",
+    "signInFailed": "Inicia sesión para etiquetar tus moscas."
   }
 }

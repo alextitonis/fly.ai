@@ -5,6 +5,8 @@
     "desk": "Fly Desk",
     "live": "live",
     "soon": "soon",
+    "terminal": "Terminal",
+    "terminalText": "Everything this fly's wallet does, live: each trade and the part that made it, the trades it skipped and why, and money in and out. It reads again every 15 seconds.",
     "walletText": "Each fly has its own wallet and trades only the money you put in it. Gains and losses stay in that wallet, and you withdraw them from the fly's page, paid in $FLYAI. This is live now.",
     "deskSoonText": "The Fly Desk is a separate, shared desk. Once it trades for real, part of its weekly profit is split among all active flies by rarity, and claimed here. It isn't live yet, so the shares below are what each fly would get - nothing is owed.",
     "deskText": "The Fly Desk is a separate, shared desk: part of its weekly profit is split among all active flies by rarity. Claim your flies' payouts here."
@@ -1474,5 +1476,182 @@
     "withdrawWarn": "Your {usd} deposit bonus is locked until {date}: withdrawing anything now sends the bonus back.",
     "remaining": "{left}/{slots} left",
     "full": "🎁 Deposit competition: all {slots} bonuses are claimed. Thanks to everyone who joined!"
+  },
+  "fterm": {
+    "aria": "Fly #{id} terminal",
+    "title": "FLY #{id} // TERMINAL",
+    "live": "LIVE",
+    "paused": "PAUSED",
+    "offline": "OFFLINE",
+    "next": "next read in {s}s",
+    "cantRead": "Can't reach the server right now - showing the last copy.",
+    "k": {
+      "value": "Value",
+      "profit": "P&L",
+      "day": "24h",
+      "trades": "Trades",
+      "open": "Open"
+    },
+    "positions": "Positions",
+    "noPositions": "no open positions",
+    "filter": "Show",
+    "f": {
+      "all": "All",
+      "trades": "Trades",
+      "skipped": "Skipped",
+      "money": "Money"
+    },
+    "kind": {
+      "buy": "BUY",
+      "sell": "SELL",
+      "skip": "SKIP",
+      "pending": "SENT",
+      "failed": "FAIL",
+      "event": "WALLET"
+    },
+    "side": {
+      "panic_sell": "PANIC SELL",
+      "take_profit": "TAKE PROFIT"
+    },
+    "wantedBuy": "wanted to buy",
+    "wantedSell": "wanted to sell",
+    "by": "by {part}",
+    "tx": "tx",
+    "move": {
+      "deposit": "DEPOSIT",
+      "withdraw": "WITHDRAW",
+      "fee": "FEE",
+      "grant": "GRANT",
+      "gas_advance": "GAS",
+      "gas_repay": "GAS BACK",
+      "release": "PAID OUT",
+      "promo_return": "BONUS BACK"
+    },
+    "moveText": {
+      "deposit": "money in",
+      "withdraw": "paid to the holder",
+      "fee": "profit fee",
+      "grant": "FlightPass or bonus money in, locked",
+      "gas_advance": "gas lent by the desk",
+      "gas_repay": "gas paid back to the desk",
+      "release": "paid to the holder",
+      "promo_return": "deposit bonus returned to the house"
+    },
+    "ev": {
+      "settings_applied": "new settings applied",
+      "no_gas": "out of gas - trades wait for gas",
+      "promo_revoked": "deposit bonus cancelled: money was withdrawn during the lock",
+      "promo_returned": "deposit bonus returned to the house",
+      "promo_unlocked": "deposit bonus unlocked - it's yours now",
+      "released": "paid out to the holder"
+    },
+    "empty": "Nothing yet. Once the wallet has money, every trade shows up here.",
+    "emptyFilter": "Nothing of this kind yet.",
+    "noWallet": "This fly's wallet isn't made yet."
+  },
+  "help": {
+    "market": {
+      "memes": "Meme coins and new tokens on Robinhood Chain. The biggest swings and the biggest risk.",
+      "majors": "Large coins like ETH and BTC. They move less than memes.",
+      "stocks": "Tokenized stocks on Robinhood Chain, like NVDA or TSLA. Calmer than coins.",
+      "polymarket": "Prediction markets. They trade on their own Polymarket tab."
+    },
+    "brain": "Lets the fly's connectome brain trade. It picks what to buy and sell by itself.",
+    "brainShare": "How much of the wallet's money the brain trades with, in %. The rest goes to the options you switch on.",
+    "risk": "How big the brain's buys are: 1 = small and careful, 5 = big and bold.",
+    "max_positions": "The most tokens the wallet holds at the same time.",
+    "optionShare": "How much of the wallet's money this option trades with, in %.",
+    "param": {
+      "fast": "The quick moving average, in hourly candles. Trend buys when it is above the slow one.",
+      "slow": "The long moving average, in hourly candles. Bigger = only long, steady uptrends count.",
+      "rsi_min": "Lowest RSI (0-100) at which it still buys. RSI measures recent strength: under this the move is too weak.",
+      "rsi_max": "Highest RSI at which it buys. Above it the token is overheated and likely to pull back.",
+      "rsi_period": "How many hourly candles the RSI looks back over.",
+      "stop_pct": "Stop loss: sell if the price falls this % below the buy.",
+      "take_profit_pct": "Target: sell once the price is up this % from the buy.",
+      "max_hold_hours": "Sell after this many hours no matter what, so money isn't stuck in a position that goes nowhere.",
+      "size_pct": "How much of this option's money one buy uses, in %. Smaller = more, smaller positions.",
+      "stop_atr": "Stop distance in ATR, the token's normal hourly swing. 2 = sell if it drops two normal swings below the buy.",
+      "take_profit_r": "Target as a multiple of the risk: 2 = aim to win twice the distance to the stop.",
+      "hours": "The window the move is measured over, in hours.",
+      "min_pct": "The smallest rise over the window that counts, in %.",
+      "max_pct": "The biggest rise over the window it still buys. Above it the run is probably over.",
+      "volume_x": "Trading volume must be at least this many times its normal level. 2 = double the usual.",
+      "trail_pct": "Trailing stop: sell when the price falls this % from its highest point since the buy.",
+      "drop_pct": "How far the price must have fallen over the window, in %.",
+      "oi_drop_pct": "How far open interest (futures bets) must have fallen: leveraged traders being forced out.",
+      "reclaim_pct": "How far back up its recent range the price must have closed, in %: 0 = at the low, 100 = at the high.",
+      "taker_buy": "The share of trades that are buyers (0-1). Above 0.5 = buyers are back in control.",
+      "hold_bars": "How many 15-minute bars it holds a position.",
+      "lookback_bars": "How many bars it looks back over to find the recent losers.",
+      "max_positions": "The most tokens this option holds at once.",
+      "usd_per_launch": "Dollars spent on each new launch.",
+      "max_open": "The most launches held at the same time.",
+      "max_age_s": "Only buys launches younger than this, in seconds.",
+      "tp_x": "Takes profit when the price reaches this multiple of the buy (2 = doubled).",
+      "tp_part": "How much of the position is sold at that point, in %. The rest rides with the trailing stop.",
+      "drain_pct": "Sells everything if the pool's money drops this % - the sign of a rug pull.",
+      "min_return_pct": "A wallet must be up at least this % over 7 days to be copied.",
+      "min_days": "Days of trading record a wallet needs before it is copied.",
+      "min_trades": "Trades a wallet needs on record before it is copied.",
+      "min_traders": "How many different top traders must buy the same token before your fly buys it.",
+      "min_usd": "The smallest buy from a top trader that counts, in dollars.",
+      "window_minutes": "Those buys must all happen within this many minutes.",
+      "follow_sells": "1 = sell when a trader it copied sells. 0 = only the stop and the time limit sell.",
+      "min_holders": "Skips tokens with fewer holders than this - thin tokens are easy to rug.",
+      "house": "1 = also copies their $FLYAI buys. 0 = skips $FLYAI.",
+      "dip": {
+        "rsi_max": "Dip only buys when RSI is at or under this: the token is oversold."
+      },
+      "flush": {
+        "hours": "The window the drop is measured over, in hours.",
+        "stop_atr": "Stop distance in ATR (the normal hourly swing) below the buy."
+      },
+      "fresh": {
+        "volume_x": "The new token's last hour must trade this many times the hours before it."
+      },
+      "launch": {
+        "stop_pct": "Sells if the price falls this % below the buy. New launches swing hard, so it is wide."
+      },
+      "track": {
+        "stop_pct": "Sells a copied position if it falls this % below the buy, even if the wallet you follow holds on."
+      },
+      "fomo": {
+        "stop_pct": "Sells a copied position if it falls this % below the buy, even if the traders hold on."
+      }
+    },
+    "filter": {
+      "min_mcap": "Skips tokens worth less than this in total (market cap).",
+      "max_mcap": "Skips tokens worth more than this in total (market cap).",
+      "min_fdv": "Skips tokens whose fully diluted value - price times every token that will ever exist - is under this.",
+      "max_fdv": "Skips tokens whose fully diluted value is over this.",
+      "min_liquidity": "Skips tokens whose pool holds less than this. Thin pools cost more to trade and are easier to rug.",
+      "min_volume_24h": "Skips tokens that traded less than this in the last 24 hours.",
+      "min_age_hours": "Skips tokens younger than this many hours.",
+      "max_age_hours": "Skips tokens older than this many hours.",
+      "max_tax_pct": "Skips tokens that take more than this % on a buy or sell.",
+      "goplus": "Skips tokens GoPlus's security scan flags: honeypots, hidden mints, owner tricks."
+    },
+    "exit": {
+      "stop_pct": "Sells a brain position that falls this % below its buy. Empty = the brain decides.",
+      "stop_atr": "Sells a brain position that falls this many normal hourly swings (ATR) below its buy.",
+      "take_profit_pct": "Sells a brain position once it is up this %.",
+      "take_profit_r": "Sells a brain position once it has won this many times the distance to its stop.",
+      "trail_pct": "Sells a brain position when it falls this % from its highest point since the buy.",
+      "max_hold_hours": "Sells a brain position after this many hours."
+    },
+    "eth_to_usdg": "Turns ETH you send into USDG (dollars) so the fly can trade it. A little ETH is always kept for gas.",
+    "trading": "Off = the fly opens no new trades. What it already holds is still looked after."
+  },
+  "label": {
+    "add": "Add a private label",
+    "edit": "Edit label",
+    "save": "Save",
+    "remove": "Remove",
+    "cancel": "Cancel",
+    "placeholder": "e.g. trend test #2",
+    "aria": "Private label for this fly",
+    "private": "Only you can see this label.",
+    "signInFailed": "Sign in to label your flies."
   }
 }

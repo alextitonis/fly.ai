@@ -167,6 +167,75 @@ export function createVaults(d: VaultsDeps) {
     return { fly, owner, wallet, ...home, pass: granted ?? null, away };
   }
 
+  /**
+   * A fly's terminal (2026-10-04, the user: "a terminal view tab in each fly"; holders: "having a hard time tracking what
+   * my flies are doing"): everything its wallet did, newest first - trades (filled, and skipped with the reason),
+   * money in and out, and a few wallet events. Public like the trades already on its page; raw chain errors are worded.
+   */
+  const LOG_TTL_MS = 10_000;
+  const LOG_EVENTS = ["settings_applied", "no_gas", "promo_revoked", "promo_returned", "promo_unlocked", "released"];
+  const plainWhy = (w: unknown): string | null => {
+    const s = typeof w === "string" ? w.trim() : w == null ? "" : JSON.stringify(w);
+    if (!s) return null;
+    if (/return amount is not enough|too little received|slippage/i.test(s)) return "the price moved past its slippage limit";
+    if (/no receipt yet/i.test(s)) return "sent; waiting for the chain to confirm";
+    if (/^(RuntimeError|Exception|ValueError|KeyError|TypeError)\b|eth_|execution reverted/i.test(s)) return "the swap failed on chain";
+    return s.slice(0, 160);
+  };
+  async function flyLog(fly: number) {
+    isOn();
+    const wallet = await walletOf(fly);
+    if (!wallet) return { fly, wallet: null, rows: [] };
+    const [trades, moves, events] = await Promise.all([
+      pg.all<any>(`select (extract(epoch from at) * 1000)::float8 as at, tag, symbol, side, qty, usd, price, status, tx_hash, reason
+        from mine.vault_trades where vault = ? order by at desc limit 150`, wallet),
+      pg.all<any>(`select (extract(epoch from at) * 1000)::float8 as at, kind, chain, token, amount, usd, tx_hash
+        from mine.vault_moves where wallet = ? order by at desc limit 80`, wallet),
+      pg.all<any>(`select (extract(epoch from at) * 1000)::float8 as at, kind, detail from mine.vault_events
+        where vault = ? and at > now() - interval '14 days' and kind in (${LOG_EVENTS.map((k) => `'${k}'`).join(", ")}) order by at desc limit 40`, wallet),
+    ]);
+    const rows = [
+      ...trades.map((r) => ({ at: r.at, type: "trade", tag: r.tag, symbol: r.symbol, side: r.side, status: r.status,
+        qty: r.qty, usd: r.usd, price: r.price, tx: r.tx_hash ?? null,
+        why: plainWhy(r.reason?.why ?? r.reason?.reason ?? null), rule: r.reason?.rule ?? null,
+        pnl_pct: r.reason?.pnl_pct ?? null })),
+      ...moves.map((r) => ({ at: r.at, type: "move", kind: r.kind, chain: r.chain, token: r.token, amount: r.amount, usd: r.usd,
+        tx: r.tx_hash ?? null })),
+      ...events.map((r) => ({ at: r.at, type: "event", kind: r.kind,
+        usd: typeof r.detail?.usd === "number" ? r.detail.usd : null })),
+    ].sort((a, b) => b.at - a.at).slice(0, 200);
+    return { fly, wallet, rows };
+  }
+
+  /**
+   * Private fly labels (2026-10-04, a holder testing strategies: "label their own flies ... only i can see"): a note of
+   * up to 40 characters a signed-in wallet puts on any fly; only that wallet reads them back. "" removes one.
+   */
+  const LABEL_MAX = 40, LABELS_PER_WALLET = 2000;
+  async function labelsOf(req: IncomingMessage) {
+    const me = (await d.sessionWallet(req)).toLowerCase();
+    const rows = await pg.all<{ fly_id: number; label: string }>("select fly_id, label from mine.fly_labels where wallet = ?", me);
+    return { wallet: me, labels: Object.fromEntries(rows.map((r) => [String(r.fly_id), r.label])) };
+  }
+  async function saveLabel(req: IncomingMessage, body: any) {
+    const me = (await d.sessionWallet(req)).toLowerCase();
+    const fly = Number(body?.fly);
+    if (!Number.isInteger(fly) || fly < 1 || fly > 999_999) throw new HttpError(400, "fly must be a fly id");
+    // one line of plain text: control characters out, spaces squeezed
+    const label = String(body?.label ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").replace(/\s+/g, " ").trim();
+    if ([...label].length > LABEL_MAX) throw new HttpError(400, `a label is at most ${LABEL_MAX} characters`);
+    if (!label) {
+      await pg.run("delete from mine.fly_labels where wallet = ? and fly_id = ?", me, fly);
+      return { fly, label: null };
+    }
+    const n = (await pg.one<{ n: number }>("select count(*)::int as n from mine.fly_labels where wallet = ?", me))?.n ?? 0;
+    if (n >= LABELS_PER_WALLET && !(await pg.one("select 1 from mine.fly_labels where wallet = ? and fly_id = ?", me, fly)))
+      throw new HttpError(400, "too many labels");
+    await pg.run(`insert into mine.fly_labels (wallet, fly_id, label) values (?, ?, ?)
+      on conflict (wallet, fly_id) do update set label = excluded.label, updated_at = now()`, me, fly, label);
+    return { fly, label };
+  }
+
   // ---- the owner's settings ---------------------------------------------------------------------------------
   async function saveSettings(req: IncomingMessage, wallet: string, body: any) {
     isOn();
@@ -563,12 +632,18 @@ export function createVaults(d: VaultsDeps) {
         return d.send(res, 200, await cached(`feed:${chain}`, FEED_TTL_MS, () => feed(chain))), true;
       }
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})$/.exec(p))) return d.send(res, 200, await flyView(Number(m[1]))), true;
+      if ((m = /^\/api\/vaults\/fly\/(\d{1,6})\/log$/.exec(p))) {
+        const fly = Number(m[1]);
+        return d.send(res, 200, await cached(`log:${fly}`, LOG_TTL_MS, () => flyLog(fly))), true;
+      }
       if ((m = /^\/api\/vaults\/requests\/(\d{1,12})$/.exec(p))) return d.send(res, 200, await requestView(Number(m[1]))), true;
       if (p === "/api/admin/vaults") { d.adminOnly(req); return d.send(res, 200, await admin()), true; }
       if (p === "/api/vaults/promo") return d.send(res, 200, await promoPublic()), true;
+      if (p === "/api/vaults/labels") return d.send(res, 200, await labelsOf(req)), true;   // the signed-in wallet's own
       if (p === "/api/admin/promo") { await promoAdmin(req); return d.send(res, 200, await promoAdminView()), true; }
     }
     if (req.method === "POST") {
+      if (p === "/api/vaults/labels") return d.send(res, 200, await saveLabel(req, await d.readJson(req))), true;
       if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move)$/.exec(p))) {
         if (!ADDRESS.test(m[1])) throw new HttpError(400, "bad wallet address");
         const wallet = checksumAddress(m[1]);
