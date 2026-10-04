@@ -387,7 +387,12 @@
 
     // 01 the pot
     const pnl = b.pot_usd - start;
-    $("k-pot").textContent = usd(b.pot_usd);
+    // live (2026-10-04): the pool wallet's money is shown with what the desk trades - the total, then the split
+    if (b.pool && b.total_usd != null) {
+      $("k-pot").innerHTML = `${esc(usd(b.total_usd))} <span class="sub">${esc(t("pot.trading"))} ${esc(usd(b.pot_usd))} · ${esc(t("pot.inPool"))} ${esc(usd(b.pool.usd || 0))}</span>`;
+    } else {
+      $("k-pot").textContent = usd(b.pot_usd);
+    }
     $("k-ret").innerHTML = `<span class="${cls(pnl)}">${susd(pnl)}</span> <span class="sub ${cls(pnl)}">${pct(start ? (100 * pnl) / start : 0)}</span>`;
     const best = b.books.slice().sort((a, c) => c.return_pct - a.return_pct)[0];
     $("k-best").innerHTML = best ? `${esc(bookLabel(best.book))} <span class="${cls(best.return_pct)}">${pct(best.return_pct)}</span>` : "—";

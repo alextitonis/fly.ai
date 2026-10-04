@@ -106,5 +106,32 @@
     "online": "在线",
     "tasks": "今日任务",
     "rate": "每秒"
+  },
+  "desk": {
+    "title": "FLY DESK",
+    "open": "打开交易台 ↗",
+    "total": "总额",
+    "pnl": "盈亏",
+    "books": "苍蝇",
+    "peak": "峰值",
+    "payout": "下次分红",
+    "payoutNote": "超出峰值的利润以 $FLYAI 发给持有者",
+    "mode": {
+      "paper": "模拟",
+      "shadow": "影子",
+      "live": "实盘"
+    },
+    "split": "交易中 {trading} · 资金池 {pool}",
+    "trading": "全部在苍蝇的账本里交易",
+    "updated": "{ago}前更新",
+    "days": "{d}天 {hms}"
+  },
+  "foot": {
+    "mine": "MINE",
+    "desk": "交易台",
+    "fills": "成交",
+    "bar": "最近一根",
+    "down": "离线",
+    "src": "只读 · 每个数字都来自 Fly Wallets 和 Fly Desk"
   }
 }

@@ -1351,7 +1351,12 @@
     "profit_h24": "24 h",
     "winRate": "Wins",
     "updated": "Updated {when}",
-    "cantRead": "Couldn't load the leaderboard; try again soon."
+    "cantRead": "Couldn't load the leaderboard; try again soon.",
+    "curve": "Curve",
+    "holding": "holding",
+    "movedUp": "up {n} in 24 h",
+    "movedDown": "down {n} in 24 h",
+    "holdingNote": "\"holding\" = the fly hasn't sold anything yet. A fresh wallet shows a small minus at first: every buy pays the pool fee and gas, so open positions start a little under what they cost. It turns when they rise or sell."
   },
   "utility": {
     "title": "What a Trader Fly does",

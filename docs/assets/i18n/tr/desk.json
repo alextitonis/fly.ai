@@ -40,6 +40,8 @@
     "title": "Fon",
     "lede": "Sineklerin elindeki her şey, son fiyatlarla, bar bar. Kalın çizgi tüm sinekler birlikte, her ince çizgi bir sinek; kesikli çizgi başladıkları yer.",
     "value": "Fon",
+    "trading": "işlemde",
+    "inPool": "havuzda",
     "pnl": "K/Z",
     "seriesPot": "Tüm sinekler",
     "seriesStart": "Başlangıç",

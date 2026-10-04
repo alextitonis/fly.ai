@@ -106,5 +106,32 @@
     "online": "en línea",
     "tasks": "trabajos hoy",
     "rate": "por segundo"
+  },
+  "desk": {
+    "title": "FLY DESK",
+    "open": "abrir la mesa ↗",
+    "total": "TOTAL",
+    "pnl": "P&L",
+    "books": "MOSCAS",
+    "peak": "MÁXIMO",
+    "payout": "PRÓXIMO PAGO",
+    "payoutNote": "la ganancia sobre el máximo va a los holders en $FLYAI",
+    "mode": {
+      "paper": "PAPEL",
+      "shadow": "SOMBRA",
+      "live": "EN VIVO"
+    },
+    "split": "operando {trading} · en el pool {pool}",
+    "trading": "todo en los libros de las moscas",
+    "updated": "actualizado hace {ago}",
+    "days": "{d}d {hms}"
+  },
+  "foot": {
+    "mine": "MINE",
+    "desk": "MESA",
+    "fills": "OPERACIONES",
+    "bar": "ÚLTIMA BARRA",
+    "down": "CAÍDA",
+    "src": "solo lectura · cada número viene de las Fly Wallets y la Fly Desk"
   }
 }

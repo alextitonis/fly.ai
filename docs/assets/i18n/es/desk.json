@@ -40,6 +40,8 @@
     "title": "El fondo",
     "lede": "Todo lo que tienen las moscas, valorado a los últimos precios, barra a barra. La línea gruesa son todas las moscas juntas, cada línea fina una mosca; la discontinua es donde empezaron.",
     "value": "Fondo",
+    "trading": "operando",
+    "inPool": "en el pool",
     "pnl": "P&L",
     "seriesPot": "Todas las moscas",
     "seriesStart": "Inicio",

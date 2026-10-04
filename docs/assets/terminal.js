@@ -46,7 +46,15 @@ const state = {
 const keyOf = (fly, r) => `${fly}:${r.at}:${r.symbol}:${r.side}:${r.tag}`;
 
 // ---- reading the desk -----------------------------------------------------------------------------------------------
-const get = (p) => fetch(MINE + p, { cache: "no-store" }).then((r) => { if (!r.ok) throw new Error(`${r.status}`); return r.json(); });
+const net = { ms: null, ok: null };   // the footer's link light: the last read's round trip
+const get = (p) => {
+  const t0 = performance.now();
+  return fetch(MINE + p, { cache: "no-store" }).then((r) => {
+    net.ms = performance.now() - t0; net.ok = r.ok;
+    if (!r.ok) throw new Error(`${r.status}`);
+    return r.json();
+  }, (e) => { net.ok = false; throw e; });
+};
 
 async function readBoard() {
   const b = await get("/api/vaults/leaderboard?chain=robinhood");
@@ -78,11 +86,12 @@ function checkBar() {
   let latest = 0;
   for (const s of state.views.values()) latest = Math.max(latest, s.updated ?? 0);
   if (!latest) return;
-  if (!bar.at) { bar.at = latest; bar.events = state.events; return; }
+  if (!bar.at) { bar.at = latest; bar.events = state.events; $("f-bar").textContent = `${hhmmss(latest).slice(0, 5)} UTC`; return; }
   if (latest <= bar.at + 30) return;
   bar.at = latest;
   core.sweep(); beat.spike(0.55, false);
   sys(t("terminal.stream.bar", { time: hhmmss(latest).slice(0, 5), w: state.views.size, n: state.events - bar.events }));
+  $("f-bar").textContent = `${hhmmss(latest).slice(0, 5)} UTC`;
   bar.events = state.events;
 }
 setInterval(() => {
@@ -175,7 +184,11 @@ function fire(tr) {
 function lightPart(key) {
   state.partLive.set(key, Date.now() + 4500);
   const el = document.querySelector(`.tm-part[data-k="${key}"]`);
-  if (el) { el.classList.add("live"); el.querySelector("header em").textContent = t("terminal.parts.live"); }
+  if (el) {
+    el.classList.add("live"); el.querySelector("header em").textContent = t("terminal.parts.live");
+    el.classList.remove("hit"); void el.offsetWidth; el.classList.add("hit");   // the name pops again on every fill
+  }
+  core.hit(key);
 }
 setInterval(() => {
   for (const [k, until] of state.partLive) if (Date.now() > until) {
@@ -189,7 +202,7 @@ function log(tr, fresh) {
   const p = partOf(tr.tag);
   const res = tr.pnl_pct != null && isSell(tr.side) ? ` <b class="${tr.pnl_pct >= 0 ? "up" : "down"}">${pct(tr.pnl_pct)}</b>` : "";
   const li = document.createElement("li");
-  if (fresh) li.className = "new";
+  if (fresh) li.className = `new ${isSell(tr.side) ? "sell" : "buy"}`;
   if (state.watch === tr.fly) li.classList.add("watch");
   li.dataset.fly = tr.fly;
   li.innerHTML = `<span class="tm-tag" style="--c:${p.c}">${p.name}</span>`
@@ -218,33 +231,75 @@ function drawKpis() {
   const value = b.reduce((s, r) => s + r.value, 0), principal = b.reduce((s, r) => s + r.principal, 0);
   const profit = b.reduce((s, r) => s + r.profit, 0);
   const day = b.reduce((s, r) => s + (r.profit_24h ?? 0), 0), week = b.reduce((s, r) => s + (r.profit_7d ?? 0), 0);
-  set("k-value", usd(value)); $("k-wallets").textContent = t("terminal.kpis.wallets", { count: b.length });
-  set("k-profit", usd(profit, true), profit);
+  tween("k-value", value, (x) => usd(x)); $("k-wallets").textContent = t("terminal.kpis.wallets", { count: b.length });
+  tween("k-profit", profit, (x) => usd(x, true), profit);
   set("k-profit-pct", principal > 0 ? t("terminal.kpis.on", { pct: pct((profit / principal) * 100), usd: usd(principal) }) : "—", profit);
-  set("k-day", usd(day, true), day); set("k-week", t("terminal.kpis.week", { usd: usd(week, true) }), week);
+  tween("k-day", day, (x) => usd(x, true), day); set("k-week", t("terminal.kpis.week", { usd: usd(week, true) }), week);
   const all = trades(), now = Date.now() / 1000;
   const dayT = all.filter((x) => x.at > now - 86400);
-  set("k-trades", dayT.length ? num(dayT.length, 0) : "—");
+  if (dayT.length) tween("k-trades", dayT.length, (x) => num(Math.round(x), 0)); else set("k-trades", "—");
   $("k-last").textContent = all[0] ? t("terminal.kpis.last", { ago: ago(all[0].at) }) : t("terminal.kpis.lastNone");
   const closed = all.filter((x) => isSell(x.side) && x.pnl_pct != null), wins = closed.filter((x) => x.pnl_pct > 0).length;
-  set("k-hit", closed.length ? `${Math.round((wins / closed.length) * 100)}%` : "—");
+  if (closed.length) tween("k-hit", (wins / closed.length) * 100, (x) => `${Math.round(x)}%`); else set("k-hit", "—");
   $("k-wl").textContent = closed.length ? t("terminal.kpis.wl", { w: wins, l: closed.length - wins }) : t("terminal.kpis.closedNone");
 }
 function set(id, text, sign) {
-  const el = $(id); el.textContent = text;
+  const el = $(id); el.textContent = text; el._v = undefined;
   el.classList.toggle("up", sign > 0); el.classList.toggle("down", sign < 0);
 }
+/** a number that counts to its new value (from 0 the first time) and glows when it moves; still under reduced motion */
+function tween(id, v, fmt, sign) {
+  const el = $(id);
+  el.classList.toggle("up", sign > 0); el.classList.toggle("down", sign < 0);
+  if (el._v === v) return;
+  const from = el._v ?? 0, first = el._v == null;
+  el._v = v;
+  cancelAnimationFrame(el._raf);
+  if (!first) { el.classList.remove("tick"); void el.offsetWidth; el.classList.add("tick"); }
+  if (reduced) { el.textContent = fmt(v); return; }
+  const t0 = performance.now(), dur = first ? 1100 : 700;
+  const step = (ts) => {
+    const k = Math.min(1, (ts - t0) / dur), e = 1 - (1 - k) ** 3;
+    el.textContent = fmt(from + (v - from) * e);
+    if (k < 1) el._raf = requestAnimationFrame(step);
+  };
+  el._raf = requestAnimationFrame(step);
+}
 
+const seen = { tape: null, fresh: new Map() };   // fill key -> when it first showed on the tape
 function drawTape() {
-  $("tape").innerHTML = trades().slice(0, 60).map((x) => {
-    const p = partOf(x.tag), sell = isSell(x.side);
+  const rows = trades().slice(0, 60), now = performance.now();
+  if (seen.tape) for (const x of rows) if (!seen.tape.has(x.key)) seen.fresh.set(x.key, now);
+  seen.tape = new Set(rows.map((x) => x.key));
+  for (const [k, at] of seen.fresh) if (now - at > 1600) seen.fresh.delete(k);
+  $("tape").innerHTML = rows.map((x) => {
+    const p = partOf(x.tag), sell = isSell(x.side), f = seen.fresh.get(x.key);
+    const flash = f != null ? ` new ${sell ? "sell" : "buy"}" style="animation-delay:${-Math.round(now - f)}ms` : "";
     const res = x.pnl_pct != null && sell ? `<span class="${x.pnl_pct >= 0 ? "up" : "down"}">${pct(x.pnl_pct)}</span>` : "";
     const tx = x.tx ? `<a href="${EXPLORER}/tx/${esc(x.tx.split(",")[0])}" target="_blank" rel="noreferrer">${esc(x.tx.slice(0, 6))}…↗</a>` : "";
-    return `<tr class="${state.watch === x.fly ? "watch" : ""}"><td class="dim">${hhmmss(x.at)}</td><td>#${x.fly}</td>`
+    return `<tr class="${state.watch === x.fly ? "watch" : ""}${flash}"><td class="dim">${hhmmss(x.at)}</td><td>#${x.fly}</td>`
       + `<td class="${sell ? "down" : "up"}">${t(sell ? "terminal.tape.sell" : "terminal.tape.buy")}</td><td><b>${esc(x.label ?? x.symbol)}</b></td>`
       + `<td>${usd(x.usd)}</td><td>${res}</td><td><span class="tm-tag" style="--c:${p.c}">${p.name}</span></td><td>${tx}</td></tr>`;
   }).join("");
   $("tape-count").textContent = t("terminal.tape.count", { count: state.trades.size });
+  drawTicker(rows);
+}
+
+/** the ticker under the header: the newest fills, twice over so the loop has no seam; rebuilt only when a fill lands */
+let tickHead = "";
+function drawTicker(rows) {
+  const top = rows.slice(0, 24);
+  if (!top.length || top[0].key === tickHead) return;
+  tickHead = top[0].key;
+  const one = top.map((x) => {
+    const sell = isSell(x.side), p = partOf(x.tag);
+    const res = x.pnl_pct != null && sell ? ` <span class="${x.pnl_pct >= 0 ? "up" : "down"}">${pct(x.pnl_pct)}</span>` : "";
+    return `<span class="tk"><i style="--c:${p.c}"></i><span class="dim">${hhmmss(x.at).slice(0, 5)}</span> #${x.fly} `
+      + `<span class="${sell ? "down" : "up"}">${t(sell ? "terminal.tape.sell" : "terminal.tape.buy")}</span> <b>${esc(x.label ?? x.symbol)}</b> ${usd(x.usd)}${res}</span>`;
+  }).join("");
+  const run = $("ticker");
+  run.innerHTML = `<div>${one}</div><div>${one}</div>`;
+  run.style.setProperty("--dur", `${Math.max(30, run.firstChild.scrollWidth / 60)}s`);   // ~60 px a second
 }
 
 /** what the flies hold together: per token, the flies in it, the money, the P&L at today's price */
@@ -360,8 +415,10 @@ function redraw() {
   drawKpis(); drawTape(); drawPulse(h); drawHeat(h); drawLeaders(); drawParts();
   const c = combined();
   equity.set(c);
-  const now = Date.now() / 1000, n = trades().filter((x) => x.at > now - 3600).length;
+  const all = trades(), now = Date.now() / 1000, n = all.filter((x) => x.at > now - 3600).length;
   $("beat-rate").textContent = t("terminal.beat.rate", { n, w: state.board.length });
+  beat.set(all);
+  $("f-fills").textContent = num(state.trades.size, 0);
 }
 
 // ---- canvases ---------------------------------------------------------------------------------------------------------
@@ -383,6 +440,7 @@ const core = (() => {
   lump(700, 1.25, 0.04, 0, 0.36, 0.62, 0.42);
   lump(260, 0, -0.38, 0.1, 0.42, 0.14, 0.2);   // mushroom bodies' calyces, a denser band on top
   let rot = 0, sweep0 = -1e9, sparks = 0;
+  const hits = new Map();   // part key -> when its last fill landed: its chip pops
   const nodes = PARTS.map((p, i) => ({ p, a: (i / PARTS.length) * Math.PI * 2 - Math.PI / 2 }));
   // a part chip glows while it acts, and in turn while a new desk bar sweeps through the brain
   const glowing = (key, ts) => {
@@ -444,10 +502,14 @@ const core = (() => {
     ctx.font = "700 10px 'JetBrains Mono', monospace"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     for (const q of at) {
       const lit = glowing(q.n.p.key, ts), tw = ctx.measureText(q.n.p.name).width + 18;
+      // a fill with this part's tag: the chip swells and settles, and keeps breathing while the part is live
+      const dt = ts - (hits.get(q.n.p.key) ?? -1e9), pop = reduced ? 0 : 0.28 * Math.exp(-dt / 260) + (lit ? 0.04 * Math.sin(ts / 160) : 0);
+      ctx.save(); ctx.translate(q.x, q.y); ctx.scale(1 + pop, 1 + pop);
       ctx.fillStyle = lit ? "rgba(0,0,0,.85)" : "rgba(4,7,6,.9)"; ctx.strokeStyle = lit ? q.n.p.c : "rgba(94,242,204,.22)";
-      if (lit) { ctx.shadowColor = q.n.p.c; ctx.shadowBlur = 14; }
-      ctx.beginPath(); ctx.roundRect(q.x - tw / 2, q.y - 11, tw, 22, 6); ctx.fill(); ctx.stroke(); ctx.shadowBlur = 0;
-      ctx.fillStyle = lit ? q.n.p.c : "rgba(232,242,239,.75)"; ctx.fillText(q.n.p.name, q.x, q.y + 0.5);
+      if (lit) { ctx.shadowColor = q.n.p.c; ctx.shadowBlur = 14 + 20 * Math.exp(-dt / 400); }
+      ctx.beginPath(); ctx.roundRect(-tw / 2, -11, tw, 22, 6); ctx.fill(); ctx.stroke(); ctx.shadowBlur = 0;
+      ctx.fillStyle = lit ? q.n.p.c : "rgba(232,242,239,.75)"; ctx.fillText(q.n.p.name, 0, 0.5);
+      ctx.restore();
     }
     requestAnimationFrame(frame);
   }
@@ -455,6 +517,7 @@ const core = (() => {
   return {
     pulse: (key, c, size) => pulses.push({ key, c, size, t0: performance.now() }),
     sweep: () => { sweep0 = performance.now(); },
+    hit: (key) => hits.set(key, performance.now()),
     /** tasks a second across the miners -> sparks a frame (a few hundred tasks a second already shows) */
     compute: (rate) => { sparks = reduced ? 0 : Math.min(40, Math.round(Math.sqrt(Math.max(0, rate)) / 2)); },
   };
@@ -487,32 +550,129 @@ const equity = (() => {
   return { set: (p) => { pts = p; const last = p[p.length - 1]?.v; const el = $("eq-total"); el.textContent = last == null ? "—" : usd(last, true); el.className = last >= 0 ? "up" : "down"; } };
 })();
 
-/** the desk's heartbeat: a calm baseline; every real trade is a beat (red for a losing exit) */
+/** the desk's activity: trades an hour over the last two days (buys mint, sells red, stacked) under a glowing line of
+ *  the total; every live trade flashes the newest hour and rings its point */
 const beat = (() => {
-  const cv = $("beat"), hist = Array.from({ length: 1200 }, () => ({ v: (Math.random() - 0.5) * 0.04, red: false })); let pending = [];
-  function frame() {
-    const { ctx, w, h } = fit(cv);
-    const n = Math.max(2, Math.floor(w / 2));
-    let y = (Math.random() - 0.5) * 0.04, c = 0;
-    if (pending.length) { const s = pending.shift(); hist.push(...[0.15, -0.25, s.a, -s.a * 0.55, 0.12].map((v) => ({ v, red: s.red }))); c = 1; }
-    if (!c) hist.push({ v: y, red: false });
-    while (hist.length > n) hist.shift();
-    ctx.clearRect(0, 0, w, h);
-    ctx.strokeStyle = "rgba(94,242,204,.06)";
-    for (let x = 0; x < w; x += 24) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
-    ctx.lineWidth = 1.6; ctx.shadowBlur = 8;
-    for (let i = 1; i < hist.length; i++) {
-      const a = hist[i - 1], b = hist[i], x0 = w - (hist.length - i + 1) * 2, x1 = x0 + 2;
-      const col = b.red || a.red ? "#ff5a52" : "#5ef2cc";
-      ctx.strokeStyle = col; ctx.shadowColor = col;
-      ctx.beginPath(); ctx.moveTo(x0, h / 2 - a.v * h * 0.42); ctx.lineTo(x1, h / 2 - b.v * h * 0.42); ctx.stroke();
+  const cv = $("beat"), H = 48; let bins = [], flash = -1e9, flashRed = false;
+  function set(all) {
+    const top = Math.floor(Date.now() / 3_600_000) * 3600;
+    bins = Array.from({ length: H }, (_, i) => ({ t: top - (H - 1 - i) * 3600, buy: 0, sell: 0 }));
+    for (const x of all) {
+      const i = H - 1 - (top - Math.floor(x.at / 3600) * 3600) / 3600;
+      if (i >= 0 && i < H) bins[i][isSell(x.side) ? "sell" : "buy"]++;
     }
-    ctx.shadowBlur = 0;
-    setTimeout(() => requestAnimationFrame(frame), reduced ? 200 : 33);
   }
-  frame();
-  return { spike: (a, red) => pending.push({ a, red }) };
+  function frame(ts) {
+    const { ctx, w, h } = fit(cv);
+    ctx.clearRect(0, 0, w, h);
+    if (bins.length) {
+      const padL = 26, padB = 14, padT = 8, cw = w - padL - 4, ch = h - padB - padT;
+      const max = Math.max(4, ...bins.map((b) => b.buy + b.sell)), bw = cw / H;
+      const X = (i) => padL + (i + 0.5) * bw, Y = (v) => padT + ch - (v / max) * ch;
+      // the grid, the scale and the hours (UTC, every 6)
+      ctx.font = "9px 'JetBrains Mono', monospace"; ctx.textBaseline = "middle"; ctx.textAlign = "right";
+      for (const f of [0, 0.5, 1]) {
+        const y = Y(max * f);
+        ctx.strokeStyle = "rgba(94,242,204,.07)"; ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(w - 4, y); ctx.stroke();
+        ctx.fillStyle = "#4d605a"; ctx.fillText(num(Math.round(max * f), 0), padL - 5, y);
+      }
+      ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+      bins.forEach((b, i) => { if (new Date(b.t * 1000).getUTCHours() % 6 === 0) { ctx.fillStyle = "#4d605a"; ctx.fillText(hhmmss(b.t).slice(0, 5), X(i), h - 2); } });
+      // the bars; the newest hour lights up on a live trade
+      const fk = Math.max(0, 1 - (ts - flash) / 1200);
+      bins.forEach((b, i) => {
+        const x = padL + i * bw + bw * 0.18, bwi = bw * 0.64, a = i === H - 1 ? 0.45 + 0.5 * fk : 0.3;
+        ctx.fillStyle = `rgba(94,242,204,${a})`; ctx.fillRect(x, Y(b.buy), bwi, Y(0) - Y(b.buy));
+        ctx.fillStyle = `rgba(255,90,82,${a})`; ctx.fillRect(x, Y(b.buy + b.sell), bwi, Y(b.buy) - Y(b.buy + b.sell));
+      });
+      // the total as a smooth line, glowing, with a soft fill under it
+      const pts = bins.map((b, i) => [X(i), Y(b.buy + b.sell)]);
+      const path = new Path2D(); path.moveTo(...pts[0]);
+      for (let i = 1; i < pts.length; i++) { const mx = (pts[i - 1][0] + pts[i][0]) / 2; path.bezierCurveTo(mx, pts[i - 1][1], mx, pts[i][1], ...pts[i]); }
+      const area = new Path2D(path); area.lineTo(pts[pts.length - 1][0], Y(0)); area.lineTo(pts[0][0], Y(0)); area.closePath();
+      const g = ctx.createLinearGradient(0, padT, 0, Y(0)); g.addColorStop(0, "rgba(94,242,204,.16)"); g.addColorStop(1, "rgba(94,242,204,0)");
+      ctx.fillStyle = g; ctx.fill(area);
+      ctx.strokeStyle = "#5ef2cc"; ctx.lineWidth = 1.8; ctx.shadowColor = "#5ef2cc"; ctx.shadowBlur = 12; ctx.stroke(path); ctx.shadowBlur = 0;
+      const [ex, ey] = pts[pts.length - 1], k = reduced ? 0.5 : (Math.sin(ts / 300) + 1) / 2, col = fk && flashRed ? "#ff5a52" : "#5ef2cc";
+      ctx.fillStyle = col; ctx.globalAlpha = 0.2 + 0.2 * k; ctx.beginPath(); ctx.arc(ex, ey, 5 + 4 * k, 0, Math.PI * 2); ctx.fill();
+      if (fk && !reduced) { ctx.globalAlpha = fk; ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(ex, ey, 6 + (1 - fk) * 26, 0, Math.PI * 2); ctx.stroke(); }
+      ctx.globalAlpha = 1; ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(ex, ey, 2.5, 0, Math.PI * 2); ctx.fill();
+    }
+    if (reduced) setTimeout(() => requestAnimationFrame(frame), 500); else requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  return { set, spike: (a, red) => { flash = performance.now(); flashRed = red; } };
 })();
+
+// ---- the Fly Desk -----------------------------------------------------------------------------------------------------
+// The house desk's public snapshot, read the way desk.js reads it: the desk's own pubserve first, the stored copy in
+// desk_public (anon key) while the desk restarts. Only its flies: the snapshot's test books (ghosts, variants) stay off.
+const DESK_API = "https://flytrade-desk.fly.dev";
+const SUPABASE = "https://fixyinamewrjrcybjoua.supabase.co";
+const ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpeHlpbmFtZXdyanJjeWJqb3VhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkyNTUyNjMsImV4cCI6MjEwNDgzMTI2M30.-Ri3FIUheo4Tc9TFOUMAfV9OkDUp_0JK_hPvKVnagik";
+const desk = { ok: null, curve: [] };
+async function readDesk() {
+  try {
+    const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 8000);
+    const d = await fetch(DESK_API + "/public/site.json", { cache: "no-store", signal: ctl.signal });
+    clearTimeout(timer);
+    if (d.ok) return d.json();
+  } catch { /* the stored copy below */ }
+  const r = await fetch(`${SUPABASE}/rest/v1/desk_public?key=eq.site&select=value`, {
+    headers: { apikey: ANON, Authorization: `Bearer ${ANON}` }, cache: "no-store" });
+  if (!r.ok) throw new Error(`${r.status}`);
+  const rows = await r.json();
+  if (!rows.length) throw new Error("no snapshot");
+  return rows[0].value;
+}
+async function pollDesk() {
+  try { drawDesk(await readDesk()); desk.ok = true; } catch { desk.ok = false; $("f-mode").textContent = t("terminal.foot.down"); }
+  setTimeout(pollDesk, 60_000);
+}
+function drawDesk(b) {
+  const mode = ["paper", "shadow", "live"].includes(String(b.mode).toLowerCase()) ? String(b.mode).toLowerCase() : "paper", chip = $("dk-mode");
+  chip.textContent = t(`terminal.desk.mode.${mode}`); chip.dataset.mode = mode;
+  $("f-mode").textContent = chip.textContent;
+  // live: the pool wallet's money with what the desk trades, then the split; paper today: what it trades
+  const pooled = b.pool && b.total_usd != null;
+  tween("dk-total", pooled ? b.total_usd : b.pot_usd, (x) => usd(x));
+  $("dk-split").textContent = pooled ? t("terminal.desk.split", { trading: usd(b.pot_usd), pool: usd(b.pool.usd || 0) })
+    : t("terminal.desk.trading", { usd: usd(b.pot_usd) });
+  const pnl = b.pot_usd - (b.capital_usd ?? b.pot_usd);
+  tween("dk-pnl", pnl, (x) => `${usd(x, true)} ${b.capital_usd ? pct((100 * x) / b.capital_usd) : ""}`, pnl);
+  $("dk-books").textContent = num((b.books ?? []).filter((x) => (x.kind ?? "fly") === "fly").length, 0);
+  $("dk-peak").textContent = b.ath?.pot_usd ? usd(b.ath.pot_usd) : "—";
+  $("dk-updated").textContent = b.updated ? t("terminal.desk.updated", { ago: ago(Date.parse(b.updated) / 1000) }) : "";
+  // the flies' books added up per bar (the curve's variants are the test ghosts: not here)
+  const c = b.curve;
+  desk.curve = c?.points?.length
+    ? c.points.map(([, vals]) => vals.reduce((s, v, i) => s + (String(c.books[i]).startsWith("fly") && v != null ? v : 0), 0)) : [];
+  drawDeskSpark();
+}
+function drawDeskSpark() {
+  const { ctx, w, h } = fit($("dk-spark")), v = desk.curve.slice(-400);
+  ctx.clearRect(0, 0, w, h);
+  if (v.length < 2) return;
+  const lo = Math.min(...v), hi = Math.max(...v), span = hi - lo || 1, col = v[v.length - 1] >= v[0] ? "#5ef2cc" : "#ff5a52";
+  const X = (i) => (i / (v.length - 1)) * (w - 4) + 2, Y = (y) => h - 3 - ((y - lo) / span) * (h - 6);
+  ctx.beginPath(); v.forEach((y, i) => (i ? ctx.lineTo(X(i), Y(y)) : ctx.moveTo(X(i), Y(y))));
+  ctx.strokeStyle = col; ctx.lineWidth = 1.4; ctx.shadowColor = col; ctx.shadowBlur = 8; ctx.stroke(); ctx.shadowBlur = 0;
+}
+addEventListener("resize", () => desk.curve.length && drawDeskSpark());
+/** the weekly payout: Sunday 23:00 UTC */
+function nextPayout(now) {
+  const d = new Date(now), at = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + ((7 - d.getUTCDay()) % 7), 23);
+  return at > now ? at : at + 7 * 86_400_000;
+}
+setInterval(() => {
+  const left = Math.max(0, Math.floor((nextPayout(Date.now()) - Date.now()) / 1000)), p2 = (n) => String(n).padStart(2, "0");
+  const d = Math.floor(left / 86400), hms = `${p2(Math.floor((left % 86400) / 3600))}:${p2(Math.floor((left % 3600) / 60))}:${p2(left % 60)}`;
+  $("dk-count").textContent = d ? t("terminal.desk.days", { d, hms }) : hms;
+  // the footer's lights
+  $("f-mine").className = `tm-dot${net.ok == null ? "" : net.ok ? " on" : " off"}`;
+  $("f-ms").textContent = net.ms == null ? "—" : `${num(Math.round(net.ms), 0)} ms`;
+  $("f-desk").className = `tm-dot${desk.ok == null ? "" : desk.ok ? " on" : " off"}`;
+}, 1000);
 
 // ---- the command line -------------------------------------------------------------------------------------------------
 const HELP = () => esc(t("terminal.cmd.help"));   // the commands stay English; what they say back is translated
@@ -552,6 +712,7 @@ setInterval(() => { $("tm-clock").textContent = `${new Date().toISOString().slic
   // the page's language first: assets/i18n/page.js loads the strings, then says so (or 4 s and go on in English)
   if (!window.flyI18n) await new Promise((r) => { addEventListener("i18n:ready", r, { once: true }); setTimeout(r, 4000); });
   drawParts();
+  pollDesk();
   sys(t("terminal.stream.linking"));
   for (;;) { try { await readBoard(); break; } catch { live(false); await new Promise((r) => setTimeout(r, 5000)); } }
   setInterval(() => readBoard().catch(() => live(false)), BOARD_EVERY);

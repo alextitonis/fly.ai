@@ -106,5 +106,32 @@
     "online": "çevrimiçi",
     "tasks": "bugünkü iş",
     "rate": "saniyede"
+  },
+  "desk": {
+    "title": "FLY DESK",
+    "open": "masayı aç ↗",
+    "total": "TOPLAM",
+    "pnl": "K/Z",
+    "books": "SİNEKLER",
+    "peak": "ZİRVE",
+    "payout": "SONRAKİ ÖDEME",
+    "payoutNote": "zirvenin üstündeki kâr $FLYAI olarak sahiplere gider",
+    "mode": {
+      "paper": "KAĞIT",
+      "shadow": "GÖLGE",
+      "live": "CANLI"
+    },
+    "split": "işlemde {trading} · havuzda {pool}",
+    "trading": "tamamı sineklerin defterlerinde",
+    "updated": "{ago} önce güncellendi",
+    "days": "{d}g {hms}"
+  },
+  "foot": {
+    "mine": "MINE",
+    "desk": "MASA",
+    "fills": "İŞLEMLER",
+    "bar": "SON BAR",
+    "down": "KAPALI",
+    "src": "salt okunur · her sayı Fly Wallets ve Fly Desk'ten"
   }
 }

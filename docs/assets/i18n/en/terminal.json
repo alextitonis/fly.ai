@@ -106,5 +106,32 @@
     "online": "online",
     "tasks": "jobs today",
     "rate": "a second"
+  },
+  "desk": {
+    "title": "FLY DESK",
+    "open": "open the desk ↗",
+    "total": "TOTAL",
+    "pnl": "P&L",
+    "books": "FLIES",
+    "peak": "PEAK",
+    "payout": "NEXT PAYOUT",
+    "payoutNote": "profit above the peak goes to holders as $FLYAI",
+    "mode": {
+      "paper": "PAPER",
+      "shadow": "SHADOW",
+      "live": "LIVE"
+    },
+    "split": "trading {trading} · in pool {pool}",
+    "trading": "all of it in the flies' books",
+    "updated": "updated {ago} ago",
+    "days": "{d}d {hms}"
+  },
+  "foot": {
+    "mine": "MINE",
+    "desk": "DESK",
+    "fills": "FILLS",
+    "bar": "LAST BAR",
+    "down": "DOWN",
+    "src": "read-only · every number from the Fly Wallets and the Fly Desk"
   }
 }

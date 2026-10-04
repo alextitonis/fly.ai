@@ -1351,7 +1351,12 @@
     "profit_h24": "24 sa",
     "winRate": "Kazanç",
     "updated": "Güncellendi {when}",
-    "cantRead": "Sıralama yüklenemedi; birazdan tekrar dene."
+    "cantRead": "Sıralama yüklenemedi; birazdan tekrar dene.",
+    "curve": "Eğri",
+    "holding": "tutuyor",
+    "movedUp": "24 saatte {n} yükseldi",
+    "movedDown": "24 saatte {n} düştü",
+    "holdingNote": "\"tutuyor\" = sinek henüz hiçbir şey satmadı. Yeni bir cüzdan başta küçük bir eksi gösterir: her alım havuz ücreti ve gas öder, bu yüzden açık pozisyonlar maliyetlerinin biraz altında başlar. Yükselince ya da satılınca döner."
   },
   "utility": {
     "title": "Bir Trader Fly ne yapar",

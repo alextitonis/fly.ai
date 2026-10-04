@@ -41,6 +41,9 @@
     <div class="tm-status"><span class="tm-live" id="tm-live" data-i18n="terminal.status.connecting">CONNECTING</span><span class="tm-clock mono" id="tm-clock">--:--:--</span></div>
   </header>
 
+  <!-- the newest fills running past (the same trades as the tape) -->
+  <div class="tm-ticker" aria-hidden="true"><div class="tm-ticker-run" id="ticker"></div></div>
+
   <section class="tm-kpis" aria-label="Totals">
     <div class="tm-kpi"><span data-i18n="terminal.kpi.value">IN THE FLIES</span><b id="k-value">—</b><em id="k-wallets"></em></div>
     <div class="tm-kpi"><span data-i18n="terminal.kpi.profit">NET P&amp;L</span><b id="k-profit">—</b><em id="k-profit-pct">—</em></div>
@@ -99,7 +102,38 @@
     <canvas id="beat" aria-hidden="true"></canvas>
   </section>
 
+  <!-- the house desk (desk.html): its public flies-only snapshot, the total, the P&L and the weekly payout clock -->
+  <section class="tm-panel tm-desk" aria-label="Fly Desk">
+    <h2><span><span data-i18n="terminal.desk.title">FLY DESK</span> <em class="tm-mode" id="dk-mode">—</em></span> <small><span id="dk-updated"></span> · <a href="/desk" data-i18n="terminal.desk.open">open the desk ↗</a></small></h2>
+    <div class="dk">
+      <div class="dk-main">
+        <span data-i18n="terminal.desk.total">TOTAL</span>
+        <b id="dk-total">—</b>
+        <em id="dk-split"></em>
+        <div class="dk-stats">
+          <div><span data-i18n="terminal.desk.pnl">P&amp;L</span><b id="dk-pnl">—</b></div>
+          <div><span data-i18n="terminal.desk.books">FLIES</span><b id="dk-books">—</b></div>
+          <div><span data-i18n="terminal.desk.peak">PEAK</span><b id="dk-peak">—</b></div>
+        </div>
+      </div>
+      <div class="dk-side">
+        <span data-i18n="terminal.desk.payout">NEXT PAYOUT</span>
+        <b id="dk-count">—</b>
+        <canvas id="dk-spark" aria-hidden="true"></canvas>
+        <small data-i18n="terminal.desk.payoutNote">profit above the peak goes to holders as $FLYAI</small>
+      </div>
+    </div>
+  </section>
+
   <section class="tm-parts" id="parts" aria-label="The desk's parts"></section>
+
+  <footer class="tm-foot" aria-label="Status">
+    <span><i class="tm-dot" id="f-mine"></i><span data-i18n="terminal.foot.mine">MINE</span> <b id="f-ms">—</b></span>
+    <span><i class="tm-dot" id="f-desk"></i><span data-i18n="terminal.foot.desk">DESK</span> <b id="f-mode">—</b></span>
+    <span><span data-i18n="terminal.foot.fills">FILLS</span> <b id="f-fills">—</b></span>
+    <span><span data-i18n="terminal.foot.bar">LAST BAR</span> <b id="f-bar">—</b></span>
+    <span class="tm-foot-src" data-i18n="terminal.foot.src">read-only · every number from the Fly Wallets and the Fly Desk</span>
+  </footer>
 </main>
 
 <script src="assets/nav.js?v=20261004a"></script>

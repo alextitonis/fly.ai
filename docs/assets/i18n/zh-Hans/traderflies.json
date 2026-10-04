@@ -1349,7 +1349,12 @@
     "profit_h24": "24 小时",
     "winRate": "胜率",
     "updated": "更新于 {when}",
-    "cantRead": "无法加载排行榜，请稍后再试。"
+    "cantRead": "无法加载排行榜，请稍后再试。",
+    "curve": "曲线",
+    "holding": "持仓中",
+    "movedUp": "24 小时上升 {n} 名",
+    "movedDown": "24 小时下降 {n} 名",
+    "holdingNote": "“持仓中” = 这只苍蝇还没卖出过。新钱包一开始会显示小幅负数：每次买入都要付池子手续费和 gas，所以未平仓头寸一开始略低于成本。上涨或卖出后就会转正。"
   },
   "utility": {
     "title": "Trader Fly 能做什么",

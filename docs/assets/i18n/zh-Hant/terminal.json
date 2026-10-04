@@ -106,5 +106,32 @@
     "online": "在線",
     "tasks": "今日任務",
     "rate": "每秒"
+  },
+  "desk": {
+    "title": "FLY DESK",
+    "open": "打開交易台 ↗",
+    "total": "總額",
+    "pnl": "盈虧",
+    "books": "蒼蠅",
+    "peak": "峰值",
+    "payout": "下次分紅",
+    "payoutNote": "超出峰值的利潤以 $FLYAI 發給持有者",
+    "mode": {
+      "paper": "模擬",
+      "shadow": "影子",
+      "live": "實盤"
+    },
+    "split": "交易中 {trading} · 資金池 {pool}",
+    "trading": "全部在蒼蠅的帳本裡交易",
+    "updated": "{ago}前更新",
+    "days": "{d}天 {hms}"
+  },
+  "foot": {
+    "mine": "MINE",
+    "desk": "交易台",
+    "fills": "成交",
+    "bar": "最近一根",
+    "down": "離線",
+    "src": "唯讀 · 每個數字都來自 Fly Wallets 和 Fly Desk"
   }
 }

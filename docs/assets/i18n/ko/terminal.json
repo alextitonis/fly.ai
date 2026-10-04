@@ -106,5 +106,32 @@
     "online": "접속",
     "tasks": "오늘 작업",
     "rate": "초당"
+  },
+  "desk": {
+    "title": "FLY DESK",
+    "open": "데스크 열기 ↗",
+    "total": "총액",
+    "pnl": "손익",
+    "books": "파리",
+    "peak": "최고점",
+    "payout": "다음 지급",
+    "payoutNote": "최고점을 넘는 수익은 $FLYAI로 홀더에게 갑니다",
+    "mode": {
+      "paper": "모의",
+      "shadow": "섀도",
+      "live": "라이브"
+    },
+    "split": "거래 중 {trading} · 풀 {pool}",
+    "trading": "전부 파리들의 장부에서 거래 중",
+    "updated": "{ago} 전 업데이트",
+    "days": "{d}일 {hms}"
+  },
+  "foot": {
+    "mine": "MINE",
+    "desk": "데스크",
+    "fills": "체결",
+    "bar": "마지막 바",
+    "down": "중단",
+    "src": "읽기 전용 · 모든 숫자는 Fly Wallets와 Fly Desk에서 옵니다"
   }
 }

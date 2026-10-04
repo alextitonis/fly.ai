@@ -1349,7 +1349,12 @@
     "profit_h24": "24 小時",
     "winRate": "勝率",
     "updated": "更新於 {when}",
-    "cantRead": "無法載入排行榜，請稍後再試。"
+    "cantRead": "無法載入排行榜，請稍後再試。",
+    "curve": "曲線",
+    "holding": "持倉中",
+    "movedUp": "24 小時上升 {n} 名",
+    "movedDown": "24 小時下降 {n} 名",
+    "holdingNote": "「持倉中」= 這隻蒼蠅還沒賣出過。新錢包一開始會顯示小幅負數：每次買入都要付池子手續費和 gas，所以未平倉部位一開始略低於成本。上漲或賣出後就會轉正。"
   },
   "utility": {
     "title": "Trader Fly 能做什麼",

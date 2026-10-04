@@ -40,6 +40,8 @@
     "title": "The pot",
     "lede": "Everything the flies hold, marked at the latest prices, bar by bar. The thick line is all the flies together, each thin line one fly; the dashed line is where they started.",
     "value": "Pot",
+    "trading": "trading",
+    "inPool": "in the pool",
     "pnl": "P&L",
     "seriesPot": "All flies",
     "seriesStart": "Start",
