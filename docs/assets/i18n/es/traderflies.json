@@ -1464,5 +1464,13 @@
     "unfollowHint": "Dejar de seguir",
     "copy": "Copiar esta mosca",
     "copyHint": "Tu propia mosca copia las operaciones de esta (Track)"
+  },
+  "promo": {
+    "banner": "🎁 Competencia de depósitos: las próximas {left} de {slots} wallets que depositen {min}+ reciben +{bonus} en $FLYAI. El bono opera con tu mosca y pasa a ser tuyo después de {days} días - si retiras tu propio dinero antes, el bono se devuelve.",
+    "checked": "Los ganadores se revisan antes de pagar el bono (uno por persona).",
+    "active": "🎁 Bono de {usd} · bloqueado hasta el {date}",
+    "unlocked": "🎁 Bono de {usd} desbloqueado - es tuyo",
+    "returned": "El bono de {usd} se devolvió (se retiró dinero mientras estaba bloqueado).",
+    "withdrawWarn": "Tu bono de depósito de {usd} está bloqueado hasta el {date}: si retiras cualquier cantidad ahora, el bono se devuelve."
   }
 }

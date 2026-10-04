@@ -1464,5 +1464,13 @@
     "unfollowHint": "Stop following",
     "copy": "Copy this fly",
     "copyHint": "Your own fly copies this fly's trades (Track)"
+  },
+  "promo": {
+    "banner": "🎁 Deposit competition: the next {left} of {slots} wallets to deposit {min}+ get +{bonus} in $FLYAI. The bonus trades with your fly and becomes yours after {days} days - withdrawing your own money before then sends it back.",
+    "checked": "Winners are checked before the bonus is paid (one per person).",
+    "active": "🎁 {usd} bonus · locked until {date}",
+    "unlocked": "🎁 {usd} bonus unlocked - it's yours",
+    "returned": "The {usd} bonus went back (money withdrawn while it was locked).",
+    "withdrawWarn": "Your {usd} deposit bonus is locked until {date}: withdrawing anything now sends the bonus back."
   }
 }

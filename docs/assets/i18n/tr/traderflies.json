@@ -1464,5 +1464,13 @@
     "unfollowHint": "Takibi bırak",
     "copy": "Bu sineği kopyala",
     "copyHint": "Kendi sineğin bu sineğin işlemlerini kopyalar (Track)"
+  },
+  "promo": {
+    "banner": "🎁 Yatırma yarışması: {min}+ yatıran sıradaki {left} cüzdan ({slots} kişilik) $FLYAI olarak +{bonus} alır. Bonus sineğinle birlikte işlem yapar ve {days} gün sonra senin olur - bundan önce kendi paranı çekersen bonus geri gider.",
+    "checked": "Kazananlar bonus ödenmeden önce kontrol edilir (kişi başı bir).",
+    "active": "🎁 {usd} bonus · {date} tarihine kadar kilitli",
+    "unlocked": "🎁 {usd} bonusun kilidi açıldı - artık senin",
+    "returned": "{usd} bonus geri gitti (kilitliyken para çekildi).",
+    "withdrawWarn": "{usd} yatırma bonusun {date} tarihine kadar kilitli: şimdi herhangi bir miktar çekersen bonus geri gider."
   }
 }

@@ -1462,5 +1462,13 @@
     "unfollowHint": "取消關注",
     "copy": "複製這隻蒼蠅",
     "copyHint": "你自己的蒼蠅會跟隨這隻蒼蠅的交易（Track）"
+  },
+  "promo": {
+    "banner": "🎁 存款競賽：接下來 {left} 個（共 {slots} 個）存入 {min} 以上的錢包可獲得 +{bonus} 的 $FLYAI。獎勵隨你的蒼蠅一起交易，{days} 天後歸你所有 - 在此之前提領自己的資金，獎勵將被退回。",
+    "checked": "發放獎勵前會審核得獎者（每人限一次）。",
+    "active": "🎁 {usd} 獎勵 · 鎖定至 {date}",
+    "unlocked": "🎁 {usd} 獎勵已解鎖 - 歸你了",
+    "returned": "{usd} 獎勵已退回（鎖定期間提領了資金）。",
+    "withdrawWarn": "你的 {usd} 存款獎勵鎖定至 {date}：現在提領任何金額都會退回獎勵。"
   }
 }

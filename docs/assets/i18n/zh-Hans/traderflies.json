@@ -1462,5 +1462,13 @@
     "unfollowHint": "取消关注",
     "copy": "复制这只苍蝇",
     "copyHint": "你自己的苍蝇会跟随这只苍蝇的交易（Track）"
+  },
+  "promo": {
+    "banner": "🎁 充值竞赛：接下来 {left} 个（共 {slots} 个）充值 {min} 以上的钱包可获得 +{bonus} 的 $FLYAI。奖励随你的苍蝇一起交易，{days} 天后归你所有 - 在此之前提取自己的资金，奖励将被退回。",
+    "checked": "发放奖励前会审核获奖者（每人限一次）。",
+    "active": "🎁 {usd} 奖励 · 锁定至 {date}",
+    "unlocked": "🎁 {usd} 奖励已解锁 - 归你了",
+    "returned": "{usd} 奖励已退回（锁定期间提取了资金）。",
+    "withdrawWarn": "你的 {usd} 充值奖励锁定至 {date}：现在提取任何金额都会退回奖励。"
   }
 }

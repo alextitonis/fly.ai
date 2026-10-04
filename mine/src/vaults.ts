@@ -16,6 +16,9 @@
  *   then pays the pass's whole balance plus the house grant (VAULT_GRANT_USD of FLYAI, $10) from the granter wallet into
  *   the fly's wallet, and asks the desk to lock that much (kind pass_burn). The pass's ledger is emptied first (one row,
  *   tx "vault-grant:<pass>"), so it is paid once; one pass per fly, ever.
+ * - the deposit competition ("promo", 2026-10-04): the first PROMO_SLOTS wallets whose deposits since PROMO_START_MS
+ *   reached PROMO_MIN_USD become candidates (mine.vault_promos); an admin approves each, this worker pays PROMO_BONUS_USD
+ *   of FLYAI from the granter into the fly's wallet and asks the desk to lock it for PROMO_HOLD_DAYS (kind promo_grant).
  */
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Pg, Q } from "./pg.ts";
@@ -39,6 +42,10 @@ export interface VaultsDeps {
   token: string;
   /** the wallet that pays FlightPass grants into fly wallets (holds a FLYAI float and gas) */
   granter: { address: string; send: (to: string, data: string) => Promise<string> } | null;
+  /** true when the request carries the ADMIN_TOKEN bearer (no throw) */
+  isAdminToken: (req: IncomingMessage) => boolean;
+  /** wallets that may run the promo when signed in (BOUNTY_ADMINS) */
+  admins: string[];
 }
 
 const word = (v: bigint | number | string) =>
@@ -65,6 +72,22 @@ export function createVaults(d: VaultsDeps) {
     grantUsd: Number(d.env.VAULT_GRANT_USD ?? "10"),
     tickMs: Number(d.env.VAULT_TICK_SEC ?? "60") * 1000,
   };
+  // the deposit competition (2026-10-04, flytrade/FLYWALLET-PLAN.md "promo")
+  const PROMO = {
+    on: d.env.PROMO_ON === "1",
+    startMs: Number(d.env.PROMO_START_MS ?? "0"),
+    slots: Number(d.env.PROMO_SLOTS ?? "10"),
+    minUsd: Number(d.env.PROMO_MIN_USD ?? "20"),
+    bonusUsd: Number(d.env.PROMO_BONUS_USD ?? "20"),
+    holdDays: Number(d.env.PROMO_HOLD_DAYS ?? "14"),
+    nearMs: Number(d.env.PROMO_NEAR_MIN ?? "5") * 60_000,   // candidates qualifying this close together get flagged
+    // paid without the admin (2026-10-04, the user: "make it automatic actually so i don't need to do the give"):
+    // after PROMO_SETTLE_MIN with their own money still in and the wallet trading (its holder holds the $FLYAI the
+    // desk asks for); candidates flagged as near another one wait for the admin. PROMO_AUTO=0 goes back to approving.
+    auto: d.env.PROMO_AUTO !== "0",
+    settleMs: Number(d.env.PROMO_SETTLE_MIN ?? "60") * 60_000,
+  };
+  const admins = new Set(d.admins.map((w) => w.trim().toLowerCase()).filter((w) => ADDRESS.test(w)));
   const on = d.env.VAULT_ON === "1";
   const AWAY = (d.env.VAULT_CHAINS ?? "").split(",").map((c) => c.trim().toLowerCase()).filter((c) => NETS[c]);
   const call = (to: string, data: string) => rpc(d.rpcUrl, "eth_call", [{ to, data }, "latest"]) as Promise<string>;
@@ -310,6 +333,187 @@ export function createVaults(d: VaultsDeps) {
     }
   }
 
+  // ---- the deposit competition ("promo", 2026-10-04) -----------------------------------------------------------
+  /** Who may run it: the admin token, or a signed-in BOUNTY_ADMINS wallet ("admin-token" | the wallet). */
+  async function promoAdmin(req: IncomingMessage): Promise<string> {
+    if (d.isAdminToken(req)) return "admin-token";
+    if (admins.size && req.headers["x-flyai-session"]) {
+      try { const me = (await d.sessionWallet(req)).toLowerCase(); if (admins.has(me)) return me; } catch { /* below */ }
+    }
+    throw new HttpError(403, "admins only");
+  }
+
+  const promoPublic = () => cached("promo", BOARD_TTL_MS, async () => {
+    const taken = PROMO.on ? (await pg.one<{ n: number }>("select count(*)::int as n from mine.vault_promos where status <> 'rejected'"))?.n ?? 0 : 0;
+    return { on: PROMO.on, slots: PROMO.slots, taken, left: Math.max(0, PROMO.slots - taken), min_usd: PROMO.minUsd,
+             bonus_usd: PROMO.bonusUsd, hold_days: PROMO.holdDays, start_ms: PROMO.startMs };
+  });
+  const promoChanged = () => boards.delete("promo");
+
+  /**
+   * New candidates, first come first served: per wallet and holder, Robinhood deposits since the start (not the new
+   * owner's money arriving during a sale) summed in time order; the moment the sum first reached the minimum is the
+   * place in the queue. One per wallet and per holder (the unique indexes; rejected rows keep theirs), until the rows
+   * not rejected fill the slots. Under one lock: two processes never fill the same slot.
+   */
+  async function findPromos(): Promise<void> {
+    if (!PROMO.startMs || Date.now() < PROMO.startMs) return;
+    let added = 0;
+    await pg.tx(async (q) => {
+      let taken = (await q.one<{ n: number }>("select count(*)::int as n from mine.vault_promos where status <> 'rejected'"))?.n ?? 0;
+      if (taken >= PROMO.slots) return;
+      const rows = await q.all<{ wallet: string; holder: string; at_ms: number; run: number; fly_id: number | null }>(`
+        with d as (
+          select id, wallet, holder, at, sum(usd) over (partition by wallet, lower(holder) order by at, id) as run
+          from mine.vault_moves
+          where chain = 'robinhood' and kind = 'deposit' and holder is not null and usd > 0
+            and at >= to_timestamp(?::double precision / 1000)
+            and coalesce(detail->>'while_closing', 'false') <> 'true'
+        ), q as (
+          select distinct on (wallet, lower(holder)) wallet, holder, at, id, run from d where run >= ?::double precision
+          order by wallet, lower(holder), at, id
+        )
+        select q.wallet, q.holder, (extract(epoch from q.at) * 1000)::float8 as at_ms, q.run, w.fly_id from q
+        left join mine.vault_wallets w on lower(w.address) = lower(q.wallet)
+        where not exists (select 1 from mine.vault_promos p where lower(p.wallet) = lower(q.wallet) or lower(p.holder) = lower(q.holder))
+        order by q.at, q.id`, PROMO.startMs, PROMO.minUsd);
+      const seen = new Set<string>();
+      for (const r of rows) {
+        if (taken >= PROMO.slots) break;
+        const w = r.wallet.toLowerCase(), h = r.holder.toLowerCase();
+        if (seen.has(w) || seen.has(h)) continue;      // a wallet that two holders filled, or a holder's second fly
+        seen.add(w); seen.add(h);
+        const n = await q.run(`insert into mine.vault_promos (wallet, fly_id, holder, deposit_usd, qualified_at)
+          values (?, ?, ?, ?, to_timestamp(?::double precision / 1000)) on conflict do nothing`, r.wallet, r.fly_id, r.holder, r.run, r.at_ms);
+        if (n === 1) { taken++; added++; console.log(`promo: candidate ${r.wallet} (fly #${r.fly_id}, ${r.holder}, $${r.run.toFixed(2)})`); }
+      }
+    }, "vault-promo");
+    if (added) promoChanged();
+  }
+
+  /**
+   * Approved promos paid from the granter, once: the row goes 'sending' (one update that only one tick can win) before
+   * the transfer; a transfer that never left goes back to 'approved', any other failure stops at 'error' for the
+   * operator (it may have been sent). Paid rows then get the desk's 'promo_grant' request in the same transaction that
+   * records its id, so a crash between the two retries the request, never the payment.
+   */
+  async function payPromos(): Promise<void> {
+    if (!d.granter) return;
+    for (const p of await pg.all<{ id: number; wallet: string; holder: string }>(
+      "select id, wallet, holder from mine.vault_promos where status = 'approved' order by qualified_at, id")) {
+      // the fly sold or emptied since the approval: back to the admin, nothing sent
+      const led = await ledgerOf(p.wallet, "robinhood");
+      if (!led?.holder || led.holder.toLowerCase() !== p.holder.toLowerCase() || led.closing) {
+        await pg.run("update mine.vault_promos set status = 'candidate', error = ? where id = ? and status = 'approved'",
+          "the wallet's holder changed (or it is being paid out) since the approval", p.id);
+        promoChanged();
+        continue;
+      }
+      // their own money must still be in when the bonus goes (2026-10-04, the user: "the others ... can get their $
+      // out, right?"): deposit, qualify, withdraw before the approval, and the bonus would have landed in an empty
+      // wallet and unlocked to them 14 days later. Own money = what was put in less what is locked (FlightPass grants).
+      if (Number(led.principal_usd) - Number(led.locked_usd) < PROMO.minUsd) {
+        await pg.run("update mine.vault_promos set status = 'candidate', error = ? where id = ? and status = 'approved'",
+          `their own money in the wallet is under $${PROMO.minUsd} now (withdrawn since qualifying?)`, p.id);
+        promoChanged();
+        continue;
+      }
+      const wei = await perDollar() * BigInt(Math.round(PROMO.bonusUsd * 100)) / 100n;
+      if (await pg.run("update mine.vault_promos set status = 'sending', grant_usd = ?, grant_wei = ?, error = null where id = ? and status = 'approved'",
+        PROMO.bonusUsd, wei.toString(), p.id) !== 1) continue;
+      try {
+        const tx = await d.granter.send(d.token, `${selector("transfer(address,uint256)")}${word(p.wallet)}${word(wei)}`);
+        await pg.run("update mine.vault_promos set status = 'paid', grant_tx = ?, paid_at = now() where id = ?", tx.toLowerCase(), p.id);
+        console.log(`promo #${p.id}: ${fromWei(wei)} FLYAI -> ${p.wallet} (${tx})`);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        const unsent = (err as { unsent?: boolean }).unsent;
+        await pg.run("update mine.vault_promos set status = ?, error = ? where id = ?", unsent ? "approved" : "error", msg, p.id);
+        console.error(`promo #${p.id} ${unsent ? "not sent, retried later" : "may have been sent; the operator settles it"}: ${msg}`);
+        return;
+      }
+    }
+    for (const p of await pg.all<{ id: number }>("select id from mine.vault_promos where status = 'paid' and request_id is null order by id")) {
+      await pg.tx(async (q) => {
+        const r = await q.one<{ wallet: string; grant_usd: number; grant_wei: string; grant_tx: string; paid_ms: number; request_id: number | null }>(
+          `select wallet, grant_usd, grant_wei, grant_tx, (extract(epoch from paid_at) * 1000)::float8 as paid_ms, request_id
+           from mine.vault_promos where id = ? and status = 'paid' for update`, p.id);
+        if (!r || r.request_id != null) return;
+        const until = Math.round(r.paid_ms) + PROMO.holdDays * 86_400_000;
+        const req = await q.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
+          values (?, 'robinhood', 'promo_grant', 'mine', ?::text::jsonb) returning id`, r.wallet,
+          JSON.stringify({ promo_id: Number(p.id), usd: r.grant_usd, wei: r.grant_wei, tx: r.grant_tx, until_ms: until }));
+        await q.run("update mine.vault_promos set request_id = ? where id = ?", req!.id, p.id);
+      }, `vault-promo:${p.id}`);
+    }
+  }
+
+  /** Every promo row with what the sybil check needs, from the database only (no RPC). */
+  async function promoAdminView() {
+    const rows = await pg.all<any>(`
+      select p.*, (extract(epoch from p.qualified_at) * 1000)::float8 as qualified_ms,
+        (extract(epoch from p.paid_at) * 1000)::float8 as paid_ms,
+        (select nickname from mine.profiles pr where pr.wallet = lower(p.holder)) as nickname,
+        (select count(distinct l.wallet)::int from mine.vault_ledger l where lower(l.holder) = lower(p.holder)) as holder_wallets,
+        (select coalesce(json_agg(json_build_object('at_ms', (extract(epoch from m.at) * 1000)::float8, 'usd', m.usd,
+            'while_closing', coalesce(m.detail->>'while_closing', 'false') = 'true') order by m.at), '[]'::json)
+          from mine.vault_moves m where lower(m.wallet) = lower(p.wallet) and m.chain = 'robinhood' and m.kind = 'deposit'
+            and m.at >= to_timestamp(?::double precision / 1000)) as deposits,
+        (select json_build_object('holder', l.holder, 'principal_usd', l.principal_usd, 'locked_usd', l.locked_usd, 'closing', l.closing)
+          from mine.vault_ledger l where l.wallet = p.wallet and l.chain = 'robinhood') as ledger,
+        (select json_build_object('pass', g.pass_id, 'status', g.status) from mine.vault_grants g
+          where lower(g.vault) = lower(p.wallet)) as flightpass
+      from mine.vault_promos p order by p.qualified_at, p.id`, PROMO.startMs);
+    // holders qualifying minutes apart: maybe one person's wallets (the 2026-09-28 farmer ring)
+    for (const r of rows) {
+      r.id = Number(r.id); r.request_id = r.request_id == null ? null : Number(r.request_id);   // bigint comes as text
+    }
+    for (const r of rows) {
+      r.near = rows.filter((o) => o.id !== r.id && o.status !== "rejected" && Math.abs(o.qualified_ms - r.qualified_ms) <= PROMO.nearMs).map((o) => o.id);
+    }
+    return { promo: await promoPublic(), near_min: PROMO.nearMs / 60_000, rows };
+  }
+
+  /** Candidates that pass on their own (PROMO.auto): settled, own money still in, the wallet trading, not near another. */
+  async function autoPromos(): Promise<void> {
+    if (!PROMO.auto) return;
+    const rows = await pg.all<{ id: number; wallet: string; holder: string; qualified_ms: number; near: number }>(`
+      select p.id, p.wallet, p.holder, (extract(epoch from p.qualified_at) * 1000)::float8 as qualified_ms,
+        (select count(*)::int from mine.vault_promos o where o.id <> p.id and o.status <> 'rejected'
+           and abs(extract(epoch from o.qualified_at - p.qualified_at)) * 1000 < ?) as near
+      from mine.vault_promos p where p.status = 'candidate' order by p.qualified_at, p.id`, PROMO.nearMs);
+    for (const p of rows) {
+      if (p.near > 0 || Date.now() - p.qualified_ms < PROMO.settleMs) continue;
+      const led = await ledgerOf(p.wallet, "robinhood");
+      if (!led?.holder || led.holder.toLowerCase() !== p.holder.toLowerCase() || led.closing) continue;
+      if (Number(led.principal_usd) - Number(led.locked_usd) < PROMO.minUsd) continue;
+      const stats = await publicOf(statsKey(p.wallet, "robinhood"));
+      if (!stats?.active) continue;                       // under the $FLYAI hold (or trading switched off): not yet
+      if (await pg.run(`update mine.vault_promos set status = 'approved', decided_by = 'auto', decided_at = now(), error = null
+        where id = ? and status = 'candidate'`, p.id) === 1) promoChanged();
+    }
+  }
+
+  async function decidePromo(req: IncomingMessage, id: number, verb: string) {
+    const by = await promoAdmin(req);
+    const p = await pg.one<{ wallet: string; holder: string; status: string }>("select wallet, holder, status from mine.vault_promos where id = ?", id);
+    if (!p) throw new HttpError(404, "no such promo");
+    if (verb === "approve") {
+      if (p.status !== "candidate") throw new HttpError(409, `it is ${p.status}`);
+      const led = await ledgerOf(p.wallet, "robinhood");
+      if (!led?.holder || led.holder.toLowerCase() !== p.holder.toLowerCase() || led.closing) {
+        throw new HttpError(409, "the wallet's holder changed since it qualified (or it is being paid out)");
+      }
+    } else if (p.status !== "candidate" && p.status !== "approved") {
+      throw new HttpError(409, `it is ${p.status}`);       // sending or paid: too late; error: the operator settles it
+    }
+    const to = verb === "approve" ? "approved" : "rejected";
+    if (await pg.run(`update mine.vault_promos set status = ?, decided_by = ?, decided_at = now(), error = null
+      where id = ? and status = ?`, to, by, id, p.status) !== 1) throw new HttpError(409, "it changed meanwhile, reload");
+    promoChanged();
+    return { id, status: to };
+  }
+
   let ticking = false;
   async function tick(): Promise<void> {
     if (ticking) return;
@@ -317,6 +521,7 @@ export function createVaults(d: VaultsDeps) {
     try {
       await seeBurns();
       await payGrants();
+      if (PROMO.on) { await findPromos(); await autoPromos(); await payPromos(); }
     } catch (err) {
       console.error("vaults tick:", (err as Error)?.message ?? err);
     } finally {
@@ -360,6 +565,8 @@ export function createVaults(d: VaultsDeps) {
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})$/.exec(p))) return d.send(res, 200, await flyView(Number(m[1]))), true;
       if ((m = /^\/api\/vaults\/requests\/(\d{1,12})$/.exec(p))) return d.send(res, 200, await requestView(Number(m[1]))), true;
       if (p === "/api/admin/vaults") { d.adminOnly(req); return d.send(res, 200, await admin()), true; }
+      if (p === "/api/vaults/promo") return d.send(res, 200, await promoPublic()), true;
+      if (p === "/api/admin/promo") { await promoAdmin(req); return d.send(res, 200, await promoAdminView()), true; }
     }
     if (req.method === "POST") {
       if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move)$/.exec(p))) {
@@ -368,6 +575,9 @@ export function createVaults(d: VaultsDeps) {
         const body = await d.readJson(req);
         const go = m[2] === "settings" ? saveSettings : m[2] === "withdraw" ? withdraw : move;
         return d.send(res, 200, await go(req, wallet, body)), true;
+      }
+      if ((m = /^\/api\/admin\/promo\/(\d{1,12})\/(approve|reject)$/.exec(p))) {
+        return d.send(res, 200, await decidePromo(req, Number(m[1]), m[2])), true;
       }
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})\/pass$/.exec(p))) {
         return d.send(res, 200, await registerBurn(req, Number(m[1]), await d.readJson(req))), true;

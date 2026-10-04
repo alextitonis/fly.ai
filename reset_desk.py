@@ -52,7 +52,10 @@ def main() -> None:
         have = sorted(r[0] for r in c.execute("select key from desk_state").fetchall())
         print("state cleared:", [k for k in have if k in MONEY])
         print("state kept:   ", [k for k in have if k not in MONEY])
-        counts = {t: c.execute(f"select count(*) from {t}").fetchone()[0] for t in ("desk_trades", "desk_marks")}
+        # desk_epochs too (2026-10-04, before the live launch): the header always said epochs are cleared, but the rows
+        # stayed - and the last paper epoch's peak_after would become the live desk's Peak Line (no payout until the
+        # live books passed the paper peak)
+        counts = {t: c.execute(f"select count(*) from {t}").fetchone()[0] for t in ("desk_trades", "desk_marks", "desk_epochs")}
         for t, n in counts.items():
             print(f"{t}: {n} rows cleared")
         if not yes:
@@ -62,7 +65,7 @@ def main() -> None:
 
         out = Path(r"C:\Users\artif\OneDrive\Desktop\fly-data") / f"desk-reset-{time.strftime('%Y-%m-%d')}"
         out.mkdir(parents=True, exist_ok=True)
-        for t, keycol in (("desk_state", "key"), ("desk_config", "id"), ("desk_public", "key")):
+        for t, keycol in (("desk_state", "key"), ("desk_config", "id"), ("desk_public", "key"), ("desk_epochs", "epoch")):
             # one row at a time: the whole of desk_state (~16 MB of jsonb) in one statement timed out on a starved database
             keys = [r[0] for r in c.execute(f"select {keycol} from {t} order by {keycol}").fetchall()]
             rows = []
@@ -94,7 +97,8 @@ def main() -> None:
             d1 = c.execute("delete from desk_state where key = any(%s)", (MONEY,)).rowcount
             d2 = c.execute("delete from desk_trades").rowcount
             d3 = c.execute("delete from desk_marks").rowcount
-        print(f"deleted: desk_state {d1}, desk_trades {d2}, desk_marks {d3}")
+            d4 = c.execute("delete from desk_epochs").rowcount
+        print(f"deleted: desk_state {d1}, desk_trades {d2}, desk_marks {d3}, desk_epochs {d4}")
     print("done - start the desk: fly machine start 80e9266f6993e8 -a flytrade-desk")
 
 

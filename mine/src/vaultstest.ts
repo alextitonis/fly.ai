@@ -26,6 +26,7 @@ const TOKEN = checksumAddress("0x" + "f1".repeat(20));
 const GRANTER_KEY = "22".repeat(32);
 const WEI = 10n ** 18n;
 const PER_DOLLAR = 6858n * WEI;
+const PROMO_START = Date.now() - 60_000;
 let failed = 0;
 const check = (name: string, ok: boolean, detail = "") => {
   console.log(`${ok ? "ok  " : "FAIL"} ${name}${detail ? `  (${detail})` : ""}`);
@@ -125,6 +126,7 @@ async function startServer(extra: Record<string, string> = {}): Promise<void> {
       CLAIM_RPC: "http://127.0.0.1:9", CLAIM_EXPLORER: "http://localhost", SEED_PAID: "0", ARENA_ON: "0",
       TOKEN_ADDRESS: TOKEN, VAULT_ON: "1", VAULT_RPC: `http://127.0.0.1:${CHAIN_PORT}`, VAULT_CHAINS: "base,polygon",
       VAULT_TICK_SEC: "1", VAULT_GRANTER_KEY: GRANTER_KEY, ARENA_TRADERFLY: TRADERFLY, VAULT_FLIGHTPASS: FLIGHTPASS,
+      PROMO_ON: "1", PROMO_START_MS: String(PROMO_START), PROMO_SLOTS: "2", BOUNTY_ADMINS: alice.address, PROMO_AUTO: "0",
       ...extra,
     },
     stdio: ["ignore", "ignore", "inherit"],
@@ -263,6 +265,89 @@ try {
   check("admin sees wallets, funded, requests, grants", adm.status === 200 && adm.json.wallets === 2 && adm.json.funded.length === 1
     && adm.json.requests.length === 3 && adm.json.grants.length === 1, JSON.stringify(adm.json).slice(0, 200));
   check("admin only", (await api("/api/admin/vaults", a)).status === 403);
+
+  // the deposit competition (2026-10-04): 2 slots, $20 minimum, $20 bonus locked 14 days; alice is a BOUNTY_ADMINS wallet
+  const pub0 = (await api("/api/vaults/promo", null)).json;
+  check("promo: the public numbers before anyone qualifies", pub0.on === true && pub0.slots === 2 && pub0.taken === 0 && pub0.left === 2
+    && pub0.min_usd === 20 && pub0.bonus_usd === 20 && pub0.hold_days === 14 && pub0.start_ms === PROMO_START, JSON.stringify(pub0));
+  const PW = [5, 6, 7, 8, 9].map((n) => checksumAddress("0x" + String(n).padStart(2, "0").repeat(20)));
+  const [W5, W6, W7, W8, W9] = PW;
+  await PG.pg.run(`insert into mine.vault_wallets (id, fly_id, address, enc_key, nonce) values ${PW.map((_, i) => `('fly:${i + 5}', ${i + 5}, ?, 'x', 'y')`).join(", ")}`, ...PW);
+  const X = checksumAddress("0x" + "ab".repeat(20)), Z = checksumAddress("0x" + "cd".repeat(20));
+  const t = (s: number) => new Date(PROMO_START + s * 1000).toISOString();
+  // W6 (alice) qualifies first, then X's W7; X's W5 is his second wallet; W8's money came in during a sale; W3's before the start
+  await PG.pg.run(`insert into mine.vault_moves (wallet, chain, kind, holder, usd, at, detail) values
+    (?, 'robinhood', 'deposit', ?, 15, ?::timestamptz, '{}'), (?, 'robinhood', 'deposit', ?, 10, ?::timestamptz, '{}'),
+    (?, 'robinhood', 'deposit', ?, 25, ?::timestamptz, '{}'), (?, 'robinhood', 'deposit', ?, 30, ?::timestamptz, '{}'),
+    (?, 'robinhood', 'deposit', ?, 50, ?::timestamptz, '{"while_closing": true}'), (?, 'robinhood', 'deposit', ?, 20, ?::timestamptz, '{}'),
+    (?, 'robinhood', 'deposit', ?, 100, ?::timestamptz, '{}'), (?, 'base', 'deposit', ?, 90, ?::timestamptz, '{}')`,
+    W5, X, t(1), W5, X, t(5), W6, alice.address, t(2), W7, X.toLowerCase(), t(3), W8, Z, t(4), W9, Z, t(600), W3, bob.address, t(-10),
+    W4, bob.address, t(1));
+  await PG.pg.run("insert into mine.vault_ledger (wallet, chain, holder, principal_usd) values (?, 'robinhood', ?, 25), (?, 'robinhood', ?, 30)",
+    W6, alice.address, W7, X.toLowerCase());
+  let promos: any[] = [];
+  for (let i = 0; i < 20 && promos.length < 2; i++) { await sleep(500); promos = await PG.pg.all<any>("select * from mine.vault_promos order by qualified_at"); }
+  await sleep(1500);   // a few more ticks: still two
+  promos = await PG.pg.all<any>("select * from mine.vault_promos order by qualified_at");
+  check("candidates first come first served, up to the slots", promos.length === 2 && promos[0].wallet === W6 && promos[1].wallet === W7
+    && promos[0].status === "candidate" && promos[0].fly_id === 6 && promos[0].deposit_usd === 25, JSON.stringify(promos.map((p) => [p.wallet, p.status])));
+  check("a holder's second wallet gets no slot (any case)", !promos.some((p) => p.wallet === W5));
+  check("the public endpoint: none left", (await api("/api/vaults/promo", null)).json.left === 0);
+  check("non-admins can't list", (await api("/api/admin/promo", b)).status === 403 && (await api("/api/admin/promo", null)).status === 403);
+  check("non-admins can't approve or reject", (await api(`/api/admin/promo/${promos[0].id}/approve`, b, {})).status === 403
+    && (await api(`/api/admin/promo/${promos[1].id}/reject`, null, {})).status === 403);
+  const list = await api("/api/admin/promo", a);
+  const r6 = list.json?.rows?.find((r: any) => r.wallet === W6), r7 = list.json?.rows?.find((r: any) => r.wallet === W7);
+  check("a signed-in admin lists them with the sybil hints", list.status === 200 && r6?.nickname === "Alice Fly" && r6.holder_wallets === 1
+    && r6.deposits.length === 1 && r6.deposits[0].usd === 25 && r7?.deposits.length === 1 && JSON.stringify(r6.near) === JSON.stringify([r7.id])
+    && r6.ledger?.principal_usd === 25, JSON.stringify(list.json).slice(0, 300));
+  check("and the admin token too", (await api("/api/admin/promo", null, undefined, true)).status === 200);
+  const rej = await api(`/api/admin/promo/${promos[1].id}/reject`, null, {}, true);
+  check("reject frees the slot", rej.status === 200 && rej.json.status === "rejected");
+  let w9: any = null;
+  for (let i = 0; i < 20 && !w9; i++) { await sleep(500); w9 = await PG.pg.one<any>("select * from mine.vault_promos where wallet = ?", W9); }
+  check("for the next one (not the rejected holder's other wallet, not money sent during a sale)", w9?.status === "candidate"
+    && !(await PG.pg.one("select 1 from mine.vault_promos where wallet = ? or wallet = ?", W5, W8)), JSON.stringify(w9));
+  check("a rejected one stays rejected", (await api(`/api/admin/promo/${promos[1].id}/approve`, a, {})).status === 409);
+  const before = sent.filter((x) => x.data.startsWith(transferSel)).length;
+  const ok = await api(`/api/admin/promo/${promos[0].id}/approve`, a, {});
+  check("alice approves W6", ok.status === 200 && ok.json.status === "approved", JSON.stringify(ok.json));
+  let paid: any = null;
+  for (let i = 0; i < 30 && !(paid?.status === "paid" && paid.request_id); i++) { await sleep(500); paid = await PG.pg.one<any>("select *, (extract(epoch from paid_at) * 1000)::float8 as paid_ms from mine.vault_promos where id = ?", promos[0].id); }
+  await sleep(2500);   // more ticks: never twice
+  const ptx = sent.filter((x) => x.data.startsWith(transferSel)).slice(before);
+  const pamt = ptx[0] ? BigInt(`0x${ptx[0].data.slice(8 + 64, 8 + 128)}`) : 0n;
+  check("one $20 FLYAI transfer into the fly's wallet, once", ptx.length === 1 && ptx[0].to.toLowerCase() === TOKEN.toLowerCase()
+    && `0x${ptx[0].data.slice(8 + 24, 8 + 64)}`.toLowerCase() === W6.toLowerCase() && pamt === 20n * PER_DOLLAR, `${ptx.length} sent, ${pamt}`);
+  check("paid, decided by alice", paid?.status === "paid" && paid.grant_tx?.startsWith("0x") && paid.decided_by === alice.address.toLowerCase()
+    && paid.grant_wei === (20n * PER_DOLLAR).toString(), JSON.stringify(paid));
+  const preqs = await PG.pg.all<any>("select * from mine.vault_requests where kind = 'promo_grant'");
+  check("exactly one promo_grant request for the desk, locked 14 days", preqs.length === 1 && preqs[0].wallet === W6 && preqs[0].id == paid.request_id
+    && preqs[0].requester === "mine" && preqs[0].params.promo_id == promos[0].id && preqs[0].params.usd === 20 && preqs[0].params.tx === paid.grant_tx
+    && preqs[0].params.wei === paid.grant_wei && preqs[0].params.until_ms === Math.round(paid.paid_ms) + 14 * 86_400_000, JSON.stringify(preqs));
+  check("a paid one can't be approved or rejected again", (await api(`/api/admin/promo/${promos[0].id}/approve`, a, {})).status === 409
+    && (await api(`/api/admin/promo/${promos[0].id}/reject`, a, {})).status === 409);
+  const pub1 = (await api("/api/vaults/promo", null)).json;
+  check("public numbers: rejected rows don't count", pub1.taken === 2 && pub1.left === 0, JSON.stringify(pub1));
+
+  // automatic (2026-10-04, the user: "make it automatic actually"): W9 waits while its wallet isn't trading, then pays
+  { const s0 = server as unknown as ReturnType<typeof spawn>; const gone = new Promise((r) => s0.once("exit", r)); s0.kill("SIGKILL"); await gone; }
+  await PG.pg.run("insert into mine.vault_ledger (wallet, chain, holder, principal_usd) values (?, 'robinhood', ?, 30) on conflict (wallet, chain) do update set principal_usd = 30, holder = excluded.holder",
+    W9, w9.holder);
+  // the test's deposits are stamped ahead of the clock: settled = qualified an hour ago
+  await PG.pg.run("update mine.vault_promos set qualified_at = now() - interval '1 hour' where wallet = ?", W9);
+  await startServer({ PROMO_AUTO: "1", PROMO_SETTLE_MIN: "30", PROMO_NEAR_MIN: "0" });
+  await sleep(3000);
+  check("auto: not while the wallet isn't trading (under the $FLYAI hold)",
+    (await PG.pg.one<any>("select status from mine.vault_promos where wallet = ?", W9))?.status === "candidate");
+  const sentBefore = sent.filter((x) => x.data.startsWith(transferSel)).length;
+  await PG.pg.run("insert into mine.vault_public (key, value) values (?, ?::text::jsonb) on conflict (key) do update set value = excluded.value",
+    `vault:${W9}`, JSON.stringify({ vault: W9, value: 30, active: true }));
+  let w9p: any = null;
+  for (let i = 0; i < 30 && !(w9p?.status === "paid" && w9p.request_id); i++) { await sleep(500); w9p = await PG.pg.one<any>("select * from mine.vault_promos where wallet = ?", W9); }
+  await sleep(2500);
+  check("auto: trading and settled -> paid once, decided by 'auto'", w9p?.status === "paid" && w9p.decided_by === "auto"
+    && sent.filter((x) => x.data.startsWith(transferSel)).length - sentBefore === 1, JSON.stringify(w9p));
 } catch (err) {
   console.error(err);
   failed++;

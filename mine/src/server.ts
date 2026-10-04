@@ -3462,7 +3462,7 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/flightpass/") || p.startsWith("/api/admin/flightpass"))) {
     if (await flightpass.route(req, res, url)) return;
   }
-  if (req.method !== "OPTIONS" && (p.startsWith("/api/vaults/") || p === "/api/admin/vaults")) {
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/vaults/") || p === "/api/admin/vaults" || p.startsWith("/api/admin/promo"))) {
     if (await vaults.route(req, res, url)) return;
   }
   if (req.method !== "OPTIONS" && (p.startsWith("/api/ruyui/") || p === "/api/admin/ruyui")) {
@@ -3762,6 +3762,8 @@ const vaults = createVaults({
   env: process.env,
   token: ORDERS.token,
   granter: process.env.VAULT_GRANTER_KEY ? new Relayer(process.env.VAULT_GRANTER_KEY, env("VAULT_RPC", CLAIMS.rpc), "VAULT_GRANTER_KEY") : payoutRelayer,
+  // the deposit competition's admins (2026-10-04): the admin token or a signed-in BOUNTY_ADMINS wallet
+  isAdminToken: isAdmin, admins: (process.env.BOUNTY_ADMINS ?? "").split(","),
 });
 if (USER) vaults.start();
 // RUYUI (src/ruyui.ts, flytrade/RUYUI-PLAN.md): Ruyui Studios' NFTs on our wallets and pool, for their own front-end
