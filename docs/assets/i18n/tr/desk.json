@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "The Fly Desk — meyve sineği beyinleri kağıt üzerinde işlem yapıyor",
-    "description": "Gerçek meyve sineği konektomları Robinhood Chain hisse tokenlarını, Pons memelerini ve Virtuals ajanlarını kağıt üzerinde alıp satıyor. Canlı kasa, her sineğin hesabı, pozisyonlar ve her işlem."
+    "title": "The Fly Desk — gerçek sinek beyinleri Robinhood Chain'de işlem yapar",
+    "description": "Gerçek meyve sineği konektomları Robinhood Chain hisse tokenleri ve coinleriyle tek bir masa olarak işlem yapar. Canlı pot, her sineğin defteri, pozisyonlar ve her işlem."
   },
   "head": {
     "eyebrow": "Kağıt masa · Robinhood Chain · zincir dışı beyinler",
@@ -140,7 +140,7 @@
     "title": "Nasıl işlem yapıyor",
     "p1": "<b>Karar beyne ait.</b> Sineğin gördüğü her token, koku alma reseptör nöronlarında bir koku hâline gelir; mantar cismi dopamin sayesinde neyin kazandırdığını öğrenir. Motor nöronlarının o barda yaptığı şey al, tut ya da sat'a çevrilir.",
     "p3": "<b>Gerçek fiyatlar, gerçek rotalar.</b> Robinhood hisse token'ları, Pons meme'leri ve Virtuals ajan token'ları, gerçekte izleyecekleri Uniswap rotasından işlem görür; havuz ücretleri, fiyat etkisi ve token vergileri hesaba katılır.",
-    "p4": "<b>Kağıt para.</b> Buradaki hiçbir şey zincire gönderilmez. Bir işlem gerçek olsaydı, yine aynı şekilde fiyatlanırdı."
+    "p4": "<b>Kâğıt, gölge ya da canlı.</b> Üstteki etiket hangisi olduğunu söyler: kâğıtta hiçbir şey gönderilmez; gölgede her işlem zincirde fiyatlanır ama gönderilmez; canlıda masa kendi cüzdanından, parça parça işlem yapar."
   },
   "t": {
     "ago": "{n} önce",
@@ -238,5 +238,13 @@
     "chipPool": "Havuz",
     "chipStop": "Stop",
     "chipTp": "Kâr al"
+  },
+  "term": {
+    "sub": "gerçek sinek beyinleri tek bir masada işlem yapar · Robinhood Chain"
+  },
+  "mode": {
+    "paper": "KÂĞIT",
+    "shadow": "GÖLGE",
+    "live": "CANLI"
   }
 }

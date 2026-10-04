@@ -306,3 +306,104 @@ body.clip #eye .eye-nav, body.clip #eye .prose { display: none; }
 .desk .vote-msg { font: 500 13px var(--mono); color: var(--ink-dim); }
 .desk .vote-msg[data-kind="err"] { color: var(--down); }
 .desk .vote-msg[data-kind="ok"] { color: var(--up); }
+
+/* ------------------------------------------------------------------ the terminal look (2026-10-05)
+   The user: "simplify the flydesk and make it look more like the /terminal". terminal.css gives the panels, KPI tiles,
+   top bar, pills and the grid background; this lays the desk's own pieces into them. */
+body.desk.term { background-color: var(--t-bg); background-image: none; color: var(--t-text); font-size: 13px; line-height: 1.5; }
+.dkt {
+  display: grid; gap: 10px; padding: 10px 14px 18px; max-width: 1680px; margin: 0 auto;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-areas:
+    "top top top top top top top top top top top top"
+    "tick tick tick tick tick tick tick tick tick tick tick tick"
+    "kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi"
+    "stats stats stats stats stats stats stats stats stats stats stats stats"
+    "chart chart chart chart chart chart chart chart pos pos pos pos"
+    "tape tape tape tape tape tape books books books books books books"
+    "vote vote vote vote vote vote vote vote vote vote vote vote"
+    "foot foot foot foot foot foot foot foot foot foot foot foot"
+    "how how how how how how how how how how how how";
+  font-family: var(--t-mono); align-content: start;
+  background-image: linear-gradient(rgba(94, 242, 204, .025) 1px, transparent 1px), linear-gradient(90deg, rgba(94, 242, 204, .025) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.dkt > section { padding-block: 10px; border-top: 0; }
+.dkt-top { grid-area: top; }
+.dkt-top h1 { margin: 0; font: 700 18px/1.1 Outfit, sans-serif; letter-spacing: .06em; color: var(--t-text); }
+.dkt-top h1 i { color: var(--t-mint); font-style: normal; }
+.dkt-ticker { grid-area: tick; border: 1px solid var(--t-line); border-radius: 6px; background: rgba(4, 7, 6, .8); }
+.dkt-err { grid-column: 1 / -1; margin: 0; }      /* only while the snapshot can't be read */
+/* one desk: the test books stay on the desk's own status, not on this page */
+.desk .dkt #ghosts-wrap { display: none !important; }
+.dkt-kpis { grid-area: kpi; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.dkt > section.dkt-kpis { padding-block: 0; }
+.dkt-kpis .tm-kpi b { font-size: 24px; overflow-wrap: anywhere; }
+.dkt-kpis .tm-kpi b .sub { display: block; margin: 2px 0 0; font: 500 11px var(--t-mono); color: var(--t-dim); white-space: normal; }
+.dkt-stats { grid-area: stats; margin: 0; border-color: var(--t-line); background: var(--t-line); }
+.desk .dkt-stats .st { background: var(--t-panel); font-size: 12px; }
+.dkt-chart { grid-area: chart; }
+.dkt-pos { grid-area: pos; max-height: 470px; }
+.dkt-tape { grid-area: tape; max-height: 440px; }
+.dkt-books { grid-area: books; max-height: 440px; }
+.dkt-vote { grid-area: vote; }
+.dkt-foot { grid-area: foot; }
+.dkt-how { grid-area: how; }
+/* the site's serif headings and plates give way to the terminal's */
+.desk .dkt .tm-panel h2 { font: 700 10.5px/1.2 var(--t-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--t-mint); margin: 0 0 8px; }
+.desk .dkt .chart { height: 340px; }
+.desk .dkt .tbl { font-size: 12px; }
+.desk .dkt .tbl th { font-size: 10px; color: var(--t-dim); border-bottom-color: var(--t-line-hi); padding: 6px 8px; }
+.desk .dkt .tbl td { padding: 6px 8px; border-bottom-color: rgba(16, 32, 27, .7); color: #c5d3cf; }
+.desk .dkt .tbl tr:hover td { background: rgba(94, 242, 204, .04); }
+.desk .dkt .tm-scroll { flex: 1; min-height: 0; overflow: auto; }
+.desk .dkt .tape { max-height: none; border: 0; border-radius: 0; }
+.desk .dkt .tape .tbl th { background: var(--t-panel); }
+.desk .dkt .caption { font-size: 12px; color: var(--t-dim); margin: 0 0 8px; }
+.desk .dkt .tabs button, .desk .dkt .seg button { font-family: var(--t-mono); }
+.desk .dkt .tabs button[aria-selected="true"] { border-color: var(--t-mint); color: var(--t-mint); }
+.desk .dkt .seg button.on { color: var(--t-mint); }
+.desk .dkt .chart-card, .desk .dkt .vote-panel { background: transparent; }
+.desk .dkt .vote-panel { border-color: var(--t-line); border-radius: 6px; }
+.desk .dkt .vote-card { border-radius: 8px; background: #050b09; border-color: var(--t-line); }
+.desk .dkt .sysline { padding: 0; font-size: 10.5px; letter-spacing: .08em; color: var(--t-dim); }
+.desk .dkt .sysline b { color: var(--t-text); }
+/* the ticker: desk.js's .tk-track inside the terminal's strip */
+.desk .dkt-ticker { font: 11px/1 var(--t-mono); color: var(--t-dim); }
+.desk .dkt-ticker .tk-track { padding: 8px 0; }
+.desk .dkt-ticker .tk { padding: 0; border: 0; font-size: 11px; }
+/* the connection pill: desk.js sets data-state (live / stalled / offline / connecting) */
+.desk .tm-live[data-state="live"] { color: var(--t-mint); border-color: rgba(94, 242, 204, .4); }
+.desk .tm-live[data-state="live"]::before { background: var(--t-mint); box-shadow: 0 0 10px var(--t-mint); animation: tm-blink 1.6s infinite; }
+.desk .tm-live[data-state="stalled"] { color: var(--amber); border-color: rgba(240, 188, 95, .45); }
+.desk .tm-live[data-state="stalled"]::before { background: var(--amber); }
+.desk .tm-live[data-state="offline"] { color: var(--t-red); border-color: rgba(255, 90, 82, .45); }
+.desk .tm-live[data-state="offline"]::before { background: var(--t-red); }
+.desk .tm-status .tm-mode { margin-left: 0; font-size: 10.5px; padding: 4px 11px; }
+/* how it trades: folded away */
+.dkt-how summary { cursor: pointer; font: 700 10.5px/1.2 var(--t-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--t-mint); }
+.dkt-how .how { margin-top: 12px; max-width: none; }
+.desk .dkt-how .how p { color: #c5d3cf; font-family: Inter, system-ui, sans-serif; font-size: 13px; }
+@media (max-width: 1180px) {
+  .dkt { grid-template-areas:
+    "top top top top top top top top top top top top"
+    "tick tick tick tick tick tick tick tick tick tick tick tick"
+    "kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi"
+    "stats stats stats stats stats stats stats stats stats stats stats stats"
+    "chart chart chart chart chart chart chart chart chart chart chart chart"
+    "pos pos pos pos pos pos books books books books books books"
+    "tape tape tape tape tape tape tape tape tape tape tape tape"
+    "vote vote vote vote vote vote vote vote vote vote vote vote"
+    "foot foot foot foot foot foot foot foot foot foot foot foot"
+    "how how how how how how how how how how how how"; }
+}
+@media (max-width: 760px) {
+  .dkt { display: flex; flex-direction: column; padding: 8px 16px 16px; }
+  .dkt > * { min-width: 0; max-width: 100%; }
+  .dkt-top { flex-wrap: wrap; } .dkt-top .tm-brand small { display: none; }
+  .dkt-ticker { order: -2; }
+  .dkt-kpis { grid-template-columns: 1fr 1fr; } .dkt-kpis .tm-kpi:first-child { grid-column: 1 / -1; }
+  .dkt-kpis .tm-kpi b { font-size: 20px; }
+  .desk .dkt .chart { height: 240px; }
+  .dkt-pos, .dkt-tape, .dkt-books { max-height: 380px; }
+}

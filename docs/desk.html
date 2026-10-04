@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title data-i18n="desk.meta.title">The Fly Desk &mdash; fruit-fly brains trade a paper book</title>
-<meta name="description" content="Real fruit-fly connectomes trade Robinhood Chain stock tokens, Pons memes and Virtuals agents on paper, beside a few hand-written rules. Live pot, books, positions and every fill." data-i18n-attr="content:desk.meta.description">
-<meta property="og:title" content="The Fly Desk &mdash; fruit-fly brains trade a paper book" data-i18n-attr="content:desk.meta.title">
-<meta property="og:description" content="Real fruit-fly connectomes trade Robinhood Chain stock tokens, Pons memes and Virtuals agents on paper, beside a few hand-written rules." data-i18n-attr="content:desk.meta.description">
+<title data-i18n="desk.meta.title">The Fly Desk &mdash; real fly brains trade Robinhood Chain</title>
+<meta name="description" content="Real fruit-fly connectomes trade Robinhood Chain stock tokens and coins as one desk. Live pot, every fly's book, positions and every fill." data-i18n-attr="content:desk.meta.description">
+<meta property="og:title" content="The Fly Desk &mdash; real fly brains trade Robinhood Chain" data-i18n-attr="content:desk.meta.title">
+<meta property="og:description" content="Real fruit-fly connectomes trade Robinhood Chain stock tokens and coins as one desk." data-i18n-attr="content:desk.meta.description">
 <meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@flydotai">
@@ -20,194 +20,162 @@
 <link rel="icon" href="assets/logo.webp" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/terminal.css">
 <link rel="stylesheet" href="assets/desk.css">
 </head>
-<body class="desk">
+<body class="desk term">
 <a class="skip" href="#pot">Skip to the pot</a>
 
 <nav aria-label="Main"></nav>
 
-<header class="mast">
-  <div class="wrap">
-    <p class="eyebrow" data-i18n="desk.head.eyebrow">Paper desk · Robinhood Chain · off-chain brains</p>
-    <div class="mast-row">
-      <h1 data-i18n="desk.head.title">The Fly Desk</h1>
-      <div class="chips">
-        <span class="chip chip-conn" id="conn" data-state="connecting"><span class="dot"></span><span id="conn-text" data-i18n="desk.chip.connecting">Connecting</span></span>
-        <span class="chip chip-paper" data-i18n="desk.chip.paper">Paper only</span>
+<!-- the Fly Desk as a terminal (2026-10-05, the user: "simplify the flydesk and make it look more like the /terminal"):
+     terminal.css panels and type, desk.js unchanged in what it draws. The sections it still reads but this page no
+     longer shows (records, the fly's eye, other chains, launches) sit in a hidden block at the end. -->
+<main class="dkt">
+  <header class="tm-top dkt-top">
+    <div class="tm-brand">
+      <span class="tm-glyph" aria-hidden="true"></span>
+      <div><h1>FLY <i>//</i> DESK</h1><small data-i18n="desk.term.sub">real fly brains trade one desk · Robinhood Chain</small></div>
+    </div>
+    <div class="tm-status">
+      <span class="tm-mode" id="dk-mode" data-mode="paper" data-i18n="desk.mode.paper">PAPER</span>
+      <span class="tm-live" id="conn" data-state="connecting"><span id="conn-text" data-i18n="desk.chip.connecting">Connecting</span></span>
+      <span class="tm-clock mono" id="dk-clock">--:--:--</span>
+    </div>
+  </header>
+
+  <div class="ticker dkt-ticker" id="ticker" hidden aria-label="Latest trades"></div>
+  <p class="err dkt-err" id="err" hidden data-i18n="desk.t.error">Couldn't load the desk. Retrying…</p>
+
+  <section class="tm-kpis dkt-kpis" aria-label="Totals">
+    <div class="tm-kpi"><span data-i18n="desk.pot.value">Pot</span><b id="k-pot">—</b></div>
+    <div class="tm-kpi"><span data-i18n="desk.pot.pnl">P&amp;L</span><b id="k-ret">—</b></div>
+    <div class="tm-kpi"><span data-i18n="desk.pot.median">Median fly</span><b id="k-median">—</b></div>
+    <div class="tm-kpi"><span data-i18n="desk.pot.best">Best fly</span><b id="k-best">—</b></div>
+  </section>
+  <div class="stats dkt-stats" id="stats"></div>
+
+  <section id="pot" class="tm-panel dkt-chart">
+    <h2><span data-i18n="desk.pot.title">The pot</span></h2>
+    <div class="chart-head">
+      <ul class="legend" id="legend"></ul>
+      <div class="seg" role="group" aria-label="Scale">
+        <button type="button" class="on" data-zoom="ret" data-i18n="desk.pot.modeReturn">Return %</button>
+        <button type="button" data-zoom="usd" data-i18n="desk.pot.modeUsd">Pot in $</button>
       </div>
     </div>
-    <div class="mast-body">
-      <div>
-        <p class="tagline" data-i18n="desk.head.tagline">Fruit-fly brains trade a paper book.</p>
-        <p class="lede" data-i18n="desk.head.lede">Each fly is a real fruit-fly connectome running on a CPU. Every 15 minutes it smells the market and its brain decides: buy, hold or sell. Fills are priced from the live pools on Robinhood Chain.</p>
-      </div>
-      <p class="paper-strip"><strong data-i18n="desk.head.paperTitle">Paper only</strong> <span data-i18n="desk.head.paper">No wallet, no keys, no real orders. The money is pretend; the prices are real.</span></p>
+    <div class="chart" id="chart" role="img" aria-label="Pot value by bar"></div>
+    <details class="tbl-details">
+      <summary data-i18n="desk.pot.table">Table view of the curve</summary>
+      <div class="scroll"><table class="tbl" id="curve-tbl"></table></div>
+    </details>
+  </section>
+
+  <section id="positions" class="tm-panel dkt-pos">
+    <h2><span data-i18n="desk.pos.title">Positions</span></h2>
+    <div class="tabs" id="pos-tabs" role="tablist"></div>
+    <p class="caption" id="pos-cash"></p>
+    <div class="scroll tm-scroll"><table class="tbl" id="pos-tbl"></table></div>
+  </section>
+
+  <section id="tape" class="tm-panel dkt-tape">
+    <h2><span data-i18n="desk.tape.title">The tape</span></h2>
+    <div class="scroll tm-scroll tape"><table class="tbl" id="tape-tbl"></table></div>
+  </section>
+
+  <section id="books" class="tm-panel dkt-books">
+    <h2><span data-i18n="desk.books.title">The books</span></h2>
+    <div class="scroll tm-scroll"><table class="tbl" id="books-tbl"></table></div>
+    <div id="ghosts-wrap" hidden>
+      <h3 class="chain-h" data-i18n="desk.ghosts.title">Test books</h3>
+      <div class="scroll"><table class="tbl" id="ghosts-tbl"></table></div>
     </div>
-    <div class="mast-foot">
-      <div class="jump" aria-label="Sections">
-        <a href="#pot" data-i18n="desk.jump.pot">The pot</a>
-        <a href="#vote" data-i18n="desk.jump.vote">Vote</a>
-        <a href="#eye" data-i18n="desk.jump.eye">The fly's eye</a>
-        <a href="#books" data-i18n="desk.jump.books">Books</a>
-        <a href="#positions" data-i18n="desk.jump.positions">Positions</a>
-        <a href="#tape" data-i18n="desk.jump.tape">Tape</a>
-        <a href="#launches" data-i18n="desk.jump.launches">Launches</a>
-        <a href="#how" data-i18n="desk.jump.how">How it trades</a>
+  </section>
+
+  <section id="vote" class="tm-panel dkt-vote">
+    <h2><span data-i18n="desk.vote.title">Holder vote</span></h2>
+    <p class="caption" data-i18n="desk.vote.lede">$FLYAI holders pick how the flies trade tomorrow. One vote per wallet per day, weighted by the dollars of $FLYAI it holds when the day closes. Biggest bag wins. Signing is free, no gas.</p>
+      <div class="vote-panel">
+        <div class="vote-status" id="vote-status"></div>
+        <div class="vote-split" id="vote-split" aria-hidden="true"></div>
+        <div class="vote-cards" id="vote-cards" role="group" aria-label="Pick a mode"></div>
+        <div class="vote-foot">
+          <button type="button" class="btn red sm" id="vote-connect" data-i18n="desk.vote.connect">Connect wallet</button>
+          <span class="vote-msg" id="vote-msg" aria-live="polite"></span>
+        </div>
+      </div>
+      <p class="caption" id="vote-close"></p>
+      <details class="tbl-details" id="vote-hist-wrap" hidden>
+        <summary data-i18n="desk.vote.history">Past votes</summary>
+        <div class="scroll"><table class="tbl" id="vote-hist"></table></div>
+      </details>
+  </section>
+
+  <footer class="tm-foot dkt-foot"><span class="sysline" id="sysline" aria-live="polite"></span></footer>
+
+  <details id="how" class="tm-panel dkt-how">
+    <summary data-i18n="desk.how.title">How it trades</summary>
+    <div class="how">
+        <p data-i18n-html="desk.how.p1"><b>The brain decides.</b> Each token the fly sees becomes a smell on its olfactory receptor neurons; its mushroom body learns from dopamine what paid. What its motor neurons do in that bar is turned into buy, hold or sell.</p>
+        <p data-i18n-html="desk.how.p3"><b>Real prices, real routes.</b> Robinhood stock tokens, Pons memes and Virtuals agent tokens, each traded through the Uniswap route it would really take, with pool fees, price impact and token taxes charged.</p>
+        <p data-i18n-html="desk.how.p4"><b>Paper, shadow or live.</b> The pill at the top says which: on paper nothing is sent; in shadow every trade is quoted on the chain but not sent; live, the desk trades from its own wallet, a slice at a time.</p>
       </div>
-      <div class="sysline" id="sysline" aria-live="polite"></div>
-    </div>
-    <p class="err" id="err" hidden data-i18n="desk.t.error">Couldn't load the desk. Retrying…</p>
+  </details>
+
+  <!-- read by desk.js, not shown on this page -->
+  <div class="dkt-off" hidden>
+<section id="records" class="dsec" hidden>
+    <div class="wrap">
+      <h2><span class="num">03</span> <span data-i18n="desk.rec.title">All-time records</span></h2>
+      <p class="prose" data-i18n="desk.rec.lede">The best trades since the flies started trading, before and after every reset. Paper money at real Robinhood Chain prices. Records, not promises.</p>
+      <div class="kpis rec-cards" id="rec-cards"></div>
+      <div class="stats" id="rec-stats"></div>
+    </div>
+  </section>
+<section id="eye" class="dsec">
+    <div class="wrap">
+      <h2><span class="num">04</span> <span data-i18n="desk.eye.title">The fly's eye</span></h2>
+      <p class="prose" data-i18n="desk.eye.lede">A replay of one fly's last bar. The cards are the tokens in its field of view, and the fly visits them from the quietest move to the loudest. Its target sense locks on the strongest rise, its threat sense on the worst fall it holds, and the bars underneath show how hard each of its motor actions fired. The one that wins becomes the trade.</p>
+      <div class="eye-head">
+        <div class="tabs" id="eye-flies" role="tablist"></div>
+        <div class="eye-nav">
+          <button type="button" class="navbtn" id="eye-prev" aria-label="Earlier bar">&#8249;</button>
+          <span class="eye-bar" id="eye-bar">—</span>
+          <button type="button" class="navbtn" id="eye-next" aria-label="Later bar">&#8250;</button>
+          <button type="button" class="navbtn" id="eye-play" data-i18n="desk.eye.replay">Replay</button>
+        </div>
+      </div>
+      <div class="room-card">
+        <canvas id="room" class="room" role="img" aria-label="The fly's field of view"></canvas>
+        <div class="acts" id="acts"></div>
+      </div>
+      <ul class="legend eye-legend">
+        <li><i class="k-target"></i><span data-i18n="desk.eye.kTarget">target sense</span></li>
+        <li><i class="k-threat"></i><span data-i18n="desk.eye.kThreat">threat sense</span></li>
+        <li><i class="k-held"></i><span data-i18n="desk.eye.kHeld">held</span></li>
+        <li><i class="k-act"></i><span data-i18n="desk.eye.kAct">the action that won</span></li>
+      </ul>
+      <p class="caption" id="eye-caption"></p>
+    </div>
+  </section>
+<section id="chains" class="dsec" hidden>
+    <div class="wrap">
+      <h2><span class="num">08</span> <span data-i18n="desk.chains.title">On other chains</span></h2>
+      <p class="prose" data-i18n="desk.chains.lede">The same flies trade other chains from the same money as above. What each fly holds on each chain, and its latest fills there.</p>
+      <p class="prose dim" id="chains-note" hidden data-i18n="desk.chains.homeOnly">For now the flies only buy on Robinhood Chain. Below is what they still hold or bet elsewhere.</p>
+      <div id="chains-body"></div>
+    </div>
+  </section>
+<section id="launches" class="dsec">
+    <div class="wrap">
+      <h2><span class="num">09</span> <span data-i18n="desk.launch.title">Launches</span></h2>
+      <p class="prose" data-i18n="desk.launch.lede">When enough of the flies want the same thing in the same moment, the swarm launches a token of its own on Pons. On paper the launch is simulated on the chain, never sent.</p>
+      <ul class="launches" id="launch-list"></ul>
+    </div>
+  </section>
   </div>
-</header>
-<div class="ticker" id="ticker" hidden aria-label="Latest trades"></div>
-
-<main>
-  <section id="pot" class="dsec">
-    <div class="wrap">
-      <h2><span class="num">01</span> <span data-i18n="desk.pot.title">The pot</span></h2>
-      <p class="prose" data-i18n="desk.pot.lede">Everything the flies hold, marked at the latest prices, bar by bar. The thick line is all the flies together, each thin line one fly; the dashed line is where they started.</p>
-      <div class="kpis">
-        <div class="kpi"><span class="k" data-i18n="desk.pot.value">Pot</span><b id="k-pot">—</b></div>
-        <div class="kpi"><span class="k" data-i18n="desk.pot.pnl">P&amp;L</span><b id="k-ret">—</b></div>
-        <div class="kpi"><span class="k" data-i18n="desk.pot.median">Median fly</span><b id="k-median">—</b></div>
-        <div class="kpi"><span class="k" data-i18n="desk.pot.best">Best fly</span><b id="k-best">—</b></div>
-      </div>
-      <div class="stats" id="stats"></div>
-      <div class="chart-card">
-        <div class="chart-head">
-          <ul class="legend" id="legend"></ul>
-          <div class="seg" role="group" aria-label="Scale">
-            <button type="button" class="on" data-zoom="ret" data-i18n="desk.pot.modeReturn">Return %</button>
-            <button type="button" data-zoom="usd" data-i18n="desk.pot.modeUsd">Pot in $</button>
-          </div>
-        </div>
-        <div class="chart" id="chart" role="img" aria-label="Pot value by bar"></div>
-      </div>
-      <details class="tbl-details">
-        <summary data-i18n="desk.pot.table">Table view of the curve</summary>
-        <div class="scroll"><table class="tbl" id="curve-tbl"></table></div>
-      </details>
-    </div>
-  </section>
-
-  <section id="vote" class="dsec">
-    <div class="wrap">
-      <h2><span class="num">02</span> <span data-i18n="desk.vote.title">Holder vote</span></h2>
-      <p class="prose" data-i18n="desk.vote.lede">$FLYAI holders pick how the flies trade tomorrow. One vote per wallet per day, weighted by the dollars of $FLYAI it holds when the day closes. Biggest bag wins. Signing is free, no gas.</p>
-      <div class="vote-panel">
-        <div class="vote-status" id="vote-status"></div>
-        <div class="vote-split" id="vote-split" aria-hidden="true"></div>
-        <div class="vote-cards" id="vote-cards" role="group" aria-label="Pick a mode"></div>
-        <div class="vote-foot">
-          <button type="button" class="btn red sm" id="vote-connect" data-i18n="desk.vote.connect">Connect wallet</button>
-          <span class="vote-msg" id="vote-msg" aria-live="polite"></span>
-        </div>
-      </div>
-      <p class="caption" id="vote-close"></p>
-      <details class="tbl-details" id="vote-hist-wrap" hidden>
-        <summary data-i18n="desk.vote.history">Past votes</summary>
-        <div class="scroll"><table class="tbl" id="vote-hist"></table></div>
-      </details>
-    </div>
-  </section>
-
-  <section id="records" class="dsec" hidden>
-    <div class="wrap">
-      <h2><span class="num">03</span> <span data-i18n="desk.rec.title">All-time records</span></h2>
-      <p class="prose" data-i18n="desk.rec.lede">The best trades since the flies started trading, before and after every reset. Paper money at real Robinhood Chain prices. Records, not promises.</p>
-      <div class="kpis rec-cards" id="rec-cards"></div>
-      <div class="stats" id="rec-stats"></div>
-    </div>
-  </section>
-
-  <section id="eye" class="dsec">
-    <div class="wrap">
-      <h2><span class="num">04</span> <span data-i18n="desk.eye.title">The fly's eye</span></h2>
-      <p class="prose" data-i18n="desk.eye.lede">A replay of one fly's last bar. The cards are the tokens in its field of view, and the fly visits them from the quietest move to the loudest. Its target sense locks on the strongest rise, its threat sense on the worst fall it holds, and the bars underneath show how hard each of its motor actions fired. The one that wins becomes the trade.</p>
-      <div class="eye-head">
-        <div class="tabs" id="eye-flies" role="tablist"></div>
-        <div class="eye-nav">
-          <button type="button" class="navbtn" id="eye-prev" aria-label="Earlier bar">&#8249;</button>
-          <span class="eye-bar" id="eye-bar">—</span>
-          <button type="button" class="navbtn" id="eye-next" aria-label="Later bar">&#8250;</button>
-          <button type="button" class="navbtn" id="eye-play" data-i18n="desk.eye.replay">Replay</button>
-        </div>
-      </div>
-      <div class="room-card">
-        <canvas id="room" class="room" role="img" aria-label="The fly's field of view"></canvas>
-        <div class="acts" id="acts"></div>
-      </div>
-      <ul class="legend eye-legend">
-        <li><i class="k-target"></i><span data-i18n="desk.eye.kTarget">target sense</span></li>
-        <li><i class="k-threat"></i><span data-i18n="desk.eye.kThreat">threat sense</span></li>
-        <li><i class="k-held"></i><span data-i18n="desk.eye.kHeld">held</span></li>
-        <li><i class="k-act"></i><span data-i18n="desk.eye.kAct">the action that won</span></li>
-      </ul>
-      <p class="caption" id="eye-caption"></p>
-    </div>
-  </section>
-
-  <section id="books" class="dsec">
-    <div class="wrap">
-      <h2><span class="num">05</span> <span data-i18n="desk.books.title">The books</span></h2>
-      <p class="prose" data-i18n="desk.books.lede">One row per fly. The line is its value over the curve's window.</p>
-      <div class="scroll"><table class="tbl" id="books-tbl"></table></div>
-      <div id="ghosts-wrap" hidden>
-        <h3 class="chain-h" data-i18n="desk.ghosts.title">Test books</h3>
-        <p class="prose" data-i18n="desk.ghosts.lede">The same flies on the same bars, each book trying one change to how they trade. The ones in profit right now; the best ideas move into the main books.</p>
-        <div class="scroll"><table class="tbl" id="ghosts-tbl"></table></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="positions" class="dsec">
-    <div class="wrap">
-      <h2><span class="num">06</span> <span data-i18n="desk.pos.title">Positions</span></h2>
-      <p class="prose" data-i18n="desk.pos.lede">What each fly holds right now, biggest first, at the latest price.</p>
-      <div class="tabs" id="pos-tabs" role="tablist"></div>
-      <p class="caption" id="pos-cash"></p>
-      <div class="scroll"><table class="tbl" id="pos-tbl"></table></div>
-    </div>
-  </section>
-
-  <section id="tape" class="dsec">
-    <div class="wrap">
-      <h2><span class="num">07</span> <span data-i18n="desk.tape.title">The tape</span></h2>
-      <p class="prose" data-i18n="desk.tape.lede">Every fill, newest first.</p>
-      <div class="scroll tape"><table class="tbl" id="tape-tbl"></table></div>
-    </div>
-  </section>
-
-  <section id="chains" class="dsec" hidden>
-    <div class="wrap">
-      <h2><span class="num">08</span> <span data-i18n="desk.chains.title">On other chains</span></h2>
-      <p class="prose" data-i18n="desk.chains.lede">The same flies trade other chains from the same money as above. What each fly holds on each chain, and its latest fills there.</p>
-      <p class="prose dim" id="chains-note" hidden data-i18n="desk.chains.homeOnly">For now the flies only buy on Robinhood Chain. Below is what they still hold or bet elsewhere.</p>
-      <div id="chains-body"></div>
-    </div>
-  </section>
-
-  <section id="launches" class="dsec">
-    <div class="wrap">
-      <h2><span class="num">09</span> <span data-i18n="desk.launch.title">Launches</span></h2>
-      <p class="prose" data-i18n="desk.launch.lede">When enough of the flies want the same thing in the same moment, the swarm launches a token of its own on Pons. On paper the launch is simulated on the chain, never sent.</p>
-      <ul class="launches" id="launch-list"></ul>
-    </div>
-  </section>
-
-  <section id="how" class="dsec">
-    <div class="wrap">
-      <h2><span class="num">10</span> <span data-i18n="desk.how.title">How it trades</span></h2>
-      <div class="how">
-        <p data-i18n-html="desk.how.p1"><b>The brain decides.</b> Each token the fly sees becomes a smell on its olfactory receptor neurons; its mushroom body learns from dopamine what paid. What its motor neurons do in that bar is turned into buy, hold or sell.</p>
-        <p data-i18n-html="desk.how.p3"><b>Real prices, real routes.</b> Robinhood stock tokens, Pons memes and Virtuals agent tokens, each traded through the Uniswap route it would really take, with pool fees, price impact and token taxes charged.</p>
-        <p data-i18n-html="desk.how.p4"><b>Paper money.</b> Nothing here is sent to the chain. When a trade would be real, it is priced the same way.</p>
-      </div>
-    </div>
-  </section>
 </main>
 
 <!-- @footer -->

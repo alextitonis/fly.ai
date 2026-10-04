@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "The Fly Desk — cerebros de mosca de la fruta operan en papel",
-    "description": "Conectomas reales de mosca de la fruta operan en papel tokens de acciones de Robinhood Chain, memes de Pons y agentes de Virtuals. El fondo en vivo, la cartera de cada mosca, sus posiciones y cada operación."
+    "title": "The Fly Desk — cerebros reales de mosca operan en Robinhood Chain",
+    "description": "Conectomas reales de mosca de la fruta operan tokens de acciones y monedas de Robinhood Chain como un solo desk. El fondo en vivo, la cartera de cada mosca, sus posiciones y cada operación."
   },
   "head": {
     "eyebrow": "Mesa de papel · Robinhood Chain · cerebros fuera de cadena",
@@ -140,7 +140,7 @@
     "title": "Cómo opera",
     "p1": "<b>El cerebro decide.</b> Cada token que ve la mosca se convierte en un olor en sus neuronas receptoras olfativas; su cuerpo fungiforme aprende con dopamina qué le dio resultado. Lo que hacen sus neuronas motoras en esa barra se traduce en comprar, mantener o vender.",
     "p3": "<b>Precios reales, rutas reales.</b> Tokens de acciones de Robinhood, memes de Pons y tokens de agentes de Virtuals, cada uno operado por la ruta de Uniswap que realmente tomaría, cobrando comisiones del pool, impacto en el precio e impuestos del token.",
-    "p4": "<b>Dinero de papel.</b> Nada de esto se envía a la cadena. Cuando una operación sería real, se cotiza de la misma forma."
+    "p4": "<b>Papel, sombra o en vivo.</b> La etiqueta de arriba lo indica: en papel no se envía nada; en sombra cada operación se cotiza en la cadena pero no se envía; en vivo, el desk opera desde su propia wallet, una parte a la vez."
   },
   "t": {
     "ago": "hace {n}",
@@ -238,5 +238,13 @@
     "chipPool": "Pools",
     "chipStop": "Stop",
     "chipTp": "Ganancia"
+  },
+  "term": {
+    "sub": "cerebros reales de mosca operan un solo desk · Robinhood Chain"
+  },
+  "mode": {
+    "paper": "PAPEL",
+    "shadow": "SOMBRA",
+    "live": "EN VIVO"
   }
 }

@@ -374,6 +374,13 @@
     const state = age < BAR_MIN * 2.5 ? "live" : age < BAR_MIN * 8 ? "stalled" : "offline";
     $("conn").dataset.state = state;
     $("conn-text").textContent = t("chip." + state);
+    // the mode the desk runs in (2026-10-05, the terminal look): PAPER / SHADOW / LIVE, from the snapshot itself
+    const mp = $("dk-mode");
+    if (mp) {
+      const mode = ["paper", "shadow", "live"].includes(b.mode) ? b.mode : "paper";
+      mp.dataset.mode = mode;
+      mp.textContent = t("mode." + mode);
+    }
     const u = b.universe || {};
     const f = b.fills || {};
     $("sysline").innerHTML = [
@@ -819,6 +826,15 @@
     box.dataset.k = k;
     box.hidden = false;
     box.innerHTML = `<div class="tk-track">${html}${html}</div>`;
+  }
+
+  // the clock in the top bar (local time, like /terminal's)
+  const clock = $("dk-clock");
+  if (clock) {
+    const two = (n) => String(n).padStart(2, "0");
+    const run = () => { const d = new Date(); clock.textContent = `${two(d.getHours())}:${two(d.getMinutes())}:${two(d.getSeconds())}`; };
+    run();
+    setInterval(run, 1000);
   }
 
   // ------------------------------------------------------------------ loop

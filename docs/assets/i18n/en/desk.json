@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "The Fly Desk — fruit-fly brains trade a paper book",
-    "description": "Real fruit-fly connectomes trade Robinhood Chain stock tokens, Pons memes and Virtuals agents on paper. Live pot, every fly's book, positions and every fill."
+    "title": "The Fly Desk — real fly brains trade Robinhood Chain",
+    "description": "Real fruit-fly connectomes trade Robinhood Chain stock tokens and coins as one desk. Live pot, every fly's book, positions and every fill."
   },
   "head": {
     "eyebrow": "Paper desk · Robinhood Chain · off-chain brains",
@@ -140,7 +140,7 @@
     "title": "How it trades",
     "p1": "<b>The brain decides.</b> Each token the fly sees becomes a smell on its olfactory receptor neurons; its mushroom body learns from dopamine what paid. What its motor neurons do in that bar is turned into buy, hold or sell.",
     "p3": "<b>Real prices, real routes.</b> Robinhood stock tokens, Pons memes and Virtuals agent tokens, each traded through the Uniswap route it would really take, with pool fees, price impact and token taxes charged.",
-    "p4": "<b>Paper money.</b> Nothing here is sent to the chain. When a trade would be real, it is priced the same way."
+    "p4": "<b>Paper, shadow or live.</b> The pill at the top says which: on paper nothing is sent; in shadow every trade is quoted on the chain but not sent; live, the desk trades from its own wallet, a slice at a time."
   },
   "t": {
     "ago": "{n} ago",
@@ -238,5 +238,13 @@
     "chipPool": "Pools",
     "chipStop": "Stop",
     "chipTp": "Take profit"
+  },
+  "term": {
+    "sub": "real fly brains trade one desk · Robinhood Chain"
+  },
+  "mode": {
+    "paper": "PAPER",
+    "shadow": "SHADOW",
+    "live": "LIVE"
   }
 }
