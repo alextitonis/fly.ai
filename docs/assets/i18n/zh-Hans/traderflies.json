@@ -1469,6 +1469,7 @@
     "active": "🎁 {usd} 奖励 · 锁定至 {date}",
     "unlocked": "🎁 {usd} 奖励已解锁 - 归你了",
     "returned": "{usd} 奖励已退回（锁定期间提取了资金）。",
-    "withdrawWarn": "你的 {usd} 充值奖励锁定至 {date}：现在提取任何金额都会退回奖励。"
+    "withdrawWarn": "你的 {usd} 充值奖励锁定至 {date}：现在提取任何金额都会退回奖励。",
+    "remaining": "剩余 {left}/{slots}"
   }
 }

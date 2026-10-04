@@ -1469,6 +1469,7 @@
     "active": "🎁 {usd} 보너스 · {date}까지 잠김",
     "unlocked": "🎁 {usd} 보너스 잠금 해제 - 이제 당신의 것입니다",
     "returned": "{usd} 보너스가 반환되었습니다 (잠긴 동안 출금함).",
-    "withdrawWarn": "{usd} 입금 보너스는 {date}까지 잠겨 있습니다: 지금 얼마라도 출금하면 보너스가 반환됩니다."
+    "withdrawWarn": "{usd} 입금 보너스는 {date}까지 잠겨 있습니다: 지금 얼마라도 출금하면 보너스가 반환됩니다.",
+    "remaining": "{left}/{slots} 남음"
   }
 }

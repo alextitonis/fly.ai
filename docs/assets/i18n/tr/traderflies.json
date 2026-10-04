@@ -1471,6 +1471,7 @@
     "active": "🎁 {usd} bonus · {date} tarihine kadar kilitli",
     "unlocked": "🎁 {usd} bonusun kilidi açıldı - artık senin",
     "returned": "{usd} bonus geri gitti (kilitliyken para çekildi).",
-    "withdrawWarn": "{usd} yatırma bonusun {date} tarihine kadar kilitli: şimdi herhangi bir miktar çekersen bonus geri gider."
+    "withdrawWarn": "{usd} yatırma bonusun {date} tarihine kadar kilitli: şimdi herhangi bir miktar çekersen bonus geri gider.",
+    "remaining": "{left}/{slots} kaldı"
   }
 }
