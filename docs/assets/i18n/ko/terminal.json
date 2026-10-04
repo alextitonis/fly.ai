@@ -42,7 +42,8 @@
     "linking": "Fly Wallets 데스크에 연결 중…",
     "listening": "데스크를 듣는 중",
     "linked": "연결됨 · 파리 지갑 {wallets}개 · 최근 체결 {fills}건",
-    "count": "체결 {fills}건 · 실시간 {live}건"
+    "count": "체결 {fills}건 · 실시간 {live}건",
+    "bar": "바 {time} · 지갑 {w}개 확인 · 새 거래 {n}건"
   },
   "kpis": {
     "wallets": "지갑 {count}개 운용 중",
@@ -97,5 +98,13 @@
     "token": "{sym} {price} · 파리 {n}마리가 {value} 보유 · 원가 대비 {pct} · {list}",
     "tokenNone": "지금 {sym}을(를) 보유한 파리가 없습니다",
     "unknown": "알 수 없는 명령 · {help}"
+  },
+  "cycle": {
+    "next": "다음 데스크 바",
+    "reading": "지갑 읽는 중…",
+    "miners": "채굴자",
+    "online": "접속",
+    "tasks": "오늘 작업",
+    "rate": "초당"
   }
 }

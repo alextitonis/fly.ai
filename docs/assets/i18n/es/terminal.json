@@ -42,7 +42,8 @@
     "linking": "conectando con el desk de Fly Wallets…",
     "listening": "escuchando al desk",
     "linked": "conectado · {wallets} billeteras · {fills} operaciones recientes",
-    "count": "{fills} operaciones · {live} en vivo"
+    "count": "{fills} operaciones · {live} en vivo",
+    "bar": "barra {time} · {w} billeteras leídas · {n} operaciones nuevas"
   },
   "kpis": {
     "wallets": "{count} billeteras activas",
@@ -97,5 +98,13 @@
     "token": "{sym} {price} · {n} moscas tienen {value} · {pct} sobre costo · {list}",
     "tokenNone": "ninguna mosca tiene {sym} ahora",
     "unknown": "comando desconocido · {help}"
+  },
+  "cycle": {
+    "next": "PRÓXIMA BARRA",
+    "reading": "leyendo las billeteras…",
+    "miners": "MINEROS",
+    "online": "en línea",
+    "tasks": "trabajos hoy",
+    "rate": "por segundo"
   }
 }

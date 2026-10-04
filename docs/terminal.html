@@ -7,7 +7,10 @@
 <meta name="description" data-i18n-attr="content:terminal.meta.description" content="Watch the Trader Flies trade live on Robinhood Chain: every fly wallet's buys and sells, the parts of the desk lighting up, the tape, the curve, who holds what.">
 <meta property="og:title" content="fly.ai terminal &mdash; real fly brains trading live">
 <meta property="og:description" content="Watch the Trader Flies trade live on Robinhood Chain: the tape, the curve, the brain and its parts lighting up on every real trade.">
-<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta property="og:image" content="https://flyaiworld.com/assets/terminal-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/terminal-og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@flydotai">
 <meta name="theme-color" content="#000000">
@@ -55,6 +58,10 @@
     <h2><span data-i18n="terminal.panel.core">BRAIN CORE / PART FIELD</span> <small data-i18n="terminal.panel.coreNote">connectome · 166,700 neurons</small></h2>
     <canvas id="core" aria-hidden="true"></canvas>
     <div class="tm-corestat"><b id="core-mode" data-i18n="terminal.panel.mode">MODE: LIVE</b><span id="core-sub"></span></div>
+    <div class="tm-cycle">
+      <div class="tm-cyc"><span data-i18n="terminal.cycle.next">NEXT DESK BAR</span><div class="tm-bar"><i id="bar-fill"></i></div><b id="bar-left">—</b></div>
+      <div class="tm-cyc"><span data-i18n="terminal.cycle.miners">MINERS</span><b id="mn-online">—</b><span data-i18n="terminal.cycle.online">online</span>·<b id="mn-tasks">—</b><span data-i18n="terminal.cycle.tasks">jobs today</span>·<b id="mn-rate">—</b><span data-i18n="terminal.cycle.rate">a second</span></div>
+    </div>
     <form class="tm-cmd" id="cmd" autocomplete="off">
       <label for="cmd-in">fly&gt;</label>
       <input id="cmd-in" placeholder="help · top · watch 168 · token FLYAI · share 849" data-i18n-attr="placeholder:terminal.panel.placeholder" spellcheck="false">

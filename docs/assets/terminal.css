@@ -102,7 +102,17 @@
 /* heat */
 .tm-heat { grid-area: heat; height: 330px; }
 .tm-heatgrid { display: grid; gap: 3px; font-size: 10px; overflow: auto; }
-.tm-heatgrid .hc { height: 20px; border-radius: 3px; background: #07100d; min-width: 14px; }
+.tm-heatgrid .hc { height: 20px; border-radius: 3px; background: #07100d; min-width: 14px; display: grid; place-items: center; }
+.tm-heatgrid .hc i { display: block; border-radius: 3px; }
+
+/* the desk's bar and the miners, under the brain */
+.tm-cycle { display: grid; gap: 6px; margin-top: 8px; font-size: 10.5px; letter-spacing: .06em; color: var(--t-dim); }
+.tm-cyc { display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; }
+.tm-cyc > span:first-child { color: var(--t-mint); font-weight: 700; letter-spacing: .12em; min-width: 108px; }
+.tm-cyc b { color: var(--t-text); font-variant-numeric: tabular-nums; }
+.tm-bar { flex: 1; height: 6px; border-radius: 6px; background: #07100d; border: 1px solid var(--t-line); overflow: hidden; }
+.tm-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, rgba(94, 242, 204, .25), var(--t-mint)); box-shadow: 0 0 10px var(--t-mint); transition: width .25s linear; }
+.tm-bar.due i { animation: tm-blink 1s infinite; }
 .tm-heatgrid .hl { color: var(--t-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; align-self: center; }
 .tm-heatgrid .ht { color: var(--t-dim); writing-mode: vertical-rl; transform: rotate(180deg); justify-self: center; max-height: 54px; overflow: hidden; }
 

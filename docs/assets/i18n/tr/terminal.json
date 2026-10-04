@@ -42,7 +42,8 @@
     "linking": "Fly Wallets masasına bağlanıyor…",
     "listening": "masayı dinliyor",
     "linked": "bağlandı · {wallets} sinek cüzdanı · {fills} son işlem yüklendi",
-    "count": "{fills} işlem · {live} canlı"
+    "count": "{fills} işlem · {live} canlı",
+    "bar": "bar {time} · {w} cüzdan okundu · {n} yeni işlem"
   },
   "kpis": {
     "wallets": "{count} cüzdan canlı",
@@ -97,5 +98,13 @@
     "token": "{sym} {price} · {n} sinek {value} tutuyor · maliyete {pct} · {list}",
     "tokenNone": "şu an hiçbir sinek {sym} tutmuyor",
     "unknown": "bilinmeyen komut · {help}"
+  },
+  "cycle": {
+    "next": "SONRAKİ BAR",
+    "reading": "cüzdanlar okunuyor…",
+    "miners": "MADENCİLER",
+    "online": "çevrimiçi",
+    "tasks": "bugünkü iş",
+    "rate": "saniyede"
   }
 }

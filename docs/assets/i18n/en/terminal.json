@@ -42,7 +42,8 @@
     "linking": "linking to the Fly Wallets desk…",
     "listening": "listening to the desk",
     "linked": "linked · {wallets} fly wallets · {fills} recent fills loaded",
-    "count": "{fills} fills · {live} live"
+    "count": "{fills} fills · {live} live",
+    "bar": "bar {time} · {w} wallets read · {n} new trades"
   },
   "kpis": {
     "wallets": "{count} wallets live",
@@ -97,5 +98,13 @@
     "token": "{sym} {price} · {n} flies hold {value} · {pct} on cost · {list}",
     "tokenNone": "no fly holds {sym} right now",
     "unknown": "unknown command · {help}"
+  },
+  "cycle": {
+    "next": "NEXT DESK BAR",
+    "reading": "reading the wallets…",
+    "miners": "MINERS",
+    "online": "online",
+    "tasks": "jobs today",
+    "rate": "a second"
   }
 }

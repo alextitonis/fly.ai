@@ -42,7 +42,8 @@
     "linking": "正在连接 Fly Wallets 交易台…",
     "listening": "正在监听交易台",
     "linked": "已连接 · {wallets} 个苍蝇钱包 · 已载入 {fills} 笔近期成交",
-    "count": "{fills} 笔成交 · {live} 笔实时"
+    "count": "{fills} 笔成交 · {live} 笔实时",
+    "bar": "K线 {time} · 读取 {w} 个钱包 · {n} 笔新交易"
   },
   "kpis": {
     "wallets": "{count} 个钱包运行中",
@@ -97,5 +98,13 @@
     "token": "{sym} {price} · {n} 只苍蝇持有 {value} · 相对成本 {pct} · {list}",
     "tokenNone": "目前没有苍蝇持有 {sym}",
     "unknown": "未知命令 · {help}"
+  },
+  "cycle": {
+    "next": "下一根K线",
+    "reading": "正在读取钱包…",
+    "miners": "矿工",
+    "online": "在线",
+    "tasks": "今日任务",
+    "rate": "每秒"
   }
 }

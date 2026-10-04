@@ -69,6 +69,52 @@ function takeView(id, v) {
   }
 }
 
+// ---- the desk's bar and the miners: the screen's clock (2026-10-04, the community: "something should be happening")
+// The desk reads every wallet once a bar (5 minutes) and publishes them together; each new bar sweeps the brain. The
+// miners' tasks (/api/stats) tick on and land in the brain as sparks.
+const BAR_SEC = 300, STATS_EVERY = 60_000;
+const bar = { at: 0, events: 0 };
+function checkBar() {
+  let latest = 0;
+  for (const s of state.views.values()) latest = Math.max(latest, s.updated ?? 0);
+  if (!latest) return;
+  if (!bar.at) { bar.at = latest; bar.events = state.events; return; }
+  if (latest <= bar.at + 30) return;
+  bar.at = latest;
+  core.sweep(); beat.spike(0.55, false);
+  sys(t("terminal.stream.bar", { time: hhmmss(latest).slice(0, 5), w: state.views.size, n: state.events - bar.events }));
+  bar.events = state.events;
+}
+setInterval(() => {
+  if (!bar.at) return;
+  const left = bar.at + BAR_SEC - Date.now() / 1000, due = left <= 0;
+  $("bar-fill").style.width = `${due ? 100 : Math.max(0, Math.min(100, (1 - left / BAR_SEC) * 100))}%`;
+  $("bar-fill").parentElement.classList.toggle("due", due);
+  $("bar-left").textContent = due ? t("terminal.cycle.reading")
+    : `${Math.floor(left / 60)}:${String(Math.floor(left % 60)).padStart(2, "0")}`;
+}, 250);
+
+// /api/stats is cached on the server and moves in steps: the count runs at today's average pace (jobs so far over the
+// seconds since 00:00 UTC, when it resets), and each reading puts it back on the real number
+const miners = { done: 0, at: 0, rate: 0 };
+async function pollStats() {
+  try {
+    const s = await get("/api/stats"), now = Date.now();
+    const sinceMidnight = (now % 86_400_000) / 1000;
+    miners.rate = sinceMidnight > 600 ? (s.jobs_today ?? 0) / sinceMidnight : 0;
+    miners.done = s.jobs_today ?? 0; miners.at = now;
+    $("mn-online").textContent = num(s.miners_online ?? 0, 0);
+    core.compute(miners.rate);
+    $("mn-rate").textContent = miners.rate ? num(miners.rate, 0) : "—";
+  } catch { /* the next read */ }
+  setTimeout(pollStats, STATS_EVERY);
+}
+// the count runs on between reads at the measured pace
+setInterval(() => {
+  if (!miners.at) return;
+  $("mn-tasks").textContent = num(Math.floor(miners.done + miners.rate * (Date.now() - miners.at) / 1000), 0);
+}, 100);
+
 let queue = [];
 async function pollFlies() {
   if (!queue.length) queue = [...state.board].sort((a, b) => b.value - a.value).slice(0, TOP_N).map((r) => r.flies[0]);
@@ -76,6 +122,7 @@ async function pollFlies() {
   if (id != null) {
     try { takeView(id, await get(`/api/vaults/fly/${id}`)); } catch { /* the next lap reads it again */ }
     if (!state.started && !queue.length) begin();
+    checkBar();
     redraw();
   }
   setTimeout(pollFlies, state.started ? FLY_EVERY : 600);   // the first lap fast, then gently
@@ -87,6 +134,7 @@ async function pollFeed() {
     const f = await get("/api/vaults/feed?chain=robinhood");
     for (const [id, s] of Object.entries(f.flies ?? {})) takeView(Number(id), { stats: s });
     if (!state.started) begin();
+    checkBar();
     state.feed = true;
     live(true);
     redraw();
@@ -231,9 +279,11 @@ function drawHeat(h) {
     for (const x of toks) {
       const w = x.flies.get(f);
       if (!w) { html += `<span class="hc"></span>`; continue; }
-      const a = 0.18 + 0.82 * Math.sqrt(w.value / max), up = (w.pnl_pct ?? 0) >= 0;
-      const col = up ? `rgba(94,242,204,${a.toFixed(2)})` : `rgba(255,90,82,${a.toFixed(2)})`;
-      html += `<span class="hc" style="background:${col};box-shadow:0 0 ${Math.round(a * 10)}px ${col}" title="#${f} ${esc(x.sym)} ${usd(w.value)} ${pct(w.pnl_pct)}"></span>`;
+      // the square's size is the money in it (2026-10-04, the community: "size = value" but every cell was one size)
+      const k = Math.sqrt(w.value / max), side = Math.round(5 + 13 * k), up = (w.pnl_pct ?? 0) >= 0;   // 5-18 px
+      const col = up ? `rgba(94,242,204,${(0.55 + 0.45 * k).toFixed(2)})` : `rgba(255,90,82,${(0.55 + 0.45 * k).toFixed(2)})`;
+      html += `<span class="hc" title="#${f} ${esc(x.sym)} ${usd(w.value)} ${pct(w.pnl_pct)}"><i style="width:${side}px;height:${side}px;`
+        + `background:${col};box-shadow:0 0 ${Math.round(4 + k * 8)}px ${col}"></i></span>`;
     }
   }
   g.innerHTML = toks.length ? html : `<small class="dim">${t("terminal.pulse.reading")}</small>`;
@@ -332,8 +382,14 @@ const core = (() => {
   lump(700, -1.25, 0.04, 0, 0.36, 0.62, 0.42); // optic lobes
   lump(700, 1.25, 0.04, 0, 0.36, 0.62, 0.42);
   lump(260, 0, -0.38, 0.1, 0.42, 0.14, 0.2);   // mushroom bodies' calyces, a denser band on top
-  let rot = 0;
+  let rot = 0, sweep0 = -1e9, sparks = 0;
   const nodes = PARTS.map((p, i) => ({ p, a: (i / PARTS.length) * Math.PI * 2 - Math.PI / 2 }));
+  // a part chip glows while it acts, and in turn while a new desk bar sweeps through the brain
+  const glowing = (key, ts) => {
+    if (state.partLive.has(key)) return true;
+    const k = (ts - sweep0) / 1600, i = PARTS.findIndex((p) => p.key === key) / PARTS.length;
+    return k > 0.15 + i * 0.7 && k < 0.15 + i * 0.7 + 0.22;
+  };
   function frame(ts) {
     const { ctx, w, h } = fit(cv);
     ctx.clearRect(0, 0, w, h);
@@ -348,7 +404,7 @@ const core = (() => {
     ctx.beginPath(); ctx.ellipse(cx, cy, orx, ory, 0, 0, Math.PI * 2); ctx.stroke();
     const at = nodes.map((n) => { const a = n.a + rot * 0.6; return { n, x: cx + Math.cos(a) * orx, y: cy + Math.sin(a) * ory }; });
     for (const q of at) {
-      const lit = state.partLive.has(q.n.p.key);
+      const lit = glowing(q.n.p.key, ts);
       ctx.strokeStyle = lit ? q.n.p.c : "rgba(94,242,204,.07)"; ctx.globalAlpha = lit ? 0.55 : 1;
       ctx.setLineDash(lit ? [] : [2, 5]); ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(q.x, q.y); ctx.stroke();
     }
@@ -357,13 +413,21 @@ const core = (() => {
     const cs = Math.cos(rot), sn = Math.sin(rot), tilt = 0.32, ct = Math.cos(tilt), st = Math.sin(tilt);
     const pr = pts.map((p) => { const x = p.x * cs - p.z * sn, z0 = p.x * sn + p.z * cs, y = p.y * ct - z0 * st, z = p.y * st + z0 * ct; return { x, y, z, p }; })
       .sort((a, b) => a.z - b.z);
-    const t = ts / 1000;
+    const t = ts / 1000, sk = (ts - sweep0) / 1600, front = -1.9 + 3.8 * sk;   // a new bar: a wave left to right
     for (const q of pr) {
-      const depth = (q.z + 1.2) / 2.4, fire = Math.max(0, Math.sin(t * (0.6 + q.p.s * 1.8) + q.p.f)) ** 18;
+      const depth = (q.z + 1.2) / 2.4, wave = sk > 0 && sk < 1 ? Math.exp(-((q.x - front) ** 2) / 0.03) : 0;
+      const fire = Math.max(Math.max(0, Math.sin(t * (0.6 + q.p.s * 1.8) + q.p.f)) ** 18, wave);
       ctx.fillStyle = fire > 0.4 ? "#eafff8" : "#5ef2cc";
       ctx.globalAlpha = Math.min(1, 0.12 + depth * 0.5 + fire * 0.8);
       const sz = 0.6 + depth * 1.3 + fire * 1.6;
       ctx.fillRect(cx + q.x * R - sz / 2, cy + q.y * R - sz / 2, sz, sz);
+    }
+    // the miners' work landing: sparks in the brain, as many as their tasks a second allow
+    ctx.fillStyle = "#ffffff";
+    for (let i = 0; i < sparks; i++) {
+      const q = pr[(Math.random() * pr.length) | 0];
+      ctx.globalAlpha = 0.5 + Math.random() * 0.5;
+      ctx.fillRect(cx + q.x * R - 1.5, cy + q.y * R - 1.5, 3, 3);
     }
     ctx.globalAlpha = 1;
     // pulses running out to the part that acted
@@ -379,7 +443,7 @@ const core = (() => {
     // the part chips on the orbit
     ctx.font = "700 10px 'JetBrains Mono', monospace"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     for (const q of at) {
-      const lit = state.partLive.has(q.n.p.key), tw = ctx.measureText(q.n.p.name).width + 18;
+      const lit = glowing(q.n.p.key, ts), tw = ctx.measureText(q.n.p.name).width + 18;
       ctx.fillStyle = lit ? "rgba(0,0,0,.85)" : "rgba(4,7,6,.9)"; ctx.strokeStyle = lit ? q.n.p.c : "rgba(94,242,204,.22)";
       if (lit) { ctx.shadowColor = q.n.p.c; ctx.shadowBlur = 14; }
       ctx.beginPath(); ctx.roundRect(q.x - tw / 2, q.y - 11, tw, 22, 6); ctx.fill(); ctx.stroke(); ctx.shadowBlur = 0;
@@ -388,7 +452,12 @@ const core = (() => {
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
-  return { pulse: (key, c, size) => pulses.push({ key, c, size, t0: performance.now() }) };
+  return {
+    pulse: (key, c, size) => pulses.push({ key, c, size, t0: performance.now() }),
+    sweep: () => { sweep0 = performance.now(); },
+    /** tasks a second across the miners -> sparks a frame (a few hundred tasks a second already shows) */
+    compute: (rate) => { sparks = reduced ? 0 : Math.min(40, Math.round(Math.sqrt(Math.max(0, rate)) / 2)); },
+  };
 })();
 
 /** the combined profit curve, glowing, its last point pulsing */
@@ -486,5 +555,6 @@ setInterval(() => { $("tm-clock").textContent = `${new Date().toISOString().slic
   sys(t("terminal.stream.linking"));
   for (;;) { try { await readBoard(); break; } catch { live(false); await new Promise((r) => setTimeout(r, 5000)); } }
   setInterval(() => readBoard().catch(() => live(false)), BOARD_EVERY);
+  pollStats();
   if (!(await pollFeed())) pollFlies();
 })();
