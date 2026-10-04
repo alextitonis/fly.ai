@@ -59,8 +59,8 @@ def plan(cap: float, flies: int) -> tuple[dict, list[str]]:
             warn.append(f"{name} ${v:.2f} is under ${MIN_SLOT_USD:g}: raise --cap (or fewer flies)")
     settings = {
         "fly_allocation_usd": round(per_fly, 2),
-        "entry": {"on": True, "sleeves": True, "min_pool_usd": 50000.0, "min_pool_age_hours": 72.0,
-                  "max_round_trip_pct": 3.0, "bonding": False, "home_only": True},
+        "entry": {"on": True, "home_only": False, "live_chains": ["base", "bsc", "arbitrum"], "relay_round_trip_pct": 1.0, "sleeves": True, "min_pool_usd": 50000.0, "min_pool_age_hours": 72.0,
+                  "max_round_trip_pct": 3.0, "bonding": False},
         "patience": {"on": True, "threshold": 1.5, "decay": 0.7, "step": 0.5},
         "churn": {"on": True, "bars": 4, "mult": 1.5},
         "fast": {"drain_pct": 50.0},
