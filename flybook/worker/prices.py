@@ -16,6 +16,8 @@ filling any gap (GeckoTerminal alone froze thinly traded tokens for hours). A to
 """
 from __future__ import annotations
 
+import time
+
 import requests
 
 # symbol, name, address (Robinhood Chain, chain id 4663), category
@@ -74,16 +76,41 @@ def _batches(addresses: list[str]) -> list[list[str]]:
     return [addresses[i:i + BATCH] for i in range(0, len(addresses), BATCH)]
 
 
-def _gecko(timeout: float) -> dict[str, float]:
-    out = {}
-    for batch in _batches(list(BY_ADDRESS)):
+# GeckoTerminal only for what DexScreener left out, kept GECKO_TTL, and left alone GECKO_BACKOFF after it says 429
+# (2026-10-04: every bar asked it for ALL ~60 tokens because DexScreener always misses one or two - in each of the
+# desk's processes - and it answered 429 Too Many Requests about every other bar)
+GECKO_TTL = 300.0
+GECKO_BACKOFF = 600.0
+GECKO_KEEP = 1800.0             # a cached price fills a gap this long while GeckoTerminal is backed off
+_gecko_cache: dict[str, tuple[float, float]] = {}   # symbol -> (price, when)
+_gecko_quiet_until = 0.0
+
+
+def _gecko(timeout: float, symbols: list[str] | None = None) -> dict[str, float]:
+    """Prices for `symbols` (all when None): fresh cache entries first, the rest asked in batches; after a 429 the
+    cache answers alone (up to GECKO_KEEP old) until GECKO_BACKOFF has passed."""
+    global _gecko_quiet_until
+    now = time.time()
+    want = list(BY_SYMBOL) if symbols is None else [s for s in symbols if s in BY_SYMBOL]
+    out = {s: p for s in want if (c := _gecko_cache.get(s)) and now - c[1] < GECKO_TTL for p in (c[0],)}
+    ask = [BY_SYMBOL[s][2] for s in want if s not in out]
+    if ask and now < _gecko_quiet_until:
+        out.update({s: c[0] for s in want if s not in out and (c := _gecko_cache.get(s)) and now - c[1] < GECKO_KEEP})
+        return out
+    for batch in _batches(ask):
         r = requests.get(GECKO + ",".join(batch), timeout=timeout, headers={"accept": "application/json"})
+        if r.status_code == 429:
+            _gecko_quiet_until = now + GECKO_BACKOFF
+            out.update({s: c[0] for s in want if s not in out and (c := _gecko_cache.get(s)) and now - c[1] < GECKO_KEEP})
+            print(f"prices: GeckoTerminal 429, quiet for {GECKO_BACKOFF:.0f} s (cached prices fill the gaps)", flush=True)
+            return out
         r.raise_for_status()
         for t in r.json().get("data", []):
             a = t.get("attributes") or {}
             symbol = BY_ADDRESS.get((a.get("address") or "").lower())
             if symbol and a.get("price_usd"):
                 out[symbol] = float(a["price_usd"])
+                _gecko_cache[symbol] = (out[symbol], now)
     return out
 
 
@@ -113,9 +140,10 @@ def fetch(timeout: float = 12) -> dict[str, float]:
         prices.update(_dexscreener([t[2] for t in TOKENS], timeout))
     except Exception as e:
         print(f"prices: DexScreener failed ({type(e).__name__}: {e})", flush=True)
-    if len(prices) < len(TOKENS):
+    missing = [t[0] for t in TOKENS if t[0] not in prices]
+    if missing:
         try:
-            for s, p in _gecko(timeout).items():
+            for s, p in _gecko(timeout, missing).items():
                 prices.setdefault(s, p)
         except Exception as e:
             print(f"prices: GeckoTerminal failed ({type(e).__name__}: {e})", flush=True)
