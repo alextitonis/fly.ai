@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Deploy the mining server to fly.io (app flyai-mine, Treasure org).
+# Deploy the mining server to fly.io (app flyai-mine).
 #
 #   bash mine/deploy.sh
 #
 # First time only:
-#   fly apps create flyai-mine --org treasure-403
+#   fly apps create flyai-mine --org <your-org>
 #   fly volumes create mine_data --app flyai-mine --region cdg --size 1 --yes
 #   fly ips allocate-v6 --app flyai-mine && fly ips allocate-v4 --shared --app flyai-mine
 #     (the first deploy's automatic IP allocation failed for this org: "org_slug is only supported with private_v6")

@@ -1,4 +1,4 @@
-# fly.ai mining server on fly.io, Treasure org: one machine with a volume for its SQLite database, so it
+# fly.ai mining server on fly.io: one machine with a volume for its SQLite database, so it
 # doesn't scale out and doesn't stop when idle (miners hold jobs, and the expiry timer runs in-process).
 # Deploy with mine/deploy.sh.
 app = "flyai-mine"

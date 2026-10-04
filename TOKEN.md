@@ -21,8 +21,7 @@ repository where the token is described; the rest of the repo is about the fly.
 | team allocation | none (the developer bought 0.156314 NVDA worth on the curve at launch, like anyone else) |
 | tax | none (no transfer tax; fees come from the launchpad) |
 | mint / owner functions | disabled after launch |
-| creator fees | 60% buys $FLYAI and burns it, 40% buys $MAGIC |
-| $MAGIC contract | `0xF1572d1Da5c3CcE14eE5a1c9327d17e9ff0E3f43` |
+| creator fees | 60% buys $FLYAI and burns it, 40% funds development |
 
 ## What it is
 
@@ -164,9 +163,7 @@ That revenue is split:
 
 * **60% buys $FLYAI on the open market and burns it.** The tokens go to the burn address and leave
   the supply permanently. They are not held, not re-sold and not kept in a treasury.
-* **40% buys $MAGIC**, the token of the company behind fly.ai, at
-  `0xF1572d1Da5c3CcE14eE5a1c9327d17e9ff0E3f43`. fly.ai is built by that
-  team, and this is the share that flows up to it.
+* **40% funds development** of fly.ai. It goes to the team that builds it.
 
 The buyback runs **weekly, on a fixed schedule**, from a single public address. Timing is not
 discretionary — waiting for a good price would mean trading against the people holding the token.

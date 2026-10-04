@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Deploy the mining bridges to fly.io (app flyai-bridge, Treasure org).
+# Deploy the mining bridges to fly.io (app flyai-bridge).
 #
 #   bash mine/bridge/deploy.sh
 #
 # First time only:
-#   fly apps create flyai-bridge --org treasure-403
+#   fly apps create flyai-bridge --org <your-org>
 #   fly ips allocate-v6 --app flyai-bridge && fly ips allocate-v4 --shared --app flyai-bridge
 #   fly secrets set -a flyai-bridge ADMIN_TOKEN=... YESPOWER_POOL=... YESPOWER_USER=... KASPA_POOL=... KASPA_USER=...
 set -euo pipefail

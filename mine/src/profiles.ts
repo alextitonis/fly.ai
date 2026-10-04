@@ -23,7 +23,7 @@ export type ProfilesDeps = {
 
 const NICK = /^[A-Za-z0-9 _.\-]{3,20}$/;
 // names that would pose as the project or its team, or as a wallet address
-const RESERVED = /^(fly\s*ai|flyai|fly\.ai|admin|team|official|support|mod|moderator|dev|deployer|treasure|robinhood)$/i;
+const RESERVED = /^(fly\s*ai|flyai|fly\.ai|admin|team|official|support|mod|moderator|dev|deployer|robinhood)$/i;
 const ADDRESS = /^0x[0-9a-fA-F]{40}$/;
 
 export function createProfiles(d: ProfilesDeps) {

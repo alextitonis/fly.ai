@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deploy the always-on fly world to fly.io (app fly-world-sim, org treasure-403).
+# Deploy the always-on fly world to fly.io (app fly-world-sim).
 #
 #   bash world/server/deploy.sh
 #

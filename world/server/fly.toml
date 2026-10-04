@@ -1,5 +1,5 @@
-# The always-on fly world (world/server/run.ts) on fly.io, org treasure-403.
-#   first time:  fly apps create fly-world-sim --org treasure-403
+# The always-on fly world (world/server/run.ts) on fly.io.
+#   first time:  fly apps create fly-world-sim --org <your-org>
 #                fly secrets set -a fly-world-sim SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=...
 #   deploy:      bash world/server/deploy.sh
 # It must never sleep: one machine, always on. A deploy stops it with SIGTERM, it saves a checkpoint, and the new

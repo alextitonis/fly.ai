@@ -382,7 +382,7 @@ mechanisms still hold, but their numbers belong to that wiring and should be re-
 ## The always-on world (`server/`, 2026-09-16)
 
 One field of flies that never stops, recorded as it goes. `server/run.ts` steps the same `World` the page runs, in
-real time. On fly.io the app is `fly-world-sim` in org `treasure-403`, and the records go to Flybook's Supabase in
+real time. On fly.io the app is `fly-world-sim`, and the records go to Flybook's Supabase in
 `world_*` tables (`flybook/supabase/migrations/20260916120000_world_sim.sql`).
 
 | what | how |

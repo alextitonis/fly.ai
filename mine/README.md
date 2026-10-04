@@ -447,7 +447,7 @@ the miners running it still get their usual points. **Live since 18 September 20
 
 ### What runs where
 
-- **The bridges** live on their own Fly app, `flyai-bridge` (Treasure org, `cdg`, one shared-cpu-1x machine, no
+- **The bridges** live on their own Fly app, `flyai-bridge` (`cdg`, one shared-cpu-1x machine, no
   volume): [`mine/bridge/start.ts`](bridge/start.ts) keeps both pool bridges running, restarts either one with a
   backoff if it dies, and serves a status page at **https://flyai-bridge.fly.dev/**. Deploy with
   `bash mine/bridge/deploy.sh`; its pools, addresses and the admin token are Fly secrets.
@@ -667,7 +667,7 @@ go live on the next push.
 
 ## Deploy
 
-Live at **https://flyai-mine.fly.dev**: app `flyai-mine` in the Treasure org (`treasure-403`), region
+Live at **https://flyai-mine.fly.dev**: app `flyai-mine`, region
 `cdg`.
 
 - **Machine:** one `performance-2x` machine (2 dedicated vCPUs, 4 GB) since 2026-09-19, set in `fly.toml` `[[vm]]`.
