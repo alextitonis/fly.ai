@@ -981,6 +981,17 @@
     }
   },
   "wallet": {
+    "watch": {
+      "title": "Sineğinin her zaman izlediği tokenler",
+      "text": "$FLYAI her zaman listede. Robinhood Chain'de adresle en fazla 5 token daha ekle: beyin ve seçenekler onları her zaman görür ve işlem yapabilir.",
+      "flyai": "$FLYAI ev tokenidir: her sinek onu izler, kaldırılamaz.",
+      "always": "her zaman",
+      "remove": "Bu tokeni kaldır",
+      "aria": "İzlenecek token adresi",
+      "add": "Token ekle",
+      "full": "En fazla bu kadar: {n} token.",
+      "risk": "Eklediğin tokenler $FLYAI gibi güvenilir sayılır: rug kontrolü yok (havuz büyüklüğü, havuz yaşı, GoPlus). Biri rug olursa sineğin ondaki payını kaybedebilir."
+    },
     "fundTextAway": "{native} veya {sym}, en az $10. {native} işlem nakdine ({sym}) dönüşür.",
     "stakeCut": "$FLYAI stake ettiğin için −%{pct}",
     "holdings": "Cüzdan",
@@ -1134,7 +1145,7 @@
       },
       "dip": {
         "title": "Dip",
-        "blurb": "Aşırı satılmış token'ları toparlanınca alır; volatiliteye göre stop, hedef riskin iki katı."
+        "blurb": "Yüksek risk: kazandığından daha sık kaybeder. Aşırı satılmış token'ları toparlanınca alır; volatiliteye göre stop, hedef riskin iki katı."
       },
       "momentum": {
         "title": "Momentum",
@@ -1263,7 +1274,7 @@
       },
       "dip_buyer": {
         "title": "Dip Avcısı",
-        "blurb": "Aşırı satılmış token'ları toparlanınca alır; volatiliteye göre stop, hedef riskin iki katı."
+        "blurb": "Yüksek risk: kazandığından daha sık kaybeder. Aşırı satılmış token'ları toparlanınca alır; volatiliteye göre stop, hedef riskin iki katı."
       },
       "momentum_rider": {
         "title": "Momentum Sürücüsü",
@@ -1497,6 +1508,7 @@
     },
     "positions": "Pozisyonlar",
     "noPositions": "açık pozisyon yok",
+    "idle": "{names}: açık, henüz işlem yok - her biri kendi sinyalini bekler, bazı sinyaller nadirdir.",
     "filter": "Göster",
     "f": {
       "all": "Tümü",
@@ -1553,6 +1565,7 @@
     "noWallet": "Bu sineğin cüzdanı henüz oluşturulmadı."
   },
   "help": {
+    "watch": "Sineğin normal listesinin yanında her zaman baktığı tokenler. Diğer tokenlerin geçtiği güvenlik kontrollerini atlarlar, bu yüzden sadece güvendiğin tokenleri ekle.",
     "market": {
       "memes": "Robinhood Chain'deki meme coinler ve yeni tokenlar. En büyük dalgalanma, en büyük risk.",
       "majors": "ETH ve BTC gibi büyük coinler. Memelerden daha az hareket eder.",

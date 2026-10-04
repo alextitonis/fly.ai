@@ -981,6 +981,17 @@
     }
   },
   "wallet": {
+    "watch": {
+      "title": "Tokens que tu mosca siempre vigila",
+      "text": "$FLYAI siempre está en la lista. Añade hasta 5 tokens más de Robinhood Chain por dirección: el cerebro y las opciones siempre los ven y pueden operarlos.",
+      "flyai": "$FLYAI es el token de la casa: todas las moscas lo vigilan y no se puede quitar.",
+      "always": "siempre",
+      "remove": "Quitar este token",
+      "aria": "Dirección del token a vigilar",
+      "add": "Añadir token",
+      "full": "Ese es el máximo: {n} tokens.",
+      "risk": "Los tokens que añades se tratan como $FLYAI: sin controles anti-rug (tamaño del pool, antigüedad, GoPlus). Si uno hace rug, tu mosca puede perder lo que tenga de él."
+    },
     "fundTextAway": "{native} o {sym}, $10 como mínimo. {native} se convierte en efectivo para operar ({sym}).",
     "stakeCut": "−{pct}% por hacer staking de $FLYAI",
     "holdings": "Wallet",
@@ -1134,7 +1145,7 @@
       },
       "dip": {
         "title": "Caída",
-        "blurb": "Compra tokens sobrevendidos cuando rebotan; stop según la volatilidad, objetivo del doble del riesgo."
+        "blurb": "Riesgo alto: pierde más veces de las que gana. Compra tokens sobrevendidos cuando rebotan; stop según la volatilidad, objetivo del doble del riesgo."
       },
       "momentum": {
         "title": "Momentum",
@@ -1263,7 +1274,7 @@
       },
       "dip_buyer": {
         "title": "Compra en caídas",
-        "blurb": "Compra tokens sobrevendidos cuando rebotan; stop según la volatilidad, objetivo del doble del riesgo."
+        "blurb": "Riesgo alto: pierde más veces de las que gana. Compra tokens sobrevendidos cuando rebotan; stop según la volatilidad, objetivo del doble del riesgo."
       },
       "momentum_rider": {
         "title": "Jinete del momentum",
@@ -1497,6 +1508,7 @@
     },
     "positions": "Posiciones",
     "noPositions": "sin posiciones abiertas",
+    "idle": "{names}: activadas, sin operaciones todavía - cada una espera su propia señal, y algunas son raras.",
     "filter": "Mostrar",
     "f": {
       "all": "Todo",
@@ -1553,6 +1565,7 @@
     "noWallet": "La wallet de esta mosca aún no está creada."
   },
   "help": {
+    "watch": "Tokens que la mosca siempre mira, además de su lista habitual. Se saltan los controles de seguridad de los demás tokens, así que añade solo tokens en los que confíes.",
     "market": {
       "memes": "Memecoins y tokens nuevos en Robinhood Chain. Los mayores movimientos y el mayor riesgo.",
       "majors": "Monedas grandes como ETH y BTC. Se mueven menos que los memes.",

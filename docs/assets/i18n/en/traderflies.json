@@ -981,6 +981,17 @@
     }
   },
   "wallet": {
+    "watch": {
+      "title": "Tokens your fly always watches",
+      "text": "$FLYAI is always on the list. Add up to 5 more tokens on Robinhood Chain by address: the brain and the options always see them and can trade them.",
+      "flyai": "$FLYAI is the house token: every fly watches it, it can't be removed.",
+      "always": "always",
+      "remove": "Remove this token",
+      "aria": "Token address to watch",
+      "add": "Add token",
+      "full": "That's the most: {n} tokens.",
+      "risk": "Tokens you add are trusted like $FLYAI: no rug checks (pool size, pool age, GoPlus). If one of them rugs, your fly can lose what it holds of it."
+    },
     "fundTextAway": "{native} or {sym}, $10 at least. {native} becomes trading cash ({sym}).",
     "stakeCut": "−{pct}% for staking $FLYAI",
     "holdings": "Wallet",
@@ -1134,7 +1145,7 @@
       },
       "dip": {
         "title": "Dip",
-        "blurb": "Buys oversold tokens once they bounce; stop by volatility, target twice the risk."
+        "blurb": "High risk: it loses more often than it wins. Buys oversold tokens once they bounce; stop by volatility, target twice the risk."
       },
       "momentum": {
         "title": "Momentum",
@@ -1263,7 +1274,7 @@
       },
       "dip_buyer": {
         "title": "Dip Buyer",
-        "blurb": "Buys oversold tokens once they bounce; stop by volatility, target twice the risk."
+        "blurb": "High risk: it loses more often than it wins. Buys oversold tokens once they bounce; stop by volatility, target twice the risk."
       },
       "momentum_rider": {
         "title": "Momentum Rider",
@@ -1497,6 +1508,7 @@
     },
     "positions": "Positions",
     "noPositions": "no open positions",
+    "idle": "{names}: switched on, no trade yet - each waits for its own signal, and some signals are rare.",
     "filter": "Show",
     "f": {
       "all": "All",
@@ -1553,6 +1565,7 @@
     "noWallet": "This fly's wallet isn't made yet."
   },
   "help": {
+    "watch": "Tokens the fly always looks at, besides its usual list. They skip the safety checks other tokens go through, so only add tokens you trust.",
     "market": {
       "memes": "Meme coins and new tokens on Robinhood Chain. The biggest swings and the biggest risk.",
       "majors": "Large coins like ETH and BTC. They move less than memes.",
