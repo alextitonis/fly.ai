@@ -9,6 +9,7 @@
     "terminalText": "Everything this fly's wallet does, live: each trade and the part that made it, the trades it skipped and why, and money in and out. It reads again every 15 seconds.",
     "walletText": "Each fly has its own wallet and trades only the money you put in it. Gains and losses stay in that wallet, and you withdraw them from the fly's page, paid in $FLYAI. This is live now.",
     "deskSoonText": "The Fly Desk is a separate, shared desk. Once it trades for real, part of its weekly profit is split among all active flies by rarity, and claimed here. It isn't live yet, so the shares below are what each fly would get - nothing is owed.",
+    "deskLiveText": "The Fly Desk trades for real now, with a starting slice of the pool. Part of its weekly profit will be split among all active flies by rarity once payouts are switched on; until then the shares below are what each fly would get.",
     "deskText": "The Fly Desk is a separate, shared desk: part of its weekly profit is split among all active flies by rarity. Claim your flies' payouts here."
   },
   "traders": {
@@ -167,6 +168,8 @@
     "incubating": "Incubating · hatches in {time}",
     "incubatingShort": "Incubating",
     "notLiveTitle": "The Fly Desk isn't live yet: nothing to claim.",
+    "livePayoutsTitle": "The Fly Desk trades live; payouts aren't switched on yet.",
+    "livePayoutsText": "Nothing to claim yet. Once payouts start, each active fly gets its share of the holders' part every week, claimed here.",
     "notLiveText": "Payouts start once the desk trades for real. Until then, this is each fly's share of the holders' part - not money owed.",
     "yours": "Your flies",
     "yoursN": "Your flies ({n})",

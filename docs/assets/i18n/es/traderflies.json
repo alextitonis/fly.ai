@@ -9,6 +9,7 @@
     "terminalText": "Todo lo que hace la wallet de esta mosca, en vivo: cada operación y la parte que la hizo, las que se saltó y por qué, y el dinero que entra y sale. Se vuelve a leer cada 15 segundos.",
     "walletText": "Cada mosca tiene su propia wallet y solo opera el dinero que pones en ella. Las ganancias y pérdidas se quedan en esa wallet y las retiras desde la página de la mosca, pagadas en $FLYAI. Ya está activo.",
     "deskSoonText": "El Fly Desk es un desk aparte y compartido. Cuando opere de verdad, parte de su beneficio semanal se reparte entre todas las moscas activas según su rareza y se reclama aquí. Aún no está activo: las partes de abajo son lo que recibiría cada mosca, no se debe nada.",
+    "deskLiveText": "El Fly Desk ya opera con dinero real, con una primera parte del fondo. Una parte de su ganancia semanal se repartirá entre todas las moscas activas según su rareza cuando se activen los pagos; hasta entonces, las partes de abajo son lo que recibiría cada mosca.",
     "deskText": "El Fly Desk es un desk aparte y compartido: parte de su beneficio semanal se reparte entre todas las moscas activas según su rareza. Reclama aquí los pagos de tus moscas."
   },
   "traders": {
@@ -167,6 +168,8 @@
     "incubating": "Incubando · nace en {time}",
     "incubatingShort": "Incubando",
     "notLiveTitle": "El Fly Desk aún no está activo: no hay nada que reclamar.",
+    "livePayoutsTitle": "El Fly Desk opera en vivo; los pagos aún no están activados.",
+    "livePayoutsText": "Todavía no hay nada que reclamar. Cuando empiecen los pagos, cada mosca activa recibe cada semana su parte de lo de los holders, y se reclama aquí.",
     "notLiveText": "Los pagos empiezan cuando el desk opere de verdad. Hasta entonces, esto es la parte de cada mosca en la porción de los holders, no dinero adeudado.",
     "yours": "Tus moscas",
     "yoursN": "Tus moscas ({n})",

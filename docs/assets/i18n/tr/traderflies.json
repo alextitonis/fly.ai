@@ -9,6 +9,7 @@
     "terminalText": "Bu sineğin cüzdanının yaptığı her şey, canlı: her işlem ve onu yapan parça, atladığı işlemler ve nedenleri, giren ve çıkan para. Her 15 saniyede yeniden okunur.",
     "walletText": "Her sineğin kendi cüzdanı var ve yalnızca senin koyduğun parayla işlem yapar. Kâr ve zarar o cüzdanda kalır; sineğin sayfasından $FLYAI olarak çekersin. Şu an canlı.",
     "deskSoonText": "Fly Desk ayrı, ortak bir masa. Gerçek işlem yapmaya başladığında haftalık kârının bir kısmı tüm aktif sineklere nadirliğe göre bölünür ve burada talep edilir. Henüz canlı değil: aşağıdaki paylar her sineğin alacağı kısım, borçlu olunan bir şey yok.",
+    "deskLiveText": "Fly Desk artık havuzun ilk bir dilimiyle gerçek işlem yapıyor. Ödemeler açıldığında haftalık kârının bir kısmı nadirliğe göre tüm aktif sinekler arasında paylaşılacak; o zamana kadar aşağıdaki paylar her sineğin alacağı kısımdır.",
     "deskText": "Fly Desk ayrı, ortak bir masa: haftalık kârının bir kısmı tüm aktif sineklere nadirliğe göre bölünür. Sineklerinin ödemelerini burada talep et."
   },
   "traders": {
@@ -167,6 +168,8 @@
     "incubating": "Kuluçkada · {time} sonra çıkar",
     "incubatingShort": "Kuluçkada",
     "notLiveTitle": "Fly Desk henüz canlı değil: talep edilecek bir şey yok.",
+    "livePayoutsTitle": "Fly Desk canlı işlem yapıyor; ödemeler henüz açılmadı.",
+    "livePayoutsText": "Henüz talep edilecek bir şey yok. Ödemeler başladığında her aktif sinek her hafta sahiplerin payından kendi payını alır ve burada talep edilir.",
     "notLiveText": "Ödemeler desk gerçek işlem yapmaya başlayınca başlar. O zamana kadar bu, her sineğin sahipler payındaki oranıdır; borçlu olunan para değildir.",
     "yours": "Sineklerin",
     "yoursN": "Sineklerin ({n})",
