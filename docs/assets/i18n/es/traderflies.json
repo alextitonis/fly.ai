@@ -1472,6 +1472,7 @@
     "unlocked": "🎁 Bono de {usd} desbloqueado - es tuyo",
     "returned": "El bono de {usd} se devolvió (se retiró dinero mientras estaba bloqueado).",
     "withdrawWarn": "Tu bono de depósito de {usd} está bloqueado hasta el {date}: si retiras cualquier cantidad ahora, el bono se devuelve.",
-    "remaining": "quedan {left}/{slots}"
+    "remaining": "quedan {left}/{slots}",
+    "full": "🎁 Competencia de depósitos: los {slots} bonos ya fueron reclamados. ¡Gracias a todos los que participaron!"
   }
 }

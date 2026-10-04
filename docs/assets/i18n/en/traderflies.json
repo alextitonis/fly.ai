@@ -1472,6 +1472,7 @@
     "unlocked": "🎁 {usd} bonus unlocked - it's yours",
     "returned": "The {usd} bonus went back (money withdrawn while it was locked).",
     "withdrawWarn": "Your {usd} deposit bonus is locked until {date}: withdrawing anything now sends the bonus back.",
-    "remaining": "{left}/{slots} left"
+    "remaining": "{left}/{slots} left",
+    "full": "🎁 Deposit competition: all {slots} bonuses are claimed. Thanks to everyone who joined!"
   }
 }

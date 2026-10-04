@@ -1470,6 +1470,7 @@
     "unlocked": "🎁 {usd} 獎勵已解鎖 - 歸你了",
     "returned": "{usd} 獎勵已退回（鎖定期間提領了資金）。",
     "withdrawWarn": "你的 {usd} 存款獎勵鎖定至 {date}：現在提領任何金額都會退回獎勵。",
-    "remaining": "剩餘 {left}/{slots}"
+    "remaining": "剩餘 {left}/{slots}",
+    "full": "🎁 存款競賽：{slots} 個獎勵已全部領完。感謝所有參與者！"
   }
 }
