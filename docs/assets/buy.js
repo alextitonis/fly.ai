@@ -222,6 +222,25 @@
     }
   }
 
+  const sleep = (ms) => new Promise((ok) => setTimeout(ok, ms));
+
+  // 2026-10-05 (a real buy): "Nonce provided for the transaction is lower than the current nonce" - the wallet sent
+  // the swap right after the approve, before its own node had seen the approve. The same step is asked again a few
+  // times, a little later each time; anything else is a real error.
+  async function sendStep(tx) {
+    for (let attempt = 0; ; attempt++) {
+      try {
+        if (acct) return await acct.transact(tx.to, tx.data, () => {}, CHAIN, tx.value);
+        return await window.ethereum.request({ method: "eth_sendTransaction", params: [{ from: wallet, ...tx, chainId: CHAIN_HEX }] });
+      } catch (e) {
+        const why = String((e && (e.shortMessage || e.details || e.message)) || e);
+        if (attempt >= 4 || !/nonce/i.test(why)) throw e;
+        msg(t("waiting"));
+        await sleep(3000 * (attempt + 1));
+      }
+    }
+  }
+
   async function receipt(hash) {
     for (let i = 0; i < 120; i++) {
       const r = await window.ethereum.request({ method: "eth_getTransactionReceipt", params: [hash] });
@@ -269,14 +288,13 @@
       const txs = await checked(q, pay, amount);
       let last = null;
       for (let i = 0; i < txs.length; i++) {
+        if (i > 0) await sleep(2500);                    // let the wallet's node see the approve before the swap
         msg(t("confirm", { n: i + 1, of: txs.length }));
+        last = await sendStep(txs[i]);
+        msg(t("waiting"));
         if (acct) {
-          last = await acct.transact(txs[i].to, txs[i].data, () => {}, CHAIN, txs[i].value);
-          msg(t("waiting"));
           await acct.mined(last, CHAIN);                // throws if it reverted
         } else {
-          last = await window.ethereum.request({ method: "eth_sendTransaction", params: [{ from: wallet, ...txs[i], chainId: CHAIN_HEX }] });
-          msg(t("waiting"));
           const r = await receipt(last);
           if (r.status !== "0x1") throw new Error("the transaction failed");
         }
