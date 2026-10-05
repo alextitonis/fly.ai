@@ -461,11 +461,19 @@
       }));
 
     // 04 positions
-    const pos = b.positions || {};
-    const names = b.books.map((x) => x.book).filter((n) => pos[n]);
+    const pos = Object.assign({}, b.positions || {});
+    // the pool wallet's holdings as a tab of their own (2026-10-05, the user: "i don't see the total flyai as holding"):
+    // what it holds now, at the price it had at the live launch (holdings_start), and the change since
+    const pt = (b.pool && b.pool.tokens) || {}, p0 = b.holdings_start || {};
+    const poolRows = Object.keys(pt).filter((s) => +(pt[s].qty || 0) > 0 && s !== "USDG").map((s) => {
+      const q = +pt[s].qty, v = +(pt[s].usd || 0), px = q ? v / q : 0, c = p0[s] ? q * p0[s] : v;
+      return { symbol: s, qty: q, cost_usd: c, price: px, value_usd: v, pnl_pct: c ? (100 * (v - c)) / c : 0 };
+    }).sort((a, c) => c.value_usd - a.value_usd);
+    if (poolRows.length) pos.pool = { rows: poolRows, count: poolRows.length, cash_usd: +((pt.USDG || {}).usd || 0) };
+    const names = b.books.map((x) => x.book).filter((n) => pos[n]).concat(pos.pool ? ["pool"] : []);
     if (!posBook || !pos[posBook]) posBook = names.find((n) => pos[n].count) || names[0];
     $("pos-tabs").innerHTML = names.map((n) =>
-      `<button type="button" role="tab" aria-selected="${n === posBook}" data-book="${esc(n)}">${esc(bookLabel(n))} <span class="dim">${pos[n].count}</span></button>`).join("");
+      `<button type="button" role="tab" aria-selected="${n === posBook}" data-book="${esc(n)}">${esc(n === "pool" ? t("pos.pool") : bookLabel(n))} <span class="dim">${pos[n].count}</span></button>`).join("");
     const P = pos[posBook];
     $("pos-cash").innerHTML = P ? `${esc(t("pos.cash"))}: <b>${usd(P.cash_usd)}</b>` : "";
     table("pos-tbl", [[t("pos.thSymbol")], [t("pos.thQty"), 1], [t("pos.thPrice"), 1], [t("pos.thValue"), 1], [t("pos.thPnl"), 1]],

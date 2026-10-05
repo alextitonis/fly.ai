@@ -116,7 +116,8 @@
     "thPrice": "Price",
     "thValue": "Value",
     "thPnl": "P&L",
-    "empty": "All cash."
+    "empty": "All cash.",
+    "pool": "Pool"
   },
   "tape": {
     "title": "The tape",

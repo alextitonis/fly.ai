@@ -116,7 +116,8 @@
     "thPrice": "Fiyat",
     "thValue": "Değer",
     "thPnl": "K/Z",
-    "empty": "Hepsi nakit."
+    "empty": "Hepsi nakit.",
+    "pool": "Havuz"
   },
   "tape": {
     "title": "İşlem akışı",

@@ -116,7 +116,8 @@
     "thPrice": "가격",
     "thValue": "가치",
     "thPnl": "손익",
-    "empty": "전부 현금입니다."
+    "empty": "전부 현금입니다.",
+    "pool": "풀"
   },
   "tape": {
     "title": "체결 내역",

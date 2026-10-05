@@ -116,7 +116,8 @@
     "thPrice": "价格",
     "thValue": "价值",
     "thPnl": "盈亏",
-    "empty": "全部是现金。"
+    "empty": "全部是现金。",
+    "pool": "资金池"
   },
   "tape": {
     "title": "成交流",

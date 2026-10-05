@@ -116,7 +116,8 @@
     "thPrice": "Precio",
     "thValue": "Valor",
     "thPnl": "P&L",
-    "empty": "Todo en efectivo."
+    "empty": "Todo en efectivo.",
+    "pool": "Fondo"
   },
   "tape": {
     "title": "La cinta",
