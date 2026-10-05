@@ -167,6 +167,10 @@
     "terminal": {
       "label": "Fly Terminal",
       "desc": "Sineklerin canlı işlemini izle"
+    },
+    "how": {
+      "label": "Nasıl çalışır",
+      "desc": "Beyin, havuzlar, ödemeler ve ortaklar"
     }
   },
   "footer": {

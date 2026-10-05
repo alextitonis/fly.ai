@@ -167,6 +167,10 @@
     "terminal": {
       "label": "Fly Terminal",
       "desc": "Watch the flies trade live"
+    },
+    "how": {
+      "label": "How it works",
+      "desc": "The brain, the pots, payouts and partners"
     }
   },
   "footer": {

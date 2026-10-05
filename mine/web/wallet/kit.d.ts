@@ -10,6 +10,6 @@ export function onConnection(fn: (c: Connection | null) => void): () => void;
 export function connect(uid: string): Promise<Connection>;
 export function disconnect(): Promise<void>;
 export function sign(message: string): Promise<string>;
-export function send(to: string, data: string, chainId?: number): Promise<string>;
+export function send(to: string, data: string, chainId?: number, value?: string): Promise<string>;
 export function signTyped(typed: { domain: { name: string; version: string; chainId: number; verifyingContract: string }; types: Record<string, { name: string; type: string }[]>; primaryType: string; message: Record<string, unknown> }): Promise<string>;
 export function receipt(hash: string, chainId?: number): Promise<void>;

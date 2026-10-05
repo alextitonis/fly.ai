@@ -271,10 +271,10 @@ async function walletFor(): Promise<Kit> {
  * Sends one transaction from the signed-in wallet, on the main chain unless `chainId` says otherwise. Resolves with
  * the hash once the wallet has sent it; `mined` waits for the receipt. `step` narrates.
  */
-export async function transact(to: string, data: string, step: (text: string) => void = () => {}, chainId?: number): Promise<string> {
+export async function transact(to: string, data: string, step: (text: string) => void = () => {}, chainId?: number, value?: string): Promise<string> {
   const k = await walletFor();
   step(t("compute.account.confirmInWallet"));
-  return k.send(to, data, chainId);
+  return k.send(to, data, chainId, value);
 }
 
 export async function mined(hash: string, chainId?: number): Promise<void> {

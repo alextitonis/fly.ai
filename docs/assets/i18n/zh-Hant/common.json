@@ -167,6 +167,10 @@
     "terminal": {
       "label": "Fly 終端",
       "desc": "即時觀看蒼蠅交易"
+    },
+    "how": {
+      "label": "運作方式",
+      "desc": "大腦、資金池、分配與合作方"
     }
   },
   "footer": {

@@ -32,6 +32,11 @@
   // what the wallet pays and what it gets: [token paid, token got, symbol paid, symbol got]
   const sides = (other) => selling() ? [FLY, PAY[other], "FLYAI", other] : [PAY[other], FLY, other, "FLYAI"];
   const APPROVE = "0x095ea7b3";
+  // the site's one sign-in (the nav's account menu, mine/web/account.ts): the same signed-in wallet and wallet picker
+  // (browser wallets and WalletConnect) on every page; plain window.ethereum only if it can't load (a local copy)
+  const ACCOUNT_JS = "/compute/mine/web/account.js";
+  let acct = null;
+  const loadAcct = () => (acct ? Promise.resolve(acct) : import(ACCOUNT_JS).then((m) => (acct = m)).catch(() => null));
 
   let en = null;
   const pick = (o, k) => k.split(".").reduce((x, p) => (x == null ? undefined : x[p]), o);
@@ -173,10 +178,18 @@
   }
 
   const label = () => {
-    $("buy-go").textContent = !window.ethereum ? t("noWallet") : !wallet ? t("connect") : selling() ? t("sell") : t("buy");
+    $("buy-go").textContent = !wallet ? (acct || window.ethereum ? t("connect") : t("noWallet")) : selling() ? t("sell") : t("buy");
   };
 
   async function connect() {
+    const a = await loadAcct();
+    if (a) {                                            // the nav's sign-in: its picker, its session
+      const w = await a.requireWallet();
+      if (!w) return false;
+      wallet = w;
+      label();
+      return true;
+    }
     if (!window.ethereum) { msg(t("noWallet"), "err"); return false; }
     const accs = (await window.ethereum.request({ method: "eth_requestAccounts" })) || [];
     if (!accs.length) return false;
@@ -193,7 +206,7 @@
     busy = true;
     $("buy-go").disabled = true;
     try {
-      await ensureChain();
+      if (!acct) await ensureChain();                  // the shared wallet kit switches chains itself
       msg(t("quoting"));
       const q = await getQuote(wallet, pay, amount);  // a fresh quote for this wallet
       show(q, pay);
@@ -201,14 +214,22 @@
       let last = null;
       for (let i = 0; i < txs.length; i++) {
         msg(t("confirm", { n: i + 1, of: txs.length }));
-        last = await window.ethereum.request({ method: "eth_sendTransaction", params: [{ from: wallet, ...txs[i], chainId: CHAIN_HEX }] });
-        msg(t("waiting"));
-        const r = await receipt(last);
-        if (r.status !== "0x1") throw new Error("the transaction failed");
+        if (acct) {
+          last = await acct.transact(txs[i].to, txs[i].data, () => {}, CHAIN, txs[i].value);
+          msg(t("waiting"));
+          await acct.mined(last, CHAIN);                // throws if it reverted
+        } else {
+          last = await window.ethereum.request({ method: "eth_sendTransaction", params: [{ from: wallet, ...txs[i], chainId: CHAIN_HEX }] });
+          msg(t("waiting"));
+          const r = await receipt(last);
+          if (r.status !== "0x1") throw new Error("the transaction failed");
+        }
       }
       msg(t("done"), "ok", EXPLORER + "/tx/" + last);
     } catch (e) {
-      msg(e && e.code === 4001 ? t("cancelled") : t("failed", { why: (e && e.message) || e }), "err");
+      const why = acct ? acct.errorText(e) : (e && e.message) || String(e);
+      const cancelled = (e && (e.code === 4001 || (e.cause && e.cause.code === 4001))) || /rejected|denied|cancel/i.test(why);
+      msg(cancelled ? t("cancelled") : t("failed", { why }), "err");
     } finally {
       busy = false;
       $("buy-go").disabled = false;
@@ -229,6 +250,10 @@
     });
     sym();
     $("buy-go").addEventListener("click", buy);
+    // signed in already (the nav's session): show Buy at once, then follow sign-ins and sign-outs on any page/tab
+    const s = window.flyNav && window.flyNav.session && window.flyNav.session();
+    if (s && s.wallet) wallet = s.wallet;
+    loadAcct().then((a) => { if (a) a.onAccount((w) => { wallet = w; label(); refresh(); }); else label(); });
     label();
     $("buy-fee").textContent = t("fee", { pct: fmt(FEE_BPS / 100, 2) });
     refresh();

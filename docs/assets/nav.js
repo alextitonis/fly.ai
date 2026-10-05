@@ -31,6 +31,7 @@
       ["Bounties", "/bounties", "Get paid in $FLYAI for memes, bots, research"],
     ]],
     ["nfts", "NFTs", [
+      ["How it works", "/how", "The brain, the pots, payouts and partners"],   // 2026-10-05: the explainer page
       ["Trader Flies", "/traderflies/", "The collection and your flies"],
       // 2026-10-03, the user: the inventory and the leaderboard under NFTs, each a page of its own
       ["Inventory", "/traderflies/inventory", "Your flies and their wallets"],
@@ -50,6 +51,7 @@
     ]],
     ["token", "$FLYAI", [
       ["Token", "/token", "Contract, chain, where to buy"],
+      ["How it works", "/how", "The brain, the pots, payouts and partners"],
       ["Merch", "/shop", "Fly shirts and more", true],
       ["API & skills", "/desk-api", "Buy the desk's answers over x402"],
       ["For Agents", "/agents", "Make Claude talk like a fly"],

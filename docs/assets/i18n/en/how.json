@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "title": "How it works — fly brains, Trader Flies and the pots",
+    "description": "How a real fruit-fly brain trades, what a Trader Fly is, how the shared pots pay their holders, how other NFT collections can join, and how a fly trades from its own wallet."
+  },
+  "head": {
+    "eyebrow": "How it works",
+    "title": "Fly brains, Trader Flies and the pots",
+    "lede": "Every trade here is decided by the wiring of a real fruit fly's brain. This page explains how that brain trades, what a Trader Fly is, how the shared pots pay their holders, how other NFT collections can join in, and how a single fly can trade from its own wallet."
+  },
+  "toc": {
+    "brain": "The brain",
+    "nfts": "Trader Flies",
+    "pots": "The pots",
+    "partners": "Other collections",
+    "solo": "Individual trading"
+  },
+  "brain": {
+    "h": "The brain",
+    "p1": "Each fly runs the complete wiring map of an adult fruit fly: about <b>166,700 neurons</b> and the synapses between them. There is no language model, no training run and no strategy written by hand inside it.",
+    "p2": "Markets are turned into things a fly can sense. A token in view is a smell. A coin it holds crashing is a looming shadow, a pump is something to chase, volatility is wind. On each step the fly is shown a handful of tokens and its motor neurons answer: turning toward a token is a <b>buy</b>, backing away or jumping is a <b>sell</b>, and nothing firing is a <b>hold</b>.",
+    "p3": "A dopamine-like reward in the mushroom body learns from the fly's own trades, so each fly builds up its own experience. The wiring itself never changes, and each fly's temperament is fixed by its number. Patience is built in: a buy waits until the fly's evidence for a token is strong enough, a sell never waits.",
+    "p4": "Around the brain sit plain safety rules. They never think for it, but they can say no: only tokens with deep, established pools, a cap on every trade, an exit when a pool is drained, and no buying into frozen or broken prices."
+  },
+  "nfts": {
+    "h": "Trader Flies",
+    "p1": "Trader Flies are 1,000 genesis NFTs on Robinhood Chain. Each is a fly with its own number, traits and rarity (Common, Uncommon, Rare or Legendary), rolled on chain at reveal.",
+    "l1": "<b>Active by holding.</b> A fly is active while its holder's wallet holds 200,000 $FLYAI. No payment and no transaction, and one holding covers every fly in the wallet.",
+    "l2": "<b>A share of the pot.</b> Active flies share the Fly Desk's profit, and rarer flies carry more weight.",
+    "l3": "<b>A wallet of its own.</b> Every fly also has a personal trading wallet (see Individual trading below).",
+    "l4": "<b>Breeding.</b> Two flies merge into one: one is burned, the other keeps its number with new traits from both parents and a chance of mutation. The fee is paid in $FLYAI and mostly burned.",
+    "l5": "<b>Burning.</b> A holder can burn a fly. Its share of the pot goes to the flies still alive."
+  },
+  "pots": {
+    "h": "The pots: one desk, shared by its holders",
+    "p1": "The <a href=\"desk.html\">Fly Desk</a> is a single pot traded by fly brains for everyone who holds an active Trader Fly. It was funded from the mint: 80% of the mint money went into the pool.",
+    "p2": "The pot is split into parts that work side by side: a core hold of stocks and major coins, a part that buys stock tokens when they trade under the real share price, a part that buys $FLYAI on dips, and the brains' own slice. When one part is waiting, its idle cash can be used by a part that has a signal, and it comes back once that trade is done.",
+    "p3": "$FLYAI holders steer it. Every day they sign a free ballot (Safer, Balanced or Degen), weighted by the $FLYAI they hold, and the winning mode sets the next day's trade sizes, pool floors and exits.",
+    "h3": "How the payout works",
+    "l1": "<b>Peak Line.</b> Profit is the pot's value, after all fees and gas, above the highest point it has already paid from. A week that only wins back a loss pays nothing, and the starting money is never paid out.",
+    "l2": "<b>Weekly.</b> Each week the desk turns that profit into cash, buys $FLYAI with it and sets it aside for holders.",
+    "l3": "<b>Who gets it.</b> 95% goes to holders of active flies and 5% to the team. A fly's slice is its rarity weight times the share of the week it was active; if a fly changes hands mid-week, each holder gets the part of the week they held it.",
+    "l4": "<b>Out in the open.</b> The Fly Desk page shows, live, what the pot holds and what each holder and each fly has earned so far."
+  },
+  "partners": {
+    "h": "Bringing other NFT collections in",
+    "p1": "The same engine can run for other collections. A partner keeps its own NFTs, its own chain and its own site; fly.ai provides the trading.",
+    "l1": "<b>A wallet for every NFT.</b> Each of the partner's NFTs can get its own trading wallet on Robinhood Chain, with the same brain, setups and safety rules as a Trader Fly's.",
+    "l2": "<b>A shared pool for the community.</b> A partner pool is funded with a base asset and traded by fly brains voting together. It only counts profit above simply holding that asset, so the pool has to beat the market it started in.",
+    "l3": "<b>Paid to holders, automatically.</b> Each week the pool's profit is split among the collection's holders who qualify (by holding 200,000 $FLYAI), in proportion to the hours they qualified. No sign-up, and payouts are sent in $FLYAI.",
+    "l4": "<b>Small fees.</b> 2% of the profit when an NFT's own wallet withdraws, and 0.5% of a pool's profit.",
+    "h3": "Where it can go",
+    "p2": "More collections, each with its own pools; pools funded with other base assets, from stock tokens to majors; split rules a partner chooses, such as equal per NFT, by rarity or by how long an NFT has been held; and collections on other chains linking a Robinhood Chain wallet so their holders can take part."
+  },
+  "solo": {
+    "h": "Individual trading",
+    "p1": "Besides the shared pot, a fly can trade on its own: every Trader Fly has a personal wallet with one address on every EVM chain. Its holder decides how much goes in and how it trades.",
+    "h3a": "On fly.ai",
+    "l1": "<b>Fund it.</b> Send USDG, ETH or $FLYAI to the fly's address, from $10. The money is credited to the fly's holder.",
+    "l2": "<b>Choose how it trades.</b> The brain trades with a share of the money, alongside setups the holder switches on and tunes: trend following, $FLYAI dips, copying top traders, watching chosen tokens and more. One-click starters set it all up.",
+    "l3": "<b>Withdraw any time.</b> The holder takes out any share at any time, paid in $FLYAI. The fee is on profit only: 10% Common, 7% Uncommon, 4% Rare, 0% Legendary.",
+    "l4": "<b>Autopilot.</b> A FlightPass can run a fly's games, missions and breeding for you.",
+    "h3b": "On partner sites",
+    "p2": "The same wallets work outside fly.ai. A partner can build its own front end on the fly.ai API, with sign-in on its own domain, so its community sets up, funds, tunes and withdraws from NFT wallets without leaving the partner's site. The trading, the safety rules and the payouts stay the same."
+  },
+  "cta": {
+    "desk": "Open the Fly Desk",
+    "flies": "See Trader Flies",
+    "token": "$FLYAI"
+  }
+}

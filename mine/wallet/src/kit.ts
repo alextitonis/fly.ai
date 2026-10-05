@@ -122,9 +122,10 @@ async function onChain(chainId: number): Promise<void> {
 }
 
 /** One transaction, on the main chain unless `chainId` says otherwise. */
-export async function send(to: string, data: string, chainId = chain.id): Promise<string> {
+export async function send(to: string, data: string, chainId = chain.id, value?: string): Promise<string> {
   await onChain(chainId);
-  return sendTransaction(cfg(), { to: to as Hex, data: data as Hex, chainId: chainId as never });
+  // value: coin sent with the call, in wei as a decimal or 0x string (the token page's swap box paying in ETH)
+  return sendTransaction(cfg(), { to: to as Hex, data: data as Hex, chainId: chainId as never, ...(value && BigInt(value) > 0n ? { value: BigInt(value) } : {}) });
 }
 
 /** EIP-712 typed data, signed on the chain its domain names (wallets refuse a domain for another chain). */

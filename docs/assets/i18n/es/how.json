@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "title": "Cómo funciona — cerebros de mosca, Trader Flies y los botes",
+    "description": "Cómo opera un cerebro real de mosca de la fruta, qué es una Trader Fly, cómo los botes compartidos pagan a sus holders, cómo pueden unirse otras colecciones NFT y cómo una mosca opera desde su propia wallet."
+  },
+  "head": {
+    "eyebrow": "Cómo funciona",
+    "title": "Cerebros de mosca, Trader Flies y los botes",
+    "lede": "Aquí cada operación la decide el cableado del cerebro de una mosca de la fruta real. Esta página explica cómo opera ese cerebro, qué es una Trader Fly, cómo los botes compartidos pagan a sus holders, cómo pueden sumarse otras colecciones NFT y cómo una sola mosca puede operar desde su propia wallet."
+  },
+  "toc": {
+    "brain": "El cerebro",
+    "nfts": "Trader Flies",
+    "pots": "Los botes",
+    "partners": "Otras colecciones",
+    "solo": "Trading individual"
+  },
+  "brain": {
+    "h": "El cerebro",
+    "p1": "Cada mosca ejecuta el mapa completo de conexiones de una mosca de la fruta adulta: unas <b>166.700 neuronas</b> y las sinapsis entre ellas. Dentro no hay modelo de lenguaje, ni entrenamiento, ni estrategia escrita a mano.",
+    "p2": "Los mercados se convierten en cosas que una mosca puede percibir. Un token a la vista es un olor. Una moneda que tiene y que se desploma es una sombra que se acerca, un pump es algo que perseguir, la volatilidad es viento. En cada paso a la mosca se le muestran unos cuantos tokens y sus neuronas motoras responden: girar hacia un token es <b>comprar</b>, retroceder o saltar es <b>vender</b> y que no se active nada es <b>mantener</b>.",
+    "p3": "Una recompensa parecida a la dopamina en el cuerpo fungiforme aprende de las propias operaciones de la mosca, así que cada una acumula su propia experiencia. El cableado nunca cambia y el temperamento de cada mosca lo fija su número. La paciencia viene de serie: una compra espera a que la evidencia de la mosca sobre un token sea lo bastante fuerte; una venta nunca espera.",
+    "p4": "Alrededor del cerebro hay reglas de seguridad sencillas. Nunca piensan por él, pero pueden decir que no: solo tokens con pools profundos y asentados, un límite en cada operación, salida cuando un pool se vacía y nada de comprar con precios congelados o rotos."
+  },
+  "nfts": {
+    "h": "Trader Flies",
+    "p1": "Las Trader Flies son 1.000 NFTs génesis en Robinhood Chain. Cada una es una mosca con su propio número, rasgos y rareza (Common, Uncommon, Rare o Legendary), sorteados en la cadena en el reveal.",
+    "l1": "<b>Activa por tenencia.</b> Una mosca está activa mientras la wallet de su holder tenga 200.000 $FLYAI. Sin pago ni transacción, y una sola tenencia cubre todas las moscas de la wallet.",
+    "l2": "<b>Una parte del bote.</b> Las moscas activas se reparten el beneficio de la Fly Desk, y las más raras pesan más.",
+    "l3": "<b>Una wallet propia.</b> Cada mosca tiene además una wallet personal de trading (ver Trading individual más abajo).",
+    "l4": "<b>Cría.</b> Dos moscas se fusionan en una: una se quema y la otra conserva su número con rasgos nuevos de ambos padres y una probabilidad de mutación. La comisión se paga en $FLYAI y en su mayor parte se quema.",
+    "l5": "<b>Quema.</b> Un holder puede quemar una mosca. Su parte del bote pasa a las moscas que siguen vivas."
+  },
+  "pots": {
+    "h": "Los botes: una mesa, compartida por sus holders",
+    "p1": "La <a href=\"desk.html\">Fly Desk</a> es un único bote que operan cerebros de mosca para todos los que tienen una Trader Fly activa. Se financió con el mint: el 80% del dinero del mint fue al pool.",
+    "p2": "El bote se divide en partes que trabajan a la vez: una base de acciones y monedas principales, una parte que compra tokens de acciones cuando cotizan por debajo del precio real, una parte que compra $FLYAI en las caídas y la porción de los propios cerebros. Cuando una parte espera, su efectivo ocioso lo puede usar otra que tenga una señal, y vuelve cuando esa operación termina.",
+    "p3": "Los holders de $FLYAI la dirigen. Cada día firman una votación gratuita (Safer, Balanced o Degen), ponderada por los $FLYAI que tienen, y el modo ganador fija los tamaños, los mínimos de pool y las salidas del día siguiente.",
+    "h3": "Cómo funciona el pago",
+    "l1": "<b>Peak Line.</b> El beneficio es el valor del bote, después de todas las comisiones y el gas, por encima del punto más alto desde el que ya se pagó. Una semana que solo recupera una pérdida no paga nada, y el dinero inicial nunca se paga.",
+    "l2": "<b>Semanal.</b> Cada semana la mesa convierte ese beneficio en efectivo, compra $FLYAI con él y lo aparta para los holders.",
+    "l3": "<b>Quién lo recibe.</b> El 95% va a los holders de moscas activas y el 5% al equipo. La porción de una mosca es su peso de rareza por la parte de la semana en que estuvo activa; si una mosca cambia de manos a mitad de semana, cada holder recibe la parte de la semana en que la tuvo.",
+    "l4": "<b>A la vista.</b> La página de la Fly Desk muestra en directo qué tiene el bote y cuánto ha ganado hasta ahora cada holder y cada mosca."
+  },
+  "partners": {
+    "h": "Sumar otras colecciones NFT",
+    "p1": "El mismo motor puede funcionar para otras colecciones. Un socio conserva sus propios NFTs, su cadena y su web; fly.ai pone el trading.",
+    "l1": "<b>Una wallet para cada NFT.</b> Cada NFT del socio puede tener su propia wallet de trading en Robinhood Chain, con el mismo cerebro, configuraciones y reglas de seguridad que una Trader Fly.",
+    "l2": "<b>Un pool compartido para la comunidad.</b> Un pool de socio se financia con un activo base y lo operan cerebros de mosca que votan juntos. Solo cuenta el beneficio por encima de simplemente mantener ese activo, así que el pool tiene que batir al mercado con el que empezó.",
+    "l3": "<b>Pagado a los holders, automáticamente.</b> Cada semana el beneficio del pool se reparte entre los holders de la colección que cumplen (teniendo 200.000 $FLYAI), en proporción a las horas que cumplieron. Sin registro, y los pagos se envían en $FLYAI.",
+    "l4": "<b>Comisiones pequeñas.</b> El 2% del beneficio cuando la wallet propia de un NFT retira, y el 0,5% del beneficio de un pool.",
+    "h3": "Hacia dónde puede ir",
+    "p2": "Más colecciones, cada una con sus pools; pools financiados con otros activos base, desde tokens de acciones hasta monedas principales; reglas de reparto que elige el socio, como igual por NFT, por rareza o por cuánto tiempo se ha tenido un NFT; y colecciones de otras cadenas que vinculan una wallet de Robinhood Chain para que sus holders participen."
+  },
+  "solo": {
+    "h": "Trading individual",
+    "p1": "Además del bote compartido, una mosca puede operar por su cuenta: cada Trader Fly tiene una wallet personal con una misma dirección en todas las cadenas EVM. Su holder decide cuánto entra y cómo opera.",
+    "h3a": "En fly.ai",
+    "l1": "<b>Fondéala.</b> Envía USDG, ETH o $FLYAI a la dirección de la mosca, desde 10 $. El dinero se acredita al holder de la mosca.",
+    "l2": "<b>Elige cómo opera.</b> El cerebro opera con una parte del dinero, junto a configuraciones que el holder activa y ajusta: seguir tendencias, caídas de $FLYAI, copiar a los mejores traders, vigilar tokens elegidos y más. Los inicios de un clic lo dejan todo listo.",
+    "l3": "<b>Retira cuando quieras.</b> El holder saca la parte que quiera cuando quiera, pagada en $FLYAI. La comisión es solo sobre el beneficio: 10% Common, 7% Uncommon, 4% Rare, 0% Legendary.",
+    "l4": "<b>Piloto automático.</b> Un FlightPass puede llevar los juegos, misiones y crías de una mosca por ti.",
+    "h3b": "En webs de socios",
+    "p2": "Las mismas wallets funcionan fuera de fly.ai. Un socio puede crear su propio front end sobre la API de fly.ai, con inicio de sesión en su propio dominio, para que su comunidad configure, fondee, ajuste y retire de las wallets de sus NFTs sin salir de su web. El trading, las reglas de seguridad y los pagos siguen siendo los mismos."
+  },
+  "cta": {
+    "desk": "Abrir la Fly Desk",
+    "flies": "Ver Trader Flies",
+    "token": "$FLYAI"
+  }
+}

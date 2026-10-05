@@ -167,6 +167,10 @@
     "terminal": {
       "label": "Fly 终端",
       "desc": "实时观看苍蝇交易"
+    },
+    "how": {
+      "label": "运作方式",
+      "desc": "大脑、资金池、分配与合作方"
     }
   },
   "footer": {

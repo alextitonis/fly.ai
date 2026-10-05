@@ -167,6 +167,10 @@
     "terminal": {
       "label": "Fly Terminal",
       "desc": "Mira a las moscas operar en vivo"
+    },
+    "how": {
+      "label": "Cómo funciona",
+      "desc": "El cerebro, los botes, los pagos y los socios"
     }
   },
   "footer": {

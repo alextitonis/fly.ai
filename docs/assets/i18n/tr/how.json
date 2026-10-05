@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "title": "Nasıl çalışır — sinek beyinleri, Trader Flies ve havuzlar",
+    "description": "Gerçek bir meyve sineği beyninin nasıl işlem yaptığı, Trader Fly'ın ne olduğu, ortak havuzların sahiplerine nasıl ödeme yaptığı, diğer NFT koleksiyonlarının nasıl katılabileceği ve bir sineğin kendi cüzdanından nasıl işlem yaptığı."
+  },
+  "head": {
+    "eyebrow": "Nasıl çalışır",
+    "title": "Sinek beyinleri, Trader Flies ve havuzlar",
+    "lede": "Buradaki her işleme gerçek bir meyve sineği beyninin bağlantıları karar verir. Bu sayfa o beynin nasıl işlem yaptığını, Trader Fly'ın ne olduğunu, ortak havuzların sahiplerine nasıl ödeme yaptığını, diğer NFT koleksiyonlarının nasıl katılabileceğini ve tek bir sineğin kendi cüzdanından nasıl işlem yapabileceğini anlatır."
+  },
+  "toc": {
+    "brain": "Beyin",
+    "nfts": "Trader Flies",
+    "pots": "Havuzlar",
+    "partners": "Diğer koleksiyonlar",
+    "solo": "Bireysel işlem"
+  },
+  "brain": {
+    "h": "Beyin",
+    "p1": "Her sinek, yetişkin bir meyve sineğinin tam bağlantı haritasını çalıştırır: yaklaşık <b>166.700 nöron</b> ve aralarındaki sinapslar. İçinde dil modeli, eğitim süreci ya da elle yazılmış bir strateji yoktur.",
+    "p2": "Piyasalar, bir sineğin algılayabileceği şeylere dönüştürülür. Görüş alanındaki bir token bir kokudur. Elindeki bir coinin çökmesi yaklaşan bir gölgedir, bir pump peşinden gidilecek bir şeydir, oynaklık rüzgârdır. Her adımda sineğe birkaç token gösterilir ve motor nöronları yanıt verir: bir tokene dönmek <b>al</b>, geri çekilmek ya da zıplamak <b>sat</b>, hiçbir şeyin ateşlenmemesi <b>tut</b> demektir.",
+    "p3": "Mantar gövdesindeki dopamin benzeri bir ödül, sineğin kendi işlemlerinden öğrenir; böylece her sinek kendi deneyimini biriktirir. Bağlantılar hiç değişmez ve her sineğin mizacı numarasıyla belirlenir. Sabır yerleşiktir: bir alım, sineğin bir token için kanıtı yeterince güçlenene kadar bekler; satış hiç beklemez.",
+    "p4": "Beynin çevresinde basit güvenlik kuralları vardır. Onun yerine düşünmezler ama hayır diyebilirler: yalnızca derin ve oturmuş havuzu olan tokenler, her işleme bir üst sınır, bir havuz boşaldığında çıkış ve donmuş ya da bozuk fiyatlardan alım yok."
+  },
+  "nfts": {
+    "h": "Trader Flies",
+    "p1": "Trader Flies, Robinhood Chain üzerindeki 1.000 genesis NFT'dir. Her biri kendi numarası, özellikleri ve nadirliği (Common, Uncommon, Rare veya Legendary) olan bir sinektir; bunlar reveal anında zincir üzerinde belirlendi.",
+    "l1": "<b>Tutarak aktif.</b> Sahibinin cüzdanında 200.000 $FLYAI olduğu sürece sinek aktiftir. Ödeme yok, işlem yok ve tek bir tutar cüzdandaki tüm sinekleri kapsar.",
+    "l2": "<b>Havuzdan pay.</b> Aktif sinekler Fly Desk'in kârını paylaşır; daha nadir sineklerin ağırlığı daha fazladır.",
+    "l3": "<b>Kendine ait bir cüzdan.</b> Her sineğin ayrıca kişisel bir işlem cüzdanı vardır (aşağıda Bireysel işlem bölümüne bak).",
+    "l4": "<b>Çiftleştirme.</b> İki sinek tek bir sinekte birleşir: biri yakılır, diğeri numarasını korur ve iki ebeveynden yeni özellikler ile bir mutasyon şansı alır. Ücret $FLYAI ile ödenir ve çoğu yakılır.",
+    "l5": "<b>Yakma.</b> Sahibi bir sineği yakabilir. Onun havuz payı hayatta kalan sineklere geçer."
+  },
+  "pots": {
+    "h": "Havuzlar: sahiplerinin paylaştığı tek masa",
+    "p1": "<a href=\"desk.html\">Fly Desk</a>, aktif bir Trader Fly'ı olan herkes için sinek beyinlerinin işlettiği tek bir havuzdur. Mint ile fonlandı: mint parasının %80'i havuza gitti.",
+    "p2": "Havuz, yan yana çalışan parçalara bölünür: hisse ve büyük coinlerden oluşan bir çekirdek, hisse tokenleri gerçek hisse fiyatının altında işlem gördüğünde alan bir parça, düşüşlerde $FLYAI alan bir parça ve beyinlerin kendi dilimi. Bir parça beklerken, onun boştaki nakdini sinyali olan başka bir parça kullanabilir; o işlem bitince nakit geri döner.",
+    "p3": "Yönü $FLYAI sahipleri belirler. Her gün ücretsiz bir oylamayı (Safer, Balanced veya Degen) imzalarlar; oylar tuttukları $FLYAI ile ağırlıklandırılır ve kazanan mod ertesi günün işlem büyüklüklerini, havuz eşiklerini ve çıkışlarını belirler.",
+    "h3": "Ödeme nasıl işler",
+    "l1": "<b>Peak Line.</b> Kâr, havuzun tüm ücretler ve gas sonrası değerinin, daha önce ödeme yapılan en yüksek noktanın üzerinde kalan kısmıdır. Sadece bir kaybı geri kazanan hafta hiçbir şey ödemez ve başlangıç parası asla ödenmez.",
+    "l2": "<b>Haftalık.</b> Her hafta masa o kârı nakde çevirir, onunla $FLYAI alır ve sahipleri için ayırır.",
+    "l3": "<b>Kim alır.</b> %95 aktif sineklerin sahiplerine, %5 ekibe gider. Bir sineğin dilimi, nadirlik ağırlığı ile haftanın aktif olduğu kısmının çarpımıdır; bir sinek hafta ortasında el değiştirirse her sahip, onu tuttuğu süre kadar pay alır.",
+    "l4": "<b>Herkesin önünde.</b> Fly Desk sayfası havuzun neler tuttuğunu ve her sahibin ve her sineğin şimdiye kadar ne kazandığını canlı gösterir."
+  },
+  "partners": {
+    "h": "Diğer NFT koleksiyonlarını dahil etmek",
+    "p1": "Aynı motor diğer koleksiyonlar için de çalışabilir. Ortak kendi NFT'lerini, kendi zincirini ve kendi sitesini korur; işlemleri fly.ai yapar.",
+    "l1": "<b>Her NFT için bir cüzdan.</b> Ortağın her NFT'si, bir Trader Fly ile aynı beyne, kurulumlara ve güvenlik kurallarına sahip, Robinhood Chain üzerinde kendi işlem cüzdanını alabilir.",
+    "l2": "<b>Topluluk için ortak bir havuz.</b> Bir ortak havuzu bir temel varlıkla fonlanır ve birlikte oy veren sinek beyinleriyle işletilir. Yalnızca o varlığı tutmanın üzerindeki kârı sayar; yani havuz başladığı piyasayı geçmek zorundadır.",
+    "l3": "<b>Sahiplere otomatik ödeme.</b> Her hafta havuzun kârı, koşulu sağlayan (200.000 $FLYAI tutan) koleksiyon sahipleri arasında, koşulu sağladıkları saatlerle orantılı olarak bölünür. Kayıt yok; ödemeler $FLYAI olarak gönderilir.",
+    "l4": "<b>Düşük ücretler.</b> Bir NFT'nin kendi cüzdanından çekimde kârın %2'si ve bir havuzun kârının %0,5'i.",
+    "h3": "Nereye gidebilir",
+    "p2": "Her biri kendi havuzlarına sahip daha fazla koleksiyon; hisse tokenlerinden büyük coinlere farklı temel varlıklarla fonlanan havuzlar; NFT başına eşit, nadirliğe göre ya da bir NFT'nin ne kadar süre tutulduğuna göre gibi ortağın seçtiği paylaşım kuralları; ve diğer zincirlerdeki koleksiyonların, sahiplerinin katılabilmesi için bir Robinhood Chain cüzdanı bağlaması."
+  },
+  "solo": {
+    "h": "Bireysel işlem",
+    "p1": "Ortak havuzun yanında bir sinek kendi başına da işlem yapabilir: her Trader Fly'ın tüm EVM zincirlerinde aynı adrese sahip kişisel bir cüzdanı vardır. Ne kadar konulacağına ve nasıl işlem yapılacağına sahibi karar verir.",
+    "h3a": "fly.ai üzerinde",
+    "l1": "<b>Fonla.</b> Sineğin adresine USDG, ETH veya $FLYAI gönder (10 $'dan başlayarak). Para sineğin sahibine yazılır.",
+    "l2": "<b>Nasıl işlem yapacağını seç.</b> Beyin paranın bir kısmıyla işlem yapar; yanında sahibin açıp ayarladığı kurulumlar çalışır: trend takibi, $FLYAI düşüşleri, en iyi trader'ları kopyalama, seçilen tokenleri izleme ve daha fazlası. Tek tıklık başlangıçlar hepsini kurar.",
+    "l3": "<b>İstediğin zaman çek.</b> Sahibi istediği payı istediği zaman çeker; ödeme $FLYAI ile yapılır. Ücret yalnızca kâr üzerindendir: Common %10, Uncommon %7, Rare %4, Legendary %0.",
+    "l4": "<b>Otopilot.</b> Bir FlightPass, sineğin oyunlarını, görevlerini ve çiftleştirmelerini senin yerine yürütebilir.",
+    "h3b": "Ortak sitelerinde",
+    "p2": "Aynı cüzdanlar fly.ai dışında da çalışır. Bir ortak, kendi alan adında oturum açmayla fly.ai API'si üzerine kendi arayüzünü kurabilir; böylece topluluğu ortağın sitesinden ayrılmadan NFT cüzdanlarını kurar, fonlar, ayarlar ve çeker. İşlemler, güvenlik kuralları ve ödemeler aynı kalır."
+  },
+  "cta": {
+    "desk": "Fly Desk'i aç",
+    "flies": "Trader Flies'a bak",
+    "token": "$FLYAI"
+  }
+}
