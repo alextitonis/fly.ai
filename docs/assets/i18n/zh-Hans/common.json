@@ -185,6 +185,7 @@
     "notDeployed": "尚未部署",
     "explorer": "在浏览器中查看",
     "buyOnPons": "在 Pons 上购买 $FLYAI",
-    "notDeployedLong": "尚未部署——购买链接将在发行时出现在这里和 @flydotai 上。"
+    "notDeployedLong": "尚未部署——购买链接将在发行时出现在这里和 @flydotai 上。",
+    "buyHere": "购买 $FLYAI"
   }
 }

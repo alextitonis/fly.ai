@@ -56,14 +56,21 @@ const GITHUB_URL = "https://github.com/alextitonis/fly.ai";
   // the buy links only exist once there is an address to buy
   for (const host of document.querySelectorAll(".buylinks")) {
     if (CONTRACT_ADDRESS && SWAP_URL) {
+      // the primary button is our own box (assets/buy.js, 2026-10-05): this page's #buy, or the token page's
+      const buy = document.createElement("a");
+      buy.className = "btn red";
+      buy.href = document.getElementById("buy") ? "#buy" : "token.html#buy";
+      buy.textContent = "Buy $FLYAI";
+      buy.setAttribute("data-i18n", "common.words.buyHere");
+      host.prepend(buy);
       const a = document.createElement("a");
-      a.className = "btn red";
+      a.className = "btn";
       a.href = SWAP_URL;
       a.target = "_blank";
       a.rel = "noopener";
       a.textContent = "Buy $FLYAI on Pons";
       a.setAttribute("data-i18n", "common.words.buyOnPons");
-      host.prepend(a);
+      buy.after(a);
       if (EXPLORER_URL) {
         const ex = document.createElement("a");
         ex.className = "btn";

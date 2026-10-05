@@ -185,6 +185,7 @@
     "notDeployed": "아직 배포되지 않음",
     "explorer": "익스플로러에서 보기",
     "buyOnPons": "Pons에서 $FLYAI 구매",
-    "notDeployedLong": "아직 배포되지 않았습니다. 구매 링크는 출시 시 이곳과 @flydotai에 올라옵니다."
+    "notDeployedLong": "아직 배포되지 않았습니다. 구매 링크는 출시 시 이곳과 @flydotai에 올라옵니다.",
+    "buyHere": "$FLYAI 구매"
   }
 }

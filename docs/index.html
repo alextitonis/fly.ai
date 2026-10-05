@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-i18n-ns="index">
+<html lang="en" data-i18n-ns="index token">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,7 +67,7 @@
       <p class="eyebrow token-eyebrow" data-i18n="index.hero.eyebrow">Live on Pons &middot; Robinhood Chain</p>
       <p class="ticker-line"><span class="ticker"><span>$</span>FLYAI</span>
         <span data-i18n="index.hero.tagline">A real fruit fly's brain. Every neuron. Open source.</span></p>
-      <!-- site.js puts "Buy $FLYAI on Pons" (primary) and "View on explorer" here -->
+      <!-- site.js puts "Buy $FLYAI" (our box, primary), "Buy $FLYAI on Pons" and "View on explorer" here -->
       <div class="cta buylinks"></div>
       <p class="quiet">
         <a href="/simulation/" data-i18n="index.hero.a2">Open the simulation</a>
@@ -81,6 +81,39 @@
         <button class="btn sm" id="ca-copy" type="button" disabled data-i18n="common.words.copy">Copy</button>
       </div>
       </div>
+    <div class="card pad buybox" id="buy" style="margin: 28px 0;">
+      <div class="buy-top">
+        <h3 data-i18n="token.buy.title">Buy $FLYAI here</h3>
+        <span class="buy-pick">
+          <select id="buy-dir" class="buy-dir" aria-label="Buy or sell">
+            <option value="buy" data-i18n="token.buy.dirBuy">Buy $FLYAI</option>
+            <option value="sell" data-i18n="token.buy.dirSell">Sell $FLYAI</option>
+          </select>
+          <span id="buy-with" data-i18n="token.buy.with">with</span>
+          <select id="buy-pay" class="buy-dir" aria-label="Token"><option value="USDG">USDG</option><option value="ETH">ETH</option></select>
+        </span>
+      </div>
+      <p class="buy-lede" data-i18n="token.buy.lede">Swap from your own wallet on Robinhood Chain, routed through the $FLYAI pools by Relay.</p>
+      <div class="buy-row">
+        <label class="buy-in">
+          <span data-i18n="token.buy.pay">You pay</span>
+          <span class="buy-field">
+            <input id="buy-amount" type="text" inputmode="decimal" autocomplete="off" value="25" aria-label="Amount">
+            <span class="buy-sym" id="buy-paysym">USDG</span>
+          </span>
+        </label>
+        <div class="buy-in">
+          <span data-i18n="token.buy.get">You get (about)</span>
+          <strong id="buy-out" class="buy-out">&ndash;</strong>
+        </div>
+      </div>
+      <p class="buy-detail" id="buy-detail"></p>
+      <div class="buy-act">
+        <button class="btn red" id="buy-go" type="button">Connect wallet</button>
+        <span class="buy-fee" id="buy-fee"></span>
+      </div>
+      <p class="buy-msg" id="buy-msg" aria-live="polite"></p>
+    </div>
       <div class="apps-launch" id="apps">
     <div class="continue" id="continue" hidden>
       <a class="btn sm" href="/traderflies/traders?view=mine" data-i18n="index.apps.mine">My flies</a>
@@ -317,6 +350,7 @@
 
 <script src="assets/site.js"></script>
 <script src="assets/nav.js?v=20261005b"></script>
+<script src="assets/buy.js?v=20261005a"></script>
 <script type="module" src="assets/i18n/page.js"></script>
 <script type="module" src="assets/home.js"></script>
 </body>

@@ -458,3 +458,26 @@
 .desk-live-dot { width: 8px; height: 8px; border-radius: 50%; background: #000; flex: none; animation: desk-live-pulse 1.6s ease-in-out infinite; }
 @keyframes desk-live-pulse { 50% { opacity: .25; transform: scale(.8); } }
 @media (prefers-reduced-motion: reduce) { .desk-live-dot { animation: none; } }
+
+/* the Buy/Sell $FLYAI box (assets/buy.js; token page and main page, 2026-10-05) */
+.buybox { text-align: left; }
+.buybox h3 { margin: 0 0 6px; }
+.buybox .buy-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.buybox .buy-dir { background: var(--bg-2); color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font: 500 14px var(--sans); cursor: pointer; }
+.buybox .buy-pick { display: flex; align-items: center; gap: 8px; color: var(--ink-dim, #9aa3a0); font-size: 14px; }
+.buybox .buy-sym { align-self: center; padding: 0 10px; font: 600 14px var(--sans); color: var(--mint); }
+.buybox .buy-lede { color: var(--ink-dim, #9aa3a0); margin: 0 0 16px; font-size: 14px; }
+.buybox .buy-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.buybox .buy-in { display: flex; flex-direction: column; gap: 6px; font: 500 12px var(--mono); color: var(--ink-dim, #9aa3a0); text-transform: uppercase; letter-spacing: .08em; }
+.buybox .buy-field { display: flex; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.buybox input, .buybox select { background: var(--bg-2); color: var(--text); border: 0; font: 500 18px var(--sans); padding: 10px 12px; min-width: 0; }
+.buybox input { flex: 1; }
+.buybox .buy-out { font: 600 20px var(--sans); color: var(--mint); padding: 9px 0; text-transform: none; letter-spacing: 0; }
+.buybox .buy-detail { font: 500 12px var(--mono); color: var(--ink-dim, #9aa3a0); min-height: 1.2em; margin: 10px 0 14px; }
+.buybox .buy-act { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.buybox .buy-fee { font: 500 12px var(--mono); color: var(--ink-dim, #9aa3a0); }
+.buybox .buy-msg { font: 500 13px var(--mono); color: var(--ink-dim, #9aa3a0); margin: 12px 0 0; min-height: 1.2em; }
+.buybox .buy-msg[data-kind="err"] { color: #ff7a7a; }
+.buybox .buy-msg[data-kind="ok"] { color: var(--mint); }
+.buybox .buy-msg a { color: var(--mint); }
+@media (max-width: 640px) { .buybox .buy-row { grid-template-columns: 1fr; } }

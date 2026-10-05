@@ -185,6 +185,7 @@
     "notDeployed": "Henüz yayınlanmadı",
     "explorer": "Gezginde görüntüle",
     "buyOnPons": "$FLYAI'yi Pons'ta al",
-    "notDeployedLong": "Henüz yayınlanmadı — satın alma bağlantısı lansmanda burada ve @flydotai'de görünecek."
+    "notDeployedLong": "Henüz yayınlanmadı — satın alma bağlantısı lansmanda burada ve @flydotai'de görünecek.",
+    "buyHere": "$FLYAI al"
   }
 }

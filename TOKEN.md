@@ -14,7 +14,7 @@ repository where the token is described; the rest of the repo is about the fly.
 | launchpad | [Pons](https://www.ponsfamily.com/launchpad/0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C) |
 | explorer | [Blockscout](https://robinhoodchain.blockscout.com/token/0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C) |
 | contract | `0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C` |
-| supply | 964,000,000 (1,000,000,000 minted; 36,000,000 burned, see [Burns](#burns)) |
+| supply | 963,000,000 (1,000,000,000 minted; 37,000,000 burned, see [Burns](#burns)) |
 | pair | NVDA (bonding curve, then Uniswap V4) |
 | liquidity | bonding curve -> Uniswap V4; the pool position is locked permanently by Pons |
 | locker | `0x267444d099b10fb5ed7c3cc7b7c767adca574952` (Pons launch locker; also holds 81,632,653 FLYAI, 4/49 of supply, permanently) |
@@ -165,6 +165,11 @@ That revenue is split:
   the supply permanently. They are not held, not re-sold and not kept in a treasury.
 * **40% funds development** of fly.ai. It goes to the team that builds it.
 
+**The swap box on the website** (flyaiworld.com/token, from 5 October 2026) is separate from this: a
+swap made there is routed by Relay through the same $FLYAI pools and pays a **0.25% interface fee**
+to the dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea`, taken by Relay inside the swap. It is
+not a token tax: buying or selling anywhere else (Pons, or any Robinhood Chain swap) pays no such fee.
+
 The buyback runs **weekly, on a fixed schedule**, from a single public address. Timing is not
 discretionary — waiting for a good price would mean trading against the people holding the token.
 The split is executed by hand rather than enforced by a contract, so it rests on the fee wallet
@@ -193,8 +198,14 @@ address.
 | 28 September 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 3,367,386.94 FLYAI (0.35% of supply): rounds the total burned to 30,000,000 | [`0x6aa62e79…6ead82454c`](https://robinhoodchain.blockscout.com/tx/0x6aa62e79101af8d740c33a8415b710c7373021071c5082dc8ca0dd6ead82454c) |
 | 28 September 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 5,000,000 FLYAI (0.5% of the original supply) | [`0x73a71a7f…7115c2f6c7a`](https://robinhoodchain.blockscout.com/tx/0x73a71a7f0e77ee57d8003a453c204be44bbf0ea2c0607d499e16e7115c2f6c7a) |
 | 29 September 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 1,000,000 FLYAI (0.1% of the original supply) | [`0x7f7c7b25…28634c46fdf3`](https://robinhoodchain.blockscout.com/tx/0x7f7c7b259f075899d6ed483d262aa5e2b01d59b455cc048df76d28634c46fdf3) |
+| 4 October 2026 | FlyBreeder `0xA3De6F2d2b10FF98923C16eD71decf0afa393323` | 1,580.40 FLYAI: a fly breeding fee (`burnFrom` on the breeder) | [`0x841a36e7…c8f529a279`](https://robinhoodchain.blockscout.com/tx/0x841a36e73f2ac95f6b245ef2e27dec0932c14fbc347755049e0bc2c8f529a279) |
+| 5 October 2026 | FlyBreeder `0xA3De6F2d2b10FF98923C16eD71decf0afa393323` | 3,016.59 FLYAI: a fly breeding fee (`burnFrom` on the breeder) | [`0x34099222…c5548cbbaa`](https://robinhoodchain.blockscout.com/tx/0x340992220e37c885f7c6c2646ba5624e151c3d4f1e4b9397acbf2fc5548cbbaa) |
+| 5 October 2026 | FlyBreeder `0xA3De6F2d2b10FF98923C16eD71decf0afa393323` | 1,551.59 FLYAI: a fly breeding fee (`burnFrom` on the breeder) | [`0x7e41ac7b…e64bcd714f`](https://robinhoodchain.blockscout.com/tx/0x7e41ac7bbd11b2950407e66528e59651d7118084e4fbfc2c19eea2e64bcd714f) |
+| 5 October 2026 | FlyBreeder `0xA3De6F2d2b10FF98923C16eD71decf0afa393323` | 3,103.18 FLYAI: a fly breeding fee (`burnFrom` on the breeder) | [`0xe8900483…0078bc23bb`](https://robinhoodchain.blockscout.com/tx/0xe89004830a8cb6539e5f7508a589d31a701cae2c44d2f4dfaa5da10078bc23bb) |
+| 5 October 2026 | FlyBreeder `0xA3De6F2d2b10FF98923C16eD71decf0afa393323` | 1,551.59 FLYAI: a fly breeding fee (`burnFrom` on the breeder) | [`0xa97f0c99…339d47fe6a`](https://robinhoodchain.blockscout.com/tx/0xa97f0c9932cc69040d7447520d9e94a61aaad67d7895742fc2a383339d47fe6a) |
+| 5 October 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 989,196.64 FLYAI (0.1% of the original supply): rounds the total burned, with the 10,803.36 of breeding fees above, to 37,000,000 | [`0x760479a5…bda2da5621`](https://robinhoodchain.blockscout.com/tx/0x760479a51ef91af09f48600ccb10d33a3a61404905c809a75c0c85bda2da5621) |
 
-**Total burned: 36,000,000 FLYAI (3.6% of the original supply). Supply now 964,000,000** (on chain `totalSupply` exactly 964,000,000, checked 29 September 2026).
+**Total burned: 37,000,000 FLYAI (3.7% of the original supply). Supply now 963,000,000** (on chain `totalSupply` exactly 963,000,000, checked 5 October 2026).
 
 ## Funding the work
 

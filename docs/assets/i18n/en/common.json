@@ -185,6 +185,7 @@
     "notDeployed": "Not deployed yet",
     "explorer": "View on explorer",
     "buyOnPons": "Buy $FLYAI on Pons",
-    "notDeployedLong": "Not deployed yet — the buy link appears here and on @flydotai at launch."
+    "notDeployedLong": "Not deployed yet — the buy link appears here and on @flydotai at launch.",
+    "buyHere": "Buy $FLYAI"
   }
 }
