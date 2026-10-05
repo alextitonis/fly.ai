@@ -129,6 +129,12 @@ nav li.acct .acct-badges { display: flex; flex-wrap: wrap; gap: 4px; padding: 10
 nav li.acct .acct-badges .badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(94,242,204,.12);
   color: var(--mint, #5ef2cc); border: 1px solid rgba(94,242,204,.35); }
 
+/* X and Discord (nav.js SOCIAL, 2026-10-05) */
+nav li.social { display: flex; align-items: center; gap: 2px; }
+nav li.social a { display: grid; place-items: center; padding: 6px 7px !important; color: var(--muted, #9ba5a1); border-radius: 10px; }
+nav li.social a:hover, nav li.social a:focus-visible { color: var(--mint, #5ef2cc); background: rgba(255,255,255,.04); }
+.mnav ul.mnav-social { grid-template-columns: 1fr 1fr; }
+
 /* one menu at a time (nav.js only()): a shut menu stays closed even under hover or focus */
 nav li.dd.shut:not(.open) .ddmenu { display: none !important; }
 

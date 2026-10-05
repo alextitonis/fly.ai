@@ -237,7 +237,8 @@
     "chipBuy": "매수",
     "chipPool": "풀",
     "chipStop": "손절",
-    "chipTp": "익절"
+    "chipTp": "익절",
+    "switchTo": "서명하려면 지갑 앱을 로그인한 지갑 {wallet}(으)로 바꾸세요."
   },
   "term": {
     "sub": "실제 파리 뇌가 하나의 데스크를 거래합니다 · Robinhood Chain"
@@ -258,6 +259,9 @@
     "thActive": "이번 주 활성",
     "thShare": "몫",
     "thUsd": "현재 $",
+    "thHolder": "보유자",
+    "thFlies": "플라이",
+    "byFly": "플라이별",
     "empty": "아직 활성화된 플라이가 없습니다: 보유자가 200,000 $FLYAI를 보유하는 동안 플라이가 활성화됩니다."
   }
 }

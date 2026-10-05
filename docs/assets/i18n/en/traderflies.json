@@ -1181,6 +1181,10 @@
       "fomo": {
         "title": "Follow FOMO's top traders",
         "blurb": "Buys what the week's most profitable traders on FOMO buy on Robinhood Chain, within seconds, and sells when they sell."
+      },
+      "house": {
+        "title": "Buy FLYAI dips",
+        "blurb": "When FLYAI, the house token, drops well under its usual price it buys some, and sells once the price is back."
       }
     },
     "params": {
@@ -1221,7 +1225,10 @@
       "window_minutes": "Within (minutes)",
       "follow_sells": "Sell when they sell (1 = yes)",
       "min_holders": "Holders at least",
-      "house": "Copy FLYAI buys too (1 = yes)"
+      "house": "Copy FLYAI buys too (1 = yes)",
+      "dip_pct": "Dip to buy (%)",
+      "avg_hours": "Average over (h)",
+      "back_pct": "Sell when within (%)"
     },
     "filters": "Meme filters",
     "filtersText": "Only memes are filtered: majors and stock tokens are the desk's own list. Empty = no limit.",

@@ -413,7 +413,7 @@
     ["k-median", "k-best"].forEach((id) => { const k = $(id) && $(id).closest(".tm-kpi"); if (k) k.style.display = one ? "none" : ""; });
     const kp = $("k-pot") && $("k-pot").closest(".dkt-kpis");
     if (kp) kp.style.gridTemplateColumns = one ? "repeat(2, minmax(0, 1fr))" : "";
-    renderPayout(b.payout);
+    renderPayout(b.payout, b.nft);
     renderStats(s, start);
     renderRecords(b.records);
     drawChart($("chart"), s, starts());
@@ -838,11 +838,43 @@
   // ------------------------------------------------------------------ the week's payout (publish.payout_preview)
   /** Every activated Trader Fly with what it would get if the week closed now: the profit above the high x the holders'
    *  share, split by rarity weight x the share of the week it was active. Settles Sunday 23:00 UTC. */
-  function renderPayout(p) {
+  const names = {};                                             // wallet -> nickname (the mine server's profiles)
+  let askedNames = "";
+  function loadNames(wallets) {
+    const want = wallets.filter((w) => !(w in names)).slice(0, 200);
+    const key = want.join(",");
+    if (!want.length || key === askedNames) return;
+    askedNames = key;
+    fetch("https://flyai-mine.fly.dev/api/profiles?wallets=" + want.join(","))
+      .then((r) => (r.ok ? r.json() : {})).then((got) => {
+        want.forEach((w) => { names[w] = (got || {})[w] || (got || {})[w.toLowerCase()] || null; });
+        if (board) renderPayout(board.payout, board.nft);
+      }).catch(() => {});
+  }
+  const shortAddr = (a) => (a ? a.slice(0, 6) + "…" + a.slice(-4) : "—");
+
+  function renderPayout(p, nft) {
     const box = $("payout");
     if (!box) return;
     if (!p || !p.flies) { box.hidden = true; return; }
     box.hidden = false;
+    // each holder's flies and dollars (2026-10-05, the user: "each holder ... how much they are $ worth")
+    const holderOf = {};
+    ((nft && nft.flies) || []).forEach((f) => { if (f.holder) holderOf[String(f.id)] = String(f.holder).toLowerCase(); });
+    const by = {};
+    p.flies.forEach((f) => {
+      const h = holderOf[String(f.fly)] || "?";
+      const o = (by[h] = by[h] || { holder: h, flies: [], usd: 0 });
+      o.flies.push(f.fly);
+      o.usd += f.usd || 0;
+    });
+    const holders = Object.values(by).sort((a, c) => c.usd - a.usd || c.flies.length - a.flies.length);
+    loadNames(holders.map((o) => o.holder).filter((h) => h !== "?"));
+    const who = (h) => (h === "?" ? "—" : `<span title="${esc(h)}">${esc(names[h] || shortAddr(h))}</span>`);
+    $("pay-holders").innerHTML = `<thead><tr><th>#</th><th>${esc(t("pay.thHolder"))}</th><th class="r">${esc(t("pay.thFlies"))}</th><th class="r">${esc(t("pay.thUsd"))}</th></tr></thead><tbody>` +
+      (holders.length ? holders.map((o, i) => `<tr><td>${i + 1}</td><td>${who(o.holder)}</td>` +
+        `<td class="r">${o.flies.length}</td><td class="r"><b class="${o.usd > 0 ? "up" : ""}">${esc(usd(o.usd))}</b></td></tr>`).join("")
+        : `<tr class="empty"><td colspan="4">${esc(t("pay.empty"))}</td></tr>`) + "</tbody>";
     const when = new Date(p.settles_at * 1000);
     const left = Math.max(0, p.settles_at * 1000 - Date.now()), d = Math.floor(left / 86_400_000), h = Math.floor(left / 3_600_000) % 24;
     $("pay-when").textContent = t("pay.when", { date: when.toLocaleString(lang(), { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }), in: d ? `${d}d ${h}h` : `${h}h` });
@@ -850,11 +882,11 @@
       ? t("pay.sum", { profit: `<b class="up">${esc(usd(p.profit_usd))}</b>`, share: Math.round(p.holders_share * 100), holders: `<b class="up">${esc(usd(p.holders_usd))}</b>`, n: p.active })
       : t("pay.none", { gap: `<b>${esc(usd(p.peak_usd - p.pot_usd))}</b>`, n: p.active });
     const rows = p.flies;
-    $("pay-tbl").innerHTML = `<thead><tr><th>${esc(t("pay.thFly"))}</th><th class="r">${esc(t("pay.thWeight"))}</th><th class="r">${esc(t("pay.thActive"))}</th><th class="r">${esc(t("pay.thShare"))}</th><th class="r">${esc(t("pay.thUsd"))}</th></tr></thead><tbody>` +
-      (rows.length ? rows.map((f) => `<tr class="${f.active_now ? "" : "off"}"><td><a href="/traderflies/fly?id=${encodeURIComponent(f.fly)}">Trader Fly #${esc(f.fly)}</a></td>` +
+    $("pay-tbl").innerHTML = `<thead><tr><th>${esc(t("pay.thFly"))}</th><th>${esc(t("pay.thHolder"))}</th><th class="r">${esc(t("pay.thWeight"))}</th><th class="r">${esc(t("pay.thActive"))}</th><th class="r">${esc(t("pay.thShare"))}</th><th class="r">${esc(t("pay.thUsd"))}</th></tr></thead><tbody>` +
+      (rows.length ? rows.map((f) => `<tr class="${f.active_now ? "" : "off"}"><td><a href="/traderflies/fly?id=${encodeURIComponent(f.fly)}">Trader Fly #${esc(f.fly)}</a></td><td>${who(holderOf[String(f.fly)] || "?")}</td>` +
         `<td class="r">×${esc(f.weight)}</td><td class="r">${nf(0).format(f.active_pct)}%</td><td class="r">${nf(2).format(f.share_pct)}%</td>` +
         `<td class="r"><b class="${f.usd > 0 ? "up" : ""}">${esc(usd(f.usd))}</b></td></tr>`).join("")
-        : `<tr class="empty"><td colspan="5">${esc(t("pay.empty"))}</td></tr>`) + "</tbody>";
+        : `<tr class="empty"><td colspan="6">${esc(t("pay.empty"))}</td></tr>`) + "</tbody>";
   }
 
   // the clock in the top bar (local time, like /terminal's)

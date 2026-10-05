@@ -237,7 +237,8 @@
     "chipBuy": "买入",
     "chipPool": "池子",
     "chipStop": "止损",
-    "chipTp": "止盈"
+    "chipTp": "止盈",
+    "switchTo": "请在钱包应用中切换到你登录的钱包 {wallet} 再签名。"
   },
   "term": {
     "sub": "真实的苍蝇大脑共同操作一个交易台 · Robinhood Chain"
@@ -258,6 +259,9 @@
     "thActive": "本周活跃",
     "thShare": "份额",
     "thUsd": "当前 $",
+    "thHolder": "持有人",
+    "thFlies": "苍蝇",
+    "byFly": "每只苍蝇",
     "empty": "还没有已激活的苍蝇：持有人持有 200,000 $FLYAI 时，苍蝇即为激活。"
   }
 }

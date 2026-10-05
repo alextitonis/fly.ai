@@ -237,7 +237,8 @@
     "chipBuy": "Compra",
     "chipPool": "Pools",
     "chipStop": "Stop",
-    "chipTp": "Ganancia"
+    "chipTp": "Ganancia",
+    "switchTo": "Cambia tu app de wallet a {wallet}, la wallet con la que iniciaste sesión, para firmar."
   },
   "term": {
     "sub": "cerebros reales de mosca operan un solo desk · Robinhood Chain"
@@ -258,6 +259,9 @@
     "thActive": "Activa esta semana",
     "thShare": "Parte",
     "thUsd": "$ ahora",
+    "thHolder": "Holder",
+    "thFlies": "Moscas",
+    "byFly": "Cada mosca",
     "empty": "Aún no hay moscas activadas: una mosca está activa mientras su holder tenga 200.000 $FLYAI."
   }
 }

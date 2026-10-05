@@ -237,7 +237,8 @@
     "chipBuy": "Alım",
     "chipPool": "Havuz",
     "chipStop": "Stop",
-    "chipTp": "Kâr al"
+    "chipTp": "Kâr al",
+    "switchTo": "İmzalamak için cüzdan uygulamanızı giriş yaptığınız {wallet} cüzdanına geçirin."
   },
   "term": {
     "sub": "gerçek sinek beyinleri tek bir masada işlem yapar · Robinhood Chain"
@@ -258,6 +259,9 @@
     "thActive": "Bu hafta aktif",
     "thShare": "Pay",
     "thUsd": "Şimdi $",
+    "thHolder": "Sahip",
+    "thFlies": "Sinek",
+    "byFly": "Her sinek",
     "empty": "Henüz aktif sinek yok: sahibi 200.000 $FLYAI tuttuğu sürece sinek aktiftir."
   }
 }

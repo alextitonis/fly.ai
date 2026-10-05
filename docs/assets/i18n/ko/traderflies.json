@@ -1179,6 +1179,10 @@
       "fomo": {
         "title": "FOMO 탑 트레이더 따라하기",
         "blurb": "FOMO에서 이번 주 가장 수익 높은 트레이더들이 Robinhood Chain에서 사는 토큰을 몇 초 안에 사고, 그들이 팔면 팝니다."
+      },
+      "house": {
+        "title": "FLYAI 하락 매수",
+        "blurb": "하우스 토큰 FLYAI가 평소 가격보다 크게 떨어지면 매수하고, 가격이 돌아오면 매도합니다."
       }
     },
     "params": {
@@ -1219,7 +1223,10 @@
       "window_minutes": "기간 (분)",
       "follow_sells": "그들이 팔면 매도 (1 = 예)",
       "min_holders": "최소 홀더 수",
-      "house": "FLYAI 매수도 따라하기 (1 = 예)"
+      "house": "FLYAI 매수도 따라하기 (1 = 예)",
+      "dip_pct": "매수 하락폭 (%)",
+      "avg_hours": "평균 기간 (시간)",
+      "back_pct": "매도 기준 차이 (%)"
     },
     "filters": "밈 필터",
     "filtersText": "밈만 필터링해요: 메이저와 주식 토큰은 데스크가 정한 목록이에요. 비워 두면 = 제한 없음.",

@@ -115,17 +115,32 @@
     }
   }
 
-  async function connect() {
-    if (!window.ethereum) { msg(t("noWallet"), "err"); return null; }
-    const accs = await window.ethereum.request({ method: "eth_requestAccounts" });
-    wallet = (accs && accs[0] || "").toLowerCase() || null;
+  // one sign-in for the whole site (2026-10-05, the user: the desk had its own "connect wallet"): the wallet is the
+  // nav's session (nav.js window.flyNav); signed out, the button is the nav's sign-in (data-nav-signin)
+  function navWallet() {
+    const s = window.flyNav && window.flyNav.session && window.flyNav.session();
+    return s && s.wallet ? s.wallet.toLowerCase() : null;
+  }
+  function useSession() {
+    wallet = navWallet();
+    const b = $("vote-connect");
     if (wallet) {
-      $("vote-connect").textContent = short(wallet);
-      try { mine = localStorage.getItem("deskvote:" + data.day + ":" + wallet); } catch { mine = null; }
-      msg(t("connected", { wallet: short(wallet) }));
-      render();
+      b.hidden = true;
+      try { mine = data ? localStorage.getItem("deskvote:" + data.day + ":" + wallet) : null; } catch { mine = null; }
     }
     return wallet;
+  }
+  function signIn() {
+    const b = document.querySelector('nav li.acct[data-signin] button');
+    if (b) { window.scrollTo({ top: 0, behavior: "smooth" }); b.click(); }
+  }
+  // the signature still comes from the wallet app: it must be the signed-in wallet
+  async function signer() {
+    if (!window.ethereum) { msg(t("noWallet"), "err"); return false; }
+    const accs = (await window.ethereum.request({ method: "eth_requestAccounts" })) || [];
+    if (accs.some((a) => String(a).toLowerCase() === wallet)) return true;
+    msg(t("switchTo", { wallet: short(wallet) }), "err");
+    return false;
   }
 
   const hex = (s) => "0x" + Array.from(new TextEncoder().encode(s), (b) => b.toString(16).padStart(2, "0")).join("");
@@ -133,7 +148,8 @@
   async function vote(mode) {
     if (busy || !data) return;
     try {
-      if (!wallet && !(await connect())) return;
+      if (!useSession()) { signIn(); return; }
+      if (!(await signer())) return;
       busy = true; render();
       const text = data.message.replace("{day}", data.day).replace("{mode}", mode).replace("{wallet}", wallet);
       msg(t("signing"));
@@ -160,7 +176,7 @@
   document.addEventListener("click", (e) => {
     const c = e.target.closest("#vote-cards [data-mode]");
     if (c) vote(c.dataset.mode);
-    if (e.target.closest("#vote-connect")) connect().catch(() => msg(t("cancelled"), "err"));
+    if (e.target.closest("#vote-connect") && !navWallet()) signIn();
   });
 
   async function start() {
@@ -168,6 +184,7 @@
       try { en = await (await fetch("assets/i18n/en/desk.json")).json(); } catch { en = {}; }
     }
     await load();
+    if (useSession()) render();
     setInterval(load, REFRESH_MS);
   }
   if (window.flyI18n) start();

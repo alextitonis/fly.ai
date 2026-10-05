@@ -4,8 +4,9 @@ money, not all of it used at the start). Prepared, not run: the user deploys and
 flytrade/FLYDESK-LIVE-PLAN.md.
 
 What it writes into desk_config (settings only; the code is houseexec.py + engine.house_check / pool_step):
-    the mix, of --cap dollars       40% core hold (stocks + majors, pools >= $100k and >= 72 h old)
+    the mix, of --cap dollars       20% core hold (stocks + majors, pools >= $100k and >= 72 h old)
                                     30% stockgap (stock tokens under their share price, pools >= $100k)
+                                    20% house: FLYAI bought 4%+ under its ~24 h average, sold when back (rules.house)
                                     30% the flies' brains, gated like the live Fly Wallets (pools >= $50k, >= 72 h,
                                         round trip <= 3%, no curves, Robinhood Chain only) + patience and churn band
                                     reversal off (its one good paper book holds the same young memes its twins lost on)
@@ -31,7 +32,8 @@ sys.path.insert(0, str(ROOT / "flytrade" / "desk"))
 import status  # noqa: E402  (reads flybook/.env)
 import requests  # noqa: E402
 
-MIX = {"core": 0.40, "stockgap": 0.30, "brains": 0.30}
+# house (2026-10-05, the user: FLYAI dropped, "it should buy"): rules.house, FLYAI on a dip - half of core's old share
+MIX = {"core": 0.20, "stockgap": 0.30, "house": 0.20, "brains": 0.30}
 MIN_SLOT_USD = 5.0                        # a position under this pays its gas twice over (the 09-27 dust lesson)
 
 
@@ -49,7 +51,8 @@ def flies_now() -> int:
 
 
 def plan(cap: float, flies: int) -> tuple[dict, list[str]]:
-    per_fly = cap * MIX["brains"] / flies
+    # the house sleeve is carved out of the brain book when it opens (from_brain): the book opens with both shares
+    per_fly = cap * (MIX["brains"] + MIX["house"]) / flies
     core_per_fly, gap_per_fly = cap * MIX["core"] / flies, cap * MIX["stockgap"] / flies
     top = max(1, min(10, int(core_per_fly // MIN_SLOT_USD)))
     gap_slots = max(1, min(4, int(gap_per_fly // MIN_SLOT_USD)))
@@ -72,6 +75,7 @@ def plan(cap: float, flies: int) -> tuple[dict, list[str]]:
                      "min_pool_age_hours": 72.0, "categories": ["stock", "major"]},
             "stockgap": {"on": True, "allocation_usd": round(cap * MIX["stockgap"], 2), "entry_pct": 1.5,
                          "min_pool_usd": 100000.0, "max_positions": gap_slots},
+            "house": {"on": True, "allocation_usd": round(cap * MIX["house"], 2), "from_brain": True},
         },
         # gentle on the FLYAI chart (2026-10-05, the user): <= $50 a bar, <= 0.25% of the pool's depth, and no selling
         # while FLYAI is 5%+ under its 1 h high

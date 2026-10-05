@@ -1181,6 +1181,10 @@
       "fomo": {
         "title": "Seguir a los top traders de FOMO",
         "blurb": "Compra lo que compran en Robinhood Chain los traders más rentables de la semana en FOMO, en segundos, y vende cuando venden."
+      },
+      "house": {
+        "title": "Comprar caídas de FLYAI",
+        "blurb": "Cuando FLYAI, el token de la casa, cae bastante por debajo de su precio habitual, compra un poco y vende cuando el precio vuelve."
       }
     },
     "params": {
@@ -1221,7 +1225,10 @@
       "window_minutes": "En (minutos)",
       "follow_sells": "Vender cuando venden (1 = sí)",
       "min_holders": "Holders mínimos",
-      "house": "Copiar también compras de FLYAI (1 = sí)"
+      "house": "Copiar también compras de FLYAI (1 = sí)",
+      "dip_pct": "Caída para comprar (%)",
+      "avg_hours": "Promedio de (h)",
+      "back_pct": "Vender a menos de (%)"
     },
     "filters": "Filtros de memes",
     "filtersText": "Solo se filtran los memes: los majors y los tokens de acciones son la lista propia de la mesa. Vacío = sin límite.",

@@ -1181,6 +1181,10 @@
       "fomo": {
         "title": "FOMO'nun en iyi trader'larını takip et",
         "blurb": "FOMO'da haftanın en kârlı trader'larının Robinhood Chain'de aldığını saniyeler içinde alır, onlar satınca satar."
+      },
+      "house": {
+        "title": "FLYAI düşüşlerini al",
+        "blurb": "Ev tokeni FLYAI normal fiyatının belirgin şekilde altına düştüğünde biraz alır, fiyat geri gelince satar."
       }
     },
     "params": {
@@ -1221,7 +1225,10 @@
       "window_minutes": "İçinde (dakika)",
       "follow_sells": "Onlar satınca sat (1 = evet)",
       "min_holders": "En az holder sayısı",
-      "house": "FLYAI alımlarını da kopyala (1 = evet)"
+      "house": "FLYAI alımlarını da kopyala (1 = evet)",
+      "dip_pct": "Alım için düşüş (%)",
+      "avg_hours": "Ortalama süresi (sa)",
+      "back_pct": "Şu kadar yakınsa sat (%)"
     },
     "filters": "Meme filtreleri",
     "filtersText": "Yalnızca memeler filtrelenir: büyükler ve hisse token'ları masanın kendi listesidir. Boş = sınır yok.",

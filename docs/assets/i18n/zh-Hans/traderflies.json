@@ -1179,6 +1179,10 @@
       "fomo": {
         "title": "跟随 FOMO 顶级交易员",
         "blurb": "几秒内买入 FOMO 本周最赚钱的交易员在 Robinhood Chain 上买的代币，他们卖出时卖出。"
+      },
+      "house": {
+        "title": "逢低买入 FLYAI",
+        "blurb": "当平台代币 FLYAI 明显跌破平时价格时买入一些，价格回升后卖出。"
       }
     },
     "params": {
@@ -1219,7 +1223,10 @@
       "window_minutes": "时间内（分钟）",
       "follow_sells": "他们卖时卖出（1 = 是）",
       "min_holders": "最少持有人数",
-      "house": "也跟买 FLYAI（1 = 是）"
+      "house": "也跟买 FLYAI（1 = 是）",
+      "dip_pct": "买入跌幅 (%)",
+      "avg_hours": "均价时长 (小时)",
+      "back_pct": "回到均价多少内卖出 (%)"
     },
     "filters": "Meme 币筛选",
     "filtersText": "只筛选 Meme 币：主流币和股票代币用的是交易台自己的列表。留空 = 不限。",

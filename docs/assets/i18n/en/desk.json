@@ -237,7 +237,8 @@
     "chipBuy": "Buy size",
     "chipPool": "Pools",
     "chipStop": "Stop",
-    "chipTp": "Take profit"
+    "chipTp": "Take profit",
+    "switchTo": "Switch your wallet app to {wallet}, the wallet you're signed in with, to sign."
   },
   "term": {
     "sub": "real fly brains trade one desk · Robinhood Chain"
@@ -258,6 +259,9 @@
     "thActive": "Active this week",
     "thShare": "Share",
     "thUsd": "$ now",
+    "thHolder": "Holder",
+    "thFlies": "Flies",
+    "byFly": "Each fly",
     "empty": "No activated flies yet: a fly is activated while its holder holds 200,000 $FLYAI."
   }
 }

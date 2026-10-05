@@ -99,7 +99,11 @@
     <h2><span data-i18n="desk.pay.title">This week's payout</span><small id="pay-when"></small></h2>
     <p class="caption" id="pay-sum"></p>
     <p class="caption dkt-pay-note" id="pay-note" data-i18n="desk.pay.off">Payouts aren't switched on yet: these are the amounts each fly would get. Once they are, a week's payout settles on Sunday at 23:00 UTC and can be claimed on the Claim page two days later.</p>
-    <div class="scroll tm-scroll"><table class="tbl" id="pay-tbl"></table></div>
+    <div class="scroll tm-scroll"><table class="tbl" id="pay-holders"></table></div>
+    <details class="tbl-details">
+      <summary data-i18n="desk.pay.byFly">Each fly</summary>
+      <div class="scroll"><table class="tbl" id="pay-tbl"></table></div>
+    </details>
   </section>
 
   <section id="vote" class="tm-panel dkt-vote">
@@ -110,7 +114,7 @@
         <div class="vote-split" id="vote-split" aria-hidden="true"></div>
         <div class="vote-cards" id="vote-cards" role="group" aria-label="Pick a mode"></div>
         <div class="vote-foot">
-          <button type="button" class="btn red sm" id="vote-connect" data-i18n="desk.vote.connect">Connect wallet</button>
+          <button type="button" class="btn red sm" id="vote-connect" data-nav-signin data-i18n="desk.vote.connect">Connect wallet</button>
           <span class="vote-msg" id="vote-msg" aria-live="polite"></span>
         </div>
       </div>
@@ -191,6 +195,7 @@
   <div class="wrap">
     <div class="links">
       <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
       <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
       <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
     </div>
@@ -200,9 +205,9 @@
 <!-- /@footer -->
 
 <script src="assets/site.js"></script>
-<script src="assets/nav.js?v=20261005a"></script>
+<script src="assets/nav.js?v=20261005b"></script>
 <script type="module" src="assets/i18n/page.js"></script>
 <script src="assets/desk.js"></script>
-<script src="assets/deskvote.js"></script>
+<script src="assets/deskvote.js?v=20261005b"></script>
 </body>
 </html>

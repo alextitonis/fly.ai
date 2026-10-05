@@ -237,7 +237,8 @@
     "chipBuy": "買入",
     "chipPool": "池子",
     "chipStop": "停損",
-    "chipTp": "停利"
+    "chipTp": "停利",
+    "switchTo": "請在錢包應用中切換到你登入的錢包 {wallet} 再簽名。"
   },
   "term": {
     "sub": "真實的蒼蠅大腦共同操作一個交易台 · Robinhood Chain"
@@ -258,6 +259,9 @@
     "thActive": "本週活躍",
     "thShare": "份額",
     "thUsd": "目前 $",
+    "thHolder": "持有人",
+    "thFlies": "蒼蠅",
+    "byFly": "每隻蒼蠅",
     "empty": "還沒有已啟用的蒼蠅：持有人持有 200,000 $FLYAI 時，蒼蠅即為啟用。"
   }
 }

@@ -55,6 +55,12 @@
       ["For Agents", "/agents", "Make Claude talk like a fly"],
     ], true],
   ];
+  // the community links (2026-10-05, the user: "add discord & X link in the website"): icons in the bar, a row in the
+  // phone menu; the footers carry them as text
+  const SOCIAL = [
+    ["X", "https://x.com/flydotai", '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L1 2h6.4l4.4 5.9L18.9 2Zm-1.1 18.1h1.7L6.3 3.8H4.5l13.3 16.3Z"/></svg>'],
+    ["Discord", "https://discord.gg/2KqfZs4aK8", '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M20.3 4.4A19.6 19.6 0 0 0 15.4 3l-.6 1.3a18.2 18.2 0 0 0-5.6 0L8.6 3a19.6 19.6 0 0 0-4.9 1.4C.6 9 -.3 13.5.1 18a19.8 19.8 0 0 0 6 3l1.3-2.1a12.8 12.8 0 0 1-2-1l.5-.4a14 14 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1l1.3 2.1a19.7 19.7 0 0 0 6-3c.5-5.2-.8-9.7-3.6-13.6ZM8.3 15.3c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Zm7.4 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Z"/></svg>'],
+  ];
   const SESSION_KEY = "flyai.compute.session";            // mine/web/account.ts: one session for every app
   const ACCOUNT_JS = "/compute/mine/web/account.js";       // the shared sign-in (built from mine/web)
   const MINE_API = "https://flyai-mine.fly.dev";
@@ -116,6 +122,7 @@
       panel.append(el("section", { class: "mnav-sec" }, el("p", { class: "mnav-h", "data-menu": item[0] }, item[1]),
         el("ul", null, ...item[2].map(([label, href, , newTab]) => el("li", null, link([label, href, undefined, newTab]))))));
     }
+    panel.append(el("ul", { class: "mnav-top mnav-social" }, ...SOCIAL.map(([label, href]) => el("li", null, link([label, href])))));
     for (const item of NAV) {
       if (!Array.isArray(item[2])) { ul.append(el("li", { class: "main" }, link(item))); continue; }
       const [id, label, items, right] = item;
@@ -129,7 +136,13 @@
     }
     const burger = el("button", { class: "burger-btn", type: "button", "aria-expanded": "false", "aria-controls": "mnav", "aria-label": "Menu" },
       el("i"), el("i"), el("i"));                         // three drawn bars that turn into an X (CSS), not the ☰ glyph
-    ul.append(searchBox(el), ...(session() || follows().length ? [bell(el)] : []), account(el, fileHref), el("li", { class: "burger" }, burger));
+    const social = el("li", { class: "main social" });
+    for (const [label, href, svg] of SOCIAL) {
+      const a = el("a", { href, target: "_blank", rel: "noopener", "aria-label": label, title: label });
+      a.innerHTML = svg;
+      social.append(a);
+    }
+    ul.append(social, searchBox(el), ...(session() || follows().length ? [bell(el)] : []), account(el, fileHref), el("li", { class: "burger" }, burger));
 
     const brand = el("a", { class: "brand", href: fileHref("/") },
       el("img", { class: "logo", src: root ? `${root}assets/logo-t.webp` : "/assets/logo-t.webp", alt: "fly.ai", width: "988", height: "439" }));
