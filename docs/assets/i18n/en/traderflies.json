@@ -1228,7 +1228,8 @@
       "house": "Copy FLYAI buys too (1 = yes)",
       "dip_pct": "Dip to buy (%)",
       "avg_hours": "Average over (h)",
-      "back_pct": "Sell when within (%)"
+      "back_pct": "Sell when within (%)",
+      "min_breadth_pct": "Min. % of tokens trending up"
     },
     "filters": "Meme filters",
     "filtersText": "Only memes are filtered: majors and stock tokens are the desk's own list. Empty = no limit.",

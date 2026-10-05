@@ -1226,7 +1226,8 @@
       "house": "也跟买 FLYAI（1 = 是）",
       "dip_pct": "买入跌幅 (%)",
       "avg_hours": "均价时长 (小时)",
-      "back_pct": "回到均价多少内卖出 (%)"
+      "back_pct": "回到均价多少内卖出 (%)",
+      "min_breadth_pct": "上涨代币最低占比 %"
     },
     "filters": "Meme 币筛选",
     "filtersText": "只筛选 Meme 币：主流币和股票代币用的是交易台自己的列表。留空 = 不限。",

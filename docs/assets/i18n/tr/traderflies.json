@@ -1228,7 +1228,8 @@
       "house": "FLYAI alımlarını da kopyala (1 = evet)",
       "dip_pct": "Alım için düşüş (%)",
       "avg_hours": "Ortalama süresi (sa)",
-      "back_pct": "Şu kadar yakınsa sat (%)"
+      "back_pct": "Şu kadar yakınsa sat (%)",
+      "min_breadth_pct": "Yükselen token min. %"
     },
     "filters": "Meme filtreleri",
     "filtersText": "Yalnızca memeler filtrelenir: büyükler ve hisse token'ları masanın kendi listesidir. Boş = sınır yok.",

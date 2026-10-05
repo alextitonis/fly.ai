@@ -1228,7 +1228,8 @@
       "house": "Copiar también compras de FLYAI (1 = sí)",
       "dip_pct": "Caída para comprar (%)",
       "avg_hours": "Promedio de (h)",
-      "back_pct": "Vender a menos de (%)"
+      "back_pct": "Vender a menos de (%)",
+      "min_breadth_pct": "% mín. de tokens al alza"
     },
     "filters": "Filtros de memes",
     "filtersText": "Solo se filtran los memes: los majors y los tokens de acciones son la lista propia de la mesa. Vacío = sin límite.",
