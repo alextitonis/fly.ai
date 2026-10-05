@@ -97,6 +97,12 @@
             <input id="buy-amount" type="text" inputmode="decimal" autocomplete="off" value="25" aria-label="Amount">
             <span class="buy-sym" id="buy-paysym">USDG</span>
           </span>
+          <span class="buy-balrow" id="buy-balrow" hidden>
+            <span class="buy-bal" id="buy-bal"></span>
+            <span class="buy-pcts">
+              <button type="button" data-pct="25">25%</button><button type="button" data-pct="50">50%</button><button type="button" data-pct="75">75%</button><button type="button" data-pct="100" data-i18n="token.buy.max">Max</button>
+            </span>
+          </span>
         </label>
         <div class="buy-in">
           <span data-i18n="token.buy.get">You get (about)</span>
@@ -177,7 +183,7 @@
 
 <script src="assets/site.js"></script>
 <script src="assets/nav.js?v=20261005c"></script>
-<script src="assets/buy.js?v=20261005b"></script>
+<script src="assets/buy.js?v=20261005c"></script>
 <script type="module" src="assets/i18n/page.js"></script>
 </body>
 </html>

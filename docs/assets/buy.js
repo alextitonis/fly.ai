@@ -50,6 +50,8 @@
   const fmt = (x, d) => new Intl.NumberFormat(lang(), { maximumFractionDigits: d }).format(x);
 
   let wallet = null, quote = null, quoteFor = "", timer = null, busy = false, allowedCache = null;
+  let bal = null, balFor = "";                         // the paid token's balance (base units) for the wallet
+  const GAS_KEEP = 3n * 10n ** 14n;                     // Max on ETH leaves 0.0003 ETH for this swap's gas
 
   function msg(text, kind, link) {
     const el = $("buy-msg");
@@ -155,6 +157,58 @@
     }, 400);
   }
 
+  // ---- the paid token's balance and the 25 / 50 / 75 / Max buttons (2026-10-05, the user: "like metamask") ----
+  async function rpc(method, params) {
+    const r = await fetch(RPC, { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) });
+    const d = await r.json();
+    if (d.error) throw new Error(d.error.message);
+    return d.result;
+  }
+
+  function decimalOf(raw, decimals, maxFrac) {          // 1234500000n, 6 -> "1234.5" (exact, trimmed)
+    const neg = raw < 0n, v = neg ? -raw : raw, one = 10n ** BigInt(decimals);
+    let frac = (v % one).toString().padStart(decimals, "0").slice(0, maxFrac).replace(/0+$/, "");
+    return (neg ? "-" : "") + (v / one).toString() + (frac ? "." + frac : "");
+  }
+
+  function compact(raw, decimals) {                     // what the balance line shows: 12.4M, 1,234.5, 0.0031
+    const x = Number(decimalOf(raw, decimals, 8));
+    if (x >= 1e6) return new Intl.NumberFormat(lang(), { notation: "compact", maximumFractionDigits: 2 }).format(x);
+    return fmt(x, x >= 1000 ? 0 : x >= 1 ? 2 : 6);
+  }
+
+  async function loadBalance() {
+    const pay = $("buy-pay").value, [tin, , symIn] = sides(pay), key = (wallet || "") + ":" + symIn;
+    balFor = key;
+    if (!wallet) { bal = null; showBalance(); return; }
+    try {
+      const raw = symIn === "ETH"
+        ? await rpc("eth_getBalance", [wallet, "latest"])
+        : await rpc("eth_call", [{ to: tin.address, data: "0x70a08231" + wallet.slice(2).toLowerCase().padStart(64, "0") }, "latest"]);
+      if (balFor !== key) return;                       // the coin or wallet changed meanwhile
+      bal = BigInt(raw);
+    } catch (e) {
+      if (balFor === key) bal = null;
+    }
+    showBalance();
+  }
+
+  function showBalance() {
+    const [tin, , symIn] = sides($("buy-pay").value);
+    $("buy-balrow").hidden = bal == null;
+    if (bal != null) $("buy-bal").textContent = t("balance", { amt: compact(bal, tin.decimals) + " " + symIn });
+  }
+
+  function usePct(pct) {
+    if (bal == null) return;
+    const [tin, , symIn] = sides($("buy-pay").value);
+    let amt = bal * BigInt(pct) / 100n;
+    if (symIn === "ETH" && pct === 100) amt = amt > GAS_KEEP ? amt - GAS_KEEP : 0n;
+    $("buy-amount").value = decimalOf(amt, tin.decimals, symIn === "USDG" ? 6 : symIn === "ETH" ? 8 : 4);
+    refresh();
+  }
+
   async function ensureChain() {
     const eth = window.ethereum;
     if ((await eth.request({ method: "eth_chainId" })).toLowerCase() === CHAIN_HEX) return;
@@ -188,6 +242,7 @@
       if (!w) return false;
       wallet = w;
       label();
+      loadBalance();
       return true;
     }
     if (!window.ethereum) { msg(t("noWallet"), "err"); return false; }
@@ -195,6 +250,7 @@
     if (!accs.length) return false;
     wallet = accs[0];
     label();
+    loadBalance();
     return true;
   }
 
@@ -226,6 +282,7 @@
         }
       }
       msg(t("done"), "ok", EXPLORER + "/tx/" + last);
+      loadBalance();
     } catch (e) {
       const why = acct ? acct.errorText(e) : (e && e.message) || String(e);
       const cancelled = (e && (e.code === 4001 || (e.cause && e.cause.code === 4001))) || /rejected|denied|cancel/i.test(why);
@@ -239,7 +296,8 @@
   function start() {
     $("buy-amount").addEventListener("input", refresh);
     const sym = () => { $("buy-paysym").textContent = selling() ? "FLYAI" : $("buy-pay").value; };
-    $("buy-pay").addEventListener("change", () => { sym(); refresh(); });
+    $("buy-pay").addEventListener("change", () => { sym(); refresh(); loadBalance(); });
+    for (const b of document.querySelectorAll("#buy [data-pct]")) b.addEventListener("click", () => usePct(Number(b.dataset.pct)));
     $("buy-dir").addEventListener("change", () => {
       const sell = selling();
       $("buy-amount").value = sell ? "100000" : "25";
@@ -247,14 +305,16 @@
       sym();
       label();
       refresh();
+      loadBalance();
     });
     sym();
     $("buy-go").addEventListener("click", buy);
     // signed in already (the nav's session): show Buy at once, then follow sign-ins and sign-outs on any page/tab
     const s = window.flyNav && window.flyNav.session && window.flyNav.session();
     if (s && s.wallet) wallet = s.wallet;
-    loadAcct().then((a) => { if (a) a.onAccount((w) => { wallet = w; label(); refresh(); }); else label(); });
+    loadAcct().then((a) => { if (a) a.onAccount((w) => { wallet = w; label(); refresh(); loadBalance(); }); else label(); });
     label();
+    loadBalance();
     $("buy-fee").textContent = t("fee", { pct: fmt(FEE_BPS / 100, 2) });
     refresh();
   }

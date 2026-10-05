@@ -480,4 +480,10 @@
 .buybox .buy-msg[data-kind="err"] { color: #ff7a7a; }
 .buybox .buy-msg[data-kind="ok"] { color: var(--mint); }
 .buybox .buy-msg a { color: var(--mint); }
+.buybox .buy-balrow { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; text-transform: none; letter-spacing: 0; }
+.buybox .buy-balrow[hidden] { display: none; }
+.buybox .buy-bal { font: 500 12px var(--mono); color: var(--ink-dim, #9aa3a0); }
+.buybox .buy-pcts { display: flex; gap: 4px; }
+.buybox .buy-pcts button { background: var(--bg-2); color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; font: 500 12px var(--mono); cursor: pointer; }
+.buybox .buy-pcts button:hover { border-color: var(--mint); color: var(--mint); }
 @media (max-width: 640px) { .buybox .buy-row { grid-template-columns: 1fr; } }
