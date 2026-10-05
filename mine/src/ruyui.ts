@@ -9,7 +9,7 @@
  * - its records: ledger / requests under chain 'ruyui', settings "ruyui:<wallet>", stats "vault:ruyui:<wallet>",
  *   "leaderboard:ruyui" - never the Trader Flies' (src/vaults.ts refuses RUYUI wallets: they have no fly_id).
  * - the rules: the owner on Abstract decides until money is in; then the holder (who funded it). The holder's own
- *   wallet holds 200k $FLYAI on Robinhood Chain; the profit fee is a flat 2%, all ours.
+ *   wallet holds 200k $FLYAI on Robinhood Chain; the profit fee is a flat 4%, half ours and half Ruyui's (2026-10-05).
  * - the pool (flytrade/vaults/ruyuipool.py, paper): "ruyui:pool", "ruyui:pool:holders", "ruyui:pool:epoch:<n>".
  * Sign-in is the site-wide session (/api/session/nonce + /api/session, x-flyai-session); PARTNER_ORIGINS lets their
  * origin be the domain the SIWE message names.
@@ -38,8 +38,8 @@ export const RUYUI = {
   chainId: 2741,
   firstId: 1,
   lastId: 7000,
-  feeBps: 200,
-  poolFeeBps: 50,
+  feeBps: 400,          // 4% of profit: 2% fly.ai + 2% Ruyui (flytrade/vaults/ruyui.py PARTNER_FEE_TO)
+  poolFeeBps: 400,      // 4% of the pool's profit, split the same way
 };
 const ROBINHOOD = { chain: "robinhood", chainId: 4663, explorer: "https://robinhoodchain.blockscout.com" };
 const FLYAI = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C";

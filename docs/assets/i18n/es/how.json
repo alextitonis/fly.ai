@@ -48,7 +48,7 @@
     "l1": "<b>Una wallet para cada NFT.</b> Cada NFT del socio puede tener su propia wallet de trading en Robinhood Chain, con el mismo cerebro, configuraciones y reglas de seguridad que una Trader Fly.",
     "l2": "<b>Un pool compartido para la comunidad.</b> Un pool de socio se financia con un activo base y lo operan cerebros de mosca que votan juntos. Solo cuenta el beneficio por encima de simplemente mantener ese activo, así que el pool tiene que batir al mercado con el que empezó.",
     "l3": "<b>Pagado a los holders, automáticamente.</b> Cada semana el beneficio del pool se reparte entre los holders de la colección que cumplen (teniendo 200.000 $FLYAI), en proporción a las horas que cumplieron. Sin registro, y los pagos se envían en $FLYAI.",
-    "l4": "<b>Comisiones pequeñas.</b> El 2% del beneficio cuando la wallet propia de un NFT retira, y el 0,5% del beneficio de un pool.",
+    "l4": "<b>Comisiones compartidas con el socio.</b> Una pequeña parte del beneficio, cuando la wallet propia de un NFT retira y en cada pago del pool, que puede repartirse entre fly.ai y el socio.",
     "h3": "Hacia dónde puede ir",
     "p2": "Más colecciones, cada una con sus pools; pools financiados con otros activos base, desde tokens de acciones hasta monedas principales; reglas de reparto que elige el socio, como igual por NFT, por rareza o por cuánto tiempo se ha tenido un NFT; y colecciones de otras cadenas que vinculan una wallet de Robinhood Chain para que sus holders participen."
   },

@@ -48,7 +48,7 @@
     "l1": "<b>Her NFT için bir cüzdan.</b> Ortağın her NFT'si, bir Trader Fly ile aynı beyne, kurulumlara ve güvenlik kurallarına sahip, Robinhood Chain üzerinde kendi işlem cüzdanını alabilir.",
     "l2": "<b>Topluluk için ortak bir havuz.</b> Bir ortak havuzu bir temel varlıkla fonlanır ve birlikte oy veren sinek beyinleriyle işletilir. Yalnızca o varlığı tutmanın üzerindeki kârı sayar; yani havuz başladığı piyasayı geçmek zorundadır.",
     "l3": "<b>Sahiplere otomatik ödeme.</b> Her hafta havuzun kârı, koşulu sağlayan (200.000 $FLYAI tutan) koleksiyon sahipleri arasında, koşulu sağladıkları saatlerle orantılı olarak bölünür. Kayıt yok; ödemeler $FLYAI olarak gönderilir.",
-    "l4": "<b>Düşük ücretler.</b> Bir NFT'nin kendi cüzdanından çekimde kârın %2'si ve bir havuzun kârının %0,5'i.",
+    "l4": "<b>Ortakla paylaşılan ücretler.</b> Bir NFT'nin kendi cüzdanından çekimde ve her havuz ödemesinde kârdan küçük bir pay alınır; bu pay fly.ai ile ortak arasında bölünebilir.",
     "h3": "Nereye gidebilir",
     "p2": "Her biri kendi havuzlarına sahip daha fazla koleksiyon; hisse tokenlerinden büyük coinlere farklı temel varlıklarla fonlanan havuzlar; NFT başına eşit, nadirliğe göre ya da bir NFT'nin ne kadar süre tutulduğuna göre gibi ortağın seçtiği paylaşım kuralları; ve diğer zincirlerdeki koleksiyonların, sahiplerinin katılabilmesi için bir Robinhood Chain cüzdanı bağlaması."
   },

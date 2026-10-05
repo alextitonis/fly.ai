@@ -130,8 +130,8 @@ try {
 
   const cfg = (await api("/api/ruyui/config", null)).json;
   check("config: the collection, deposits, hold, fee, pool", cfg.on === true && cfg.collection.chain_id === 2741
-    && cfg.collection.contract.toLowerCase() === RUYUI && cfg.wallets.chain_id === 4663 && cfg.wallets.fee.profit_bps === 200
-    && cfg.hold.amount === 200000 && cfg.hold.staked_counts === false && cfg.pool.fee_bps === 50
+    && cfg.collection.contract.toLowerCase() === RUYUI && cfg.wallets.chain_id === 4663 && cfg.wallets.fee.profit_bps === 400
+    && cfg.hold.amount === 200000 && cfg.hold.staked_counts === false && cfg.pool.fee_bps === 400
     && cfg.wallets.deposit.map((x: any) => x.symbol).join(",") === "ETH,USDG" && cfg.wallets.gas.min_eth === 0.00005, JSON.stringify(cfg));
 
   const t7 = (await api("/api/ruyui/token/7", null)).json;
