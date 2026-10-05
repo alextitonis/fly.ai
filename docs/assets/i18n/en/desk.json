@@ -51,7 +51,8 @@
     "modeReturn": "Return %",
     "modeUsd": "Pot in $",
     "best": "Best fly",
-    "median": "Median fly"
+    "median": "Median fly",
+    "holdings": "FLYAI held"
   },
   "stats": {
     "high24": "24h high",

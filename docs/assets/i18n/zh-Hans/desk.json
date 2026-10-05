@@ -51,7 +51,8 @@
     "modeReturn": "回报率 %",
     "modeUsd": "资金池（美元）",
     "best": "最佳果蝇",
-    "median": "中位数果蝇"
+    "median": "中位数果蝇",
+    "holdings": "持有 FLYAI"
   },
   "stats": {
     "high24": "24小时最高",

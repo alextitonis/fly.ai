@@ -401,7 +401,16 @@
     } else {
       $("k-pot").textContent = usd(b.pot_usd);
     }
-    $("k-ret").innerHTML = `<span class="${cls(pnl)}">${susd(pnl)}</span> <span class="sub ${cls(pnl)}">${pct(start ? (100 * pnl) / start : 0)}</span>`;
+    // the whole pool's P&L (2026-10-05, the user: the pool is much more than the $500 it trades): the trading P&L plus
+    // what the held FLYAI gained or lost on price since the launch, each shown under it (payouts stay on the trading)
+    const hold = b.holdings_pnl_usd;
+    if (hold != null && b.pool) {
+      const all = pnl + hold, base = start + (b.total_usd - b.pot_usd) - hold;
+      $("k-ret").innerHTML = `<span class="${cls(all)}">${susd(all)}</span> <span class="sub ${cls(all)}">${pct(base ? (100 * all) / base : 0)}</span>` +
+        `<span class="sub">${esc(t("pot.trading"))} <span class="${cls(pnl)}">${susd(pnl)}</span> · ${esc(t("pot.holdings"))} <span class="${cls(hold)}">${susd(hold)}</span></span>`;
+    } else {
+      $("k-ret").innerHTML = `<span class="${cls(pnl)}">${susd(pnl)}</span> <span class="sub ${cls(pnl)}">${pct(start ? (100 * pnl) / start : 0)}</span>`;
+    }
     const best = b.books.slice().sort((a, c) => c.return_pct - a.return_pct)[0];
     $("k-best").innerHTML = best ? `${esc(bookLabel(best.book))} <span class="${cls(best.return_pct)}">${pct(best.return_pct)}</span>` : "—";
     // the median fly: half the flies did better, half worse (the middle two averaged when the count is even)

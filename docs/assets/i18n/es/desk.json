@@ -51,7 +51,8 @@
     "modeReturn": "Retorno %",
     "modeUsd": "Fondo en $",
     "best": "Mejor mosca",
-    "median": "Mosca mediana"
+    "median": "Mosca mediana",
+    "holdings": "FLYAI en cartera"
   },
   "stats": {
     "high24": "Máximo 24h",

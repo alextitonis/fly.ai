@@ -51,7 +51,8 @@
     "modeReturn": "수익률 %",
     "modeUsd": "자금 ($)",
     "best": "최고의 파리",
-    "median": "중앙값 파리"
+    "median": "중앙값 파리",
+    "holdings": "보유 FLYAI"
   },
   "stats": {
     "high24": "24시간 최고",
