@@ -51,8 +51,7 @@
     "modeReturn": "수익률 %",
     "modeUsd": "자금 ($)",
     "best": "최고의 파리",
-    "median": "중앙값 파리",
-    "holdings": "보유 FLYAI"
+    "median": "중앙값 파리"
   },
   "stats": {
     "high24": "24시간 최고",
@@ -116,8 +115,7 @@
     "thPrice": "가격",
     "thValue": "가치",
     "thPnl": "손익",
-    "empty": "전부 현금입니다.",
-    "pool": "풀"
+    "empty": "전부 현금입니다."
   },
   "tape": {
     "title": "체결 내역",

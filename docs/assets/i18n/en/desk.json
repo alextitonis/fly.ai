@@ -51,8 +51,7 @@
     "modeReturn": "Return %",
     "modeUsd": "Pot in $",
     "best": "Best fly",
-    "median": "Median fly",
-    "holdings": "FLYAI held"
+    "median": "Median fly"
   },
   "stats": {
     "high24": "24h high",
@@ -116,8 +115,7 @@
     "thPrice": "Price",
     "thValue": "Value",
     "thPnl": "P&L",
-    "empty": "All cash.",
-    "pool": "Pool"
+    "empty": "All cash."
   },
   "tape": {
     "title": "The tape",

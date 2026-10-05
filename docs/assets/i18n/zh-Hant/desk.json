@@ -51,8 +51,7 @@
     "modeReturn": "報酬率 %",
     "modeUsd": "資金池（美元）",
     "best": "最佳果蠅",
-    "median": "中位數果蠅",
-    "holdings": "持有 FLYAI"
+    "median": "中位數果蠅"
   },
   "stats": {
     "high24": "24小時最高",
@@ -116,8 +115,7 @@
     "thPrice": "價格",
     "thValue": "價值",
     "thPnl": "損益",
-    "empty": "全部是現金。",
-    "pool": "資金池"
+    "empty": "全部是現金。"
   },
   "tape": {
     "title": "成交流",

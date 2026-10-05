@@ -51,8 +51,7 @@
     "modeReturn": "Getiri %",
     "modeUsd": "Fon ($)",
     "best": "En iyi sinek",
-    "median": "Medyan sinek",
-    "holdings": "Tutulan FLYAI"
+    "median": "Medyan sinek"
   },
   "stats": {
     "high24": "24s en yüksek",
@@ -116,8 +115,7 @@
     "thPrice": "Fiyat",
     "thValue": "Değer",
     "thPnl": "K/Z",
-    "empty": "Hepsi nakit.",
-    "pool": "Havuz"
+    "empty": "Hepsi nakit."
   },
   "tape": {
     "title": "İşlem akışı",

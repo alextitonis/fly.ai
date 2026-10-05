@@ -51,8 +51,7 @@
     "modeReturn": "Retorno %",
     "modeUsd": "Fondo en $",
     "best": "Mejor mosca",
-    "median": "Mosca mediana",
-    "holdings": "FLYAI en cartera"
+    "median": "Mosca mediana"
   },
   "stats": {
     "high24": "Máximo 24h",
@@ -116,8 +115,7 @@
     "thPrice": "Precio",
     "thValue": "Valor",
     "thPnl": "P&L",
-    "empty": "Todo en efectivo.",
-    "pool": "Fondo"
+    "empty": "Todo en efectivo."
   },
   "tape": {
     "title": "La cinta",

@@ -401,16 +401,7 @@
     } else {
       $("k-pot").textContent = usd(b.pot_usd);
     }
-    // the whole pool's P&L (2026-10-05, the user: the pool is much more than the $500 it trades): the trading P&L plus
-    // what the held FLYAI gained or lost on price since the launch, each shown under it (payouts stay on the trading)
-    const hold = b.holdings_pnl_usd;
-    if (hold != null && b.pool) {
-      const all = pnl + hold, base = start + (b.total_usd - b.pot_usd) - hold;
-      $("k-ret").innerHTML = `<span class="${cls(all)}">${susd(all)}</span> <span class="sub ${cls(all)}">${pct(base ? (100 * all) / base : 0)}</span>` +
-        `<span class="sub">${esc(t("pot.trading"))} <span class="${cls(pnl)}">${susd(pnl)}</span> · ${esc(t("pot.holdings"))} <span class="${cls(hold)}">${susd(hold)}</span></span>`;
-    } else {
-      $("k-ret").innerHTML = `<span class="${cls(pnl)}">${susd(pnl)}</span> <span class="sub ${cls(pnl)}">${pct(start ? (100 * pnl) / start : 0)}</span>`;
-    }
+    $("k-ret").innerHTML = `<span class="${cls(pnl)}">${susd(pnl)}</span> <span class="sub ${cls(pnl)}">${pct(start ? (100 * pnl) / start : 0)}</span>`;
     const best = b.books.slice().sort((a, c) => c.return_pct - a.return_pct)[0];
     $("k-best").innerHTML = best ? `${esc(bookLabel(best.book))} <span class="${cls(best.return_pct)}">${pct(best.return_pct)}</span>` : "—";
     // the median fly: half the flies did better, half worse (the middle two averaged when the count is even)
@@ -461,19 +452,11 @@
       }));
 
     // 04 positions
-    const pos = Object.assign({}, b.positions || {});
-    // the pool wallet's holdings as a tab of their own (2026-10-05, the user: "i don't see the total flyai as holding"):
-    // what it holds now, at the price it had at the live launch (holdings_start), and the change since
-    const pt = (b.pool && b.pool.tokens) || {}, p0 = b.holdings_start || {};
-    const poolRows = Object.keys(pt).filter((s) => +(pt[s].qty || 0) > 0 && s !== "USDG").map((s) => {
-      const q = +pt[s].qty, v = +(pt[s].usd || 0), px = q ? v / q : 0, c = p0[s] ? q * p0[s] : v;
-      return { symbol: s, qty: q, cost_usd: c, price: px, value_usd: v, pnl_pct: c ? (100 * (v - c)) / c : 0 };
-    }).sort((a, c) => c.value_usd - a.value_usd);
-    if (poolRows.length) pos.pool = { rows: poolRows, count: poolRows.length, cash_usd: +((pt.USDG || {}).usd || 0) };
-    const names = b.books.map((x) => x.book).filter((n) => pos[n]).concat(pos.pool ? ["pool"] : []);
+    const pos = b.positions || {};
+    const names = b.books.map((x) => x.book).filter((n) => pos[n]);
     if (!posBook || !pos[posBook]) posBook = names.find((n) => pos[n].count) || names[0];
     $("pos-tabs").innerHTML = names.map((n) =>
-      `<button type="button" role="tab" aria-selected="${n === posBook}" data-book="${esc(n)}">${esc(n === "pool" ? t("pos.pool") : bookLabel(n))} <span class="dim">${pos[n].count}</span></button>`).join("");
+      `<button type="button" role="tab" aria-selected="${n === posBook}" data-book="${esc(n)}">${esc(bookLabel(n))} <span class="dim">${pos[n].count}</span></button>`).join("");
     const P = pos[posBook];
     $("pos-cash").innerHTML = P ? `${esc(t("pos.cash"))}: <b>${usd(P.cash_usd)}</b>` : "";
     table("pos-tbl", [[t("pos.thSymbol")], [t("pos.thQty"), 1], [t("pos.thPrice"), 1], [t("pos.thValue"), 1], [t("pos.thPnl"), 1]],
