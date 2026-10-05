@@ -10,7 +10,7 @@ import { join } from "node:path";
 import EmbeddedPostgres from "embedded-postgres";
 import { connectPg, type Pg } from "./pg.ts";
 
-const MIGRATIONS = ["20260929180000_mine_money.sql", "20260930200000_mine_arena.sql", "20260930210000_mine_arena_chain.sql", "20260930220000_mine_arena_fee.sql", "20260930230000_mine_arena_shop.sql", "20261002120000_mine_arena_pass.sql", "20261002180000_mine_vaults.sql", "20261003120000_mine_profiles.sql", "20261003140000_mine_bounties.sql", "20261003200000_mine_ruyui_links.sql", "20261004120000_mine_vault_promos.sql"]
+const MIGRATIONS = ["20260929180000_mine_money.sql", "20260930200000_mine_arena.sql", "20260930210000_mine_arena_chain.sql", "20260930220000_mine_arena_fee.sql", "20260930230000_mine_arena_shop.sql", "20261002120000_mine_arena_pass.sql", "20261002180000_mine_vaults.sql", "20261003120000_mine_profiles.sql", "20261003140000_mine_bounties.sql", "20261003200000_mine_ruyui_links.sql", "20261004120000_mine_vault_promos.sql", "20261005180000_mine_vault_promo_rounds.sql"]
   .map((name) => new URL(`../../flybook/supabase/migrations/${name}`, import.meta.url));
 
 export async function startPg(port: number): Promise<{ url: string; pg: Pg; stop: () => Promise<void> }> {

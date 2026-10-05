@@ -126,7 +126,7 @@ async function startServer(extra: Record<string, string> = {}): Promise<void> {
       CLAIM_RPC: "http://127.0.0.1:9", CLAIM_EXPLORER: "http://localhost", SEED_PAID: "0", ARENA_ON: "0",
       TOKEN_ADDRESS: TOKEN, VAULT_ON: "1", VAULT_RPC: `http://127.0.0.1:${CHAIN_PORT}`, VAULT_CHAINS: "base,polygon",
       VAULT_TICK_SEC: "1", VAULT_GRANTER_KEY: GRANTER_KEY, ARENA_TRADERFLY: TRADERFLY, VAULT_FLIGHTPASS: FLIGHTPASS,
-      PROMO_ON: "1", PROMO_START_MS: String(PROMO_START), PROMO_SLOTS: "2", BOUNTY_ADMINS: alice.address, PROMO_AUTO: "0",
+      PROMO_ON: "1", PROMO_START_MS: String(PROMO_START), PROMO_SLOTS: "2", PROMO_RUYUI_SLOTS: "1", BOUNTY_ADMINS: alice.address, PROMO_AUTO: "0",
       ...extra,
     },
     stdio: ["ignore", "ignore", "inherit"],
@@ -285,12 +285,23 @@ try {
     W4, bob.address, t(1));
   await PG.pg.run("insert into mine.vault_ledger (wallet, chain, holder, principal_usd) values (?, 'robinhood', ?, 25), (?, 'robinhood', ?, 30)",
     W6, alice.address, W7, X.toLowerCase());
+  // rounds (2026-10-05): alice's W6 won an earlier round - it neither blocks her in this one nor takes one of its slots
+  await PG.pg.run(`insert into mine.vault_promos (wallet, fly_id, holder, deposit_usd, qualified_at, status, round_ms, request_id)
+    values (?, 6, ?, 20, now() - interval '1 day', 'paid', 1, 0)`, W6, alice.address);
+  // the Ruyui wallets' own slot (2026-10-05): a deposit booked under chain 'ruyui' fills it, not one of the two above
+  const WR = checksumAddress("0x" + "0e".repeat(20));
+  await PG.pg.run(`insert into mine.vault_moves (wallet, chain, kind, holder, usd, at, detail) values (?, 'ruyui', 'deposit', ?, 40, ?::timestamptz, '{}')`,
+    WR, Z, t(0));
   let promos: any[] = [];
-  for (let i = 0; i < 20 && promos.length < 2; i++) { await sleep(500); promos = await PG.pg.all<any>("select * from mine.vault_promos order by qualified_at"); }
+  for (let i = 0; i < 20 && promos.length < 2; i++) { await sleep(500); promos = await PG.pg.all<any>("select * from mine.vault_promos where round_ms <> 1 and chain = 'robinhood' order by qualified_at"); }
   await sleep(1500);   // a few more ticks: still two
-  promos = await PG.pg.all<any>("select * from mine.vault_promos order by qualified_at");
+  promos = await PG.pg.all<any>("select * from mine.vault_promos where round_ms <> 1 and chain = 'robinhood' order by qualified_at");
   check("candidates first come first served, up to the slots", promos.length === 2 && promos[0].wallet === W6 && promos[1].wallet === W7
     && promos[0].status === "candidate" && promos[0].fly_id === 6 && promos[0].deposit_usd === 25, JSON.stringify(promos.map((p) => [p.wallet, p.status])));
+  const rpro = await PG.pg.all<any>("select * from mine.vault_promos where chain = 'ruyui'");
+  const pubR = (await api("/api/vaults/promo", null)).json;
+  check("the Ruyui slot is its own", rpro.length === 1 && rpro[0].wallet === WR && rpro[0].status === "candidate"
+    && pubR.ruyui?.slots === 1 && pubR.ruyui.taken === 1 && pubR.ruyui.left === 0, JSON.stringify([rpro, pubR.ruyui]));
   check("a holder's second wallet gets no slot (any case)", !promos.some((p) => p.wallet === W5));
   check("the public endpoint: none left", (await api("/api/vaults/promo", null)).json.left === 0);
   check("non-admins can't list", (await api("/api/admin/promo", b)).status === 403 && (await api("/api/admin/promo", null)).status === 403);
