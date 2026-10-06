@@ -834,7 +834,9 @@
       "buy": "compra",
       "sell": "venta",
       "take_profit": "toma de ganancia",
-      "panic_sell": "venta"
+      "panic_sell": "venta",
+      "deposit": "prestar",
+      "redeem": "recuperar"
     },
     "empty": "La wallet de esta mosca está vacía. Deposítale fondos y empieza a operar en la siguiente vela de 5 minutos.",
     "potEmpty": "Este pozo está vacío.",
@@ -963,6 +965,10 @@
       "house": {
         "title": "Comprar caídas de FLYAI",
         "blurb": "Cuando FLYAI, el token de la casa, cae bastante por debajo de su precio habitual, compra un poco y vende cuando el precio vuelve."
+      },
+      "earn": {
+        "title": "Earn",
+        "blurb": "Efectivo prestado en Robinhood Chain."
       }
     },
     "params": {
@@ -1079,6 +1085,10 @@
       },
       "custom": {
         "title": "Personalizada"
+      },
+      "just_earn": {
+        "title": "Solo ganar",
+        "blurb": "Sin operar: el efectivo de la billetera se presta en Robinhood Chain y gana intereses (variables)."
       }
     },
     "best": "Mejores Fly Wallets",
@@ -1129,7 +1139,33 @@
     },
     "maxDrop": "Caída máx. 7d",
     "bestWorst": "mejor {best} · peor {worst}",
-    "copyReady": "Track está activado con la billetera de esa mosca: revisa la parte y pulsa Guardar para empezar a copiar."
+    "copyReady": "Track está activado con la billetera de esa mosca: revisa la parte y pulsa Guardar para empezar a copiar.",
+    "lend": {
+      "title": "Gana con el efectivo inactivo",
+      "text": "El efectivo que tu mosca no usa puede prestarse en Robinhood Chain (las bóvedas USDG de Steakhouse y Spark) y ganar intereses. Vuelve solo, en la misma ronda, cuando una parte compra o retiras.",
+      "mode": {
+        "off": "Apagado",
+        "idle": "Efectivo inactivo",
+        "share": "Una parte",
+        "only": "Solo ganar"
+      },
+      "modeText": {
+        "off": "No se presta nada.",
+        "idle": "Solo se presta el efectivo que ninguna parte ha usado en un rato; siempre queda algo en la billetera.",
+        "share": "Esta parte de la billetera siempre está prestada, más el efectivo inactivo; el resto opera.",
+        "only": "Sin operar: las posiciones se venden a USDG y todo se presta. $FLYAI se queda hasta que esté por encima de lo que costó."
+      },
+      "share": "Parte en Earn",
+      "rate": "~{rate}% anual ahora (tasa base, variable)",
+      "rateNone": "Tasa: variable",
+      "risk": "No está garantizado. Prestar tiene riesgos: deuda incobrable, contratos inteligentes, la paridad de USDG.",
+      "lent": "Prestado ahora",
+      "earned": "Ganado hasta ahora",
+      "line": "Earn: {usd} prestado, {earned} ganado",
+      "row": "Earn (prestado)",
+      "waiting": "Tu efectivo prestado está volviendo: el retiro sale en cuanto llegue.",
+      "saveHint": "Se guarda con los ajustes de abajo."
+    }
   },
   "profile": {
     "title": "Tu perfil",
@@ -1315,7 +1351,9 @@
     },
     "side": {
       "panic_sell": "VENTA DE PÁNICO",
-      "take_profit": "TOMA DE GANANCIA"
+      "take_profit": "TOMA DE GANANCIA",
+      "deposit": "PRESTAR",
+      "redeem": "RECUPERAR"
     },
     "wantedBuy": "quería comprar",
     "wantedSell": "quería vender",
@@ -1446,7 +1484,8 @@
       "max_hold_hours": "Vende una posición del cerebro tras estas horas."
     },
     "eth_to_usdg": "Convierte el ETH que envías en USDG (dólares) para que la mosca pueda operarlo. Siempre guarda un poco de ETH para el gas.",
-    "trading": "Apagado = la mosca no abre operaciones nuevas. Lo que ya tiene se sigue gestionando."
+    "trading": "Apagado = la mosca no abre operaciones nuevas. Lo que ya tiene se sigue gestionando.",
+    "earn": "El efectivo inactivo se presta a la bóveda USDG de Steakhouse o Spark en Robinhood Chain. La tasa mostrada es la tasa base actual; cambia cada día."
   },
   "label": {
     "add": "Añadir etiqueta privada",

@@ -834,7 +834,9 @@
       "buy": "al",
       "sell": "sat",
       "take_profit": "kâr al",
-      "panic_sell": "sat"
+      "panic_sell": "sat",
+      "deposit": "ödünç",
+      "redeem": "geri"
     },
     "empty": "Bu sineğin cüzdanı boş. Yükleme yap, bir sonraki 5 dakikalık mumda işleme başlasın.",
     "potEmpty": "Bu havuz boş.",
@@ -963,6 +965,10 @@
       "house": {
         "title": "FLYAI düşüşlerini al",
         "blurb": "Ev tokeni FLYAI normal fiyatının belirgin şekilde altına düştüğünde biraz alır, fiyat geri gelince satar."
+      },
+      "earn": {
+        "title": "Earn",
+        "blurb": "Robinhood Chain'de ödünç verilen nakit."
       }
     },
     "params": {
@@ -1079,6 +1085,10 @@
       },
       "custom": {
         "title": "Özel"
+      },
+      "just_earn": {
+        "title": "Sadece kazan",
+        "blurb": "İşlem yok: cüzdandaki nakit Robinhood Chain'de ödünç verilir ve faiz kazanır (değişken)."
       }
     },
     "best": "En iyi Fly Wallets",
@@ -1129,7 +1139,33 @@
     },
     "maxDrop": "Maks. düşüş 7g",
     "bestWorst": "en iyi {best} · en kötü {worst}",
-    "copyReady": "Track o sineğin cüzdanıyla açık: payı kontrol et ve kopyalamaya başlamak için Kaydet'e bas."
+    "copyReady": "Track o sineğin cüzdanıyla açık: payı kontrol et ve kopyalamaya başlamak için Kaydet'e bas.",
+    "lend": {
+      "title": "Boştaki nakitle kazan",
+      "text": "Sineğinin kullanmadığı nakit Robinhood Chain'de ödünç verilebilir (Steakhouse ve Spark USDG kasaları) ve faiz kazanır. Bir parça alım yaptığında ya da sen çektiğinde aynı turda kendiliğinden geri gelir.",
+      "mode": {
+        "off": "Kapalı",
+        "idle": "Boştaki nakit",
+        "share": "Bir pay",
+        "only": "Sadece kazan"
+      },
+      "modeText": {
+        "off": "Hiçbir şey ödünç verilmez.",
+        "idle": "Yalnızca bir süredir hiçbir parçanın kullanmadığı nakit ödünç verilir; cüzdanda hep biraz kalır.",
+        "share": "Cüzdanın bu payı hep ödünç verilir, üstüne boştaki nakit; geri kalanı işlem yapar.",
+        "only": "İşlem kapalı: pozisyonlar USDG'ye satılır ve hepsi ödünç verilir. $FLYAI, maliyetinin üstüne çıkana kadar kalır."
+      },
+      "share": "Earn payı",
+      "rate": "Şu an yıllık ~%{rate} (temel faiz, değişken)",
+      "rateNone": "Faiz: değişken",
+      "risk": "Garanti değildir. Borç vermenin riskleri var: batık borç, akıllı sözleşmeler, USDG sabitliği.",
+      "lent": "Şu an ödünçte",
+      "earned": "Şimdiye kadar kazanılan",
+      "line": "Earn: {usd} ödünçte, {earned} kazanıldı",
+      "row": "Earn (ödünçte)",
+      "waiting": "Ödünç verilen nakdin geri geliyor: gelir gelmez çekim yapılır.",
+      "saveHint": "Aşağıdaki ayarlarla birlikte kaydedilir."
+    }
   },
   "profile": {
     "title": "Profilin",
@@ -1315,7 +1351,9 @@
     },
     "side": {
       "panic_sell": "PANİK SATIŞ",
-      "take_profit": "KÂR AL"
+      "take_profit": "KÂR AL",
+      "deposit": "ÖDÜNÇ",
+      "redeem": "GERİ"
     },
     "wantedBuy": "almak istedi",
     "wantedSell": "satmak istedi",
@@ -1446,7 +1484,8 @@
       "max_hold_hours": "Beynin pozisyonunu bu kadar saat sonra satar."
     },
     "eth_to_usdg": "Gönderdiğin ETH'yi USDG'ye (dolar) çevirir, böylece sinek onunla işlem yapabilir. Gas için biraz ETH hep kalır.",
-    "trading": "Kapalı = sinek yeni işlem açmaz. Elindekiler yine yönetilir."
+    "trading": "Kapalı = sinek yeni işlem açmaz. Elindekiler yine yönetilir.",
+    "earn": "Boştaki nakit Robinhood Chain'deki Steakhouse ya da Spark USDG kasasına ödünç verilir. Gösterilen, şu anki temel faizdir; her gün değişir."
   },
   "label": {
     "add": "Gizli etiket ekle",

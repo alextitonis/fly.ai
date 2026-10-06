@@ -76,6 +76,10 @@
       "label": "Token",
       "desc": "Contrato, cadena, dónde comprar"
     },
+    "earn": {
+      "label": "Ganar",
+      "desc": "Presta USDG desde tu wallet"
+    },
     "shop": {
       "label": "Merch",
       "desc": "Camisetas de moscas y más"

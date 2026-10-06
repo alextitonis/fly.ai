@@ -8,6 +8,9 @@
  * Every transaction Relay hands back is checked before the wallet is asked to sign (the desk's relay.check_steps):
  * it runs on Robinhood Chain, goes to one of Relay's published contracts for it (GET /chains), sends no more coin
  * than the amount paid, and an approve is only of the token paid, to such a contract, for no more than the amount.
+ *
+ * Into-USDG mode (2026-10-06, the Earn page's "Fund with ETH / FLYAI"): a box with data-into="USDG" and no direction
+ * picker swaps ETH or $FLYAI to USDG through the same checks, and fires a "buy:done" event with what arrived.
  */
 (function () {
   "use strict";
@@ -28,9 +31,12 @@
     ETH: { address: "0x0000000000000000000000000000000000000000", decimals: 18 },
   };
   const FLY = { address: FLYAI, decimals: 18 };
-  const selling = () => $("buy-dir").value === "sell";
+  const into = $("buy").dataset.into === "USDG";       // the Earn page: ETH or FLYAI -> USDG
+  const dirOf = () => (into ? "into" : $("buy-dir").value);
+  const selling = () => !into && $("buy-dir").value === "sell";
   // what the wallet pays and what it gets: [token paid, token got, symbol paid, symbol got]
-  const sides = (other) => selling() ? [FLY, PAY[other], "FLYAI", other] : [PAY[other], FLY, other, "FLYAI"];
+  const sides = (other) => into ? [other === "FLYAI" ? FLY : PAY[other], PAY.USDG, other, "USDG"]
+    : selling() ? [FLY, PAY[other], "FLYAI", other] : [PAY[other], FLY, other, "FLYAI"];
   const APPROVE = "0x095ea7b3";
   // the site's one sign-in (the nav's account menu, mine/web/account.ts): the same signed-in wallet and wallet picker
   // (browser wallets and WalletConnect) on every page; plain window.ethereum only if it can't load (a local copy)
@@ -143,7 +149,7 @@
       $("buy-out").textContent = "–";
       $("buy-detail").textContent = "";
       if (!amount || amount <= 0n) return;
-      const key = $("buy-dir").value + ":" + pay + ":" + amount;
+      const key = dirOf() + ":" + pay + ":" + amount;
       quoteFor = key;
       try {
         const q = await getQuote(wallet || PREVIEW_USER, pay, amount);
@@ -251,7 +257,7 @@
   }
 
   const label = () => {
-    $("buy-go").textContent = !wallet ? (acct || window.ethereum ? t("connect") : t("noWallet")) : selling() ? t("sell") : t("buy");
+    $("buy-go").textContent = !wallet ? (acct || window.ethereum ? t("connect") : t("noWallet")) : into ? t("swap") : selling() ? t("sell") : t("buy");
   };
 
   async function connect() {
@@ -301,6 +307,8 @@
       }
       msg(t("done"), "ok", EXPLORER + "/tx/" + last);
       loadBalance();
+      const out = q.details && q.details.currencyOut;
+      window.dispatchEvent(new CustomEvent("buy:done", { detail: { out: { symbol: sides(pay)[3], amount: out && out.amount } } }));
     } catch (e) {
       const why = acct ? acct.errorText(e) : (e && e.message) || String(e);
       const cancelled = (e && (e.code === 4001 || (e.cause && e.cause.code === 4001))) || /rejected|denied|cancel/i.test(why);
@@ -316,7 +324,7 @@
     const sym = () => { $("buy-paysym").textContent = selling() ? "FLYAI" : $("buy-pay").value; };
     $("buy-pay").addEventListener("change", () => { sym(); refresh(); loadBalance(); });
     for (const b of document.querySelectorAll("#buy [data-pct]")) b.addEventListener("click", () => usePct(Number(b.dataset.pct)));
-    $("buy-dir").addEventListener("change", () => {
+    if (!into) $("buy-dir").addEventListener("change", () => {
       const sell = selling();
       $("buy-amount").value = sell ? "100000" : "25";
       $("buy-with").textContent = sell ? t("for") : t("with");

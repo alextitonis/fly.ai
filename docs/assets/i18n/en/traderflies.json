@@ -834,7 +834,9 @@
       "buy": "buy",
       "sell": "sell",
       "take_profit": "take profit",
-      "panic_sell": "sell"
+      "panic_sell": "sell",
+      "deposit": "lend",
+      "redeem": "back"
     },
     "empty": "This fly's wallet is empty. Fund it and it starts trading on the next 5-minute bar.",
     "potEmpty": "This pot is empty.",
@@ -963,6 +965,10 @@
       "house": {
         "title": "Buy FLYAI dips",
         "blurb": "When FLYAI, the house token, drops well under its usual price it buys some, and sells once the price is back."
+      },
+      "earn": {
+        "title": "Earn",
+        "blurb": "Cash lent on Robinhood Chain."
       }
     },
     "params": {
@@ -1079,6 +1085,10 @@
       },
       "custom": {
         "title": "Custom"
+      },
+      "just_earn": {
+        "title": "Just earn",
+        "blurb": "No trading: the wallet's cash is lent on Robinhood Chain and earns lending interest (variable)."
       }
     },
     "best": "Best Fly Wallets",
@@ -1129,7 +1139,33 @@
     },
     "maxDrop": "Max drop 7d",
     "bestWorst": "best {best} · worst {worst}",
-    "copyReady": "Track is on with that fly's wallet: check the share and press Save to start copying."
+    "copyReady": "Track is on with that fly's wallet: check the share and press Save to start copying.",
+    "lend": {
+      "title": "Earn on idle cash",
+      "text": "Cash your fly isn't using can be lent on Robinhood Chain (the Steakhouse and Spark USDG vaults) and earn lending interest. It comes back by itself, in the same round, when a part buys or you withdraw.",
+      "mode": {
+        "off": "Off",
+        "idle": "Idle cash",
+        "share": "A share",
+        "only": "Only earn"
+      },
+      "modeText": {
+        "off": "Nothing is lent.",
+        "idle": "Only cash no part has used for a while is lent; a little always stays in the wallet.",
+        "share": "This share of the wallet is always lent, plus idle cash on top; the rest trades.",
+        "only": "Trading off: positions are sold to USDG and everything is lent. $FLYAI stays until it is above what it cost."
+      },
+      "share": "Share in Earn",
+      "rate": "~{rate}% a year now (base rate, variable)",
+      "rateNone": "Rate: variable",
+      "risk": "Not guaranteed. Lending has risks: bad debt, smart contracts, the USDG peg.",
+      "lent": "Lent now",
+      "earned": "Earned so far",
+      "line": "Earn: {usd} lent, {earned} earned",
+      "row": "Earn (lent)",
+      "waiting": "Your lent cash is coming back: the withdrawal goes as soon as it is in.",
+      "saveHint": "Saved with the settings below."
+    }
   },
   "profile": {
     "title": "Your profile",
@@ -1315,7 +1351,9 @@
     },
     "side": {
       "panic_sell": "PANIC SELL",
-      "take_profit": "TAKE PROFIT"
+      "take_profit": "TAKE PROFIT",
+      "deposit": "LEND",
+      "redeem": "BACK"
     },
     "wantedBuy": "wanted to buy",
     "wantedSell": "wanted to sell",
@@ -1446,7 +1484,8 @@
       "max_hold_hours": "Sells a brain position after this many hours."
     },
     "eth_to_usdg": "Turns ETH you send into USDG (dollars) so the fly can trade it. A little ETH is always kept for gas.",
-    "trading": "Off = the fly opens no new trades. What it already holds is still looked after."
+    "trading": "Off = the fly opens no new trades. What it already holds is still looked after.",
+    "earn": "Idle cash lent to the Steakhouse or Spark USDG vault on Robinhood Chain. The rate shown is the base rate now; it moves every day."
   },
   "label": {
     "add": "Add a private label",

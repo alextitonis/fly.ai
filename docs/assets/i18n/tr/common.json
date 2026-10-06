@@ -76,6 +76,10 @@
       "label": "Token",
       "desc": "Kontrat, zincir, nereden alınır"
     },
+    "earn": {
+      "label": "Kazan",
+      "desc": "Cüzdanından USDG borç ver"
+    },
     "shop": {
       "label": "Mağaza",
       "desc": "Sinek tişörtleri ve dahası"

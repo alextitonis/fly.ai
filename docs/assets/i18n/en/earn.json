@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "title": "Earn: lend USDG from your own wallet",
+    "description": "Lend USDG on Robinhood Chain from your own wallet into Steakhouse USDG (Morpho) or Spark Savings USDG. Live rates, a 1% fee on deposits, free withdrawals."
+  },
+  "head": {
+    "eyebrow": "Earn",
+    "title": "Lend USDG, earn interest",
+    "lede": "Put idle USDG to work in the deepest lending vaults on Robinhood Chain, straight from your own wallet. The vault shares are yours, in your wallet: fly.ai never holds your money. Withdraw any time, for free."
+  },
+  "venues": {
+    "title": "Where your USDG goes"
+  },
+  "venue": {
+    "by": "{protocol} · curated by {curator}",
+    "rateNow": "rate now · variable, not guaranteed",
+    "avg30": "30-day average",
+    "tvl": "Total lent",
+    "redeemable": "Withdrawable now",
+    "vault": "Vault",
+    "lend": "Lend here",
+    "rewards": "+ ~{pct}% in rewards, claimed separately",
+    "loading": "Loading…"
+  },
+  "status": {
+    "live": "Open",
+    "paused": "Paused by fly.ai",
+    "pausedNote": "New deposits are off; withdrawals always work.",
+    "why": {
+      "manual": "paused by the team",
+      "data": "live data unavailable",
+      "price": "the share price fell",
+      "liquidity": "less than $5M can be withdrawn",
+      "tvl": "deposits fell more than 20% in a day"
+    }
+  },
+  "box": {
+    "title": "Lend USDG",
+    "venue": "Vault",
+    "amount": "You put in",
+    "balance": "Balance: {amt}",
+    "max": "Max",
+    "breakdown": "You lend {net} USDG · fly.ai fee {fee} USDG (1%) · withdrawing is free",
+    "feeNote": "The 1% fee is about {months} months of interest at today's rate, so Earn suits money you park for longer.",
+    "connect": "Connect wallet",
+    "noWallet": "No wallet found",
+    "lend": "Lend",
+    "paused": "Deposits paused",
+    "fund": "Fund with ETH / FLYAI",
+    "fundHide": "Hide the swap",
+    "how": "Wallets that batch calls sign once; others ask three times: approve the exact amount, lend, then the fee."
+  },
+  "fund": {
+    "title": "Get USDG",
+    "lede": "Swap ETH or $FLYAI to USDG in your wallet (Relay, 0.25% interface fee). When it lands, the amount is filled in above.",
+    "pay": "You pay",
+    "get": "You get (about)"
+  },
+  "msg": {
+    "enterAmount": "Enter an amount first.",
+    "min": "The smallest deposit is {min} USDG.",
+    "tooMuch": "That's more USDG than your wallet holds.",
+    "checking": "Checking the vault on chain…",
+    "wrongAsset": "This vault doesn't take USDG any more. Nothing was sent.",
+    "overCap": "This vault can take {max} USDG right now. Try a smaller amount.",
+    "checkFailed": "Safety check failed: {why}. Nothing was sent.",
+    "readFailed": "Couldn't read the chain. Try again in a moment.",
+    "confirm": "Confirm in your wallet ({n} of {of})…",
+    "confirmBatch": "Confirm the batch in your wallet…",
+    "waiting": "Waiting for the chain…",
+    "done": "Done! Your position is below.",
+    "doneNoFee": "Lent! The fee step didn't go through; your deposit is fine. You can pay the fee below.",
+    "cancelled": "Cancelled in the wallet.",
+    "failed": "Didn't go through: {why}",
+    "viewTx": "View transaction",
+    "withdrawn": "Withdrawn to your wallet.",
+    "onlyX": "Only {amt} USDG can be withdrawn right now; the rest frees up as loans repay.",
+    "notEnough": "You have {amt} USDG in this vault."
+  },
+  "pos": {
+    "title": "Your positions",
+    "signIn": "Sign in at the top right to see your positions.",
+    "loading": "Loading your positions…",
+    "none": "Nothing lent from this wallet yet.",
+    "value": "Value now",
+    "shares": "Shares",
+    "earned": "Earned",
+    "earnedNote": "Value now minus what this wallet put in and took out.",
+    "withdraw": "Withdraw",
+    "withdrawAll": "Withdraw all",
+    "free": "Withdrawals have no fee."
+  },
+  "unpaid": {
+    "text": "The 1% fee ({fee} USDG) for your deposit into {venue} wasn't paid. Your deposit is fine either way.",
+    "pay": "Pay the fee",
+    "dismiss": "Dismiss"
+  },
+  "about": {
+    "title": "Good to know",
+    "fees": "<b>Fees.</b> 1% of each deposit goes to the fly.ai dev wallet, taken in the same flow from your wallet. Withdrawals are free. Lending here is the same as lending on Morpho or Spark directly; the fee pays for the rates in one place, the ETH and $FLYAI funding path, and fly.ai's safety switches.",
+    "checks": "<b>Before you sign</b>, the page checks every call: Robinhood Chain only, only USDG and the two vaults above, an approval for the exact amount (never unlimited), the deposit in your own wallet's name and a fee of exactly 1%.",
+    "pause": "<b>Safety switches.</b> fly.ai pauses new deposits into a vault if its share price falls, if less than $5M can be withdrawn, or if deposits fall more than 20% in a day. A pause never blocks withdrawals.",
+    "risk": "<b>Risks.</b> Lending earns a variable rate and has risks: borrowers' collateral can fail to cover a loan, smart contracts can have bugs, and USDG could lose its peg. Only lend what you can afford to lock up."
+  }
+}

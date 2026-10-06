@@ -76,6 +76,10 @@
       "label": "代币",
       "desc": "合约、链、在哪里购买"
     },
+    "earn": {
+      "label": "赚取",
+      "desc": "从你的钱包出借 USDG"
+    },
     "shop": {
       "label": "周边",
       "desc": "果蝇 T 恤等"

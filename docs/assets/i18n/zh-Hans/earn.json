@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "title": "Earn：从你自己的钱包出借 USDG",
+    "description": "在 Robinhood Chain 上从你自己的钱包把 USDG 出借给 Steakhouse USDG（Morpho）或 Spark Savings USDG。实时利率，存款收 1% 手续费，取款免费。"
+  },
+  "head": {
+    "eyebrow": "Earn",
+    "title": "出借 USDG，赚取利息",
+    "lede": "直接从你自己的钱包，把闲置的 USDG 放进 Robinhood Chain 上最深的借贷金库。金库份额属于你，就在你的钱包里：fly.ai 从不持有你的钱。随时可以免费取出。"
+  },
+  "venues": {
+    "title": "你的 USDG 去哪里"
+  },
+  "venue": {
+    "by": "{protocol} · 由 {curator} 管理",
+    "rateNow": "当前利率 · 浮动，不保证",
+    "avg30": "30 天平均",
+    "tvl": "总出借额",
+    "redeemable": "当前可取出",
+    "vault": "金库",
+    "lend": "在这里出借",
+    "rewards": "+ 约 {pct}% 奖励，需单独领取",
+    "loading": "加载中…"
+  },
+  "status": {
+    "live": "开放",
+    "paused": "已被 fly.ai 暂停",
+    "pausedNote": "新存款已关闭；取款始终可用。",
+    "why": {
+      "manual": "团队手动暂停",
+      "data": "实时数据不可用",
+      "price": "份额价格下跌",
+      "liquidity": "可取出金额低于 500 万美元",
+      "tvl": "存款一天内下降超过 20%"
+    }
+  },
+  "box": {
+    "title": "出借 USDG",
+    "venue": "金库",
+    "amount": "你投入",
+    "balance": "余额：{amt}",
+    "max": "最大",
+    "breakdown": "你出借 {net} USDG · fly.ai 手续费 {fee} USDG（1%）· 取款免费",
+    "feeNote": "按今天的利率，1% 的手续费大约相当于 {months} 个月的利息，所以 Earn 适合长期停放的资金。",
+    "connect": "连接钱包",
+    "noWallet": "未找到钱包",
+    "lend": "出借",
+    "paused": "存款已暂停",
+    "fund": "用 ETH / FLYAI 充值",
+    "fundHide": "隐藏兑换",
+    "how": "支持批量调用的钱包只需签名一次；其他钱包会弹出三次：批准精确金额、出借、然后支付手续费。"
+  },
+  "fund": {
+    "title": "获取 USDG",
+    "lede": "在你的钱包里把 ETH 或 $FLYAI 兑换成 USDG（Relay，0.25% 界面手续费）。到账后，金额会自动填入上方。",
+    "pay": "你支付",
+    "get": "你得到（约）"
+  },
+  "msg": {
+    "enterAmount": "请先输入金额。",
+    "min": "最小存款为 {min} USDG。",
+    "tooMuch": "超过了你钱包里的 USDG。",
+    "checking": "正在链上检查金库…",
+    "wrongAsset": "这个金库不再接受 USDG。没有发送任何交易。",
+    "overCap": "这个金库目前最多能接收 {max} USDG。请试一个更小的金额。",
+    "checkFailed": "安全检查未通过：{why}。没有发送任何交易。",
+    "readFailed": "无法读取链上数据。请稍后再试。",
+    "confirm": "请在钱包中确认（第 {n} 步，共 {of} 步）…",
+    "confirmBatch": "请在钱包中确认这批调用…",
+    "waiting": "等待链上确认…",
+    "done": "完成！你的仓位在下方。",
+    "doneNoFee": "已出借！手续费那一步没有完成；你的存款没问题。你可以在下方支付手续费。",
+    "cancelled": "已在钱包中取消。",
+    "failed": "未成功：{why}",
+    "viewTx": "查看交易",
+    "withdrawn": "已取回到你的钱包。",
+    "onlyX": "目前只能取出 {amt} USDG；其余部分会随着贷款偿还而释放。",
+    "notEnough": "你在这个金库里有 {amt} USDG。"
+  },
+  "pos": {
+    "title": "你的仓位",
+    "signIn": "在右上角登录以查看你的仓位。",
+    "loading": "正在加载你的仓位…",
+    "none": "这个钱包还没有出借任何资金。",
+    "value": "当前价值",
+    "shares": "份额",
+    "earned": "已赚取",
+    "earnedNote": "当前价值减去这个钱包存入和取出的净额。",
+    "withdraw": "取款",
+    "withdrawAll": "全部取出",
+    "free": "取款不收手续费。"
+  },
+  "unpaid": {
+    "text": "你存入 {venue} 的 1% 手续费（{fee} USDG）尚未支付。无论如何你的存款都没问题。",
+    "pay": "支付手续费",
+    "dismiss": "忽略"
+  },
+  "about": {
+    "title": "须知",
+    "fees": "<b>手续费。</b>每笔存款的 1% 归 fly.ai 开发钱包，在同一流程中从你的钱包支付。取款免费。在这里出借与直接在 Morpho 或 Spark 上出借相同；手续费用于一站式的利率展示、ETH 和 $FLYAI 的充值路径，以及 fly.ai 的安全开关。",
+    "checks": "<b>签名之前</b>，页面会检查每一笔调用：只在 Robinhood Chain 上，只涉及 USDG 和上面的两个金库，批准的是精确金额（绝不是无限额度），存款记在你自己钱包名下，手续费正好是 1%。",
+    "pause": "<b>安全开关。</b>如果金库的份额价格下跌、可取出金额低于 500 万美元，或存款一天内下降超过 20%，fly.ai 会暂停向该金库的新存款。暂停从不阻止取款。",
+    "risk": "<b>风险。</b>出借获得的是浮动利率，并且有风险：借款人的抵押品可能不足以覆盖贷款，智能合约可能有漏洞，USDG 也可能脱锚。只出借你能承受锁定的资金。"
+  }
+}

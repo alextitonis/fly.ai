@@ -832,7 +832,9 @@
       "buy": "매수",
       "sell": "매도",
       "take_profit": "익절",
-      "panic_sell": "매도"
+      "panic_sell": "매도",
+      "deposit": "대출",
+      "redeem": "회수"
     },
     "empty": "이 파리의 지갑이 비어 있어요. 입금하면 다음 5분 봉부터 거래를 시작해요.",
     "potEmpty": "이 팟은 비어 있어요.",
@@ -961,6 +963,10 @@
       "house": {
         "title": "FLYAI 하락 매수",
         "blurb": "하우스 토큰 FLYAI가 평소 가격보다 크게 떨어지면 매수하고, 가격이 돌아오면 매도합니다."
+      },
+      "earn": {
+        "title": "Earn",
+        "blurb": "Robinhood Chain에서 빌려준 현금."
       }
     },
     "params": {
@@ -1077,6 +1083,10 @@
       },
       "custom": {
         "title": "사용자 지정"
+      },
+      "just_earn": {
+        "title": "이자만",
+        "blurb": "거래 없음: 지갑의 현금을 Robinhood Chain에서 빌려주고 대출 이자를 받습니다(변동)."
       }
     },
     "best": "최고의 Fly Wallets",
@@ -1127,7 +1137,33 @@
     },
     "maxDrop": "7일 최대 하락",
     "bestWorst": "최고 {best} · 최저 {worst}",
-    "copyReady": "그 파리의 지갑으로 Track이 켜졌습니다: 비중을 확인하고 저장을 눌러 복사를 시작하세요."
+    "copyReady": "그 파리의 지갑으로 Track이 켜졌습니다: 비중을 확인하고 저장을 눌러 복사를 시작하세요.",
+    "lend": {
+      "title": "놀고 있는 현금으로 수익 얻기",
+      "text": "플라이가 쓰지 않는 현금을 Robinhood Chain에서 빌려주고(Steakhouse·Spark USDG 볼트) 대출 이자를 받을 수 있습니다. 어떤 파트가 매수하거나 출금할 때 같은 라운드에 자동으로 돌아옵니다.",
+      "mode": {
+        "off": "끄기",
+        "idle": "유휴 현금",
+        "share": "일정 비율",
+        "only": "이자만"
+      },
+      "modeText": {
+        "off": "아무것도 빌려주지 않습니다.",
+        "idle": "한동안 어느 파트도 쓰지 않은 현금만 빌려줍니다. 지갑에는 항상 조금 남겨 둡니다.",
+        "share": "지갑의 이 비율은 항상 빌려주고, 그 위에 유휴 현금도 더합니다. 나머지는 거래합니다.",
+        "only": "거래 끄기: 포지션을 USDG로 팔고 전부 빌려줍니다. $FLYAI는 매수 가격보다 오를 때까지 그대로 둡니다."
+      },
+      "share": "Earn 비율",
+      "rate": "현재 연 ~{rate}% (기본 금리, 변동)",
+      "rateNone": "금리: 변동",
+      "risk": "보장되지 않습니다. 대출에는 위험이 있습니다: 부실 채권, 스마트 컨트랙트, USDG 페그.",
+      "lent": "빌려준 금액",
+      "earned": "지금까지 수익",
+      "line": "Earn: {usd} 빌려줌, {earned} 수익",
+      "row": "Earn (빌려줌)",
+      "waiting": "빌려준 현금이 돌아오는 중입니다. 들어오는 대로 출금됩니다.",
+      "saveHint": "아래 설정과 함께 저장됩니다."
+    }
   },
   "profile": {
     "title": "내 프로필",
@@ -1313,7 +1349,9 @@
     },
     "side": {
       "panic_sell": "패닉 매도",
-      "take_profit": "익절"
+      "take_profit": "익절",
+      "deposit": "대출",
+      "redeem": "회수"
     },
     "wantedBuy": "매수하려 함",
     "wantedSell": "매도하려 함",
@@ -1444,7 +1482,8 @@
       "max_hold_hours": "뇌의 포지션을 이 시간 후에 팝니다."
     },
     "eth_to_usdg": "보낸 ETH를 USDG(달러)로 바꿔 플라이가 거래할 수 있게 합니다. 가스용 ETH는 조금 남겨둡니다.",
-    "trading": "끄면 = 플라이가 새 거래를 열지 않습니다. 이미 보유한 것은 계속 관리합니다."
+    "trading": "끄면 = 플라이가 새 거래를 열지 않습니다. 이미 보유한 것은 계속 관리합니다.",
+    "earn": "유휴 현금을 Robinhood Chain의 Steakhouse 또는 Spark USDG 볼트에 빌려줍니다. 표시된 금리는 현재 기본 금리이며 매일 바뀝니다."
   },
   "label": {
     "add": "비공개 라벨 추가",

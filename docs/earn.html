@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="earn token">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="earn.meta.title">Earn: lend USDG from your own wallet</title>
+<meta name="description" content="Lend USDG on Robinhood Chain from your own wallet into Steakhouse USDG (Morpho) or Spark Savings USDG. Live rates, a 1% fee on deposits, free withdrawals." data-i18n-attr="content:earn.meta.description">
+<meta property="og:title" content="Earn: lend USDG from your own wallet">
+<meta property="og:description" content="Lend USDG on Robinhood Chain from your own wallet into Steakhouse USDG (Morpho) or Spark Savings USDG. Live rates, a 1% fee on deposits, free withdrawals.">
+<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/earn">
+<meta property="og:url" content="https://flyaiworld.com/earn">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/dashboard.png">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="earn.head.eyebrow">Earn</p>
+    <h1 data-i18n="earn.head.title">Lend USDG, earn interest</h1>
+    <p class="lede" data-i18n="earn.head.lede">Put idle USDG to work in the deepest lending vaults on Robinhood Chain, straight from your own wallet. The vault shares are yours, in your wallet: fly.ai never holds your money. Withdraw any time, for free.</p>
+  </div>
+</header>
+<section id="earn" class="firstsec earn">
+  <div class="wrap">
+    <h3 class="earn-h" data-i18n="earn.venues.title">Where your USDG goes</h3>
+    <div class="grid2 earn-venues" id="earn-venues"></div>
+
+    <div class="card pad buybox earn-box" id="earn-box">
+      <div class="buy-top">
+        <h3 data-i18n="earn.box.title">Lend USDG</h3>
+        <span class="buy-pick">
+          <span data-i18n="earn.box.venue">Vault</span>
+          <select id="earn-venue" class="buy-dir" aria-label="Vault"></select>
+        </span>
+      </div>
+      <div class="buy-row earn-row">
+        <label class="buy-in">
+          <span data-i18n="earn.box.amount">You put in</span>
+          <span class="buy-field">
+            <input id="earn-amount" type="text" inputmode="decimal" autocomplete="off" value="100" aria-label="Amount">
+            <span class="buy-sym">USDG</span>
+          </span>
+          <span class="buy-balrow" id="earn-balrow" hidden>
+            <span class="buy-bal" id="earn-bal"></span>
+            <span class="buy-pcts">
+              <button type="button" data-pct="25">25%</button><button type="button" data-pct="50">50%</button><button type="button" data-pct="75">75%</button><button type="button" data-pct="100" data-i18n="earn.box.max">Max</button>
+            </span>
+          </span>
+        </label>
+      </div>
+      <p class="earn-breakdown" id="earn-breakdown"></p>
+      <p class="earn-feenote" id="earn-feenote"></p>
+      <div class="buy-act">
+        <button class="btn red" id="earn-go" type="button">Connect wallet</button>
+        <button class="btn sm" id="earn-fund" type="button" aria-expanded="false" aria-controls="buy" data-i18n="earn.box.fund">Fund with ETH / FLYAI</button>
+      </div>
+      <p class="buy-msg" id="earn-msg" aria-live="polite"></p>
+      <p class="earn-muted small" data-i18n="earn.box.how">Wallets that batch calls sign once; others ask three times: approve the exact amount, lend, then the fee.</p>
+
+      <!-- the token page's swap box (assets/buy.js) in into-USDG mode -->
+      <div class="buybox earn-fundbox" id="buy" data-into="USDG" hidden>
+        <div class="buy-top">
+          <h3 data-i18n="earn.fund.title">Get USDG</h3>
+          <span class="buy-pick">
+            <select id="buy-pay" class="buy-dir" aria-label="Token"><option value="ETH">ETH</option><option value="FLYAI">$FLYAI</option></select>
+            <span>&rarr; USDG</span>
+          </span>
+        </div>
+        <p class="buy-lede" data-i18n="earn.fund.lede">Swap ETH or $FLYAI to USDG in your wallet (Relay, 0.25% interface fee). When it lands, the amount is filled in above.</p>
+        <div class="buy-row">
+          <label class="buy-in">
+            <span data-i18n="earn.fund.pay">You pay</span>
+            <span class="buy-field">
+              <input id="buy-amount" type="text" inputmode="decimal" autocomplete="off" value="0.01" aria-label="Amount">
+              <span class="buy-sym" id="buy-paysym">ETH</span>
+            </span>
+            <span class="buy-balrow" id="buy-balrow" hidden>
+              <span class="buy-bal" id="buy-bal"></span>
+              <span class="buy-pcts">
+                <button type="button" data-pct="25">25%</button><button type="button" data-pct="50">50%</button><button type="button" data-pct="75">75%</button><button type="button" data-pct="100" data-i18n="earn.box.max">Max</button>
+              </span>
+            </span>
+          </label>
+          <div class="buy-in">
+            <span data-i18n="earn.fund.get">You get (about)</span>
+            <strong id="buy-out" class="buy-out">&ndash;</strong>
+          </div>
+        </div>
+        <p class="buy-detail" id="buy-detail"></p>
+        <div class="buy-act">
+          <button class="btn red" id="buy-go" type="button">Connect wallet</button>
+          <span class="buy-fee" id="buy-fee"></span>
+        </div>
+        <p class="buy-msg" id="buy-msg" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="card pad earn-unpaid" id="earn-unpaid" hidden></div>
+
+    <h3 class="earn-h" data-i18n="earn.pos.title">Your positions</h3>
+    <div class="grid2 earn-pos" id="earn-pos"></div>
+    <p class="earn-msg" id="earn-posmsg" aria-live="polite"></p>
+
+    <div class="card pad earn-about">
+      <h3 data-i18n="earn.about.title">Good to know</h3>
+      <p data-i18n-html="earn.about.fees"><b>Fees.</b> 1% of each deposit goes to the fly.ai dev wallet, taken in the same flow from your wallet. Withdrawals are free. Lending here is the same as lending on Morpho or Spark directly; the fee pays for the rates in one place, the ETH and $FLYAI funding path, and fly.ai's safety switches.</p>
+      <p data-i18n-html="earn.about.checks"><b>Before you sign</b>, the page checks every call: Robinhood Chain only, only USDG and the two vaults above, an approval for the exact amount (never unlimited), the deposit in your own wallet's name and a fee of exactly 1%.</p>
+      <p data-i18n-html="earn.about.pause"><b>Safety switches.</b> fly.ai pauses new deposits into a vault if its share price falls, if less than $5M can be withdrawn, or if deposits fall more than 20% in a day. A pause never blocks withdrawals.</p>
+      <p data-i18n-html="earn.about.risk"><b>Risks.</b> Lending earns a variable rate and has risks: borrowers' collateral can fail to cover a loan, smart contracts can have bugs, and USDG could lose its peg. Only lend what you can afford to lock up.</p>
+    </div>
+  </div>
+</section>
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261006a"></script>
+<script src="assets/buy.js?v=20261006a"></script>
+<script src="assets/earn.js?v=20261006a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+</body>
+</html>

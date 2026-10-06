@@ -51,6 +51,7 @@
     ]],
     ["token", "$FLYAI", [
       ["Token", "/token", "Contract, chain, where to buy"],
+      ["Earn", "/earn", "Lend USDG from your wallet"],   // 2026-10-06: flytrade/EARN-PAGE-PLAN.md
       ["How it works", "/how", "The brain, the pots, payouts and partners"],
       ["Merch", "/shop", "Fly shirts and more", true],
       ["API & skills", "/desk-api", "Buy the desk's answers over x402"],

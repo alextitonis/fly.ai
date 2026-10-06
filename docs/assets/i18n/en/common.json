@@ -76,6 +76,10 @@
       "label": "Token",
       "desc": "Contract, chain, where to buy"
     },
+    "earn": {
+      "label": "Earn",
+      "desc": "Lend USDG from your wallet"
+    },
     "shop": {
       "label": "Merch",
       "desc": "Fly shirts and more"

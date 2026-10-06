@@ -832,7 +832,9 @@
       "buy": "买入",
       "sell": "卖出",
       "take_profit": "止盈",
-      "panic_sell": "卖出"
+      "panic_sell": "卖出",
+      "deposit": "出借",
+      "redeem": "取回"
     },
     "empty": "这只苍蝇的钱包是空的。充值后，它会从下一根 5 分钟 K 线开始交易。",
     "potEmpty": "这个资金池是空的。",
@@ -961,6 +963,10 @@
       "house": {
         "title": "逢低买入 FLYAI",
         "blurb": "当平台代币 FLYAI 明显跌破平时价格时买入一些，价格回升后卖出。"
+      },
+      "earn": {
+        "title": "Earn",
+        "blurb": "在 Robinhood Chain 上出借的现金。"
       }
     },
     "params": {
@@ -1077,6 +1083,10 @@
       },
       "custom": {
         "title": "自定义"
+      },
+      "just_earn": {
+        "title": "只赚利息",
+        "blurb": "不交易：钱包的现金在 Robinhood Chain 上出借，赚取借贷利息（浮动）。"
       }
     },
     "best": "最佳 Fly Wallets",
@@ -1127,7 +1137,33 @@
     },
     "maxDrop": "7天最大回撤",
     "bestWorst": "最好 {best} · 最差 {worst}",
-    "copyReady": "已用那只苍蝇的钱包开启 Track：检查份额并点击保存即可开始复制。"
+    "copyReady": "已用那只苍蝇的钱包开启 Track：检查份额并点击保存即可开始复制。",
+    "lend": {
+      "title": "闲置资金赚取收益",
+      "text": "苍蝇暂时不用的现金可以在 Robinhood Chain 上出借（Steakhouse 和 Spark 的 USDG 金库），赚取借贷利息。当某个部分要买入或你提现时，它会在同一轮自动取回。",
+      "mode": {
+        "off": "关闭",
+        "idle": "闲置现金",
+        "share": "固定比例",
+        "only": "只赚利息"
+      },
+      "modeText": {
+        "off": "不出借任何资金。",
+        "idle": "只出借一段时间内没有任何部分使用的现金；钱包里总会留一点。",
+        "share": "钱包的这一比例始终出借，另加闲置现金；其余部分继续交易。",
+        "only": "交易关闭：持仓卖成 USDG，全部出借。$FLYAI 会保留，直到价格高于买入成本。"
+      },
+      "share": "Earn 所占比例",
+      "rate": "目前年化约 {rate}%（基础利率，浮动）",
+      "rateNone": "利率：浮动",
+      "risk": "不保证收益。借贷有风险：坏账、智能合约、USDG 脱锚。",
+      "lent": "当前出借",
+      "earned": "累计收益",
+      "line": "Earn：出借 {usd}，已赚 {earned}",
+      "row": "Earn（出借中）",
+      "waiting": "你出借的现金正在取回：到账后立即提现。",
+      "saveHint": "与下面的设置一起保存。"
+    }
   },
   "profile": {
     "title": "你的资料",
@@ -1313,7 +1349,9 @@
     },
     "side": {
       "panic_sell": "恐慌卖出",
-      "take_profit": "止盈"
+      "take_profit": "止盈",
+      "deposit": "出借",
+      "redeem": "取回"
     },
     "wantedBuy": "想买入",
     "wantedSell": "想卖出",
@@ -1444,7 +1482,8 @@
       "max_hold_hours": "大脑的仓位持有这么多小时后卖出。"
     },
     "eth_to_usdg": "把你转入的 ETH 换成 USDG（美元），让苍蝇能用它交易。总会留一点 ETH 付 gas。",
-    "trading": "关闭 = 苍蝇不再开新仓。已持有的仍会照管。"
+    "trading": "关闭 = 苍蝇不再开新仓。已持有的仍会照管。",
+    "earn": "闲置现金出借给 Robinhood Chain 上的 Steakhouse 或 Spark USDG 金库。显示的是当前基础利率，每天都会变动。"
   },
   "label": {
     "add": "添加私人标签",
