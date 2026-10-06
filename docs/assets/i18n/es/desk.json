@@ -60,7 +60,11 @@
     "ath": "Máximo {when}",
     "athAll": "Máxima ganancia histórica",
     "sinceStart": "desde el inicio",
-    "week": "esta semana"
+    "week": "esta semana",
+    "earn": "En Earn (prestado)",
+    "earnSub": "ganado {earned} hasta ahora · ~{rate}% base, variable",
+    "earnNone": "nada prestado ahora · ~{rate}% base",
+    "earnPaused": "nuevos préstamos pausados por seguridad"
   },
   "eye": {
     "title": "El ojo de la mosca",

@@ -60,7 +60,11 @@
     "ath": "High {when}",
     "athAll": "All-time high earned",
     "sinceStart": "since start",
-    "week": "this week"
+    "week": "this week",
+    "earn": "In Earn (lent)",
+    "earnSub": "earned {earned} so far · ~{rate}% base, variable",
+    "earnNone": "nothing lent right now · ~{rate}% base",
+    "earnPaused": "new lending paused for safety"
   },
   "eye": {
     "title": "The fly's eye",

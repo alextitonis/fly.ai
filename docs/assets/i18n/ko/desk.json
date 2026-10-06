@@ -60,7 +60,11 @@
     "ath": "최고 ({when})",
     "athAll": "역대 최고 수익",
     "sinceStart": "시작 이후",
-    "week": "이번 주"
+    "week": "이번 주",
+    "earn": "Earn (대출 중)",
+    "earnSub": "지금까지 {earned} 수익 · 기본 ~{rate}%, 변동",
+    "earnNone": "지금은 대출 없음 · 기본 ~{rate}%",
+    "earnPaused": "안전을 위해 신규 대출 일시 중지"
   },
   "eye": {
     "title": "파리의 눈",

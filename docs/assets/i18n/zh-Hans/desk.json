@@ -60,7 +60,11 @@
     "ath": "最高（{when}）",
     "athAll": "历史最高收益",
     "sinceStart": "自开始以来",
-    "week": "本周"
+    "week": "本周",
+    "earn": "Earn（已出借）",
+    "earnSub": "目前已赚 {earned} · 基础约 {rate}%，浮动",
+    "earnNone": "目前没有出借 · 基础约 {rate}%",
+    "earnPaused": "出于安全，新出借已暂停"
   },
   "eye": {
     "title": "果蝇之眼",

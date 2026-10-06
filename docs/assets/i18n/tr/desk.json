@@ -60,7 +60,11 @@
     "ath": "En yüksek ({when})",
     "athAll": "Tüm zamanların en yüksek kazancı",
     "sinceStart": "başlangıçtan beri",
-    "week": "bu hafta"
+    "week": "bu hafta",
+    "earn": "Earn'de (borç verilen)",
+    "earnSub": "şimdiye kadar {earned} kazanıldı · ~%{rate} taban, değişken",
+    "earnNone": "şu an borç verilen yok · ~%{rate} taban",
+    "earnPaused": "yeni borç verme güvenlik için durduruldu"
   },
   "eye": {
     "title": "Sineğin gözü",

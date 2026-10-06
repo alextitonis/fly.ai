@@ -262,7 +262,24 @@
       cell(t("stats.high24"), s.pot[h], vs(s.pot[h]), hhmm(s.times[h])) +
       cell(t("stats.low24"), s.pot[l], vs(s.pot[l]), hhmm(s.times[l])) +
       `<div class="st"><span class="k">${esc(t("stats.change24"))}</span><b class="${cls(chg)}">${susd(chg)}</b> <span class="${cls(chg)}">${pct(s.pot[first] ? (100 * chg) / s.pot[first] : 0)}</span></div>` +
-      athCell(s.pot[ath], s.times[ath], since);
+      athCell(s.pot[ath], s.times[ath], since) + earnCell();
+  }
+  /** Earn (2026-10-07, the user: "put in the flydesk website ... if something is in lend currently"): the desk's idle
+   * cash lent on Robinhood Chain (publish.earn_view): lent now, interest so far, the base rate; nothing until the desk
+   * has read the vault once. */
+  function earnCell() {
+    const e = board && board.earn;
+    if (!e) return "";
+    const rate = e.rate != null && isFinite(e.rate) ? nf(2).format(100 * e.rate) : null;
+    // a day-old cached desk.json has no stats.earn*: the English then, not the key
+    const EN = { earn: "In Earn (lent)", earnSub: "earned {earned} so far · ~{rate}% base, variable",
+      earnNone: "nothing lent right now · ~{rate}% base", earnPaused: "new lending paused for safety" };
+    const say = (k, vars) => { const v = t("stats." + k, vars); return /stats\.earn/.test(v)
+      ? EN[k].replace(/\{(\w+)\}/g, (_, n) => (vars && vars[n] != null ? vars[n] : "")) : v; };
+    const sub = e.paused ? say("earnPaused") : e.lent_usd >= 0.01 ? say("earnSub", { earned: susd(e.earned_usd || 0), rate: rate || "–" })
+      : say("earnNone", { rate: rate || "–" });
+    return `<div class="st"><span class="k">${esc(say("earn"))}</span><b>${usd(e.lent_usd || 0)}</b>` +
+      `<span class="when">${esc(sub)}</span></div>`;
   }
   /** The all-time high: the desk's best bar ever and what it had earned then, kept by the server (engine.all_time_high)
    * so it outlives the chart's week; before the server has one, the high of the curve on hand. */

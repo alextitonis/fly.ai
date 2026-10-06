@@ -151,6 +151,15 @@
       ]
     },
     {
+      "source": "/assets/i18n/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, must-revalidate"
+        }
+      ]
+    },
+    {
       "source": "/assets/nav.js",
       "headers": [
         {

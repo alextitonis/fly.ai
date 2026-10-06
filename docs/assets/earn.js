@@ -266,8 +266,23 @@
   // ---- words ----
   let en = null;
   const pick = (o, k) => k.split(".").reduce((x, p) => (x == null ? undefined : x[p]), o);
+  // 2026-10-07: browsers kept a day-old earn.json without the tab strings and showed "earn.box.swapNote"; a fresh copy
+  // of this page's strings (language + English) is read at start and fills any key the shared runtime doesn't have
+  let fresh = null, freshEn = null;
+  const STR_V = "20261007b";
+  function loadFresh() {
+    const code = (window.flyI18n && window.flyI18n.lang) || "en";
+    const get = (c) => fetch(`assets/i18n/${c}/earn.json?v=${STR_V}`, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    return Promise.all([get(code), code === "en" ? null : get("en")]).then(([a, b]) => { fresh = a; freshEn = b || a; });
+  }
+  const fill = (v, vars) => v.replace(/\{(\w+)\}/g, (_, k) => (vars && vars[k] != null ? vars[k] : ""));
   function tr(key, vars) {
-    if (window.flyI18n) return window.flyI18n.t(NS + key, vars);
+    if (window.flyI18n) {
+      const out = window.flyI18n.t(NS + key, vars);
+      if (out !== NS + key) return out;
+      const v = pick(fresh, key) ?? pick(freshEn, key);
+      return typeof v === "string" ? fill(v, vars) : out;
+    }
     const v = pick(en, key);
     if (typeof v !== "string") return key;
     return v.replace(/\{(\w+)\}/g, (_, k) => (vars && vars[k] != null ? vars[k] : ""));
@@ -1012,6 +1027,7 @@
 
   // ---- start ----
   async function start() {
+    await Promise.race([loadFresh(), new Promise((ok) => setTimeout(ok, 2500))]);   // the fresh strings first
     try {
       const r = await fetch("assets/earn-venues.json", { cache: "no-cache" });
       config = await r.json();
