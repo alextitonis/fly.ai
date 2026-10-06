@@ -41,7 +41,6 @@
     "balance": "余额：{amt}",
     "max": "最大",
     "breakdown": "你出借 {net} USDG · fly.ai 手续费 {fee} USDG（1%）· 取款免费",
-    "feeNote": "按今天的利率，1% 的手续费大约相当于 {months} 个月的利息，所以 Earn 适合长期停放的资金。",
     "connect": "连接钱包",
     "noWallet": "未找到钱包",
     "lend": "出借",

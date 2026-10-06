@@ -41,7 +41,6 @@
     "balance": "잔액: {amt}",
     "max": "최대",
     "breakdown": "빌려주는 금액 {net} USDG · fly.ai 수수료 {fee} USDG (1%) · 출금 무료",
-    "feeNote": "1% 수수료는 오늘 이율로 약 {months}개월 치 이자이므로, Earn은 오래 맡겨 둘 돈에 알맞습니다.",
     "connect": "지갑 연결",
     "noWallet": "지갑을 찾을 수 없음",
     "lend": "빌려주기",

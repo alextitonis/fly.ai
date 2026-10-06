@@ -41,7 +41,6 @@
     "balance": "Balance: {amt}",
     "max": "Max",
     "breakdown": "You lend {net} USDG · fly.ai fee {fee} USDG (1%) · withdrawing is free",
-    "feeNote": "The 1% fee is about {months} months of interest at today's rate, so Earn suits money you park for longer.",
     "connect": "Connect wallet",
     "noWallet": "No wallet found",
     "lend": "Lend",

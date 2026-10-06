@@ -520,7 +520,6 @@
       $("earn-breakdown").textContent = tr("box.breakdown", { net: usdgText(amount - fee), fee: usdgText(fee) });
     } else $("earn-breakdown").textContent = "";
     const rate = v && v.state && v.state.rate;
-    $("earn-feenote").textContent = tr("box.feeNote", { months: feeMonths(rate) || 3 });
     $("earn-balrow").hidden = usdgBal == null;
     if (usdgBal != null) $("earn-bal").textContent = tr("box.balance", { amt: usdgText(usdgBal) + " USDG" });
     const go = $("earn-go");

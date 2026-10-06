@@ -41,7 +41,6 @@
     "balance": "Saldo: {amt}",
     "max": "Máx",
     "breakdown": "Prestas {net} USDG · comisión de fly.ai {fee} USDG (1%) · retirar es gratis",
-    "feeNote": "La comisión del 1% equivale a unos {months} meses de intereses a la tasa de hoy, así que Earn conviene para dinero que vas a dejar más tiempo.",
     "connect": "Conectar wallet",
     "noWallet": "No se encontró wallet",
     "lend": "Prestar",

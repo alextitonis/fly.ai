@@ -41,7 +41,6 @@
     "balance": "Bakiye: {amt}",
     "max": "Maks",
     "breakdown": "Borç verdiğin {net} USDG · fly.ai ücreti {fee} USDG (%1) · çekim ücretsiz",
-    "feeNote": "%1 ücret bugünkü oranla yaklaşık {months} aylık faize denk gelir; bu yüzden Earn uzun süre bekleteceğin para için uygundur.",
     "connect": "Cüzdan bağla",
     "noWallet": "Cüzdan bulunamadı",
     "lend": "Borç ver",

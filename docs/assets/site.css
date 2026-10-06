@@ -510,7 +510,6 @@
 .earn-box { margin-top: 18px; }
 .earn-box .earn-row { grid-template-columns: minmax(0, 1fr); max-width: 460px; }
 .earn-breakdown { font: 500 13px var(--mono); color: var(--text); min-height: 1.2em; margin: 12px 0 6px; }
-.earn-feenote { font-size: 13px; color: var(--muted); margin: 0 0 16px; }
 .card p.earn-muted, .earn-muted { color: var(--muted); }
 .earn-muted.small { font-size: 12px; margin: 10px 0 0; }
 .earn-fundbox { margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--line); }
