@@ -1,15 +1,12 @@
 {
   "meta": {
     "title": "Earn: kendi cüzdanından USDG borç ver",
-    "description": "Robinhood Chain'de kendi cüzdanından Steakhouse USDG'ye (Morpho) veya Spark Savings USDG'ye USDG borç ver. Canlı oranlar, yatırımlarda %1 ücret, ücretsiz çekim."
+    "description": "Robinhood Chain'de kendi cüzdanından Morpho'daki Steakhouse USDG'ye USDG borç ver; USDG, ETH veya $FLYAI ile öde. Canlı oran, yatırımlarda %1 ücret, ücretsiz çekim."
   },
   "head": {
     "eyebrow": "Earn",
     "title": "USDG borç ver, faiz kazan",
-    "lede": "Boşta duran USDG'ni doğrudan kendi cüzdanından Robinhood Chain'deki en derin borç verme kasalarında çalıştır. Kasa payları senin, cüzdanında: fly.ai paranı asla tutmaz. İstediğin zaman ücretsiz çek."
-  },
-  "venues": {
-    "title": "USDG'n nereye gidiyor"
+    "lede": "Boştaki USDG, ETH veya $FLYAI'ını doğrudan kendi cüzdanından Robinhood Chain'in en derin borç verme kasalarından birinde çalıştır (ETH ve $FLYAI önce USDG'ye çevrilir). Kasa payları senin, cüzdanında: fly.ai paranı asla tutmaz. İstediğin zaman ücretsiz çek."
   },
   "venue": {
     "by": "{protocol} · küratör {curator}",
@@ -18,7 +15,6 @@
     "tvl": "Toplam borç verilen",
     "redeemable": "Şu an çekilebilir",
     "vault": "Kasa",
-    "lend": "Burada borç ver",
     "rewards": "+ ~%{pct} ödül, ayrıca talep edilir",
     "loading": "Yükleniyor…"
   },
@@ -36,7 +32,6 @@
   },
   "box": {
     "title": "USDG borç ver",
-    "venue": "Kasa",
     "amount": "Yatırdığın",
     "balance": "Bakiye: {amt}",
     "max": "Maks",
@@ -45,20 +40,18 @@
     "noWallet": "Cüzdan bulunamadı",
     "lend": "Borç ver",
     "paused": "Yatırımlar durduruldu",
-    "fund": "ETH / FLYAI ile yükle",
-    "fundHide": "Takası gizle",
-    "how": "Çağrıları toplu gönderebilen cüzdanlar bir kez imzalar; diğerleri üç kez sorar: tam tutarı onayla, borç ver, sonra ücret."
-  },
-  "fund": {
-    "title": "USDG al",
-    "lede": "Cüzdanında ETH veya $FLYAI'yi USDG'ye takas et (Relay, %0,25 arayüz ücreti). Geldiğinde tutar yukarıya yazılır.",
-    "pay": "Ödediğin",
-    "get": "Aldığın (yaklaşık)"
+    "how": "Çağrıları toplu gönderebilen cüzdanlar bir kez imzalar; diğerleri üç kez sorar: tam tutarı onayla, borç ver, sonra ücret.",
+    "into": "{venue} kasasına borç ver",
+    "breakdownSwap": "{pay} {sym} ödersin → yaklaşık {usdg} USDG → {net} USDG borç verirsin · ücret {fee} USDG (%1)",
+    "swapNote": "İki adım: Relay {sym} varlığını USDG'ye takas eder (%0,25 takas ücreti, teklife dahil), sonra gelen USDG borç verilir. Borç vermeyi iptal edersen USDG cüzdanında kalır.",
+    "quoting": "Takas teklifi alınıyor…",
+    "noQuote": "Şu an takas teklifi yok. Başka bir tutar dene.",
+    "swapLend": "{sym} takas et ve borç ver"
   },
   "msg": {
     "enterAmount": "Önce bir tutar gir.",
     "min": "En küçük yatırım {min} USDG.",
-    "tooMuch": "Bu, cüzdanındaki USDG'den fazla.",
+    "tooMuch": "Bu, cüzdanındakinden fazla.",
     "checking": "Kasa zincir üzerinde kontrol ediliyor…",
     "wrongAsset": "Bu kasa artık USDG almıyor. Hiçbir şey gönderilmedi.",
     "overCap": "Bu kasa şu an en fazla {max} USDG alabilir. Daha küçük bir tutar dene.",
@@ -74,7 +67,13 @@
     "viewTx": "İşlemi gör",
     "withdrawn": "Cüzdanına çekildi.",
     "onlyX": "Şu an yalnızca {amt} USDG çekilebilir; kalanı krediler ödendikçe serbest kalır.",
-    "notEnough": "Bu kasada {amt} USDG'n var."
+    "notEnough": "Bu kasada {amt} USDG'n var.",
+    "swapConfirm": "Takas: cüzdanında onayla ({n} / {of})…",
+    "swapWaiting": "USDG'nin gelmesi bekleniyor…",
+    "swapped": "Takas tamam: {amt} USDG geldi. Şimdi borç veriliyor…",
+    "swapKept": "Takas gerçekleşti, yani {amt} USDG cüzdanında ve orada kalıyor. İstediğin zaman USDG sekmesinden borç ver.",
+    "swapSmall": "Takas gerçekleşti ama {amt} USDG, borç vermek için gereken en az {min} USDG'nin altında. Cüzdanında kalıyor.",
+    "notArrived": "Takas gerçekleşti ama USDG henüz görünmüyor. Cüzdanını kontrol et, sonra USDG sekmesinden borç ver."
   },
   "pos": {
     "title": "Pozisyonların",
@@ -96,8 +95,8 @@
   },
   "about": {
     "title": "Bilmen gerekenler",
-    "fees": "<b>Ücretler.</b> Her yatırımın %1'i aynı akışta cüzdanından fly.ai geliştirici cüzdanına gider. Çekimler ücretsizdir. Burada borç vermek, doğrudan Morpho veya Spark'ta borç vermekle aynıdır; ücret, oranların tek yerde olmasının, ETH ve $FLYAI ile yükleme yolunun ve fly.ai'nin güvenlik anahtarlarının karşılığıdır.",
-    "checks": "<b>İmzalamadan önce</b> sayfa her çağrıyı kontrol eder: yalnızca Robinhood Chain, yalnızca USDG ve yukarıdaki iki kasa, tam tutar için onay (asla sınırsız değil), kendi cüzdanın adına yatırım ve tam %1 ücret.",
+    "fees": "<b>Ücretler.</b> Her yatırımın %1'i aynı akışta cüzdanından fly.ai geliştirici cüzdanına gider. Çekimler ücretsizdir. Burada borç vermek, doğrudan Morpho'da borç vermekle aynıdır; ücret, oranın tek yerde olmasının, ETH veya $FLYAI ile ödemenin ve fly.ai'nin güvenlik anahtarlarının karşılığıdır. ETH veya $FLYAI ile ödemek, %0,25 ücretli bir Relay takası ekler.",
+    "checks": "<b>İmzalamadan önce</b> sayfa her çağrıyı kontrol eder: yalnızca Robinhood Chain, yalnızca USDG ve yukarıdaki kasa, tam tutar için onay (asla sınırsız değil), kendi cüzdanın adına yatırım ve tam %1 ücret. Takas, token sayfasındaki takas kutusuyla aynı şekilde kontrol edilir.",
     "pause": "<b>Güvenlik anahtarları.</b> Bir kasanın pay fiyatı düşerse, 5 milyon dolardan az çekilebilirse ya da yatırımlar bir günde %20'den fazla düşerse fly.ai o kasaya yeni yatırımları durdurur. Durdurma çekimleri asla engellemez.",
     "risk": "<b>Riskler.</b> Borç vermek değişken bir oran kazandırır ve riskleri vardır: borçluların teminatı krediyi karşılamayabilir, akıllı sözleşmelerde hata olabilir ve USDG sabitini kaybedebilir. Yalnızca kilitlemeyi göze alabileceğin kadarını borç ver."
   }

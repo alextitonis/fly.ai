@@ -9,13 +9,12 @@
  * it runs on Robinhood Chain, goes to one of Relay's published contracts for it (GET /chains), sends no more coin
  * than the amount paid, and an approve is only of the token paid, to such a contract, for no more than the amount.
  *
- * Into-USDG mode (2026-10-06, the Earn page's "Fund with ETH / FLYAI"): a box with data-into="USDG" and no direction
- * picker swaps ETH or $FLYAI to USDG through the same checks, and fires a "buy:done" event with what arrived.
+ * window.flyRelay (2026-10-07): the same quote + checks for other pages, without this box. The Earn page
+ * (assets/earn.js) uses it for its ETH and FLYAI tabs: swap to USDG through Relay, then lend what arrived.
  */
 (function () {
   "use strict";
   const $ = (id) => document.getElementById(id);
-  if (!$("buy")) return;
 
   const API = "https://api.relay.link";
   const CHAIN = 4663;
@@ -31,50 +30,8 @@
     ETH: { address: "0x0000000000000000000000000000000000000000", decimals: 18 },
   };
   const FLY = { address: FLYAI, decimals: 18 };
-  const into = $("buy").dataset.into === "USDG";       // the Earn page: ETH or FLYAI -> USDG
-  const dirOf = () => (into ? "into" : $("buy-dir").value);
-  const selling = () => !into && $("buy-dir").value === "sell";
-  // what the wallet pays and what it gets: [token paid, token got, symbol paid, symbol got]
-  const sides = (other) => into ? [other === "FLYAI" ? FLY : PAY[other], PAY.USDG, other, "USDG"]
-    : selling() ? [FLY, PAY[other], "FLYAI", other] : [PAY[other], FLY, other, "FLYAI"];
   const APPROVE = "0x095ea7b3";
-  // the site's one sign-in (the nav's account menu, mine/web/account.ts): the same signed-in wallet and wallet picker
-  // (browser wallets and WalletConnect) on every page; plain window.ethereum only if it can't load (a local copy)
-  const ACCOUNT_JS = "/compute/mine/web/account.js";
-  let acct = null;
-  const loadAcct = () => (acct ? Promise.resolve(acct) : import(ACCOUNT_JS).then((m) => (acct = m)).catch(() => null));
-
-  let en = null;
-  const pick = (o, k) => k.split(".").reduce((x, p) => (x == null ? undefined : x[p]), o);
-  function t(key, vars) {
-    if (window.flyI18n) return window.flyI18n.t("token.buy." + key, vars);
-    let v = pick(en, "buy." + key);
-    if (typeof v !== "string") return key;
-    return v.replace(/\{(\w+)\}/g, (_, k) => (vars && vars[k] != null ? vars[k] : ""));
-  }
-  const lang = () => (window.flyI18n && window.flyI18n.lang) || "en";
-  const fmt = (x, d) => new Intl.NumberFormat(lang(), { maximumFractionDigits: d }).format(x);
-
-  let wallet = null, quote = null, quoteFor = "", timer = null, busy = false, allowedCache = null;
-  let bal = null, balFor = "";                         // the paid token's balance (base units) for the wallet
-  const GAS_KEEP = 3n * 10n ** 14n;                     // Max on ETH leaves 0.0003 ETH for this swap's gas
-
-  function msg(text, kind, link) {
-    const el = $("buy-msg");
-    el.textContent = text || "";
-    el.dataset.kind = kind || "";
-    if (link) {
-      const a = document.createElement("a");
-      a.href = link; a.target = "_blank"; a.rel = "noopener"; a.textContent = " " + t("viewTx");
-      el.appendChild(a);
-    }
-  }
-
-  function units(amount, decimals) {                    // "12.5" -> 12500000n (no float rounding)
-    const [i, f = ""] = String(amount).trim().split(".");
-    if (!/^\d*$/.test(i) || !/^\d*$/.test(f) || (i === "" && f === "")) return null;
-    return BigInt(i || "0") * 10n ** BigInt(decimals) + BigInt((f + "0".repeat(decimals)).slice(0, decimals) || "0");
-  }
+  let allowedCache = null;
 
   async function allowed() {
     if (allowedCache) return allowedCache;
@@ -88,13 +45,13 @@
     return (allowedCache = { calls, solvers });
   }
 
-  async function getQuote(user, pay, amount) {
-    const [tin, tout] = sides(pay);
+  // a Relay quote on Robinhood Chain, our app fee included: tin -> tout, exact input
+  async function relayQuote(user, tin, tout, amount) {
     const r = await fetch(API + "/quote", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         user, recipient: user, originChainId: CHAIN, destinationChainId: CHAIN,
-        originCurrency: tin.address, destinationCurrency: tout.address, amount: amount.toString(),
+        originCurrency: tin, destinationCurrency: tout, amount: amount.toString(),
         tradeType: "EXACT_INPUT", appFees: [{ recipient: FEE_TO, fee: String(FEE_BPS) }],
       }),
     });
@@ -103,11 +60,10 @@
     return d;
   }
 
-  // the desk's relay.check_steps, in the browser
-  async function checked(q, pay, amount) {
+  // the desk's relay.check_steps, in the browser: the quote's transactions, or an error
+  async function relayCheck(q, tokenIn, nativeIn, amount) {
     const { calls, solvers } = await allowed();
-    const [tin, , symIn] = sides(pay);
-    const tokenIn = tin.address.toLowerCase(), nativeIn = symIn === "ETH";
+    tokenIn = tokenIn.toLowerCase();
     const txs = [];
     for (const step of q.steps) {
       if (step.kind !== "transaction") throw new Error("unexpected step: " + step.kind);
@@ -129,6 +85,53 @@
     return txs;
   }
 
+  window.flyRelay = { quote: relayQuote, check: relayCheck, FEE_BPS, tokens: { USDG: PAY.USDG, ETH: PAY.ETH, FLYAI: FLY } };
+  if (!$("buy")) return;
+
+  const selling = () => $("buy-dir").value === "sell";
+  // what the wallet pays and what it gets: [token paid, token got, symbol paid, symbol got]
+  const sides = (other) => selling() ? [FLY, PAY[other], "FLYAI", other] : [PAY[other], FLY, other, "FLYAI"];
+  // the site's one sign-in (the nav's account menu, mine/web/account.ts): the same signed-in wallet and wallet picker
+  // (browser wallets and WalletConnect) on every page; plain window.ethereum only if it can't load (a local copy)
+  const ACCOUNT_JS = "/compute/mine/web/account.js";
+  let acct = null;
+  const loadAcct = () => (acct ? Promise.resolve(acct) : import(ACCOUNT_JS).then((m) => (acct = m)).catch(() => null));
+
+  let en = null;
+  const pick = (o, k) => k.split(".").reduce((x, p) => (x == null ? undefined : x[p]), o);
+  function t(key, vars) {
+    if (window.flyI18n) return window.flyI18n.t("token.buy." + key, vars);
+    let v = pick(en, "buy." + key);
+    if (typeof v !== "string") return key;
+    return v.replace(/\{(\w+)\}/g, (_, k) => (vars && vars[k] != null ? vars[k] : ""));
+  }
+  const lang = () => (window.flyI18n && window.flyI18n.lang) || "en";
+  const fmt = (x, d) => new Intl.NumberFormat(lang(), { maximumFractionDigits: d }).format(x);
+
+  let wallet = null, quote = null, quoteFor = "", timer = null, busy = false;
+  let bal = null, balFor = "";                         // the paid token's balance (base units) for the wallet
+  const GAS_KEEP = 3n * 10n ** 14n;                     // Max on ETH leaves 0.0003 ETH for this swap's gas
+
+  function msg(text, kind, link) {
+    const el = $("buy-msg");
+    el.textContent = text || "";
+    el.dataset.kind = kind || "";
+    if (link) {
+      const a = document.createElement("a");
+      a.href = link; a.target = "_blank"; a.rel = "noopener"; a.textContent = " " + t("viewTx");
+      el.appendChild(a);
+    }
+  }
+
+  function units(amount, decimals) {                    // "12.5" -> 12500000n (no float rounding)
+    const [i, f = ""] = String(amount).trim().split(".");
+    if (!/^\d*$/.test(i) || !/^\d*$/.test(f) || (i === "" && f === "")) return null;
+    return BigInt(i || "0") * 10n ** BigInt(decimals) + BigInt((f + "0".repeat(decimals)).slice(0, decimals) || "0");
+  }
+
+  const getQuote = (user, pay, amount) => { const [tin, tout] = sides(pay); return relayQuote(user, tin.address, tout.address, amount); };
+  const checked = (q, pay, amount) => { const [tin, , symIn] = sides(pay); return relayCheck(q, tin.address, symIn === "ETH", amount); };
+
   function show(q, pay) {
     const out = q.details.currencyOut;
     const got = Number(out.amountFormatted), sym = sides(pay)[3];
@@ -149,7 +152,7 @@
       $("buy-out").textContent = "–";
       $("buy-detail").textContent = "";
       if (!amount || amount <= 0n) return;
-      const key = dirOf() + ":" + pay + ":" + amount;
+      const key = $("buy-dir").value + ":" + pay + ":" + amount;
       quoteFor = key;
       try {
         const q = await getQuote(wallet || PREVIEW_USER, pay, amount);
@@ -257,7 +260,7 @@
   }
 
   const label = () => {
-    $("buy-go").textContent = !wallet ? (acct || window.ethereum ? t("connect") : t("noWallet")) : into ? t("swap") : selling() ? t("sell") : t("buy");
+    $("buy-go").textContent = !wallet ? (acct || window.ethereum ? t("connect") : t("noWallet")) : selling() ? t("sell") : t("buy");
   };
 
   async function connect() {
@@ -307,8 +310,6 @@
       }
       msg(t("done"), "ok", EXPLORER + "/tx/" + last);
       loadBalance();
-      const out = q.details && q.details.currencyOut;
-      window.dispatchEvent(new CustomEvent("buy:done", { detail: { out: { symbol: sides(pay)[3], amount: out && out.amount } } }));
     } catch (e) {
       const why = acct ? acct.errorText(e) : (e && e.message) || String(e);
       const cancelled = (e && (e.code === 4001 || (e.cause && e.cause.code === 4001))) || /rejected|denied|cancel/i.test(why);
@@ -324,7 +325,7 @@
     const sym = () => { $("buy-paysym").textContent = selling() ? "FLYAI" : $("buy-pay").value; };
     $("buy-pay").addEventListener("change", () => { sym(); refresh(); loadBalance(); });
     for (const b of document.querySelectorAll("#buy [data-pct]")) b.addEventListener("click", () => usePct(Number(b.dataset.pct)));
-    if (!into) $("buy-dir").addEventListener("change", () => {
+    $("buy-dir").addEventListener("change", () => {
       const sell = selling();
       $("buy-amount").value = sell ? "100000" : "25";
       $("buy-with").textContent = sell ? t("for") : t("with");

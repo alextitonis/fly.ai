@@ -1,15 +1,12 @@
 {
   "meta": {
     "title": "Earn: 내 지갑에서 USDG 빌려주기",
-    "description": "Robinhood Chain에서 내 지갑의 USDG를 Steakhouse USDG(Morpho) 또는 Spark Savings USDG에 빌려주세요. 실시간 이율, 예치 시 1% 수수료, 출금 무료."
+    "description": "Robinhood Chain에서 내 지갑의 USDG를 Morpho의 Steakhouse USDG에 빌려주세요. USDG, ETH, $FLYAI로 낼 수 있습니다. 실시간 이율, 예치 시 1% 수수료, 출금 무료."
   },
   "head": {
     "eyebrow": "Earn",
     "title": "USDG를 빌려주고 이자 받기",
-    "lede": "놀고 있는 USDG를 내 지갑에서 바로 Robinhood Chain에서 가장 큰 대출 금고에 넣으세요. 금고 지분은 내 지갑에 있는 내 것입니다: fly.ai는 당신의 돈을 절대 보관하지 않습니다. 언제든 무료로 출금할 수 있습니다."
-  },
-  "venues": {
-    "title": "USDG가 가는 곳"
+    "lede": "놀고 있는 USDG, ETH 또는 $FLYAI를 내 지갑에서 바로 Robinhood Chain에서 가장 깊은 대출 볼트 중 하나에 맡겨 보세요 (ETH와 $FLYAI는 먼저 USDG로 스왑돼요). 볼트 지분은 내 지갑에 있는 내 것이고, fly.ai는 돈을 절대 보관하지 않아요. 언제든 무료로 출금할 수 있어요."
   },
   "venue": {
     "by": "{protocol} · 큐레이터 {curator}",
@@ -18,7 +15,6 @@
     "tvl": "총 대출액",
     "redeemable": "지금 출금 가능",
     "vault": "금고",
-    "lend": "여기에 빌려주기",
     "rewards": "+ 약 {pct}% 보상, 별도로 청구",
     "loading": "불러오는 중…"
   },
@@ -36,7 +32,6 @@
   },
   "box": {
     "title": "USDG 빌려주기",
-    "venue": "금고",
     "amount": "넣는 금액",
     "balance": "잔액: {amt}",
     "max": "최대",
@@ -45,20 +40,18 @@
     "noWallet": "지갑을 찾을 수 없음",
     "lend": "빌려주기",
     "paused": "예치 일시 중지",
-    "fund": "ETH / FLYAI로 충전",
-    "fundHide": "스왑 숨기기",
-    "how": "호출을 묶어 보내는 지갑은 한 번만 서명합니다. 그 밖의 지갑은 세 번 묻습니다: 정확한 금액 승인, 빌려주기, 그다음 수수료."
-  },
-  "fund": {
-    "title": "USDG 받기",
-    "lede": "지갑에서 ETH나 $FLYAI를 USDG로 스왑하세요 (Relay, 0.25% 인터페이스 수수료). 도착하면 위에 금액이 채워집니다.",
-    "pay": "지불",
-    "get": "받는 금액 (약)"
+    "how": "호출을 묶어 보내는 지갑은 한 번만 서명합니다. 그 밖의 지갑은 세 번 묻습니다: 정확한 금액 승인, 빌려주기, 그다음 수수료.",
+    "into": "{venue}에 빌려주기",
+    "breakdownSwap": "{pay} {sym} 지불 → 약 {usdg} USDG → {net} USDG 빌려주기 · 수수료 {fee} USDG (1%)",
+    "swapNote": "두 단계입니다: Relay가 {sym}를 USDG로 스왑하고(0.25% 스왑 수수료, 견적에 포함), 도착한 USDG를 빌려줍니다. 빌려주기를 취소하면 USDG는 그냥 지갑에 남습니다.",
+    "quoting": "스왑 견적 받는 중…",
+    "noQuote": "지금은 스왑 견적이 없습니다. 다른 금액으로 해 보세요.",
+    "swapLend": "{sym} 스왑 후 빌려주기"
   },
   "msg": {
     "enterAmount": "먼저 금액을 입력하세요.",
     "min": "최소 예치금은 {min} USDG입니다.",
-    "tooMuch": "지갑에 있는 USDG보다 많습니다.",
+    "tooMuch": "지갑에 있는 금액보다 많습니다.",
     "checking": "온체인에서 금고 확인 중…",
     "wrongAsset": "이 금고는 더 이상 USDG를 받지 않습니다. 아무것도 보내지 않았습니다.",
     "overCap": "이 금고는 지금 {max} USDG까지 받을 수 있습니다. 더 적은 금액으로 해 보세요.",
@@ -74,7 +67,13 @@
     "viewTx": "트랜잭션 보기",
     "withdrawn": "지갑으로 출금했습니다.",
     "onlyX": "지금은 {amt} USDG만 출금할 수 있습니다. 나머지는 대출이 상환되면서 풀립니다.",
-    "notEnough": "이 금고에 {amt} USDG가 있습니다."
+    "notEnough": "이 금고에 {amt} USDG가 있습니다.",
+    "swapConfirm": "스왑: 지갑에서 확인하세요 ({of}단계 중 {n})…",
+    "swapWaiting": "USDG 도착 대기 중…",
+    "swapped": "스왑 완료: {amt} USDG가 도착했습니다. 이제 빌려주는 중…",
+    "swapKept": "스왑은 완료되어 {amt} USDG가 지갑에 있고, 그대로 남아 있습니다. 원할 때 USDG 탭에서 빌려주세요.",
+    "swapSmall": "스왑은 완료됐지만 {amt} USDG는 최소 대출 금액 {min} USDG보다 적습니다. 지갑에 남아 있습니다.",
+    "notArrived": "스왑은 완료됐지만 USDG가 아직 보이지 않습니다. 지갑을 확인한 뒤 USDG 탭에서 빌려주세요."
   },
   "pos": {
     "title": "내 포지션",
@@ -96,8 +95,8 @@
   },
   "about": {
     "title": "알아 둘 점",
-    "fees": "<b>수수료.</b> 예치금의 1%는 같은 흐름에서 당신의 지갑으로부터 fly.ai 개발 지갑으로 갑니다. 출금은 무료입니다. 여기서 빌려주는 것은 Morpho나 Spark에서 직접 빌려주는 것과 같습니다. 수수료는 한곳에 모은 이율, ETH와 $FLYAI 충전 경로, fly.ai의 안전 스위치에 대한 대가입니다.",
-    "checks": "<b>서명하기 전에</b> 페이지가 모든 호출을 확인합니다: Robinhood Chain만, USDG와 위의 두 금고만, 정확한 금액의 승인(무제한은 절대 없음), 당신의 지갑 이름으로 된 예치, 정확히 1%인 수수료.",
+    "fees": "<b>수수료.</b> 예치금의 1%는 같은 흐름에서 당신의 지갑으로부터 fly.ai 개발 지갑으로 갑니다. 출금은 무료입니다. 여기서 빌려주는 것은 Morpho에서 직접 빌려주는 것과 같습니다. 수수료는 한곳에 모은 이율, ETH나 $FLYAI로 내는 기능, fly.ai의 안전 스위치에 대한 대가입니다. ETH나 $FLYAI로 내면 0.25% 수수료의 Relay 스왑이 추가됩니다.",
+    "checks": "<b>서명하기 전에</b> 페이지가 모든 호출을 확인합니다: Robinhood Chain만, USDG와 위의 금고만, 정확한 금액의 승인(무제한은 절대 없음), 당신의 지갑 이름으로 된 예치, 정확히 1%인 수수료. 스왑은 토큰 페이지의 스왑 박스와 같은 방식으로 확인합니다.",
     "pause": "<b>안전 스위치.</b> 금고의 지분 가격이 떨어지거나, 출금 가능 금액이 500만 달러 미만이 되거나, 하루 새 예치금이 20% 넘게 줄면 fly.ai는 그 금고로의 새 예치를 멈춥니다. 일시 중지는 출금을 절대 막지 않습니다.",
     "risk": "<b>위험.</b> 대출은 변동 이율을 받고 위험이 있습니다: 차입자의 담보가 대출을 감당하지 못할 수 있고, 스마트 컨트랙트에 버그가 있을 수 있으며, USDG가 페그를 잃을 수도 있습니다. 묶어 두어도 괜찮은 금액만 빌려주세요."
   }

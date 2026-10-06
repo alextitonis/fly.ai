@@ -1,6 +1,6 @@
 {
-  "_note": "The Earn page's venues (docs/earn.html, assets/earn.js). Set \"paused\": true on a venue to stop new deposits there with a site push; withdrawals are never blocked. Vault addresses must ALSO be in earn.js ALLOWED: a venue that isn't there is ignored. Plan: flytrade/EARN-PAGE-PLAN.md",
-  "updated": "2026-10-06",
+  "_note": "The Earn page's venues (docs/earn.html, assets/earn.js). The page shows ONE venue: the first allow-listed one without \"hidden\": true (Steakhouse USDG). Set \"paused\": true to stop new deposits with a site push; withdrawals are never blocked. Vault addresses must ALSO be in earn.js ALLOWED. Plan: flytrade/EARN-PAGE-PLAN.md",
+  "updated": "2026-10-07",
   "rules": {
     "sharePriceDropPct": 0.01,
     "minLiquidityUsd": 5000000,
@@ -29,7 +29,8 @@
       "llamaPool": "a1371c8f-592f-56d4-a506-7f1530f35a00",
       "paused": false,
       "pauseNote": "",
-      "rewards": null
+      "rewards": null,
+      "hidden": true
     }
   ]
 }

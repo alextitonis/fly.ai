@@ -1,15 +1,12 @@
 {
   "meta": {
     "title": "Earn: presta USDG desde tu propia wallet",
-    "description": "Presta USDG en Robinhood Chain desde tu propia wallet en Steakhouse USDG (Morpho) o Spark Savings USDG. Tasas en vivo, comisión del 1% al depositar, retiros gratis."
+    "description": "Presta USDG en Robinhood Chain desde tu propia wallet en Steakhouse USDG de Morpho, pagando con USDG, ETH o $FLYAI. Tasa en vivo, comisión del 1% al depositar, retiros gratis."
   },
   "head": {
     "eyebrow": "Earn",
     "title": "Presta USDG, gana intereses",
-    "lede": "Pon a trabajar tus USDG ociosos en los vaults de préstamo más profundos de Robinhood Chain, directamente desde tu propia wallet. Las participaciones del vault son tuyas, en tu wallet: fly.ai nunca custodia tu dinero. Retira cuando quieras, gratis."
-  },
-  "venues": {
-    "title": "A dónde van tus USDG"
+    "lede": "Pon a trabajar tus USDG, ETH o $FLYAI inactivos en una de las bóvedas de préstamo más profundas de Robinhood Chain, directamente desde tu propia wallet (ETH y $FLYAI se cambian primero a USDG). Las participaciones de la bóveda son tuyas, en tu wallet: fly.ai nunca custodia tu dinero. Retira cuando quieras, gratis."
   },
   "venue": {
     "by": "{protocol} · gestionado por {curator}",
@@ -18,7 +15,6 @@
     "tvl": "Total prestado",
     "redeemable": "Retirable ahora",
     "vault": "Vault",
-    "lend": "Prestar aquí",
     "rewards": "+ ~{pct}% en recompensas, se reclaman aparte",
     "loading": "Cargando…"
   },
@@ -36,7 +32,6 @@
   },
   "box": {
     "title": "Prestar USDG",
-    "venue": "Vault",
     "amount": "Aportas",
     "balance": "Saldo: {amt}",
     "max": "Máx",
@@ -45,20 +40,18 @@
     "noWallet": "No se encontró wallet",
     "lend": "Prestar",
     "paused": "Depósitos pausados",
-    "fund": "Recargar con ETH / FLYAI",
-    "fundHide": "Ocultar el swap",
-    "how": "Las wallets que agrupan llamadas firman una vez; las demás piden tres veces: aprobar el importe exacto, prestar y luego la comisión."
-  },
-  "fund": {
-    "title": "Consigue USDG",
-    "lede": "Cambia ETH o $FLYAI a USDG en tu wallet (Relay, comisión de interfaz del 0,25%). Cuando llegue, el importe se rellena arriba.",
-    "pay": "Pagas",
-    "get": "Recibes (aprox.)"
+    "how": "Las wallets que agrupan llamadas firman una vez; las demás piden tres veces: aprobar el importe exacto, prestar y luego la comisión.",
+    "into": "Prestar en {venue}",
+    "breakdownSwap": "Pagas {pay} {sym} → unos {usdg} USDG → prestas {net} USDG · comisión {fee} USDG (1%)",
+    "swapNote": "Dos pasos: Relay cambia tu {sym} a USDG (comisión de swap del 0,25%, ya incluida en la cotización) y luego se presta el USDG que llegó. Si cancelas el préstamo, el USDG simplemente se queda en tu wallet.",
+    "quoting": "Obteniendo una cotización del swap…",
+    "noQuote": "Ahora no hay cotización del swap. Prueba con otro importe.",
+    "swapLend": "Cambiar {sym} y prestar"
   },
   "msg": {
     "enterAmount": "Primero introduce un importe.",
     "min": "El depósito mínimo es {min} USDG.",
-    "tooMuch": "Es más USDG del que tiene tu wallet.",
+    "tooMuch": "Es más de lo que tiene tu wallet.",
     "checking": "Comprobando el vault en la cadena…",
     "wrongAsset": "Este vault ya no acepta USDG. No se envió nada.",
     "overCap": "Este vault puede aceptar {max} USDG ahora mismo. Prueba con un importe menor.",
@@ -74,7 +67,13 @@
     "viewTx": "Ver transacción",
     "withdrawn": "Retirado a tu wallet.",
     "onlyX": "Ahora solo se pueden retirar {amt} USDG; el resto se libera a medida que se devuelven los préstamos.",
-    "notEnough": "Tienes {amt} USDG en este vault."
+    "notEnough": "Tienes {amt} USDG en este vault.",
+    "swapConfirm": "Swap: confirma en tu wallet ({n} de {of})…",
+    "swapWaiting": "Esperando a que llegue el USDG…",
+    "swapped": "Swap hecho: llegaron {amt} USDG. Prestándolos ahora…",
+    "swapKept": "El swap se completó, así que {amt} USDG están en tu wallet y simplemente se quedan ahí. Préstalos desde la pestaña USDG cuando quieras.",
+    "swapSmall": "El swap se completó, pero {amt} USDG está por debajo del mínimo de {min} USDG para prestar. Se queda en tu wallet.",
+    "notArrived": "El swap se completó, pero el USDG aún no aparece. Revisa tu wallet y luego préstalo desde la pestaña USDG."
   },
   "pos": {
     "title": "Tus posiciones",
@@ -96,8 +95,8 @@
   },
   "about": {
     "title": "Conviene saber",
-    "fees": "<b>Comisiones.</b> El 1% de cada depósito va a la wallet de desarrollo de fly.ai, cobrado en el mismo flujo desde tu wallet. Los retiros son gratis. Prestar aquí es lo mismo que prestar directamente en Morpho o Spark; la comisión paga las tasas en un solo lugar, la recarga con ETH y $FLYAI y los interruptores de seguridad de fly.ai.",
-    "checks": "<b>Antes de que firmes</b>, la página revisa cada llamada: solo Robinhood Chain, solo USDG y los dos vaults de arriba, una aprobación por el importe exacto (nunca ilimitada), el depósito a nombre de tu propia wallet y una comisión de exactamente el 1%.",
+    "fees": "<b>Comisiones.</b> El 1% de cada depósito va a la wallet de desarrollo de fly.ai, cobrado en el mismo flujo desde tu wallet. Los retiros son gratis. Prestar aquí es lo mismo que prestar directamente en Morpho; la comisión paga la tasa en un solo lugar, poder pagar con ETH o $FLYAI y los interruptores de seguridad de fly.ai. Pagar con ETH o $FLYAI añade el swap de Relay con su comisión del 0,25%.",
+    "checks": "<b>Antes de que firmes</b>, la página revisa cada llamada: solo Robinhood Chain, solo USDG y el vault de arriba, una aprobación por el importe exacto (nunca ilimitada), el depósito a nombre de tu propia wallet y una comisión de exactamente el 1%. Un swap se revisa igual que en la caja de swap de la página del token.",
     "pause": "<b>Interruptores de seguridad.</b> fly.ai pausa los depósitos nuevos en un vault si baja el precio de su participación, si se pueden retirar menos de 5 M$ o si los depósitos caen más de un 20% en un día. Una pausa nunca bloquea los retiros.",
     "risk": "<b>Riesgos.</b> Prestar da una tasa variable y tiene riesgos: el colateral de los prestatarios puede no cubrir un préstamo, los contratos inteligentes pueden tener errores y USDG podría perder su paridad. Presta solo lo que puedas permitirte dejar bloqueado."
   }

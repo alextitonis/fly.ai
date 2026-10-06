@@ -1,7 +1,9 @@
 /**
  * Earn (docs/earn.html; plan: flytrade/EARN-PAGE-PLAN.md, 2026-10-06). Anyone lends USDG from their own wallet into
- * the two allow-listed ERC-4626 vaults on Robinhood Chain (Steakhouse USDG on Morpho, Spark Savings USDG). Nothing of
- * ours ever holds the money: the vault shares are minted to the visitor's own wallet.
+ * an allow-listed ERC-4626 vault on Robinhood Chain. 2026-10-07 (the user): ONE venue on the page, Steakhouse USDG
+ * (Morpho), no picker; the box takes USDG, ETH or FLYAI (tabs). ETH/FLYAI are swapped to USDG first through Relay
+ * (buy.js window.flyRelay: the same quote and check_steps as the token page's box), then the USDG that arrived is lent
+ * in the same flow. Nothing of ours ever holds the money: the vault shares are minted to the visitor's own wallet.
  *
  * The 1% fee (FEE_BPS, to FEE_TO, the swap box's dev wallet) is a plain USDG transfer from the visitor's wallet in the
  * same flow, in the order approve(exact amount - fee) -> deposit(amount - fee, receiver = you) -> fee. A wallet that
@@ -39,7 +41,7 @@
   const SEL = {
     approve: "0x095ea7b3", transfer: "0xa9059cbb", deposit: "0x6e553f65", redeem: "0xba087652", withdraw: "0xb460af94",
     balanceOf: "0x70a08231", convertToAssets: "0x07a2d13a", maxDeposit: "0x402d267d", maxWithdraw: "0xce96cb77",
-    asset: "0x38d52e0f", totalAssets: "0x01e1d114", vsr: "0x1e7b14d3", aggregate3: "0x82ad56cb",
+    asset: "0x38d52e0f", totalAssets: "0x01e1d114", vsr: "0x1e7b14d3", aggregate3: "0x82ad56cb", getEthBalance: "0x4d2301cc",
   };
   const TOPIC_DEPOSIT = "0xdcbc1c05240f31ff3ad067ef1ee35ce4997762752e3a095284754544f4c709d7";   // Deposit(address,address,uint256,uint256)
   const TOPIC_WITHDRAW = "0xfbde797d201c681b91056529119e0b02407c7bb96a4a2c75c01fc9667232c8db";  // Withdraw(address,address,address,uint256,uint256)
@@ -67,7 +69,16 @@
     convertToAssets: (shares) => call(SEL.convertToAssets, uintWord(shares)),
     maxDeposit: (who) => call(SEL.maxDeposit, addrWord(who)),
     maxWithdraw: (who) => call(SEL.maxWithdraw, addrWord(who)),
+    getEthBalance: (who) => call(SEL.getEthBalance, addrWord(who)),   // Multicall3's, for the ETH tab's balance
   };
+  // the box's tabs: what the visitor pays with (ETH and FLYAI go through a Relay swap to USDG first)
+  const TOKENS = {
+    USDG: { address: USDG, decimals: USDG_DECIMALS },
+    ETH: { address: "0x0000000000000000000000000000000000000000", decimals: 18, native: true },
+    FLYAI: { address: "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C", decimals: 18 },
+  };
+  /** What a swap delivered: the USDG balance after minus before (never the quote's promise). */
+  const arrived = (before, after) => (after > before ? after - before : 0n);
 
   /** "0x<sel><words>" -> { sel, words: [bigint] }; refuses anything that isn't whole 32-byte words. */
   function decodeCall(data) {
@@ -200,8 +211,6 @@
   }
   /** Share-price growth p0 -> p1 over `seconds` -> APY. */
   const apyFromPrices = (p0, p1, seconds) => (p0 > 0 && p1 > 0 && seconds > 0 ? Math.pow(p1 / p0, YEAR / seconds) - 1 : null);
-  /** How many months of interest the 1% fee equals at `rate` (an APY, e.g. 0.039). */
-  const feeMonths = (rate) => (rate > 0 ? Math.max(1, Math.round((Number(FEE_BPS) / 10000 / rate) * 12)) : null);
 
   /**
    * Why a venue's deposits are paused (empty = open). Withdrawals are never paused.
@@ -232,9 +241,9 @@
   }
 
   const core = {
-    CHAIN, CHAIN_HEX, USDG, FEE_TO, FEE_BPS, MIN_DEPOSIT, MULTICALL, ALLOWED, SEL, TOPIC_DEPOSIT, TOPIC_WITHDRAW,
+    CHAIN, CHAIN_HEX, USDG, FEE_TO, TOKENS, arrived, FEE_BPS, MIN_DEPOSIT, MULTICALL, ALLOWED, SEL, TOPIC_DEPOSIT, TOPIC_WITHDRAW,
     units, decimalOf, feeOf, vaultOf, enc, decodeCall, buildDeposit, checkDeposit, buildWithdraw, checkWithdraw,
-    checkFeeOnly, encodeAggregate3, decodeAggregate3, apyFromVsr, apyFromPrices, feeMonths, pauseReasons, netFromLogs,
+    checkFeeOnly, encodeAggregate3, decodeAggregate3, apyFromVsr, apyFromPrices, pauseReasons, netFromLogs,
   };
   if (typeof module === "object" && module.exports) { module.exports = core; return; }
   if (typeof document === "undefined") return;
@@ -386,19 +395,20 @@
 
   // ---- wallet ----
   let wallet = null, watchOnly = false, busy = false;
-  let usdgBal = null;
+  let bals = { USDG: null, ETH: null, FLYAI: null };       // the tabs' balances (base units)
   let positions = {};                                     // venue id -> { shares, value, maxWithdraw, net }
   let posAt = 0, posFor = "";
 
   async function readWallet(w) {
-    const calls = [{ target: USDG, data: enc.balanceOf(w) }];
+    const calls = [{ target: USDG, data: enc.balanceOf(w) }, { target: MULTICALL, data: enc.getEthBalance(w) },
+      { target: TOKENS.FLYAI.address, data: enc.balanceOf(w) }];
     for (const v of venues) {
       v.widx = calls.length;
       calls.push({ target: v.cfg.address, data: enc.balanceOf(w) });
       if (v.meta.kind === "spark") calls.push({ target: v.cfg.address, data: enc.maxWithdraw(w) }, { target: v.cfg.address, data: enc.maxDeposit(w) });
     }
     const r = await readMany(calls);
-    const bal = big(r[0]);
+    const bal = { USDG: big(r[0]), ETH: big(r[1]), FLYAI: big(r[2]) };
     const pos = {};
     const second = [];
     for (const v of venues) {
@@ -462,46 +472,35 @@
   }
   const row = (k, v) => el("div", { class: "row" }, el("span", { class: "k", text: k }), el("span", { class: "v" }, v));
 
-  let selected = null;                                    // venue id in the box
+  let selected = null;                                    // the one venue's id
   const venueById = (id) => venues.find((v) => v.cfg.id === id);
   const isPaused = (v) => !v.state || v.state.why.length > 0;
 
+  /** The venue's facts, compact, at the top of the lend box: name, status, base rate, 30-day avg, withdrawable, link. */
   function renderVenues() {
-    const host = $("earn-venues");
+    const host = $("earn-venue-info");
     host.textContent = "";
-    for (const v of venues) {
-      const s = v.state;
-      const paused = isPaused(v);
-      const card = el("div", { class: "card pad earn-venue" + (v.cfg.id === selected ? " on" : ""), "data-venue": v.cfg.id });
-      const status = !s ? el("span", { class: "earn-pill", text: tr("venue.loading") })
-        : paused ? el("span", { class: "earn-pill warn", text: tr("status.paused") })
-        : el("span", { class: "earn-pill ok", text: tr("status.live") });
-      card.append(el("div", { class: "earn-vhead" }, el("div", null, el("h3", { text: v.cfg.name }),
-        el("p", { class: "earn-by", text: tr("venue.by", { protocol: v.cfg.protocol, curator: v.cfg.curator }) })), status));
-      card.append(el("div", { class: "earn-rate" }, el("strong", { text: s ? pct(s.rate) : "–" }), el("span", { text: tr("venue.rateNow") })));
-      // the rewards line only once a working Claim exists (EARN-PAGE-PLAN.md §4b); config "rewards" stays null until then
-      if (v.cfg.rewards && v.cfg.rewards.claim && v.cfg.rewards.pct) card.append(el("p", { class: "earn-rewards", text: tr("venue.rewards", { pct: fmt(v.cfg.rewards.pct, 1) }) }));
-      const spec = el("div", { class: "specimen earn-spec" },
-        row(tr("venue.avg30"), s ? pct(s.avg30) : "–"),
-        row(tr("venue.tvl"), s ? usd(s.tvlNow) : "–"),
-        row(tr("venue.redeemable"), s ? usd(s.liquidityUsd) : "–"),
-        row(tr("venue.vault"), el("a", { href: EXPLORER + "/address/" + v.cfg.address, target: "_blank", rel: "noopener", text: v.cfg.address.slice(0, 6) + "…" + v.cfg.address.slice(-4) + " ↗" })));
-      card.append(spec);
-      if (s && paused) {
-        const why = s.why.map((k) => tr("status.why." + k)).join(" · ");
-        card.append(el("p", { class: "earn-paused" }, el("b", { text: tr("status.pausedNote") }), " " + why + (v.cfg.pauseNote ? " · " + v.cfg.pauseNote : "")));
-      }
-      card.append(el("button", { class: "btn sm" + (paused ? "" : " red"), type: "button", text: tr("venue.lend"),
-        on: { click: () => { selectVenue(v.cfg.id); $("earn-box").scrollIntoView({ behavior: "smooth", block: "start" }); } } }));
-      host.append(card);
+    const v = venueById(selected);
+    if (!v) { renderBox(); return; }
+    const s = v.state;
+    const paused = isPaused(v);
+    const status = !s ? el("span", { class: "earn-pill", text: tr("venue.loading") })
+      : paused ? el("span", { class: "earn-pill warn", text: tr("status.paused") })
+      : el("span", { class: "earn-pill ok", text: tr("status.live") });
+    const link = el("a", { href: EXPLORER + "/address/" + v.cfg.address, target: "_blank", rel: "noopener", text: v.cfg.address.slice(0, 6) + "…" + v.cfg.address.slice(-4) + " ↗" });
+    host.append(
+      el("div", { class: "earn-vhead" }, el("div", null, el("h3", { text: tr("box.into", { venue: v.cfg.name }) }),
+        el("p", { class: "earn-by", text: tr("venue.by", { protocol: v.cfg.protocol, curator: v.cfg.curator }) })), status),
+      el("div", { class: "earn-rate" }, el("strong", { text: s ? pct(s.rate) : "–" }), el("span", { text: tr("venue.rateNow") })));
+    // the rewards line only once a working Claim exists (EARN-PAGE-PLAN.md §4b); config "rewards" stays null until then
+    if (v.cfg.rewards && v.cfg.rewards.claim && v.cfg.rewards.pct) host.append(el("p", { class: "earn-rewards", text: tr("venue.rewards", { pct: fmt(v.cfg.rewards.pct, 1) }) }));
+    host.append(el("p", { class: "earn-facts" },
+      tr("venue.avg30") + " " + (s ? pct(s.avg30) : "–") + " · " + tr("venue.tvl") + " " + (s ? usd(s.tvlNow) : "–")
+      + " · " + tr("venue.redeemable") + " " + (s ? usd(s.liquidityUsd) : "–") + " · " + tr("venue.vault") + " ", link));
+    if (s && paused) {
+      const why = s.why.map((k) => tr("status.why." + k)).join(" · ");
+      host.append(el("p", { class: "earn-paused" }, el("b", { text: tr("status.pausedNote") }), " " + why + (v.cfg.pauseNote ? " · " + v.cfg.pauseNote : "")));
     }
-    renderBox();
-  }
-
-  function selectVenue(id) {
-    selected = id;
-    $("earn-venue").value = id;
-    for (const c of document.querySelectorAll(".earn-venue")) c.classList.toggle("on", c.dataset.venue === id);
     renderBox();
   }
 
@@ -512,20 +511,85 @@
     if (hash) m.append(el("a", { href: EXPLORER + "/tx/" + hash, target: "_blank", rel: "noopener", text: " " + tr("msg.viewTx") }));
   }
 
+  // ---- the tabs: pay with USDG (lend directly) or ETH / FLYAI (Relay swap to USDG, then lend what arrived) ----
+  let tab = "USDG";
+  let quote = null, quoteKey = "", quoteTimer = null;      // the swap preview (ETH/FLYAI tabs)
+  const PREVIEW_USER = "0x000000000000000000000000000000000000dEaD";
+  const GAS_KEEP = 5n * 10n ** 14n;                         // Max on ETH leaves 0.0005 ETH for the swap's and the lend's gas
+  const fracOf = (sym) => (sym === "USDG" ? 6 : sym === "ETH" ? 8 : 4);
+
+  function setTab(name) {
+    if (!TOKENS[name] || name === tab) return;
+    tab = name;
+    for (const b of document.querySelectorAll("#earn-tabs [data-tab]")) {
+      const on = b.dataset.tab === name;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-selected", String(on));
+    }
+    $("earn-sym").textContent = name;
+    $("earn-amount").value = name === "USDG" ? "100" : name === "ETH" ? "0.01" : "100000";
+    quote = null; quoteKey = "";
+    boxMsg("");
+    renderBox();
+    requote();
+  }
+  function usePct(p) {
+    const bal = bals[tab];
+    if (bal == null) return;
+    let amt = bal * BigInt(p) / 100n;
+    if (tab === "ETH" && p === 100) amt = amt > GAS_KEEP ? amt - GAS_KEEP : 0n;
+    $("earn-amount").value = decimalOf(amt, TOKENS[tab].decimals, fracOf(tab));
+    renderBox();
+    requote();
+  }
+  /** The swap preview: a Relay quote for the amount (as the visitor if signed in), debounced. */
+  function requote() {
+    clearTimeout(quoteTimer);
+    if (tab === "USDG") return;
+    quoteTimer = setTimeout(async () => {
+      const tok = TOKENS[tab], amount = units($("earn-amount").value, tok.decimals);
+      quote = null;
+      if (!amount || amount <= 0n || !window.flyRelay) { renderBox(); return; }
+      const key = tab + ":" + amount;
+      quoteKey = key;
+      renderBox();
+      try {
+        const q = await window.flyRelay.quote(wallet || PREVIEW_USER, tok.address, USDG, amount);
+        if (quoteKey !== key) return;
+        quote = q;
+      } catch (e) {
+        if (quoteKey === key) quote = { error: true };
+      }
+      renderBox();
+    }, 400);
+  }
+  const quotedOut = (q) => { try { return BigInt(q.details.currencyOut.amount); } catch (e) { return null; } };
+
   function renderBox() {
     const v = venueById(selected);
-    const amount = units($("earn-amount").value, USDG_DECIMALS);
+    const tok = TOKENS[tab];
+    const amount = units($("earn-amount").value, tok.decimals);
+    let line = "";
     if (amount && amount > 0n) {
-      const fee = feeOf(amount);
-      $("earn-breakdown").textContent = tr("box.breakdown", { net: usdgText(amount - fee), fee: usdgText(fee) });
-    } else $("earn-breakdown").textContent = "";
-    const rate = v && v.state && v.state.rate;
-    $("earn-balrow").hidden = usdgBal == null;
-    if (usdgBal != null) $("earn-bal").textContent = tr("box.balance", { amt: usdgText(usdgBal) + " USDG" });
+      if (tab === "USDG") {
+        const fee = feeOf(amount);
+        line = tr("box.breakdown", { net: usdgText(amount - fee), fee: usdgText(fee) });
+      } else if (quote && quote.error) line = tr("box.noQuote");
+      else if (quote && quotedOut(quote) != null) {
+        const out = quotedOut(quote), fee = feeOf(out);
+        line = tr("box.breakdownSwap", { pay: $("earn-amount").value.trim(), sym: tab, usdg: usdgText(out), net: usdgText(out - fee), fee: usdgText(fee) });
+      } else line = tr("box.quoting");
+    }
+    $("earn-breakdown").textContent = line;
+    $("earn-swapnote").hidden = tab === "USDG";
+    $("earn-swapnote").textContent = tab === "USDG" ? "" : tr("box.swapNote", { sym: tab });
+    const bal = bals[tab];
+    $("earn-balrow").hidden = bal == null;
+    if (bal != null) $("earn-bal").textContent = tr("box.balance", { amt: fmt(Number(decimalOf(bal, tok.decimals, 8)), tab === "USDG" ? 2 : tab === "ETH" ? 6 : 0) + " " + tab });
     const go = $("earn-go");
     if (!wallet || watchOnly) { go.textContent = acct || window.ethereum ? tr("box.connect") : tr("box.noWallet"); go.disabled = busy; }
     else if (v && isPaused(v)) { go.textContent = tr("box.paused"); go.disabled = true; }
-    else { go.textContent = tr("box.lend"); go.disabled = busy || !v || !v.state; }
+    else { go.textContent = tab === "USDG" ? tr("box.lend") : tr("box.swapLend", { sym: tab }); go.disabled = busy || !v || !v.state; }
   }
 
   function renderPositions() {
@@ -609,13 +673,13 @@
     return true;
   }
   async function refreshWallet(force) {
-    if (!wallet) { usdgBal = null; positions = {}; posFor = ""; renderBox(); renderPositions(); return; }
+    if (!wallet) { bals = { USDG: null, ETH: null, FLYAI: null }; positions = {}; posFor = ""; renderBox(); renderPositions(); return; }
     const w = wallet;
     if (!force && posFor === w.toLowerCase() && Date.now() - posAt < TTL) return;
     try {
       const r = await readWallet(w);
       if (wallet !== w) return;
-      usdgBal = r.bal; positions = r.pos; posFor = w.toLowerCase(); posAt = Date.now();
+      bals = r.bal; positions = r.pos; posFor = w.toLowerCase(); posAt = Date.now();
     } catch (e) {
       if (wallet === w) { posFor = w.toLowerCase(); positions = {}; }
     }
@@ -650,8 +714,9 @@
   function setWallet(w, watch) {
     const changed = (w || "").toLowerCase() !== (wallet || "").toLowerCase();
     wallet = w; watchOnly = !!watch;
-    if (changed) { usdgBal = null; positions = {}; posFor = ""; }
+    if (changed) { bals = { USDG: null, ETH: null, FLYAI: null }; positions = {}; posFor = ""; }
     renderBox();
+    requote();
     renderPositions();
     refreshWallet(changed);
   }
@@ -721,9 +786,10 @@
   async function sendOne(tx) {
     for (let attempt = 0; ; attempt++) {
       try {
-        if (acct) return await acct.transact(tx.to, tx.data, () => {}, CHAIN);
+        const value = tx.value && BigInt(tx.value) > 0n ? "0x" + BigInt(tx.value).toString(16) : undefined;
+        if (acct) return await acct.transact(tx.to, tx.data, () => {}, CHAIN, value);
         await ensureChain(window.ethereum);
-        return await window.ethereum.request({ method: "eth_sendTransaction", params: [{ from: wallet, to: tx.to, data: tx.data, value: "0x0", chainId: CHAIN_HEX }] });
+        return await window.ethereum.request({ method: "eth_sendTransaction", params: [{ from: wallet, to: tx.to, data: tx.data, value: value || "0x0", chainId: CHAIN_HEX }] });
       } catch (e) {
         const why = String((e && (e.shortMessage || e.details || e.message)) || e);
         if (attempt >= 4 || !/nonce/i.test(why)) throw e;
@@ -743,69 +809,127 @@
   }
 
   // ---- lend ----
+  class Stop extends Error {}                               // a refusal already in words
+
+  /** Approve -> deposit -> fee for `amount` USDG, every check first. Throws Stop with the words, or the wallet's error. */
+  async function depositUsdg(v, amount, user) {
+    boxMsg(tr("msg.checking"));
+    const reads = [{ target: v.cfg.address, data: SEL.asset }, { target: USDG, data: enc.balanceOf(user) }];
+    if (v.meta.checkMaxDeposit) reads.push({ target: v.cfg.address, data: enc.maxDeposit(user) });
+    const r = await readMany(reads);
+    if (!same(addrOf(r[0]), USDG)) throw new Stop(tr("msg.wrongAsset"));
+    const bal = big(r[1]);
+    if (bal == null) throw new Stop(tr("msg.readFailed"));
+    if (bal < amount) throw new Stop(tr("msg.tooMuch"));
+    const { fee, net, calls } = buildDeposit({ vault: v.cfg.address, amount, user });
+    if (v.meta.checkMaxDeposit) {                            // Spark-type vaults only (never Steakhouse: VaultV2 says 0)
+      const max = big(r[2]);
+      if (max == null) throw new Stop(tr("msg.readFailed"));
+      if (net > max) throw new Stop(tr("msg.overCap", { max: usdgText(max) }));
+    }
+    try { checkDeposit(calls, { vault: v.cfg.address, amount, user, chainId: CHAIN }); }
+    catch (e) { throw new Stop(tr("msg.checkFailed", { why: e.message })); }
+
+    let last = null, feePaid = false;
+    const eth = await batchWallet();
+    if (eth) {
+      boxMsg(tr("msg.confirmBatch"));
+      const sent = await sendBatch(eth, calls);
+      if (sent) { feePaid = true; last = sent.hash; }      // atomic: all three landed (never re-sent one by one)
+    }
+    if (!feePaid) {
+      for (let i = 0; i < calls.length; i++) {
+        if (i > 0) await sleep(2500);                      // let the wallet's node see the previous step
+        boxMsg(tr("msg.confirm", { n: i + 1, of: calls.length }));
+        try {
+          last = await sendOne(calls[i]);
+          boxMsg(tr("msg.waiting"));
+          await minedOk(last);
+        } catch (e) {
+          if (i === 2) {                                   // the deposit landed; only the fee didn't: re-offer it
+            const l = lsGet(unpaidKey()) || [];
+            l.push({ venue: v.cfg.id, fee: fee.toString(), at: Date.now() });
+            lsSet(unpaidKey(), l);
+            break;
+          }
+          throw e;
+        }
+        if (i === 2) feePaid = true;
+      }
+    }
+    return { feePaid, last };
+  }
+
+  /** ETH/FLYAI -> USDG through Relay (buy.js's quote and checks); resolves with the USDG that actually arrived. */
+  async function swapToUsdg(sym, amount, user) {
+    const tok = TOKENS[sym], relay = window.flyRelay;
+    if (!relay) throw new Stop(tr("box.noQuote"));
+    const before = big((await readMany([{ target: USDG, data: enc.balanceOf(user) }]))[0]);
+    if (before == null) throw new Stop(tr("msg.readFailed"));
+    boxMsg(tr("box.quoting"));
+    let q, txs;
+    try { q = await relay.quote(user, tok.address, USDG, amount); } catch (e) { throw new Stop(tr("box.noQuote")); }
+    try { txs = await relay.check(q, tok.address, !!tok.native, amount); }
+    catch (e) { throw new Stop(tr("msg.checkFailed", { why: e.message })); }
+    for (let i = 0; i < txs.length; i++) {
+      if (i > 0) await sleep(2500);
+      boxMsg(tr("msg.swapConfirm", { n: i + 1, of: txs.length }));
+      const h = await sendOne(txs[i]);
+      boxMsg(tr("msg.waiting"));
+      await minedOk(h);
+    }
+    boxMsg(tr("msg.swapWaiting"));
+    for (let i = 0; i < 15; i++) {                           // the node may lag the receipt by a moment
+      const after = big((await readMany([{ target: USDG, data: enc.balanceOf(user) }]))[0]);
+      const got = after != null ? arrived(before, after) : 0n;
+      if (got > 0n) return got;
+      await sleep(2000);
+    }
+    return 0n;
+  }
+
   async function lend() {
     if (busy) return;
     if (!wallet || watchOnly) { await connect(); return; }
     const v = venueById(selected);
     if (!v || isPaused(v)) return;
-    const amount = units($("earn-amount").value, USDG_DECIMALS);
+    const sym = tab, tok = TOKENS[sym];
+    const amount = units($("earn-amount").value, tok.decimals);
     if (!amount || amount <= 0n) { boxMsg(tr("msg.enterAmount"), "err"); return; }
-    if (amount < MIN_DEPOSIT) { boxMsg(tr("msg.min", { min: decimalOf(MIN_DEPOSIT, USDG_DECIMALS) }), "err"); return; }
+    if (sym === "USDG" && amount < MIN_DEPOSIT) { boxMsg(tr("msg.min", { min: decimalOf(MIN_DEPOSIT, USDG_DECIMALS) }), "err"); return; }
+    if (bals[sym] != null && amount > bals[sym]) { boxMsg(tr("msg.tooMuch"), "err"); return; }
     busy = true; renderBox();
     const user = wallet;
+    let swapped = null;                                      // USDG a swap delivered (it stays in the wallet if the lend stops)
     try {
-      // fresh on-chain checks right before signing
-      boxMsg(tr("msg.checking"));
-      const reads = [{ target: v.cfg.address, data: SEL.asset }, { target: USDG, data: enc.balanceOf(user) }];
-      if (v.meta.checkMaxDeposit) reads.push({ target: v.cfg.address, data: enc.maxDeposit(user) });
-      const r = await readMany(reads);
-      if (!same(addrOf(r[0]), USDG)) { boxMsg(tr("msg.wrongAsset"), "err"); return; }
-      const bal = big(r[1]);
-      if (bal == null) { boxMsg(tr("msg.readFailed"), "err"); return; }
-      if (bal < amount) { boxMsg(tr("msg.tooMuch"), "err"); return; }
-      const { fee, net, calls } = buildDeposit({ vault: v.cfg.address, amount, user });
-      if (v.meta.checkMaxDeposit) {                        // Spark only (never Steakhouse: VaultV2 says 0)
-        const max = big(r[2]);
-        if (max == null) { boxMsg(tr("msg.readFailed"), "err"); return; }
-        if (net > max) { boxMsg(tr("msg.overCap", { max: usdgText(max) }), "err"); return; }
+      if (sym !== "USDG") {
+        // the vault is checked BEFORE swapping, so nobody swaps for a vault that won't take USDG
+        const a = await readMany([{ target: v.cfg.address, data: SEL.asset }]);
+        if (!same(addrOf(a[0]), USDG)) throw new Stop(tr("msg.wrongAsset"));
+        const got = await swapToUsdg(sym, amount, user);
+        if (got === 0n) { boxMsg(tr("msg.notArrived"), "err"); return; }
+        swapped = got;
+        if (got < MIN_DEPOSIT) { boxMsg(tr("msg.swapSmall", { amt: usdgText(got, 6), min: decimalOf(MIN_DEPOSIT, USDG_DECIMALS) }), "err"); return; }
+        boxMsg(tr("msg.swapped", { amt: usdgText(got, 6) }));
+        await sleep(1500);
       }
-      try { checkDeposit(calls, { vault: v.cfg.address, amount, user, chainId: CHAIN }); }
-      catch (e) { boxMsg(tr("msg.checkFailed", { why: e.message }), "err"); return; }
-
-      let last = null, feePaid = false;
-      const eth = await batchWallet();
-      if (eth) {
-        boxMsg(tr("msg.confirmBatch"));
-        const sent = await sendBatch(eth, calls);
-        if (sent) { feePaid = true; last = sent.hash; }      // atomic: all three landed (never re-sent one by one)
-      }
-      if (!feePaid) {
-        for (let i = 0; i < calls.length; i++) {
-          if (i > 0) await sleep(2500);                    // let the wallet's node see the previous step
-          boxMsg(tr("msg.confirm", { n: i + 1, of: calls.length }));
-          try {
-            last = await sendOne(calls[i]);
-            boxMsg(tr("msg.waiting"));
-            await minedOk(last);
-          } catch (e) {
-            if (i === 2) {                                 // the deposit landed; only the fee didn't: re-offer it
-              const l = lsGet(unpaidKey()) || [];
-              l.push({ venue: v.cfg.id, fee: fee.toString(), at: Date.now() });
-              lsSet(unpaidKey(), l);
-              break;
-            }
-            throw e;
-          }
-          if (i === 2) feePaid = true;
-        }
-      }
+      const { feePaid, last } = await depositUsdg(v, swapped != null ? swapped : amount, user);
+      swapped = null;
       boxMsg(feePaid ? tr("msg.done") : tr("msg.doneNoFee"), "ok", last);
-      await refreshWallet(true);
     } catch (e) {
-      const why = errText(e);
-      boxMsg(cancelledErr(e, why) ? tr("msg.cancelled") : tr("msg.failed", { why }), "err");
+      const why = e instanceof Stop ? e.message : errText(e);
+      const text = e instanceof Stop ? e.message : cancelledErr(e, why) ? tr("msg.cancelled") : tr("msg.failed", { why });
+      if (swapped) {                                         // the swap landed, the lend didn't: say so plainly
+        const kept = swapped;
+        tab = "";                                            // show the USDG tab with what arrived, ready to lend
+        setTab("USDG");
+        $("earn-amount").value = decimalOf(kept, USDG_DECIMALS, 6);
+        boxMsg(text + " " + tr("msg.swapKept", { amt: usdgText(kept, 6) }), "err");
+      } else boxMsg(text, "err");
     } finally {
-      busy = false; renderBox(); renderPositions();
+      busy = false;
+      await refreshWallet(true);
+      renderBox(); renderPositions();
     }
   }
 
@@ -894,30 +1018,15 @@
     } catch (e) {
       config = { rules: {}, venues: [] };
     }
-    venues = (config.venues || []).filter((c) => vaultOf(c.address)).map((cfg) => ({ cfg, meta: vaultOf(cfg.address), state: null }));
-    const sel = $("earn-venue");
-    for (const v of venues) sel.append(el("option", { value: v.cfg.id, text: v.cfg.name }));
+    // one venue on the page (2026-10-07): the first allow-listed, not-hidden one (Steakhouse USDG). Spark stays in the
+    // JSON as "hidden" and is never shown, offered or read.
+    venues = (config.venues || []).filter((c) => vaultOf(c.address) && !c.hidden).slice(0, 1)
+      .map((cfg) => ({ cfg, meta: vaultOf(cfg.address), state: null }));
     selected = venues.length ? venues[0].cfg.id : null;
-    sel.addEventListener("change", () => selectVenue(sel.value));
-    $("earn-amount").addEventListener("input", renderBox);
-    for (const b of document.querySelectorAll("#earn-box [data-pct]")) b.addEventListener("click", () => {
-      if (usdgBal == null) return;
-      $("earn-amount").value = decimalOf(usdgBal * BigInt(b.dataset.pct) / 100n, USDG_DECIMALS, 6);
-      renderBox();
-    });
+    $("earn-amount").addEventListener("input", () => { renderBox(); requote(); });
+    for (const b of document.querySelectorAll("#earn-tabs [data-tab]")) b.addEventListener("click", () => setTab(b.dataset.tab));
+    for (const b of document.querySelectorAll("#earn-box [data-pct]")) b.addEventListener("click", () => usePct(Number(b.dataset.pct)));
     $("earn-go").addEventListener("click", lend);
-    $("earn-fund").addEventListener("click", () => {
-      const box = $("buy"), open = box.hidden;
-      box.hidden = !open;
-      $("earn-fund").textContent = open ? tr("box.fundHide") : tr("box.fund");
-      $("earn-fund").setAttribute("aria-expanded", String(open));
-    });
-    // buy.js (into-USDG mode) says when a swap landed: fill in what arrived
-    window.addEventListener("buy:done", (e) => {
-      const got = e.detail && e.detail.out;
-      if (got && got.symbol === "USDG" && got.amount) $("earn-amount").value = decimalOf(BigInt(got.amount), USDG_DECIMALS, 6);
-      refreshWallet(true);
-    });
     renderVenues();
     renderPositions();
     // read-only preview of any address (for checking the page): ?watch=0x...

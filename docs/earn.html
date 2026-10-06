@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en" data-i18n-ns="earn token">
+<html lang="en" data-i18n-ns="earn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title data-i18n="earn.meta.title">Earn: lend USDG from your own wallet</title>
-<meta name="description" content="Lend USDG on Robinhood Chain from your own wallet into Steakhouse USDG (Morpho) or Spark Savings USDG. Live rates, a 1% fee on deposits, free withdrawals." data-i18n-attr="content:earn.meta.description">
+<meta name="description" content="Lend USDG on Robinhood Chain from your own wallet into Steakhouse USDG on Morpho, paying with USDG, ETH or $FLYAI. Live rates, a 1% fee on deposits, free withdrawals." data-i18n-attr="content:earn.meta.description">
 <meta property="og:title" content="Earn: lend USDG from your own wallet">
-<meta property="og:description" content="Lend USDG on Robinhood Chain from your own wallet into Steakhouse USDG (Morpho) or Spark Savings USDG. Live rates, a 1% fee on deposits, free withdrawals.">
+<meta property="og:description" content="Lend USDG on Robinhood Chain from your own wallet into Steakhouse USDG on Morpho, paying with USDG, ETH or $FLYAI. Live rates, a 1% fee on deposits, free withdrawals.">
 <meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@flydotai">
@@ -30,28 +30,22 @@
   <div class="wrap">
     <p class="eyebrow" data-i18n="earn.head.eyebrow">Earn</p>
     <h1 data-i18n="earn.head.title">Lend USDG, earn interest</h1>
-    <p class="lede" data-i18n="earn.head.lede">Put idle USDG to work in the deepest lending vaults on Robinhood Chain, straight from your own wallet. The vault shares are yours, in your wallet: fly.ai never holds your money. Withdraw any time, for free.</p>
+    <p class="lede" data-i18n="earn.head.lede">Put idle USDG, ETH or $FLYAI to work in one of the deepest lending vaults on Robinhood Chain, straight from your own wallet (ETH and $FLYAI are swapped to USDG first). The vault shares are yours, in your wallet: fly.ai never holds your money. Withdraw any time, for free.</p>
   </div>
 </header>
 <section id="earn" class="firstsec earn">
   <div class="wrap">
-    <h3 class="earn-h" data-i18n="earn.venues.title">Where your USDG goes</h3>
-    <div class="grid2 earn-venues" id="earn-venues"></div>
-
     <div class="card pad buybox earn-box" id="earn-box">
-      <div class="buy-top">
-        <h3 data-i18n="earn.box.title">Lend USDG</h3>
-        <span class="buy-pick">
-          <span data-i18n="earn.box.venue">Vault</span>
-          <select id="earn-venue" class="buy-dir" aria-label="Vault"></select>
-        </span>
+      <div id="earn-venue-info" class="earn-venue-info" aria-live="polite"></div>
+      <div class="earn-tabs" id="earn-tabs" role="tablist" aria-label="Pay with">
+        <button type="button" role="tab" data-tab="USDG" class="on" aria-selected="true">USDG</button><button type="button" role="tab" data-tab="ETH" aria-selected="false">ETH</button><button type="button" role="tab" data-tab="FLYAI" aria-selected="false">FLYAI</button>
       </div>
       <div class="buy-row earn-row">
         <label class="buy-in">
           <span data-i18n="earn.box.amount">You put in</span>
           <span class="buy-field">
             <input id="earn-amount" type="text" inputmode="decimal" autocomplete="off" value="100" aria-label="Amount">
-            <span class="buy-sym">USDG</span>
+            <span class="buy-sym" id="earn-sym">USDG</span>
           </span>
           <span class="buy-balrow" id="earn-balrow" hidden>
             <span class="buy-bal" id="earn-bal"></span>
@@ -62,49 +56,12 @@
         </label>
       </div>
       <p class="earn-breakdown" id="earn-breakdown"></p>
+      <p class="earn-swapnote" id="earn-swapnote" hidden></p>
       <div class="buy-act">
         <button class="btn red" id="earn-go" type="button">Connect wallet</button>
-        <button class="btn sm" id="earn-fund" type="button" aria-expanded="false" aria-controls="buy" data-i18n="earn.box.fund">Fund with ETH / FLYAI</button>
       </div>
       <p class="buy-msg" id="earn-msg" aria-live="polite"></p>
       <p class="earn-muted small" data-i18n="earn.box.how">Wallets that batch calls sign once; others ask three times: approve the exact amount, lend, then the fee.</p>
-
-      <!-- the token page's swap box (assets/buy.js) in into-USDG mode -->
-      <div class="buybox earn-fundbox" id="buy" data-into="USDG" hidden>
-        <div class="buy-top">
-          <h3 data-i18n="earn.fund.title">Get USDG</h3>
-          <span class="buy-pick">
-            <select id="buy-pay" class="buy-dir" aria-label="Token"><option value="ETH">ETH</option><option value="FLYAI">$FLYAI</option></select>
-            <span>&rarr; USDG</span>
-          </span>
-        </div>
-        <p class="buy-lede" data-i18n="earn.fund.lede">Swap ETH or $FLYAI to USDG in your wallet (Relay, 0.25% interface fee). When it lands, the amount is filled in above.</p>
-        <div class="buy-row">
-          <label class="buy-in">
-            <span data-i18n="earn.fund.pay">You pay</span>
-            <span class="buy-field">
-              <input id="buy-amount" type="text" inputmode="decimal" autocomplete="off" value="0.01" aria-label="Amount">
-              <span class="buy-sym" id="buy-paysym">ETH</span>
-            </span>
-            <span class="buy-balrow" id="buy-balrow" hidden>
-              <span class="buy-bal" id="buy-bal"></span>
-              <span class="buy-pcts">
-                <button type="button" data-pct="25">25%</button><button type="button" data-pct="50">50%</button><button type="button" data-pct="75">75%</button><button type="button" data-pct="100" data-i18n="earn.box.max">Max</button>
-              </span>
-            </span>
-          </label>
-          <div class="buy-in">
-            <span data-i18n="earn.fund.get">You get (about)</span>
-            <strong id="buy-out" class="buy-out">&ndash;</strong>
-          </div>
-        </div>
-        <p class="buy-detail" id="buy-detail"></p>
-        <div class="buy-act">
-          <button class="btn red" id="buy-go" type="button">Connect wallet</button>
-          <span class="buy-fee" id="buy-fee"></span>
-        </div>
-        <p class="buy-msg" id="buy-msg" aria-live="polite"></p>
-      </div>
     </div>
 
     <div class="card pad earn-unpaid" id="earn-unpaid" hidden></div>
@@ -115,8 +72,8 @@
 
     <div class="card pad earn-about">
       <h3 data-i18n="earn.about.title">Good to know</h3>
-      <p data-i18n-html="earn.about.fees"><b>Fees.</b> 1% of each deposit goes to the fly.ai dev wallet, taken in the same flow from your wallet. Withdrawals are free. Lending here is the same as lending on Morpho or Spark directly; the fee pays for the rates in one place, the ETH and $FLYAI funding path, and fly.ai's safety switches.</p>
-      <p data-i18n-html="earn.about.checks"><b>Before you sign</b>, the page checks every call: Robinhood Chain only, only USDG and the two vaults above, an approval for the exact amount (never unlimited), the deposit in your own wallet's name and a fee of exactly 1%.</p>
+      <p data-i18n-html="earn.about.fees"><b>Fees.</b> 1% of each deposit goes to the fly.ai dev wallet, taken in the same flow from your wallet. Withdrawals are free. Lending here is the same as lending on Morpho directly; the fee pays for the rate in one place, paying with ETH or $FLYAI, and fly.ai's safety switches. Paying with ETH or $FLYAI adds Relay's swap with its 0.25% fee.</p>
+      <p data-i18n-html="earn.about.checks"><b>Before you sign</b>, the page checks every call: Robinhood Chain only, only USDG and the vault above, an approval for the exact amount (never unlimited), the deposit in your own wallet's name and a fee of exactly 1%. A swap is checked the same way as the token page's swap box.</p>
       <p data-i18n-html="earn.about.pause"><b>Safety switches.</b> fly.ai pauses new deposits into a vault if its share price falls, if less than $5M can be withdrawn, or if deposits fall more than 20% in a day. A pause never blocks withdrawals.</p>
       <p data-i18n-html="earn.about.risk"><b>Risks.</b> Lending earns a variable rate and has risks: borrowers' collateral can fail to cover a loan, smart contracts can have bugs, and USDG could lose its peg. Only lend what you can afford to lock up.</p>
     </div>
@@ -138,8 +95,8 @@
 
 <script src="assets/site.js"></script>
 <script src="assets/nav.js?v=20261007a"></script>
-<script src="assets/buy.js?v=20261006a"></script>
-<script src="assets/earn.js?v=20261006a"></script>
+<script src="assets/buy.js?v=20261007a"></script>
+<script src="assets/earn.js?v=20261007a"></script>
 <script type="module" src="assets/i18n/page.js"></script>
 </body>
 </html>

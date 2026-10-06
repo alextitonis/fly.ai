@@ -488,36 +488,39 @@
 .buybox .buy-pcts button:hover { border-color: var(--mint); color: var(--mint); }
 @media (max-width: 640px) { .buybox .buy-row { grid-template-columns: 1fr; } }
 
-/* the Earn page (earn.html, assets/earn.js; 2026-10-06): venue cards, the lend box (a .buybox), positions */
+/* the Earn page (earn.html, assets/earn.js; 2026-10-06, one venue + token tabs 2026-10-07): the lend box (a .buybox) and positions */
 .earn .earn-h { margin: 34px 0 14px; font-size: 20px; }
-.earn .earn-h:first-child { margin-top: 0; }
-.earn-venue { display: flex; flex-direction: column; gap: 12px; text-align: left; }
-.earn-venue.on { border-color: rgba(94,242,204,.45); }
-.earn-venue h3, .earn-posc h3 { margin: 0; }
+.earn-venue-info { display: flex; flex-direction: column; gap: 8px; padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px dashed var(--line); }
+.earn-venue-info h3, .earn-posc h3 { margin: 0; }
 .earn-vhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .earn-by { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
 .earn-pill { flex: none; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font: 500 12px var(--mono); color: var(--muted); white-space: nowrap; }
 .earn-pill.ok { color: var(--mint); border-color: rgba(94,242,204,.4); }
 .earn-pill.warn { color: #f0bc5f; border-color: rgba(240,188,95,.45); }
 .earn-rate { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-.earn-rate strong { font: 700 clamp(34px, 5vw, 44px)/1 var(--display); color: var(--mint); letter-spacing: -.02em; }
+.earn-rate strong { font: 700 clamp(30px, 4.4vw, 40px)/1 var(--display); color: var(--mint); letter-spacing: -.02em; }
 .earn-rate span { font: 500 12px var(--mono); color: var(--muted); }
 .earn-rewards { font: 500 13px var(--mono); color: var(--mint-hi); margin: 0; }
-.earn-spec { padding: 0; font-size: 13px; }
+.card p.earn-facts, .earn-facts { font: 500 12px/1.7 var(--mono); color: var(--muted); margin: 0; }
+.earn-facts a { color: var(--text); }
 .card .earn-paused, .earn-paused { margin: 0; font-size: 13px; color: #f0bc5f; }
 .earn-paused b { color: #f0bc5f; }
-.earn-venue .btn { align-self: flex-start; }
-.earn-box { margin-top: 18px; }
+.earn-tabs { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg-2); margin: 0 0 14px; }
+.earn-tabs button { border: 0; background: transparent; color: var(--muted); font: 600 14px var(--sans); padding: 7px 18px; border-radius: 999px; cursor: pointer; }
+.earn-tabs button:hover { color: var(--text); }
+.earn-tabs button.on { background: var(--mint); color: #000; }
 .earn-box .earn-row { grid-template-columns: minmax(0, 1fr); max-width: 460px; }
-.earn-breakdown { font: 500 13px var(--mono); color: var(--text); min-height: 1.2em; margin: 12px 0 6px; }
+.earn-breakdown { font: 500 13px var(--mono); color: var(--text); min-height: 1.2em; margin: 12px 0 6px; overflow-wrap: anywhere; }
+.card p.earn-swapnote, .earn-swapnote { font-size: 13px; color: var(--muted); margin: 0 0 14px; max-width: 640px; }
+.earn-swapnote[hidden], .earn-unpaid[hidden] { display: none; }
+.earn-box .buy-act { margin-top: 12px; }
 .card p.earn-muted, .earn-muted { color: var(--muted); }
 .earn-muted.small { font-size: 12px; margin: 10px 0 0; }
-.earn-fundbox { margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--line); }
-.earn-fundbox[hidden], .earn-unpaid[hidden] { display: none; }
 .earn-unpaid { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; border-color: rgba(240,188,95,.45); }
 .earn-unpaid-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 14px; }
 .earn-unpaid-row span { flex: 1 1 260px; }
 .earn-posc { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+.earn-spec { padding: 0; font-size: 13px; }
 .earn-val { font: 600 18px var(--display); color: var(--mint); white-space: nowrap; }
 .earn-wd { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .earn-wd .buy-field { display: flex; flex: 1 1 140px; min-width: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
@@ -530,5 +533,7 @@
 .earn-about p { margin: 0 0 10px; font-size: 14px; }
 @media (max-width: 600px) {
   .earn-vhead { flex-wrap: wrap; }
+  .earn-tabs { display: flex; }
+  .earn-tabs button { flex: 1; padding: 7px 8px; }
   .earn-box .buy-act .btn { flex: 1 1 auto; justify-content: center; }
 }

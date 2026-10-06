@@ -171,10 +171,11 @@ to the dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea`, taken by Relay i
 not a token tax: buying or selling anywhere else (Pons, or any Robinhood Chain swap) pays no such fee.
 
 **The Earn page** (flyaiworld.com/earn, from October 2026) lends USDG from the visitor's own wallet into
-allow-listed lending vaults on Robinhood Chain (Steakhouse USDG on Morpho, Spark Savings USDG). **1% of each
+Steakhouse USDG, a lending vault on Morpho on Robinhood Chain (paying with ETH or $FLYAI swaps to USDG first through
+Relay, with the swap box's 0.25% fee). **1% of each
 deposit** goes to the same dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea`, as a USDG transfer from the
 visitor's wallet in the same flow. Withdrawals are free. The vault shares are minted straight to the visitor's
-wallet; nothing of fly.ai's holds the money, and lending on Morpho or Spark directly pays no such fee.
+wallet; nothing of fly.ai's holds the money, and lending on Morpho directly pays no such fee.
 
 The buyback runs **weekly, on a fixed schedule**, from a single public address. Timing is not
 discretionary — waiting for a good price would mean trading against the people holding the token.
