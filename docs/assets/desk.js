@@ -942,6 +942,8 @@
     if (!window.flyI18n) {
       try { en = await (await fetch("assets/i18n/en/desk.json")).json(); } catch { en = {}; }
     }
+    // the whole market's mood over the desk (marketbar.js, 2026-10-06): a red day reads as the market's, not the flies'
+    if (window.flyMarketBar) window.flyMarketBar.mount(document.getElementById("market-bar"), (k) => t("market." + k));
     await tick();
     setInterval(tick, REFRESH_MS);
   }

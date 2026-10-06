@@ -23,7 +23,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/terminal.css">
-<link rel="stylesheet" href="assets/desk.css">
+<link rel="stylesheet" href="assets/desk.css?v=20261006">
+<link rel="stylesheet" href="assets/marketbar.css">
 </head>
 <body class="desk term">
 <a class="skip" href="#pot">Skip to the pot</a>
@@ -46,6 +47,7 @@
     </div>
   </header>
 
+  <div id="market-bar" hidden></div>
   <div class="ticker dkt-ticker" id="ticker" hidden aria-label="Latest trades"></div>
   <p class="err dkt-err" id="err" hidden data-i18n="desk.t.error">Couldn't load the desk. Retrying…</p>
 
@@ -207,7 +209,8 @@
 <script src="assets/site.js"></script>
 <script src="assets/nav.js?v=20261005c"></script>
 <script type="module" src="assets/i18n/page.js"></script>
-<script src="assets/desk.js?v=20261005e"></script>
+<script src="assets/marketbar.js?v=20261006"></script>
+<script src="assets/desk.js?v=20261006a"></script>
 <script src="assets/deskvote.js?v=20261005b"></script>
 </body>
 </html>

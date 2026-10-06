@@ -263,5 +263,23 @@
     "thFlies": "蒼蠅",
     "byFly": "每隻蒼蠅",
     "empty": "還沒有已啟用的蒼蠅：持有人持有 200,000 $FLYAI 時，蒼蠅即為啟用。"
+  },
+  "market": {
+    "label": "市場",
+    "red": "市場下跌：今天大部分加密貨幣在跌",
+    "green": "市場上漲：今天大部分加密貨幣在漲",
+    "flat": "今天市場持平",
+    "crypto": "加密貨幣 24小時",
+    "stocks": "美股",
+    "open": "開盤",
+    "closed": "休市",
+    "fngLabel": "恐懼與貪婪",
+    "fng": {
+      "extremeFear": "極度恐懼",
+      "fear": "恐懼",
+      "neutral": "中性",
+      "greed": "貪婪",
+      "extremeGreed": "極度貪婪"
+    }
   }
 }

@@ -263,5 +263,23 @@
     "thFlies": "苍蝇",
     "byFly": "每只苍蝇",
     "empty": "还没有已激活的苍蝇：持有人持有 200,000 $FLYAI 时，苍蝇即为激活。"
+  },
+  "market": {
+    "label": "市场",
+    "red": "市场下跌：今天大部分加密货币在跌",
+    "green": "市场上涨：今天大部分加密货币在涨",
+    "flat": "今天市场持平",
+    "crypto": "加密货币 24小时",
+    "stocks": "美股",
+    "open": "开盘",
+    "closed": "休市",
+    "fngLabel": "恐惧与贪婪",
+    "fng": {
+      "extremeFear": "极度恐惧",
+      "fear": "恐惧",
+      "neutral": "中性",
+      "greed": "贪婪",
+      "extremeGreed": "极度贪婪"
+    }
   }
 }

@@ -316,6 +316,7 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
   grid-template-columns: repeat(12, minmax(0, 1fr));
   grid-template-areas:
     "top top top top top top top top top top top top"
+    "mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt"
     "tick tick tick tick tick tick tick tick tick tick tick tick"
     "kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi"
     "stats stats stats stats stats stats stats stats stats stats stats stats"
@@ -331,6 +332,7 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
 }
 .dkt > section { padding-block: 10px; border-top: 0; }
 .dkt-top { grid-area: top; }
+.dkt #market-bar { grid-area: mkt; margin: 0; }   /* the market's mood (marketbar.js, 2026-10-06) */
 .dkt-top h1 { margin: 0; font: 700 18px/1.1 Outfit, sans-serif; letter-spacing: .06em; color: var(--t-text); }
 .dkt-top h1 i { color: var(--t-mint); font-style: normal; }
 .dkt-ticker { grid-area: tick; border: 1px solid var(--t-line); border-radius: 6px; background: rgba(4, 7, 6, .8); }
@@ -394,6 +396,7 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
 @media (max-width: 1180px) {
   .dkt { grid-template-areas:
     "top top top top top top top top top top top top"
+    "mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt"
     "tick tick tick tick tick tick tick tick tick tick tick tick"
     "kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi"
     "stats stats stats stats stats stats stats stats stats stats stats stats"
@@ -410,6 +413,7 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
   .dkt > * { min-width: 0; max-width: 100%; }
   .dkt-top { flex-wrap: wrap; } .dkt-top .tm-brand small { display: none; }
   .dkt-ticker { order: -2; }
+  .dkt #market-bar { order: -3; }
   .dkt-kpis { grid-template-columns: 1fr 1fr; } .dkt-kpis .tm-kpi:first-child { grid-column: 1 / -1; }
   .dkt-kpis .tm-kpi b { font-size: 20px; }
   .desk .dkt .chart { height: 240px; }

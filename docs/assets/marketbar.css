@@ -1,0 +1,29 @@
+/* The market's mood strip (marketbar.js): the Fly Desk and Trader Flies. Site tokens with fallbacks for the app. */
+.marketbar {
+  --mb-red: var(--red, #ff5b4f);
+  --mb-green: var(--green, #5ef2cc);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
+  margin: 0 0 14px; padding: 8px 14px;
+  border: 1px solid rgba(255, 255, 255, .1); border-radius: 999px;
+  background: rgba(255, 255, 255, .03);
+  font: 500 12px/1.4 var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  color: rgba(255, 255, 255, .85);
+}
+.marketbar[data-mood="red"] { border-color: color-mix(in srgb, var(--mb-red) 45%, transparent); background: color-mix(in srgb, var(--mb-red) 8%, transparent); }
+.marketbar[data-mood="green"] { border-color: color-mix(in srgb, var(--mb-green) 45%, transparent); background: color-mix(in srgb, var(--mb-green) 7%, transparent); }
+.marketbar .mb-mood { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+.marketbar .mb-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, .5); flex: none; }
+.marketbar[data-mood="red"] .mb-mood { color: var(--mb-red); }
+.marketbar[data-mood="red"] .mb-dot { background: var(--mb-red); box-shadow: 0 0 10px var(--mb-red); }
+.marketbar[data-mood="green"] .mb-mood { color: var(--mb-green); }
+.marketbar[data-mood="green"] .mb-dot { background: var(--mb-green); box-shadow: 0 0 10px var(--mb-green); }
+.marketbar .mb-cells { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.marketbar .mb-cell { white-space: nowrap; }
+.marketbar .mb-k { color: rgba(255, 255, 255, .5); }
+.marketbar .mb-v { font-weight: 600; }
+.marketbar .up { color: var(--mb-green); }
+.marketbar .down { color: var(--mb-red); }
+@media (max-width: 640px) {
+  .marketbar { border-radius: 14px; padding: 10px 12px; font-size: 11px; }
+  .marketbar .mb-mood { flex-basis: 100%; }
+}

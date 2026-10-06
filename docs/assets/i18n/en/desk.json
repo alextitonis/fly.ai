@@ -263,5 +263,23 @@
     "thFlies": "Flies",
     "byFly": "Each fly",
     "empty": "No activated flies yet: a fly is activated while its holder holds 200,000 $FLYAI."
+  },
+  "market": {
+    "label": "Market",
+    "red": "Market is red: most of crypto is down today",
+    "green": "Market is green: most of crypto is up today",
+    "flat": "Market is flat today",
+    "crypto": "Crypto 24h",
+    "stocks": "US stocks",
+    "open": "open",
+    "closed": "closed",
+    "fngLabel": "Fear & Greed",
+    "fng": {
+      "extremeFear": "Extreme fear",
+      "fear": "Fear",
+      "neutral": "Neutral",
+      "greed": "Greed",
+      "extremeGreed": "Extreme greed"
+    }
   }
 }

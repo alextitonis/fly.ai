@@ -13,7 +13,7 @@ What it writes into desk_config (settings only; the code is houseexec.py + engin
     rug gates                       entry gate on for the sleeves' buys too (entry.sleeves); pool-drain exit 50%
     funding                         FLYAI in the house wallet sold for the books' cash, <= $50 a bar, 0.25% of depth, not into a 5% dip
     pool_wallet                     the pool wallet (POOL_ADDRESS in flytrade/.env) shown beside it on the site
-    limits                          max $50 a trade; the house wallet's own day cap is DESK_HOUSE_DAY_USD (default $2k)
+    limits                          max $50 a trade (the house wallet's day cap was removed 2026-10-06)
     mode                            shadow (default: real quotes, nothing sent) or live (--mode live)
 
     python enable_live_desk.py --cap 500                  # dry run: the plan, sizes per position, warnings

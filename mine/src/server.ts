@@ -985,12 +985,28 @@ const sessionNonces = new Map<string, { address: string; message: string; expire
 // partners' sites that sign their users in here (RUYUI, src/ruyui.ts): the SIWE message names THEIR origin, so the
 // wallet doesn't warn that the site asks to sign in to another domain. Only exact origins listed in PARTNER_ORIGINS.
 const PARTNER_ORIGINS = new Set((process.env.PARTNER_ORIGINS ?? "").split(",").map((o) => o.trim().replace(/\/$/, "")).filter(Boolean));
+/**
+ * The partner site asking, if any (2026-10-06): RUYUI's Hub calls through its own proxy (hub.ruyui.com/api/flyai),
+ * which drops Origin, so the message named www.flyaiworld.com and wallets showed a phishing warning. Also taken from
+ * the body's `origin`, the Referer and X-Forwarded-Host. Only ever an allowlisted origin: it only picks which of
+ * them the message names, and a wallet still checks that domain against the site it's on.
+ */
+function partnerOrigin(req: IncomingMessage, body: any): string | null {
+  const host = String(req.headers["x-forwarded-host"] ?? "").split(",")[0].trim();
+  let referer = "";
+  try { referer = new URL(String(req.headers.referer ?? "")).origin; } catch { /* none */ }
+  for (const o of [body?.origin, req.headers.origin, referer, host && `https://${host}`]) {
+    const v = typeof o === "string" ? o.trim().replace(/\/$/, "") : "";
+    if (v && PARTNER_ORIGINS.has(v)) return v;
+  }
+  return null;
+}
 
 function sessionNonce(req: IncomingMessage, body: any) {
   if (typeof body.address !== "string" || !ADDRESS.test(body.address)) throw new HttpError(400, "address must be 0x followed by 40 hex digits");
   prune(sessionNonces);
-  const from = String(req.headers.origin ?? "");
-  const partner = PARTNER_ORIGINS.has(from);
+  const from = partnerOrigin(req, body);
+  const partner = from != null;
   const origin = partner ? new URL(from) : originOf(req);
   const nonce = randomBytes(12).toString("hex");
   const now = new Date();
@@ -999,7 +1015,7 @@ function sessionNonce(req: IncomingMessage, body: any) {
     domain: origin.host,
     address: body.address,
     statement: partner
-      ? `Sign in to your trading wallets (powered by fly.ai) for ${days} days. Free, and sends no transaction.`
+      ? "Authenticate your FLYAI wallet with Fly.ai through RUYUI Hub."   // Ruyui's wording, 2026-10-06
       : `Sign in to fly.ai (compute and Fly Roulette) for ${days} days. Free, and sends no transaction.`,
     uri: origin.origin,
     chainId: CHAIN_ID,
@@ -1018,9 +1034,18 @@ async function startSession(body: any) {
   try {
     signer = recoverAddress(pending.message, String(body.signature ?? ""));
   } catch (err) {
-    throw new HttpError(400, `bad signature: ${err instanceof Error ? err.message : String(err)}`);
+    // an Abstract Global Wallet that linked a RUYUI's Robinhood Chain wallet signs as a contract (ERC-1271), 2026-10-06
+    if (!(await ruyui.linkedContractSigned(pending.address, pending.message, String(body.signature ?? "")))) {
+      throw new HttpError(400, `bad signature: ${err instanceof Error ? err.message : String(err)}`);
+    }
+    signer = pending.address;
   }
-  if (signer !== pending.address) throw new HttpError(401, "the signature is from a different wallet");
+  if (signer !== pending.address) {
+    if (!(await ruyui.linkedContractSigned(pending.address, pending.message, String(body.signature ?? "")))) {
+      throw new HttpError(401, "the signature is from a different wallet");
+    }
+    signer = pending.address;
+  }
   sessionNonces.delete(body.nonce);
   const token = randomBytes(32).toString("hex");
   const now = Date.now();

@@ -263,5 +263,23 @@
     "thFlies": "Moscas",
     "byFly": "Cada mosca",
     "empty": "Aún no hay moscas activadas: una mosca está activa mientras su holder tenga 200.000 $FLYAI."
+  },
+  "market": {
+    "label": "Mercado",
+    "red": "Mercado en rojo: la mayoría de las cripto bajan hoy",
+    "green": "Mercado en verde: la mayoría de las cripto suben hoy",
+    "flat": "Mercado plano hoy",
+    "crypto": "Cripto 24h",
+    "stocks": "Bolsa EE. UU.",
+    "open": "abierta",
+    "closed": "cerrada",
+    "fngLabel": "Miedo y codicia",
+    "fng": {
+      "extremeFear": "Miedo extremo",
+      "fear": "Miedo",
+      "neutral": "Neutral",
+      "greed": "Codicia",
+      "extremeGreed": "Codicia extrema"
+    }
   }
 }

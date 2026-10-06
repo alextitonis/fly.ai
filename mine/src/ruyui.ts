@@ -76,7 +76,7 @@ export function createRuyui(d: RuyuiDeps) {
   const abstractRpc = d.env.ABSTRACT_RPC ?? "https://api.mainnet.abs.xyz";
   const holdFlyai = Number(d.env.RUYUI_HOLD_FLYAI ?? "200000");
   const contract = checksumAddress(d.env.RUYUI_CONTRACT ?? RUYUI.contract);
-  // owners on Abstract are cached this long for the views (their pages poll); actions always read fresh
+  // links are cached this long for the views (their pages poll); actions always read fresh
   const ownerTtlMs = Number(d.env.RUYUI_OWNER_TTL_SEC ?? "30") * 1000;
   const isOn = () => { if (!on) throw new HttpError(503, "RUYUI wallets aren't open yet"); };
   const tokenOf = (raw: string) => {
@@ -89,8 +89,7 @@ export function createRuyui(d: RuyuiDeps) {
     return checksumAddress(raw);
   };
 
-  // ---- chain reads (Abstract: owners, cached briefly; Robinhood: $FLYAI) -----------------------------------------
-  const owners = new Map<number, { owner: string | null; at: number }>();
+  // ---- owners (Ruyui's staking list) and chain reads (Robinhood: $FLYAI) ------------------------------------------
   /**
    * Who runs a RUYUI: the Robinhood Chain wallet its Abstract owner linked (an AGW can't sign in, hold $FLYAI or be paid
    * on Robinhood Chain), else that owner itself. Every check here goes through this - setup, settings, withdrawals, the
@@ -110,22 +109,20 @@ export function createRuyui(d: RuyuiDeps) {
     if (links.size > 10_000) links.clear();
     return signer;
   }
-  // staked RUYUIs (2026-10-04, the user: "it should first check if staked, if yes, return as fine, if not then check
-  // chain"): Ruyui's staking contract holds a staked RUYUI, so ownerOf names the contract. Their API (one call lists
-  // every staker, cached STAKED_TTL_MS) is asked first; a RUYUI the chain says the contract holds but the API doesn't
-  // list is an error (try again), never "someone else owns it". Same rule on the desk: flytrade/vaults/ruyui.py owners_of.
+  // staked RUYUIs ONLY (2026-10-06, the user: "it should be checking staked only, not on chain"): a RUYUI belongs to
+  // its staker on Ruyui's staking API (one call lists every staker, cached STAKED_TTL_MS); nothing is read on Abstract,
+  // an unstaked RUYUI has no owner here. Same rule on the desk: flytrade/vaults/ruyui.py owners_of.
   const stakingApi = d.env.RUYUI_STAKING_API ?? "https://api.ruyui.com/quest/nft/staking/wallets";
-  const stakingContract = (d.env.RUYUI_STAKING_CONTRACT ?? "0xb60fa32c8041c8b0f56220420b56ce6b86decde9").toLowerCase();
-  const STAKED_TTL_MS = 60_000;
+  const STAKED_TTL_MS = Number(d.env.RUYUI_STAKED_TTL_SEC ?? "60") * 1000;
+  const STAKED_WAIT_MS = 5_000;          // the longest a request waits on a read
+  const STAKED_FETCH_MS = 20_000;        // the read itself (in the background, nobody waits on it past STAKED_WAIT_MS)
   let staked: { at: number; map: Map<number, string> | null; loading?: Promise<Map<number, string> | null> } = { at: 0, map: null };
-  async function stakedOwners(fresh = false, force = false): Promise<Map<number, string> | null> {
-    // force: a RUYUI just staked isn't on a cached list yet - re-read, at most every 5 s
-    const ttl = force ? 5_000 : fresh ? 10_000 : STAKED_TTL_MS;
-    if (staked.map && Date.now() - staked.at < ttl) return staked.map;
-    if (staked.loading) return staked.loading;
-    staked.loading = (async () => {
+  let stakedErrAt = 0;
+  async function stakedOwners(fresh = false): Promise<Map<number, string> | null> {
+    if (staked.map && Date.now() - staked.at < (fresh ? Math.min(5_000, STAKED_TTL_MS) : STAKED_TTL_MS)) return staked.map;
+    staked.loading ??= (async () => {
       try {
-        const res = await fetch(stakingApi, { headers: { accept: "application/json" }, signal: AbortSignal.timeout(10_000) });
+        const res = await fetch(stakingApi, { headers: { accept: "application/json" }, signal: AbortSignal.timeout(STAKED_FETCH_MS) });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const rows = await res.json() as { address?: string; nftList?: number[] }[];
         const map = new Map<number, string>();
@@ -135,45 +132,31 @@ export function createRuyui(d: RuyuiDeps) {
         }
         staked = { at: Date.now(), map };
         return map;
-      } catch {
-        // unreadable: the last list for up to 10 minutes, else nothing (a staked RUYUI then can't be confirmed)
-        return staked.map && Date.now() - staked.at < 10 * STAKED_TTL_MS ? staked.map : null;
+      } catch (err) {
+        if (Date.now() - stakedErrAt > 60_000) { stakedErrAt = Date.now(); console.error(`ruyui staking list unreadable: ${(err as Error)?.message ?? err}`); }
+        return null;
       } finally {
         staked.loading = undefined;
       }
     })();
-    return staked.loading;
+    // 2026-10-06: views get the last list at once while it refreshes in the background (a slow read made every Hub
+    // call take 8.5 s, past the Hub's 8 s limit); actions (fresh) and a first read wait, never past STAKED_WAIT_MS;
+    // then the last list for up to 10 minutes, else nothing (an error: a staked RUYUI can't be confirmed)
+    if (!fresh && staked.map && Date.now() - staked.at < 60 * STAKED_TTL_MS) return staked.map;   // views: up to an hour old
+    const got = await Promise.race([staked.loading, new Promise<null>((ok) => setTimeout(() => ok(null), STAKED_WAIT_MS + 500))]);
+    return got ?? (staked.map && Date.now() - staked.at < 10 * STAKED_TTL_MS ? staked.map : null);
   }
+  const stakedOrThrow = async (fresh = false) => {
+    const map = await stakedOwners(fresh);
+    if (!map) throw new HttpError(503, "Ruyui's staking list can't be read right now; try again shortly");
+    return map;
+  };
 
+  /** Its staker, null when it isn't staked. */
   async function nftOwnerOf(id: number, fresh = false): Promise<string | null> {
-    const stakers = await stakedOwners(fresh);
-    const staker = stakers?.get(id);
-    if (staker) return staker;                         // staked: its staker, no chain read
-    const onChain = await chainOwnerOf(id, fresh);
-    if (onChain && onChain.toLowerCase() === stakingContract) {
-      const again = (await stakedOwners(true, true))?.get(id);   // staked since the list was read
-      if (again) return again;
-      throw new HttpError(503, "this RUYUI is staked and Ruyui's staking list can't be read right now; try again shortly");
-    }
-    return onChain;
+    return (await stakedOrThrow(fresh)).get(id) ?? null;
   }
-  const isStaked = async (id: number) => !!(await stakedOwners())?.has(id);
 
-  async function chainOwnerOf(id: number, fresh = false): Promise<string | null> {
-    const hit = owners.get(id);
-    if (!fresh && hit && Date.now() - hit.at < ownerTtlMs) return hit.owner;
-    let owner: string | null;
-    try {
-      const ret = await rpc(abstractRpc, "eth_call", [{ to: contract, data: `${selector("ownerOf(uint256)")}${word(id)}` }, "latest"]) as string;
-      owner = checksumAddress(`0x${ret.slice(-40)}`);
-    } catch (err) {
-      if (/revert/i.test(String((err as Error)?.message))) owner = null;   // no such token
-      else throw new HttpError(502, "Abstract can't be read right now; try again");
-    }
-    owners.set(id, { owner, at: Date.now() });
-    if (owners.size > 10_000) owners.clear();
-    return owner;
-  }
   async function ethWei(wallet: string): Promise<bigint> {
     return BigInt(await rpc(d.rpcUrl, "eth_getBalance", [wallet, "latest"]) as string);
   }
@@ -230,7 +213,8 @@ export function createRuyui(d: RuyuiDeps) {
 
   async function tokenView(id: number) {
     isOn();
-    const [wallet, owner, nftOwner] = await Promise.all([walletOf(id), ownerOf(id), nftOwnerOf(id)]);
+    const [wallet, nftOwner] = await Promise.all([walletOf(id), nftOwnerOf(id)]);
+    const owner = nftOwner ? (await linkOf(nftOwner)) ?? nftOwner : null;
     const [w, setup, flyai, pool, gasWei] = await Promise.all([
       walletView(wallet), wallet ? null : openSetup(id), owner ? flyaiOf(owner).catch(() => null) : null,
       owner ? poolHolder(owner) : null, wallet ? ethWei(wallet).catch(() => null) : null,
@@ -240,12 +224,13 @@ export function createRuyui(d: RuyuiDeps) {
     return {
       // owner: who runs it (the linked Robinhood Chain wallet, else the holder on Abstract); nft_owner: the holder on Abstract
       token: id, owner, nft_owner: nftOwner, linked: !!(owner && nftOwner && owner.toLowerCase() !== nftOwner.toLowerCase()),
-      staked: await isStaked(id),
+      staked: !!nftOwner,
       wallet, setup: setup ?? null, ...w,
       hold: { flyai, needed: holdFlyai, ok: flyai == null ? null : flyai >= holdFlyai },
       gas: wallet ? { eth: gasWei == null ? null : Number(gasWei) / 1e18, needs_gas: needsGas, suggested_eth: SUGGESTED_GAS_ETH } : null,
       // trading opens when the RUYUI's owner is the holder of the money, holds 200k $FLYAI and trading is on
-      status: !wallet ? "no_wallet" : w.ledger?.closing ? "closing" : !holder ? "not_funded"
+      // not_staked: only staked RUYUIs count (2026-10-06); its wallet, if any, keeps its money but doesn't trade
+      status: !nftOwner ? "not_staked" : !wallet ? "no_wallet" : w.ledger?.closing ? "closing" : !holder ? "not_funded"
         : !owner || owner.toLowerCase() !== holder.toLowerCase() ? "owner_changed"
         : flyai != null && flyai < holdFlyai ? "below_hold" : needsGas ? "needs_gas"
         : w.settings?.trading === false ? "paused" : "active",
@@ -265,8 +250,12 @@ export function createRuyui(d: RuyuiDeps) {
   async function holderView(raw: string) {
     isOn();
     const address = addressOf(raw);
-    const [flyai, pool] = await Promise.all([flyaiOf(address).catch(() => null), poolHolder(address)]);
-    const tokens: number[] = pool?.tokens ?? [];
+    const [flyai, pool, stakers, actsFor] = await Promise.all([flyaiOf(address).catch(() => null), poolHolder(address),
+      stakedOrThrow(), pg.all<{ owner: string }>("select owner from mine.ruyui_links where signer = ?", address.toLowerCase())]);
+    // the staked RUYUIs it has, live: its own (even when it linked another wallet to run them: Ruyui's Hub asks with
+    // the staking wallet, 2026-10-06) and those of wallets that linked it
+    const runs = new Set([address.toLowerCase(), ...actsFor.map((r) => r.owner.toLowerCase())]);
+    const tokens = [...stakers].filter(([, who]) => runs.has(who.toLowerCase())).map(([i]) => i).sort((a, b) => a - b);
     const rows = tokens.length
       ? await pg.all<{ id: string; address: string }>("select id, address from mine.vault_wallets where id = any(?::text[])",
         `{${tokens.map((t) => `ruyui:${t}`).join(",")}}`)
@@ -275,8 +264,8 @@ export function createRuyui(d: RuyuiDeps) {
       "select wallet, principal_usd, closing from mine.vault_ledger where chain = 'ruyui' and lower(holder) = lower(?)", address);
     return {
       address, flyai, hold: { needed: holdFlyai, ok: flyai == null ? null : flyai >= holdFlyai },
-      // the RUYUIs it owns as of the pool's last hourly check (a front-end that lists them itself can skip this)
-      tokens, tokens_checked_at: (await publicOf("ruyui:pool"))?.last_check ?? null,
+      // the staked RUYUIs it runs, live from Ruyui's staking list (cached a minute)
+      tokens, tokens_checked_at: staked.at ? staked.at / 1000 : null,
       wallets: rows.map((r) => ({ token: Number(r.id.slice(6)), wallet: r.address })),
       holding_money_in: funded,
       pool: pool ? { qualifies: pool.qualifies ?? false, epoch_hours: pool.epoch_hours ?? 0, epoch_est_usd: pool.epoch_est_usd ?? 0,
@@ -347,11 +336,28 @@ export function createRuyui(d: RuyuiDeps) {
   }
 
   // ---- the owner's actions (signed in) -----------------------------------------------------------------------
+  /**
+   * Is the signed-in wallet `who`, or the Abstract wallet that linked `who`? (2026-10-06: Ruyui's Hub signs in with the
+   * Hub's Abstract Global Wallet; it acts for the Robinhood Chain wallet it linked. Money still only goes to `who`.)
+   */
+  async function actsFor(me: string, who: string | null | undefined): Promise<boolean> {
+    if (!who) return false;
+    if (me.toLowerCase() === who.toLowerCase()) return true;
+    return (await linkOf(me, true))?.toLowerCase() === who.toLowerCase();
+  }
+
+  /** Sign-in for a linked Abstract Global Wallet (a contract: ERC-1271 on Abstract); only wallets with a RUYUI link. */
+  async function linkedContractSigned(address: string, message: string, signature: string): Promise<boolean> {
+    if (!on || !(await linkOf(address, true))) return false;
+    try { return await ownerSigned(address, message, signature); } catch { return false; }
+  }
+
   async function setup(req: IncomingMessage, id: number) {
     isOn();
     const me = await d.sessionWallet(req);
     const owner = await ownerOf(id, true);
-    if (!owner || owner.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the RUYUI's owner can set up its wallet");
+    if (!owner) throw new HttpError(403, "stake this RUYUI first: only staked RUYUIs get a wallet");
+    if (!(await actsFor(me, owner))) throw new HttpError(403, "only the RUYUI's staker can set up its wallet");
     const wallet = await walletOf(id);
     if (wallet) return { token: id, wallet, status: "ready" };
     const open = await openSetup(id);
@@ -378,8 +384,8 @@ export function createRuyui(d: RuyuiDeps) {
     const { wallet, id } = await ruyuiWallet(raw);
     const holder = (await ledgerOf(wallet))?.holder;
     if (holder) {
-      if (holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can change its settings");
-    } else if ((await ownerOf(id, true))?.toLowerCase() !== me.toLowerCase()) {
+      if (!(await actsFor(me, holder))) throw new HttpError(403, "only the wallet's holder can change its settings");
+    } else if (!(await actsFor(me, await ownerOf(id, true)))) {
       throw new HttpError(403, "only the RUYUI's owner can set up its wallet");
     }
     const version = (await import("node:crypto")).createHash("sha1").update(text).digest("hex").slice(0, 12);
@@ -396,7 +402,7 @@ export function createRuyui(d: RuyuiDeps) {
     if (!Number.isInteger(bps) || bps < 1 || bps > 10_000) throw new HttpError(400, "bps is 1..10000");
     const { wallet, id } = await ruyuiWallet(raw);
     const led = await ledgerOf(wallet);
-    if (!led?.holder || led.holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can withdraw");
+    if (!led?.holder || !(await actsFor(me, led.holder))) throw new HttpError(403, "only the wallet's holder can withdraw");
     if (led.closing) throw new HttpError(409, "this RUYUI was sold: its money is on its way to you");
     const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = 'ruyui' and kind = 'withdraw'
       and status in ('new', 'doing')`, wallet);
@@ -463,5 +469,5 @@ export function createRuyui(d: RuyuiDeps) {
     return false;
   }
 
-  return { route, on };
+  return { route, on, linkedContractSigned };
 }

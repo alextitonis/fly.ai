@@ -263,5 +263,23 @@
     "thFlies": "Sinek",
     "byFly": "Her sinek",
     "empty": "Henüz aktif sinek yok: sahibi 200.000 $FLYAI tuttuğu sürece sinek aktiftir."
+  },
+  "market": {
+    "label": "Piyasa",
+    "red": "Piyasa kırmızı: kriptonun çoğu bugün düşüşte",
+    "green": "Piyasa yeşil: kriptonun çoğu bugün yükselişte",
+    "flat": "Piyasa bugün yatay",
+    "crypto": "Kripto 24s",
+    "stocks": "ABD borsası",
+    "open": "açık",
+    "closed": "kapalı",
+    "fngLabel": "Korku ve Açgözlülük",
+    "fng": {
+      "extremeFear": "Aşırı korku",
+      "fear": "Korku",
+      "neutral": "Nötr",
+      "greed": "Açgözlülük",
+      "extremeGreed": "Aşırı açgözlülük"
+    }
   }
 }
