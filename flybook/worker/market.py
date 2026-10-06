@@ -432,7 +432,7 @@ def decide(portfolio: dict, did: list[dict], drive: dict, prices: dict, mind: di
         return skip("dopamine had turned this action off")
     size = bias if learning.get("dopamine") else 1.0
     if learning.get("memory"):
-        mean, n = minds.recall(mind, state, action)
+        mean, n = minds.recall(mind, state, action, median=bool(learning.get("median_recall")))
         caution = mind["traits"]["caution"]
         if mean is not None and n >= int(mind["traits"]["k"]):
             note["memory"] = {"mean_reward": round(mean, 4), "similar": n}

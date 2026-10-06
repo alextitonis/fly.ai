@@ -141,12 +141,19 @@ def situation(drive: dict, held_share: float) -> list[float]:
     return [drive["target"]["move"], drive["threat"]["move"], drive["wind"]["chop"], held_share]
 
 
-def recall(mind: dict, state: list[float], action: str) -> tuple[float | None, int]:
-    """Mean reward of the k most similar remembered situations where it did the same action."""
+def recall(mind: dict, state: list[float], action: str, median: bool = False) -> tuple[float | None, int]:
+    """Mean reward of the k most similar remembered situations where it did the same action; with median, their
+    median (2026-10-06, the trading desks: one rug's log reward of -2.3 among 9 neighbours pulled the mean under
+    -caution for every situation like it, so the live desk's fly vetoed nearly every buy, never traded, and so never
+    remembered anything newer - the median weighs that rug as one bad memory of nine)."""
     same = [m for m in mind["memory"] if m["action"] == action]
     if not same:
         return None, 0
     near = sorted(same, key=lambda m: sum((a - b) ** 2 for a, b in zip(m["state"], state)))[: int(mind["traits"]["k"])]
+    if median:
+        r = sorted(m["reward"] for m in near)
+        mid = len(r) // 2
+        return (r[mid] if len(r) % 2 else (r[mid - 1] + r[mid]) / 2), len(near)
     return sum(m["reward"] for m in near) / len(near), len(near)
 
 
