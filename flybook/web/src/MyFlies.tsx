@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import type { Viewer } from "./Account";
 import { getMemeQuota, type MemeQuota } from "./api";
-import { loadFlyPosts, loadMemes, loadStyles, memeImage, type Fly, type Meme, type Patch, type Post } from "./feed";
+import { loadFlyPosts, loadMemes, memeImage, type Fly, type Meme, type Patch, type Post } from "./feed";
 import { useNextMemeCountdown } from "./Memes";
-import { ALL_ON, StyleEditor } from "./TradingStyle";
-import Wallet from "./FlyWallet";
 import { WORDS, actionText, causeText, line, strongest } from "./words";
 import { Html, ago, t, tAt } from "./i18n";
 
@@ -64,11 +62,6 @@ export default function MyFlies({ allFlies, patches, viewer, now, memeTick, onMe
     getMemeQuota().then(setQuota).catch(() => setQuota(null));
     loadMemes({ userId: viewer.userId, limit: 30 }).then(setMemes);
   }, [viewer?.userId, viewer?.ready, memeTick]);
-  const [styles, setStyles] = useState<Awaited<ReturnType<typeof loadStyles>> | null>(null);
-  useEffect(() => {
-    if (!ids) return;
-    loadStyles(ids.split(",")).then(setStyles).catch(() => setStyles(new Map()));
-  }, [ids]);
 
   if (!viewer) {
     return <div className="mine-tab"><div className="empty">{t("flybook.mine.signIn")}</div></div>;
@@ -95,24 +88,6 @@ export default function MyFlies({ allFlies, patches, viewer, now, memeTick, onMe
         <p>{t("flybook.mine.every", { count: mine.length })}</p>
       </div>
       <div className={`card meme-status${canMake ? " ready" : ""}`}>🎨 {status}</div>
-
-      <details className="card trading-styles" open>
-        <summary>{t("flybook.mine.marketSummary")}</summary>
-        <Html as="p" className="fine" k="flybook.mine.marketNote" />
-        {styles === null ? <p className="fine">{t("flybook.mine.loading")}</p> : mine.filter((f) => flyFilter === "all" || f.id === flyFilter).map((f) => {
-          const s = styles.get(f.id);
-          return (
-            <div key={f.id} className="trading-style">
-              <h5><span className="dot" style={{ background: f.color }} /> {f.name}</h5>
-              <Wallet flyId={f.id} />
-              <details className="style-box">
-                <summary>{t("flybook.mine.tradingStyle")}</summary>
-                <StyleEditor flyId={f.id} learning={{ ...ALL_ON, ...(s?.learning ?? {}) }} risk={s?.risk ?? null} />
-              </details>
-            </div>
-          );
-        })}
-      </details>
 
       <div className="board-controls">
         <div className="seg">

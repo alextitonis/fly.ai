@@ -15,6 +15,14 @@ COPY flytalk.py ./
 COPY flybook/worker/*.py flybook/worker/house.json flybook/worker/
 COPY flybook/worker/model flybook/worker/model
 COPY flybook/worker/fonts flybook/worker/fonts
+# the breeding worker (jobs.py "breed"): its packages, the font its pictures use, and its code
+RUN apt-get update && apt-get install -y --no-install-recommends fonts-dejavu-core && rm -rf /var/lib/apt/lists/*
+COPY flytrade/breed/requirements.txt flytrade/breed/requirements.txt
+RUN pip install --no-cache-dir -r flytrade/breed/requirements.txt
+COPY flytrade/nft/gen.py flytrade/nft/gen.py
+COPY flytrade/nft/poses flytrade/nft/poses
+COPY flytrade/breed/worker.py flytrade/breed/worker.py
+ENV MPLBACKEND=Agg
 
 ARG GIT_SHA=unknown
 ENV GIT_SHA=$GIT_SHA

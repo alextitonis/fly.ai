@@ -71,6 +71,10 @@
   const SESSION_KEY = "flyai.compute.session";            // mine/web/account.ts: one session for every app
   const ACCOUNT_JS = "/compute/mine/web/account.js";       // the shared sign-in (built from mine/web)
   const MINE_API = "https://flyai-mine.fly.dev";
+  // public reads (leaderboards, fly views, partner pots, stats) through our own domain: vercel.json rewrites /mapi/* to
+  // the mine server and Vercel's edge keeps each answer ~30 s (its s-maxage), so a crowd of visitors is one request
+  // (2026-10-07). Signed-in calls and writes keep going to MINE_API directly.
+  const MINE_READ = /(^|\.)flyaiworld\.com$/.test(location.hostname) ? "/mapi" : MINE_API;
   // the account/search/bell words: English here so the bar renders at once; the page's language comes from
   // /assets/i18n/<lang>/common.json nav.acct (the same file and URL i18n.js loads, so the browser cache is shared) and
   // relabels the bar when it lands (2026-10-04: one home for the translations instead of a table here)
@@ -86,7 +90,7 @@
   // 2026-10-04: pages read the session, the mine server and nicknames from here instead of their own copies
   // (they keep a fallback: this loads at the end of <body> and may fail)
   const nickCache = new Map();                             // wallet -> Promise<nickname | null>, for names()
-  window.flyNav = { session, MINE_API, short, names };
+  window.flyNav = { session, MINE_API, MINE_READ, short, names };
 
   const nav = document.querySelector('nav[aria-label="Main"]');
   if (!nav) return;
@@ -478,7 +482,7 @@
     const ids = follows();
     if (!ids.length) return [];
     try {
-      const f = await fetch(`${MINE_API}/api/vaults/feed?chain=robinhood`).then((r) => r.json());
+      const f = await fetch(`${MINE_READ}/api/vaults/feed?chain=robinhood`).then((r) => r.json());
       return ids.flatMap((id) => (((f.flies || {})[id] || {}).recent || []).map((r) => ({ kind: "trade", fly: id,
         side: r.side === "buy" ? "buy" : "sell", symbol: r.label || r.symbol, usd: r.usd, pnl_pct: r.pnl_pct, at: r.at * 1000 })));
     } catch { return []; }

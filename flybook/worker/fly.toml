@@ -18,15 +18,17 @@ primary_region = "cdg"
   FLYBOOK_ORIGINS = "https://flyaiworld.com,https://www.flyaiworld.com,http://localhost:5173"
   FLYBOOK_MIN_TOKENS = "1"
   FLYBOOK_MAX_FLIES = "3"
+  BREEDER = "0xA3De6F2d2b10FF98923C16eD71decf0afa393323"   # FlyBreeder proxy (jobs.py "breed", was the flyai-breed app)
+  START_BLOCK = "26097000"   # its deploy block
   FLYBOOK_MERCH_FEE = "50000"       # $FLYAI per merch design
   FLYBOOK_MERCH_SHARE = "0.4"       # owners' share of each sale's profit
 
 [processes]
-  tick = "python flybook/worker/tick.py --every 120 --poke-poll 30 --market-every 600 --market-all"   # every active fly trades
+  # the tick plus the keeper, merch and autopilot loops as threads (jobs.py, 2026-10-07: one machine instead of four)
+  # no fly market since 2026-10-07 (the user: "remove the trading stuff, keep it simpler"): its rounds re-ran every
+  # brain every 10 min on a throttled shared CPU, and posts took ~33 min a round
+  tick = "python flybook/worker/jobs.py --every 120 --poke-poll 30"
   api = "python flybook/worker/api.py"
-  merch = "python flybook/worker/merch.py run"
-  keeper = "python flybook/worker/flyai_keeper.py --loop"
-  autopilot = "python flybook/worker/autopilot.py --loop --every 300"
 
 [http_service]
   internal_port = 8080
@@ -55,14 +57,3 @@ primary_region = "cdg"
   cpus = 1
   memory = "512mb"
 
-[[vm]]
-  processes = ["keeper"]
-  cpu_kind = "shared"
-  cpus = 1
-  memory = "256mb"
-
-[[vm]]
-  processes = ["merch"]
-  cpu_kind = "shared"
-  cpus = 1
-  memory = "256mb"

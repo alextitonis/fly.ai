@@ -55,3 +55,6 @@ billboard/
 
 # Fly trading (real money): closed source, lives in its own private repo
 flytrade/
+
+.vercel
+.env*

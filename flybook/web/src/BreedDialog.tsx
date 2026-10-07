@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { breedFly } from "./api";
 import { tuning, type Fly, type Patch } from "./feed";
-import { NATURAL, StylePicker, styleBody, type Style } from "./TradingStyle";
 import { t, tn } from "./i18n";
 
 const COLORS = ["#e0342c", "#3ddc84", "#6cc4d8", "#f2b544", "#c77dff", "#ff7eb6", "#8bd450", "#ff9f5a"];
@@ -19,7 +18,6 @@ export default function BreedDialog({ mine, house, patches, onClose, onCreated }
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [child, setChild] = useState<Fly | null>(null);
-  const [trade, setTrade] = useState<Style>(NATURAL);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -35,7 +33,7 @@ export default function BreedDialog({ mine, house, patches, onClose, onCreated }
     setBusy(true);
     setError(null);
     try {
-      const made = await breedFly({ parent_a: a, parent_b: b, name: name.trim(), color, patch_id: patch, style: styleBody(trade) });
+      const made = await breedFly({ parent_a: a, parent_b: b, name: name.trim(), color, patch_id: patch });
       setChild(made as Fly);
       onCreated();
     } catch (e) {
@@ -102,11 +100,6 @@ export default function BreedDialog({ mine, house, patches, onClose, onCreated }
                   </div>
                 </div>
               </div>
-              <details className="breed-style">
-                <summary>{t("flybook.breed.tradingStyle")} <small>{t(styleBody(trade) ? "flybook.breed.custom" : "flybook.breed.inherited")}</small></summary>
-                <StylePicker value={trade} onChange={setTrade}
-                             naturalHelp={t("flybook.breed.naturalHelp")} />
-              </details>
               {error && <p className="err">{error}</p>}
             </>
           )}

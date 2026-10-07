@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { createFly, getConfig, type Config } from "./api";
 import { tuning, type FlySettings, type Patch } from "./feed";
-import { NATURAL, StylePicker, styleBody, type Style } from "./TradingStyle";
 import { t, tOr } from "./i18n";
 
 const COLORS = ["#e0342c", "#3ddc84", "#6cc4d8", "#f2b544", "#c77dff", "#ff7eb6", "#8bd450", "#ff9f5a"];
@@ -28,8 +27,6 @@ export default function FlyMaker({ patches, canHatch, onClose, onCreated, claim 
   const [tune, setTune] = useState<FlySettings>(fromProfile());
   const [profile, setProfile] = useState("standard");
   const [advanced, setAdvanced] = useState(false);
-  const [trade, setTrade] = useState<Style>(NATURAL);
-  const [tradeOpen, setTradeOpen] = useState(false);
 
   useEffect(() => {
     getConfig().then(setConfig).catch((e) => setError(e.message));
@@ -74,7 +71,7 @@ export default function FlyMaker({ patches, canHatch, onClose, onCreated, claim 
     setBusy(true);
     setError(null);
     try {
-      await createFly({ name: name.trim(), color, patch_id: patch, ...clean(tune), style: styleBody(trade), ...(claim ? { claim } : {}) });
+      await createFly({ name: name.trim(), color, patch_id: patch, ...clean(tune), ...(claim ? { claim } : {}) });
       onCreated();
       onClose();
     } catch (err) {
@@ -175,16 +172,6 @@ export default function FlyMaker({ patches, canHatch, onClose, onCreated, claim 
                     </div>
                   ))}
                 </section>
-              </div>
-            )}
-
-            <button type="button" className="step toggle" onClick={() => setTradeOpen(!tradeOpen)} aria-expanded={tradeOpen}>
-              {t("flybook.maker.step4")} {tradeOpen ? "▾" : "▸"} <small>{t(styleBody(trade) ? "flybook.maker.custom" : "flybook.maker.optionalMarket")}</small>
-            </button>
-            {tradeOpen && (
-              <div className="maker-style">
-                <p className="fine">{t("flybook.maker.styleNote")}</p>
-                <StylePicker value={trade} onChange={setTrade} />
               </div>
             )}
 

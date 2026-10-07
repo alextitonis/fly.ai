@@ -213,5 +213,11 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/mapi/:path*",
+      "destination": "https://flyai-mine.fly.dev/:path*"
+    }
   ]
 }

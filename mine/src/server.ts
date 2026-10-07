@@ -845,8 +845,30 @@ function cached<K, T>(ms: number, compute: (key: K) => T): ((key: K) => T) & { f
  */
 const CORS = { "access-control-allow-origin": "*", "access-control-allow-headers": "authorization, content-type, x-flyai-session", "access-control-max-age": "86400" };
 
+/**
+ * Public reads served from Vercel's edge (2026-10-07, the user OK'd "serve public reads from Vercel's cache"): the
+ * site reads these through its own domain (vercel.json rewrite /m/* -> this server), and a 200 here says
+ * "s-maxage" so Vercel answers repeat visitors for EDGE_TTL_S without asking this server. Only GETs with no session,
+ * no Authorization and no cookie - nothing personal is ever cached; everything else stays no-store.
+ */
+const EDGE_TTL_S = 30;
+const EDGE_PATHS: RegExp[] = [
+  /^\/api\/stats$/,
+  /^\/api\/vaults\/(config|funded|leaderboard|feed|promo)$/,
+  /^\/api\/vaults\/fly\/\d{1,6}(\/log)?$/,
+  /^\/api\/partners(\/[a-z][a-z0-9]{1,19}(\/(config|leaderboard|pool|pool\/epochs\/\d{1,5}|token\/\d{1,7}|wallet\/0x[0-9a-fA-F]{40}|holder\/0x[0-9a-fA-F]{40}))?)?$/,
+  /^\/api\/ruyui\/(config|leaderboard|pool|pool\/epochs\/\d{1,5})$/,
+];
+const edgeCached = new WeakSet<ServerResponse>();
+function markEdge(req: IncomingMessage, res: ServerResponse, path: string): void {
+  if (req.method !== "GET" || req.headers.authorization || req.headers["x-flyai-session"] || req.headers.cookie) return;
+  if (EDGE_PATHS.some((r) => r.test(path))) edgeCached.add(res);
+}
+
 function send(res: ServerResponse, status: number, body: unknown): void {
-  res.writeHead(status, { "content-type": "application/json", "cache-control": "no-store", ...CORS });
+  const cache = status === 200 && edgeCached.has(res)
+    ? `public, max-age=0, s-maxage=${EDGE_TTL_S}, stale-while-revalidate=${EDGE_TTL_S * 4}` : "no-store";
+  res.writeHead(status, { "content-type": "application/json", "cache-control": cache, ...CORS });
   res.end(status === 204 ? undefined : JSON.stringify(body));
 }
 
@@ -3949,7 +3971,9 @@ async function profileMainThread(ms: number): Promise<void> {
 
 const server = createServer(async (req, res) => {
   try {
-    await route(req, res, new URL(req.url ?? "/", "http://local"));
+    const url = new URL(req.url ?? "/", "http://local");
+    markEdge(req, res, url.pathname);
+    await route(req, res, url);
   } catch (err) {
     if (err instanceof HttpError) return send(res, err.status, { error: err.message });
     console.error(err);

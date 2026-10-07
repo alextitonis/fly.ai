@@ -9,7 +9,8 @@
  */
 import { locale, t } from "./i18n/i18n.js";
 
-const MINE = (window.flyNav && window.flyNav.MINE_API) || "https://flyai-mine.fly.dev";
+// public reads only here: through the edge cache on our own domain (nav.js MINE_READ, vercel.json /mapi)
+const MINE = (window.flyNav && (window.flyNav.MINE_READ || window.flyNav.MINE_API)) || "https://flyai-mine.fly.dev";
 const EXPLORER = "https://robinhoodchain.blockscout.com";
 const BOARD_EVERY = 60_000, FLY_EVERY = 4_000, FEED_EVERY = 10_000, TOP_N = 24;
 

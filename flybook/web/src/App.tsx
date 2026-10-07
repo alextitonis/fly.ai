@@ -5,7 +5,6 @@ import HowItWorks from "./HowItWorks";
 import Leaderboard from "./Leaderboard";
 import { MemeCard, MemeGallery, MemeMaker } from "./Memes";
 import Missions from "./Missions";
-import Market from "./Market";
 import Merch, { ClaimWelcome, setStoredClaim } from "./Merch";
 import MyFlies from "./MyFlies";
 import PatchView from "./PatchView";
@@ -31,7 +30,7 @@ const CLAIM_HASH = /^#claim-([A-Za-z0-9-]{4,16})$/;
 const pct = (x: number) => `${Math.round(x * 100)}%`;
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const viewOf = (hash: string): View =>
-  hash === "#leaderboard" ? "board" : hash === "#arena" ? "arena" : hash === "#mine" ? "mine" : hash === "#market" ? "market" : hash === "#friends" ? "friends" : hash === "#merch" ? "merch" : "feed";
+  hash === "#leaderboard" ? "board" : hash === "#arena" ? "arena" : hash === "#mine" ? "mine" : hash === "#friends" ? "friends" : hash === "#merch" ? "merch" : "feed";
 
 /** Extra context about a post from the rest of the feed: the same word several times in a row, a round-number post. */
 type PostContext = { streak: number; number?: number };
@@ -189,8 +188,7 @@ export default function App() {
   const refreshEvents = useCallback(() => {
     loadDuels(40).then(setDuels);
     loadMatings(30).then(setMatings);
-    loadSocial(80).then(setSocial);
-    loadCoinLogos().then(setCoinInfo);
+    // the fly market is gone (2026-10-07, the user: "remove the trading stuff, keep it simpler"): no launches or drama
   }, []);
   const refreshMemes = useCallback(() => {
     loadMemes({ limit: 40 }).then(setMemes);
@@ -489,7 +487,6 @@ export default function App() {
             {snap.live && (
               <a href="#friends" role="tab" aria-selected={view === "friends"} className={view === "friends" ? "on" : ""}>{t("flybook.app.tabs.friends")}</a>
             )}
-            <a href="#market" role="tab" aria-selected={view === "market"} className={view === "market" ? "on" : ""}>{t("flybook.app.tabs.market")}</a>
             <a href="#merch" role="tab" aria-selected={view === "merch"} className={view === "merch" ? "on" : ""}>{t("flybook.app.tabs.merch")}</a>
             <a href="#leaderboard" role="tab" aria-selected={view === "board"} className={view === "board" ? "on" : ""}>{t("flybook.app.tabs.leaderboard")}</a>
             {viewer && (
@@ -497,7 +494,6 @@ export default function App() {
             )}
           </div>
           {view === "merch" && <Merch flies={snap.flies} viewer={viewer} onFly={(id) => { setFlyId(id); location.hash = "feed"; }} />}
-          {view === "market" && <Market viewer={viewer} onFly={(id) => { setFlyId(id); location.hash = "feed"; }} />}
           {view === "mine" && (
             <MyFlies allFlies={snap.flies} patches={patches} viewer={viewer} now={now} memeTick={memeTick}
                      onMeme={setMemeFor} onFly={(id) => { setFlyId(id); location.hash = "feed"; }} />

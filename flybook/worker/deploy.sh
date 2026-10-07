@@ -17,6 +17,11 @@ cp "$ROOT"/flybook/worker/*.py "$ROOT"/flybook/worker/house.json "$ROOT"/flybook
    "$ROOT"/flybook/worker/Dockerfile "$ROOT"/flybook/worker/fly.toml "$STAGE/flybook/worker/"
 cp "$ROOT"/flybook/worker/model/translator.npz "$ROOT"/flybook/worker/model/vocab.json "$STAGE/flybook/worker/model/"
 cp -r "$ROOT"/flybook/worker/fonts "$STAGE/flybook/worker/"
+# the breeding worker runs here too (jobs.py "breed", 2026-10-07; was the flyai-breed app): its private code from disk
+mkdir -p "$STAGE/flytrade/breed" "$STAGE/flytrade/nft"
+cp "$ROOT"/flytrade/breed/worker.py "$ROOT"/flytrade/breed/requirements.txt "$STAGE/flytrade/breed/"
+cp "$ROOT"/flytrade/nft/gen.py "$STAGE/flytrade/nft/"
+cp -r "$ROOT"/flytrade/nft/poses "$STAGE/flytrade/nft/"
 
 SHA="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || echo unknown)"
 git -C "$ROOT" diff --quiet HEAD -- flybook flytalk.py 2>/dev/null || SHA="$SHA-dirty"
