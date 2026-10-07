@@ -39,7 +39,8 @@
     "pets": "Hardware NFTs",
     "pass": "FlightPass",
     "inventory": "Inventory",
-    "leaderboard": "Leaderboard"
+    "leaderboard": "Leaderboard",
+    "partner": "Partners"
   },
   "flyAlt": "A Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1207,7 +1208,9 @@
       },
       "house": {
         "title": "Buy FLYAI dips",
-        "blurb": "When FLYAI, the house token, drops well under its usual price it buys some, and sells once the price is back."
+        "blurb": "When FLYAI, the house token, drops well under its usual price it buys some, and sells once the price is back.",
+        "titleTok": "Buy {sym} dips",
+        "blurbTok": "When {sym}, this collection's house token, drops well under its usual price it buys some, and sells once the price is back."
       },
       "earn": {
         "title": "Earn",
@@ -1408,7 +1411,19 @@
       "row": "Earn (lent)",
       "waiting": "Your lent cash is coming back: the withdrawal goes as soon as it is in.",
       "saveHint": "Saved with the settings below."
-    }
+    },
+    "anyChain": "Pay from another chain",
+    "anyChainHint": "ETH or USDC on Base, Arbitrum or Ethereum",
+    "anyChainTitle": "From another chain",
+    "anyChainText": "Pay with ETH or USDC on Base, Arbitrum or Ethereum: Relay brings it here as USDG, into this wallet, in one step.",
+    "anyChainFrom": "Chain",
+    "anyChainGets": "≈ {usd} USDG arrives",
+    "anyChainNoQuote": "no quote for that amount right now",
+    "anyChainStep": "Confirm in your wallet ({n} of {of})…",
+    "anyChainArriving": "Sent. Relay is bringing it to Robinhood Chain…",
+    "anyChainDone": "Arrived: it's in the wallet. It counts at the next update.",
+    "anyChainSoon": "Sent. It lands in this wallet in a moment.",
+    "anyChainFailed": "Relay couldn't deliver it; it refunds you on the chain you paid from."
   },
   "profile": {
     "title": "Your profile",
@@ -1740,5 +1755,46 @@
     "aria": "Private label for this fly",
     "private": "Only you can see this label.",
     "signInFailed": "Sign in to label your flies."
+  },
+  "partner": {
+    "title": "Partners",
+    "none": "No partner collections are open yet.",
+    "unknown": "That partner isn't here. Pick one:",
+    "heading": "{name} on fly.ai",
+    "intro": "Every {name} can run its own trading wallet, and all {name} holders share one pot. Hold {hold} $FLYAI to switch yours on.",
+    "collection": "Collection",
+    "step1": "Hold {hold} $FLYAI on Robinhood Chain in the same wallet that owns your NFT.",
+    "step2": "Open your {name} below, set up its wallet, then send it ETH or USDG on Robinhood Chain.",
+    "step3": "It trades on its own, and the shared pot pays holders every epoch.",
+    "potTitle": "Shared pot",
+    "potText": "One pot for every {name}. Each epoch ({days} days) its profit over just holding is split between the NFTs whose owners held the $FLYAI, by hours held. {fee}% fee.",
+    "potStarting": "The pot is warming up: its first numbers show after its first hour.",
+    "potValue": "Pot value",
+    "potVs": "vs {usd} just holding {asset}",
+    "potExcess": "Profit to share",
+    "potHolders": "{usd} for holders now",
+    "potEpoch": "Epoch {n}",
+    "potLeft": "left in this epoch",
+    "potQualified": "NFTs earning",
+    "potOwners": "{n} owners",
+    "potPaid": "Paid out",
+    "potEpochs": "{n} epochs",
+    "mineTitle": "Your {name}",
+    "connectText": "Connect the wallet that holds your {name} to see them.",
+    "finding": "Finding your {name}…",
+    "holdShort": "{have} $FLYAI: you need {need} to switch on",
+    "holdOk": "{have} $FLYAI: switched on",
+    "yourPot": "pot this epoch ≈ {usd} (owed {owed})",
+    "noneOwned": "This wallet holds no {name}.",
+    "hasWallet": "wallet",
+    "noWalletShort": "no wallet yet",
+    "lookup": "Look up any {name} #",
+    "open": "Open",
+    "noWallet": "This {name} has no wallet yet: its owner sets one up here.",
+    "setupText": "Give this {name} its own trading wallet. Free, ready in a minute or two.",
+    "setup": "Set up its wallet",
+    "making": "Making its wallet… (a minute or two)",
+    "walletIntro": "This {name}'s own wallet on Robinhood Chain: send it ETH or USDG and its brain trades it, with any options you switch on beside it. Only you can take money out; a {fee}% fee on profit only.",
+    "holdNeed": "{name} wallets need {need} $FLYAI in your wallet (you have {have}). Below it the wallet only closes trades; withdrawals always work."
   }
 }

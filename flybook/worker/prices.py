@@ -25,6 +25,9 @@ TOKENS = [
     ("ETH", "Ether", "0x0bd7d308f8e1639fab988df18a8011f41eacad73", "major"),          # WETH
     ("FLYAI", "fly.ai", "0x0088ce7905025c4b5ea1d49ab6179b6aaadb3b9c", "meme"),
     ("PONS", "Pons", "0x39dbed3a2bd333467115de45665cc57f813c4571", "meme"),
+    # GIGA DEX's token (2026-10-07, the user: "have that GIGA visible in the traders in general"; only GIGA DEX pools,
+    # onchain "giga" routes). "major": the chain's DEX token, kept out of the meme pool floor (its main pool ~$126k)
+    ("GIGA", "GIGA DEX", "0x5baaec1b70864f01dbdb747358ff59f2e2ccf7d5", "major"),
     ("AI", "Artificial Inu", "0x2e8c31162b855a2ffa90f6f8634643ad6f111e18", "meme"),
     ("MEME", "A Meme Coin", "0x385f4f8ae47651ce5f58f5265395a669f8281e18", "meme"),
     ("CASHCAT", "Cash Cat", "0x020bfc650a365f8bb26819deaabf3e21291018b4", "meme"),

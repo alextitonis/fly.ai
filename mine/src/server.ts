@@ -42,6 +42,7 @@ import { createSlots } from "./slots.ts";
 import { createArena } from "./arena.ts";
 import { createVaults } from "./vaults.ts";
 import { createRuyui } from "./ruyui.ts";
+import { createPartners } from "./partners.ts";
 import { createProfiles } from "./profiles.ts";
 import { createBounties } from "./bounties.ts";
 import { createRace } from "./race.ts";
@@ -3493,6 +3494,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/ruyui/") || p === "/api/admin/ruyui")) {
     if (await ruyui.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p === "/api/partners" || p.startsWith("/api/partners/") || p.startsWith("/api/admin/partners"))) {
+    if (await partners.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p === "/api/profiles" || p === "/api/profile" || p.startsWith("/api/profile/") || p.startsWith("/api/profiles/"))) {
     if (await profiles.route(req, res, url)) return;
   }
@@ -3793,6 +3797,14 @@ const vaults = createVaults({
 if (USER) vaults.start();
 // RUYUI (src/ruyui.ts, flytrade/RUYUI-PLAN.md): Ruyui Studios' NFTs on our wallets and pool, for their own front-end
 const ruyui = createRuyui({
+  pg, adminOnly, HttpError, send, readJson,
+  sessionWallet: sessionAddress,
+  rpcUrl: env("VAULT_RPC", CLAIMS.rpc),
+  env: process.env,
+});
+// partners' NFTs on our wallets and shared pots, on our site (src/partners.ts, flytrade/PARTNERS.md): one mine.partners
+// row each, no deploy to add one
+const partners = createPartners({
   pg, adminOnly, HttpError, send, readJson,
   sessionWallet: sessionAddress,
   rpcUrl: env("VAULT_RPC", CLAIMS.rpc),

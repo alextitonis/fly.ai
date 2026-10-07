@@ -39,7 +39,8 @@
     "pets": "Hardware NFTs",
     "pass": "FlightPass",
     "inventory": "Inventario",
-    "leaderboard": "Clasificación"
+    "leaderboard": "Clasificación",
+    "partner": "Socios"
   },
   "flyAlt": "Una Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1207,7 +1208,9 @@
       },
       "house": {
         "title": "Comprar caídas de FLYAI",
-        "blurb": "Cuando FLYAI, el token de la casa, cae bastante por debajo de su precio habitual, compra un poco y vende cuando el precio vuelve."
+        "blurb": "Cuando FLYAI, el token de la casa, cae bastante por debajo de su precio habitual, compra un poco y vende cuando el precio vuelve.",
+        "titleTok": "Comprar caídas de {sym}",
+        "blurbTok": "Cuando {sym}, el token de casa de esta colección, cae bastante por debajo de su precio habitual compra un poco, y vende cuando el precio vuelve."
       },
       "earn": {
         "title": "Earn",
@@ -1408,7 +1411,19 @@
       "row": "Earn (prestado)",
       "waiting": "Tu efectivo prestado está volviendo: el retiro sale en cuanto llegue.",
       "saveHint": "Se guarda con los ajustes de abajo."
-    }
+    },
+    "anyChain": "Pagar desde otra cadena",
+    "anyChainHint": "ETH o USDC en Base, Arbitrum o Ethereum",
+    "anyChainTitle": "Desde otra cadena",
+    "anyChainText": "Paga con ETH o USDC en Base, Arbitrum o Ethereum: Relay lo trae aquí como USDG, a esta billetera, en un paso.",
+    "anyChainFrom": "Cadena",
+    "anyChainGets": "≈ llegan {usd} USDG",
+    "anyChainNoQuote": "sin cotización para ese monto ahora",
+    "anyChainStep": "Confirma en tu billetera ({n} de {of})…",
+    "anyChainArriving": "Enviado. Relay lo está llevando a Robinhood Chain…",
+    "anyChainDone": "Llegó: está en la billetera. Cuenta en la próxima actualización.",
+    "anyChainSoon": "Enviado. Llega a esta billetera en un momento.",
+    "anyChainFailed": "Relay no pudo entregarlo; te reembolsa en la cadena desde la que pagaste."
   },
   "profile": {
     "title": "Tu perfil",
@@ -1740,5 +1755,46 @@
     "aria": "Etiqueta privada para esta mosca",
     "private": "Solo tú puedes ver esta etiqueta.",
     "signInFailed": "Inicia sesión para etiquetar tus moscas."
+  },
+  "partner": {
+    "title": "Socios",
+    "none": "Todavía no hay colecciones socias abiertas.",
+    "unknown": "Ese socio no está aquí. Elige uno:",
+    "heading": "{name} en fly.ai",
+    "intro": "Cada {name} puede tener su propia billetera de trading, y todos los holders de {name} comparten un bote. Ten {hold} $FLYAI para activar el tuyo.",
+    "collection": "Colección",
+    "step1": "Ten {hold} $FLYAI en Robinhood Chain en la misma billetera que tiene tu NFT.",
+    "step2": "Abre tu {name} abajo, crea su billetera y envíale ETH o USDG en Robinhood Chain.",
+    "step3": "Opera por su cuenta, y el bote compartido paga a los holders cada época.",
+    "potTitle": "Bote compartido",
+    "potText": "Un bote para todos los {name}. Cada época ({days} días) su ganancia sobre solo mantener se reparte entre los NFT cuyos dueños tenían los $FLYAI, por horas. Comisión del {fee}%.",
+    "potStarting": "El bote está arrancando: sus primeras cifras aparecen tras su primera hora.",
+    "potValue": "Valor del bote",
+    "potVs": "vs {usd} solo manteniendo {asset}",
+    "potExcess": "Ganancia a repartir",
+    "potHolders": "{usd} para holders ahora",
+    "potEpoch": "Época {n}",
+    "potLeft": "quedan en esta época",
+    "potQualified": "NFT ganando",
+    "potOwners": "{n} dueños",
+    "potPaid": "Pagado",
+    "potEpochs": "{n} épocas",
+    "mineTitle": "Tus {name}",
+    "connectText": "Conecta la billetera que tiene tus {name} para verlos.",
+    "finding": "Buscando tus {name}…",
+    "holdShort": "{have} $FLYAI: necesitas {need} para activar",
+    "holdOk": "{have} $FLYAI: activado",
+    "yourPot": "bote esta época ≈ {usd} (pendiente {owed})",
+    "noneOwned": "Esta billetera no tiene {name}.",
+    "hasWallet": "billetera",
+    "noWalletShort": "sin billetera",
+    "lookup": "Busca cualquier {name} #",
+    "open": "Abrir",
+    "noWallet": "Este {name} aún no tiene billetera: su dueño la crea aquí.",
+    "setupText": "Dale a este {name} su propia billetera de trading. Gratis, lista en un minuto o dos.",
+    "setup": "Crear su billetera",
+    "making": "Creando su billetera… (un minuto o dos)",
+    "walletIntro": "La billetera propia de este {name} en Robinhood Chain: envíale ETH o USDG y su cerebro opera con ella, junto con las opciones que actives. Solo tú puedes retirar; comisión del {fee}% solo sobre la ganancia.",
+    "holdNeed": "Las billeteras de {name} necesitan {need} $FLYAI en tu billetera (tienes {have}). Por debajo solo cierra operaciones; los retiros siempre funcionan."
   }
 }

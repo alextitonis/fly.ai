@@ -39,7 +39,8 @@
     "pets": "Hardware NFTs",
     "pass": "FlightPass",
     "inventory": "库存",
-    "leaderboard": "排行榜"
+    "leaderboard": "排行榜",
+    "partner": "合作伙伴"
   },
   "flyAlt": "一只 Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1205,7 +1206,9 @@
       },
       "house": {
         "title": "逢低买入 FLYAI",
-        "blurb": "当平台代币 FLYAI 明显跌破平时价格时买入一些，价格回升后卖出。"
+        "blurb": "当平台代币 FLYAI 明显跌破平时价格时买入一些，价格回升后卖出。",
+        "titleTok": "逢低买入 {sym}",
+        "blurbTok": "当 {sym}（这个系列的主场代币）跌到明显低于平时的价格时买入一些，价格回升后卖出。"
       },
       "earn": {
         "title": "Earn",
@@ -1406,7 +1409,19 @@
       "row": "Earn（出借中）",
       "waiting": "你出借的现金正在取回：到账后立即提现。",
       "saveHint": "与下面的设置一起保存。"
-    }
+    },
+    "anyChain": "从其他链付款",
+    "anyChainHint": "Base、Arbitrum 或以太坊上的 ETH 或 USDC",
+    "anyChainTitle": "从其他链",
+    "anyChainText": "用 Base、Arbitrum 或以太坊上的 ETH 或 USDC 付款：Relay 一步把它以 USDG 送进这个钱包。",
+    "anyChainFrom": "链",
+    "anyChainGets": "≈ 到账 {usd} USDG",
+    "anyChainNoQuote": "这个金额暂时没有报价",
+    "anyChainStep": "在钱包中确认（{n}/{of}）…",
+    "anyChainArriving": "已发送。Relay 正在送到 Robinhood Chain…",
+    "anyChainDone": "已到账：已在钱包中，下次更新时计入。",
+    "anyChainSoon": "已发送。稍后到达这个钱包。",
+    "anyChainFailed": "Relay 无法送达；会在你付款的链上退款。"
   },
   "profile": {
     "title": "你的资料",
@@ -1738,5 +1753,46 @@
     "aria": "这只苍蝇的私人标签",
     "private": "只有你能看到这个标签。",
     "signInFailed": "登录后才能给苍蝇加标签。"
+  },
+  "partner": {
+    "title": "合作伙伴",
+    "none": "目前还没有开放的合作伙伴系列。",
+    "unknown": "找不到这个合作伙伴。请选择：",
+    "heading": "{name} 登陆 fly.ai",
+    "intro": "每个 {name} 都可以拥有自己的交易钱包，所有 {name} 持有者共享一个奖池。持有 {hold} $FLYAI 即可开启。",
+    "collection": "系列",
+    "step1": "在拥有你 NFT 的同一个钱包里，于 Robinhood Chain 上持有 {hold} $FLYAI。",
+    "step2": "在下方打开你的 {name}，创建它的钱包，然后在 Robinhood Chain 上向它发送 ETH 或 USDG。",
+    "step3": "它会自己交易，共享奖池每个周期向持有者分配收益。",
+    "potTitle": "共享奖池",
+    "potText": "所有 {name} 共用一个奖池。每个周期（{days} 天），奖池相对单纯持有的利润，会按持有小时数分给其所有者持有 $FLYAI 的 NFT。手续费 {fee}%。",
+    "potStarting": "奖池正在启动：第一个小时后显示数据。",
+    "potValue": "奖池价值",
+    "potVs": "对比单纯持有 {asset} 的 {usd}",
+    "potExcess": "可分配利润",
+    "potHolders": "目前持有者可得 {usd}",
+    "potEpoch": "第 {n} 周期",
+    "potLeft": "本周期剩余",
+    "potQualified": "正在赚取的 NFT",
+    "potOwners": "{n} 位所有者",
+    "potPaid": "已发放",
+    "potEpochs": "{n} 个周期",
+    "mineTitle": "你的 {name}",
+    "connectText": "连接持有你 {name} 的钱包即可查看。",
+    "finding": "正在查找你的 {name}…",
+    "holdShort": "{have} $FLYAI：需要 {need} 才能开启",
+    "holdOk": "{have} $FLYAI：已开启",
+    "yourPot": "本周期奖池 ≈ {usd}（待发 {owed}）",
+    "noneOwned": "这个钱包没有 {name}。",
+    "hasWallet": "已有钱包",
+    "noWalletShort": "尚无钱包",
+    "lookup": "查找任意 {name} #",
+    "open": "打开",
+    "noWallet": "这个 {name} 还没有钱包：由它的所有者在这里创建。",
+    "setupText": "为这个 {name} 创建专属交易钱包。免费，一两分钟即可完成。",
+    "setup": "创建钱包",
+    "making": "正在创建钱包…（一两分钟）",
+    "walletIntro": "这个 {name} 在 Robinhood Chain 上的专属钱包：向它发送 ETH 或 USDG，它的大脑就会交易，你开启的选项也会一起交易。只有你能取出资金；仅对利润收取 {fee}% 手续费。",
+    "holdNeed": "{name} 钱包需要你的钱包持有 {need} $FLYAI（你有 {have}）。不足时钱包只会平仓；提款随时可用。"
   }
 }

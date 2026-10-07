@@ -1,9 +1,9 @@
 /**
  * Wiring of the page: fixed-timestep simulation, rendering, and the overlay.
  *
- * By default the page watches the shared world that runs on the server (live.ts): every visitor sees the same flies,
- * and nothing is simulated here. ?local runs a private field in this tab instead, with the sliders; so does a page that
- * cannot reach the server.
+ * Every visitor runs their own private field in this tab, with the sliders; nothing is saved anywhere (2026-10-07, the
+ * user: "kill the world simulation, update the front-end to be local, without saving etc to be cheaper" - the shared
+ * always-on server, world/server, is stopped; live.ts is kept for if it ever comes back).
  *
  * The simulation runs at a fixed 50 Hz (flybrain.dt = 20 ms) in its own
  * accumulator loop, so the network step is decoupled from the frame rate.
@@ -19,7 +19,7 @@ import { Wiz } from "./wiz.ts";
 import { WizView } from "./wizview.ts";
 import { PuppeteerView } from "./puppeteer.ts";
 import { DataPanel } from "./datapanel.ts";
-import { LIVE_URL, LiveWorld } from "./live.ts";
+import type { LiveWorld } from "./live.ts";
 import { keyOf, progress, setupSim, t, tx } from "./i18n.ts";
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -42,30 +42,8 @@ const wiz = new Wiz(world);
 const wizView = new WizView(renderer.scene, `${import.meta.env.BASE_URL}models/wiz.glb`);
 const puppeteer = new PuppeteerView(renderer.scene);
 
-// ---- shared world or a private one ---------------------------------------------------------------------------------
-let live: LiveWorld | null = null;
-const LIVE_ONLY = ["sliders", "threat", "gust", "reset"];         // world-changing controls, hidden while watching
-if (!new URLSearchParams(location.search).has("local")) {
-  world.flies.length = 0;                                         // nothing until the server's flies arrive
-  live = new LiveWorld(world, () => dataPanel.update());
-  dataPanel.remote = LIVE_URL;
-  for (const id of LIVE_ONLY) $(id).style.display = "none";
-  const note = document.createElement("p");
-  note.className = "note";
-  note.textContent = t("sim.shared.note");
-  $("wizbars").before(note);
-  setTimeout(() => {
-    if (!live || live.status !== "connecting") return;
-    // the server is unreachable: run a private field here rather than show an empty one
-    live.close();
-    live = null;
-    dataPanel.remote = null;
-    for (const id of LIVE_ONLY) $(id).style.display = "";
-    note.textContent = t("sim.shared.unreachable");
-    for (const id of ["learnReward", "learnHebb", "learnMemory"]) $<HTMLInputElement>(id).disabled = false;
-    world.setFlyCount(START_FLIES);
-  }, 10_000);
-}
+// ---- a private field in this tab (the shared server world is off since 2026-10-07: `live` stays null) --------------
+const live = null as LiveWorld | null;
 const replay = { fired: new Int32Array(world.wiring.n), firedCount: 0 };
 let wizCam = false;
 let wizFrame = 0;

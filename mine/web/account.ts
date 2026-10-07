@@ -61,12 +61,21 @@ export function errorText(err: unknown): string {
   return e?.shortMessage ?? e?.message ?? String(err);
 }
 
+/** The chains a visitor can pay from (Relay brings it to Robinhood Chain): public RPCs, read by the wallet kit. */
+const PAY_CHAINS = [
+  { chain_id: 8453, chain_name: "Base", rpc: "https://mainnet.base.org", explorer: "https://basescan.org" },
+  { chain_id: 42161, chain_name: "Arbitrum One", rpc: "https://arb1.arbitrum.io/rpc", explorer: "https://arbiscan.io" },
+  { chain_id: 1, chain_name: "Ethereum", rpc: "https://ethereum-rpc.publicnode.com", explorer: "https://etherscan.io" },
+];
+
 let kitLoad: Promise<Kit> | null = null;
 function kit(): Promise<Kit> {
   kitLoad ??= (async () => {
     const [k, chain] = await Promise.all([import("./wallet/kit.js") as Promise<Kit>, api(API, "/api/orders/config", null)]);
-    // USDC payments (card buyers) happen on a second chain, Base
-    await k.setup({ chain, others: chain.usdc ? [chain.usdc] : [], walletConnectProjectId: WALLETCONNECT_PROJECT_ID || undefined, url: location.origin, icon: `${location.origin}/assets/logo.webp` });
+    // USDC payments (card buyers) happen on a second chain, Base; Base, Arbitrum and Ethereum also pay into Robinhood
+    // through Relay (2026-10-07, "pay from any chain": the token page's swap box, docs/assets/buy.js)
+    const others = [chain.usdc, ...PAY_CHAINS].filter((c, i, all) => c && all.findIndex((x) => x?.chain_id === c.chain_id) === i);
+    await k.setup({ chain, others, walletConnectProjectId: WALLETCONNECT_PROJECT_ID || undefined, url: location.origin, icon: `${location.origin}/assets/logo.webp` });
     return k;
   })();
   kitLoad.catch(() => { kitLoad = null; });

@@ -486,6 +486,10 @@
 .buybox .buy-pcts { display: flex; gap: 4px; }
 .buybox .buy-pcts button { background: var(--bg-2); color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; font: 500 12px var(--mono); cursor: pointer; }
 .buybox .buy-pcts button:hover { border-color: var(--mint); color: var(--mint); }
+.buybox .buy-route { display: flex; gap: 6px; flex-wrap: wrap; margin: -6px 0 14px; }
+.buybox .buy-route[hidden] { display: none; }
+.buybox .buy-route button { background: var(--bg-2); color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font: 500 12px var(--mono); cursor: pointer; }
+.buybox .buy-route button[aria-checked="true"] { border-color: var(--mint); color: var(--mint); }
 @media (max-width: 640px) { .buybox .buy-row { grid-template-columns: 1fr; } }
 
 /* the Earn page (earn.html, assets/earn.js; 2026-10-06, one venue + token tabs 2026-10-07): the lend box (a .buybox) and positions */

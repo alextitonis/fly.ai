@@ -39,7 +39,8 @@
     "pets": "Hardware NFTs",
     "pass": "FlightPass",
     "inventory": "인벤토리",
-    "leaderboard": "리더보드"
+    "leaderboard": "리더보드",
+    "partner": "파트너"
   },
   "flyAlt": "Trader Fly 한 마리",
   "flyName": "Trader Fly #{id}",
@@ -1205,7 +1206,9 @@
       },
       "house": {
         "title": "FLYAI 하락 매수",
-        "blurb": "하우스 토큰 FLYAI가 평소 가격보다 크게 떨어지면 매수하고, 가격이 돌아오면 매도합니다."
+        "blurb": "하우스 토큰 FLYAI가 평소 가격보다 크게 떨어지면 매수하고, 가격이 돌아오면 매도합니다.",
+        "titleTok": "{sym} 하락 시 매수",
+        "blurbTok": "이 컬렉션의 하우스 토큰 {sym}이(가) 평소 가격보다 크게 떨어지면 일부 매수하고, 가격이 회복되면 매도합니다."
       },
       "earn": {
         "title": "Earn",
@@ -1406,7 +1409,19 @@
       "row": "Earn (빌려줌)",
       "waiting": "빌려준 현금이 돌아오는 중입니다. 들어오는 대로 출금됩니다.",
       "saveHint": "아래 설정과 함께 저장됩니다."
-    }
+    },
+    "anyChain": "다른 체인에서 결제",
+    "anyChainHint": "Base, Arbitrum, 이더리움의 ETH 또는 USDC",
+    "anyChainTitle": "다른 체인에서",
+    "anyChainText": "Base, Arbitrum, 이더리움의 ETH 또는 USDC로 결제하세요: Relay가 한 번에 USDG로 이 지갑에 넣어 줍니다.",
+    "anyChainFrom": "체인",
+    "anyChainGets": "≈ {usd} USDG 도착",
+    "anyChainNoQuote": "지금은 이 금액의 견적이 없습니다",
+    "anyChainStep": "지갑에서 확인하세요 ({n}/{of})…",
+    "anyChainArriving": "전송됨. Relay가 Robinhood Chain으로 옮기는 중…",
+    "anyChainDone": "도착: 지갑에 들어왔습니다. 다음 업데이트에 반영됩니다.",
+    "anyChainSoon": "전송됨. 곧 이 지갑에 도착합니다.",
+    "anyChainFailed": "Relay가 전달하지 못했습니다; 결제한 체인에서 환불됩니다."
   },
   "profile": {
     "title": "내 프로필",
@@ -1738,5 +1753,46 @@
     "aria": "이 플라이의 비공개 라벨",
     "private": "이 라벨은 당신만 볼 수 있습니다.",
     "signInFailed": "플라이에 라벨을 붙이려면 로그인하세요."
+  },
+  "partner": {
+    "title": "파트너",
+    "none": "아직 열린 파트너 컬렉션이 없습니다.",
+    "unknown": "해당 파트너가 없습니다. 선택하세요:",
+    "heading": "fly.ai의 {name}",
+    "intro": "모든 {name}은(는) 자체 트레이딩 지갑을 운영할 수 있고, 모든 {name} 홀더가 하나의 공동 풀을 공유합니다. {hold} $FLYAI를 보유하면 켜집니다.",
+    "collection": "컬렉션",
+    "step1": "NFT를 보유한 같은 지갑에 Robinhood Chain의 $FLYAI {hold}개를 보유하세요.",
+    "step2": "아래에서 {name}을(를) 열고 지갑을 만든 뒤, Robinhood Chain에서 ETH 또는 USDG를 보내세요.",
+    "step3": "알아서 거래하고, 공동 풀은 매 에포크마다 홀더에게 지급합니다.",
+    "potTitle": "공동 풀",
+    "potText": "모든 {name}을(를) 위한 하나의 풀. 매 에포크({days}일)마다 단순 보유 대비 수익을, $FLYAI를 보유한 소유자의 NFT에 보유 시간만큼 나눕니다. 수수료 {fee}%.",
+    "potStarting": "풀이 준비 중입니다: 첫 1시간 뒤에 수치가 표시됩니다.",
+    "potValue": "풀 가치",
+    "potVs": "{asset} 단순 보유 시 {usd}",
+    "potExcess": "나눌 수익",
+    "potHolders": "현재 홀더 몫 {usd}",
+    "potEpoch": "에포크 {n}",
+    "potLeft": "이번 에포크 남은 시간",
+    "potQualified": "수익 중인 NFT",
+    "potOwners": "소유자 {n}명",
+    "potPaid": "지급액",
+    "potEpochs": "에포크 {n}회",
+    "mineTitle": "내 {name}",
+    "connectText": "{name}을(를) 보유한 지갑을 연결하면 볼 수 있습니다.",
+    "finding": "{name} 찾는 중…",
+    "holdShort": "$FLYAI {have}개: 켜려면 {need}개 필요",
+    "holdOk": "$FLYAI {have}개: 켜짐",
+    "yourPot": "이번 에포크 풀 ≈ {usd} (미지급 {owed})",
+    "noneOwned": "이 지갑에는 {name}이(가) 없습니다.",
+    "hasWallet": "지갑 있음",
+    "noWalletShort": "지갑 없음",
+    "lookup": "{name} 번호로 찾기 #",
+    "open": "열기",
+    "noWallet": "이 {name}은(는) 아직 지갑이 없습니다: 소유자가 여기서 만듭니다.",
+    "setupText": "이 {name}에게 자체 트레이딩 지갑을 만들어 주세요. 무료이며 1~2분이면 준비됩니다.",
+    "setup": "지갑 만들기",
+    "making": "지갑 만드는 중… (1~2분)",
+    "walletIntro": "Robinhood Chain에 있는 이 {name}의 전용 지갑: ETH나 USDG를 보내면 브레인이 거래하고, 켜 둔 옵션도 함께 거래합니다. 출금은 본인만 할 수 있으며, 수익에 대해서만 {fee}% 수수료가 붙습니다.",
+    "holdNeed": "{name} 지갑은 내 지갑에 $FLYAI {need}개가 필요합니다(보유 {have}). 부족하면 포지션 정리만 하며, 출금은 언제나 가능합니다."
   }
 }
