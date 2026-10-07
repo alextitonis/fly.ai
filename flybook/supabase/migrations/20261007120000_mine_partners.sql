@@ -27,6 +27,6 @@ insert into mine.partners (id, name, "on", config) values ('bullas', 'Bullas', f
   "fee_bps": 400, "partner_fee_to": "0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea", "partner_share": 0.5, "hold_flyai": 200000,
   "house_token": {"address": "0x5BaaeC1B70864f01dbdb747358FF59F2E2cCF7D5", "symbol": "GIGA"},
   "wallets": {"on": true},
-  "pool": {"on": true, "mode": "paper", "asset": "USDG", "paper_usd": 2000, "brains": 1, "rule": "equal",
+  "pool": {"on": true, "mode": "paper", "asset": "USDG", "paper_usd": 500, "brains": 1, "rule": "equal",
            "house_pct": 10, "house_dip_pct": 2, "launch_pct": 5, "epoch_days": 7}
 }'::jsonb);
