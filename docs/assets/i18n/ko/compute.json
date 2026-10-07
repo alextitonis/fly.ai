@@ -637,6 +637,7 @@
     "shaderJob": "구매자의 GPU 셰이더, 작업 #{index}",
     "worldJob": "월드 시뮬레이션, 시드 {seed}",
     "probeJob": "뇌 프로브: {condition}",
-    "fightJob": "Fly Colosseum 대결"
+    "fightJob": "Fly Colosseum 대결",
+    "replayJob": "트레이딩 규칙 리플레이: {name}"
   }
 }

@@ -637,6 +637,7 @@
     "shaderJob": "el shader de GPU de un comprador, trabajo #{index}",
     "worldJob": "una simulación del mundo, semilla {seed}",
     "probeJob": "una sonda cerebral: {condition}",
-    "fightJob": "un combate de Fly Colosseum"
+    "fightJob": "un combate de Fly Colosseum",
+    "replayJob": "una repetición de regla de trading: {name}"
   }
 }

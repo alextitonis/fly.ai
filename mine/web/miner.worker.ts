@@ -1,13 +1,14 @@
 /**
  * One CPU mining thread: downloads the connectome once, then runs whatever job the page hands it.
  *
- * in:  {type: "load", fixed, connectome}  ·  {type: "run", job, params}  ·  {type: "probe", job, kind?: "fight", params}
+ * in:  {type: "load", fixed, connectome}  ·  {type: "run", job, params}  ·  {type: "probe", job, kind?: "fight" | "replay", params}
  * out: {type: "progress", text} · {type: "ready"} · {type: "step", job, step, steps} · {type: "done", job, result}
  *      {type: "error", job?, text}
  */
 import type { Fixed } from "../src/fixed.ts";
 import type { Model } from "../src/model.ts";
 import { runFightJob } from "../src/fightjob.ts";
+import { runReplayJob } from "../src/replay.ts";
 import { runProbe } from "../src/probe.ts";
 import { runTask, type TaskParams } from "../src/runner.ts";
 import { downloadModel } from "./download.ts";
@@ -36,6 +37,26 @@ ctx.onmessage = (e: MessageEvent) => {
         ctx.postMessage({ type: "ready" });
       })
       .catch((err) => ctx.postMessage({ type: "error", text: String(err) }));
+  } else if (msg.type === "probe" && msg.kind === "replay") {
+    // a trading-rule replay (src/replay.ts): no brain involved, only the order's price data (fetched once, then cached)
+    // a download that fails is this machine's trouble, not an answer: it goes back out (type "error")
+    let unreachable = false;
+    const fetchBytes = async (url: string) => {
+      const res = await fetch(url).catch((err) => {
+        unreachable = true;
+        throw err;
+      });
+      if (!res.ok) {
+        unreachable = true;
+        throw new Error(`replay data: HTTP ${res.status}`);
+      }
+      return new Uint8Array(await res.arrayBuffer());
+    };
+    void runReplayJob(msg.params, fetchBytes).then(
+      (bytes) => ctx.postMessage({ type: "done", job: msg.job, result: { output: b64(bytes) } }),
+      (err) => ctx.postMessage(unreachable
+        ? { type: "error", job: msg.job, text: String(err instanceof Error ? err.message : err) }
+        : { type: "done", job: msg.job, result: { error: err instanceof Error ? err.message : String(err) } }));
   } else if (msg.type === "probe") {
     // a house probe or Colosseum fight on this thread's loaded connectome: answer {output: base64} or {error}
     if (!model || !fixed) return ctx.postMessage({ type: "error", job: msg.job, text: "connectome not loaded" });

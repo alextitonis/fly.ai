@@ -1226,13 +1226,17 @@ function pickOrder(miner: string, k: string, orders: { id: string; weight: numbe
 }
 
 /** What miners know how to run; a client that doesn't say is an older one and gets only the brain. */
-const KINDS = ["connectome", "wasm", "wgsl", "world", "probe", "fight", "embed"];
+const KINDS = ["connectome", "wasm", "wgsl", "world", "probe", "fight", "replay", "embed"];
 
 /** A claimed program job: where to fetch it and its limits. */
 function openJob(params: string, kind: string) {
   const p = JSON.parse(params);
   // our own code: the miner already has it, only the job's parameters travel
-  if (isHouseKind(kind)) return { kind, index: p.index, timeout_s: p.timeout_s, max_output: MAX_OUTPUT_BYTES, ...p.job };
+  if (isHouseKind(kind)) {
+    return { kind, index: p.index, timeout_s: p.timeout_s, max_output: MAX_OUTPUT_BYTES, ...p.job,
+      // a replay's price data is one upload every job of the order shares (the miner fetches it once)
+      ...(kind === "replay" ? { data_url: `/api/blobs/${p.job.data}` } : {}) };
+  }
   const blob = (h: string) => `/api/blobs/${h}`;
   if (kind === "embed") {
     // the model comes from its own hub at a pinned revision; only the texts travel through us
@@ -3244,8 +3248,13 @@ function createHouse(body: any) {
   let open: OpenSpec | null = null;
   let spec: object;
   let jobCount: number;
+  const replayData: string[] = []; // a replay order's price data: kept like the order's other uploads
   if (isHouseKind(body.spec?.kind)) {
     const h = asked(() => houseSpec(body.spec, 1_000_000));
+    if (body.spec.kind === "replay") {
+      needBlob(h.params.data as string); // 400 if the data was never uploaded
+      replayData.push(h.params.data as string);
+    }
     jobCount = h.inputs.length;
     spec = { ...h, inputs: undefined };
     open = h;
@@ -3277,7 +3286,7 @@ function createHouse(body: any) {
         maxParallel, hours, now, now, body.label, units);
     if (open) {
       addInputs(id, 0, open.inputs);
-      for (const h of [open.program, ...new Set(open.inputs)]) if (h && h !== INDEX_INPUT) db.prepare("update blobs set keep = 1 where hash = ?").run(h);
+      for (const h of [open.program, ...new Set(open.inputs), ...replayData]) if (h && h !== INDEX_INPUT) db.prepare("update blobs set keep = 1 where hash = ?").run(h);
     }
     start(orderRow(id)!, null);
   });

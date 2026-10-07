@@ -637,6 +637,7 @@
     "shaderJob": "买家的 GPU 着色器，任务 #{index}",
     "worldJob": "一次世界模拟，种子 {seed}",
     "probeJob": "一次大脑探针：{condition}",
-    "fightJob": "一场 Fly Colosseum 对决"
+    "fightJob": "一场 Fly Colosseum 对决",
+    "replayJob": "一次交易规则回放：{name}"
   }
 }

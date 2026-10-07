@@ -325,7 +325,36 @@ export function cosineAgree(a: Uint8Array, b: Uint8Array, dim: number, min: numb
 export const isProgramKind = (kind: unknown): boolean => isOpenKind(kind) || isHouseKind(kind);
 
 /** Our own job kinds: the miner already has the code, only the job's parameters travel. */
-export const isHouseKind = (kind: unknown): kind is "world" | "probe" | "fight" => kind === "world" || kind === "probe" || kind === "fight";
+export const isHouseKind = (kind: unknown): kind is "world" | "probe" | "fight" | "replay" =>
+  kind === "world" || kind === "probe" || kind === "fight" || kind === "replay";
+
+/** What a replay setting's rule must carry, by strategy (src/replay.ts reads these without defaults). */
+const REPLAY_NEEDS: Record<string, string[]> = {
+  reversal: ["categories", "lookback_bars", "hold_bars", "frac", "band", "partial"],
+  core: ["top", "hold_bars", "band", "partial"],
+  stockgap: ["categories", "entry_pct", "exit_pct", "max_hold_bars", "max_positions"],
+  model: [],
+};
+/** settings in one replay order: each one's rule travels in its task's params */
+export const REPLAY_MAX_SETTINGS = 5000;
+
+/** A replay setting, checked: name, fee, starting money, how often to record the value, and the rule. */
+function replaySetting(x: any, i: number) {
+  if (typeof x?.name !== "string" || !/^[\w.:+=,-]{1,100}$/.test(x.name)) throw new SpecError(`setting ${i}: name is 1..100 of letters, digits and . : + = , _ -`);
+  const rule = x.rule;
+  if (!rule || typeof rule !== "object" || Array.isArray(rule)) throw new SpecError(`setting ${x.name}: rule is an object`);
+  const needs = REPLAY_NEEDS[rule.strategy];
+  if (!needs) throw new SpecError(`setting ${x.name}: strategy is one of ${Object.keys(REPLAY_NEEDS).join(", ")}`);
+  for (const k of needs) if (rule[k] === undefined || rule[k] === null) throw new SpecError(`setting ${x.name}: ${rule.strategy} needs ${k}`);
+  if (rule.categories !== undefined && (!Array.isArray(rule.categories) || rule.categories.some((c: unknown) => typeof c !== "string"))) {
+    throw new SpecError(`setting ${x.name}: categories is a list of names`);
+  }
+  if (JSON.stringify(rule).length > 4000) throw new SpecError(`setting ${x.name}: the rule is over 4,000 characters`);
+  return {
+    name: x.name, fee: num(x.fee ?? 0.003, `setting ${x.name} fee`, 0, 0.2), usd: num(x.usd ?? 2500, `setting ${x.name} usd`, 10, 10_000_000),
+    every: int(x.every ?? 16, `setting ${x.name} every`, 1, 10_000), rule,
+  };
+}
 
 /**
  * A wasm or wgsl spec, normalized. Program and input hashes are checked against the uploads by the server.
@@ -423,7 +452,21 @@ const TYPE_NAME = /^[\w .,:+-]{1,48}$/;
  *     conditions: [{ name: "threat", stimuli: [{ sense: "threat", amount: 0.8, from: 25, to: 75 }] }, ...] }
  */
 export function houseSpec(spec: any, maxJobs: number): HouseSpec {
-  if (!spec || !isHouseKind(spec.kind)) throw new SpecError("house kinds are world, probe and fight");
+  if (!spec || !isHouseKind(spec.kind)) throw new SpecError("house kinds are world, probe, fight and replay");
+  if (spec.kind === "replay") {
+    // trading-rule settings walked over recorded prices (src/replay.ts): one job a setting, the data one upload
+    if (typeof spec.data !== "string" || !HASH.test(spec.data)) throw new SpecError("data is the sha256 of a replay data upload");
+    if (!Array.isArray(spec.settings) || !spec.settings.length) throw new SpecError("settings is a non-empty list");
+    if (spec.settings.length > Math.min(maxJobs, REPLAY_MAX_SETTINGS)) throw new SpecError(`one replay order holds at most ${Math.min(maxJobs, REPLAY_MAX_SETTINGS)} settings`);
+    const settings = spec.settings.map(replaySetting);
+    if (new Set(settings.map((s: { name: string }) => s.name)).size !== settings.length) throw new SpecError("setting names must be unique");
+    return {
+      kind: spec.kind, program: "", inputs: settings.map(() => INDEX_INPUT),
+      timeout_s: spec.timeout_s === undefined ? 120 : int(spec.timeout_s, "timeout_s", 10, 1800),
+      redundancy: spec.redundancy === undefined ? 2 : int(spec.redundancy, "redundancy", 1, 5),
+      compare: "exact", dispatch: null, output_bytes: null, keep_open: false, params: { data: spec.data, settings }, per_seed: 1,
+    } as HouseSpec;
+  }
   const seeds = spec.kind === "fight" && spec.fights !== undefined ? 0 : int(spec.seeds, "seeds", 1, 1_000_000);
   const seedBase = spec.seed_base === undefined ? 1 : int(spec.seed_base, "seed_base", 0, 2 ** 31 - 2_000_000);
   const redundancy = spec.redundancy === undefined ? 2 : int(spec.redundancy, "redundancy", 1, 5);
@@ -528,6 +571,7 @@ function mulberry32(a: number): () => number {
 export function houseJob(spec: any, index: number): Record<string, unknown> {
   const p = spec.params;
   const seedNo = Math.floor(index / (spec.per_seed ?? 1));
+  if (spec.kind === "replay") return { data: p.data, setting: p.settings[index] };
   if (spec.kind === "world") {
     return { seed: p.seed_base + seedNo, flies: p.flies, seconds: p.seconds, genes: p.genes, learning: p.learning, sample_s: p.sample_s };
   }
@@ -554,6 +598,9 @@ export function houseUnits(spec: any): number {
   // measured 2026-10-01: a fight takes 1.5-3.3 s on one core (5-6 rounds of 2 x 25 float steps); a 750-step brain
   // job, 7.5 units, takes ~6 s, so 3.5 keeps the pay per second about even
   if (spec.kind === "fight") return 3.5;
+  // measured 2026-10-07: a replay (~2,700 bars, ~170 tokens) takes 0.1-0.25 s on a desktop core, say ~0.5 s in a
+  // slower browser; a 750-step brain job, 7.5 units, takes ~6 s, so 0.5 keeps the pay per second about even
+  if (spec.kind === "replay") return 0.5;
   return 7.5;
 }
 

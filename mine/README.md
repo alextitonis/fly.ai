@@ -332,6 +332,14 @@ their own beside the batch. Everything they upload or produce is kept for good (
     CPU lanes' loaded connectome. The output is u16 spike counts, bins × neurons, for the 1,314 descending
     neurons and 58 wing motor neurons. It matches the screen engine spike for spike. Senses match Flybook's
     words (threat, mate, wind, taste, touch, cva) plus `reward` (PAM).
+  - **`fight`** (house only): one Fly Colosseum fight (`src/fightjob.ts`): practice fights between random
+    fighters (balance), or a finished season's fights replayed to check the server's results.
+  - **`replay`** (house only, 2026-10-07): one trading-rule setting walked over weeks of recorded 15-minute prices
+    as a paper book (`src/replay.ts`: the trading desk's reversal, core, stockgap and return-model rules, ported
+    line for line, down to Python's compensated `sum()`). Spec `{kind: "replay", data, settings: [{name, fee, usd,
+    every, rule}]}`, up to 5,000 settings, one job each; `data` is one upload of prices (and the model's
+    predictions) that every job fetches once. The output is JSON: trades, turnover and the book's value every
+    `every` bars. No summary on `/api/experiments`. Test: `npm run test:replay`.
 - **Settling:** two agreeing miners settle a job; nobody is struck.
 - **API:**
   - **Admin:** `POST /api/admin/house {label, spec, max_parallel?, hours?, units?}` creates an order;

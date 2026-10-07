@@ -21,6 +21,7 @@
     "test:release": "node --disable-warning=ExperimentalWarning src/releasetest.ts",
     "test:house": "node --disable-warning=ExperimentalWarning src/housetest.ts",
     "test:fight": "node --disable-warning=ExperimentalWarning src/fighttest.ts",
+    "test:replay": "node --disable-warning=ExperimentalWarning src/replaytest.ts",
     "test:bounties": "node --disable-warning=ExperimentalWarning src/bountiestest.ts",
     "test:roulette": "node --disable-warning=ExperimentalWarning src/roulettetest.ts",
     "test:slots": "node --disable-warning=ExperimentalWarning src/slotstest.ts",

@@ -637,6 +637,7 @@
     "shaderJob": "bir alıcının GPU shader'ı, iş #{index}",
     "worldJob": "bir dünya simülasyonu, tohum {seed}",
     "probeJob": "bir beyin sondası: {condition}",
-    "fightJob": "bir Fly Colosseum dövüşü"
+    "fightJob": "bir Fly Colosseum dövüşü",
+    "replayJob": "bir alım satım kuralı tekrarı: {name}"
   }
 }
