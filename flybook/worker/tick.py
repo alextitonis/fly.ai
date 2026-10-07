@@ -81,6 +81,22 @@ class SupabaseStore:
     def house(self):
         return self._req("GET", "patches?select=*"), self._req("GET", "flies?select=*&order=created_at,name")
 
+    def recent_owners(self, days: float) -> set[str]:
+        """Accounts active in the last `days`: signed in (Supabase Auth), liked by hand, or poked."""
+        since = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() - days * 86_400))
+        out = {r["user_id"] for r in self._req("GET", f"likes?select=user_id&created_at=gt.{since}&auto=is.false") or []}
+        out |= {r["user_id"] for r in self._req("GET", f"pokes?select=user_id&created_at=gt.{since}") or []}
+        page = 1
+        while True:                                       # the Auth admin list, 1000 a page
+            r = self.http.get(f"{self.url}/auth/v1/admin/users", params={"page": page, "per_page": 1000}, timeout=30)
+            if not r.ok:
+                raise RuntimeError(f"auth users: {r.status_code} {r.text[:200]}")
+            users = r.json().get("users") or []
+            out |= {u["id"] for u in users if (u.get("last_sign_in_at") or "") > since}
+            if len(users) < 1000:
+                return {o for o in out if o}
+            page += 1
+
     def begin_tick(self, row: dict) -> dict:
         return self._req("POST", "ticks", "return=representation", json=row)[0]
 
@@ -395,6 +411,33 @@ class JsonStore:
         self.path.write_text(json.dumps(self.d, separators=(",", ":")))
 
 
+# fewer flies a round (2026-10-07, the user: "simulate much less flies per round to be smaller and cheaper"): only
+# the flies of owners active in the last ACTIVE_DAYS (signed in, liked by hand or poked), at most PER_ROUND a round,
+# the ones that waited longest first, so every one of them still posts in turn. The others stay as they are (their
+# `active` flag is the holder rule's, untouched) and post again once their owner comes back.
+ACTIVE_DAYS = float(os.environ.get("FLYBOOK_ACTIVE_DAYS", "3"))
+PER_ROUND = int(os.environ.get("FLYBOOK_FLIES_PER_ROUND", "40"))
+OWNERS_TTL = 600.0
+_owners_cache: dict = {"at": -1e9, "owners": None}
+_last_run: dict[str, float] = {}                   # fly id -> when it was last simulated (this process)
+
+
+def round_flies(store, flies: list[dict]) -> list[dict]:
+    """The flies this round simulates: recently active owners' flies (house flies always), PER_ROUND at most."""
+    now = time.monotonic()
+    if now - _owners_cache["at"] > OWNERS_TTL and hasattr(store, "recent_owners"):
+        try:
+            _owners_cache.update(at=now, owners=store.recent_owners(ACTIVE_DAYS))
+        except Exception as e:                    # unreadable: keep the last list (or everyone, the first time)
+            print(f"recent owners unreadable: {e}", flush=True)
+    owners = _owners_cache["owners"]
+    picked = flies if owners is None else [f for f in flies if not f.get("owner") or f["owner"] in owners]
+    picked = sorted(picked, key=lambda f: _last_run.get(f["id"], 0.0))[:PER_ROUND]
+    for f in picked:
+        _last_run[f["id"]] = now
+    return picked
+
+
 HOLDER_TTL = 300.0   # seconds; the public chain RPC rate-limits (429), and the tick, duel and mating passes all ask
 _holder_cache: dict[str, tuple[float, bool]] = {}   # owner -> (checked at, holder)
 
@@ -514,6 +557,7 @@ def run_tick(store, eps: Episodes, reader: ActionReader, runner: PatchRunner, tr
     flies = active_flies(store, flies)
     if patches_only is not None:
         flies = [f for f in flies if f["patch_id"] in patches_only]
+    flies = round_flies(store, flies)
     if not flies:
         return {}
     poke_for: dict[str, dict] = {}
