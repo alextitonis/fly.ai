@@ -1146,7 +1146,7 @@
       "memes": "迷因幣",
       "majors": "主流幣（ETH、BTC…）",
       "stocks": "股票代幣",
-      "polymarket": "Polymarket（獨立分頁）"
+      "polymarket": "Polymarket"
     },
     "theFly": "蒼蠅的大腦",
     "brainOn": "大腦參與交易",
@@ -1213,6 +1213,10 @@
       "earn": {
         "title": "Earn",
         "blurb": "在 Robinhood Chain 上出借的現金。"
+      },
+      "poly": {
+        "title": "Polymarket 下注",
+        "blurb": "在一兩天內收盤的市場裡，押注 Fly Desk 的 AI 評估遠高於其價格的 Polymarket 冷門結果，並持有到結果揭曉。用這個錢包的錢經 Relay 支付，贏的錢直接回來。"
       }
     },
     "params": {
@@ -1257,7 +1261,12 @@
       "dip_pct": "買入跌幅 (%)",
       "avg_hours": "均價時長 (小時)",
       "back_pct": "回到均價多少內賣出 (%)",
-      "min_breadth_pct": "上漲代幣最低佔比 %"
+      "min_breadth_pct": "上漲代幣最低佔比 %",
+      "gap": "所需優勢",
+      "min_price": "最低價格",
+      "max_price": "最高價格",
+      "max_hours": "多久內收盤（小時）",
+      "min_stake_usd": "最小下注（$）"
     },
     "filters": "迷因幣篩選",
     "filtersText": "只篩選迷因幣：主流幣和股票代幣使用交易台自己的清單。留空 = 不限。",

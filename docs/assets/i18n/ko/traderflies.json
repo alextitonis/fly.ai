@@ -1146,7 +1146,7 @@
       "memes": "밈",
       "majors": "메이저 (ETH, BTC…)",
       "stocks": "주식 토큰",
-      "polymarket": "Polymarket (전용 탭)"
+      "polymarket": "Polymarket"
     },
     "theFly": "파리의 브레인",
     "brainOn": "브레인이 거래",
@@ -1213,6 +1213,10 @@
       "earn": {
         "title": "Earn",
         "blurb": "Robinhood Chain에서 빌려준 현금."
+      },
+      "poly": {
+        "title": "Polymarket 베팅",
+        "blurb": "Fly Desk AI가 가격보다 훨씬 높게 평가하는 Polymarket 약세 쪽에, 하루나 이틀 안에 마감되는 시장에서 베팅하고 결과가 나올 때까지 보유합니다. 이 지갑의 돈으로 Relay를 통해 결제하고, 상금은 바로 돌아옵니다."
       }
     },
     "params": {
@@ -1257,7 +1261,12 @@
       "dip_pct": "매수 하락폭 (%)",
       "avg_hours": "평균 기간 (시간)",
       "back_pct": "매도 기준 차이 (%)",
-      "min_breadth_pct": "상승 추세 토큰 최소 %"
+      "min_breadth_pct": "상승 추세 토큰 최소 %",
+      "gap": "필요한 우위",
+      "min_price": "최저 가격",
+      "max_price": "최고 가격",
+      "max_hours": "마감까지 (시간)",
+      "min_stake_usd": "최소 베팅 ($)"
     },
     "filters": "밈 필터",
     "filtersText": "밈만 필터링해요: 메이저와 주식 토큰은 데스크가 정한 목록이에요. 비워 두면 = 제한 없음.",

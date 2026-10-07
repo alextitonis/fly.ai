@@ -1148,7 +1148,7 @@
       "memes": "Memes",
       "majors": "Majors (ETH, BTC…)",
       "stocks": "Stock tokens",
-      "polymarket": "Polymarket (its own tab)"
+      "polymarket": "Polymarket"
     },
     "theFly": "The fly's brain",
     "brainOn": "The brain trades",
@@ -1215,6 +1215,10 @@
       "earn": {
         "title": "Earn",
         "blurb": "Cash lent on Robinhood Chain."
+      },
+      "poly": {
+        "title": "Polymarket bets",
+        "blurb": "Bets on Polymarket underdogs that the Fly Desk's AI rates well above their price, in markets that close within a day or two, and holds each bet to the result. Paid from this wallet's money through Relay, winnings come straight back."
       }
     },
     "params": {
@@ -1259,7 +1263,12 @@
       "dip_pct": "Dip to buy (%)",
       "avg_hours": "Average over (h)",
       "back_pct": "Sell when within (%)",
-      "min_breadth_pct": "Min. % of tokens trending up"
+      "min_breadth_pct": "Min. % of tokens trending up",
+      "gap": "Edge needed",
+      "min_price": "Lowest price",
+      "max_price": "Highest price",
+      "max_hours": "Closes within (hours)",
+      "min_stake_usd": "Smallest bet ($)"
     },
     "filters": "Meme filters",
     "filtersText": "Only memes are filtered: majors and stock tokens are the desk's own list. Empty = no limit.",

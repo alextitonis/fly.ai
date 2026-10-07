@@ -1148,7 +1148,7 @@
       "memes": "Memes",
       "majors": "Majors (ETH, BTC…)",
       "stocks": "Tokens de acciones",
-      "polymarket": "Polymarket (en su pestaña)"
+      "polymarket": "Polymarket"
     },
     "theFly": "El cerebro de la mosca",
     "brainOn": "El cerebro opera",
@@ -1215,6 +1215,10 @@
       "earn": {
         "title": "Earn",
         "blurb": "Efectivo prestado en Robinhood Chain."
+      },
+      "poly": {
+        "title": "Apuestas en Polymarket",
+        "blurb": "Apuesta en Polymarket por los favoritos menos probables que la IA de Fly Desk valora muy por encima de su precio, en mercados que cierran en uno o dos días, y mantiene cada apuesta hasta el resultado. Se paga con el dinero de esta billetera vía Relay y las ganancias vuelven directamente."
       }
     },
     "params": {
@@ -1259,7 +1263,12 @@
       "dip_pct": "Caída para comprar (%)",
       "avg_hours": "Promedio de (h)",
       "back_pct": "Vender a menos de (%)",
-      "min_breadth_pct": "% mín. de tokens al alza"
+      "min_breadth_pct": "% mín. de tokens al alza",
+      "gap": "Ventaja necesaria",
+      "min_price": "Precio mínimo",
+      "max_price": "Precio máximo",
+      "max_hours": "Cierra en (horas)",
+      "min_stake_usd": "Apuesta mínima ($)"
     },
     "filters": "Filtros de memes",
     "filtersText": "Solo se filtran los memes: los majors y los tokens de acciones son la lista propia de la mesa. Vacío = sin límite.",

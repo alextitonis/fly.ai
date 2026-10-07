@@ -1148,7 +1148,7 @@
       "memes": "Memeler",
       "majors": "Büyükler (ETH, BTC…)",
       "stocks": "Hisse token'ları",
-      "polymarket": "Polymarket (kendi sekmesi)"
+      "polymarket": "Polymarket"
     },
     "theFly": "Sineğin beyni",
     "brainOn": "Beyin işlem yapar",
@@ -1215,6 +1215,10 @@
       "earn": {
         "title": "Earn",
         "blurb": "Robinhood Chain'de ödünç verilen nakit."
+      },
+      "poly": {
+        "title": "Polymarket bahisleri",
+        "blurb": "Fly Desk yapay zekasının fiyatının çok üzerinde değerlendirdiği Polymarket sürprizlerine, bir iki gün içinde kapanan piyasalarda bahis yapar ve her bahsi sonuca kadar tutar. Bu cüzdanın parasıyla Relay üzerinden ödenir, kazançlar doğrudan geri gelir."
       }
     },
     "params": {
@@ -1259,7 +1263,12 @@
       "dip_pct": "Alım için düşüş (%)",
       "avg_hours": "Ortalama süresi (sa)",
       "back_pct": "Şu kadar yakınsa sat (%)",
-      "min_breadth_pct": "Yükselen token min. %"
+      "min_breadth_pct": "Yükselen token min. %",
+      "gap": "Gereken avantaj",
+      "min_price": "En düşük fiyat",
+      "max_price": "En yüksek fiyat",
+      "max_hours": "Kapanışa kadar (saat)",
+      "min_stake_usd": "En küçük bahis ($)"
     },
     "filters": "Meme filtreleri",
     "filtersText": "Yalnızca memeler filtrelenir: büyükler ve hisse token'ları masanın kendi listesidir. Boş = sınır yok.",
