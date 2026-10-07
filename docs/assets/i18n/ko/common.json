@@ -7,7 +7,8 @@
       "traderflies": "Trader Flies",
       "nfts": "NFT",
       "flydesk": "Fly Desk",
-      "market": "마켓"
+      "market": "마켓",
+      "partners": "파트너"
     },
     "home": {
       "label": "홈"
@@ -175,6 +176,10 @@
     "how": {
       "label": "작동 방식",
       "desc": "뇌, 팟, 지급, 파트너"
+    },
+    "traderflies_partner": {
+      "label": "Bullas",
+      "desc": "Bullas NFT: 각자의 트레이딩 지갑과 공동 풀"
     }
   },
   "footer": {

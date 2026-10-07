@@ -7,7 +7,8 @@
       "traderflies": "Trader Flies",
       "nfts": "NFT",
       "flydesk": "Fly Desk",
-      "market": "市场"
+      "market": "市场",
+      "partners": "合作伙伴"
     },
     "home": {
       "label": "首页"
@@ -175,6 +176,10 @@
     "how": {
       "label": "运作方式",
       "desc": "大脑、资金池、分配与合作方"
+    },
+    "traderflies_partner": {
+      "label": "Bullas",
+      "desc": "Bullas NFT：各自的交易钱包和共享奖池"
     }
   },
   "footer": {

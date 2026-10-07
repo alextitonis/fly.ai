@@ -7,7 +7,8 @@
       "traderflies": "Trader Flies",
       "nfts": "NFTs",
       "flydesk": "Fly Desk",
-      "market": "Mercado"
+      "market": "Mercado",
+      "partners": "Socios"
     },
     "home": {
       "label": "Inicio"
@@ -175,6 +176,10 @@
     "how": {
       "label": "Cómo funciona",
       "desc": "El cerebro, los botes, los pagos y los socios"
+    },
+    "traderflies_partner": {
+      "label": "Bullas",
+      "desc": "NFT de Bullas: sus propias billeteras de trading y un bote compartido"
     }
   },
   "footer": {

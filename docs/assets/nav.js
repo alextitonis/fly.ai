@@ -43,6 +43,10 @@
       ["FlightPass", "/traderflies/pass", "Put your flies on autopilot"],
       ["OpenSea", "https://opensea.io/collection/trader-fly-294099831", "Trader Flies on OpenSea"],
     ]],
+    // partner collections (2026-10-07, the user: "add on top partners category"): each its own page (Partner.tsx)
+    ["partners", "Partners", [
+      ["Bullas", "/traderflies/partner", "Bullas NFTs: their own trading wallets and a shared pot"],
+    ]],
     ["research", "Research", [
       ["All findings", "/research", "Fighting, the 3-D world, what failed"],
       ["Talking flies", "/research/flybook", "Flybook: can two brains signal?"],
