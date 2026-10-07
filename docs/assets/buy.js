@@ -12,7 +12,8 @@
  * window.flyRelay (2026-10-07): the same quote + checks for other pages, without this box. The Earn page
  * (assets/earn.js) uses it for its ETH and FLYAI tabs: swap to USDG through Relay, then lend what arrived.
  *
- * Pay from any chain (2026-10-07): ETH or USDC on Base, Arbitrum or Ethereum buys $FLYAI on Robinhood Chain in one step -
+ * Pay from any chain (2026-10-07): ETH or USDC on Base, Arbitrum or Ethereum (or BERA / USDC on Berachain) buys $FLYAI on
+ * Robinhood Chain in one step -
  * Relay takes it on that chain and delivers on Robinhood (ORIGINS). The same checks run against Relay's contracts for
  * the chain paid on; the box follows the delivery (Relay's status) after the wallet's transaction.
  *
@@ -49,7 +50,15 @@
              pay: { USDC: { address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831", decimals: 6 }, ETH: PAY.ETH } },
     1: { rpc: "https://ethereum-rpc.publicnode.com", explorer: "https://etherscan.io",
          pay: { USDC: { address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", decimals: 6 }, ETH: PAY.ETH } },
+    // 2026-10-07 (the user: buy with BERA from Berachain): its coin is BERA, not ETH; Relay quotes both into $FLYAI
+    80094: { rpc: "https://rpc.berachain.com", explorer: "https://berascan.com",
+             pay: { BERA: { address: "0x0000000000000000000000000000000000000000", decimals: 18 },
+                    USDC: { address: "0x549943e04f40284185054145c6e4e9568c1d3241", decimals: 6 } },
+             add: { chainName: "Berachain", rpcUrls: ["https://rpc.berachain.com"], blockExplorerUrls: ["https://berascan.com"],
+                    nativeCurrency: { name: "BERA", symbol: "BERA", decimals: 18 } } },
   };
+  const NATIVE_SYMS = ["ETH", "BERA"];                  // a chain's own coin: no approve, its balance by eth_getBalance
+  const isNative = (sym) => NATIVE_SYMS.includes(sym);
   const APPROVE = "0x095ea7b3";
   const allowedCache = {};
 
@@ -216,7 +225,7 @@
   const checked = (q, pay, amount) => {
     if (q.via === "giga") return gigaTxs(wallet, q.tin, q.tout, amount, q.out);
     const [tin, , symIn] = sides(pay);
-    return relayCheck(q, tin.address, symIn === "ETH", amount, origin());
+    return relayCheck(q, tin.address, isNative(symIn), amount, origin());
   };
 
   function show(q, pay) {
@@ -230,7 +239,7 @@
     }
     const out = q.details.currencyOut;
     const got = Number(out.amountFormatted), sym = sides(pay)[3];
-    $("buy-out").textContent = fmt(got, sym === "FLYAI" ? 0 : sym === "ETH" ? 6 : 2) + " " + (sym === "FLYAI" ? "$FLYAI" : sym);
+    $("buy-out").textContent = fmt(got, sym === "FLYAI" ? 0 : isNative(sym) ? 6 : 2) + " " + (sym === "FLYAI" ? "$FLYAI" : sym);
     const fee = (q.fees && q.fees.app && Number(q.fees.app.amountUsd)) || 0;
     const imp = q.details.totalImpact && Number(q.details.totalImpact.percent);
     $("buy-detail").textContent = t("detail", {
@@ -288,7 +297,7 @@
     balFor = key;
     if (!wallet) { bal = null; showBalance(); return; }
     try {
-      const raw = symIn === "ETH"
+      const raw = isNative(symIn)
         ? await rpc("eth_getBalance", [wallet, "latest"], url)
         : await rpc("eth_call", [{ to: tin.address, data: "0x70a08231" + wallet.slice(2).toLowerCase().padStart(64, "0") }, "latest"], url);
       if (balFor !== key) return;                       // the coin or wallet changed meanwhile
@@ -309,8 +318,8 @@
     if (bal == null) return;
     const [tin, , symIn] = sides($("buy-pay").value);
     let amt = bal * BigInt(pct) / 100n;
-    if (symIn === "ETH" && pct === 100) amt = amt > GAS_KEEP ? amt - GAS_KEEP : 0n;
-    $("buy-amount").value = decimalOf(amt, tin.decimals, symIn === "USDG" || symIn === "USDC" ? 6 : symIn === "ETH" ? 8 : 4);
+    if (isNative(symIn) && pct === 100) amt = amt > GAS_KEEP ? amt - GAS_KEEP : 0n;
+    $("buy-amount").value = decimalOf(amt, tin.decimals, symIn === "USDG" || symIn === "USDC" ? 6 : isNative(symIn) ? 8 : 4);
     refresh();
   }
 
@@ -321,10 +330,11 @@
       await eth.request({ method: "wallet_switchEthereumChain", params: [{ chainId: hex }] });
     } catch (e) {
       if (e && e.code !== 4902) throw e;
-      if (hex !== CHAIN_HEX) throw e;                   // the other chains are in every wallet already
-      await eth.request({ method: "wallet_addEthereumChain", params: [{
+      const extra = (ORIGINS[id] || {}).add;           // Berachain may be missing from a wallet; Base/Arbitrum/Ethereum aren't
+      if (hex !== CHAIN_HEX && !extra) throw e;
+      await eth.request({ method: "wallet_addEthereumChain", params: [hex === CHAIN_HEX ? {
         chainId: CHAIN_HEX, chainName: "Robinhood Chain", rpcUrls: [RPC], blockExplorerUrls: [EXPLORER],
-        nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 } }] });
+        nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 } } : { chainId: hex, ...extra }] });
     }
   }
 
@@ -462,7 +472,8 @@
       const keep = $("buy-pay").value;
       const syms = Object.keys(ORIGINS[origin()].pay);
       $("buy-pay").innerHTML = syms.map((s) => '<option value="' + s + '">' + s + "</option>").join("");
-      $("buy-pay").value = syms.includes(keep) ? keep : keep === "USDG" || keep === "USDC" ? syms[0] : "ETH";
+      $("buy-pay").value = syms.includes(keep) ? keep
+        : keep === "USDG" || keep === "USDC" ? (syms.find((s) => s === "USDC") || syms[0]) : (syms.find(isNative) || syms[0]);
       if (away() && $("buy-dir").value === "sell") $("buy-dir").value = "buy";
       $("buy-dir").querySelector('option[value="sell"]').disabled = away();
     };

@@ -14,7 +14,9 @@ import { defineChain, type Hex } from "viem";
 export interface WalletOption { uid: string; name: string; icon: string | null; kind: "browser" | "walletconnect" }
 export interface Connection { address: string; chainId: number | undefined; wallet: string }
 /** The server's chain (Robinhood Chain in production, anvil in tests), from /api/orders/config. */
-export interface ChainInfo { chain_id: number; chain_name: string; rpc: string; explorer: string }
+export interface ChainInfo { chain_id: number; chain_name: string; rpc: string; explorer: string;
+  /** the chain's own coin when it isn't ETH (Berachain: BERA) */
+  native?: { name: string; symbol: string } }
 
 let config: ReturnType<typeof createConfig> | null = null;
 /** the main chain ($FLYAI); others (USDC on Base) are passed by id */
@@ -23,7 +25,7 @@ let chain: ReturnType<typeof defineChain>;
 const toChain = (c: ChainInfo) => defineChain({
   id: c.chain_id,
   name: c.chain_name,
-  nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+  nativeCurrency: { name: c.native?.name ?? "Ether", symbol: c.native?.symbol ?? "ETH", decimals: 18 },
   rpcUrls: { default: { http: [c.rpc] } },
   blockExplorers: { default: { name: "Explorer", url: c.explorer } },
 });

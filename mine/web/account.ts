@@ -66,6 +66,9 @@ const PAY_CHAINS = [
   { chain_id: 8453, chain_name: "Base", rpc: "https://mainnet.base.org", explorer: "https://basescan.org" },
   { chain_id: 42161, chain_name: "Arbitrum One", rpc: "https://arb1.arbitrum.io/rpc", explorer: "https://arbiscan.io" },
   { chain_id: 1, chain_name: "Ethereum", rpc: "https://ethereum-rpc.publicnode.com", explorer: "https://etherscan.io" },
+  // 2026-10-07 (the user: buy $FLYAI with BERA from Berachain): Relay quotes BERA / USDC there into $FLYAI
+  { chain_id: 80094, chain_name: "Berachain", rpc: "https://rpc.berachain.com", explorer: "https://berascan.com",
+    native: { name: "BERA", symbol: "BERA" } },
 ];
 
 let kitLoad: Promise<Kit> | null = null;
