@@ -91,9 +91,17 @@
           </select>
           <span id="buy-with" data-i18n="token.buy.with">with</span>
           <select id="buy-pay" class="buy-dir" aria-label="Token"><option value="USDG">USDG</option><option value="ETH">ETH</option></select>
+          <span data-i18n="token.buy.on">on</span>
+          <select id="buy-from" class="buy-dir" aria-label="Chain">
+            <option value="4663">Robinhood</option><option value="8453">Base</option><option value="42161">Arbitrum</option><option value="1">Ethereum</option>
+          </select>
         </span>
       </div>
-      <p class="buy-lede" data-i18n="token.buy.lede">Swap from your own wallet on Robinhood Chain, routed through the $FLYAI pools by Relay.</p>
+      <p class="buy-lede" data-i18n="token.buy.lede">Swap from your own wallet: on Robinhood Chain, or straight from Base, Arbitrum or Ethereum in one step, routed by Relay.</p>
+      <div class="buy-route" id="buy-route" role="radiogroup" hidden>
+        <button type="button" role="radio" aria-checked="true" data-route="best" data-i18n="token.buy.routeBest">Best price</button>
+        <button type="button" role="radio" aria-checked="false" data-route="giga" data-i18n="token.buy.routeOurs">Our GIGA pool · no fee</button>
+      </div>
       <div class="buy-row">
         <label class="buy-in">
           <span data-i18n="token.buy.pay">You pay</span>
