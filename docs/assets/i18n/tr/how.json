@@ -13,7 +13,8 @@
     "nfts": "Trader Flies",
     "pots": "Havuzlar",
     "partners": "Diğer koleksiyonlar",
-    "solo": "Bireysel işlem"
+    "solo": "Bireysel işlem",
+    "fees": "Ücretler ve staking"
   },
   "brain": {
     "h": "Beyin",
@@ -67,5 +68,15 @@
     "desk": "Fly Desk'i aç",
     "flies": "Trader Flies'a bak",
     "token": "$FLYAI"
+  },
+  "fees": {
+    "h": "Ücretler ve staking",
+    "p1": "Ücretler yalnızca kârdan alınır. Yatırımlarda ve bir sinek kaybettiğinde hiçbir ücret alınmaz.",
+    "l1": "<b>Bir sineğin kendi cüzdanı.</b> Sahibi çekim yaptığında kârın bir kısmı ücrettir: Common sinekler için %10, Uncommon %7, Rare %4, Legendary %0.",
+    "l2": "<b>Staking ücreti düşürür.</b> $FLYAI stake edin, ücret azalsın: 500.000 stake %25 indirir, 2.000.000 yarıya indirir, 10.000.000 tamamen kaldırır. Stake edilen $FLYAI, cüzdanın işlem yapması için sahibinin tutması gereken $FLYAI'ye de sayılır.",
+    "l3": "<b>Staking hesaplamayı da güçlendirir.</b> Hesaplama ağındaki ödül çarpanını yükseltir. Stake çözmenin 7 günlük bekleme süresi vardır.",
+    "l4": "<b>Burada $FLYAI almak.</b> Takas kutusu Relay üzerinden geçtiğinde %0,25 alır, kendi havuzumuzu kullandığında hiçbir şey almaz.",
+    "l5": "<b>Üreme.</b> $FLYAI ile ödenir ve çoğu yakılır.",
+    "cta": "$FLYAI stake et"
   }
 }

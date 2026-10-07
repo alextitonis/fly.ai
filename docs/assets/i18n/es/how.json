@@ -13,7 +13,8 @@
     "nfts": "Trader Flies",
     "pots": "Los botes",
     "partners": "Otras colecciones",
-    "solo": "Trading individual"
+    "solo": "Trading individual",
+    "fees": "Comisiones y staking"
   },
   "brain": {
     "h": "El cerebro",
@@ -67,5 +68,15 @@
     "desk": "Abrir la Fly Desk",
     "flies": "Ver Trader Flies",
     "token": "$FLYAI"
+  },
+  "fees": {
+    "h": "Comisiones y staking",
+    "p1": "Las comisiones se cobran solo sobre las ganancias. No se cobra nada en los depósitos ni cuando una mosca pierde.",
+    "l1": "<b>La billetera de una mosca.</b> Cuando el titular retira, una parte de la ganancia es la comisión: 10% para moscas Common, 7% para Uncommon, 4% para Rare y 0% para Legendary.",
+    "l2": "<b>El staking la reduce.</b> Haz staking de $FLYAI y la comisión baja: 500.000 en staking le quitan un 25%, 2.000.000 la reducen a la mitad y 10.000.000 la eliminan. El $FLYAI en staking también cuenta para el $FLYAI que el titular necesita para que la billetera opere.",
+    "l3": "<b>El staking también impulsa el cómputo.</b> Sube el multiplicador de recompensas en la red de cómputo. Retirar el staking tiene una espera de 7 días.",
+    "l4": "<b>Comprar $FLYAI aquí.</b> El cuadro de swap cobra 0,25% cuando pasa por Relay, y nada cuando usa nuestro propio pool.",
+    "l5": "<b>Cría.</b> Se paga en $FLYAI y en su mayor parte se quema.",
+    "cta": "Hacer staking de $FLYAI"
   }
 }

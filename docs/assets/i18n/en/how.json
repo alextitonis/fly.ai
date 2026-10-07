@@ -13,7 +13,8 @@
     "nfts": "Trader Flies",
     "pots": "The pots",
     "partners": "Other collections",
-    "solo": "Individual trading"
+    "solo": "Individual trading",
+    "fees": "Fees and staking"
   },
   "brain": {
     "h": "The brain",
@@ -67,5 +68,15 @@
     "desk": "Open the Fly Desk",
     "flies": "See Trader Flies",
     "token": "$FLYAI"
+  },
+  "fees": {
+    "h": "Fees and staking",
+    "p1": "Fees are taken on profit only. Nothing is charged on deposits, and nothing when a fly loses.",
+    "l1": "<b>A fly's own wallet.</b> When the holder withdraws, a share of the profit is the fee: 10% for Common flies, 7% for Uncommon, 4% for Rare and 0% for Legendary.",
+    "l2": "<b>Staking cuts it.</b> Stake $FLYAI and the fee drops: 500,000 staked takes 25% off it, 2,000,000 takes half off, and 10,000,000 removes it. Staked $FLYAI also counts toward the $FLYAI a holder needs for the wallet to trade.",
+    "l3": "<b>Staking also boosts compute.</b> It raises the rewards multiplier on the compute network. Unstaking has a 7-day cooldown.",
+    "l4": "<b>Buying $FLYAI here.</b> The swap box takes 0.25% when it routes through Relay, and nothing when it uses our own pool.",
+    "l5": "<b>Breeding.</b> Paid in $FLYAI, and mostly burned.",
+    "cta": "Stake $FLYAI"
   }
 }
