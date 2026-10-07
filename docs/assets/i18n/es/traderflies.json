@@ -1423,7 +1423,13 @@
     "anyChainArriving": "Enviado. Relay lo está llevando a Robinhood Chain…",
     "anyChainDone": "Llegó: está en la billetera. Cuenta en la próxima actualización.",
     "anyChainSoon": "Enviado. Llega a esta billetera en un momento.",
-    "anyChainFailed": "Relay no pudo entregarlo; te reembolsa en la cadena desde la que pagaste."
+    "anyChainFailed": "Relay no pudo entregarlo; te reembolsa en la cadena desde la que pagaste.",
+    "crossChains": "Otras cadenas donde puede comprar",
+    "crossChain": {
+      "base": "Base",
+      "bsc": "BNB Chain",
+      "arbitrum": "Arbitrum"
+    }
   },
   "profile": {
     "title": "Tu perfil",
@@ -1743,7 +1749,8 @@
     },
     "eth_to_usdg": "Convierte el ETH que envías en USDG (dólares) para que la mosca pueda operarlo. Siempre guarda un poco de ETH para el gas.",
     "trading": "Apagado = la mosca no abre operaciones nuevas. Lo que ya tiene se sigue gestionando.",
-    "earn": "El efectivo inactivo se presta a la bóveda USDG de Steakhouse o Spark en Robinhood Chain. La tasa mostrada es la tasa base actual; cambia cada día."
+    "earn": "El efectivo inactivo se presta a la bóveda USDG de Steakhouse o Spark en Robinhood Chain. La tasa mostrada es la tasa base actual; cambia cada día.",
+    "crossChains": "Los tokens de estas cadenas se compran con el USDG de la billetera vía Relay (puente + swap de una vez) y se venden de vuelta a USDG aquí. La primera compra en una cadena también envía $0.50 de gas. Las compras de menos de $5 se omiten."
   },
   "label": {
     "add": "Añadir etiqueta privada",

@@ -1423,7 +1423,13 @@
     "anyChainArriving": "Gönderildi. Relay Robinhood Chain'e taşıyor…",
     "anyChainDone": "Geldi: cüzdanda. Bir sonraki güncellemede sayılır.",
     "anyChainSoon": "Gönderildi. Birazdan bu cüzdanda olur.",
-    "anyChainFailed": "Relay teslim edemedi; ödediğin ağda iade eder."
+    "anyChainFailed": "Relay teslim edemedi; ödediğin ağda iade eder.",
+    "crossChains": "Alım yapabileceği diğer zincirler",
+    "crossChain": {
+      "base": "Base",
+      "bsc": "BNB Chain",
+      "arbitrum": "Arbitrum"
+    }
   },
   "profile": {
     "title": "Profilin",
@@ -1743,7 +1749,8 @@
     },
     "eth_to_usdg": "Gönderdiğin ETH'yi USDG'ye (dolar) çevirir, böylece sinek onunla işlem yapabilir. Gas için biraz ETH hep kalır.",
     "trading": "Kapalı = sinek yeni işlem açmaz. Elindekiler yine yönetilir.",
-    "earn": "Boştaki nakit Robinhood Chain'deki Steakhouse ya da Spark USDG kasasına ödünç verilir. Gösterilen, şu anki temel faizdir; her gün değişir."
+    "earn": "Boştaki nakit Robinhood Chain'deki Steakhouse ya da Spark USDG kasasına ödünç verilir. Gösterilen, şu anki temel faizdir; her gün değişir.",
+    "crossChains": "Bu zincirlerdeki tokenlar cüzdanın USDG'si ile Relay üzerinden alınır (köprü + takas tek seferde) ve burada tekrar USDG'ye satılır. Bir zincirdeki ilk alım oraya $0.50 gaz da gönderir. $5 altı alımlar atlanır."
   },
   "label": {
     "add": "Gizli etiket ekle",

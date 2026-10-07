@@ -1421,7 +1421,13 @@
     "anyChainArriving": "전송됨. Relay가 Robinhood Chain으로 옮기는 중…",
     "anyChainDone": "도착: 지갑에 들어왔습니다. 다음 업데이트에 반영됩니다.",
     "anyChainSoon": "전송됨. 곧 이 지갑에 도착합니다.",
-    "anyChainFailed": "Relay가 전달하지 못했습니다; 결제한 체인에서 환불됩니다."
+    "anyChainFailed": "Relay가 전달하지 못했습니다; 결제한 체인에서 환불됩니다.",
+    "crossChains": "구매 가능한 다른 체인",
+    "crossChain": {
+      "base": "Base",
+      "bsc": "BNB Chain",
+      "arbitrum": "Arbitrum"
+    }
   },
   "profile": {
     "title": "내 프로필",
@@ -1741,7 +1747,8 @@
     },
     "eth_to_usdg": "보낸 ETH를 USDG(달러)로 바꿔 플라이가 거래할 수 있게 합니다. 가스용 ETH는 조금 남겨둡니다.",
     "trading": "끄면 = 플라이가 새 거래를 열지 않습니다. 이미 보유한 것은 계속 관리합니다.",
-    "earn": "유휴 현금을 Robinhood Chain의 Steakhouse 또는 Spark USDG 볼트에 빌려줍니다. 표시된 금리는 현재 기본 금리이며 매일 바뀝니다."
+    "earn": "유휴 현금을 Robinhood Chain의 Steakhouse 또는 Spark USDG 볼트에 빌려줍니다. 표시된 금리는 현재 기본 금리이며 매일 바뀝니다.",
+    "crossChains": "이 체인의 토큰은 지갑의 USDG로 Relay를 통해 구매되며(브리지 + 스왑 한 번에), 이곳의 USDG로 다시 판매됩니다. 체인별 첫 구매 시 $0.50의 가스도 함께 보냅니다. $5 미만 구매는 건너뜁니다."
   },
   "label": {
     "add": "비공개 라벨 추가",

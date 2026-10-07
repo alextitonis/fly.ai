@@ -1423,7 +1423,13 @@
     "anyChainArriving": "Sent. Relay is bringing it to Robinhood Chain…",
     "anyChainDone": "Arrived: it's in the wallet. It counts at the next update.",
     "anyChainSoon": "Sent. It lands in this wallet in a moment.",
-    "anyChainFailed": "Relay couldn't deliver it; it refunds you on the chain you paid from."
+    "anyChainFailed": "Relay couldn't deliver it; it refunds you on the chain you paid from.",
+    "crossChains": "Other chains it may buy on",
+    "crossChain": {
+      "base": "Base",
+      "bsc": "BNB Chain",
+      "arbitrum": "Arbitrum"
+    }
   },
   "profile": {
     "title": "Your profile",
@@ -1743,7 +1749,8 @@
     },
     "eth_to_usdg": "Turns ETH you send into USDG (dollars) so the fly can trade it. A little ETH is always kept for gas.",
     "trading": "Off = the fly opens no new trades. What it already holds is still looked after.",
-    "earn": "Idle cash lent to the Steakhouse or Spark USDG vault on Robinhood Chain. The rate shown is the base rate now; it moves every day."
+    "earn": "Idle cash lent to the Steakhouse or Spark USDG vault on Robinhood Chain. The rate shown is the base rate now; it moves every day.",
+    "crossChains": "Tokens on these chains are bought with the wallet's USDG through Relay (bridge + swap in one go) and sold back to USDG here. The first buy on a chain also sends $0.50 of gas there. Buys under $5 are skipped."
   },
   "label": {
     "add": "Add a private label",

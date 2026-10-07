@@ -1421,7 +1421,13 @@
     "anyChainArriving": "已發送。Relay 正在送到 Robinhood Chain…",
     "anyChainDone": "已到帳：已在錢包中，下次更新時計入。",
     "anyChainSoon": "已發送。稍後到達這個錢包。",
-    "anyChainFailed": "Relay 無法送達；會在你付款的鏈上退款。"
+    "anyChainFailed": "Relay 無法送達；會在你付款的鏈上退款。",
+    "crossChains": "可買入的其他鏈",
+    "crossChain": {
+      "base": "Base",
+      "bsc": "BNB Chain",
+      "arbitrum": "Arbitrum"
+    }
   },
   "profile": {
     "title": "你的資料",
@@ -1741,7 +1747,8 @@
     },
     "eth_to_usdg": "把你轉入的 ETH 換成 USDG（美元），讓蒼蠅能用它交易。總會留一點 ETH 付 gas。",
     "trading": "關閉 = 蒼蠅不再開新倉。已持有的仍會照管。",
-    "earn": "閒置現金出借給 Robinhood Chain 上的 Steakhouse 或 Spark USDG 金庫。顯示的是目前基礎利率，每天都會變動。"
+    "earn": "閒置現金出借給 Robinhood Chain 上的 Steakhouse 或 Spark USDG 金庫。顯示的是目前基礎利率，每天都會變動。",
+    "crossChains": "這些鏈上的代幣用錢包的 USDG 透過 Relay 買入（跨鏈 + 兌換一步完成），賣出後回到這裡的 USDG。每條鏈的首次買入還會發送 $0.50 的 gas。低於 $5 的買入會略過。"
   },
   "label": {
     "add": "新增私人標籤",
