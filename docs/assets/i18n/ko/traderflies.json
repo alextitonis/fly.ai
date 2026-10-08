@@ -1937,7 +1937,15 @@
       "weapon": "무기",
       "record": "전적",
       "rules": "승부 방식",
-      "sources": "출처"
+      "sources": "출처",
+      "peak": "최대 출력",
+      "dof": "관절",
+      "price": "가격",
+      "good": "강점",
+      "bad": "약점",
+      "history": "{robot} 경기 기록",
+      "champions": "REK 역대 챔피언",
+      "pilotsNote": "REK 타이틀은 로봇이 아닌 조종사에게 갑니다. 오늘 밤 조종사는 아직 발표되지 않았습니다."
     }
   }
 }

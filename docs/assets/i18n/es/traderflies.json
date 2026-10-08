@@ -1939,7 +1939,15 @@
       "weapon": "Arma",
       "record": "Historial",
       "rules": "Cómo se decide",
-      "sources": "Fuentes"
+      "sources": "Fuentes",
+      "peak": "Potencia pico",
+      "dof": "Articulaciones",
+      "price": "Precio",
+      "good": "Fuerte en",
+      "bad": "Débil en",
+      "history": "Historial de peleas del {robot}",
+      "champions": "Campeones de REK hasta ahora",
+      "pilotsNote": "Los títulos de REK son de los pilotos, no de los robots: los pilotos de esta noche no se han anunciado."
     }
   }
 }

@@ -1939,7 +1939,15 @@
       "weapon": "Silah",
       "record": "Geçmiş",
       "rules": "Nasıl karar verilir",
-      "sources": "Kaynaklar"
+      "sources": "Kaynaklar",
+      "peak": "Tepe güç",
+      "dof": "Eklemler",
+      "price": "Fiyat",
+      "good": "İyi olduğu",
+      "bad": "Zayıf olduğu",
+      "history": "{robot} dövüş geçmişi",
+      "champions": "Şimdiye kadarki REK şampiyonları",
+      "pilotsNote": "REK unvanları robotlara değil pilotlara gider; bu geceki pilotlar henüz açıklanmadı."
     }
   }
 }

@@ -1939,7 +1939,15 @@
       "weapon": "Weapon",
       "record": "Record",
       "rules": "How it's decided",
-      "sources": "Sources"
+      "sources": "Sources",
+      "peak": "Peak power",
+      "dof": "Joints",
+      "price": "Price",
+      "good": "Good at",
+      "bad": "Weak at",
+      "history": "{robot} fight history",
+      "champions": "REK champions so far",
+      "pilotsNote": "REK's titles go to the pilots, not the robots: tonight's pilots haven't been announced."
     }
   }
 }

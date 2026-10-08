@@ -1937,7 +1937,15 @@
       "weapon": "武器",
       "record": "战绩",
       "rules": "判定方式",
-      "sources": "来源"
+      "sources": "来源",
+      "peak": "峰值功率",
+      "dof": "关节",
+      "price": "价格",
+      "good": "擅长",
+      "bad": "弱点",
+      "history": "{robot} 战斗记录",
+      "champions": "REK 历届冠军",
+      "pilotsNote": "REK 的冠军属于操控者而非机器人；今晚的操控者尚未公布。"
     }
   }
 }
