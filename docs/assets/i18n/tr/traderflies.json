@@ -1924,6 +1924,7 @@
     "placedAll": "Bahsin alındı. Bol şans!",
     "shareText": "Robot Fights'ta {side} için {amount} yatırdım ({x}x) 🤖🥊",
     "noAgainst": "henüz karşına bahis yok",
-    "shareFirst": "Robot Fights'ta {side} için {amount} yatırdım 🤖🥊 Karşıma kim bahis yapacak?"
+    "shareFirst": "Robot Fights'ta {side} için {amount} yatırdım 🤖🥊 Karşıma kim bahis yapacak?",
+    "underOne": "yatırdığından az öder"
   }
 }

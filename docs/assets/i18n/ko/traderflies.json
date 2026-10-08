@@ -1922,6 +1922,7 @@
     "placedAll": "베팅 완료. 행운을 빌어요!",
     "shareText": "Robot Fights에서 {side}에 {amount} 베팅했어요 ({x}x) 🤖🥊",
     "noAgainst": "아직 반대편 베팅 없음",
-    "shareFirst": "Robot Fights에서 {side}에 {amount} 걸었어요 🤖🥊 반대편에 걸 사람?"
+    "shareFirst": "Robot Fights에서 {side}에 {amount} 걸었어요 🤖🥊 반대편에 걸 사람?",
+    "underOne": "베팅액보다 적게 지급"
   }
 }

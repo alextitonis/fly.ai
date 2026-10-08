@@ -1924,6 +1924,7 @@
     "placedAll": "¡Estás dentro! Suerte.",
     "shareText": "Acabo de apostar {amount} por {side} ({x}x) en Robot Fights 🤖🥊",
     "noAgainst": "nadie apuesta en contra aún",
-    "shareFirst": "Acabo de poner {amount} por {side} en Robot Fights 🤖🥊 ¿Quién apuesta en contra?"
+    "shareFirst": "Acabo de poner {amount} por {side} en Robot Fights 🤖🥊 ¿Quién apuesta en contra?",
+    "underOne": "paga menos de lo apostado"
   }
 }

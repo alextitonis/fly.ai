@@ -1924,6 +1924,7 @@
     "placedAll": "You're in. Good luck!",
     "shareText": "I just bet {amount} on {side} ({x}x) in Robot Fights 🤖🥊",
     "noAgainst": "nobody against you yet",
-    "shareFirst": "I just put {amount} on {side} in Robot Fights 🤖🥊 Who's betting against me?"
+    "shareFirst": "I just put {amount} on {side} in Robot Fights 🤖🥊 Who's betting against me?",
+    "underOne": "pays less than your bet"
   }
 }

@@ -1922,6 +1922,7 @@
     "placedAll": "下注成功，祝你好运！",
     "shareText": "我刚在 Robot Fights 押了 {amount} 给 {side}（{x}x）🤖🥊",
     "noAgainst": "还没有人押对面",
-    "shareFirst": "我刚在 Robot Fights 押了 {amount} 给 {side} 🤖🥊 谁敢押对面？"
+    "shareFirst": "我刚在 Robot Fights 押了 {amount} 给 {side} 🤖🥊 谁敢押对面？",
+    "underOne": "赔付少于下注额"
   }
 }
