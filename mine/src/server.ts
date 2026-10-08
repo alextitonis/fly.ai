@@ -47,6 +47,7 @@ import { createProfiles } from "./profiles.ts";
 import { createBounties } from "./bounties.ts";
 import { createRace } from "./race.ts";
 import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
+import { createPassFights } from "./passfights.ts";
 import { connectPg, lockWallet, type Q } from "./pg.ts";
 import { copyLegacy } from "./legacy.ts";
 import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, merkleTree, monthCalldata, monthId, toWei } from "./payouts.ts";
@@ -3809,6 +3810,9 @@ const flightpass = createFlightPass({
   },
   roulette, slots, race, arena, rpcUrl: env("FLIGHTPASS_RPC", CLAIMS.rpc), payTo: ORDERS.payTo ?? null, today, env: process.env,
   token: ORDERS.token,
+  // Robot Fights (src/passfights.ts): passes bet on FightPools through the payout wallet, Jev picking the side
+  fights: createPassFights({ pg, book, balanceOf, payer: payoutRelayer, rpcUrl: env("FLIGHTPASS_RPC", CLAIMS.rpc), token: ORDERS.token,
+    env: process.env, toWei, fromWei }),
   // sends withdrawals itself: a hot wallet holding a float of FLYAI and gas, on the FLYAI chain
   payer: payoutRelayer,
 });

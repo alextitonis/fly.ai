@@ -41,6 +41,11 @@ primary_region = "cdg"
   RACE_MIN_BET = "50"
   RACE_MAX_BET = "5000"
   RACE_MAX_DAY = "100000"
+  # Robot Fights on the FlightPass (src/passfights.ts, flytrade/FIGHTS.md): passes bet on FightPools through the payout
+  # wallet; Jev picks the side when OPENROUTER_API_KEY is set (a fly secret), else the favourite
+  FIGHTPOOLS = "0xB0622a9500c00dE5F9978732146F08F85001651b"
+  FIGHTS_PASS_MIN = "100"
+  FIGHTS_PASS_MAX = "100000"
   RACE_MAX_PAYOUT = "30000"
   RACE_HOUSE_STOP = "300000"
   RACE_MAX_LIVE = "8"

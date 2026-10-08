@@ -39,6 +39,7 @@ import { rpc } from "./orders.ts";
 import { checksumAddress } from "./wallet.ts";
 import { MAX_POTIONS, POTION_IDS, POTIONS, validPotions, type PotionId } from "../../world/src/arena/stats.ts";
 import { AURAS } from "../../world/src/arena/shop.ts";
+import { FIGHT_PICKS, FIGHTS_OFF, type FightSettings, type createPassFights } from "./passfights.ts";
 
 export const MINING_BOOST = 1.25;
 export const WITHDRAW_FEE_BPS = 100n;
@@ -105,6 +106,8 @@ export interface FlightPassDeps {
   race: Race;
   /** Fly Colosseum; none = the pass doesn't offer it */
   arena?: Arena | null;
+  /** Robot Fights (src/passfights.ts); none = the pass doesn't offer it */
+  fights?: ReturnType<typeof createPassFights> | null;
   rpcUrl: string;
   payTo: string | null;
   today: () => string;
@@ -127,12 +130,14 @@ export interface Settings {
    * max_entry = no entry when a season's entry price is above it
    */
   colosseum: { on: boolean; flies: number[]; potions: PotionId[]; max_entry: string };
+  /** Robot Fights (2026-10-08): `stake` FLYAI on every open fight, the side Jev picks (or the favourite / underdog) */
+  fights: FightSettings;
 }
 // (settings saved before slots or the race existed have no `slots` or `race`: settingsOf's spread over OFF() turns them off)
 const OFF = (): Settings => ({
   owner: null, roulette: { on: false, stake: "0", flies: 2, max_day: "0" }, slots: { on: false, stake: "0", max_day: "0" },
   race: { on: false, stake: "0", bet: "win", pick: "random", max_day: "0" }, flybook: { missions: false, duels: false, breed: false },
-  colosseum: { on: false, flies: [], potions: [], max_entry: "0" },
+  colosseum: { on: false, flies: [], potions: [], max_entry: "0" }, fights: FIGHTS_OFF(),
 });
 
 const SEL = {
@@ -478,6 +483,7 @@ export function createFlightPass(d: FlightPassDeps) {
       pg.one<{ amount_wei: string; created_at: number }>("select amount_wei, created_at from mine.flightpass_withdrawals where pass = ? and status = 'open' order by id desc limit 1", id),
     ]);
     const arena = d.arena?.on ? d.arena : null;
+    const fightsSt = d.fights?.on ? await d.fights.status(id, settings.fights, isListed).catch(() => null) : null;
     const c = settings.colosseum;
     const [colosseumSt, colosseumFlies] = arena ? await Promise.all([
       arena.passStatus(id, owner, await balanceOf(k), { on: c.on && !isListed, flies: c.flies, potions: c.potions, maxEntry: toWei(c.max_entry) }),
@@ -490,6 +496,8 @@ export function createFlightPass(d: FlightPassDeps) {
       // Fly Colosseum: why the pass is or isn't entering, the open season, the pass's latest entries, and the owner's flies for the shop
       colosseum_status: colosseumSt,
       colosseum_flies: colosseumFlies,
+      // Robot Fights: why the pass is or isn't betting, and its fight bets
+      fights_status: fightsSt,
       day_bet: fromWei(dayBet),
       // what this pass may bet today: its own "max per day" when roulette is on, never past the house's daily cap
       day_cap: fromWei(((s) => s.on && toWei(s.max_day) < d.roulette.CFG.maxDay ? toWei(s.max_day) : d.roulette.CFG.maxDay)(settings.roulette)),
@@ -520,7 +528,8 @@ export function createFlightPass(d: FlightPassDeps) {
     const [rouletteOn, slotsOn, raceOn, sentToday] = await Promise.all([d.roulette.isOn(), d.slots.isOn(), d.race.isOn(), d.payer ? autoSentToday() : 0n]);
     return {
       on, contract: CFG.contract, market: CFG.market, pay_to: d.payTo, withdraw_fee_bps: Number(WITHDRAW_FEE_BPS), mining_boost: MINING_BOOST,
-      games: ["roulette", "slots", "race", ...(d.arena?.on ? ["colosseum"] : []), "flybook_missions", "flybook_duels", "flybook_breed"],
+      games: ["roulette", "slots", "race", ...(d.arena?.on ? ["colosseum"] : []), ...(d.fights?.on ? ["fights"] : []), "flybook_missions", "flybook_duels", "flybook_breed"],
+      fights: d.fights?.on ? { min_bet: fromWei(d.fights.CFG.minBet), max_bet: fromWei(d.fights.CFG.maxBet), picks: FIGHT_PICKS, jev: !!d.fights.CFG.jevKey } : null,
       colosseum: d.arena?.on ? { entry: fromWei(d.arena.CFG.entry), potion_price: fromWei(d.arena.CFG.potion), potion_forever_price: fromWei(d.arena.CFG.potionForever),
                                  max_potions: MAX_POTIONS, max_per_wallet: d.arena.CFG.maxPerWallet,
                                  potions: POTION_IDS.map((id) => ({ id, name: POTIONS[id].name, add: POTIONS[id].add })),
@@ -720,6 +729,26 @@ export function createFlightPass(d: FlightPassDeps) {
       }
       s.colosseum = next;
     }
+    const fi = body.fights;
+    if (fi !== undefined) {
+      if (!d.fights?.on) throw new HttpError(503, "Robot Fights aren't on");
+      if (typeof fi !== "object" || fi === null) throw new HttpError(400, "fights is an object");
+      const next = { ...s.fights };
+      if (fi.on !== undefined) next.on = fi.on === true;
+      if (fi.pick !== undefined) {
+        if (!FIGHT_PICKS.includes(fi.pick)) throw new HttpError(400, `fights pick is ${FIGHT_PICKS.join(", ")}`);
+        next.pick = fi.pick;
+      }
+      if (fi.stake !== undefined) {
+        try { next.stake = fromWei(toWei(String(fi.stake))); } catch { throw new HttpError(400, "stake is a number of tokens"); }
+      }
+      if (next.on) {
+        const stake = toWei(next.stake), F = d.fights.CFG;
+        if (stake < F.minBet || stake > F.maxBet) throw new HttpError(400, `fights stake is ${fromWei(F.minBet)} to ${fromWei(F.maxBet)} FLYAI`);
+        if (!terms) throw new HttpError(403, "accept the terms (18+) first");
+      }
+      s.fights = next;
+    }
     const f = body.flybook;
     if (f !== undefined) {
       if (typeof f !== "object" || f === null) throw new HttpError(400, "flybook is an object");
@@ -882,6 +911,10 @@ export function createFlightPass(d: FlightPassDeps) {
       if (await d.slots.isOn()) await slotsTick();
       if (await d.race.isOn()) await raceTick();
       if (d.arena?.on) await colosseumTick();
+      if (d.fights?.on) {
+        await fightsTick();
+        await d.fights.settle().catch((err) => console.error("robot fights settle:", err));
+      }
     } finally {
       ticking = false;
     }
@@ -982,6 +1015,24 @@ export function createFlightPass(d: FlightPassDeps) {
         if (got.length) console.log(`flightpass ${r.id} entered the colosseum: ${got.map((f) => `#${f}`).join(", ")} (balance ${fromWei(await balanceOf(k))})`);
       } catch (err) {
         console.error(`flightpass ${r.id} colosseum: ${err instanceof Error ? err.message : err}`);
+      }
+    }
+  }
+
+  /** Every pass with Robot Fights on bets on each open fight once (passfights.autoBet does the checks). */
+  async function fightsTick(): Promise<void> {
+    for (const r of await settled()) {
+      const { owner } = r, s = r.s.fights;
+      if (!s?.on) continue;
+      if (!(await d.roulette.termsAccepted(owner))) continue;
+      try {
+        await d.fights!.autoBet(r.id, s, async () => {
+          // the listing and owner right before the stake moves, not the last sample
+          const now = await current(r.id).catch(() => null);
+          return !!now && !now.listed && now.owner === owner;
+        });
+      } catch (err) {
+        console.error(`flightpass ${r.id} robot fights: ${err instanceof Error ? err.message : err}`);
       }
     }
   }

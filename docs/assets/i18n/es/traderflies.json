@@ -720,7 +720,9 @@
       "deskClaimText": "Reclama la parte de tus Trader Flies del pool semanal del Fly Desk directamente en este pass.",
       "soon": "Próximamente",
       "colosseum": "Fly Colosseum",
-      "colosseumText": "Inscribe tus Trader Flies en cada temporada con el saldo del pase. Premios y reembolsos vuelven al pase."
+      "colosseumText": "Inscribe tus Trader Flies en cada temporada con el saldo del pase. Premios y reembolsos vuelven al pase.",
+      "fights": "Peleas de robots",
+      "fightsText": "Apuesta en cada pelea de robots abierta; Jev, nuestra IA, elige al ganador."
     },
     "limits": {
       "stake": "Apuesta por partida ($FLYAI)",
@@ -746,7 +748,9 @@
       "arena_bet": "Entrada al Colosseum",
       "arena_payout": "Premio del Colosseum",
       "arena_refund": "Reembolso del Colosseum",
-      "arena_shop": "Tienda del Colosseum"
+      "arena_shop": "Tienda del Colosseum",
+      "fight_bet": "Apuesta en peleas de robots",
+      "fight_payout": "Ganancia en peleas de robots"
     },
     "terms": {
       "title": "Términos de Fly Roulette",
@@ -914,6 +918,32 @@
         "dayCapHouse": "Límite diario alcanzado: {cap} $FLYAI corridos hoy, lo máximo que Fly Race acepta por día. Tu mosca vuelve a correr a las {time} (00:00 UTC).",
         "lowBalance": "No hay suficiente en el pase para una carrera ({need} $FLYAI). Recarga para seguir jugando.",
         "waiting": "El piloto automático está activo. Próxima carrera hacia las {time}."
+      }
+    },
+    "fights": {
+      "stake": "FLYAI por pelea",
+      "pick": "A quién apostar",
+      "picks": {
+        "jev": "Elige Jev (IA)",
+        "favourite": "El favorito",
+        "underdog": "La sorpresa"
+      },
+      "pickNote": {
+        "jev": "Jev analiza cada pelea y apuesta por el luchador que ve más probable que gane.",
+        "favourite": "Apuesta por el luchador con más FLYAI.",
+        "underdog": "Apuesta por el luchador con menos FLYAI: pagos mayores, menos victorias."
+      },
+      "house": "De {min} a {max} FLYAI por pelea. Una apuesta por pelea; las ganancias vuelven solas al pase.",
+      "see": "Ver las peleas",
+      "pending": "{stake} apostados, esperando el resultado",
+      "status": {
+        "unavailable": "Las peleas de robots no están abiertas ahora.",
+        "off": "Apagado.",
+        "listed": "En pausa mientras el pase está en venta.",
+        "stake": "La apuesta debe ser de {min} a {max} FLYAI.",
+        "no_fights": "No hay peleas abiertas a apuestas; apostará en cuanto abra una.",
+        "low_balance": "No hay suficiente FLYAI en el pase para la siguiente apuesta.",
+        "waiting": "Activo: apostando en {n} pelea(s) abierta(s)."
       }
     }
   },

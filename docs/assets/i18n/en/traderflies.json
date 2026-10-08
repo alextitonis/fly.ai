@@ -720,7 +720,9 @@
       "deskClaimText": "Claim your Trader Flies' share of the Fly Desk's weekly pool straight into this pass.",
       "soon": "Coming soon",
       "colosseum": "Fly Colosseum",
-      "colosseumText": "Enters your Trader Flies in every season from the pass balance. Prizes and refunds come back to the pass."
+      "colosseumText": "Enters your Trader Flies in every season from the pass balance. Prizes and refunds come back to the pass.",
+      "fights": "Robot Fights",
+      "fightsText": "Bets on every open robot fight; Jev, our AI, picks the winner."
     },
     "limits": {
       "stake": "Bet per game ($FLYAI)",
@@ -746,7 +748,9 @@
       "arena_bet": "Colosseum entry",
       "arena_payout": "Colosseum prize",
       "arena_refund": "Colosseum refund",
-      "arena_shop": "Colosseum shop"
+      "arena_shop": "Colosseum shop",
+      "fight_bet": "Robot Fights bet",
+      "fight_payout": "Robot Fights win"
     },
     "terms": {
       "title": "Fly Roulette terms",
@@ -914,6 +918,32 @@
         "dayCapHouse": "Daily limit reached: {cap} $FLYAI raced today, the most Fly Race takes per day. Your fly races again at {time} (00:00 UTC).",
         "lowBalance": "Not enough on the pass for one race ({need} $FLYAI). Top up to keep playing.",
         "waiting": "Autopilot is on. Next race around {time}."
+      }
+    },
+    "fights": {
+      "stake": "FLYAI per fight",
+      "pick": "Who to back",
+      "picks": {
+        "jev": "Jev picks (AI)",
+        "favourite": "The favourite",
+        "underdog": "The underdog"
+      },
+      "pickNote": {
+        "jev": "Jev reads each fight and backs the fighter it rates most likely to win.",
+        "favourite": "Backs the fighter with the most FLYAI on it.",
+        "underdog": "Backs the fighter with the least FLYAI on it: bigger payouts, fewer wins."
+      },
+      "house": "{min} to {max} FLYAI per fight. One bet per fight; winnings come back to the pass by themselves.",
+      "see": "See the fights",
+      "pending": "{stake} in, waiting for the result",
+      "status": {
+        "unavailable": "Robot Fights aren't open right now.",
+        "off": "Off.",
+        "listed": "Paused while the pass is listed.",
+        "stake": "The stake must be {min} to {max} FLYAI.",
+        "no_fights": "No fight is open for bets right now; it bets as soon as one opens.",
+        "low_balance": "Not enough FLYAI on the pass for the next bet.",
+        "waiting": "On: betting on {n} open fight(s)."
       }
     }
   },

@@ -718,7 +718,9 @@
       "deskClaimText": "Fly Desk 주간 풀에서 내 Trader Flies의 몫을 이 패스로 바로 받아요.",
       "soon": "곧 출시",
       "colosseum": "Fly Colosseum",
-      "colosseumText": "패스 잔액으로 매 시즌 Trader Flies를 출전시킵니다. 상금과 환불은 패스로 돌아옵니다."
+      "colosseumText": "패스 잔액으로 매 시즌 Trader Flies를 출전시킵니다. 상금과 환불은 패스로 돌아옵니다.",
+      "fights": "로봇 격투",
+      "fightsText": "열린 모든 로봇 격투에 베팅; 우리 AI Jev가 승자를 고릅니다."
     },
     "limits": {
       "stake": "게임당 베팅 ($FLYAI)",
@@ -744,7 +746,9 @@
       "arena_bet": "Colosseum 참가비",
       "arena_payout": "Colosseum 상금",
       "arena_refund": "Colosseum 환불",
-      "arena_shop": "Colosseum 상점"
+      "arena_shop": "Colosseum 상점",
+      "fight_bet": "로봇 격투 베팅",
+      "fight_payout": "로봇 격투 당첨"
     },
     "terms": {
       "title": "Fly Roulette 약관",
@@ -912,6 +916,32 @@
         "dayCapHouse": "일일 한도 도달: 오늘 {cap} $FLYAI 레이스, 플라이 레이스의 하루 최대치예요. {time}(00:00 UTC)에 다시 레이스해요.",
         "lowBalance": "패스 잔액이 레이스 한 번({need} $FLYAI)에 부족해요. 충전하면 계속 플레이해요.",
         "waiting": "자동 조종 켜짐. 다음 레이스는 {time}쯤이에요."
+      }
+    },
+    "fights": {
+      "stake": "경기당 FLYAI",
+      "pick": "누구에게",
+      "picks": {
+        "jev": "Jev 선택 (AI)",
+        "favourite": "인기 선수",
+        "underdog": "언더독"
+      },
+      "pickNote": {
+        "jev": "Jev가 경기를 분석해 이길 가능성이 가장 높은 선수에 베팅합니다.",
+        "favourite": "FLYAI가 가장 많이 걸린 선수에 베팅합니다.",
+        "underdog": "FLYAI가 가장 적게 걸린 선수에 베팅: 배당은 크고 승리는 적습니다."
+      },
+      "house": "경기당 {min}~{max} FLYAI. 경기당 한 번; 당첨금은 패스로 자동 반환됩니다.",
+      "see": "경기 보기",
+      "pending": "{stake} 베팅, 결과 대기 중",
+      "status": {
+        "unavailable": "로봇 격투가 지금은 열려 있지 않습니다.",
+        "off": "꺼짐.",
+        "listed": "패스가 판매 등록된 동안 일시 정지.",
+        "stake": "베팅액은 {min}~{max} FLYAI여야 합니다.",
+        "no_fights": "지금 베팅할 경기가 없습니다. 열리면 바로 베팅합니다.",
+        "low_balance": "다음 베팅에 필요한 FLYAI가 패스에 부족합니다.",
+        "waiting": "켜짐: 열린 경기 {n}개에 베팅 중."
       }
     }
   },

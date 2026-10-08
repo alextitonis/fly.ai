@@ -718,7 +718,9 @@
       "deskClaimText": "把你的 Trader Flies 在 Fly Desk 每週獎池中的份額直接領取到這個 Pass。",
       "soon": "即將推出",
       "colosseum": "Fly Colosseum",
-      "colosseumText": "每個賽季用通行證餘額報名你的 Trader Flies。獎金和退款回到通行證。"
+      "colosseumText": "每個賽季用通行證餘額報名你的 Trader Flies。獎金和退款回到通行證。",
+      "fights": "機器人格鬥",
+      "fightsText": "自動押注每場開放的機器人格鬥；由我們的 AI Jev 選擇贏家。"
     },
     "limits": {
       "stake": "每局下注（$FLYAI）",
@@ -744,7 +746,9 @@
       "arena_bet": "Colosseum 報名",
       "arena_payout": "Colosseum 獎金",
       "arena_refund": "Colosseum 退款",
-      "arena_shop": "Colosseum 商店"
+      "arena_shop": "Colosseum 商店",
+      "fight_bet": "機器人格鬥下注",
+      "fight_payout": "機器人格鬥獎金"
     },
     "terms": {
       "title": "Fly Roulette 條款",
@@ -912,6 +916,32 @@
         "dayCapHouse": "已達每日上限：今天已賽跑 {cap} $FLYAI，這是果蠅賽跑每天的最高額。你的果蠅將在 {time}（00:00 UTC）再次賽跑。",
         "lowBalance": "通行證餘額不夠一場賽跑（{need} $FLYAI）。儲值後繼續。",
         "waiting": "自動駕駛已開啟。下一場大約在 {time}。"
+      }
+    },
+    "fights": {
+      "stake": "每場 FLYAI",
+      "pick": "押誰",
+      "picks": {
+        "jev": "Jev 選擇（AI）",
+        "favourite": "熱門",
+        "underdog": "冷門"
+      },
+      "pickNote": {
+        "jev": "Jev 分析每場比賽，押它認為最可能獲勝的選手。",
+        "favourite": "押下注最多的選手。",
+        "underdog": "押下注最少的選手：賠率更高，贏得更少。"
+      },
+      "house": "每場 {min} 至 {max} FLYAI。每場一注；獎金會自動回到通行證。",
+      "see": "查看比賽",
+      "pending": "已下注 {stake}，等待結果",
+      "status": {
+        "unavailable": "機器人格鬥暫未開放。",
+        "off": "已關閉。",
+        "listed": "通行證掛單期間暫停。",
+        "stake": "下注額須為 {min} 至 {max} FLYAI。",
+        "no_fights": "目前沒有可下注的比賽；一開放就會下注。",
+        "low_balance": "通行證上的 FLYAI 不夠下一注。",
+        "waiting": "已開啟：正在押注 {n} 場開放的比賽。"
       }
     }
   },

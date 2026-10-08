@@ -720,7 +720,9 @@
       "deskClaimText": "Trader Flies'ının Fly Desk haftalık havuzundaki payını doğrudan bu pass'e al.",
       "soon": "Yakında",
       "colosseum": "Fly Colosseum",
-      "colosseumText": "Trader Flies'ını her sezona pass bakiyesinden kaydeder. Ödüller ve iadeler pass'e geri döner."
+      "colosseumText": "Trader Flies'ını her sezona pass bakiyesinden kaydeder. Ödüller ve iadeler pass'e geri döner.",
+      "fights": "Robot Dövüşleri",
+      "fightsText": "Açık her robot dövüşüne bahis yapar; kazananı yapay zekamız Jev seçer."
     },
     "limits": {
       "stake": "Oyun başı bahis ($FLYAI)",
@@ -746,7 +748,9 @@
       "arena_bet": "Colosseum girişi",
       "arena_payout": "Colosseum ödülü",
       "arena_refund": "Colosseum iadesi",
-      "arena_shop": "Colosseum mağazası"
+      "arena_shop": "Colosseum mağazası",
+      "fight_bet": "Robot Dövüşleri bahsi",
+      "fight_payout": "Robot Dövüşleri kazancı"
     },
     "terms": {
       "title": "Fly Roulette şartları",
@@ -914,6 +918,32 @@
         "dayCapHouse": "Günlük sınıra ulaşıldı: bugün {cap} $FLYAI yarışıldı, Sinek Yarışı'nın günlük en fazlası. Sineğin {time} (00:00 UTC) sonra yine yarışır.",
         "lowBalance": "Pass'te bir yarış için yeterli yok ({need} $FLYAI). Oynamaya devam etmek için yükle.",
         "waiting": "Otopilot açık. Sonraki yarış yaklaşık {time}."
+      }
+    },
+    "fights": {
+      "stake": "Dövüş başına FLYAI",
+      "pick": "Kime oynansın",
+      "picks": {
+        "jev": "Jev seçsin (YZ)",
+        "favourite": "Favori",
+        "underdog": "Sürpriz"
+      },
+      "pickNote": {
+        "jev": "Jev her dövüşü okur ve kazanma ihtimalini en yüksek gördüğü dövüşçüye oynar.",
+        "favourite": "Üzerinde en çok FLYAI olan dövüşçüye oynar.",
+        "underdog": "Üzerinde en az FLYAI olan dövüşçüye oynar: daha büyük ödeme, daha az galibiyet."
+      },
+      "house": "Dövüş başına {min}-{max} FLYAI. Her dövüşe bir bahis; kazançlar pass'e kendiliğinden döner.",
+      "see": "Dövüşleri gör",
+      "pending": "{stake} yatırıldı, sonuç bekleniyor",
+      "status": {
+        "unavailable": "Robot Dövüşleri şu an açık değil.",
+        "off": "Kapalı.",
+        "listed": "Pass satışta olduğu sürece duraklatıldı.",
+        "stake": "Bahis {min}-{max} FLYAI olmalı.",
+        "no_fights": "Şu anda bahse açık dövüş yok; biri açılır açılmaz oynar.",
+        "low_balance": "Pass'te sonraki bahis için yeterli FLYAI yok.",
+        "waiting": "Açık: {n} açık dövüşe bahis yapıyor."
       }
     }
   },
