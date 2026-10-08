@@ -1926,6 +1926,18 @@
     "shareText": "我刚在 Robot Fights 押了 {amount} 给 {side}（{x}x）🤖🥊",
     "noAgainst": "还没有人押对面",
     "shareFirst": "我刚在 Robot Fights 押了 {amount} 给 {side} 🤖🥊 谁敢押对面？",
-    "underOne": "赔付少于下注额"
+    "underOne": "赔付少于下注额",
+    "tape": {
+      "title": "选手资料",
+      "robot": "机器人",
+      "maker": "制造商",
+      "height": "身高",
+      "weight": "体重",
+      "power": "关节力矩",
+      "weapon": "武器",
+      "record": "战绩",
+      "rules": "判定方式",
+      "sources": "来源"
+    }
   }
 }

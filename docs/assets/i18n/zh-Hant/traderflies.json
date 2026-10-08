@@ -1926,6 +1926,18 @@
     "shareText": "我剛在 Robot Fights 押了 {amount} 給 {side}（{x}x）🤖🥊",
     "noAgainst": "還沒有人押對面",
     "shareFirst": "我剛在 Robot Fights 押了 {amount} 給 {side} 🤖🥊 誰敢押對面？",
-    "underOne": "賠付少於下注額"
+    "underOne": "賠付少於下注額",
+    "tape": {
+      "title": "選手資料",
+      "robot": "機器人",
+      "maker": "製造商",
+      "height": "身高",
+      "weight": "體重",
+      "power": "關節力矩",
+      "weapon": "武器",
+      "record": "戰績",
+      "rules": "判定方式",
+      "sources": "來源"
+    }
   }
 }

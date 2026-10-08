@@ -1928,6 +1928,18 @@
     "shareText": "I just bet {amount} on {side} ({x}x) in Robot Fights 🤖🥊",
     "noAgainst": "nobody against you yet",
     "shareFirst": "I just put {amount} on {side} in Robot Fights 🤖🥊 Who's betting against me?",
-    "underOne": "pays less than your bet"
+    "underOne": "pays less than your bet",
+    "tape": {
+      "title": "Fighter info",
+      "robot": "Robot",
+      "maker": "Maker",
+      "height": "Height",
+      "weight": "Weight",
+      "power": "Joint power",
+      "weapon": "Weapon",
+      "record": "Record",
+      "rules": "How it's decided",
+      "sources": "Sources"
+    }
   }
 }

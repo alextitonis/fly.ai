@@ -1928,6 +1928,18 @@
     "shareText": "Acabo de apostar {amount} por {side} ({x}x) en Robot Fights 🤖🥊",
     "noAgainst": "nadie apuesta en contra aún",
     "shareFirst": "Acabo de poner {amount} por {side} en Robot Fights 🤖🥊 ¿Quién apuesta en contra?",
-    "underOne": "paga menos de lo apostado"
+    "underOne": "paga menos de lo apostado",
+    "tape": {
+      "title": "Info de los luchadores",
+      "robot": "Robot",
+      "maker": "Fabricante",
+      "height": "Altura",
+      "weight": "Peso",
+      "power": "Par articular",
+      "weapon": "Arma",
+      "record": "Historial",
+      "rules": "Cómo se decide",
+      "sources": "Fuentes"
+    }
   }
 }

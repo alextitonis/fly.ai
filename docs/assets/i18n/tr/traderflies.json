@@ -1928,6 +1928,18 @@
     "shareText": "Robot Fights'ta {side} için {amount} yatırdım ({x}x) 🤖🥊",
     "noAgainst": "henüz karşına bahis yok",
     "shareFirst": "Robot Fights'ta {side} için {amount} yatırdım 🤖🥊 Karşıma kim bahis yapacak?",
-    "underOne": "yatırdığından az öder"
+    "underOne": "yatırdığından az öder",
+    "tape": {
+      "title": "Dövüşçü bilgisi",
+      "robot": "Robot",
+      "maker": "Üretici",
+      "height": "Boy",
+      "weight": "Ağırlık",
+      "power": "Eklem gücü",
+      "weapon": "Silah",
+      "record": "Geçmiş",
+      "rules": "Nasıl karar verilir",
+      "sources": "Kaynaklar"
+    }
   }
 }
