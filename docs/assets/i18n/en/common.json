@@ -181,11 +181,11 @@
       "label": "Bullas",
       "desc": "Bullas NFTs: their own trading wallets and a shared pot"
     },
-    "traderflies_fights": {
+    "newTag": "New",
+    "fights": {
       "label": "Robot Fights",
       "desc": "Bet on robot fights in USDG, FLYAI or ETH"
-    },
-    "newTag": "New"
+    }
   },
   "footer": {
     "license": "MIT License",

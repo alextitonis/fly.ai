@@ -40,8 +40,7 @@
     "pass": "FlightPass",
     "inventory": "Inventory",
     "leaderboard": "Leaderboard",
-    "partner": "Partners",
-    "fights": "Robot Fights"
+    "partner": "Partners"
   },
   "flyAlt": "A Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1840,6 +1839,24 @@
       "BelowMin": "That's below the minimum bet.",
       "NothingToClaim": "Nothing to collect on this fight.",
       "NotFinal": "The result isn't in yet."
-    }
+    },
+    "heroA": "Robots fight.",
+    "heroB": "You call the winner.",
+    "heroSub": "Real humanoid robots, a real cage. Bet USDG, $FLYAI or ETH on who wins; the winners split the pot.",
+    "firstBell": "First bell in",
+    "started": "Fight night",
+    "pot": "In the pot",
+    "eventLink": "Event & tickets",
+    "watch": "Watch live",
+    "feed": "Live bets",
+    "feedEmpty": "No bets yet. Be the first.",
+    "feedRow": "{amount} on {side}",
+    "pendingNames": "Betting opens as soon as REK names the fighters.",
+    "openNow": "Open",
+    "share": "{pct}% of the pot",
+    "pickFirst": "Tap a fighter to bet",
+    "max": "Max",
+    "youWon": "You won {amount}!",
+    "photos": "Photos: REK (rek.com)"
   }
 }

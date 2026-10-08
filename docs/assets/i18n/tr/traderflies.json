@@ -40,8 +40,7 @@
     "pass": "FlightPass",
     "inventory": "Envanter",
     "leaderboard": "Sıralama",
-    "partner": "Ortaklar",
-    "fights": "Robot Dövüşleri"
+    "partner": "Ortaklar"
   },
   "flyAlt": "Bir Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1840,6 +1839,24 @@
       "BelowMin": "Bu, en düşük bahsin altında.",
       "NothingToClaim": "Bu dövüşte alınacak bir şey yok.",
       "NotFinal": "Sonuç henüz açıklanmadı."
-    }
+    },
+    "heroA": "Robotlar dövüşür.",
+    "heroB": "Kazananı sen seçersin.",
+    "heroSub": "Gerçek insansı robotlar, gerçek kafes. Kimin kazanacağına USDG, $FLYAI veya ETH ile bahis yap; kazananlar havuzu paylaşır.",
+    "firstBell": "İlk gonga",
+    "started": "Dövüş gecesi",
+    "pot": "Havuzda",
+    "eventLink": "Etkinlik ve biletler",
+    "watch": "Canlı izle",
+    "feed": "Canlı bahisler",
+    "feedEmpty": "Henüz bahis yok. İlk sen ol.",
+    "feedRow": "{side} için {amount}",
+    "pendingNames": "REK dövüşçüleri açıklar açıklamaz bahisler açılır.",
+    "openNow": "Açık",
+    "share": "Havuzun %{pct}'i",
+    "pickFirst": "Bahis için bir dövüşçüye dokun",
+    "max": "Maks",
+    "youWon": "{amount} kazandın!",
+    "photos": "Fotoğraflar: REK (rek.com)"
   }
 }

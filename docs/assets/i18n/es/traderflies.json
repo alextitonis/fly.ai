@@ -40,8 +40,7 @@
     "pass": "FlightPass",
     "inventory": "Inventario",
     "leaderboard": "Clasificación",
-    "partner": "Socios",
-    "fights": "Peleas de robots"
+    "partner": "Socios"
   },
   "flyAlt": "Una Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1840,6 +1839,24 @@
       "BelowMin": "Está por debajo de la apuesta mínima.",
       "NothingToClaim": "No hay nada que cobrar en esta pelea.",
       "NotFinal": "El resultado aún no está."
-    }
+    },
+    "heroA": "Los robots pelean.",
+    "heroB": "Tú eliges al ganador.",
+    "heroSub": "Robots humanoides reales, una jaula real. Apuesta USDG, $FLYAI o ETH a quién gana; los ganadores se reparten el bote.",
+    "firstBell": "Primera campana en",
+    "started": "Noche de peleas",
+    "pot": "En el bote",
+    "eventLink": "Evento y entradas",
+    "watch": "Ver en directo",
+    "feed": "Apuestas en vivo",
+    "feedEmpty": "Aún no hay apuestas. Sé el primero.",
+    "feedRow": "{amount} por {side}",
+    "pendingNames": "Las apuestas abren en cuanto REK anuncie a los luchadores.",
+    "openNow": "Abierta",
+    "share": "{pct}% del bote",
+    "pickFirst": "Toca un luchador para apostar",
+    "max": "Máx",
+    "youWon": "¡Ganaste {amount}!",
+    "photos": "Fotos: REK (rek.com)"
   }
 }

@@ -40,8 +40,7 @@
     "pass": "FlightPass",
     "inventory": "인벤토리",
     "leaderboard": "리더보드",
-    "partner": "파트너",
-    "fights": "로봇 격투"
+    "partner": "파트너"
   },
   "flyAlt": "Trader Fly 한 마리",
   "flyName": "Trader Fly #{id}",
@@ -1838,6 +1837,24 @@
       "BelowMin": "최소 베팅액보다 적습니다.",
       "NothingToClaim": "이 경기에서 받을 것이 없습니다.",
       "NotFinal": "아직 결과가 나오지 않았습니다."
-    }
+    },
+    "heroA": "로봇이 싸운다.",
+    "heroB": "승자는 당신이 고른다.",
+    "heroSub": "진짜 휴머노이드 로봇, 진짜 케이지. USDG, $FLYAI, ETH로 승자에 베팅하고 승자들이 팟을 나눕니다.",
+    "firstBell": "첫 공까지",
+    "started": "경기 중",
+    "pot": "팟",
+    "eventLink": "이벤트 & 티켓",
+    "watch": "라이브 보기",
+    "feed": "실시간 베팅",
+    "feedEmpty": "아직 베팅이 없습니다. 첫 번째가 되세요.",
+    "feedRow": "{side}에 {amount}",
+    "pendingNames": "REK가 선수를 발표하면 바로 베팅이 열립니다.",
+    "openNow": "오픈",
+    "share": "팟의 {pct}%",
+    "pickFirst": "선수를 눌러 베팅하세요",
+    "max": "최대",
+    "youWon": "{amount} 승리!",
+    "photos": "사진: REK (rek.com)"
   }
 }

@@ -40,8 +40,7 @@
     "pass": "FlightPass",
     "inventory": "庫存",
     "leaderboard": "排行榜",
-    "partner": "合作夥伴",
-    "fights": "機器人格鬥"
+    "partner": "合作夥伴"
   },
   "flyAlt": "一隻 Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1838,6 +1837,24 @@
       "BelowMin": "低於最低下注額。",
       "NothingToClaim": "這場比賽沒有可領取的內容。",
       "NotFinal": "結果尚未公布。"
-    }
+    },
+    "heroA": "機器人開打。",
+    "heroB": "你來押贏家。",
+    "heroSub": "真實的人形機器人，真實的擂台。用 USDG、$FLYAI 或 ETH 押誰會贏，贏家瓜分獎池。",
+    "firstBell": "距離開賽",
+    "started": "比賽進行中",
+    "pot": "獎池",
+    "eventLink": "賽事與門票",
+    "watch": "觀看直播",
+    "feed": "即時下注",
+    "feedEmpty": "還沒有人下注，來做第一個。",
+    "feedRow": "{amount} 押 {side}",
+    "pendingNames": "REK 公布選手後即開放下注。",
+    "openNow": "開放中",
+    "share": "佔獎池 {pct}%",
+    "pickFirst": "點選一位選手下注",
+    "max": "最大",
+    "youWon": "你贏了 {amount}！",
+    "photos": "圖片：REK (rek.com)"
   }
 }

@@ -25,7 +25,7 @@
       ["Fly Slots", "/slots/", "Spin the reels, a fly brain reacts"],
       ["Fly Race", "/race/", "Six fly brains race to the fruit"],
       // 2026-10-08: pool betting on REK's robot fights (FightPools); the 5th field marks a link "New"
-      ["Robot Fights", "/traderflies/fights", "Bet on robot fights in USDG, FLYAI or ETH", false, true],
+      ["Robot Fights", "/fights/", "Bet on robot fights in USDG, FLYAI or ETH", false, true],
       ["Fly Radio", "/radio/", "A station played by a real fly brain"],
       ["Flinder", "/flinder/", "A fly brain swipes on dating profiles"],
       ["Hardware NFTs", "/traderflies/pets", "FLYAI pets: pre-order a pocket fly"],
