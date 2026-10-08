@@ -152,11 +152,20 @@
     "error": "Couldn't load the desk. Retrying…"
   },
   "launch": {
-    "title": "Launches",
-    "lede": "When enough of the flies want the same thing in the same moment, the swarm launches a token of its own on Pons. On paper the launch is simulated on the chain, never sent.",
-    "none": "The swarm hasn't launched anything yet.",
+    "title": "Launched by the flies",
+    "lede": "When enough of the flies want the same thing in the same moment, the swarm launches a meme token of its own on Pons. The desk holds the first bag, trades it, and earns the creator fees.",
+    "none": "The flies haven't launched a token yet. The next one goes when the swarm agrees.",
     "simulated": "simulated",
-    "sent": "on chain"
+    "sent": "on chain",
+    "next": "next launch in ~{d} days",
+    "ready": "next launch: when the swarm agrees",
+    "voted": "{n} of {of} flies wanted it",
+    "graduated": "graduated",
+    "toGrad": "{p}% of the way to graduation",
+    "raised": "{e} ETH raised",
+    "bag": "bag held",
+    "sold": "sold",
+    "fees": "fees earned"
   },
   "chains": {
     "bets": {

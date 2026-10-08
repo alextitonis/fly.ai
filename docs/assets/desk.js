@@ -493,12 +493,34 @@
     LABELS = b.labels || {};
     renderChains(b.chains || {}, b.ghosts);
 
-    // launches
-    const launches = b.launches || [];
-    $("launch-list").innerHTML = launches.length ? launches.slice().reverse().map((l) =>
-      `<li><b>$${esc(l.symbol)}</b> ${esc(l.name)} <span class="dim">· ${esc(l.sent ? t("launch.sent") : t("launch.simulated"))} · ${esc(ago(new Date(l.at * 1000).toISOString()))}</span>` +
-      (l.swarm ? `<br><span class="dim">${esc(l.swarm.wanted)}/${esc(l.swarm.of)} flies · ${esc(l.swarm.buzzing)} buzzing</span>` : "") + `</li>`).join("")
-      : `<li class="empty">${esc(t("launch.none"))}</li>`;
+    // launches: live = {items, next_at, gap_days} with each launch's numbers (publish.launches_view); paper = a list
+    renderLaunches(b.launches);
+  }
+
+
+  function renderLaunches(raw) {
+    const live = raw && !Array.isArray(raw);
+    const items = (live ? raw.items : raw) || [];
+    const logo = (u) => (u && u.startsWith("ipfs://") ? "https://ipfs.io/ipfs/" + u.slice(7) : "");
+    const next = live && raw.next_at ? raw.next_at * 1000 - Date.now() : null;
+    $("launch-next").textContent = next == null ? "" : next > 0
+      ? t("launch.next", { d: Math.max(1, Math.round(next / 86400000)) }) : t("launch.ready");
+    $("launch-list").innerHTML = items.length ? items.slice().reverse().map((l) => {
+      const pct = l.graduated ? 100 : Math.round(100 * (l.progress || 0));
+      const link = l.token ? `https://www.ponsfamily.com/launchpad/${l.token}` : "";
+      const name = `<b>$${esc(l.symbol)}</b>${esc(l.name || "")}`;
+      const when = ago(new Date(l.at * 1000).toISOString());
+      if (!live) return `<li><span class="lc-logo"></span><span class="lc-name">${name}</span>` +
+        `<span class="lc-sub">${esc(t("launch.simulated"))} · ${esc(when)}</span></li>`;
+      return `<li>` + (logo(l.logo) ? `<img class="lc-logo" src="${esc(logo(l.logo))}" alt="" loading="lazy">` : `<span class="lc-logo"></span>`) +
+        `<span class="lc-name">${link ? `<a href="${esc(link)}" target="_blank" rel="noopener">${name} ↗</a>` : name}</span>` +
+        `<span class="lc-sub">${esc(when)}${l.swarm ? ` · ${esc(t("launch.voted", { n: l.swarm.wanted, of: l.swarm.of }))}` : ""}</span>` +
+        `<span class="lc-bar" title="${esc(l.graduated ? t("launch.graduated") : t("launch.toGrad", { p: pct }))}"><i style="width:${pct}%"></i></span>` +
+        `<span class="lc-stats"><span><b>${l.graduated ? esc(t("launch.graduated")) : pct + "%"}</b>${esc(t("launch.raised", { e: (l.real_eth || 0).toFixed(3) }))}</span>` +
+        `<span><b>${usd(l.held_usd)}</b>${esc(t("launch.bag"))}</span>` +
+        `<span><b>${usd(l.sold_usd || 0)}</b>${esc(t("launch.sold"))}</span>` +
+        `<span><b>${usd(l.fees_usd || 0)}</b>${esc(t("launch.fees"))}</span></span></li>`;
+    }).join("") : `<li class="empty">${esc(t("launch.none"))}</li>`;
   }
 
 

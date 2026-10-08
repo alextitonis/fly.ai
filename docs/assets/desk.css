@@ -322,6 +322,7 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
     "stats stats stats stats stats stats stats stats stats stats stats stats"
     "chart chart chart chart chart chart chart chart pos pos pos pos"
     "tape tape tape tape tape tape books books books books books books"
+    "launch launch launch launch launch launch launch launch launch launch launch launch"
     "pay pay pay pay pay pay pay pay pay pay pay pay"
     "vote vote vote vote vote vote vote vote vote vote vote vote"
     "foot foot foot foot foot foot foot foot foot foot foot foot"
@@ -357,6 +358,21 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
 .desk .dkt #pay-tbl a { color: var(--t-text); text-decoration: none; } .desk .dkt #pay-tbl a:hover { color: var(--t-mint); }
 .desk .dkt #pay-tbl tr.off td { color: var(--t-dim); }
 .dkt-foot { grid-area: foot; }
+/* the flies' launches: one card each, the curve's way to graduation as a bar */
+.dkt-launch { grid-area: launch; }
+.desk .dkt .dkt-launch h2 small { color: var(--t-dim); letter-spacing: .04em; text-transform: none; font-weight: 500; margin-left: 8px; }
+.desk .dkt .lc-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.desk .dkt .lc-grid li { display: grid; grid-template-columns: 52px 1fr; gap: 4px 12px; align-items: center; padding: 12px;
+  border: 1px solid var(--t-line); border-left: 3px solid #f2b33d; border-radius: 6px; background: rgba(4, 7, 6, .8); color: var(--t-text); }
+.desk .dkt .lc-grid li.empty { display: block; border-left-color: var(--t-line); color: var(--t-dim); }
+.lc-logo { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; grid-row: span 2; background: #10201b; }
+.lc-name a { color: var(--t-text); text-decoration: none; } .lc-name a:hover { color: var(--t-mint); }
+.lc-name b { font: 700 15px var(--t-mono); margin-right: 6px; }
+.lc-sub { color: var(--t-dim); font-size: 11.5px; }
+.lc-bar { grid-column: 1 / -1; height: 6px; border-radius: 3px; background: #14231e; overflow: hidden; margin-top: 6px; }
+.lc-bar i { display: block; height: 100%; background: linear-gradient(90deg, #f2b33d, var(--t-mint)); }
+.lc-stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; font-size: 11px; color: var(--t-dim); }
+.lc-stats b { display: block; color: var(--t-text); font-size: 13px; font-weight: 600; }
 .dkt-how { grid-area: how; }
 /* the site's serif headings and plates give way to the terminal's */
 .desk .dkt .tm-panel h2 { font: 700 10.5px/1.2 var(--t-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--t-mint); margin: 0 0 8px; }
@@ -403,6 +419,7 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
     "chart chart chart chart chart chart chart chart chart chart chart chart"
     "pos pos pos pos pos pos books books books books books books"
     "tape tape tape tape tape tape tape tape tape tape tape tape"
+    "launch launch launch launch launch launch launch launch launch launch launch launch"
     "pay pay pay pay pay pay pay pay pay pay pay pay"
     "vote vote vote vote vote vote vote vote vote vote vote vote"
     "foot foot foot foot foot foot foot foot foot foot foot foot"

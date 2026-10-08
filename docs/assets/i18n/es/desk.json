@@ -152,11 +152,20 @@
     "error": "No se pudo cargar la mesa. Reintentando…"
   },
   "launch": {
-    "title": "Lanzamientos",
-    "lede": "Cuando suficientes moscas quieren lo mismo en el mismo momento, el enjambre lanza su propio token en Pons. En papel, el lanzamiento se simula en la cadena y nunca se envía.",
-    "none": "El enjambre aún no ha lanzado nada.",
+    "title": "Lanzados por las moscas",
+    "lede": "Cuando bastantes moscas quieren lo mismo en el mismo momento, el enjambre lanza su propio token meme en Pons. La mesa guarda la primera bolsa, la opera y cobra las comisiones de creador.",
+    "none": "Las moscas aún no han lanzado ningún token. El próximo sale cuando el enjambre se ponga de acuerdo.",
     "simulated": "simulado",
-    "sent": "en cadena"
+    "sent": "en cadena",
+    "next": "próximo lanzamiento en ~{d} días",
+    "ready": "próximo lanzamiento: cuando el enjambre se ponga de acuerdo",
+    "voted": "{n} de {of} moscas lo quisieron",
+    "graduated": "graduado",
+    "toGrad": "{p}% del camino a la graduación",
+    "raised": "{e} ETH recaudados",
+    "bag": "bolsa",
+    "sold": "vendido",
+    "fees": "comisiones"
   },
   "chains": {
     "bets": {

@@ -152,11 +152,20 @@
     "error": "Masa yüklenemedi. Yeniden deneniyor…"
   },
   "launch": {
-    "title": "Lansmanlar",
-    "lede": "Yeterince sinek aynı anda aynı şeyi istediğinde sürü Pons'ta kendi tokenını çıkarır. Kağıt üzerinde lansman zincirde simüle edilir, asla gönderilmez.",
-    "none": "Sürü henüz bir şey çıkarmadı.",
+    "title": "Sineklerin çıkardığı tokenlar",
+    "lede": "Yeterince sinek aynı anda aynı şeyi istediğinde sürü Pons'ta kendi meme tokenını çıkarır. Masa ilk torbayı tutar, onunla işlem yapar ve yaratıcı ücretlerini kazanır.",
+    "none": "Sinekler henüz token çıkarmadı. Bir sonraki, sürü anlaştığında gelir.",
     "simulated": "simüle",
-    "sent": "zincirde"
+    "sent": "zincirde",
+    "next": "sonraki çıkış ~{d} gün içinde",
+    "ready": "sonraki çıkış: sürü anlaştığında",
+    "voted": "{of} sinekten {n} tanesi istedi",
+    "graduated": "mezun oldu",
+    "toGrad": "mezuniyete %{p}",
+    "raised": "{e} ETH toplandı",
+    "bag": "elde tutulan",
+    "sold": "satılan",
+    "fees": "kazanılan ücret"
   },
   "chains": {
     "bets": {

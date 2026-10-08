@@ -96,6 +96,14 @@
     </div>
   </section>
 
+  <!-- the flies' own Pons tokens (2026-10-08, flylaunch.py: the house wallet launches, holds the starting bag and
+       trades it on its curve; publish.launches_view) -->
+  <section id="launches" class="tm-panel dkt-launch">
+    <h2><span data-i18n="desk.launch.title">Launched by the flies</span><small id="launch-next"></small></h2>
+    <p class="caption" data-i18n="desk.launch.lede">When enough of the flies want the same thing in the same moment, the swarm launches a meme token of its own on Pons. The desk holds the first bag, trades it, and earns the creator fees.</p>
+    <ul class="launches lc-grid" id="launch-list"></ul>
+  </section>
+
   <!-- the week's payout per activated Trader Fly, if the week closed now (2026-10-05; publish.payout_preview) -->
   <section id="payout" class="tm-panel dkt-pay" hidden>
     <h2><span data-i18n="desk.pay.title">This week's payout</span><small id="pay-when"></small></h2>
@@ -180,13 +188,6 @@
       <p class="prose" data-i18n="desk.chains.lede">The same flies trade other chains from the same money as above. What each fly holds on each chain, and its latest fills there.</p>
       <p class="prose dim" id="chains-note" hidden data-i18n="desk.chains.homeOnly">For now the flies only buy on Robinhood Chain. Below is what they still hold or bet elsewhere.</p>
       <div id="chains-body"></div>
-    </div>
-  </section>
-<section id="launches" class="dsec">
-    <div class="wrap">
-      <h2><span class="num">09</span> <span data-i18n="desk.launch.title">Launches</span></h2>
-      <p class="prose" data-i18n="desk.launch.lede">When enough of the flies want the same thing in the same moment, the swarm launches a token of its own on Pons. On paper the launch is simulated on the chain, never sent.</p>
-      <ul class="launches" id="launch-list"></ul>
     </div>
   </section>
   </div>
