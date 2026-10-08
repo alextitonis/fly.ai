@@ -1947,7 +1947,11 @@
       "bad": "Zayıf olduğu",
       "history": "{robot} dövüş geçmişi",
       "champions": "Şimdiye kadarki REK şampiyonları",
-      "pilotsNote": "REK unvanları robotlara değil pilotlara gider; bu geceki pilotlar henüz açıklanmadı."
+      "pilotsNote": "REK unvanları robotlara değil pilotlara gider; bu geceki pilotlar henüz açıklanmadı.",
+      "ours": "Buradaki karne",
+      "wdl": "{w}G {d}B {l}M",
+      "debut": "ilk dövüş",
+      "noRecord": "— (köşe: her dövüşte aynı robot değil)"
     }
   }
 }

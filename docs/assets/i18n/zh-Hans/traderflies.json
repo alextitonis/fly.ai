@@ -1945,7 +1945,11 @@
       "bad": "弱点",
       "history": "{robot} 战斗记录",
       "champions": "REK 历届冠军",
-      "pilotsNote": "REK 的冠军属于操控者而非机器人；今晚的操控者尚未公布。"
+      "pilotsNote": "REK 的冠军属于操控者而非机器人；今晚的操控者尚未公布。",
+      "ours": "本站战绩",
+      "wdl": "{w}胜 {d}平 {l}负",
+      "debut": "首秀",
+      "noRecord": "—（角位，每场不是同一台机器人）"
     }
   }
 }

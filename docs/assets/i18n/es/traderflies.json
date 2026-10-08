@@ -1947,7 +1947,11 @@
       "bad": "Débil en",
       "history": "Historial de peleas del {robot}",
       "champions": "Campeones de REK hasta ahora",
-      "pilotsNote": "Los títulos de REK son de los pilotos, no de los robots: los pilotos de esta noche no se han anunciado."
+      "pilotsNote": "Los títulos de REK son de los pilotos, no de los robots: los pilotos de esta noche no se han anunciado.",
+      "ours": "Récord aquí",
+      "wdl": "{w}V {d}E {l}D",
+      "debut": "debut",
+      "noRecord": "— (una esquina, no el mismo robot en cada pelea)"
     }
   }
 }

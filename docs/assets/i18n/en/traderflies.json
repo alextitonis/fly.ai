@@ -1947,7 +1947,11 @@
       "bad": "Weak at",
       "history": "{robot} fight history",
       "champions": "REK champions so far",
-      "pilotsNote": "REK's titles go to the pilots, not the robots: tonight's pilots haven't been announced."
+      "pilotsNote": "REK's titles go to the pilots, not the robots: tonight's pilots haven't been announced.",
+      "ours": "Record here",
+      "wdl": "{w}W {d}D {l}L",
+      "debut": "debut",
+      "noRecord": "— (a corner, not one robot from fight to fight)"
     }
   }
 }
