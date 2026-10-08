@@ -197,7 +197,7 @@ export function createVaults(d: VaultsDeps) {
       pg.all<any>(`select (extract(epoch from at) * 1000)::float8 as at, tag, symbol, side, qty, usd, price, status, tx_hash, reason
         from mine.vault_trades where vault = ? order by at desc limit 150`, wallet),
       pg.all<any>(`select (extract(epoch from at) * 1000)::float8 as at, kind, chain, token, amount, usd, tx_hash
-        from mine.vault_moves where wallet = ? order by at desc limit 80`, wallet),
+        from mine.vault_moves where wallet = ? and kind <> 'deposit_void' order by at desc limit 80`, wallet),
       pg.all<any>(`select (extract(epoch from at) * 1000)::float8 as at, kind, detail from mine.vault_events
         where vault = ? and at > now() - interval '14 days' and kind in (${LOG_EVENTS.map((k) => `'${k}'`).join(", ")}) order by at desc limit 40`, wallet),
     ]);
