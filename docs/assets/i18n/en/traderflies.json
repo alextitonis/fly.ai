@@ -40,7 +40,8 @@
     "pass": "FlightPass",
     "inventory": "Inventory",
     "leaderboard": "Leaderboard",
-    "partner": "Partners"
+    "partner": "Partners",
+    "fights": "Robot Fights"
   },
   "flyAlt": "A Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1812,5 +1813,33 @@
     "making": "Making its wallet… (a minute or two)",
     "walletIntro": "This {name}'s own wallet on Robinhood Chain: send it ETH or USDG and its brain trades it, with any options you switch on beside it. Only you can take money out; a {fee}% fee on profit only.",
     "holdNeed": "{name} wallets need {need} $FLYAI in your wallet (you have {have}). Below it the wallet only closes trades; withdrawals always work."
+  },
+  "fights": {
+    "title": "Robot Fights",
+    "soon": "Fight betting opens soon.",
+    "how": "Pick the robot you think wins and bet USDG, $FLYAI or ETH. Each token has its own pot: when the fight ends, the winners split it by what they bet. If nobody bet against you, you get your stake back.",
+    "none": "No fights open right now. The next card is coming.",
+    "won": "{side} won",
+    "cancelled": "Called off: every bet is refunded",
+    "closesIn": "Betting closes in {h} h {m} min",
+    "waiting": "Betting closed, waiting for the result",
+    "yours": "You: {amount}",
+    "amount": "Amount in {symbol}",
+    "button": "Bet on {side}",
+    "balance": "You have {amount}",
+    "estimate": "pays about {amount} if it wins, at the pot right now",
+    "confirm": "Confirm the bet in your wallet…",
+    "placed": "Bet placed: {amount} on {side}.",
+    "owed": "Yours to collect: {amount}",
+    "claim": "Collect",
+    "claimed": "Collected. It's in your wallet.",
+    "rules": "{fee}% of each pot goes to fly.ai when the fight is settled. A draw or no contest refunds everyone.",
+    "why": {
+      "NotOpen": "This fight is no longer open.",
+      "BettingClosed": "Betting has closed for this fight.",
+      "BelowMin": "That's below the minimum bet.",
+      "NothingToClaim": "Nothing to collect on this fight.",
+      "NotFinal": "The result isn't in yet."
+    }
   }
 }

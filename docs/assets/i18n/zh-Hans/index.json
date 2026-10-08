@@ -143,7 +143,8 @@
       "free": "免费",
       "wallet": "钱包",
       "both": "免费 + $FLYAI",
-      "earn": "赚 $FLYAI"
+      "earn": "赚 $FLYAI",
+      "new": "新"
     },
     "flybook": {
       "name": "Flybook",
@@ -192,6 +193,10 @@
     "pets": {
       "name": "Fly Pets",
       "text": "预订口袋苍蝇：搭载苍蝇大脑的真实设备。"
+    },
+    "fights": {
+      "name": "机器人格斗",
+      "text": "机器人对战，你来押赢家。用 USDG、$FLYAI 或 ETH 下注，赢家瓜分奖池。"
     }
   }
 }

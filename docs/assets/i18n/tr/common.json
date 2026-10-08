@@ -180,7 +180,12 @@
     "traderflies_partner": {
       "label": "Bullas",
       "desc": "Bullas NFT'leri: kendi işlem cüzdanları ve ortak havuz"
-    }
+    },
+    "traderflies_fights": {
+      "label": "Robot Dövüşleri",
+      "desc": "Robot dövüşlerine USDG, FLYAI veya ETH ile bahis"
+    },
+    "newTag": "Yeni"
   },
   "footer": {
     "license": "MIT Lisansı",

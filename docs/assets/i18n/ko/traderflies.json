@@ -40,7 +40,8 @@
     "pass": "FlightPass",
     "inventory": "인벤토리",
     "leaderboard": "리더보드",
-    "partner": "파트너"
+    "partner": "파트너",
+    "fights": "로봇 격투"
   },
   "flyAlt": "Trader Fly 한 마리",
   "flyName": "Trader Fly #{id}",
@@ -1810,5 +1811,33 @@
     "making": "지갑 만드는 중… (1~2분)",
     "walletIntro": "Robinhood Chain에 있는 이 {name}의 전용 지갑: ETH나 USDG를 보내면 브레인이 거래하고, 켜 둔 옵션도 함께 거래합니다. 출금은 본인만 할 수 있으며, 수익에 대해서만 {fee}% 수수료가 붙습니다.",
     "holdNeed": "{name} 지갑은 내 지갑에 $FLYAI {need}개가 필요합니다(보유 {have}). 부족하면 포지션 정리만 하며, 출금은 언제나 가능합니다."
+  },
+  "fights": {
+    "title": "로봇 격투",
+    "soon": "격투 베팅이 곧 열립니다.",
+    "how": "이길 것 같은 로봇을 골라 USDG, $FLYAI 또는 ETH로 베팅하세요. 토큰마다 팟이 따로 있습니다: 경기가 끝나면 승자들이 베팅액에 비례해 나눕니다. 반대편에 아무도 베팅하지 않았다면 원금을 돌려받습니다.",
+    "none": "지금 열린 경기가 없습니다. 다음 경기가 곧 열립니다.",
+    "won": "{side} 승리",
+    "cancelled": "경기 취소: 모든 베팅이 환불됩니다",
+    "closesIn": "베팅 마감까지 {h}시간 {m}분",
+    "waiting": "베팅 마감, 결과를 기다리는 중",
+    "yours": "내 베팅: {amount}",
+    "amount": "{symbol} 금액",
+    "button": "{side}에 베팅",
+    "balance": "보유: {amount}",
+    "estimate": "지금 팟 기준, 이기면 약 {amount}",
+    "confirm": "지갑에서 베팅을 확인하세요…",
+    "placed": "베팅 완료: {side}에 {amount}.",
+    "owed": "받을 금액: {amount}",
+    "claim": "받기",
+    "claimed": "받았습니다. 지갑에 들어왔어요.",
+    "rules": "경기가 정산되면 각 팟의 {fee}%가 fly.ai로 갑니다. 무승부나 무효 경기는 전원 환불됩니다.",
+    "why": {
+      "NotOpen": "이 경기는 더 이상 열려 있지 않습니다.",
+      "BettingClosed": "이 경기의 베팅이 마감되었습니다.",
+      "BelowMin": "최소 베팅액보다 적습니다.",
+      "NothingToClaim": "이 경기에서 받을 것이 없습니다.",
+      "NotFinal": "아직 결과가 나오지 않았습니다."
+    }
   }
 }

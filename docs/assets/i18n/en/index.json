@@ -143,7 +143,8 @@
       "free": "Free",
       "wallet": "Wallet",
       "both": "Free + $FLYAI",
-      "earn": "Earn $FLYAI"
+      "earn": "Earn $FLYAI",
+      "new": "New"
     },
     "flybook": {
       "name": "Flybook",
@@ -192,6 +193,10 @@
     "pets": {
       "name": "Fly Pets",
       "text": "Pre-order a pocket fly: a real device with a fly brain."
+    },
+    "fights": {
+      "name": "Robot Fights",
+      "text": "Robots fight, you pick the winner. Bet USDG, $FLYAI or ETH; winners split the pot."
     }
   }
 }

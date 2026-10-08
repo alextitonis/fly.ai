@@ -180,7 +180,12 @@
     "traderflies_partner": {
       "label": "Bullas",
       "desc": "Bullas NFT：各自的交易錢包和共享獎池"
-    }
+    },
+    "traderflies_fights": {
+      "label": "機器人格鬥",
+      "desc": "用 USDG、FLYAI 或 ETH 押注機器人格鬥"
+    },
+    "newTag": "新"
   },
   "footer": {
     "license": "MIT 授權",

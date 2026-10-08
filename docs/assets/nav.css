@@ -53,6 +53,9 @@ nav .ddmenu a { display: block; padding: 9px 11px; border-radius: 7px; color: va
 nav .ddmenu a:hover { background: var(--bg-2, #060707); }
 nav .ddmenu a.on { background: var(--bg-2, #060707); }
 nav .ddmenu a.on::after { display: none; }
+/* a link nav.js marks new (its 5th field): a small mint pill after the label */
+nav .nav-new { display: inline-block; margin-left: 7px; padding: 1px 7px; border-radius: 999px; background: var(--mint, #5ef2cc);
+  color: #04110d; font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; vertical-align: 2px; }
 nav .ddmenu small { display: block; color: var(--dim, #5f6865); font: 12px/1.4 var(--mono, "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace); margin-top: 2px; white-space: normal; }
 /* menus whose label is the whole button (Research, Apps, $FLYAI) */
 nav .ddlabel { font-size: inherit; color: var(--muted, #9ba5a1); padding: 4px 2px; }

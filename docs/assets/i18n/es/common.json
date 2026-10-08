@@ -180,7 +180,12 @@
     "traderflies_partner": {
       "label": "Bullas",
       "desc": "NFT de Bullas: sus propias billeteras de trading y un bote compartido"
-    }
+    },
+    "traderflies_fights": {
+      "label": "Peleas de robots",
+      "desc": "Apuesta en peleas de robots con USDG, FLYAI o ETH"
+    },
+    "newTag": "Nuevo"
   },
   "footer": {
     "license": "Licencia MIT",

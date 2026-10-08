@@ -40,7 +40,8 @@
     "pass": "FlightPass",
     "inventory": "Inventario",
     "leaderboard": "Clasificación",
-    "partner": "Socios"
+    "partner": "Socios",
+    "fights": "Peleas de robots"
   },
   "flyAlt": "Una Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1812,5 +1813,33 @@
     "making": "Creando su billetera… (un minuto o dos)",
     "walletIntro": "La billetera propia de este {name} en Robinhood Chain: envíale ETH o USDG y su cerebro opera con ella, junto con las opciones que actives. Solo tú puedes retirar; comisión del {fee}% solo sobre la ganancia.",
     "holdNeed": "Las billeteras de {name} necesitan {need} $FLYAI en tu billetera (tienes {have}). Por debajo solo cierra operaciones; los retiros siempre funcionan."
+  },
+  "fights": {
+    "title": "Peleas de robots",
+    "soon": "Las apuestas de peleas abren pronto.",
+    "how": "Elige el robot que crees que gana y apuesta USDG, $FLYAI o ETH. Cada token tiene su propio bote: al terminar la pelea, los ganadores se lo reparten según lo que apostaron. Si nadie apostó en tu contra, recuperas tu apuesta.",
+    "none": "No hay peleas abiertas ahora. La próxima llega pronto.",
+    "won": "Ganó {side}",
+    "cancelled": "Cancelada: se devuelven todas las apuestas",
+    "closesIn": "Las apuestas cierran en {h} h {m} min",
+    "waiting": "Apuestas cerradas, esperando el resultado",
+    "yours": "Tú: {amount}",
+    "amount": "Cantidad en {symbol}",
+    "button": "Apostar por {side}",
+    "balance": "Tienes {amount}",
+    "estimate": "paga unos {amount} si gana, con el bote actual",
+    "confirm": "Confirma la apuesta en tu wallet…",
+    "placed": "Apuesta hecha: {amount} por {side}.",
+    "owed": "Para cobrar: {amount}",
+    "claim": "Cobrar",
+    "claimed": "Cobrado. Ya está en tu wallet.",
+    "rules": "El {fee}% de cada bote va a fly.ai cuando se resuelve la pelea. Un empate o una pelea anulada devuelve todo a todos.",
+    "why": {
+      "NotOpen": "Esta pelea ya no está abierta.",
+      "BettingClosed": "Las apuestas de esta pelea están cerradas.",
+      "BelowMin": "Está por debajo de la apuesta mínima.",
+      "NothingToClaim": "No hay nada que cobrar en esta pelea.",
+      "NotFinal": "El resultado aún no está."
+    }
   }
 }

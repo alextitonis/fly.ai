@@ -40,7 +40,8 @@
     "pass": "FlightPass",
     "inventory": "Envanter",
     "leaderboard": "Sıralama",
-    "partner": "Ortaklar"
+    "partner": "Ortaklar",
+    "fights": "Robot Dövüşleri"
   },
   "flyAlt": "Bir Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1812,5 +1813,33 @@
     "making": "Cüzdan kuruluyor… (bir iki dakika)",
     "walletIntro": "Bu {name} için Robinhood Chain üzerindeki kendi cüzdanı: ETH veya USDG gönder, beyni onunla işlem yapsın; açtığın seçenekler de yanında işlem yapar. Parayı yalnızca sen çekebilirsin; sadece kâr üzerinden %{fee} ücret.",
     "holdNeed": "{name} cüzdanları için cüzdanında {need} $FLYAI gerekir (sende {have} var). Altında cüzdan sadece pozisyon kapatır; çekimler her zaman çalışır."
+  },
+  "fights": {
+    "title": "Robot Dövüşleri",
+    "soon": "Dövüş bahisleri yakında açılıyor.",
+    "how": "Kazanacağını düşündüğün robotu seç ve USDG, $FLYAI veya ETH ile bahis yap. Her tokenın kendi havuzu var: dövüş bitince kazananlar havuzu yatırdıkları oranda paylaşır. Karşı tarafa kimse bahis yapmadıysa paran iade edilir.",
+    "none": "Şu anda açık dövüş yok. Sıradaki yakında.",
+    "won": "{side} kazandı",
+    "cancelled": "İptal edildi: tüm bahisler iade edilir",
+    "closesIn": "Bahisler {h} sa {m} dk sonra kapanıyor",
+    "waiting": "Bahisler kapandı, sonuç bekleniyor",
+    "yours": "Senin: {amount}",
+    "amount": "{symbol} miktarı",
+    "button": "{side} için bahis yap",
+    "balance": "Bakiyen: {amount}",
+    "estimate": "şu anki havuza göre kazanırsa yaklaşık {amount} öder",
+    "confirm": "Bahsi cüzdanında onayla…",
+    "placed": "Bahis yapıldı: {side} için {amount}.",
+    "owed": "Alabileceğin: {amount}",
+    "claim": "Al",
+    "claimed": "Alındı. Cüzdanında.",
+    "rules": "Dövüş sonuçlandığında her havuzun %{fee}'i fly.ai'ye gider. Beraberlik veya geçersiz dövüşte herkese iade yapılır.",
+    "why": {
+      "NotOpen": "Bu dövüş artık açık değil.",
+      "BettingClosed": "Bu dövüş için bahisler kapandı.",
+      "BelowMin": "Bu, en düşük bahsin altında.",
+      "NothingToClaim": "Bu dövüşte alınacak bir şey yok.",
+      "NotFinal": "Sonuç henüz açıklanmadı."
+    }
   }
 }

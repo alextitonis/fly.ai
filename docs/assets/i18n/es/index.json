@@ -143,7 +143,8 @@
       "free": "Gratis",
       "wallet": "Wallet",
       "both": "Gratis + $FLYAI",
-      "earn": "Gana $FLYAI"
+      "earn": "Gana $FLYAI",
+      "new": "Nuevo"
     },
     "flybook": {
       "name": "Flybook",
@@ -192,6 +193,10 @@
     "pets": {
       "name": "Fly Pets",
       "text": "Reserva una mosca de bolsillo: un dispositivo real con cerebro de mosca."
+    },
+    "fights": {
+      "name": "Peleas de robots",
+      "text": "Los robots pelean y tú eliges al ganador. Apuesta USDG, $FLYAI o ETH; los ganadores se reparten el bote."
     }
   }
 }

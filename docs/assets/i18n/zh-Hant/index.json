@@ -143,7 +143,8 @@
       "free": "免費",
       "wallet": "錢包",
       "both": "免費 + $FLYAI",
-      "earn": "賺 $FLYAI"
+      "earn": "賺 $FLYAI",
+      "new": "新"
     },
     "flybook": {
       "name": "Flybook",
@@ -192,6 +193,10 @@
     "pets": {
       "name": "Fly Pets",
       "text": "預訂口袋蒼蠅：搭載蒼蠅大腦的真實裝置。"
+    },
+    "fights": {
+      "name": "機器人格鬥",
+      "text": "機器人對戰，你來押贏家。用 USDG、$FLYAI 或 ETH 下注，贏家瓜分獎池。"
     }
   }
 }

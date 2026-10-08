@@ -180,7 +180,12 @@
     "traderflies_partner": {
       "label": "Bullas",
       "desc": "Bullas NFT: 각자의 트레이딩 지갑과 공동 풀"
-    }
+    },
+    "traderflies_fights": {
+      "label": "로봇 격투",
+      "desc": "USDG, FLYAI, ETH로 로봇 격투에 베팅"
+    },
+    "newTag": "신규"
   },
   "footer": {
     "license": "MIT 라이선스",

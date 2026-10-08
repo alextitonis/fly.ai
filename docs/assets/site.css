@@ -363,6 +363,9 @@
 .app-card em { justify-self: start; font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
   padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
 .app-card em.tag-free { color: var(--mint); border-color: rgba(94,242,204,.4); }
+/* a new app (2026-10-08: Robot Fights): mint border and a filled pill, first in the grid */
+.app-card.is-new { border-color: var(--mint); box-shadow: 0 0 0 1px rgba(94,242,204,.25), 0 8px 28px rgba(94,242,204,.12); }
+.app-card em.tag-new { background: var(--mint); color: #04110d; border-color: var(--mint); }
 @media (max-width: 520px) { .app-grid { grid-template-columns: 1fr 1fr; gap: 8px; } .app-card { padding: 12px; } .app-card span { font-size: 13px; } }
 
 .hero .apps-launch { padding-top: 26px; text-align: left; }

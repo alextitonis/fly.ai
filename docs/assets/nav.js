@@ -24,6 +24,8 @@
       ["Fly Roulette", "/roulette/", "Fly brains vs a toy cap gun"],
       ["Fly Slots", "/slots/", "Spin the reels, a fly brain reacts"],
       ["Fly Race", "/race/", "Six fly brains race to the fruit"],
+      // 2026-10-08: pool betting on REK's robot fights (FightPools); the 5th field marks a link "New"
+      ["Robot Fights", "/traderflies/fights", "Bet on robot fights in USDG, FLYAI or ETH", false, true],
       ["Fly Radio", "/radio/", "A station played by a real fly brain"],
       ["Flinder", "/flinder/", "A fly brain swipes on dating profiles"],
       ["Hardware NFTs", "/traderflies/pets", "FLYAI pets: pre-order a pocket fly"],
@@ -116,8 +118,9 @@
       return e;
     };
     const external = (href) => /^https?:/.test(href);
-    const link = ([label, href, desc, newTab]) => {
+    const link = ([label, href, desc, newTab, isNew]) => {
       const a = el("a", { href: fileHref(href) }, label);
+      if (isNew) a.append(el("span", { class: "nav-new" }, "New"));
       if (desc) a.append(el("small", null, desc));
       if (external(href) || newTab) { a.target = "_blank"; a.rel = "noopener"; }
       if (!external(href) && route(href) === here) a.className = "on";
@@ -131,7 +134,7 @@
     for (const item of NAV) {
       if (!Array.isArray(item[2])) { panel.append(el("ul", { class: "mnav-top" }, el("li", null, link([item[0], item[1]])))); continue; }
       panel.append(el("section", { class: "mnav-sec" }, el("p", { class: "mnav-h", "data-menu": item[0] }, item[1]),
-        el("ul", null, ...item[2].map(([label, href, , newTab]) => el("li", null, link([label, href, undefined, newTab]))))));
+        el("ul", null, ...item[2].map(([label, href, , newTab, isNew]) => el("li", null, link([label, href, undefined, newTab, isNew]))))));
     }
     panel.append(el("ul", { class: "mnav-top mnav-social" }, ...SOCIAL.map(([label, href]) => el("li", null, link([label, href])))));
     for (const item of NAV) {

@@ -143,7 +143,8 @@
       "free": "무료",
       "wallet": "지갑",
       "both": "무료 + $FLYAI",
-      "earn": "$FLYAI 받기"
+      "earn": "$FLYAI 받기",
+      "new": "신규"
     },
     "flybook": {
       "name": "Flybook",
@@ -192,6 +193,10 @@
     "pets": {
       "name": "Fly Pets",
       "text": "주머니 파리 예약: 파리 뇌를 가진 실제 기기."
+    },
+    "fights": {
+      "name": "로봇 격투",
+      "text": "로봇이 싸우고, 당신은 승자를 고릅니다. USDG, $FLYAI, ETH로 베팅하고 승자가 팟을 나눕니다."
     }
   }
 }

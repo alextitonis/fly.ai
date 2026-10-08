@@ -190,6 +190,8 @@ export function translateNav(nav = document.querySelector('nav[aria-label="Main"
     if (text && has(`${key}.label`)) text.textContent = t(`${key}.label`);
     const small = a.querySelector("small");
     if (small && has(`${key}.desc`)) small.textContent = t(`${key}.desc`);
+    const pill = a.querySelector(".nav-new");          // nav.js's "New" pill
+    if (pill && has("common.nav.newTag")) pill.textContent = t("common.nav.newTag");
   }
 }
 

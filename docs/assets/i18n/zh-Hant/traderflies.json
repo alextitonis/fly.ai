@@ -40,7 +40,8 @@
     "pass": "FlightPass",
     "inventory": "庫存",
     "leaderboard": "排行榜",
-    "partner": "合作夥伴"
+    "partner": "合作夥伴",
+    "fights": "機器人格鬥"
   },
   "flyAlt": "一隻 Trader Fly",
   "flyName": "Trader Fly #{id}",
@@ -1810,5 +1811,33 @@
     "making": "正在建立錢包…（一兩分鐘）",
     "walletIntro": "這個 {name} 在 Robinhood Chain 上的專屬錢包：向它發送 ETH 或 USDG，它的大腦就會交易，你開啟的選項也會一起交易。只有你能取出資金；僅對利潤收取 {fee}% 手續費。",
     "holdNeed": "{name} 錢包需要你的錢包持有 {need} $FLYAI（你有 {have}）。不足時錢包只會平倉；提款隨時可用。"
+  },
+  "fights": {
+    "title": "機器人格鬥",
+    "soon": "格鬥押注即將開放。",
+    "how": "選出你認為會贏的機器人，用 USDG、$FLYAI 或 ETH 下注。每種代幣各有一個獎池：比賽結束後，贏家按下注額瓜分。如果沒有人押對面，你的本金原樣退回。",
+    "none": "目前沒有開放的比賽，下一場即將到來。",
+    "won": "{side} 獲勝",
+    "cancelled": "比賽取消：所有押注全額退回",
+    "closesIn": "距離停止下注還有 {h} 小時 {m} 分",
+    "waiting": "下注已截止，等待結果",
+    "yours": "你：{amount}",
+    "amount": "{symbol} 數量",
+    "button": "押 {side}",
+    "balance": "你有 {amount}",
+    "estimate": "按目前獎池，若獲勝約得 {amount}",
+    "confirm": "請在錢包中確認下注…",
+    "placed": "已下注：{amount} 押 {side}。",
+    "owed": "可領取：{amount}",
+    "claim": "領取",
+    "claimed": "已領取，已到帳你的錢包。",
+    "rules": "比賽結算時，每個獎池的 {fee}% 歸 fly.ai。平局或無效比賽全部退款。",
+    "why": {
+      "NotOpen": "這場比賽已不再開放。",
+      "BettingClosed": "這場比賽已停止下注。",
+      "BelowMin": "低於最低下注額。",
+      "NothingToClaim": "這場比賽沒有可領取的內容。",
+      "NotFinal": "結果尚未公布。"
+    }
   }
 }
