@@ -423,7 +423,9 @@ export async function myMissions(): Promise<Mission[]> {
 export type SeasonRow = { user_id: string; wallet_short: string; points: number; missions: number; has_wallet?: boolean };
 export async function loadSeasonBoard(): Promise<SeasonRow[]> {
   if (!db) return [];
-  const { data } = await db.from("season_board").select("*");
+  // a failed read is an error, not an empty season (2026-10-08: a timeout showed "No missions completed" to everyone)
+  const { data, error } = await db.from("season_board").select("*");
+  if (error) throw new Error(error.message);
   return ((data ?? []) as SeasonRow[]).sort((a, b) => b.points - a.points);
 }
 

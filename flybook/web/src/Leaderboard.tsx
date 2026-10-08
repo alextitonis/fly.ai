@@ -66,7 +66,7 @@ export default function Leaderboard({ patches, patch, viewerId, onFly }: {
     const fetchRows = () => {
       db!.from("fly_board").select("*").then(({ data, error }) => (error ? setError(error.message) : setFlyRows(data as FlyRow[])));
       db!.from("owner_board").select("*").then(({ data, error }) => (error ? setError(error.message) : setPeople(data as PersonRow[])));
-      loadSeasonBoard().then(setPoints);
+      loadSeasonBoard().then(setPoints, (e: Error) => setError(e.message));
     };
     fetchRows();
     const t = setInterval(fetchRows, 60_000);

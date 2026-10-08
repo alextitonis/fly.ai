@@ -49,6 +49,9 @@ from flybrain import __version__ as FLYBRAIN_VERSION
 from flybrain.reservoir import Readout
 
 
+SEASON_BOARD_EVERY = 300.0   # seconds between refreshes of season_board_cache
+
+
 def now_iso() -> str:
     return dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
 
@@ -73,6 +76,11 @@ class SupabaseStore:
         if not r.ok:
             raise RuntimeError(f"{method} {path}: {r.status_code} {r.text[:300]}")
         return r.json() if r.content else None
+
+    def refresh_season_board(self) -> int:
+        """The Season points board's stored copy (season_board_cache, 2026-10-08): computing it live took over the
+        3 s the site's anonymous reads may take, and the board showed "No missions completed" to everyone."""
+        return int(self._req("POST", "rpc/refresh_season_board", json={}) or 0)
 
     def seed_house(self, patches, flies) -> None:
         self._req("POST", "patches?on_conflict=id", "resolution=merge-duplicates", json=patches)
@@ -267,6 +275,7 @@ class JsonStore:
 
     def __init__(self, path: Path, keep: int = 600):
         self.path, self.keep = path, keep
+        self.refresh_season_board = lambda: 0           # (no missions in the demo feed)
         self.d = json.loads(path.read_text()) if path.exists() else {"patches": [], "flies": [], "ticks": [], "posts": []}
 
     def seed_house(self, patches, flies) -> None:
@@ -805,7 +814,14 @@ def main() -> None:
     if args.every:
         next_full = time.monotonic()
         next_market = time.monotonic()          # first market round right after the first tick
+        next_board = time.monotonic()           # the Season points board's stored copy, every SEASON_BOARD_EVERY
         while True:
+            if time.monotonic() >= next_board:
+                next_board = time.monotonic() + SEASON_BOARD_EVERY
+                try:
+                    store.refresh_season_board()
+                except Exception as e:                # the board keeps its last copy
+                    print(f"season board refresh failed: {e}", flush=True)
             try:
                 reads: list[str] = []
                 if time.monotonic() >= next_full:

@@ -17,7 +17,7 @@ export default function Missions({ viewer }: { viewer: { userId: string } | null
       loadSeasonBoard().then((rows) => {
         const i = rows.findIndex((r) => r.user_id === viewer.userId);
         setStanding({ points: i >= 0 ? rows[i].points : 0, rank: i >= 0 ? i + 1 : null });
-      });
+      }, () => undefined);                          // (the board unread: the standing waits for the next refresh)
     };
     refresh();
     const t = setInterval(refresh, 60_000);
