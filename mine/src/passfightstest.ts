@@ -5,7 +5,7 @@
  *   npm run test:passfights          (reads the live contract; FIGHTS_TEST_OFFLINE=1 skips that part)
  */
 import assert from "node:assert/strict";
-import { createPassFights, decodeFight, decodeUints, splitPay, type Fight } from "./passfights.ts";
+import { createPassFights, decodeFight, decodeUints, payoutMult, splitPay, valuePick, type Fight } from "./passfights.ts";
 import { rpc } from "./orders.ts";
 import { selector } from "./staking.ts";
 
@@ -41,14 +41,17 @@ await test("all passes on the loser: everyone 0", () => {
   assert.deepEqual(splitPay([{ amount: 5n, side: 1 }], { status: SETTLED, winner: 0, pots: [10n, 5n] }, 0n), [0n]);
 });
 
-// ---- the pick --------------------------------------------------------------------------------------------
-const fight: Fight = { id: 7, title: "REK test: A vs B", sides: ["A", "B"], closeAt: Math.floor(Date.now() / 1000) + 3600, status: 1, winner: 0, feeBps: 500, pots: [300n, 100n] };
+// ---- the pick ---------------------------------------------------------------------------------------------
+const fight: Fight = { id: 7, title: "REK test: A vs B", sides: ["A", "B"], closeAt: Math.floor(Date.now() / 1000) + 3600, status: 1, winner: 0, feeBps: 500, pots: [300n * e18, 100n * e18] };
+const stake = 10n * e18;
+let lastState: any = null;
 const make = (env: Record<string, string>, answers?: Record<string, { noul: number }>, fail = false) => createPassFights({
   pg: null as never, book: null as never, balanceOf: null as never, payer: { address: "0x" + "11".repeat(20), send: async () => "0x" },
   rpcUrl: RPC, token: FLYAI, env: { FIGHTPOOLS: POOLS, ...env } as NodeJS.ProcessEnv,
   toWei: (s) => BigInt(Math.round(Number(s) * 1e6)) * 10n ** 12n, fromWei: (w) => String(Number(w) / 1e18),
   fetch: (async (_url: string, init: { body: string }) => {
     const body = JSON.parse(init.body);
+    lastState = body.state;
     assert.equal(body.model, "typesafe/jev-1.13");
     assert.deepEqual(Object.keys(body.questions), ["win_0", "win_1"]);
     assert.deepEqual(body.state.fighters, ["A", "B"]);
@@ -56,22 +59,37 @@ const make = (env: Record<string, string>, answers?: Record<string, { noul: numb
     return new Response(JSON.stringify({ answers }), { status: 200 });
   }) as never,
 });
-await test("jev picks the fighter it gives the higher chance", async () => {
+await test("payout after our stake, and none while nobody is against us", () => {
+  // 300 vs 100, +10 on B: (410 x 0.95) / 110 = 3.54x; +10 on A: 410 x 0.95 / 310 = 1.256x
+  assert.ok(Math.abs(payoutMult(fight, 1, stake)! - 3.5409) < 1e-3);
+  assert.ok(Math.abs(payoutMult(fight, 0, stake)! - 1.2565) < 1e-3);
+  assert.equal(payoutMult({ pots: [100n, 0n], feeBps: 500 }, 0, 10n), null);
+});
+await test("value pick: equal chances back the better price; a sub-1.1x side is never picked", () => {
+  assert.deepEqual(valuePick(fight, [0.5, 0.5], stake, 1.1, 1.05)?.side, 1);
+  // the crowd's 0.96x favourite of 2026-10-08: 1,000 vs 10, +10 on it pays 0.959x
+  assert.equal(valuePick({ pots: [1000n * e18, 10n * e18], feeBps: 500 }, [1, 0], stake, 1.1, 1.05), null);
+  // a strong view wins over a better price only when chance x payout says so
+  assert.deepEqual(valuePick(fight, [0.95, 0.05], stake, 1.1, 1.05)?.side, 0);
+});
+await test("AI pick: Jev's own chances (no pot shares sent), by value", async () => {
   const pf = make({ OPENROUTER_API_KEY: "k" }, { win_0: { noul: 0.31 }, win_1: { noul: 0.69 } });
-  assert.deepEqual(await pf.pickSide(fight, "jev"), { side: 1, by: "jev" });
+  assert.deepEqual(await pf.pickSide(fight, "jev", stake), { side: 1, by: "jev" });
+  assert.equal(JSON.stringify(lastState).includes("crowd"), false);
 });
-await test("jev failing falls back to the favourite, and says so", async () => {
-  const pf = make({ OPENROUTER_API_KEY: "k" }, undefined, true);
-  assert.deepEqual(await pf.pickSide({ ...fight, id: 8 }, "jev"), { side: 0, by: "favourite" });
+await test("AI pick with Jev failing or no key: equal chances, by value", async () => {
+  assert.deepEqual(await make({ OPENROUTER_API_KEY: "k" }, undefined, true).pickSide({ ...fight, id: 8 }, "jev", stake), { side: 1, by: "value" });
+  assert.deepEqual(await make({}).pickSide(fight, "jev", stake), { side: 1, by: "value" });
 });
-await test("no OpenRouter key: jev is the favourite", async () => {
-  assert.deepEqual(await make({}).pickSide(fight, "jev"), { side: 0, by: "favourite" });
+await test("AI pick skips a fight with nothing worth backing", async () => {
+  const pf = make({ OPENROUTER_API_KEY: "k" }, { win_0: { noul: 1 }, win_1: { noul: 0 } });
+  assert.equal(await pf.pickSide({ ...fight, id: 9, pots: [100n * e18, 0n] }, "jev", stake), null);
 });
-await test("favourite and underdog by the FLYAI pot", async () => {
+await test("favourite and underdog by the FLYAI pot, never under 1.1x", async () => {
   const pf = make({});
-  assert.deepEqual(await pf.pickSide(fight, "favourite"), { side: 0, by: "favourite" });
-  assert.deepEqual(await pf.pickSide(fight, "underdog"), { side: 1, by: "underdog" });
-  assert.deepEqual(await pf.pickSide({ ...fight, pots: [0n, 0n] }, "underdog"), { side: 0, by: "underdog" });
+  assert.deepEqual(await pf.pickSide(fight, "favourite", stake), { side: 0, by: "favourite" });
+  assert.deepEqual(await pf.pickSide(fight, "underdog", stake), { side: 1, by: "underdog" });
+  assert.equal(await pf.pickSide({ ...fight, pots: [1000n * e18, 10n * e18] }, "favourite", stake), null);
 });
 
 // ---- the live contract -----------------------------------------------------------------------------------

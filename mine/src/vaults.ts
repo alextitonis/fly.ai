@@ -181,6 +181,11 @@ export function createVaults(d: VaultsDeps) {
     if (!s) return null;
     if (/return amount is not enough|too little received|slippage/i.test(s)) return "the price moved past its slippage limit";
     if (/no receipt yet/i.test(s)) return "sent; waiting for the chain to confirm";
+    // a token whose pool was drained (2026-10-08: fly #318's launch tokens read "the swap failed on chain" ~27 times a
+    // day each, though nothing was ever sent): nothing to sell into; the desk retries it once a day
+    if (/has no liquidity|no liquidity|route breaks|route ends|no pool will quote|will not quote/i.test(s)) {
+      return "can't sell: its pool has no liquidity left (nothing was sent; it's retried once a day)";
+    }
     if (/^(RuntimeError|Exception|ValueError|KeyError|TypeError)\b|eth_|execution reverted/i.test(s)) return "the swap failed on chain";
     return s.slice(0, 160);
   };
@@ -196,11 +201,27 @@ export function createVaults(d: VaultsDeps) {
       pg.all<any>(`select (extract(epoch from at) * 1000)::float8 as at, kind, detail from mine.vault_events
         where vault = ? and at > now() - interval '14 days' and kind in (${LOG_EVENTS.map((k) => `'${k}'`).join(", ")}) order by at desc limit 40`, wallet),
     ]);
+    // the same refusal over and over (a dead token, a closed market) shows once, newest, with how many times
+    const tradeRows: any[] = [];
+    const sameAs = new Map<string, any>();
+    for (const r of trades) {
+      const why = plainWhy(r.reason?.why ?? r.reason?.reason ?? null);
+      if (r.status === "refused") {
+        const k = `${r.symbol}|${r.side}|${(why ?? "").replace(/\(failed \d+x[^)]*\)|\d+x, next try in \d+ min/g, "")}`;
+        const had = sameAs.get(k);
+        if (had) { had.repeats = (had.repeats ?? 1) + 1; had.first_at = r.at; continue; }
+        const row = { at: r.at, type: "trade", tag: r.tag, symbol: r.symbol, side: r.side, status: r.status, qty: r.qty, usd: r.usd,
+          price: r.price, tx: r.tx_hash ?? null, why, rule: r.reason?.rule ?? null, pnl_pct: r.reason?.pnl_pct ?? null };
+        sameAs.set(k, row);
+        tradeRows.push(row);
+        continue;
+      }
+      tradeRows.push({ at: r.at, type: "trade", tag: r.tag, symbol: r.symbol, side: r.side, status: r.status,
+        qty: r.qty, usd: r.usd, price: r.price, tx: r.tx_hash ?? null, why, rule: r.reason?.rule ?? null,
+        pnl_pct: r.reason?.pnl_pct ?? null });
+    }
     const rows = [
-      ...trades.map((r) => ({ at: r.at, type: "trade", tag: r.tag, symbol: r.symbol, side: r.side, status: r.status,
-        qty: r.qty, usd: r.usd, price: r.price, tx: r.tx_hash ?? null,
-        why: plainWhy(r.reason?.why ?? r.reason?.reason ?? null), rule: r.reason?.rule ?? null,
-        pnl_pct: r.reason?.pnl_pct ?? null })),
+      ...tradeRows,
       ...moves.map((r) => ({ at: r.at, type: "move", kind: r.kind, chain: r.chain, token: r.token, amount: r.amount, usd: r.usd,
         tx: r.tx_hash ?? null })),
       ...events.map((r) => ({ at: r.at, type: "event", kind: r.kind,

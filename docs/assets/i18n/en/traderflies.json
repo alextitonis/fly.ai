@@ -722,7 +722,7 @@
       "colosseum": "Fly Colosseum",
       "colosseumText": "Enters your Trader Flies in every season from the pass balance. Prizes and refunds come back to the pass.",
       "fights": "Robot Fights",
-      "fightsText": "Bets on every open robot fight; Jev, our AI, picks the winner."
+      "fightsText": "Bets on every open robot fight; the AI picks the best value."
     },
     "limits": {
       "stake": "Bet per game ($FLYAI)",
@@ -924,12 +924,12 @@
       "stake": "FLYAI per fight",
       "pick": "Who to back",
       "picks": {
-        "jev": "Jev picks (AI)",
+        "jev": "AI pick",
         "favourite": "The favourite",
         "underdog": "The underdog"
       },
       "pickNote": {
-        "jev": "Jev reads each fight and backs the fighter it rates most likely to win.",
+        "jev": "The AI rates each fighter's chances and backs the best value at the current odds. It bets in the last 60 minutes before betting closes, never at a payout under 1.1x, and skips a fight when no side is worth it.",
         "favourite": "Backs the fighter with the most FLYAI on it.",
         "underdog": "Backs the fighter with the least FLYAI on it: bigger payouts, fewer wins."
       },
@@ -943,8 +943,10 @@
         "stake": "The stake must be {min} to {max} FLYAI.",
         "no_fights": "No fight is open for bets right now; it bets as soon as one opens.",
         "low_balance": "Not enough FLYAI on the pass for the next bet.",
-        "waiting": "On: betting on {n} open fight(s)."
-      }
+        "waiting": "On: in the betting hour of {n} open fight(s); bets when a side is worth it.",
+        "window": "On: bets in each fight's last hour of betting (next: {time}), if a side is worth it."
+      },
+      "ai": "AI"
     }
   },
   "breed": {
@@ -1692,7 +1694,8 @@
     },
     "empty": "Nothing yet. Once the wallet has money, every trade shows up here.",
     "emptyFilter": "Nothing of this kind yet.",
-    "noWallet": "This fly's wallet isn't made yet."
+    "noWallet": "This fly's wallet isn't made yet.",
+    "repeats": "×{n} since {time}"
   },
   "help": {
     "watch": "Tokens the fly always looks at, besides its usual list. They skip the safety checks other tokens go through, so only add tokens you trust.",

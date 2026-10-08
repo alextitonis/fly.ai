@@ -722,7 +722,7 @@
       "colosseum": "Fly Colosseum",
       "colosseumText": "Trader Flies'ını her sezona pass bakiyesinden kaydeder. Ödüller ve iadeler pass'e geri döner.",
       "fights": "Robot Dövüşleri",
-      "fightsText": "Açık her robot dövüşüne bahis yapar; kazananı yapay zekamız Jev seçer."
+      "fightsText": "Açık her robot dövüşüne bahis yapar; en değerli tarafı yapay zeka seçer."
     },
     "limits": {
       "stake": "Oyun başı bahis ($FLYAI)",
@@ -924,12 +924,12 @@
       "stake": "Dövüş başına FLYAI",
       "pick": "Kime oynansın",
       "picks": {
-        "jev": "Jev seçsin (YZ)",
+        "jev": "YZ seçimi",
         "favourite": "Favori",
         "underdog": "Sürpriz"
       },
       "pickNote": {
-        "jev": "Jev her dövüşü okur ve kazanma ihtimalini en yüksek gördüğü dövüşçüye oynar.",
+        "jev": "Yapay zeka her dövüşçünün şansını değerlendirir ve mevcut oranlarda en değerli tarafa oynar. Bahisler kapanmadan önceki son 60 dakikada oynar, 1.1x altı ödemeye asla oynamaz ve değerli taraf yoksa dövüşü atlar.",
         "favourite": "Üzerinde en çok FLYAI olan dövüşçüye oynar.",
         "underdog": "Üzerinde en az FLYAI olan dövüşçüye oynar: daha büyük ödeme, daha az galibiyet."
       },
@@ -943,8 +943,10 @@
         "stake": "Bahis {min}-{max} FLYAI olmalı.",
         "no_fights": "Şu anda bahse açık dövüş yok; biri açılır açılmaz oynar.",
         "low_balance": "Pass'te sonraki bahis için yeterli FLYAI yok.",
-        "waiting": "Açık: {n} açık dövüşe bahis yapıyor."
-      }
+        "waiting": "Açık: {n} açık dövüş bahis saatinde; değerli bir taraf olunca oynar.",
+        "window": "Açık: her dövüşün son bahis saatinde oynar (sıradaki: {time}), değerli bir taraf varsa."
+      },
+      "ai": "YZ"
     }
   },
   "breed": {
@@ -1692,7 +1694,8 @@
     },
     "empty": "Henüz bir şey yok. Cüzdana para girince her işlem burada görünür.",
     "emptyFilter": "Henüz bu türden bir şey yok.",
-    "noWallet": "Bu sineğin cüzdanı henüz oluşturulmadı."
+    "noWallet": "Bu sineğin cüzdanı henüz oluşturulmadı.",
+    "repeats": "{time}'dan beri ×{n}"
   },
   "help": {
     "watch": "Sineğin normal listesinin yanında her zaman baktığı tokenler. Diğer tokenlerin geçtiği güvenlik kontrollerini atlarlar, bu yüzden sadece güvendiğin tokenleri ekle.",

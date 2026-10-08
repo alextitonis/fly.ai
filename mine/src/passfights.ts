@@ -106,6 +106,31 @@ export function splitPay(bets: { amount: bigint; side: number }[], f: Pick<Fight
   return bets.map((b) => (all > 0n ? (weight(b) * paid) / all : 0n));
 }
 
+/** What one unit staked on `side` returns if it wins, once `stake` is in the pot, after the fee; null while nobody is on
+ *  any other side (the contract then refunds it: nothing to win) */
+export function payoutMult(f: Pick<Fight, "pots" | "feeBps">, side: number, stake: bigint): number | null {
+  const total = f.pots.reduce((a, b) => a + b, 0n) + stake, mine = f.pots[side] + stake;
+  if (total === mine || mine === 0n) return null;
+  return Number(total) * (1 - f.feeBps / 10_000) / Number(mine);
+}
+
+/**
+ * The pick by value (2026-10-08, the user: "improve the flightpass betting"): each side's chance to win (p) times what
+ * it pays after the pass's own stake; the best side, when it pays at least minMult and is worth at least minEdge (1 =
+ * break even). With no view (equal chances) this backs the better price, so passes no longer pile onto a favourite
+ * that pays under its stake. null: no side is worth a bet now.
+ */
+export function valuePick(f: Pick<Fight, "pots" | "feeBps">, p: number[], stake: bigint, minMult: number, minEdge: number) {
+  let best: { side: number; ev: number; mult: number } | null = null;
+  p.forEach((pi, side) => {
+    const mult = payoutMult(f, side, stake);
+    if (mult === null || mult < minMult) return;
+    const ev = pi * mult;
+    if (ev >= minEdge && (!best || ev > best.ev)) best = { side, ev, mult };
+  });
+  return best as { side: number; ev: number; mult: number } | null;
+}
+
 export function createPassFights(d: PassFightsDeps) {
   const { pg, book, toWei, fromWei } = d;
   const CFG = {
@@ -114,6 +139,12 @@ export function createPassFights(d: PassFightsDeps) {
     maxBet: toWei(d.env.FIGHTS_PASS_MAX ?? "100000"),
     /** no pass bet in a fight's last minutes: the chain could close it before the transaction lands */
     leadMs: Number(d.env.FIGHTS_PASS_LEAD_MIN ?? "5") * 60_000,
+    /** passes bet only in a fight's last hour of betting, when its pots have mostly formed (2026-10-08) */
+    windowMs: Number(d.env.FIGHTS_PASS_WINDOW_MIN ?? "60") * 60_000,
+    /** never a bet that pays under this if it wins (the 0.96x favourites of 2026-10-08) */
+    minMult: Number(d.env.FIGHTS_PASS_MIN_MULT ?? "1.1"),
+    /** the AI pick bets only when chance x payout is at least this (1 = break even) */
+    minEdge: Number(d.env.FIGHTS_PASS_MIN_EDGE ?? "1.05"),
     jevKey: d.env.OPENROUTER_API_KEY ?? "",
     jevModel: d.env.FIGHTS_JEV_MODEL ?? "typesafe/jev-1.13",
   };
@@ -137,6 +168,8 @@ export function createPassFights(d: PassFightsDeps) {
     return list;
   }
   const bettable = (f: Fight) => f.status === OPEN && f.closeAt * 1000 - Date.now() > CFG.leadMs;
+  /** open, and in its last windowMs of betting */
+  const inWindow = (f: Fight) => bettable(f) && f.closeAt * 1000 - Date.now() <= CFG.windowMs;
 
   // ---- the pick ------------------------------------------------------------------------------------------
   const jevAnswers = new Map<number, { side: number; p: number[]; at: number }>();
@@ -145,12 +178,11 @@ export function createPassFights(d: PassFightsDeps) {
     if (!CFG.jevKey) return null;
     const had = jevAnswers.get(f.id);
     if (had && Date.now() - had.at < 6 * 3_600_000) return had;
-    const total = f.pots.reduce((a, b) => a + b, 0n);
+    // no pot shares (2026-10-08): with them Jev only echoed the crowd's split back; its own view is what the pick needs
     const state = {
       event: f.title,
       sport: "humanoid robot fighting (REK, San Francisco): human pilots control humanoid robots in real time; three 2-minute rounds, knockouts or points",
       fighters: f.sides,
-      crowd_share_of_flyai_pot: f.sides.map((s, i) => ({ fighter: s, share: total > 0n ? Number((f.pots[i] * 10_000n) / total) / 10_000 : null })),
       betting_closes_at: new Date(f.closeAt * 1000).toISOString(),
     };
     const questions = Object.fromEntries(f.sides.map((s, i) => [`win_${i}`, {
@@ -177,13 +209,21 @@ export function createPassFights(d: PassFightsDeps) {
   }
   /** the favourite (the biggest FLYAI pot; the first fighter while it's even) or the underdog (the smallest) */
   const byPot = (f: Fight, fav: boolean) => f.pots.reduce((best, v, i) => (fav ? v > f.pots[best] : v < f.pots[best]) ? i : best, 0);
-  async function pickSide(f: Fight, mode: FightPick): Promise<{ side: number; by: string }> {
+  /**
+   * The side a pass backs with `stake`, or null when no side is worth it now (it asks again next tick, the pots move):
+   * "jev" = the AI pick, by value (valuePick) on Jev's chances, or on equal chances when Jev doesn't answer ("value");
+   * favourite / underdog by the FLYAI pot, never at a payout under minMult.
+   */
+  async function pickSide(f: Fight, mode: FightPick, stake: bigint): Promise<{ side: number; by: string } | null> {
     if (mode === "jev") {
       const j = await askJev(f);
-      if (j) return { side: j.side, by: "jev" };
-      return { side: byPot(f, true), by: "favourite" };
+      const p = j?.p ?? f.sides.map(() => 1 / f.sides.length);
+      const v = valuePick(f, p, stake, CFG.minMult, CFG.minEdge);
+      return v ? { side: v.side, by: j ? "jev" : "value" } : null;
     }
-    return { side: byPot(f, mode === "favourite"), by: mode };
+    const side = byPot(f, mode === "favourite");
+    const mult = payoutMult(f, side, stake);
+    return mult !== null && mult >= CFG.minMult ? { side, by: mode } : null;
   }
 
   // ---- betting -------------------------------------------------------------------------------------------
@@ -208,13 +248,15 @@ export function createPassFights(d: PassFightsDeps) {
     if (stake < CFG.minBet || stake > CFG.maxBet) return [];
     const done: number[] = [];
     for (const f of await fights()) {
-      if (!bettable(f) || await betOf(pass, f.id)) continue;
+      if (!inWindow(f) || await betOf(pass, f.id)) continue;
       if ((await d.balanceOf(pg, key(pass))) < stake) break;
       // the payout wallet carries the bet: it needs the FLYAI now (it comes back when the fight is settled)
       const float = BigInt(await call(SEL.balanceOf + addr(d.payer!.address), d.token));
       if (float < stake) { console.log(`robot fights: payout wallet has ${fromWei(float)} FLYAI, pass ${pass} waits`); break; }
+      const pick = await pickSide(f, s.pick, stake);
+      if (!pick) continue;                                              // nothing worth backing in this fight now
       if (!(await verify())) break;
-      const { side, by } = await pickSide(f, s.pick);
+      const { side, by } = pick;
       const ref = randomUUID();
       let booked = false;
       await pg.tx(async (q) => {
@@ -329,9 +371,13 @@ export function createPassFights(d: PassFightsDeps) {
       if (stake < CFG.minBet || stake > CFG.maxBet) state = "stake";
       else if (!openNow.length) state = "no_fights";
       else if ((await d.balanceOf(pg, key(pass))) < stake) state = "low_balance";
+      else if (!openNow.some(inWindow)) state = "window";
       else state = "waiting";
     }
-    return { state, min: fromWei(CFG.minBet), max: fromWei(CFG.maxBet), open_fights: openNow.length, jev: !!CFG.jevKey, bets: history };
+    // when the next fight's betting hour starts (the pass bets then, if a side is worth it)
+    const nextWindow = openNow.length ? Math.min(...openNow.map((f) => f.closeAt * 1000 - CFG.windowMs)) : null;
+    return { state, min: fromWei(CFG.minBet), max: fromWei(CFG.maxBet), open_fights: openNow.length, jev: !!CFG.jevKey,
+             window_min: CFG.windowMs / 60_000, min_mult: CFG.minMult, next_window_at: nextWindow, bets: history };
   }
 
   return { on, CFG, fights, autoBet, settle, status, pickSide, decodeFight };

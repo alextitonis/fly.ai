@@ -722,7 +722,7 @@
       "colosseum": "Fly Colosseum",
       "colosseumText": "Inscribe tus Trader Flies en cada temporada con el saldo del pase. Premios y reembolsos vuelven al pase.",
       "fights": "Peleas de robots",
-      "fightsText": "Apuesta en cada pelea de robots abierta; Jev, nuestra IA, elige al ganador."
+      "fightsText": "Apuesta en cada pelea de robots abierta; la IA elige el mejor valor."
     },
     "limits": {
       "stake": "Apuesta por partida ($FLYAI)",
@@ -924,12 +924,12 @@
       "stake": "FLYAI por pelea",
       "pick": "A quién apostar",
       "picks": {
-        "jev": "Elige Jev (IA)",
+        "jev": "Elige la IA",
         "favourite": "El favorito",
         "underdog": "La sorpresa"
       },
       "pickNote": {
-        "jev": "Jev analiza cada pelea y apuesta por el luchador que ve más probable que gane.",
+        "jev": "La IA valora las opciones de cada luchador y apuesta por el mejor valor con las cuotas actuales. Apuesta en los últimos 60 minutos antes del cierre, nunca a un pago menor de 1.1x, y salta la pelea si ningún lado vale la pena.",
         "favourite": "Apuesta por el luchador con más FLYAI.",
         "underdog": "Apuesta por el luchador con menos FLYAI: pagos mayores, menos victorias."
       },
@@ -943,8 +943,10 @@
         "stake": "La apuesta debe ser de {min} a {max} FLYAI.",
         "no_fights": "No hay peleas abiertas a apuestas; apostará en cuanto abra una.",
         "low_balance": "No hay suficiente FLYAI en el pase para la siguiente apuesta.",
-        "waiting": "Activo: apostando en {n} pelea(s) abierta(s)."
-      }
+        "waiting": "Activo: {n} pelea(s) abierta(s) en su hora de apuestas; apuesta cuando un lado vale la pena.",
+        "window": "Activo: apuesta en la última hora de apuestas de cada pelea (próxima: {time}), si un lado vale la pena."
+      },
+      "ai": "IA"
     }
   },
   "breed": {
@@ -1692,7 +1694,8 @@
     },
     "empty": "Nada todavía. Cuando la wallet tenga dinero, cada operación aparecerá aquí.",
     "emptyFilter": "Nada de este tipo todavía.",
-    "noWallet": "La wallet de esta mosca aún no está creada."
+    "noWallet": "La wallet de esta mosca aún no está creada.",
+    "repeats": "×{n} desde {time}"
   },
   "help": {
     "watch": "Tokens que la mosca siempre mira, además de su lista habitual. Se saltan los controles de seguridad de los demás tokens, así que añade solo tokens en los que confíes.",
