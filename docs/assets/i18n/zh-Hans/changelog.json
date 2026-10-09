@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "更新日志 — fly.ai 上线的一切",
+    "description": "fly.ai 从第一天起上线的一切：果蝇大脑、游戏、Trader Flies、Fly Desk、$FLYAI 和网站，按天记录。"
+  },
+  "head": {
+    "eyebrow": "更新日志",
+    "title": "我们上线的一切",
+    "lede": "从第一天在格斗游戏里打架的果蝇大脑，到用真金白银交易的果蝇大脑交易台。最新的在最前。"
+  },
+  "filter": {
+    "all": "全部",
+    "brain": "大脑与研究",
+    "games": "游戏",
+    "trading": "交易",
+    "nfts": "Trader Flies",
+    "token": "$FLYAI",
+    "site": "网站"
+  },
+  "count": {
+    "one": "{count} 条更新",
+    "other": "{count} 条更新"
+  },
+  "cta": {
+    "roadmap": "接下来：路线图",
+    "how": "运作方式"
+  }
+}

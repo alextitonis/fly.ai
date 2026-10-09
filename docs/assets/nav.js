@@ -54,6 +54,7 @@
       ["Talking flies", "/research/flybook", "Flybook: can two brains signal?"],
       ["On air", "/research/radio", "How a radio station run by a real fly brain works"],
       ["Roadmap", "/roadmap", "What's done and what's next"],
+      ["Changelog", "/changelog", "Everything we shipped, day by day"],   // 2026-10-09
     ]],
     ["token", "$FLYAI", [
       ["Token", "/token", "Contract, chain, where to buy"],

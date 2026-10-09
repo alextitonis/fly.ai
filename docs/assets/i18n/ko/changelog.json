@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "변경 내역 — fly.ai가 출시한 모든 것",
+    "description": "첫날부터 fly.ai가 출시한 모든 것: 파리 뇌, 게임, Trader Flies, Fly Desk, $FLYAI, 그리고 사이트까지 날짜별로."
+  },
+  "head": {
+    "eyebrow": "변경 내역",
+    "title": "지금까지 출시한 모든 것",
+    "lede": "첫날 격투 게임을 하던 파리 뇌에서, 실제 돈을 거래하는 파리 뇌 데스크까지. 최신 순."
+  },
+  "filter": {
+    "all": "전체",
+    "brain": "뇌와 연구",
+    "games": "게임",
+    "trading": "트레이딩",
+    "nfts": "Trader Flies",
+    "token": "$FLYAI",
+    "site": "사이트"
+  },
+  "count": {
+    "one": "업데이트 {count}개",
+    "other": "업데이트 {count}개"
+  },
+  "cta": {
+    "roadmap": "다음 계획: 로드맵",
+    "how": "작동 방식"
+  }
+}

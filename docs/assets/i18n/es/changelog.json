@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "Cambios — todo lo que lanzó fly.ai",
+    "description": "Todo lo que fly.ai lanzó desde el primer día: el cerebro de la mosca, juegos, Trader Flies, la Fly Desk, $FLYAI y el sitio, día a día."
+  },
+  "head": {
+    "eyebrow": "Cambios",
+    "title": "Todo lo que lanzamos",
+    "lede": "Desde un cerebro de mosca jugando a un juego de lucha el primer día hasta una mesa de cerebros de mosca operando con dinero real. Lo más nuevo primero."
+  },
+  "filter": {
+    "all": "Todo",
+    "brain": "Cerebro e investigación",
+    "games": "Juegos",
+    "trading": "Trading",
+    "nfts": "Trader Flies",
+    "token": "$FLYAI",
+    "site": "Sitio"
+  },
+  "count": {
+    "one": "{count} novedad",
+    "other": "{count} novedades"
+  },
+  "cta": {
+    "roadmap": "Lo que viene: la hoja de ruta",
+    "how": "Cómo funciona"
+  }
+}

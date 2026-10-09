@@ -29,6 +29,10 @@
       "label": "Yol haritası",
       "desc": "Neler bitti, sırada ne var"
     },
+    "changelog": {
+      "label": "Değişiklikler",
+      "desc": "Yayınladığımız her şey, gün gün"
+    },
     "simulation": {
       "label": "Simülasyon",
       "desc": "Gerçek beyinli sinekler 3B bir dünyada"

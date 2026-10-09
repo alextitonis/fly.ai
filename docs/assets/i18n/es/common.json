@@ -29,6 +29,10 @@
       "label": "Hoja de ruta",
       "desc": "Lo que está hecho y lo que sigue"
     },
+    "changelog": {
+      "label": "Cambios",
+      "desc": "Todo lo que lanzamos, día a día"
+    },
     "simulation": {
       "label": "Simulación",
       "desc": "Moscas con cerebros reales en un mundo 3D"

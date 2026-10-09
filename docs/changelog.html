@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="changelog">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="changelog.meta.title">Changelog — everything fly.ai shipped</title>
+<meta name="description" content="Everything fly.ai has shipped since day one: the fly brain, games, Trader Flies, the Fly Desk, $FLYAI and the site, day by day." data-i18n-attr="content:changelog.meta.description">
+<meta property="og:title" content="Changelog — everything fly.ai shipped">
+<meta property="og:description" content="Everything fly.ai has shipped since day one: the fly brain, games, Trader Flies, the Fly Desk, $FLYAI and the site, day by day.">
+<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/changelog">
+<meta property="og:url" content="https://flyaiworld.com/changelog">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/dashboard.png">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .cl-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .cl-filter { border: 1px solid var(--line); background: transparent; color: var(--text); border-radius: 999px;
+               padding: 6px 14px; font: 500 14px var(--sans); cursor: pointer; }
+  .cl-filter:hover { border-color: var(--mint); }
+  .cl-filter.on { background: var(--mint); border-color: var(--mint); color: #000; }
+  .cl-count { color: var(--muted); font-size: 14px; margin: 14px 0 0; min-height: 1.4em; }
+  .cl { position: relative; margin-top: 8px; }
+  .cl::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 1px; background: var(--line); }
+  .cl-day { position: relative; padding-left: 32px; margin: 0 0 28px; }
+  .cl-day::before { content: ""; position: absolute; left: 2px; top: 6px; width: 11px; height: 11px; border-radius: 50%;
+                    background: var(--bg); border: 2px solid var(--mint); }
+  .cl-date { font: 600 15px var(--mono); color: var(--mint); margin: 0 0 10px; letter-spacing: .02em; }
+  .cl-day ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .cl-day li { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; }
+  .cl-day li p { margin: 8px 0 0; color: var(--muted); line-height: 1.55; }
+  .cl-day li p b { color: var(--text); font-weight: 600; }
+  .cl-tag { display: inline-block; font: 500 12px var(--sans); border-radius: 999px; padding: 2px 10px;
+            border: 1px solid var(--line); color: var(--text); }
+  .cl-brain { color: var(--mint); border-color: rgba(94,242,204,.35); }
+  .cl-trading { color: var(--mint-hi); border-color: rgba(164,251,230,.3); }
+  .cl-token { color: #000; background: var(--mint); border-color: var(--mint); }
+  .cl-day[hidden], .cl-day li[hidden] { display: none; }
+  .cl-cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  @media (max-width: 600px) { .cl-day { padding-left: 26px; } .cl-day li { padding: 12px 14px; } }
+</style>
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="changelog.head.eyebrow">Changelog</p>
+    <h1 data-i18n="changelog.head.title">Everything we shipped</h1>
+    <p class="lede" data-i18n="changelog.head.lede">From a fly brain playing a fighting game on day one to a desk of fly brains trading real money. Newest first.</p>
+    <div class="cl-filters" role="group" aria-label="Filter">
+      <button type="button" class="cl-filter on" data-f="all" data-i18n="changelog.filter.all">All</button>
+      <button type="button" class="cl-filter" data-f="brain" data-i18n="changelog.filter.brain">Brain &amp; research</button>
+      <button type="button" class="cl-filter" data-f="games" data-i18n="changelog.filter.games">Games</button>
+      <button type="button" class="cl-filter" data-f="trading" data-i18n="changelog.filter.trading">Trading</button>
+      <button type="button" class="cl-filter" data-f="nfts" data-i18n="changelog.filter.nfts">Trader Flies</button>
+      <button type="button" class="cl-filter" data-f="token" data-i18n="changelog.filter.token">$FLYAI</button>
+      <button type="button" class="cl-filter" data-f="site" data-i18n="changelog.filter.site">Site</button>
+    </div>
+    <p class="cl-count" id="cl-count" aria-live="polite"></p>
+  </div>
+</header>
+<section class="firstsec">
+  <div class="wrap">
+  <div class="cl" id="cl">
+    <div class="cl-day" data-date="2026-10-09">
+      <h2 class="cl-date"><time datetime="2026-10-09">2026-10-09</time></h2>
+      <ul>
+        <li data-tag="trading"><span class="cl-tag cl-trading" data-i18n="changelog.filter.trading">Trading</span>
+          <p data-i18n-html="changelog.e.d1009a"><b>Calmer trading.</b> The Fly Desk and every fly wallet now hold a position at least 12 hours and swap at most twice a day. Far fewer round trips, far less lost to fees.</p></li>
+        <li data-tag="trading"><span class="cl-tag cl-trading" data-i18n="changelog.filter.trading">Trading</span>
+          <p data-i18n-html="changelog.e.d1009b"><b>One trading engine for everyone.</b> The Fly Desk, the fly wallets and the partner pools now run on one shared trading core. A fix lands everywhere at once.</p></li>
+        <li data-tag="trading"><span class="cl-tag cl-trading" data-i18n="changelog.filter.trading">Trading</span>
+          <p data-i18n-html="changelog.e.d1009c"><b>No catching a falling FLYAI.</b> New $FLYAI dip buys wait while it is still falling, on the desk and in the wallets.</p></li>
+        <li data-tag="trading"><span class="cl-tag cl-trading" data-i18n="changelog.filter.trading">Trading</span>
+          <p data-i18n-html="changelog.e.d1009d"><b>Every decision graded.</b> Each buy is graded 24 hours later, per strategy part, so we can see which parts earn and which don't.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-10-08">
+      <h2 class="cl-date"><time datetime="2026-10-08">2026-10-08</time></h2>
+      <ul>
+        <li data-tag="games"><span class="cl-tag cl-games" data-i18n="changelog.filter.games">Games</span>
+          <p data-i18n-html="changelog.e.d1008a"><b>Robot Fights.</b> Bet on robot fights in USDG, $FLYAI or ETH. Pick a side, the pool pays the winners.</p></li>
+        <li data-tag="trading"><span class="cl-tag cl-trading" data-i18n="changelog.filter.trading">Trading</span>
+          <p data-i18n-html="changelog.e.d1008b"><b>Market mood.</b> When the whole market turns risk-off, the flies trade it differently: stops relative to the market, dip buys on what fell with it.</p></li>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d1008c"><b>Truer wallet numbers.</b> Fly wallet profit now counts withdrawals and ignores balance quirks, so the leaderboard shows what a fly really made.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-10-07">
+      <h2 class="cl-date"><time datetime="2026-10-07">2026-10-07</time></h2>
+      <ul>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d1007a"><b>Partners.</b> Other NFT collections can join: every NFT gets its own trading wallet, plus a shared pot paid to holders.</p></li>
+        <li data-tag="token"><span class="cl-tag cl-token" data-i18n="changelog.filter.token">$FLYAI</span>
+          <p data-i18n-html="changelog.e.d1007b"><b>A second $FLYAI pool.</b> A new $FLYAI / USDG pool opened on another Robinhood Chain DEX.</p></li>
+        <li data-tag="token"><span class="cl-tag cl-token" data-i18n="changelog.filter.token">$FLYAI</span>
+          <p data-i18n-html="changelog.e.d1007c"><b>40M $FLYAI burned.</b> Total supply is now exactly 960,000,000.</p></li>
+        <li data-tag="token"><span class="cl-tag cl-token" data-i18n="changelog.filter.token">$FLYAI</span>
+          <p data-i18n-html="changelog.e.d1007d"><b>Earn.</b> Lend your idle USDG on Robinhood Chain from the Earn page.</p></li>
+        <li data-tag="trading"><span class="cl-tag cl-trading" data-i18n="changelog.filter.trading">Trading</span>
+          <p data-i18n-html="changelog.e.d1007e"><b>More chains, Polymarket.</b> The Fly Desk trades Base, BNB Chain and Arbitrum tokens through Relay, and bets on Polymarket by itself.</p></li>
+        <li data-tag="token"><span class="cl-tag cl-token" data-i18n="changelog.filter.token">$FLYAI</span>
+          <p data-i18n-html="changelog.e.d1007f"><b>Pay from any chain.</b> The swap box and wallet funding take ETH or USDC from Base, Arbitrum and Ethereum, and BERA or USDC from Berachain.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-10-06">
+      <h2 class="cl-date"><time datetime="2026-10-06">2026-10-06</time></h2>
+      <ul>
+        <li data-tag="trading"><span class="cl-tag cl-trading" data-i18n="changelog.filter.trading">Trading</span>
+          <p data-i18n-html="changelog.e.d1006a"><b>Always invested.</b> A fly's idle cash goes to work in its best-scored picks instead of sitting still, and $FLYAI is never sold under what it cost.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-10-05">
+      <h2 class="cl-date"><time datetime="2026-10-05">2026-10-05</time></h2>
+      <ul>
+        <li data-tag="site"><span class="cl-tag cl-site" data-i18n="changelog.filter.site">Site</span>
+          <p data-i18n-html="changelog.e.d1005a"><b>How it works.</b> One page on the brain, Trader Flies, the pots, partners and fees, in six languages.</p></li>
+        <li data-tag="token"><span class="cl-tag cl-token" data-i18n="changelog.filter.token">$FLYAI</span>
+          <p data-i18n-html="changelog.e.d1005b"><b>Buy $FLYAI on the site.</b> A buy and sell box on the token page.</p></li>
+        <li data-tag="trading"><span class="cl-tag cl-trading" data-i18n="changelog.filter.trading">Trading</span>
+          <p data-i18n-html="changelog.e.d1005c"><b>Holders vote every day.</b> $FLYAI holders sign a free daily ballot (Safer, Balanced or Degen) that sets the desk's style for the next day.</p></li>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d1005d"><b>Fly wallets go cross-chain.</b> A fly's wallet can buy Base, BNB Chain and Arbitrum tokens with its USDG, and sell them back home.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-10-04">
+      <h2 class="cl-date"><time datetime="2026-10-04">2026-10-04</time></h2>
+      <ul>
+        <li data-tag="trading"><span class="cl-tag cl-trading" data-i18n="changelog.filter.trading">Trading</span>
+          <p data-i18n-html="changelog.e.d1004a"><b>The Fly Desk goes live.</b> Real money, traded by a real fly brain, with the profit shared by Trader Fly holders. Payouts are shown per holder on the desk page.</p></li>
+        <li data-tag="token"><span class="cl-tag cl-token" data-i18n="changelog.filter.token">$FLYAI</span>
+          <p data-i18n-html="changelog.e.d1004b"><b>Deposit promo.</b> Fund a fly wallet, win $FLYAI. The first round's slots filled.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-10-03">
+      <h2 class="cl-date"><time datetime="2026-10-03">2026-10-03</time></h2>
+      <ul>
+        <li data-tag="site"><span class="cl-tag cl-site" data-i18n="changelog.filter.site">Site</span>
+          <p data-i18n-html="changelog.e.d1003a"><b>Bounties.</b> Get paid in $FLYAI for memes, bots and research. Post work, apply, get picked.</p></li>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d1003b"><b>Usernames and the leaderboard.</b> Pick a name and see the best fly wallets, live. Inventory and Leaderboard got pages of their own.</p></li>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d1003c"><b>Copy trading and options.</b> A fly wallet can follow top traders and switch on setups like trend following and $FLYAI dips.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-10-02">
+      <h2 class="cl-date"><time datetime="2026-10-02">2026-10-02</time></h2>
+      <ul>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d1002a"><b>Fly Wallets.</b> Every Trader Fly has its own trading wallet. Fund it, choose how it trades, withdraw any time. The first real trade went through.</p></li>
+        <li data-tag="games"><span class="cl-tag cl-games" data-i18n="changelog.filter.games">Games</span>
+          <p data-i18n-html="changelog.e.d1002b"><b>Colosseum Season 2.</b> A new season of Trader Fly tournaments, with a FlightPass shop and the next season starting by itself.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-10-01">
+      <h2 class="cl-date"><time datetime="2026-10-01">2026-10-01</time></h2>
+      <ul>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d1001a"><b>Breeding.</b> Merge two Trader Flies into one: the child keeps a number and inherits traits from both parents, with a chance of mutation.</p></li>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d1001b"><b>Burn a fly.</b> A holder can burn a fly; its share of the pot goes to the flies still alive.</p></li>
+        <li data-tag="site"><span class="cl-tag cl-site" data-i18n="changelog.filter.site">Site</span>
+          <p data-i18n-html="changelog.e.d1001c"><b>First compute payout.</b> September's mining pool was paid out to the people who mined with their browsers.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-30">
+      <h2 class="cl-date"><time datetime="2026-09-30">2026-09-30</time></h2>
+      <ul>
+        <li data-tag="games"><span class="cl-tag cl-games" data-i18n="changelog.filter.games">Games</span>
+          <p data-i18n-html="changelog.e.d0930a"><b>Fly Colosseum.</b> Seasons of Trader Fly tournaments for $FLYAI.</p></li>
+        <li data-tag="brain"><span class="cl-tag cl-brain" data-i18n="changelog.filter.brain">Brain &amp; research</span>
+          <p data-i18n-html="changelog.e.d0930b"><b>Community fix to the GPU brain.</b> A contributor found and fixed a silent edge reordering when the brain's wiring is loaded onto the GPU.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-29">
+      <h2 class="cl-date"><time datetime="2026-09-29">2026-09-29</time></h2>
+      <ul>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d0929a"><b>Trader Flies revealed.</b> Traits and rarity (Common, Uncommon, Rare, Legendary) rolled on chain.</p></li>
+        <li data-tag="games"><span class="cl-tag cl-games" data-i18n="changelog.filter.games">Games</span>
+          <p data-i18n-html="changelog.e.d0929b"><b>Fly Slots and Fly Race.</b> Spin the reels while a fly brain reacts, or bet on six fly brains racing to the fruit by smell.</p></li>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d0929c"><b>Fly Market.</b> Buy and sell Trader Flies on the site.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-28">
+      <h2 class="cl-date"><time datetime="2026-09-28">2026-09-28</time></h2>
+      <ul>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d0928a"><b>FlightPass and autopilot.</b> Put your flies on autopilot: they play games, run missions and breed for you, with automatic withdrawals.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-26">
+      <h2 class="cl-date"><time datetime="2026-09-26">2026-09-26</time></h2>
+      <ul>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d0926a"><b>Trader Flies mint.</b> 1,000 genesis Trader Flies on Robinhood Chain went on sale.</p></li>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d0926b"><b>Hardware NFTs.</b> Pre-order a pocket fly: $FLYAI pets you can hold.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-23">
+      <h2 class="cl-date"><time datetime="2026-09-23">2026-09-23</time></h2>
+      <ul>
+        <li data-tag="site"><span class="cl-tag cl-site" data-i18n="changelog.filter.site">Site</span>
+          <p data-i18n-html="changelog.e.d0923a"><b>New website.</b> The whole site redesigned.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-21">
+      <h2 class="cl-date"><time datetime="2026-09-21">2026-09-21</time></h2>
+      <ul>
+        <li data-tag="site"><span class="cl-tag cl-site" data-i18n="changelog.filter.site">Site</span>
+          <p data-i18n-html="changelog.e.d0921a"><b>Six languages.</b> The site speaks English, 简体中文, 繁體中文, 한국어, Türkçe and Español.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-19">
+      <h2 class="cl-date"><time datetime="2026-09-19">2026-09-19</time></h2>
+      <ul>
+        <li data-tag="games"><span class="cl-tag cl-games" data-i18n="changelog.filter.games">Games</span>
+          <p data-i18n-html="changelog.e.d0919a"><b>Fly Roulette.</b> A cartoon 3-D roulette with real $FLYAI bets against the house, provably fair.</p></li>
+        <li data-tag="games"><span class="cl-tag cl-games" data-i18n="changelog.filter.games">Games</span>
+          <p data-i18n-html="changelog.e.d0919b"><b>Flinder.</b> Tinder for flies: a real brain swipes on dating profiles, and a match needs both brains to agree.</p></li>
+        <li data-tag="trading"><span class="cl-tag cl-trading" data-i18n="changelog.filter.trading">Trading</span>
+          <p data-i18n-html="changelog.e.d0919c"><b>Real tokens on the fly market.</b> The Flybook fly market moved to real Robinhood Chain token prices, and every fly trades.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-18">
+      <h2 class="cl-date"><time datetime="2026-09-18">2026-09-18</time></h2>
+      <ul>
+        <li data-tag="site"><span class="cl-tag cl-site" data-i18n="changelog.filter.site">Site</span>
+          <p data-i18n-html="changelog.e.d0918a"><b>Merch.</b> Fly shirts and more in the shop.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-17">
+      <h2 class="cl-date"><time datetime="2026-09-17">2026-09-17</time></h2>
+      <ul>
+        <li data-tag="site"><span class="cl-tag cl-site" data-i18n="changelog.filter.site">Site</span>
+          <p data-i18n-html="changelog.e.d0917a"><b>Compute.</b> Mine with your browser and earn $FLYAI. USDC and card payments too.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-16">
+      <h2 class="cl-date"><time datetime="2026-09-16">2026-09-16</time></h2>
+      <ul>
+        <li data-tag="brain"><span class="cl-tag cl-brain" data-i18n="changelog.filter.brain">Brain &amp; research</span>
+          <p data-i18n-html="changelog.e.d0916a"><b>A better 3-D world.</b> Flies forage, track odour plumes, mate, lay eggs and dodge spiders in the simulation.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-15">
+      <h2 class="cl-date"><time datetime="2026-09-15">2026-09-15</time></h2>
+      <ul>
+        <li data-tag="games"><span class="cl-tag cl-games" data-i18n="changelog.filter.games">Games</span>
+          <p data-i18n-html="changelog.e.d0915a"><b>Fly Radio.</b> A radio station played by a real fly brain.</p></li>
+        <li data-tag="games"><span class="cl-tag cl-games" data-i18n="changelog.filter.games">Games</span>
+          <p data-i18n-html="changelog.e.d0915b"><b>Relationships in Flybook.</b> Flies make friends and rivals, and the first token trading arrived.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-14">
+      <h2 class="cl-date"><time datetime="2026-09-14">2026-09-14</time></h2>
+      <ul>
+        <li data-tag="games"><span class="cl-tag cl-games" data-i18n="changelog.filter.games">Games</span>
+          <p data-i18n-html="changelog.e.d0914a"><b>Be My ValentFly.</b> A bachelor show where flies are the contestants, run by the brain. A community contribution.</p></li>
+        <li data-tag="site"><span class="cl-tag cl-site" data-i18n="changelog.filter.site">Site</span>
+          <p data-i18n-html="changelog.e.d0914b"><b>Agent skills.</b> Make Claude and other agents talk like a fly.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-13">
+      <h2 class="cl-date"><time datetime="2026-09-13">2026-09-13</time></h2>
+      <ul>
+        <li data-tag="games"><span class="cl-tag cl-games" data-i18n="changelog.filter.games">Games</span>
+          <p data-i18n-html="changelog.e.d0913a"><b>Flybook is live.</b> Sign in with a wallet, make, tune and breed flies, like and comment, and duel in the Arena.</p></li>
+        <li data-tag="brain"><span class="cl-tag cl-brain" data-i18n="changelog.filter.brain">Brain &amp; research</span>
+          <p data-i18n-html="changelog.e.d0913b"><b>pip install flybrain.</b> The brain became a Python package on PyPI.</p></li>
+        <li data-tag="brain"><span class="cl-tag cl-brain" data-i18n="changelog.filter.brain">Brain &amp; research</span>
+          <p data-i18n-html="changelog.e.d0913c"><b>Wiz.</b> Summon a giant wizard puppeted by the full connectome in the 3-D world.</p></li>
+        <li data-tag="brain"><span class="cl-tag cl-brain" data-i18n="changelog.filter.brain">Brain &amp; research</span>
+          <p data-i18n-html="changelog.e.d0913d"><b>Two brains signal.</b> One fly sees a threat and its wings sing; a second fly hears it with its own ears and reacts.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-12">
+      <h2 class="cl-date"><time datetime="2026-09-12">2026-09-12</time></h2>
+      <ul>
+        <li data-tag="token"><span class="cl-tag cl-token" data-i18n="changelog.filter.token">$FLYAI</span>
+          <p data-i18n-html="changelog.e.d0912a"><b>$FLYAI launches.</b> A fair launch on Pons, on Robinhood Chain: graduated to Uniswap V4, liquidity locked for good, no team allocation, no tax.</p></li>
+        <li data-tag="site"><span class="cl-tag cl-site" data-i18n="changelog.filter.site">Site</span>
+          <p data-i18n-html="changelog.e.d0912b"><b>Roadmap.</b> What's done and what's next, in the open.</p></li>
+      </ul>
+    </div>
+    <div class="cl-day" data-date="2026-09-11">
+      <h2 class="cl-date"><time datetime="2026-09-11">2026-09-11</time></h2>
+      <ul>
+        <li data-tag="brain"><span class="cl-tag cl-brain" data-i18n="changelog.filter.brain">Brain &amp; research</span>
+          <p data-i18n-html="changelog.e.d0911a"><b>Open source.</b> The whole fly brain, 166,700 neurons, runs in real time on a laptop GPU, plays SSH Fighter as a bot and won its first match. Code, notebook and site went public.</p></li>
+      </ul>
+    </div>
+  </div>
+    <div class="cl-cta">
+      <a class="btn red" href="roadmap.html" data-i18n="changelog.cta.roadmap">What's next: the roadmap</a>
+      <a class="btn" href="how.html" data-i18n="changelog.cta.how">How it works</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261009a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script>
+  // the filter pills, the dates in the reader's language and the count; runs again once the page's language is in
+  (function () {
+    var current = "all";
+    function i18n() { return window.flyI18n || null; }
+    function dates() {
+      var lang = (i18n() && i18n().lang) || "en";
+      var fmt;
+      try { fmt = new Intl.DateTimeFormat(lang, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }); }
+      catch (e) { fmt = new Intl.DateTimeFormat("en", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }); }
+      document.querySelectorAll(".cl-date time").forEach(function (el) {
+        el.textContent = fmt.format(new Date(el.getAttribute("datetime") + "T00:00:00Z"));
+      });
+    }
+    function show(f) {
+      current = f;
+      var n = 0;
+      document.querySelectorAll(".cl-day").forEach(function (day) {
+        var any = false;
+        day.querySelectorAll("li").forEach(function (li) {
+          var on = f === "all" || li.dataset.tag === f;
+          li.hidden = !on; if (on) { any = true; n++; }
+        });
+        day.hidden = !any;
+      });
+      var tr = i18n() && i18n().t;
+      var text = tr ? tr("changelog.count", { count: n }) : null;
+      document.getElementById("cl-count").textContent =
+        text && text !== "changelog.count" ? text : n + (n === 1 ? " update" : " updates");
+      document.querySelectorAll(".cl-filter").forEach(function (b) { b.classList.toggle("on", b.dataset.f === f); });
+    }
+    document.querySelectorAll(".cl-filter").forEach(function (b) {
+      b.addEventListener("click", function () { show(b.dataset.f); });
+    });
+    dates(); show("all");
+    window.addEventListener("i18n:ready", function () { dates(); show(current); });
+  })();
+</script>
+</body>
+</html>

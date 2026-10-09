@@ -29,6 +29,10 @@
       "label": "Roadmap",
       "desc": "What's done and what's next"
     },
+    "changelog": {
+      "label": "Changelog",
+      "desc": "Everything we shipped, day by day"
+    },
     "simulation": {
       "label": "Simulation",
       "desc": "Flies with real brains in a 3-D world"

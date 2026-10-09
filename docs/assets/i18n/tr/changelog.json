@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "Değişiklikler — fly.ai'nin yayınladığı her şey",
+    "description": "fly.ai'nin ilk günden beri yayınladığı her şey: sinek beyni, oyunlar, Trader Flies, Fly Desk, $FLYAI ve site, gün gün."
+  },
+  "head": {
+    "eyebrow": "Değişiklikler",
+    "title": "Yayınladığımız her şey",
+    "lede": "İlk gün dövüş oyunu oynayan bir sinek beyninden gerçek parayla işlem yapan sinek beyinlerinden oluşan bir masaya. En yeni en üstte."
+  },
+  "filter": {
+    "all": "Tümü",
+    "brain": "Beyin ve araştırma",
+    "games": "Oyunlar",
+    "trading": "Trading",
+    "nfts": "Trader Flies",
+    "token": "$FLYAI",
+    "site": "Site"
+  },
+  "count": {
+    "one": "{count} güncelleme",
+    "other": "{count} güncelleme"
+  },
+  "cta": {
+    "roadmap": "Sırada ne var: yol haritası",
+    "how": "Nasıl çalışır"
+  }
+}

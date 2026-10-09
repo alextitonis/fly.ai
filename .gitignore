@@ -58,3 +58,6 @@ flytrade/
 
 .vercel
 .env*
+
+# private game repo (its own git)
+game/

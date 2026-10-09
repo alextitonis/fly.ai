@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "更新日誌 — fly.ai 上線的一切",
+    "description": "fly.ai 從第一天起上線的一切：果蠅大腦、遊戲、Trader Flies、Fly Desk、$FLYAI 和網站，按天記錄。"
+  },
+  "head": {
+    "eyebrow": "更新日誌",
+    "title": "我們上線的一切",
+    "lede": "從第一天在格鬥遊戲裡打架的果蠅大腦，到用真金白銀交易的果蠅大腦交易台。最新的在最前。"
+  },
+  "filter": {
+    "all": "全部",
+    "brain": "大腦與研究",
+    "games": "遊戲",
+    "trading": "交易",
+    "nfts": "Trader Flies",
+    "token": "$FLYAI",
+    "site": "網站"
+  },
+  "count": {
+    "one": "{count} 則更新",
+    "other": "{count} 則更新"
+  },
+  "cta": {
+    "roadmap": "接下來：路線圖",
+    "how": "運作方式"
+  }
+}
