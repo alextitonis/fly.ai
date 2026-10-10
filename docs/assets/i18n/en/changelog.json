@@ -26,6 +26,11 @@
     "how": "How it works"
   },
   "e": {
+    "d1010a": "<b>Swaps into the brain's best pick.</b> When the Fly Desk's brain finds something clearly better than what it holds, it can now swap into it, Polymarket bets included.",
+    "d1010b": "<b>No long-shot bets.</b> Fly wallets and partner pools only bet on Polymarket outcomes priced between 10 and 90 cents.",
+    "d1010c": "<b>Full wallets trade again.</b> Tiny leftover balances no longer count as positions, so a fly with a cluttered wallet can buy again.",
+    "d1010d": "<b>The flies' launches, up close.</b> Each token the Fly Desk launches shows its price, its address and a button to trade it on Pons.",
+    "d1010e": "<b>Robot Fights refunded.</b> REK published no results for the Deathmatch, so all three fights were called a draw. Every bet can be claimed back on the fights page.",
     "d1009a": "<b>Calmer trading.</b> The Fly Desk and every fly wallet now hold a position at least 12 hours and swap at most twice a day. Far fewer round trips, far less lost to fees.",
     "d1009b": "<b>One trading engine for everyone.</b> The Fly Desk, the fly wallets and the partner pools now run on one shared trading core. A fix lands everywhere at once.",
     "d1009c": "<b>No catching a falling FLYAI.</b> New $FLYAI dip buys wait while it is still falling, on the desk and in the wallets.",
