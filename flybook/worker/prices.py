@@ -85,8 +85,17 @@ def _batches(addresses: list[str]) -> list[list[str]]:
 GECKO_TTL = 300.0
 GECKO_BACKOFF = 600.0
 GECKO_KEEP = 1800.0             # a cached price fills a gap this long while GeckoTerminal is backed off
+# 2026-10-10: DexScreener misses only USDG, so every process asked GeckoTerminal for a dollar's price every 5 minutes
+# and flyai-vaults hit 429 about every 10 minutes all day (eating the limit candles and the universe share). A stable
+# is kept an hour and, with no price at all, counts as $1.
+STABLE_TTL = 3600.0
+STABLE_PRICE = 1.0
 _gecko_cache: dict[str, tuple[float, float]] = {}   # symbol -> (price, when)
 _gecko_quiet_until = 0.0
+
+
+def _ttl(symbol: str) -> float:
+    return STABLE_TTL if BY_SYMBOL[symbol][3] == "stable" else GECKO_TTL
 
 
 def _gecko(timeout: float, symbols: list[str] | None = None) -> dict[str, float]:
@@ -95,7 +104,7 @@ def _gecko(timeout: float, symbols: list[str] | None = None) -> dict[str, float]
     global _gecko_quiet_until
     now = time.time()
     want = list(BY_SYMBOL) if symbols is None else [s for s in symbols if s in BY_SYMBOL]
-    out = {s: p for s in want if (c := _gecko_cache.get(s)) and now - c[1] < GECKO_TTL for p in (c[0],)}
+    out = {s: p for s in want if (c := _gecko_cache.get(s)) and now - c[1] < _ttl(s) for p in (c[0],)}
     ask = [BY_SYMBOL[s][2] for s in want if s not in out]
     if ask and now < _gecko_quiet_until:
         out.update({s: c[0] for s in want if s not in out and (c := _gecko_cache.get(s)) and now - c[1] < GECKO_KEEP})
@@ -150,6 +159,9 @@ def fetch(timeout: float = 12) -> dict[str, float]:
                 prices.setdefault(s, p)
         except Exception as e:
             print(f"prices: GeckoTerminal failed ({type(e).__name__}: {e})", flush=True)
+    for symbol, _, _, category in TOKENS:
+        if category == "stable":
+            prices.setdefault(symbol, STABLE_PRICE)
     return {s: p for s, p in prices.items() if p > 0}
 
 

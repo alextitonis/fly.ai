@@ -165,7 +165,12 @@
     "raised": "{e} ETH raised",
     "bag": "bag held",
     "sold": "sold",
-    "fees": "fees earned"
+    "fees": "fees earned",
+    "price": "price",
+    "copy": "click to copy the address",
+    "copied": "copied!",
+    "explorer": "see it on the explorer",
+    "pons": "Trade on Pons"
   },
   "chains": {
     "bets": {

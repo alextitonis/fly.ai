@@ -165,7 +165,12 @@
     "raised": "已募集 {e} ETH",
     "bag": "持仓",
     "sold": "已卖出",
-    "fees": "已赚费用"
+    "fees": "已赚费用",
+    "price": "价格",
+    "copy": "点击复制地址",
+    "copied": "已复制！",
+    "explorer": "在浏览器中查看",
+    "pons": "在 Pons 上交易"
   },
   "chains": {
     "bets": {

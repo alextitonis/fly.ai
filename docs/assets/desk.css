@@ -373,6 +373,14 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
 .lc-bar i { display: block; height: 100%; background: linear-gradient(90deg, #f2b33d, var(--t-mint)); }
 .lc-stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; font-size: 11px; color: var(--t-dim); }
 .lc-stats b { display: block; color: var(--t-text); font-size: 13px; font-weight: 600; }
+.lc-desc { grid-column: 1 / -1; color: var(--t-dim); font-size: 12px; line-height: 1.45; margin-top: 4px; }
+.lc-acts { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.desk .dkt .lc-addr { font: 600 11.5px var(--t-mono); color: var(--t-text); background: #10201b; border: 1px solid var(--t-line);
+  border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.desk .dkt .lc-addr:hover { border-color: var(--t-mint); color: var(--t-mint); }
+.desk .dkt .lc-scan { color: var(--t-dim); text-decoration: none; font-size: 13px; } .desk .dkt .lc-scan:hover { color: var(--t-mint); }
+.desk .dkt .lc-pons { margin-left: auto; font: 700 11.5px var(--t-mono); color: #04110d; background: var(--t-mint, #5ef2cc); border-radius: 999px;
+  padding: 5px 12px; text-decoration: none; } .desk .dkt .lc-pons:hover { filter: brightness(1.1); }
 .dkt-how { grid-area: how; }
 /* the site's serif headings and plates give way to the terminal's */
 .desk .dkt .tm-panel h2 { font: 700 10.5px/1.2 var(--t-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--t-mint); margin: 0 0 8px; }

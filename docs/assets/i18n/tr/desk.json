@@ -165,7 +165,12 @@
     "raised": "{e} ETH toplandı",
     "bag": "elde tutulan",
     "sold": "satılan",
-    "fees": "kazanılan ücret"
+    "fees": "kazanılan ücret",
+    "price": "fiyat",
+    "copy": "adresi kopyalamak için tıkla",
+    "copied": "kopyalandı!",
+    "explorer": "gezginde gör",
+    "pons": "Pons'ta işlem yap"
   },
   "chains": {
     "bets": {

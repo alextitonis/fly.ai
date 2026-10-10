@@ -512,16 +512,33 @@
       const when = ago(new Date(l.at * 1000).toISOString());
       if (!live) return `<li><span class="lc-logo"></span><span class="lc-name">${name}</span>` +
         `<span class="lc-sub">${esc(t("launch.simulated"))} · ${esc(when)}</span></li>`;
+      // the token itself (2026-10-10, the user: "show the address & price of the launched token and link to pons"):
+      // its address (click copies, ↗ the explorer), its price, a button to trade it on Pons
+      const addr = l.token ? `${l.token.slice(0, 6)}…${l.token.slice(-4)}` : "";
       return `<li>` + (logo(l.logo) ? `<img class="lc-logo" src="${esc(logo(l.logo))}" alt="" loading="lazy">` : `<span class="lc-logo"></span>`) +
         `<span class="lc-name">${link ? `<a href="${esc(link)}" target="_blank" rel="noopener">${name} ↗</a>` : name}</span>` +
         `<span class="lc-sub">${esc(when)}${l.swarm ? ` · ${esc(t("launch.voted", { n: l.swarm.wanted, of: l.swarm.of }))}` : ""}</span>` +
+        (l.description ? `<span class="lc-desc">${esc(l.description)}</span>` : "") +
         `<span class="lc-bar" title="${esc(l.graduated ? t("launch.graduated") : t("launch.toGrad", { p: pct }))}"><i style="width:${pct}%"></i></span>` +
-        `<span class="lc-stats"><span><b>${l.graduated ? esc(t("launch.graduated")) : pct + "%"}</b>${esc(t("launch.raised", { e: (l.real_eth || 0).toFixed(3) }))}</span>` +
+        `<span class="lc-stats"><span><b>${l.price_usd ? price(l.price_usd) : "—"}</b>${esc(t("launch.price"))}</span>` +
+        `<span><b>${l.graduated ? esc(t("launch.graduated")) : pct + "%"}</b>${esc(t("launch.raised", { e: (l.real_eth || 0).toFixed(3) }))}</span>` +
         `<span><b>${usd(l.held_usd)}</b>${esc(t("launch.bag"))}</span>` +
-        `<span><b>${usd(l.sold_usd || 0)}</b>${esc(t("launch.sold"))}</span>` +
-        `<span><b>${usd(l.fees_usd || 0)}</b>${esc(t("launch.fees"))}</span></span></li>`;
+        `<span><b>${usd(l.sold_usd || 0)}</b>${esc(t("launch.sold"))}</span></span>` +
+        (l.token ? `<span class="lc-acts"><button type="button" class="lc-addr" data-copy="${esc(l.token)}" title="${esc(t("launch.copy"))}">${esc(addr)}</button>` +
+          `<a class="lc-scan" href="https://robinhoodchain.blockscout.com/token/${esc(l.token)}" target="_blank" rel="noopener" title="${esc(t("launch.explorer"))}">↗</a>` +
+          `<a class="lc-pons" href="${esc(link)}" target="_blank" rel="noopener">${esc(t("launch.pons"))} ↗</a></span>` : "") +
+        `</li>`;
     }).join("") : `<li class="empty">${esc(t("launch.none"))}</li>`;
   }
+
+  // a launch's address: click to copy
+  document.addEventListener("click", (ev) => {
+    const b = ev.target.closest && ev.target.closest(".lc-addr");
+    if (!b) return;
+    const was = b.textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(b.dataset.copy) : Promise.reject()).then(
+      () => { b.textContent = t("launch.copied"); setTimeout(() => { b.textContent = was; }, 1200); }, () => {});
+  });
 
 
   // ------------------------------------------------------------------ the fly's eye

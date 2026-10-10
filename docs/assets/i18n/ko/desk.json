@@ -165,7 +165,12 @@
     "raised": "{e} ETH 모금",
     "bag": "보유 물량",
     "sold": "매도",
-    "fees": "수수료 수익"
+    "fees": "수수료 수익",
+    "price": "가격",
+    "copy": "클릭해서 주소 복사",
+    "copied": "복사됨!",
+    "explorer": "익스플로러에서 보기",
+    "pons": "Pons에서 거래"
   },
   "chains": {
     "bets": {

@@ -165,7 +165,12 @@
     "raised": "{e} ETH recaudados",
     "bag": "bolsa",
     "sold": "vendido",
-    "fees": "comisiones"
+    "fees": "comisiones",
+    "price": "precio",
+    "copy": "clic para copiar la dirección",
+    "copied": "¡copiado!",
+    "explorer": "ver en el explorador",
+    "pons": "Operar en Pons"
   },
   "chains": {
     "bets": {
