@@ -13,6 +13,10 @@
     "home": {
       "label": "Ana sayfa"
     },
+    "letitfly": {
+      "label": "Bırak uçsun",
+      "desc": "Sineğin senin yerine işlem yapar"
+    },
     "research": {
       "label": "Tüm bulgular",
       "desc": "Dövüş, 3B dünya, başarısız olanlar"

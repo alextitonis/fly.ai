@@ -182,7 +182,7 @@ export function translateNav(nav = document.querySelector('nav[aria-label="Main"
   }
   for (const a of nav.querySelectorAll("ul a")) {
     if (a.closest(".acct")) continue;                 // the account menu carries its own words (nav.js ACCT_TEXT)
-    const r = a.href.startsWith("https://x.com/") ? "follow"
+    const r = a.dataset.navKey ? a.dataset.navKey : a.href.startsWith("https://x.com/") ? "follow"
       : a.href.startsWith("https://opensea.io/") ? "opensea" : route(a.getAttribute("href"));
     if (!r) continue;
     const key = `common.nav.${r.replace(/\//g, "_")}`;

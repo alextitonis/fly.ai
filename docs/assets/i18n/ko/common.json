@@ -13,6 +13,10 @@
     "home": {
       "label": "홈"
     },
+    "letitfly": {
+      "label": "그냥 날게 두기",
+      "desc": "당신의 파리가 대신 트레이딩합니다"
+    },
     "research": {
       "label": "모든 발견",
       "desc": "격투, 3D 세계, 실패한 것들"

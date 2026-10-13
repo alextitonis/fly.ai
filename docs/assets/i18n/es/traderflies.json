@@ -18,6 +18,7 @@
     "connect": "Conecta tu wallet para ver tus moscas.",
     "loading": "Buscando tus moscas…",
     "none": "Esta wallet no tiene Trader Flies.",
+    "getFly": "Consigue una mosca en el Fly Market",
     "count": "En esta wallet: {n}. Abre una mosca para ver su wallet, ajustes y operaciones.",
     "wallet": "Wallet",
     "empty": "Wallet vacía: ábrela para fondearla",

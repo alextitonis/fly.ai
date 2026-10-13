@@ -13,6 +13,10 @@
     "home": {
       "label": "首页"
     },
+    "letitfly": {
+      "label": "放飞自我",
+      "desc": "你的苍蝇替你交易"
+    },
     "research": {
       "label": "全部发现",
       "desc": "格斗、3D 世界、失败的尝试"

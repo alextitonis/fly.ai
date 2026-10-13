@@ -18,6 +18,7 @@
     "connect": "Sineklerini görmek için cüzdanını bağla.",
     "loading": "Sineklerin bulunuyor…",
     "none": "Bu cüzdanda Trader Fly yok.",
+    "getFly": "Fly Market'ten bir sinek al",
     "count": "Bu cüzdanda: {n}. Cüzdanı, ayarları ve işlemleri için bir sinek aç.",
     "wallet": "Cüzdan",
     "empty": "Cüzdan boş - yatırmak için aç",

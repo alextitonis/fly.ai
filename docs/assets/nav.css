@@ -53,6 +53,11 @@ nav .ddmenu a { display: block; padding: 9px 11px; border-radius: 7px; color: va
 nav .ddmenu a:hover { background: var(--bg-2, #060707); }
 nav .ddmenu a.on { background: var(--bg-2, #060707); }
 nav .ddmenu a.on::after { display: none; }
+/* the one way in (2026-10-13: everything points to the Let-it-fly wallets): a mint pill in the bar and the phone menu */
+nav a[data-nav-key="letitfly"] { background: var(--mint, #5ef2cc); color: #04110d !important; border-radius: 999px; padding: 6px 14px;
+  font-weight: 700; box-shadow: 0 0 18px -6px var(--glow, rgba(94,242,204,.28)); }
+nav a[data-nav-key="letitfly"]:hover { background: var(--mint-hi, #a4fbe6); }
+nav a[data-nav-key="letitfly"].on::after { display: none; }
 /* a link nav.js marks new (its 5th field): a small mint pill after the label */
 nav .nav-new { display: inline-block; margin-left: 7px; padding: 1px 7px; border-radius: 999px; background: var(--mint, #5ef2cc);
   color: #04110d; font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; vertical-align: 2px; }

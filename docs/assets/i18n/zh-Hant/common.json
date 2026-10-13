@@ -13,6 +13,10 @@
     "home": {
       "label": "首頁"
     },
+    "letitfly": {
+      "label": "放手讓它飛",
+      "desc": "你的蒼蠅替你交易"
+    },
     "research": {
       "label": "全部發現",
       "desc": "格鬥、3D 世界、失敗的嘗試"

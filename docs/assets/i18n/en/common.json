@@ -13,6 +13,10 @@
     "home": {
       "label": "Home"
     },
+    "letitfly": {
+      "label": "Let it fly",
+      "desc": "Your fly trades for you"
+    },
     "research": {
       "label": "All findings",
       "desc": "Fighting, the 3-D world, what failed"

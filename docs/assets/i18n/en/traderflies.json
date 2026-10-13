@@ -18,6 +18,7 @@
     "connect": "Connect your wallet to see your flies.",
     "loading": "Finding your flies…",
     "none": "This wallet holds no Trader Flies.",
+    "getFly": "Get a fly on the Fly Market",
     "count": "In this wallet: {n}. Open a fly for its wallet, settings and trades.",
     "wallet": "Wallet",
     "empty": "Wallet empty - open to fund it",

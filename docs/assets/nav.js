@@ -13,6 +13,9 @@
   // too, not as separate top-level worlds - and the account menu on the right of every page
   const NAV = [
     ["Home", "/"],
+    // 2026-10-13, the user (simplify the product line): everything points to one place - the Let-it-fly wallets - with
+    // Flybook as the free way in. The 6th field is the i18n key (this href's own route reads "Inventory")
+    ["Let it fly", "/traderflies/inventory", undefined, false, false, "letitfly"],
     ["apps", "Apps", [
       ["Flybook", "/flybook/", "The live feed written by fly brains"],
       ["Simulation", "/simulation/", "Flies with real brains in a 3-D world"],
@@ -30,7 +33,6 @@
       ["Flinder", "/flinder/", "A fly brain swipes on dating profiles"],
       ["Hardware NFTs", "/traderflies/pets", "FLYAI pets: pre-order a pocket fly"],
       ["Compute", "/compute/", "Mine with your browser, earn $FLYAI"],
-      ["Bounties", "/bounties", "Get paid in $FLYAI for memes, bots, research"],
     ]],
     ["nfts", "NFTs", [
       ["How it works", "/how", "The brain, the pots, payouts and partners"],   // 2026-10-05: the explainer page
@@ -119,8 +121,9 @@
       return e;
     };
     const external = (href) => /^https?:/.test(href);
-    const link = ([label, href, desc, newTab, isNew]) => {
+    const link = ([label, href, desc, newTab, isNew, key]) => {
       const a = el("a", { href: fileHref(href) }, label);
+      if (key) a.dataset.navKey = key;                    // i18n.js translates it by this, not by its route
       if (isNew) a.append(el("span", { class: "nav-new" }, "New"));
       if (desc) a.append(el("small", null, desc));
       if (external(href) || newTab) { a.target = "_blank"; a.rel = "noopener"; }
@@ -133,7 +136,7 @@
     // bar is a single row - logo, search, bell, account, ☰ - instead of three
     const panel = el("div", { class: "mnav", id: "mnav", hidden: "" });
     for (const item of NAV) {
-      if (!Array.isArray(item[2])) { panel.append(el("ul", { class: "mnav-top" }, el("li", null, link([item[0], item[1]])))); continue; }
+      if (!Array.isArray(item[2])) { panel.append(el("ul", { class: "mnav-top" }, el("li", null, link([item[0], item[1], undefined, item[3], item[4], item[5]])))); continue; }
       panel.append(el("section", { class: "mnav-sec" }, el("p", { class: "mnav-h", "data-menu": item[0] }, item[1]),
         el("ul", null, ...item[2].map(([label, href, , newTab, isNew]) => el("li", null, link([label, href, undefined, newTab, isNew]))))));
     }

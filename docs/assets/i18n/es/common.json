@@ -13,6 +13,10 @@
     "home": {
       "label": "Inicio"
     },
+    "letitfly": {
+      "label": "Déjala volar",
+      "desc": "Tu mosca opera por ti"
+    },
     "research": {
       "label": "Todos los hallazgos",
       "desc": "Peleas, el mundo 3D, lo que falló"
