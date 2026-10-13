@@ -218,8 +218,12 @@
       gigaPair(tin.address, tout.address) ? gigaQuote(tin.address, tout.address, amount).catch(() => 0n) : Promise.resolve(0n),
     ]);
     const relayOut = rq instanceof Error ? 0n : BigInt(rq.details.currencyOut.amount || 0);
-    if (gq > 0n && gq >= relayOut) return { via: "giga", out: gq, amount, tin: tin.address, tout: tout.address, relay: rq instanceof Error ? null : rq };
+    // both amounts ride along so the box can show the visitor what each route gives (2026-10-13 review: "doesn't clearly
+    // compare the final amount received")
+    const both = gq > 0n && relayOut > 0n ? { giga: gq, relay: relayOut } : null;
+    if (gq > 0n && gq >= relayOut) return { via: "giga", out: gq, amount, tin: tin.address, tout: tout.address, relay: rq instanceof Error ? null : rq, both };
     if (rq instanceof Error) throw rq;
+    rq.both = both;
     return rq;
   }
   const checked = (q, pay, amount) => {
@@ -228,7 +232,18 @@
     return relayCheck(q, tin.address, isNative(symIn), amount, origin());
   };
 
+  // the fee line follows the route this quote really takes (Best price can land on either)
+  const feeText = (q) => (q && q.via === "giga" ? t("noFee") : t("fee", { pct: fmt(FEE_BPS / 100, 2) }));
+  function compareLine(q, pay) {
+    if (!q.both) return "";
+    const [, tout, , sym] = sides(pay), d = sym === "FLYAI" ? 0 : 2;
+    const amt = (raw) => fmt(Number(decimalOf(raw, tout.decimals, 8)), d) + " " + (sym === "FLYAI" ? "$FLYAI" : sym);
+    return t("compare", { giga: amt(q.both.giga), relay: amt(q.both.relay) });
+  }
+
   function show(q, pay) {
+    $("buy-fee").textContent = feeText(q);
+    $("buy-compare").textContent = compareLine(q, pay);
     if (q.via === "giga") {
       const sym = sides(pay)[3], dec = sides(pay)[1].decimals;
       const got = Number(decimalOf(q.out, dec, 8));
@@ -255,6 +270,7 @@
       quote = null;
       $("buy-out").textContent = "–";
       $("buy-detail").textContent = "";
+      $("buy-compare").textContent = "";
       if (!amount || amount <= 0n) return;
       const key = $("buy-dir").value + ":" + pay + ":" + amount + ":" + route + ":" + origin();
       quoteFor = key;
@@ -383,7 +399,9 @@
   }
 
   const label = () => {
-    $("buy-go").textContent = !wallet ? (acct || window.ethereum ? t("connect") : t("noWallet")) : selling() ? t("sell") : t("buy");
+    // no wallet yet: always "Connect wallet" - the sign-in's picker has WalletConnect, so a browser without a wallet
+    // extension can still connect from a phone (2026-10-13 review: "No wallet found" was a dead end on the button)
+    $("buy-go").textContent = !wallet ? t("connect") : selling() ? t("sell") : t("buy");
   };
 
   async function connect() {
@@ -458,6 +476,8 @@
       for (const b of box.querySelectorAll("[data-route]")) b.setAttribute("aria-checked", String(b.dataset.route === route));
     }
     $("buy-fee").textContent = route === "giga" && routable() ? t("noFee") : t("fee", { pct: fmt(FEE_BPS / 100, 2) });
+    const help = $("buy-routehelp");
+    if (help) help.hidden = !routable();
   }
 
   function start() {

@@ -64,12 +64,12 @@
         <div class="row"><span class="k" data-i18n="token.card.k.creatorFees">creator fees</span><span class="v" data-i18n-html="token.card.v.creatorFees">60% buy &amp; burn $FLYAI &middot; 40% development</span></div>
       </div>
       <div class="card pad">
-        <h3 style="margin-bottom: 18px;" data-i18n="token.steps.title">How to get $FLYAI at launch</h3>
+        <h3 style="margin-bottom: 18px;" data-i18n="token.steps.title">How to get $FLYAI</h3>
         <ol class="steps">
-          <li><div data-i18n-html="token.steps.s1"><b>Get a wallet</b>Use one that supports Robinhood Chain.</div></li>
-          <li><div data-i18n-html="token.steps.s2"><b>Fund it</b>Add funds for gas and your buy on Robinhood Chain.</div></li>
-          <li><div data-i18n-html="token.steps.s3"><b>Check the address</b>Copy the contract address from this page or @flydotai. Nowhere else.</div></li>
-          <li><div data-i18n-html="token.steps.s4"><b>Swap for $FLYAI</b>Paste the address into Pons, or any Robinhood Chain swap, and confirm.</div></li>
+          <li><div data-i18n-html="token.steps.s1"><b>Get a wallet</b>MetaMask, Rabby or any EVM wallet. On a phone, connect with WalletConnect or open this page in your wallet app.</div></li>
+          <li><div data-i18n-html="token.steps.s2"><b>Have USDG, ETH or USDC</b>On Robinhood Chain, or on Base, Arbitrum, Ethereum or Berachain: the box below brings it over in one step.</div></li>
+          <li><div data-i18n-html="token.steps.s3"><b>Buy in the box below</b><a href="#buy">Buy $FLYAI here</a>: pick what you pay with, enter an amount and confirm in your wallet.</div></li>
+          <li><div data-i18n-html="token.steps.s4"><b>Only this address</b>The contract on this page or @flydotai is the only real one. Buying on Pons or another Robinhood Chain swap instead? Paste that address there.</div></li>
         </ol>
         <div class="cta buylinks" style="margin-top: 18px;">
           <a class="btn" href="https://x.com/flydotai" target="_blank" rel="noopener">@flydotai</a>
@@ -98,6 +98,7 @@
         <button type="button" role="radio" aria-checked="true" data-route="best" data-i18n="token.buy.routeBest">Best price</button>
         <button type="button" role="radio" aria-checked="false" data-route="giga" data-i18n="token.buy.routeOurs">Our GIGA pool · no fee</button>
       </div>
+      <p class="buy-detail" id="buy-routehelp" data-i18n="token.buy.routeHelp" hidden>Best price checks our GIGA pool (no fee) and Relay (0.25% fee included) and uses whichever gives you more. Our GIGA pool always swaps there, with no fee.</p>
       <div class="buy-row">
         <label class="buy-in">
           <span data-i18n="token.buy.pay">You pay</span>
@@ -118,6 +119,7 @@
         </div>
       </div>
       <p class="buy-detail" id="buy-detail"></p>
+      <p class="buy-detail" id="buy-compare"></p>
       <div class="buy-act">
         <button class="btn red" id="buy-go" type="button">Connect wallet</button>
         <span class="buy-fee" id="buy-fee"></span>
