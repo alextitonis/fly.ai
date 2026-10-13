@@ -537,7 +537,13 @@
       "NothingToClaim": "Nada nuevo que cobrar: esta wallet ya cobró todo.",
       "OverOwed": "El contrato de pagos rechazó este cobro. Avísanos, por favor.",
       "ClaimClosed": "El plazo para cobrar esta semana ya cerró. Lo que no se cobró volvió al Fly Desk."
-    }
+    },
+    "staked": "En staking (bonus de reparto)",
+    "stakeHint": "Mantén $FLYAI en staking toda la semana y tu parte del próximo pago crece: +1× por cada {unit} en staking, hasta {cap}×. Cuenta el stake más bajo de la semana, y el $FLYAI en staking también cuenta para los 200k que mantienen activas tus moscas.",
+    "buttonStake": "Reclamar y hacer staking de {amount} $FLYAI",
+    "approving": "Aprueba el staking en tu wallet…",
+    "doneStake": "Reclamados y en staking {amount} $FLYAI.",
+    "claimedNotStaked": "Reclamados {amount} $FLYAI, pero no se hizo staking: {reason}. El $FLYAI está en tu wallet."
   },
   "odds": {
     "title": "Probabilidad de cada rareza",

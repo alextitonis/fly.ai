@@ -537,7 +537,13 @@
       "NothingToClaim": "Nothing new to claim: this wallet has claimed everything so far.",
       "OverOwed": "The payout contract refused this claim. Please tell us.",
       "ClaimClosed": "This week's claim window has closed. What wasn't claimed went back to the Fly Desk."
-    }
+    },
+    "staked": "Staked (share boost)",
+    "stakeHint": "Keep $FLYAI staked all week and your share of the next payout grows: +1× for every {unit} staked, up to {cap}×. It counts the lowest stake of the week, and staked $FLYAI also counts toward the 200k that keeps your flies active.",
+    "buttonStake": "Claim & stake {amount} $FLYAI",
+    "approving": "Approve staking in your wallet…",
+    "doneStake": "Claimed and staked {amount} $FLYAI.",
+    "claimedNotStaked": "Claimed {amount} $FLYAI, but it wasn't staked: {reason}. The $FLYAI is in your wallet."
   },
   "odds": {
     "title": "Rarity chances",

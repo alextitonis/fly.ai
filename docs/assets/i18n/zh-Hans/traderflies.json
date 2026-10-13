@@ -535,7 +535,13 @@
       "NothingToClaim": "没有新的可领取：这个钱包已全部领取。",
       "OverOwed": "分红合约拒绝了此次领取。请告诉我们。",
       "ClaimClosed": "本周的领取期限已过。未领取的部分已退回 Fly Desk。"
-    }
+    },
+    "staked": "已质押（分成加成）",
+    "stakeHint": "整周保持 $FLYAI 质押，下一次分红中你的份额就会变大：每质押 {unit} 加 +1×，最多 {cap}×。按本周最低质押量计算；质押的 $FLYAI 也计入让果蝇保持激活的 200k。",
+    "buttonStake": "领取并质押 {amount} $FLYAI",
+    "approving": "请在钱包中批准质押…",
+    "doneStake": "已领取并质押 {amount} $FLYAI。",
+    "claimedNotStaked": "已领取 {amount} $FLYAI，但未质押：{reason}。$FLYAI 在你的钱包里。"
   },
   "odds": {
     "title": "稀有度概率",

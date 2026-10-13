@@ -537,7 +537,13 @@
       "NothingToClaim": "Alınacak yeni bir şey yok: bu cüzdan her şeyi aldı.",
       "OverOwed": "Ödeme sözleşmesi bu talebi reddetti. Lütfen bize haber ver.",
       "ClaimClosed": "Bu haftanın talep süresi kapandı. Alınmayan kısım Fly Desk'e geri döndü."
-    }
+    },
+    "staked": "Stake edilen (pay artışı)",
+    "stakeHint": "$FLYAI'yi tüm hafta stake'te tut, bir sonraki ödemedeki payın büyüsün: stake ettiğin her {unit} için +1×, en fazla {cap}×. Haftanın en düşük stake'i sayılır; stake edilen $FLYAI, sineklerini aktif tutan 200k'ya da sayılır.",
+    "buttonStake": "{amount} $FLYAI al ve stake et",
+    "approving": "Cüzdanında stake onayını ver…",
+    "doneStake": "{amount} $FLYAI alındı ve stake edildi.",
+    "claimedNotStaked": "{amount} $FLYAI alındı ama stake edilmedi: {reason}. $FLYAI cüzdanında."
   },
   "odds": {
     "title": "Nadirlik olasılıkları",
