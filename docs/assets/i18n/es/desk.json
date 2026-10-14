@@ -305,7 +305,7 @@
   "stake": {
     "title": "Stakea $FLYAI",
     "total": "{amount} en stake en total",
-    "lede": "Stakea $FLYAI para llevarte una parte mayor del pago semanal: 1M en stake = 1,5×, 2M = 2×, 5M = 3×, 10M o más = 4× (el máximo). Cuenta lo mínimo que tuviste en stake durante la semana, y el bote no cambia de tamaño: es tu parte frente a quienes stakean menos. El $FLYAI en stake también cuenta para los 200.000 que mantienen tus moscas activadas. Retirar el stake tarda 7 días.",
+    "lede": "Stakea $FLYAI para llevarte una parte mayor del pago semanal: 1M en stake = 1,5×, 2M = 2×, 5M = 3×, 10M o más = 4× (el máximo). Cuenta al momento, con lo que tienes en stake ahora. El bote no cambia de tamaño: es tu parte frente a quienes stakean menos. El $FLYAI en stake también cuenta para los 200.000 que mantienen tus moscas activadas. Retirar el stake tarda 7 días.",
     "staked": "En stake",
     "boost": "Impulso del pago",
     "boostMax": "siguiente: ×{cap} con {amount} en stake",

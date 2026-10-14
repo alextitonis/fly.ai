@@ -305,7 +305,7 @@
   "stake": {
     "title": "$FLYAI stake et",
     "total": "Toplam {amount} stake'te",
-    "lede": "Haftalık ödemeden daha büyük pay almak için $FLYAI stake et: 1M stake = 1,5×, 2M = 2×, 5M = 3×, 10M veya fazlası = 4× (en fazla). Hafta boyunca stake'te tuttuğun en düşük miktar sayılır ve havuz aynı kalır: daha az stake edenlere göre payın büyür. Stake edilen $FLYAI, sineklerini aktif tutan 200.000'e de sayılır. Stake'ten çıkmak 7 gün sürer.",
+    "lede": "Haftalık ödemeden daha büyük pay almak için $FLYAI stake et: 1M stake = 1,5×, 2M = 2×, 5M = 3×, 10M veya fazlası = 4× (en fazla). Hemen sayılır: şu an stake'te olan miktarın. Havuz aynı kalır: daha az stake edenlere göre payın büyür. Stake edilen $FLYAI, sineklerini aktif tutan 200.000'e de sayılır. Stake'ten çıkmak 7 gün sürer.",
     "staked": "Stake'te",
     "boost": "Ödeme artışı",
     "boostMax": "sonraki: {amount} stake ile ×{cap}",

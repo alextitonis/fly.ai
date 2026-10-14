@@ -539,7 +539,7 @@
       "ClaimClosed": "Bu haftanın talep süresi kapandı. Alınmayan kısım Fly Desk'e geri döndü."
     },
     "staked": "Stake edilen (pay artışı)",
-    "stakeHint": "Haftalık ödemeden daha büyük pay almak için $FLYAI stake et: 1M stake = 1,5×, 2M = 2×, 5M = 3×, 10M veya fazlası = 4× (en fazla). Hafta boyunca stake'te tuttuğun en düşük miktar sayılır ve havuz aynı kalır: daha az stake edenlere göre payın büyür. Stake edilen $FLYAI, sineklerini aktif tutan 200.000'e de sayılır. Stake'ten çıkmak 7 gün sürer.",
+    "stakeHint": "Haftalık ödemeden daha büyük pay almak için $FLYAI stake et: 1M stake = 1,5×, 2M = 2×, 5M = 3×, 10M veya fazlası = 4× (en fazla). Hemen sayılır: şu an stake'te olan miktarın. Havuz aynı kalır: daha az stake edenlere göre payın büyür. Stake edilen $FLYAI, sineklerini aktif tutan 200.000'e de sayılır. Stake'ten çıkmak 7 gün sürer.",
     "buttonStake": "{amount} $FLYAI al ve stake et",
     "approving": "Cüzdanında stake onayını ver…",
     "doneStake": "{amount} $FLYAI alındı ve stake edildi.",
@@ -2010,7 +2010,7 @@
     "tooMuchWallet": "Cüzdanındaki $FLYAI'den fazla.",
     "tooMuchStaked": "Stake ettiğinden fazla.",
     "title": "$FLYAI stake et",
-    "lede": "Haftalık ödemeden daha büyük pay almak için $FLYAI stake et: 1M stake = 1,5×, 2M = 2×, 5M = 3×, 10M veya fazlası = 4× (en fazla). Hafta boyunca stake'te tuttuğun en düşük miktar sayılır ve havuz aynı kalır: daha az stake edenlere göre payın büyür. Stake edilen $FLYAI, sineklerini aktif tutan 200.000'e de sayılır. Stake'ten çıkmak {days} gün sürer.",
+    "lede": "Haftalık ödemeden daha büyük pay almak için $FLYAI stake et: 1M stake = 1,5×, 2M = 2×, 5M = 3×, 10M veya fazlası = 4× (en fazla). Hemen sayılır: şu an stake'te olan miktarın. Havuz aynı kalır: daha az stake edenlere göre payın büyür. Stake edilen $FLYAI, sineklerini aktif tutan 200.000'e de sayılır. Stake'ten çıkmak {days} gün sürer.",
     "tab": {
       "stake": "Stake",
       "unstake": "Çıkar"

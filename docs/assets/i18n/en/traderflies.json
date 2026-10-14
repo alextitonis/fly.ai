@@ -539,7 +539,7 @@
       "ClaimClosed": "This week's claim window has closed. What wasn't claimed went back to the Fly Desk."
     },
     "staked": "Staked (share boost)",
-    "stakeHint": "Stake $FLYAI to get a bigger slice of the weekly payout: 1M staked = 1.5×, 2M = 2×, 5M = 3×, 10M or more = 4× (the most). It counts the lowest amount you had staked during the week, and the pot stays the same size, so it's your slice next to holders who stake less. Staked $FLYAI also counts toward the 200,000 that keeps your flies activated. Unstaking takes 7 days.",
+    "stakeHint": "Stake $FLYAI to get a bigger slice of the weekly payout: 1M staked = 1.5×, 2M = 2×, 5M = 3×, 10M or more = 4× (the most). It counts right away, on what you have staked now. The pot stays the same size, so it's your slice next to holders who stake less. Staked $FLYAI also counts toward the 200,000 that keeps your flies activated. Unstaking takes 7 days.",
     "buttonStake": "Claim & stake {amount} $FLYAI",
     "approving": "Approve staking in your wallet…",
     "doneStake": "Claimed and staked {amount} $FLYAI.",
@@ -2010,7 +2010,7 @@
     "tooMuchWallet": "That's more $FLYAI than your wallet holds.",
     "tooMuchStaked": "That's more than you have staked.",
     "title": "Stake $FLYAI",
-    "lede": "Stake $FLYAI to get a bigger slice of the weekly payout: 1M staked = 1.5×, 2M = 2×, 5M = 3×, 10M or more = 4× (the most). It counts the lowest amount you had staked during the week, and the pot stays the same size, so it's your slice next to holders who stake less. Staked $FLYAI also counts toward the 200,000 that keeps your flies activated. Unstaking takes {days} days.",
+    "lede": "Stake $FLYAI to get a bigger slice of the weekly payout: 1M staked = 1.5×, 2M = 2×, 5M = 3×, 10M or more = 4× (the most). It counts right away, on what you have staked now. The pot stays the same size, so it's your slice next to holders who stake less. Staked $FLYAI also counts toward the 200,000 that keeps your flies activated. Unstaking takes {days} days.",
     "tab": {
       "stake": "Stake",
       "unstake": "Unstake"
