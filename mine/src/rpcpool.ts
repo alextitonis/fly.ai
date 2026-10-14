@@ -36,7 +36,8 @@ export async function postRpc(url: string, payload: unknown, timeoutMs = 10_000)
     try {
       const res = await fetch(u, {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        // QuickNode's referrer whitelist (2026-10-14): the endpoint only answers the site's domain
+        headers: { "content-type": "application/json", referer: "https://www.flyaiworld.com/" },
         body: JSON.stringify(payload),
         signal: AbortSignal.timeout(timeoutMs),
       });

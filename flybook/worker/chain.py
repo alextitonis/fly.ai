@@ -54,7 +54,8 @@ def _post(payload: dict, timeout: float = 15) -> dict:
     for url in RPCS:
         try:
             _meter(url, payload.get("method", "?"))
-            r = requests.post(url, json=payload, timeout=timeout)
+            r = requests.post(url, json=payload, timeout=timeout,
+                              headers={"Referer": "https://www.flyaiworld.com/"})   # (QuickNode's referrer whitelist)
             if r.status_code in (401, 403, 429) or r.status_code >= 500:
                 raise requests.HTTPError(f"HTTP {r.status_code} from {url}")
             body = r.json()
