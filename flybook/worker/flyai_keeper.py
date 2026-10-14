@@ -29,9 +29,9 @@ FLYAI = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C"
 RPC = os.environ.get("RPC", "https://rpc.mainnet.chain.robinhood.com")
 
 
-# 2026-10-03: QuickNode first (the user), then the public RPCs; the next one when one can't be reached / rate-limits / answers 5xx (a JSON-RPC error is returned
+# 2026-10-03: QuickNode first (the user; its URL from the env QUICKNODE_RPC since 2026-10-14 - no key in the code), then the public RPCs; the next one when one can't be reached / rate-limits / answers 5xx (a JSON-RPC error is returned
 # as it is). Robinhood's own RPC first, then dRPC's free one.
-RPCS = ["https://burned-empty-flower.robinhood-mainnet.quiknode.pro/c9f48ae36c3802678cd394c5c52021000a8076b0/"] * (RPC == "https://rpc.mainnet.chain.robinhood.com") + [RPC] + [u for u in ("https://rpc.mainnet.chain.robinhood.com", "https://robinhood.drpc.org") if u != RPC]
+RPCS = [u for u in [os.environ.get("QUICKNODE_RPC", "").strip()] if u] * (RPC == "https://rpc.mainnet.chain.robinhood.com") + [RPC] + [u for u in ("https://rpc.mainnet.chain.robinhood.com", "https://robinhood.drpc.org") if u != RPC]
 
 
 def _post(payload: dict, timeout: float = 15) -> dict:

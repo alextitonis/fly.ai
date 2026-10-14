@@ -15,15 +15,45 @@ import requests
 RPC = os.environ.get("ROBINHOOD_RPC", "https://rpc.mainnet.chain.robinhood.com")
 
 
-# 2026-10-03: QuickNode first (the user), then the public RPCs; the next one when one can't be reached / rate-limits / answers 5xx (a JSON-RPC error is returned
+# 2026-10-03: QuickNode first (the user; its URL from the env QUICKNODE_RPC since 2026-10-14 - no key in the code), then the public RPCs; the next one when one can't be reached / rate-limits / answers 5xx (a JSON-RPC error is returned
 # as it is). Robinhood's own RPC first, then dRPC's free one.
-RPCS = ["https://burned-empty-flower.robinhood-mainnet.quiknode.pro/c9f48ae36c3802678cd394c5c52021000a8076b0/"] * (RPC == "https://rpc.mainnet.chain.robinhood.com") + [RPC] + [u for u in ("https://rpc.mainnet.chain.robinhood.com", "https://robinhood.drpc.org") if u != RPC]
+RPCS = [u for u in [os.environ.get("QUICKNODE_RPC", "").strip()] if u] * (RPC == "https://rpc.mainnet.chain.robinhood.com") + [RPC] + [u for u in ("https://rpc.mainnet.chain.robinhood.com", "https://robinhood.drpc.org") if u != RPC]
+
+
+# RPC meter (2026-10-14, QuickNode hit its plan limit): requests by RPC, method and caller, logged every METER_EVERY_S
+METER: dict = {}
+METER_EVERY_S = 600.0
+_meter_at = [__import__("time").time()]
+
+
+def _meter(url: str, method: str) -> None:
+    import sys as _sys
+    import time as _time
+    f, who = _sys._getframe(2), "?"
+    while f is not None:
+        name = f.f_code.co_filename.replace("\\", "/").rsplit("/", 1)[-1]
+        if name != "chain.py":
+            who = f"{name}:{f.f_code.co_name}"
+            break
+        f = f.f_back
+    key = ("quicknode" if "quiknode" in url else url.split("/")[2], method, who)
+    METER[key] = METER.get(key, 0) + 1
+    now = _time.time()
+    if now - _meter_at[0] >= METER_EVERY_S:
+        mins = (now - _meter_at[0]) / 60
+        qn = sum(n for k, n in METER.items() if k[0] == "quicknode")
+        top = sorted(METER.items(), key=lambda kv: -kv[1])[:10]
+        print(f"rpc meter: {sum(METER.values())} requests in {mins:.1f} min ({qn} quicknode) | " +
+              " | ".join(f"{k[0]} {k[1]} {k[2]} {n}" for k, n in top), flush=True)
+        METER.clear()
+        _meter_at[0] = now
 
 
 def _post(payload: dict, timeout: float = 15) -> dict:
     last = None
     for url in RPCS:
         try:
+            _meter(url, payload.get("method", "?"))
             r = requests.post(url, json=payload, timeout=timeout)
             if r.status_code in (401, 403, 429) or r.status_code >= 500:
                 raise requests.HTTPError(f"HTTP {r.status_code} from {url}")
@@ -44,14 +74,12 @@ ADDRESS = re.compile(r"^0x[0-9a-fA-F]{40}$")
 
 
 def balance_of(wallet: str, timeout: float = 15) -> int:
-    """ERC-20 balanceOf(wallet) in wei."""
+    """No chain read any more (2026-10-14, the user: "remove the chain reading completely from flybook" - every owner's
+    FLYAI balance, read every 5 min by the tick and on API calls, was a large share of the QuickNode plan): every wallet
+    counts as a holder (MIN_WEI), so no fly goes dormant and every holder-only action is open to signed-in wallets."""
     if not ADDRESS.match(wallet):
         raise ValueError(f"not an address: {wallet!r}")
-    data = "0x70a08231" + wallet[2:].lower().rjust(64, "0")
-    body = _post({"jsonrpc": "2.0", "id": 1, "method": "eth_call", "params": [{"to": TOKEN, "data": data}, "latest"]}, timeout)
-    if "error" in body:
-        raise RuntimeError(f"rpc error: {body['error']}")
-    return int(body["result"], 16)
+    return MIN_WEI
 
 
 def is_holder(balance_wei: int) -> bool:
