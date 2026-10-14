@@ -319,12 +319,12 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
     "mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt"
     "tick tick tick tick tick tick tick tick tick tick tick tick"
     "kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi"
+    "stake stake stake stake stake stake stake stake stake stake stake stake"
     "stats stats stats stats stats stats stats stats stats stats stats stats"
     "chart chart chart chart chart chart chart chart pos pos pos pos"
     "tape tape tape tape tape tape books books books books books books"
     "launch launch launch launch launch launch launch launch launch launch launch launch"
     "pay pay pay pay pay pay pay pay pay pay pay pay"
-    "stake stake stake stake stake stake stake stake stake stake stake stake"
     "vote vote vote vote vote vote vote vote vote vote vote vote"
     "foot foot foot foot foot foot foot foot foot foot foot foot"
     "how how how how how how how how how how how how";
@@ -354,6 +354,10 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
 .dkt-vote { grid-area: vote; }
 /* staking (deskstake.js, 2026-10-14) */
 .dkt-stake { grid-area: stake; }
+/* up top and lit (2026-10-14, the user: "it should be in a prominent place") */
+.desk .dkt .dkt-stake { border-color: color-mix(in srgb, var(--t-mint, var(--accent)) 55%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-mint, var(--accent)) 25%, transparent) inset, 0 0 40px -18px var(--t-mint, var(--accent)); }
+.desk .dkt .dkt-stake h2 > span { color: var(--t-mint, var(--accent)); font-size: 15px; }
 .desk .stk-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .desk .stk-tiles:empty { display: none; }
 .desk .stk-tile { padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--plate-2); min-width: 0; }
@@ -443,13 +447,13 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
     "mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt"
     "tick tick tick tick tick tick tick tick tick tick tick tick"
     "kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi"
+    "stake stake stake stake stake stake stake stake stake stake stake stake"
     "stats stats stats stats stats stats stats stats stats stats stats stats"
     "chart chart chart chart chart chart chart chart chart chart chart chart"
     "pos pos pos pos pos pos books books books books books books"
     "tape tape tape tape tape tape tape tape tape tape tape tape"
     "launch launch launch launch launch launch launch launch launch launch launch launch"
     "pay pay pay pay pay pay pay pay pay pay pay pay"
-    "stake stake stake stake stake stake stake stake stake stake stake stake"
     "vote vote vote vote vote vote vote vote vote vote vote vote"
     "foot foot foot foot foot foot foot foot foot foot foot foot"
     "how how how how how how how how how how how how"; }

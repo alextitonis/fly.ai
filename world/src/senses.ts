@@ -115,6 +115,11 @@ export class OdourField {
     for (let i = 0; i < this.count; i++) fn(this.px[i], this.pz[i], this.pr[i], this.pc[i], this.pm[i]);
   }
 
+  /** Moves every puff by (dx, dz): a world that recentres on its player (Flyborne's floating origin) keeps its plumes. */
+  shift(dx: number, dz: number): void {
+    for (let i = 0; i < this.count; i++) { this.px[i] += dx; this.pz[i] += dz; }
+  }
+
   step(dt: number, windX: number, windZ: number, emitters: Emitter[]): void {
     const p = PLUME;
     // release
