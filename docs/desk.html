@@ -51,12 +51,6 @@
   <div class="ticker dkt-ticker" id="ticker" hidden aria-label="Latest trades"></div>
   <p class="err dkt-err" id="err" hidden data-i18n="desk.t.error">Couldn't load the desk. Retrying…</p>
 
-  <section class="tm-kpis dkt-kpis" aria-label="Totals">
-    <div class="tm-kpi"><span data-i18n="desk.pot.value">Pot</span><b id="k-pot">—</b></div>
-    <div class="tm-kpi"><span data-i18n="desk.pot.pnl">P&amp;L</span><b id="k-ret">—</b></div>
-    <div class="tm-kpi"><span data-i18n="desk.pot.median">Median fly</span><b id="k-median">—</b></div>
-    <div class="tm-kpi"><span data-i18n="desk.pot.best">Best fly</span><b id="k-best">—</b></div>
-  </section>
   <section id="stake" class="tm-panel dkt-stake">
     <h2><span data-i18n="desk.stake.title">Stake $FLYAI</span><small id="stk-total"></small></h2>
     <p class="caption" data-i18n="desk.stake.lede">Stake $FLYAI to get a bigger slice of the weekly payout: 1M staked = 1.5×, 2M = 2×, 5M = 3×, 10M or more = 4× (the most). It counts right away, on what you have staked now. The pot stays the same size, so it's your slice next to holders who stake less. Staked $FLYAI also counts toward the 200,000 that keeps your flies activated. Unstaking takes 7 days.</p>
@@ -86,6 +80,12 @@
     </div>
   </section>
 
+  <section class="tm-kpis dkt-kpis" aria-label="Totals">
+    <div class="tm-kpi"><span data-i18n="desk.pot.value">Pot</span><b id="k-pot">—</b></div>
+    <div class="tm-kpi"><span data-i18n="desk.pot.pnl">P&amp;L</span><b id="k-ret">—</b></div>
+    <div class="tm-kpi"><span data-i18n="desk.pot.median">Median fly</span><b id="k-median">—</b></div>
+    <div class="tm-kpi"><span data-i18n="desk.pot.best">Best fly</span><b id="k-best">—</b></div>
+  </section>
   <div class="stats dkt-stats" id="stats"></div>
 
   <section id="pot" class="tm-panel dkt-chart">
