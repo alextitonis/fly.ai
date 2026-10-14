@@ -537,7 +537,7 @@
       "ClaimClosed": "本周的领取期限已过。未领取的部分已退回 Fly Desk。"
     },
     "staked": "已质押（分成加成）",
-    "stakeHint": "整周保持 $FLYAI 质押，下一次分红中你的份额就会变大：每质押 {unit} 加 +1×，最多 {cap}×。按本周最低质押量计算；质押的 $FLYAI 也计入让果蝇保持激活的 200k。",
+    "stakeHint": "质押 $FLYAI 可在每周分配中分到更大一份：质押 1M = 1.5×，2M = 2×，5M = 3×，10M 及以上 = 4×（上限）。按本周内你的最低质押量计算；奖池总额不变，所以是相对于质押更少的持有者，你的份额更大。质押的 $FLYAI 也计入让你的苍蝇保持激活的 200,000。解除质押需要 7 天。",
     "buttonStake": "领取并质押 {amount} $FLYAI",
     "approving": "请在钱包中批准质押…",
     "doneStake": "已领取并质押 {amount} $FLYAI。",
@@ -1983,5 +1983,40 @@
     "holderOnly": "只有这只苍蝇的持有者可以喂养或加速。",
     "notHolder": "只有这只苍蝇的持有者可以这样做。",
     "zero": "请输入数量。"
+  },
+  "stake": {
+    "staked": "已质押",
+    "boost": "分配加成",
+    "boostMax": "下一档：质押 {amount} 达到 ×{cap}",
+    "inWallet": "钱包余额",
+    "max": "最大",
+    "buttonStake": "质押",
+    "buttonUnstake": "解除质押",
+    "busy": "处理中…",
+    "withdraw": "提取",
+    "cancel": "重新质押",
+    "hintStake": "第一次钱包会请求两次：先授权，再质押。",
+    "hintUnstake": "立即停止计入，{days} 天后可提取。再次申请会让全部金额重新开始等待。",
+    "cooling": "{amount} $FLYAI 正在解除质押，{date} 可提取。",
+    "readyNow": "{amount} $FLYAI 已解除质押，可以提取。",
+    "approving": "正在授权 $FLYAI 用于质押…",
+    "doneStake": "已质押 {amount} $FLYAI。",
+    "doneUnstake": "{amount} $FLYAI 正在解除质押：{days} 天后提取。",
+    "doneWithdraw": "已将 {amount} $FLYAI 提取到你的钱包。",
+    "doneCancel": "{amount} $FLYAI 已重新质押。",
+    "enterAmount": "请输入数量。",
+    "tooMuchWallet": "超过了你钱包中的 $FLYAI。",
+    "tooMuchStaked": "超过了你的质押量。",
+    "title": "质押 $FLYAI",
+    "lede": "质押 $FLYAI 可在每周分配中分到更大一份：质押 1M = 1.5×，2M = 2×，5M = 3×，10M 及以上 = 4×（上限）。按本周内你的最低质押量计算；奖池总额不变，所以是相对于质押更少的持有者，你的份额更大。质押的 $FLYAI 也计入让你的苍蝇保持激活的 200,000。解除质押需要 {days} 天。",
+    "tab": {
+      "stake": "质押",
+      "unstake": "解除质押"
+    },
+    "amount": "$FLYAI 数量",
+    "nothingUnstaking": "没有正在解除的质押。",
+    "stillCooling": "仍在等待期：准备好后再试。",
+    "cantRead": "无法读取你的质押：{reason}",
+    "restartWarn": "已有 {amount} $FLYAI 正在解除质押。再解除更多会让全部金额重新等待 {days} 天。继续吗？"
   }
 }

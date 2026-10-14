@@ -537,7 +537,7 @@
       "ClaimClosed": "이번 주 받기 기간이 끝났습니다. 받지 않은 몫은 Fly Desk로 돌아갔습니다."
     },
     "staked": "스테이킹 (분배 부스트)",
-    "stakeHint": "$FLYAI를 한 주 내내 스테이킹하면 다음 지급에서 내 몫이 커집니다: 스테이킹 {unit}개마다 +1×, 최대 {cap}×. 그 주의 가장 낮은 스테이킹 수량이 기준이며, 스테이킹한 $FLYAI도 파리를 활성 상태로 유지하는 200k에 포함됩니다.",
+    "stakeHint": "$FLYAI를 스테이킹하면 주간 지급에서 더 큰 몫을 받습니다: 1M 스테이킹 = 1.5×, 2M = 2×, 5M = 3×, 10M 이상 = 4× (최대). 그 주에 스테이킹했던 최저 수량으로 계산하며, 전체 금액은 그대로이므로 덜 스테이킹한 홀더보다 몫이 커지는 방식입니다. 스테이킹한 $FLYAI는 플라이를 활성 상태로 유지하는 200,000에도 포함됩니다. 언스테이킹은 7일 걸립니다.",
     "buttonStake": "{amount} $FLYAI 받고 스테이킹",
     "approving": "지갑에서 스테이킹을 승인하세요…",
     "doneStake": "{amount} $FLYAI를 받아 스테이킹했습니다.",
@@ -1983,5 +1983,40 @@
     "holderOnly": "이 플라이의 보유자만 먹이를 주거나 부스트할 수 있습니다.",
     "notHolder": "이 플라이의 보유자만 할 수 있습니다.",
     "zero": "수량을 입력하세요."
+  },
+  "stake": {
+    "staked": "스테이킹",
+    "boost": "지급 부스트",
+    "boostMax": "다음: {amount} 스테이킹 시 ×{cap}",
+    "inWallet": "지갑 보유",
+    "max": "최대",
+    "buttonStake": "스테이킹",
+    "buttonUnstake": "언스테이킹",
+    "busy": "처리 중…",
+    "withdraw": "출금",
+    "cancel": "다시 스테이킹",
+    "hintStake": "처음에는 지갑이 두 번 묻습니다: 승인 후 스테이킹.",
+    "hintUnstake": "즉시 집계에서 빠지고 {days}일 후 출금할 수 있습니다. 다시 요청하면 전체 대기가 처음부터 시작됩니다.",
+    "cooling": "{amount} $FLYAI 언스테이킹 중, {date} 출금 가능.",
+    "readyNow": "{amount} $FLYAI 언스테이킹 완료, 출금 가능.",
+    "approving": "스테이킹용 $FLYAI 승인 중…",
+    "doneStake": "{amount} $FLYAI 스테이킹 완료.",
+    "doneUnstake": "{amount} $FLYAI 언스테이킹 중: {days}일 후 출금하세요.",
+    "doneWithdraw": "{amount} $FLYAI를 지갑으로 출금했습니다.",
+    "doneCancel": "{amount} $FLYAI가 다시 스테이킹되었습니다.",
+    "enterAmount": "수량을 입력하세요.",
+    "tooMuchWallet": "지갑에 있는 $FLYAI보다 많습니다.",
+    "tooMuchStaked": "스테이킹한 양보다 많습니다.",
+    "title": "$FLYAI 스테이킹",
+    "lede": "$FLYAI를 스테이킹하면 주간 지급에서 더 큰 몫을 받습니다: 1M 스테이킹 = 1.5×, 2M = 2×, 5M = 3×, 10M 이상 = 4× (최대). 그 주에 스테이킹했던 최저 수량으로 계산하며, 전체 금액은 그대로이므로 덜 스테이킹한 홀더보다 몫이 커지는 방식입니다. 스테이킹한 $FLYAI는 플라이를 활성 상태로 유지하는 200,000에도 포함됩니다. 언스테이킹은 {days}일 걸립니다.",
+    "tab": {
+      "stake": "스테이킹",
+      "unstake": "언스테이킹"
+    },
+    "amount": "$FLYAI 수량",
+    "nothingUnstaking": "언스테이킹 중인 수량이 없습니다.",
+    "stillCooling": "아직 대기 중입니다. 준비되면 다시 시도하세요.",
+    "cantRead": "스테이킹 정보를 읽지 못했습니다: {reason}",
+    "restartWarn": "이미 {amount} $FLYAI가 언스테이킹 중입니다. 더 언스테이킹하면 전체 {days}일 대기가 다시 시작됩니다. 계속할까요?"
   }
 }

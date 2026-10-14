@@ -539,7 +539,7 @@
       "ClaimClosed": "Bu haftanın talep süresi kapandı. Alınmayan kısım Fly Desk'e geri döndü."
     },
     "staked": "Stake edilen (pay artışı)",
-    "stakeHint": "$FLYAI'yi tüm hafta stake'te tut, bir sonraki ödemedeki payın büyüsün: stake ettiğin her {unit} için +1×, en fazla {cap}×. Haftanın en düşük stake'i sayılır; stake edilen $FLYAI, sineklerini aktif tutan 200k'ya da sayılır.",
+    "stakeHint": "Haftalık ödemeden daha büyük pay almak için $FLYAI stake et: 1M stake = 1,5×, 2M = 2×, 5M = 3×, 10M veya fazlası = 4× (en fazla). Hafta boyunca stake'te tuttuğun en düşük miktar sayılır ve havuz aynı kalır: daha az stake edenlere göre payın büyür. Stake edilen $FLYAI, sineklerini aktif tutan 200.000'e de sayılır. Stake'ten çıkmak 7 gün sürer.",
     "buttonStake": "{amount} $FLYAI al ve stake et",
     "approving": "Cüzdanında stake onayını ver…",
     "doneStake": "{amount} $FLYAI alındı ve stake edildi.",
@@ -1985,5 +1985,40 @@
     "holderOnly": "Bu sineği yalnızca sahibi besleyebilir veya güçlendirebilir.",
     "notHolder": "Bunu yalnızca bu sineğin sahibi yapabilir.",
     "zero": "Bir miktar gir."
+  },
+  "stake": {
+    "staked": "Stake'te",
+    "boost": "Ödeme artışı",
+    "boostMax": "sonraki: {amount} stake ile ×{cap}",
+    "inWallet": "Cüzdanında",
+    "max": "Maks",
+    "buttonStake": "Stake et",
+    "buttonUnstake": "Stake'ten çıkar",
+    "busy": "İşleniyor…",
+    "withdraw": "Çek",
+    "cancel": "Tekrar stake et",
+    "hintStake": "İlk seferde cüzdanın iki kez sorar: onay, sonra stake.",
+    "hintUnstake": "Hemen sayılmayı bırakır, {days} gün sonra çekilebilir. Tekrar istemek tümü için bekleme süresini yeniden başlatır.",
+    "cooling": "{amount} $FLYAI stake'ten çıkıyor, {date} hazır.",
+    "readyNow": "{amount} $FLYAI stake'ten çıktı, çekmeye hazır.",
+    "approving": "$FLYAI stake için onaylanıyor…",
+    "doneStake": "{amount} $FLYAI stake edildi.",
+    "doneUnstake": "{amount} $FLYAI stake'ten çıkıyor: {days} gün sonra çek.",
+    "doneWithdraw": "{amount} $FLYAI cüzdanına çekildi.",
+    "doneCancel": "{amount} $FLYAI tekrar stake'te.",
+    "enterAmount": "Bir miktar gir.",
+    "tooMuchWallet": "Cüzdanındaki $FLYAI'den fazla.",
+    "tooMuchStaked": "Stake ettiğinden fazla.",
+    "title": "$FLYAI stake et",
+    "lede": "Haftalık ödemeden daha büyük pay almak için $FLYAI stake et: 1M stake = 1,5×, 2M = 2×, 5M = 3×, 10M veya fazlası = 4× (en fazla). Hafta boyunca stake'te tuttuğun en düşük miktar sayılır ve havuz aynı kalır: daha az stake edenlere göre payın büyür. Stake edilen $FLYAI, sineklerini aktif tutan 200.000'e de sayılır. Stake'ten çıkmak {days} gün sürer.",
+    "tab": {
+      "stake": "Stake",
+      "unstake": "Çıkar"
+    },
+    "amount": "$FLYAI miktarı",
+    "nothingUnstaking": "Stake'ten çıkan bir şey yok.",
+    "stillCooling": "Bekleme sürüyor: hazır olunca tekrar dene.",
+    "cantRead": "Stake okunamadı: {reason}",
+    "restartWarn": "{amount} $FLYAI zaten stake'ten çıkıyor. Daha fazlasını çıkarmak tümü için {days} günlük beklemeyi yeniden başlatır. Devam?"
   }
 }

@@ -281,7 +281,8 @@
     "thHolder": "Holder",
     "thFlies": "Flies",
     "byFly": "Each fly",
-    "empty": "No activated flies yet: a fly is activated while its holder holds 200,000 $FLYAI."
+    "empty": "No activated flies yet: a fly is activated while its holder holds 200,000 $FLYAI.",
+    "thStake": "Stake boost"
   },
   "market": {
     "label": "Market",
@@ -304,10 +305,10 @@
   "stake": {
     "title": "Stake $FLYAI",
     "total": "{amount} staked in all",
-    "lede": "Staked $FLYAI raises your share of the weekly payout: +1× for every 2M staked, up to 2×, counted on the lowest stake of the week. It also counts toward the 200,000 $FLYAI that keeps your flies activated. Unstaking takes 7 days.",
+    "lede": "Stake $FLYAI to get a bigger slice of the weekly payout: 1M staked = 1.5×, 2M = 2×, 5M = 3×, 10M or more = 4× (the most). It counts the lowest amount you had staked during the week, and the pot stays the same size, so it's your slice next to holders who stake less. Staked $FLYAI also counts toward the 200,000 that keeps your flies activated. Unstaking takes 7 days.",
     "staked": "Staked",
     "boost": "Payout boost",
-    "boostMax": "full ×{cap} at {amount} staked",
+    "boostMax": "next: ×{cap} at {amount} staked",
     "inWallet": "In your wallet",
     "tabStake": "Stake",
     "tabUnstake": "Unstake",

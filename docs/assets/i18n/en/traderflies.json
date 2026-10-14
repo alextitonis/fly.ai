@@ -539,7 +539,7 @@
       "ClaimClosed": "This week's claim window has closed. What wasn't claimed went back to the Fly Desk."
     },
     "staked": "Staked (share boost)",
-    "stakeHint": "Keep $FLYAI staked all week and your share of the next payout grows: +1× for every {unit} staked, up to {cap}×. It counts the lowest stake of the week, and staked $FLYAI also counts toward the 200k that keeps your flies active.",
+    "stakeHint": "Stake $FLYAI to get a bigger slice of the weekly payout: 1M staked = 1.5×, 2M = 2×, 5M = 3×, 10M or more = 4× (the most). It counts the lowest amount you had staked during the week, and the pot stays the same size, so it's your slice next to holders who stake less. Staked $FLYAI also counts toward the 200,000 that keeps your flies activated. Unstaking takes 7 days.",
     "buttonStake": "Claim & stake {amount} $FLYAI",
     "approving": "Approve staking in your wallet…",
     "doneStake": "Claimed and staked {amount} $FLYAI.",
@@ -1985,5 +1985,40 @@
     "holderOnly": "Only this fly's holder can feed or boost it.",
     "notHolder": "Only this fly's holder can do that.",
     "zero": "Enter an amount."
+  },
+  "stake": {
+    "staked": "Staked",
+    "boost": "Payout boost",
+    "boostMax": "next: ×{cap} at {amount} staked",
+    "inWallet": "In your wallet",
+    "max": "Max",
+    "buttonStake": "Stake",
+    "buttonUnstake": "Unstake",
+    "busy": "Working…",
+    "withdraw": "Withdraw",
+    "cancel": "Stake it again",
+    "hintStake": "Your wallet asks twice the first time: approve, then stake.",
+    "hintUnstake": "It stops counting right away and can be withdrawn after {days} days. Asking again restarts the wait for all of it.",
+    "cooling": "{amount} $FLYAI unstaking, ready {date}.",
+    "readyNow": "{amount} $FLYAI unstaked and ready to withdraw.",
+    "approving": "Approving $FLYAI for staking…",
+    "doneStake": "Staked {amount} $FLYAI.",
+    "doneUnstake": "{amount} $FLYAI is unstaking: withdraw it in {days} days.",
+    "doneWithdraw": "Withdrew {amount} $FLYAI to your wallet.",
+    "doneCancel": "{amount} $FLYAI is staked again.",
+    "enterAmount": "Enter an amount.",
+    "tooMuchWallet": "That's more $FLYAI than your wallet holds.",
+    "tooMuchStaked": "That's more than you have staked.",
+    "title": "Stake $FLYAI",
+    "lede": "Stake $FLYAI to get a bigger slice of the weekly payout: 1M staked = 1.5×, 2M = 2×, 5M = 3×, 10M or more = 4× (the most). It counts the lowest amount you had staked during the week, and the pot stays the same size, so it's your slice next to holders who stake less. Staked $FLYAI also counts toward the 200,000 that keeps your flies activated. Unstaking takes {days} days.",
+    "tab": {
+      "stake": "Stake",
+      "unstake": "Unstake"
+    },
+    "amount": "Amount of $FLYAI",
+    "nothingUnstaking": "Nothing is unstaking.",
+    "stillCooling": "Still in the cooldown: try again once it's ready.",
+    "cantRead": "Couldn't read your stake: {reason}",
+    "restartWarn": "{amount} $FLYAI is already unstaking. Unstaking more restarts the {days}-day wait for all of it. Go on?"
   }
 }

@@ -539,7 +539,7 @@
       "ClaimClosed": "El plazo para cobrar esta semana ya cerró. Lo que no se cobró volvió al Fly Desk."
     },
     "staked": "En staking (bonus de reparto)",
-    "stakeHint": "Mantén $FLYAI en staking toda la semana y tu parte del próximo pago crece: +1× por cada {unit} en staking, hasta {cap}×. Cuenta el stake más bajo de la semana, y el $FLYAI en staking también cuenta para los 200k que mantienen activas tus moscas.",
+    "stakeHint": "Stakea $FLYAI para llevarte una parte mayor del pago semanal: 1M en stake = 1,5×, 2M = 2×, 5M = 3×, 10M o más = 4× (el máximo). Cuenta lo mínimo que tuviste en stake durante la semana, y el bote no cambia de tamaño: es tu parte frente a quienes stakean menos. El $FLYAI en stake también cuenta para los 200.000 que mantienen tus moscas activadas. Retirar el stake tarda 7 días.",
     "buttonStake": "Reclamar y hacer staking de {amount} $FLYAI",
     "approving": "Aprueba el staking en tu wallet…",
     "doneStake": "Reclamados y en staking {amount} $FLYAI.",
@@ -1985,5 +1985,40 @@
     "holderOnly": "Solo quien tiene esta mosca puede alimentarla o impulsarla.",
     "notHolder": "Solo quien tiene esta mosca puede hacer eso.",
     "zero": "Escribe una cantidad."
+  },
+  "stake": {
+    "staked": "En stake",
+    "boost": "Impulso del pago",
+    "boostMax": "siguiente: ×{cap} con {amount} en stake",
+    "inWallet": "En tu wallet",
+    "max": "Máx",
+    "buttonStake": "Stakear",
+    "buttonUnstake": "Retirar stake",
+    "busy": "Procesando…",
+    "withdraw": "Sacar",
+    "cancel": "Volver a stakear",
+    "hintStake": "La primera vez tu wallet pide dos firmas: aprobar y luego stakear.",
+    "hintUnstake": "Deja de contar al momento y se puede sacar tras {days} días. Pedirlo otra vez reinicia la espera de todo.",
+    "cooling": "{amount} $FLYAI saliendo del stake, listo el {date}.",
+    "readyNow": "{amount} $FLYAI fuera del stake y listo para sacar.",
+    "approving": "Aprobando $FLYAI para el stake…",
+    "doneStake": "Stakeaste {amount} $FLYAI.",
+    "doneUnstake": "{amount} $FLYAI sale del stake: sácalo en {days} días.",
+    "doneWithdraw": "Sacaste {amount} $FLYAI a tu wallet.",
+    "doneCancel": "{amount} $FLYAI vuelve a estar en stake.",
+    "enterAmount": "Escribe una cantidad.",
+    "tooMuchWallet": "Es más $FLYAI del que tiene tu wallet.",
+    "tooMuchStaked": "Es más de lo que tienes en stake.",
+    "title": "Stakea $FLYAI",
+    "lede": "Stakea $FLYAI para llevarte una parte mayor del pago semanal: 1M en stake = 1,5×, 2M = 2×, 5M = 3×, 10M o más = 4× (el máximo). Cuenta lo mínimo que tuviste en stake durante la semana, y el bote no cambia de tamaño: es tu parte frente a quienes stakean menos. El $FLYAI en stake también cuenta para los 200.000 que mantienen tus moscas activadas. Retirar el stake tarda {days} días.",
+    "tab": {
+      "stake": "Stake",
+      "unstake": "Retirar"
+    },
+    "amount": "Cantidad de $FLYAI",
+    "nothingUnstaking": "No hay nada saliendo del stake.",
+    "stillCooling": "Aún en espera: inténtalo cuando esté listo.",
+    "cantRead": "No se pudo leer tu stake: {reason}",
+    "restartWarn": "Ya tienes {amount} $FLYAI saliendo del stake. Retirar más reinicia la espera de {days} días para todo. ¿Seguir?"
   }
 }

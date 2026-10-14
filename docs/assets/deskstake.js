@@ -23,6 +23,7 @@
   // the payout boost (flytrade/web/src/flyinfo.ts STAKE_UNIT_FLYAI / STAKE_CAP; the desk's settle.stake_mult)
   const STAKE_UNIT = 2_000_000;
   const STAKE_CAP = 2;
+  const STAKE_TIERS = [[5_000_000, 3], [10_000_000, 4]];   // past the cap, steps (the desk's payout.stake_tiers)
   const WEI = 10n ** 18n;
   const REFRESH_MS = 60_000;
 
@@ -65,7 +66,14 @@
   const whole = (wei) => Number(wei / WEI) + Number(wei % WEI) / 1e18;
   const flyai = (wei) => new Intl.NumberFormat(lang(), { maximumFractionDigits: whole(wei) >= 1000 ? 0 : 2 }).format(whole(wei));
   const compact = (wei) => new Intl.NumberFormat(lang(), { notation: "compact", maximumFractionDigits: 1 }).format(whole(wei));
-  const boostOf = (wei) => Math.min(STAKE_CAP, 1 + whole(wei) / STAKE_UNIT);
+  function boostOf(wei) {
+    const x = whole(wei);
+    let m = Math.min(STAKE_CAP, 1 + x / STAKE_UNIT);
+    for (const [least, mult] of STAKE_TIERS) if (x >= least) m = Math.max(m, mult);
+    return m;
+  }
+  /** the next step up: [FLYAI staked, boost] or null at the top */
+  const nextOf = (wei) => [[STAKE_UNIT * (STAKE_CAP - 1), STAKE_CAP], ...STAKE_TIERS].find(([least]) => whole(wei) < least) || null;
   const when = (sec) => new Date(sec * 1000).toLocaleString(lang(), { dateStyle: "medium", timeStyle: "short" });
 
   function msg(text, kind) {
@@ -115,10 +123,10 @@
       return;
     }
     const boost = boostOf(s.staked);
-    const full = STAKE_UNIT * (STAKE_CAP - 1);          // staked for the full boost
+    const next = nextOf(s.staked);
     tiles.innerHTML = [
       [t("staked"), flyai(s.staked) + " $FLYAI"],
-      [t("boost"), "×" + boost.toFixed(2) + (boost < STAKE_CAP ? ` <small>${esc(t("boostMax", { amount: new Intl.NumberFormat(lang()).format(full), cap: STAKE_CAP }))}</small>` : "")],
+      [t("boost"), "×" + boost.toFixed(2) + (next ? ` <small>${esc(t("boostMax", { amount: new Intl.NumberFormat(lang()).format(next[0]), cap: next[1] }))}</small>` : "")],
       [t("inWallet"), flyai(s.balance) + " $FLYAI"],
     ].map(([k, v]) => `<div class="stk-tile"><span class="vs-k">${esc(k)}</span><b class="mono">${v}</b></div>`).join("");
     // waiting to unstake: withdraw once unlocked, or put it back

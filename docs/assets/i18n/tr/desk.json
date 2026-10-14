@@ -281,7 +281,8 @@
     "thHolder": "Sahip",
     "thFlies": "Sinek",
     "byFly": "Her sinek",
-    "empty": "Henüz aktif sinek yok: sahibi 200.000 $FLYAI tuttuğu sürece sinek aktiftir."
+    "empty": "Henüz aktif sinek yok: sahibi 200.000 $FLYAI tuttuğu sürece sinek aktiftir.",
+    "thStake": "Stake artışı"
   },
   "market": {
     "label": "Piyasa",
@@ -304,10 +305,10 @@
   "stake": {
     "title": "$FLYAI stake et",
     "total": "Toplam {amount} stake'te",
-    "lede": "Stake edilen $FLYAI haftalık ödemedeki payını artırır: her 2M için +1×, en fazla 2×, haftanın en düşük stake'ine göre. Ayrıca sineklerini aktif tutan 200.000 $FLYAI'ye sayılır. Stake'ten çıkmak 7 gün sürer.",
+    "lede": "Haftalık ödemeden daha büyük pay almak için $FLYAI stake et: 1M stake = 1,5×, 2M = 2×, 5M = 3×, 10M veya fazlası = 4× (en fazla). Hafta boyunca stake'te tuttuğun en düşük miktar sayılır ve havuz aynı kalır: daha az stake edenlere göre payın büyür. Stake edilen $FLYAI, sineklerini aktif tutan 200.000'e de sayılır. Stake'ten çıkmak 7 gün sürer.",
     "staked": "Stake'te",
     "boost": "Ödeme artışı",
-    "boostMax": "{amount} stake ile tam ×{cap}",
+    "boostMax": "sonraki: {amount} stake ile ×{cap}",
     "inWallet": "Cüzdanında",
     "tabStake": "Stake",
     "tabUnstake": "Çıkar",

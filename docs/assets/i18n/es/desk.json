@@ -281,7 +281,8 @@
     "thHolder": "Holder",
     "thFlies": "Moscas",
     "byFly": "Cada mosca",
-    "empty": "Aún no hay moscas activadas: una mosca está activa mientras su holder tenga 200.000 $FLYAI."
+    "empty": "Aún no hay moscas activadas: una mosca está activa mientras su holder tenga 200.000 $FLYAI.",
+    "thStake": "Impulso por stake"
   },
   "market": {
     "label": "Mercado",
@@ -304,10 +305,10 @@
   "stake": {
     "title": "Stakea $FLYAI",
     "total": "{amount} en stake en total",
-    "lede": "El $FLYAI en stake sube tu parte del pago semanal: +1× por cada 2M en stake, hasta 2×, contando el stake más bajo de la semana. También cuenta para los 200.000 $FLYAI que mantienen tus moscas activadas. Retirar el stake tarda 7 días.",
+    "lede": "Stakea $FLYAI para llevarte una parte mayor del pago semanal: 1M en stake = 1,5×, 2M = 2×, 5M = 3×, 10M o más = 4× (el máximo). Cuenta lo mínimo que tuviste en stake durante la semana, y el bote no cambia de tamaño: es tu parte frente a quienes stakean menos. El $FLYAI en stake también cuenta para los 200.000 que mantienen tus moscas activadas. Retirar el stake tarda 7 días.",
     "staked": "En stake",
     "boost": "Impulso del pago",
-    "boostMax": "×{cap} completo con {amount} en stake",
+    "boostMax": "siguiente: ×{cap} con {amount} en stake",
     "inWallet": "En tu wallet",
     "tabStake": "Stake",
     "tabUnstake": "Retirar",
