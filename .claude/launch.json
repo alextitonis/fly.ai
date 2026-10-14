@@ -4,8 +4,24 @@
     {
       "name": "flyborne",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "flyborne", "run", "dev"],
+      "runtimeArgs": [
+        "--prefix",
+        "flyborne",
+        "run",
+        "dev"
+      ],
       "port": 5191
+    },
+    {
+      "name": "flyborne-server",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "flyborne",
+        "run",
+        "server"
+      ],
+      "port": 8791
     }
   ]
 }
