@@ -324,6 +324,7 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
     "tape tape tape tape tape tape books books books books books books"
     "launch launch launch launch launch launch launch launch launch launch launch launch"
     "pay pay pay pay pay pay pay pay pay pay pay pay"
+    "stake stake stake stake stake stake stake stake stake stake stake stake"
     "vote vote vote vote vote vote vote vote vote vote vote vote"
     "foot foot foot foot foot foot foot foot foot foot foot foot"
     "how how how how how how how how how how how how";
@@ -351,6 +352,25 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
 .dkt-tape { grid-area: tape; max-height: 440px; }
 .dkt-books { grid-area: books; max-height: 440px; }
 .dkt-vote { grid-area: vote; }
+/* staking (deskstake.js, 2026-10-14) */
+.dkt-stake { grid-area: stake; }
+.desk .stk-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.desk .stk-tiles:empty { display: none; }
+.desk .stk-tile { padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--plate-2); min-width: 0; }
+.desk .stk-tile b { display: block; margin-top: 4px; font-size: 18px; font-weight: 500; color: var(--ink); overflow-wrap: anywhere; }
+.desk .stk-tile b small { display: block; font-size: 11px; color: var(--ink-faint); }
+.desk .stk-pending { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 12px; padding: 10px 14px;
+  border-radius: 12px; border: 1px dashed var(--line-2); font: 500 13px var(--mono); color: var(--ink-dim); }
+.desk .stk-pending[hidden], .desk .stk-form[hidden] { display: none; }
+.desk .stk-pending span { flex: 1 1 220px; }
+.desk .stk-form { margin-top: 14px; }
+.desk .stk-tabs { display: inline-flex; gap: 4px; padding: 3px; border-radius: 999px; border: 1px solid var(--line-2); margin-bottom: 10px; }
+.desk .stk-tabs button { font: 600 13px var(--mono); padding: 6px 14px; border-radius: 999px; border: 0; background: none; color: var(--ink-dim); cursor: pointer; }
+.desk .stk-tabs button.on { background: var(--accent); color: #000; }
+.desk .stk-row { display: flex; gap: 8px; align-items: center; }
+.desk .stk-row input { flex: 1 1 auto; min-width: 0; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line-2);
+  background: var(--plate); color: var(--ink); font-size: 15px; }
+@media (max-width: 700px) { .desk .stk-tiles { grid-template-columns: 1fr; } }
 .dkt-pay { grid-area: pay; max-height: 520px; }
 .dkt-pay[hidden] { display: none; }
 .desk .dkt .dkt-pay-note { color: #f2b33d; }
@@ -429,6 +449,7 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
     "tape tape tape tape tape tape tape tape tape tape tape tape"
     "launch launch launch launch launch launch launch launch launch launch launch launch"
     "pay pay pay pay pay pay pay pay pay pay pay pay"
+    "stake stake stake stake stake stake stake stake stake stake stake stake"
     "vote vote vote vote vote vote vote vote vote vote vote vote"
     "foot foot foot foot foot foot foot foot foot foot foot foot"
     "how how how how how how how how how how how how"; }

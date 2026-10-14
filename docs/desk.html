@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/terminal.css">
-<link rel="stylesheet" href="assets/desk.css?v=20261006">
+<link rel="stylesheet" href="assets/desk.css?v=20261014">
 <link rel="stylesheet" href="assets/marketbar.css">
 </head>
 <body class="desk term">
@@ -114,6 +114,35 @@
       <summary data-i18n="desk.pay.byFly">Each fly</summary>
       <div class="scroll"><table class="tbl" id="pay-tbl"></table></div>
     </details>
+  </section>
+
+  <section id="stake" class="tm-panel dkt-stake">
+    <h2><span data-i18n="desk.stake.title">Stake $FLYAI</span><small id="stk-total"></small></h2>
+    <p class="caption" data-i18n="desk.stake.lede">Staked $FLYAI raises your share of the weekly payout: +1× for every 2M staked, up to 2×, counted on the lowest stake of the week. It also counts toward the 200,000 $FLYAI that keeps your flies activated. Unstaking takes 7 days.</p>
+    <div class="vote-panel stk-panel">
+      <div class="stk-tiles" id="stk-tiles"></div>
+      <div class="stk-pending" id="stk-pending" hidden>
+        <span id="stk-pending-text"></span>
+        <button type="button" class="btn red sm" id="stk-withdraw" data-i18n="desk.stake.withdraw">Withdraw</button>
+        <button type="button" class="btn sm" id="stk-cancel" data-i18n="desk.stake.cancel">Stake it again</button>
+      </div>
+      <div class="stk-form" id="stk-form" hidden>
+        <div class="stk-tabs" id="stk-tabs" role="tablist">
+          <button type="button" role="tab" data-mode="stake" class="on" data-i18n="desk.stake.tabStake">Stake</button>
+          <button type="button" role="tab" data-mode="unstake" data-i18n="desk.stake.tabUnstake">Unstake</button>
+        </div>
+        <div class="stk-row">
+          <input id="stk-amt" class="mono" inputmode="decimal" autocomplete="off" placeholder="0" aria-label="Amount of $FLYAI">
+          <button type="button" class="btn sm" id="stk-max" data-i18n="desk.stake.max">Max</button>
+          <button type="button" class="btn red sm" id="stk-go" data-i18n="desk.stake.buttonStake">Stake</button>
+        </div>
+        <p class="caption" id="stk-hint"></p>
+      </div>
+      <div class="vote-foot">
+        <button type="button" class="btn red sm" id="stk-connect" data-nav-signin data-i18n="desk.stake.connect">Connect wallet</button>
+        <span class="vote-msg" id="stk-msg" aria-live="polite"></span>
+      </div>
+    </div>
   </section>
 
   <section id="vote" class="tm-panel dkt-vote">
@@ -213,5 +242,6 @@
 <script src="assets/marketbar.js?v=20261006"></script>
 <script src="assets/desk.js?v=20261011a"></script>
 <script src="assets/deskvote.js?v=20261005b"></script>
+<script src="assets/deskstake.js?v=20261014a"></script>
 </body>
 </html>
