@@ -992,9 +992,11 @@
 
   function clipLayout() {
     // everything but the fly's eye goes: the section, then each ancestor's other children
+    // (the terminal layout keeps the eye in a hidden .dkt-off block, so each ancestor is shown again too)
     let el = $("eye");
     while (el && el.parentElement) {
       [...el.parentElement.children].forEach((c) => { if (c !== el && c.tagName !== "SCRIPT") c.style.display = "none"; });
+      el.hidden = false;
       el = el.parentElement;
     }
     document.body.classList.add("clip");
