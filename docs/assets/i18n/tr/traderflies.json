@@ -238,7 +238,8 @@
     "empty": "Bu sezon henüz işlem yok: ilk sen ol.",
     "cantRead": "Pazarın işlemleri okunamadı; birazdan tekrar dene.",
     "yourRank": "{points} $FLYAI ile #{rank}. sıradasın.",
-    "rules": "Alım ve satımlar, kabul edilen teklifler ve koleksiyon teklifleri dahil sayılır. Aynı iki cüzdan arasındaki işlemler sezon başına en fazla {max} kez sayılır, aralarında gidip gelen aynı sinek bir kez sayılır. Ekip cüzdanları yarışmaz. Her sezon sonunda ödüller gönderilmeden önce kazananlar cüzdan ağlarına karşı kontrol edilir. Yalnızca en az {min} $FLYAI tutarındaki satışlar sayılır."
+    "rules": "Alım ve satımlar, kabul edilen teklifler ve koleksiyon teklifleri dahil sayılır. Aynı iki cüzdan arasındaki işlemler sezon başına en fazla {max} kez sayılır, aralarında gidip gelen aynı sinek bir kez sayılır. Ekip cüzdanları yarışmaz. Her sezon sonunda ödüller gönderilmeden önce kazananlar cüzdan ağlarına karşı kontrol edilir. Yalnızca en az {min} $FLYAI tutarındaki satışlar sayılır.",
+    "rulesNow": "Alım ve satımlar, kabul edilen teklifler ve koleksiyon teklifleri dahil sayılır. Bir sinek, kim alıp satarsa satsın, son sayılan satışından {hours} saat sonra yeniden sayılır. Bir satış en fazla sezonun orta fiyatının {x} katı kadar sayılır (şu an {cap} $FLYAI). Aynı iki cüzdan arasındaki işlemler sezon başına en fazla {max} kez sayılır, aralarında gidip gelen bir sinek bir kez sayılır. Ekip cüzdanları yarışmaz. Her sezon bitince, ödüller gönderilmeden önce kazananlar cüzdan halkalarına karşı kontrol edilir. Yalnızca en az {min} $FLYAI tutarındaki satışlar sayılır."
   },
   "market": {
     "view": {

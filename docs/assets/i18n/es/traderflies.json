@@ -238,7 +238,8 @@
     "empty": "Aún no hay operaciones esta temporada: sé el primero.",
     "cantRead": "No se pudieron leer las operaciones del mercado; inténtalo pronto.",
     "yourRank": "Eres el #{rank} con {points} $FLYAI.",
-    "rules": "Cuentan compras y ventas, incluidas ofertas aceptadas y ofertas por colección. Las operaciones entre las mismas dos billeteras cuentan como máximo {max} veces por temporada, y una mosca que va y vuelve entre ellas cuenta una vez. Las billeteras del equipo no compiten. Antes de enviar los premios, al terminar cada temporada, se revisan los ganadores en busca de redes de billeteras. Solo cuentan ventas de al menos {min} $FLYAI."
+    "rules": "Cuentan compras y ventas, incluidas ofertas aceptadas y ofertas por colección. Las operaciones entre las mismas dos billeteras cuentan como máximo {max} veces por temporada, y una mosca que va y vuelve entre ellas cuenta una vez. Las billeteras del equipo no compiten. Antes de enviar los premios, al terminar cada temporada, se revisan los ganadores en busca de redes de billeteras. Solo cuentan ventas de al menos {min} $FLYAI.",
+    "rulesNow": "Cuentan compras y ventas, incluidas ofertas aceptadas y ofertas por colección. Una mosca vuelve a contar solo {hours} h después de su última venta contada, la opere quien la opere. Una venta cuenta como máximo {x} veces el precio medio de la temporada (ahora {cap} $FLYAI). Las operaciones entre las mismas dos billeteras cuentan como máximo {max} veces por temporada, y una mosca que va y viene entre ellas cuenta una vez. Las billeteras del equipo no compiten. Antes de enviar los premios, al terminar cada temporada, se revisa que los ganadores no sean redes de billeteras. Solo cuentan ventas de al menos {min} $FLYAI."
   },
   "market": {
     "view": {

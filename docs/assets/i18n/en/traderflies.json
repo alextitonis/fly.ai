@@ -238,7 +238,8 @@
     "empty": "No trades this season yet: be the first.",
     "cantRead": "Couldn't read the market's trades; try again soon.",
     "yourRank": "You're #{rank} with {points} $FLYAI.",
-    "rules": "Buys and sells both count, including accepted offers and collection offers. Trades between the same two wallets count at most {max} times a season, and a fly passed back and forth between them counts once. Team wallets don't compete. Winners are checked for wallet rings before the prizes are sent, after each season ends. Only sales of at least {min} $FLYAI count."
+    "rules": "Buys and sells both count, including accepted offers and collection offers. Trades between the same two wallets count at most {max} times a season, and a fly passed back and forth between them counts once. Team wallets don't compete. Winners are checked for wallet rings before the prizes are sent, after each season ends. Only sales of at least {min} $FLYAI count.",
+    "rulesNow": "Buys and sells both count, including accepted offers and collection offers. A fly counts again only {hours} h after its last counted sale, whoever trades it. One sale counts for at most {x}x the season's middle price (now {cap} $FLYAI). Trades between the same two wallets count at most {max} times a season, and a fly passed back and forth between them counts once. Team wallets don't compete. Winners are checked for wallet rings before the prizes are sent, after each season ends. Only sales of at least {min} $FLYAI count."
   },
   "market": {
     "view": {
