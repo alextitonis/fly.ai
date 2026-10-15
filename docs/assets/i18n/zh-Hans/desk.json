@@ -200,7 +200,8 @@
     "house": "官方",
     "bonding": "{n} 个在联合曲线上",
     "thHeld": "本链持仓",
-    "homeOnly": "目前苍蝇只在 Robinhood Chain 上买入。下面是它们在其他链上仍持有或下注的内容。"
+    "homeOnly": "目前苍蝇只在 Robinhood Chain 上买入。下面是它们在其他链上仍持有或下注的内容。",
+    "sportsBet": "体育投注"
   },
   "rec": {
     "title": "历史纪录",

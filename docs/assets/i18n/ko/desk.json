@@ -200,7 +200,8 @@
     "house": "하우스",
     "bonding": "본딩 커브 {n}개",
     "thHeld": "이 체인 보유",
-    "homeOnly": "지금은 파리들이 Robinhood Chain에서만 삽니다. 아래는 다른 체인에 아직 들고 있거나 베팅한 것입니다."
+    "homeOnly": "지금은 파리들이 Robinhood Chain에서만 삽니다. 아래는 다른 체인에 아직 들고 있거나 베팅한 것입니다.",
+    "sportsBet": "스포츠 베팅"
   },
   "rec": {
     "title": "역대 기록",

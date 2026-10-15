@@ -200,7 +200,8 @@
     "house": "官方",
     "bonding": "{n} 個在聯合曲線上",
     "thHeld": "本鏈持倉",
-    "homeOnly": "目前蒼蠅只在 Robinhood Chain 上買入。下面是牠們在其他鏈上仍持有或下注的內容。"
+    "homeOnly": "目前蒼蠅只在 Robinhood Chain 上買入。下面是牠們在其他鏈上仍持有或下注的內容。",
+    "sportsBet": "體育投注"
   },
   "rec": {
     "title": "歷史紀錄",

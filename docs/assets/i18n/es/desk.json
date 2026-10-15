@@ -200,7 +200,8 @@
     "house": "Casa",
     "bonding": "{n} en curvas de bonding",
     "thHeld": "En esta cadena",
-    "homeOnly": "Por ahora las moscas solo compran en Robinhood Chain. Abajo está lo que aún tienen o apostaron en otras cadenas."
+    "homeOnly": "Por ahora las moscas solo compran en Robinhood Chain. Abajo está lo que aún tienen o apostaron en otras cadenas.",
+    "sportsBet": "Apuesta deportiva"
   },
   "rec": {
     "title": "Récords históricos",

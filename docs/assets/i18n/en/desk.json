@@ -200,7 +200,8 @@
     "house": "House",
     "bonding": "{n} on bonding curves",
     "thHeld": "Held here",
-    "homeOnly": "For now the flies only buy on Robinhood Chain. Below is what they still hold or bet elsewhere."
+    "homeOnly": "For now the flies only buy on Robinhood Chain. Below is what they still hold or bet elsewhere.",
+    "sportsBet": "Sports bet"
   },
   "rec": {
     "title": "All-time records",

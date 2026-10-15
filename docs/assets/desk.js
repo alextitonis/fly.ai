@@ -223,7 +223,8 @@
   /** readable names the desk sends for Polymarket shares ("question · outcome"), set on each render */
   let LABELS = {};
   const short = (s, n = 46) => (s.length > n ? s.slice(0, n - 1) + "…" : s);
-  const nameOf = (sym) => (LABELS[sym] ? short(LABELS[sym]) : chainOf(sym)[1]);
+  // a bet with no name yet (it left the list before the desk kept names, 2026-10-15) never shows its long market id
+  const nameOf = (sym) => (LABELS[sym] ? short(LABELS[sym]) : /^(azuro|poly):/.test(String(sym)) ? t("chains.sportsBet") : chainOf(sym)[1]);
   const chainOf = (sym) => {
     const m = /^([a-z]+):(.+)$/.exec(String(sym));
     return m && CHAIN_NAMES[m[1]] ? [m[1], m[2]] : ["robinhood", String(sym)];

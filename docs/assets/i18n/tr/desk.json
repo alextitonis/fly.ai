@@ -200,7 +200,8 @@
     "house": "Kasa",
     "bonding": "{n} bonding eğrisinde",
     "thHeld": "Bu zincirde",
-    "homeOnly": "Şimdilik sinekler yalnızca Robinhood Chain'de alım yapıyor. Aşağıda başka zincirlerde hâlâ tuttukları ya da bahis yaptıkları var."
+    "homeOnly": "Şimdilik sinekler yalnızca Robinhood Chain'de alım yapıyor. Aşağıda başka zincirlerde hâlâ tuttukları ya da bahis yaptıkları var.",
+    "sportsBet": "Spor bahsi"
   },
   "rec": {
     "title": "Tüm zamanların rekorları",
