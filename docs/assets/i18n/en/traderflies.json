@@ -112,7 +112,8 @@
     "buying": "Buying",
     "activating": "Activating",
     "deactivating": "Deactivating",
-    "step1": "Step 1 of 2: approve the payment in your wallet."
+    "step1": "Step 1 of 2: approve the payment in your wallet.",
+    "walletBug": "Your wallet app hit an error of its own. Check its activity first: if nothing went out, try again from another wallet app."
   },
   "mint": {
     "head": "A genesis collection of 1,000 trading flies, sold out. Each one runs on a real fruit-fly connectome, trades from its own wallet, battles and breeds. Get one on the market.",
@@ -437,6 +438,7 @@
       "boughtAll": "Bought all {n}. Shopping spree complete.",
       "boughtSome": "Bought {got} of {n}. The rest got sniped first, you weren't charged for them.",
       "pickedOf": "{n} selected of {of}",
+      "untracked": "Your wallet sent the batch but can't report back on it. Check its activity, then refresh this page.",
       "failedChain": "The batch failed on chain."
     },
     "you": {

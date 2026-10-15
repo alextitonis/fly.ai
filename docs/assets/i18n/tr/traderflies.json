@@ -112,7 +112,8 @@
     "buying": "Satın alınıyor",
     "activating": "Aktif ediliyor",
     "deactivating": "Durduruluyor",
-    "step1": "Adım 1/2: ödemeyi cüzdanında onayla."
+    "step1": "Adım 1/2: ödemeyi cüzdanında onayla.",
+    "walletBug": "Cüzdan uygulaman kendi içinde bir hata verdi. Önce işlem geçmişine bak: hiçbir şey gitmediyse başka bir cüzdan uygulamasıyla tekrar dene."
   },
   "mint": {
     "head": "1.000 trader sinekten oluşan, tükenmiş bir genesis koleksiyonu. Her biri gerçek bir sinek konnektomuyla çalışır, kendi cüzdanından işlem yapar, savaşır ve çiftleşir. Pazardan bir tane al.",
@@ -437,6 +438,7 @@
       "boughtAll": "{n} öğenin hepsi alındı. Alışveriş tamam.",
       "boughtSome": "{n} öğeden {got} alındı. Gerisini başkası kaptı, ücret alınmadı.",
       "pickedOf": "{of} içinden {n} seçili",
+      "untracked": "Cüzdanın toplu işlemi gönderdi ama durumunu bildiremiyor. İşlem geçmişine bak, sonra bu sayfayı yenile.",
       "failedChain": "Toplu işlem zincirde başarısız oldu."
     },
     "you": {

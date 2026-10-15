@@ -112,7 +112,8 @@
     "buying": "Comprando",
     "activating": "Activando",
     "deactivating": "Desactivando",
-    "step1": "Paso 1 de 2: aprueba el pago en tu billetera."
+    "step1": "Paso 1 de 2: aprueba el pago en tu billetera.",
+    "walletBug": "Tu app de billetera tuvo un error propio. Revisa primero su actividad: si no salió nada, inténtalo de nuevo desde otra app de billetera."
   },
   "mint": {
     "head": "Una colección génesis de 1.000 moscas traders, agotada. Cada una funciona con un conectoma real de mosca, opera desde su propio wallet, lucha y se cruza. Consigue una en el mercado.",
@@ -437,6 +438,7 @@
       "boughtAll": "Compraste los {n}. Compras completadas.",
       "boughtSome": "Compraste {got} de {n}. Los demás se los llevaron antes, no se te cobraron.",
       "pickedOf": "{n} seleccionadas de {of}",
+      "untracked": "Tu billetera envió el lote pero no puede informar sobre él. Revisa su actividad y luego recarga esta página.",
       "failedChain": "El lote falló en la cadena."
     },
     "you": {
