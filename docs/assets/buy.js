@@ -243,7 +243,8 @@
 
   function show(q, pay) {
     $("buy-fee").textContent = feeText(q);
-    $("buy-compare").textContent = compareLine(q, pay);
+    const cmp = $("buy-compare");                    // only token.html has the Best-price comparison line
+    if (cmp) cmp.textContent = compareLine(q, pay);
     if (q.via === "giga") {
       const sym = sides(pay)[3], dec = sides(pay)[1].decimals;
       const got = Number(decimalOf(q.out, dec, 8));
@@ -270,7 +271,7 @@
       quote = null;
       $("buy-out").textContent = "–";
       $("buy-detail").textContent = "";
-      $("buy-compare").textContent = "";
+      if ($("buy-compare")) $("buy-compare").textContent = "";
       if (!amount || amount <= 0n) return;
       const key = $("buy-dir").value + ":" + pay + ":" + amount + ":" + route + ":" + origin();
       quoteFor = key;

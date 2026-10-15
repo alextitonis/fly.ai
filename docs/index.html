@@ -102,6 +102,7 @@
         <button type="button" role="radio" aria-checked="true" data-route="best" data-i18n="token.buy.routeBest">Best price</button>
         <button type="button" role="radio" aria-checked="false" data-route="giga" data-i18n="token.buy.routeOurs">Our GIGA pool · no fee</button>
       </div>
+      <p class="buy-detail" id="buy-routehelp" data-i18n="token.buy.routeHelp" hidden>Best price checks our GIGA pool (no fee) and Relay (0.25% fee included) and uses whichever gives you more. Our GIGA pool always swaps there, with no fee.</p>
       <div class="buy-row">
         <label class="buy-in">
           <span data-i18n="token.buy.pay">You pay</span>
@@ -122,6 +123,7 @@
         </div>
       </div>
       <p class="buy-detail" id="buy-detail"></p>
+      <p class="buy-detail" id="buy-compare"></p>
       <div class="buy-act">
         <button class="btn red" id="buy-go" type="button">Connect wallet</button>
         <span class="buy-fee" id="buy-fee"></span>
@@ -365,7 +367,7 @@
 
 <script src="assets/site.js"></script>
 <script src="assets/nav.js?v=20261009a"></script>
-<script src="assets/buy.js?v=20261007b"></script>
+<script src="assets/buy.js?v=20261015a"></script>
 <script type="module" src="assets/i18n/page.js"></script>
 <script type="module" src="assets/home.js"></script>
 </body>
