@@ -61,6 +61,7 @@
     ["token", "$FLYAI", [
       ["Token", "/token", "Contract, chain, where to buy"],
       ["Earn", "/earn", "Lend USDG from your wallet"],   // 2026-10-06: flytrade/EARN-PAGE-PLAN.md
+      ["Referrals", "/referrals", "Invite friends, earn from their fees", false, true],   // 2026-10-15 (referrals.js)
       ["How it works", "/how", "The brain, the pots, payouts and partners"],
       ["Merch", "/shop", "Fly shirts and more", true],
       ["API & skills", "/desk-api", "Buy the desk's answers over x402"],
@@ -74,6 +75,7 @@
     ["Discord", "https://discord.gg/2KqfZs4aK8", '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M20.3 4.4A19.6 19.6 0 0 0 15.4 3l-.6 1.3a18.2 18.2 0 0 0-5.6 0L8.6 3a19.6 19.6 0 0 0-4.9 1.4C.6 9 -.3 13.5.1 18a19.8 19.8 0 0 0 6 3l1.3-2.1a12.8 12.8 0 0 1-2-1l.5-.4a14 14 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1l1.3 2.1a19.7 19.7 0 0 0 6-3c.5-5.2-.8-9.7-3.6-13.6ZM8.3 15.3c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Zm7.4 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Z"/></svg>'],
   ];
   const SESSION_KEY = "flyai.compute.session";            // mine/web/account.ts: one session for every app
+  const REF_KEY = "flyai.ref";                             // a referral link's code, kept until sign-in (keepRef)
   const ACCOUNT_JS = "/compute/mine/web/account.js";       // the shared sign-in (built from mine/web)
   const MINE_API = "https://flyai-mine.fly.dev";
   // public reads (leaderboards, fly views, partner pots, stats) through our own domain: vercel.json rewrites /mapi/* to
@@ -86,7 +88,8 @@
   const ACCT_EN = {
       signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
       save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out",
-      search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular" };
+      search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
+      referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link" };
   const LANGS = ["en", "zh-Hans", "zh-Hant", "ko", "tr", "es"];   // i18n.js LANGUAGES
   let acctText = ACCT_EN;
 
@@ -97,6 +100,7 @@
   const nickCache = new Map();                             // wallet -> Promise<nickname | null>, for names()
   window.flyNav = { session, MINE_API, MINE_READ, short, names };
 
+  keepRef();                                                // (on every page, before anything else can fail)
   const nav = document.querySelector('nav[aria-label="Main"]');
   if (!nav) return;
 
@@ -242,7 +246,7 @@
       el("small", { class: "acct-msg" }));
     menu.append(el("li", { class: "acct-badges", hidden: "" }),
       item("myFlies", "/traderflies/traders?view=mine"), item("leaderboard", "/traderflies/traders?view=board"),
-      form, item("Flybook", "/flybook/"), item("compute", "/compute/"),
+      form, el("li", { class: "acct-ref", hidden: "" }), item("referrals", "/referrals"), item("Flybook", "/flybook/"), item("compute", "/compute/"),
       el("li", null, el("button", { type: "button", class: "acct-out", "data-l": "signOut" }, L("signOut"))));
     li.append(btn, menu);
     return li;
@@ -285,11 +289,74 @@
       } catch (err) { msg.textContent = String(err.message || err); }
     });
     li.querySelector(".acct-nick").addEventListener("click", (e) => e.stopPropagation());   // typing doesn't close it
+    wireReferral(li, s);
     li.querySelector(".acct-out").addEventListener("click", async () => {
       try { (await import(ACCOUNT_JS)).signOut(); } catch { /* the page had no wallet code: clear it here */ }
       try { localStorage.removeItem(SESSION_KEY); } catch {}
       location.reload();
     });
+  }
+
+  /**
+   * Referrals (2026-10-15, mine/src/referrals.ts): a link's ?ref=<code> is kept in this browser until the wallet signs
+   * in, then set as its referrer (only a new wallet can be referred, once, for good - the server decides). The account
+   * menu shows who referred you, or - for a new wallet without one - a box to type a friend's code or nickname.
+   */
+  function keepRef() {
+    try {
+      const code = new URLSearchParams(location.search).get("ref");
+      if (code && /^[A-Za-z0-9 _.\-]{3,40}$/.test(code)) localStorage.setItem(REF_KEY, JSON.stringify({ code, at: Date.now() }));
+    } catch {}
+  }
+  function pendingRef() {
+    try {
+      const r = JSON.parse(localStorage.getItem(REF_KEY) || "null");
+      return r && r.code && Date.now() - r.at < 30 * 86_400_000 ? r.code : null;
+    } catch { return null; }
+  }
+  async function refCall(s, body) {
+    const r = await fetch(`${MINE_API}/api/referral`, { method: body ? "POST" : "GET", body: body ? JSON.stringify(body) : undefined,
+      headers: { "content-type": "application/json", "x-flyai-session": s.token } });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) { const e = new Error(j.error || `HTTP ${r.status}`); e.status = r.status; throw e; }
+    return j;
+  }
+  function wireReferral(li, s) {
+    const box = li.querySelector(".acct-ref");
+    const code = pendingRef();
+    const show = (info) => {
+      box.replaceChildren();
+      if (info.referrer) {
+        box.append(Object.assign(document.createElement("small"), { textContent: `${L("refBy")}: ${info.referrer.name} · ${L("refLocked")}` }));
+        box.hidden = false;
+      } else if (info.can_set) {
+        const input = Object.assign(document.createElement("input"), { maxLength: 40, placeholder: L("refHint") });
+        const btn = Object.assign(document.createElement("button"), { type: "button", className: "btn sm", textContent: L("refSet") });
+        const msg = document.createElement("small");
+        btn.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          msg.textContent = "…";
+          try { show(await refCall(s, { code: input.value, via: "profile" })); } catch (err) { msg.textContent = String(err.message || err); }
+        });
+        const lab = Object.assign(document.createElement("label"), { textContent: L("refBy") });
+        const row = document.createElement("div");
+        row.append(input, btn);
+        box.append(lab, row, msg);
+        box.addEventListener("click", (e) => e.stopPropagation());
+        box.hidden = false;
+      } else box.hidden = true;
+    };
+    // a link's code first (once: whatever the answer, it's used up unless the server couldn't be reached)
+    const first = code ? refCall(s, { code, via: "link" }).then((info) => { try { localStorage.removeItem(REF_KEY); } catch {} return info; },
+      (err) => { if (err.status) { try { localStorage.removeItem(REF_KEY); } catch {} } return null; }) : Promise.resolve(null);
+    let loaded = false;
+    const load = () => {
+      if (loaded) return;
+      loaded = true;
+      first.then((got) => got || refCall(s)).then(show).catch(() => { loaded = false; });
+    };
+    if (code) load();                                      // a pending link is used as soon as the wallet is signed in
+    li.querySelector(".acct-btn").addEventListener("click", load);
   }
 
   /**

@@ -175,7 +175,13 @@
       "b_gladiator": "Gladiador",
       "b_champion": "Campeón",
       "b_player": "Jugador",
-      "b_regular": "Habitual"
+      "b_regular": "Habitual",
+      "referrals": "Referidos",
+      "refBy": "Referido por",
+      "refHint": "Código o apodo de un amigo",
+      "refSet": "Guardar",
+      "refLocked": "Fijado para siempre",
+      "refJoined": "Te uniste con el enlace de {name}"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -193,6 +199,10 @@
     "fights": {
       "label": "Peleas de robots",
       "desc": "Apuesta en peleas de robots con USDG, FLYAI o ETH"
+    },
+    "referrals": {
+      "label": "Referidos",
+      "desc": "Invita a amigos, gana con sus comisiones"
     }
   },
   "footer": {

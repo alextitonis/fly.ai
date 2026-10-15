@@ -553,7 +553,8 @@
     "buttonStake": "{amount} $FLYAI al ve stake et",
     "approving": "Cüzdanında stake onayını ver…",
     "doneStake": "{amount} $FLYAI alındı ve stake edildi.",
-    "claimedNotStaked": "{amount} $FLYAI alındı ama stake edilmedi: {reason}. $FLYAI cüzdanında."
+    "claimedNotStaked": "{amount} $FLYAI alındı ama stake edilmedi: {reason}. $FLYAI cüzdanında.",
+    "referrals": "Davetler"
   },
   "odds": {
     "title": "Nadirlik olasılıkları",

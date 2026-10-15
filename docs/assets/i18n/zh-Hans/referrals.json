@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "title": "邀请：邀请好友，从他们的收益中赚取",
+    "description": "分享你的 fly.ai 链接。你可获得好友 Fly Wallet 收益和 Fly Desk 分红的 0.5%，好友越多最高可达 1.25%，你自己钱包的手续费也会降低。"
+  },
+  "head": {
+    "eyebrow": "邀请",
+    "title": "邀请好友，从他们的收益中赚取",
+    "lede": "分享你的链接。每当好友从 Fly Wallet 提取收益，或领取每周的 Fly Desk 分红时，你都会获得一部分。邀请越多，你的分成越高，你自己的手续费越低。"
+  },
+  "invited": {
+    "by": "{name} 邀请了你。",
+    "signIn": "登录即可通过其链接加入。",
+    "joined": "你通过 {name} 的链接加入。"
+  },
+  "link": {
+    "title": "你的链接",
+    "signedOut": "登录后获取你的链接。",
+    "signInBtn": "登录",
+    "copy": "复制",
+    "copied": "已复制",
+    "share": "分享到 X",
+    "shareText": "我的苍蝇用真实的果蝇大脑替我交易。通过我的链接加入：",
+    "code": "你的邀请码：{code}"
+  },
+  "tiles": {
+    "referred": "已邀请好友",
+    "real": "有效邀请",
+    "cut": "你的分成",
+    "earned": "累计收益",
+    "earnedSplit": "钱包 {wallet} · Desk {desk}",
+    "ofProfit": "占其收益"
+  },
+  "tiers": {
+    "title": "里程碑",
+    "th": { "at": "有效邀请", "cut": "你的分成", "fee": "自己手续费减免" },
+    "none": "–",
+    "you": "你",
+    "next": { "one": "再有 {count} 个有效邀请即可达到 {cut}%，并减免 {fee}% 手续费。", "other": "再有 {count} 个有效邀请即可达到 {cut}%，并减免 {fee}% 手续费。" },
+    "top": "你已达到最高等级。"
+  },
+  "by": {
+    "title": "邀请人",
+    "locked": "{name} · 已永久设置",
+    "none": "无：邀请仅适用于新账户，需在前 {days} 天内设置。",
+    "hint": "好友的邀请码或昵称",
+    "set": "设置",
+    "once": "只能设置一次，之后无法更改。"
+  },
+  "list": {
+    "title": "你的邀请",
+    "empty": "还没有人。分享你的链接吧。",
+    "th": { "who": "好友", "since": "加入时间", "status": "状态", "earned": "为你带来" },
+    "real": "有效",
+    "counting": "已入金，计时中",
+    "waiting": "尚未入金"
+  },
+  "recent": {
+    "title": "最近收益",
+    "wallet": "Fly Wallet 提现",
+    "desk": "Fly Desk 第 {epoch} 周",
+    "from": "来自 {name}"
+  },
+  "how": {
+    "title": "规则说明",
+    "wallets": "<b>Fly Wallets。</b>好友提取收益时照常支付手续费，你的分成从该手续费中 fly.ai 的部分里扣出，并在同一笔提现中以同一种币发送到你的钱包。",
+    "desk": "<b>Fly Desk。</b>好友每周分红的 0.5% 归你。更高里程碑的额外部分由 fly.ai 支付，而不是你的好友。每周可在<a href=\"/traderflies/claim\">领取页面</a>的「邀请」一行领取。",
+    "real": "<b>有效邀请。</b>好友在 Fly Wallets 中持有至少 $20 满 7 天，或获得一次 Fly Desk 分红，即计入里程碑。",
+    "new": "<b>仅限新账户。</b>好友首次登录时使用链接。新账户也可在前 14 天内于个人资料中输入邀请码或昵称。一旦设置便无法更改。",
+    "fair": "<b>公平使用。</b>自我邀请或批量刷号不计入，此类邀请可能被移除。"
+  }
+}

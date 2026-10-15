@@ -175,7 +175,13 @@
       "b_gladiator": "Gladiator",
       "b_champion": "Champion",
       "b_player": "Player",
-      "b_regular": "Regular"
+      "b_regular": "Regular",
+      "referrals": "Referrals",
+      "refBy": "Referred by",
+      "refHint": "A friend's code or nickname",
+      "refSet": "Set",
+      "refLocked": "Set for good",
+      "refJoined": "You joined through {name}'s link"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -193,6 +199,10 @@
     "fights": {
       "label": "Robot Fights",
       "desc": "Bet on robot fights in USDG, FLYAI or ETH"
+    },
+    "referrals": {
+      "label": "Referrals",
+      "desc": "Invite friends, earn from their fees"
     }
   },
   "footer": {

@@ -1,0 +1,23 @@
+# fly.ai Discord bot on fly.io: the cheapest machine (shared 1 vCPU, 256 MB). It only holds a gateway connection
+# to Discord, so there's no [http_service]: nothing listens, nothing to auto-stop, and the one machine stays up.
+# Secrets (never in this file): fly secrets set DISCORD_TOKEN=... -a flyai-discord
+app = "flyai-discord"
+primary_region = "arn"
+
+[env]
+  DISCORD_GUILD_ID = "1550787225808019476"   # the fly.ai server; others are ignored
+  # the alpha feed (src/alpha.ts), a private test channel for now (2026-10-15); remove ALPHA_CHANNEL_ID to turn it off
+  ALPHA_CHANNEL_ID = "1560335419273515059"
+  ALPHA_FLIES = "5"          # follow the top 5 Fly Wallets of the week
+  ALPHA_POLL_MS = "120000"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[[restart]]
+  policy = "always"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "256mb"

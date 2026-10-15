@@ -553,7 +553,8 @@
     "buttonStake": "Claim & stake {amount} $FLYAI",
     "approving": "Approve staking in your wallet…",
     "doneStake": "Claimed and staked {amount} $FLYAI.",
-    "claimedNotStaked": "Claimed {amount} $FLYAI, but it wasn't staked: {reason}. The $FLYAI is in your wallet."
+    "claimedNotStaked": "Claimed {amount} $FLYAI, but it wasn't staked: {reason}. The $FLYAI is in your wallet.",
+    "referrals": "Referrals"
   },
   "odds": {
     "title": "Rarity chances",

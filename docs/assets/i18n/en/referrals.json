@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "title": "Referrals: invite friends, earn from their profits",
+    "description": "Share your fly.ai link. You earn 0.5% of your friends' Fly Wallet profits and of their Fly Desk payouts, up to 1.25% with more friends, plus a lower fee on your own wallets."
+  },
+  "head": {
+    "eyebrow": "Referrals",
+    "title": "Invite friends, earn from their profits",
+    "lede": "Share your link. Every time a friend withdraws profit from a Fly Wallet, or gets a weekly Fly Desk payout, a cut goes to you. Bring more friends and your cut grows, and your own fee drops."
+  },
+  "invited": {
+    "by": "You've been invited by {name}.",
+    "signIn": "Sign in to join through their link.",
+    "joined": "You joined through {name}'s link."
+  },
+  "link": {
+    "title": "Your link",
+    "signedOut": "Sign in to get your link.",
+    "signInBtn": "Sign in",
+    "copy": "Copy",
+    "copied": "Copied",
+    "share": "Share on X",
+    "shareText": "My fly trades for me with a real fly brain. Join through my link:",
+    "code": "Your code: {code}"
+  },
+  "tiles": {
+    "referred": "Friends referred",
+    "real": "Real referrals",
+    "cut": "Your cut",
+    "earned": "Earned so far",
+    "earnedSplit": "{wallet} wallets · {desk} desk",
+    "ofProfit": "of their profit"
+  },
+  "tiers": {
+    "title": "Milestones",
+    "th": { "at": "Real referrals", "cut": "Your cut", "fee": "Off your own fee" },
+    "none": "–",
+    "you": "you",
+    "next": { "one": "{count} more real referral to {cut}% and {fee}% off your fee.", "other": "{count} more real referrals to {cut}% and {fee}% off your fee." },
+    "top": "You're at the top tier."
+  },
+  "by": {
+    "title": "Referred by",
+    "locked": "{name} · set for good",
+    "none": "Nobody: referrals are for new accounts, set in their first {days} days.",
+    "hint": "A friend's code or nickname",
+    "set": "Set",
+    "once": "This can be set once and never changed."
+  },
+  "list": {
+    "title": "Your referrals",
+    "empty": "Nobody yet. Share your link.",
+    "th": { "who": "Friend", "since": "Joined", "status": "Status", "earned": "Earned you" },
+    "real": "Real",
+    "counting": "Funded, counting",
+    "waiting": "Not funded yet"
+  },
+  "recent": {
+    "title": "Latest earnings",
+    "wallet": "Fly Wallet withdrawal",
+    "desk": "Fly Desk week {epoch}",
+    "from": "from {name}"
+  },
+  "how": {
+    "title": "How it works",
+    "wallets": "<b>Fly Wallets.</b> When a friend withdraws profit, they pay their normal fee, and your cut of their profit comes out of fly.ai's part of that fee. It's sent to your wallet in the same withdrawal, in the same coin.",
+    "desk": "<b>Fly Desk.</b> A friend's weekly payout gives 0.5% to you. Higher milestones add more on top, paid by fly.ai, not by your friend. It's claimable each week on the <a href=\"/traderflies/claim\">Claim page</a>, as the Referrals row.",
+    "real": "<b>Real referrals.</b> A friend counts toward a milestone once they keep at least $20 in Fly Wallets for 7 days, or get a Fly Desk payout.",
+    "new": "<b>New accounts only.</b> A link is used when your friend first signs in. A new account can also type a code or nickname in its profile, in its first 14 days. Once set, it can't be changed.",
+    "fair": "<b>Fair play.</b> Referring yourself or farming accounts doesn't count, and such referrals may be removed."
+  }
+}

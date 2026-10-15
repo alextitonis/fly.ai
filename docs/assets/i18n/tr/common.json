@@ -175,7 +175,13 @@
       "b_gladiator": "Gladyatör",
       "b_champion": "Şampiyon",
       "b_player": "Oyuncu",
-      "b_regular": "Müdavim"
+      "b_regular": "Müdavim",
+      "referrals": "Davetler",
+      "refBy": "Davet eden",
+      "refHint": "Arkadaşının kodu veya takma adı",
+      "refSet": "Kaydet",
+      "refLocked": "Kalıcı olarak ayarlandı",
+      "refJoined": "{name} adlı kişinin bağlantısıyla katıldın"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -193,6 +199,10 @@
     "fights": {
       "label": "Robot Dövüşleri",
       "desc": "Robot dövüşlerine USDG, FLYAI veya ETH ile bahis"
+    },
+    "referrals": {
+      "label": "Davetler",
+      "desc": "Arkadaşlarını davet et, ücretlerinden kazan"
     }
   },
   "footer": {

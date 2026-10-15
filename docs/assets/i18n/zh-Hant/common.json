@@ -175,7 +175,13 @@
       "b_gladiator": "角鬥士",
       "b_champion": "冠軍",
       "b_player": "玩家",
-      "b_regular": "常客"
+      "b_regular": "常客",
+      "referrals": "邀請",
+      "refBy": "邀請人",
+      "refHint": "好友的邀請碼或暱稱",
+      "refSet": "設定",
+      "refLocked": "已永久設定",
+      "refJoined": "你透過 {name} 的連結加入"
     },
     "terminal": {
       "label": "Fly 終端",
@@ -193,6 +199,10 @@
     "fights": {
       "label": "機器人格鬥",
       "desc": "用 USDG、FLYAI 或 ETH 押注機器人格鬥"
+    },
+    "referrals": {
+      "label": "邀請",
+      "desc": "邀請好友，從他們的手續費中賺取收益"
     }
   },
   "footer": {

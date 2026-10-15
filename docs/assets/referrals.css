@@ -1,0 +1,26 @@
+/* docs/referrals.html (2026-10-15) */
+.ref .card { margin-bottom: 18px; }
+.ref h3 { margin: 0 0 12px; font-size: 18px; }
+.ref-muted { color: var(--muted); font-size: 14px; margin: 8px 0 0; }
+.ref-invite { margin: -24px 0 0; color: var(--mint); font-weight: 600; }
+.ref-linkrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ref-linkrow input { flex: 1 1 260px; min-width: 0; font-size: 15px; color: var(--text); background: var(--bg-2);
+                     border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; box-sizing: border-box; }
+.ref-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
+.ref-tile { padding: 16px 18px; display: grid; gap: 4px; margin: 0 !important; }
+.ref-tile span { font: 500 12px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.ref-tile b { font: 600 26px var(--display, inherit); color: var(--text); }
+.ref-tile small { color: var(--dim); font-size: 12px; }
+.ref-two { gap: 18px; }
+.ref-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ref-table th { text-align: left; font: 500 12px var(--mono); color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--line); }
+.ref-table td { padding: 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.ref-table tr.on td { color: var(--mint); }
+.ref-you { margin-left: 8px; font: 500 11px var(--mono); border: 1px solid var(--mint); color: var(--mint); border-radius: 999px; padding: 1px 7px; }
+.ref .tag { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .04em; padding: 3px 9px; border-radius: 999px;
+            border: 1px solid var(--line); color: var(--muted); }
+.ref .tag.mint { border-color: var(--mint); color: var(--mint); }
+.ref-how p { color: var(--muted); margin: 0 0 12px; }
+.ref-how p:last-child { margin-bottom: 0; }
+.ref-how a { color: var(--mint); }
+@media (max-width: 720px) { .ref-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ref-two { grid-template-columns: 1fr; } }

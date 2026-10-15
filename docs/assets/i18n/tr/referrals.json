@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "title": "Davetler: arkadaşlarını davet et, kârlarından kazan",
+    "description": "fly.ai bağlantını paylaş. Arkadaşlarının Fly Wallet kârlarının ve Fly Desk ödemelerinin %0,5'ini kazanırsın; daha fazla arkadaşla %1,25'e kadar, ayrıca kendi cüzdanlarında daha düşük ücret."
+  },
+  "head": {
+    "eyebrow": "Davetler",
+    "title": "Arkadaşlarını davet et, kârlarından kazan",
+    "lede": "Bağlantını paylaş. Bir arkadaşın Fly Wallet'tan kâr çektiğinde ya da haftalık Fly Desk ödemesi aldığında bir pay sana gelir. Daha çok arkadaş getir, payın büyüsün ve kendi ücretin düşsün."
+  },
+  "invited": {
+    "by": "{name} seni davet etti.",
+    "signIn": "Bağlantısıyla katılmak için giriş yap.",
+    "joined": "{name} adlı kişinin bağlantısıyla katıldın."
+  },
+  "link": {
+    "title": "Bağlantın",
+    "signedOut": "Bağlantını almak için giriş yap.",
+    "signInBtn": "Giriş yap",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı",
+    "share": "X'te paylaş",
+    "shareText": "Sineğim gerçek bir sinek beyniyle benim için işlem yapıyor. Bağlantımla katıl:",
+    "code": "Kodun: {code}"
+  },
+  "tiles": {
+    "referred": "Davet edilen arkadaşlar",
+    "real": "Gerçek davetler",
+    "cut": "Payın",
+    "earned": "Şimdiye kadar kazanılan",
+    "earnedSplit": "{wallet} cüzdan · {desk} desk",
+    "ofProfit": "kârlarından"
+  },
+  "tiers": {
+    "title": "Kilometre taşları",
+    "th": { "at": "Gerçek davetler", "cut": "Payın", "fee": "Kendi ücretinden indirim" },
+    "none": "–",
+    "you": "sen",
+    "next": { "one": "%{cut} pay ve ücretinde %{fee} indirim için {count} gerçek davet daha.", "other": "%{cut} pay ve ücretinde %{fee} indirim için {count} gerçek davet daha." },
+    "top": "En üst seviyedesin."
+  },
+  "by": {
+    "title": "Davet eden",
+    "locked": "{name} · kalıcı olarak ayarlandı",
+    "none": "Kimse: davetler yeni hesaplar içindir, ilk {days} gün içinde ayarlanır.",
+    "hint": "Arkadaşının kodu veya takma adı",
+    "set": "Kaydet",
+    "once": "Bu bir kez ayarlanır ve asla değiştirilemez."
+  },
+  "list": {
+    "title": "Davet ettiklerin",
+    "empty": "Henüz kimse yok. Bağlantını paylaş.",
+    "th": { "who": "Arkadaş", "since": "Katıldı", "status": "Durum", "earned": "Sana kazandırdı" },
+    "real": "Gerçek",
+    "counting": "Fonlandı, sayılıyor",
+    "waiting": "Henüz fonlanmadı"
+  },
+  "recent": {
+    "title": "Son kazançlar",
+    "wallet": "Fly Wallet çekimi",
+    "desk": "Fly Desk {epoch}. hafta",
+    "from": "{name} kaynaklı"
+  },
+  "how": {
+    "title": "Nasıl çalışır",
+    "wallets": "<b>Fly Wallets.</b> Bir arkadaşın kâr çektiğinde normal ücretini öder; senin payın fly.ai'ın o ücretteki payından çıkar. Aynı çekimde, aynı coin ile cüzdanına gönderilir.",
+    "desk": "<b>Fly Desk.</b> Bir arkadaşının haftalık ödemesinin %0,5'i sana gider. Daha yüksek kilometre taşları üstüne daha fazlasını ekler; bunu arkadaşın değil fly.ai öder. Her hafta <a href=\"/traderflies/claim\">Talep sayfasında</a> Davetler satırı olarak alınabilir.",
+    "real": "<b>Gerçek davetler.</b> Bir arkadaş, Fly Wallets'ta 7 gün boyunca en az $20 tuttuğunda ya da bir Fly Desk ödemesi aldığında kilometre taşına sayılır.",
+    "new": "<b>Yalnızca yeni hesaplar.</b> Bağlantı, arkadaşın ilk kez giriş yaptığında kullanılır. Yeni bir hesap ilk 14 gününde profiline bir kod veya takma ad da yazabilir. Bir kez ayarlandığında değiştirilemez.",
+    "fair": "<b>Adil oyun.</b> Kendini davet etmek veya hesap çiftliği yapmak sayılmaz ve bu davetler kaldırılabilir."
+  }
+}

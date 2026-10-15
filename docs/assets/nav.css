@@ -107,12 +107,12 @@ nav ul a.on::after, nav .ddlabel.on::after { display: none; }
 nav li.acct .acct-in { white-space: nowrap; }
 nav li.acct .acct-name { max-width: 12em; overflow: hidden; text-overflow: ellipsis; display: inline-block; vertical-align: bottom; }
 nav li.acct .ddmenu { min-width: 240px; }
-nav li.acct .acct-nick { padding: 8px 12px; display: grid; gap: 6px; }
-nav li.acct .acct-nick label { font-size: 12px; color: var(--muted, #9ba5a1); }
-nav li.acct .acct-nick div { display: flex; gap: 6px; }
-nav li.acct .acct-nick input { flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 6px 8px; border-radius: 8px;
+nav li.acct .acct-nick, nav li.acct .acct-ref:not([hidden]) { padding: 8px 12px; display: grid; gap: 6px; }
+nav li.acct .acct-nick label, nav li.acct .acct-ref label { font-size: 12px; color: var(--muted, #9ba5a1); }
+nav li.acct .acct-nick div, nav li.acct .acct-ref div { display: flex; gap: 6px; }
+nav li.acct .acct-nick input, nav li.acct .acct-ref input { flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 6px 8px; border-radius: 8px;
   border: 1px solid var(--line, #1a1d1c); background: var(--bg, #000000); color: var(--text, #f4f7f6); }
-nav li.acct .acct-nick small { font-size: 12px; color: var(--muted, #9ba5a1); min-height: 1em; }
+nav li.acct .acct-nick small, nav li.acct .acct-ref small { font-size: 12px; color: var(--muted, #9ba5a1); min-height: 1em; }
 nav li.acct .acct-out { background: none; border: 0; color: var(--muted, #9ba5a1); font: inherit; padding: 8px 12px; cursor: pointer; width: 100%; text-align: left; }
 nav li.acct .acct-out:hover { color: var(--text, #f4f7f6); }
 

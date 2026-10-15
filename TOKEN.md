@@ -15,6 +15,7 @@ repository where the token is described; the rest of the repo is about the fly.
 | explorer | [Blockscout](https://robinhoodchain.blockscout.com/token/0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C) |
 | contract | `0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C` |
 | supply | 950,000,000 (1,000,000,000 minted; 50,000,000 burned, see [Burns](#burns)) |
+| supply API | live from the chain: [total](https://flyai-mine.fly.dev/api/supply/total), [circulating](https://flyai-mine.fly.dev/api/supply/circulating) (total minus the locker and 0x...dEaD), [details](https://flyai-mine.fly.dev/api/supply) |
 | pair | NVDA (bonding curve, then Uniswap V4) |
 | liquidity | bonding curve -> Uniswap V4; the pool position is locked permanently by Pons |
 | locker | `0x267444d099b10fb5ed7c3cc7b7c767adca574952` (Pons launch locker; also holds 81,632,653 FLYAI, 4/49 of supply, permanently) |

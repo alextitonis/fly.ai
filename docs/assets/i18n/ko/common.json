@@ -175,7 +175,13 @@
       "b_gladiator": "검투사",
       "b_champion": "챔피언",
       "b_player": "플레이어",
-      "b_regular": "단골"
+      "b_regular": "단골",
+      "referrals": "추천",
+      "refBy": "추천인",
+      "refHint": "친구의 코드 또는 닉네임",
+      "refSet": "설정",
+      "refLocked": "영구 설정됨",
+      "refJoined": "{name}님의 링크로 가입했습니다"
     },
     "terminal": {
       "label": "Fly 터미널",
@@ -193,6 +199,10 @@
     "fights": {
       "label": "로봇 격투",
       "desc": "USDG, FLYAI, ETH로 로봇 격투에 베팅"
+    },
+    "referrals": {
+      "label": "추천",
+      "desc": "친구를 초대하고 그들의 수수료에서 수익을 받으세요"
     }
   },
   "footer": {

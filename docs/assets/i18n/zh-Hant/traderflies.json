@@ -551,7 +551,8 @@
     "buttonStake": "領取並質押 {amount} $FLYAI",
     "approving": "請在錢包中批准質押…",
     "doneStake": "已領取並質押 {amount} $FLYAI。",
-    "claimedNotStaked": "已領取 {amount} $FLYAI，但未質押：{reason}。$FLYAI 在你的錢包裡。"
+    "claimedNotStaked": "已領取 {amount} $FLYAI，但未質押：{reason}。$FLYAI 在你的錢包裡。",
+    "referrals": "邀請"
   },
   "odds": {
     "title": "稀有度機率",

@@ -553,7 +553,8 @@
     "buttonStake": "Reclamar y hacer staking de {amount} $FLYAI",
     "approving": "Aprueba el staking en tu wallet…",
     "doneStake": "Reclamados y en staking {amount} $FLYAI.",
-    "claimedNotStaked": "Reclamados {amount} $FLYAI, pero no se hizo staking: {reason}. El $FLYAI está en tu wallet."
+    "claimedNotStaked": "Reclamados {amount} $FLYAI, pero no se hizo staking: {reason}. El $FLYAI está en tu wallet.",
+    "referrals": "Referidos"
   },
   "odds": {
     "title": "Probabilidad de cada rareza",

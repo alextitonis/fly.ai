@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="referrals">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="referrals.meta.title">Referrals: invite friends, earn from their profits</title>
+<meta name="description" content="Share your fly.ai link. You earn 0.5% of your friends' Fly Wallet profits and of their Fly Desk payouts, up to 1.25% with more friends, plus a lower fee on your own wallets." data-i18n-attr="content:referrals.meta.description">
+<meta property="og:title" content="fly.ai referrals: earn from your friends' profits">
+<meta property="og:description" content="Share your link. Earn 0.5% of your friends' Fly Wallet profits and Fly Desk payouts, up to 1.25%.">
+<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/referrals">
+<meta property="og:url" content="https://flyaiworld.com/referrals">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/dashboard.png">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/referrals.css">
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="referrals.head.eyebrow">Referrals</p>
+    <h1 data-i18n="referrals.head.title">Invite friends, earn from their profits</h1>
+    <p class="lede" data-i18n="referrals.head.lede">Share your link. Every time a friend withdraws profit from a Fly Wallet, or gets a weekly Fly Desk payout, a cut goes to you. Bring more friends and your cut grows, and your own fee drops.</p>
+    <p class="ref-invite" id="ref-invite" hidden></p>
+  </div>
+</header>
+
+<section class="firstsec ref">
+  <div class="wrap">
+    <div class="card pad ref-link" id="ref-link">
+      <h3 data-i18n="referrals.link.title">Your link</h3>
+      <div id="ref-link-body">
+        <p class="ref-muted" data-i18n="referrals.link.signedOut">Sign in to get your link.</p>
+        <button class="btn red" type="button" data-nav-signin data-i18n="referrals.link.signInBtn">Sign in</button>
+      </div>
+    </div>
+
+    <div class="ref-tiles" id="ref-tiles" hidden></div>
+
+    <div class="grid2 ref-two">
+      <div class="card pad">
+        <h3 data-i18n="referrals.tiers.title">Milestones</h3>
+        <div class="tablewrap"><table class="ref-table" id="ref-tiers"></table></div>
+        <p class="ref-muted" id="ref-next"></p>
+      </div>
+      <div class="card pad" id="ref-by-card" hidden>
+        <h3 data-i18n="referrals.by.title">Referred by</h3>
+        <div id="ref-by"></div>
+      </div>
+    </div>
+
+    <div class="card pad" id="ref-list-card" hidden>
+      <h3 data-i18n="referrals.list.title">Your referrals</h3>
+      <div class="tablewrap"><table class="ref-table" id="ref-list"></table></div>
+    </div>
+
+    <div class="card pad" id="ref-recent-card" hidden>
+      <h3 data-i18n="referrals.recent.title">Latest earnings</h3>
+      <div class="tablewrap"><table class="ref-table" id="ref-recent"></table></div>
+    </div>
+
+    <div class="card pad ref-how">
+      <h3 data-i18n="referrals.how.title">How it works</h3>
+      <p data-i18n-html="referrals.how.wallets"><b>Fly Wallets.</b> When a friend withdraws profit, they pay their normal fee, and your cut of their profit comes out of fly.ai's part of that fee. It's sent to your wallet in the same withdrawal, in the same coin.</p>
+      <p data-i18n-html="referrals.how.desk"><b>Fly Desk.</b> A friend's weekly payout gives 0.5% to you. Higher milestones add more on top, paid by fly.ai, not by your friend. It's claimable each week on the <a href="/traderflies/claim">Claim page</a>, as the Referrals row.</p>
+      <p data-i18n-html="referrals.how.real"><b>Real referrals.</b> A friend counts toward a milestone once they keep at least $20 in Fly Wallets for 7 days, or get a Fly Desk payout.</p>
+      <p data-i18n-html="referrals.how.new"><b>New accounts only.</b> A link is used when your friend first signs in. A new account can also type a code or nickname in its profile, in its first 14 days. Once set, it can't be changed.</p>
+      <p data-i18n-html="referrals.how.fair"><b>Fair play.</b> Referring yourself or farming accounts doesn't count, and such referrals may be removed.</p>
+    </div>
+  </div>
+</section>
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261015r"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script type="module" src="assets/referrals.js?v=20261015a"></script>
+</body>
+</html>

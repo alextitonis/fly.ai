@@ -551,7 +551,8 @@
     "buttonStake": "{amount} $FLYAI 받고 스테이킹",
     "approving": "지갑에서 스테이킹을 승인하세요…",
     "doneStake": "{amount} $FLYAI를 받아 스테이킹했습니다.",
-    "claimedNotStaked": "{amount} $FLYAI를 받았지만 스테이킹되지 않았습니다: {reason}. $FLYAI는 지갑에 있습니다."
+    "claimedNotStaked": "{amount} $FLYAI를 받았지만 스테이킹되지 않았습니다: {reason}. $FLYAI는 지갑에 있습니다.",
+    "referrals": "추천"
   },
   "odds": {
     "title": "희귀도 확률",
