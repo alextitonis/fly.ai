@@ -474,7 +474,8 @@
       "new": "Listadas recientes",
       "num": "Número",
       "numUp": "Número ↑",
-      "numDown": "Número ↓"
+      "numDown": "Número ↓",
+      "funded": "Con saldo primero"
     },
     "showMine": "Ver las mías ({n})"
   },

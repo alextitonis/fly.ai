@@ -474,7 +474,8 @@
       "new": "En yeni ilan",
       "num": "Numara",
       "numUp": "Numara ↑",
-      "numDown": "Numara ↓"
+      "numDown": "Numara ↓",
+      "funded": "Bakiyeliler önce"
     },
     "showMine": "Benimkileri göster ({n})"
   },

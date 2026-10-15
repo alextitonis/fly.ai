@@ -472,7 +472,8 @@
       "new": "最新挂单",
       "num": "编号",
       "numUp": "编号 ↑",
-      "numDown": "编号 ↓"
+      "numDown": "编号 ↓",
+      "funded": "已充值优先"
     },
     "showMine": "显示我的（{n}）"
   },

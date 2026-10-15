@@ -472,7 +472,8 @@
       "new": "最新掛單",
       "num": "編號",
       "numUp": "編號 ↑",
-      "numDown": "編號 ↓"
+      "numDown": "編號 ↓",
+      "funded": "已儲值優先"
     },
     "showMine": "顯示我的（{n}）"
   },

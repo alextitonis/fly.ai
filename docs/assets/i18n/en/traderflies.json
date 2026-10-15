@@ -474,7 +474,8 @@
       "new": "Newest listed",
       "num": "Number",
       "numUp": "Number ↑",
-      "numDown": "Number ↓"
+      "numDown": "Number ↓",
+      "funded": "Topped up first"
     },
     "showMine": "Show mine ({n})"
   },
