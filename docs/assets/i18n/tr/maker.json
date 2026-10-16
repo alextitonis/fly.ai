@@ -14,6 +14,7 @@
     "yours": "<b>Kasan senin.</b> Cüzdanın oluşturur ve sahibidir. Para yalnızca sana geri dönebilir, bir işlemin parçası olarak kasanın tek GIGA DEX havuzuna girebilir ya da yatırma ücretine gidebilir. Bot o havuzda işlem yapabilir ve likidite taşıyabilir; para çekemez, planını ya da sınırlarını değiştiremez, duraklatmayı kaldıramaz.",
     "plan": "<b>Plan herkese açık.</b> Kasa, imzaladığın plan metninin tam karmasını (hash) saklar ve metni zincirde yayınlar. Bu sayfa karmayı tarayıcında yeniden hesaplar; eşleşmezse imzalama.",
     "guard": "<b>Sınırlar.</b> Azami işlem, günlük limit (herhangi bir 24 saat, gece yarısı iki katına çıkmaz), işlem başına azami fiyat etkisi ve havuzun 5 dakikalık ortalamasına karşı fiyat kontrolü; böylece bir pump asla kovalanmaz. Likidite hareketlerinin kendi günlük bütçesi vardır.",
+    "fees": "<b>Swap ücreti kazanır.</b> Sabit bantta kasanız <a href=\"https://www.gigadex.fi\" target=\"_blank\" rel=\"noopener\">GIGA DEX</a> üzerinde likidite sağlayıcıdır ve likiditesinin kazandığı swap ücretlerini kasaya geri toplar. Standart bir GIGA havuzunda LP'ler bu ücretlerin %90'ını alır, %10'u GIGA DEX'e (veGIGA stake edenler) gider. Gauge'lu ve creator havuzları LP'lere swap ücreti ödemez; her havuzun payı seçtiğinizde gösterilir.",
     "newTokens": "<b>Yeni tokenlar.</b> Henüz GIGA havuzu yok mu? Seçtiğin bir başlangıç fiyatıyla burada oluştur; bot onu kasandan o fiyatın yanında bir bantla başlatır.",
     "risks": "<b>Riskler.</b> Fiyatlar hareket eder, likidite düşen varlıktan daha fazla tutabilir (geçici kayıp), her işlem havuz ücretini öder ve bot bir piyasayı yanlış değerlendirebilir. Küçük havuzlar küçük işlemler demektir. Yalnızca kaybetmeyi göze alabileceğin kadarını kullan."
   },
@@ -288,7 +289,11 @@
       "tvl": "GIGA havuzlarındaki para",
       "vaultBadge": "Fly Maker kasası",
       "vaults": "Fly Maker kasaları",
-      "working": "{token} üzerinde çalışan kasalar"
+      "working": "{token} üzerinde çalışan kasalar",
+      "lpFees": "LP'ler ücretlerin %{pct}'ini alır",
+      "lpFeesTip": "Kasanın likiditesinin bu havuzda kazandığı swap ücretleri; kalanı GIGA DEX'e gider",
+      "noLpFees": "LP'lere swap ücreti yok",
+      "noLpFeesTip": "Gauge'lu veya creator havuzu: tüm swap ücretleri GIGA DEX'e ya da token sahibine gider"
     },
     "tx": {
       "confirm": "cüzdanında onayla…",

@@ -522,7 +522,10 @@
       const usdPerQuote = same(p.quote, USDG) ? 1 : eth;
       const tokenBal = Number(w0(r[4])) / 10 ** t.decimals, quoteBal = Number(w0(r[5])) / 10 ** q.decimals;
       const tvlUsd = usdPerQuote == null ? null : (quoteBal + tokenBal * price) * usdPerQuote;
-      return { ...p, quoteInfo: q, token: t, quoteIs1, sqrtP, tick: Number(signed(words(r[0])[1], 24)), liquidity: w0(r[1]),
+      // slot0 word 5 = feeProtocol: the GIGA DEX share of swap fees out of 10000, token0 in the low 16 bits, token1 above;
+      // LPs (the vault) keep the rest. 10% on a plain pool, 100% on gauged and creator pools.
+      const fp = words(r[0])[5], lpShare = fp == null ? null : 100 - Number(fp & 0xffffn) / 100;
+      return { ...p, quoteInfo: q, token: t, quoteIs1, sqrtP, tick: Number(signed(words(r[0])[1], 24)), liquidity: w0(r[1]), lpShare,
         spacing: Number(signed(w0(r[3]), 24)), price, priceUsd: usdPerQuote == null ? null : price * usdPerQuote, tvlUsd, usdPerQuote };
     }));
   }
@@ -748,12 +751,21 @@
     });
   }
 
+  /** How much of the pool's swap fees a vault's liquidity keeps (the rest goes to GIGA DEX). */
+  function lpChip(p) {
+    if (p.lpShare == null) return "";
+    return p.lpShare > 0
+      ? `<span class="mk-chip in" title="${esc(L("ui.token.lpFeesTip", "Swap fees the vault's liquidity earns here; the rest goes to GIGA DEX"))}">${h("ui.token.lpFees", "LPs earn {pct}% of fees", { pct: +p.lpShare.toFixed(1) })}</span>`
+      : `<span class="mk-chip out" title="${esc(L("ui.token.noLpFeesTip", "A gauged or creator pool: all swap fees go to GIGA DEX or the token's creator"))}">${h("ui.token.noLpFees", "no swap fees for LPs")}</span>`;
+  }
+
   function renderPools() {
     $("mk-pools").innerHTML = T.pools.map((p, i) => `
       <label class="card mk-pool${p === T.pool ? " on" : ""}">
         <input type="radio" name="mk-pool" value="${i}"${p === T.pool ? " checked" : ""}>
         <span class="mk-pair">${esc(T.token.symbol)} / ${esc(p.quoteInfo.symbol)}</span>
         <span class="mk-chip">${feeTier(p.fee)}</span>
+        ${lpChip(p)}
         <span class="mk-muted">${h("ui.token.inPool", "{usd} in pool", { usd: "$" + fmt(p.tvlUsd) })}</span>
         <span class="mk-muted mono">${link(p.address)}</span>
       </label>`).join("");

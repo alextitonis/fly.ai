@@ -14,6 +14,7 @@
     "yours": "<b>Tu vault es tuyo.</b> Lo crea y lo posee tu wallet. El dinero solo puede volver a ti, entrar en el único pool de GIGA DEX del vault como parte de una operación, o ir a la comisión de depósito. El bot puede operar y mover liquidez en ese pool; no puede retirar, cambiar tu plan ni tus límites, ni reanudar.",
     "plan": "<b>El plan es público.</b> El vault guarda el hash del texto exacto del plan que firmaste y publica el texto en cadena. Esta página recalcula el hash en tu navegador; si no coincide, no firmes.",
     "guard": "<b>Límites.</b> Operación máxima, un tope diario (cualquier período de 24 horas, sin duplicar a medianoche), impacto máximo en el precio por operación y un control de precio frente al promedio de 5 minutos del pool, para nunca perseguir un pump. Los movimientos de liquidez tienen su propio presupuesto diario.",
+    "fees": "<b>Gana comisiones de swap.</b> Con una banda estable, tu bóveda es proveedora de liquidez en <a href=\"https://www.gigadex.fi\" target=\"_blank\" rel=\"noopener\">GIGA DEX</a> y recoge en la bóveda las comisiones que gana su liquidez. En un pool GIGA estándar los LP se quedan el 90% de esas comisiones y el 10% va a GIGA DEX (stakers de veGIGA). Los pools con gauge y los de creador no pagan comisiones de swap a los LP; la parte de cada pool se muestra al elegirlo.",
     "newTokens": "<b>Tokens nuevos.</b> ¿Todavía no hay pool en GIGA? Créalo aquí a un precio inicial que tú eliges; el bot lo siembra desde tu vault con una banda junto a ese precio.",
     "risks": "<b>Riesgos.</b> Los precios se mueven, la liquidez puede acabar con más del activo que cae (pérdida impermanente), cada operación paga la comisión del pool y el bot puede equivocarse con un mercado. Pools pequeños significan operaciones pequeñas. Usa solo lo que puedas permitirte perder."
   },
@@ -288,7 +289,11 @@
       "tvl": "Dinero en pools de GIGA",
       "vaultBadge": "Vault de Fly Maker",
       "vaults": "Vaults de Fly Maker",
-      "working": "Vaults trabajando con {token}"
+      "working": "Vaults trabajando con {token}",
+      "lpFees": "los LP ganan el {pct}% de las comisiones",
+      "lpFeesTip": "Comisiones de swap que gana aquí la liquidez de la bóveda; el resto va a GIGA DEX",
+      "noLpFees": "sin comisiones de swap para LP",
+      "noLpFeesTip": "Pool con gauge o de creador: todas las comisiones van a GIGA DEX o al creador del token"
     },
     "tx": {
       "confirm": "confirma en tu wallet…",

@@ -14,6 +14,7 @@
     "yours": "<b>Your vault is yours.</b> It is created and owned by your wallet. Money can only go back to you, into the vault's one GIGA DEX pool as part of a trade, or to the deposit fee. The bot can trade and move liquidity in that pool; it can't withdraw, change your plan or your guardrails, or unpause.",
     "plan": "<b>The plan is public.</b> The vault stores the hash of the exact plan text you signed and publishes the text on chain. This page recomputes the hash in your browser; on a mismatch, don't sign.",
     "guard": "<b>Guardrails.</b> Max trade, a daily cap (any 24 hours, no midnight double), max price impact per trade, and a price check against the pool's 5-minute average, so a pump is never chased. Liquidity moves have their own daily budget.",
+    "fees": "<b>It earns swap fees.</b> With a steady band, your vault is a liquidity provider on <a href=\"https://www.gigadex.fi\" target=\"_blank\" rel=\"noopener\">GIGA DEX</a> and collects the swap fees its liquidity earns back into the vault. On a standard GIGA pool LPs keep 90% of those fees and 10% goes to GIGA DEX (veGIGA stakers). Gauged and creator pools pay LPs no swap fees; each pool's share is shown when you pick it.",
     "newTokens": "<b>New tokens.</b> No GIGA pool yet? Create one here at a starting price you choose; the bot seeds it from your vault with a band beside that price.",
     "risks": "<b>Risks.</b> Prices move, liquidity can hold more of whichever asset is falling (impermanent loss), every trade pays the pool fee, and the bot can misjudge a market. Small pools mean small trades. Only use what you can afford to lose."
   },
@@ -288,7 +289,11 @@
       "tvl": "Money in GIGA pools",
       "vaultBadge": "Fly Maker vault",
       "vaults": "Fly Maker vaults",
-      "working": "Vaults working on {token}"
+      "working": "Vaults working on {token}",
+      "lpFees": "LPs earn {pct}% of fees",
+      "lpFeesTip": "Swap fees the vault's liquidity earns here; the rest goes to GIGA DEX",
+      "noLpFees": "no swap fees for LPs",
+      "noLpFeesTip": "A gauged or creator pool: all swap fees go to GIGA DEX or the token's creator"
     },
     "tx": {
       "confirm": "confirm in your wallet…",
