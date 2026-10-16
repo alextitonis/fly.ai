@@ -176,7 +176,7 @@ export function translateNav(nav = document.querySelector('nav[aria-label="Main"
     const text = [...btn.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim());
     if (text && has(`common.nav.menu.${id}`)) text.textContent = `${t(`common.nav.menu.${id}`)} `;
   }
-  for (const h of nav.querySelectorAll(".mnav-h[data-menu]")) {      // the phone menu's group titles (nav.js)
+  for (const h of nav.querySelectorAll(".mnav-h[data-menu], .ddh[data-menu]")) {   // group titles: the phone menu's, More's (nav.js)
     const id = h.dataset.menu;
     if (has(`common.nav.menu.${id}`)) h.textContent = t(`common.nav.menu.${id}`);
   }

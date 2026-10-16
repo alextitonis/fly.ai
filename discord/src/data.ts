@@ -66,7 +66,12 @@ export type Desk = {
   labels?: Record<string, string>;   // Azuro bet ids -> "Team A – Team B (market)"
   launches?: { items: Launch[] };
   alpha?: { fomo?: { at: number; tokens: FomoToken[] }; found?: Found[] };   // flytrade/desk engine.alpha_fomo / alpha_found
+  chains?: { azuro?: { bets?: OpenBet[]; settled?: SettledBet[] } };          // publish.chain_view: poly_bets, poly_settled
 };
+/** An open bet (publish.poly_bets): stake, odds = cost per share (1/odds is the multiple), pays if right, ends (unix s). */
+export type OpenBet = { book: string; symbol: string; stake: number; odds: number | null; pays: number; now?: number | null; ends?: number | null };
+/** A finished bet: payout 1 = won, 0 = lost; usd = what came back. */
+export type SettledBet = { symbol: string; usd: number; cost_usd: number; payout: number; refund: boolean; label?: string };
 /** What FOMO's top traders did with a token in the last 1 h / 6 h (distinct traders, dollars). */
 export type FomoToken = {
   token: string; symbol: string | null; screened: boolean;

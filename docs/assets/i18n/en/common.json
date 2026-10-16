@@ -8,7 +8,9 @@
       "nfts": "NFTs",
       "flydesk": "Fly Desk",
       "market": "Market",
-      "partners": "Partners"
+      "partners": "Partners",
+      "more": "More",
+      "build": "Build & partners"
     },
     "home": {
       "label": "Home"
@@ -63,7 +65,7 @@
     },
     "colosseum": {
       "label": "Fly Colosseum",
-      "desc": "Trader Flies fight for a $FLYAI pot"
+      "desc": "Seasonal battles for $FLYAI"
     },
     "flinder": {
       "label": "Flinder",
@@ -83,7 +85,7 @@
     },
     "token": {
       "label": "Token",
-      "desc": "Contract, chain, where to buy"
+      "desc": "Status, contract, fees and burns"
     },
     "earn": {
       "label": "Earn",
@@ -203,6 +205,32 @@
     "referrals": {
       "label": "Referrals",
       "desc": "Invite friends, earn from their fees"
+    },
+    "buy": {
+      "label": "Buy $FLYAI"
+    },
+    "buyMenu": {
+      "label": "Buy $FLYAI",
+      "desc": "Swap from your wallet, from any chain"
+    },
+    "deskOverview": {
+      "label": "Overview",
+      "desc": "What the desk is, how it trades and pays"
+    },
+    "myFlies": {
+      "label": "My flies",
+      "desc": "Your flies, their wallets, what's next"
+    },
+    "flyMarket": {
+      "label": "Market",
+      "desc": "Buy and sell Trader Flies"
+    },
+    "performance": {
+      "label": "Performance",
+      "desc": "Every Fly Wallet's results, live"
+    },
+    "github": {
+      "label": "GitHub"
     }
   },
   "footer": {

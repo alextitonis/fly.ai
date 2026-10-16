@@ -8,7 +8,9 @@
       "nfts": "NFT",
       "flydesk": "Fly Desk",
       "market": "마켓",
-      "partners": "파트너"
+      "partners": "파트너",
+      "more": "더 보기",
+      "build": "개발 및 파트너"
     },
     "home": {
       "label": "홈"
@@ -63,7 +65,7 @@
     },
     "colosseum": {
       "label": "Fly Colosseum",
-      "desc": "Trader Fly가 $FLYAI 상금을 놓고 싸웁니다"
+      "desc": "$FLYAI를 건 시즌 배틀"
     },
     "flinder": {
       "label": "Flinder",
@@ -83,7 +85,7 @@
     },
     "token": {
       "label": "토큰",
-      "desc": "컨트랙트, 체인, 구매처"
+      "desc": "상태, 컨트랙트, 수수료와 소각"
     },
     "earn": {
       "label": "이자 받기",
@@ -203,6 +205,32 @@
     "referrals": {
       "label": "추천",
       "desc": "친구를 초대하고 그들의 수수료에서 수익을 받으세요"
+    },
+    "buy": {
+      "label": "$FLYAI 구매"
+    },
+    "buyMenu": {
+      "label": "$FLYAI 구매",
+      "desc": "내 지갑에서, 어떤 체인에서든 스왑"
+    },
+    "deskOverview": {
+      "label": "개요",
+      "desc": "데스크가 무엇이고 어떻게 거래하고 지급하는지"
+    },
+    "myFlies": {
+      "label": "내 파리",
+      "desc": "내 파리, 지갑, 다음 단계"
+    },
+    "flyMarket": {
+      "label": "마켓",
+      "desc": "Trader Flies 사고팔기"
+    },
+    "performance": {
+      "label": "성과",
+      "desc": "모든 Fly Wallet의 실시간 결과"
+    },
+    "github": {
+      "label": "GitHub"
     }
   },
   "footer": {

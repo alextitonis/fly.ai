@@ -8,7 +8,9 @@
       "nfts": "NFT'ler",
       "flydesk": "Fly Desk",
       "market": "Pazar",
-      "partners": "Ortaklar"
+      "partners": "Ortaklar",
+      "more": "Daha fazla",
+      "build": "Geliştirici ve ortaklar"
     },
     "home": {
       "label": "Ana sayfa"
@@ -63,7 +65,7 @@
     },
     "colosseum": {
       "label": "Fly Colosseum",
-      "desc": "Trader Fly'lar $FLYAI havuzu için dövüşür"
+      "desc": "$FLYAI için sezonluk savaşlar"
     },
     "flinder": {
       "label": "Flinder",
@@ -83,7 +85,7 @@
     },
     "token": {
       "label": "Token",
-      "desc": "Kontrat, zincir, nereden alınır"
+      "desc": "Durum, kontrat, ücretler ve yakımlar"
     },
     "earn": {
       "label": "Kazan",
@@ -203,6 +205,32 @@
     "referrals": {
       "label": "Davetler",
       "desc": "Arkadaşlarını davet et, ücretlerinden kazan"
+    },
+    "buy": {
+      "label": "$FLYAI al"
+    },
+    "buyMenu": {
+      "label": "$FLYAI al",
+      "desc": "Cüzdanından, herhangi bir zincirden takas et"
+    },
+    "deskOverview": {
+      "label": "Genel bakış",
+      "desc": "Desk nedir, nasıl işlem yapar ve öder"
+    },
+    "myFlies": {
+      "label": "Sineklerim",
+      "desc": "Sineklerin, cüzdanları, sıradaki adım"
+    },
+    "flyMarket": {
+      "label": "Pazar",
+      "desc": "Trader Flies al ve sat"
+    },
+    "performance": {
+      "label": "Performans",
+      "desc": "Her Fly Wallet'ın sonuçları, canlı"
+    },
+    "github": {
+      "label": "GitHub"
     }
   },
   "footer": {

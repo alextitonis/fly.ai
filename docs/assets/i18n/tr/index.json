@@ -200,5 +200,61 @@
       "name": "Robot Dövüşleri",
       "text": "Robotlar dövüşür, kazananı sen seçersin. USDG, $FLYAI veya ETH ile bahis yap; kazananlar havuzu paylaşır."
     }
+  },
+  "home": {
+    "eyebrow": "Robinhood Chain'de canlı",
+    "lede": "fly.ai'nin arkasındaki token: her biri 166.700 nöronlu gerçek meyve sineği beyinleri; kendi cüzdanlarından işlem yapar, oyun oynar ve 3B bir dünyada yaşar. Açık kaynak.",
+    "status": "Durum",
+    "contract": "Resmi kontrat",
+    "explorer": "Gezgin",
+    "details": "Token detayları",
+    "trading": "Sinekler nasıl işlem yapar",
+    "funds": "Para nereye gidiyor",
+    "walletWhy": "Cüzdanın yalnızca takas sırasında istenir: takas ondan gönderilir, senin adına hiçbir şey tutulmaz.",
+    "desk": {
+      "eyebrow": "Fly Desk",
+      "title": "Gerçek parayla işlem yapan sinekler",
+      "lede": "Trader Fly, kendi cüzdanı olan bir NFT'dir. Gerçek bir sinek beyni işlemlerini seçer, Fly Desk ortak bir havuzla işlem yapar ve sahipler her hafta bundan ödeme alır.",
+      "s1": "Bir sinek al",
+      "s1t": "Pazardan bir tane al ya da ikisini birleştirip bir tane üret.",
+      "s2": "Cüzdanını doldur",
+      "s2t": "Beyni ondan günün her saati işlem yapar. İstediğin zaman çekebilirsin.",
+      "s3": "İşlemlerini izle",
+      "s3t": "Her işlem ve sonuç liderlik tablosunda herkese açık.",
+      "s4": "Talep et",
+      "s4t": "Sineklerinin desk ödemesindeki payını $FLYAI olarak al.",
+      "risk": "İşlem yapmak para kaybettirebilir ve bazı haftalar hiç ödeme olmaz. Şimdiye kadarki sonuçlar bir vaat değildir.",
+      "youTitle": "Sineklerin",
+      "youOut": "Sineklerini, cüzdanlarını ve sıradaki adımı görmek için bir cüzdan bağla. Cüzdan olmadan da göz atabilirsin.",
+      "youIn": "Sineklerin, cüzdanları ve sonuçları.",
+      "youSum": "{n} sinek cüzdanı · {value} ({profit})",
+      "open": "Fly Desk'i aç"
+    },
+    "sim": {
+      "eyebrow": "Simülasyon · ücretsiz, tarayıcında",
+      "title": "Sinek beyinlerinden 3B bir dünya",
+      "alt": "fly.ai simülasyonunda low-poly bir arazinin üzerinde uçan sinekler",
+      "open": "Simülasyonu aç",
+      "c1": "Canlı izle",
+      "c1t": "Onlarca sinek yiyecek arar, kokuları rüzgâra karşı izler, çiftleşir, yumurta bırakır ve örümceklerden kaçar; gece ve gündüz. Hiçbir şey senaryolu değil.",
+      "c2": "Bir sineğe tıkla",
+      "c2t": "Uçarken beyninin ateşlendiğini gör: duyular girer, motor komutları çıkar, canlı.",
+      "c3": "Wiz'i çağır",
+      "c3t": "İpleri gerçek bir sineğin nöronları olan dev bir kukla, tarayıcında çalışıyor.",
+      "note": "Arazideki her sinek, gerçek sineğin yolları biçiminde bir <b>748 nöronlu model</b> çalıştırır. <b>Wiz</b> ise <b>166.700 nöronun tamamından oluşan konektomu</b> çalıştırır."
+    },
+    "explore": {
+      "eyebrow": "Keşfedilecek daha fazlası",
+      "title": "Sineklerle oyna"
+    },
+    "why": {
+      "p1": "Soldan yaklaşan bir şey, gerçek bir sinekte olduğu gibi sol kaçış nöronunu ateşler.",
+      "p2": "Kur yapma nöronları onu rakibe yöneltir: hamlelerin %64'ü, şans %50 iken.",
+      "p3": "Kod ve bağlantı verileri herkese açık: <code>pip install flybrain</code>."
+    },
+    "more": {
+      "title": "Nereye gidiyor",
+      "funds": "Daha büyük deneyler için işlem gücü, beynin gerçek bir sinek gibi öğrenmesi, gerçek bağlantıların özel olup olmadığının sınanması, yeni dünyalar ve duyular. Hepsi açık kaynak olarak yayımlanır."
+    }
   }
 }

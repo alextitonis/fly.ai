@@ -8,7 +8,9 @@
       "nfts": "NFTs",
       "flydesk": "Fly Desk",
       "market": "Mercado",
-      "partners": "Socios"
+      "partners": "Socios",
+      "more": "Más",
+      "build": "Desarrollo y socios"
     },
     "home": {
       "label": "Inicio"
@@ -63,7 +65,7 @@
     },
     "colosseum": {
       "label": "Fly Colosseum",
-      "desc": "Trader Flies luchan por un bote de $FLYAI"
+      "desc": "Batallas por temporadas por $FLYAI"
     },
     "flinder": {
       "label": "Flinder",
@@ -83,7 +85,7 @@
     },
     "token": {
       "label": "Token",
-      "desc": "Contrato, cadena, dónde comprar"
+      "desc": "Estado, contrato, comisiones y quemas"
     },
     "earn": {
       "label": "Ganar",
@@ -203,6 +205,32 @@
     "referrals": {
       "label": "Referidos",
       "desc": "Invita a amigos, gana con sus comisiones"
+    },
+    "buy": {
+      "label": "Comprar $FLYAI"
+    },
+    "buyMenu": {
+      "label": "Comprar $FLYAI",
+      "desc": "Intercambia desde tu wallet, desde cualquier cadena"
+    },
+    "deskOverview": {
+      "label": "Resumen",
+      "desc": "Qué es el desk, cómo opera y cómo paga"
+    },
+    "myFlies": {
+      "label": "Mis moscas",
+      "desc": "Tus moscas, sus wallets y el siguiente paso"
+    },
+    "flyMarket": {
+      "label": "Mercado",
+      "desc": "Compra y vende Trader Flies"
+    },
+    "performance": {
+      "label": "Rendimiento",
+      "desc": "Los resultados de cada Fly Wallet, en vivo"
+    },
+    "github": {
+      "label": "GitHub"
     }
   },
   "footer": {

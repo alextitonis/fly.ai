@@ -200,5 +200,61 @@
       "name": "Robot Fights",
       "text": "Robots fight, you pick the winner. Bet USDG, $FLYAI or ETH; winners split the pot."
     }
+  },
+  "home": {
+    "eyebrow": "Live on Robinhood Chain",
+    "lede": "The token behind fly.ai: real fruit fly brains, 166,700 neurons each, that trade from their own wallets, play games and live in a 3-D world. Open source.",
+    "status": "Status",
+    "contract": "Official contract",
+    "explorer": "Explorer",
+    "details": "Token details",
+    "trading": "How the flies trade",
+    "funds": "Where the money goes",
+    "walletWhy": "Your wallet is asked for only when you swap: the swap is sent from it, nothing is held for you.",
+    "desk": {
+      "eyebrow": "Fly Desk",
+      "title": "Flies that trade real money",
+      "lede": "A Trader Fly is an NFT with a wallet of its own. A real fly brain picks its trades, the Fly Desk trades a shared pot, and holders are paid from it every week.",
+      "s1": "Get a fly",
+      "s1t": "Buy one on the market, or breed two into one.",
+      "s2": "Fund its wallet",
+      "s2t": "Its brain trades from it around the clock. You can withdraw any time.",
+      "s3": "Watch it trade",
+      "s3t": "Every trade and result is public on the leaderboard.",
+      "s4": "Claim",
+      "s4t": "Collect your flies' share of the desk's payout in $FLYAI.",
+      "risk": "Trading can lose money, and some weeks pay nothing. Results so far are not a promise.",
+      "youTitle": "Your flies",
+      "youOut": "Connect a wallet to see your flies, their wallets and what to do next. You can look around without one.",
+      "youIn": "Your flies, their wallets and their results.",
+      "youSum": "{n} fly wallets · {value} ({profit})",
+      "open": "Open Fly Desk"
+    },
+    "sim": {
+      "eyebrow": "Simulation · free, in your browser",
+      "title": "A 3-D world of fly brains",
+      "alt": "Flies flying over a low-poly field in the fly.ai simulation",
+      "open": "Open Simulation",
+      "c1": "Watch them live",
+      "c1t": "Dozens of flies forage, follow smells upwind, mate, lay eggs and dodge spiders, day and night. Nothing is scripted.",
+      "c2": "Click a fly",
+      "c2t": "See its brain fire as it flies: senses in, motor commands out, live.",
+      "c3": "Summon Wiz",
+      "c3t": "A giant puppet whose strings are a real fly's neurons, running in your browser.",
+      "note": "Each fly in the field runs a <b>748-neuron model</b> shaped like the real fly's pathways. <b>Wiz</b> runs the <b>full 166,700-neuron connectome</b>."
+    },
+    "explore": {
+      "eyebrow": "More to explore",
+      "title": "Play with the flies"
+    },
+    "why": {
+      "p1": "Something looming on the left fires the left escape neuron, as in a real fly.",
+      "p2": "Its courtship neurons steer it at the opponent: 64% of moves, where chance is 50%.",
+      "p3": "Code and wiring data are public: <code>pip install flybrain</code>."
+    },
+    "more": {
+      "title": "Where it's going",
+      "funds": "Compute for bigger experiments, letting the brain learn like a real fly, testing whether real wiring is special, and new worlds and senses. All of it ships open source."
+    }
   }
 }

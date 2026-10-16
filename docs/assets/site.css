@@ -544,3 +544,95 @@
   .earn-tabs button { flex: 1; padding: 7px 8px; }
   .earn-box .buy-act .btn { flex: 1 1 auto; justify-content: center; }
 }
+
+/* ---- the home page, 2026-10-16 (the user's UX brief): $FLYAI first, then Fly Desk, then Simulation ---------------- */
+/* hero: the token on the left (status, official contract, links), the swap on the right */
+.home .home-hero { text-align: left; padding-block: 64px 24px; }
+.home .home-hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 460px); gap: 48px; align-items: start; }
+.home .home-hero .eyebrow { margin-bottom: 18px; }
+.home .hh-title { margin: 0 0 14px; line-height: .95; }
+.home .hh-title .ticker { font-size: clamp(56px, 9vw, 104px); }
+.home .hh-lede { color: var(--muted); font-size: 18px; max-width: 520px; margin-bottom: 24px; }
+.tstat { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 4px; }
+.tstat div { border: 1px solid var(--edge, var(--line)); border-radius: 12px; padding: 8px 14px; background: rgba(255,255,255,.02); }
+.tstat dt { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+.tstat dd { margin: 2px 0 0; font: 600 15px var(--display); }
+.tstat dd.live { color: var(--mint); display: flex; align-items: center; gap: 7px; }
+.tstat dd.live i { width: 7px; height: 7px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 10px var(--mint); }
+.home .home-hero .ca { margin: 16px 0 0; }
+.home .home-hero .ca .btn.ghost { background: transparent; }
+.home .home-hero .hh-links { justify-content: flex-start; margin-top: 18px; }
+.home .home-hero .welcome { margin-top: 14px; }
+.home .home-hero .buybox { margin: 0; }
+.buybox .buy-why { margin: 10px 0 0; color: var(--dim); font-size: 12px; line-height: 1.5; }
+@media (max-width: 960px) {
+  .home .home-hero .wrap { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .home .home-hero { padding-block: 40px 56px; }
+}
+
+/* the two routes, each with what it costs (the brief: "explain the fee and routing consequence beside each option") */
+.buybox .buy-route { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: -4px 0 12px; }
+.buybox .buy-route[hidden] { display: none; }
+.buybox .buy-route button { display: grid; gap: 3px; text-align: left; border-radius: 12px; padding: 10px 12px; font: inherit; }
+.buybox .buy-route button b { font: 600 13px var(--sans); }
+.buybox .buy-route button small { color: var(--muted); font-size: 12px; line-height: 1.4; }
+.buybox .buy-route button[aria-checked="true"] { background: rgba(94,242,204,.06); }
+.buybox .buy-route button[aria-checked="true"] b { color: var(--mint); }
+.buybox .buy-relaynote { margin: -4px 0 12px; }
+@media (max-width: 420px) { .buybox .buy-route { grid-template-columns: 1fr; } }
+
+/* Fly Desk: the model in four steps, the risk beside it, then you */
+.steps4 { list-style: none; counter-reset: s; margin: 0 0 14px; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.steps4 li { counter-increment: s; border: 1px solid var(--edge, var(--line)); border-radius: 16px; padding: 18px; background: var(--glass, none), var(--panel); display: grid; gap: 6px; align-content: start; }
+.steps4 li::before { content: "0" counter(s); font: 500 12px var(--mono); color: var(--mint); letter-spacing: .1em; }
+.steps4 b { font: 600 18px var(--display); }
+.steps4 span { color: var(--muted); font-size: 14px; line-height: 1.45; }
+.home .risk { color: var(--muted); font-size: 13px; margin: 0 0 22px; padding-left: 12px; border-left: 2px solid var(--red); }
+.desk-you { margin: 0; }
+.desk-you .you-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.desk-you .you-row[hidden] { display: none; }
+.desk-you .you-row > div { display: grid; gap: 4px; max-width: 620px; }
+.desk-you .you-row b { font: 600 17px var(--display); }
+.desk-you .you-row span { color: var(--muted); font-size: 14px; }
+.home .sublinks { justify-content: flex-start; margin-top: 16px; }
+@media (max-width: 860px) { .steps4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .steps4 { grid-template-columns: 1fr; } }
+
+/* Simulation: one big way in */
+.sim-preview { position: relative; display: block; border-radius: var(--r-lg, 22px); overflow: hidden; border: 1px solid var(--edge, var(--line)); margin: 0 0 22px; }
+.sim-preview img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .4s; }
+.sim-preview:hover img { transform: scale(1.02); }
+.sim-preview .btn { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); box-shadow: 0 10px 40px rgba(0,0,0,.6); }
+.home #sim .note { color: var(--muted); font-size: 14px; margin: 18px 0 0; }
+.home #sim .note b { color: var(--text); }
+
+/* More to explore: smaller cards, four across */
+.app-grid.compact { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.app-grid.compact .app-card b { font-size: 16px; }
+.app-grid.compact .app-card span { font-size: 13px; }
+@media (max-width: 860px) { .app-grid.compact { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* why it's different: the video and three facts side by side */
+.proof { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.proof figure { margin: 0; }
+.proof figcaption { color: var(--dim); font-size: 13px; margin-top: 8px; }
+.proof-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.proof-list li { display: grid; gap: 4px; }
+.proof-list b { font: 600 18px var(--display); }
+.proof-list span { color: var(--muted); font-size: 15px; }
+.proof-list .go a { color: var(--mint); font: 500 13px var(--mono); text-decoration: none; }
+@media (max-width: 860px) { .proof { grid-template-columns: 1fr; } }
+.next-pages.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 860px) { .next-pages.two { grid-template-columns: minmax(0, 1fr); } }
+/* fixes from the 2026-10-16 screenshots: the two buy columns share the width (the amount ran out of the box), the
+   pickers wrap on a phone, the contract box is a box (a pill with three rows looked stretched), tighter sections */
+.home .buybox .buy-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.home .buybox .buy-field input { min-width: 0; width: 100%; }
+.home .buybox .buy-out { overflow-wrap: anywhere; }
+.buybox .buy-pick { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.home .home-hero .ca { border-radius: 16px; }
+.home #desk, .home #sim, .home #explore, .home #brain, .home #more { padding-block: 72px; }
+@media (max-width: 640px) {
+  .home .buybox .buy-row { grid-template-columns: minmax(0, 1fr); }
+  .home #desk, .home #sim, .home #explore, .home #brain, .home #more { padding-block: 52px; }
+}

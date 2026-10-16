@@ -8,7 +8,9 @@
       "nfts": "NFT",
       "flydesk": "Fly Desk",
       "market": "市场",
-      "partners": "合作伙伴"
+      "partners": "合作伙伴",
+      "more": "更多",
+      "build": "开发与合作伙伴"
     },
     "home": {
       "label": "首页"
@@ -63,7 +65,7 @@
     },
     "colosseum": {
       "label": "Fly Colosseum",
-      "desc": "Trader Fly 争夺 $FLYAI 奖池"
+      "desc": "赛季对战，赢取 $FLYAI"
     },
     "flinder": {
       "label": "Flinder",
@@ -83,7 +85,7 @@
     },
     "token": {
       "label": "代币",
-      "desc": "合约、链、在哪里购买"
+      "desc": "状态、合约、费用与销毁"
     },
     "earn": {
       "label": "赚取",
@@ -203,6 +205,32 @@
     "referrals": {
       "label": "邀请",
       "desc": "邀请好友，从他们的手续费中赚取收益"
+    },
+    "buy": {
+      "label": "购买 $FLYAI"
+    },
+    "buyMenu": {
+      "label": "购买 $FLYAI",
+      "desc": "从你的钱包、任意链兑换"
+    },
+    "deskOverview": {
+      "label": "概览",
+      "desc": "交易台是什么、如何交易和分红"
+    },
+    "myFlies": {
+      "label": "我的苍蝇",
+      "desc": "你的苍蝇、它们的钱包、下一步"
+    },
+    "flyMarket": {
+      "label": "市场",
+      "desc": "买卖 Trader Flies"
+    },
+    "performance": {
+      "label": "表现",
+      "desc": "每个 Fly Wallet 的实时结果"
+    },
+    "github": {
+      "label": "GitHub"
     }
   },
   "footer": {

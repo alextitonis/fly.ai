@@ -11,63 +11,65 @@
   // [label, href, desc] for a link; [menu id, label, items, right-aligned?] for a menu
   // 2026-10-03 (the user, "make Fly AI feel like one product"): every app under Apps - the Colosseum and Trader Flies
   // too, not as separate top-level worlds - and the account menu on the right of every page
+  // 2026-10-16 (the user's UX brief: "the main path should be $FLYAI / Trading -> Fly Desk -> Simulation", "the drop
+  // down menu has so much stuff it takes me some time to find what I'm looking for"): three main destinations, then
+  // More for everything else, grouped; each link once. The 6th field is the i18n key when the route's own label
+  // doesn't fit (common.nav.<key>); a menu whose items are [group id, title, links] shows its groups as columns.
   const NAV = [
-    ["Home", "/"],
-    // 2026-10-13, the user (simplify the product line): everything points to one place - the Let-it-fly wallets - with
-    // Flybook as the free way in. The 6th field is the i18n key (this href's own route reads "Inventory")
-    ["Let it fly", "/traderflies/inventory", undefined, false, false, "letitfly"],
-    ["apps", "Apps", [
-      ["Flybook", "/flybook/", "The live feed written by fly brains"],
-      ["Simulation", "/simulation/", "Flies with real brains in a 3-D world"],
-      ["Fly Colosseum", "/colosseum/", "Trader Flies battle for $FLYAI"],
-      ["Trader Flies", "/traderflies/traders", "Every fly's wallet, the leaderboard, yours"],
-      ["Fly Market", "/traderflies/market", "Buy and sell Trader Flies"],
-      ["Fly Terminal", "/terminal", "Watch the flies trade live"],
-      ["Fly Desk", "/desk", "Real fly brains trade live; Trader Flies share the profit"],   // live since 2026-10-05: under Apps and NFTs, not Research
-      ["Fly Roulette", "/roulette/", "Fly brains vs a toy cap gun"],
-      ["Fly Slots", "/slots/", "Spin the reels, a fly brain reacts"],
-      ["Fly Race", "/race/", "Six fly brains race to the fruit"],
-      // 2026-10-08: pool betting on REK's robot fights (FightPools); the 5th field marks a link "New"
-      ["Robot Fights", "/fights/", "Bet on robot fights in USDG, FLYAI or ETH", false, true],
-      ["Fly Radio", "/radio/", "A station played by a real fly brain"],
-      ["Flinder", "/flinder/", "A fly brain swipes on dating profiles"],
-      ["Hardware NFTs", "/traderflies/pets", "FLYAI pets: pre-order a pocket fly"],
-      ["Compute", "/compute/", "Mine with your browser, earn $FLYAI"],
+    ["token", "$FLYAI", [
+      ["Buy $FLYAI", "/token#buy", "Swap from your wallet, from any chain", false, false, "buyMenu"],
+      ["Token", "/token", "Status, contract, fees and burns"],
+      ["Earn", "/earn", "Lend USDG from your wallet"],   // 2026-10-06: flytrade/EARN-PAGE-PLAN.md
+      ["Referrals", "/referrals", "Invite friends, earn from their fees"],   // 2026-10-15 (referrals.js)
+      ["Merch", "/shop", "Fly shirts and more", true],
     ]],
-    ["nfts", "NFTs", [
-      ["How it works", "/how", "The brain, the pots, payouts and partners"],   // 2026-10-05: the explainer page
-      ["Trader Flies", "/traderflies/", "The collection and your flies"],
-      // 2026-10-03, the user: the inventory and the leaderboard under NFTs, each a page of its own
-      ["Inventory", "/traderflies/inventory", "Your flies and their wallets"],
-      ["Leaderboard", "/traderflies/leaderboard", "The best Fly Wallets, live"],
-      ["Fly Market", "/traderflies/market", "Buy and sell Trader Flies"],
+    // the Trader Flies workflow under one name (the brief: "Fly Desk - Trader Flies and trading")
+    ["flydesk", "Fly Desk", [
+      ["Overview", "/desk", "What the desk is, how it trades and pays", false, false, "deskOverview"],
+      ["My flies", "/traderflies/inventory", "Your flies, their wallets, what's next", false, false, "myFlies"],
+      ["Market", "/traderflies/market", "Buy and sell Trader Flies", false, false, "flyMarket"],
+      ["Performance", "/traderflies/leaderboard", "Every Fly Wallet's results, live", false, false, "performance"],
       ["Breed", "/traderflies/breed", "Merge two flies into one"],
       ["Claim", "/traderflies/claim", "Collect your flies' $FLYAI"],
-      ["Fly Desk", "/desk", "Real fly brains trade live; Trader Flies share the profit"],
       ["FlightPass", "/traderflies/pass", "Put your flies on autopilot"],
-      ["OpenSea", "https://opensea.io/collection/trader-fly-294099831", "Trader Flies on OpenSea"],
-    ]],
-    // partner collections (2026-10-07, the user: "add on top partners category"): each its own page (Partner.tsx)
-    ["partners", "Partners", [
-      ["Bullas", "/traderflies/partner", "Bullas NFTs: their own trading wallets and a shared pot"],
-    ]],
-    ["research", "Research", [
-      ["All findings", "/research", "Fighting, the 3-D world, what failed"],
-      ["Talking flies", "/research/flybook", "Flybook: can two brains signal?"],
-      ["On air", "/research/radio", "How a radio station run by a real fly brain works"],
-      ["Roadmap", "/roadmap", "What's done and what's next"],
-      ["Changelog", "/changelog", "Everything we shipped, day by day"],   // 2026-10-09
-    ]],
-    ["token", "$FLYAI", [
-      ["Token", "/token", "Contract, chain, where to buy"],
-      ["Earn", "/earn", "Lend USDG from your wallet"],   // 2026-10-06: flytrade/EARN-PAGE-PLAN.md
-      ["Referrals", "/referrals", "Invite friends, earn from their fees", false, true],   // 2026-10-15 (referrals.js)
+      ["Fly Colosseum", "/colosseum/", "Seasonal battles for $FLYAI"],
       ["How it works", "/how", "The brain, the pots, payouts and partners"],
-      ["Merch", "/shop", "Fly shirts and more", true],
-      ["API & skills", "/desk-api", "Buy the desk's answers over x402"],
-      ["For Agents", "/agents", "Make Claude talk like a fly"],
+    ]],
+    ["Simulation", "/simulation/"],
+    ["more", "More", [
+      ["apps", "Apps", [
+        ["Flybook", "/flybook/", "Free: the live feed written by fly brains"],
+        ["Fly Roulette", "/roulette/"],
+        ["Fly Slots", "/slots/"],
+        ["Fly Race", "/race/"],
+        ["Fly Radio", "/radio/"],
+        ["Flinder", "/flinder/"],
+        ["Robot Fights", "/fights/"],
+        ["Compute", "/compute/"],
+        ["Hardware NFTs", "/traderflies/pets"],
+        ["Fly Terminal", "/terminal"],
+      ]],
+      ["research", "Research", [
+        ["All findings", "/research"],
+        ["Talking flies", "/research/flybook"],
+        ["On air", "/research/radio"],
+        ["Roadmap", "/roadmap"],
+        ["Changelog", "/changelog"],
+      ]],
+      ["build", "Build & partners", [
+        ["API & skills", "/desk-api"],
+        ["For Agents", "/agents"],
+        ["GitHub", "https://github.com/alextitonis/fly.ai", undefined, true, false, "github"],
+        ["Bullas", "/traderflies/partner"],   // partner collections (2026-10-07), each its own page (Partner.tsx)
+        ["OpenSea", "https://opensea.io/collection/trader-fly-294099831"],
+      ]],
     ], true],
   ];
+  // the one action on every page (the brief: "a persistent Buy $FLYAI action"; the wallet is asked for only there)
+  const BUY = ["Buy $FLYAI", "/token#buy", undefined, false, false, "buy"];
+  const isGroup = (x) => Array.isArray(x[2]);
+  /** Every link in NAV, groups flattened (search, the phone panel). */
+  const linksOf = (items) => items.flatMap((x) => (isGroup(x) ? x[2] : [x]));
   // the community links (2026-10-05, the user: "add discord & X link in the website"): icons in the bar, a row in the
   // phone menu; the footers carry them as text
   const SOCIAL = [
@@ -139,23 +141,39 @@
     // phones (2026-10-03, the user: "the website view on mobile is awful"): the menus fold into one ☰ panel, so the
     // bar is a single row - logo, search, bell, account, ☰ - instead of three
     const panel = el("div", { class: "mnav", id: "mnav", hidden: "" });
+    const noDesc = ([label, href, , newTab, isNew, key]) => link([label, href, undefined, newTab, isNew, key]);
     for (const item of NAV) {
-      if (!Array.isArray(item[2])) { panel.append(el("ul", { class: "mnav-top" }, el("li", null, link([item[0], item[1], undefined, item[3], item[4], item[5]])))); continue; }
-      panel.append(el("section", { class: "mnav-sec" }, el("p", { class: "mnav-h", "data-menu": item[0] }, item[1]),
-        el("ul", null, ...item[2].map(([label, href, , newTab, isNew]) => el("li", null, link([label, href, undefined, newTab, isNew]))))));
+      if (!isGroup(item)) { panel.append(el("ul", { class: "mnav-top" }, el("li", null, noDesc(item)))); continue; }
+      // a menu of groups is one section per group on a phone; a plain menu is one section
+      const secs = item[2].some(isGroup) ? item[2] : [item];
+      for (const [id, title, items] of secs) {
+        panel.append(el("section", { class: "mnav-sec" }, el("p", { class: "mnav-h", "data-menu": id }, title),
+          el("ul", null, ...items.map((it) => el("li", null, noDesc(it))))));
+      }
     }
     panel.append(el("ul", { class: "mnav-top mnav-social" }, ...SOCIAL.map(([label, href]) => el("li", null, link([label, href])))));
     for (const item of NAV) {
-      if (!Array.isArray(item[2])) { ul.append(el("li", { class: "main" }, link(item))); continue; }
+      if (!isGroup(item)) { ul.append(el("li", { class: "main" }, link(item))); continue; }
       const [id, label, items, right] = item;
       const btn = el("button", { class: "ddbtn ddlabel", type: "button", "aria-expanded": "false", "aria-controls": `dd-${id}` },
         `${label} `, el("span", { "aria-hidden": "true" }, "▾"));
-      // a long menu goes two columns (2026-10-04, the user: Apps "going down of the screen because it's too long")
-      const menu = el("ul", { class: `ddmenu${right ? " right" : ""}${items.length > 8 ? " wide" : ""}`, id: `dd-${id}` });
-      for (const it of items) menu.append(el("li", null, link(it)));
+      let menu;
+      if (items.some(isGroup)) {
+        // groups side by side, titles over them, no descriptions: a list to scan, not to read
+        menu = el("ul", { class: `ddmenu groups${right ? " right" : ""}`, id: `dd-${id}` });
+        for (const [gid, title, links] of items) {
+          menu.append(el("li", { class: "ddgroup" }, el("p", { class: "ddh", "data-menu": gid }, title),
+            el("ul", null, ...links.map((it) => el("li", null, noDesc(it))))));
+        }
+      } else {
+        // more than 6 links go two columns (2026-10-04, the user: Apps was "going down off the screen")
+        menu = el("ul", { class: `ddmenu${right ? " right" : ""}${items.length > 6 ? " wide" : ""}`, id: `dd-${id}` });
+        for (const it of items) menu.append(el("li", null, link(it)));
+      }
       if (menu.querySelector("a.on")) btn.classList.add("on");
       ul.append(el("li", { class: "dd main" }, btn, menu));
     }
+    ul.append(el("li", { class: "buycta" }, link(BUY)));   // on phones too: the bar keeps it next to the ☰
     const burger = el("button", { class: "burger-btn", type: "button", "aria-expanded": "false", "aria-controls": "mnav", "aria-label": "Menu" },
       el("i"), el("i"), el("i"));                         // three drawn bars that turn into an X (CSS), not the ☰ glyph
     const social = el("li", { class: "main social" });
@@ -457,7 +475,7 @@
     if (!li) return;
     const input = li.querySelector("#srch-q"), out = li.querySelector(".srch-out");
     const apps = [];
-    for (const it of NAV) for (const x of Array.isArray(it[2]) ? it[2] : [it]) if (typeof x[1] === "string" && x[1].startsWith("/")) apps.push(x);
+    for (const x of NAV.flatMap((it) => (isGroup(it) ? linksOf(it[2]) : [it]))) if (typeof x[1] === "string" && x[1].startsWith("/")) apps.push(x);
     li.addEventListener("click", (e) => { if (e.target.closest(".srch-box, .srch-out")) e.stopPropagation(); });
     li.querySelector(".srch-btn").addEventListener("click", () => setTimeout(() => input.focus(), 0));
     let seq = 0;

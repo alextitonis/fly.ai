@@ -1,140 +1,82 @@
-// The alpha feed (a private test channel, ALPHA_CHANNEL_ID): what the flies do with real money, as it happens.
-//   Let-it-fly wallets  the top ALPHA_FLIES Fly Wallets of the week (mine leaderboard), from each fly's public log:
-//                       fills with the reason, CA and tx, bets, tokens found through FOMO's top traders, failed swaps,
-//                       and buys the fly passed on (with why) minus the refusals that repeat all day.
-//   Fly Desk            the desk's own trades and launches (its public snapshot: symbol, side, size).
-// Every ALPHA_POLL_MS the bot reads them and posts what it hasn't seen. The first read of a source only remembers
-// what's there, so a restart (or a fly joining the top) never floods the channel with history.
-import type { Client, EmbedBuilder, SendableChannels } from "discord.js";
-import { SITE, board, contractOf, desk, flyLog, type Desk, type FomoToken, type Found, type Launch, type LogTrade, type Trade } from "./data.ts";
-import { embed, pct, symbol, usd } from "./format.ts";
+// The alpha feed (a private test channel, ALPHA_CHANNEL_ID): token calls from what the flies do and find, written like
+// an alpha group chat - short text, the CA, the numbers that matter - not a trade log (2026-10-16, the user: "too
+// spammy and doesn't look like an alpha group chat", "need a basic filter to avoid scams").
+//   calls     a token the top ALPHA_FLIES Fly Wallets of the week or the Fly Desk buy (or wanted to buy but couldn't for
+//             reasons that aren't about the token: gas, cross-chain size, quotes, no room - BLOCKED), FOMO's top traders pile into,
+//             or the desk's new-pool watcher finds. Each one must pass the scam filter (src/screen.ts: real money in
+//             the pool, trading, no whale or grouped-wallet supply) and is called once per CALL_AGAIN_MS
+//   updates   a sell of a called token, as a reply to its call with the P&L
+//   bets      Azuro bets the Fly Desk or the top wallets place (pick, stake, odds), the result as a reply
+//   launches  the desk's own token launches
+// At most MAX_PER_HOUR messages an hour (calls first come first). Passes on the token's merits, index buys (core) and
+// tokens that fail the filter are not posted. A restart never posts history: the first read of a source only
+// remembers what's there.
+import type { Client, Message, SendableChannels } from "discord.js";
+import { board, contractOf, desk, flyLog, type FomoToken, type Found, type LogTrade } from "./data.ts";
+import { pct, symbol, usd } from "./format.ts";
+import { screen, type Verdict } from "./screen.ts";
 
-const GREEN = 0x3ddc84, RED = 0xff5c5c, AMBER = 0xffb020, GREY = 0x8a8f98;
-const FOOTER = "not financial advice, it's a fly";
-
-// refusals that repeat every bar and say nothing about the market (counted on the top wallets' logs 2026-10-15)
-const NOISE = [/polymarket opens/i, /only sold above/i, /market is closed/i, /already holding/i, /\bdust\b/i,
-  /^funding\b/i, /\bunder \$?[\d.]+ for an? \w+ buy/i, /the wallet holds/i];
-
-const EXPLORER: Record<string, string> = {
-  "": "https://robinhoodchain.blockscout.com/tx/",
-  base: "https://basescan.org/tx/",
-  bsc: "https://bscscan.com/tx/",
-  arbitrum: "https://arbiscan.io/tx/",
-};
-const DEX: Record<string, string> = { "": "robinhood", base: "base", bsc: "bsc", arbitrum: "arbitrum" };
-const chainOf = (sym: string) => (sym.includes(":") ? sym.slice(0, sym.indexOf(":")) : "");
-
-type Post = { at: number; embed: EmbedBuilder };
-
-// ---------------------------------------------------------------- Let-it-fly wallets
-
-/** What a log line is worth posting as, or null to skip it. */
-export function kindOf(r: LogTrade): "buy" | "sell" | "bet" | "failed" | "passed" | null {
-  const why = r.why ?? "";
-  if (r.symbol.startsWith("azuro:") || r.tag === "poly" || r.tag === "azuro") return r.status === "filled" ? "bet" : null;
-  if (r.status === "filled") return r.side === "buy" ? "buy" : r.side === "sell" || r.side === "panic_sell" ? "sell" : null;
-  if (/swap failed|relayerror|no routes/i.test(why) || r.status === "failed") return "failed";
-  // the liquidity floor turns small tokens away all day (68 of 86 passes in 80 h): only worth a post on a FOMO find
-  if (/^entry: pool .* is under/i.test(why) && r.tag !== "fomo") return null;
-  if (r.status === "refused" && r.side === "buy" && !NOISE.some((n) => n.test(why))) return "passed";
-  return null;
-}
-
-export async function walletEmbed(fly: number, r: LogTrade, kind: NonNullable<ReturnType<typeof kindOf>>, labels?: Record<string, string>): Promise<EmbedBuilder> {
-  const name = symbol(r.symbol, labels);
-  const fomo = r.tag === "fomo" ? " 🔥 FOMO find" : "";
-  const title = {
-    buy: [`🟢 Fly #${fly} bought ${name}${fomo}`, GREEN],
-    sell: [`🔴 Fly #${fly} sold ${name}`, RED],
-    bet: [`🎲 Fly #${fly} placed a bet: ${name.replace(/^bet: /, "")}`, GREEN],
-    failed: [`⚠️ Fly #${fly} tried to ${r.side.replace("_", " ")} ${name}, it failed`, AMBER],
-    passed: [`👀 Fly #${fly} looked at ${name}${fomo}, didn't buy`, GREY],
-  }[kind] as [string, number];
-  const e = embed().setColor(title[1]).setTitle(title[0]).setURL(`${SITE}/traderflies/fly?id=${fly}`);
-  if (r.usd) e.addFields({ name: "Size", value: usd(r.usd), inline: true });
-  if (r.price) e.addFields({ name: "Price", value: usd(r.price), inline: true });
-  if (r.pnl_pct != null && kind === "sell") e.addFields({ name: "P&L", value: pct(r.pnl_pct), inline: true });
-  if (r.why) e.addFields({ name: "Why", value: r.why.slice(0, 1000) });
-  if (kind !== "bet") {
-    const ca = await contractOf(r.symbol);
-    const chain = chainOf(r.symbol);
-    const links = [
-      ca ? `[Chart](https://dexscreener.com/${DEX[chain] ?? "robinhood"}/${ca})` : "",
-      r.tx ? `[Tx](${EXPLORER[chain] ?? EXPLORER[""]}${r.tx.split(",").pop()})` : "",
-    ].filter(Boolean);
-    if (ca) e.addFields({ name: "CA", value: `\`${ca}\`` });
-    if (links.length) e.addFields({ name: "Links", value: links.join(" · ") });
-  }
-  return e.setFooter({ text: `Fly #${fly} · Let it fly · ${FOOTER}` }).setTimestamp(new Date(r.at));
-}
-
-// ---------------------------------------------------------------- Fly Desk
-
-function deskTradeEmbed(t: Trade, d: Desk): EmbedBuilder {
-  const held = d.positions[t.book]?.rows.find((r) => r.symbol === t.symbol);
-  const buy = t.side === "buy";
-  const e = embed()
-    .setColor(buy ? GREEN : RED)
-    .setTitle(`${buy ? "🟢 The Fly Desk bought" : "🔴 The Fly Desk sold"} ${symbol(t.symbol, d.labels)}`)
-    .setURL(`${SITE}/desk`)
-    .addFields({ name: "Size", value: usd(t.usd), inline: true });
-  if (held?.price) e.addFields({ name: "Price", value: usd(held.price), inline: true });
-  e.addFields({ name: "Holding now", value: held ? `${usd(held.value_usd)} (${pct(held.pnl_pct)})` : buy ? "-" : "closed", inline: true });
-  return e.setFooter({ text: `Fly Desk · ${FOOTER}` }).setTimestamp(new Date(t.at));
-}
-
-function launchEmbed(l: Launch): EmbedBuilder {
-  return embed()
-    .setTitle(`🚀 The flies launched ${l.name} ($${symbol(l.symbol)})`)
-    .setURL(`https://dexscreener.com/robinhood/${l.token}`)
-    .addFields({ name: "CA", value: `\`${l.token}\`` })
-    .setFooter({ text: `Fly Desk · ${FOOTER}` })
-    .setTimestamp(new Date(l.at * 1000));
-}
-
-// ---------------------------------------------------------------- what the desk finds (its public "alpha" section)
-
-// a FOMO token is posted when top traders pile in: 2+ of them buying in the last hour, or $1k+ (the desk's own
-// FOMO_VIEW_USD, which puts a token in the brain's view); the same token again only after FOMO_REPOST_MS
-const FOMO_MIN_BUYERS = 2, FOMO_MIN_USD = 1_000, FOMO_REPOST_MS = 6 * 3600_000;
+const CALL_AGAIN_MS = 12 * 3600_000;      // the same token is called again only after this
+const MAX_PER_HOUR = 8;
+const FOUND_WATCH_MS = 24 * 3600_000;     // a found token that fails at first (no trading yet) is re-checked this long
+// a FOMO token is a call when top traders pile in: 2+ of them buying in the last hour, or $5k+ (one trader's $1k, the
+// desk's FOMO_VIEW_USD, was too chatty for the channel)
+const FOMO_MIN_BUYERS = 2, FOMO_MIN_USD = 5_000;
 const hot = (t: FomoToken) => (t.buyers_1h ?? 0) >= FOMO_MIN_BUYERS || (t.buy_usd_1h ?? 0) >= FOMO_MIN_USD;
+const SKIP_TAGS = new Set(["core", "earn", "close", "house"]);   // index buys, lending, wind-downs, $FLYAI itself
 
-function fomoEmbed(t: FomoToken): EmbedBuilder {
-  const name = symbol(t.symbol ?? "?");
-  const e = embed()
-    .setColor(0xff7a1a)
-    .setTitle(`🔥 Top traders are buying ${name}`)
-    .setURL(`https://dexscreener.com/robinhood/${t.token}`)
-    .setDescription("FOMO's top traders are piling in. The flies put it in view, they don't copy it blindly.")
-    .addFields(
-      { name: "Last hour", value: `${t.buyers_1h ?? 0} buying (${usd(t.buy_usd_1h ?? 0)}) · ${t.sellers_1h ?? 0} selling (${usd(t.sell_usd_1h ?? 0)})` },
-      { name: "Last 6 hours", value: `${t.buyers_6h ?? 0} buying (${usd(t.buy_usd_6h ?? 0)}) · ${t.sellers_6h ?? 0} selling (${usd(t.sell_usd_6h ?? 0)})` },
-      { name: "Rug checks", value: t.screened ? "✅ passed (GoPlus, holders, whales, creator share)" : "not screened yet", inline: true },
-      { name: "CA", value: `\`${t.token}\`` },
-    );
-  return e.setFooter({ text: `FOMO via the Fly Desk · ${FOOTER}` }).setTimestamp(new Date());
+// a refused buy is still a call when the reason is the wallet's, not the token's (2026-10-16, the user: "sometimes they
+// want to buy X but because of gas and cross chain they don't, but it'd still be a good token"). First match labels it.
+// Left out on purpose: thin pool / round trip / "edge" (a judgement on the token), stale price, US market closed,
+// the $FLYAI cap. Counted on the wallets' 48 h of refusals 2026-10-16.
+const BLOCKED: [RegExp, string][] = [
+  [/estimateGas|TRANSFER_FROM_FAILED|gas\b|swap failed|relayerror|no routes|reverted/i, "the swap failed"],
+  [/quote \d+ bps worse/i, "the cross-chain quote was too far off"],
+  [/under \$[\d.]+ for an? \w+ buy|\bdust\b/i, "too small for a cross-chain buy"],
+  [/the wallet holds \d+ tokens|already holding \d+ tokens|would be over \d+% of the wallet/i, "no room in the wallet"],
+  [/exits only|close only|auto-off|pool-drain exit/i, "its buys are paused"],
+];
+const blockedWhy = (r: LogTrade) => {
+  const why = `${r.why ?? ""}`;
+  if (/^FLYAI\b/.test(r.symbol) || /FLYAI would be over/i.test(why)) return null;
+  return BLOCKED.find(([re]) => re.test(why))?.[1] ?? null;
+};
+
+const DEX: Record<string, string> = { "": "robinhood", base: "base", bsc: "bsc", arbitrum: "arbitrum" };
+const CHAIN_NAME: Record<string, string> = { "": "Robinhood", base: "Base", bsc: "BNB", arbitrum: "Arbitrum" };
+const chainOf = (sym: string) => (sym.includes(":") ? sym.slice(0, sym.indexOf(":")) : "");
+const ticker = (sym: string) => symbol(sym).replace(/ \(.*\)$/, "");
+/** A bet for people: "Stella Jurina · Kryvoruchko vs Jurina (Match Winner)" = the pick · the match (market). */
+const betName = (sym: string, labels?: Record<string, string>) => symbol(sym, labels).replace(/^bet: /, "");
+
+/** A short dollar figure for a chat line: $1.2M, $48k, $950. */
+const k = (n: number) => (n >= 1e6 ? `$${(n / 1e6).toFixed(1)}M` : n >= 1e3 ? `$${(n / 1e3).toFixed(0)}k` : `$${n.toFixed(0)}`);
+const age = (h: number) => (h < 1 ? `${Math.round(h * 60)}m` : h < 48 ? `${Math.round(h)}h` : `${Math.round(h / 24)}d`);
+
+/** The numbers line every call carries: mc, liquidity, volume, age, holders. */
+function stats(v: Verdict): string {
+  const parts = [v.mcap ? `mc ${k(v.mcap)}` : "", `liq ${k(v.liq)}`, `vol ${k(v.vol24)}`, v.ageH != null ? `age ${age(v.ageH)}` : ""];
+  if (v.holders) parts.push(`${v.holders.toLocaleString("en-US")} holders`, `top10 ${Math.round((v.top10 ?? 0) * 100)}%`);
+  if (v.contractChecked) parts.push(v.tax ? `contract ✓ · tax ${Math.round(v.tax * 1000) / 10}%` : "contract ✓");
+  return parts.filter(Boolean).join(" · ");
 }
 
-function foundEmbed(f: Found): EmbedBuilder {
-  const name = symbol(f.symbol);
-  const chain = chainOf(f.symbol);
-  const e = embed()
-    .setColor(0x5ef2cc)
-    .setTitle(`🆕 The flies spotted a new token: ${name}`)
-    .setURL(`https://dexscreener.com/${DEX[chain] ?? "robinhood"}/${f.token}`)
-    .setDescription("A fresh pool that passed the desk's filters. It's in the flies' view now.");
-  if (f.liquidity) e.addFields({ name: "Liquidity", value: usd(f.liquidity), inline: true });
-  if (f.source) e.addFields({ name: "Found via", value: f.source, inline: true });
-  e.addFields({ name: "CA", value: `\`${f.token}\`` });
-  return e.setFooter({ text: `Fly Desk · ${FOOTER}` }).setTimestamp(new Date(f.at * 1000));
+type Call = { key: string; sym: string; ca: string; chain: string; at: number; head: string; why?: string | null };
+
+function callText(c: Call, v: Verdict): string {
+  const lines = [`**$${ticker(c.sym)}** · ${CHAIN_NAME[c.chain] ?? c.chain} · ${c.head}`, stats(v)];
+  if (c.why) lines.push(`> ${c.why.replace(/\s+/g, " ").slice(0, 160)}`);
+  lines.push(`\`${c.ca}\``, `<https://dexscreener.com/${DEX[c.chain] ?? "robinhood"}/${c.ca}>`);
+  return lines.join("\n");
 }
 
 // ---------------------------------------------------------------- the loop
 
 export function startAlpha(client: Client, channelId: string, opts: { flies: number; pollMs: number }): void {
-  const seen = new Map<string, Set<string>>();   // source ("desk", "fly:849") -> keys already posted or skipped
-  const fomoPosted = new Map<string, number>();  // FOMO token -> when it was last posted
+  const seen = new Map<string, Set<string>>();             // source ("desk", "fly:849") -> keys already read
+  const called = new Map<string, { at: number; msg?: Message }>();   // chain:ca -> its last call (sells reply to it)
+  const watching = new Map<string, Found>();                // found tokens waiting to pass the filter
+  const sentAt: number[] = [];                              // the last hour's messages (MAX_PER_HOUR)
 
   /** The keys of `items` not seen before in `source`; the first read of a source only remembers them. */
   function fresh<T>(source: string, items: T[], key: (x: T) => string): T[] {
@@ -143,60 +85,149 @@ export function startAlpha(client: Client, channelId: string, opts: { flies: num
     return before ? items.filter((x) => !before.has(key(x))) : [];
   }
 
-  async function deskPosts(): Promise<Post[]> {
-    const d = await desk();
-    const trades = fresh("desk", d.recent_trades.filter((t) => t.book.startsWith("fly:")), (t) => `${t.at}|${t.book}|${t.symbol}|${t.side}|${t.usd}`);
-    const launches = fresh("desk:launch", d.launches?.items ?? [], (l) => l.token);
-    const found = fresh("desk:found", d.alpha?.found ?? [], (f) => f.token);
-    // FOMO is live, not history: what's hot right now posts on the first read too, then each token once per 6 h
+  let channel: SendableChannels | null = null;
+  async function send(content: string, replyTo?: Message): Promise<Message | null> {
     const now = Date.now();
-    const fomo = (d.alpha?.fomo?.tokens ?? []).filter((t) => hot(t) && now - (fomoPosted.get(t.token) ?? 0) > FOMO_REPOST_MS);
-    for (const t of fomo) fomoPosted.set(t.token, now);
-    return [
-      ...trades.map((t) => ({ at: Date.parse(t.at), embed: deskTradeEmbed(t, d) })),
-      ...launches.map((l) => ({ at: l.at * 1000, embed: launchEmbed(l) })),
-      ...found.map((f) => ({ at: f.at * 1000, embed: foundEmbed(f) })),
-      ...fomo.map((t) => ({ at: now, embed: fomoEmbed(t) })),
-    ];
+    while (sentAt.length && now - sentAt[0]! > 3600_000) sentAt.shift();
+    if (sentAt.length >= MAX_PER_HOUR) return null;
+    if (!channel) {
+      const ch = await client.channels.fetch(channelId).catch(() => null);
+      if (!ch?.isSendable()) {
+        console.error(`alpha: can't post in ${channelId} (missing, or the bot has no access to the private channel)`);
+        return null;
+      }
+      channel = ch as SendableChannels;
+    }
+    sentAt.push(now);
+    const payload = { content, allowedMentions: { parse: [] } };
+    const msg = replyTo
+      ? await replyTo.reply({ ...payload, allowedMentions: { parse: [], repliedUser: false } }).catch(() => null)
+      : await channel.send(payload).catch((err) => (console.error("alpha: post failed", (err as Error).message), null));
+    return msg;
   }
 
-  async function walletPosts(): Promise<Post[]> {
+  /** Post `c` as a call if its token passes the filter and wasn't called in CALL_AGAIN_MS. True when it was decided
+   *  (posted, or failed the filter for good); false when the filter couldn't tell yet. */
+  async function call(c: Call): Promise<boolean> {
+    const last = called.get(c.key);
+    if (last && Date.now() - last.at < CALL_AGAIN_MS) return true;
+    const v = await screen(c.ca, c.chain);
+    if (!v.ok) {
+      console.log(`alpha: skipped $${ticker(c.sym)} (${c.head}): ${v.why.join("; ")}`);
+      return !v.failed;
+    }
+    const msg = await send(callText(c, v));
+    if (msg) called.set(c.key, { at: Date.now(), msg });
+    return true;
+  }
+
+  /** An Azuro bet as a call (2026-10-16, the user: "it should suggest alpha azuro bets too"): no scam filter (no token),
+   *  the same once-per-CALL_AGAIN_MS and hourly cap; the result replies under it. */
+  async function bet(key: string, text: string): Promise<void> {
+    const last = called.get(key);
+    if (last && Date.now() - last.at < CALL_AGAIN_MS) return;
+    const msg = await send(text);
+    if (msg) called.set(key, { at: Date.now(), msg });
+  }
+
+  /** A sell of a token we called: a reply under the call with the P&L. Tokens never called are left out. */
+  async function update(key: string, text: string): Promise<void> {
+    const last = called.get(key);
+    if (last?.msg) await send(text, last.msg);
+  }
+
+  async function deskSource(): Promise<void> {
+    const d = await desk();
+    const trades = fresh("desk", d.recent_trades.filter((t) => t.book.startsWith("fly:")), (t) => `${t.at}|${t.book}|${t.symbol}|${t.side}|${t.usd}`);
+    for (const t of trades.reverse()) {   // oldest first
+      if (t.symbol.startsWith("azuro:") || SKIP_TAGS.has(t.book.split("/")[1] ?? "")) continue;
+      const ca = await contractOf(t.symbol);
+      if (!ca) continue;
+      const chain = chainOf(t.symbol), key = `${chain}:${ca.toLowerCase()}`;
+      if (t.side === "buy") await call({ key, sym: t.symbol, ca, chain, at: Date.parse(t.at), head: `🏦 Fly Desk bought ${usd(t.usd)}` });
+      else {
+        const held = d.positions[t.book]?.rows.find((r) => r.symbol === t.symbol);
+        await update(key, `🔴 Fly Desk sold $${ticker(t.symbol)} (${usd(t.usd)})${held ? `, still holds ${usd(held.value_usd)} (${pct(held.pnl_pct)})` : ""}`);
+      }
+    }
+    // bets: the desk's open Azuro bets (stake, odds, end) as calls; settled ones reply under their call
+    const az = d.chains?.azuro;
+    for (const b of fresh("desk:bets", az?.bets ?? [], (b) => b.symbol)) {
+      const mult = b.odds ? ` at ${(1 / b.odds).toFixed(2)}x` : "";
+      const ends = b.ends ? ` · ends <t:${Math.floor(b.ends)}:R>` : "";
+      await bet(`bet:${b.symbol}`, `🎲 **${betName(b.symbol, d.labels)}**\nFly Desk bet ${usd(b.stake)}${mult}, pays ${usd(b.pays)}${ends}`);
+    }
+    for (const s of fresh("desk:settled", az?.settled ?? [], (s) => s.symbol)) {
+      const text = s.refund ? "↩️ refunded" : s.payout > 0 ? `✅ won: ${usd(s.cost_usd)} → ${usd(s.usd)}` : `❌ lost ${usd(s.cost_usd)}`;
+      await update(`bet:${s.symbol}`, text);
+    }
+    for (const l of fresh("desk:launch", d.launches?.items ?? [], (l) => l.token)) {
+      await send(`🚀 **The flies launched ${l.name} ($${symbol(l.symbol)})**\n\`${l.token}\`\n<https://dexscreener.com/robinhood/${l.token}>`);
+    }
+    // FOMO: what's hot at the first read (a restart) counts as called, so a deploy doesn't repeat it
+    const first = !seen.has("desk:fomo");
+    seen.set("desk:fomo", new Set());
+    for (const t of (d.alpha?.fomo?.tokens ?? []).filter(hot)) {
+      if (first) { called.set(`:${t.token.toLowerCase()}`, { at: Date.now() }); continue; }
+      await call({ key: `:${t.token.toLowerCase()}`, sym: t.symbol ?? "?", ca: t.token, chain: "", at: Date.now(),
+        head: `🔥 top traders aping: ${t.buyers_1h ?? 0} wallet${t.buyers_1h === 1 ? "" : "s"}, ${k(t.buy_usd_1h ?? 0)} in 1h` });
+    }
+    // found tokens: watched until they pass (a pool an hour old rarely trades enough yet) or FOUND_WATCH_MS ends
+    for (const f of fresh("desk:found", d.alpha?.found ?? [], (f) => f.token)) watching.set(f.token, f);
+    for (const [token, f] of watching) {
+      if (Date.now() - f.at * 1000 > FOUND_WATCH_MS) { watching.delete(token); continue; }
+      const chain = chainOf(f.symbol), key = `${chain}:${token.toLowerCase()}`;
+      if (!(await screen(token, chain)).ok) continue;
+      watching.delete(token);
+      await call({ key, sym: f.symbol, ca: token, chain, at: Date.now(), head: "🆕 new pool, passed the checks" });
+    }
+  }
+
+  async function walletSource(): Promise<void> {
     const b = await board();
     const top = b.d7.filter((w) => w.active && w.profit_7d > 0).slice(0, opts.flies).flatMap((w) => w.flies);
     const labels = (await desk().catch(() => null))?.labels;
-    const posts: Post[] = [];
     for (const fly of top) {
       const log = await flyLog(fly).catch(() => null);
       if (!log) continue;
       const trades = log.rows.filter((r): r is LogTrade => r.type === "trade");
-      for (const r of fresh(`fly:${fly}`, trades, (r) => `${r.first_at ?? r.at}|${r.symbol}|${r.side}|${r.status}`)) {
-        const kind = kindOf(r);
-        if (kind) posts.push({ at: r.at, embed: await walletEmbed(fly, r, kind, labels) });
+      for (const r of fresh(`fly:${fly}`, trades, (r) => `${r.first_at ?? r.at}|${r.symbol}|${r.side}|${r.status}`).reverse()) {
+        if (r.symbol.startsWith("azuro:")) {
+          if (r.status === "filled" && r.side === "buy") {
+            const mult = r.price ? ` at ${(1 / r.price).toFixed(2)}x` : "";
+            await bet(`bet:${r.symbol}`, `🎲 **${betName(r.symbol, labels)}**\nFly #${fly} bet${r.usd ? ` ${usd(r.usd)}` : ""}${mult}${r.why ? `\n> ${r.why.replace(/\s+/g, " ").slice(0, 160)}` : ""}`);
+          }
+          continue;
+        }
+        if (r.tag === "poly" || SKIP_TAGS.has(r.tag)) continue;
+        const blocked = r.status !== "filled" && r.side === "buy" ? blockedWhy(r) : null;
+        if (r.status !== "filled" && !blocked) continue;
+        const ca = await contractOf(r.symbol);
+        if (!ca) continue;
+        const chain = chainOf(r.symbol), key = `${chain}:${ca.toLowerCase()}`;
+        if (blocked) {
+          await call({ key, sym: r.symbol, ca, chain, at: r.at,
+            head: `🪰 Fly #${fly} wanted in${r.usd ? ` (${usd(r.usd)})` : ""}${r.tag === "fomo" ? " (FOMO find)" : ""}, didn't fill: ${blocked}` });
+        } else if (r.side === "buy") {
+          await call({ key, sym: r.symbol, ca, chain, at: r.at, why: r.why,
+            head: `🪰 Fly #${fly} bought${r.usd ? ` ${usd(r.usd)}` : ""}${r.tag === "fomo" ? " (FOMO find)" : ""}` });
+        } else if (r.side === "sell" || r.side === "panic_sell") {
+          await update(key, `${(r.pnl_pct ?? 0) >= 0 ? "🟢" : "🔴"} Fly #${fly} sold $${ticker(r.symbol)}${r.pnl_pct != null ? ` ${pct(r.pnl_pct)}` : ""}`);
+        }
       }
     }
-    return posts;
   }
 
+  let busy = false;
   async function tick() {
-    const posts: Post[] = [];
-    for (const [name, source] of [["desk", deskPosts], ["wallets", walletPosts]] as const) {
-      try {
-        posts.push(...(await source()));
-      } catch (err) {
-        console.error(`alpha: ${name} read failed`, (err as Error).message);
+    if (busy) return;   // a slow filter (RPC) can outlast ALPHA_POLL_MS
+    busy = true;
+    try {
+      for (const [name, source] of [["desk", deskSource], ["wallets", walletSource]] as const) {
+        await source().catch((err) => console.error(`alpha: ${name} read failed`, (err as Error).message));
       }
-    }
-    if (!posts.length) return;
-    const channel = await client.channels.fetch(channelId).catch(() => null);
-    if (!channel?.isSendable()) {
-      console.error(`alpha: can't post in ${channelId} (missing, or the bot has no access to the private channel)`);
-      return;
-    }
-    posts.sort((a, b) => a.at - b.at);
-    for (let i = 0; i < posts.length; i += 10) {   // a message carries at most 10 embeds
-      await (channel as SendableChannels).send({ embeds: posts.slice(i, i + 10).map((p) => p.embed) }).catch((err) => {
-        console.error("alpha: post failed", (err as Error).message);
-      });
+    } finally {
+      busy = false;
     }
   }
 

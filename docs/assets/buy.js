@@ -477,8 +477,10 @@
       for (const b of box.querySelectorAll("[data-route]")) b.setAttribute("aria-checked", String(b.dataset.route === route));
     }
     $("buy-fee").textContent = route === "giga" && routable() ? t("noFee") : t("fee", { pct: fmt(FEE_BPS / 100, 2) });
+    // 2026-10-16 brief ("explain the fee and routing consequence beside each option, before the visitor commits"):
+    // with a choice, each route card carries its own note; without one, this line says Relay routes it and its fee
     const help = $("buy-routehelp");
-    if (help) help.hidden = !routable();
+    if (help) help.hidden = routable();
   }
 
   function start() {

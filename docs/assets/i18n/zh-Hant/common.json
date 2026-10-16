@@ -8,7 +8,9 @@
       "nfts": "NFT",
       "flydesk": "Fly Desk",
       "market": "市場",
-      "partners": "合作夥伴"
+      "partners": "合作夥伴",
+      "more": "更多",
+      "build": "開發與合作夥伴"
     },
     "home": {
       "label": "首頁"
@@ -63,7 +65,7 @@
     },
     "colosseum": {
       "label": "Fly Colosseum",
-      "desc": "Trader Fly 爭奪 $FLYAI 獎池"
+      "desc": "賽季對戰，贏取 $FLYAI"
     },
     "flinder": {
       "label": "Flinder",
@@ -83,7 +85,7 @@
     },
     "token": {
       "label": "代幣",
-      "desc": "合約、鏈、在哪裡購買"
+      "desc": "狀態、合約、費用與銷毀"
     },
     "earn": {
       "label": "賺取",
@@ -203,6 +205,32 @@
     "referrals": {
       "label": "邀請",
       "desc": "邀請好友，從他們的手續費中賺取收益"
+    },
+    "buy": {
+      "label": "購買 $FLYAI"
+    },
+    "buyMenu": {
+      "label": "購買 $FLYAI",
+      "desc": "從你的錢包、任意鏈兌換"
+    },
+    "deskOverview": {
+      "label": "概覽",
+      "desc": "交易台是什麼、如何交易和分紅"
+    },
+    "myFlies": {
+      "label": "我的蒼蠅",
+      "desc": "你的蒼蠅、牠們的錢包、下一步"
+    },
+    "flyMarket": {
+      "label": "市場",
+      "desc": "買賣 Trader Flies"
+    },
+    "performance": {
+      "label": "表現",
+      "desc": "每個 Fly Wallet 的即時結果"
+    },
+    "github": {
+      "label": "GitHub"
     }
   },
   "footer": {

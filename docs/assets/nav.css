@@ -53,11 +53,6 @@ nav .ddmenu a { display: block; padding: 9px 11px; border-radius: 7px; color: va
 nav .ddmenu a:hover { background: var(--bg-2, #060707); }
 nav .ddmenu a.on { background: var(--bg-2, #060707); }
 nav .ddmenu a.on::after { display: none; }
-/* the one way in (2026-10-13: everything points to the Let-it-fly wallets): a mint pill in the bar and the phone menu */
-nav a[data-nav-key="letitfly"] { background: var(--mint, #5ef2cc); color: #04110d !important; border-radius: 999px; padding: 6px 14px;
-  font-weight: 700; box-shadow: 0 0 18px -6px var(--glow, rgba(94,242,204,.28)); }
-nav a[data-nav-key="letitfly"]:hover { background: var(--mint-hi, #a4fbe6); }
-nav a[data-nav-key="letitfly"].on::after { display: none; }
 /* a link nav.js marks new (its 5th field): a small mint pill after the label */
 nav .nav-new { display: inline-block; margin-left: 7px; padding: 1px 7px; border-radius: 999px; background: var(--mint, #5ef2cc);
   color: #04110d; font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; vertical-align: 2px; }
@@ -68,8 +63,8 @@ nav .ddlabel span { font-size: 10px; margin-left: 2px; }
 nav .ddlabel:hover, nav li.dd.open .ddlabel, nav .ddlabel.on { color: var(--text, #f4f7f6); }
 nav .ddlabel.on::after { content: ""; display: block; height: 2px; border-radius: 2px; background: var(--mint, #5ef2cc); margin-top: 4px; box-shadow: 0 0 8px var(--glow, rgba(94,242,204,.28)); }
 nav .ddmenu.right { left: auto; right: -12px; }
-nav .ddmenu { align-items: stretch; }        /* not centred like the bar's own items: rows line up */
-/* a long menu (nav.js: more than 8 items, Apps) in two columns, so it fits a laptop screen's height */
+nav .ddmenu { align-items: stretch; text-align: left; }   /* not centred like the bar's items or a page's hero: rows line up */
+/* a long menu (nav.js: more than 6 links, Fly Desk) in two columns, so it fits a laptop screen's height */
 nav li.dd:hover .ddmenu.wide, nav li.dd:focus-within .ddmenu.wide, nav li.dd.open .ddmenu.wide {
   display: grid; grid-template-columns: repeat(2, minmax(240px, 280px)); column-gap: 4px; }
 /* a phone: a menu opens full width under the whole bar, not hung off its label (2026-10-02: the menus by either
@@ -102,6 +97,25 @@ nav .ddmenu a { border-radius: 10px; }
 /* the current page: a mint pill, not an underline (the underline lifted the label above its neighbours) */
 nav ul a.on:not(.btn), nav .ddlabel.on { background: rgba(94,242,204,.1); color: var(--mint-hi, #a4fbe6) !important; }
 nav ul a.on::after, nav .ddlabel.on::after { display: none; }
+
+/* Buy $FLYAI, the one action on every page (2026-10-16 brief): a mint pill in the bar and the phone menu. After the
+   current-page rule and with :not(.btn) so it wins in every state (2026-10-16, the user, of the old Let-it-fly pill:
+   "on hover it's like invisible" - on its own page the .on rule took the fill away and turned the text the hover's mint) */
+nav a[data-nav-key="buy"]:not(.btn), nav a[data-nav-key="buy"].on:not(.btn) {
+  background: var(--mint, #5ef2cc); color: #04110d !important; border-radius: 999px; padding: 6px 14px !important;
+  font-weight: 700; box-shadow: 0 0 18px -6px var(--glow, rgba(94,242,204,.28)); transition: background .15s, box-shadow .15s; }
+nav a[data-nav-key="buy"]:not(.btn):hover, nav a[data-nav-key="buy"]:not(.btn):focus-visible, nav a[data-nav-key="buy"].on:not(.btn):hover {
+  background: var(--mint-hi, #a4fbe6); color: #04110d !important; box-shadow: 0 0 24px -4px var(--glow, rgba(94,242,204,.28)); }
+nav a[data-nav-key="buy"]::after { display: none; }
+
+/* More: its groups side by side, a title over each, plain links (nav.js "groups") */
+nav li.dd:hover .ddmenu.groups, nav li.dd:focus-within .ddmenu.groups, nav li.dd.open .ddmenu.groups {
+  display: grid; grid-template-columns: repeat(3, minmax(150px, 190px)); column-gap: 6px; padding: 10px; }
+nav .ddmenu.groups ul { display: flex; flex-direction: column; align-items: stretch; gap: 0; flex-wrap: nowrap; }
+nav .ddmenu.groups a { padding: 7px 10px; font-size: 14px; }
+nav .ddh { margin: 4px 10px 6px; font: 600 11px var(--mono, "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace);
+  letter-spacing: .1em; text-transform: uppercase; color: var(--mint, #5ef2cc); opacity: .8; }
+@media (max-width: 760px) { nav li.buycta a { padding: 7px 12px !important; font-size: 13px; } }
 
 /* the account menu on every page (nav.js account): Sign in, or the nickname with my flies, the leaderboard, a nickname box */
 nav li.acct .acct-in { white-space: nowrap; }
