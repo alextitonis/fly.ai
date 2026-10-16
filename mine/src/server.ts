@@ -52,7 +52,7 @@ import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
 import { createPassFights } from "./passfights.ts";
 import { connectPg, lockWallet, type Q } from "./pg.ts";
 import { copyLegacy } from "./legacy.ts";
-import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, merkleTree, monthCalldata, monthId, toWei } from "./payouts.ts";
+import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, merkleTree, monthCalldata, monthId, toWei, withReferrals } from "./payouts.ts";
 import { parseTiers, readStake, STAKE_SELECTORS, tierFor } from "./staking.ts";
 import {
   cachedCharge, expandSpec, intentMessage, orderConfig, orderTerms, poolPart, SpecError, sweepCost, TAG_MAX, TRANSFER_SELECTOR, transfersIn,
@@ -1543,6 +1543,13 @@ async function snapshot(m: string, pool: string) {
     else split.push({ wallet, points: 0, amount });
   }
   if (!split.length) throw new HttpError(409, `no linked wallet earned points or program pay in ${m}`);
+  // REFERRALS (2026-10-16): each referred miner's referrer gets MINING_REF_BPS of that miner's amount, paid by fly.ai
+  // on top - the pool grows by it, so the owner funds pool_wei with the cuts included
+  const refRows = await pg.all<{ wallet: string; referrer: string }>("select wallet, referrer from mine.referrals");
+  const ref = withReferrals(split, new Map(refRows.map((r) => [r.wallet.toLowerCase(), r.referrer.toLowerCase()])));
+  split.splice(0, split.length, ...ref.split);
+  poolWei += ref.extra;
+  const flyaiUsd = ref.cuts.length ? await flyaiPrice().then((p) => p.usd).catch(() => 0) : 0;
   const tree = merkleTree(split.map((a) => leafHash(a.wallet, a.amount)));
   await pg.tx(async (q) => {
     await q.run("insert into mine.snapshots (month, pool_wei, root, total_points, wallets, created_at) values (?, ?, ?, ?, ?, ?)",
@@ -1551,8 +1558,13 @@ async function snapshot(m: string, pool: string) {
       await q.run("insert into mine.snapshot_claims (month, wallet, points, amount_wei, proof) values (?, ?, ?, ?, ?)",
         m, a.wallet, a.points, a.amount.toString(), JSON.stringify(tree.proof(leafHash(a.wallet, a.amount))));
     }
+    for (const c of ref.cuts) {                       // what each referrer earned, for their referrals page
+      await q.run(`insert into mine.ref_earnings (referrer, wallet, source, usd, token, amount, detail)
+        values (?, ?, 'mining', ?, 'FLYAI', ?, ?::text::jsonb)`, c.referrer, c.wallet,
+        Number(fromWei(c.amount)) * flyaiUsd, c.amount.toString(), JSON.stringify({ month: m }));
+    }
   });
-  console.log(`snapshot ${m}: ${fromWei(poolWei)} tokens to ${split.length} wallets, root ${tree.root}`);
+  console.log(`snapshot ${m}: ${fromWei(poolWei)} tokens to ${split.length} wallets (${fromWei(ref.extra)} referral cuts), root ${tree.root}`);
   return {
     month: m, month_id: monthId(m), pool: fromWei(poolWei), pool_wei: poolWei.toString(), root: tree.root,
     wallets: split.length, total_points: total, unlinked_points: unlinked,

@@ -22,6 +22,18 @@
         "server"
       ],
       "port": 8791
+    },
+    {
+      "name": "docs",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8090",
+        "--directory",
+        "docs"
+      ],
+      "port": 8090
     }
   ]
 }

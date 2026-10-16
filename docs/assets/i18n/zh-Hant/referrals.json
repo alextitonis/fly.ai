@@ -28,7 +28,7 @@
     "real": "有效邀請",
     "cut": "你的分成",
     "earned": "累計收益",
-    "earnedSplit": "錢包 {wallet} · Desk {desk}",
+    "earnedSplit": "錢包 {wallet} · Desk {desk} · 挖礦 {mining}",
     "ofProfit": "佔其收益"
   },
   "tiers": {
@@ -59,12 +59,14 @@
     "title": "最近收益",
     "wallet": "Fly Wallet 提領",
     "desk": "Fly Desk 第 {epoch} 週",
-    "from": "來自 {name}"
+    "from": "來自 {name}",
+    "mining": "挖礦 {month}"
   },
   "how": {
     "title": "規則說明",
     "wallets": "<b>Fly Wallets。</b>好友提取收益時照常支付手續費，你的分成從該手續費中 fly.ai 的部分裡扣出，並在同一筆提領中以同一種幣發送到你的錢包。",
     "desk": "<b>Fly Desk。</b>好友每週分紅的 0.5% 歸你。更高里程碑的額外部分由 fly.ai 支付，而不是你的好友。每週可在<a href=\"/traderflies/claim\">領取頁面</a>的「邀請」一列領取。",
+    "mining": "<b>挖礦。</b>好友挖礦時，你獲得其每月挖礦獎勵的 0.5%，由 fly.ai 額外支付：好友的獎勵分文不少。它包含在<a href=\"/compute/claim\">Compute 領取頁面</a>當月的領取中。",
     "real": "<b>有效邀請。</b>好友在 Fly Wallets 中持有至少 $20 滿 7 天，或獲得一次 Fly Desk 分紅，即計入里程碑。",
     "new": "<b>僅限新帳戶。</b>好友首次登入時使用連結。新帳戶也可在前 14 天內於個人資料中輸入邀請碼或暱稱。一旦設定便無法更改。",
     "fair": "<b>公平使用。</b>自我邀請或批量養號不計入，此類邀請可能被移除。"

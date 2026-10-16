@@ -3,7 +3,8 @@
  * not old accounts cant set), it's not changable after set so you get 0.5% of each refferal fees (either from fly desk
  * or from individual traders) and some milestones"). The rule itself (cuts, tiers, who pays) is flytrade/desk/referrals.py;
  * the Fly Wallets pay a referrer's cut with each withdrawal's profit fee and the Fly Desk in its weekly payout (fly #0's
- * leaf on the Claim page). This module owns the links and the tables.
+ * leaf on the Claim page); mining pays 0.5% of each referred miner's month on top, in the month's snapshot
+ * (payouts.withReferrals, 2026-10-16). This module owns the links and the tables.
  *
  *   GET  /api/referral                 -> the signed-in wallet's code, its referrer, whether it may still set one, its
  *                                         referrals (real or not), tier and earnings
@@ -103,8 +104,8 @@ export function createReferrals(d: ReferralsDeps) {
          from mine.referrals r left join mine.profiles p on p.wallet = r.wallet
          where r.referrer = ? order by r.set_at desc limit 500`, me),
       pg.all<{ source: string; usd: number }>("select source, coalesce(sum(usd), 0) as usd from mine.ref_earnings where referrer = ? group by source", me),
-      pg.all<{ at: string; source: string; usd: number; wallet: string; tx_hash: string | null; epoch: number | null }>(
-        `select at, source, usd, wallet, tx_hash, epoch from mine.ref_earnings where referrer = ? order by at desc limit 20`, me),
+      pg.all<{ at: string; source: string; usd: number; wallet: string; tx_hash: string | null; epoch: number | null; month: string | null }>(
+        `select at, source, usd, wallet, tx_hash, epoch, detail->>'month' as month from mine.ref_earnings where referrer = ? order by at desc limit 20`, me),
     ]);
     const real = refs.filter((r) => r.qualified_at).length;
     const by = Object.fromEntries(earned.map((e) => [e.source, Number(e.usd) || 0]));
@@ -115,11 +116,12 @@ export function createReferrals(d: ReferralsDeps) {
       referrer: ref ? { name: name(ref.referrer, ref.nickname), via: ref.via, since: ref.set_at } : null,
       can_set: why === null, why_not: why, new_for_days: NEW_FOR_DAYS,
       total: refs.length, real, ...tierOf(real),
-      earned: { wallet_usd: by.wallet ?? 0, desk_usd: by.desk ?? 0, total_usd: (by.wallet ?? 0) + (by.desk ?? 0) },
+      earned: { wallet_usd: by.wallet ?? 0, desk_usd: by.desk ?? 0, mining_usd: by.mining ?? 0,
+        total_usd: (by.wallet ?? 0) + (by.desk ?? 0) + (by.mining ?? 0) },
       referred: refs.map((r) => ({ name: name(r.wallet, r.nickname), since: r.set_at, real: !!r.qualified_at,
         funded: !!r.funded_since, earned_usd: Number(r.usd) || 0 })),
       recent: recent.map((e) => ({ at: e.at, source: e.source, usd: Number(e.usd) || 0, from: name(e.wallet, nickOf.get(e.wallet) ?? null),
-        tx: e.tx_hash, epoch: e.epoch })),
+        tx: e.tx_hash, epoch: e.epoch, month: e.month })),
       rules: { real_min_usd: REAL_MIN_USD, real_days: REAL_DAYS },
     };
   }

@@ -64,7 +64,8 @@ function tiles(me) {
     tile(t("referrals.tiles.real"), String(me.real)),
     tile(t("referrals.tiles.cut"), pct(me.tier.cut_pct), t("referrals.tiles.ofProfit")),
     tile(t("referrals.tiles.earned"), usd(me.earned.total_usd),
-      t("referrals.tiles.earnedSplit", { wallet: usd(me.earned.wallet_usd), desk: usd(me.earned.desk_usd) })));
+      t("referrals.tiles.earnedSplit", { wallet: usd(me.earned.wallet_usd), desk: usd(me.earned.desk_usd),
+        mining: usd(me.earned.mining_usd ?? 0) })));
   $("ref-tiles").hidden = false;
   $("ref-next").textContent = me.next
     ? t("referrals.tiers.next", { count: me.next.at - me.real, cut: me.next.cut_pct, fee: Math.round(me.next.fee_discount * 100) })
@@ -101,7 +102,8 @@ function lists(me) {
   if (me.recent.length) {
     $("ref-recent").replaceChildren(el("tbody", null, ...me.recent.map((e) => el("tr", null,
       el("td", null, day(e.at)),
-      el("td", null, e.source === "desk" ? t("referrals.recent.desk", { epoch: e.epoch ?? "" }) : t("referrals.recent.wallet"),
+      el("td", null, e.source === "desk" ? t("referrals.recent.desk", { epoch: e.epoch ?? "" })
+        : e.source === "mining" ? t("referrals.recent.mining", { month: e.month ?? "" }) : t("referrals.recent.wallet"),
         " ", el("small", { class: "ref-muted" }, t("referrals.recent.from", { name: e.from }))),
       el("td", { class: "mono" }, usd(e.usd))))));
     $("ref-recent-card").hidden = false;

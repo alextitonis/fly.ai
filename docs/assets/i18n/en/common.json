@@ -87,6 +87,10 @@
       "label": "Token",
       "desc": "Status, contract, fees and burns"
     },
+    "maker": {
+      "label": "Fly Maker",
+      "desc": "Market making for your token"
+    },
     "earn": {
       "label": "Earn",
       "desc": "Lend USDG from your wallet"

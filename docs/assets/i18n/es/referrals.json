@@ -28,7 +28,7 @@
     "real": "Referidos reales",
     "cut": "Tu parte",
     "earned": "Ganado hasta ahora",
-    "earnedSplit": "{wallet} wallets · {desk} desk",
+    "earnedSplit": "{wallet} wallets · {desk} desk · {mining} minería",
     "ofProfit": "de sus ganancias"
   },
   "tiers": {
@@ -59,12 +59,14 @@
     "title": "Últimas ganancias",
     "wallet": "Retiro de Fly Wallet",
     "desk": "Fly Desk semana {epoch}",
-    "from": "de {name}"
+    "from": "de {name}",
+    "mining": "Minería {month}"
   },
   "how": {
     "title": "Cómo funciona",
     "wallets": "<b>Fly Wallets.</b> Cuando un amigo retira ganancias, paga su comisión normal, y tu parte de su ganancia sale de la parte de fly.ai en esa comisión. Se envía a tu wallet en el mismo retiro, en la misma moneda.",
     "desk": "<b>Fly Desk.</b> El pago semanal de un amigo te da el 0,5%. Las metas más altas añaden más encima, pagado por fly.ai, no por tu amigo. Se reclama cada semana en la <a href=\"/traderflies/claim\">página Reclamar</a>, como la fila Referidos.",
+    "mining": "<b>Minería.</b> Cuando un amigo mina, recibes el 0,5% de su pago mensual de minería, pagado por fly.ai encima: tu amigo conserva todo lo suyo. Está en el reclamo del mes en la <a href=\"/compute/claim\">página de reclamo de Compute</a>.",
     "real": "<b>Referidos reales.</b> Un amigo cuenta para una meta cuando mantiene al menos $20 en Fly Wallets durante 7 días, o recibe un pago del Fly Desk.",
     "new": "<b>Solo cuentas nuevas.</b> El enlace se usa cuando tu amigo inicia sesión por primera vez. Una cuenta nueva también puede escribir un código o apodo en su perfil, en sus primeros 14 días. Una vez fijado, no se puede cambiar.",
     "fair": "<b>Juego limpio.</b> Referirte a ti mismo o cultivar cuentas no cuenta, y esos referidos pueden eliminarse."

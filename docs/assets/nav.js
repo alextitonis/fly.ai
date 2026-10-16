@@ -57,6 +57,8 @@
         ["Changelog", "/changelog"],
       ]],
       ["build", "Build & partners", [
+        // 2026-10-16: market making for any token on GIGA DEX (flytrade/MAKER-PLAN.md), "New" for the launch
+        ["Fly Maker", "/maker", "Market making for your token", false, true],
         ["API & skills", "/desk-api"],
         ["For Agents", "/agents"],
         ["GitHub", "https://github.com/alextitonis/fly.ai", undefined, true, false, "github"],

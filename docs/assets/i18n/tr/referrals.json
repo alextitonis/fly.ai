@@ -28,7 +28,7 @@
     "real": "Gerçek davetler",
     "cut": "Payın",
     "earned": "Şimdiye kadar kazanılan",
-    "earnedSplit": "{wallet} cüzdan · {desk} desk",
+    "earnedSplit": "{wallet} cüzdan · {desk} desk · {mining} madencilik",
     "ofProfit": "kârlarından"
   },
   "tiers": {
@@ -59,12 +59,14 @@
     "title": "Son kazançlar",
     "wallet": "Fly Wallet çekimi",
     "desk": "Fly Desk {epoch}. hafta",
-    "from": "{name} kaynaklı"
+    "from": "{name} kaynaklı",
+    "mining": "Madencilik {month}"
   },
   "how": {
     "title": "Nasıl çalışır",
     "wallets": "<b>Fly Wallets.</b> Bir arkadaşın kâr çektiğinde normal ücretini öder; senin payın fly.ai'ın o ücretteki payından çıkar. Aynı çekimde, aynı coin ile cüzdanına gönderilir.",
     "desk": "<b>Fly Desk.</b> Bir arkadaşının haftalık ödemesinin %0,5'i sana gider. Daha yüksek kilometre taşları üstüne daha fazlasını ekler; bunu arkadaşın değil fly.ai öder. Her hafta <a href=\"/traderflies/claim\">Talep sayfasında</a> Davetler satırı olarak alınabilir.",
+    "mining": "<b>Madencilik.</b> Bir arkadaşın madencilik yaptığında, aylık madencilik ödemesinin %0,5'i sana gelir; bunu fly.ai üstüne öder, arkadaşın kendi payının tamamını alır. Ayın talebinde, <a href=\"/compute/claim\">Compute talep sayfasında</a> görünür.",
     "real": "<b>Gerçek davetler.</b> Bir arkadaş, Fly Wallets'ta 7 gün boyunca en az $20 tuttuğunda ya da bir Fly Desk ödemesi aldığında kilometre taşına sayılır.",
     "new": "<b>Yalnızca yeni hesaplar.</b> Bağlantı, arkadaşın ilk kez giriş yaptığında kullanılır. Yeni bir hesap ilk 14 gününde profiline bir kod veya takma ad da yazabilir. Bir kez ayarlandığında değiştirilemez.",
     "fair": "<b>Adil oyun.</b> Kendini davet etmek veya hesap çiftliği yapmak sayılmaz ve bu davetler kaldırılabilir."

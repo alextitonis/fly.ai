@@ -87,6 +87,10 @@
       "label": "Token",
       "desc": "Estado, contrato, comisiones y quemas"
     },
+    "maker": {
+      "label": "Fly Maker",
+      "desc": "Creación de mercado para tu token"
+    },
     "earn": {
       "label": "Ganar",
       "desc": "Presta USDG desde tu wallet"

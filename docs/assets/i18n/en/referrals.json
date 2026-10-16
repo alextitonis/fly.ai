@@ -28,7 +28,7 @@
     "real": "Real referrals",
     "cut": "Your cut",
     "earned": "Earned so far",
-    "earnedSplit": "{wallet} wallets · {desk} desk",
+    "earnedSplit": "{wallet} wallets · {desk} desk · {mining} mining",
     "ofProfit": "of their profit"
   },
   "tiers": {
@@ -59,12 +59,14 @@
     "title": "Latest earnings",
     "wallet": "Fly Wallet withdrawal",
     "desk": "Fly Desk week {epoch}",
-    "from": "from {name}"
+    "from": "from {name}",
+    "mining": "Mining {month}"
   },
   "how": {
     "title": "How it works",
     "wallets": "<b>Fly Wallets.</b> When a friend withdraws profit, they pay their normal fee, and your cut of their profit comes out of fly.ai's part of that fee. It's sent to your wallet in the same withdrawal, in the same coin.",
     "desk": "<b>Fly Desk.</b> A friend's weekly payout gives 0.5% to you. Higher milestones add more on top, paid by fly.ai, not by your friend. It's claimable each week on the <a href=\"/traderflies/claim\">Claim page</a>, as the Referrals row.",
+    "mining": "<b>Mining.</b> When a friend mines, you get 0.5% of their monthly mining payout, paid by fly.ai on top: your friend keeps all of theirs. It's in the month's claim on the <a href=\"/compute/claim\">Compute claim page</a>.",
     "real": "<b>Real referrals.</b> A friend counts toward a milestone once they keep at least $20 in Fly Wallets for 7 days, or get a Fly Desk payout.",
     "new": "<b>New accounts only.</b> A link is used when your friend first signs in. A new account can also type a code or nickname in its profile, in its first 14 days. Once set, it can't be changed.",
     "fair": "<b>Fair play.</b> Referring yourself or farming accounts doesn't count, and such referrals may be removed."

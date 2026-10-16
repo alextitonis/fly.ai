@@ -87,6 +87,10 @@
       "label": "Token",
       "desc": "Durum, kontrat, ücretler ve yakımlar"
     },
+    "maker": {
+      "label": "Fly Maker",
+      "desc": "Tokenin için piyasa yapıcılığı"
+    },
     "earn": {
       "label": "Kazan",
       "desc": "Cüzdanından USDG borç ver"

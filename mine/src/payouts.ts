@@ -72,6 +72,30 @@ export function allocate(entries: { wallet: string; points: number }[], pool: bi
   return rows.map(({ wallet, points, amount }) => ({ wallet, points, amount }));
 }
 
+/** A referrer's cut of each referred miner's month, in basis points (2026-10-16, the user: 0.5%, "for mining paid by
+ * fly.ai"): on top of the pool, so the miner keeps every wei of their own share. */
+export const MINING_REF_BPS = 50n;
+
+/**
+ * The referrers' cuts for a month's split: MINING_REF_BPS of each referred wallet's amount, floored, added to the
+ * referrer's own row (a new row with no points if the referrer didn't mine). `referrerOf` is keyed by lowercase
+ * wallet. Returns the new split, what each cut came from (for mine.ref_earnings) and the extra the pool needs.
+ */
+export function withReferrals(split: Allocation[], referrerOf: Map<string, string>) {
+  const out = split.map((a) => ({ ...a }));
+  const cuts: { referrer: string; wallet: string; amount: bigint }[] = [];
+  for (const a of split) {
+    const ref = referrerOf.get(a.wallet.toLowerCase());
+    const amount = (a.amount * MINING_REF_BPS) / 10_000n;
+    if (!ref || amount <= 0n) continue;
+    const row = out.find((r) => r.wallet.toLowerCase() === ref.toLowerCase());
+    if (row) row.amount += amount;
+    else out.push({ wallet: checksumAddress(ref), points: 0, amount });
+    cuts.push({ referrer: ref.toLowerCase(), wallet: a.wallet.toLowerCase(), amount });
+  }
+  return { split: out, cuts, extra: cuts.reduce((s, c) => s + c.amount, 0n) };
+}
+
 export function leafHash(wallet: string, amount: bigint): string {
   const encoded = concat(new Uint8Array(12), bytes(checksumAddress(wallet)), word(amount));
   return hex(keccak_256(keccak_256(encoded)));

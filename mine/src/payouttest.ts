@@ -7,7 +7,7 @@
  */
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, merkleTree, monthId, toWei, verifyProof } from "./payouts.ts";
+import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, MINING_REF_BPS, merkleTree, monthId, toWei, verifyProof, withReferrals } from "./payouts.ts";
 
 let failed = 0;
 const check = (name: string, ok: boolean, detail = "") => {
@@ -59,5 +59,22 @@ const fixture = {
 writeFileSync(fileURLToPath(new URL("../contracts/test/fixtures/snapshot.json", import.meta.url)), `${JSON.stringify(fixture, null, 2)}\n`);
 console.log("wrote contracts/test/fixtures/snapshot.json");
 
+// mining referrals (2026-10-16): 0.5% of each referred wallet's amount goes to its referrer, on top of the pool
+{
+  const a = "0x" + "a1".repeat(20), b = "0x" + "b2".repeat(20), c = "0x" + "c3".repeat(20);
+  const whole = (n: bigint) => n * 10n ** 18n;
+  const base = allocate([{ wallet: a, points: 60 }, { wallet: b, points: 40 }], whole(1_000_000n));
+  const r = withReferrals(base, new Map([[b, a], [a, c]]));    // b referred by a (who mines), a by c (who doesn't)
+  const amt = (w: string) => r.split.find((x) => x.wallet.toLowerCase() === w)?.amount ?? 0n;
+  const cutB = (whole(400_000n) * MINING_REF_BPS) / 10_000n, cutA = (whole(600_000n) * MINING_REF_BPS) / 10_000n;
+  check("mining referral: the referred miner keeps all of theirs", amt(b) === whole(400_000n));
+  check("mining referral: a referrer who mines gets the cut on top", amt(a) === whole(600_000n) + cutB);
+  check("mining referral: a referrer who didn't mine gets just the cut", amt(c) === cutA);
+  check("mining referral: the pool grows by the cuts", r.extra === cutA + cutB
+    && r.split.reduce((s2, x) => s2 + x.amount, 0n) === whole(1_000_000n) + r.extra);
+  check("mining referral: none without referrers", withReferrals(base, new Map()).extra === 0n);
+}
+
 console.log(failed ? `${failed} FAILED` : "payout math checks passed");
 process.exit(failed ? 1 : 0);
+

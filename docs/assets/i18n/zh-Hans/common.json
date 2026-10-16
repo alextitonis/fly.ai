@@ -87,6 +87,10 @@
       "label": "代币",
       "desc": "状态、合约、费用与销毁"
     },
+    "maker": {
+      "label": "Fly Maker",
+      "desc": "为你的代币做市"
+    },
     "earn": {
       "label": "赚取",
       "desc": "从你的钱包出借 USDG"

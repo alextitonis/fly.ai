@@ -87,6 +87,10 @@
       "label": "토큰",
       "desc": "상태, 컨트랙트, 수수료와 소각"
     },
+    "maker": {
+      "label": "Fly Maker",
+      "desc": "내 토큰을 위한 마켓 메이킹"
+    },
     "earn": {
       "label": "이자 받기",
       "desc": "내 지갑에서 USDG 빌려주기"
