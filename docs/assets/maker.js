@@ -590,9 +590,11 @@
           <button class="btn red" type="submit">${h("ui.home.open", "Open dashboard")}</button>
         </form>
         <p class="mk-small mk-muted">${h("ui.home.example", "For example: {link}. No GIGA DEX pool yet? The dashboard offers to create one.").replace("{link}", `<a href="?token=${FLYAI}">$FLYAI</a>`)}</p>
+        <p class="mk-small"><a href="https://www.gigadex.fi" target="_blank" rel="noopener">${h("ui.home.giga", "Trade on GIGA DEX ↗")}</a></p>
         <p class="mk-msg" id="mk-tokmsg"></p>
       </div>
-      <div id="mk-mine"></div>`);
+      <div id="mk-mine"></div>
+      <div id="mk-all"></div>`);
     $("mk-tokform").addEventListener("submit", (e) => {
       e.preventDefault();
       const a = $("mk-tok").value.trim();
@@ -600,6 +602,40 @@
       location.search = "?token=" + a;
     });
     renderMine();
+    renderAll();
+  }
+
+  /** Every vault the factory made (its VaultCreated events), newest 40, biggest first: anyone's, read-only. */
+  async function renderAll() {
+    const box = $("mk-all");
+    if (!box || !FACTORY_ADDR) return;
+    const head = `<h3 class="mk-h">${h("ui.home.all", "All vaults")}</h3>`;
+    box.innerHTML = head + `<p class="mk-muted">${h("ui.home.allLoading", "Reading the vaults…")}</p>`;
+    const logs = await getLogs(FACTORY_ADDR, [TOPIC.VaultCreated], FACTORY_FROM).catch(() => []);
+    const list = logs.map((l) => ({ vault: wordAddr(words(l.data)[0]), owner: "0x" + l.topics[1].slice(26) })).reverse().slice(0, 40);
+    if (!list.length) {
+      box.innerHTML = head + `<p class="mk-muted">${h("ui.home.allNone", "No vaults yet. Be the first: pick a token above.")}</p>`;
+      return;
+    }
+    const eth = await ethUsd().catch(() => null);
+    const rows = (await Promise.all(list.map(async (x) => {
+      try {
+        const v = await readVault(x.vault);
+        const val = vaultValue(v).value;
+        return { ...x, v, usd: same(v.quote, USDG) ? val : eth != null ? val * eth : null };
+      } catch (e) { return null; }
+    }))).filter(Boolean).sort((a, b) => (b.usd || 0) - (a.usd || 0));
+    const state = (v) => (v.stopped ? ["bad", L("ui.st.stopped", "stopped")] : v.paused ? ["", L("ui.st.paused", "paused")] : ["", L("ui.st.active", "active")]);
+    box.innerHTML = head + `<p class="mk-small mk-muted">${h("ui.home.allLede", "Every Fly Maker vault, from every wallet. Open one to see its plan, guardrails and every trade.")}</p>
+      <div class="mk-list">${rows.map((r) => {
+        const [cls, label] = state(r.v);
+        return `<a class="card pad mk-item" href="?vault=${r.vault}">
+          <span><b>${esc(r.v.t.symbol)}</b><span class="mk-muted"> / ${esc(r.v.q.symbol)}</span></span>
+          <span>${r.usd != null ? "$" + fmt(r.usd) : "–"} <span class="mk-muted">${h("ui.home.inVault", "in the vault")}</span></span>
+          <span class="mk-muted">${h("ui.token.owner", "owner {owner}", { owner: short(r.owner) })}</span>
+          <span class="mk-badge${cls ? " " + cls : ""}">${esc(label)}</span>
+        </a>`;
+      }).join("")}</div>`;
   }
 
   async function renderMine() {

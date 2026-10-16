@@ -12,7 +12,7 @@
 .mk-input:focus { outline: none; border-color: var(--mint); }
 textarea.mk-input { font: 12px/1.5 var(--mono); resize: vertical; }
 .mk-row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
-.mk-row .mk-input { flex: 1 1 280px; }
+.mk-row > .mk-input { flex: 1 1 280px; }   /* direct children only: inside a .mk-field (a column) it set the HEIGHT */
 .mk-pick .mk-row { margin-top: 12px; }
 
 .mk-msg { margin: 10px 0 0; min-height: 1em; font-size: 14px; color: var(--muted); }
@@ -78,9 +78,11 @@ textarea.mk-input { font: 12px/1.5 var(--mono); resize: vertical; }
 .mk-holder .btn + .btn { margin-left: 8px; }
 
 .mk-owner { margin: 18px 0; }
-.mk-ctl { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
-.mk-ctl .mk-row { flex: 1 1 320px; }
-.mk-ctl .mk-field { flex: 1 1 200px; }
+.mk-ctl { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+.mk-ctl > .btn { margin-top: 25px; }
+.mk-ctl .mk-row { flex: 0 1 auto; max-width: 100%; flex-wrap: nowrap; align-items: flex-start; }
+.mk-ctl .mk-field { flex: 0 1 240px; }
+.mk-ctl .mk-row > .btn { margin-top: 25px; white-space: nowrap; }   /* level with the input, not the hint under it */
 .mk-posn { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 14px 18px; margin-bottom: 10px; }
 .mk-log { max-height: 420px; overflow: auto; }
 .mk-log .row { font-size: 13px; }
