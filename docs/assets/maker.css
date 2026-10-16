@@ -75,6 +75,7 @@ textarea.mk-input { font: 12px/1.5 var(--mono); resize: vertical; }
 .mk-holder.on { border-color: var(--mint-deep); }
 .mk-holder p { margin: 0 0 8px; }
 .mk-holder .btn { margin-top: 0; }
+.mk-holder .btn + .btn { margin-left: 8px; }
 
 .mk-owner { margin: 18px 0; }
 .mk-ctl { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }

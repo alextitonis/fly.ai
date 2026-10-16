@@ -119,13 +119,14 @@
       "s2": "2/3 aprobando exactamente {amount}…",
       "s2eth": "2/3 depositando ETH…",
       "s3": "3/3 depositando…",
+      "stake": "Hacer staking de $FLYAI",
       "tick": "Marca la casilla primero: estás aprobando exactamente este plan.",
       "tier": "{n} $FLYAI → {pct}%",
-      "tiers": "Mantén $FLYAI en tu wallet para pagar menos comisión: {tiers}.",
+      "tiers": "Mantén o haz staking de $FLYAI para pagar menos comisión: {tiers}.",
       "tokApprove": "aprobando exactamente {amount}…",
       "tokDeposit": "depositando {token}…",
       "tokenDeposit": "Depósito de {token} (sin comisión)",
-      "youHold": "Tienes {n} $FLYAI."
+      "youHold": "Tienes {n} $FLYAI (wallet + staking)."
     },
     "g": {
       "auto": "Automático según el plan si está vacío",
@@ -194,7 +195,7 @@
       "resume": "Reanudar",
       "topUp": "Recargar ({quote})",
       "topUpBtn": "Recargar",
-      "topUpHint": "Comisión {pct}% (menor mientras tengas $FLYAI)",
+      "topUpHint": "Comisión {pct}% (menor mientras tengas o hagas staking de $FLYAI)",
       "unwind": "Cerrar posiciones (recibir {token} y {quote})",
       "withdraw": "Retirar",
       "withdrawAll": "Retirar todo",

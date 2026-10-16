@@ -119,13 +119,14 @@
       "s2": "2/3 approving exactly {amount}…",
       "s2eth": "2/3 depositing ETH…",
       "s3": "3/3 depositing…",
+      "stake": "Stake $FLYAI",
       "tick": "Tick the box first: you're approving exactly this plan.",
       "tier": "{n} $FLYAI → {pct}%",
-      "tiers": "Hold $FLYAI in your wallet for a lower fee: {tiers}.",
+      "tiers": "Hold or stake $FLYAI for a lower fee: {tiers}.",
       "tokApprove": "approving exactly {amount}…",
       "tokDeposit": "depositing {token}…",
       "tokenDeposit": "{token} deposit (no fee)",
-      "youHold": "You hold {n} $FLYAI."
+      "youHold": "You have {n} $FLYAI (wallet + staked)."
     },
     "g": {
       "auto": "Auto from the plan if empty",
@@ -194,7 +195,7 @@
       "resume": "Resume",
       "topUp": "Top up ({quote})",
       "topUpBtn": "Top up",
-      "topUpHint": "Fee {pct}% (lower while you hold $FLYAI)",
+      "topUpHint": "Fee {pct}% (lower while you hold or stake $FLYAI)",
       "unwind": "Unwind positions (receive {token} and {quote})",
       "withdraw": "Withdraw",
       "withdrawAll": "Withdraw everything",

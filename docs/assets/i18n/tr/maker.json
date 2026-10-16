@@ -119,13 +119,14 @@
       "s2": "2/3 tam olarak {amount} onaylanıyor…",
       "s2eth": "2/3 ETH yatırılıyor…",
       "s3": "3/3 yatırılıyor…",
+      "stake": "$FLYAI stake et",
       "tick": "Önce kutuyu işaretle: tam olarak bu planı onaylıyorsun.",
       "tier": "{n} $FLYAI → %{pct}",
-      "tiers": "Daha düşük ücret için cüzdanında $FLYAI tut: {tiers}.",
+      "tiers": "Daha düşük ücret için $FLYAI tut ya da stake et: {tiers}.",
       "tokApprove": "tam olarak {amount} onaylanıyor…",
       "tokDeposit": "{token} yatırılıyor…",
       "tokenDeposit": "{token} yatırma (ücretsiz)",
-      "youHold": "Sende {n} $FLYAI var."
+      "youHold": "Sende {n} $FLYAI var (cüzdan + stake)."
     },
     "g": {
       "auto": "Boşsa plana göre otomatik",
@@ -194,7 +195,7 @@
       "resume": "Sürdür",
       "topUp": "Ekleme yap ({quote})",
       "topUpBtn": "Ekle",
-      "topUpHint": "Ücret %{pct} ($FLYAI tuttuğun sürece daha düşük)",
+      "topUpHint": "Ücret %{pct} ($FLYAI tuttuğun ya da stake ettiğin sürece daha düşük)",
       "unwind": "Pozisyonları kapat ({token} ve {quote} al)",
       "withdraw": "Çek",
       "withdrawAll": "Her şeyi çek",

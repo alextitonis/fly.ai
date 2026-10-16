@@ -119,13 +119,14 @@
       "s2": "2/3 정확히 {amount} 승인 중…",
       "s2eth": "2/3 ETH 입금 중…",
       "s3": "3/3 입금 중…",
+      "stake": "$FLYAI 스테이킹",
       "tick": "먼저 체크박스를 선택하세요: 바로 이 계획을 승인하는 것입니다.",
       "tier": "{n} $FLYAI → {pct}%",
-      "tiers": "지갑에 $FLYAI를 보유하면 수수료가 낮아집니다: {tiers}.",
+      "tiers": "$FLYAI를 보유하거나 스테이킹하면 수수료가 낮아집니다: {tiers}.",
       "tokApprove": "정확히 {amount} 승인 중…",
       "tokDeposit": "{token} 입금 중…",
       "tokenDeposit": "{token} 입금(수수료 없음)",
-      "youHold": "보유량: {n} $FLYAI."
+      "youHold": "보유량: {n} $FLYAI(지갑 + 스테이킹)."
     },
     "g": {
       "auto": "비워 두면 계획에 맞춰 자동 설정",
@@ -194,7 +195,7 @@
       "resume": "재개",
       "topUp": "추가 입금({quote})",
       "topUpBtn": "추가 입금",
-      "topUpHint": "수수료 {pct}% ($FLYAI 보유 중에는 더 낮음)",
+      "topUpHint": "수수료 {pct}% ($FLYAI 보유 또는 스테이킹 중에는 더 낮음)",
       "unwind": "포지션 정리({token}과(와) {quote} 받기)",
       "withdraw": "출금",
       "withdrawAll": "전부 출금",

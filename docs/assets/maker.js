@@ -38,8 +38,8 @@
   const FEE_TIERS = [50, 100, 200, 500, 1000, 2000, 3000, 10000, 20000];   // GIGA CL factory (GIGADEX-NOTES.md)
   const QUOTES = [USDG, WETH];
   // Set at deploy (contracts/script/DeployFlyMaker.s.sol). Empty = not live: the page reads and plans, never creates.
-  const FACTORY = "";
-  const FACTORY_BLOCK = 0;
+  const FACTORY = "0xC89548ceb94D99Aa6d908130D9DdA1867BBBbE27";
+  const FACTORY_BLOCK = 90062381;
   const LOG_SPAN = 10000000;                              // the public RPC's eth_getLogs limit (checked 2026-10-16)
   const MAX_PLAN_BYTES = 4096;
 
@@ -54,7 +54,7 @@
     tickSpacing: "0xd0c93a7c", balanceOf: "0x70a08231", decimals: "0x313ce567", symbol: "0x95d89b41",
     approve: "0x095ea7b3", allowance: "0xdd62ed3e", pmPositions: "0x99fbab88",
     createPool: "0x13ead562",
-    feeBpsFor: "0x2fc1c400", holderTiers: "0xc010d798", flyai: "0xc7676967",                             // createAndInitializePoolIfNecessary(address,address,uint24,uint160)
+    feeBpsFor: "0x2fc1c400", holderTiers: "0xc010d798", flyai: "0xc7676967", heldFlyai: "0x5ce5d93d",                             // createAndInitializePoolIfNecessary(address,address,uint24,uint160)
   };
   const MIN_SQRT = 4295128739n;
   const MAX_SQRT = 1461446703485210103287273052203988822378723970342n;
@@ -298,6 +298,7 @@
     vaultsOf: (who) => SEL.vaultsOf + addrWord(who),
     pmPositions: (id) => SEL.pmPositions + uintWord(id),
     feeBpsFor: (who) => SEL.feeBpsFor + addrWord(who),
+    heldFlyai: (who) => SEL.heldFlyai + addrWord(who),
   };
   /** holderTiers() return -> [{ minHold, feeBps }] (an array of static (uint128,uint16) tuples). */
   function decodeTiers(hex) {
@@ -630,7 +631,8 @@
       feeBps = f ? Number(w0(f)) : null;
       tiers = tr0 ? decodeTiers(tr0) : [];
       if (wallet) {
-        const [mf, mb] = await calls([[FACTORY_ADDR, enc.feeBpsFor(wallet)], [FLYAI, enc.balanceOf(wallet)]]);
+        // what counts for the discount: the wallet's FLYAI plus its FlyStaking stake (the factory adds them up)
+        const [mf, mb] = await calls([[FACTORY_ADDR, enc.feeBpsFor(wallet)], [FACTORY_ADDR, enc.heldFlyai(wallet)]]);
         myFee = mf ? Number(w0(mf)) : null;
         myFlyai = mb ? w0(mb) : null;
       }
@@ -931,12 +933,13 @@
   function holderNote() {
     if (!T.tiers || !T.tiers.length) return "";
     const list = T.tiers.map((t) => L("ui.fund.tier", "{n} $FLYAI → {pct}%", { n: Number(t.minHold / 10n ** 18n).toLocaleString("en-US"), pct: t.feeBps / 100 })).join(" · ");
-    const mine = T.myFlyai == null ? "" : " " + h("ui.fund.youHold", "You hold {n} $FLYAI.", { n: fmt(Number(T.myFlyai) / 1e18) });
+    const mine = T.myFlyai == null ? "" : " " + h("ui.fund.youHold", "You have {n} $FLYAI (wallet + staked).", { n: fmt(Number(T.myFlyai) / 1e18) });
     const onTier = T.myFee != null && T.feeBps != null && T.myFee < T.feeBps;
     return `<div class="mk-holder${onTier ? " on" : ""}">
       ${onTier ? `<p class="mk-ok">${h("ui.fund.holder", "✓ $FLYAI holder rate: {pct}%", { pct: T.myFee / 100 })}</p>` : ""}
-      <p class="mk-small">${h("ui.fund.tiers", "Hold $FLYAI in your wallet for a lower fee: {tiers}.", { tiers: list })}${mine}</p>
+      <p class="mk-small">${h("ui.fund.tiers", "Hold or stake $FLYAI for a lower fee: {tiers}.", { tiers: list })}${mine}</p>
       <a class="btn sm" href="/token#buy">${h("ui.fund.buy", "Buy $FLYAI")}</a>
+      <a class="btn sm" href="/desk#stake">${h("ui.fund.stake", "Stake $FLYAI")}</a>
     </div>`;
   }
 
@@ -1142,7 +1145,7 @@
       <p class="eyebrow">${h("ui.o.eyebrow", "Owner controls")}</p>
       <div class="mk-ctl">
         <button class="btn" id="o-pause">${v.paused ? h("ui.o.resume", "Resume") : h("ui.o.pause", "Pause")}</button>
-        <span class="mk-row">${field("o-top", L("ui.o.topUp", "Top up ({quote})", { quote: eth ? "ETH" : q.symbol }), "", v.ownerFeeBps == null ? "" : L("ui.o.topUpHint", "Fee {pct}% (lower while you hold $FLYAI)", { pct: v.ownerFeeBps / 100 }))}<button class="btn" id="o-topbtn">${h("ui.o.topUpBtn", "Top up")}</button></span>
+        <span class="mk-row">${field("o-top", L("ui.o.topUp", "Top up ({quote})", { quote: eth ? "ETH" : q.symbol }), "", v.ownerFeeBps == null ? "" : L("ui.o.topUpHint", "Fee {pct}% (lower while you hold or stake $FLYAI)", { pct: v.ownerFeeBps / 100 }))}<button class="btn" id="o-topbtn">${h("ui.o.topUpBtn", "Top up")}</button></span>
       </div>
       <details class="mk-adv"><summary>${h("ui.o.change", "Change the plan")}</summary>
         <p class="mk-small mk-muted">${h("ui.o.changeLede", "Paste a new plan text (canonical JSON, like the one below). The vault stores its hash and publishes it; nothing changes until you sign.")}</p>

@@ -119,13 +119,14 @@
       "s2": "2/3 正在批准准确的 {amount}…",
       "s2eth": "2/3 正在存入 ETH…",
       "s3": "3/3 正在存入…",
+      "stake": "质押 $FLYAI",
       "tick": "请先勾选：你批准的正是这个计划。",
       "tier": "{n} $FLYAI → {pct}%",
-      "tiers": "钱包里持有 $FLYAI 可享更低手续费：{tiers}。",
+      "tiers": "持有或质押 $FLYAI 可享更低手续费：{tiers}。",
       "tokApprove": "正在批准准确的 {amount}…",
       "tokDeposit": "正在存入 {token}…",
       "tokenDeposit": "存入 {token}（不收手续费）",
-      "youHold": "你持有 {n} $FLYAI。"
+      "youHold": "你有 {n} $FLYAI（钱包 + 质押）。"
     },
     "g": {
       "auto": "留空则按计划自动设置",
@@ -194,7 +195,7 @@
       "resume": "恢复",
       "topUp": "追加（{quote}）",
       "topUpBtn": "追加",
-      "topUpHint": "手续费 {pct}%（持有 $FLYAI 期间更低）",
+      "topUpHint": "手续费 {pct}%（持有或质押 $FLYAI 期间更低）",
       "unwind": "平仓（收到 {token} 和 {quote}）",
       "withdraw": "提取",
       "withdrawAll": "全部提取",
