@@ -2031,5 +2031,12 @@
     "stillCooling": "Bekleme sürüyor: hazır olunca tekrar dene.",
     "cantRead": "Stake okunamadı: {reason}",
     "restartWarn": "{amount} $FLYAI zaten stake'ten çıkıyor. Daha fazlasını çıkarmak tümü için {days} günlük beklemeyi yeniden başlatır. Devam?"
+  },
+  "session": {
+    "title": "Cüzdanınla giriş yap",
+    "text": "Tek bir ücretsiz imza bu cüzdanın senin olduğunu kanıtlar. İşlem göndermez ve ücreti yoktur. Giriş yap'a dokun ve cüzdan uygulamanda onayla.",
+    "sign": "Giriş yap",
+    "waiting": "Cüzdanında onayla…",
+    "cancel": "İptal"
   }
 }

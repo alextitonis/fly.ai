@@ -2031,5 +2031,12 @@
     "stillCooling": "Aún en espera: inténtalo cuando esté listo.",
     "cantRead": "No se pudo leer tu stake: {reason}",
     "restartWarn": "Ya tienes {amount} $FLYAI saliendo del stake. Retirar más reinicia la espera de {days} días para todo. ¿Seguir?"
+  },
+  "session": {
+    "title": "Inicia sesión con tu billetera",
+    "text": "Una firma gratuita demuestra que esta billetera es tuya. No envía ninguna transacción y no cuesta nada. Toca Iniciar sesión y apruébala en tu app de billetera.",
+    "sign": "Iniciar sesión",
+    "waiting": "Aprueba en tu billetera…",
+    "cancel": "Cancelar"
   }
 }

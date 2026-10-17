@@ -25,7 +25,7 @@ from PIL import Image, ImageDraw, ImageFont
 OPENROUTER = "https://openrouter.ai/api/v1"
 IMAGE_MODEL = os.environ.get("FLYBOOK_MEME_MODEL", "google/gemini-2.5-flash-image")
 CHECK_MODEL = os.environ.get("FLYBOOK_MEME_CHECK_MODEL", "google/gemini-2.5-flash-lite")
-DAILY_CAP = int(os.environ.get("FLYBOOK_MEME_DAILY_CAP", "50"))      # memes per UTC day, everyone together
+DAILY_CAP = int(os.environ.get("FLYBOOK_MEME_DAILY_CAP", "10"))      # memes per UTC day, everyone together (50 -> 10 2026-10-16: OpenRouter spend)
 IDEA_MAX = 60
 FONT = Path(__file__).resolve().parent / "fonts" / "Anton-Regular.ttf"
 SIZE = 1024

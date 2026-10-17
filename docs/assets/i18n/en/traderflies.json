@@ -2031,5 +2031,12 @@
     "stillCooling": "Still in the cooldown: try again once it's ready.",
     "cantRead": "Couldn't read your stake: {reason}",
     "restartWarn": "{amount} $FLYAI is already unstaking. Unstaking more restarts the {days}-day wait for all of it. Go on?"
+  },
+  "session": {
+    "title": "Sign in with your wallet",
+    "text": "One free signature proves this wallet is yours. It sends no transaction and costs nothing. Tap Sign in and approve it in your wallet app.",
+    "sign": "Sign in",
+    "waiting": "Approve in your wallet…",
+    "cancel": "Cancel"
   }
 }
