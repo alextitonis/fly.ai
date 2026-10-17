@@ -59,7 +59,7 @@ import {
 } from "./orders.ts";
 import { backoffMs, checkWebhook, sign, WEBHOOK_BATCH, WEBHOOK_MAX_FAILS } from "./webhooks.ts";
 import {
-  cosineAgree, EMBED_LIMITS, EMBED_MODELS, embedTexts, f32Agree, HASH as BLOB_HASH, houseJob, houseSpec, houseUnits, INDEX_INPUT, isHouseKind, isOpenKind, isProgramKind, MAX_OUTPUT_BYTES, openMinBid, openSpec, type OpenSpec,
+  cosineAgree, EMBED_LIMITS, EMBED_MODELS, embedTexts, f32Agree, HASH as BLOB_HASH, houseJob, houseSpec, houseUnits, INDEX_INPUT, isHouseKind, isOpenKind, isProgramKind, isReplayKind, MAX_OUTPUT_BYTES, openMinBid, openSpec, type OpenSpec,
 } from "./orders.ts";
 import { inspectWasm, inspectWgsl, WasmError } from "./wasmcheck.ts";
 import {
@@ -1232,7 +1232,7 @@ function pickOrder(miner: string, k: string, orders: { id: string; weight: numbe
 }
 
 /** What miners know how to run; a client that doesn't say is an older one and gets only the brain. */
-const KINDS = ["connectome", "wasm", "wgsl", "world", "probe", "fight", "replay", "embed"];
+const KINDS = ["connectome", "wasm", "wgsl", "world", "probe", "fight", "replay", "replayb", "embed"];
 
 /** A claimed program job: where to fetch it and its limits. */
 function openJob(params: string, kind: string) {
@@ -1241,7 +1241,7 @@ function openJob(params: string, kind: string) {
   if (isHouseKind(kind)) {
     return { kind, index: p.index, timeout_s: p.timeout_s, max_output: MAX_OUTPUT_BYTES, ...p.job,
       // a replay's price data is one upload every job of the order shares (the miner fetches it once)
-      ...(kind === "replay" ? { data_url: `/api/blobs/${p.job.data}` } : {}) };
+      ...(isReplayKind(kind) ? { data_url: `/api/blobs/${p.job.data}` } : {}) };
   }
   const blob = (h: string) => `/api/blobs/${h}`;
   if (kind === "embed") {
@@ -3269,7 +3269,7 @@ function createHouse(body: any) {
   const replayData: string[] = []; // a replay order's price data: kept like the order's other uploads
   if (isHouseKind(body.spec?.kind)) {
     const h = asked(() => houseSpec(body.spec, 1_000_000));
-    if (body.spec.kind === "replay") {
+    if (isReplayKind(body.spec.kind)) {
       needBlob(h.params.data as string); // 400 if the data was never uploaded
       replayData.push(h.params.data as string);
     }

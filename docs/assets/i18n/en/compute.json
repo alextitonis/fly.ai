@@ -638,6 +638,7 @@
     "worldJob": "a world simulation, seed {seed}",
     "probeJob": "a brain probe: {condition}",
     "fightJob": "a Fly Colosseum fight",
-    "replayJob": "a trading-rule replay: {name}"
+    "replayJob": "a trading-rule replay: {name}",
+    "replaybJob": "a trading-rule luck check: {name}, path {seed}"
   }
 }

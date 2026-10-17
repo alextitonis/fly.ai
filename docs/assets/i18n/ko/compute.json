@@ -638,6 +638,7 @@
     "worldJob": "월드 시뮬레이션, 시드 {seed}",
     "probeJob": "뇌 프로브: {condition}",
     "fightJob": "Fly Colosseum 대결",
-    "replayJob": "트레이딩 규칙 리플레이: {name}"
+    "replayJob": "트레이딩 규칙 리플레이: {name}",
+    "replaybJob": "트레이딩 규칙 운 검사: {name}, 경로 {seed}"
   }
 }

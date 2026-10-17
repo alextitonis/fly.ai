@@ -1104,6 +1104,7 @@
       "empty": "아직 돈이 없어요",
       "trading": "거래 중",
       "closing": "파리 판매됨: 정리 중",
+      "justEarn": "수익만: 대출 중, 거래 없음",
       "paused": "직접 일시정지함",
       "closeOnly": "정리만 함",
       "hold": "소유자가 {need} $FLYAI를 보유해야 합니다: 포지션 정리만 합니다"

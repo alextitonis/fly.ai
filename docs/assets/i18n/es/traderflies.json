@@ -1106,6 +1106,7 @@
       "empty": "Aún sin dinero",
       "trading": "Operando",
       "closing": "Mosca vendida: cerrando",
+      "justEarn": "Solo ganar: presta, sin operar",
       "paused": "Pausada por ti",
       "closeOnly": "Solo cierra",
       "hold": "Su dueño necesita tener {need} $FLYAI: solo cierra operaciones"

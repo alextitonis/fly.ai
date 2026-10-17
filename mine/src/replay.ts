@@ -14,7 +14,8 @@
  * Output: JSON {trades, turnover, equity: [[bar index, value], ...] every `every` bars and the last one}.
  */
 
-export interface ReplayToken { s: string; category: string; liquidity: number }
+/** hops: the route's pools (a pool fee each); born: when the desk first priced it (0 = before the data), for live replays */
+export interface ReplayToken { s: string; category: string; liquidity: number; hops?: number; born?: number }
 export interface ReplayData {
   start: number;
   bar: number;
@@ -27,6 +28,10 @@ export interface ReplayData {
   /** the return model's prediction per token per bar (NaN = no score): mu net of a $50 round trip, and that round trip */
   mu: Float32Array[] | null;
   rt50: Float32Array[] | null;
+  /** the routed pool's depth per token per bar, NaN where the token was not in the desk's table (live replays) */
+  depth: Float64Array[] | null;
+  /** the desk's limits as they changed: [from unix time, min buy usd, max trade usd] */
+  limits: [number, number, number][] | null;
 }
 
 export interface ReplaySetting {
@@ -39,13 +44,16 @@ export interface ReplaySetting {
   rule: Record<string, any>;
   /** record the book's value every this many bars */
   every: number;
+  /** trade behind the live desk's gates (needs data with depth): see runReplay */
+  live?: boolean;
 }
 
 export interface ReplayResult { name: string; trades: number; turnover: number; equity: [number, number][] }
 
 const MAGIC = "FLYRPLY1";
 
-/** Decode a replay data blob: gzip of MAGIC, u32 header length, header JSON, padding to 8, then the arrays. */
+/** Decode a replay data blob: gzip of MAGIC, u32 header length, header JSON, padding to 8, then the arrays (closes,
+ * real prices, the model's mu and rt50 when header.model, pool depth per bar when header.depth). */
 export async function decodeReplayData(gz: Uint8Array): Promise<ReplayData> {
   const raw = new Uint8Array(await new Response(new Blob([gz as BlobPart]).stream().pipeThrough(new DecompressionStream("gzip"))).arrayBuffer());
   if (new TextDecoder().decode(raw.subarray(0, 8)) !== MAGIC) throw new Error("not replay data");
@@ -74,8 +82,9 @@ export async function decodeReplayData(gz: Uint8Array): Promise<ReplayData> {
     mu = tokens.map(() => f32());
     rt50 = tokens.map(() => f32());
   }
+  const depth = header.depth ? tokens.map(() => f64()) : null;
   if (off > raw.byteLength) throw new Error("replay data is cut short");
-  return { start: header.start, bar: header.bar, n, tokens, px, real, mu, rt50 };
+  return { start: header.start, bar: header.bar, n, tokens, px, real, mu, rt50, depth, limits: header.limits ?? null };
 }
 
 // ---- helpers that keep Python's semantics ----------------------------------------------------------------------
@@ -109,9 +118,10 @@ export function pySum(xs: number[]): number {
 const sum = pySum;
 
 type Prices = Map<string, number>;
-interface Holding { qty: number; cost_eth: number }
+interface Holding { qty: number; cost_eth: number; pool_peak?: number }
 interface Book { eth: number; holdings: Map<string, Holding>; trades: number }
-interface Fill { usd: number; qty: number; gas: number }
+/** ok false: the executor refused it (live replays), nothing moves */
+interface Fill { usd: number; qty: number; gas: number; ok?: boolean }
 type Exec = (symbol: string, side: "buy" | "sell", amount: number, price: number) => Fill;
 interface Made { symbol: string; side: "buy" | "sell"; usd: number }
 
@@ -145,6 +155,7 @@ function rebalance(book: Book, want: Map<string, number>, slot: number, prices: 
       let qty = h ? Math.min(h.qty, -step / p) : 0;
       if (qty <= 0) continue;
       const fill = execute(s, "sell", qty, p);
+      if (fill.ok === false) continue;
       qty = fill.qty;
       const frac = qty / h!.qty;
       h!.cost_eth *= 1 - frac;
@@ -157,6 +168,7 @@ function rebalance(book: Book, want: Map<string, number>, slot: number, prices: 
       const usd = Math.min(step, book.eth - 0.5, maxTrade);
       if (usd <= 0) continue;
       const fill = execute(s, "buy", usd, p);
+      if (fill.ok === false) continue;
       let hh = book.holdings.get(s);
       if (!hh) book.holdings.set(s, (hh = { qty: 0, cost_eth: 0 }));
       hh.qty += fill.qty;
@@ -268,6 +280,10 @@ interface Ctx {
   /** the model's scores this bar: symbol -> [mu, rt50] */
   scores: Map<string, [number, number]> | null;
   execute: Exec;
+  /** the executor would take a buy (live: in the table with a pool over the floor; else always) */
+  tradeable: (s: string) => boolean;
+  /** spec["_locked"]: no new money (live: pools younger than min_pool_age_hours) */
+  locked: Set<string>;
 }
 type Strategy = (book: Book, spec: Record<string, any>, bars: Prices[], prices: Prices, barNo: number, state: Record<string, any>, ctx: Ctx) => Made[];
 
@@ -279,10 +295,10 @@ const reversal: Strategy = (book, spec, bars, prices, barNo, state, ctx) => {
   const floor = num(spec.min_pool_usd, 0) || 0;
   const skip = new Set<string>(spec.exclude ?? []);
   const cats = new Set<string>(spec.categories);
-  let universe = [...prices.keys()].filter((s) => cats.has(ctx.cat.get(s) ?? "") && then.get(s) && !skip.has(s)
+  let universe = [...prices.keys()].filter((s) => cats.has(ctx.cat.get(s) ?? "") && then.get(s) && ctx.tradeable(s) && !skip.has(s)
     && (!floor || ctx.cat.get(s) === "major" || (ctx.liq.get(s) ?? 0) >= floor));
   const held = new Set([...book.holdings].filter(([, h]) => h.qty > 0).map(([s]) => s));
-  const noBuy = shunned(universe, prices, bars, spec);
+  const noBuy = new Set([...ctx.locked, ...shunned(universe, prices, bars, spec)]);
   universe = universe.filter((s) => !noBuy.has(s) || held.has(s));
   if (universe.length < 2) return [];
   let k = Math.max(1, pyInt(pyRound(Number(spec.frac) * universe.length)));
@@ -302,21 +318,27 @@ const reversal: Strategy = (book, spec, bars, prices, barNo, state, ctx) => {
 const core: Strategy = (book, spec, _bars, prices, barNo, state, ctx) => {
   const trim = (num(spec.trim_pct, 0) || 0) / 100;
   if (trim > 0) {
+    // once per rise (rules.core, 2026-10-14): a holding is trimmed again only once its price is trim_pct over the last trim's
+    const trimmed: Record<string, number> = (state.trimmed ??= {});
+    for (const s of Object.keys(trimmed)) if (!book.holdings.get(s)?.qty) delete trimmed[s];
     const cut = new Map<string, number>();
     for (const [s, h] of book.holdings) {
-      if (h.qty > 0 && h.cost_eth > 0 && prices.get(s) && h.qty * prices.get(s)! >= h.cost_eth * (1 + trim)) cut.set(s, h.cost_eth);
+      if (h.qty > 0 && h.cost_eth > 0 && prices.get(s) && h.qty * prices.get(s)! >= h.cost_eth * (1 + trim)
+        && prices.get(s)! >= (trimmed[s] || 0) * (1 + trim)) cut.set(s, h.cost_eth);
     }
     if (cut.size) {
       const want = new Map<string, number>();
       for (const [s, h] of book.holdings) if (h.qty > 0 && prices.get(s)) want.set(s, h.qty * prices.get(s)!);
       for (const [s, v] of cut) want.set(s, v);
-      return rebalance(book, want, 1.0, prices, { ...spec, band: 0, partial: 1, min_trade_usd: 1.0 }, ctx.execute);
+      const made = rebalance(book, want, 1.0, prices, { ...spec, band: 0, partial: 1, min_trade_usd: 1.0 }, ctx.execute);
+      for (const m of made) if (cut.has(m.symbol)) trimmed[m.symbol] = prices.get(m.symbol)!;
+      if (made.length) return made;                     // (nothing sold: on to the rebalance)
     }
   }
   if (book.holdings.size && barNo - (state.last_rebalance ?? -(10 ** 9)) < Number(spec.hold_bars)) return [];
   const cats = new Set<string>(spec.categories ?? []), floor = num(spec.min_pool_usd, 0) || 0;
-  const universe = [...prices.keys()].filter((s) => prices.get(s) && ctx.liq.get(s) && (!cats.size || cats.has(ctx.cat.get(s) ?? ""))
-    && ctx.liq.get(s)! >= floor);
+  const universe = [...prices.keys()].filter((s) => prices.get(s) && ctx.liq.get(s) && ctx.tradeable(s)
+    && (!cats.size || cats.has(ctx.cat.get(s) ?? "")) && ctx.liq.get(s)! >= floor && !ctx.locked.has(s));
   if (!universe.length) return [];
   state.last_rebalance = barNo;
   const chosen = [...universe].sort((a, b) => ctx.liq.get(b)! - ctx.liq.get(a)!).slice(0, pyInt(spec.top));
@@ -396,21 +418,26 @@ const model: Strategy = (book, spec, _bars, prices, barNo, state, ctx) => {
 
 export const STRATEGIES: Record<string, Strategy> = { reversal, core, stockgap, model };
 
-/** Walk one setting over every bar of the data (research/rule_replay.py run). */
+/** Walk one setting over every bar of the data (research/rule_replay.py run; live: replay_net/livereplay.py run). */
 export function runReplay(d: ReplayData, setting: ReplaySetting): ReplayResult {
   const strategy = STRATEGIES[setting.rule.strategy];
   if (!strategy) throw new Error(`no strategy ${setting.rule.strategy}`);
   if (setting.rule.strategy === "model" && !d.mu) throw new Error("this data has no model scores");
+  const live = setting.live === true;
+  if (live && !d.depth) throw new Error("a live replay needs data with pool depth per bar");
   const cat = new Map(d.tokens.map((t) => [t.s, t.category]));
   const liq = new Map(d.tokens.map((t) => [t.s, t.liquidity]));
   const fee = setting.fee;
-  const execute: Exec = (symbol, side, amount, price) => {
+  const friendly: Exec = (symbol, side, amount, price) => {
     const reserve = Math.max(1000, liq.get(symbol)! / 2);
     return side === "buy"
       ? { usd: amount, gas: 0.05, qty: amount * (1 - fee) / price / (1 + amount / reserve) }
       : { qty: amount, gas: 0.05, usd: amount * price * (1 - fee) / (1 + amount * price / reserve) };
   };
-  const spec = { ...setting.rule, _ticks_per_bar: 1 };
+  const hops = new Map(d.tokens.map((t) => [t.s, Math.max(1, Math.trunc(t.hops ?? 1))]));
+  const born = new Map(d.tokens.map((t) => [t.s, Number(t.born ?? 0)]));
+  const routeFee = (s: string) => { let keep = 1; for (let k = 0; k < hops.get(s)!; k++) keep *= 1 - LIVE.poolFee; return 1 - keep; };
+  const ageH = num(setting.rule.min_pool_age_hours, 0) || 0;
   const book: Book = { eth: setting.usd, holdings: new Map(), trades: 0 };
   const state: Record<string, any> = {};
   const prices: Prices = new Map();
@@ -418,6 +445,7 @@ export function runReplay(d: ReplayData, setting: ReplaySetting): ReplayResult {
   let traded = 0, trades = 0;
   const equity: [number, number][] = [];
   const every = Math.max(1, Math.trunc(setting.every || 16));
+  const always = () => true, none = new Set<string>();
   for (let n = 0; n < d.n; n++) {
     d.tokens.forEach((t, i) => {
       const p = d.px[i][n];
@@ -434,7 +462,70 @@ export function runReplay(d: ReplayData, setting: ReplaySetting): ReplayResult {
         if (m === m && r === r) scores!.set(t.s, [m, r]);
       });
     }
-    for (const m of strategy(book, spec, bars, prices, n, state, { cat, liq, real, scores, execute })) {
+    let ctx: Ctx = { cat, liq, real, scores, execute: friendly, tradeable: always, locked: none };
+    let spec: Record<string, any> = { ...setting.rule, _ticks_per_bar: 1 };
+    if (live) {
+      // the live solo ghost's world this bar (engine.Desk.solo_step + executor.Executor.execute + _paper)
+      const t = d.start + n * d.bar;
+      const depth = new Map<string, number>();
+      d.tokens.forEach((tk, i) => { const v = d.depth![i][n]; if (v === v && !tk.s.includes(":")) depth.set(tk.s, v); });
+      const stale = new Set<string>();
+      if (bars.length >= LIVE.staleBars) {
+        for (const [s, p] of bars[0]) {
+          if (cat.get(s) === "stock") continue;
+          let same = true;
+          for (let k = 1; k < LIVE.staleBars; k++) if (bars[k].get(s) !== p) { same = false; break; }
+          if (same) stale.add(s);
+        }
+      }
+      let lo = 0, hi = Infinity;
+      for (const [from, a, b] of d.limits ?? [[0, 25, 50]]) if (t >= from) { lo = a; hi = b; }
+      const young = new Set<string>();
+      if (ageH) for (const s of prices.keys()) if ((born.get(s) ?? 0) > t - ageH * 3600 && cat.get(s) !== "stock" && cat.get(s) !== "major") young.add(s);
+      const tradeable = (s: string) => cat.get(s) === "major" || (depth.has(s) && depth.get(s)! >= LIVE.minPoolUsd);
+      const fill = (s: string, buy: boolean, amount: number, price: number): Fill => {
+        const reserve = Math.max(1000, (depth.get(s) || LIVE.majorDepth) / 2), f = routeFee(s);
+        return buy ? { ok: true, usd: amount, gas: LIVE.gasUsd, qty: amount * (1 - f) / price / (1 + amount / reserve) }
+          : { ok: true, qty: amount, gas: LIVE.gasUsd, usd: amount * price * (1 - f) / (1 + amount * price / reserve) };
+      };
+      const no: Fill = { ok: false, usd: 0, qty: 0, gas: 0 };
+      const execute: Exec = (s, side, amount, price) => {
+        const buy = side === "buy", size = buy ? amount : amount * price;
+        if (buy && !tradeable(s)) return no;
+        if (buy && stale.has(s)) return no;
+        if (size > hi) {
+          if (buy) return no;
+          const k = Math.trunc(Math.floor(size / hi)) + 1;
+          if (k > LIVE.maxSlices) return no;
+          const parts = Array.from({ length: k }, () => fill(s, false, amount / k, price));
+          return { ok: true, qty: amount, usd: sum(parts.map((f) => f.usd)), gas: sum(parts.map((f) => f.gas)) };
+        }
+        if (size < (buy ? lo : LIVE.minSellUsd)) return no;
+        return fill(s, buy, amount, price);
+      };
+      // the drain reflex first (engine.Desk.take_profits with only drain_pct): a pool down to half its deepest while
+      // held sells the whole holding
+      for (const [s, h] of [...book.holdings]) {
+        const price = prices.get(s);
+        if (!price || h.qty <= 0 || h.cost_eth <= 0) continue;
+        const pool = depth.get(s);
+        if (pool === undefined || cat.get(s) === "stock") continue;
+        const peak = (h.pool_peak = Math.max(h.pool_peak ?? 0, pool));
+        if (!(peak > 0 && pool <= peak * (1 - LIVE.drainPct / 100))) continue;
+        const f = execute(s, "sell", h.qty, price);
+        if (f.ok === false) continue;
+        h.cost_eth *= 1 - f.qty / h.qty;
+        h.qty -= f.qty;
+        if (h.qty <= 1e-12) book.holdings.delete(s);
+        book.eth += f.usd - f.gas;
+        book.trades += 1;
+        traded += f.usd;
+        trades += 1;
+      }
+      ctx = { cat, liq: depth, real, scores, execute, tradeable, locked: young };
+      spec = { ...spec, _max_trade_usd: hi, _min_buy_usd: lo };
+    }
+    for (const m of strategy(book, spec, bars, prices, n, state, ctx)) {
       traded += m.usd;
       trades += 1;
     }
@@ -443,9 +534,98 @@ export function runReplay(d: ReplayData, setting: ReplaySetting): ReplayResult {
   return { name: setting.name, trades, turnover: Math.round(traded / setting.usd * 1e6) / 1e6, equity };
 }
 
-/** A replay job: decode (cached by blob hash), run, answer JSON bytes. */
+/** The live desk's constants a live replay trades by (replay_net/livereplay.py, executor.py, engine.py, config.py). */
+const LIVE = { poolFee: 0.003, gasUsd: 0.05, minSellUsd: 1.0, minPoolUsd: 10_000, staleBars: 8, majorDepth: 5_000_000, maxSlices: 50, drainPct: 50 };
+
+/** mulberry32: a seeded generator every miner runs to the same numbers (the same as orders.ts's). */
+function mulberry32(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    let t = (a = (a + 0x6d2b79f5) >>> 0);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+export interface ReplayBoot { seed: number; block: number }
+
+/**
+ * A reshuffled copy of the data, for luck checks (2026-10-17, the user: "do them to actually start helping us"): the bars
+ * after the first are rebuilt from blocks of `block` bars in a row, drawn with replacement (a block bootstrap). Every
+ * token takes the same blocks, so the market still moves together; inside a block each bar keeps its real move, its
+ * real "no trade" gaps and its model score. A token's path is its first price times the drawn bars' moves. Seed 0 is
+ * the data itself. A rule that made money only on the one real path loses it on most reshuffled ones.
+ */
+export function resample(d: ReplayData, boot: ReplayBoot): ReplayData {
+  const n = d.n, block = Math.max(1, Math.trunc(boot.block));
+  if (!boot.seed || block >= n - 1) return d;
+  const rng = mulberry32((boot.seed * 2654435761) >>> 0);
+  const src = new Int32Array(n);                       // the real bar each new bar takes its move from
+  for (let t = 1; t < n;) {
+    const s = 1 + Math.floor(rng() * (n - block));       // 1 .. n - block: the block's bars and the one before exist
+    for (let k = 0; k < block && t < n; k++, t++) src[t] = s + k;
+  }
+  const path = (a: Float64Array): Float64Array => {
+    const ff = new Float64Array(n);                    // the last traded price up to each bar (NaN before the first)
+    let last = NaN;
+    for (let t = 0; t < n; t++) { if (a[t] === a[t]) last = a[t]; ff[t] = last; }
+    let level = NaN;
+    for (let t = 0; t < n; t++) if (a[t] === a[t]) { level = a[t]; break; }
+    const out = new Float64Array(n).fill(NaN);
+    if (a[0] === a[0]) out[0] = a[0];
+    for (let t = 1; t < n; t++) {
+      const s = src[t], r = ff[s] / ff[s - 1];
+      if (r === r) level *= r;                         // no price at the source yet: the token doesn't move
+      if (a[s] === a[s]) out[t] = level;               // traded at the source bar: traded here
+    }
+    return out;
+  };
+  const pick = (a: Float32Array): Float32Array => {
+    const out = new Float32Array(n);
+    out[0] = a[0];
+    for (let t = 1; t < n; t++) out[t] = a[src[t]];
+    return out;
+  };
+  const pick64 = (a: Float64Array): Float64Array => {     // pool depth goes with its bar, as the model score does
+    const out = new Float64Array(n);
+    out[0] = a[0];
+    for (let t = 1; t < n; t++) out[t] = a[src[t]];
+    return out;
+  };
+  const real = new Map<string, Float64Array>();
+  for (const [s, a] of d.real) real.set(s, path(a));
+  return { ...d, px: d.px.map(path), real, mu: d.mu ? d.mu.map(pick) : null, rt50: d.rt50 ? d.rt50.map(pick) : null,
+    depth: d.depth ? d.depth.map(pick64) : null };
+}
+
+/** Equal-weight hold of the rule's categories over its pool floor, no costs, first bar to last: the bar to beat on the
+ * same path. Tokens with no first-bar price are out, and the top and bottom HOLD_TRIM of the tokens' moves are left out
+ * of the mean (2026-10-17: on the desk's prices a few memes stuck on broken prices made the plain mean +150%). */
+export function holdReturn(d: ReplayData, rule: Record<string, any>): number | null {
+  const cats: string[] = Array.isArray(rule.categories) && rule.categories.length ? rule.categories : ["meme", "stock", "major"];
+  const floor = num(rule.min_pool_usd, 0);
+  const rs: number[] = [];
+  d.tokens.forEach((t, i) => {
+    if (!cats.includes(t.category) || t.liquidity < floor) return;
+    const a = d.px[i];
+    if (!(a[0] === a[0])) return;
+    let b = NaN;
+    for (let k = d.n - 1; k >= 0; k--) if (a[k] === a[k]) { b = a[k]; break; }
+    rs.push(b / a[0]);
+  });
+  if (!rs.length) return null;
+  rs.sort((x, y) => x - y);
+  const cut = Math.floor(rs.length * HOLD_TRIM), kept = rs.slice(cut, rs.length - cut);
+  const xs = kept.length ? kept : rs;
+  return Math.round(100 * (sum(xs) / xs.length - 1) * 1e6) / 1e6;
+}
+const HOLD_TRIM = 0.1;
+
+/** A replay job: decode (cached by blob hash), run, answer JSON bytes. With `boot` (kind "replayb"): on a reshuffled copy
+ * of the data, answering the hold of the same path too. */
 const dataCache = new Map<string, Promise<ReplayData>>();
-export async function runReplayJob(params: { data: string; data_url: string; setting: ReplaySetting },
+export async function runReplayJob(params: { data: string; data_url: string; setting: ReplaySetting; boot?: ReplayBoot },
   fetchBytes: (url: string) => Promise<Uint8Array>): Promise<Uint8Array> {
   let d = dataCache.get(params.data);
   if (!d) {
@@ -454,5 +634,8 @@ export async function runReplayJob(params: { data: string; data_url: string; set
     d.catch(() => dataCache.delete(params.data));
     for (const k of dataCache.keys()) if (k !== params.data) dataCache.delete(k); // one data set at a time: they are big
   }
-  return new TextEncoder().encode(JSON.stringify(runReplay(await d, params.setting)));
+  if (!params.boot) return new TextEncoder().encode(JSON.stringify(runReplay(await d, params.setting)));
+  const path = resample(await d, params.boot);
+  const r = runReplay(path, params.setting);
+  return new TextEncoder().encode(JSON.stringify({ ...r, seed: params.boot.seed, hold: holdReturn(path, params.setting.rule) }));
 }

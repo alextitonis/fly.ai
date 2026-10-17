@@ -325,8 +325,14 @@ export function cosineAgree(a: Uint8Array, b: Uint8Array, dim: number, min: numb
 export const isProgramKind = (kind: unknown): boolean => isOpenKind(kind) || isHouseKind(kind);
 
 /** Our own job kinds: the miner already has the code, only the job's parameters travel. */
-export const isHouseKind = (kind: unknown): kind is "world" | "probe" | "fight" | "replay" =>
-  kind === "world" || kind === "probe" || kind === "fight" || kind === "replay";
+export const isHouseKind = (kind: unknown): kind is "world" | "probe" | "fight" | "replay" | "replayb" =>
+  kind === "world" || kind === "probe" || kind === "fight" || kind === "replay" || kind === "replayb";
+
+/** Replay kinds: "replay" walks each setting over the recorded prices; "replayb" (2026-10-17, luck checks) walks each
+ * setting over `seeds` reshuffled copies of them (src/replay.ts resample), seed 0 being the recorded path itself. A new
+ * kind, not a flag, so a miner on an older page (which doesn't list it) never gets one it would answer unshuffled. */
+export const isReplayKind = (kind: unknown): kind is "replay" | "replayb" => kind === "replay" || kind === "replayb";
+export const REPLAYB_MAX_JOBS = 200_000;
 
 /** What a replay setting's rule must carry, by strategy (src/replay.ts reads these without defaults). */
 const REPLAY_NEEDS: Record<string, string[]> = {
@@ -353,8 +359,14 @@ function replaySetting(x: any, i: number) {
   return {
     name: x.name, fee: num(x.fee ?? 0.003, `setting ${x.name} fee`, 0, 0.2), usd: num(x.usd ?? 2500, `setting ${x.name} usd`, 10, 10_000_000),
     every: int(x.every ?? 16, `setting ${x.name} every`, 1, 10_000), rule,
+    // live: trade behind the desk's gates (src/replay.ts runReplay), on data with pool depth per bar; reversal and core
+    ...(x.live === true ? { live: liveRule(x.name, rule.strategy) } : {}),
   };
 }
+const liveRule = (name: string, strategy: string): true => {
+  if (strategy !== "reversal" && strategy !== "core") throw new SpecError(`setting ${name}: live replays are reversal or core`);
+  return true;
+};
 
 /**
  * A wasm or wgsl spec, normalized. Program and input hashes are checked against the uploads by the server.
@@ -452,19 +464,32 @@ const TYPE_NAME = /^[\w .,:+-]{1,48}$/;
  *     conditions: [{ name: "threat", stimuli: [{ sense: "threat", amount: 0.8, from: 25, to: 75 }] }, ...] }
  */
 export function houseSpec(spec: any, maxJobs: number): HouseSpec {
-  if (!spec || !isHouseKind(spec.kind)) throw new SpecError("house kinds are world, probe, fight and replay");
-  if (spec.kind === "replay") {
+  if (!spec || !isHouseKind(spec.kind)) throw new SpecError("house kinds are world, probe, fight, replay and replayb");
+  if (isReplayKind(spec.kind)) {
     // trading-rule settings walked over recorded prices (src/replay.ts): one job a setting, the data one upload
     if (typeof spec.data !== "string" || !HASH.test(spec.data)) throw new SpecError("data is the sha256 of a replay data upload");
     if (!Array.isArray(spec.settings) || !spec.settings.length) throw new SpecError("settings is a non-empty list");
     if (spec.settings.length > Math.min(maxJobs, REPLAY_MAX_SETTINGS)) throw new SpecError(`one replay order holds at most ${Math.min(maxJobs, REPLAY_MAX_SETTINGS)} settings`);
     const settings = spec.settings.map(replaySetting);
     if (new Set(settings.map((s: { name: string }) => s.name)).size !== settings.length) throw new SpecError("setting names must be unique");
+    // live settings only in replayb orders: a "replay" job also goes to miners on older pages, which don't know "live"
+    // and would answer differently from the new ones (one wrong answer zeroes a miner's day)
+    if (spec.kind === "replay" && settings.some((s: { live?: boolean }) => s.live)) throw new SpecError("live settings go in replayb orders");
+    // replayb: every setting on seeds seed_base .. seed_base + seeds - 1 (job index = seed number x settings + setting)
+    const boot = spec.kind === "replayb" ? {
+      seeds: int(spec.seeds, "seeds", 1, 100_000), seed_base: spec.seed_base === undefined ? 0 : int(spec.seed_base, "seed_base", 0, 2 ** 31 - 200_000),
+      block: spec.block === undefined ? 96 : int(spec.block, "block", 1, 100_000),
+    } : null;
+    if (boot && boot.seeds * settings.length > Math.min(maxJobs, REPLAYB_MAX_JOBS)) {
+      throw new SpecError(`one replayb order holds at most ${Math.min(maxJobs, REPLAYB_MAX_JOBS)} jobs (seeds x settings)`);
+    }
+    const jobs = boot ? boot.seeds * settings.length : settings.length;
     return {
-      kind: spec.kind, program: "", inputs: settings.map(() => INDEX_INPUT),
+      kind: spec.kind, program: "", inputs: Array.from({ length: jobs }, () => INDEX_INPUT),
       timeout_s: spec.timeout_s === undefined ? 120 : int(spec.timeout_s, "timeout_s", 10, 1800),
       redundancy: spec.redundancy === undefined ? 2 : int(spec.redundancy, "redundancy", 1, 5),
-      compare: "exact", dispatch: null, output_bytes: null, keep_open: false, params: { data: spec.data, settings }, per_seed: 1,
+      compare: "exact", dispatch: null, output_bytes: null, keep_open: false,
+      params: boot ? { data: spec.data, settings, ...boot } : { data: spec.data, settings }, per_seed: boot ? settings.length : 1,
     } as HouseSpec;
   }
   const seeds = spec.kind === "fight" && spec.fights !== undefined ? 0 : int(spec.seeds, "seeds", 1, 1_000_000);
@@ -572,6 +597,9 @@ export function houseJob(spec: any, index: number): Record<string, unknown> {
   const p = spec.params;
   const seedNo = Math.floor(index / (spec.per_seed ?? 1));
   if (spec.kind === "replay") return { data: p.data, setting: p.settings[index] };
+  if (spec.kind === "replayb") {
+    return { data: p.data, setting: p.settings[index % spec.per_seed], boot: { seed: p.seed_base + seedNo, block: p.block } };
+  }
   if (spec.kind === "world") {
     return { seed: p.seed_base + seedNo, flies: p.flies, seconds: p.seconds, genes: p.genes, learning: p.learning, sample_s: p.sample_s };
   }
@@ -600,7 +628,7 @@ export function houseUnits(spec: any): number {
   if (spec.kind === "fight") return 3.5;
   // measured 2026-10-07: a replay (~2,700 bars, ~170 tokens) takes 0.1-0.25 s on a desktop core, say ~0.5 s in a
   // slower browser; a 750-step brain job, 7.5 units, takes ~6 s, so 0.5 keeps the pay per second about even
-  if (spec.kind === "replay") return 0.5;
+  if (isReplayKind(spec.kind)) return 0.5;
   return 7.5;
 }
 

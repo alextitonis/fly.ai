@@ -1106,6 +1106,7 @@
       "empty": "Henüz para yok",
       "trading": "İşlemde",
       "closing": "Sinek satıldı: kapanıyor",
+      "justEarn": "Sadece kazan: borç veriyor, işlem yok",
       "paused": "Sen durdurdun",
       "closeOnly": "Yalnızca kapatma",
       "hold": "Sahibinin {need} $FLYAI tutması gerekiyor: yalnızca işlem kapatıyor"

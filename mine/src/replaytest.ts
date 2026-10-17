@@ -10,7 +10,7 @@ import { rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { decodeReplayData, pySum, runReplay, runReplayJob, type ReplaySetting } from "./replay.ts";
+import { decodeReplayData, holdReturn, pySum, resample, runReplay, runReplayJob, type ReplaySetting } from "./replay.ts";
 import { startPg } from "./pgtest.ts";
 
 const PORT = 8791;
@@ -103,6 +103,29 @@ try {
   const local = SETTINGS.map((s) => runReplay(d, s));
   check("every strategy trades on the synthetic data", local.every((r) => r.trades > 0), local.map((r) => `${r.name} ${r.trades}`).join(", "));
   check("a replay is the same bytes every time", JSON.stringify(SETTINGS.map((s) => runReplay(d, s))) === JSON.stringify(local));
+
+  // live replays (2026-10-17): the live desk's gates on data with pool depth per bar (flytrade replay_net/livereplay.py)
+  const depthOf = (i: number, halveAt = -1) => Float64Array.from({ length: d.n }, (_, k) => (halveAt >= 0 && k >= halveAt ? 0.4 : 1) * d.tokens[i].liquidity);
+  const dLive = { ...d, tokens: d.tokens.map((t) => ({ ...t, hops: 2, born: 0 })), depth: d.tokens.map((_, i) => depthOf(i, i === 0 ? 200 : -1)),
+    limits: [[0, 25, 50]] as [number, number, number][] };
+  const liveRev: ReplaySetting = { ...SETTINGS[0], name: "rev-meme-live", live: true };
+  check("a live replay needs pool depth in the data", (() => { try { runReplay(d, liveRev); return false; } catch { return true; } })());
+  const fr = runReplay(dLive, { ...liveRev, live: false }), lv = runReplay(dLive, liveRev);
+  check("the live gates' $50 buys turn the book over far less than the friendly fill", lv.turnover < fr.turnover / 3,
+    JSON.stringify({ friendly: [fr.trades, fr.turnover], live: [lv.trades, lv.turnover] }));
+  check("a live replay is the same bytes every time", JSON.stringify(runReplay(dLive, liveRev)) === JSON.stringify(lv));
+  // core on the one meme over the pool floor, never rebalanced again: at bar 200 its pool falls to 5% of its peak (and
+  // under the floor, so nothing is bought back) and the drain sells it
+  const coreHold: ReplaySetting = { name: "core-drain", fee: 0.003, usd: 2500, every: 1, live: true,
+    rule: { strategy: "core", top: 1, hold_bars: 100_000, band: 0, partial: 1, min_trade_usd: 5, categories: ["meme"] } };
+  const dDrain = { ...dLive, depth: d.tokens.map((t, i) => Float64Array.from({ length: d.n }, (_, k) =>
+    i === 0 ? (k >= 200 ? 0.05 : 1) * t.liquidity : t.category === "meme" ? 5_000 : t.liquidity)) };
+  const eqD = runReplay(dDrain, coreHold).equity.map(([, v]) => v);
+  check("a pool drained to half its peak is sold whole: flat cash after", new Set(eqD.slice(201)).size === 1 && new Set(eqD.slice(1, 200)).size > 1,
+    JSON.stringify({ before: eqD.slice(195, 200), after: eqD.slice(201, 204) }));
+  const young = runReplay({ ...dLive, tokens: dLive.tokens.map((t) => ({ ...t, born: dLive.start + d.n * 900 })) },
+    { ...coreHold, name: "core-young", rule: { ...coreHold.rule, min_pool_age_hours: 72 } });
+  check("pools younger than min_pool_age_hours are never bought", young.trades === 0, JSON.stringify({ trades: young.trades }));
   check("Python's sum: compensated, 1e16 + 1 - 1e16 = 1", pySum([1e16, 1, -1e16]) === 1);
 
   for (const suffix of ["", "-wal", "-shm"]) rmSync(DB + suffix, { force: true });
@@ -124,6 +147,8 @@ try {
   check("a reversal setting without its band is refused", await bad([{ ...SETTINGS[0], rule: { ...SETTINGS[0].rule, band: undefined } }]) === 400);
   check("an unknown strategy is refused", await bad([{ ...SETTINGS[0], rule: { strategy: "martingale" } }]) === 400);
   check("two settings with one name are refused", await bad([SETTINGS[0], SETTINGS[0]]) === 400);
+  check("a live setting is refused in a plain replay order (older pages would answer it differently)",
+    await bad([{ ...SETTINGS[0], live: true }]) === 400);
   const order = (await api("/api/admin/house", { label: "replay/desk-test/all", spec: { kind: "replay", data: up.hash, settings: SETTINGS } }, ADMIN)).json;
   check("a replay order: one job per setting", order?.status === "live" && order.jobs === SETTINGS.length, JSON.stringify(order?.error ?? order?.jobs));
 
@@ -160,6 +185,44 @@ try {
   check("replays earn points", me.units > 0, JSON.stringify({ units: me.units }));
   const exp = (await api("/api/experiments")).json?.experiments ?? [];
   check("replay results stay off the public experiments page", !exp.some((e: any) => e.label?.startsWith("replay/")));
+
+  // luck checks (2026-10-17): kind "replayb", every setting on reshuffled copies of the data, seed 0 = the data itself
+  const a1 = resample(d, { seed: 7, block: 24 }), a2 = resample(d, { seed: 7, block: 24 }), b1 = resample(d, { seed: 8, block: 24 });
+  check("a reshuffle is the same for the same seed, different for another", JSON.stringify(a1.px.map((a) => Array.from(a)))
+    === JSON.stringify(a2.px.map((a) => Array.from(a))) && a1.px[0][d.n - 1] !== b1.px[0][d.n - 1]);
+  check("seed 0 is the data itself; a reshuffle keeps the first bar and the bar count", resample(d, { seed: 0, block: 24 }) === d
+    && a1.n === d.n && a1.px.every((a, i) => Object.is(a[0], d.px[i][0])));
+  const two = SETTINGS.slice(0, 2);
+  const bOrder = (await api("/api/admin/house", { label: "replay/luck-test", spec: { kind: "replayb", data: up.hash, settings: two, seeds: 3, block: 24 } }, ADMIN)).json;
+  check("a replayb order is settings x seeds jobs", bOrder?.jobs === 6, JSON.stringify(bOrder).slice(0, 200));
+  const oldB = (await api("/api/claim", { count: 8, kinds: ["replay"], open_max: 8 }, old)).json?.jobs ?? [];
+  check("a miner that doesn't list replayb never gets one", !oldB.some((j: any) => j.kind === "replayb"), JSON.stringify(oldB.map((j: any) => j.kind)));
+  const playB = async (t: string) => {
+    const seen: any[] = [];
+    for (;;) {
+      const jobs = ((await api("/api/claim", { count: 16, kinds: ["replayb"], open_max: 16 }, t)).json?.jobs ?? []) as any[];
+      if (!jobs.length) break;
+      for (const j of jobs) {
+        seen.push(j);
+        const out = await runReplayJob({ ...j.params, data_url: BASE + j.params.data_url }, fetchBytes);
+        await api("/api/submit", { job: j.job, result: { output: Buffer.from(out).toString("base64") } }, t);
+      }
+    }
+    return seen;
+  };
+  const seenB = await playB(ta);
+  await playB(tb);
+  const pairs = new Set(seenB.map((j) => `${j.params.setting.name}@${j.params.boot.seed}`));
+  check("each setting runs once on each seed 0..2", pairs.size === 6 && seenB.every((j) => j.params.boot.block === 24 && j.params.boot.seed <= 2), [...pairs].join(" "));
+  const resB = (await api(`/api/orders/${bOrder.id}/results`)).json;
+  check("two agreeing miners settle every luck check", resB.status === "done" && resB.rows.length === 6 && resB.rows.every((r: any) => r.checked_by === "agreement"));
+  const outB = await Promise.all(resB.rows.map(async (r: any) => JSON.parse(Buffer.from(await (await fetch(BASE + r.output.url)).arrayBuffer()).toString("utf8"))));
+  const real0 = outB.find((o: any) => o.name === two[0].name && o.seed === 0);
+  const { seed: _s, hold, ...plain } = real0 ?? {};
+  check("seed 0 answers the plain replay plus the hold of the same tokens", JSON.stringify(plain) === JSON.stringify(local.find((l) => l.name === two[0].name))
+    && hold === holdReturn(d, two[0].rule), JSON.stringify({ hold }));
+  const ends = outB.filter((o: any) => o.name === two[0].name).map((o: any) => o.equity.at(-1)[1]);
+  check("reshuffled paths end somewhere else", new Set(ends).size === 3, JSON.stringify(ends));
 } catch (err) {
   console.log("test crashed:", err);
   failed++;

@@ -638,6 +638,7 @@
     "worldJob": "una simulación del mundo, semilla {seed}",
     "probeJob": "una sonda cerebral: {condition}",
     "fightJob": "un combate de Fly Colosseum",
-    "replayJob": "una repetición de regla de trading: {name}"
+    "replayJob": "una repetición de regla de trading: {name}",
+    "replaybJob": "una prueba de suerte de regla de trading: {name}, camino {seed}"
   }
 }

@@ -1,7 +1,7 @@
 /**
  * One CPU mining thread: downloads the connectome once, then runs whatever job the page hands it.
  *
- * in:  {type: "load", fixed, connectome}  ·  {type: "run", job, params}  ·  {type: "probe", job, kind?: "fight" | "replay", params}
+ * in:  {type: "load", fixed, connectome}  ·  {type: "run", job, params}  ·  {type: "probe", job, kind?: "fight" | "replay" | "replayb", params}
  * out: {type: "progress", text} · {type: "ready"} · {type: "step", job, step, steps} · {type: "done", job, result}
  *      {type: "error", job?, text}
  */
@@ -37,8 +37,9 @@ ctx.onmessage = (e: MessageEvent) => {
         ctx.postMessage({ type: "ready" });
       })
       .catch((err) => ctx.postMessage({ type: "error", text: String(err) }));
-  } else if (msg.type === "probe" && msg.kind === "replay") {
-    // a trading-rule replay (src/replay.ts): no brain involved, only the order's price data (fetched once, then cached)
+  } else if (msg.type === "probe" && (msg.kind === "replay" || msg.kind === "replayb")) {
+    // a trading-rule replay (src/replay.ts): no brain involved, only the order's price data (fetched once, then cached);
+    // replayb's params carry the reshuffle (boot)
     // a download that fails is this machine's trouble, not an answer: it goes back out (type "error")
     let unreachable = false;
     const fetchBytes = async (url: string) => {

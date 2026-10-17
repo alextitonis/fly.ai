@@ -1104,6 +1104,7 @@
       "empty": "尚無資金",
       "trading": "交易中",
       "closing": "蒼蠅已售出：平倉中",
+      "justEarn": "只賺利息：出借中，不交易",
       "paused": "已由你暫停",
       "closeOnly": "僅平倉",
       "hold": "擁有者需持有 {need} $FLYAI：目前只平倉"

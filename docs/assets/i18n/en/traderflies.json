@@ -1106,6 +1106,7 @@
       "empty": "No money yet",
       "trading": "Trading",
       "closing": "Fly sold: closing",
+      "justEarn": "Just earn: lending, no trading",
       "paused": "Paused by you",
       "closeOnly": "Closing only",
       "hold": "Needs {need} $FLYAI held by its owner: closing trades only"
