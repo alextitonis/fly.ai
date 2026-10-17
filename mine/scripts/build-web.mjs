@@ -28,6 +28,8 @@ const API = process.env.MINE_API ?? "https://flyai-mine.fly.dev";
 const CONNECTOME = process.env.MINE_CONNECTOME ?? "/simulation/connectome";
 // Reown (WalletConnect) project id: public, it ships in the page anyway; only listed domains can use it
 const WC_PROJECT_ID = process.env.MINE_WC_PROJECT_ID ?? "330e75825d85bf92782cfe559e12bd63";
+// this build's id: open mining pages compare it with <out>/version.json and reload into a newer build (web/app.ts)
+const BUILD = (process.env.VERCEL_GIT_COMMIT_SHA || "").slice(0, 12) || `t${Date.now()}`;
 
 const SCRIPTS = [
   "world/src/connectome.ts", "world/src/rng.ts", "world/src/sim.ts", "world/src/brain.ts", "world/src/eyes.ts", "world/src/senses.ts", "world/src/wiring.ts", "world/src/genome.ts", "world/src/social.ts", "world/src/datalog.ts",
@@ -54,7 +56,8 @@ for (const file of SCRIPTS) {
 // the site's i18n runtime, imported by mine/web/i18n.ts at its repo path; its strings load from /assets/i18n/
 write(join(OUT, "docs/assets/i18n/i18n.js"), readFileSync(join(REPO, "docs/assets/i18n/i18n.js")));
 write(join(OUT, "mine/web/config.js"),
-  `// written by mine/scripts/build-web.mjs\nexport const API = ${JSON.stringify(API)};\nexport const CONNECTOME = ${JSON.stringify(CONNECTOME)};\nexport const WALLETCONNECT_PROJECT_ID = ${JSON.stringify(WC_PROJECT_ID)};\n`);
+  `// written by mine/scripts/build-web.mjs\nexport const API = ${JSON.stringify(API)};\nexport const CONNECTOME = ${JSON.stringify(CONNECTOME)};\nexport const WALLETCONNECT_PROJECT_ID = ${JSON.stringify(WC_PROJECT_ID)};\nexport const BUILD = ${JSON.stringify(BUILD)};\n`);
+write(join(OUT, "version.json"), JSON.stringify({ build: BUILD }));
 execFileSync(process.execPath, [join(REPO, "mine/wallet/build.mjs"), join(OUT, "mine/web/wallet")], { stdio: "inherit" });
 for (const page of PAGES) copyFileSync(join(REPO, "mine/web", `${page}.html`), join(OUT, `${page}.html`));
 copyFileSync(join(REPO, "mine/web/compute.css"), join(OUT, "mine/web/compute.css"));

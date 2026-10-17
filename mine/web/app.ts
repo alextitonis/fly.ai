@@ -3,7 +3,7 @@
  * The miner token lives in localStorage; losing it just means registering again.
  */
 import { t } from "./i18n.ts";
-import { API, CONNECTOME } from "./config.ts";
+import { API, BUILD, CONNECTOME } from "./config.ts";
 import { $, compact, num } from "./format.ts";
 import { api, ApiError, Miner, probeGpu, setMinerText } from "./mine-core.ts";
 import { isPhone, mountAccount, onAccount, requireWallet, sessionHeaders, sessionLost, signedIn } from "./account.ts";
@@ -327,4 +327,41 @@ refresh();
 void refreshMining();
 setInterval(() => { if (!document.hidden) refresh(); }, 120_000);
 setInterval(() => { if (!document.hidden) void refreshMining(); }, 120_000);
+
+// ---- new builds --------------------------------------------------------------------------------------------
+// 2026-10-17: a mining page left open runs the code it loaded, so new job kinds (the luck checks, "replayb") only
+// reached miners who happened to reload. While mining, the page looks at /compute/version.json every 15 minutes; when
+// the site has a newer build it stops, reloads and starts again with the same engine, batch, threads and programs.
+const RESUME_KEY = "flymine.resume";
+async function checkBuild(): Promise<void> {
+  if (!BUILD || !miner.running) return;
+  try {
+    const v = await (await fetch(new URL("../../version.json", import.meta.url), { cache: "no-store" })).json();
+    if (!v?.build || v.build === BUILD) return;
+    sessionStorage.setItem(RESUME_KEY, JSON.stringify({
+      engine: $<HTMLSelectElement>("engine").value, batch: $<HTMLSelectElement>("batch").value,
+      threads: $<HTMLSelectElement>("threads").value, programs: $<HTMLInputElement>("programs").checked,
+    }));
+    miner.stop();
+    location.reload();
+  } catch { /* offline, or no version file: try again later */ }
+}
+setInterval(() => { void checkBuild(); }, 15 * 60_000);
+(() => {
+  let raw: string | null = null;
+  try {
+    raw = sessionStorage.getItem(RESUME_KEY);
+    sessionStorage.removeItem(RESUME_KEY);
+  } catch { /* storage blocked */ }
+  if (!raw) return;
+  try {
+    const r = JSON.parse(raw);
+    for (const id of ["engine", "batch", "threads"] as const) {
+      const el = $<HTMLSelectElement>(id);
+      if ([...el.options].some((o) => o.value === String(r[id]))) el.value = String(r[id]);
+    }
+    $<HTMLInputElement>("programs").checked = !!r.programs;
+    void toggle();                                       // the page reloaded itself while mining: carry on
+  } catch { /* a bad saved value: leave it stopped */ }
+})();
 document.addEventListener("visibilitychange", () => { if (!document.hidden) { refresh(); void refreshMining(); } });

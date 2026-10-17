@@ -20,6 +20,8 @@ const DIST = join(HERE, "dist");
 const SCRIPTS = [
   "world/src/connectome.ts", "world/src/rng.ts", "world/src/sim.ts", "world/src/brain.ts", "world/src/eyes.ts", "world/src/senses.ts", "world/src/wiring.ts", "world/src/genome.ts", "world/src/social.ts", "world/src/datalog.ts",
   "mine/src/model.ts", "mine/src/runner.ts", "mine/src/fixed.ts", "mine/src/wasmcheck.ts", "mine/src/probe.ts",
+  // fight and replay jobs (2026-10-01 / 10-07; the extension couldn't build without them until 2026-10-17)
+  "mine/src/fightjob.ts", "mine/src/replay.ts", "world/src/arena/game.ts", "world/src/arena/readout.ts", "world/src/roulette/game.ts",
   "mine/web/download.ts", "mine/web/wallet.ts", "mine/web/gpu.ts", "mine/web/gpu.worker.ts", "mine/web/miner.worker.ts", "mine/web/mine-core.ts", "mine/web/openjob.ts", "mine/web/open.worker.ts", "mine/web/worldjob.ts",
   "mine/extension/settings.ts", "mine/extension/background.ts", "mine/extension/offscreen.ts", "mine/extension/popup.ts",
 ];
