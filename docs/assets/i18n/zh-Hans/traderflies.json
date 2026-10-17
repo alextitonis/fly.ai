@@ -1490,6 +1490,29 @@
       "base": "Base",
       "bsc": "BNB Chain",
       "arbitrum": "Arbitrum"
+    },
+    "maker": {
+      "title": "做市",
+      "text": "你的苍蝇用你选择的钱包比例，为一个代币在 GIGA DEX 的 USDG 池中提供流动性：围绕价格的区间，价格移动时重新居中，并收取池子的交易手续费（Fly Maker 的稳定区间）。",
+      "on": "为这个代币做市",
+      "token": "代币地址",
+      "bad": "Robinhood Chain 代币地址（不能是 USDG）",
+      "share": "做市比例",
+      "usdNow": "现在约 {usd}",
+      "small": "低于 {min} 时做市会等待：给钱包充更多或提高比例。",
+      "risk": "不保证收益：价格大幅移动时，区间会持有更多下跌的一方（无常损失）；代币可能失去价值。",
+      "line": "做市 {sym}：池中 {usd}，已赚手续费 {fees}",
+      "band": "区间 {lo} – {hi}",
+      "notIn": "目前不在池中",
+      "p": {
+        "width_pct": "区间宽度（±%）",
+        "recenter_pct": "重新居中于（到边缘的 %）",
+        "min_recenter_min": "两次重新居中的最短间隔（分钟）",
+        "target_pct": "铸造前的代币比例（%）",
+        "deployed_pct": "放入区间（做市资金的 %）",
+        "collect_hours": "每隔多久收取手续费（小时）"
+      },
+      "bandTitle": "区间设置"
     }
   },
   "profile": {
@@ -1812,7 +1835,8 @@
     "eth_to_usdg": "把你转入的 ETH 换成 USDG（美元），让苍蝇能用它交易。总会留一点 ETH 付 gas。",
     "trading": "关闭 = 苍蝇不再开新仓。已持有的仍会照管。",
     "earn": "闲置现金出借给 Robinhood Chain 上的 Steakhouse 或 Spark USDG 金库。显示的是当前基础利率，每天都会变动。",
-    "crossChains": "这些链上的代币用钱包的 USDG 通过 Relay 买入（跨链 + 兑换一步完成），卖出后回到这里的 USDG。每条链的首次买入还会发送 $0.50 的 gas。低于 $5 的买入会跳过。"
+    "crossChains": "这些链上的代币用钱包的 USDG 通过 Relay 买入（跨链 + 兑换一步完成），卖出后回到这里的 USDG。每条链的首次买入还会发送 $0.50 的 gas。低于 $5 的买入会跳过。",
+    "maker": "在这只苍蝇自己的钱包里运行 Fly Maker 的稳定区间：只在价格距 5 分钟均价 3% 以内时操作，每次最多兑换做市资金的四分之一，任何提现前先取出流动性。"
   },
   "label": {
     "add": "添加私人标签",

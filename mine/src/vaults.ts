@@ -511,8 +511,8 @@ export function createVaults(d: VaultsDeps) {
    */
   async function payPromos(): Promise<void> {
     if (!d.granter) return;
-    for (const p of await pg.all<{ id: number; wallet: string; holder: string; chain: string }>(
-      "select id, wallet, holder, chain from mine.vault_promos where status = 'approved' order by qualified_at, id")) {
+    for (const p of await pg.all<{ id: number; wallet: string; holder: string; chain: string; bonus_usd: number | null; manual: boolean }>(
+      "select id, wallet, holder, chain, bonus_usd, manual from mine.vault_promos where status = 'approved' order by qualified_at, id")) {
       // the fly sold or emptied since the approval: back to the admin, nothing sent
       const led = await ledgerOf(p.wallet, p.chain);
       if (!led?.holder || led.holder.toLowerCase() !== p.holder.toLowerCase() || led.closing) {
@@ -524,15 +524,17 @@ export function createVaults(d: VaultsDeps) {
       // their own money must still be in when the bonus goes (2026-10-04, the user: "the others ... can get their $
       // out, right?"): deposit, qualify, withdraw before the approval, and the bonus would have landed in an empty
       // wallet and unlocked to them 14 days later. Own money = what was put in less what is locked (FlightPass grants).
-      if (Number(led.principal_usd) - Number(led.locked_usd) < PROMO.minUsd) {
+      // (a manual bonus is a gift: no deposit asked)
+      if (!p.manual && Number(led.principal_usd) - Number(led.locked_usd) < PROMO.minUsd) {
         await pg.run("update mine.vault_promos set status = 'candidate', error = ? where id = ? and status = 'approved'",
           `their own money in the wallet is under $${PROMO.minUsd} now (withdrawn since qualifying?)`, p.id);
         promoChanged();
         continue;
       }
-      const wei = await perDollar() * BigInt(Math.round(PROMO.bonusUsd * 100)) / 100n;
+      const usd = p.bonus_usd ?? PROMO.bonusUsd;
+      const wei = await perDollar() * BigInt(Math.round(usd * 100)) / 100n;
       if (await pg.run("update mine.vault_promos set status = 'sending', grant_usd = ?, grant_wei = ?, error = null where id = ? and status = 'approved'",
-        PROMO.bonusUsd, wei.toString(), p.id) !== 1) continue;
+        usd, wei.toString(), p.id) !== 1) continue;
       try {
         const tx = await d.granter.send(d.token, `${selector("transfer(address,uint256)")}${word(p.wallet)}${word(wei)}`);
         await pg.run("update mine.vault_promos set status = 'paid', grant_tx = ?, paid_at = now() where id = ?", tx.toLowerCase(), p.id);
@@ -547,11 +549,11 @@ export function createVaults(d: VaultsDeps) {
     }
     for (const p of await pg.all<{ id: number }>("select id from mine.vault_promos where status = 'paid' and request_id is null order by id")) {
       await pg.tx(async (q) => {
-        const r = await q.one<{ wallet: string; chain: string; grant_usd: number; grant_wei: string; grant_tx: string; paid_ms: number; request_id: number | null }>(
-          `select wallet, chain, grant_usd, grant_wei, grant_tx, (extract(epoch from paid_at) * 1000)::float8 as paid_ms, request_id
+        const r = await q.one<{ wallet: string; chain: string; grant_usd: number; grant_wei: string; grant_tx: string; paid_ms: number; request_id: number | null; hold_days: number | null }>(
+          `select wallet, chain, grant_usd, grant_wei, grant_tx, (extract(epoch from paid_at) * 1000)::float8 as paid_ms, request_id, hold_days
            from mine.vault_promos where id = ? and status = 'paid' for update`, p.id);
         if (!r || r.request_id != null) return;
-        const until = Math.round(r.paid_ms) + PROMO.holdDays * 86_400_000;
+        const until = Math.round(r.paid_ms) + (r.hold_days ?? PROMO.holdDays) * 86_400_000;
         const req = await q.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
           values (?, ?, 'promo_grant', 'mine', ?::text::jsonb) returning id`, r.wallet, r.chain,
           JSON.stringify({ promo_id: Number(p.id), usd: r.grant_usd, wei: r.grant_wei, tx: r.grant_tx, until_ms: until }));
@@ -627,6 +629,36 @@ export function createVaults(d: VaultsDeps) {
     return { id, status: to };
   }
 
+  /**
+   * A manual bonus (2026-10-17, the user: "set to specific fly nfts the bonus manually (from the $$pool we have already
+   * for these bonuses)"): POST /api/admin/promo/manual {fly_id, usd, hold_days?}. The fly's Robinhood wallet must have
+   * a holder (its owner set it up); the row goes in approved, in a round of its own, and the payer sends `usd` of FLYAI
+   * from the granter and asks the desk to lock it for hold_days, exactly as a competition win (a withdrawal of their own
+   * money while it is locked sends it back to the house).
+   */
+  async function manualPromo(req: IncomingMessage, body: any) {
+    const by = await promoAdmin(req);
+    const fly = Number(body?.fly_id), usd = Number(body?.usd);
+    const hold = body?.hold_days === undefined || body?.hold_days === null || body?.hold_days === "" ? PROMO.holdDays : Number(body.hold_days);
+    if (!Number.isInteger(fly) || fly < 1 || fly > 1_000_000) throw new HttpError(400, "fly_id is a fly number");
+    if (!(usd >= 1 && usd <= MANUAL_MAX_USD)) throw new HttpError(400, `usd is 1 to ${MANUAL_MAX_USD}`);
+    if (!Number.isInteger(hold) || hold < 0 || hold > 3650) throw new HttpError(400, "hold_days is 0 to 3650");
+    const w = await pg.one<{ wallet: string; holder: string; principal_usd: number; closing: boolean }>(
+      `select l.wallet, l.holder, l.principal_usd, l.closing from mine.vault_wallets v
+         join mine.vault_ledger l on lower(l.wallet) = lower(v.address) and l.chain = 'robinhood'
+       where v.fly_id = ? and l.holder is not null order by l.principal_usd desc limit 1`, fly);
+    if (!w) throw new HttpError(409, `fly #${fly}'s wallet isn't set up by its owner yet (no holder): nothing to lock a bonus to`);
+    if (w.closing) throw new HttpError(409, `fly #${fly}'s wallet is being paid out`);
+    const row = await pg.one<{ id: number }>(`insert into mine.vault_promos (wallet, fly_id, holder, deposit_usd, qualified_at, round_ms,
+        chain, status, decided_by, decided_at, bonus_usd, hold_days, manual)
+      values (?, ?, ?, ?, now(), ?, 'robinhood', 'approved', ?, now(), ?, ?, true) returning id`,
+      w.wallet, fly, w.holder, Number(w.principal_usd), Date.now(), by, usd, hold);
+    promoChanged();
+    console.log(`promo: manual #${row!.id} for fly #${fly} (${w.wallet}): $${usd} locked ${hold} d, by ${by}`);
+    return { id: Number(row!.id), fly_id: fly, wallet: w.wallet, holder: w.holder, usd, hold_days: hold, status: "approved" };
+  }
+  const MANUAL_MAX_USD = Number(d.env.PROMO_MANUAL_MAX_USD ?? "100");
+
   let ticking = false;
   async function tick(): Promise<void> {
     if (ticking) return;
@@ -634,7 +666,8 @@ export function createVaults(d: VaultsDeps) {
     try {
       await seeBurns();
       await payGrants();
-      if (PROMO.on) { await findPromos(); await autoPromos(); await payPromos(); }
+      if (PROMO.on) { await findPromos(); await autoPromos(); }
+      await payPromos();                                   // competition wins and manual bonuses (approved rows only)
     } catch (err) {
       console.error("vaults tick:", (err as Error)?.message ?? err);
     } finally {
@@ -695,6 +728,7 @@ export function createVaults(d: VaultsDeps) {
         const go = m[2] === "settings" ? saveSettings : m[2] === "withdraw" ? withdraw : move;
         return d.send(res, 200, await go(req, wallet, body)), true;
       }
+      if (p === "/api/admin/promo/manual") return d.send(res, 200, await manualPromo(req, await d.readJson(req))), true;
       if ((m = /^\/api\/admin\/promo\/(\d{1,12})\/(approve|reject)$/.exec(p))) {
         return d.send(res, 200, await decidePromo(req, Number(m[1]), m[2])), true;
       }

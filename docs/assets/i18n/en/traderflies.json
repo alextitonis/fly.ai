@@ -1492,6 +1492,29 @@
       "base": "Base",
       "bsc": "BNB Chain",
       "arbitrum": "Arbitrum"
+    },
+    "maker": {
+      "title": "Make a market",
+      "text": "Your fly provides liquidity for one token on its GIGA DEX pool against USDG, with the share of the wallet you choose: a band around the price that re-centers as the price moves and collects the pool's trading fees (Fly Maker's Steady band).",
+      "on": "Make a market for this token",
+      "token": "Token address",
+      "bad": "A Robinhood Chain token address (not USDG)",
+      "share": "Share in the maker",
+      "usdNow": "≈ {usd} now",
+      "small": "Under {min} the maker waits: fund the wallet more or raise the share.",
+      "risk": "Not guaranteed: when the price moves far, the band ends up holding more of the falling side (impermanent loss); the token can lose its value.",
+      "line": "Maker {sym}: {usd} in the pool, {fees} fees earned",
+      "band": "band {lo} – {hi}",
+      "notIn": "not in the pool right now",
+      "p": {
+        "width_pct": "Range width (±%)",
+        "recenter_pct": "Re-center at (% of the way to the edge)",
+        "min_recenter_min": "Min time between re-centers (minutes)",
+        "target_pct": "Token share before minting (%)",
+        "deployed_pct": "In the band (% of the maker's money)",
+        "collect_hours": "Collect fees every (hours)"
+      },
+      "bandTitle": "Band settings"
     }
   },
   "profile": {
@@ -1814,7 +1837,8 @@
     "eth_to_usdg": "Turns ETH you send into USDG (dollars) so the fly can trade it. A little ETH is always kept for gas.",
     "trading": "Off = the fly opens no new trades. What it already holds is still looked after.",
     "earn": "Idle cash lent to the Steakhouse or Spark USDG vault on Robinhood Chain. The rate shown is the base rate now; it moves every day.",
-    "crossChains": "Tokens on these chains are bought with the wallet's USDG through Relay (bridge + swap in one go) and sold back to USDG here. The first buy on a chain also sends $0.50 of gas there. Buys under $5 are skipped."
+    "crossChains": "Tokens on these chains are bought with the wallet's USDG through Relay (bridge + swap in one go) and sold back to USDG here. The first buy on a chain also sends $0.50 of gas there. Buys under $5 are skipped.",
+    "maker": "Fly Maker's Steady band from this fly's own wallet: it only acts while the price is within 3% of its 5-minute average, swaps at most a quarter of the maker's money at a time, and takes the liquidity out before any withdrawal."
   },
   "label": {
     "add": "Add a private label",

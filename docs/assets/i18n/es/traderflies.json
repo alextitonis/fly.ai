@@ -1492,6 +1492,29 @@
       "base": "Base",
       "bsc": "BNB Chain",
       "arbitrum": "Arbitrum"
+    },
+    "maker": {
+      "title": "Crear mercado",
+      "text": "Tu mosca aporta liquidez a un token en su pool de GIGA DEX contra USDG, con la parte de la billetera que elijas: una banda alrededor del precio que se recentra cuando el precio se mueve y cobra las comisiones del pool (la Banda estable de Fly Maker).",
+      "on": "Crear mercado para este token",
+      "token": "Dirección del token",
+      "bad": "Una dirección de token de Robinhood Chain (no USDG)",
+      "share": "Parte en el maker",
+      "usdNow": "≈ {usd} ahora",
+      "small": "Por debajo de {min} el maker espera: fondea más la billetera o sube la parte.",
+      "risk": "Sin garantías: si el precio se mueve mucho, la banda termina con más del lado que cae (pérdida impermanente); el token puede perder su valor.",
+      "line": "Maker {sym}: {usd} en el pool, {fees} en comisiones",
+      "band": "banda {lo} – {hi}",
+      "notIn": "ahora fuera del pool",
+      "p": {
+        "width_pct": "Ancho del rango (±%)",
+        "recenter_pct": "Recentrar al (% del camino al borde)",
+        "min_recenter_min": "Tiempo mínimo entre recentrados (minutos)",
+        "target_pct": "Parte en token antes de acuñar (%)",
+        "deployed_pct": "En la banda (% del dinero del maker)",
+        "collect_hours": "Cobrar comisiones cada (horas)"
+      },
+      "bandTitle": "Ajustes de la banda"
     }
   },
   "profile": {
@@ -1814,7 +1837,8 @@
     "eth_to_usdg": "Convierte el ETH que envías en USDG (dólares) para que la mosca pueda operarlo. Siempre guarda un poco de ETH para el gas.",
     "trading": "Apagado = la mosca no abre operaciones nuevas. Lo que ya tiene se sigue gestionando.",
     "earn": "El efectivo inactivo se presta a la bóveda USDG de Steakhouse o Spark en Robinhood Chain. La tasa mostrada es la tasa base actual; cambia cada día.",
-    "crossChains": "Los tokens de estas cadenas se compran con el USDG de la billetera vía Relay (puente + swap de una vez) y se venden de vuelta a USDG aquí. La primera compra en una cadena también envía $0.50 de gas. Las compras de menos de $5 se omiten."
+    "crossChains": "Los tokens de estas cadenas se compran con el USDG de la billetera vía Relay (puente + swap de una vez) y se venden de vuelta a USDG aquí. La primera compra en una cadena también envía $0.50 de gas. Las compras de menos de $5 se omiten.",
+    "maker": "La Banda estable de Fly Maker desde la billetera de esta mosca: solo actúa con el precio a menos de 3% de su media de 5 minutos, intercambia como mucho un cuarto del dinero del maker a la vez y retira la liquidez antes de cualquier retiro."
   },
   "label": {
     "add": "Añadir etiqueta privada",

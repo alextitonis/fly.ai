@@ -359,6 +359,23 @@ try {
   await sleep(2500);
   check("auto: trading and settled -> paid once, decided by 'auto'", w9p?.status === "paid" && w9p.decided_by === "auto"
     && sent.filter((x) => x.data.startsWith(transferSel)).length - sentBefore === 1, JSON.stringify(w9p));
+
+  // manual bonuses (2026-10-17): an admin picks a fly, an amount and a hold; paid from the granter like a win
+  check("manual: only admins", (await api("/api/admin/promo/manual", b, { fly_id: 3, usd: 15 })).status === 403);
+  check("manual: a fly whose wallet has no holder is refused", (await api("/api/admin/promo/manual", a, { fly_id: 4242, usd: 15 })).status === 409);
+  check("manual: amounts outside 1..100 are refused", (await api("/api/admin/promo/manual", a, { fly_id: 3, usd: 500 })).status === 400);
+  const sentM = sent.filter((x) => x.data.startsWith(transferSel)).length;
+  const man = await api("/api/admin/promo/manual", a, { fly_id: 3, usd: 15, hold_days: 30 });
+  check("manual: given to fly #3, approved at once", man.status === 200 && man.json.wallet === W3 && man.json.status === "approved", JSON.stringify(man.json));
+  let mp: any = null;
+  for (let i = 0; i < 30 && !(mp?.status === "paid" && mp.request_id); i++) { await sleep(500); mp = await PG.pg.one<any>("select *, (extract(epoch from paid_at) * 1000)::float8 as paid_ms from mine.vault_promos where id = ?", man.json.id); }
+  const mreq = mp?.request_id ? await PG.pg.one<any>("select * from mine.vault_requests where id = ?", mp.request_id) : null;
+  check("manual: paid once from the granter, its own amount, locked its own days", mp?.status === "paid" && mp.manual === true && mp.grant_usd === 15
+    && sent.filter((x) => x.data.startsWith(transferSel)).length - sentM === 1 && mreq?.params.usd === 15
+    && Math.abs(mreq.params.until_ms - (mp.paid_ms + 30 * 86_400_000)) < 2000, JSON.stringify({ mp, params: mreq?.params }));
+  const man2 = await api("/api/admin/promo/manual", a, { fly_id: 3, usd: 5 });
+  check("manual: the same fly can get another one (its own round, no competition slot)", man2.status === 200 && man2.json.id !== man.json.id
+    && (await api("/api/vaults/promo", null)).json.taken === pub1.taken, JSON.stringify(man2.json));
 } catch (err) {
   console.error(err);
   failed++;

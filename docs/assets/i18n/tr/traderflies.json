@@ -1492,6 +1492,29 @@
       "base": "Base",
       "bsc": "BNB Chain",
       "arbitrum": "Arbitrum"
+    },
+    "maker": {
+      "title": "Piyasa yap",
+      "text": "Sineğin, seçtiğin cüzdan payıyla bir tokenin USDG karşısındaki GIGA DEX havuzuna likidite sağlar: fiyatın etrafında, fiyat hareket ettikçe yeniden ortalanan ve havuzun işlem ücretlerini toplayan bir bant (Fly Maker'ın Sabit bandı).",
+      "on": "Bu token için piyasa yap",
+      "token": "Token adresi",
+      "bad": "Bir Robinhood Chain token adresi (USDG değil)",
+      "share": "Maker payı",
+      "usdNow": "şu an ≈ {usd}",
+      "small": "{min} altında maker bekler: cüzdana daha fazla yatır ya da payı artır.",
+      "risk": "Garanti yok: fiyat çok hareket ederse bant düşen taraftan daha fazla tutar (geçici kayıp); token değerini kaybedebilir.",
+      "line": "Maker {sym}: havuzda {usd}, {fees} ücret kazandı",
+      "band": "bant {lo} – {hi}",
+      "notIn": "şu an havuzda değil",
+      "p": {
+        "width_pct": "Aralık genişliği (±%)",
+        "recenter_pct": "Yeniden ortala (kenara yolun %'si)",
+        "min_recenter_min": "Yeniden ortalamalar arası en az süre (dakika)",
+        "target_pct": "Basmadan önce token payı (%)",
+        "deployed_pct": "Bantta (maker parasının %'si)",
+        "collect_hours": "Ücretleri topla (saatte bir)"
+      },
+      "bandTitle": "Bant ayarları"
     }
   },
   "profile": {
@@ -1814,7 +1837,8 @@
     "eth_to_usdg": "Gönderdiğin ETH'yi USDG'ye (dolar) çevirir, böylece sinek onunla işlem yapabilir. Gas için biraz ETH hep kalır.",
     "trading": "Kapalı = sinek yeni işlem açmaz. Elindekiler yine yönetilir.",
     "earn": "Boştaki nakit Robinhood Chain'deki Steakhouse ya da Spark USDG kasasına ödünç verilir. Gösterilen, şu anki temel faizdir; her gün değişir.",
-    "crossChains": "Bu zincirlerdeki tokenlar cüzdanın USDG'si ile Relay üzerinden alınır (köprü + takas tek seferde) ve burada tekrar USDG'ye satılır. Bir zincirdeki ilk alım oraya $0.50 gaz da gönderir. $5 altı alımlar atlanır."
+    "crossChains": "Bu zincirlerdeki tokenlar cüzdanın USDG'si ile Relay üzerinden alınır (köprü + takas tek seferde) ve burada tekrar USDG'ye satılır. Bir zincirdeki ilk alım oraya $0.50 gaz da gönderir. $5 altı alımlar atlanır.",
+    "maker": "Fly Maker'ın Sabit bandı bu sineğin kendi cüzdanından: yalnızca fiyat 5 dakikalık ortalamasının %3 yakınındayken işlem yapar, bir seferde maker parasının en fazla dörtte birini takas eder ve her çekimden önce likiditeyi çıkarır."
   },
   "label": {
     "add": "Gizli etiket ekle",
