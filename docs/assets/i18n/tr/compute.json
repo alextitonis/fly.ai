@@ -447,13 +447,13 @@
   "claim": {
     "flyAiComputeClaims": "fly.ai compute · talepler",
     "monthlyClaims": "Aylık talepler",
-    "pointsBuildUpOver": "Puanlar her UTC ayı boyunca birikir. Ay bittiğinde bir $FLYAI havuzu puanlara göre paylaştırılır ve her cüzdan payını burada, Robinhood Chain'de talep eder.",
+    "pointsBuildUpOver": "Puanlar her UTC ayı boyunca birikir. Ay bitince bir $FLYAI havuzu puanlara göre bölünür ve her cüzdan payını burada, Robinhood Chain üzerinde alır. Ekim 2026'dan itibaren ödemeden sonraki 30 gün içinde talep et: talep edilmeyenler fly.ai'ye geri döner.",
     "yourWallet": "CÜZDANIN",
     "wallet": "Cüzdan",
     "notSignedIn": "giriş yapılmadı",
     "signIn": "Giriş yap",
     "thisMonth": "Bu ay",
-    "claimingIsATransaction": "Talep etmek Robinhood Chain'de bir işlemdir ve biraz gas tutar. Her ayın paylaşımı fly.ai hazinesi tarafından zincire yazılır; yazıldıktan sonra değiştirilemez ya da geri alınamaz. Talep kontratı: <a id=\"contract-link\" class=\"mono\" target=\"_blank\" rel=\"noopener\">—</a>",
+    "claimingIsATransaction": "Talep etmek Robinhood Chain üzerinde bir işlemdir ve biraz gas tutar. Her ayın dağılımı fly.ai hazinesi tarafından zincire yazılır; hazine bunu talep süresi boyunca değiştiremez ya da geri alamaz. Eylül 2026 90 gün talep edilebilir; Ekim'den itibaren süre 30 gündür ve sözleşme talep için az miktarda $FLYAI tutmayı şart koşabilir. Talep sözleşmesi: <a id=\"contract-link\" class=\"mono\" target=\"_blank\" rel=\"noopener\">—</a>",
     "claims2": "TALEPLER",
     "signInToSee": "Taleplerini görmek için giriş yap.",
     "metaTitle": "Talepler — fly.ai compute",
@@ -467,7 +467,11 @@
     "waitingFunded": "bu ayın fonlanması bekleniyor",
     "claimed": "talep edildi ✓",
     "claim": "Talep et",
-    "cantRead": "zincir okunamıyor: {error}"
+    "cantRead": "zincir okunamıyor: {error}",
+    "claimBy": "son talep: {date}",
+    "windowClosed": "talep süresi {date} tarihinde bitti; talep edilmeyen $FLYAI fly.ai'ye döndü",
+    "holdToClaim": "talep etmek için bu cüzdanda en az {amount} $FLYAI tut (şu an {held})",
+    "buyFlyai": "$FLYAI al"
   },
   "leaderboard": {
     "flyAiComputeLeaderboard": "fly.ai compute · sıralama",

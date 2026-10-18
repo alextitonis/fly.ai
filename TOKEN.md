@@ -61,7 +61,10 @@ re-runs a sample of answers, and a wrong answer zeroes that day's credit.
   changed at the start of a month, with notice.
 * **Monthly pool.** After a month ends, the team may split a $FLYAI pool by points. A pool may be
   announced during the month. The team buys those tokens on the open market and funds the MonthlyClaims
-  contract, and wallets claim their share within 90 days. Anything unclaimed after that returns to the team.
+  contract, and wallets claim their share within the claim window. Anything unclaimed after that returns to the team.
+  September 2026 is paid by MonthlyClaims with a 90-day window. From October 2026 months are paid by MonthlyClaimsV2
+  (upgradeable, owned by the team): a 30-day window, and a minimum $FLYAI balance a wallet must hold to claim, which
+  starts at 0 and may be raised to 1 FLYAI. A change to either applies to months opened after it.
 * **Mining for the project.** Since 18 September 2026 the network also mines for the project itself: a yespower
   coin on miners' CPU threads and Kaspa on their GPUs, paid to wallets the team holds. Miners earn their usual
   points for those jobs, priced at what the brain job they displace would have paid, and the switch that runs them

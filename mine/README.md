@@ -744,7 +744,8 @@ Deployed 2026-09-16 and verified on Sourcify and on Etherscan (robin.etherscan.i
 
 | contract | address | settings |
 |---|---|---|
-| MonthlyClaims | `0x9C11Cfba5564Fb6e3f0258DDcB92Fd6BA6b4d77A` | owner `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` (dev wallet), claim window 90 days |
+| MonthlyClaims | `0x9C11Cfba5564Fb6e3f0258DDcB92Fd6BA6b4d77A` | owner `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` (dev wallet), claim window 90 days; pays September 2026 only (`CLAIMS_LEGACY=202609:<this>`) |
+| MonthlyClaimsV2 | not deployed yet (`script/DeployClaimsV2.s.sol`) | proxy + ProxyAdmin owned by the dev wallet; pays October 2026 on (`CLAIMS_CONTRACT`); `claimWindow` 30 days and `minHold` 0 at launch, both owner settings that apply to months opened later |
 | FlyStaking | `0x5279dafA0858d4A5B2DCeb05E5b41f954CD692Cc` | no owner, cooldown 7 days |
 
 Both use $FLYAI, `0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C`.
@@ -1019,8 +1020,9 @@ Nothing is funded while a month runs.
    `openMonth(month_id, root, pool_wei)`. This funds exactly that month in the same transaction.
 4. **Claim:** a wallet opens `/claim`, sees its months (`GET /api/claims?wallet=`, which includes
    ready-made calldata) and claims. The claim sends it the tokens, and the wallet pays the gas.
-5. **Sweep:** after the claim window (90 days by default), `sweep(month, treasury)` returns anything
-   unclaimed.
+5. **Sweep:** after the claim window (90 days on MonthlyClaims, 30 on MonthlyClaimsV2), `sweep(month, treasury)`
+   returns anything unclaimed. On V2 the owner can also `setClaimWindow(seconds)` (7–730 days) and
+   `setMinHold(wei)` (e.g. `1000000000000000000` = 1 FLYAI that a wallet must hold to claim).
 
 `contracts/src/MonthlyClaims.sol` uses OpenZeppelin's `MerkleProof`, `SafeERC20` and `Ownable2Step`. The owner can't change a month's root once
 posted, or take its funds before the window ends. Claims can never exceed what was funded, and

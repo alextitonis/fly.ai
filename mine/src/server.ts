@@ -126,6 +126,18 @@ const CLAIMS = {
   explorer: env("CLAIM_EXPLORER", "https://robin.etherscan.io"), // Blockscout's API sits behind a Cloudflare check
   token_symbol: "FLYAI",
 };
+/**
+ * Months paid by an older claims contract: CLAIMS_LEGACY="202609:0x9C11..." means months up to and including 202609
+ * stay on that contract (MonthlyClaims, 90-day window) and later months use CLAIMS_CONTRACT (MonthlyClaimsV2, 30
+ * days, optional minimum hold). Several pairs separate with commas.
+ */
+const CLAIMS_LEGACY = (process.env.CLAIMS_LEGACY ?? "").split(",").map((s) => s.trim()).filter(Boolean).map((pair) => {
+  const [upTo, contract] = pair.split(":");
+  if (!/^\d{6}$/.test(upTo ?? "") || !/^0x[0-9a-fA-F]{40}$/.test(contract ?? "")) throw new Error(`CLAIMS_LEGACY: bad entry "${pair}"`);
+  return { upTo: Number(upTo), contract: contract! };
+}).sort((a, b) => a.upTo - b.upTo);
+const claimsContractFor = (monthId: number): string | null =>
+  CLAIMS_LEGACY.find((l) => monthId <= l.upTo)?.contract ?? CLAIMS.contract;
 /** Stake tiers (src/staking.ts): off until STAKING_CONTRACT is set. */
 const STAKING = {
   contract: process.env.STAKING_CONTRACT ?? null,
@@ -1567,7 +1579,7 @@ async function snapshot(m: string, pool: string) {
   console.log(`snapshot ${m}: ${fromWei(poolWei)} tokens to ${split.length} wallets (${fromWei(ref.extra)} referral cuts), root ${tree.root}`);
   return {
     month: m, month_id: monthId(m), pool: fromWei(poolWei), pool_wei: poolWei.toString(), root: tree.root,
-    wallets: split.length, total_points: total, unlinked_points: unlinked,
+    wallets: split.length, total_points: total, unlinked_points: unlinked, contract: claimsContractFor(monthId(m)),
     // what the owner sends: approve(contract, pool_wei) on the token, then openMonth(month_id, root, pool_wei)
   };
 }
@@ -1586,6 +1598,7 @@ async function claimsFor(wallet: string) {
       const amount = BigInt(r.amount_wei);
       return {
         month: r.month, month_id: id, points: r.points, amount: fromWei(amount), amount_wei: r.amount_wei, root: r.root,
+        contract: claimsContractFor(id), // the contract that pays this month (older months stay on the old one)
         proof: JSON.parse(r.proof) as string[],
         claim_data: claimCalldata(id, w, amount, JSON.parse(r.proof)),
         has_claimed_data: hasClaimedCalldata(id, w),

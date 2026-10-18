@@ -447,13 +447,13 @@
   "claim": {
     "flyAiComputeClaims": "fly.ai compute · reclamos",
     "monthlyClaims": "Reclamos mensuales",
-    "pointsBuildUpOver": "Los puntos se acumulan durante cada mes UTC. Cuando termina, un fondo de $FLYAI se reparte según los puntos y cada billetera reclama aquí su parte, en Robinhood Chain.",
+    "pointsBuildUpOver": "Los puntos se acumulan durante cada mes UTC. Cuando termina, un fondo de $FLYAI se reparte según los puntos y cada wallet reclama su parte aquí, en Robinhood Chain. Desde octubre de 2026, reclama en los 30 días siguientes al pago: lo que no se reclame vuelve a fly.ai.",
     "yourWallet": "TU BILLETERA",
     "wallet": "Billetera",
     "notSignedIn": "sin iniciar sesión",
     "signIn": "Iniciar sesión",
     "thisMonth": "Este mes",
-    "claimingIsATransaction": "Reclamar es una transacción en Robinhood Chain y cuesta un poco de gas. El reparto de cada mes lo publica on-chain la tesorería de fly.ai, que no puede cambiarlo ni retirarlo una vez publicado. Contrato de reclamos: <a id=\"contract-link\" class=\"mono\" target=\"_blank\" rel=\"noopener\">—</a>",
+    "claimingIsATransaction": "Reclamar es una transacción en Robinhood Chain y cuesta un poco de gas. El reparto de cada mes lo publica on-chain la tesorería de fly.ai, que no puede cambiarlo ni retirarlo durante el plazo de reclamo. Septiembre de 2026 se puede reclamar durante 90 días; desde octubre el plazo es de 30 días, y el contrato puede exigir tener una pequeña cantidad de $FLYAI para reclamar. Contrato de reclamos: <a id=\"contract-link\" class=\"mono\" target=\"_blank\" rel=\"noopener\">—</a>",
     "claims2": "RECLAMOS",
     "signInToSee": "Inicia sesión para ver tus reclamos.",
     "metaTitle": "Reclamos — fly.ai compute",
@@ -467,7 +467,11 @@
     "waitingFunded": "esperando a que se financie este mes",
     "claimed": "reclamado ✓",
     "claim": "Reclamar",
-    "cantRead": "no se puede leer la cadena: {error}"
+    "cantRead": "no se puede leer la cadena: {error}",
+    "claimBy": "reclama antes del {date}",
+    "windowClosed": "el plazo terminó el {date}; los $FLYAI no reclamados volvieron a fly.ai",
+    "holdToClaim": "ten al menos {amount} $FLYAI en esta wallet para reclamar (tienes {held})",
+    "buyFlyai": "Comprar $FLYAI"
   },
   "leaderboard": {
     "flyAiComputeLeaderboard": "fly.ai compute · clasificación",

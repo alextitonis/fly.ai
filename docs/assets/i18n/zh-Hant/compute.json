@@ -447,13 +447,13 @@
   "claim": {
     "flyAiComputeClaims": "fly.ai 算力 · 領取",
     "monthlyClaims": "每月領取",
-    "pointsBuildUpOver": "積分以每個 UTC 月份累積。月份結束後，一筆 $FLYAI 獎池會依積分分配，每個錢包都在這裡、在 Robinhood Chain 上領取自己的份額。",
+    "pointsBuildUpOver": "積分按 UTC 自然月累計。月份結束後，一池 $FLYAI 按積分分配，每個錢包在這裡（Robinhood Chain 上）領取自己的份額。自 2026 年 10 月起，請在發放後 30 天內領取：未領取的部分退回 fly.ai。",
     "yourWallet": "你的錢包",
     "wallet": "錢包",
     "notSignedIn": "尚未登入",
     "signIn": "登入",
     "thisMonth": "本月",
-    "claimingIsATransaction": "領取是 Robinhood Chain 上的一筆交易，需要一點 gas。每個月的分配由 fly.ai 金庫發布到鏈上，發布後就無法更改或收回。領取合約：<a id=\"contract-link\" class=\"mono\" target=\"_blank\" rel=\"noopener\">—</a>",
+    "claimingIsATransaction": "領取是 Robinhood Chain 上的一筆交易，需要少量 gas。每月的分配由 fly.ai 金庫發布到鏈上，在領取期內無法更改或收回。2026 年 9 月的份額可在 90 天內領取；從 10 月起領取期為 30 天，合約可以要求錢包持有少量 $FLYAI 才能領取。領取合約：<a id=\"contract-link\" class=\"mono\" target=\"_blank\" rel=\"noopener\">—</a>",
     "claims2": "領取",
     "signInToSee": "登入以查看你的領取紀錄。",
     "metaTitle": "領取 — fly.ai 算力",
@@ -467,7 +467,11 @@
     "waitingFunded": "等待本月獎池注資",
     "claimed": "已領取 ✓",
     "claim": "領取",
-    "cantRead": "無法讀取鏈上資料：{error}"
+    "cantRead": "無法讀取鏈上資料：{error}",
+    "claimBy": "請在 {date} 前領取",
+    "windowClosed": "領取期已於 {date} 結束；未領取的 $FLYAI 已退回 fly.ai",
+    "holdToClaim": "此錢包需持有至少 {amount} $FLYAI 才能領取（目前 {held}）",
+    "buyFlyai": "購買 $FLYAI"
   },
   "leaderboard": {
     "flyAiComputeLeaderboard": "fly.ai 算力 · 排行榜",

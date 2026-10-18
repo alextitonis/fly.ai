@@ -6,7 +6,7 @@ script = "script"
 out = "out"
 cache_path = "cache"
 libs = ["../node_modules"]
-remappings = ["@openzeppelin/contracts/=../node_modules/@openzeppelin/contracts/", "forge-std/=../node_modules/forge-std/src/"]
+remappings = ["@openzeppelin/contracts/=../node_modules/@openzeppelin/contracts/", "@openzeppelin/contracts-upgradeable/=../node_modules/@openzeppelin/contracts-upgradeable/", "forge-std/=../node_modules/forge-std/src/"]
 solc_version = "0.8.28"
 # Shanghai, not solc's Cancun default: no MCOPY/TSTORE, so it runs whatever ArbOS version Robinhood Chain is on
 evm_version = "shanghai"

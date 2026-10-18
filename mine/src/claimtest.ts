@@ -101,9 +101,13 @@ try {
   const unlocked = (await rpc("eth_accounts", [])).map((x: string) => x.toLowerCase());
   check("test wallets are anvil's unlocked accounts", [owner, alice, bob].every((w) => unlocked.includes(w.address.toLowerCase())), bob.address);
   const token = deploy("test/MonthlyClaims.t.sol:TestToken");
-  const claims = deploy("src/MonthlyClaims.sol:MonthlyClaims", token, String(90 * 24 * 3600), owner.address);
+  // months up to 2026-07 on the first contract (like September 2026 in production), later ones on V2 behind its proxy
+  const legacy = deploy("src/MonthlyClaims.sol:MonthlyClaims", token, String(90 * 24 * 3600), owner.address);
+  const impl = deploy("src/MonthlyClaimsV2.sol:MonthlyClaimsV2");
+  const init = execFileSync("cast", ["calldata", "initialize(address,uint64,uint256,address)", token, String(30 * 24 * 3600), "0", owner.address], { encoding: "utf8" }).trim();
+  const claims = deploy("../node_modules/@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy", impl, owner.address, init);
   const staking = deploy("src/FlyStaking.sol:FlyStaking", token, String(7 * 24 * 3600));
-  console.log(`token ${token}, MonthlyClaims ${claims}, FlyStaking ${staking}`);
+  console.log(`token ${token}, MonthlyClaims ${legacy}, MonthlyClaimsV2 ${claims} (impl ${impl}), FlyStaking ${staking}`);
 
   // alice stakes 100 on-chain before linking her wallet
   check("alice stakes 100", await send(owner.address, token, calldata("mint(address,uint256)", alice.address, 1000n * WEI))
@@ -116,7 +120,7 @@ try {
       ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", OPEN_TARGET: "50",
       STAKING_CONTRACT: staking, STAKE_RPC: RPC, TOKEN_ADDRESS: token,
       STAKE_TIERS: JSON.stringify([{ name: "Holder", min: "0", multiplier: 1 }, { name: "Operator", min: "100", multiplier: 2 }]),
-      ADMIN_TOKEN: ADMIN, CLAIMS_CONTRACT: claims, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "anvil", CLAIM_RPC: RPC, CLAIM_EXPLORER: "http://localhost",
+      ADMIN_TOKEN: ADMIN, CLAIMS_CONTRACT: claims, CLAIMS_LEGACY: `202607:${legacy}`, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "anvil", CLAIM_RPC: RPC, CLAIM_EXPLORER: "http://localhost",
     },
     stdio: ["ignore", "ignore", "inherit"],
   });
@@ -213,6 +217,7 @@ try {
   const aliceClaims = (await api(`/api/claims?wallet=${alice.address.toLowerCase()}`, null)).json;
   const ac = aliceClaims.claims[0];
   check("alice's claim: 4/5 of the pool", ac?.amount === "720" && aliceClaims.contract === claims && aliceClaims.chain_id === 31337, JSON.stringify(ac && { amount: ac.amount, points: ac.points }));
+  check("a month after CLAIMS_LEGACY's goes to V2", ac?.contract === claims && snap.json.contract === claims, JSON.stringify({ claim: ac?.contract, snapshot: snap.json.contract }));
   check("bob's claim: 1/5", (await api(`/api/claims?wallet=${bob.address}`, null)).json.claims[0]?.amount === "180");
 
   // not funded yet: the claim can't go through
@@ -230,6 +235,16 @@ try {
   check("hasClaimed reads true", BigInt(await rpc("eth_call", [{ to: claims, data: ac.has_claimed_data }, "latest"])) === 1n);
   check("alice can't claim twice", await reverts(alice.address, claims, ac.claim_data));
   check("bob can't use alice's claim", await reverts(bob.address, claims, ac.claim_data.replace(alice.address.slice(2).toLowerCase(), bob.address.slice(2).toLowerCase())));
+
+  // V2's settings: a minimum hold stops bob (his 200 are all staked, so he holds 0) until the owner lowers it
+  const bc = (await api(`/api/claims?wallet=${bob.address}`, null)).json.claims[0];
+  check("bob holds no FLYAI", await balance(token, bob.address) === 0n);
+  check("owner sets a 1 FLYAI minimum hold", await send(owner.address, claims, calldata("setMinHold(uint256)", WEI)));
+  check("bob's claim reverts while he holds less", await reverts(bob.address, claims, bc.claim_data));
+  check("owner can't set a 6-day window", await reverts(owner.address, claims, calldata("setClaimWindow(uint64)", 6n * 24n * 3600n)));
+  check("only the owner sets the minimum", await reverts(bob.address, claims, calldata("setMinHold(uint256)", 0n)));
+  check("minimum back to 0, bob claims 180", await send(owner.address, claims, calldata("setMinHold(uint256)", 0n))
+    && await send(bob.address, claims, bc.claim_data) && await balance(token, bob.address) === 180n * WEI);
 
   if (HOLD) {
     await send(owner.address, token, calldata("mint(address,uint256)", bob.address, 500n * WEI));
