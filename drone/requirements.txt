@@ -1,0 +1,4 @@
+mujoco>=3.2
+numpy
+pillow
+flybrain>=0.1.0
