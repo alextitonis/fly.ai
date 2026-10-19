@@ -527,8 +527,8 @@
     "waiting": "La semana #{epoch} está en su periodo de espera y se puede cobrar desde {when}. Cada pago espera para poder revisarse antes de que nadie cobre.",
     "nothingYet": "Esta wallet aún no tiene nada en los pagos. Solo las moscas activadas participan.",
     "notActive": "Tu pago más reciente aún no está activo. Vuelve tras su periodo de espera.",
-    "closesAt": "Cobra la semana #{epoch} antes del {when}. Lo que no se cobre para entonces vuelve al Fly Desk.",
-    "closed": "Los cobros de la semana #{epoch} cerraron el {when}. Lo que no se cobró volvió al Fly Desk.",
+    "closesAt": "Reclama la semana #{epoch} antes de {when}. Lo que no se reclame para entonces va a los holders que sí reclamaron esa semana.",
+    "closed": "Las reclamaciones de la semana #{epoch} cerraron el {when}. Lo que no se reclamó fue a los holders que reclamaron esa semana.",
     "th": {
       "fly": "Mosca",
       "rarity": "Rareza",
@@ -554,7 +554,18 @@
     "approving": "Aprueba el staking en tu wallet…",
     "doneStake": "Reclamados y en staking {amount} $FLYAI.",
     "claimedNotStaked": "Reclamados {amount} $FLYAI, pero no se hizo staking: {reason}. El $FLYAI está en tu wallet.",
-    "referrals": "Referidos"
+    "referrals": "Referidos",
+    "how": {
+      "title": "Cómo funciona el pago semanal",
+      "weekTitle": "Una vez por semana, de las ganancias del desk",
+      "week": "Cuando una semana de trading termina con ganancias, una parte se convierte en $FLYAI y se reparte entre las Trader Flies activadas, según su rareza y cuánto de la semana estuvo activa cada mosca. Una semana sin ganancias no paga nada.",
+      "windowTitle": "Reclama en {hours} horas",
+      "window": "Cada pago se puede reclamar durante {hours} horas desde que se abre. Un solo claim recoge todas tus moscas a la vez, y \"Claim & stake\" lo pone en stake en el mismo paso.",
+      "unclaimedTitle": "El $FLYAI no reclamado va a quienes reclamaron",
+      "unclaimed": "Lo que no se reclama a tiempo no se guarda para ti ni aumenta tu próximo pago. Se envía a las wallets que sí reclamaron esa semana, repartido según cuánto reclamó cada una, así que reclamar a tiempo puede darte un extra. Si nadie reclama, se queda en el Fly Desk.",
+      "growTitle": "¿Quieres pagos más grandes? Alimenta o haz stake",
+      "grow": "Para aumentar la parte de una mosca en los próximos pagos, aliméntala en su página: su pago se queda en el desk y suma a su parte desde entonces. O haz stake de $FLYAI aquí abajo: 1M en stake = 1.5×, hasta 4× con 10M."
+    }
   },
   "odds": {
     "title": "Probabilidad de cada rareza",

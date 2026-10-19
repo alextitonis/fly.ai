@@ -527,8 +527,8 @@
     "waiting": "Week #{epoch} is in its waiting period and can be claimed from {when}. Every payout waits so it can be checked before anyone claims.",
     "nothingYet": "This wallet has nothing in the payouts yet. Only activated flies share in them.",
     "notActive": "Your newest payout isn't active yet. Come back after its waiting period.",
-    "closesAt": "Claim week #{epoch} before {when}. What isn't claimed by then goes back to the Fly Desk.",
-    "closed": "Claims for week #{epoch} closed at {when}. What wasn't claimed went back to the Fly Desk.",
+    "closesAt": "Claim week #{epoch} before {when}. What isn't claimed by then goes to the holders who claimed that week.",
+    "closed": "Claims for week #{epoch} closed at {when}. What wasn't claimed went to the holders who claimed that week.",
     "th": {
       "fly": "Fly",
       "rarity": "Rarity",
@@ -554,7 +554,18 @@
     "approving": "Approve staking in your wallet…",
     "doneStake": "Claimed and staked {amount} $FLYAI.",
     "claimedNotStaked": "Claimed {amount} $FLYAI, but it wasn't staked: {reason}. The $FLYAI is in your wallet.",
-    "referrals": "Referrals"
+    "referrals": "Referrals",
+    "how": {
+      "title": "How the weekly payout works",
+      "weekTitle": "Once a week, from the desk's profit",
+      "week": "When a week of trading ends in profit, part of it becomes $FLYAI and is split between the activated Trader Flies, by rarity and by how much of the week each fly was active. A week without profit pays nothing.",
+      "windowTitle": "Claim within {hours} hours",
+      "window": "Each payout can be claimed for {hours} hours after it opens. One claim collects all your flies at once, and \"Claim & stake\" stakes it in the same go.",
+      "unclaimedTitle": "Unclaimed $FLYAI goes to those who claimed",
+      "unclaimed": "What isn't claimed in time is not saved for you and doesn't raise your next payout. It's sent to the wallets that did claim that week, split by how much each claimed, so claiming on time can earn you a bit extra. If nobody claims, it stays in the Fly Desk.",
+      "growTitle": "Want bigger payouts? Feed or stake",
+      "grow": "To grow a fly's share of the next payouts, feed it on its page: its payout stays in the desk and adds to its share from then on. Or stake $FLYAI below: 1M staked = 1.5×, up to 4× at 10M."
+    }
   },
   "odds": {
     "title": "Rarity chances",

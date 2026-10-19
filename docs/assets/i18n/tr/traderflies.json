@@ -527,8 +527,8 @@
     "waiting": "{epoch}. hafta bekleme süresinde ve {when} itibarıyla alınabilir. Her ödeme, kimse almadan önce kontrol edilebilsin diye bekler.",
     "nothingYet": "Bu cüzdanın ödemelerde henüz bir şeyi yok. Yalnızca aktive edilmiş sinekler pay alır.",
     "notActive": "En yeni ödemen henüz aktif değil. Bekleme süresinden sonra gel.",
-    "closesAt": "#{epoch}. haftayı {when} tarihinden önce al. O zamana kadar alınmayan kısım Fly Desk'e geri döner.",
-    "closed": "#{epoch}. haftanın talepleri {when} tarihinde kapandı. Alınmayan kısım Fly Desk'e geri döndü.",
+    "closesAt": "#{epoch}. haftayı {when} öncesinde talep et. O zamana kadar talep edilmeyen kısım, o hafta talep eden sahiplere gider.",
+    "closed": "#{epoch}. hafta talepleri {when} tarihinde kapandı. Talep edilmeyen kısım, o hafta talep eden sahiplere gitti.",
     "th": {
       "fly": "Sinek",
       "rarity": "Nadirlik",
@@ -554,7 +554,18 @@
     "approving": "Cüzdanında stake onayını ver…",
     "doneStake": "{amount} $FLYAI alındı ve stake edildi.",
     "claimedNotStaked": "{amount} $FLYAI alındı ama stake edilmedi: {reason}. $FLYAI cüzdanında.",
-    "referrals": "Davetler"
+    "referrals": "Davetler",
+    "how": {
+      "title": "Haftalık ödeme nasıl çalışır",
+      "weekTitle": "Haftada bir, desk'in kârından",
+      "week": "Bir trading haftası kârla biterse, bir kısmı $FLYAI'a çevrilir ve aktif Trader Flies arasında nadirliğe ve her sineğin haftanın ne kadarında aktif olduğuna göre bölünür. Kârsız bir hafta ödeme yapmaz.",
+      "windowTitle": "{hours} saat içinde talep et",
+      "window": "Her ödeme açıldıktan sonra {hours} saat boyunca talep edilebilir. Tek bir talep tüm sineklerini birden toplar, \"Claim & stake\" ise aynı adımda stake eder.",
+      "unclaimedTitle": "Talep edilmeyen $FLYAI talep edenlere gider",
+      "unclaimed": "Zamanında talep edilmeyen kısım senin için saklanmaz ve bir sonraki ödemeni artırmaz. O hafta talep eden cüzdanlara, her birinin talep ettiği miktara göre gönderilir; yani zamanında talep etmek sana biraz ekstra kazandırabilir. Kimse talep etmezse Fly Desk'te kalır.",
+      "growTitle": "Daha büyük ödemeler mi istiyorsun? Besle ya da stake et",
+      "grow": "Bir sineğin sonraki ödemelerdeki payını büyütmek için onu kendi sayfasında besle: ödemesi desk'te kalır ve o andan itibaren payına eklenir. Ya da aşağıdan $FLYAI stake et: 1M stake = 1.5×, 10M'de 4×'e kadar."
+    }
   },
   "odds": {
     "title": "Nadirlik olasılıkları",

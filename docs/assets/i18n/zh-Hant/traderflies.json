@@ -525,8 +525,8 @@
     "waiting": "第 {epoch} 週處於等待期，可從 {when} 起領取。每次分紅都會等待，以便在任何人領取前完成核查。",
     "nothingYet": "這個錢包還沒有分紅。只有已啟用的蒼蠅參與分配。",
     "notActive": "你最新的分紅尚未生效。等待期結束後再來。",
-    "closesAt": "請在 {when} 之前領取第 #{epoch} 週。屆時未領取的部分將退回 Fly Desk。",
-    "closed": "第 #{epoch} 週的領取已於 {when} 截止。未領取的部分已退回 Fly Desk。",
+    "closesAt": "請在 {when} 之前領取第 #{epoch} 週。屆時未領取的部分會分給那一週領取了的持有者。",
+    "closed": "第 #{epoch} 週的領取已於 {when} 截止。未領取的部分已分給那一週領取了的持有者。",
     "th": {
       "fly": "蒼蠅",
       "rarity": "稀有度",
@@ -552,7 +552,18 @@
     "approving": "請在錢包中批准質押…",
     "doneStake": "已領取並質押 {amount} $FLYAI。",
     "claimedNotStaked": "已領取 {amount} $FLYAI，但未質押：{reason}。$FLYAI 在你的錢包裡。",
-    "referrals": "邀請"
+    "referrals": "邀請",
+    "how": {
+      "title": "每週分紅怎麼運作",
+      "weekTitle": "每週一次，來自 desk 的利潤",
+      "week": "一週交易結束如果獲利，其中一部分會換成 $FLYAI，按稀有度和每隻蒼蠅在這一週裡啟用的時長，分給已啟用的 Trader Flies。沒有獲利的一週不分紅。",
+      "windowTitle": "{hours} 小時內領取",
+      "window": "每次分紅開放後可以領取 {hours} 小時。一次領取就能收齊你所有蒼蠅的份額，「Claim & stake」會在同一步裡直接質押。",
+      "unclaimedTitle": "未領取的 $FLYAI 歸領取的人",
+      "unclaimed": "沒有按時領取的部分不會為你保留，也不會增加你下一次的分紅。它會按各自領取的數量，發給那一週領取了的錢包，所以按時領取還可能多拿一點。如果沒有人領取，就留在 Fly Desk。",
+      "growTitle": "想要更多分紅？餵養或質押",
+      "grow": "想提高蒼蠅在之後分紅中的份額，就在牠的頁面上餵養牠：牠的分紅留在 desk 裡，從此計入牠的份額。或者在下方質押 $FLYAI：質押 1M = 1.5×，10M 最高 4×。"
+    }
   },
   "odds": {
     "title": "稀有度機率",
