@@ -86,6 +86,13 @@ export function createVaults(d: VaultsDeps) {
     minUsd: Number(d.env.PROMO_MIN_USD ?? "20"),
     bonusUsd: Number(d.env.PROMO_BONUS_USD ?? "20"),
     holdDays: Number(d.env.PROMO_HOLD_DAYS ?? "14"),
+    // bonuses waiting for a deposit (2026-10-20, the user: "once they are deposited, they will get them instantly"):
+    // fly ids, "462,463,...". Once a listed fly's wallet has a holder and their own money reaches minUsd, a manual
+    // bonus of bonusUsd locked holdDays is made for it (once: decided_by "on-deposit") and paid in the same tick
+    onDeposit: (d.env.PROMO_ON_DEPOSIT ?? "").split(",").map((x) => Number(x.trim())).filter((n) => Number.isInteger(n) && n > 0),
+    // one bonus per holder in a round; PROMO_ONE_PER_HOLDER=0 (2026-10-20, the user: "holders can get for multiple
+    // deposits/flies") lets a holder win once per wallet
+    onePerHolder: d.env.PROMO_ONE_PER_HOLDER !== "0",
     nearMs: Number(d.env.PROMO_NEAR_MIN ?? "5") * 60_000,   // candidates qualifying this close together get flagged
     // paid without the admin (2026-10-04, the user: "make it automatic actually so i don't need to do the give"):
     // after PROMO_SETTLE_MIN with their own money still in and the wallet trading (its holder holds the $FLYAI the
@@ -461,7 +468,7 @@ export function createVaults(d: VaultsDeps) {
   /**
    * New candidates, first come first served: per wallet and holder, Robinhood deposits since the start (not the new
    * owner's money arriving during a sale) summed in time order; the moment the sum first reached the minimum is the
-   * place in the queue. One per wallet and per holder in a round (round_ms = PROMO_START_MS; rejected rows keep theirs;
+   * place in the queue. One per wallet and per holder (unless PROMO.onePerHolder is off) in a round (round_ms = PROMO_START_MS; rejected rows keep theirs;
    * 2026-10-05: a new round lets earlier winners in again), until the round's rows not rejected fill the slots. Under
    * one lock: two processes never fill the same slot.
    */
@@ -486,13 +493,13 @@ export function createVaults(d: VaultsDeps) {
           select q.wallet, q.holder, (extract(epoch from q.at) * 1000)::float8 as at_ms, q.run, w.fly_id from q
           left join mine.vault_wallets w on lower(w.address) = lower(q.wallet)
           where not exists (select 1 from mine.vault_promos p where p.round_ms = ?::bigint and p.chain = ?
-            and (lower(p.wallet) = lower(q.wallet) or lower(p.holder) = lower(q.holder)))
-          order by q.at, q.id`, chain, PROMO.startMs, PROMO.minUsd, PROMO.startMs, chain);
+            and (lower(p.wallet) = lower(q.wallet) or (?::boolean and lower(p.holder) = lower(q.holder))))
+          order by q.at, q.id`, chain, PROMO.startMs, PROMO.minUsd, PROMO.startMs, chain, PROMO.onePerHolder);
         const seen = new Set<string>();
         for (const r of rows) {
           if (taken >= slots) break;
           const w = r.wallet.toLowerCase(), h = r.holder.toLowerCase();
-          if (seen.has(w) || seen.has(h)) continue;      // a wallet that two holders filled, or a holder's second fly
+          if (seen.has(w) || (PROMO.onePerHolder && seen.has(h))) continue;   // a wallet two holders filled, or a holder's second fly
           seen.add(w); seen.add(h);
           const n = await q.run(`insert into mine.vault_promos (wallet, fly_id, holder, deposit_usd, qualified_at, round_ms, chain)
             values (?, ?, ?, ?, to_timestamp(?::double precision / 1000), ?, ?) on conflict do nothing`, r.wallet, r.fly_id, r.holder, r.run, r.at_ms, PROMO.startMs, chain);
@@ -649,13 +656,30 @@ export function createVaults(d: VaultsDeps) {
        where v.fly_id = ? and l.holder is not null order by l.principal_usd desc limit 1`, fly);
     if (!w) throw new HttpError(409, `fly #${fly}'s wallet isn't set up by its owner yet (no holder): nothing to lock a bonus to`);
     if (w.closing) throw new HttpError(409, `fly #${fly}'s wallet is being paid out`);
+    const id = await insertManual(w, fly, usd, hold, by);
+    return { id, fly_id: fly, wallet: w.wallet, holder: w.holder, usd, hold_days: hold, status: "approved" };
+  }
+  async function insertManual(w: { wallet: string; holder: string; principal_usd: number }, fly: number, usd: number,
+                              hold: number, by: string): Promise<number> {
     const row = await pg.one<{ id: number }>(`insert into mine.vault_promos (wallet, fly_id, holder, deposit_usd, qualified_at, round_ms,
         chain, status, decided_by, decided_at, bonus_usd, hold_days, manual)
       values (?, ?, ?, ?, now(), ?, 'robinhood', 'approved', ?, now(), ?, ?, true) returning id`,
       w.wallet, fly, w.holder, Number(w.principal_usd), Date.now(), by, usd, hold);
     promoChanged();
     console.log(`promo: manual #${row!.id} for fly #${fly} (${w.wallet}): $${usd} locked ${hold} d, by ${by}`);
-    return { id: Number(row!.id), fly_id: fly, wallet: w.wallet, holder: w.holder, usd, hold_days: hold, status: "approved" };
+    return Number(row!.id);
+  }
+  /** PROMO.onDeposit: each listed fly gets its bonus once its owner's own money in the wallet reaches minUsd. */
+  async function onDepositPromos(): Promise<void> {
+    for (const fly of PROMO.onDeposit) {
+      if (await pg.one("select 1 from mine.vault_promos where fly_id = ? and decided_by = 'on-deposit'", fly)) continue;
+      const w = await pg.one<{ wallet: string; holder: string; principal_usd: number; locked_usd: number; closing: boolean }>(
+        `select l.wallet, l.holder, l.principal_usd, l.locked_usd, l.closing from mine.vault_wallets v
+           join mine.vault_ledger l on lower(l.wallet) = lower(v.address) and l.chain = 'robinhood'
+         where v.fly_id = ? and l.holder is not null order by l.principal_usd desc limit 1`, fly);
+      if (!w || w.closing || Number(w.principal_usd) - Number(w.locked_usd) < PROMO.minUsd) continue;
+      await insertManual(w, fly, PROMO.bonusUsd, PROMO.holdDays, "on-deposit");
+    }
   }
   const MANUAL_MAX_USD = Number(d.env.PROMO_MANUAL_MAX_USD ?? "100");
 
@@ -667,6 +691,7 @@ export function createVaults(d: VaultsDeps) {
       await seeBurns();
       await payGrants();
       if (PROMO.on) { await findPromos(); await autoPromos(); }
+      await onDepositPromos();                             // bonuses waiting for a listed fly's deposit
       await payPromos();                                   // competition wins and manual bonuses (approved rows only)
     } catch (err) {
       console.error("vaults tick:", (err as Error)?.message ?? err);

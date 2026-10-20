@@ -376,6 +376,21 @@ try {
   const man2 = await api("/api/admin/promo/manual", a, { fly_id: 3, usd: 5 });
   check("manual: the same fly can get another one (its own round, no competition slot)", man2.status === 200 && man2.json.id !== man.json.id
     && (await api("/api/vaults/promo", null)).json.taken === pub1.taken, JSON.stringify(man2.json));
+
+  // bonuses waiting for a deposit (2026-10-20): a listed fly gets one once its owner's money is in, never twice;
+  // a listed fly without a set-up wallet waits
+  { const s1 = server as unknown as ReturnType<typeof spawn>; const gone = new Promise((r) => s1.once("exit", r)); s1.kill("SIGKILL"); await gone; }
+  await startServer({ PROMO_ON_DEPOSIT: "3,4242" });
+  let od: any[] = [];
+  for (let i = 0; i < 30 && !(od.length && od.every((r) => r.status === "paid")); i++) {
+    await sleep(500);
+    od = await PG.pg.all<any>("select * from mine.vault_promos where decided_by = 'on-deposit' order by id");
+  }
+  await sleep(2500);
+  const od2 = await PG.pg.all<any>("select * from mine.vault_promos where decided_by = 'on-deposit'");
+  check("on deposit: fly #3 (holder, $100 in) gets one bonus of the default $20, paid; #4242 (no wallet) none",
+    od2.length === 1 && od2[0].fly_id === 3 && od2[0].bonus_usd === 20 && od2[0].hold_days === 14 && od2[0].status === "paid",
+    JSON.stringify(od2));
 } catch (err) {
   console.error(err);
   failed++;

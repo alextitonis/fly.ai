@@ -1671,7 +1671,7 @@
   },
   "promo": {
     "banner": "🎁 Competencia de depósitos: las próximas {left} de {slots} wallets que depositen {min}+ reciben +{bonus} en $FLYAI. El bono opera con tu mosca y pasa a ser tuyo después de {days} días - si retiras tu propio dinero antes, el bono se devuelve.",
-    "checked": "Los ganadores se revisan antes de pagar el bono (uno por persona).",
+    "checked": "Se paga automáticamente. Un bono por wallet de mosca - ¿tienes varias moscas? Cada una puede ganar.",
     "active": "🎁 Bono de {usd} · bloqueado hasta el {date}",
     "unlocked": "🎁 Bono de {usd} desbloqueado - es tuyo",
     "returned": "El bono de {usd} se devolvió (se retiró dinero mientras estaba bloqueado).",
