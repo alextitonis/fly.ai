@@ -197,6 +197,8 @@
     "until": "hasta {when}",
     "forever": "sin fecha de fin",
     "activateHint": "su holder necesita {amount} $FLYAI en la wallet",
+    "whyInactive": "Su holder ({wallet}) tiene {held} $FLYAI, necesita {amount}.",
+    "whyInactiveNote": "El $FLYAI tiene que estar en la wallet dueña de esta mosca (o en staking desde ella): el $FLYAI en la wallet propia de la mosca no cuenta.",
     "holdOn": "su holder tiene {amount}+ $FLYAI",
     "howShare": "Cada semana el {pct}% de la ganancia del desk por encima de su máximo anterior va a los holders, repartido entre moscas activas por peso: tu parte = peso de tu mosca / peso activo total.",
     "traits": "Rasgos",

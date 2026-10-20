@@ -197,6 +197,8 @@
     "until": "{when} tarihine kadar",
     "forever": "bitiş tarihi yok",
     "activateHint": "sahibinin cüzdanında {amount} $FLYAI olmalı",
+    "whyInactive": "Sahibinde ({wallet}) {held} $FLYAI var, {amount} gerekli.",
+    "whyInactiveNote": "$FLYAI bu sineğin sahibi olan cüzdanda (veya oradan stake edilmiş) olmalı: sineğin kendi cüzdanındaki $FLYAI sayılmaz.",
     "holdOn": "sahibi {amount}+ $FLYAI tutuyor",
     "howShare": "Her hafta desk'in önceki zirvesinin üstündeki kârın %{pct}'i sahiplere gider ve aktif sinekler arasında ağırlığa göre bölünür: payın = sineğinin ağırlığı / tüm aktif ağırlık.",
     "traits": "Özellikler",

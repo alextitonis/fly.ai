@@ -195,6 +195,8 @@
     "until": "至 {when}",
     "forever": "无结束日期",
     "activateHint": "持有者钱包需要 {amount} $FLYAI",
+    "whyInactive": "持有者（{wallet}）有 {held} $FLYAI，需要 {amount}。",
+    "whyInactiveNote": "$FLYAI 必须在持有这只苍蝇的钱包里（或从该钱包质押）：苍蝇自己钱包里的 $FLYAI 不算。",
     "holdOn": "持有者持有 {amount}+ $FLYAI",
     "howShare": "每周 Desk 超出前高的利润中 {pct}% 归持有者，按权重分给已激活的苍蝇：你的份额 = 你的苍蝇权重 / 全部激活权重。",
     "traits": "特征",

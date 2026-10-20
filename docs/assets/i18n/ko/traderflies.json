@@ -195,6 +195,8 @@
     "until": "{when}까지",
     "forever": "종료일 없음",
     "activateHint": "보유자 지갑에 {amount} $FLYAI가 필요합니다",
+    "whyInactive": "보유자({wallet})의 $FLYAI는 {held}, 필요한 양은 {amount}입니다.",
+    "whyInactiveNote": "$FLYAI는 이 파리를 소유한 지갑에 있어야 합니다(또는 그 지갑에서 스테이킹). 파리 자체 지갑의 $FLYAI는 포함되지 않습니다.",
     "holdOn": "보유자가 {amount} $FLYAI 이상 보유 중",
     "howShare": "매주 데스크의 이전 최고점을 넘는 수익의 {pct}%가 보유자에게 가며, 활성 파리의 가중치로 나눕니다: 내 몫 = 내 파리 가중치 / 전체 활성 가중치.",
     "traits": "특성",

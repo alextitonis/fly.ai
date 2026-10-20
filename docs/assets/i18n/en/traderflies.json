@@ -197,6 +197,8 @@
     "until": "until {when}",
     "forever": "no end date",
     "activateHint": "its holder needs {amount} $FLYAI in the wallet",
+    "whyInactive": "Its holder ({wallet}) has {held} $FLYAI, needs {amount}.",
+    "whyInactiveNote": "The $FLYAI has to sit in the wallet that owns this fly (or be staked from it): $FLYAI in the fly's own wallet doesn't count.",
     "holdOn": "its holder holds {amount}+ $FLYAI",
     "howShare": "Each week {pct}% of the desk's profit above its previous high goes to holders, split among active flies by weight: your share = your fly's weight / all active weight.",
     "traits": "Traits",
