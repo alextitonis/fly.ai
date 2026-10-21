@@ -16,6 +16,7 @@
     "test:payouts": "node --disable-warning=ExperimentalWarning src/payouttest.ts",
     "test:contracts": "npm run test:payouts && cd contracts && forge test",
     "test:claims": "node --disable-warning=ExperimentalWarning src/claimtest.ts",
+    "test:claimremind": "node --disable-warning=ExperimentalWarning src/claimremindtest.ts",
     "test:orders": "node --disable-warning=ExperimentalWarning src/ordertest.ts",
     "test:programs": "node --disable-warning=ExperimentalWarning src/programtest.ts",
     "test:release": "node --disable-warning=ExperimentalWarning src/releasetest.ts",

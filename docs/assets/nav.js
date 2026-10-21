@@ -92,7 +92,7 @@
   const ACCT_EN = {
       signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
       save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out",
-      search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
+      search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", deskClaim: "Fly Desk payout to claim", claimBy: "claim by {t}", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
       referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link" };
   const LANGS = ["en", "zh-Hans", "zh-Hant", "ko", "tr", "es"];   // i18n.js LANGUAGES
   let acctText = ACCT_EN;
@@ -548,7 +548,7 @@
       // the account's own news and the followed flies' trades, newest first (one row per trade)
       const key = (f) => `${f.kind}:${f.fly}:${f.at}:${f.symbol}`;
       const feed = [...new Map([...((v && v.feed) || []), ...followed].map((f) => [key(f), f])).values()]
-        .sort((a, b) => b.at - a.at).slice(0, 30);
+        .sort((a, b) => (b.kind === "claim") - (a.kind === "claim") || b.at - a.at).slice(0, 30);   // an open claim stays on top
       let seen = 0;
       try { seen = Number(localStorage.getItem("flyai.notif.seen") || 0); } catch {}
       const unread = feed.filter((f) => f.at > seen).length;
@@ -621,6 +621,10 @@
     if (f.kind === "trade") {
       a.href = f.fly ? `/traderflies/fly?id=${f.fly}` : "/traderflies/traders?view=mine";
       text = `${f.fly ? "#" + f.fly + " " : ""}${L(f.side === "buy" ? "bought" : "sold")} ${f.symbol}${f.usd ? ` · $${Number(f.usd).toFixed(2)}` : ""}${f.pnl_pct != null ? ` · ${f.pnl_pct >= 0 ? "+" : ""}${Number(f.pnl_pct).toFixed(1)}%` : ""}`;
+    } else if (f.kind === "claim") {                  // the Sunday desk payout, until its 24 h claim window closes
+      a.href = "/traderflies/claim";
+      const by = new Date(f.closes).toLocaleString([], { weekday: "short", hour: "2-digit", minute: "2-digit" });
+      text = `${L("deskClaim")} · ${flai(f.amount_wei)} $FLYAI · ${L("claimBy").replace("{t}", by)}`;
     } else if (f.kind === "colosseum") {
       a.href = "/colosseum/";
       text = `${L("colosseum")} · #${f.fly} ${f.place ? L("place").replace("{n}", f.place) : L("finished")}${f.prize_wei && f.prize_wei !== "0" ? ` · +${flai(f.prize_wei)} $FLYAI` : ""}`;

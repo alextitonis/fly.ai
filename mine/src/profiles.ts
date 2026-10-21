@@ -19,7 +19,33 @@ export type ProfilesDeps = {
   send: (res: ServerResponse, status: number, body: unknown) => void;
   readJson: (req: IncomingMessage) => Promise<any>;
   sessionWallet: (req: IncomingMessage) => Promise<string>;
+  /** the desk's published payout tree (flytrade-desk /public/claims.json); none = no claim reminders */
+  deskClaims?: () => Promise<DeskClaims | null>;
 };
+
+export type DeskClaims = {
+  epoch: number | null;
+  settled_at?: string | null;
+  leaves: { account: string; fly: number; epoch_wei?: string }[];
+};
+
+// the FlyaiDistributor's claimWindow (24 h after the week's root activates, which is right at the close since 10-18):
+// past it the unclaimed FLYAI goes back, so the bell's reminder goes too
+export const CLAIM_WINDOW_MS = 24 * 3600_000;
+
+/**
+ * The Sunday claim reminder (2026-10-21, the user: "add as notification every sunday for the fly desk claim"): the
+ * wallet's FLYAI in the week that just settled, while it can still be claimed. One row for all its flies.
+ */
+export function claimRow(c: DeskClaims | null, me: string, now = Date.now()) {
+  const at = Date.parse(String(c?.settled_at ?? ""));
+  if (!c || !Number.isFinite(at) || now > at + CLAIM_WINDOW_MS) return null;
+  const mine = c.leaves.filter((l) => String(l.account).toLowerCase() === me && BigInt(l.epoch_wei || "0") > 0n);
+  if (!mine.length) return null;
+  const wei = mine.reduce((s, l) => s + BigInt(l.epoch_wei || "0"), 0n);
+  return { at, kind: "claim", epoch: c.epoch, amount_wei: wei.toString(), flies: mine.map((l) => l.fly),
+    closes: at + CLAIM_WINDOW_MS };
+}
 
 const NICK = /^[A-Za-z0-9 _.\-]{3,20}$/;
 // names that would pose as the project or its team, or as a wallet address
@@ -85,7 +111,7 @@ export function createProfiles(d: ProfilesDeps) {
     });
   }
   async function build(me: string) {
-    const [nick, board, arena, games, trades, tours, payouts] = await Promise.all([
+    const [nick, board, arena, games, trades, tours, payouts, desk] = await Promise.all([
       pg.one<{ nickname: string }>("select nickname from mine.profiles where wallet = ?", me),
       pg.one<{ value: any }>("select value from mine.vault_public where key = 'leaderboard'"),
       pg.one<{ entries: number; wins: number; prize: string | null }>(`select count(*)::int as entries,
@@ -107,7 +133,9 @@ export function createProfiles(d: ProfilesDeps) {
           where lower(e.wallet) = ? and t.done_at is not null order by t.done_at desc limit 8`, me),
       pg.all<{ amount_wei: string; done_at: number }>(`select amount_wei, done_at from mine.flightpass_withdrawals
           where lower(wallet) = ? and status = 'done' and done_at is not null order by done_at desc limit 5`, me),
+      d.deskClaims ? d.deskClaims().catch(() => null) : null,   // a reminder is a nicety: the desk being down costs nothing
     ]);
+    const claim = claimRow(desk, me);
     const mine = ((board?.value?.all ?? []) as any[]).filter((e) => String(e.holder ?? "").toLowerCase() === me);
     const wallets = {
       count: mine.length,
@@ -124,6 +152,7 @@ export function createProfiles(d: ProfilesDeps) {
       ...tours.map((t) => ({ at: Number(t.done_at), kind: "colosseum", name: t.name, fly: t.fly, place: t.place, prize_wei: t.prize_wei })),
       ...payouts.map((p) => ({ at: Number(p.done_at), kind: "payout", amount_wei: p.amount_wei })),
     ].sort((a, b) => b.at - a.at).slice(0, 20);
+    if (claim) feed.unshift(claim as any);             // on top while open, however many trades came after it
     const badges = [
       nick && "nickname", wallets.count > 0 && "funded", profit > 0 && "profit", wallets.trades >= 10 && "trader",
       (arena?.entries ?? 0) > 0 && "gladiator", (arena?.wins ?? 0) > 0 && "champion", played > 0 && "player",

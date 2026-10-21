@@ -3882,7 +3882,18 @@ const partners = createPartners({
   env: process.env,
 });
 // nicknames for the leaderboards (src/profiles.ts): set by the signed-in wallet, read by anyone
-const profiles = createProfiles({ pg, HttpError, send, readJson, sessionWallet: sessionAddress });
+// the desk's payout tree for the bell's Sunday claim reminder (profiles.claimRow): one read per 10 minutes, shared
+const DESK_PUBLIC = env("DESK_PUBLIC_URL", "https://flytrade-desk.fly.dev/public");
+let deskClaimsCache: { at: number; value: Promise<any> } | null = null;
+function deskClaims() {
+  if (!deskClaimsCache || Date.now() - deskClaimsCache.at > 600_000) {
+    const value = fetch(`${DESK_PUBLIC}/claims.json`, { signal: AbortSignal.timeout(10_000) })
+      .then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    deskClaimsCache = { at: Date.now(), value };
+  }
+  return deskClaimsCache.value;
+}
+const profiles = createProfiles({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, deskClaims });
 // referrals (src/referrals.ts): links, the set-once referrer, real referrals (hourly), the page's numbers
 const referrals = createReferrals({ pg, HttpError, send, readJson, sessionWallet: sessionAddress });
 if (USER) referrals.start();
