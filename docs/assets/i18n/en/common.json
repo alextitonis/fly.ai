@@ -189,7 +189,8 @@
       "refHint": "A friend's code or nickname",
       "refSet": "Set",
       "refLocked": "Set for good",
-      "refJoined": "You joined through {name}'s link"
+      "refJoined": "You joined through {name}'s link",
+      "whatsNew": "New"
     },
     "terminal": {
       "label": "Fly Terminal",

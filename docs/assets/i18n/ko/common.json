@@ -189,7 +189,8 @@
       "refHint": "친구의 코드 또는 닉네임",
       "refSet": "설정",
       "refLocked": "영구 설정됨",
-      "refJoined": "{name}님의 링크로 가입했습니다"
+      "refJoined": "{name}님의 링크로 가입했습니다",
+      "whatsNew": "새 소식"
     },
     "terminal": {
       "label": "Fly 터미널",

@@ -94,7 +94,7 @@
       signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
       save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out",
       search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", deskClaim: "Fly Desk payout to claim", claimBy: "claim by {t}", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
-      referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link" };
+      whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link" };
   const LANGS = ["en", "zh-Hans", "zh-Hant", "ko", "tr", "es"];   // i18n.js LANGUAGES
   let acctText = ACCT_EN;
 
@@ -438,14 +438,16 @@
     try { lang = new URLSearchParams(location.search).get("lang") || localStorage.getItem("flyai.lang") || "en"; } catch {}
     return LANGS.includes(lang) ? lang : "en";
   }
+  /** i18n.js's own folder URL; a docs page opened from disk reads the folder beside it. */
+  function i18nBase() {
+    const docs = location.protocol === "file:" ? location.pathname.lastIndexOf("/docs/") : -1;
+    return docs >= 0 ? `${location.pathname.slice(0, docs + 6)}assets/i18n/` : "/assets/i18n/";
+  }
   /** Loads nav.acct for the page's language (never rejects; English stays on any failure), then relabels the bar. */
   function loadText(nav) {
     const lang = pageLang();
     if (lang === "en") return Promise.resolve();
-    // i18n.js's own URL for common.json; a docs page opened from disk reads the folder beside it
-    const docs = location.protocol === "file:" ? location.pathname.lastIndexOf("/docs/") : -1;
-    const base = docs >= 0 ? `${location.pathname.slice(0, docs + 6)}assets/i18n/` : "/assets/i18n/";
-    return fetch(`${base}${lang}/common.json`).then((r) => (r.ok ? r.json() : null)).then((j) => {
+    return fetch(`${i18nBase()}${lang}/common.json`).then((r) => (r.ok ? r.json() : null)).then((j) => {
       const got = j && j.nav && j.nav.acct;
       if (!got) return;
       acctText = { ...ACCT_EN, ...got };
@@ -536,7 +538,7 @@
   function wireBell(nav, textReady) {
     const li = nav.querySelector("li.bell");
     if (!session() && !follows().length) return;
-    void Promise.all([loadSummary(), textReady, followFeed()]).then(([v, , followed]) => {
+    void Promise.all([loadSummary(), textReady, followFeed(), newsFeed()]).then(([v, , followed, news]) => {
       window.flySummary = v;
       window.dispatchEvent(new CustomEvent("fly:summary", { detail: v }));
       if (v && v.nickname) { const n_ = nav.querySelector(".acct-name"); if (n_) n_.textContent = v.nickname; }
@@ -547,18 +549,23 @@
       }
       if (!li) return;
       // the account's own news and the followed flies' trades, newest first (one row per trade)
-      const key = (f) => `${f.kind}:${f.fly}:${f.at}:${f.symbol}`;
-      const feed = [...new Map([...((v && v.feed) || []), ...followed].map((f) => [key(f), f])).values()]
+      const key = (f) => `${f.kind}:${f.fly}:${f.at}:${f.id || f.symbol}`;
+      const feed = [...new Map([...((v && v.feed) || []), ...followed, ...news].map((f) => [key(f), f])).values()]
         .sort((a, b) => (b.kind === "claim") - (a.kind === "claim") || b.at - a.at).slice(0, 30);   // an open claim stays on top
       let seen = 0;
       try { seen = Number(localStorage.getItem("flyai.notif.seen") || 0); } catch {}
-      const unread = feed.filter((f) => f.at > seen).length;
+      const newsRead = newsSeen(news);
+      const isNew = (f) => (f.kind === "news" ? !newsRead.has(f.id) : f.at > seen);
+      const unread = feed.filter(isNew).length;
       const n = li.querySelector(".bell-n");
       if (unread) { n.textContent = unread > 9 ? "9+" : String(unread); n.hidden = false; }
       const list = li.querySelector(".bell-list");
-      list.replaceChildren(...(feed.length ? feed.map((f) => feedRow(f, f.at > seen)) : [Object.assign(document.createElement("small"), { textContent: L("nothingYet") })]));
+      list.replaceChildren(...(feed.length ? feed.map((f) => feedRow(f, isNew(f))) : [Object.assign(document.createElement("small"), { textContent: L("nothingYet") })]));
       li.querySelector(".bell-btn").addEventListener("click", () => {
-        try { localStorage.setItem("flyai.notif.seen", String(Date.now())); } catch {}
+        try {
+          localStorage.setItem("flyai.notif.seen", String(Date.now()));
+          localStorage.setItem("flyai.news.seen", JSON.stringify([...new Set([...newsRead, ...news.map((f) => f.id)])].slice(-200)));
+        } catch {}
         n.hidden = true;
       });
     });
@@ -581,6 +588,37 @@
       return ids.flatMap((id) => (((f.flies || {})[id] || {}).recent || []).map((r) => ({ kind: "trade", fly: id,
         side: r.side === "buy" ? "buy" : "sell", symbol: r.label || r.symbol, usd: r.usd, pnl_pct: r.pnl_pct, at: r.at * 1000 })));
     } catch { return []; }
+  }
+  // what's new (2026-10-22, the user: "when adding new stuff in change log show it in users' notifications"): the
+  // changelog's own entries (changelog.json "e", keys d<MMDD><letter>, the page's language) from the last NEWS_DAYS days,
+  // each unread until the bell is opened once (flyai.news.seen: ids, so an entry added later the same day still counts)
+  const NEWS_DAYS = 14, NEWS_MAX = 5;
+  async function newsFeed() {
+    try {
+      const j = await fetch(`${i18nBase()}${pageLang()}/changelog.json`).then((r) => r.json());
+      const now = new Date(), out = [];
+      for (const [id, html] of Object.entries((j && j.e) || {})) {
+        const m = /^d(\d\d)(\d\d)[a-z]$/.exec(id);
+        if (!m) continue;
+        let at = Date.UTC(now.getUTCFullYear(), Number(m[1]) - 1, Number(m[2]), 12);
+        if (at > now.getTime() + 86_400_000) at = Date.UTC(now.getUTCFullYear() - 1, Number(m[1]) - 1, Number(m[2]), 12);
+        if (now.getTime() - at > NEWS_DAYS * 86_400_000) continue;
+        const b = /<b>(.*?)<\/b>/.exec(html);
+        const title = Object.assign(document.createElement("div"), { innerHTML: b ? b[1] : html }).textContent.trim().replace(/[.。]$/, "");
+        out.push({ kind: "news", id, at, title });
+      }
+      return out.sort((a, b) => b.at - a.at || (a.id < b.id ? 1 : -1)).slice(0, NEWS_MAX);
+    } catch { return []; }
+  }
+  function newsSeen(news) {
+    try {
+      const raw = localStorage.getItem("flyai.news.seen");
+      if (raw) return new Set(JSON.parse(raw));
+      // a first visit: only the last 3 days' entries count as new
+      const old = news.filter((f) => Date.now() - f.at > 3 * 86_400_000).map((f) => f.id);
+      localStorage.setItem("flyai.news.seen", JSON.stringify(old));
+      return new Set(old);
+    } catch { return new Set(news.map((f) => f.id)); }
   }
   window.flyFollow = {
     list: follows,
@@ -626,6 +664,9 @@
       a.href = "/traderflies/claim";
       const by = new Date(f.closes).toLocaleString([], { weekday: "short", hour: "2-digit", minute: "2-digit" });
       text = `${L("deskClaim")} · ${flai(f.amount_wei)} $FLYAI · ${L("claimBy").replace("{t}", by)}`;
+    } else if (f.kind === "news") {                  // a new changelog entry
+      a.href = "/changelog";
+      text = `✨ ${L("whatsNew")} · ${f.title}`;
     } else if (f.kind === "colosseum") {
       a.href = "/colosseum/";
       text = `${L("colosseum")} · #${f.fly} ${f.place ? L("place").replace("{n}", f.place) : L("finished")}${f.prize_wei && f.prize_wei !== "0" ? ` · +${flai(f.prize_wei)} $FLYAI` : ""}`;
@@ -635,7 +676,7 @@
     }
     a.textContent = text;
     const t = document.createElement("small");
-    t.textContent = ago(f.at);
+    t.textContent = f.kind === "news" ? new Date(f.at).toLocaleDateString([], { month: "short", day: "numeric", timeZone: "UTC" }) : ago(f.at);
     a.append(t);
     if (isNew) a.className = "new";
     return a;

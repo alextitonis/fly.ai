@@ -189,7 +189,8 @@
       "refHint": "好友的邀請碼或暱稱",
       "refSet": "設定",
       "refLocked": "已永久設定",
-      "refJoined": "你透過 {name} 的連結加入"
+      "refJoined": "你透過 {name} 的連結加入",
+      "whatsNew": "新功能"
     },
     "terminal": {
       "label": "Fly 終端",

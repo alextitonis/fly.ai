@@ -189,7 +189,8 @@
       "refHint": "Arkadaşının kodu veya takma adı",
       "refSet": "Kaydet",
       "refLocked": "Kalıcı olarak ayarlandı",
-      "refJoined": "{name} adlı kişinin bağlantısıyla katıldın"
+      "refJoined": "{name} adlı kişinin bağlantısıyla katıldın",
+      "whatsNew": "Yeni"
     },
     "terminal": {
       "label": "Fly Terminal",

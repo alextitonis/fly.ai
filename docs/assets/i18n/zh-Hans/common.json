@@ -189,7 +189,8 @@
       "refHint": "好友的邀请码或昵称",
       "refSet": "设置",
       "refLocked": "已永久设置",
-      "refJoined": "你通过 {name} 的链接加入"
+      "refJoined": "你通过 {name} 的链接加入",
+      "whatsNew": "新功能"
     },
     "terminal": {
       "label": "Fly 终端",

@@ -189,7 +189,8 @@
       "refHint": "Código o apodo de un amigo",
       "refSet": "Guardar",
       "refLocked": "Fijado para siempre",
-      "refJoined": "Te uniste con el enlace de {name}"
+      "refJoined": "Te uniste con el enlace de {name}",
+      "whatsNew": "Novedad"
     },
     "terminal": {
       "label": "Fly Terminal",
