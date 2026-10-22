@@ -111,7 +111,7 @@ export function createProfiles(d: ProfilesDeps) {
     });
   }
   async function build(me: string) {
-    const [nick, board, arena, games, trades, tours, payouts, desk] = await Promise.all([
+    const [nick, board, arena, games, trades, tours, payouts, desk, notices] = await Promise.all([
       pg.one<{ nickname: string }>("select nickname from mine.profiles where wallet = ?", me),
       pg.one<{ value: any }>("select value from mine.vault_public where key = 'leaderboard'"),
       pg.one<{ entries: number; wins: number; prize: string | null }>(`select count(*)::int as entries,
@@ -134,6 +134,9 @@ export function createProfiles(d: ProfilesDeps) {
       pg.all<{ amount_wei: string; done_at: number }>(`select amount_wei, done_at from mine.flightpass_withdrawals
           where lower(wallet) = ? and status = 'done' and done_at is not null order by done_at desc limit 5`, me),
       d.deskClaims ? d.deskClaims().catch(() => null) : null,   // a reminder is a nicety: the desk being down costs nothing
+      // the team's notes to this wallet (mine.notices, 2026-10-22: a refund), 60 days
+      pg.all<{ at: string; text: string; href: string | null }>(`select at, text, href from mine.notices
+          where wallet = ? and at > now() - interval '60 days' order by at desc limit 5`, me).catch(() => []),
     ]);
     const claim = claimRow(desk, me);
     const mine = ((board?.value?.all ?? []) as any[]).filter((e) => String(e.holder ?? "").toLowerCase() === me);
@@ -151,6 +154,7 @@ export function createProfiles(d: ProfilesDeps) {
         usd: t.usd, pnl_pct: t.reason?.pnl_pct ?? null })),
       ...tours.map((t) => ({ at: Number(t.done_at), kind: "colosseum", name: t.name, fly: t.fly, place: t.place, prize_wei: t.prize_wei })),
       ...payouts.map((p) => ({ at: Number(p.done_at), kind: "payout", amount_wei: p.amount_wei })),
+      ...notices.map((n) => ({ at: new Date(n.at).getTime(), kind: "notice", text: n.text, href: n.href })),
     ].sort((a, b) => b.at - a.at).slice(0, 20);
     if (claim) feed.unshift(claim as any);             // on top while open, however many trades came after it
     const badges = [

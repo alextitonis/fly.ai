@@ -596,9 +596,9 @@
     "deviceCaption": "Ilustración: una mosca ASCII en una pantalla táctil de 1,64 pulgadas",
     "priceEach": "por mascota",
     "left": "quedan",
-    "closed": "Aún no abierto",
+    "closed": "En pausa",
     "openNow": "Reservas abiertas",
-    "notOpen": "Las reservas aún no están abiertas.",
+    "notOpen": "Las reservas están en pausa por ahora. Todas las reservas hasta ahora se reembolsaron en $FLYAI.",
     "confirm": "Confirma la reserva en tu wallet.",
     "ordered": {
       "one": "Reservada {count} mascota.",

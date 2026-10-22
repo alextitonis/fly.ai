@@ -594,9 +594,9 @@
     "deviceCaption": "示意圖：1.64 英寸觸控式螢幕上的 ASCII 蒼蠅",
     "priceEach": "每隻",
     "left": "剩餘",
-    "closed": "尚未開放",
+    "closed": "已暫停",
     "openNow": "預訂開放中",
-    "notOpen": "預訂尚未開放。",
+    "notOpen": "預訂暫時暫停。目前所有預訂均已以 $FLYAI 退款。",
     "confirm": "請在錢包中確認預訂。",
     "ordered": {
       "one": "已預訂 {count} 只寵物。",

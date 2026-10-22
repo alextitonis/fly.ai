@@ -594,9 +594,9 @@
     "deviceCaption": "示意图：1.64 英寸触摸屏上的 ASCII 苍蝇",
     "priceEach": "每只",
     "left": "剩余",
-    "closed": "尚未开放",
+    "closed": "已暂停",
     "openNow": "预订开放中",
-    "notOpen": "预订尚未开放。",
+    "notOpen": "预订暂时暂停。目前所有预订均已以 $FLYAI 退款。",
     "confirm": "请在钱包中确认预订。",
     "ordered": {
       "one": "已预订 {count} 只宠物。",

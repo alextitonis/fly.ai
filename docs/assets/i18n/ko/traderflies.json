@@ -594,9 +594,9 @@
     "deviceCaption": "그림: 1.64인치 터치스크린 위의 ASCII 파리",
     "priceEach": "펫당",
     "left": "남음",
-    "closed": "아직 열리지 않음",
+    "closed": "일시 중지",
     "openNow": "사전 주문 중",
-    "notOpen": "사전 주문이 아직 열리지 않았습니다.",
+    "notOpen": "사전 주문이 잠시 중지되었습니다. 지금까지의 모든 사전 주문은 $FLYAI로 환불되었습니다.",
     "confirm": "지갑에서 사전 주문을 확인하세요.",
     "ordered": {
       "one": "펫 {count}마리를 사전 주문했습니다.",

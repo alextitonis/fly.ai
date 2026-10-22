@@ -664,6 +664,10 @@
       a.href = "/traderflies/claim";
       const by = new Date(f.closes).toLocaleString([], { weekday: "short", hour: "2-digit", minute: "2-digit" });
       text = `${L("deskClaim")} · ${flai(f.amount_wei)} $FLYAI · ${L("claimBy").replace("{t}", by)}`;
+    } else if (f.kind === "notice") {                // a note from the team to this wallet (mine.notices)
+      a.href = f.href || "/";
+      if (/^https:/.test(a.href)) { a.target = "_blank"; a.rel = "noopener"; }
+      text = `📣 ${f.text}`;
     } else if (f.kind === "news") {                  // a new changelog entry
       a.href = "/changelog";
       text = `✨ ${L("whatsNew")} · ${f.title}`;

@@ -596,9 +596,9 @@
     "deviceCaption": "Illustration: an ASCII fly on a 1.64-inch touch screen",
     "priceEach": "per pet",
     "left": "left",
-    "closed": "Not open yet",
+    "closed": "Paused",
     "openNow": "Pre-orders open",
-    "notOpen": "Pre-orders aren't open yet.",
+    "notOpen": "Pre-orders are paused for now. Every pre-order so far was refunded in $FLYAI.",
     "confirm": "Confirm the pre-order in your wallet.",
     "ordered": {
       "one": "Pre-ordered {count} pet.",

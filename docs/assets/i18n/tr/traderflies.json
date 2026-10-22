@@ -596,9 +596,9 @@
     "deviceCaption": "Çizim: 1,64 inçlik dokunmatik ekranda bir ASCII sinek",
     "priceEach": "adet başı",
     "left": "kaldı",
-    "closed": "Henüz açık değil",
+    "closed": "Duraklatıldı",
     "openNow": "Ön sipariş açık",
-    "notOpen": "Ön siparişler henüz açık değil.",
+    "notOpen": "Ön siparişler şimdilik duraklatıldı. Şimdiye kadarki tüm ön siparişler $FLYAI olarak iade edildi.",
     "confirm": "Ön siparişi cüzdanında onayla.",
     "ordered": {
       "one": "{count} evcil hayvan ön sipariş edildi.",
