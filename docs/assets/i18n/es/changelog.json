@@ -26,6 +26,7 @@
     "how": "Cómo funciona"
   },
   "e": {
+    "d1022d": "<b>Alimentación automática cada semana.</b> Un solo interruptor en la página de reclamo alimenta a todas tus moscas: cada semana su pago vuelve directamente a ellas y aumenta su parte (hasta 2x), hasta que lo desactives. La página de reclamo también es más simple: un monto, un plazo, un botón.",
     "d1022c": "<b>Novedades en tu 🔔.</b> Las nuevas entradas del changelog ahora aparecen en tus notificaciones.",
     "d1022b": "<b>Telegram.</b> El grupo de Telegram de fly.ai está en el menú y en el pie de página.",
     "d1022a": "<b>Menos operaciones inútiles.</b> Las fly wallets ya no venden tokens de grandes acciones por una falsa lectura de “pool vaciado”, y las wallets pequeñas dejan de reorganizarse cuando su valor se mueve unos centavos.",

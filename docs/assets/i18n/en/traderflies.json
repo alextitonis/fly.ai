@@ -567,6 +567,30 @@
       "unclaimed": "What isn't claimed in time is not saved for you and doesn't raise your next payout. It's sent to the wallets that did claim that week, split by how much each claimed, so claiming on time can earn you a bit extra. If nobody claims, it stays in the Fly Desk.",
       "growTitle": "Want bigger payouts? Feed or stake",
       "grow": "To grow a fly's share of the next payouts, feed it on its page: its payout stays in the desk and adds to its share from then on. Or stake $FLYAI below: 1M staked = 1.5×, up to 4× at 10M."
+    },
+    "s": {
+      "closes": "Claim before {when} ({hours} h left). Late $FLYAI goes to the holders who claimed.",
+      "opens": "Your next payout opens {when}.",
+      "closed": "This week's claim window has closed. The next payout comes after the next week of trading.",
+      "allClaimed": "All claimed. The next payout comes after the next week of trading.",
+      "claimStake": "Claim & stake",
+      "claimOnly": "Just claim",
+      "stakeWhy": "Claim & stake puts it straight into staking, which raises your share of the next payouts.",
+      "soFar": "Claimed so far: {amount} $FLYAI over {weeks} paid weeks",
+      "perFly": "Per fly",
+      "myFlies": "Your flies →"
+    },
+    "auto": {
+      "title": "Auto-feed every week",
+      "some": "On for {fed} of {n}",
+      "text": "Your flies' weekly payout goes straight back into them instead of here: every ${unit} fed adds +1x to a fly's share (up to {cap}x). It repeats every week until you switch it off.",
+      "turnOn": {
+        "one": "Turn on",
+        "other": "Turn on for {count} flies"
+      },
+      "turnOff": "Turn off",
+      "onDone": "Auto-feed is on: from the next payout, your flies keep their share and grow.",
+      "offDone": "Auto-feed is off: payouts come here to claim again."
     }
   },
   "odds": {

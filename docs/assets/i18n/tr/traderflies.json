@@ -567,6 +567,30 @@
       "unclaimed": "Zamanında talep edilmeyen kısım senin için saklanmaz ve bir sonraki ödemeni artırmaz. O hafta talep eden cüzdanlara, her birinin talep ettiği miktara göre gönderilir; yani zamanında talep etmek sana biraz ekstra kazandırabilir. Kimse talep etmezse Fly Desk'te kalır.",
       "growTitle": "Daha büyük ödemeler mi istiyorsun? Besle ya da stake et",
       "grow": "Bir sineğin sonraki ödemelerdeki payını büyütmek için onu kendi sayfasında besle: ödemesi desk'te kalır ve o andan itibaren payına eklenir. Ya da aşağıdan $FLYAI stake et: 1M stake = 1.5×, 10M'de 4×'e kadar."
+    },
+    "s": {
+      "closes": "{when} tarihinden önce al ({hours} sa kaldı). Geç kalan $FLYAI, alan sahiplere gider.",
+      "opens": "Bir sonraki ödemen {when} açılıyor.",
+      "closed": "Bu haftanın alma süresi doldu. Sonraki ödeme, gelecek haftanın işlemlerinden sonra gelir.",
+      "allClaimed": "Hepsi alındı. Sonraki ödeme, gelecek haftanın işlemlerinden sonra gelir.",
+      "claimStake": "Al ve stake et",
+      "claimOnly": "Sadece al",
+      "stakeWhy": "Al ve stake et, ödemeyi doğrudan stake eder; bu da sonraki ödemelerdeki payını artırır.",
+      "soFar": "Şimdiye kadar alınan: {amount} $FLYAI, {weeks} ödeme haftası",
+      "perFly": "Sinek başına",
+      "myFlies": "Sineklerin →"
+    },
+    "auto": {
+      "title": "Her hafta otomatik besle",
+      "some": "{n} sinekten {fed} tanesinde açık",
+      "text": "Sineklerinin haftalık ödemesi buraya gelmek yerine doğrudan onlara döner: beslenen her ${unit}, sineğin payına +1x ekler (en fazla {cap}x). Sen kapatana kadar her hafta tekrarlanır.",
+      "turnOn": {
+        "one": "Aç",
+        "other": "{count} sinek için aç"
+      },
+      "turnOff": "Kapat",
+      "onDone": "Otomatik besleme açık: sonraki ödemeden itibaren sineklerin paylarını tutup büyür.",
+      "offDone": "Otomatik besleme kapalı: ödemeler yine buradan alınır."
     }
   },
   "odds": {

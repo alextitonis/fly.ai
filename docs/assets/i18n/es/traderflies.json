@@ -567,6 +567,30 @@
       "unclaimed": "Lo que no se reclama a tiempo no se guarda para ti ni aumenta tu próximo pago. Se envía a las wallets que sí reclamaron esa semana, repartido según cuánto reclamó cada una, así que reclamar a tiempo puede darte un extra. Si nadie reclama, se queda en el Fly Desk.",
       "growTitle": "¿Quieres pagos más grandes? Alimenta o haz stake",
       "grow": "Para aumentar la parte de una mosca en los próximos pagos, aliméntala en su página: su pago se queda en el desk y suma a su parte desde entonces. O haz stake de $FLYAI aquí abajo: 1M en stake = 1.5×, hasta 4× con 10M."
+    },
+    "s": {
+      "closes": "Reclama antes de {when} (quedan {hours} h). El $FLYAI no reclamado va a los holders que reclamaron.",
+      "opens": "Tu próximo pago se abre el {when}.",
+      "closed": "El plazo de esta semana ha cerrado. El próximo pago llega tras la próxima semana de trading.",
+      "allClaimed": "Todo reclamado. El próximo pago llega tras la próxima semana de trading.",
+      "claimStake": "Reclamar y hacer stake",
+      "claimOnly": "Solo reclamar",
+      "stakeWhy": "Reclamar y hacer stake lo pone directamente en staking, lo que aumenta tu parte de los próximos pagos.",
+      "soFar": "Reclamado hasta ahora: {amount} $FLYAI en {weeks} semanas pagadas",
+      "perFly": "Por mosca",
+      "myFlies": "Tus moscas →"
+    },
+    "auto": {
+      "title": "Alimentar cada semana automáticamente",
+      "some": "Activo en {fed} de {n}",
+      "text": "El pago semanal de tus moscas vuelve directamente a ellas en lugar de llegar aquí: cada ${unit} alimentado suma +1x a su parte (hasta {cap}x). Se repite cada semana hasta que lo desactives.",
+      "turnOn": {
+        "one": "Activar",
+        "other": "Activar para {count} moscas"
+      },
+      "turnOff": "Desactivar",
+      "onDone": "Alimentación automática activada: desde el próximo pago, tus moscas conservan su parte y crecen.",
+      "offDone": "Alimentación automática desactivada: los pagos vuelven a llegar aquí para reclamar."
     }
   },
   "odds": {
