@@ -77,7 +77,7 @@ try {
   let session = DEV;
   let body: any = null;
   const gta = createGta({
-    pg, chain, prices, cfg: { ...gtaConfig({ GTA_START: "2026-10-22T00:00:00Z", GTA_END: "2099-01-01T00:00:00Z" }), seedDelay: 50 },
+    pg, chain, prices, cfg: { ...gtaConfig({ GTA_START: "2026-10-22T00:00:00Z", GTA_PONS_START: "2026-10-22T00:00:00Z", GTA_END: "2099-01-01T00:00:00Z" }), seedDelay: 50 },
     HttpError, send, readJson: async () => body, sessionWallet: async () => session, isAdminToken: () => false,
     admins: [DEV], explorer: "https://example",
   });

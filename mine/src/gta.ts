@@ -4,7 +4,8 @@
  * $FLYAI"; the campaign from 10-22: half the fees buy GTA VI copies for $FLYAI holders until it launches on 19 Nov).
  *
  * The pot: GTA_SHARE (50%) of
- *   pons    the dev wallet's Pons creator fees from GTA_START on ($FLYAI's own, paid in NVDA, and the desk launches'):
+ *   pons    the dev wallet's Pons creator fees from GTA_PONS_START on (2026-10-23, the user: count the 0.175 NVDA
+ *           unclaimed since the 10-17 claim, so just after that claim) ($FLYAI's own, paid in NVDA, and the desk launches'):
  *           the fee escrow's FeeDeposited logs to the dev wallet, valued when they are seen
  *   desk    the team's 5% of each weekly Fly Desk payout (public.desk_epochs.dev_usd) ending after GTA_START
  *   wallet  the Fly Wallets' profit fees (mine.vault_moves kind 'fee', not the referrers' legs)
@@ -63,6 +64,7 @@ export type Prices = { usd(token: string): Promise<number | null> };   // token 
 
 export type GtaConfig = {
   start: number; end: number;                      // ms
+  ponsStart: number;                               // ms, the Pons fees' own start
   priceUsd: number; share: number; minHold: bigint; // minHold in wei
   seedDelay: number; exclude: string[];
 };
@@ -70,6 +72,7 @@ export function gtaConfig(env: NodeJS.ProcessEnv): GtaConfig {
   return {
     start: Date.parse(env.GTA_START ?? "2026-10-22T00:00:00Z"),
     end: Date.parse(env.GTA_END ?? "2026-11-19T00:00:00Z"),
+    ponsStart: Date.parse(env.GTA_PONS_START ?? "2026-10-17T21:00:00Z"),   // the dev wallet's last claim: 10-17 20:53 UTC
     priceUsd: Number(env.GTA_PRICE_USD ?? 70),
     share: Number(env.GTA_SHARE ?? 0.5),
     minHold: BigInt(env.GTA_MIN_HOLD ?? 100_000) * E18,
@@ -167,7 +170,7 @@ export function createGta(d: {
 
   /** New $FLYAI holders and new Pons fees since the last tick. */
   async function scanChain(head: number) {
-    const cur = (await getState<{ holders?: number; pons?: number }>("cursor")) ?? {};
+    const cur = (await getState<{ holders?: number; pons?: number; pons_start?: number }>("cursor")) ?? {};
     const holdersFrom = cur.holders ?? 0;
     await scan(FLYAI, [TRANSFER_TOPIC], holdersFrom, head, async (logs) => {
       const to = [...new Set(logs.map((l) => `0x${l.topics[2]?.slice(-40) ?? ""}`.toLowerCase()).filter((a) => ADDRESS.test(a)))];
@@ -176,7 +179,8 @@ export function createGta(d: {
         await pg.run(`insert into mine.gta_holders (address) select unnest(?::text[]) on conflict do nothing`, `{${part.join(",")}}`);
       }
     });
-    const ponsFrom = cur.pons ?? await blockAt(cfg.start, head);
+    // a changed GTA_PONS_START reads the fees again from there (each fee is booked once by its id)
+    const ponsFrom = cur.pons !== undefined && cur.pons_start === cfg.ponsStart ? cur.pons : await blockAt(cfg.ponsStart, head);
     let unpriced = Infinity;
     await scan(ESCROW, [FEE_TOPIC, `0x${DEV.slice(2).padStart(64, "0")}`], ponsFrom, head, async (logs) => {
       for (const l of logs) {
@@ -192,7 +196,7 @@ export function createGta(d: {
       }
     });
     // the pons cursor stays at the oldest unpriced fee's block, so it is read again
-    await setState("cursor", { holders: head + 1, pons: Number.isFinite(unpriced) ? unpriced : head + 1 });
+    await setState("cursor", { holders: head + 1, pons: Number.isFinite(unpriced) ? unpriced : head + 1, pons_start: cfg.ponsStart });
   }
 
   /** The desk's and the wallets' fees from the database. */
@@ -346,7 +350,7 @@ export function createGta(d: {
     const live = rows.filter((r) => r.status !== "void");
     const board = await getState<{ entrants: number; total: string; at: number }>("board");
     return {
-      price_usd: cfg.priceUsd, share: cfg.share, min_hold: whole(cfg.minHold), start: cfg.start, end: cfg.end,
+      price_usd: cfg.priceUsd, share: cfg.share, min_hold: whole(cfg.minHold), start: cfg.start, pons_start: cfg.ponsStart, end: cfg.end,
       fees_usd: { ...by, total }, pot_usd: pot,
       giveaway: opened + (Date.now() < cfg.end ? 1 : 0), copies_funded: p.funded,
       progress_usd: p.progress_usd, progress_pct: p.pct, left_usd: p.left_usd,
