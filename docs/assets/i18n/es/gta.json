@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "Sorteo de GTA VI: ten $FLYAI y gana una copia",
+    "description": "La mitad de las comisiones de fly.ai compra copias de GTA VI para quienes tienen $FLYAI hasta el día del lanzamiento. Ten 100.000 $FLYAI para entrar en cada sorteo."
+  },
+  "head": {
+    "eyebrow": "Sorteo",
+    "title": "Gana GTA VI con $FLYAI",
+    "lede": "La mitad de las comisiones de fly.ai va a un bote. Cada vez que llega a $70, se sortea una copia de GTA VI entre quienes tienen $FLYAI. Cuanto más tengas, más probabilidades. Dura hasta que sale GTA VI, el 19 de noviembre."
+  },
+  "bar": {
+    "title": "Sorteo #1",
+    "round": "Sorteo #{n}",
+    "days": {
+      "one": "Queda {count} día",
+      "other": "Quedan {count} días"
+    },
+    "over": "GTA VI ya salió: el sorteo terminó",
+    "left": "{have} de {price} · faltan {left}",
+    "fees": "Comisiones contadas hasta ahora: {total}. La mitad, {pot}, es el bote. Copias cubiertas hasta ahora: {copies}."
+  },
+  "me": {
+    "title": "¿Estás dentro?",
+    "signedOut": "Inicia sesión para revisar tu wallet.",
+    "signIn": "Iniciar sesión",
+    "in": "Estás en el sorteo",
+    "out": "Todavía no estás en el sorteo",
+    "holding": "{wallet} tiene {n} $FLYAI (incluido lo que está en staking).",
+    "odds": "Tu probabilidad por sorteo: cerca del {pct}%.",
+    "short": "Te faltan {n} $FLYAI para llegar a {min}.",
+    "buy": "Comprar $FLYAI",
+    "why": {
+      "team": "Las wallets del equipo y las Fly Wallets no entran en el sorteo.",
+      "contract": "Los contratos no entran en el sorteo."
+    }
+  },
+  "winner": {
+    "title": "Ganador actual",
+    "none": "Todavía no hay sorteo. La primera copia se sortea cuando se llena la barra.",
+    "drawing": "Sorteando el #{n}…",
+    "waiting": "Participan {entrants} wallets. El ganador sale del bloque {block}, en unos minutos.",
+    "round": "Sorteo #{n}, {date}",
+    "you": "¡Ganaste! 🎉",
+    "odds": "Tenía {held} $FLYAI, entre {entrants} wallets en el sorteo",
+    "block": "bloque {n}"
+  },
+  "contact": {
+    "ask": "Deja un email, Discord o cuenta de X para enviarte tu copia.",
+    "hint": "Email, Discord o X",
+    "send": "Enviar",
+    "got": "Recibido, te escribiremos."
+  },
+  "status": {
+    "waiting": "Sorteando",
+    "won": "En revisión",
+    "sent": "Enviado",
+    "void": "Resorteado"
+  },
+  "past": {
+    "title": "Ganadores anteriores",
+    "empty": "Todavía no hay ganadores anteriores.",
+    "th": {
+      "round": "Sorteo",
+      "winner": "Ganador",
+      "held": "Tenía",
+      "status": "Estado"
+    }
+  },
+  "how": {
+    "title": "Cómo funciona",
+    "pot": "<b>El bote.</b> Desde el 22 de octubre entra la mitad de las comisiones de Fly Desk y la mitad de las comisiones de creador de $FLYAI en Pons. Cada $70 es una copia.",
+    "who": "<b>Quién participa.</b> Toda wallet con al menos 100.000 $FLYAI, en mano o en staking. Quedan fuera las wallets del equipo, las Fly Wallets y los contratos.",
+    "odds": "<b>Probabilidades.</b> Cada $FLYAI es un boleto: 500.000 $FLYAI tiene cinco veces la probabilidad de 100.000.",
+    "fair": "<b>Sorteo justo.</b> Cuando se llena la barra, primero se fija la lista de holders. Un bloque minado unos minutos después elige al ganador, así que nadie puede saberlo antes. La lista y el bloque se muestran en cada sorteo.",
+    "claim": "<b>Si ganas.</b> Inicia sesión con la wallet ganadora y deja un email, Discord o cuenta de X para enviarte tu copia. Las wallets que farmean o reparten su saldo pueden quedar fuera, y la copia se vuelve a sortear."
+  }
+}

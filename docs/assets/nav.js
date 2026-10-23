@@ -21,6 +21,7 @@
       ["Token", "/token", "Status, contract, fees and burns"],
       ["Earn", "/earn", "Lend USDG from your wallet"],   // 2026-10-06: flytrade/EARN-PAGE-PLAN.md
       ["Referrals", "/referrals", "Invite friends, earn from their fees"],   // 2026-10-15 (referrals.js)
+      ["GTA VI giveaway", "/gta", "Hold 100k $FLYAI, win a copy", false, true],   // 2026-10-23 (gta.js, mine/src/gta.ts)
       ["Merch", "/shop", "Fly shirts and more", true],
     ]],
     // the Trader Flies workflow under one name (the brief: "Fly Desk - Trader Flies and trading")

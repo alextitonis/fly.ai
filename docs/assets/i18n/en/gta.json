@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "GTA VI giveaway: hold $FLYAI, win a copy",
+    "description": "Half of fly.ai's fees buy GTA VI copies for $FLYAI holders until launch day. Hold 100,000 $FLYAI to be in every draw."
+  },
+  "head": {
+    "eyebrow": "Giveaway",
+    "title": "Win GTA VI with $FLYAI",
+    "lede": "Half of fly.ai's fees go into a pot. Every time it reaches $70, one GTA VI copy is drawn among $FLYAI holders. The more you hold, the better your odds. Runs until GTA VI comes out on 19 November."
+  },
+  "bar": {
+    "title": "Giveaway #1",
+    "round": "Giveaway #{n}",
+    "days": {
+      "one": "{count} day left",
+      "other": "{count} days left"
+    },
+    "over": "GTA VI is out: the giveaway is over",
+    "left": "{have} of {price} · {left} to go",
+    "fees": "Fees counted so far: {total}. Half of it, {pot}, is the pot. Copies funded so far: {copies}."
+  },
+  "me": {
+    "title": "Are you in?",
+    "signedOut": "Sign in to check your wallet.",
+    "signIn": "Sign in",
+    "in": "You're in the draw",
+    "out": "Not in the draw yet",
+    "holding": "{wallet} holds {n} $FLYAI (staked included).",
+    "odds": "Your chance per draw: about {pct}%.",
+    "short": "You need {n} more $FLYAI to reach {min}.",
+    "buy": "Buy $FLYAI",
+    "why": {
+      "team": "Team wallets and Fly Wallets aren't in the draw.",
+      "contract": "Contracts aren't in the draw."
+    }
+  },
+  "winner": {
+    "title": "Current winner",
+    "none": "No draw yet. The first copy is drawn when the bar fills.",
+    "drawing": "Drawing giveaway #{n}…",
+    "waiting": "{entrants} wallets are in. The winner comes from block {block}, a few minutes away.",
+    "round": "Giveaway #{n}, {date}",
+    "you": "You won! 🎉",
+    "odds": "Held {held} $FLYAI, out of {entrants} wallets in the draw",
+    "block": "block {n}"
+  },
+  "contact": {
+    "ask": "Leave an email, Discord or X handle so we can send your copy.",
+    "hint": "Email, Discord or X",
+    "send": "Send",
+    "got": "Got it, we'll be in touch."
+  },
+  "status": {
+    "waiting": "Drawing",
+    "won": "Checking",
+    "sent": "Sent",
+    "void": "Redrawn"
+  },
+  "past": {
+    "title": "Past winners",
+    "empty": "No past winners yet.",
+    "th": {
+      "round": "Giveaway",
+      "winner": "Winner",
+      "held": "Held",
+      "status": "Status"
+    }
+  },
+  "how": {
+    "title": "How it works",
+    "pot": "<b>The pot.</b> Half of the Fly Desk fees and half of the $FLYAI creator fees from Pons go in, from 22 October. Each $70 is one copy.",
+    "who": "<b>Who's in.</b> Every wallet with at least 100,000 $FLYAI, held or staked. Team wallets, Fly Wallets and contracts are left out.",
+    "odds": "<b>Odds.</b> Each $FLYAI is one ticket: 500,000 $FLYAI has five times the chance of 100,000.",
+    "fair": "<b>Fair draw.</b> When the bar fills, the list of holders is fixed first. A block mined a few minutes later picks the winner, so nobody can know it in advance. The list and the block are shown with every draw.",
+    "claim": "<b>Winning.</b> Sign in with the winning wallet and leave an email, Discord or X handle so we can send your copy. Wallets that farm or split holdings can be skipped, and the copy is drawn again."
+  }
+}

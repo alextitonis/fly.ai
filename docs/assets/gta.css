@@ -1,0 +1,29 @@
+/* docs/gta.html (2026-10-23) */
+.gta .card { margin-bottom: 18px; }
+.gta h3 { margin: 0 0 12px; font-size: 18px; }
+.gta-muted { color: var(--muted); font-size: 14px; margin: 8px 0 0; }
+.gta-bar-top, .gta-bar-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.gta-bar-top h3 { margin: 0; }
+.gta-days { color: var(--mint); font-size: 13px; }
+.gta-track { height: 18px; border-radius: 999px; background: var(--bg-2); border: 1px solid var(--line); margin: 16px 0 10px; overflow: hidden; }
+.gta-fill { height: 100%; width: 0; background: var(--mint); border-radius: 999px; transition: width .6s ease; }
+.gta-bar-foot b { font: 600 26px var(--display, inherit); color: var(--text); }
+.gta-bar-foot .gta-muted { margin: 0; }
+.gta-two { gap: 18px; }
+.gta-two .card { margin-bottom: 18px; }
+.gta-status { font: 600 20px var(--display, inherit); margin: 0 0 6px; }
+.gta-status.in { color: var(--mint); }
+.gta-big { font: 600 22px var(--mono); color: var(--text); word-break: break-all; }
+.gta-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+.gta-row input { flex: 1 1 220px; min-width: 0; font-size: 15px; color: var(--text); background: var(--bg-2);
+                 border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; box-sizing: border-box; }
+.gta-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.gta-table th { text-align: left; font: 500 12px var(--mono); color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--line); }
+.gta-table td { padding: 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.gta-table a, .gta-how a, .gta a.mono { color: var(--mint); }
+.gta .tag { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .04em; padding: 3px 9px; border-radius: 999px;
+            border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.gta .tag.mint { border-color: var(--mint); color: var(--mint); }
+.gta-how p { color: var(--muted); margin: 0 0 12px; }
+.gta-how p:last-child { margin-bottom: 0; }
+@media (max-width: 720px) { .gta-two { grid-template-columns: 1fr; } }

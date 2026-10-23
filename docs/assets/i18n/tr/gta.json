@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "GTA VI çekilişi: $FLYAI tut, bir kopya kazan",
+    "description": "fly.ai ücretlerinin yarısı çıkış gününe kadar $FLYAI sahiplerine GTA VI alıyor. Her çekilişe katılmak için 100.000 $FLYAI tut."
+  },
+  "head": {
+    "eyebrow": "Çekiliş",
+    "title": "$FLYAI ile GTA VI kazan",
+    "lede": "fly.ai ücretlerinin yarısı bir havuza gider. Havuz her 70 $'a ulaştığında $FLYAI sahipleri arasında bir GTA VI kopyası çekilir. Ne kadar çok tutarsan şansın o kadar artar. GTA VI'nın çıktığı 19 Kasım'a kadar sürer."
+  },
+  "bar": {
+    "title": "Çekiliş #1",
+    "round": "Çekiliş #{n}",
+    "days": {
+      "one": "{count} gün kaldı",
+      "other": "{count} gün kaldı"
+    },
+    "over": "GTA VI çıktı: çekiliş bitti",
+    "left": "{price} içinden {have} · {left} kaldı",
+    "fees": "Şimdiye kadar sayılan ücretler: {total}. Yarısı, {pot}, havuz. Şimdiye kadar karşılanan kopya: {copies}."
+  },
+  "me": {
+    "title": "Katılıyor musun?",
+    "signedOut": "Cüzdanını kontrol etmek için giriş yap.",
+    "signIn": "Giriş yap",
+    "in": "Çekilişe katılıyorsun",
+    "out": "Henüz çekilişte değilsin",
+    "holding": "{wallet} {n} $FLYAI tutuyor (stake dahil).",
+    "odds": "Çekiliş başına şansın: yaklaşık %{pct}.",
+    "short": "{min} için {n} $FLYAI daha gerekiyor.",
+    "buy": "$FLYAI al",
+    "why": {
+      "team": "Ekip cüzdanları ve Fly Wallet'lar çekilişe katılmaz.",
+      "contract": "Sözleşmeler çekilişe katılmaz."
+    }
+  },
+  "winner": {
+    "title": "Güncel kazanan",
+    "none": "Henüz çekiliş yok. Çubuk dolduğunda ilk kopya çekilir.",
+    "drawing": "Çekiliş #{n} yapılıyor…",
+    "waiting": "{entrants} cüzdan katılıyor. Kazananı birkaç dakika sonraki {block} numaralı blok belirleyecek.",
+    "round": "Çekiliş #{n}, {date}",
+    "you": "Kazandın! 🎉",
+    "odds": "{held} $FLYAI tutuyordu, çekilişte {entrants} cüzdan vardı",
+    "block": "blok {n}"
+  },
+  "contact": {
+    "ask": "Kopyanı gönderebilmemiz için bir e-posta, Discord ya da X hesabı bırak.",
+    "hint": "E-posta, Discord ya da X",
+    "send": "Gönder",
+    "got": "Aldık, seninle iletişime geçeceğiz."
+  },
+  "status": {
+    "waiting": "Çekiliyor",
+    "won": "Kontrol ediliyor",
+    "sent": "Gönderildi",
+    "void": "Yeniden çekildi"
+  },
+  "past": {
+    "title": "Geçmiş kazananlar",
+    "empty": "Henüz geçmiş kazanan yok.",
+    "th": {
+      "round": "Çekiliş",
+      "winner": "Kazanan",
+      "held": "Tuttuğu",
+      "status": "Durum"
+    }
+  },
+  "how": {
+    "title": "Nasıl işliyor",
+    "pot": "<b>Havuz.</b> 22 Ekim'den itibaren Fly Desk ücretlerinin yarısı ve Pons'taki $FLYAI yaratıcı ücretlerinin yarısı havuza girer. Her 70 $ bir kopya.",
+    "who": "<b>Kimler katılır.</b> En az 100.000 $FLYAI tutan ya da stake eden her cüzdan. Ekip cüzdanları, Fly Wallet'lar ve sözleşmeler hariç.",
+    "odds": "<b>Şans.</b> Her $FLYAI bir bilet: 500.000 $FLYAI'nin şansı 100.000'in beş katı.",
+    "fair": "<b>Adil çekiliş.</b> Çubuk dolduğunda önce sahipler listesi sabitlenir. Birkaç dakika sonra üretilen bir blok kazananı seçer, bu yüzden kimse önceden bilemez. Her çekilişte liste ve blok gösterilir.",
+    "claim": "<b>Kazanırsan.</b> Kazanan cüzdanla giriş yap ve kopyanı gönderebilmemiz için bir e-posta, Discord ya da X hesabı bırak. Farm yapan ya da bakiyesini bölen cüzdanlar atlanabilir ve kopya yeniden çekilir."
+  }
+}

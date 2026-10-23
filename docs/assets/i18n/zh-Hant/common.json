@@ -238,6 +238,10 @@
     },
     "github": {
       "label": "GitHub"
+    },
+    "gta": {
+      "label": "GTA VI 贈送",
+      "desc": "持有 10 萬 $FLYAI，贏取一份"
     }
   },
   "footer": {

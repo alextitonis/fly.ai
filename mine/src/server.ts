@@ -47,6 +47,7 @@ import { createProfiles } from "./profiles.ts";
 import { createReferrals } from "./referrals.ts";
 import { createBounties } from "./bounties.ts";
 import { createSupply } from "./supply.ts";
+import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
 import { createRace } from "./race.ts";
 import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
 import { createPassFights } from "./passfights.ts";
@@ -873,6 +874,7 @@ const EDGE_PATHS: RegExp[] = [
   /^\/api\/vaults\/fly\/\d{1,6}(\/log)?$/,
   /^\/api\/partners(\/[a-z][a-z0-9]{1,19}(\/(config|leaderboard|pool|pool\/epochs\/\d{1,5}|token\/\d{1,7}|wallet\/0x[0-9a-fA-F]{40}|holder\/0x[0-9a-fA-F]{40}))?)?$/,
   /^\/api\/ruyui\/(config|leaderboard|pool|pool\/epochs\/\d{1,5})$/,
+  /^\/api\/gta$/,                                    // the GTA VI giveaway (src/gta.ts), ?wallet= included in the URL
 ];
 const edgeCached = new WeakSet<ServerResponse>();
 function markEdge(req: IncomingMessage, res: ServerResponse, path: string): void {
@@ -3568,6 +3570,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/bounties") || p.startsWith("/api/admin/bounties"))) {
     if (await bounties.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/gta") || p === "/api/admin/gta")) {
+    if (await gta.route(req, res, url)) return;
+  }
   if (req.method === "GET" && p.startsWith("/api/supply")) {
     if (await supply.route(req, res, url)) return;
   }
@@ -3902,6 +3907,13 @@ const bounties = createBounties({
   pg, HttpError, send, readJson, sessionWallet: sessionAddress, isAdminToken: isAdmin,
   admins: (process.env.BOUNTY_ADMINS ?? "").split(","), explorer: CLAIMS.explorer,
 });
+// the GTA VI giveaway (src/gta.ts): half the Fly Desk and Pons fees, a copy per $70, drawn among 100k+ holders
+const gta = createGta({
+  pg, chain: robinhoodChain(CLAIMS.rpc, STAKING.contract), prices: marketPrices(), cfg: gtaConfig(process.env),
+  HttpError, send, readJson, sessionWallet: sessionAddress, isAdminToken: isAdmin,
+  admins: (process.env.BOUNTY_ADMINS ?? "").split(","), explorer: "https://robinhoodchain.blockscout.com",
+});
+if (USER && process.env.GTA_OFF !== "1") gta.start();
 // $FLYAI total/circulating supply for CoinGecko and CoinMarketCap (src/supply.ts): read on chain, cached
 const supply = createSupply({ rpcUrl: CLAIMS.rpc, env: process.env, HttpError, send });
 // the mining side's timers: orders, card checkouts, webhooks, staking samples and the research summaries

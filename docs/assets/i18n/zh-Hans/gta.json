@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "GTA VI 赠送：持有 $FLYAI，赢取一份",
+    "description": "fly.ai 一半的手续费用于为 $FLYAI 持有者购买 GTA VI，直到发售日。持有 10 万 $FLYAI 即可参加每次抽奖。"
+  },
+  "head": {
+    "eyebrow": "赠送活动",
+    "title": "用 $FLYAI 赢取 GTA VI",
+    "lede": "fly.ai 一半的手续费进入奖池。奖池每满 $70，就在 $FLYAI 持有者中抽出一份 GTA VI。持有越多，机会越大。活动持续到 11 月 19 日 GTA VI 发售。"
+  },
+  "bar": {
+    "title": "第 1 次赠送",
+    "round": "第 {n} 次赠送",
+    "days": {
+      "one": "剩余 {count} 天",
+      "other": "剩余 {count} 天"
+    },
+    "over": "GTA VI 已发售：活动结束",
+    "left": "{have} / {price} · 还差 {left}",
+    "fees": "目前计入的手续费：{total}。其中一半 {pot} 为奖池。已够的份数：{copies}。"
+  },
+  "me": {
+    "title": "你参加了吗？",
+    "signedOut": "登录以检查你的钱包。",
+    "signIn": "登录",
+    "in": "你已参加抽奖",
+    "out": "尚未参加抽奖",
+    "holding": "{wallet} 持有 {n} $FLYAI（含质押）。",
+    "odds": "你每次抽中的机会：约 {pct}%。",
+    "short": "还需要 {n} $FLYAI 才能达到 {min}。",
+    "buy": "购买 $FLYAI",
+    "why": {
+      "team": "团队钱包和 Fly Wallet 不参加抽奖。",
+      "contract": "合约不参加抽奖。"
+    }
+  },
+  "winner": {
+    "title": "当前中奖者",
+    "none": "还没有抽奖。进度条满时抽出第一份。",
+    "drawing": "正在抽取第 {n} 次赠送…",
+    "waiting": "{entrants} 个钱包参加。中奖者由几分钟后的区块 {block} 决定。",
+    "round": "第 {n} 次赠送，{date}",
+    "you": "你中奖了！🎉",
+    "odds": "持有 {held} $FLYAI，共 {entrants} 个钱包参加",
+    "block": "区块 {n}"
+  },
+  "contact": {
+    "ask": "留下邮箱、Discord 或 X 账号，以便我们发送游戏。",
+    "hint": "邮箱、Discord 或 X",
+    "send": "发送",
+    "got": "收到，我们会联系你。"
+  },
+  "status": {
+    "waiting": "抽奖中",
+    "won": "审核中",
+    "sent": "已发送",
+    "void": "已重抽"
+  },
+  "past": {
+    "title": "往期中奖者",
+    "empty": "还没有往期中奖者。",
+    "th": {
+      "round": "赠送",
+      "winner": "中奖者",
+      "held": "持有",
+      "status": "状态"
+    }
+  },
+  "how": {
+    "title": "规则说明",
+    "pot": "<b>奖池。</b>自 10 月 22 日起，Fly Desk 手续费的一半和 Pons 上 $FLYAI 创作者手续费的一半进入奖池。每 $70 一份。",
+    "who": "<b>谁能参加。</b>所有持有或质押至少 100,000 $FLYAI 的钱包。团队钱包、Fly Wallet 和合约除外。",
+    "odds": "<b>概率。</b>每个 $FLYAI 就是一张票：500,000 $FLYAI 的机会是 100,000 的五倍。",
+    "fair": "<b>公平抽奖。</b>进度条满时先固定持有者名单，几分钟后出块的区块决定中奖者，因此没有人能提前知道。每次抽奖都会公布名单和区块。",
+    "claim": "<b>中奖后。</b>用中奖钱包登录，留下邮箱、Discord 或 X 账号，我们会发送游戏。刷号或拆分持仓的钱包可能被跳过并重新抽奖。"
+  }
+}

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="gta">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="gta.meta.title">GTA VI giveaway: hold $FLYAI, win a copy</title>
+<meta name="description" content="Half of fly.ai's fees buy GTA VI copies for $FLYAI holders until launch day. Hold 100,000 $FLYAI to be in every draw." data-i18n-attr="content:gta.meta.description">
+<meta property="og:title" content="fly.ai GTA VI giveaway">
+<meta property="og:description" content="Half of the fees buy GTA VI copies for $FLYAI holders. Hold 100k $FLYAI to be in.">
+<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/gta">
+<meta property="og:url" content="https://flyaiworld.com/gta">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/dashboard.png">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/gta.css">
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="gta.head.eyebrow">Giveaway</p>
+    <h1 data-i18n="gta.head.title">Win GTA VI with $FLYAI</h1>
+    <p class="lede" data-i18n="gta.head.lede">Half of fly.ai's fees go into a pot. Every time it reaches $70, one GTA VI copy is drawn among $FLYAI holders. The more you hold, the better your odds. Runs until GTA VI comes out on 19 November.</p>
+  </div>
+</header>
+
+<section class="firstsec gta">
+  <div class="wrap">
+    <div class="card pad gta-bar">
+      <div class="gta-bar-top">
+        <h3 id="gta-round" data-i18n="gta.bar.title">Giveaway #1</h3>
+        <span class="gta-days mono" id="gta-days"></span>
+      </div>
+      <div class="gta-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="gta-track"><div class="gta-fill" id="gta-fill"></div></div>
+      <div class="gta-bar-foot">
+        <b id="gta-pct">…</b>
+        <span class="gta-muted" id="gta-left"></span>
+      </div>
+      <p class="gta-muted gta-fees" id="gta-fees"></p>
+    </div>
+
+    <div class="grid2 gta-two">
+      <div class="card pad" id="gta-me">
+        <h3 data-i18n="gta.me.title">Are you in?</h3>
+        <div id="gta-me-body">
+          <p class="gta-muted" data-i18n="gta.me.signedOut">Sign in to check your wallet.</p>
+          <button class="btn red" type="button" data-nav-signin data-i18n="gta.me.signIn">Sign in</button>
+        </div>
+      </div>
+      <div class="card pad">
+        <h3 data-i18n="gta.winner.title">Current winner</h3>
+        <div id="gta-current"><p class="gta-muted" data-i18n="gta.winner.none">No draw yet. The first copy is drawn when the bar fills.</p></div>
+      </div>
+    </div>
+
+    <div class="card pad">
+      <h3 data-i18n="gta.past.title">Past winners</h3>
+      <div class="tablewrap"><table class="gta-table" id="gta-past"></table></div>
+    </div>
+
+    <div class="card pad" id="gta-admin" hidden>
+      <h3>Team: draws</h3>
+      <div class="tablewrap"><table class="gta-table" id="gta-admin-list"></table></div>
+    </div>
+
+    <div class="card pad gta-how">
+      <h3 data-i18n="gta.how.title">How it works</h3>
+      <p data-i18n-html="gta.how.pot"><b>The pot.</b> Half of the Fly Desk fees and half of the $FLYAI creator fees from Pons go in, from 22 October. Each $70 is one copy.</p>
+      <p data-i18n-html="gta.how.who"><b>Who's in.</b> Every wallet with at least 100,000 $FLYAI, held or staked. Team wallets, Fly Wallets and contracts are left out.</p>
+      <p data-i18n-html="gta.how.odds"><b>Odds.</b> Each $FLYAI is one ticket: 500,000 $FLYAI has five times the chance of 100,000.</p>
+      <p data-i18n-html="gta.how.fair"><b>Fair draw.</b> When the bar fills, the list of holders is fixed first. A block mined a few minutes later picks the winner, so nobody can know it in advance. The list and the block are shown with every draw.</p>
+      <p data-i18n-html="gta.how.claim"><b>Winning.</b> Sign in with the winning wallet and leave an email, Discord or X handle so we can send your copy. Wallets that farm or split holdings can be skipped, and the copy is drawn again.</p>
+    </div>
+  </div>
+</section>
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261023a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script type="module" src="assets/gta.js?v=20261023a"></script>
+</body>
+</html>
