@@ -48,6 +48,7 @@ import { createReferrals } from "./referrals.ts";
 import { createBounties } from "./bounties.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
+import { createLaunchpad, launchpadChain } from "./launchpad.ts";
 import { createRace } from "./race.ts";
 import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
 import { createPassFights } from "./passfights.ts";
@@ -56,7 +57,7 @@ import { copyLegacy } from "./legacy.ts";
 import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, merkleTree, monthCalldata, monthId, toWei, withReferrals } from "./payouts.ts";
 import { parseTiers, readStake, STAKE_SELECTORS, tierFor } from "./staking.ts";
 import {
-  cachedCharge, expandSpec, intentMessage, orderConfig, orderTerms, poolPart, SpecError, sweepCost, TAG_MAX, TRANSFER_SELECTOR, transfersIn,
+  cachedCharge, expandSpec, intentMessage, orderConfig, orderTerms, poolPart, rpc, SpecError, sweepCost, TAG_MAX, TRANSFER_SELECTOR, transfersIn,
 } from "./orders.ts";
 import { backoffMs, checkWebhook, sign, WEBHOOK_BATCH, WEBHOOK_MAX_FAILS } from "./webhooks.ts";
 import {
@@ -875,6 +876,7 @@ const EDGE_PATHS: RegExp[] = [
   /^\/api\/partners(\/[a-z][a-z0-9]{1,19}(\/(config|leaderboard|pool|pool\/epochs\/\d{1,5}|token\/\d{1,7}|wallet\/0x[0-9a-fA-F]{40}|holder\/0x[0-9a-fA-F]{40}))?)?$/,
   /^\/api\/ruyui\/(config|leaderboard|pool|pool\/epochs\/\d{1,5})$/,
   /^\/api\/gta$/,                                    // the GTA VI giveaway (src/gta.ts), ?wallet= included in the URL
+  /^\/api\/launchpad(\/token\/0x[0-9a-fA-F]{40})?$/,   // Fly Launchpad lists and token pages (src/launchpad.ts)
 ];
 const edgeCached = new WeakSet<ServerResponse>();
 function markEdge(req: IncomingMessage, res: ServerResponse, path: string): void {
@@ -3573,6 +3575,10 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/gta") || p === "/api/admin/gta")) {
     if (await gta.route(req, res, url)) return;
   }
+  if (req.method === "GET" && p.startsWith("/api/launchpad")) {
+    if (!launchpad) return send(res, 404, { error: "the launchpad isn't live yet" });
+    if (await launchpad.route(req, res, url)) return;
+  }
   if (req.method === "GET" && p.startsWith("/api/supply")) {
     if (await supply.route(req, res, url)) return;
   }
@@ -3914,6 +3920,15 @@ const gta = createGta({
   admins: (process.env.BOUNTY_ADMINS ?? "").split(","), explorer: "https://robinhoodchain.blockscout.com",
 });
 if (USER && process.env.GTA_OFF !== "1") gta.start();
+// Fly Launchpad (src/launchpad.ts): indexes the FlyLaunchpad contract once LAUNCHPAD_ADDRESS is set
+const launchpad = /^0x[0-9a-fA-F]{40}$/.test(process.env.LAUNCHPAD_ADDRESS ?? "")
+  ? createLaunchpad({
+    pg, chain: launchpadChain(rpc, CLAIMS.rpc), address: process.env.LAUNCHPAD_ADDRESS!,
+    fromBlock: process.env.LAUNCHPAD_FROM_BLOCK ? Number(process.env.LAUNCHPAD_FROM_BLOCK) : undefined,
+    HttpError, send, explorer: "https://robinhoodchain.blockscout.com",
+  })
+  : null;
+if (USER && launchpad) launchpad.start();
 // $FLYAI total/circulating supply for CoinGecko and CoinMarketCap (src/supply.ts): read on chain, cached
 const supply = createSupply({ rpcUrl: CLAIMS.rpc, env: process.env, HttpError, send });
 // the mining side's timers: orders, card checkouts, webhooks, staking samples and the research summaries

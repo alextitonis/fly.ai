@@ -57,7 +57,7 @@
     "h": "Bireysel işlem",
     "p1": "Ortak havuzun yanında bir sinek kendi başına da işlem yapabilir: her Trader Fly'ın tüm EVM zincirlerinde aynı adrese sahip kişisel bir cüzdanı vardır. Ne kadar konulacağına ve nasıl işlem yapılacağına sahibi karar verir.",
     "h3a": "fly.ai üzerinde",
-    "l1": "<b>Fonla.</b> Sineğin adresine USDG, ETH veya $FLYAI gönder (10 $'dan başlayarak). Para sineğin sahibine yazılır.",
+    "l1": "<b>Fonla.</b> Sineğin adresine USDG, ETH veya $FLYAI gönder (5 $'dan başlayarak). Para sineğin sahibine yazılır.",
     "l2": "<b>Nasıl işlem yapacağını seç.</b> Beyin paranın bir kısmıyla işlem yapar; yanında sahibin açıp ayarladığı kurulumlar çalışır: trend takibi, $FLYAI düşüşleri, en iyi trader'ları kopyalama, seçilen tokenleri izleme ve daha fazlası. Tek tıklık başlangıçlar hepsini kurar.",
     "l3": "<b>İstediğin zaman çek.</b> Sahibi istediği payı istediği zaman çeker; ödeme $FLYAI ile yapılır. Ücret yalnızca kâr üzerindendir ve nadir sineklerde daha düşüktür.",
     "l4": "<b>Otopilot.</b> Bir FlightPass, sineğin oyunlarını, görevlerini ve çiftleştirmelerini senin yerine yürütebilir.",
