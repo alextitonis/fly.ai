@@ -13,6 +13,8 @@ import type { Model } from "../src/model.ts";
 import { drivenBy, hex32, type TaskParams, type TaskResult } from "../src/runner.ts";
 
 export const MAX_BRAINS = 32;
+/** requestAdapter gave nothing: usually Chrome turned WebGPU off after a GPU crash or driver reset, until it restarts */
+export const NO_ADAPTER = "the browser gives no GPU right now (after a GPU crash or driver reset Chrome turns WebGPU off until you restart it; also check hardware acceleration is on)";
 /** steps queued between waits for the GPU (keeps progress moving and the queue short) */
 const CHUNK = 5;
 
@@ -175,6 +177,8 @@ export class GpuBrains {
   private groups: number;
   private stride: number;
   private lost: string | null = null;
+  /** why this device stopped working (lost or a GPU error), or null while it works */
+  get broken(): string | null { return this.lost; }
   private buf: Record<"dims" | "weights" | "step" | "brains" | "rowPtr" | "pre" | "codes" | "fired" | "cur" | "v" | "driven"
     | "counts" | "record" | "groupOf" | "out" | "readback", GPUBuffer>;
   private pass!: { synapses: [GPUComputePipeline, GPUBindGroup]; neurons: [GPUComputePipeline, GPUBindGroup]; totals: [GPUComputePipeline, GPUBindGroup] };
@@ -186,7 +190,7 @@ export class GpuBrains {
     const gpu = (navigator as Navigator & { gpu?: GPU }).gpu;
     if (!gpu) throw new Error("WebGPU is not available in this browser");
     const adapter = await gpu.requestAdapter({ powerPreference: "high-performance" });
-    if (!adapter) throw new Error("no GPU adapter");
+    if (!adapter) throw new Error(NO_ADAPTER);
     const { n, nnz } = model.w;
     const brains = Math.max(1, Math.min(MAX_BRAINS, maxBrains));
     const largest = Math.max(nnz * 4, 2 * brains * n * 4);

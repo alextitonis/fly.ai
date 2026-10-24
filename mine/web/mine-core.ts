@@ -11,6 +11,7 @@
 import type { Fixed } from "../src/fixed.ts";
 import type { TaskParams, TaskResult } from "../src/runner.ts";
 import { fetchModelInfo } from "./download.ts";
+import { NO_ADAPTER } from "./gpu.ts";
 
 export interface MineSettings {
   engine: "gpu" | "cpu";
@@ -82,7 +83,7 @@ export async function probeGpu(): Promise<GpuProbe> {
   if (!gpu) return { usable: false, name: "none", reason: "this browser has no WebGPU" };
   try {
     const adapter = await gpu.requestAdapter({ powerPreference: "high-performance" });
-    if (!adapter) return { usable: false, name: "none", reason: "WebGPU found no GPU (blocklisted driver or disabled hardware acceleration)" };
+    if (!adapter) return { usable: false, name: "none", reason: NO_ADAPTER };
     const info = adapter.info;
     const name = [info.vendor, info.architecture, info.description || info.device].filter(Boolean).join(" · ") || "GPU";
     if (adapter.limits.maxStorageBufferBindingSize < WIRING_BYTES) {

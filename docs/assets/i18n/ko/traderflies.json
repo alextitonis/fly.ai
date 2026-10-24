@@ -1135,7 +1135,7 @@
     "title": "Fly Wallet",
     "intro": "이 파리에게 자기 돈을 주면 Robinhood Chain 위의 자기 지갑에서 직접 거래해요. 브레인이 거래를 고르고, 켜 둔 옵션도 함께 거래해요. 돈은 당신만 뺄 수 있어요. 수수료는 수익에만 붙고 희귀도에 따라 달라요(레전더리: 없음).",
     "soon": "Fly Wallets가 곧 열려요.",
-    "holdNeed": "Fly Wallets를 쓰려면 지갑에 {need} $FLYAI가 필요해요(현재 {have}). 그보다 적으면 파리는 거래를 정리만 해요. 출금은 언제나 가능해요.",
+    "holdNeed": "Fly Wallets를 쓰려면 보유 또는 스테이킹한 $FLYAI가 {need}개 필요해요(현재 {have}). 그보다 적으면 파리는 거래를 정리만 해요. 출금은 언제나 가능해요.",
     "buyFlyai": "$FLYAI 사기",
     "status": {
       "empty": "아직 돈이 없어요",

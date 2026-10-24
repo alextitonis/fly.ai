@@ -1137,7 +1137,7 @@
     "title": "Fly Wallet",
     "intro": "Dale a esta mosca su propio dinero y lo opera desde su propia wallet en Robinhood Chain: su cerebro elige las operaciones y las opciones que actives operan a su lado. Solo tú puedes sacar el dinero; la comisión es solo sobre la ganancia y depende de la rareza (Legendaria: ninguna).",
     "soon": "Las Fly Wallets llegan pronto.",
-    "holdNeed": "Las Fly Wallets requieren {need} $FLYAI en tu billetera (tienes {have}). Por debajo, la mosca solo cierra operaciones; los retiros siempre funcionan.",
+    "holdNeed": "Las Fly Wallets requieren {need} $FLYAI en tu billetera o en staking (tienes {have}). Por debajo, la mosca solo cierra operaciones; los retiros siempre funcionan.",
     "buyFlyai": "Comprar $FLYAI",
     "status": {
       "empty": "Aún sin dinero",

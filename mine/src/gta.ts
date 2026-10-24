@@ -39,12 +39,14 @@ const DEV = "0x625862521777e19ad54ce6c7abed9ca54d6589ea";
 const ESCROW = "0xd3afeb2a57f70ef218aa82451c51b2fb0416ac9e";
 const FEE_TOPIC = "0x5d104c62f50449fadfe6f4013c8f36588d32737f94b5ac9b83ddad33b3e1ffdf";
 const TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
-/** never in the draw: ours (team-wallets: dev, POOL, the user's own, the desk house), the locker, the burn address */
+/** never in the draw: the dev wallet (it sends the giveaways; 10-24 the user: only dev, not the other team wallets),
+ *  the locker, the burn address */
 const TEAM = [
-  DEV, "0xcca1ad591f6fe7e40e382639ad2551044fae6d36", "0xae92d64584e7f8e54995c362eaa8d7949fac8b1b",
-  "0x449f6228dec522bb36a69153c3f8e36a8a7852fb", "0x267444d099b10fb5ed7c3cc7b7c767adca574952",
+  DEV, "0x267444d099b10fb5ed7c3cc7b7c767adca574952",
   "0x000000000000000000000000000000000000dead", "0x0000000000000000000000000000000000000000",
 ];
+/** the cached isContract answers (v2: from 10-24 EIP-7702 wallets count as people) */
+const CONTRACTS = "contracts:v2";
 const ADDRESS = /^0x[0-9a-f]{40}$/;
 const E18 = 10n ** 18n;
 
@@ -233,7 +235,7 @@ export function createGta(d: {
   /** Every wallet in the draw right now: [wallet, whole $FLYAI] sorted by wallet, and the total. */
   async function entrants(): Promise<{ list: [string, string][]; total: bigint }> {
     const out = await excluded();
-    const known = (await getState<Record<string, boolean>>("contracts")) ?? {};
+    const known = (await getState<Record<string, boolean>>(CONTRACTS)) ?? {};
     const all = (await pg.all<{ address: string }>("select address from mine.gta_holders order by address")).map((r) => r.address)
       .filter((a) => !out.has(a));
     const held = await chain.holdings(all);
@@ -247,7 +249,7 @@ export function createGta(d: {
       list.push([all[i], n.toString()]);
       total += n;
     }
-    if (learned) await setState("contracts", known);
+    if (learned) await setState(CONTRACTS, known);
     return { list, total };
   }
 
@@ -323,7 +325,7 @@ export function createGta(d: {
     const [held] = await chain.holdings([w]);
     const board = await getState<{ entrants: number; total: string }>("board");
     const out = await excluded();
-    const known = (await getState<Record<string, boolean>>("contracts")) ?? {};
+    const known = (await getState<Record<string, boolean>>(CONTRACTS)) ?? {};
     const reason = out.has(w) ? "team" : held < cfg.minHold ? "below" : (known[w] ?? await chain.isContract(w)) ? "contract" : null;
     const n = held / E18;
     const total = BigInt(board?.total ?? "0") > n ? BigInt(board!.total) : n;   // they may have joined since the hourly count
@@ -436,7 +438,8 @@ export function robinhoodChain(rpcUrl: string, staking: string | null): Chain {
       return wallets.map((_, i) => rets.slice(i * per, i * per + per)
         .reduce((s, r) => s + (r && r.length >= 66 ? BigInt(r.slice(0, 66)) : 0n), 0n));
     },
-    isContract: async (w) => ((await rpc(rpcUrl, "eth_getCode", [w, "latest"])) as string).length > 2,
+    // an EIP-7702 account (code 0xef0100 + delegate) is still a person's wallet, not a contract
+    isContract: async (w) => { const code = (await rpc(rpcUrl, "eth_getCode", [w, "latest"])) as string; return code.length > 2 && !code.toLowerCase().startsWith("0xef0100"); },
     decimals: async (t) => Number(BigInt((await mc.call(t, selector("decimals()"))).slice(0, 66))),
   };
 }

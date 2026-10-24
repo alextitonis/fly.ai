@@ -1137,7 +1137,7 @@
     "title": "Fly Wallet",
     "intro": "Bu sineğe kendi parasını ver, Robinhood Chain'deki kendi cüzdanından işlem yapsın: işlemleri beyni seçer, açtığın seçenekler de yanında işlem yapar. Parayı yalnızca sen çekebilirsin; ücret yalnızca kârdan alınır, nadirliğe göre belirlenir (Legendary: yok).",
     "soon": "Fly Wallets yakında geliyor.",
-    "holdNeed": "Fly Wallets için cüzdanında {need} $FLYAI olmalı (sende {have} var). Bunun altında sinek yalnızca işlem kapatır; çekimler her zaman çalışır.",
+    "holdNeed": "Fly Wallets için cüzdanında ya da stake edilmiş {need} $FLYAI olmalı (sende {have} var). Bunun altında sinek yalnızca işlem kapatır; çekimler her zaman çalışır.",
     "buyFlyai": "$FLYAI al",
     "status": {
       "empty": "Henüz para yok",

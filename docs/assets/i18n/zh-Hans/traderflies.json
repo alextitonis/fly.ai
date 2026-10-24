@@ -1135,7 +1135,7 @@
     "title": "Fly Wallet",
     "intro": "给这只苍蝇一笔自己的钱，它就会在 Robinhood Chain 上用自己的钱包交易：大脑负责选交易，你开启的选项在一旁一起交易。只有你能把钱取出；只对利润收手续费，按稀有度而定（Legendary：免费）。",
     "soon": "Fly Wallets 即将上线。",
-    "holdNeed": "Fly Wallets 需要你的钱包持有 {need} $FLYAI（你有 {have}）。低于这个数，苍蝇只会平仓；提现始终可用。",
+    "holdNeed": "Fly Wallets 需要持有或质押 {need} $FLYAI（你有 {have}）。低于这个数，苍蝇只会平仓；提现始终可用。",
     "buyFlyai": "购买 $FLYAI",
     "status": {
       "empty": "还没有资金",

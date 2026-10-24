@@ -1135,7 +1135,7 @@
     "title": "Fly Wallet",
     "intro": "給這隻蒼蠅自己的資金，它就會在 Robinhood Chain 上用自己的錢包交易：由它的大腦挑選交易，你開啟的選項也會在旁邊一起交易。只有你能把錢提領出來；只對利潤收手續費，依稀有度而定（傳奇：免費）。",
     "soon": "Fly Wallets 即將推出。",
-    "holdNeed": "Fly Wallets 需要你的錢包持有 {need} $FLYAI（你持有 {have}）。低於這個數量時，蒼蠅只會平倉；提領隨時可用。",
+    "holdNeed": "Fly Wallets 需要持有或質押 {need} $FLYAI（你持有 {have}）。低於這個數量時，蒼蠅只會平倉；提領隨時可用。",
     "buyFlyai": "購買 $FLYAI",
     "status": {
       "empty": "尚無資金",

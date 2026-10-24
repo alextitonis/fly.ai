@@ -1137,7 +1137,7 @@
     "title": "Fly Wallet",
     "intro": "Give this fly its own money and it trades it from its own wallet on Robinhood Chain: its brain picks trades, and any options you switch on trade beside it. Only you can take money out; a fee on profit only, set by rarity (Legendary: none).",
     "soon": "Fly Wallets are coming soon.",
-    "holdNeed": "Fly Wallets need {need} $FLYAI in your wallet (you have {have}). Below it the fly only closes trades; withdrawals always work.",
+    "holdNeed": "Fly Wallets need {need} $FLYAI held or staked (you have {have}). Below it the fly only closes trades; withdrawals always work.",
     "buyFlyai": "Buy $FLYAI",
     "status": {
       "empty": "No money yet",
