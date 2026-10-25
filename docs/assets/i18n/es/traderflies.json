@@ -90,6 +90,9 @@
   },
   "buyFlyai": "Comprar $FLYAI →",
   "why": {
+    "cancelled": "Cancelado en la wallet.",
+    "noGas": "No hay suficiente ETH en esta wallet para la comisión de red.",
+    "wrongChain": "Tu wallet está en otra red. Cámbiala a {chain} en la app de la wallet y vuelve a intentarlo.",
     "brain": "decisión del cerebro",
     "target": "alcanzó su objetivo",
     "stop": "stop loss",

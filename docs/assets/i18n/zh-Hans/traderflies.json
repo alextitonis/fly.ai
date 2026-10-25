@@ -89,6 +89,9 @@
   },
   "buyFlyai": "购买 $FLYAI →",
   "why": {
+    "cancelled": "已在钱包中取消。",
+    "noGas": "此钱包的 ETH 不足以支付网络费用。",
+    "wrongChain": "你的钱包在其他网络上。请在钱包应用中切换到 {chain}，然后重试。",
     "brain": "大脑的决定",
     "target": "达到目标",
     "stop": "止损",

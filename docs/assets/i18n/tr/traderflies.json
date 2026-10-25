@@ -90,6 +90,9 @@
   },
   "buyFlyai": "$FLYAI al →",
   "why": {
+    "cancelled": "Cüzdanda iptal edildi.",
+    "noGas": "Bu cüzdanda ağ ücreti için yeterli ETH yok.",
+    "wrongChain": "Cüzdanın başka bir ağda. Cüzdan uygulamasında {chain} ağına geç, sonra tekrar dene.",
     "brain": "beynin kararı",
     "target": "hedefe ulaştı",
     "stop": "zarar durdur",

@@ -90,6 +90,9 @@
   },
   "buyFlyai": "Buy $FLYAI →",
   "why": {
+    "cancelled": "Cancelled in the wallet.",
+    "noGas": "Not enough ETH in this wallet for the network fee.",
+    "wrongChain": "Your wallet is on another network. Switch it to {chain} in the wallet app, then try again.",
     "brain": "the brain's call",
     "target": "hit its target",
     "stop": "stop loss",
