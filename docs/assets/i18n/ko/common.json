@@ -242,6 +242,14 @@
     "gta": {
       "label": "GTA VI 경품",
       "desc": "$FLYAI 10만 개 보유하고 한 카피 받기"
+    },
+    "researchAll": {
+      "label": "연구",
+      "desc": "발견: 싸움, 3D 세계, 실패한 것"
+    },
+    "leaderboard": {
+      "label": "리더보드",
+      "desc": "모든 Fly Wallet의 실시간 결과"
     }
   },
   "footer": {

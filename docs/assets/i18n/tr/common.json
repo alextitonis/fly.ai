@@ -242,6 +242,14 @@
     "gta": {
       "label": "GTA VI çekilişi",
       "desc": "100 bin $FLYAI tut, bir kopya kazan"
+    },
+    "researchAll": {
+      "label": "Araştırma",
+      "desc": "Bulgular: dövüş, 3B dünya, işe yaramayanlar"
+    },
+    "leaderboard": {
+      "label": "Sıralama",
+      "desc": "Her Fly Wallet'ın sonuçları, canlı"
     }
   },
   "footer": {

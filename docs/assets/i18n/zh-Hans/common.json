@@ -242,6 +242,14 @@
     "gta": {
       "label": "GTA VI 赠送",
       "desc": "持有 10 万 $FLYAI，赢取一份"
+    },
+    "researchAll": {
+      "label": "研究",
+      "desc": "发现：打斗、3D 世界、失败的尝试"
+    },
+    "leaderboard": {
+      "label": "排行榜",
+      "desc": "每个 Fly Wallet 的实时结果"
     }
   },
   "footer": {

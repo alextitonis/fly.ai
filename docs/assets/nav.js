@@ -1,6 +1,6 @@
 /**
  * The site's one top nav, shared by every page: the docs pages, the Trader Flies app, the world apps (radio,
- * roulette, slots, race, flinder, colosseum) and compute. A page only carries an empty <nav aria-label="Main"></nav>
+ * roulette, slots, race, flinder, colosseum - off the menus since 2026-10-24) and compute. A page only carries an empty <nav aria-label="Main"></nav>
  * and loads this at the end of <body>; the menu lives here alone, so adding a link is one edit. The link to the
  * page you are on gets .on (and its menu's label too).
  *
@@ -15,58 +15,44 @@
   // down menu has so much stuff it takes me some time to find what I'm looking for"): three main destinations, then
   // More for everything else, grouped; each link once. The 6th field is the i18n key when the route's own label
   // doesn't fit (common.nav.<key>); a menu whose items are [group id, title, links] shows its groups as columns.
+  // 2026-10-24 (the user: "focus on the Coin, Fly Trader and Fly Desk, we can remove the mini games",
+  // flytrade/SITE-RESTRUCTURE-PLAN.md): three products, then More. The games (roulette, slots, race, flinder, radio,
+  // robot fights, colosseum), Hardware NFTs, Compute, Terminal and Bounties are off the menus; their pages stay.
   const NAV = [
     ["token", "$FLYAI", [
       ["Buy $FLYAI", "/token#buy", "Swap from your wallet, from any chain", false, false, "buyMenu"],
       ["Token", "/token", "Status, contract, fees and burns"],
       ["Earn", "/earn", "Lend USDG from your wallet"],   // 2026-10-06: flytrade/EARN-PAGE-PLAN.md
       ["Referrals", "/referrals", "Invite friends, earn from their fees"],   // 2026-10-15 (referrals.js)
+      // 2026-10-23: "New" for the launch (gta.js, mine/src/gta.ts)
+      ["GTA VI giveaway", "/gta", "Hold 100k $FLYAI, win a copy", false, true],
       ["Merch", "/shop", "Fly shirts and more", true],
     ]],
-    // the Trader Flies workflow under one name (the brief: "Fly Desk - Trader Flies and trading")
-    ["flydesk", "Fly Desk", [
-      ["Overview", "/desk", "What the desk is, how it trades and pays", false, false, "deskOverview"],
-      ["My flies", "/traderflies/inventory", "Your flies, their wallets, what's next", false, false, "myFlies"],
+    ["traderflies", "Trader Flies", [
+      ["My flies", "/traderflies/", "Your flies, their wallets, what's next", false, false, "myFlies"],
       ["Market", "/traderflies/market", "Buy and sell Trader Flies", false, false, "flyMarket"],
-      ["Performance", "/traderflies/leaderboard", "Every Fly Wallet's results, live", false, false, "performance"],
       ["Breed", "/traderflies/breed", "Merge two flies into one"],
+      ["Leaderboard", "/traderflies/leaderboard", "Every Fly Wallet's results, live", false, false, "leaderboard"],
       ["Claim", "/traderflies/claim", "Collect your flies' $FLYAI"],
       ["FlightPass", "/traderflies/pass", "Put your flies on autopilot"],
-      ["Fly Colosseum", "/colosseum/", "Seasonal battles for $FLYAI"],
-      ["How it works", "/how", "The brain, the pots, payouts and partners"],
+      ["OpenSea", "https://opensea.io/collection/trader-fly-294099831"],
     ]],
-    ["Simulation", "/simulation/"],
+    ["flydesk", "Fly Desk", [
+      ["Overview", "/desk", "What the desk is, how it trades and pays", false, false, "deskOverview"],
+      ["How it works", "/how", "The brain, the pots, payouts and partners"],
+      // 2026-10-16: market making for any token on GIGA DEX (flytrade/MAKER-PLAN.md)
+      ["Fly Maker", "/maker", "Market making for your token"],
+      ["API & skills", "/desk-api"],
+      ["For Agents", "/agents"],
+    ]],
     ["more", "More", [
-      ["apps", "Apps", [
-        // 2026-10-23: the user wanted it under More (gta.js, mine/src/gta.ts), "New" for the launch
-        ["GTA VI giveaway", "/gta", "Hold 100k $FLYAI, win a copy", false, true],
-        ["Flybook", "/flybook/", "Free: the live feed written by fly brains"],
-        ["Fly Roulette", "/roulette/"],
-        ["Fly Slots", "/slots/"],
-        ["Fly Race", "/race/"],
-        ["Fly Radio", "/radio/"],
-        ["Flinder", "/flinder/"],
-        ["Robot Fights", "/fights/"],
-        ["Compute", "/compute/"],
-        ["Hardware NFTs", "/traderflies/pets"],
-        ["Fly Terminal", "/terminal"],
-      ]],
-      ["research", "Research", [
-        ["All findings", "/research"],
-        ["Talking flies", "/research/flybook"],
-        ["On air", "/research/radio"],
-        ["Roadmap", "/roadmap"],
-        ["Changelog", "/changelog"],
-      ]],
-      ["build", "Build & partners", [
-        // 2026-10-16: market making for any token on GIGA DEX (flytrade/MAKER-PLAN.md), "New" for the launch
-        ["Fly Maker", "/maker", "Market making for your token", false, true],
-        ["API & skills", "/desk-api"],
-        ["For Agents", "/agents"],
-        ["GitHub", "https://github.com/alextitonis/fly.ai", undefined, true, false, "github"],
-        ["Bullas", "/traderflies/partner"],   // partner collections (2026-10-07), each its own page (Partner.tsx)
-        ["OpenSea", "https://opensea.io/collection/trader-fly-294099831"],
-      ]],
+      ["Flybook", "/flybook/", "Free: the live feed written by fly brains"],
+      ["Simulation", "/simulation/"],
+      ["Research", "/research", "Findings: fighting, the 3-D world, what failed", false, false, "researchAll"],
+      ["Roadmap", "/roadmap"],
+      ["Changelog", "/changelog"],
+      ["GitHub", "https://github.com/alextitonis/fly.ai", undefined, true, false, "github"],
+      ["Bullas", "/traderflies/partner"],   // partner collections (2026-10-07), each its own page (Partner.tsx)
     ], true],
   ];
   // the one action on every page (the brief: "a persistent Buy $FLYAI action"; the wallet is asked for only there)
@@ -110,6 +96,7 @@
   keepRef();                                                // (on every page, before anything else can fail)
   const nav = document.querySelector('nav[aria-label="Main"]');
   if (!nav) return;
+  let makeAccount = null;                                  // the account menu's builder, for redrawAccount()
 
   if (!nav.querySelector("ul")) {
     // "/research/flybook.html", "/research/flybook/", "/research/flybook" -> "research/flybook"; "/" -> ""
@@ -187,7 +174,8 @@
       a.innerHTML = svg;
       social.append(a);
     }
-    ul.append(social, searchBox(el), ...(session() || follows().length ? [bell(el)] : []), account(el, fileHref), el("li", { class: "burger" }, burger));
+    makeAccount = () => account(el, fileHref);
+    ul.append(social, searchBox(el), ...(session() || follows().length ? [bell(el)] : []), makeAccount(), el("li", { class: "burger" }, burger));
 
     const brand = el("a", { class: "brand", href: fileHref("/") },
       el("img", { class: "logo", src: root ? `${root}assets/logo-t.webp` : "/assets/logo-t.webp", alt: "fly.ai", width: "988", height: "439" }));
@@ -208,6 +196,9 @@
   const textReady = loadText(nav);
   wireAccount(nav);
   pageSignIns(nav);
+  // a page that follows the session itself (the Trader Flies app sets window.flyaiLiveSession) gets "flyai-session"
+  // instead of a reload; either side may sign in, and the account menu is redrawn in place (2026-10-24)
+  window.addEventListener("flyai-session", redrawAccount);
   wireSearch(nav, NAV);
   wireBell(nav, textReady);
   const menus = [...nav.querySelectorAll("li.dd")];
@@ -269,7 +260,7 @@
       el("small", { class: "acct-msg" }));
     menu.append(el("li", { class: "acct-badges", hidden: "" }),
       item("myFlies", "/traderflies/traders?view=mine"), item("leaderboard", "/traderflies/traders?view=board"),
-      form, el("li", { class: "acct-ref", hidden: "" }), item("referrals", "/referrals"), item("Flybook", "/flybook/"), item("compute", "/compute/"),
+      form, el("li", { class: "acct-ref", hidden: "" }), item("referrals", "/referrals"), item("Flybook", "/flybook/"),
       el("li", null, el("button", { type: "button", class: "acct-out", "data-l": "signOut" }, L("signOut"))));
     li.append(btn, menu);
     return li;
@@ -284,7 +275,7 @@
         try {
           const acct = await import(ACCOUNT_JS);
           const w = await acct.signIn();
-          if (w) location.reload();
+          if (w) sessionChanged();
         } catch (err) { console.warn("sign in:", err); }
       });
       return;
@@ -316,8 +307,22 @@
     li.querySelector(".acct-out").addEventListener("click", async () => {
       try { (await import(ACCOUNT_JS)).signOut(); } catch { /* the page had no wallet code: clear it here */ }
       try { localStorage.removeItem(SESSION_KEY); } catch {}
-      location.reload();
+      sessionChanged();
     });
+  }
+
+  /** After a sign-in or sign-out: the live page hears it, every other page reloads as before. */
+  function sessionChanged() {
+    if (window.flyaiLiveSession) window.dispatchEvent(new Event("flyai-session"));
+    else location.reload();
+  }
+  function redrawAccount() {
+    const old = nav.querySelector("li.acct");
+    if (!old || !makeAccount) return;
+    old.replaceWith(makeAccount());
+    wireAccount(nav);
+    if (session()) document.documentElement.classList.remove("nav-signed-out");
+    else pageSignIns(nav);
   }
 
   /**
@@ -389,20 +394,21 @@
    * still need its wallet reconnected).
    */
   function pageSignIns(nav) {
-    const btn = nav.querySelector("li.acct[data-signin] button");
-    if (!btn) return;
+    const signIn = () => nav.querySelector("li.acct[data-signin] button");   // looked up each time: redrawAccount
+    if (!signIn()) return;
     const root = document.documentElement;
     root.classList.add("nav-signed-out");
+    if (hintCss) return;                                   // wired before a sign-out redraw: only the class again
     // the look lives here, not in site.css: the game pages don't load site.css
     hintCss = document.createElement("style");
     hintCss.textContent = hintStyle();
     document.head.append(hintCss);
     document.addEventListener("click", (e) => {
-      if (!e.target.closest || !e.target.closest("[data-nav-signin]")) return;
+      if (!e.target.closest || !e.target.closest("[data-nav-signin]") || !signIn()) return;
       e.preventDefault();
       e.stopPropagation();
       window.scrollTo({ top: 0, behavior: "smooth" });
-      btn.click();
+      signIn().click();
     }, true);   // capture: before the page's own handler
   }
   function hintStyle() {

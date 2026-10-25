@@ -340,5 +340,22 @@
     "noReceipt": "No confirmation yet; check your wallet's activity.",
     "noWallet": "No wallet found in this browser.",
     "down": "Couldn't read your stake. Retrying…"
+  },
+  "intro": {
+    "whatTag": "What it is",
+    "whatTitle": "Real fly brains trade one pot",
+    "what": "Connectomes of real fruit flies pick the trades: stock tokens and coins on Robinhood Chain, from one shared pot. Everything below is live: the pot, positions and every fill.",
+    "earnTag": "How you earn",
+    "earnTitle": "A weekly payout to active flies",
+    "earn": "Each week the desk's profit above its high is shared out to active Trader Flies, by rarity. A fly is active while its holder holds 200,000 $FLYAI; staking $FLYAI makes your slice bigger.",
+    "youTag": "You",
+    "startTitle": "Get started",
+    "start": "Get a Trader Fly and hold 200,000 $FLYAI to share the payout. Stake below for a bigger slice.",
+    "getFly": "Get a fly",
+    "buy": "Buy $FLYAI",
+    "yoursTitle": "Your desk",
+    "yours": "See which of your flies are active and claim your weekly payout.",
+    "claim": "Claim payout",
+    "myFlies": "My flies"
   }
 }

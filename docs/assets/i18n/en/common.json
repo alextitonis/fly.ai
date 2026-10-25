@@ -242,6 +242,14 @@
     "gta": {
       "label": "GTA VI giveaway",
       "desc": "Hold 100k $FLYAI, win a copy"
+    },
+    "researchAll": {
+      "label": "Research",
+      "desc": "Findings: fighting, the 3-D world, what failed"
+    },
+    "leaderboard": {
+      "label": "Leaderboard",
+      "desc": "Every Fly Wallet's results, live"
     }
   },
   "footer": {

@@ -39,7 +39,7 @@
     "afterMint": "Mint bitince açılır",
     "pets": "Hardware NFTs",
     "pass": "FlightPass",
-    "inventory": "Envanter",
+    "inventory": "Sineklerim",
     "leaderboard": "Sıralama",
     "partner": "Ortaklar"
   },
@@ -2102,5 +2102,35 @@
     "sign": "Giriş yap",
     "waiting": "Cüzdanında onayla…",
     "cancel": "İptal"
+  },
+  "home": {
+    "title": "Sineklerim",
+    "what": "Trader Flies, her biri gerçek bir sinek beyniyle çalışan NFT'lerdir. Yeterli $FLYAI tutarsan sineklerin Fly Desk'in haftalık ödemesinden pay alır; bir sineğin kendi cüzdanına para koyarsan beyni onu senin için işlem yapar.",
+    "status": "Durum",
+    "holding": "{held} $FLYAI tutuyorsun ({need} gerekli): sineklerin masadan kazanıyor",
+    "needHold": "{held} $FLYAI tutuyorsun. Sineklerini aktifleştirmek için {need} tut",
+    "buy": "$FLYAI al",
+    "wallets": "Fly Wallet'lar",
+    "fundedOf": "{of} sinekten {n} tanesi fonlu",
+    "walletsNote": "Fonlanan bir sinek kendi cüzdanıyla işlem yapar. Fonlamak için bir sineği aç.",
+    "claimPage": "Ödeme ayrıntıları",
+    "how": "Nasıl çalışır",
+    "startTitle": "Başla",
+    "openFly": "Sineğini aç",
+    "walletOn": "Cüzdan fonlu",
+    "walletOff": "Cüzdan boş",
+    "seeTrades": "İşlemlerini gör",
+    "fundIt": "Cüzdanını fonla",
+    "flyEarns": "Bu sinek iki yolla kazanır: sahibi yeterli $FLYAI tuttuğu sürece Fly Desk'in haftalık ödemesinden pay, ve beyninin işlem yaptığı kendi Fly Wallet'ı.",
+    "step": {
+      "connect": "Cüzdanını bağla",
+      "connectText": "Ücretsiz bir imza ile giriş yaparsın. Hiçbir şey gönderilmez.",
+      "fly": "Bir Trader Fly al",
+      "flyText": "Fly Market'ten bir tane al. Nadir sinekler daha büyük pay alır.",
+      "activate": "Sineklerini aktifleştir",
+      "activateText": "{amount} $FLYAI tut (stake edilen de sayılır). Aktif sinekler Fly Desk'in haftalık ödemesini paylaşır.",
+      "fund": "Bir Fly Wallet fonla (isteğe bağlı)",
+      "fundText": "Bir sineğin kendi cüzdanına USDG veya ETH koy, beyni onu işlesin. Çekimi sineğin sayfasından yaparsın."
+    }
   }
 }

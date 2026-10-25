@@ -39,7 +39,7 @@
     "afterMint": "铸造结束后开放",
     "pets": "Hardware NFTs",
     "pass": "FlightPass",
-    "inventory": "库存",
+    "inventory": "我的苍蝇",
     "leaderboard": "排行榜",
     "partner": "合作伙伴"
   },
@@ -2100,5 +2100,35 @@
     "sign": "登录",
     "waiting": "请在钱包中批准…",
     "cancel": "取消"
+  },
+  "home": {
+    "title": "我的苍蝇",
+    "what": "Trader Flies 是 NFT，每只都由真实的苍蝇大脑驱动。持有足够的 $FLYAI，你的苍蝇就能分享 Fly Desk 的每周收益；给苍蝇自己的钱包充值，它的大脑就会替你交易。",
+    "status": "状态",
+    "holding": "你持有 {held} $FLYAI（需要 {need}）：你的苍蝇正在从交易台赚取收益",
+    "needHold": "你持有 {held} $FLYAI。持有 {need} 即可激活你的苍蝇",
+    "buy": "购买 $FLYAI",
+    "wallets": "Fly Wallet",
+    "fundedOf": "{of} 只中 {n} 只已充值",
+    "walletsNote": "已充值的苍蝇用自己的钱包交易。打开一只苍蝇为它充值。",
+    "claimPage": "收益详情",
+    "how": "运作方式",
+    "startTitle": "开始",
+    "openFly": "打开你的苍蝇",
+    "walletOn": "钱包已充值",
+    "walletOff": "钱包为空",
+    "seeTrades": "查看交易",
+    "fundIt": "为钱包充值",
+    "flyEarns": "这只苍蝇有两种收益：持有人持有足够 $FLYAI 时分享 Fly Desk 的每周收益，以及由它的大脑交易的自己的 Fly Wallet。",
+    "step": {
+      "connect": "连接钱包",
+      "connectText": "一次免费签名即可登录，不会发送任何资产。",
+      "fly": "获得一只 Trader Fly",
+      "flyText": "在 Fly Market 购买。越稀有的苍蝇份额越大。",
+      "activate": "激活你的苍蝇",
+      "activateText": "持有 {amount} $FLYAI（质押的也算）。活跃的苍蝇分享 Fly Desk 的每周收益。",
+      "fund": "为 Fly Wallet 充值（可选）",
+      "fundText": "把 USDG 或 ETH 放进苍蝇自己的钱包，它的大脑就会交易。在苍蝇页面提取。"
+    }
   }
 }

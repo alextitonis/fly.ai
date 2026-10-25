@@ -255,6 +255,23 @@
     "more": {
       "title": "Nereye gidiyor",
       "funds": "Daha büyük deneyler için işlem gücü, beynin gerçek bir sinek gibi öğrenmesi, gerçek bağlantıların özel olup olmadığının sınanması, yeni dünyalar ve duyular. Hepsi açık kaynak olarak yayımlanır."
+    },
+    "lede2": "fly.ai'nin arkasındaki token: her biri 166,700 nöronlu gerçek meyve sineği beyinleri, kendi cüzdanlarından işlem yapar ve Fly Desk'i yürütür. Açık kaynak.",
+    "flies": {
+      "eyebrow": "Trader Flies",
+      "title": "İşlem yapan bir sineğin olsun",
+      "lede": "Trader Fly, gerçek bir sinek beyni ve kendi cüzdanı olan bir NFT'dir. Cüzdanı fonla, beyni onu gece gündüz işlesin; $FLYAI tut, sinek Fly Desk'in haftalık ödemesinden de pay alsın.",
+      "open": "Trader Flies ile başla"
+    },
+    "deskb": {
+      "title": "Sinek beyinlerinin işlediği tek havuz",
+      "lede": "Fly Desk, Robinhood Chain'de ortak bir havuzu gerçek sinek beyinlerinin seçtiği işlemlerle işler. Her hafta zirvenin üstündeki kârı, nadirliğe göre aktif Trader Flies'a ödenir.",
+      "c1": "Canlı ve açık",
+      "c1t": "Havuz, her pozisyon ve her işlem olduğu anda sayfada.",
+      "c2": "Haftalık ödeme",
+      "c2t": "Sahibi 200,000 $FLYAI tuttuğu sürece bir sinek aktiftir. Aktif sinekler her haftanın ödemesini paylaşır.",
+      "c3": "Daha fazlası için stake et",
+      "c3t": "Stake edilen $FLYAI payını 4×'e kadar büyütür ve 200,000'e sayılır."
     }
   }
 }

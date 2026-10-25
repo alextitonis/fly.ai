@@ -39,7 +39,7 @@
     "afterMint": "鑄造結束後開放",
     "pets": "Hardware NFTs",
     "pass": "FlightPass",
-    "inventory": "庫存",
+    "inventory": "我的蒼蠅",
     "leaderboard": "排行榜",
     "partner": "合作夥伴"
   },
@@ -2100,5 +2100,35 @@
     "sign": "登入",
     "waiting": "請在錢包中批准…",
     "cancel": "取消"
+  },
+  "home": {
+    "title": "我的蒼蠅",
+    "what": "Trader Flies 是 NFT，每隻都由真實的蒼蠅大腦驅動。持有足夠的 $FLYAI，你的蒼蠅就能分享 Fly Desk 的每週收益；給蒼蠅自己的錢包儲值，牠的大腦就會替你交易。",
+    "status": "狀態",
+    "holding": "你持有 {held} $FLYAI（需要 {need}）：你的蒼蠅正在從交易台賺取收益",
+    "needHold": "你持有 {held} $FLYAI。持有 {need} 即可啟用你的蒼蠅",
+    "buy": "購買 $FLYAI",
+    "wallets": "Fly Wallet",
+    "fundedOf": "{of} 隻中 {n} 隻已儲值",
+    "walletsNote": "已儲值的蒼蠅用自己的錢包交易。打開一隻蒼蠅為牠儲值。",
+    "claimPage": "收益詳情",
+    "how": "運作方式",
+    "startTitle": "開始",
+    "openFly": "打開你的蒼蠅",
+    "walletOn": "錢包已儲值",
+    "walletOff": "錢包為空",
+    "seeTrades": "查看交易",
+    "fundIt": "為錢包儲值",
+    "flyEarns": "這隻蒼蠅有兩種收益：持有人持有足夠 $FLYAI 時分享 Fly Desk 的每週收益，以及由牠的大腦交易的自己的 Fly Wallet。",
+    "step": {
+      "connect": "連接錢包",
+      "connectText": "一次免費簽名即可登入，不會發送任何資產。",
+      "fly": "取得一隻 Trader Fly",
+      "flyText": "在 Fly Market 購買。越稀有的蒼蠅份額越大。",
+      "activate": "啟用你的蒼蠅",
+      "activateText": "持有 {amount} $FLYAI（質押的也算）。啟用的蒼蠅分享 Fly Desk 的每週收益。",
+      "fund": "為 Fly Wallet 儲值（選用）",
+      "fundText": "把 USDG 或 ETH 放進蒼蠅自己的錢包，牠的大腦就會交易。在蒼蠅頁面提領。"
+    }
   }
 }

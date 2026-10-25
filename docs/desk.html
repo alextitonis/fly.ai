@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/terminal.css">
-<link rel="stylesheet" href="assets/desk.css?v=20261014b">
+<link rel="stylesheet" href="assets/desk.css?v=20261024a">
 <link rel="stylesheet" href="assets/marketbar.css">
 </head>
 <body class="desk term">
@@ -46,6 +46,39 @@
       <span class="tm-clock mono" id="dk-clock">--:--:--</span>
     </div>
   </header>
+
+  <!-- what the desk is and how you take part, in plain words, before the terminal (2026-10-24, the user: "easier to
+       understand ... what they are, easier setup"); the third box follows the site sign-in (nav.js flyNav.session) -->
+  <section class="dkt-intro" aria-label="The Fly Desk in short">
+    <div>
+      <span class="dki-num" data-i18n="desk.intro.whatTag">What it is</span>
+      <b data-i18n="desk.intro.whatTitle">Real fly brains trade one pot</b>
+      <p data-i18n="desk.intro.what">Connectomes of real fruit flies pick the trades: stock tokens and coins on Robinhood Chain, from one shared pot. Everything below is live: the pot, positions and every fill.</p>
+    </div>
+    <div>
+      <span class="dki-num" data-i18n="desk.intro.earnTag">How you earn</span>
+      <b data-i18n="desk.intro.earnTitle">A weekly payout to active flies</b>
+      <p data-i18n="desk.intro.earn">Each week the desk's profit above its high is shared out to active Trader Flies, by rarity. A fly is active while its holder holds 200,000 $FLYAI; staking $FLYAI makes your slice bigger.</p>
+    </div>
+    <div class="dki-you" id="dki-out">
+      <span class="dki-num" data-i18n="desk.intro.youTag">You</span>
+      <b data-i18n="desk.intro.startTitle">Get started</b>
+      <p data-i18n="desk.intro.start">Get a Trader Fly and hold 200,000 $FLYAI to share the payout. Stake below for a bigger slice.</p>
+      <div class="dki-btns">
+        <a class="btn red sm" href="/traderflies/market" data-i18n="desk.intro.getFly">Get a fly</a>
+        <a class="btn sm" href="/token#buy" data-i18n="desk.intro.buy">Buy $FLYAI</a>
+      </div>
+    </div>
+    <div class="dki-you" id="dki-in" hidden>
+      <span class="dki-num" data-i18n="desk.intro.youTag">You</span>
+      <b data-i18n="desk.intro.yoursTitle">Your desk</b>
+      <p data-i18n="desk.intro.yours">See which of your flies are active and claim your weekly payout.</p>
+      <div class="dki-btns">
+        <a class="btn red sm" href="/traderflies/claim" data-i18n="desk.intro.claim">Claim payout</a>
+        <a class="btn sm" href="/traderflies/" data-i18n="desk.intro.myFlies">My flies</a>
+      </div>
+    </div>
+  </section>
 
   <div id="market-bar" hidden></div>
   <div class="ticker dkt-ticker" id="ticker" hidden aria-label="Latest trades"></div>
@@ -238,7 +271,16 @@
 <!-- /@footer -->
 
 <script src="assets/site.js"></script>
-<script src="assets/nav.js?v=20261023b"></script>
+<script src="assets/nav.js?v=20261024a"></script>
+<script>
+  // the intro's third box: signed in -> your desk, else how to start (the nav's session; it reloads the page on a change)
+  (function () {
+    var s = window.flyNav && window.flyNav.session && window.flyNav.session();
+    if (!s) return;
+    document.getElementById("dki-out").hidden = true;
+    document.getElementById("dki-in").hidden = false;
+  })();
+</script>
 <script type="module" src="assets/i18n/page.js"></script>
 <script src="assets/marketbar.js?v=20261006"></script>
 <script src="assets/desk.js?v=20261015a"></script>

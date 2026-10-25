@@ -255,6 +255,23 @@
     "more": {
       "title": "Hacia dónde va",
       "funds": "Cómputo para experimentos más grandes, que el cerebro aprenda como una mosca real, comprobar si el cableado real es especial, y nuevos mundos y sentidos. Todo se publica en código abierto."
+    },
+    "lede2": "El token detrás de fly.ai: cerebros reales de mosca de la fruta, 166,700 neuronas cada uno, que operan desde sus propias carteras y dirigen el Fly Desk. Código abierto.",
+    "flies": {
+      "eyebrow": "Trader Flies",
+      "title": "Ten una mosca que opera",
+      "lede": "Una Trader Fly es un NFT con un cerebro real de mosca y una cartera propia. Financia la cartera y el cerebro la opera a toda hora; ten $FLYAI y la mosca también comparte el pago semanal del Fly Desk.",
+      "open": "Empieza con Trader Flies"
+    },
+    "deskb": {
+      "title": "Un fondo, operado por cerebros de mosca",
+      "lede": "El Fly Desk opera un fondo compartido en Robinhood Chain, con operaciones elegidas por cerebros reales de mosca. Cada semana, su ganancia por encima del máximo se paga a las Trader Flies activas, según su rareza.",
+      "c1": "En vivo, a la vista",
+      "c1t": "El fondo, cada posición y cada ejecución aparecen en la página en el momento.",
+      "c2": "Pago semanal",
+      "c2t": "Una mosca está activa mientras su dueño tenga 200,000 $FLYAI. Las moscas activas comparten el pago de cada semana.",
+      "c3": "Staking para más",
+      "c3t": "El $FLYAI en staking agranda tu parte, hasta 4×, y cuenta para los 200,000."
     }
   }
 }

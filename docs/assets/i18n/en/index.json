@@ -255,6 +255,23 @@
     "more": {
       "title": "Where it's going",
       "funds": "Compute for bigger experiments, letting the brain learn like a real fly, testing whether real wiring is special, and new worlds and senses. All of it ships open source."
+    },
+    "lede2": "The token behind fly.ai: real fruit fly brains, 166,700 neurons each, that trade from their own wallets and run the Fly Desk. Open source.",
+    "flies": {
+      "eyebrow": "Trader Flies",
+      "title": "Own a fly that trades",
+      "lede": "A Trader Fly is an NFT with a real fly brain and a wallet of its own. Fund the wallet and the brain trades it around the clock; hold $FLYAI and the fly also shares the Fly Desk's weekly payout.",
+      "open": "Get started with Trader Flies"
+    },
+    "deskb": {
+      "title": "One pot, traded by fly brains",
+      "lede": "The Fly Desk trades a shared pot on Robinhood Chain, picked by real fly brains. Each week its profit above the high is paid to active Trader Flies, by rarity.",
+      "c1": "Live, in the open",
+      "c1t": "The pot, every position and every fill are on the page as they happen.",
+      "c2": "Paid weekly",
+      "c2t": "A fly is active while its holder holds 200,000 $FLYAI. Active flies share each week's payout.",
+      "c3": "Stake for more",
+      "c3t": "Staked $FLYAI makes your slice bigger, up to 4×, and counts toward the 200,000."
     }
   }
 }

@@ -39,7 +39,7 @@
     "afterMint": "민팅이 끝나면 열립니다",
     "pets": "Hardware NFTs",
     "pass": "FlightPass",
-    "inventory": "인벤토리",
+    "inventory": "내 파리",
     "leaderboard": "리더보드",
     "partner": "파트너"
   },
@@ -2100,5 +2100,35 @@
     "sign": "로그인",
     "waiting": "지갑에서 승인하세요…",
     "cancel": "취소"
+  },
+  "home": {
+    "title": "내 파리",
+    "what": "Trader Flies는 각각 실제 파리 뇌가 움직이는 NFT입니다. $FLYAI를 충분히 보유하면 파리들이 Fly Desk의 주간 지급금을 나눠 받고, 파리 전용 지갑에 자금을 넣으면 그 뇌가 대신 거래합니다.",
+    "status": "상태",
+    "holding": "{held} $FLYAI 보유 중({need} 필요): 파리들이 데스크에서 벌고 있습니다",
+    "needHold": "{held} $FLYAI 보유 중. 파리를 활성화하려면 {need}를 보유하세요",
+    "buy": "$FLYAI 구매",
+    "wallets": "Fly Wallet",
+    "fundedOf": "{of}마리 중 {n}마리 자금 있음",
+    "walletsNote": "자금이 있는 파리는 자기 지갑으로 거래합니다. 파리를 열어 자금을 넣으세요.",
+    "claimPage": "지급 세부 정보",
+    "how": "작동 방식",
+    "startTitle": "시작하기",
+    "openFly": "내 파리 열기",
+    "walletOn": "지갑 자금 있음",
+    "walletOff": "지갑 비어 있음",
+    "seeTrades": "거래 보기",
+    "fundIt": "지갑에 자금 넣기",
+    "flyEarns": "이 파리는 두 가지로 법니다: 보유자가 $FLYAI를 충분히 보유하는 동안 Fly Desk 주간 지급금의 몫, 그리고 뇌가 거래하는 자기 Fly Wallet.",
+    "step": {
+      "connect": "지갑 연결",
+      "connectText": "무료 서명 한 번으로 로그인합니다. 아무것도 전송되지 않습니다.",
+      "fly": "Trader Fly 받기",
+      "flyText": "Fly Market에서 구매하세요. 희귀한 파리일수록 몫이 큽니다.",
+      "activate": "파리 활성화",
+      "activateText": "{amount} $FLYAI를 보유하세요(스테이킹도 포함). 활성 파리는 Fly Desk의 주간 지급금을 나눠 받습니다.",
+      "fund": "Fly Wallet에 자금 넣기(선택)",
+      "fundText": "파리 전용 지갑에 USDG나 ETH를 넣으면 뇌가 거래합니다. 출금은 파리 페이지에서 합니다."
+    }
   }
 }

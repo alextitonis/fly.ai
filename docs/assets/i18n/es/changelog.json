@@ -26,6 +26,7 @@
     "how": "Cómo funciona"
   },
   "e": {
+    "d1025a": "<b>Pool de $FLYAI más profundo.</b> Añadimos 15M $FLYAI como liquidez justo por encima del precio ($0.000180–0.000243) en el pool principal FLYAI/NVDA. Una compra de $5k ahora paga de media un +16% en vez de +29%, y una de $10k un +33% en vez de +58%. Solo se vende cuando los compradores llevan el precio a ese rango.",
     "d1023a": "<b>Página del sorteo de GTA VI.</b> Mira si tu wallet participa (100k $FLYAI, el staking cuenta), cuánto le falta a la próxima copia y todos los ganadores. <a href=\"/gta\">Ábrela</a>.",
     "d1022d": "<b>Alimentación automática cada semana.</b> Un solo interruptor en la página de reclamo alimenta a todas tus moscas: cada semana su pago vuelve directamente a ellas y aumenta su parte (hasta 2x), hasta que lo desactives. La página de reclamo también es más simple: un monto, un plazo, un botón.",
     "d1022c": "<b>Novedades en tu 🔔.</b> Las nuevas entradas del changelog ahora aparecen en tus notificaciones.",

@@ -316,6 +316,7 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
   grid-template-columns: repeat(12, minmax(0, 1fr));
   grid-template-areas:
     "top top top top top top top top top top top top"
+    "intro intro intro intro intro intro intro intro intro intro intro intro"
     "mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt"
     "tick tick tick tick tick tick tick tick tick tick tick tick"
     "stake stake stake stake stake stake stake stake stake stake stake stake"
@@ -444,6 +445,7 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
 @media (max-width: 1180px) {
   .dkt { grid-template-areas:
     "top top top top top top top top top top top top"
+    "intro intro intro intro intro intro intro intro intro intro intro intro"
     "mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt mkt"
     "tick tick tick tick tick tick tick tick tick tick tick tick"
     "stake stake stake stake stake stake stake stake stake stake stake stake"
@@ -469,3 +471,15 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
   .desk .dkt .chart { height: 240px; }
   .dkt-pos, .dkt-tape, .dkt-books { max-height: 380px; }
 }
+
+/* ---- what the desk is, in plain words, above the terminal (2026-10-24 restructure, flytrade/SITE-RESTRUCTURE-PLAN.md) ---- */
+.dkt-intro { grid-area: intro; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.dkt-intro > div { border: 1px solid var(--t-line); border-radius: 8px; padding: 14px 16px; background: rgba(4, 7, 6, .8);
+                   display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.dkt-intro b { font: 600 15px/1.3 Outfit, sans-serif; color: var(--t-text); }
+.dkt-intro p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--t-dim); }
+.dkt-intro .dki-you { border-color: color-mix(in srgb, var(--t-mint, var(--accent)) 45%, transparent); }
+.dkt-intro .dki-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 6px; }
+.dkt-intro .dki-num { font: 700 11px/1 var(--t-mono); letter-spacing: .14em; color: var(--t-mint); text-transform: uppercase; }
+@media (max-width: 760px) { .dkt-intro { grid-template-columns: 1fr; } }
+.dkt-intro > [hidden] { display: none; }

@@ -27,13 +27,19 @@
       "name": "docs",
       "runtimeExecutable": "python",
       "runtimeArgs": [
-        "-m",
-        "http.server",
-        "8090",
-        "--directory",
-        "docs"
+        ".claude/serve-docs.py",
+        "8090"
       ],
       "port": 8090
+    },
+    {
+      "name": "traderflies",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "set DOCS_URL=http://127.0.0.1:8090&& set VITE_BASE=/traderflies/&& cd flytrade\\web && npx vite --port 5173 --strictPort"
+      ],
+      "port": 5173
     }
   ]
 }

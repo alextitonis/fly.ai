@@ -39,7 +39,7 @@
     "afterMint": "Opens when the mint ends",
     "pets": "Hardware NFTs",
     "pass": "FlightPass",
-    "inventory": "Inventory",
+    "inventory": "My flies",
     "leaderboard": "Leaderboard",
     "partner": "Partners"
   },
@@ -2102,5 +2102,35 @@
     "sign": "Sign in",
     "waiting": "Approve in your wallet…",
     "cancel": "Cancel"
+  },
+  "home": {
+    "title": "My flies",
+    "what": "Trader Flies are NFTs, each run by a real fly brain. Hold enough $FLYAI and your flies share the Fly Desk's weekly payout; fund a fly's own wallet and its brain trades it for you.",
+    "status": "Status",
+    "holding": "You hold {held} $FLYAI ({need} needed): your flies earn from the desk",
+    "needHold": "You hold {held} $FLYAI. Hold {need} to activate your flies",
+    "buy": "Buy $FLYAI",
+    "wallets": "Fly Wallets",
+    "fundedOf": "{n} of {of} funded",
+    "walletsNote": "A funded fly trades its own wallet. Open a fly to fund it.",
+    "claimPage": "Payout details",
+    "how": "How it works",
+    "startTitle": "Get started",
+    "openFly": "Open your fly",
+    "walletOn": "Wallet funded",
+    "walletOff": "Wallet empty",
+    "seeTrades": "See its trades",
+    "fundIt": "Fund its wallet",
+    "flyEarns": "This fly earns two ways: a share of the Fly Desk's weekly payout while its holder holds enough $FLYAI, and its own Fly Wallet, which its brain trades.",
+    "step": {
+      "connect": "Connect your wallet",
+      "connectText": "One free signature signs you in. Nothing is sent.",
+      "fly": "Get a Trader Fly",
+      "flyText": "Buy one on the Fly Market. Rarer flies get a bigger share.",
+      "activate": "Activate your flies",
+      "activateText": "Hold {amount} $FLYAI (staked counts too). Active flies share the Fly Desk's weekly payout.",
+      "fund": "Fund a Fly Wallet (optional)",
+      "fundText": "Put USDG or ETH in a fly's own wallet and its brain trades it. Withdraw from the fly's page."
+    }
   }
 }

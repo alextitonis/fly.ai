@@ -340,5 +340,22 @@
     "noReceipt": "Aún sin confirmación; revisa la actividad de tu wallet.",
     "noWallet": "No hay wallet en este navegador.",
     "down": "No se pudo leer tu stake. Reintentando…"
+  },
+  "intro": {
+    "whatTag": "Qué es",
+    "whatTitle": "Cerebros reales de mosca operan un fondo",
+    "what": "Conectomas de moscas de la fruta reales eligen las operaciones: tokens de acciones y monedas en Robinhood Chain, desde un fondo compartido. Todo lo de abajo es en vivo: el fondo, las posiciones y cada ejecución.",
+    "earnTag": "Cómo ganas",
+    "earnTitle": "Un pago semanal a las moscas activas",
+    "earn": "Cada semana, la ganancia del desk por encima de su máximo se reparte entre las Trader Flies activas, según su rareza. Una mosca está activa mientras su dueño tenga 200,000 $FLYAI; hacer staking de $FLYAI agranda tu parte.",
+    "youTag": "Tú",
+    "startTitle": "Empieza",
+    "start": "Consigue una Trader Fly y ten 200,000 $FLYAI para compartir el pago. Haz staking abajo para una parte mayor.",
+    "getFly": "Conseguir una mosca",
+    "buy": "Comprar $FLYAI",
+    "yoursTitle": "Tu desk",
+    "yours": "Mira cuáles de tus moscas están activas y cobra tu pago semanal.",
+    "claim": "Cobrar el pago",
+    "myFlies": "Mis moscas"
   }
 }

@@ -39,7 +39,7 @@
     "afterMint": "Se abre cuando termine el mint",
     "pets": "Hardware NFTs",
     "pass": "FlightPass",
-    "inventory": "Inventario",
+    "inventory": "Mis moscas",
     "leaderboard": "Clasificación",
     "partner": "Socios"
   },
@@ -2102,5 +2102,35 @@
     "sign": "Iniciar sesión",
     "waiting": "Aprueba en tu billetera…",
     "cancel": "Cancelar"
+  },
+  "home": {
+    "title": "Mis moscas",
+    "what": "Las Trader Flies son NFT, cada una dirigida por un cerebro real de mosca. Ten suficiente $FLYAI y tus moscas comparten el pago semanal del Fly Desk; financia la cartera propia de una mosca y su cerebro la opera por ti.",
+    "status": "Estado",
+    "holding": "Tienes {held} $FLYAI (se necesitan {need}): tus moscas ganan del desk",
+    "needHold": "Tienes {held} $FLYAI. Ten {need} para activar tus moscas",
+    "buy": "Comprar $FLYAI",
+    "wallets": "Fly Wallets",
+    "fundedOf": "{n} de {of} financiadas",
+    "walletsNote": "Una mosca financiada opera su propia cartera. Abre una mosca para financiarla.",
+    "claimPage": "Detalles del pago",
+    "how": "Cómo funciona",
+    "startTitle": "Empieza",
+    "openFly": "Abrir tu mosca",
+    "walletOn": "Cartera financiada",
+    "walletOff": "Cartera vacía",
+    "seeTrades": "Ver sus operaciones",
+    "fundIt": "Financiar su cartera",
+    "flyEarns": "Esta mosca gana de dos formas: una parte del pago semanal del Fly Desk mientras su dueño tenga suficiente $FLYAI, y su propia Fly Wallet, que opera su cerebro.",
+    "step": {
+      "connect": "Conecta tu cartera",
+      "connectText": "Una firma gratuita te identifica. No se envía nada.",
+      "fly": "Consigue una Trader Fly",
+      "flyText": "Compra una en el Fly Market. Las moscas más raras reciben una parte mayor.",
+      "activate": "Activa tus moscas",
+      "activateText": "Ten {amount} $FLYAI (lo que está en staking también cuenta). Las moscas activas comparten el pago semanal del Fly Desk.",
+      "fund": "Financia una Fly Wallet (opcional)",
+      "fundText": "Pon USDG o ETH en la cartera propia de una mosca y su cerebro la opera. Retira desde la página de la mosca."
+    }
   }
 }

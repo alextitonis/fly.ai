@@ -242,6 +242,14 @@
     "gta": {
       "label": "Sorteo de GTA VI",
       "desc": "Ten 100k $FLYAI y gana una copia"
+    },
+    "researchAll": {
+      "label": "Investigación",
+      "desc": "Hallazgos: peleas, el mundo 3-D, lo que falló"
+    },
+    "leaderboard": {
+      "label": "Clasificación",
+      "desc": "Los resultados de cada Fly Wallet, en vivo"
     }
   },
   "footer": {

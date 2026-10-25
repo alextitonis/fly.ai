@@ -340,5 +340,22 @@
     "noReceipt": "Henüz onay yok; cüzdan geçmişine bak.",
     "noWallet": "Bu tarayıcıda cüzdan yok.",
     "down": "Stake okunamadı. Tekrar deneniyor…"
+  },
+  "intro": {
+    "whatTag": "Nedir",
+    "whatTitle": "Gerçek sinek beyinleri tek bir havuzu işler",
+    "what": "Gerçek meyve sineklerinin konektomları işlemleri seçer: Robinhood Chain'de hisse tokenları ve coinler, tek bir ortak havuzdan. Aşağıdaki her şey canlı: havuz, pozisyonlar ve her işlem.",
+    "earnTag": "Nasıl kazanırsın",
+    "earnTitle": "Aktif sineklere haftalık ödeme",
+    "earn": "Her hafta masanın zirvesinin üstündeki kârı, nadirliğe göre aktif Trader Flies arasında paylaşılır. Sahibi 200,000 $FLYAI tuttuğu sürece bir sinek aktiftir; $FLYAI stake etmek payını büyütür.",
+    "youTag": "Sen",
+    "startTitle": "Başla",
+    "start": "Bir Trader Fly al ve ödemeden pay almak için 200,000 $FLYAI tut. Daha büyük pay için aşağıdan stake et.",
+    "getFly": "Sinek al",
+    "buy": "$FLYAI al",
+    "yoursTitle": "Senin masan",
+    "yours": "Hangi sineklerinin aktif olduğunu gör ve haftalık ödemeni al.",
+    "claim": "Ödemeyi al",
+    "myFlies": "Sineklerim"
   }
 }
