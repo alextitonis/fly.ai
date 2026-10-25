@@ -6,12 +6,14 @@
 - /traderflies/* -> the Trader Flies dev server (vite with VITE_BASE=/traderflies/ on 5173, launch.json "traderflies"),
   so the app is the working copy, not the published build in docs/traderflies
 - /mapi/* -> the mine server, as vercel.json rewrites it (public reads: leaderboards, fly views)
+- anything else docs/ lacks -> the live site (the shared sign-in, simulation, flybook: built by vercel-build.sh)
 """
 import http.server, os, sys, urllib.error, urllib.request
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "docs")
 APP = "http://localhost:5173"   # vite listens on localhost (IPv6 ::1 on Windows), not 127.0.0.1
 MINE = "https://flyai-mine.fly.dev"
+SITE = "https://www.flyaiworld.com"   # what the local docs/ lacks (vercel-build output)
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -43,6 +45,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         local = os.path.join(ROOT, path.lstrip("/"))
         if not os.path.exists(local) and os.path.exists(local + ".html"):
             self.path = path + ".html" + self.path[len(path):]
+        elif not os.path.exists(local):
+            # built only by scripts/vercel-build.sh (the shared sign-in /compute/mine/web/account.js, simulation, flybook,
+            # the games): borrow the live copy, or the nav's Sign in does nothing here
+            return self.proxy(SITE + self.path)
         return super().do_GET()
 
     def end_headers(self):
