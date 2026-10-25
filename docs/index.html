@@ -65,16 +65,37 @@
         <a href="/token#funding" data-i18n="index.home.funds">Where the money goes</a>
       </p>
       <p class="welcome" id="welcome" hidden></p>
-      <!-- 2026-10-26: the NFTs and the desk on the first screen too, beside the token (more below, in #paths) -->
-      <div class="hh-doors">
-        <a class="door" href="/traderflies/market"><span class="eyebrow" data-i18n="index.home.flies.eyebrow">Trader Flies</span>
-          <b data-i18n="index.home.flies.title">Own a fly that trades</b>
-          <span class="go"><span data-i18n="common.nav.flyMarket.label">Market</span> &rarr;</span></a>
-        <a class="door" href="/desk"><span class="eyebrow" data-i18n="index.home.desk.eyebrow">Fly Desk</span>
-          <b data-i18n="index.home.deskb.title">One pot, traded by fly brains</b>
-          <span class="go"><span data-i18n="index.home.desk.open">Open Fly Desk</span> &rarr;</span></a>
+    </div>
+    <!-- 2026-10-26 (the user: "the buy part can go lower to give space to right for nfts"): the hero's right side is
+         the two ways in, the NFTs first; the swap moved down to #swap -->
+    <div class="hh-side">
+      <div class="card pad door">
+        <span class="eyebrow" data-i18n="index.home.flies.eyebrow">Trader Flies</span>
+        <h3 data-i18n="index.home.flies.title">Own a fly that trades</h3>
+        <p data-i18n="index.home.flies.lede">A Trader Fly is an NFT with a real fly brain and a wallet of its own. Fund the wallet and
+          the brain trades it around the clock; hold $FLYAI and the fly also shares the Fly Desk's weekly payout.</p>
+        <div class="cta">
+          <a class="btn red" href="/traderflies/market" data-i18n="common.nav.flyMarket.label">Market</a>
+          <a class="btn" href="/traderflies/" data-i18n="common.nav.myFlies.label">My flies</a>
+          <a class="btn ghost" href="/traderflies/leaderboard" data-i18n="common.nav.leaderboard.label">Leaderboard</a>
+        </div>
+      </div>
+      <div class="card pad door">
+        <span class="eyebrow" data-i18n="index.home.desk.eyebrow">Fly Desk</span>
+        <h3 data-i18n="index.home.deskb.title">One pot, traded by fly brains</h3>
+        <p data-i18n="index.home.deskb.lede">The Fly Desk trades a shared pot on Robinhood Chain, picked by real fly brains. Each week
+          its profit above the high is paid to active Trader Flies, by rarity.</p>
+        <div class="cta">
+          <a class="btn red" href="/desk" data-i18n="index.home.desk.open">Open Fly Desk</a>
+          <a class="btn ghost" href="/traderflies/claim" data-i18n="common.nav.traderflies_claim.label">Claim</a>
+        </div>
       </div>
     </div>
+  </div>
+</header>
+
+<section id="swap">
+  <div class="wrap">
     <div class="card pad buybox" id="buy">
       <div class="buy-top">
         <h3 data-i18n="token.buy.title">Buy $FLYAI here</h3>
@@ -130,7 +151,7 @@
       <p class="buy-why" data-i18n="index.home.walletWhy">Your wallet is asked for only when you swap: the swap is sent from it, nothing is held for you.</p>
     </div>
   </div>
-</header>
+</section>
 
 <!-- 2026-10-24 (the user: "focus on the Coin, Fly Trader and Fly Desk", flytrade/SITE-RESTRUCTURE-PLAN.md): after the
      token, Trader Flies and the Fly Desk, one button each. 2026-10-26 (the user: "people are lazy scrolling down"): the

@@ -673,12 +673,16 @@
   .paths .path { padding: 20px; }
   .paths .steps4 { grid-template-columns: 1fr; }
 }
-.hh-doors { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
-.hh-doors .door { display: grid; gap: 6px; align-content: start; padding: 16px 18px; border: 1px solid var(--edge, var(--line)); border-radius: 16px;
-  background: var(--glass, none), var(--panel); color: var(--text); text-decoration: none; transition: border-color .2s, transform .2s; }
-.hh-doors .door:hover { border-color: var(--mint); transform: translateY(-2px); }
-.hh-doors .door .eyebrow { justify-self: start; margin: 0; }
-.hh-doors .door b { font: 600 18px var(--display); line-height: 1.2; }
-.hh-doors .door .go { color: var(--mint); font: 500 13px var(--mono); }
+/* the hero's right side: Trader Flies and Fly Desk (2026-10-26); the swap below the two sections, centred */
+@media (min-width: 961px) { .home .home-hero .wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 520px); } }
+.hh-side { display: grid; gap: 16px; align-content: start; }
+.hh-side .door { margin: 0; display: grid; gap: 8px; align-content: start; padding: 24px; }
+.hh-side .door .eyebrow { justify-self: start; margin: 0 0 4px; }
+.hh-side .door h3 { font: 600 24px var(--display); margin: 0; }
+.hh-side .door p { color: var(--muted); font-size: 15px; line-height: 1.5; margin: 0 0 8px; }
+.hh-side .door .cta { margin: 0 !important; justify-content: flex-start; gap: 8px; }
 .home .home-hero .hh-links { margin-top: 14px; }
-@media (max-width: 480px) { .hh-doors { grid-template-columns: 1fr; } }
+.home #swap { padding-block: 24px 16px; }
+.home #swap > .wrap { display: block; }
+.home #swap .buybox { max-width: 640px; margin: 0 auto; }
+@media (max-width: 640px) { .home #swap { padding-block: 8px 52px; } }
