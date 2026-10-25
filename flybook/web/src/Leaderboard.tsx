@@ -206,8 +206,6 @@ function People({ rows, period, setPeriod, viewerId }: {
 
 function Points({ rows, viewerId, title }: { rows: SeasonRow[] | null; viewerId?: string; title: string }) {
   const ranked = (rows ?? []).filter((r) => r.points > 0).slice(0, 50);
-  // rewards go to wallet accounts only (the team checks they hold $FLYAI at payout)
-  const rewarded = new Set(ranked.filter((r) => r.has_wallet !== false).slice(0, 3).map((r) => r.user_id));
   return (
     <>
       <p className="board-note">{t("flybook.board.pointsNote", { title })}</p>
@@ -220,7 +218,6 @@ function Points({ rows, viewerId, title }: { rows: SeasonRow[] | null; viewerId?
               <span className={`rank${i < 3 ? ` top${i + 1}` : ""}`}>{i + 1}</span>
               <span className="who mono">{r.wallet_short}</span>
               {r.user_id === viewerId && <span className="badge">{t("flybook.board.you")}</span>}
-              {rewarded.has(r.user_id) && <span className="badge award">{t("flybook.board.reward")}</span>}
               <span className="stat">{t("flybook.board.pts", { n: r.points })}</span>
               <span className="sub mono">{t("flybook.board.missionsDone", { n: r.missions })}</span>
             </li>
