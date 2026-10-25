@@ -22,7 +22,7 @@ export type Viewer = { userId: string; holder: boolean; ready: boolean } | null;
 
 /**
  * Sign in with a wallet (Sign in with Ethereum, via Supabase) or an email magic link, and hatch flies.
- * Everyone signed in plays; $FLYAI holders make more flies. Accounts without a
+ * Everyone signed in plays; $FLYAI holders make more flies and win season rewards. Accounts without a
  * wallet pick a public name first. The balance shown here is read in the browser; the API checks it on chain.
  */
 export default function Account({ patches, live, onCreated, onViewer, house }: {

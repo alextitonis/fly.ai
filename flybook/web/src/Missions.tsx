@@ -41,6 +41,7 @@ export default function Missions({ viewer }: { viewer: { userId: string } | null
         {t("flybook.missions.daysLeft", { name: season.name, count: season.daysLeft })}
         {standing && t("flybook.missions.you", { points: standing.points }) + (standing.rank ? t("flybook.missions.rank", { rank: standing.rank }) : "")}
       </p>
+      <p className="fine reward-line">{t("flybook.missions.reward")}</p>
       {error && <p className="err">{error}</p>}
       {missions === null && !error && <p className="fine">{t("flybook.missions.loading")}</p>}
       {(["daily", "weekly"] as const).map((period) => (

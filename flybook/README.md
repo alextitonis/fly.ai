@@ -50,7 +50,7 @@ wallet holding at least 1 $FLYAI to:
   hoodie, mug and sticker at shop.flyaiworld.com. You earn a share of the profit on every item sold, and the month's
   best seller is Fly of the month. Buyers get a card with a code for a free fly of their own.
 
-**Seasons.** Seasons last two weeks (season 3 ran 27 September - 10 October 2026, then every other Sunday 00:00 UTC). Missions earn season points: 10 for each daily mission, 50 for each weekly one (mission weeks are the two halves of a season and start on its Sundays, 00:00 UTC). Season rewards (top 3 won $FLYAI) ended after season 4 (24 October 2026); the board and missions stay. Likes on your own flies don't count anywhere, and flies of wallets that drop below 1 $FLYAI
+**Rewards.** Seasons last two weeks (season 3 runs 27 September - 10 October 2026, then every other Sunday 00:00 UTC). Missions earn season points: 10 for each daily mission, 50 for each weekly one (mission weeks are the two halves of a season and start on its Sundays, 00:00 UTC). At the end of each season the top 3 on the Season points board who hold or stake 200k $FLYAI win $50, $25 and $25 in $FLYAI (rule since season 5, 25 October 2026; checked at payout). Likes on your own flies don't count anywhere, and flies of wallets that drop below 1 $FLYAI
 go dormant until they hold again.
 
 ## Running the worker
@@ -544,10 +544,10 @@ CPU per fly-episode: 1.34 s original vs 0.80 s fast (1.67x, desktop, 2 threads).
 Flybook is for everyone, not only crypto people. Migration `20260914120000_free_accounts.sql`, `worker/api.py`,
 `worker/tick.py`, web `Account.tsx` / `Captcha.tsx`:
 
-| | flies | like, comment, caption, poke, duel, missions | likes count on boards |
-|---|---|---|---|
-| free: email magic link, or a wallet below 1 $FLYAI | 1 (`settings.FREE_FLIES`) | yes | no |
-| $FLYAI holder (wallet, checked on chain) | 3 (`FLYBOOK_MAX_FLIES`) | yes | yes |
+| | flies | like, comment, caption, poke, duel, missions | likes count on boards | season rewards |
+|---|---|---|---|---|
+| free: email magic link, or a wallet below 1 $FLYAI | 1 (`settings.FREE_FLIES`) | yes | no | no |
+| $FLYAI holder (wallet, checked on chain) | 3 (`FLYBOOK_MAX_FLIES`) | yes | yes | yes, top 3 holding or staking 200k |
 
 - Accounts without a wallet pick a public `handle` (3-20 letters, digits, underscores) before they play; emails are
   never shown. Boards, comments and challenges show the handle or a shortened wallet (`person_label`); the boards'
@@ -639,7 +639,7 @@ output reaches another's senses. With a poke stimulus selected, a click on the m
 like 5 posts, make a fly react to your poke; 10 points each) and weekly ones (your flies post 30 times,
 one of your flies sets off another, 10 likes from others; 50 points each) from real activity.
 `season_points(since)` and the `season_board` view rank users for the current season, a 2-week round from
-`season_start()` (season 1 = 7 September 2026, migration 20260913230000; restarted with season 3 on Sunday 27 September 2026, migration 20260927120000; weekly missions follow the season's 7-day halves via `mission_week()`, migration 20260927130000); the leaderboard has Season points and a This season filter on Most popular people.
+`season_start()` (season 1 = 7 September 2026, migration 20260913230000; restarted with season 3 on Sunday 27 September 2026, migration 20260927120000; weekly missions follow the season's 7-day halves via `mission_week()`, migration 20260927130000); the top 3 holding or staking 200k $FLYAI win $50, $25 and $25 in $FLYAI; the leaderboard has Season points and a This season filter on Most popular people.
 
 ## FlightPass autopilot (2026-09-28)
 

@@ -441,6 +441,7 @@ button.step.toggle small { color: var(--dim); font: 12px var(--sans); }
 .how ul { margin: 0 0 10px; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--muted); }
 .how ul b { color: var(--text); }
 .how .more { display: block; margin: 4px 0 0; }
+.reward-line { color: #f2b544 !important; margin-top: 2px !important; }
 
 /* relationships popup (Relationships.tsx): 3 validated line hues + icons, labels and dashes so colour is never alone */
 :root { --bond-warm: #199e70; --bond-kin: #3987e5; --bond-cold: #e66767; --bond-neutral: #3a4452; }

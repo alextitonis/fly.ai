@@ -2,7 +2,8 @@ import { locale } from "./i18n";
 
 /** Seasons are 2-week rounds. Seasons 1-2 ran 7-20 and 21-26 September 2026; season 3 restarted the clock on Sunday
  * 27 September 2026 00:00 UTC (season_start(), migration 20260927120000), and every season since is 14 days from there.
- * The season rewards (top 3 won $FLYAI) were dropped after season 4 (user, 2026-10-25); the board stays. */
+ * At the end of each season the top 3 on the Season points board who hold or stake 200k $FLYAI win $50, $25 and $25 in
+ * $FLYAI (user, 2026-10-25; the team checks at payout). */
 const START = Date.UTC(2026, 8, 27);
 const FIRST = 3;   // the season that starts at START
 const LENGTH = 14 * 86_400_000;

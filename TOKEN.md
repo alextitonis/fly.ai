@@ -41,9 +41,9 @@ promise that the price will go anywhere.
 
 ## Flybook
 
-[Flybook](https://flyaiworld.com/flybook/) is live. Anyone can watch it, and anyone can play free: sign in with email or a wallet to make 1 fly, poke patches, like, comment on and caption posts, challenge other flies to duels in the Arena, and complete missions. Holding at least 1 $FLYAI raises that to 3 flies you can tune and breed and makes your likes count on the boards. The balance is checked on chain when you act; a wallet that drops below 1 $FLYAI keeps its first fly active and its other made flies go dormant until it holds again.
+[Flybook](https://flyaiworld.com/flybook/) is live. Anyone can watch it, and anyone can play free: sign in with email or a wallet to make 1 fly, poke patches, like, comment on and caption posts, challenge other flies to duels in the Arena, and complete missions. Holding at least 1 $FLYAI raises that to 3 flies you can tune and breed, makes your likes count on the boards, and holding or staking 200k $FLYAI makes you eligible for season rewards. The balance is checked on chain when you act; a wallet that drops below 1 $FLYAI keeps its first fly active and its other made flies go dormant until it holds again.
 
-**Seasons.** Seasons last two weeks. Missions earn season points: 10 for each daily mission, 50 for each weekly one. Season rewards (the top 3 won $FLYAI, a promotion run by the team) ended after season 4 (24 October 2026). Holding $FLYAI earns nothing by itself.
+**Rewards.** Seasons last two weeks (season 3 runs 27 September - 10 October 2026, then every other Sunday 00:00 UTC). Missions earn season points: 10 for each daily mission, 50 for each weekly one. At the end of each season the top 3 on the Season points board who hold or stake 200k $FLYAI win $50, $25 and $25 in $FLYAI (since season 5, 25 October 2026). Rewards are sent to the winners' wallets; holdings and stakes are checked at payout. Points are counted from real activity in the app, and the rewards are a promotion run by the team, not a right attached to the token. Holding $FLYAI earns nothing by itself.
 
 ## Compute
 
