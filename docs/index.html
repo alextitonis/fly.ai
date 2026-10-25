@@ -65,6 +65,15 @@
         <a href="/token#funding" data-i18n="index.home.funds">Where the money goes</a>
       </p>
       <p class="welcome" id="welcome" hidden></p>
+      <!-- 2026-10-26: the NFTs and the desk on the first screen too, beside the token (more below, in #paths) -->
+      <div class="hh-doors">
+        <a class="door" href="/traderflies/market"><span class="eyebrow" data-i18n="index.home.flies.eyebrow">Trader Flies</span>
+          <b data-i18n="index.home.flies.title">Own a fly that trades</b>
+          <span class="go"><span data-i18n="common.nav.flyMarket.label">Market</span> &rarr;</span></a>
+        <a class="door" href="/desk"><span class="eyebrow" data-i18n="index.home.desk.eyebrow">Fly Desk</span>
+          <b data-i18n="index.home.deskb.title">One pot, traded by fly brains</b>
+          <span class="go"><span data-i18n="index.home.desk.open">Open Fly Desk</span> &rarr;</span></a>
+      </div>
     </div>
     <div class="card pad buybox" id="buy">
       <div class="buy-top">
@@ -124,62 +133,68 @@
 </header>
 
 <!-- 2026-10-24 (the user: "focus on the Coin, Fly Trader and Fly Desk", flytrade/SITE-RESTRUCTURE-PLAN.md): after the
-     token, Trader Flies and the Fly Desk, one button each. The Simulation preview and the apps grid (games) came off;
-     Simulation and Flybook are under More in the nav. -->
-<section id="flies">
+     token, Trader Flies and the Fly Desk, one button each. 2026-10-26 (the user: "people are lazy scrolling down"): the
+     two side by side, right under the token, so all three are on the first screen. -->
+<section id="paths">
   <div class="wrap">
-    <p class="eyebrow" data-i18n="index.home.flies.eyebrow">Trader Flies</p>
-    <h2 data-i18n="index.home.flies.title">Own a fly that trades</h2>
-    <p class="lede" data-i18n="index.home.flies.lede">A Trader Fly is an NFT with a real fly brain and a wallet of its own. Fund the wallet and
-      the brain trades it around the clock; hold $FLYAI and the fly also shares the Fly Desk's weekly payout.</p>
-    <ol class="steps4">
-      <li><b data-i18n="index.home.desk.s1">Get a fly</b><span data-i18n="index.home.desk.s1t">Buy one on the market, or breed two into one.</span></li>
-      <li><b data-i18n="index.home.desk.s2">Fund its wallet</b><span data-i18n="index.home.desk.s2t">Its brain trades from it around the clock. You can withdraw any time.</span></li>
-      <li><b data-i18n="index.home.desk.s3">Watch it trade</b><span data-i18n="index.home.desk.s3t">Every trade and result is public on the leaderboard.</span></li>
-      <li><b data-i18n="index.home.desk.s4">Claim</b><span data-i18n="index.home.desk.s4t">Collect your flies' share of the desk's payout in $FLYAI.</span></li>
-    </ol>
-    <div class="desk-you card pad" id="desk-you">
-      <div class="you-row" id="you-out">
-        <div><b data-i18n="index.home.desk.youTitle">Your flies</b>
-          <span data-i18n="index.home.desk.youOut">Connect a wallet to see your flies, their wallets and what to do next. You can look around without one.</span></div>
-        <button class="btn" type="button" id="start-connect" data-i18n="index.start.connect">Connect wallet</button>
+    <div class="paths">
+      <div class="card pad path" id="flies">
+        <p class="eyebrow" data-i18n="index.home.flies.eyebrow">Trader Flies</p>
+        <h2 data-i18n="index.home.flies.title">Own a fly that trades</h2>
+        <p class="lede" data-i18n="index.home.flies.lede">A Trader Fly is an NFT with a real fly brain and a wallet of its own. Fund the wallet and
+          the brain trades it around the clock; hold $FLYAI and the fly also shares the Fly Desk's weekly payout.</p>
+        <ol class="steps4">
+          <li><b data-i18n="index.home.desk.s1">Get a fly</b><span data-i18n="index.home.desk.s1t">Buy one on the market, or breed two into one.</span></li>
+          <li><b data-i18n="index.home.desk.s2">Fund its wallet</b><span data-i18n="index.home.desk.s2t">Its brain trades from it around the clock. You can withdraw any time.</span></li>
+          <li><b data-i18n="index.home.desk.s3">Watch it trade</b><span data-i18n="index.home.desk.s3t">Every trade and result is public on the leaderboard.</span></li>
+          <li><b data-i18n="index.home.desk.s4">Claim</b><span data-i18n="index.home.desk.s4t">Collect your flies' share of the desk's payout in $FLYAI.</span></li>
+        </ol>
+        <div class="desk-you" id="desk-you">
+          <div class="you-row" id="you-out">
+            <div><b data-i18n="index.home.desk.youTitle">Your flies</b>
+              <span data-i18n="index.home.desk.youOut">Connect a wallet to see your flies, their wallets and what to do next. You can look around without one.</span></div>
+            <button class="btn" type="button" id="start-connect" data-i18n="index.start.connect">Connect wallet</button>
+          </div>
+          <div class="you-row" id="you-in" hidden>
+            <div><b data-i18n="index.home.desk.youTitle">Your flies</b><span id="you-sum" data-i18n="index.home.desk.youIn">Your flies, their wallets and their results.</span></div>
+            <a class="btn" href="/traderflies/" data-i18n="common.nav.myFlies.label">My flies</a>
+          </div>
+        </div>
+        <div class="path-end">
+          <div class="cta"><a class="btn red" href="/traderflies/" data-i18n="index.home.flies.open">Get started with Trader Flies</a></div>
+          <p class="quiet sublinks">
+            <a href="/traderflies/market" data-i18n="common.nav.flyMarket.label">Market</a>
+            <a href="/traderflies/breed" data-i18n="common.nav.traderflies_breed.label">Breed</a>
+            <a href="/traderflies/leaderboard" data-i18n="common.nav.leaderboard.label">Leaderboard</a>
+            <a href="/traderflies/claim" data-i18n="common.nav.traderflies_claim.label">Claim</a>
+            <a href="/traderflies/pass">FlightPass</a>
+          </p>
+        </div>
       </div>
-      <div class="you-row" id="you-in" hidden>
-        <div><b data-i18n="index.home.desk.youTitle">Your flies</b><span id="you-sum" data-i18n="index.home.desk.youIn">Your flies, their wallets and their results.</span></div>
-        <a class="btn" href="/traderflies/" data-i18n="common.nav.myFlies.label">My flies</a>
-      </div>
-    </div>
-    <div class="cta"><a class="btn red" href="/traderflies/" data-i18n="index.home.flies.open">Get started with Trader Flies</a></div>
-    <p class="quiet sublinks">
-      <a href="/traderflies/market" data-i18n="common.nav.flyMarket.label">Market</a>
-      <a href="/traderflies/breed" data-i18n="common.nav.traderflies_breed.label">Breed</a>
-      <a href="/traderflies/leaderboard" data-i18n="common.nav.leaderboard.label">Leaderboard</a>
-      <a href="/traderflies/claim" data-i18n="common.nav.traderflies_claim.label">Claim</a>
-      <a href="/traderflies/pass">FlightPass</a>
-    </p>
-  </div>
-</section>
 
-<section id="desk">
-  <div class="wrap">
-    <p class="eyebrow" data-i18n="index.home.desk.eyebrow">Fly Desk</p>
-    <h2 data-i18n="index.home.deskb.title">One pot, traded by fly brains</h2>
-    <p class="lede" data-i18n="index.home.deskb.lede">The Fly Desk trades a shared pot on Robinhood Chain, picked by real fly brains. Each week
-      its profit above the high is paid to active Trader Flies, by rarity.</p>
-    <div class="grid3">
-      <div class="card pad"><h3 data-i18n="index.home.deskb.c1">Live, in the open</h3>
-        <p data-i18n="index.home.deskb.c1t">The pot, every position and every fill are on the page as they happen.</p></div>
-      <div class="card pad"><h3 data-i18n="index.home.deskb.c2">Paid weekly</h3>
-        <p data-i18n="index.home.deskb.c2t">A fly is active while its holder holds 200,000 $FLYAI. Active flies share each week's payout.</p></div>
-      <div class="card pad"><h3 data-i18n="index.home.deskb.c3">Stake for more</h3>
-        <p data-i18n="index.home.deskb.c3t">Staked $FLYAI makes your slice bigger, up to 4×, and counts toward the 200,000.</p></div>
+      <div class="card pad path" id="desk">
+        <p class="eyebrow" data-i18n="index.home.desk.eyebrow">Fly Desk</p>
+        <h2 data-i18n="index.home.deskb.title">One pot, traded by fly brains</h2>
+        <p class="lede" data-i18n="index.home.deskb.lede">The Fly Desk trades a shared pot on Robinhood Chain, picked by real fly brains. Each week
+          its profit above the high is paid to active Trader Flies, by rarity.</p>
+        <ul class="path-points">
+          <li><b data-i18n="index.home.deskb.c1">Live, in the open</b>
+            <span data-i18n="index.home.deskb.c1t">The pot, every position and every fill are on the page as they happen.</span></li>
+          <li><b data-i18n="index.home.deskb.c2">Paid weekly</b>
+            <span data-i18n="index.home.deskb.c2t">A fly is active while its holder holds 200,000 $FLYAI. Active flies share each week's payout.</span></li>
+          <li><b data-i18n="index.home.deskb.c3">Stake for more</b>
+            <span data-i18n="index.home.deskb.c3t">Staked $FLYAI makes your slice bigger, up to 4×, and counts toward the 200,000.</span></li>
+        </ul>
+        <p class="risk" data-i18n="index.home.desk.risk">Trading can lose money, and some weeks pay nothing. Results so far are not a promise.</p>
+        <div class="path-end">
+          <div class="cta"><a class="btn red" href="/desk" data-i18n="index.home.desk.open">Open Fly Desk</a></div>
+          <p class="quiet sublinks">
+            <a href="/how" data-i18n="common.nav.how.label">How it works</a>
+            <a href="/maker" data-i18n="common.nav.maker.label">Fly Maker</a>
+          </p>
+        </div>
+      </div>
     </div>
-    <p class="risk" data-i18n="index.home.desk.risk">Trading can lose money, and some weeks pay nothing. Results so far are not a promise.</p>
-    <div class="cta"><a class="btn red" href="/desk" data-i18n="index.home.desk.open">Open Fly Desk</a></div>
-    <p class="quiet sublinks">
-      <a href="/how" data-i18n="common.nav.how.label">How it works</a>
-      <a href="/maker" data-i18n="common.nav.maker.label">Fly Maker</a>
-    </p>
   </div>
 </section>
 

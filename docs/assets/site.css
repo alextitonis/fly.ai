@@ -631,8 +631,54 @@
 .home .buybox .buy-out { overflow-wrap: anywhere; }
 .buybox .buy-pick { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .home .home-hero .ca { border-radius: 16px; }
-.home #desk, .home #sim, .home #explore, .home #brain, .home #more { padding-block: 72px; }
+.home #sim, .home #explore, .home #brain, .home #more { padding-block: 72px; }
 @media (max-width: 640px) {
   .home .buybox .buy-row { grid-template-columns: minmax(0, 1fr); }
-  .home #desk, .home #sim, .home #explore, .home #brain, .home #more { padding-block: 52px; }
+  .home #sim, .home #explore, .home #brain, .home #more { padding-block: 52px; }
 }
+
+/* 2026-10-26 (the user: "people are lazy scrolling down"): a shorter hero, then Trader Flies and Fly Desk side by side,
+   so the token, the NFTs and the desk are all on the first screen */
+.home .home-hero { padding-block: 40px 16px; }
+.home .home-hero .eyebrow { margin-bottom: 12px; }
+.home .hh-title .ticker { font-size: clamp(52px, 7vw, 84px); }
+.home .hh-lede { font-size: 17px; margin-bottom: 18px; }
+.home #paths { padding-block: 24px 64px; }
+.home #paths > .wrap { display: block; }
+.paths { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: stretch; }
+.paths .path { display: flex; flex-direction: column; margin: 0; padding: 28px; scroll-margin-top: 80px; }
+.paths .path .eyebrow { align-self: flex-start; margin-bottom: 12px; }
+.paths .path h2 { font-size: clamp(26px, 3vw, 34px); margin: 0 0 10px; }
+.paths .path .lede { font-size: 15px; margin: 0 0 18px; max-width: none; }
+.paths .steps4 { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.paths .steps4 li { padding: 14px; }
+.paths .steps4 b { font-size: 16px; }
+.paths .steps4 span { font-size: 13px; }
+.paths .desk-you { border-top: 1px solid var(--edge, var(--line)); padding-top: 14px; }
+.paths .desk-you .you-row b { font-size: 15px; }
+.paths .desk-you .you-row span { font-size: 13px; }
+.path-points { list-style: none; margin: 0 0 16px; padding: 0; display: grid; gap: 14px; }
+.path-points li { display: grid; gap: 3px; padding-left: 14px; border-left: 2px solid var(--mint); }
+.path-points b { font: 600 16px var(--display); }
+.path-points span { color: var(--muted); font-size: 14px; line-height: 1.45; }
+.paths .risk { margin-bottom: 0; }
+.path-end { margin-top: auto; padding-top: 18px; }
+.path-end .cta { margin-top: 0 !important; justify-content: flex-start; }
+.path-end .sublinks { margin: 12px 0 0; }
+@media (max-width: 900px) {
+  .paths { grid-template-columns: minmax(0, 1fr); }
+  .home #paths { padding-block: 16px 48px; }
+}
+@media (max-width: 480px) {
+  .paths .path { padding: 20px; }
+  .paths .steps4 { grid-template-columns: 1fr; }
+}
+.hh-doors { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
+.hh-doors .door { display: grid; gap: 6px; align-content: start; padding: 16px 18px; border: 1px solid var(--edge, var(--line)); border-radius: 16px;
+  background: var(--glass, none), var(--panel); color: var(--text); text-decoration: none; transition: border-color .2s, transform .2s; }
+.hh-doors .door:hover { border-color: var(--mint); transform: translateY(-2px); }
+.hh-doors .door .eyebrow { justify-self: start; margin: 0; }
+.hh-doors .door b { font: 600 18px var(--display); line-height: 1.2; }
+.hh-doors .door .go { color: var(--mint); font: 500 13px var(--mono); }
+.home .home-hero .hh-links { margin-top: 14px; }
+@media (max-width: 480px) { .hh-doors { grid-template-columns: 1fr; } }
