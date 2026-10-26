@@ -254,7 +254,8 @@
   },
   "footer": {
     "license": "MIT Lisansı",
-    "credit": "Konektom verisi: FlyEM (HHMI Janelia) ve iş birlikçilerinden MaleCNS v1.0, CC BY 4.0 kapsamında kullanılmıştır. Kod MIT lisanslıdır."
+    "credit": "Konektom verisi: FlyEM (HHMI Janelia) ve iş birlikçilerinden MaleCNS v1.0, CC BY 4.0 kapsamında kullanılmıştır. Kod MIT lisanslıdır.",
+    "press": "Basın kiti"
   },
   "words": {
     "copy": "Kopyala",

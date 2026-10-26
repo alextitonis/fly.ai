@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "title": "Basın kiti — fly.ai",
+    "description": "Resmi fly.ai logoları (açık ve koyu tema için PNG, SVG, WebP), marka renkleri, Outfit tipografisi, proje açıklamaları, ekran görüntüleri ve $FLYAI token sözleşmesi."
+  },
+  "head": {
+    "eyebrow": "Basın ve Marka",
+    "title": "Basın kiti",
+    "lede": "Yazarlar, listeleme siteleri ve iş ortakları için logolar, marka renkleri, Outfit yazı tipi, proje açıklamaları, ekran görüntüleri ve resmi $FLYAI token sözleşmesi."
+  },
+  "desc": {
+    "title": "fly.ai hakkında",
+    "sub": "Doğrulanmış proje verilerinden hazırlanan, kopyalamaya hazır tek satırlık ve tek paragraflık açıklamalar.",
+    "oneLineLabel": "Tek satırlık açıklama",
+    "oneLine": "fly.ai, yetişkin bir meyve sineğinin 166.700 nöronlu tam beyin konektomunu bilgisayarınızda açık kaynaklı olarak ve Robinhood Chain üzerinde canlı çalıştırarak Trader Flies, Fly Desk ve $FLYAI tokenine güç verir.",
+    "oneParaLabel": "Tek paragraflık açıklama",
+    "onePara": "fly.ai, yetişkin bir erkek meyve sineğinin (Drosophila melanogaster — Janelia MaleCNS v1.0 konektomundan 166.700 nöron ve 25,6 milyon sinaps) tam beyin bağlantı haritasını açık kaynaklı bir ateşlemeli sinir simülasyonu olarak çalıştırır. Beynin içinde hiçbir dil modeli veya elle yazılmış strateji olmadan, duyusal girdiler ve motor nöronlar gerçek zamanlı uygulamaları yönetir: Trader Flies (Robinhood Chain üzerinde kendi işlem cüzdanlarına sahip 1.000 genesis NFT), Fly Desk (meyve sineği beyinleri tarafından yönetilen ortak kasa), 3-B biyolojik dünya simülasyonu, Flybook ve dağıtık tarayıcı hesaplaması. Proje, Robinhood Chain üzerindeki $FLYAI tokeni ile finanse edilmektedir."
+  },
+  "logos": {
+    "title": "Logolar",
+    "sub": "Koyu ve açık arka planlar için fly.ai kelime işaretini ve sinek ikonunu PNG, SVG ve WebP formatlarında indirin.",
+    "darkTitle": "Logo — Koyu arka plan",
+    "darkDesc": "Saf siyah ve koyu yüzeyler için nane yeşili sinek ışıltılı beyaz logo.",
+    "lightTitle": "Logo — Açık arka plan",
+    "lightDesc": "Beyaz veya açık renkli sayfalar için şeffaf arka plan üzerinde siyah logo ve nane yeşili sinek işareti.",
+    "iconDarkTitle": "Sinek ikonu — Koyu",
+    "iconDarkDesc": "Avatarlar, token listelemeleri ve uygulama ikonları için saf siyah üzerinde kare sinek işareti.",
+    "iconLightTitle": "Sinek ikonu — Açık",
+    "iconLightDesc": "Açık mod dizinleri ve rozetler için açık yüzey üzerinde kare sinek işareti.",
+    "dlPng": "PNG",
+    "dlSvg": "SVG",
+    "dlWebp": "WebP"
+  },
+  "colors": {
+    "title": "Marka renkleri",
+    "sub": "Saf siyah, beyaz ve sineğin nane ışıltısı. Kırmızı yalnızca kayıplar ve uyarılar için ayrılmıştır, asla marka rengi olarak kullanılmaz.",
+    "bg": "Saf Siyah",
+    "panel": "Koyu Panel",
+    "mint": "Nane Işıltısı",
+    "mintHi": "Açık Nane Vurgusu",
+    "text": "Birincil Metin",
+    "line": "Kenarlık Çizgisi"
+  },
+  "font": {
+    "title": "Tipografi",
+    "sub": "Başlıklar ve logolar için Outfit yazı tipi, gövde metni için Inter ve sayılar ile adresler için JetBrains Mono kullanılır.",
+    "displayRole": "Başlıklar ve Görünüm",
+    "sansRole": "Gövde Metni",
+    "monoRole": "Adresler ve Veri",
+    "outfitWeights": "Ağırlıklar: 400, 500, 600, 700",
+    "interWeights": "Ağırlıklar: 400, 500, 600",
+    "monoWeights": "Ağırlıklar: 400, 500",
+    "googleFonts": "Google Fonts"
+  },
+  "screens": {
+    "title": "Ekran görüntüleri",
+    "sub": "Canlı fly.ai simülasyonu, nöron kontrol paneli, işlem terminali ve Fly Maker'ın yüksek çözünürlüklü ekran görüntüleri.",
+    "s1Title": "Canlı Nöron Kontrol Paneli",
+    "s1Desc": "Gerçek zamanlı nöron telemetrisi eşliğinde SSH Fighter oynayan 166.700 nöronlu meyve sineği beyni.",
+    "s2Title": "3-B Konektom Dünyası",
+    "s2Desc": "Tarayıcıdaki 3-B simülasyonda yiyecek arayan, koku bulutlarını izleyen ve etkileşime giren tam konektomlu sinekler.",
+    "s3Title": "Fly Terminal ve Fly Desk",
+    "s3Desc": "Robinhood Chain üzerinde Trader Flies cüzdanlarını, ortak Fly Desk pozisyonlarını ve anlık işlemleri gösteren ekran.",
+    "s4Title": "Fly Maker",
+    "s4Desc": "Robinhood Chain üzerinde cüzdanınızın sahip olduğu ve zincir üstü güvenlik kuralları içinde çalışan otomatik piyasa yapıcı kasalar.",
+    "download": "İndir",
+    "open": "Tam boyutta aç"
+  },
+  "token": {
+    "title": "$FLYAI tokeni ve sözleşme adresi",
+    "sub": "$FLYAI, Robinhood Chain üzerinde (Pons'ta başlatılan) fly.ai'yi finanse eden tokendir. Toplam arz, yakım işlemleri ve koşullar TOKEN.md dosyasında belgelenmiştir.",
+    "contractLabel": "Robinhood Chain",
+    "tokenMd": "GitHub'da TOKEN.md dosyasını oku",
+    "tokenPage": "Token sayfası"
+  }
+}
