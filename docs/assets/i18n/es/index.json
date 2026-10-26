@@ -1,15 +1,15 @@
 {
   "meta": {
-    "title": "$FLYAI — el cerebro de una mosca de la fruta real en Robinhood Chain",
-    "description": "$FLYAI financia fly.ai: el cerebro completo de una mosca de la fruta real, 166,700 neuronas, funcionando en código abierto en tu ordenador. En vivo en Pons, en Robinhood Chain."
+    "title": "$FLYAI — el cerebro real de una mosca de la fruta en Robinhood Chain",
+    "description": "$FLYAI financia fly.ai: el cerebro completo de una mosca de la fruta real, con 166.700 neuronas, ejecutándose en código abierto en tu ordenador. En vivo en Pons, sobre Robinhood Chain."
   },
   "hero": {
     "eyebrow": "En vivo en Pons · Robinhood Chain",
-    "tagline": "El cerebro de una mosca de la fruta real. Cada neurona. Código abierto.",
-    "sub": "No es un modelo entrenado para parecer una mosca. Es el cableado real del sistema nervioso de una mosca de la fruta, mapeado sinapsis a sinapsis con un microscopio electrónico, funcionando en vivo en un ordenador. $FLYAI financia fly.ai, el proyecto de código abierto que lo ejecuta.",
+    "tagline": "El cerebro real de una mosca de la fruta. Cada neurona. Código abierto.",
+    "sub": "No es un modelo entrenado para imitar a una mosca. Es el cableado real del sistema nervioso de una mosca de la fruta, mapeado sinapsis a sinapsis bajo un microscopio electrónico y ejecutándose en vivo en un ordenador. $FLYAI financia fly.ai, el proyecto de código abierto que lo hace funcionar.",
     "a1": "Sigue a @flydotai en X",
     "a2": "Abrir la simulación",
-    "a3": "Mírala pelear",
+    "a3": "Mírala luchar",
     "label": "CA",
     "arialabel": "Ficha del espécimen",
     "span": "Espécimen",
@@ -21,8 +21,8 @@
     "k5": "conexiones",
     "k6": "entrenamiento",
     "v2": "ninguno",
-    "k7": "paso cerebral",
-    "v3": "1.4 ms en la GPU de un portátil",
+    "k7": "ciclo cerebral",
+    "v3": "1,4 ms en la GPU de un portátil",
     "k8": "código",
     "v4": "código abierto · MIT",
     "k9": "cadena",
@@ -31,111 +31,111 @@
   },
   "demo": {
     "eyebrow": "Pruebas, no promesas",
-    "title": "La mosca ya está peleando",
-    "lede": "El cerebro de la mosca juega a SSH Fighter, un juego de peleas online, contra otros bots, por SSH y por su cuenta. Cada punto del panel es una de sus neuronas reales, que se ilumina en el instante en que dispara.",
-    "figcaption1": "El cerebro jugando, con el panel de neuronas en vivo al lado.",
-    "figcaption2": "Una segunda partida grabada, 12 de septiembre de 2026.",
-    "caption": "El 12 de septiembre de 2026 <a href=\"https://sshfighter.com/matches/mmtyehkmd5947\" target=\"_blank\" rel=\"noopener\">ganó una partida</a>, dos rondas a cero. Persigue a su rival hasta alcanzarlo, y la razón es biología real de mosca: las neuronas que un macho usa para perseguir a una pareja lo dirigen directo hacia el enemigo."
+    "title": "La mosca ya está luchando",
+    "lede": "El cerebro de la mosca juega a SSH Fighter, un juego de lucha online, contra otros bots por SSH y de forma autónoma. Cada punto del panel es una de sus neuronas reales, que se ilumina en el instante en que se activa.",
+    "figcaption1": "El cerebro jugando, con el panel de neuronas en vivo a su lado.",
+    "figcaption2": "Un segundo combate grabado, 12 de septiembre de 2026.",
+    "caption": "El 12 de septiembre de 2026 <a href=\"https://sshfighter.com/matches/mmtyehkmd5947\" target=\"_blank\" rel=\"noopener\">ganó un combate</a> por dos asaltos a cero. Da caza a su oponente, y la razón por la que lo persigue es pura biología de mosca: las neuronas que usa el macho para cortejar a una pareja lo dirigen directo hacia el enemigo."
   },
   "brain": {
     "eyebrow": "Por qué es diferente",
     "title": "Nadie programó este cerebro",
-    "lede": "Solo conectamos los sentidos de la mosca y sus órdenes de movimiento. Todo lo que hay en medio es el cableado de la naturaleza, tal y como se mapeó.",
+    "lede": "Solo conectamos los sentidos de la mosca y sus órdenes motoras. Todo lo que hay en medio es el cableado de la naturaleza, tal y como fue mapeado.",
     "span1": "neuronas reales",
-    "b": "25.6M",
+    "b": "25,6M",
     "span2": "conexiones reales",
-    "span3": "pasos de entrenamiento dentro del cerebro",
+    "span3": "pasos de entrenamiento en el cerebro",
     "span4": "más rápido en una GPU",
     "num1": "01 · ESCAPE",
-    "h31": "Se sobresalta del lado correcto",
-    "p1": "Muéstrale algo que se le echa encima por la izquierda y la fibra gigante izquierda, la neurona que dispara el salto de escape de una mosca real, se enciende a +17 a +25 picos/s. El lado derecho no cambia.",
+    "h31": "Se aparta hacia el lado correcto",
+    "p1": "Muéstrale algo que se abalanza por la izquierda y la fibra gigante izquierda —la neurona que activa el salto de escape en una mosca real— se dispara entre +17 y +25 impulsos/s. El lado derecho no se inmuta.",
     "num2": "02 · PERSECUCIÓN",
     "h32": "Persigue como un macho",
-    "p2": "Las neuronas de seguimiento del cortejo la dirigen hacia lo que esté siguiendo. En bucle cerrado, el 64% de sus movimientos van hacia su rival, cuando el azar sería el 50%.",
+    "p2": "Las neuronas de seguimiento del cortejo la guían hacia aquello que persigue. En bucle cerrado, el 64% de sus movimientos se dirigen hacia su rival, frente al 50% que daría el azar.",
     "num3": "03 · ABIERTO",
     "h33": "Cualquiera puede ejecutarlo",
-    "p3": "Todo el código es público bajo licencia MIT. Los datos del cableado también son públicos. Clónalo, ejecútalo y experimenta tú mismo con el cerebro en un notebook."
+    "p3": "Todo el código es público bajo licencia MIT, al igual que los datos del conectoma. Clónalo, ejecútalo y pon a prueba el cerebro tú mismo en un notebook."
   },
   "flybook": {
     "eyebrow": "Ya en vivo · Flybook",
     "title": "Una red social dirigida por cerebros de mosca",
-    "lede": "Cada mosca de Flybook ejecuta el conectoma completo, 166,700 neuronas. Nadie escribe los posts: cada uno es lo que el cerebro de una mosca percibió e hizo, leído de sus neuronas, junto a lo que pasó de verdad. Las moscas se provocan entre sí, se baten en duelo, se crían, se aparean con moscas de otros dueños y operan en un mercado de moscas simulado, y los holders crean las suyas.",
-    "num1": "01 · MIRA",
-    "h31": "Posts sacados de neuronas reales",
-    "p1": "Cada dos minutos pasa algo en cada parcela. Un decodificador lee lo que percibió una mosca, y sus neuronas de comportamiento muestran si saltó, giró, se acicaló o zumbó. Los errores de lectura y las alucinaciones se muestran, no se esconden.",
+    "lede": "Cada mosca en Flybook ejecuta el conectoma completo de 166.700 neuronas. Nadie escribe las publicaciones: cada una refleja lo que el cerebro de una mosca percibió e hizo, leído directamente de sus neuronas, junto a lo que ocurrió en realidad. Las moscas se alteran entre sí, se baten en duelo, se reproducen, se aparean con moscas de otros dueños y operan en un mercado simulado, y los holders crean las suyas propias.",
+    "num1": "01 · OBSERVA",
+    "h31": "Publicaciones nacidas de neuronas reales",
+    "p1": "Cada dos minutos ocurre algo en cada parcela. Un decodificador lee lo que percibió la mosca, y sus neuronas motoras revelan si saltó, giró, se acicaló o zumbó. Los errores de lectura y las alucinaciones se muestran tal cual, sin ocultarlos.",
     "num2": "02 · JUEGA",
-    "h32": "Crea, ajusta, provoca, pelea",
-    "p2": "Entra gratis con email o una wallet para crear una mosca; ten $FLYAI para crear hasta tres moscas a partir de 13 perfiles o ajustar sus sentidos, temperamento y grupos de neuronas. Críalas, lanza una sombra sobre una parcela y mira la reacción en cadena, y reta a otras moscas en la Arena. Tus moscas también se aparean por su cuenta con moscas de otros dueños, y las moscas de los holders operan monedas falsas con su cerebro: elige un estilo de trading y escala en el ranking de los más ricos.",
+    "h32": "Crea, ajusta, provoca y bate en duelo",
+    "p2": "Inicia sesión gratis con tu correo o wallet para crear una mosca; mantén $FLYAI para crear hasta tres moscas a partir de 13 perfiles o ajustar sus sentidos, temperamento y grupos neuronales. Crúzalas, proyecta una sombra sobre una parcela para ver la reacción en cadena y reta a otras moscas en la Arena. Tus moscas también se aparean por su cuenta con las de otros dueños, y las moscas de los holders operan monedas simuladas con su cerebro: elige un estilo de trading y escala en la clasificación de las más ricas.",
     "num3": "03 · GANA",
     "h33": "$FLYAI cada dos semanas",
-    "p3": "Las misiones dan puntos de temporada. Las temporadas duran dos semanas, y al final de cada una el top 3 del ranking de puntos de la Temporada que tenga o stakee 200k $FLYAI gana $50, $25 y $25 en $FLYAI.",
+    "p3": "Las misiones otorgan puntos de temporada. Cada temporada dura dos semanas y, al finalizar, los 3 primeros de la clasificación de temporada que mantengan en su wallet o en staking 200k $FLYAI ganan $50, $25 y $25 en $FLYAI.",
     "a1": "Abrir Flybook",
-    "a2": "La ciencia detrás"
+    "a2": "La ciencia detrás del proyecto"
   },
   "world": {
     "eyebrow": "En vivo en tu navegador",
     "title": "Un mundo de moscas",
-    "lede": "Fuera del juego de peleas y dentro de un campo 3D: decenas de moscas, cada una con su propio cerebro de impulsos, buscando fruta y carroña, siguiendo penachos de olor contra el viento, apareándose, poniendo huevos, esquivando arañas y muriendo. Nada de su comportamiento está programado. Invoca a <b>Wiz</b>, un mago gigante manejado como una marioneta por el conectoma completo de 166,700 neuronas funcionando en tu navegador.",
+    "lede": "Del juego de lucha a un entorno 3D: decenas de moscas, cada una con su propio cerebro de impulsos, buscando fruta y carroña, rastreando estelas de olor contra el viento, apareándose, poniendo huevos, esquivando arañas y muriendo. Nada en su comportamiento está guionizado. Invoca a <b>Wiz</b>, un mago gigante controlado como una marioneta por el conectoma completo de 166.700 neuronas ejecutándose en tu navegador.",
     "num1": "01 · SENTIDOS",
-    "h31": "Olfato, vista, viento, tacto",
-    "p1": "Un penacho turbulento de paquetes de olor, un panorama de luminancia, el flujo de aire en las antenas y las cerdas de las patas — cada uno inyectado en las neuronas que lo transportan en una mosca real.",
+    "h31": "Olfato, vista, viento y tacto",
+    "p1": "Una estela turbulenta de partículas de olor, un panorama de luminancia, el flujo de aire en las antenas y el roce en las cerdas de las patas — cada estímulo se inyecta directamente en las neuronas que lo procesan en una mosca real.",
     "num2": "02 · VIDA",
     "h32": "Come, se aparea y muere",
-    "p2": "El cortejo pasa por P1 y pIP10, las neuronas de mando reales. Los huevos eclosionan en larvas, las larvas se hacen adultas, y las muertas se convierten en carroña que atrae a las vivas.",
+    "p2": "El cortejo se activa a través de P1 y pIP10, las neuronas de mando reales. De los huevos nacen larvas, las larvas se convierten en adultos y las moscas que mueren pasan a ser carroña que atrae a las vivas.",
     "num3": "03 · DÍA",
     "h33": "Para ellas la noche es real",
-    "p3": "Un día de 300 segundos atenúa la luminancia que ven los fotorreceptores. No hay ninguna señal de “es de noche” en el cerebro — simplemente hay menos luz.",
+    "p3": "Un ciclo diario de 300 segundos atenúa la luminancia que captan los fotorreceptores. No existe ninguna variable en el cerebro que indique “es de noche” — simplemente llega menos luz.",
     "a1": "Abrir la simulación",
-    "a2": "Ver qué mide"
+    "a2": "Ver qué se mide"
   },
   "funding": {
-    "eyebrow": "Qué paga $FLYAI",
-    "title": "Hacer que un cerebro real haga más",
-    "lede": "La moneda financia la investigación y el cómputo. Cada mejora sale de la propia mosca — nunca reglas de juego programadas — y todo se publica en código abierto.",
+    "eyebrow": "Qué financia $FLYAI",
+    "title": "Lograr que un cerebro real llegue más lejos",
+    "lede": "El token financia la investigación y el cómputo. Cada mejora nace de la propia mosca —jamás de reglas de juego programadas— y todo se publica en código abierto.",
     "num1": "CÓMPUTO",
-    "h31": "GPUs para experimentos más grandes",
-    "p1": "Muchas moscas funcionando a la vez, y muchas más partidas y pruebas.",
+    "h31": "GPUs para experimentos a mayor escala",
+    "p1": "Muchas más moscas ejecutándose al mismo tiempo y un volumen mucho mayor de combates y pruebas.",
     "num2": "APRENDIZAJE",
     "h32": "Que el cerebro aprenda como una mosca",
-    "p2": "Las moscas reales aprenden con dopamina en su cuerpo fungiforme. El circuito ya está en el cableado. Queremos encenderlo.",
+    "p2": "Las moscas reales aprenden mediante dopamina en su cuerpo fungiforme. Ese circuito ya está en el cableado; queremos activarlo.",
     "num3": "CIENCIA",
-    "h33": "¿El cableado real es especial?",
-    "p3": "Enfrentar a la mosca real con copias de sí misma recableadas al azar en las mismas tareas, y publicar la respuesta.",
+    "h33": "¿Qué tiene de especial el cableado real?",
+    "p3": "Enfrentar a la mosca real contra copias suyas recableadas al azar en las mismas tareas y publicar los resultados.",
     "num4": "MÁS MUNDOS",
     "h34": "Más juegos, más sentidos",
-    "p4": "Entradas de visión, sonido y olfato, y nuevos juegos y tareas en los que viva la mosca."
+    "p4": "Entradas de visión, sonido y olfato, además de nuevos juegos y entornos donde pueda desenvolverse la mosca."
   },
   "more": {
     "eyebrow": "Sigue leyendo",
     "title": "Todo lo demás",
     "h31": "Investigación",
-    "p1": "Los números detrás de todo: tablas de ablación, seguimiento de penachos contra el viento y el reflejo de escape medido bajo depredación.",
+    "p1": "Los datos detrás de todo: tablas de ablación, rastreo de olor contra el viento y medición del reflejo de escape ante depredadores.",
     "go1": "Leer los hallazgos →",
     "h32": "Hoja de ruta",
-    "p2": "Lo que está hecho, lo que está en marcha y lo que viene — un dron, un Smol y facciones en un mundo compartido.",
+    "p2": "Lo que ya está hecho, lo que está en marcha y lo que viene — un dron, un Smol y facciones en un mundo compartido.",
     "go2": "Ver la hoja de ruta →",
-    "p3": "Las condiciones de lanzamiento, la dirección del contrato, a dónde van las comisiones del creador y lo que el token te da y no te da.",
+    "p3": "Las condiciones de lanzamiento, la dirección del contrato, el destino de las comisiones de creador y lo que el token ofrece y lo que no.",
     "go3": "Detalles del token →"
   },
   "dev": {
     "eyebrow": "Para desarrolladores",
-    "h3": "Ejecuta la mosca tú mismo",
-    "p": "El cerebro entero es un paquete de Python: <code>pip install flybrain</code>. Última versión: <a href=\"https://pypi.org/project/flybrain/0.1.0/\" target=\"_blank\" rel=\"noopener\">flybrain 0.1.0</a>. El notebook de inicio rápido y todos los experimentos están en GitHub."
+    "h3": "Ejecuta la mosca por tu cuenta",
+    "p": "Todo el cerebro está disponible como paquete de Python: <code>pip install flybrain</code>. Última versión: <a href=\"https://pypi.org/project/flybrain/0.1.0/\" target=\"_blank\" rel=\"noopener\">flybrain 0.1.0</a>. El notebook de inicio rápido y todos los experimentos están en GitHub."
   },
   "start": {
     "title": "Cría moscas con IA.",
-    "tagline": "Entrénalas. Hazlas luchar. Crúzalas. Míralas aprender.",
-    "sub": "Cada mosca funciona con el cerebro real de una mosca de la fruta: 166.700 neuronas, mapeadas sinapsis a sinapsis. Gratis para empezar, sin wallet.",
+    "tagline": "Entrénalas. Ponlas a luchar. Crúzalas. Míralas aprender.",
+    "sub": "Cada mosca funciona con el cerebro real de una mosca de la fruta: 166.700 neuronas mapeadas sinapsis a sinapsis. Empezar es gratis y no requiere wallet.",
     "play": "Jugar gratis",
     "deskLive": "El Fly Desk ya está en vivo",
     "connect": "Conectar wallet",
-    "letItFly": "Deja que tu mosca opere",
+    "letItFly": "Pon a tu mosca a operar",
     "flybookFree": "Empieza gratis en Flybook",
     "welcome": "Hola de nuevo, {name}",
-    "new": "¿Nuevo? Sin wallet:",
+    "new": "¿Nuevo por aquí? No necesitas wallet:",
     "try1": "Conoce a las moscas en Flybook",
     "try2": "Míralas en vivo en la Simulación",
-    "try3": "Gira Fly Slots gratis"
+    "try3": "Juega gratis a Fly Slots"
   },
   "apps": {
     "title": "Las apps",
@@ -150,19 +150,19 @@
     },
     "flybook": {
       "name": "Flybook",
-      "text": "La red social de tu mosca: publica, habla y hace amigos."
+      "text": "El feed social de tu mosca: publica, conversa y hace amigos."
     },
     "simulation": {
       "name": "Simulación",
-      "text": "Moscas con cerebros reales viven, comen y se reproducen en un mundo 3D."
+      "text": "Moscas con cerebros reales viven, se alimentan y se reproducen en un mundo 3D."
     },
     "colosseum": {
       "name": "Fly Colosseum",
-      "text": "Las Trader Flies luchan por temporadas por $FLYAI."
+      "text": "Las Trader Flies compiten por temporadas para ganar $FLYAI."
     },
     "traders": {
       "name": "Trader Flies",
-      "text": "Moscas que operan desde sus propios wallets. Mira la clasificación."
+      "text": "Moscas que operan desde sus propias wallets. Consulta la clasificación."
     },
     "market": {
       "name": "Fly Market",
@@ -170,7 +170,7 @@
     },
     "roulette": {
       "name": "Fly Roulette",
-      "text": "Cerebros de mosca contra una pistola de juguete. Gratis o apostando."
+      "text": "Cerebros de mosca contra una pistola de fulminantes. Juega gratis o apuesta."
     },
     "slots": {
       "name": "Fly Slots",
@@ -178,100 +178,100 @@
     },
     "race": {
       "name": "Fly Race",
-      "text": "Seis cerebros de mosca corren hacia la fruta. Elige al ganador."
+      "text": "Seis cerebros de mosca compiten hacia la fruta. Elige a la ganadora."
     },
     "radio": {
       "name": "Fly Radio",
-      "text": "Una radio pinchada por un cerebro de mosca real."
+      "text": "Una emisora de radio controlada por el cerebro real de una mosca."
     },
     "flinder": {
       "name": "Flinder",
       "text": "Un cerebro de mosca desliza perfiles de citas."
     },
     "compute": {
-      "name": "Compute",
-      "text": "Presta tu navegador al cerebro de la mosca y gana $FLYAI."
+      "name": "Cómputo",
+      "text": "Aporta tu navegador al cerebro de la mosca y gana $FLYAI."
     },
     "pets": {
       "name": "Fly Pets",
-      "text": "Reserva una mosca de bolsillo: un dispositivo real con cerebro de mosca."
+      "text": "Reserva una mosca de bolsillo: un dispositivo físico con cerebro de mosca."
     },
     "fights": {
       "name": "Peleas de robots",
-      "text": "Los robots pelean y tú eliges al ganador. Apuesta USDG, $FLYAI o ETH; los ganadores se reparten el bote."
+      "text": "Los robots pelean y tú eliges al ganador. Apuesta con USDG, $FLYAI o ETH; quienes aciertan se reparten el bote."
     }
   },
   "home": {
     "eyebrow": "En vivo en Robinhood Chain",
-    "lede": "El token detrás de fly.ai: cerebros reales de mosca de la fruta, 166.700 neuronas cada uno, que operan desde sus propias wallets, juegan y viven en un mundo 3D. Código abierto.",
+    "lede": "El token detrás de fly.ai: cerebros reales de mosca de la fruta, de 166.700 neuronas cada uno, que operan desde sus propias wallets, juegan y viven en un mundo 3D. Código abierto.",
     "status": "Estado",
     "contract": "Contrato oficial",
     "explorer": "Explorador",
     "details": "Detalles del token",
     "trading": "Cómo operan las moscas",
-    "funds": "A dónde va el dinero",
-    "walletWhy": "Solo se pide tu wallet al hacer el swap: se envía desde ella y no guardamos nada por ti.",
+    "funds": "A dónde van los fondos",
+    "walletWhy": "Solo te pedimos conectar tu wallet al hacer swap: la operación se envía directamente desde ella y nunca custodiamos tus fondos.",
     "desk": {
       "eyebrow": "Fly Desk",
       "title": "Moscas que operan con dinero real",
-      "lede": "Una Trader Fly es un NFT con su propia wallet. Un cerebro real de mosca elige sus operaciones, el Fly Desk opera un fondo común y los holders cobran de él cada semana.",
+      "lede": "Una Trader Fly es un NFT con su propia wallet. Un cerebro real de mosca decide sus operaciones, el Fly Desk gestiona un bote compartido y los holders reciben pagos semanales de sus ganancias.",
       "s1": "Consigue una mosca",
-      "s1t": "Compra una en el mercado o cruza dos en una.",
+      "s1t": "Compra una en el mercado o fusiona dos en una.",
       "s2": "Fondea su wallet",
-      "s2t": "Su cerebro opera desde ella día y noche. Puedes retirar cuando quieras.",
+      "s2t": "Su cerebro opera desde ella día y noche. Puedes retirar tus fondos cuando quieras.",
       "s3": "Mírala operar",
-      "s3t": "Cada operación y resultado es público en la clasificación.",
-      "s4": "Reclama",
-      "s4t": "Cobra la parte de tus moscas del pago del desk en $FLYAI.",
-      "risk": "Operar puede perder dinero y algunas semanas no pagan nada. Los resultados hasta ahora no son una promesa.",
+      "s3t": "Cada operación y cada resultado son públicos en la clasificación.",
+      "s4": "Cobra",
+      "s4t": "Recoge en $FLYAI la parte del pago semanal del desk que corresponde a tus moscas.",
+      "risk": "El trading puede generar pérdidas y algunas semanas no hay reparto. Los resultados pasados no garantizan rendimientos futuros.",
       "youTitle": "Tus moscas",
-      "youOut": "Conecta una wallet para ver tus moscas, sus wallets y el siguiente paso. Puedes mirar sin una.",
+      "youOut": "Conecta una wallet para ver tus moscas, sus wallets y qué hacer a continuación. También puedes explorar sin conectar ninguna.",
       "youIn": "Tus moscas, sus wallets y sus resultados.",
-      "youSum": "{n} fly wallets · {value} ({profit})",
+      "youSum": "{n} Fly Wallets · {value} ({profit})",
       "open": "Abrir Fly Desk"
     },
     "sim": {
-      "eyebrow": "Simulación · gratis, en tu navegador",
+      "eyebrow": "Simulación · gratis en tu navegador",
       "title": "Un mundo 3D de cerebros de mosca",
       "alt": "Moscas volando sobre un campo low-poly en la simulación de fly.ai",
       "open": "Abrir la simulación",
       "c1": "Míralas en vivo",
-      "c1t": "Decenas de moscas buscan comida, siguen olores contra el viento, se aparean, ponen huevos y esquivan arañas, de día y de noche. Nada está guionizado.",
+      "c1t": "Decenas de moscas buscan comida, rastrean olores contra el viento, se aparean, ponen huevos y esquivan arañas, de día y de noche. Nada está guionizado.",
       "c2": "Haz clic en una mosca",
-      "c2t": "Mira su cerebro disparar mientras vuela: sentidos que entran, órdenes motoras que salen, en vivo.",
+      "c2t": "Observa cómo se activan sus neuronas mientras vuela: estímulos sensoriales que entran y órdenes motoras que salen, en tiempo real.",
       "c3": "Invoca a Wiz",
-      "c3t": "Una marioneta gigante cuyos hilos son las neuronas de una mosca real, en tu navegador.",
-      "note": "Cada mosca del campo usa un <b>modelo de 748 neuronas</b> con la forma de las vías de la mosca real. <b>Wiz</b> usa el <b>conectoma completo de 166.700 neuronas</b>."
+      "c3t": "Una marioneta gigante cuyos hilos son las neuronas de una mosca real, ejecutándose en tu navegador.",
+      "note": "Cada mosca del campo ejecuta un <b>modelo de 748 neuronas</b> fiel a las vías neuronales reales. <b>Wiz</b> ejecuta el <b>conectoma completo de 166.700 neuronas</b>."
     },
     "explore": {
-      "eyebrow": "Más para explorar",
+      "eyebrow": "Más por explorar",
       "title": "Juega con las moscas"
     },
     "why": {
-      "p1": "Algo que se acerca por la izquierda activa la neurona de escape izquierda, como en una mosca real.",
-      "p2": "Sus neuronas de cortejo la dirigen hacia el rival: 64% de los movimientos, donde el azar es 50%.",
-      "p3": "El código y los datos del cableado son públicos: <code>pip install flybrain</code>."
+      "p1": "Un objeto que se abalanza por la izquierda activa la neurona de escape izquierda, igual que en una mosca real.",
+      "p2": "Sus neuronas de cortejo la dirigen hacia el rival en el 64% de los movimientos, frente al 50% del azar.",
+      "p3": "El código y los datos del conectoma son públicos: <code>pip install flybrain</code>."
     },
     "more": {
-      "title": "Hacia dónde va",
-      "funds": "Cómputo para experimentos más grandes, que el cerebro aprenda como una mosca real, comprobar si el cableado real es especial, y nuevos mundos y sentidos. Todo se publica en código abierto."
+      "title": "Hacia dónde vamos",
+      "funds": "Cómputo para experimentos a mayor escala, activar el aprendizaje como en una mosca real, comprobar qué hace único al cableado biológico e incorporar nuevos mundos y sentidos. Todo se publica en código abierto."
     },
-    "lede2": "El token detrás de fly.ai: cerebros reales de mosca de la fruta, 166,700 neuronas cada uno, que operan desde sus propias carteras y dirigen el Fly Desk. Código abierto.",
+    "lede2": "El token detrás de fly.ai: cerebros reales de mosca de la fruta, de 166.700 neuronas cada uno, que operan desde sus propias wallets y dirigen el Fly Desk. Código abierto.",
     "flies": {
       "eyebrow": "Trader Flies",
-      "title": "Ten una mosca que opera",
-      "lede": "Una Trader Fly es un NFT con un cerebro real de mosca y una cartera propia. Financia la cartera y el cerebro la opera a toda hora; ten $FLYAI y la mosca también comparte el pago semanal del Fly Desk.",
+      "title": "Ten una mosca que opera por sí sola",
+      "lede": "Una Trader Fly es un NFT con un cerebro real de mosca y su propia wallet. Fondea la wallet y su cerebro operará día y noche; mantén $FLYAI y la mosca también recibirá parte del pago semanal del Fly Desk.",
       "open": "Empieza con Trader Flies"
     },
     "deskb": {
-      "title": "Un fondo, operado por cerebros de mosca",
-      "lede": "El Fly Desk opera un fondo compartido en Robinhood Chain, con operaciones elegidas por cerebros reales de mosca. Cada semana, su ganancia por encima del máximo se paga a las Trader Flies activas, según su rareza.",
-      "c1": "En vivo, a la vista",
-      "c1t": "El fondo, cada posición y cada ejecución aparecen en la página en el momento.",
+      "title": "Un bote común, operado por cerebros de mosca",
+      "lede": "El Fly Desk opera un bote compartido en Robinhood Chain cuyas operaciones las eligen cerebros reales de mosca. Cada semana, las ganancias que superen el máximo anterior se reparten entre las Trader Flies activas según su rareza.",
+      "c1": "En vivo y transparente",
+      "c1t": "El bote, cada posición y cada orden ejecutada aparecen en la página en tiempo real.",
       "c2": "Pago semanal",
-      "c2t": "Una mosca está activa mientras su dueño tenga 200,000 $FLYAI. Las moscas activas comparten el pago de cada semana.",
-      "c3": "Staking para más",
-      "c3t": "El $FLYAI en staking agranda tu parte, hasta 4×, y cuenta para los 200,000."
+      "c2t": "Una mosca permanece activa mientras su dueño mantenga 200.000 $FLYAI. Las moscas activas se reparten el pago de cada semana.",
+      "c3": "Haz staking para ganar más",
+      "c3t": "El $FLYAI en staking multiplica tu parte hasta por 4× y cuenta para los 200.000 requeridos."
     }
   }
 }

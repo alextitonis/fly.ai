@@ -21,23 +21,23 @@
     },
     "research": {
       "label": "Todos los hallazgos",
-      "desc": "Peleas, el mundo 3D, lo que falló"
+      "desc": "Combates, el mundo 3D y lo que falló"
     },
     "research_flybook": {
       "label": "Moscas que hablan",
-      "desc": "Flybook: ¿pueden dos cerebros comunicarse?"
+      "desc": "Flybook: ¿pueden comunicarse dos cerebros?"
     },
     "research_radio": {
-      "label": "Al aire",
-      "desc": "Cómo funciona una radio dirigida por un cerebro real de mosca"
+      "label": "En el aire",
+      "desc": "Cómo funciona una emisora controlada por el cerebro real de una mosca"
     },
     "roadmap": {
       "label": "Hoja de ruta",
-      "desc": "Lo que está hecho y lo que sigue"
+      "desc": "Lo que ya está hecho y lo que viene"
     },
     "changelog": {
-      "label": "Cambios",
-      "desc": "Todo lo que lanzamos, día a día"
+      "label": "Registro de cambios",
+      "desc": "Todo lo que hemos lanzado, día a día"
     },
     "simulation": {
       "label": "Simulación",
@@ -49,7 +49,7 @@
     },
     "radio": {
       "label": "Fly Radio",
-      "desc": "Una emisora pinchada por un cerebro real de mosca"
+      "desc": "Una emisora controlada por el cerebro real de una mosca"
     },
     "roulette": {
       "label": "Fly Roulette",
@@ -57,15 +57,15 @@
     },
     "slots": {
       "label": "Fly Slots",
-      "desc": "Gira los rodillos, un cerebro de mosca reacciona"
+      "desc": "Gira los rodillos mientras un cerebro de mosca reacciona"
     },
     "race": {
       "label": "Fly Race",
-      "desc": "Seis cerebros de mosca corren hacia la fruta"
+      "desc": "Seis cerebros de mosca compiten hacia la fruta"
     },
     "colosseum": {
       "label": "Fly Colosseum",
-      "desc": "Batallas por temporadas por $FLYAI"
+      "desc": "Combates por temporadas por $FLYAI"
     },
     "flinder": {
       "label": "Flinder",
@@ -73,7 +73,7 @@
     },
     "desk": {
       "label": "Fly Desk",
-      "desc": "Cerebros reales de mosca operan en vivo; las Trader Flies comparten la ganancia"
+      "desc": "Cerebros reales de mosca operan en vivo; las Trader Flies comparten las ganancias"
     },
     "traderflies": {
       "label": "Trader Flies",
@@ -81,7 +81,7 @@
     },
     "compute": {
       "label": "Cómputo",
-      "desc": "Mina con tu navegador, gana $FLYAI"
+      "desc": "Mina con tu navegador y gana $FLYAI"
     },
     "token": {
       "label": "Token",
@@ -105,7 +105,7 @@
     },
     "bounties": {
       "label": "Recompensas",
-      "desc": "Cobra en $FLYAI por memes, bots, investigación"
+      "desc": "Gana $FLYAI por memes, bots e investigación"
     },
     "follow": {
       "label": "Seguir a @flydotai"
@@ -115,7 +115,7 @@
       "desc": "Todas tus moscas y sus wallets"
     },
     "traderflies_market": {
-      "label": "Mercado de moscas",
+      "label": "Fly Market",
       "desc": "Compra y vende Trader Flies"
     },
     "opensea": {
@@ -128,7 +128,7 @@
     },
     "traderflies_claim": {
       "label": "Cobrar",
-      "desc": "Recoge el $FLYAI de tus moscas"
+      "desc": "Recoge los $FLYAI de tus moscas"
     },
     "traderflies_pets": {
       "label": "Hardware NFTs",
@@ -140,7 +140,7 @@
     },
     "desk-api": {
       "label": "API y skills",
-      "desc": "Compra las respuestas del desk por x402"
+      "desc": "Compra las respuestas del desk mediante x402"
     },
     "traderflies_inventory": {
       "label": "Inventario",
@@ -151,34 +151,34 @@
       "desc": "Las mejores Fly Wallets, en vivo"
     },
     "acct": {
-      "signInHint": "Entra arriba a la derecha ↗",
-      "signIn": "Entrar",
+      "signInHint": "Inicia sesión arriba a la derecha ↗",
+      "signIn": "Iniciar sesión",
       "myFlies": "Mis moscas",
       "leaderboard": "Clasificación",
       "nickname": "Apodo",
-      "nickHint": "3-20 letras",
+      "nickHint": "3-20 caracteres",
       "save": "Guardar",
       "saved": "Guardado",
-      "compute": "Compute y saldo",
-      "signOut": "Salir",
+      "compute": "Cómputo y saldo",
+      "signOut": "Cerrar sesión",
       "search": "Buscar",
-      "searchHint": "Apps, #mosca, gente",
+      "searchHint": "Apps, #mosca, usuarios",
       "openFly": "Abrir la mosca",
       "flies": "Moscas",
       "noResults": "Sin resultados",
       "notifications": "Notificaciones",
-      "nothingYet": "Nada aún: financia una mosca o juega",
+      "nothingYet": "Aún no hay nada: fondea una mosca o juega una partida",
       "bought": "compró",
       "sold": "vendió",
       "colosseum": "Colosseum",
       "place": "puesto {n}",
-      "finished": "terminado",
+      "finished": "finalizado",
       "payout": "Pago",
-      "deskClaim": "Pago de Fly Desk por reclamar",
-      "claimBy": "reclámalo antes de {t}",
-      "b_nickname": "Con nombre",
-      "b_funded": "Financió una mosca",
-      "b_profit": "En ganancia",
+      "deskClaim": "Pago del Fly Desk por cobrar",
+      "claimBy": "cóbralo antes de {t}",
+      "b_nickname": "Con apodo",
+      "b_funded": "Fondeó una mosca",
+      "b_profit": "En positivo",
       "b_trader": "10+ operaciones",
       "b_gladiator": "Gladiador",
       "b_champion": "Campeón",
@@ -190,7 +190,7 @@
       "refSet": "Guardar",
       "refLocked": "Fijado para siempre",
       "refJoined": "Te uniste con el enlace de {name}",
-      "whatsNew": "Novedad"
+      "whatsNew": "Novedades"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -202,7 +202,7 @@
     },
     "traderflies_partner": {
       "label": "Bullas",
-      "desc": "NFT de Bullas: sus propias billeteras de trading y un bote compartido"
+      "desc": "NFTs de Bullas: sus propias wallets de trading y un bote compartido"
     },
     "newTag": "Nuevo",
     "fights": {
@@ -211,22 +211,22 @@
     },
     "referrals": {
       "label": "Referidos",
-      "desc": "Invita a amigos, gana con sus comisiones"
+      "desc": "Invita a amigos y gana con sus comisiones"
     },
     "buy": {
       "label": "Comprar $FLYAI"
     },
     "buyMenu": {
       "label": "Comprar $FLYAI",
-      "desc": "Intercambia desde tu wallet, desde cualquier cadena"
+      "desc": "Haz swap desde tu wallet, desde cualquier cadena"
     },
     "deskOverview": {
       "label": "Resumen",
-      "desc": "Qué es el desk, cómo opera y cómo paga"
+      "desc": "Qué es el desk, cómo opera y cómo reparte ganancias"
     },
     "myFlies": {
       "label": "Mis moscas",
-      "desc": "Tus moscas, sus wallets y el siguiente paso"
+      "desc": "Tus moscas, sus wallets y qué hacer después"
     },
     "flyMarket": {
       "label": "Mercado",
@@ -241,11 +241,11 @@
     },
     "gta": {
       "label": "Sorteo de GTA VI",
-      "desc": "Ten 100k $FLYAI y gana una copia"
+      "desc": "Mantén 100k $FLYAI y gana una copia"
     },
     "researchAll": {
       "label": "Investigación",
-      "desc": "Hallazgos: peleas, el mundo 3-D, lo que falló"
+      "desc": "Hallazgos: combates, el mundo 3D y lo que falló"
     },
     "leaderboard": {
       "label": "Clasificación",
@@ -254,7 +254,7 @@
   },
   "footer": {
     "license": "Licencia MIT",
-    "credit": "Datos del conectoma: MaleCNS v1.0 de FlyEM (HHMI Janelia) y colaboradores, usados bajo CC BY 4.0. Código con licencia MIT."
+    "credit": "Datos del conectoma: MaleCNS v1.0 de FlyEM (HHMI Janelia) y colaboradores, usados bajo licencia CC BY 4.0. Código bajo licencia MIT."
   },
   "words": {
     "copy": "Copiar",
@@ -268,7 +268,7 @@
     "notDeployed": "Aún no desplegado",
     "explorer": "Ver en el explorador",
     "buyOnPons": "Comprar $FLYAI en Pons",
-    "notDeployedLong": "Aún no desplegado: el enlace de compra aparecerá aquí y en @flydotai en el lanzamiento.",
+    "notDeployedLong": "Aún no desplegado: el enlace de compra aparecerá aquí y en @flydotai durante el lanzamiento.",
     "buyHere": "Comprar $FLYAI"
   }
 }
