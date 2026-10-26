@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "title": "媒体资料包 — fly.ai 标志、配色、字体与项目简介",
+    "description": "fly.ai 与 $FLYAI 代币的官方媒体资料包及品牌资产：可下载的 SVG 与 PNG 标志（深色与浅色背景）、品牌十六进制色值、Outfit 字体、官方简介、网站截图与合约详情。"
+  },
+  "head": {
+    "eyebrow": "媒体资料包",
+    "title": "品牌资产、项目简介与截图",
+    "lede": "面向报道 <b>fly.ai</b> 与 <b>$FLYAI</b> 代币的撰稿人、收录网站及合作伙伴提供的标志、配色、字体、官方简介与高清截图。在引用 fly.ai 时均可免费使用。"
+  },
+  "toc": {
+    "about": "项目简介",
+    "logos": "标志下载",
+    "colors": "品牌配色",
+    "font": "字体排版",
+    "screenshots": "网站截图",
+    "token": "代币与合约"
+  },
+  "about": {
+    "eyebrow": "官方简介",
+    "title": "关于 fly.ai",
+    "lede": "供文章、导航目录和合作伙伴页面使用的标准一句话简介与一段话简介。请将 $FLYAI 称为项目代币，且不要添加任何价格或收益承诺。",
+    "oneline": {
+      "tag": "一句话简介",
+      "title": "简短介绍",
+      "text": "fly.ai 开源运行成年果蝇完整的 166,700 神经元大脑连接组——在 Robinhood Chain 上驱动 Trader Flies、Fly Desk 与 3D 模拟世界，由 $FLYAI 代币提供资金支持。"
+    },
+    "para": {
+      "tag": "一段话简介",
+      "title": "完整概述",
+      "text": "fly.ai 是成年雄性果蝇（Drosophila melanogaster）完整中枢神经系统的开源模拟：包含来自 MaleCNS v1.0 连接组的 166,700 个神经元与 2560 万个突触连接。大脑内部没有语言模型，也没有手写策略——任务直接连接到果蝇的感觉神经元，并从下行运动神经元读取动作指令。在 Robinhood Chain 上，真实的果蝇连接组作为 Trader Flies（1,000 个创世 NFT）通过个人钱包进行交易、在 Fly Desk 上共同交易共享资金池、在 Flybook 上根据神经活动发帖，并生活在 3D 模拟世界中。任何人都可以在 MIT 许可证下通过 pip install flybrain 在本地运行该大脑。$FLYAI 是 Robinhood Chain 上用于资助该项目研究与算力的代币。"
+    }
+  },
+  "facts": {
+    "title": "核心事实",
+    "k": {
+      "project": "项目",
+      "website": "网站",
+      "connectome": "连接组",
+      "package": "Python 包",
+      "token": "代币",
+      "nfts": "创世 NFT",
+      "x": "X / Twitter",
+      "github": "代码仓库"
+    },
+    "v": {
+      "connectome": "MaleCNS v1.0 · 166,700 神经元 · 2560 万突触",
+      "nfts": "1,000 只 Trader Flies"
+    }
+  },
+  "logos": {
+    "eyebrow": "标志",
+    "title": "标志下载",
+    "lede": "深色背景请使用白色字标，浅色背景请使用黑色字标。请在标志周围保留安全间距，切勿更改薄荷绿果蝇的配色。",
+    "wordmarkDark": {
+      "title": "完整字标 — 深色背景",
+      "desc": "适用于纯黑与深色表面的主标志。白色 Outfit 字标配发光薄荷绿果蝇。"
+    },
+    "wordmarkLight": {
+      "title": "完整字标 — 浅色背景",
+      "desc": "适用于白色与浅色表面。纯黑字标配深薄荷绿果蝇。"
+    },
+    "iconDark": {
+      "title": "果蝇图标 — 深色",
+      "desc": "黑底方形徽章与头像标志，适用于代币收录、钱包及社交资料页。"
+    },
+    "iconLight": {
+      "title": "果蝇图标 — 浅色",
+      "desc": "浅灰白底方形徽章标志，适用于浅色模式目录与徽章。"
+    }
+  },
+  "colors": {
+    "eyebrow": "调色板",
+    "title": "品牌配色",
+    "lede": "纯黑、清爽灰白与果蝇的薄荷绿微光。红色（#ff5b4f）仅用于亏损与警告提示，切勿作为品牌主色。",
+    "mint": {
+      "name": "果蝇薄荷绿",
+      "desc": "品牌主强调色、果蝇图形、实时状态指示与主按钮。"
+    },
+    "mintHi": {
+      "name": "高亮薄荷绿",
+      "desc": "悬停高亮、合约地址强调与胸节高光细节。"
+    },
+    "mintDeep": {
+      "name": "深薄荷绿",
+      "desc": "用于翅膀填充与浅色背景对比的深薄荷色调。"
+    },
+    "bg": {
+      "name": "纯黑",
+      "desc": "flyaiworld.com 全站主画布背景色。"
+    },
+    "panel": {
+      "name": "面板深黑",
+      "desc": "卡片与面板表面色，搭配 #1a1d1c（--line）边框。"
+    },
+    "text": {
+      "name": "柔白",
+      "desc": "深色表面上的主要正文、标题与字标颜色。"
+    },
+    "muted": {
+      "name": "柔和灰",
+      "desc": "次要正文、图注与表格说明文字。"
+    },
+    "line": {
+      "name": "分隔线",
+      "desc": "细分隔线、表格标尺与卡片边框。"
+    }
+  },
+  "font": {
+    "eyebrow": "字体排版",
+    "title": "字体 — Outfit",
+    "lede": "标题、大号数字与 fly.ai 字标均采用 Outfit。正文采用 Inter，链上数据与代码采用 JetBrains Mono。",
+    "primary": {
+      "tag": "标题与字标",
+      "desc": "用于 fly.ai 标志、页面大标题、章节标题与核心指标的几何无衬线字体。",
+      "cta": "在 Google Fonts 查看 Outfit"
+    },
+    "secondary": {
+      "tag": "正文与等宽字体",
+      "title": "辅助字体",
+      "inter": "<b>Inter</b>（400、500、600）— 正文、导航栏与界面控件。",
+      "mono": "<b>JetBrains Mono</b>（400、500）— 合约地址、神经元数量、数据表格与终端视图。"
+    }
+  },
+  "shots": {
+    "eyebrow": "媒体素材",
+    "title": "网站截图",
+    "lede": "实时交易终端、166,700 神经元连接组仪表盘、3D 模拟世界与 Fly Maker 的高分辨率截图。",
+    "download": "下载",
+    "s1": {
+      "title": "166,700 神经元连接组仪表盘",
+      "desc": "实时运行的成年雄性果蝇连接组（MaleCNS v1.0）：左侧为感官输入，右侧为脉冲发放神经元与下行运动指令。"
+    },
+    "s2": {
+      "title": "Fly 终端 — 链上实时交易",
+      "desc": "真实果蝇大脑在 Robinhood Chain 上实时交易：活跃 Fly Wallet、交易流、连接组核心与 7 日表现。"
+    },
+    "s3": {
+      "title": "3D 果蝇世界模拟",
+      "desc": "由神经回路驱动的果蝇在 flyaiworld.com/simulation 的共享 3D 世界中觅食、追踪气味羽流并飞行。"
+    },
+    "s4": {
+      "title": "Fly Maker — Robinhood Chain 链上做市",
+      "desc": "在 GIGA DEX 上为代币提供带有链上护栏的自动化流动性区间做市。"
+    }
+  },
+  "token": {
+    "eyebrow": "链上验证",
+    "title": "$FLYAI 代币与合约地址",
+    "lede": "Robinhood Chain 上的 $FLYAI 合约地址仅发布于 <a href=\"https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md\" target=\"_blank\" rel=\"noopener\">TOKEN.md</a>、本站以及 <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">@flydotai</a>，绝无他处。任何其他地址均为骗局。",
+    "cardTitle": "官方合约与文档",
+    "cardBody": "完整的发行条款、供应量、Pons 永久流动性锁定、销毁交易哈希及免责声明均记录在代码库根目录的 <a href=\"https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md\" target=\"_blank\" rel=\"noopener\"><b>TOKEN.md</b></a> 中。",
+    "caLabel": "Robinhood Chain",
+    "ctaTokenMd": "在 GitHub 阅读 TOKEN.md",
+    "ctaTokenPage": "代币页面"
+  }
+}

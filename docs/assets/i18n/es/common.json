@@ -254,9 +254,14 @@
     "scan": {
       "label": "Fly Scan",
       "desc": "Revisa un token o un sitio antes de firmar"
+    },
+    "press": {
+      "label": "Kit de prensa",
+      "desc": "Logotipos, colores, fuentes, capturas y descripciones del proyecto"
     }
   },
   "footer": {
+    "press": "Kit de prensa",
     "license": "Licencia MIT",
     "credit": "Datos del conectoma: MaleCNS v1.0 de FlyEM (HHMI Janelia) y colaboradores, usados bajo CC BY 4.0. Código con licencia MIT."
   },

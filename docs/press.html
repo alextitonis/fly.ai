@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="press">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="press.meta.title">Press kit &mdash; fly.ai logos, colors, font and descriptions</title>
+<meta name="description" content="Official press kit and brand assets for fly.ai and the $FLYAI token: downloadable SVG and PNG logos (light and dark), brand hex colors, Outfit font, descriptions, screenshots, and contract details." data-i18n-attr="content:press.meta.description">
+<meta property="og:title" content="Press kit &mdash; fly.ai logos, colors, font and descriptions" data-i18n-attr="content:press.meta.title">
+<meta property="og:description" content="Official press kit and brand assets for fly.ai and the $FLYAI token: downloadable SVG and PNG logos (light and dark), brand hex colors, Outfit font, descriptions, screenshots, and contract details." data-i18n-attr="content:press.meta.description">
+<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/press">
+<meta property="og:url" content="https://flyaiworld.com/press">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/dashboard.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "headline": "Press kit — fly.ai logos, colors, font and descriptions",
+  "description": "Official press kit and brand assets for fly.ai and the $FLYAI token: downloadable SVG and PNG logos (light and dark), brand hex colors, Outfit font, descriptions, screenshots, and contract details.",
+  "url": "https://flyaiworld.com/press",
+  "author": { "@type": "Organization", "name": "fly.ai" },
+  "publisher": { "@type": "Organization", "name": "fly.ai" }
+}
+</script>
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .press-toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .press-toc a { border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: 14px; text-decoration: none; color: var(--text); transition: border-color .15s, background .15s; }
+  .press-toc a:hover { border-color: var(--mint); background: rgba(94,242,204,.06); }
+  .press-sec { scroll-margin-top: 80px; }
+
+  /* Logo cards */
+  .logo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .logo-card { display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+  .logo-stage { display: grid; place-items: center; min-height: 190px; padding: 32px 28px; border-bottom: 1px solid var(--edge, var(--line)); }
+  .logo-stage.dark { background: #000000; background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 20px 20px; }
+  .logo-stage.light { background: #f4f7f6; background-image: radial-gradient(rgba(0,0,0,.07) 1px, transparent 1px); background-size: 20px 20px; }
+  .logo-stage img.wordmark { width: min(280px, 76%); height: auto; }
+  .logo-stage img.iconmark { width: 84px; height: 84px; border-radius: 18px; box-shadow: 0 12px 32px rgba(0,0,0,.22); }
+  .logo-body { padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; }
+  .logo-body p { font-size: 14px; color: var(--muted); margin: 0; }
+  .dl-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+
+  /* Color swatches */
+  .swatch-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .swatch-card { overflow: hidden; display: flex; flex-direction: column; }
+  .swatch-chip { height: 96px; border-bottom: 1px solid var(--edge, var(--line)); position: relative; }
+  .swatch-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .swatch-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .swatch-head h3 { font-size: 17px; margin: 0; }
+  .swatch-var { font: 500 12px var(--mono); color: var(--dim); }
+  .swatch-hex { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 2px; padding: 7px 10px; border-radius: 10px; background: var(--bg-2); border: 1px solid var(--line); font: 500 13px var(--mono); color: var(--mint-hi); }
+  .swatch-body p { font-size: 13px; color: var(--muted); margin: 0; }
+
+  /* Font specimen */
+  .font-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 18px; }
+  .font-sample { margin: 16px 0; padding: 20px; border-radius: 14px; background: var(--bg-2); border: 1px solid var(--line); }
+  .font-sample .big { font: 700 clamp(32px, 5vw, 52px)/1.05 var(--display); letter-spacing: -.025em; margin: 0 0 10px; color: var(--text); }
+  .font-sample .big span { color: var(--mint); }
+  .font-sample .alpha { font: 500 16px/1.5 var(--display); color: var(--muted); margin: 0; word-break: break-word; }
+  .font-weights { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
+  .font-weights span { font: 500 12px var(--mono); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); background: rgba(255,255,255,.02); }
+
+  /* Boilerplate copy blocks */
+  .copy-card { display: flex; flex-direction: column; gap: 14px; }
+  .copy-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .copy-head h3 { margin: 0; }
+  .copy-box { padding: 18px 20px; border-radius: 14px; background: var(--bg-2); border: 1px solid var(--line); color: var(--text); font-size: 16px; line-height: 1.65; margin: 0; }
+
+  /* Screenshots */
+  .shot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .shot-card { overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+  .shot-frame { border-bottom: 1px solid var(--edge, var(--line)); background: #000; aspect-ratio: 16 / 9; overflow: hidden; }
+  .shot-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .shot-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .shot-meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: auto; padding-top: 6px; }
+  .shot-dim { font: 500 12px var(--mono); color: var(--dim); }
+
+  @media (max-width: 960px) {
+    .swatch-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .font-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .logo-grid, .shot-grid, .swatch-grid { grid-template-columns: minmax(0, 1fr); }
+    .logo-stage { min-height: 150px; padding: 24px 18px; }
+    .logo-body, .shot-body { padding: 18px; }
+    .copy-box { padding: 14px 16px; font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="press.head.eyebrow">Press kit</p>
+    <h1 data-i18n="press.head.title">Brand assets, descriptions and screenshots</h1>
+    <p class="lede" data-i18n-html="press.head.lede">Logos, colors, typography, official descriptions and screenshots for writers, listing sites and partners covering <b>fly.ai</b> and the <b>$FLYAI</b> token. Everything here is free to use when referencing fly.ai.</p>
+    <div class="press-toc">
+      <a href="#about" data-i18n="press.toc.about">Descriptions</a>
+      <a href="#logos" data-i18n="press.toc.logos">Logos</a>
+      <a href="#colors" data-i18n="press.toc.colors">Brand colors</a>
+      <a href="#font" data-i18n="press.toc.font">Typography</a>
+      <a href="#screenshots" data-i18n="press.toc.screenshots">Screenshots</a>
+      <a href="#token" data-i18n="press.toc.token">Token &amp; contract</a>
+    </div>
+  </div>
+</header>
+
+<section id="about" class="firstsec press-sec">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="press.about.eyebrow">Boilerplate</p>
+    <h2 data-i18n="press.about.title">About fly.ai</h2>
+    <p class="lede" data-i18n="press.about.lede">Standard one-line and one-paragraph descriptions for articles, directories and partner pages. Please refer to $FLYAI as the project token and do not add price or return promises.</p>
+
+    <div class="grid2" style="margin-bottom: 18px;">
+      <div class="card pad copy-card">
+        <div class="copy-head">
+          <div>
+            <span class="num" data-i18n="press.about.oneline.tag">ONE LINE</span>
+            <h3 data-i18n="press.about.oneline.title">Short description</h3>
+          </div>
+          <button class="btn sm" type="button" data-copy-target="desc-oneline" data-i18n="common.words.copy">Copy</button>
+        </div>
+        <p class="copy-box" id="desc-oneline" data-i18n="press.about.oneline.text">fly.ai runs the complete 166,700-neuron brain connectome of an adult fruit fly open source — powering Trader Flies, the Fly Desk and a 3-D simulation on Robinhood Chain, funded by the $FLYAI token.</p>
+      </div>
+
+      <div class="card specimen">
+        <div class="head"><span data-i18n="press.facts.title">Quick facts</span><span class="live" data-i18n="common.words.live">live</span></div>
+        <div class="row"><span class="k" data-i18n="press.facts.k.project">project</span><span class="v">fly.ai</span></div>
+        <div class="row"><span class="k" data-i18n="press.facts.k.website">website</span><span class="v"><a href="https://flyaiworld.com">flyaiworld.com</a></span></div>
+        <div class="row"><span class="k" data-i18n="press.facts.k.connectome">connectome</span><span class="v" data-i18n="press.facts.v.connectome">MaleCNS v1.0 · 166,700 neurons · 25.6M synapses</span></div>
+        <div class="row"><span class="k" data-i18n="press.facts.k.package">python package</span><span class="v"><code>pip install flybrain</code> (MIT)</span></div>
+        <div class="row"><span class="k" data-i18n="press.facts.k.token">token</span><span class="v">$FLYAI (Robinhood Chain)</span></div>
+        <div class="row"><span class="k" data-i18n="press.facts.k.nfts">genesis NFTs</span><span class="v" data-i18n="press.facts.v.nfts">1,000 Trader Flies</span></div>
+        <div class="row"><span class="k" data-i18n="press.facts.k.x">X / Twitter</span><span class="v"><a href="https://x.com/flydotai" target="_blank" rel="noopener">@flydotai</a></span></div>
+        <div class="row"><span class="k" data-i18n="press.facts.k.github">repository</span><span class="v"><a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">github.com/alextitonis/fly.ai</a></span></div>
+      </div>
+    </div>
+
+    <div class="card pad copy-card">
+      <div class="copy-head">
+        <div>
+          <span class="num" data-i18n="press.about.para.tag">ONE PARAGRAPH</span>
+          <h3 data-i18n="press.about.para.title">Full overview</h3>
+        </div>
+        <button class="btn sm" type="button" data-copy-target="desc-para" data-i18n="common.words.copy">Copy</button>
+      </div>
+      <p class="copy-box" id="desc-para" data-i18n="press.about.para.text">fly.ai is an open-source simulation of the complete central nervous system of an adult male fruit fly (Drosophila melanogaster): 166,700 neurons and 25.6 million synaptic connections mapped in the MaleCNS v1.0 connectome. There is no language model or hand-written policy inside the brain — tasks connect directly to the fly's sensory neurons and read movement commands from its descending neurons. On Robinhood Chain, real fruit-fly connectomes trade from personal wallets as Trader Flies (1,000 genesis NFTs), trade a shared pot on the Fly Desk, post from neural activity on Flybook, and live in a 3-D world simulation. Anyone can run the brain on their own machine with pip install flybrain under the MIT License. $FLYAI is the token on Robinhood Chain that funds the research and compute.</p>
+    </div>
+  </div>
+</section>
+
+<section id="logos" class="press-sec">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="press.logos.eyebrow">Logos</p>
+    <h2 data-i18n="press.logos.title">Logo downloads</h2>
+    <p class="lede" data-i18n="press.logos.lede">Use the white wordmark on dark backgrounds and the black wordmark on light backgrounds. Keep clear space around the logo and do not recolor the mint fly.</p>
+
+    <div class="logo-grid">
+      <div class="card logo-card">
+        <div class="logo-stage dark">
+          <img class="wordmark" src="assets/logo-dark.svg" alt="fly.ai logo (dark background)" width="988" height="439">
+        </div>
+        <div class="logo-body">
+          <h3 data-i18n="press.logos.wordmarkDark.title">Wordmark &mdash; Dark background</h3>
+          <p data-i18n="press.logos.wordmarkDark.desc">Primary logo for black and dark surfaces. White Outfit wordmark with the glowing mint fly.</p>
+          <div class="dl-row">
+            <a class="btn red sm" href="assets/logo-dark.svg" download="flyai-logo-dark.svg">SVG</a>
+            <a class="btn sm" href="assets/logo-dark.png" download="flyai-logo-dark.png">PNG (988&times;439)</a>
+            <a class="btn sm" href="assets/logo-t.webp" download="flyai-logo-transparent.webp">WebP (transparent)</a>
+            <a class="btn sm" href="assets/logo.webp" download="flyai-logo-black.webp">WebP (1774&times;887)</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card logo-card">
+        <div class="logo-stage light">
+          <img class="wordmark" src="assets/logo-light.svg" alt="fly.ai logo (light background)" width="988" height="439">
+        </div>
+        <div class="logo-body">
+          <h3 data-i18n="press.logos.wordmarkLight.title">Wordmark &mdash; Light background</h3>
+          <p data-i18n="press.logos.wordmarkLight.desc">For white and light surfaces. Pure black wordmark with deep mint fly.</p>
+          <div class="dl-row">
+            <a class="btn red sm" href="assets/logo-light.svg" download="flyai-logo-light.svg">SVG</a>
+            <a class="btn sm" href="assets/logo-light.png" download="flyai-logo-light.png">PNG (988&times;439)</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card logo-card">
+        <div class="logo-stage dark">
+          <img class="iconmark" src="assets/flyai-icon.png" alt="fly.ai icon (dark)" width="512" height="512">
+        </div>
+        <div class="logo-body">
+          <h3 data-i18n="press.logos.iconDark.title">Fly icon &mdash; Dark</h3>
+          <p data-i18n="press.logos.iconDark.desc">Square badge and avatar mark on black for token listings, wallets and social profiles.</p>
+          <div class="dl-row">
+            <a class="btn red sm" href="assets/flyai-icon.svg" download="flyai-icon-dark.svg">SVG</a>
+            <a class="btn sm" href="assets/flyai-icon.png" download="flyai-icon-dark.png">PNG (512&times;512)</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card logo-card">
+        <div class="logo-stage light">
+          <img class="iconmark" src="assets/flyai-icon-light.png" alt="fly.ai icon (light)" width="512" height="512">
+        </div>
+        <div class="logo-body">
+          <h3 data-i18n="press.logos.iconLight.title">Fly icon &mdash; Light</h3>
+          <p data-i18n="press.logos.iconLight.desc">Square badge mark on off-white for light-mode directories and badges.</p>
+          <div class="dl-row">
+            <a class="btn red sm" href="assets/flyai-icon-light.svg" download="flyai-icon-light.svg">SVG</a>
+            <a class="btn sm" href="assets/flyai-icon-light.png" download="flyai-icon-light.png">PNG (512&times;512)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="colors" class="press-sec">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="press.colors.eyebrow">Palette</p>
+    <h2 data-i18n="press.colors.title">Brand colors</h2>
+    <p class="lede" data-i18n="press.colors.lede">Pure black, crisp off-white, and the fly's mint glow. Red (#ff5b4f) is reserved for losses and warnings only, never as the brand color.</p>
+
+    <div class="swatch-grid">
+      <div class="card swatch-card">
+        <div class="swatch-chip" style="background: #5ef2cc;"></div>
+        <div class="swatch-body">
+          <div class="swatch-head"><h3 data-i18n="press.colors.mint.name">Fly Mint</h3><span class="swatch-var">--mint</span></div>
+          <div class="swatch-hex"><code>#5ef2cc</code><button class="btn sm" type="button" data-copy="#5ef2cc" data-i18n="common.words.copy">Copy</button></div>
+          <p data-i18n="press.colors.mint.desc">Primary brand accent, the fly mark, live indicators and primary buttons.</p>
+        </div>
+      </div>
+
+      <div class="card swatch-card">
+        <div class="swatch-chip" style="background: #a4fbe6;"></div>
+        <div class="swatch-body">
+          <div class="swatch-head"><h3 data-i18n="press.colors.mintHi.name">Mint Highlight</h3><span class="swatch-var">--mint-hi</span></div>
+          <div class="swatch-hex"><code>#a4fbe6</code><button class="btn sm" type="button" data-copy="#a4fbe6" data-i18n="common.words.copy">Copy</button></div>
+          <p data-i18n="press.colors.mintHi.desc">Hover highlights, contract callouts and bright thorax accents.</p>
+        </div>
+      </div>
+
+      <div class="card swatch-card">
+        <div class="swatch-chip" style="background: #19c99a;"></div>
+        <div class="swatch-body">
+          <div class="swatch-head"><h3 data-i18n="press.colors.mintDeep.name">Mint Deep</h3><span class="swatch-var">--mint-deep</span></div>
+          <div class="swatch-hex"><code>#19c99a</code><button class="btn sm" type="button" data-copy="#19c99a" data-i18n="common.words.copy">Copy</button></div>
+          <p data-i18n="press.colors.mintDeep.desc">Deep mint shade for wing fills and light-background contrast.</p>
+        </div>
+      </div>
+
+      <div class="card swatch-card">
+        <div class="swatch-chip" style="background: #000000;"></div>
+        <div class="swatch-body">
+          <div class="swatch-head"><h3 data-i18n="press.colors.bg.name">Pure Black</h3><span class="swatch-var">--bg</span></div>
+          <div class="swatch-hex"><code>#000000</code><button class="btn sm" type="button" data-copy="#000000" data-i18n="common.words.copy">Copy</button></div>
+          <p data-i18n="press.colors.bg.desc">Primary canvas background across flyaiworld.com.</p>
+        </div>
+      </div>
+
+      <div class="card swatch-card">
+        <div class="swatch-chip" style="background: #0a0b0b;"></div>
+        <div class="swatch-body">
+          <div class="swatch-head"><h3 data-i18n="press.colors.panel.name">Panel Dark</h3><span class="swatch-var">--panel</span></div>
+          <div class="swatch-hex"><code>#0a0b0b</code><button class="btn sm" type="button" data-copy="#0a0b0b" data-i18n="common.words.copy">Copy</button></div>
+          <p data-i18n="press.colors.panel.desc">Card and panel surface, paired with #1a1d1c (--line) borders.</p>
+        </div>
+      </div>
+
+      <div class="card swatch-card">
+        <div class="swatch-chip" style="background: #f4f7f6;"></div>
+        <div class="swatch-body">
+          <div class="swatch-head"><h3 data-i18n="press.colors.text.name">Off-White</h3><span class="swatch-var">--text</span></div>
+          <div class="swatch-hex"><code>#f4f7f6</code><button class="btn sm" type="button" data-copy="#f4f7f6" data-i18n="common.words.copy">Copy</button></div>
+          <p data-i18n="press.colors.text.desc">Primary body copy, headings and wordmark on dark surfaces.</p>
+        </div>
+      </div>
+
+      <div class="card swatch-card">
+        <div class="swatch-chip" style="background: #9ba5a1;"></div>
+        <div class="swatch-body">
+          <div class="swatch-head"><h3 data-i18n="press.colors.muted.name">Muted Grey</h3><span class="swatch-var">--muted</span></div>
+          <div class="swatch-hex"><code>#9ba5a1</code><button class="btn sm" type="button" data-copy="#9ba5a1" data-i18n="common.words.copy">Copy</button></div>
+          <p data-i18n="press.colors.muted.desc">Secondary text, captions and table descriptions.</p>
+        </div>
+      </div>
+
+      <div class="card swatch-card">
+        <div class="swatch-chip" style="background: #1a1d1c;"></div>
+        <div class="swatch-body">
+          <div class="swatch-head"><h3 data-i18n="press.colors.line.name">Rule Line</h3><span class="swatch-var">--line</span></div>
+          <div class="swatch-hex"><code>#1a1d1c</code><button class="btn sm" type="button" data-copy="#1a1d1c" data-i18n="common.words.copy">Copy</button></div>
+          <p data-i18n="press.colors.line.desc">Hairline dividers, table rules and subtle card borders.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="font" class="press-sec">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="press.font.eyebrow">Typography</p>
+    <h2 data-i18n="press.font.title">Font &mdash; Outfit</h2>
+    <p class="lede" data-i18n="press.font.lede">Headlines, display numbers and the fly.ai wordmark are set in Outfit. Body copy uses Inter and on-chain data uses JetBrains Mono.</p>
+
+    <div class="font-grid">
+      <div class="card pad">
+        <span class="num" data-i18n="press.font.primary.tag">DISPLAY &amp; WORDMARK</span>
+        <h3>Outfit</h3>
+        <p data-i18n="press.font.primary.desc">Geometric sans-serif used for the fly.ai logo, page titles, section headings and key metrics.</p>
+        <div class="font-sample">
+          <p class="big">fly<span>.</span>ai &mdash; <span>$</span>FLYAI</p>
+          <p class="alpha">ABCDEFGHIJKLMNOPQRSTUVWXYZ · abcdefghijklmnopqrstuvwxyz · 0123456789</p>
+        </div>
+        <div class="font-weights">
+          <span>Regular 400</span>
+          <span>Medium 500</span>
+          <span>SemiBold 600</span>
+          <span>Bold 700</span>
+        </div>
+        <div class="cta">
+          <a class="btn red sm" href="https://fonts.google.com/specimen/Outfit" target="_blank" rel="noopener" data-i18n="press.font.primary.cta">Outfit on Google Fonts</a>
+        </div>
+      </div>
+
+      <div class="card pad" style="display: flex; flex-direction: column; justify-content: space-between; gap: 18px;">
+        <div>
+          <span class="num" data-i18n="press.font.secondary.tag">BODY &amp; MONOSPACE</span>
+          <h3 data-i18n="press.font.secondary.title">Supporting fonts</h3>
+          <p style="margin-bottom: 14px;" data-i18n-html="press.font.secondary.inter"><b>Inter</b> (400, 500, 600) &mdash; body text, navigation and UI controls.</p>
+          <p data-i18n-html="press.font.secondary.mono"><b>JetBrains Mono</b> (400, 500) &mdash; contract addresses, neuron counts, tables and terminal views.</p>
+        </div>
+        <div class="cta">
+          <a class="btn sm" href="https://fonts.google.com/specimen/Inter" target="_blank" rel="noopener">Inter</a>
+          <a class="btn sm" href="https://fonts.google.com/specimen/JetBrains+Mono" target="_blank" rel="noopener">JetBrains Mono</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="screenshots" class="press-sec">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="press.shots.eyebrow">Media</p>
+    <h2 data-i18n="press.shots.title">Site screenshots</h2>
+    <p class="lede" data-i18n="press.shots.lede">High-resolution screenshots of the live trading terminal, the 166,700-neuron connectome dashboard, the 3-D simulation and Fly Maker.</p>
+
+    <div class="shot-grid">
+      <div class="card shot-card">
+        <div class="shot-frame">
+          <img src="assets/dashboard.png" alt="fly.ai 166,700-neuron connectome dashboard" width="1500" height="900" loading="lazy">
+        </div>
+        <div class="shot-body">
+          <h3 data-i18n="press.shots.s1.title">166,700-neuron connectome dashboard</h3>
+          <p data-i18n="press.shots.s1.desc">The adult male fruit-fly connectome (MaleCNS v1.0) running live: sensory inputs on the left, spiking neurons and descending motor commands on the right.</p>
+          <div class="shot-meta">
+            <span class="shot-dim">PNG &middot; 1500&times;900</span>
+            <a class="btn sm" href="assets/dashboard.png" download="flyai-connectome-dashboard.png" data-i18n="press.shots.download">Download</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shot-card">
+        <div class="shot-frame">
+          <img src="assets/terminal-og.jpg" alt="fly.ai live trading terminal on Robinhood Chain" width="1200" height="630" loading="lazy">
+        </div>
+        <div class="shot-body">
+          <h3 data-i18n="press.shots.s2.title">Fly Terminal &mdash; live on-chain trading</h3>
+          <p data-i18n="press.shots.s2.desc">Real fly brains trading live on Robinhood Chain: active Fly Wallets, activity stream, connectome core and 7-day performance.</p>
+          <div class="shot-meta">
+            <span class="shot-dim">JPG &middot; 1200&times;630</span>
+            <a class="btn sm" href="assets/terminal-og.jpg" download="flyai-terminal.jpg" data-i18n="press.shots.download">Download</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shot-card">
+        <div class="shot-frame">
+          <img src="assets/sim-preview.webp" alt="fly.ai 3-D world simulation" width="1216" height="684" loading="lazy">
+        </div>
+        <div class="shot-body">
+          <h3 data-i18n="press.shots.s3.title">3-D fly world simulation</h3>
+          <p data-i18n="press.shots.s3.desc">Flies driven by neural circuits foraging, tracking odor plumes and flying in a shared 3-D world at flyaiworld.com/simulation.</p>
+          <div class="shot-meta">
+            <span class="shot-dim">WebP &middot; 1216&times;684</span>
+            <a class="btn sm" href="assets/sim-preview.webp" download="flyai-3d-simulation.webp" data-i18n="press.shots.download">Download</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shot-card">
+        <div class="shot-frame">
+          <img src="assets/maker-og.jpg" alt="Fly Maker on-chain market making on GIGA DEX" width="1200" height="630" loading="lazy">
+        </div>
+        <div class="shot-body">
+          <h3 data-i18n="press.shots.s4.title">Fly Maker &mdash; market making on Robinhood Chain</h3>
+          <p data-i18n="press.shots.s4.desc">Automated liquidity band market making with on-chain guardrails for tokens on GIGA DEX.</p>
+          <div class="shot-meta">
+            <span class="shot-dim">JPG &middot; 1200&times;630</span>
+            <a class="btn sm" href="assets/maker-og.jpg" download="flyai-maker.jpg" data-i18n="press.shots.download">Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="token" class="press-sec">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="press.token.eyebrow">On-chain verification</p>
+    <h2 data-i18n="press.token.title">$FLYAI token &amp; contract address</h2>
+    <p class="lede" data-i18n-html="press.token.lede">The $FLYAI contract address on Robinhood Chain is published in <a href="https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md" target="_blank" rel="noopener">TOKEN.md</a>, on this site and on <a href="https://x.com/flydotai" target="_blank" rel="noopener">@flydotai</a> &mdash; nowhere else. Treat any other address as a scam.</p>
+
+    <div class="card pad">
+      <h3 data-i18n="press.token.cardTitle">Official contract &amp; documentation</h3>
+      <p data-i18n-html="press.token.cardBody">Full launch terms, supply, permanent Pons liquidity lock, burn transaction hashes and disclaimers are documented in <a href="https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md" target="_blank" rel="noopener"><b>TOKEN.md</b></a> in the root of the repository.</p>
+      <div class="ca" style="margin-top: 18px; max-width: 680px;">
+        <span class="label" data-i18n="press.token.caLabel">Robinhood Chain</span>
+        <code id="ca">0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C</code>
+        <button class="btn sm" id="ca-copy" type="button" data-i18n="common.words.copy">Copy</button>
+      </div>
+      <div class="cta" style="margin-top: 22px;">
+        <a class="btn red" href="https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md" target="_blank" rel="noopener" data-i18n="press.token.ctaTokenMd">Read TOKEN.md on GitHub</a>
+        <a class="btn" href="token.html" data-i18n="press.token.ctaTokenPage">Token page</a>
+        <a class="btn" href="https://robinhoodchain.blockscout.com/token/0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C" target="_blank" rel="noopener" data-i18n="common.words.explorer">View on explorer</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="/press" data-i18n="common.footer.press">Press kit</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261024a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script>
+  (function () {
+    var tr = function (key, fallback) { return window.flyI18n ? window.flyI18n.t(key) : fallback; };
+    document.querySelectorAll("[data-copy], [data-copy-target]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var text = btn.getAttribute("data-copy");
+        if (!text) {
+          var target = document.getElementById(btn.getAttribute("data-copy-target"));
+          text = target ? target.textContent.trim() : "";
+        }
+        if (!text || !navigator.clipboard) return;
+        navigator.clipboard.writeText(text).then(function () {
+          btn.textContent = tr("common.words.copied", "Copied");
+          setTimeout(function () { btn.textContent = tr("common.words.copy", "Copy"); }, 1500);
+        });
+      });
+    });
+  })();
+</script>
+</body>
+</html>

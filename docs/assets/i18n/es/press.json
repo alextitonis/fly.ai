@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "title": "Kit de prensa — logos, colores, tipografía y descripciones de fly.ai",
+    "description": "Kit de prensa oficial y recursos de marca de fly.ai y del token $FLYAI: logos descargables en SVG y PNG (fondo claro y oscuro), colores hexadecimales, tipografía Outfit, descripciones, capturas y detalles del contrato."
+  },
+  "head": {
+    "eyebrow": "Kit de prensa",
+    "title": "Recursos de marca, descripciones y capturas",
+    "lede": "Logos, colores, tipografía, descripciones oficiales y capturas de pantalla para periodistas, sitios de listado y socios que cubran <b>fly.ai</b> y el token <b>$FLYAI</b>. Todo el material aquí es de libre uso al referenciar a fly.ai."
+  },
+  "toc": {
+    "about": "Descripciones",
+    "logos": "Logos",
+    "colors": "Colores de marca",
+    "font": "Tipografía",
+    "screenshots": "Capturas",
+    "token": "Token y contrato"
+  },
+  "about": {
+    "eyebrow": "Textos oficiales",
+    "title": "Sobre fly.ai",
+    "lede": "Descripciones estándar de una línea y de un párrafo para artículos, directorios y páginas de socios. Por favor, refiérete a $FLYAI como el token del proyecto y no añadas promesas de precio ni de rentabilidad.",
+    "oneline": {
+      "tag": "UNA LÍNEA",
+      "title": "Descripción corta",
+      "text": "fly.ai ejecuta en código abierto el conectoma cerebral completo de 166.700 neuronas de una mosca de la fruta adulta — impulsando las Trader Flies, el Fly Desk y una simulación 3-D en Robinhood Chain, financiado por el token $FLYAI."
+    },
+    "para": {
+      "tag": "UN PÁRRAFO",
+      "title": "Descripción completa",
+      "text": "fly.ai es una simulación de código abierto del sistema nervioso central completo de un macho adulto de mosca de la fruta (Drosophila melanogaster): 166.700 neuronas y 25,6 millones de conexiones sinápticas mapeadas en el conectoma MaleCNS v1.0. No hay ningún modelo de lenguaje ni estrategia escrita a mano dentro del cerebro: las tareas se conectan directamente a las neuronas sensoriales de la mosca y leen las órdenes de movimiento en sus neuronas motoras descendentes. En Robinhood Chain, conectomas reales de mosca operan desde billeteras propias como Trader Flies (1.000 NFT génesis), operan un bote compartido en el Fly Desk, publican a partir de su actividad neuronal en Flybook y viven en una simulación de mundo 3-D. Cualquiera puede ejecutar el cerebro en su propia máquina con pip install flybrain bajo la Licencia MIT. $FLYAI es el token en Robinhood Chain que financia la investigación y el cómputo."
+    }
+  },
+  "facts": {
+    "title": "Datos clave",
+    "k": {
+      "project": "proyecto",
+      "website": "sitio web",
+      "connectome": "conectoma",
+      "package": "paquete python",
+      "token": "token",
+      "nfts": "NFT génesis",
+      "x": "X / Twitter",
+      "github": "repositorio"
+    },
+    "v": {
+      "connectome": "MaleCNS v1.0 · 166.700 neuronas · 25,6M sinapsis",
+      "nfts": "1.000 Trader Flies"
+    }
+  },
+  "logos": {
+    "eyebrow": "Logos",
+    "title": "Descarga de logos",
+    "lede": "Usa el logotipo blanco sobre fondos oscuros y el logotipo negro sobre fondos claros. Mantén un espacio libre alrededor del logo y no cambies el color verde menta de la mosca.",
+    "wordmarkDark": {
+      "title": "Logotipo — Fondo oscuro",
+      "desc": "Logo principal para superficies negras y oscuras. Texto blanco en Outfit con la mosca verde menta brillante."
+    },
+    "wordmarkLight": {
+      "title": "Logotipo — Fondo claro",
+      "desc": "Para superficies blancas y claras. Texto en negro puro con la mosca en verde menta intenso."
+    },
+    "iconDark": {
+      "title": "Icono de la mosca — Oscuro",
+      "desc": "Insignia cuadrada y avatar sobre fondo negro para listados de tokens, wallets y perfiles sociales."
+    },
+    "iconLight": {
+      "title": "Icono de la mosca — Claro",
+      "desc": "Insignia cuadrada sobre blanco roto para directorios e insignias en modo claro."
+    }
+  },
+  "colors": {
+    "eyebrow": "Paleta",
+    "title": "Colores de marca",
+    "lede": "Negro puro, blanco roto nítido y el brillo verde menta de la mosca. El rojo (#ff5b4f) se reserva únicamente para pérdidas y advertencias, nunca como color de marca.",
+    "mint": {
+      "name": "Fly Mint",
+      "desc": "Acento principal de la marca, el símbolo de la mosca, indicadores en vivo y botones principales."
+    },
+    "mintHi": {
+      "name": "Mint Highlight",
+      "desc": "Resaltados al pasar el cursor, llamadas de contrato y detalles brillantes del tórax."
+    },
+    "mintDeep": {
+      "name": "Mint Deep",
+      "desc": "Tono menta profundo para el relleno de las alas y contraste sobre fondos claros."
+    },
+    "bg": {
+      "name": "Negro puro",
+      "desc": "Fondo principal del lienzo en todo flyaiworld.com."
+    },
+    "panel": {
+      "name": "Panel oscuro",
+      "desc": "Superficie de tarjetas y paneles, combinada con bordes #1a1d1c (--line)."
+    },
+    "text": {
+      "name": "Blanco roto",
+      "desc": "Texto principal, encabezados y logotipo sobre superficies oscuras."
+    },
+    "muted": {
+      "name": "Gris tenue",
+      "desc": "Texto secundario, pies de foto y descripciones de tablas."
+    },
+    "line": {
+      "name": "Línea divisoria",
+      "desc": "Divisores finos, líneas de tablas y bordes sutiles de tarjetas."
+    }
+  },
+  "font": {
+    "eyebrow": "Tipografía",
+    "title": "Fuente — Outfit",
+    "lede": "Los titulares, las cifras destacadas y el logotipo de fly.ai usan Outfit. El cuerpo de texto usa Inter y los datos en cadena usan JetBrains Mono.",
+    "primary": {
+      "tag": "TITULARES Y LOGOTIPO",
+      "desc": "Tipografía sans-serif geométrica utilizada para el logo de fly.ai, títulos de página, encabezados de sección y métricas clave.",
+      "cta": "Outfit en Google Fonts"
+    },
+    "secondary": {
+      "tag": "CUERPO Y MONOESPACIADA",
+      "title": "Fuentes de apoyo",
+      "inter": "<b>Inter</b> (400, 500, 600) — texto de cuerpo, navegación y controles de interfaz.",
+      "mono": "<b>JetBrains Mono</b> (400, 500) — direcciones de contrato, conteo de neuronas, tablas y vistas de terminal."
+    }
+  },
+  "shots": {
+    "eyebrow": "Multimedia",
+    "title": "Capturas del sitio",
+    "lede": "Capturas de pantalla en alta resolución de la terminal de trading en vivo, el panel del conectoma de 166.700 neuronas, la simulación 3-D y Fly Maker.",
+    "download": "Descargar",
+    "s1": {
+      "title": "Panel del conectoma de 166.700 neuronas",
+      "desc": "El conectoma de la mosca de la fruta macho adulta (MaleCNS v1.0) ejecutándose en vivo: entradas sensoriales a la izquierda, neuronas disparando y órdenes motoras descendentes a la derecha."
+    },
+    "s2": {
+      "title": "Fly Terminal — trading en cadena en vivo",
+      "desc": "Cerebros reales de mosca operando en vivo en Robinhood Chain: Fly Wallets activas, flujo de actividad, núcleo del conectoma y rendimiento de 7 días."
+    },
+    "s3": {
+      "title": "Simulación del mundo de moscas en 3-D",
+      "desc": "Moscas guiadas por circuitos neuronales buscando alimento, siguiendo plumas de olor y volando en un mundo 3-D compartido en flyaiworld.com/simulation."
+    },
+    "s4": {
+      "title": "Fly Maker — creación de mercado en Robinhood Chain",
+      "desc": "Creación de mercado automatizada por bandas de liquidez con salvaguardas en cadena para tokens en GIGA DEX."
+    }
+  },
+  "token": {
+    "eyebrow": "Verificación en cadena",
+    "title": "Token $FLYAI y dirección del contrato",
+    "lede": "La dirección del contrato de $FLYAI en Robinhood Chain se publica en <a href=\"https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md\" target=\"_blank\" rel=\"noopener\">TOKEN.md</a>, en este sitio y en <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">@flydotai</a> — en ningún otro lugar. Trata cualquier otra dirección como una estafa.",
+    "cardTitle": "Contrato oficial y documentación",
+    "cardBody": "Las condiciones completas de lanzamiento, el suministro, el bloqueo permanente de liquidez en Pons, los hashes de las transacciones de quema y los avisos legales están documentados en <a href=\"https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md\" target=\"_blank\" rel=\"noopener\"><b>TOKEN.md</b></a> en la raíz del repositorio.",
+    "caLabel": "Robinhood Chain",
+    "ctaTokenMd": "Leer TOKEN.md en GitHub",
+    "ctaTokenPage": "Página del token"
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "title": "Press kit — fly.ai logos, colors, font and descriptions",
+    "description": "Official press kit and brand assets for fly.ai and the $FLYAI token: downloadable SVG and PNG logos (light and dark), brand hex colors, Outfit font, descriptions, screenshots, and contract details."
+  },
+  "head": {
+    "eyebrow": "Press kit",
+    "title": "Brand assets, descriptions and screenshots",
+    "lede": "Logos, colors, typography, official descriptions and screenshots for writers, listing sites and partners covering <b>fly.ai</b> and the <b>$FLYAI</b> token. Everything here is free to use when referencing fly.ai."
+  },
+  "toc": {
+    "about": "Descriptions",
+    "logos": "Logos",
+    "colors": "Brand colors",
+    "font": "Typography",
+    "screenshots": "Screenshots",
+    "token": "Token & contract"
+  },
+  "about": {
+    "eyebrow": "Boilerplate",
+    "title": "About fly.ai",
+    "lede": "Standard one-line and one-paragraph descriptions for articles, directories and partner pages. Please refer to $FLYAI as the project token and do not add price or return promises.",
+    "oneline": {
+      "tag": "ONE LINE",
+      "title": "Short description",
+      "text": "fly.ai runs the complete 166,700-neuron brain connectome of an adult fruit fly open source — powering Trader Flies, the Fly Desk and a 3-D simulation on Robinhood Chain, funded by the $FLYAI token."
+    },
+    "para": {
+      "tag": "ONE PARAGRAPH",
+      "title": "Full overview",
+      "text": "fly.ai is an open-source simulation of the complete central nervous system of an adult male fruit fly (Drosophila melanogaster): 166,700 neurons and 25.6 million synaptic connections mapped in the MaleCNS v1.0 connectome. There is no language model or hand-written policy inside the brain — tasks connect directly to the fly's sensory neurons and read movement commands from its descending neurons. On Robinhood Chain, real fruit-fly connectomes trade from personal wallets as Trader Flies (1,000 genesis NFTs), trade a shared pot on the Fly Desk, post from neural activity on Flybook, and live in a 3-D world simulation. Anyone can run the brain on their own machine with pip install flybrain under the MIT License. $FLYAI is the token on Robinhood Chain that funds the research and compute."
+    }
+  },
+  "facts": {
+    "title": "Quick facts",
+    "k": {
+      "project": "project",
+      "website": "website",
+      "connectome": "connectome",
+      "package": "python package",
+      "token": "token",
+      "nfts": "genesis NFTs",
+      "x": "X / Twitter",
+      "github": "repository"
+    },
+    "v": {
+      "connectome": "MaleCNS v1.0 · 166,700 neurons · 25.6M synapses",
+      "nfts": "1,000 Trader Flies"
+    }
+  },
+  "logos": {
+    "eyebrow": "Logos",
+    "title": "Logo downloads",
+    "lede": "Use the white wordmark on dark backgrounds and the black wordmark on light backgrounds. Keep clear space around the logo and do not recolor the mint fly.",
+    "wordmarkDark": {
+      "title": "Wordmark — Dark background",
+      "desc": "Primary logo for black and dark surfaces. White Outfit wordmark with the glowing mint fly."
+    },
+    "wordmarkLight": {
+      "title": "Wordmark — Light background",
+      "desc": "For white and light surfaces. Pure black wordmark with deep mint fly."
+    },
+    "iconDark": {
+      "title": "Fly icon — Dark",
+      "desc": "Square badge and avatar mark on black for token listings, wallets and social profiles."
+    },
+    "iconLight": {
+      "title": "Fly icon — Light",
+      "desc": "Square badge mark on off-white for light-mode directories and badges."
+    }
+  },
+  "colors": {
+    "eyebrow": "Palette",
+    "title": "Brand colors",
+    "lede": "Pure black, crisp off-white, and the fly's mint glow. Red (#ff5b4f) is reserved for losses and warnings only, never as the brand color.",
+    "mint": {
+      "name": "Fly Mint",
+      "desc": "Primary brand accent, the fly mark, live indicators and primary buttons."
+    },
+    "mintHi": {
+      "name": "Mint Highlight",
+      "desc": "Hover highlights, contract callouts and bright thorax accents."
+    },
+    "mintDeep": {
+      "name": "Mint Deep",
+      "desc": "Deep mint shade for wing fills and light-background contrast."
+    },
+    "bg": {
+      "name": "Pure Black",
+      "desc": "Primary canvas background across flyaiworld.com."
+    },
+    "panel": {
+      "name": "Panel Dark",
+      "desc": "Card and panel surface, paired with #1a1d1c (--line) borders."
+    },
+    "text": {
+      "name": "Off-White",
+      "desc": "Primary body copy, headings and wordmark on dark surfaces."
+    },
+    "muted": {
+      "name": "Muted Grey",
+      "desc": "Secondary text, captions and table descriptions."
+    },
+    "line": {
+      "name": "Rule Line",
+      "desc": "Hairline dividers, table rules and subtle card borders."
+    }
+  },
+  "font": {
+    "eyebrow": "Typography",
+    "title": "Font — Outfit",
+    "lede": "Headlines, display numbers and the fly.ai wordmark are set in Outfit. Body copy uses Inter and on-chain data uses JetBrains Mono.",
+    "primary": {
+      "tag": "DISPLAY & WORDMARK",
+      "desc": "Geometric sans-serif used for the fly.ai logo, page titles, section headings and key metrics.",
+      "cta": "Outfit on Google Fonts"
+    },
+    "secondary": {
+      "tag": "BODY & MONOSPACE",
+      "title": "Supporting fonts",
+      "inter": "<b>Inter</b> (400, 500, 600) — body text, navigation and UI controls.",
+      "mono": "<b>JetBrains Mono</b> (400, 500) — contract addresses, neuron counts, tables and terminal views."
+    }
+  },
+  "shots": {
+    "eyebrow": "Media",
+    "title": "Site screenshots",
+    "lede": "High-resolution screenshots of the live trading terminal, the 166,700-neuron connectome dashboard, the 3-D simulation and Fly Maker.",
+    "download": "Download",
+    "s1": {
+      "title": "166,700-neuron connectome dashboard",
+      "desc": "The adult male fruit-fly connectome (MaleCNS v1.0) running live: sensory inputs on the left, spiking neurons and descending motor commands on the right."
+    },
+    "s2": {
+      "title": "Fly Terminal — live on-chain trading",
+      "desc": "Real fly brains trading live on Robinhood Chain: active Fly Wallets, activity stream, connectome core and 7-day performance."
+    },
+    "s3": {
+      "title": "3-D fly world simulation",
+      "desc": "Flies driven by neural circuits foraging, tracking odor plumes and flying in a shared 3-D world at flyaiworld.com/simulation."
+    },
+    "s4": {
+      "title": "Fly Maker — market making on Robinhood Chain",
+      "desc": "Automated liquidity band market making with on-chain guardrails for tokens on GIGA DEX."
+    }
+  },
+  "token": {
+    "eyebrow": "On-chain verification",
+    "title": "$FLYAI token & contract address",
+    "lede": "The $FLYAI contract address on Robinhood Chain is published in <a href=\"https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md\" target=\"_blank\" rel=\"noopener\">TOKEN.md</a>, on this site and on <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">@flydotai</a> — nowhere else. Treat any other address as a scam.",
+    "cardTitle": "Official contract & documentation",
+    "cardBody": "Full launch terms, supply, permanent Pons liquidity lock, burn transaction hashes and disclaimers are documented in <a href=\"https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md\" target=\"_blank\" rel=\"noopener\"><b>TOKEN.md</b></a> in the root of the repository.",
+    "caLabel": "Robinhood Chain",
+    "ctaTokenMd": "Read TOKEN.md on GitHub",
+    "ctaTokenPage": "Token page"
+  }
+}

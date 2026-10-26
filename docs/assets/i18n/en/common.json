@@ -254,9 +254,14 @@
     "scan": {
       "label": "Fly Scan",
       "desc": "Check a token or a site before you sign"
+    },
+    "press": {
+      "label": "Press kit",
+      "desc": "Logos, colors, fonts, screenshots, and project descriptions"
     }
   },
   "footer": {
+    "press": "Press kit",
     "license": "MIT License",
     "credit": "Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed."
   },

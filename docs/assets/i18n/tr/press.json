@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "title": "Basın kiti — fly.ai logoları, renkleri, yazı tipi ve açıklamaları",
+    "description": "fly.ai ve $FLYAI tokeni için resmi basın kiti ve marka varlıkları: indirilebilir SVG ve PNG logolar (açık ve koyu), marka hex renkleri, Outfit yazı tipi, açıklamalar, ekran görüntüleri ve kontrat bilgileri."
+  },
+  "head": {
+    "eyebrow": "Basın kiti",
+    "title": "Marka varlıkları, açıklamalar ve ekran görüntüleri",
+    "lede": "<b>fly.ai</b> ve <b>$FLYAI</b> tokenini ele alan yazarlar, listeleme siteleri ve iş ortakları için logolar, renkler, tipografi, resmi açıklamalar ve ekran görüntüleri. Buradaki her şey fly.ai'ye atıfta bulunurken ücretsiz olarak kullanılabilir."
+  },
+  "toc": {
+    "about": "Açıklamalar",
+    "logos": "Logolar",
+    "colors": "Marka renkleri",
+    "font": "Tipografi",
+    "screenshots": "Ekran görüntüleri",
+    "token": "Token ve kontrat"
+  },
+  "about": {
+    "eyebrow": "Standart metinler",
+    "title": "fly.ai hakkında",
+    "lede": "Makaleler, dizinler ve ortak sayfaları için standart tek satırlık ve tek paragraflık açıklamalar. Lütfen $FLYAI'den proje tokeni olarak bahsedin ve fiyat veya getiri vaadi eklemeyin.",
+    "oneline": {
+      "tag": "TEK SATIR",
+      "title": "Kısa açıklama",
+      "text": "fly.ai, yetişkin bir meyve sineğinin 166.700 nöronluk tam beyin konektomunu açık kaynak olarak çalıştırır — $FLYAI tokeni tarafından desteklenen proje, Robinhood Chain üzerinde Trader Flies, Fly Desk ve 3B simülasyona güç verir."
+    },
+    "para": {
+      "tag": "TEK PARAGRAF",
+      "title": "Tam genel bakış",
+      "text": "fly.ai, yetişkin bir erkek meyve sineğinin (Drosophila melanogaster) tam merkezi sinir sisteminin açık kaynaklı bir simülasyonudur: MaleCNS v1.0 konektomunda haritalanan 166.700 nöron ve 25,6 milyon sinaptik bağlantıdan oluşur. Beynin içinde dil modeli veya elle yazılmış bir strateji yoktur — görevler doğrudan sineğin duyusal nöronlarına bağlanır ve hareket komutlarını inen motor nöronlarından okur. Robinhood Chain üzerinde gerçek meyve sineği konektomları Trader Flies (1.000 genesis NFT) olarak kişisel cüzdanlarından işlem yapar, Fly Desk'te ortak bir havuzu yönetir, Flybook'ta sinirsel aktiviteden gönderiler paylaşır ve 3B dünya simülasyonunda yaşar. İsteyen herkes MIT Lisansı altında pip install flybrain komutuyla beyni kendi bilgisayarında çalıştırabilir. $FLYAI, araştırma ve hesaplama gücünü finanse eden Robinhood Chain üzerindeki tokendir."
+    }
+  },
+  "facts": {
+    "title": "Hızlı bilgiler",
+    "k": {
+      "project": "proje",
+      "website": "web sitesi",
+      "connectome": "konektom",
+      "package": "python paketi",
+      "token": "token",
+      "nfts": "genesis NFT'ler",
+      "x": "X / Twitter",
+      "github": "depo"
+    },
+    "v": {
+      "connectome": "MaleCNS v1.0 · 166.700 nöron · 25,6M sinaps",
+      "nfts": "1.000 Trader Flies"
+    }
+  },
+  "logos": {
+    "eyebrow": "Logolar",
+    "title": "Logo indirmeleri",
+    "lede": "Koyu arka planlarda beyaz yazılı logoyu, açık arka planlarda siyah yazılı logoyu kullanın. Logonun etrafında boşluk bırakın ve nane yeşili sineğin rengini değiştirmeyin.",
+    "wordmarkDark": {
+      "title": "Yazılı logo — Koyu arka plan",
+      "desc": "Siyah ve koyu yüzeyler için birincil logo. Parlayan nane yeşili sinek ile beyaz Outfit yazılı logo."
+    },
+    "wordmarkLight": {
+      "title": "Yazılı logo — Açık arka plan",
+      "desc": "Beyaz ve açık yüzeyler için. Koyu nane yeşili sinek ile saf siyah yazılı logo."
+    },
+    "iconDark": {
+      "title": "Sinek ikonu — Koyu",
+      "desc": "Token listelemeleri, cüzdanlar ve sosyal profiller için siyah üzerinde kare rozet ve avatar işareti."
+    },
+    "iconLight": {
+      "title": "Sinek ikonu — Açık",
+      "desc": "Açık mod dizinleri ve rozetler için kırık beyaz üzerinde kare rozet işareti."
+    }
+  },
+  "colors": {
+    "eyebrow": "Palet",
+    "title": "Marka renkleri",
+    "lede": "Saf siyah, net kırık beyaz ve sineğin nane yeşili ışıltısı. Kırmızı (#ff5b4f) yalnızca kayıplar ve uyarılar için ayrılmıştır, asla marka rengi olarak kullanılmaz.",
+    "mint": {
+      "name": "Fly Mint",
+      "desc": "Birincil marka vurgusu, sinek işareti, canlı göstergeler ve ana düğmeler."
+    },
+    "mintHi": {
+      "name": "Mint Highlight",
+      "desc": "Üzerine gelme vurguları, kontrat adresleri ve parlak göğüs detayları."
+    },
+    "mintDeep": {
+      "name": "Mint Deep",
+      "desc": "Kanat dolguları ve açık arka plan kontrastı için koyu nane tonu."
+    },
+    "bg": {
+      "name": "Saf Siyah",
+      "desc": "flyaiworld.com genelinde birincil tuval arka planı."
+    },
+    "panel": {
+      "name": "Panel Koyu",
+      "desc": "#1a1d1c (--line) kenarlıklarla eşleştirilen kart ve panel yüzeyi."
+    },
+    "text": {
+      "name": "Kırık Beyaz",
+      "desc": "Koyu yüzeylerde birincil gövde metni, başlıklar ve yazılı logo."
+    },
+    "muted": {
+      "name": "Soluk Gri",
+      "desc": "İkincil metin, alt yazılar ve tablo açıklamaları."
+    },
+    "line": {
+      "name": "Çizgi Rengi",
+      "desc": "İnce ayırıcılar, tablo çizgileri ve kart kenarlıkları."
+    }
+  },
+  "font": {
+    "eyebrow": "Tipografi",
+    "title": "Yazı tipi — Outfit",
+    "lede": "Başlıklar, büyük sayılar ve fly.ai yazılı logosu Outfit ile dizilir. Gövde metni Inter, zincir üstü veriler ise JetBrains Mono kullanır.",
+    "primary": {
+      "tag": "BAŞLIK VE LOGO",
+      "desc": "fly.ai logosu, sayfa başlıkları, bölüm başlıkları ve temel metrikler için kullanılan geometrik sans-serif yazı tipi.",
+      "cta": "Google Fonts'ta Outfit"
+    },
+    "secondary": {
+      "tag": "GÖVDE VE EŞ ARALIKLI",
+      "title": "Yardımcı yazı tipleri",
+      "inter": "<b>Inter</b> (400, 500, 600) — gövde metni, gezinme çubuğu ve arayüz kontrolleri.",
+      "mono": "<b>JetBrains Mono</b> (400, 500) — kontrat adresleri, nöron sayıları, tablolar ve terminal görünümleri."
+    }
+  },
+  "shots": {
+    "eyebrow": "Medya",
+    "title": "Site ekran görüntüleri",
+    "lede": "Canlı işlem terminalinin, 166.700 nöronluk konektom kontrol panelinin, 3B simülasyonun ve Fly Maker'ın yüksek çözünürlüklü ekran görüntüleri.",
+    "download": "İndir",
+    "s1": {
+      "title": "166.700 nöronluk konektom paneli",
+      "desc": "Canlı çalışan yetişkin erkek meyve sineği konektomu (MaleCNS v1.0): solda duyusal girdiler, sağda ateşlenen nöronlar ve inen motor komutları."
+    },
+    "s2": {
+      "title": "Fly Terminal — canlı zincir üstü işlemler",
+      "desc": "Robinhood Chain üzerinde canlı işlem yapan gerçek sinek beyinleri: aktif Fly Wallet'lar, işlem akışı, konektom çekirdeği ve 7 günlük performans."
+    },
+    "s3": {
+      "title": "3B sinek dünyası simülasyonu",
+      "desc": "flyaiworld.com/simulation adresindeki ortak 3B dünyada sinir devreleriyle yönlendirilen, yiyecek arayan, koku bulutlarını izleyen ve uçan sinekler."
+    },
+    "s4": {
+      "title": "Fly Maker — Robinhood Chain'de piyasa yapıcılığı",
+      "desc": "GIGA DEX üzerindeki tokenler için zincir üstü koruma kurallarına sahip otomatik likidite bandı piyasa yapıcılığı."
+    }
+  },
+  "token": {
+    "eyebrow": "Zincir üstü doğrulama",
+    "title": "$FLYAI tokeni ve kontrat adresi",
+    "lede": "Robinhood Chain üzerindeki $FLYAI kontrat adresi yalnızca <a href=\"https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md\" target=\"_blank\" rel=\"noopener\">TOKEN.md</a> dosyasında, bu sitede ve <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">@flydotai</a> hesabında yayınlanır — başka hiçbir yerde yoktur. Diğer tüm adresleri dolandırıcılık olarak kabul edin.",
+    "cardTitle": "Resmi kontrat ve belgeler",
+    "cardBody": "Tam lansman koşulları, arz, kalıcı Pons likidite kilidi, yakım işlemi karma değerleri ve yasal uyarılar deponun kök dizinindeki <a href=\"https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md\" target=\"_blank\" rel=\"noopener\"><b>TOKEN.md</b></a> dosyasında belgelenmiştir.",
+    "caLabel": "Robinhood Chain",
+    "ctaTokenMd": "GitHub'da TOKEN.md'yi oku",
+    "ctaTokenPage": "Token sayfası"
+  }
+}

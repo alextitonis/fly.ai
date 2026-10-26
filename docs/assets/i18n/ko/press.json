@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "title": "프레스 킷 — fly.ai 로고, 브랜드 컬러, 폰트 및 소개",
+    "description": "fly.ai 및 $FLYAI 토큰 공식 프레스 킷과 브랜드 자산: 다운로드 가능한 SVG 및 PNG 로고(라이트/다크), 브랜드 헥스 컬러, Outfit 폰트, 공식 소개문, 스크린샷 및 컨트랙트 정보."
+  },
+  "head": {
+    "eyebrow": "프레스 킷",
+    "title": "브랜드 자산, 소개 및 스크린샷",
+    "lede": "<b>fly.ai</b>와 <b>$FLYAI</b> 토큰을 다루는 기자, 리스팅 사이트 및 파트너를 위한 로고, 컬러, 타이포그래피, 공식 설명문 및 스크린샷입니다. fly.ai를 언급할 때 자유롭게 사용할 수 있습니다."
+  },
+  "toc": {
+    "about": "프로젝트 소개",
+    "logos": "로고",
+    "colors": "브랜드 컬러",
+    "font": "타이포그래피",
+    "screenshots": "스크린샷",
+    "token": "토큰 및 컨트랙트"
+  },
+  "about": {
+    "eyebrow": "공식 소개문",
+    "title": "fly.ai 소개",
+    "lede": "기사, 디렉토리 및 파트너 페이지용 표준 한 줄 소개와 한 문단 소개입니다. $FLYAI는 항상 프로젝트 토큰으로 표기해 주시고, 가격이나 수익에 대한 약속을 덧붙이지 마세요.",
+    "oneline": {
+      "tag": "한 줄 소개",
+      "title": "짧은 설명",
+      "text": "fly.ai는 성체 초파리의 166,700개 뉴런 뇌 커넥톰 전체를 오픈 소스로 실행하며, $FLYAI 토큰의 자금 지원으로 Robinhood Chain에서 Trader Flies, Fly Desk 및 3D 시뮬레이션을 구동합니다."
+    },
+    "para": {
+      "tag": "한 문단 소개",
+      "title": "전체 개요",
+      "text": "fly.ai는 성체 수컷 초파리(Drosophila melanogaster)의 중추신경계 전체를 구현한 오픈 소스 시뮬레이션으로, MaleCNS v1.0 커넥톰에 매핑된 166,700개의 뉴런과 2,560만 개의 시냅스 연결로 이루어져 있습니다. 뇌 안에는 언어 모델이나 수동으로 작성된 전략이 없으며, 작업은 초파리의 감각 뉴런에 직접 연결되고 하행 운동 뉴런에서 움직임 명령을 읽어옵니다. Robinhood Chain에서 실제 초파리 커넥톰은 Trader Flies(1,000개의 제네시스 NFT)로서 개인 지갑에서 거래하고, Fly Desk에서 공동 팟을 거래하며, Flybook에서 신경 활동으로 게시물을 올리고, 3D 월드 시뮬레이션에서 살아갑니다. 누구나 MIT 라이선스 하에 pip install flybrain으로 자신의 컴퓨터에서 뇌를 실행할 수 있습니다. $FLYAI는 연구와 컴퓨팅 자금을 지원하는 Robinhood Chain의 토큰입니다."
+    }
+  },
+  "facts": {
+    "title": "핵심 정보",
+    "k": {
+      "project": "프로젝트",
+      "website": "웹사이트",
+      "connectome": "커넥톰",
+      "package": "파이썬 패키지",
+      "token": "토큰",
+      "nfts": "제네시스 NFT",
+      "x": "X / Twitter",
+      "github": "저장소"
+    },
+    "v": {
+      "connectome": "MaleCNS v1.0 · 166,700개 뉴런 · 2,560만 시냅스",
+      "nfts": "1,000 Trader Flies"
+    }
+  },
+  "logos": {
+    "eyebrow": "로고",
+    "title": "로고 다운로드",
+    "lede": "어두운 배경에는 흰색 워드마크를, 밝은 배경에는 검은색 워드마크를 사용하세요. 로고 주변의 여백을 유지하고 민트색 파리의 색상을 변경하지 마세요.",
+    "wordmarkDark": {
+      "title": "워드마크 — 다크 배경",
+      "desc": "검은색 및 어두운 표면을 위한 기본 로고입니다. 빛나는 민트색 파리와 흰색 Outfit 워드마크."
+    },
+    "wordmarkLight": {
+      "title": "워드마크 — 라이트 배경",
+      "desc": "흰색 및 밝은 표면을 위한 로고입니다. 짙은 민트색 파리와 순수 검은색 워드마크."
+    },
+    "iconDark": {
+      "title": "파리 아이콘 — 다크",
+      "desc": "토큰 리스팅, 지갑 및 소셜 프로필을 위한 검은색 배경의 정사각형 배지 마크입니다."
+    },
+    "iconLight": {
+      "title": "파리 아이콘 — 라이트",
+      "desc": "라이트 모드 디렉토리 및 배지를 위한 오프화이트 배경의 정사각형 마크입니다."
+    }
+  },
+  "colors": {
+    "eyebrow": "팔레트",
+    "title": "브랜드 컬러",
+    "lede": "순수한 블랙, 선명한 오프화이트, 그리고 파리의 민트빛 글로우. 레드(#ff5b4f)는 손실 및 경고 표시에만 사용하며 브랜드 컬러로 사용하지 않습니다.",
+    "mint": {
+      "name": "플라이 민트",
+      "desc": "기본 브랜드 포인트, 파리 마크, 라이브 표시기 및 주요 버튼."
+    },
+    "mintHi": {
+      "name": "민트 하이라이트",
+      "desc": "호버 효과, 컨트랙트 강조 및 밝은 흉부 디테일."
+    },
+    "mintDeep": {
+      "name": "민트 딥",
+      "desc": "날개 채우기 및 밝은 배경 대비를 위한 깊은 민트 색상."
+    },
+    "bg": {
+      "name": "퓨어 블랙",
+      "desc": "flyaiworld.com 전체의 기본 캔버스 배경."
+    },
+    "panel": {
+      "name": "패널 다크",
+      "desc": "#1a1d1c(--line) 테두리와 함께 쓰이는 카드 및 패널 표면."
+    },
+    "text": {
+      "name": "오프화이트",
+      "desc": "어두운 표면의 기본 본문, 제목 및 워드마크."
+    },
+    "muted": {
+      "name": "뮤트 그레이",
+      "desc": "보조 텍스트, 캡션 및 테이블 설명."
+    },
+    "line": {
+      "name": "룰 라인",
+      "desc": "구분선, 테이블 선 및 카드 테두리."
+    }
+  },
+  "font": {
+    "eyebrow": "타이포그래피",
+    "title": "폰트 — Outfit",
+    "lede": "헤드라인, 주요 숫자 및 fly.ai 워드마크는 Outfit을 사용합니다. 본문은 Inter를, 온체인 데이터는 JetBrains Mono를 사용합니다.",
+    "primary": {
+      "tag": "디스플레이 및 워드마크",
+      "desc": "fly.ai 로고, 페이지 제목, 섹션 헤딩 및 핵심 지표에 사용되는 기하학적 산세리프 서체입니다.",
+      "cta": "Google Fonts에서 Outfit 보기"
+    },
+    "secondary": {
+      "tag": "본문 및 모노스페이스",
+      "title": "보조 폰트",
+      "inter": "<b>Inter</b> (400, 500, 600) — 본문 텍스트, 내비게이션 및 UI 컨트롤.",
+      "mono": "<b>JetBrains Mono</b> (400, 500) — 컨트랙트 주소, 뉴런 수, 테이블 및 터미널 뷰."
+    }
+  },
+  "shots": {
+    "eyebrow": "미디어",
+    "title": "사이트 스크린샷",
+    "lede": "실시간 트레이딩 터미널, 166,700개 뉴런 커넥톰 대시보드, 3D 시뮬레이션 및 Fly Maker의 고해상도 스크린샷입니다.",
+    "download": "다운로드",
+    "s1": {
+      "title": "166,700개 뉴런 커넥톰 대시보드",
+      "desc": "실시간으로 작동하는 성체 수컷 초파리 커넥톰(MaleCNS v1.0): 왼쪽은 감각 입력, 오른쪽은 발화하는 뉴런과 하행 운동 명령입니다."
+    },
+    "s2": {
+      "title": "Fly 터미널 — 실시간 온체인 트레이딩",
+      "desc": "Robinhood Chain에서 실시간 거래하는 실제 파리 뇌: 활성 Fly Wallet, 활동 스트림, 커넥톰 코어 및 7일 성과."
+    },
+    "s3": {
+      "title": "3D 파리 월드 시뮬레이션",
+      "desc": "flyaiworld.com/simulation의 공유 3D 세계에서 신경 회로로 움직이며 먹이를 찾고 냄새 기둥을 추적하며 비행하는 파리들."
+    },
+    "s4": {
+      "title": "Fly Maker — Robinhood Chain 마켓 메이킹",
+      "desc": "GIGA DEX의 토큰을 위한 온체인 안전장치가 적용된 자동 유동성 밴드 마켓 메이킹."
+    }
+  },
+  "token": {
+    "eyebrow": "온체인 검증",
+    "title": "$FLYAI 토큰 및 컨트랙트 주소",
+    "lede": "Robinhood Chain의 $FLYAI 컨트랙트 주소는 <a href=\"https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md\" target=\"_blank\" rel=\"noopener\">TOKEN.md</a>, 이 사이트, 그리고 <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">@flydotai</a>에만 공개됩니다. 다른 모든 주소는 스캠으로 간주하세요.",
+    "cardTitle": "공식 컨트랙트 및 문서",
+    "cardBody": "전체 출시 조건, 공급량, 영구적인 Pons 유동성 잠금, 소각 트랜잭션 해시 및 면책 조항은 저장소 루트의 <a href=\"https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md\" target=\"_blank\" rel=\"noopener\"><b>TOKEN.md</b></a>에 문서화되어 있습니다.",
+    "caLabel": "Robinhood Chain",
+    "ctaTokenMd": "GitHub에서 TOKEN.md 읽기",
+    "ctaTokenPage": "토큰 페이지"
+  }
+}

@@ -254,9 +254,14 @@
     "scan": {
       "label": "Fly Scan",
       "desc": "İmzalamadan önce token ya da siteyi kontrol et"
+    },
+    "press": {
+      "label": "Basın kiti",
+      "desc": "Logolar, renkler, yazı tipleri, ekran görüntüleri ve proje açıklamaları"
     }
   },
   "footer": {
+    "press": "Basın kiti",
     "license": "MIT Lisansı",
     "credit": "Konektom verisi: FlyEM (HHMI Janelia) ve iş birlikçilerinden MaleCNS v1.0, CC BY 4.0 kapsamında kullanılmıştır. Kod MIT lisanslıdır."
   },

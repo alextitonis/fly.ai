@@ -254,9 +254,14 @@
     "scan": {
       "label": "Fly Scan",
       "desc": "서명하기 전에 토큰이나 사이트 확인"
+    },
+    "press": {
+      "label": "프레스 킷",
+      "desc": "로고, 브랜드 색상, 폰트, 스크린샷 및 프로젝트 소개"
     }
   },
   "footer": {
+    "press": "프레스 킷",
     "license": "MIT 라이선스",
     "credit": "커넥톰 데이터: FlyEM(HHMI Janelia) 및 공동 연구자의 MaleCNS v1.0, CC BY 4.0에 따라 사용. 코드는 MIT 라이선스."
   },

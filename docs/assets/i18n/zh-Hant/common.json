@@ -254,9 +254,14 @@
     "scan": {
       "label": "Fly Scan",
       "desc": "簽名前檢查代幣或網站"
+    },
+    "press": {
+      "label": "媒體資料包",
+      "desc": "標誌、品牌配色、字體、截圖與專案介紹"
     }
   },
   "footer": {
+    "press": "媒體資料包",
     "license": "MIT 授權",
     "credit": "連接體資料：MaleCNS v1.0，由 FlyEM（HHMI Janelia）及合作者提供，依 CC BY 4.0 使用。程式碼採用 MIT 授權。"
   },
