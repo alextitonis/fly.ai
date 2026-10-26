@@ -1,30 +1,30 @@
 {
   "earn": {
-    "aria": "苍蝇如何赚钱",
+    "aria": "果蝇如何赚钱",
     "wallet": "Fly Wallet",
     "desk": "Fly Desk",
     "live": "已上线",
     "soon": "即将",
     "terminal": "终端",
-    "terminalText": "这只苍蝇钱包的一切动作，实时显示：每笔交易及发起它的部分、跳过的交易及原因、资金进出。每 15 秒刷新一次。",
-    "walletText": "每只苍蝇都有自己的钱包，只交易你放进去的钱。盈亏都留在这个钱包里，你可以在苍蝇的页面以 $FLYAI 取出。现已上线。",
-    "deskSoonText": "Fly Desk 是另一个共享交易台。它开始真实交易后，每周利润的一部分会按稀有度分给所有活跃的苍蝇，并在这里领取。它还没上线，下面的份额只是每只苍蝇将来能分到的比例——目前没有应付的钱。",
-    "deskLiveText": "Fly Desk 现在用资金池的一部分进行真实交易。开启分红后，每周利润的一部分会按稀有度分给所有活跃的苍蝇；在此之前，下面的份额是每只苍蝇将获得的部分。",
-    "deskText": "Fly Desk 是另一个共享交易台：每周利润的一部分按稀有度分给所有活跃的苍蝇。在这里领取你的苍蝇的收益。"
+    "terminalText": "这只果蝇钱包的一切动作，实时显示：每笔交易及发起它的部分、跳过的交易及原因、资金进出。每 15 秒刷新一次。",
+    "walletText": "每只果蝇都有自己的钱包，只交易你放进去的钱。盈亏都留在这个钱包里，你可以在果蝇的页面以 $FLYAI 取出。现已上线。",
+    "deskSoonText": "Fly Desk 是另一个共享交易台。它开始真实交易后，每周利润的一部分会按稀有度分给所有活跃的果蝇，并在这里领取。它还没上线，下面的份额只是每只果蝇将来能分到的比例——目前没有应付的钱。",
+    "deskLiveText": "Fly Desk 现在用资金池的一部分进行真实交易。开启分红后，每周利润的一部分会按稀有度分给所有活跃的果蝇；在此之前，下面的份额是每只果蝇将获得的部分。",
+    "deskText": "Fly Desk 是另一个共享交易台：每周利润的一部分按稀有度分给所有活跃的果蝇。在这里领取你的果蝇的收益。"
   },
   "traders": {
     "more": "再显示 {n} 个",
     "title": "你的 Trader Flies",
-    "connect": "连接钱包查看你的苍蝇。",
-    "loading": "正在查找你的苍蝇…",
+    "connect": "连接钱包查看你的果蝇。",
+    "loading": "正在查找你的果蝇…",
     "none": "这个钱包没有 Trader Fly。",
-    "getFly": "去 Fly Market 买一只苍蝇",
-    "count": "这个钱包里有 {n} 只。打开一只苍蝇查看它的钱包、设置和交易。",
+    "getFly": "去 Fly Market 买一只果蝇",
+    "count": "这个钱包里有 {n} 只。打开一只果蝇查看它的钱包、设置和交易。",
     "wallet": "钱包",
     "empty": "钱包为空——打开后充值",
     "funded": "钱包已充值 - 打开查看交易",
-    "tab": "我的苍蝇",
-    "copyPick": "选择你的哪只苍蝇来复制 {fly}。"
+    "tab": "我的果蝇",
+    "copyPick": "选择你的哪只果蝇来复制 {fly}。"
   },
   "nav": {
     "traders": "交易蝇",
@@ -37,9 +37,9 @@
     "home": "fly.ai ↗",
     "disconnect": "断开连接",
     "afterMint": "铸造结束后开放",
-    "pets": "Hardware NFTs",
+    "pets": "硬件 NFT",
     "pass": "FlightPass",
-    "inventory": "我的苍蝇",
+    "inventory": "我的果蝇",
     "leaderboard": "排行榜",
     "partner": "合作伙伴"
   },
@@ -68,7 +68,7 @@
   },
   "free": {
     "title": "免费铸造",
-    "rule": "持有 {amount} $FLYAI 的白名单钱包可免费铸造一只苍蝇（计入其 10 只之内）。持有不足的白名单钱包仍可提前铸造（前 2 小时），只是没有免费苍蝇。",
+    "rule": "持有 {amount} $FLYAI 的白名单钱包可免费铸造一只果蝇（计入其 10 只之内）。持有不足的白名单钱包仍可提前铸造（前 2 小时），只是没有免费果蝇。",
     "soFar": {
       "other": "目前已免费铸造 {count} 只。"
     },
@@ -78,7 +78,7 @@
     "listLater": "你持有 {bal} $FLYAI。白名单随铸造开放，届时再来查看。",
     "notListed": "这个钱包不在白名单上。",
     "yesLaunch": "你在白名单上，持有 {bal} $FLYAI。铸造开始后再来。",
-    "needMore": "你在白名单上：可以提前铸造。持有 {amount} $FLYAI 还能获得免费苍蝇（你持有 {bal}）。",
+    "needMore": "你在白名单上：可以提前铸造。持有 {amount} $FLYAI 还能获得免费果蝇（你持有 {bal}）。",
     "opensWithMint": "免费铸造会和正式铸造同时开放。",
     "claimed": "你已经铸造了你的免费果蝇。",
     "button": "你在白名单上 · 免费铸造 1 只",
@@ -98,8 +98,8 @@
     "time": "持有到期",
     "flat": "横盘不动",
     "pool_drain": "池子被抽干：已离场",
-    "fly_sold": "苍蝇已售出",
-    "funding": "为各部件注资",
+    "fly_sold": "果蝇已售出",
+    "funding": "分配策略模块资金",
     "house_buy": "官方买入",
     "fast_take_profit": "快速止盈",
     "fast_stop": "快速止损",
@@ -118,7 +118,7 @@
     "walletBug": "你的钱包应用自身出错了。请先查看钱包的活动记录：如果什么都没发出，请换一个钱包应用再试。"
   },
   "mint": {
-    "head": "由 1,000 只交易苍蝇组成的创世系列，已售罄。每只都运行真实的果蝇连接组，用自己的钱包交易、战斗、繁育。到市场入手一只。",
+    "head": "由 1,000 只交易果蝇组成的创世系列，已售罄。每只都运行真实的果蝇连接组，用自己的钱包交易、战斗、繁育。到市场入手一只。",
     "soon": "铸造即将开放。",
     "minted": "已铸造",
     "price": "价格",
@@ -137,7 +137,7 @@
     "more": "增加",
     "busy": "铸造中…",
     "button": "铸造 {n} 只 · {cost}",
-    "perWallet": "每个钱包最多 {n} 只（免费苍蝇算作其中一只）。",
+    "perWallet": "每个钱包最多 {n} 只（免费果蝇算作其中一只）。",
     "ended": "铸造已结束。",
     "notOpen": "铸造尚未开放。",
     "notAllowlisted": "这个钱包不在白名单上。公开铸造稍后开放。",
@@ -158,7 +158,7 @@
   },
   "shop": {
     "title": "商店",
-    "text": "商店里剩下的苍蝇。每只的价格是商店价格乘以其稀有度权重（传奇 3 倍），可用 USDG 或打 {pct}% 折的 $FLYAI 支付（在上方选择）。收入与铸造相同分配：80% 进入苍蝇的交易池。",
+    "text": "商店里剩下的果蝇。每只的价格是商店价格乘以其稀有度权重（传奇 3 倍），可用 USDG 或打 {pct}% 折的 $FLYAI 支付（在上方选择）。收入与铸造相同分配：80% 进入果蝇的交易池。",
     "step2": "第 2 步（共 2 步）：请在钱包中确认购买。",
     "yours": "Trader Fly #{id} 归你了。只要这个钱包持有足够的 $FLYAI，它就在交易台上。",
     "connectToBuy": "连接后购买",
@@ -168,26 +168,26 @@
   "fly": {
     "genShort": "第 {n} 代",
     "generation": "第 {n} 代",
-    "lastMerge": "上次合并：#{id} 已被销毁并融入这只苍蝇。",
+    "lastMerge": "上次合并：#{id} 已被销毁并融入这只果蝇。",
     "incubating": "孵化中 · {time} 后孵化",
     "incubatingShort": "孵化中",
     "notLiveTitle": "Fly Desk 尚未上线：暂无可领取。",
     "livePayoutsTitle": "Fly Desk 正在实盘交易；分红尚未开启。",
-    "livePayoutsText": "暂时没有可领取的。分红开始后，每只活跃的苍蝇每周都会获得持有人部分中的份额，在这里领取。",
-    "notLiveText": "Desk 开始真实交易后才会开始派发。在此之前，这里显示的是每只苍蝇在持有者份额中的比例，而不是应付金额。",
-    "yours": "你的苍蝇",
-    "yoursN": "你的苍蝇（{n}）",
+    "livePayoutsText": "暂时没有可领取的。分红开始后，每只活跃的果蝇每周都会获得持有人部分中的份额，在这里领取。",
+    "notLiveText": "Desk 开始真实交易后才会开始派发。在此之前，这里显示的是每只果蝇在持有者份额中的比例，而不是应付金额。",
+    "yours": "你的果蝇",
+    "yoursN": "你的果蝇（{n}）",
     "feedAllCount": "喂养中：{n} 只中的 {fed} 只",
     "feedAll": "全部喂养（{n}）",
     "feedAllStop": "全部停止喂养",
     "feedAllStep": "请在钱包中确认第 {i} / {n} 笔…",
-    "feedAllDone": "已为另外 {n} 只苍蝇开启喂养：它们的收益留在交易台里，让它们成长。",
-    "feedAllOffDone": "已为 {n} 只苍蝇关闭喂养：收益重新进入你的领取。",
+    "feedAllDone": "已为另外 {n} 只果蝇开启喂养：它们的收益留在交易台里，让它们成长。",
+    "feedAllOffDone": "已为 {n} 只果蝇关闭喂养：收益重新进入你的领取。",
     "none": "此钱包没有 Trader Fly。",
-    "total": "合计：在 {n} 只已激活苍蝇中占持有者份额的 {pct}。",
+    "total": "合计：在 {n} 只已激活果蝇中占持有者份额的 {pct}。",
     "shareActive": "持有者份额 · {n} 只已激活",
     "shareIfActive": "若激活 · 当前 {n} 只已激活",
-    "shareAtReveal": "揭晓后显示份额：由每只苍蝇的稀有度决定。",
+    "shareAtReveal": "揭晓后显示份额：由每只果蝇的稀有度决定。",
     "active": "已激活",
     "inactive": "未激活",
     "weight": "派发权重",
@@ -199,15 +199,15 @@
     "forever": "无结束日期",
     "activateHint": "持有者钱包需要 {amount} $FLYAI",
     "whyInactive": "持有者（{wallet}）有 {held} $FLYAI，需要 {amount}。",
-    "whyInactiveNote": "$FLYAI 必须在持有这只苍蝇的钱包里（或从该钱包质押）：苍蝇自己钱包里的 $FLYAI 不算。",
+    "whyInactiveNote": "$FLYAI 必须在持有这只果蝇的钱包里（或从该钱包质押）：果蝇自己钱包里的 $FLYAI 不算。",
     "holdOn": "持有者持有 {amount}+ $FLYAI",
-    "howShare": "每周 Desk 超出前高的利润中 {pct}% 归持有者，按权重分给已激活的苍蝇：你的份额 = 你的苍蝇权重 / 全部激活权重。",
+    "howShare": "每周 Desk 超出前高的利润中 {pct}% 归持有者，按权重分给已激活的果蝇：你的份额 = 你的果蝇权重 / 全部激活权重。",
     "traits": "特征",
     "traitsAtReveal": "特征随系列揭晓。",
     "holder": "持有者",
     "onMarket": "市场",
     "find": "查询",
-    "findPlaceholder": "苍蝇 #",
+    "findPlaceholder": "果蝇 #",
     "inventory": "背包",
     "noAuras": "还没有光环。",
     "auraWorn": "已佩戴",
@@ -222,7 +222,7 @@
     "recordText": "{fights} 战 {wins} 胜，{titles} 个冠军",
     "openColosseum": "打开 Fly Colosseum",
     "noPotions": "还没有永久药水。",
-    "cantRead": "无法从链上读取这只苍蝇，请重试。"
+    "cantRead": "无法从链上读取这只果蝇，请重试。"
   },
   "lb": {
     "tab": "排行榜",
@@ -241,8 +241,8 @@
     "empty": "本赛季还没有成交：来做第一个吧。",
     "cantRead": "无法读取市场成交，请稍后重试。",
     "yourRank": "你排第 {rank} 名，交易量 {points} $FLYAI。",
-    "rules": "买入和卖出都计入，包括被接受的出价和集合出价。同一对钱包之间的成交每季最多计入 {max} 次，在两者之间来回转手的同一只苍蝇只计一次。团队钱包不参赛。每季结束发奖前，会核查获奖者是否存在钱包串通。 仅计入不少于 {min} $FLYAI 的成交。",
-    "rulesNow": "买入和卖出都计入，包括被接受的出价和集合出价。同一只苍蝇在上一次计入的成交后 {hours} 小时内再次成交不计入，无论谁在交易。单笔成交最多按本季中间价的 {x} 倍计入（目前 {cap} $FLYAI）。同一对钱包之间的成交每季最多计入 {max} 次，在两者之间来回转手的同一只苍蝇只计一次。团队钱包不参与排名。每季结束后、发放奖励前会检查获奖者是否为关联钱包。只有至少 {min} $FLYAI 的成交才计入。"
+    "rules": "买入和卖出都计入，包括被接受的出价和集合出价。同一对钱包之间的成交每季最多计入 {max} 次，在两者之间来回转手的同一只果蝇只计一次。团队钱包不参赛。每季结束发奖前，会核查获奖者是否存在钱包串通。 仅计入不少于 {min} $FLYAI 的成交。",
+    "rulesNow": "买入和卖出都计入，包括被接受的出价和集合出价。同一只果蝇在上一次计入的成交后 {hours} 小时内再次成交不计入，无论谁在交易。单笔成交最多按本季中间价的 {x} 倍计入（目前 {cap} $FLYAI）。同一对钱包之间的成交每季最多计入 {max} 次，在两者之间来回转手的同一只果蝇只计一次。团队钱包不参与排名。每季结束后、发放奖励前会检查获奖者是否为关联钱包。只有至少 {min} $FLYAI 的成交才计入。"
   },
   "market": {
     "view": {
@@ -264,7 +264,7 @@
     },
     "coll": {
       "title": "集合出价",
-      "text": "为任意苍蝇出每只的价格，最多 50 只。资金由市场托管，直到持有者卖给你或你撤回。每笔成交收取 {pct}% 手续费。",
+      "text": "为任意果蝇出每只的价格，最多 50 只。资金由市场托管，直到持有者卖给你或你撤回。每笔成交收取 {pct}% 手续费。",
       "qty": "数量",
       "price": "每只价格（{token}）",
       "make": "发起集合出价",
@@ -299,49 +299,49 @@
     "text": "用 {token} 与其他持有者买卖 Trader Flies。卖家立即收款，扣除 {pct}% 手续费。",
     "soon": "市场即将开放。",
     "forSale": "在售",
-    "empty": "目前没有在售的苍蝇。",
+    "empty": "目前没有在售的果蝇。",
     "yourListing": "你的挂单",
     "confirmBuy": "请在钱包中确认购买。",
     "bought": "Trader Fly #{id} 归你了。只要你的钱包持有足够的 $FLYAI，它就在交易台上。",
-    "sellTitle": "出售你的苍蝇",
-    "sellText": "可以用美元或 {token} 输入价格。你的苍蝇始终以 {token} 挂单，在有人买下之前一直留在你的钱包里（也继续在交易台上）。你收到价格扣除 {pct}% 后的金额。",
+    "sellTitle": "出售你的果蝇",
+    "sellText": "可以用美元或 {token} 输入价格。你的果蝇始终以 {token} 挂单，在有人买下之前一直留在你的钱包里（也继续在交易台上）。你收到价格扣除 {pct}% 后的金额。",
     "noFlies": "这个钱包没有 Trader Flies。",
     "listedAt": "挂单价 {price}",
     "cancel": "取消挂单",
     "list": "挂单出售",
     "pricePlaceholder": "{token} 价格",
-    "approveFirst": "第 1 步（共 2 步）：允许市场在售出时转移这只苍蝇。",
+    "approveFirst": "第 1 步（共 2 步）：允许市场在售出时转移这只果蝇。",
     "confirmList": "请在钱包中确认挂单。",
     "listedOk": "Trader Fly #{id} 已挂单，价格 {price}。",
     "cancelled": "Trader Fly #{id} 已下架。",
-    "sellStops": "售出的苍蝇只有在买家持有足够 $FLYAI 时才保持激活。",
+    "sellStops": "售出的果蝇只有在买家持有足够 $FLYAI 时才保持激活。",
     "why": {
-      "NotListed": "这只苍蝇已不再出售。",
+      "NotListed": "这只果蝇已不再出售。",
       "PriceChanged": "卖家改了价格。请查看后重试。",
       "ZeroPrice": "请输入大于 0 的价格。"
     },
     "offers": {
       "title": "出价",
-      "text": "无论是否挂单，都可以用 {token} 对任意一只苍蝇出价。在持有者接受或你撤回之前，你的 {token} 由市场保管。持有者收到出价扣除 {pct}% 后的金额。",
-      "fly": "苍蝇编号",
+      "text": "无论是否挂单，都可以用 {token} 对任意一只果蝇出价。在持有者接受或你撤回之前，你的 {token} 由市场保管。持有者收到出价扣除 {pct}% 后的金额。",
+      "fly": "果蝇编号",
       "amount": "{token} 数量",
       "make": "出价",
       "confirmMake": "请在钱包中确认出价…",
-      "made": "你已对苍蝇 #{id} 出价 {amount}。",
+      "made": "你已对果蝇 #{id} 出价 {amount}。",
       "yours": "我的出价",
       "cancel": "撤回",
-      "cancelled": "你对苍蝇 #{id} 的出价已退回钱包。",
+      "cancelled": "你对果蝇 #{id} 的出价已退回钱包。",
       "offerHere": "出价",
       "best": "最高出价：{amount}",
       "count": "{n} 个出价",
       "accept": "接受 {amount}",
       "confirmAccept": "请在钱包中确认出售…",
-      "accepted": "苍蝇 #{id} 以 {amount} 售出。",
+      "accepted": "果蝇 #{id} 以 {amount} 售出。",
       "why": {
-        "OwnFly": "这只苍蝇已经是你的了。",
+        "OwnFly": "这只果蝇已经是你的了。",
         "OfferChanged": "出价刚刚发生变化，请确认后重试。",
         "NoOffer": "没有可撤回的出价。",
-        "noFly": "请输入 1 到 1,000 之间的苍蝇编号。"
+        "noFly": "请输入 1 到 1,000 之间的果蝇编号。"
       }
     },
     "approx": "≈ {usd}",
@@ -368,7 +368,7 @@
       "self": "这是你自己的钱包。",
       "check": "将 {name} 免费发送到 {to}，无法撤回：点击确认发送。",
       "done": "{name} 已发送。",
-      "noteFly": "免费转移。只有新持有人持有足够的 $FLYAI，苍蝇才保持激活。挂单会失效。",
+      "noteFly": "免费转移。只有新持有人持有足够的 $FLYAI，果蝇才保持激活。挂单会失效。",
       "notePass": "免费转移。通行证里的 FLYAI 随之转移。挂单会失效。"
     },
     "activity": {
@@ -454,14 +454,14 @@
     "you": {
       "title": "我",
       "hold": {
-        "flies": "持有 {n} 只苍蝇",
+        "flies": "持有 {n} 只果蝇",
         "passes": "持有 {n} 张通行证"
       },
       "listed": "{n} 个挂单",
       "offers": "{n} 个出价"
     },
     "yours": {
-      "flies": "我的苍蝇（{n}）",
+      "flies": "我的果蝇（{n}）",
       "passes": "我的通行证（{n}）",
       "none": "当前筛选下没有内容。",
       "tab": {
@@ -523,17 +523,17 @@
   },
   "claim": {
     "soon": "分红在交易第一周后开放。",
-    "connectFirst": "连接持有你苍蝇的钱包。",
+    "connectFirst": "连接持有你果蝇的钱包。",
     "ready": "可领取",
     "claimedSoFar": "已领取",
     "paidWeeks": "已分红周数",
     "waiting": "第 {epoch} 周处于等待期，可从 {when} 起领取。每次分红都会等待，以便在任何人领取前完成核查。",
-    "nothingYet": "这个钱包还没有分红。只有已激活的苍蝇参与分配。",
+    "nothingYet": "这个钱包还没有分红。只有已激活的果蝇参与分配。",
     "notActive": "你最新的分红尚未生效。等待期结束后再来。",
     "closesAt": "请在 {when} 之前领取第 #{epoch} 周。届时未领取的部分会分给那一周领取了的持有者。",
     "closed": "第 #{epoch} 周的领取已于 {when} 截止。未领取的部分已分给那一周领取了的持有者。",
     "th": {
-      "fly": "苍蝇",
+      "fly": "果蝇",
       "rarity": "稀有度",
       "bars": "活跃 K 线数（上周）",
       "lastWeek": "上周",
@@ -552,7 +552,7 @@
       "ClaimClosed": "本周的领取期限已过。未领取的部分已退回 Fly Desk。"
     },
     "staked": "已质押（分成加成）",
-    "stakeHint": "质押 $FLYAI 可在每周分配中分到更大一份：质押 1M = 1.5×，2M = 2×，5M = 3×，10M 及以上 = 4×（上限）。立即生效，按你当前的质押量计算；奖池总额不变，所以是相对于质押更少的持有者，你的份额更大。质押的 $FLYAI 也计入让你的苍蝇保持激活的 200,000。解除质押需要 7 天。",
+    "stakeHint": "质押 $FLYAI 可在每周分配中分到更大一份：质押 1M = 1.5×，2M = 2×，5M = 3×，10M 及以上 = 4×（上限）。立即生效，按你当前的质押量计算；奖池总额不变，所以是相对于质押更少的持有者，你的份额更大。质押的 $FLYAI 也计入让你的果蝇保持激活的 200,000。解除质押需要 7 天。",
     "buttonStake": "领取并质押 {amount} $FLYAI",
     "approving": "请在钱包中批准质押…",
     "doneStake": "已领取并质押 {amount} $FLYAI。",
@@ -561,13 +561,13 @@
     "how": {
       "title": "每周分红怎么运作",
       "weekTitle": "每周一次，来自 desk 的利润",
-      "week": "一周交易结束如果盈利，其中一部分会换成 $FLYAI，按稀有度和每只苍蝇在这一周里激活的时长，分给已激活的 Trader Flies。没有盈利的一周不分红。",
+      "week": "一周交易结束如果盈利，其中一部分会换成 $FLYAI，按稀有度和每只果蝇在这一周里激活的时长，分给已激活的 Trader Flies。没有盈利的一周不分红。",
       "windowTitle": "{hours} 小时内领取",
-      "window": "每次分红开放后可以领取 {hours} 小时。一次领取就能收齐你所有苍蝇的份额，“Claim & stake”会在同一步里直接质押。",
+      "window": "每次分红开放后有 {hours} 小时可领取。一次操作即可收齐你名下所有果蝇的份额，点击“领取并质押（Claim & stake）”可在同一步内直接完成质押。",
       "unclaimedTitle": "未领取的 $FLYAI 归领取的人",
       "unclaimed": "没有按时领取的部分不会为你保留，也不会增加你下一次的分红。它会按各自领取的数量，发给那一周领取了的钱包，所以按时领取还可能多拿一点。如果没有人领取，就留在 Fly Desk。",
       "growTitle": "想要更多分红？喂养或质押",
-      "grow": "想提高苍蝇在之后分红中的份额，就在它的页面上喂养它：它的分红留在 desk 里，从此计入它的份额。或者在下方质押 $FLYAI：质押 1M = 1.5×，10M 最高 4×。"
+      "grow": "想提高果蝇在后续分红中的份额，可以在果蝇主页开启“喂养”：它的每周分红将留在交易台内，持续累加其分红权重；也可以在下方质押 $FLYAI：质押 100 万枚享 1.5× 加成，质押 1,000 万枚享最高 4× 加成。"
     },
     "s": {
       "closes": "请在 {when} 前领取（还剩 {hours} 小时）。逾期未领的 $FLYAI 会分给已领取的持有者。",
@@ -578,19 +578,19 @@
       "claimOnly": "仅领取",
       "stakeWhy": "“领取并质押”会直接把它质押，提高你在之后分红中的份额。",
       "soFar": "累计已领取：{amount} $FLYAI，共 {weeks} 个分红周",
-      "perFly": "按苍蝇明细",
-      "myFlies": "你的苍蝇 →"
+      "perFly": "按果蝇明细",
+      "myFlies": "你的果蝇 →"
     },
     "auto": {
       "title": "每周自动喂养",
       "some": "{n} 只中 {fed} 只已开启",
-      "text": "你的苍蝇每周的分红会直接回到它们身上，而不是到这里：每喂 ${unit} 增加 +1x 份额（最高 {cap}x）。每周自动进行，直到你关闭。",
+      "text": "你的果蝇每周的分红会直接回到它们身上，而不是到这里：每喂 ${unit} 增加 +1x 份额（最高 {cap}x）。每周自动进行，直到你关闭。",
       "turnOn": {
         "one": "开启",
-        "other": "为 {count} 只苍蝇开启"
+        "other": "为 {count} 只果蝇开启"
       },
       "turnOff": "关闭",
-      "onDone": "自动喂养已开启：从下一笔分红起，你的苍蝇会保留份额并成长。",
+      "onDone": "自动喂养已开启：从下一笔分红起，你的果蝇会保留份额并成长。",
       "offDone": "自动喂养已关闭：分红会重新到这里领取。"
     },
     "partner": "合作伙伴 NFT"
@@ -603,8 +603,8 @@
       "flies": "数量（共 1,000 只）",
       "weight": "分红权重"
     },
-    "reveal": "铸造期间所有苍蝇看起来都一样。铸造结束时（揭晓），一个未来区块的哈希会在合约内决定每只苍蝇的稀有度和特征，所以包括团队在内，没人能提前挑选或看到。数量是精确的：传奇苍蝇正好 30 只，不是大约 30 只。稀有度只决定苍蝇的分红份额，从不影响它如何交易。",
-    "traits": "每只苍蝇还会抽取一个姿势（14 种）、一种配色（每个稀有度 4 种）、一个背景（14 种）、一件装备（10 种）和一件额外物品（13 种），美术会确保没有两张图一模一样。"
+    "reveal": "铸造期间所有果蝇看起来都一样。铸造结束时（揭晓），一个未来区块的哈希会在合约内决定每只果蝇的稀有度和特征，所以包括团队在内，没人能提前挑选或看到。数量是精确的：传奇果蝇正好 30 只，不是大约 30 只。稀有度只决定果蝇的分红份额，从不影响它如何交易。",
+    "traits": "每只果蝇还会抽取一个姿势（14 种）、一种配色（每个稀有度 4 种）、一个背景（14 种）、一件装备（10 种）和一件额外物品（13 种），美术会确保没有两张图一模一样。"
   },
   "contracts": {
     "title": "合约",
@@ -615,11 +615,11 @@
   },
   "pets": {
     "kicker": "Hardware NFTs · FLYAI 宠物",
-    "title": "口袋里的苍蝇",
-    "lede": "FLYAI 宠物是一个小巧的掌上设备，屏幕里住着一只苍蝇。养大它、陪它玩；注册之后，它会像桌上的苍蝇一样，分得 Trader Flies 每周利润的一份。",
+    "title": "口袋里的果蝇",
+    "lede": "FLYAI 宠物是一款小巧的掌上设备，屏幕里住着一只果蝇。养育它、陪它玩耍；完成注册后，它会像交易台上的果蝇一样，分得 Trader Flies 每周利润的一份。",
     "soon": "预订即将开放。开放后回到这里连接钱包。",
     "deviceAlt": "一只 FLYAI 宠物",
-    "deviceCaption": "示意图：1.64 英寸触摸屏上的 ASCII 苍蝇",
+    "deviceCaption": "示意图：1.64 英寸触摸屏上的 ASCII 果蝇",
     "priceEach": "每只",
     "left": "剩余",
     "closed": "已暂停",
@@ -663,13 +663,13 @@
     },
     "whatTitle": "你的宠物能做什么",
     "what": {
-      "grow": "<b>会长大。</b>从蛋孵化，变成幼虫，再变成苍蝇，并根据你的养法进化成五种形态之一（gym、chonk、degen、lover、zen）。升级可解锁帽子。",
+      "grow": "<b>会长大。</b>从蛋孵化，变成幼虫，再变成果蝇，并根据你的养法进化成五种形态之一（gym、chonk、degen、lover、zen）。升级可解锁帽子。",
       "care": "<b>需要你照顾。</b>点击喂食，长按抚摸。摇晃设备它会头晕，倾斜它会滑动，放着不动它会睡着。冷落它会闹脾气，喂太多会变胖。",
-      "play": "<b>小游戏。</b>Swat（30 秒拍苍蝇）和 Simon（重复神经元图案）。最高分保存在设备上。",
+      "play": "<b>小游戏。</b>Swat（30 秒拍果蝇）和 Simon（重复神经元图案）。最高分保存在设备上。",
       "quests": "<b>每日任务和连续记录。</b>每天三个任务，回来就能延续连续记录，做什么都有 XP。",
       "focus": "<b>专注模式。</b>连接电脑后，它会守护一个 25、50 或 90 分钟的计时器：拿起设备，专注就会中断。",
       "price": "<b>关注 $FLYAI。</b>连上 Wi-Fi 后会对 $FLYAI 价格做出反应。",
-      "friends": "<b>结识其他苍蝇。</b>通过蓝牙发现附近的其他 FLYAI 宠物。"
+      "friends": "<b>结识其他果蝇。</b>通过蓝牙发现附近的其他 FLYAI 宠物。"
     },
     "chainTitle": "链上如何运作",
     "chain": {
@@ -678,7 +678,7 @@
       "ship": "<b>我们制作并寄出</b>，寄到你下单后填写的地址。",
       "register": "<b>注册，而非铸造。</b>每只宠物首次开机时生成自己的密钥。我们把它的公开地址加入 Robinhood Chain 上的宠物注册表；不会铸造 NFT。",
       "bind": "<b>绑定你的钱包。</b>连接设备后，它为你的钱包签名，由该钱包领取它的份额。",
-      "share": "<b>分享桌上的利润。</b>已注册的宠物按 3.5 倍参与 Trader Flies 每周的利润分配，高于传奇苍蝇（3 倍）。始终生效，无需激活。",
+      "share": "<b>分享交易台利润。</b>已注册的宠物按 3.5 倍权重参与 Trader Flies 每周利润分配，高于传奇果蝇（3 倍）。永久生效，无需激活。",
       "risk": "交易可能亏损，没有利润的一周不会分配任何东西。宠物首先是一个小玩意儿；这里不承诺任何回报。"
     },
     "faqTitle": "常见问题",
@@ -719,7 +719,7 @@
     "name": "FlightPass #{id}",
     "soon": "FlightPass 即将降落。",
     "title": "FlightPass",
-    "text": "让你的苍蝇开自动驾驶。往通行证里充 $FLYAI，选好游戏，你睡觉时苍蝇替你玩。$FLYAI 跟着通行证走：卖掉通行证，余额也一起转走。",
+    "text": "让你的果蝇开自动驾驶。往通行证里充 $FLYAI，选好游戏，你睡觉时果蝇替你玩。$FLYAI 跟着通行证走：卖掉通行证，余额也一起转走。",
     "perks": {
       "autoTitle": "自动驾驶",
       "auto": "Fly Roulette、Flybook 任务、决斗和繁殖，替你来玩。",
@@ -773,9 +773,9 @@
       "missions": "Flybook 任务",
       "missionsText": "每天戳一戳、点赞和反应，冲赛季榜。",
       "duels": "Flybook 决斗",
-      "duelsText": "你的苍蝇主动约架。",
+      "duelsText": "你的果蝇主动约架。",
       "breed": "Flybook 繁殖",
-      "breedText": "你的苍蝇去找对象。",
+      "breedText": "你的果蝇去找对象。",
       "deskClaim": "Fly Desk 奖励",
       "deskClaimText": "把你的 Trader Flies 在 Fly Desk 每周奖池中的份额直接领取到这个 Pass。",
       "soon": "即将推出",
@@ -786,7 +786,7 @@
     },
     "limits": {
       "stake": "每局下注（$FLYAI）",
-      "flies": "桌上苍蝇数",
+      "flies": "桌上果蝇数",
       "maxDay": "每日上限（$FLYAI）"
     },
     "termsNeeded": "Fly Roulette 需要先接受一次 18+ 条款。保存时会询问你。",
@@ -826,7 +826,7 @@
     "market": {
       "categories": "分类",
       "cat": {
-        "flies": "苍蝇",
+        "flies": "果蝇",
         "pass": "FlightPass"
       },
       "title": "FlightPass 市场",
@@ -868,11 +868,11 @@
     "how": {
       "title": "玩法说明",
       "claimTitle": "领取",
-      "claim": "9 月 28 日快照时持有 Trader Fly 的每个钱包可免费领取一张 FlightPass，不论持有多少只苍蝇。钱包里至少保留 1 $FLYAI，点击领取即可；只需支付 gas。",
+      "claim": "9 月 28 日快照时持有 Trader Fly 的每个钱包可免费领取一张 FlightPass，不论持有多少只果蝇。钱包里至少保留 1 $FLYAI，点击领取即可；只需支付 gas。",
       "freeTitle": "内含免费 $2.50",
-      "free": "每张通行证都自带我们送的约 $2.50 的 $FLYAI。你的苍蝇可以用它来玩，但它永远不能提出：一直留在通行证里。",
+      "free": "每张通行证都自带我们送的约 $2.50 的 $FLYAI。你的果蝇可以用它来玩，但它永远不能提出：一直留在通行证里。",
       "autoTitle": "开启自动驾驶",
-      "auto": "登录，打开你想玩的游戏并设置上限。Fly Roulette 需先接受一次 18+ 条款；Flybook 使用你用这个钱包登录的 Flybook 账户。决策仍由苍蝇的大脑做出，自动驾驶只是替你点击。不保证赢。",
+      "auto": "登录，打开你想玩的游戏并设置上限。Fly Roulette 需先接受一次 18+ 条款；Flybook 使用你用这个钱包登录的 Flybook 账户。决策仍由果蝇的大脑做出，自动驾驶只是替你点击。不保证赢。",
       "moneyTitle": "充值与提现",
       "money": "充值免费。首次充值后，你可以提走免费 $2.50 以上的全部余额（含奖金），手续费 {pct}%。",
       "mineTitle": "挖矿加成",
@@ -882,13 +882,13 @@
     },
     "status": {
       "listed": "通行证挂牌出售期间已暂停。",
-      "paused": "Fly Roulette 目前对所有人暂停。恢复后你的苍蝇会继续玩。",
-      "terms": "接受 Fly Roulette 条款（18+），你的苍蝇就会开始玩。",
+      "paused": "Fly Roulette 目前对所有人暂停。恢复后你的果蝇会继续玩。",
+      "terms": "接受 Fly Roulette 条款（18+），你的果蝇就会开始玩。",
       "stake": "每局下注必须在 {min} 到 {max} $FLYAI 之间。修改后保存。",
-      "dayCapYours": "已达每日上限：今天已下注 {cap} $FLYAI。你的苍蝇将在 {time}（UTC 00:00）继续玩，或者调高“每日上限”。",
-      "dayCapHouse": "已达每日上限：今天已下注 {cap} $FLYAI，这是 Fly Roulette 每天的最高额度。你的苍蝇将在 {time}（UTC 00:00）继续玩。",
+      "dayCapYours": "已达每日上限：今天已下注 {cap} $FLYAI。你的果蝇将在 {time}（UTC 00:00）继续玩，或者调高“每日上限”。",
+      "dayCapHouse": "已达每日上限：今天已下注 {cap} $FLYAI，这是 Fly Roulette 每天的最高额度。你的果蝇将在 {time}（UTC 00:00）继续玩。",
       "lowBalance": "通行证余额不足一次下注（{need} $FLYAI）。充值后继续玩。",
-      "playing": "你的苍蝇正在牌桌上。",
+      "playing": "你的果蝇正在牌桌上。",
       "waiting": "自动驾驶已开启。下一次下注约在 {time}。"
     },
     "ofCap": "今日上限 {cap}",
@@ -912,13 +912,13 @@
       }
     },
     "colosseum": {
-      "maxEntry": "每只苍蝇最高报名费 ($FLYAI)",
-      "flies": "报名的苍蝇",
+      "maxEntry": "每只果蝇最高报名费 ($FLYAI)",
+      "flies": "报名的果蝇",
       "noFlies": "这个钱包里没有 Trader Flies。",
-      "fliesNote": "每个赛季每个钱包最多 {n} 只。勾选的苍蝇按顺序报名；不勾选 = 最强的。",
+      "fliesNote": "每个赛季每个钱包最多 {n} 只。勾选的果蝇按顺序报名；不勾选 = 最强的。",
       "strength": "实力 {n}",
       "potions": "每赛季药水（每个 {price} $FLYAI）",
-      "potionsNote": "每只最多 {n} 个。苍蝇永久拥有的药水总会免费加入。",
+      "potionsNote": "每只最多 {n} 个。果蝇永久拥有的药水总会免费加入。",
       "termsNeeded": "Fly Colosseum 使用 Fly Roulette 的 18+ 条款，只需同意一次。保存时会询问你。",
       "season": "{name}：报名费 {entry} $FLYAI，报名截止 {time}。",
       "entered": "已报名",
@@ -927,8 +927,8 @@
       "out": "淘汰",
       "place": "第 {n} 名",
       "shop": "商店。",
-      "shopText": "为你的苍蝇购买永久药水和光环，由通行证支付。它们跟随苍蝇。",
-      "fly": "苍蝇",
+      "shopText": "为你的果蝇购买永久药水和光环，由通行证支付。它们跟随果蝇。",
+      "fly": "果蝇",
       "item": "物品",
       "choose": "选择…",
       "ownsAll": "已全部拥有",
@@ -945,13 +945,13 @@
       },
       "status": {
         "listed": "通行证挂卖期间暂停。",
-        "closed": "自动驾驶已开启。下个赛季开放时你的苍蝇会报名。",
+        "closed": "自动驾驶已开启。下个赛季开放时你的果蝇会报名。",
         "entryHigh": "本赛季报名费为 {entry} $FLYAI，高于你的上限 {max}。调高即可参加。",
-        "entered": "本赛季：已报名 {n}/{seats} 只苍蝇。",
-        "noFlies": "没有可报名的苍蝇：这个钱包没有 Trader Flies，或勾选的不在这里。",
-        "terms": "同意 18+ 条款后，你的苍蝇就会开始报名。",
+        "entered": "本赛季：已报名 {n}/{seats} 只果蝇。",
+        "noFlies": "没有可报名的果蝇：这个钱包没有 Trader Flies，或勾选的不在这里。",
+        "terms": "同意 18+ 条款后，你的果蝇就会开始报名。",
         "lowBalance": "通行证余额不够一次报名（{need} $FLYAI）。充值即可参加。",
-        "waiting": "自动驾驶已开启。你的苍蝇一分钟内报名。"
+        "waiting": "自动驾驶已开启。你的果蝇一分钟内报名。"
       }
     },
     "race": {
@@ -1013,11 +1013,11 @@
     "title": "繁殖",
     "lead": "把你的两只 Trader Fly 合并为一只。第一只保留编号并获得后代的新特征；第二只将被永久销毁。",
     "soon": "繁殖即将开放。",
-    "soonText": "把你的两只苍蝇合并为一只，获得新特征。繁殖合约上线后在这里开放。",
+    "soonText": "把你的两只果蝇合并为一只，获得新特征。繁殖合约上线后在这里开放。",
     "closed": "繁殖暂时关闭。",
-    "closedText": "团队暂时暂停了合并。你的苍蝇是安全的，请稍后再来。",
+    "closedText": "团队暂时暂停了合并。你的果蝇是安全的，请稍后再来。",
     "cantRead": "无法从链上读取繁殖信息，请重试。{reason}",
-    "connectFirst": "连接钱包以查看你的苍蝇。",
+    "connectFirst": "连接钱包以查看你的果蝇。",
     "incubatingTitle": "孵化中",
     "incubatingText": "#{id} + #{partner}（已销毁）",
     "hatchesIn": "{time} 后孵化",
@@ -1029,8 +1029,8 @@
     "burned": "销毁",
     "staysText": "保留 #{id}，并获得后代的新特征。",
     "burnedText": "#{id} 将被永久销毁。",
-    "pickStay": "选择要保留的苍蝇。",
-    "pickBurn": "选择要放弃的苍蝇（它会被销毁）。",
+    "pickStay": "选择要保留的果蝇。",
+    "pickBurn": "选择要放弃的果蝇（它会被销毁）。",
     "swap": "互换",
     "clear": "清除",
     "fee": "费用",
@@ -1047,14 +1047,14 @@
     "oddsIncubation": "后代孵化 {time}，之后自动出生：你不必回来。",
     "feeSplit": "费用的 {pct}% 被销毁，其余归开发者钱包。",
     "warnTitle": "此操作无法撤销",
-    "warn": "苍蝇 <b>#{burn}</b> 将被<b>永久销毁</b>。苍蝇 <b>#{keep}</b> 保留编号，但特征会被后代的特征取代。",
+    "warn": "果蝇 <b>#{burn}</b> 将被<b>永久销毁</b>。果蝇 <b>#{keep}</b> 保留编号，但特征会被后代的特征取代。",
     "agree": "我明白：#{burn} 将被销毁，#{keep} 将获得新特征。",
     "button": "繁殖 · {amount} $FLYAI",
     "balance": "你有 {amount} $FLYAI",
     "needFlyai": "$FLYAI 不足：繁殖这两只需要 {amount}。",
-    "yours": "你的苍蝇（{n}）",
-    "needTwo": "需要两只可以繁殖的苍蝇（此钱包有 {n} 只）。",
-    "pick": "先点选要保留的苍蝇，再点选要销毁的苍蝇。",
+    "yours": "你的果蝇（{n}）",
+    "needTwo": "需要两只可以繁殖的果蝇（此钱包有 {n} 只）。",
+    "pick": "先点选要保留的果蝇，再点选要销毁的果蝇。",
     "approve": "在钱包中授权 {amount} $FLYAI 作为费用。",
     "mergeConfirm": "在钱包中确认合并。",
     "rolling": "等待两个区块以确定后代…",
@@ -1062,11 +1062,11 @@
     "hatchConfirm": "在钱包中确认孵化（只需支付 gas）。",
     "started": "#{id} 正在孵化：{time} 后孵化。你可以离开此页面，它会自动孵化。",
     "slow": "链上较慢：合并已保存，服务器稍后会确定后代。",
-    "drawing": "正在绘制你的苍蝇...",
-    "childTitle": "你的新苍蝇",
+    "drawing": "正在绘制你的果蝇...",
+    "childTitle": "你的新果蝇",
     "fromParents": "#{id} 已与 #{partner}（已销毁）合并。",
     "newTraits": "新特征",
-    "view": "查看苍蝇",
+    "view": "查看果蝇",
     "again": "再次繁殖",
     "hm": "{h} 小时 {m} 分",
     "ms": "{m} 分 {s} 秒",
@@ -1078,14 +1078,14 @@
     },
     "why": {
       "Closed": "繁殖暂时关闭。",
-      "NotHolder": "你没有同时持有这两只苍蝇。",
-      "SameFly": "请选择两只不同的苍蝇。",
-      "Busy": "其中一只苍蝇正在孵化：请等它孵化。",
+      "NotHolder": "你没有同时持有这两只果蝇。",
+      "SameFly": "请选择两只不同的果蝇。",
+      "Busy": "其中一只果蝇正在孵化：请等它孵化。",
       "NotPending": "这次合并已经完成。",
       "TooSoon": "太早了：后代在合并两个区块后确定。",
       "TooMuchFlyai": "$FLYAI 价格变动了，请重试。",
       "PriceStale": "$FLYAI 价格正在更新，请一分钟后再试。",
-      "Listed": "其中一只苍蝇正在市场挂单：取消挂单后才能繁殖。",
+      "Listed": "其中一只果蝇正在市场挂单：取消挂单后才能繁殖。",
       "Incubating": "还不行：后代仍在孵化中。",
       "ERC20InsufficientBalance": "此钱包的 $FLYAI 不足。",
       "ERC20InsufficientAllowance": "$FLYAI 授权额度不足，请重试。"
@@ -1099,15 +1099,15 @@
   },
   "wallet": {
     "watch": {
-      "title": "你的苍蝇一直关注的代币",
+      "title": "你的果蝇一直关注的代币",
       "text": "$FLYAI 始终在列表中。可按地址再添加最多 5 个 Robinhood Chain 代币：大脑和选项会一直看到并可以交易它们。",
-      "flyai": "$FLYAI 是平台代币：每只苍蝇都会关注，无法移除。",
+      "flyai": "$FLYAI 是平台代币：每只果蝇都会关注，无法移除。",
       "always": "始终",
       "remove": "移除这个代币",
       "aria": "要关注的代币地址",
       "add": "添加代币",
       "full": "已达上限：{n} 个代币。",
-      "risk": "你添加的代币会像 $FLYAI 一样被信任：不做防跑路检查（池子规模、池子年龄、GoPlus）。如果其中一个跑路，你的苍蝇可能损失所持有的部分。"
+      "risk": "你添加的代币会像 $FLYAI 一样被信任：不做防跑路检查（池子规模、池子年龄、GoPlus）。如果其中一个跑路，你的果蝇可能损失所持有的部分。"
     },
     "fundTextAway": "{native} 或 {sym}，至少 $5。{native} 会换成交易现金（{sym}）。",
     "stakeCut": "质押 $FLYAI 减免 {pct}%",
@@ -1121,30 +1121,30 @@
       "pnl": "盈亏"
     },
     "moveTitle": "把钱转到另一条链",
-    "moveText": "最多 {usd} 的苍蝇现金（锁定的 FlightPass 资金保留）。几分钟内以现金到达另一条链上的同一个钱包。",
+    "moveText": "最多 {usd} 的果蝇现金（锁定的 FlightPass 资金保留）。几分钟内以现金到达另一条链上的同一个钱包。",
     "moveTo": "转到",
     "moveGo": "转移",
-    "moveAsked": "已提交。苍蝇会在 15 分钟内转移…",
+    "moveAsked": "已提交。果蝇会在 15 分钟内转移…",
     "moved": "已转到 {chain}。",
-    "making": "正在创建这只苍蝇的钱包，几分钟后再来看看。",
+    "making": "正在创建这只果蝇的钱包，几分钟后再来看看。",
     "copy": "复制地址",
     "copied": "地址已复制。",
-    "sendDirect": "也可以从任何地方转到苍蝇的钱包：",
-    "withdrawAsked": "已提交。苍蝇会在 15 分钟内支付…",
-    "passPending": "FlightPass #{id} 正在存入这只苍蝇。",
+    "sendDirect": "也可以从任何地方转到果蝇的钱包：",
+    "withdrawAsked": "已提交。果蝇会在 15 分钟内支付…",
+    "passPending": "FlightPass #{id} 正在存入这只果蝇。",
     "fundTextPoly": "Polygon 上的 {sym}，至少 $5。存入后作为 Polymarket 现金。",
-    "polyText": "在 Polymarket 上，苍蝇买卖最活跃市场的结果份额（是 / 否）。设置它的交易规模，以及何时止盈或止损；市场结算后会自动赔付到钱包。",
+    "polyText": "在 Polymarket 上，果蝇买卖最活跃市场的结果份额（是 / 否）。设置它的交易规模，以及何时止盈或止损；市场结算后会自动赔付到钱包。",
     "chains": "链",
-    "awayText": "在 {chain} 上，苍蝇用同一个钱包地址以 {sym} 交易。转入的钱属于苍蝇的主人；只要主人在 Robinhood Chain 上持有 $FLYAI，苍蝇就会交易。苍蝇被卖出后，钱会以 {sym} 退还给存入的主人。",
+    "awayText": "在 {chain} 上，果蝇用同一个钱包地址以 {sym} 交易。转入的钱属于果蝇的主人；只要主人在 Robinhood Chain 上持有 $FLYAI，果蝇就会交易。果蝇被卖出后，钱会以 {sym} 退还给存入的主人。",
     "title": "Fly Wallet",
-    "intro": "给这只苍蝇一笔自己的钱，它就会在 Robinhood Chain 上用自己的钱包交易：大脑负责选交易，你开启的选项在一旁一起交易。只有你能把钱取出；只对利润收手续费，按稀有度而定（Legendary：免费）。",
+    "intro": "给这只果蝇一笔自己的钱，它就会在 Robinhood Chain 上用自己的钱包交易：大脑负责选交易，你开启的选项在一旁一起交易。只有你能把钱取出；只对利润收手续费，按稀有度而定（Legendary：免费）。",
     "soon": "Fly Wallets 即将上线。",
-    "holdNeed": "Fly Wallets 需要持有或质押 {need} $FLYAI（你有 {have}）。低于这个数，苍蝇只会平仓；提现始终可用。",
+    "holdNeed": "Fly Wallets 需要持有或质押 {need} $FLYAI（你有 {have}）。低于这个数，果蝇只会平仓；提现始终可用。",
     "buyFlyai": "购买 $FLYAI",
     "status": {
       "empty": "还没有资金",
       "trading": "交易中",
-      "closing": "苍蝇已售出：平仓中",
+      "closing": "果蝇已售出：平仓中",
       "justEarn": "只赚利息：出借中，不交易",
       "paused": "已被你暂停",
       "closeOnly": "仅平仓",
@@ -1175,10 +1175,10 @@
       "deposit": "出借",
       "redeem": "取回"
     },
-    "empty": "这只苍蝇的钱包是空的。充值后，它会从下一根 5 分钟 K 线开始交易。",
+    "empty": "这只果蝇的钱包是空的。充值后，它会从下一根 5 分钟 K 线开始交易。",
     "potEmpty": "这个资金池是空的。",
-    "fund": "给苍蝇充值",
-    "fundText": "ETH、USDG 或 $FLYAI，至少 $5。ETH 会换成交易现金（USDG）；$FLYAI 保持为 $FLYAI，由苍蝇决定如何处理。",
+    "fund": "给果蝇充值",
+    "fundText": "ETH、USDG 或 $FLYAI，至少 $5。ETH 会换成交易现金（USDG）；$FLYAI 保持为 $FLYAI，由果蝇决定如何处理。",
     "token": "代币",
     "amount": "数量",
     "deposit": "充值",
@@ -1186,10 +1186,10 @@
     "max": "最大",
     "gasKept": "最大会留下 {amount} {sym} 作为 gas。",
     "approving": "先授权代币，再充值…",
-    "funded": "充值成功。苍蝇将从下一根 K 线开始交易。",
+    "funded": "充值成功。果蝇将从下一根 K 线开始交易。",
     "tradingTitle": "交易",
-    "tradingOn": "开：苍蝇会开仓和平仓",
-    "tradingOff": "关：苍蝇只平掉现有持仓",
+    "tradingOn": "开：果蝇会开仓和平仓",
+    "tradingOff": "关：果蝇只平掉现有持仓",
     "pause": "暂停",
     "resume": "恢复",
     "withdraw": "提现",
@@ -1197,38 +1197,38 @@
     "preview": "你将取出 {out}：其中 {fee} 是对 {profit} 利润收取的手续费。",
     "inKind": "以 $FLYAI 支付：先卖出每个持仓的提取份额（在其他链上你会收到该链的美元）。体育投注不能在比赛中卖出：会保留到结果出来，然后支付到钱包。锁定的 FlightPass 资金保留。",
     "withdrawGo": "提现 {pct}%",
-    "withdrawConfirm": "要提取这只苍蝇钱包的 {pct}% 吗？扣除 {fee} 手续费后，你将收到约 {out} 的 $FLYAI。会先卖出每个仓位的相应部分。",
+    "withdrawConfirm": "要提取这只果蝇钱包的 {pct}% 吗？扣除 {fee} 手续费后，你将收到约 {out} 的 $FLYAI。会先卖出每个仓位的相应部分。",
     "withdrawConfirmBonus": "你的 {usd} 充值奖励将退回平台。",
     "withdrawYes": "确认提取 {pct}%",
     "withdrawn": "已发送到你的钱包。",
-    "passTitle": "将 FlightPass 销毁注入这只苍蝇",
-    "passText": "通行证将被永久销毁：里面的全部资产，加上我们赠送的 {usd}，都会锁定存入这只苍蝇的钱包。苍蝇用它交易，赚到的部分你可以提现。每只苍蝇限一张。",
+    "passTitle": "将 FlightPass 销毁注入这只果蝇",
+    "passText": "通行证将被永久销毁：里面的全部资产，加上我们赠送的 {usd}，都会锁定存入这只果蝇的钱包。果蝇用它交易，赚到的部分你可以提现。每只果蝇限一张。",
     "noPass": "你没有未挂单出售的 FlightPass。",
     "passPick": "你的 FlightPass",
-    "passGo": "销毁注入这只苍蝇",
-    "passConfirm": "把 FlightPass #{id} 销毁给苍蝇 #{fly}？通行证将永久消失；它的 $FLYAI 和奖励会进入苍蝇的钱包。",
+    "passGo": "销毁注入这只果蝇",
+    "passConfirm": "把 FlightPass #{id} 销毁给果蝇 #{fly}？通行证将永久消失；它的 $FLYAI 和奖励会进入果蝇的钱包。",
     "passYes": "确定销毁",
     "passNo": "取消",
-    "countingText": "新资金已到账。苍蝇会在下一轮（15 分钟内）开始用它交易。",
+    "countingText": "新资金已到账。果蝇会在下一轮（15 分钟内）开始用它交易。",
     "gasTitle": "需要 {sym} 作为 gas。",
-    "gasText": "每笔交易都要花一点 {sym}。平台会在下一轮（15 分钟内）给苍蝇发一笔起始金额，你也可以现在自己充一点。",
+    "gasText": "每笔交易都要花一点 {sym}。平台会在下一轮（15 分钟内）给果蝇发一笔起始金额，你也可以现在自己充一点。",
     "gasGo": "发送 {amount} {sym}",
-    "gasSent": "已发送：苍蝇可以支付交易费用了。",
+    "gasSent": "已发送：果蝇可以支付交易费用了。",
     "active": "交易中",
     "notActive": "未激活",
     "start": "开始交易",
     "stop": "停止交易",
-    "nothingFree": "暂时没有可提取的：FlightPass 的钱锁定在苍蝇里，超出部分的利润可以提取。",
-    "passBurned": "已销毁。余额和赠金将在几分钟内到达苍蝇的钱包。",
-    "passDone": "这只苍蝇已经用过 FlightPass 了。",
+    "nothingFree": "暂时没有可提取的：FlightPass 的钱锁定在果蝇里，超出部分的利润可以提取。",
+    "passBurned": "已销毁。余额和赠金将在几分钟内到达果蝇的钱包。",
+    "passDone": "这只果蝇已经用过 FlightPass 了。",
     "inPot": "在资金池 {pot} 中运作",
-    "leavePot": "将这只苍蝇移出资金池",
+    "leavePot": "将这只果蝇移出资金池",
     "left": "已移出资金池。",
-    "potTitle": "让你的苍蝇一起干活",
-    "potText": "资金池是一个由你的多只苍蝇共同交易的钱包。每只苍蝇仍保留自己的钱包。资金池的手续费为其中苍蝇稀有度手续费的平均值（苍蝇加入后的前 7 天按 Common 计算）。",
+    "potTitle": "让你的果蝇一起干活",
+    "potText": "资金池是一个由你的多只果蝇共同交易的钱包。每只果蝇仍保留自己的钱包。资金池的手续费为其中果蝇稀有度手续费的平均值（果蝇加入后的前 7 天按 Common 计算）。",
     "joinPot": "加入资金池 {pot}",
     "joined": "已加入资金池。",
-    "makePot": "创建 {n} 只苍蝇的资金池",
+    "makePot": "创建 {n} 只果蝇的资金池",
     "potMade": "资金池已创建。在此页面为它充值。",
     "pot": "资金池",
     "signInText": "登录（免费，只需一次签名）即可修改此钱包的设置。",
@@ -1243,7 +1243,7 @@
       "stocks": "股票代币",
       "polymarket": "体育投注"
     },
-    "theFly": "苍蝇的大脑",
+    "theFly": "果蝇的大脑",
     "brainOn": "大脑参与交易",
     "shareOf": "资金占比",
     "riskLabel": "仓位",
@@ -1293,7 +1293,7 @@
       },
       "track": {
         "title": "跟单钱包",
-        "blurb": "粘贴你想跟随的钱包：它买入代币时，你的苍蝇也买入；它卖出时一起卖出。"
+        "blurb": "粘贴你想跟随的钱包：它买入代币时，你的果蝇也买入；它卖出时一起卖出。"
       },
       "fomo": {
         "title": "跟随 FOMO 顶级交易员",
@@ -1306,7 +1306,7 @@
         "blurbTok": "当 {sym}（这个系列的主场代币）跌到明显低于平时的价格时买入一些，价格回升后卖出。"
       },
       "earn": {
-        "title": "Earn",
+        "title": "赚取利息（Earn）",
         "blurb": "在 Robinhood Chain 上出借的现金。"
       },
       "poly": {
@@ -1338,15 +1338,15 @@
       "hold_bars": "持有（5 分钟 K 线数）",
       "lookback_bars": "回看（K 线数）",
       "max_positions": "最多代币数",
-      "usd_per_launch": "$ per launch",
-      "max_open": "Most at once",
-      "max_age_s": "Newer than (s)",
-      "tp_x": "Take half at (x)",
-      "tp_part": "Part taken (%)",
-      "drain_pct": "Exit on a pool drain (%)",
-      "min_return_pct": "Leader up at least (%)",
-      "min_days": "Leader's record at least (days)",
-      "min_trades": "Leader's trades at least",
+      "usd_per_launch": "每次发币买入额 ($)",
+      "max_open": "最大同时持仓数",
+      "max_age_s": "上线时间上限 (秒)",
+      "tp_x": "半仓止盈倍数 (x)",
+      "tp_part": "止盈卖出比例 (%)",
+      "drain_pct": "撤池离场阈值 (%)",
+      "min_return_pct": "领跑者最低收益率 (%)",
+      "min_days": "领跑者最短记录 (天)",
+      "min_trades": "领跑者最少交易笔数",
       "min_traders": "买入的顶级交易员数",
       "min_usd": "其买入至少 ($)",
       "window_minutes": "时间内（分钟）",
@@ -1400,8 +1400,8 @@
     },
     "starters": {
       "let_it_fly": {
-        "title": "放飞自我",
-        "blurb": "由苍蝇的大脑挑选，趋势跟踪引导，带防跑路过滤，交易更少、更精。"
+        "title": "放手让它飞",
+        "blurb": "由果蝇的大脑挑选，趋势跟踪引导，带防跑路过滤，交易更少、更精。"
       },
       "safe_majors": {
         "title": "稳健主流",
@@ -1429,7 +1429,7 @@
       },
       "fresh_launch_hunter": {
         "title": "新币猎手",
-        "blurb": "全新代币（上线 1 h 至 3 天），有真实资金池且成交量上升。极小仓位，宽止损。"
+        "blurb": "全新代币（上线 1 小时至 3 天），有真实资金池且成交量上升。极小仓位，宽止损。"
       },
       "custom": {
         "title": "自定义"
@@ -1443,17 +1443,17 @@
     "tab": {
       "all": "全部时间",
       "d7": "7 天",
-      "h24": "24 h"
+      "h24": "24 小时"
     },
     "err": {
-      "notOwner": "只有苍蝇的主人才能首次充值。",
+      "notOwner": "只有果蝇的主人才能首次充值。",
       "hold": "你的钱包需要持有足够的 $FLYAI 才能这样做。",
       "small": "低于 $5 的最低金额。",
       "notHolder": "只有此钱包的持有者才能这样做。",
       "paused": "Fly Wallets 暂时暂停。",
       "nothing": "除锁定部分外没有可提现的金额。",
-      "passUsed": "这只苍蝇已经用过 FlightPass 了。",
-      "inPot": "这只苍蝇已经在资金池里了。",
+      "passUsed": "这只果蝇已经用过 FlightPass 了。",
+      "inPot": "这只果蝇已经在资金池里了。",
       "notPotHolder": "只有资金池的持有者才能这样做。",
       "badToken": "该代币无法充值。",
       "positions": "钱包持有的代币太多了。",
@@ -1477,9 +1477,9 @@
     "unsaved": "有未保存的更改",
     "minFund": "此设置从 {min} 起每一部分都能交易。",
     "partsText": "此设置把资金分成 {n} 部分。每笔交易需要 $1，请存入 {min} 或更多。",
-    "minLow": "存入 {usd} 时，最小的部分只有 {part}，低于一笔交易所需的 $1：苍蝇暂时用更少的部分交易。存入 {min} 或更多，每一部分都能交易。",
+    "minLow": "存入 {usd} 时，最小的部分只有 {part}，低于一笔交易所需的 $1：果蝇暂时用更少的部分交易。存入 {min} 或更多，每一部分都能交易。",
     "steps": {
-      "title": "设置这只苍蝇",
+      "title": "设置这只果蝇",
       "hold": "钱包里持有 {need} $FLYAI",
       "pick": "选择交易方式（下方点一下）",
       "fund": "注资：{min} 或更多",
@@ -1487,10 +1487,10 @@
     },
     "maxDrop": "7天最大回撤",
     "bestWorst": "最好 {best} · 最差 {worst}",
-    "copyReady": "已用那只苍蝇的钱包开启 Track：检查份额并点击保存即可开始复制。",
+    "copyReady": "已使用该果蝇的钱包开启跟单（Track）：确认仓位比例并点击保存即可开始跟单。",
     "lend": {
       "title": "闲置资金赚取收益",
-      "text": "苍蝇暂时不用的现金可以在 Robinhood Chain 上出借（Steakhouse 和 Spark 的 USDG 金库），赚取借贷利息。当某个部分要买入或你提现时，它会在同一轮自动取回。",
+      "text": "果蝇暂时不用的现金可以在 Robinhood Chain 上出借（Steakhouse 和 Spark 的 USDG 金库），赚取借贷利息。当某个部分要买入或你提现时，它会在同一轮自动取回。",
       "mode": {
         "off": "关闭",
         "idle": "闲置现金",
@@ -1534,7 +1534,7 @@
     },
     "maker": {
       "title": "做市",
-      "text": "你的苍蝇用你选择的钱包比例，为一个代币在 GIGA DEX 的 USDG 池中提供流动性：围绕价格的区间，价格移动时重新居中，并收取池子的交易手续费（Fly Maker 的稳定区间）。",
+      "text": "你的果蝇用你选择的钱包比例，为一个代币在 GIGA DEX 的 USDG 池中提供流动性：围绕价格的区间，价格移动时重新居中，并收取池子的交易手续费（Fly Maker 的稳定区间）。",
       "on": "为这个代币做市",
       "token": "代币地址",
       "bad": "Robinhood Chain 代币地址（不能是 USDG）",
@@ -1567,14 +1567,14 @@
   "board": {
     "tab": "排行榜",
     "title": "Fly Wallet 排行榜",
-    "text": "每只已注资苍蝇的钱包，链上实时：主人存入多少、现在价值多少、盈利多少。每几分钟更新。",
+    "text": "每只已注资果蝇的钱包，链上实时：主人存入多少、现在价值多少、盈利多少。每几分钟更新。",
     "wallets": "Fly Wallet",
     "holders": "{n} 位主人",
     "deposited": "存入",
     "value": "当前价值",
     "profit": "盈利",
     "trades": "交易",
-    "fly": "苍蝇",
+    "fly": "果蝇",
     "holder": "主人",
     "setup": "策略",
     "profit_all": "盈利",
@@ -1587,7 +1587,7 @@
     "holding": "持仓中",
     "movedUp": "24 小时上升 {n} 名",
     "movedDown": "24 小时下降 {n} 名",
-    "holdingNote": "“持仓中” = 这只苍蝇还没卖出过。新钱包一开始会显示小幅负数：每次买入都要付池子手续费和 gas，所以未平仓头寸一开始略低于成本。上涨或卖出后就会转正。",
+    "holdingNote": "“持仓中” = 这只果蝇还没卖出过。新钱包一开始会显示小幅负数：每次买入都要付池子手续费和 gas，所以未平仓头寸一开始略低于成本。上涨或卖出后就会转正。",
     "maxDrop": "最大回撤"
   },
   "utility": {
@@ -1595,7 +1595,7 @@
     "mintFold": "铸造（已售罄）",
     "wallet": {
       "title": "用自己的钱包交易",
-      "text": "给苍蝇注资，它的大脑替你交易，内置趋势跟踪和防跑路过滤。在排行榜看结果。"
+      "text": "给果蝇注资，它的大脑替你交易，内置趋势跟踪和防跑路过滤。在排行榜看结果。"
     },
     "colosseum": {
       "title": "竞技场战斗",
@@ -1603,15 +1603,15 @@
     },
     "breed": {
       "title": "繁育",
-      "text": "把两只苍蝇合成一只：继承双亲特征，有机会更稀有。无需钱包即可试玩。"
+      "text": "把两只果蝇合成一只：继承双亲特征，有机会更稀有。无需钱包即可试玩。"
     },
     "payouts": {
       "title": "每周分红",
-      "text": "钱包持有 200,000 $FLYAI 时苍蝇处于激活状态，分享交易台利润，越稀有分得越多。"
+      "text": "钱包持有 200,000 $FLYAI 时果蝇处于激活状态，分享交易台利润，越稀有分得越多。"
     },
     "autopilot": {
       "title": "自动驾驶",
-      "text": "有 FlightPass，苍蝇会自己玩游戏、自己参加竞技场。"
+      "text": "有 FlightPass，果蝇会自己玩游戏、自己参加竞技场。"
     },
     "market": {
       "title": "市场交易",
@@ -1635,7 +1635,7 @@
     "sample": "可能的 #{id}：",
     "mutation": "新特征",
     "illustration": "按真实概率的示例。真实合成由之后区块的哈希决定。",
-    "cantRead": "暂时无法加载两只苍蝇。",
+    "cantRead": "暂时无法加载两只果蝇。",
     "roll100": "掷 100 次",
     "tallyTitle": "这两只合并 {n} 次：",
     "tallyTraits": "特征：{a}% 来自 #{idA}，{b}% 来自 #{idB}，{fresh}% 为新突变。",
@@ -1650,8 +1650,8 @@
   },
   "breedHow": {
     "title": "繁殖如何运作",
-    "text": "繁殖把你的两只 Trader Fly 合并成一只更强的苍蝇。铸造结束后，这是收藏中出现新特征和更稀有苍蝇的唯一途径。",
-    "s1title": "选两只苍蝇",
+    "text": "繁殖把你的两只 Trader Fly 合并成一只更强的果蝇。铸造结束后，这是收藏中出现新特征和更稀有果蝇的唯一途径。",
+    "s1title": "选两只果蝇",
     "s1": "两只都必须是你的。一只成为后代并保留编号，另一只被销毁。",
     "s2title": "支付费用",
     "s2": "按更稀有的亲代收取 $0.50 至 $5 的 $FLYAI，其中 80% 永久销毁。",
@@ -1659,12 +1659,12 @@
     "s3": "后代的特征由合并之后的区块决定，谁也无法挑选结果。",
     "s4title": "孵出",
     "s4": "每个特征来自一方亲代或突变为新特征；稀有度取较低的亲代，有 5% 几率升一级。",
-    "why": "苍蝇更少、更稀有：每次合并都会永久减少一只苍蝇的供应，并额外销毁 $FLYAI。",
+    "why": "果蝇更少、更稀有：每次合并都会永久减少一只果蝇的供应，并额外销毁 $FLYAI。",
     "fold": "繁殖如何运作 · 试试概率"
   },
   "share": {
     "button": "分享盈亏",
-    "title": "分享你的苍蝇盈亏",
+    "title": "分享你的果蝇盈亏",
     "close": "关闭",
     "span": {
       "all": "总收益",
@@ -1684,7 +1684,7 @@
     "copyFail": "此浏览器无法复制图片：请用下载。",
     "pasteHint": "图片已复制：粘贴到帖子里 (Ctrl/Cmd+V)。",
     "attachHint": "图片已下载：请附加到帖子。",
-    "post": "{name} 用自己真实的苍蝇大脑交易，{span}收益 {profit} {pct} 🪰🧠",
+    "post": "{name} 用自己真实的果蝇大脑交易，{span}收益 {profit} {pct} 🪰🧠",
     "postTrade": "{name} 刚以 {pct} 平仓 {what} 🪰🧠"
   },
   "follow": {
@@ -1692,12 +1692,12 @@
     "off": "关注",
     "hint": "在 🔔 和通知中收到它的交易",
     "unfollowHint": "取消关注",
-    "copy": "复制这只苍蝇",
-    "copyHint": "你自己的苍蝇会跟随这只苍蝇的交易（Track）"
+    "copy": "复制这只果蝇",
+    "copyHint": "让你自己的果蝇自动跟随这只果蝇的交易（跟单）"
   },
   "promo": {
-    "banner": "🎁 充值竞赛：接下来 {left} 个（共 {slots} 个）充值 {min} 以上的钱包可获得 +{bonus} 的 $FLYAI。奖励随你的苍蝇一起交易，{days} 天后归你所有 - 在此之前提取自己的资金，奖励将被退回。",
-    "checked": "自动发放。每个苍蝇钱包一份奖励 - 有多只苍蝇？每只都能获得。",
+    "banner": "🎁 充值竞赛：接下来 {left} 个（共 {slots} 个）充值 {min} 以上的钱包可获得 +{bonus} 的 $FLYAI。奖励随你的果蝇一起交易，{days} 天后归你所有 - 在此之前提取自己的资金，奖励将被退回。",
+    "checked": "自动发放。每个果蝇钱包一份奖励 - 有多只果蝇？每只都能获得。",
     "active": "🎁 {usd} 奖励 · 锁定至 {date}",
     "unlocked": "🎁 {usd} 奖励已解锁 - 归你了",
     "returned": "{usd} 奖励已退回（锁定期间提取了资金）。",
@@ -1706,8 +1706,8 @@
     "full": "🎁 充值竞赛：{slots} 个奖励已全部领完。感谢所有参与者！"
   },
   "fterm": {
-    "aria": "苍蝇 #{id} 终端",
-    "title": "苍蝇 #{id} // 终端",
+    "aria": "果蝇 #{id} 终端",
+    "title": "果蝇 #{id} // 终端",
     "live": "实时",
     "paused": "已暂停",
     "offline": "离线",
@@ -1778,18 +1778,18 @@
     },
     "empty": "暂无记录。钱包有资金后，每笔交易都会显示在这里。",
     "emptyFilter": "暂无此类记录。",
-    "noWallet": "这只苍蝇的钱包还未创建。",
+    "noWallet": "这只果蝇的钱包还未创建。",
     "repeats": "自 {time} 起 ×{n}"
   },
   "help": {
-    "watch": "除常规列表外，苍蝇一直关注的代币。它们跳过其他代币要经过的安全检查，所以只添加你信任的代币。",
+    "watch": "除常规列表外，果蝇一直关注的代币。它们跳过其他代币要经过的安全检查，所以只添加你信任的代币。",
     "market": {
       "memes": "Robinhood Chain 上的 meme 币和新代币。波动最大，风险也最大。",
       "majors": "ETH、BTC 等大币。波动比 meme 小。",
       "stocks": "Robinhood Chain 上的代币化股票，如 NVDA、TSLA。比币更平稳。",
       "polymarket": "Azuro 上的体育和电竞投注：每注都持有到比赛结算。"
     },
-    "brain": "让苍蝇的连接组大脑交易。它自己决定买卖什么。",
+    "brain": "让果蝇的连接组大脑交易。它自己决定买卖什么。",
     "brainShare": "大脑用钱包里多少比例的资金交易（%）。其余分给你开启的选项。",
     "risk": "大脑每次买入的大小：1 = 小而谨慎，5 = 大而大胆。",
     "max_positions": "钱包同时最多持有的代币数。",
@@ -1827,7 +1827,7 @@
       "min_return_pct": "钱包 7 天至少涨这个 % 才会被跟单。",
       "min_days": "被跟单前钱包需要的交易记录天数。",
       "min_trades": "被跟单前钱包需要的交易笔数。",
-      "min_traders": "要有多少位不同的顶尖交易者买同一代币，你的苍蝇才买。",
+      "min_traders": "要有多少位不同的顶尖交易者买同一代币，你的果蝇才买。",
       "min_usd": "顶尖交易者一笔买入至少多少美元才算数。",
       "window_minutes": "这些买入都要在这么多分钟内发生。",
       "follow_sells": "1 = 跟单的交易者卖出时也卖。0 = 只按止损和时间限制卖。",
@@ -1873,11 +1873,11 @@
       "trail_pct": "大脑的仓位从买入后的最高点回落这个 % 就卖。",
       "max_hold_hours": "大脑的仓位持有这么多小时后卖出。"
     },
-    "eth_to_usdg": "把你转入的 ETH 换成 USDG（美元），让苍蝇能用它交易。总会留一点 ETH 付 gas。",
-    "trading": "关闭 = 苍蝇不再开新仓。已持有的仍会照管。",
+    "eth_to_usdg": "把你转入的 ETH 换成 USDG（美元），让果蝇能用它交易。总会留一点 ETH 付 gas。",
+    "trading": "关闭 = 果蝇不再开新仓。已持有的仍会照管。",
     "earn": "闲置现金出借给 Robinhood Chain 上的 Steakhouse 或 Spark USDG 金库。显示的是当前基础利率，每天都会变动。",
     "crossChains": "这些链上的代币用钱包的 USDG 通过 Relay 买入（跨链 + 兑换一步完成），卖出后回到这里的 USDG。每条链的首次买入还会发送 $0.50 的 gas。低于 $5 的买入会跳过。",
-    "maker": "在这只苍蝇自己的钱包里运行 Fly Maker 的稳定区间：只在价格距 5 分钟均价 3% 以内时操作，每次最多兑换做市资金的四分之一，任何提现前先取出流动性。"
+    "maker": "在这只果蝇自己的钱包里运行 Fly Maker 的稳定区间：只在价格距 5 分钟均价 3% 以内时操作，每次最多兑换做市资金的四分之一，任何提现前先取出流动性。"
   },
   "label": {
     "add": "添加私人标签",
@@ -1886,9 +1886,9 @@
     "remove": "删除",
     "cancel": "取消",
     "placeholder": "例如：趋势测试 #2",
-    "aria": "这只苍蝇的私人标签",
+    "aria": "这只果蝇的私人标签",
     "private": "只有你能看到这个标签。",
-    "signInFailed": "登录后才能给苍蝇加标签。"
+    "signInFailed": "登录后才能给果蝇加标签。"
   },
   "partner": {
     "title": "合作伙伴",
@@ -2045,25 +2045,25 @@
     }
   },
   "grow": {
-    "title": "让这只苍蝇的份额变大",
+    "title": "让这只果蝇的份额变大",
     "feedTitle": "喂养",
     "on": "开",
     "off": "关",
-    "feedText": "把每周的收益留在 Fly Desk 而不领取:每喂养 ${unit},份额 +1x(最多 {cap}x)。",
-    "fedSoFar": "已喂养:${usd} · 份额 x{x}",
+    "feedText": "将每周分红留在 Fly Desk 而不取出：每喂养 ${unit}，分红权重 +1x（最高 {cap}x）。",
+    "fedSoFar": "累计喂养：${usd} · 当前权重 x{x}",
     "feedStart": "开始喂养",
     "feedStop": "停止喂养",
-    "feedOnDone": "喂养已开启:下周的收益会留在 desk,让这只苍蝇成长。",
-    "feedOffDone": "喂养已关闭:收益会重新进入你的领取。",
+    "feedOnDone": "喂养已开启：下周分红将留在交易台内，持续壮大这只果蝇。",
+    "feedOffDone": "喂养已关闭：每周分红将重新进入待领取列表。",
     "boostTitle": "加速",
     "burned": "已销毁 {amount} $FLYAI",
-    "boostText": "为这只苍蝇销毁 $FLYAI:最近 28 天每销毁 {unit},份额 +1x(最多 {cap}x)。销毁的代币永久消失。",
-    "boostNow": "当前加速:x{x}",
+    "boostText": "为这只果蝇销毁 $FLYAI：过去 28 天内每销毁 {unit}，分红权重 +1x（最高 {cap}x）。销毁的代币将永久移除。",
+    "boostNow": "当前加速：x{x}",
     "burn": "销毁 $FLYAI",
     "approving": "请在钱包中批准…",
-    "boostDone": "已为这只苍蝇销毁 {amount} $FLYAI。",
-    "holderOnly": "只有这只苍蝇的持有者可以喂养或加速。",
-    "notHolder": "只有这只苍蝇的持有者可以这样做。",
+    "boostDone": "已为这只果蝇销毁 {amount} $FLYAI。",
+    "holderOnly": "只有这只果蝇的持有者可以喂养或加速。",
+    "notHolder": "只有这只果蝇的持有者可以这样做。",
     "zero": "请输入数量。"
   },
   "stake": {
@@ -2090,7 +2090,7 @@
     "tooMuchWallet": "超过了你钱包中的 $FLYAI。",
     "tooMuchStaked": "超过了你的质押量。",
     "title": "质押 $FLYAI",
-    "lede": "质押 $FLYAI 可在每周分配中分到更大一份：质押 1M = 1.5×，2M = 2×，5M = 3×，10M 及以上 = 4×（上限）。立即生效，按你当前的质押量计算；奖池总额不变，所以是相对于质押更少的持有者，你的份额更大。质押的 $FLYAI 也计入让你的苍蝇保持激活的 200,000。解除质押需要 {days} 天。",
+    "lede": "质押 $FLYAI 可在每周分配中分到更大一份：质押 1M = 1.5×，2M = 2×，5M = 3×，10M 及以上 = 4×（上限）。立即生效，按你当前的质押量计算；奖池总额不变，所以是相对于质押更少的持有者，你的份额更大。质押的 $FLYAI 也计入让你的果蝇保持激活的 200,000。解除质押需要 {days} 天。",
     "tab": {
       "stake": "质押",
       "unstake": "解除质押"
@@ -2109,33 +2109,33 @@
     "cancel": "取消"
   },
   "home": {
-    "title": "我的苍蝇",
-    "what": "Trader Flies 是 NFT，每只都由真实的苍蝇大脑驱动。持有足够的 $FLYAI，你的苍蝇就能分享 Fly Desk 的每周收益；给苍蝇自己的钱包充值，它的大脑就会替你交易。",
+    "title": "我的果蝇",
+    "what": "Trader Flies 是 NFT，每只都由真实的果蝇大脑驱动。持有足够的 $FLYAI，你的果蝇就能分享 Fly Desk 的每周收益；给果蝇自己的钱包充值，它的大脑就会替你交易。",
     "status": "状态",
-    "holding": "你持有 {held} $FLYAI（需要 {need}）：你的苍蝇正在从交易台赚取收益",
-    "needHold": "你持有 {held} $FLYAI。持有 {need} 即可激活你的苍蝇",
+    "holding": "你持有 {held} $FLYAI（需要 {need}）：你的果蝇正在从交易台赚取收益",
+    "needHold": "你持有 {held} $FLYAI。持有 {need} 即可激活你的果蝇",
     "buy": "购买 $FLYAI",
     "wallets": "Fly Wallet",
     "fundedOf": "{of} 只中 {n} 只已充值",
-    "walletsNote": "已充值的苍蝇用自己的钱包交易。打开一只苍蝇为它充值。",
+    "walletsNote": "已充值的果蝇用自己的钱包交易。打开一只果蝇为它充值。",
     "claimPage": "收益详情",
     "how": "运作方式",
     "startTitle": "开始",
-    "openFly": "打开你的苍蝇",
+    "openFly": "打开你的果蝇",
     "walletOn": "钱包已充值",
     "walletOff": "钱包为空",
     "seeTrades": "查看交易",
     "fundIt": "为钱包充值",
-    "flyEarns": "这只苍蝇有两种收益：持有人持有足够 $FLYAI 时分享 Fly Desk 的每周收益，以及由它的大脑交易的自己的 Fly Wallet。",
+    "flyEarns": "这只果蝇有两种收益：持有人持有足够 $FLYAI 时分享 Fly Desk 的每周收益，以及由它的大脑交易的自己的 Fly Wallet。",
     "step": {
       "connect": "连接钱包",
       "connectText": "一次免费签名即可登录，不会发送任何资产。",
       "fly": "获得一只 Trader Fly",
-      "flyText": "在 Fly Market 购买。越稀有的苍蝇份额越大。",
-      "activate": "激活你的苍蝇",
-      "activateText": "持有 {amount} $FLYAI（质押的也算）。活跃的苍蝇分享 Fly Desk 的每周收益。",
+      "flyText": "在 Fly Market 购买。越稀有的果蝇份额越大。",
+      "activate": "激活你的果蝇",
+      "activateText": "持有 {amount} $FLYAI（质押的也算）。活跃的果蝇分享 Fly Desk 的每周收益。",
       "fund": "为 Fly Wallet 充值（可选）",
-      "fundText": "把 USDG 或 ETH 放进苍蝇自己的钱包，它的大脑就会交易。在苍蝇页面提取。"
+      "fundText": "把 USDG 或 ETH 放进果蝇自己的钱包，它的大脑就会交易。在果蝇页面提取。"
     }
   },
   "smell": {

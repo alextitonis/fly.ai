@@ -16,8 +16,8 @@
       "label": "首页"
     },
     "letitfly": {
-      "label": "放飞自我",
-      "desc": "你的苍蝇替你交易"
+      "label": "放手让它飞",
+      "desc": "让你的果蝇替你交易"
     },
     "research": {
       "label": "全部发现",
@@ -48,19 +48,19 @@
       "desc": "由果蝇大脑书写的实时动态"
     },
     "radio": {
-      "label": "果蝇电台",
+      "label": "Fly Radio",
       "desc": "由真实果蝇大脑播放的电台"
     },
     "roulette": {
-      "label": "果蝇轮盘",
+      "label": "Fly Roulette",
       "desc": "果蝇大脑 vs 玩具火药枪"
     },
     "slots": {
-      "label": "果蝇老虎机",
+      "label": "Fly Slots",
       "desc": "转动转轴，果蝇大脑来反应"
     },
     "race": {
-      "label": "果蝇赛跑",
+      "label": "Fly Race",
       "desc": "六个果蝇大脑冲向水果"
     },
     "colosseum": {
@@ -73,11 +73,11 @@
     },
     "desk": {
       "label": "Fly Desk",
-      "desc": "真实的苍蝇大脑实盘交易，Trader Flies 分享利润"
+      "desc": "真实的果蝇大脑实盘交易，Trader Flies 分享利润"
     },
     "traderflies": {
       "label": "Trader Flies",
-      "desc": "系列与你的苍蝇"
+      "desc": "系列与你的果蝇"
     },
     "compute": {
       "label": "算力",
@@ -101,7 +101,7 @@
     },
     "agents": {
       "label": "面向 AI 代理",
-      "desc": "让 Claude 像苍蝇一样说话"
+      "desc": "让 Claude 像果蝇一样说话"
     },
     "bounties": {
       "label": "赏金",
@@ -112,10 +112,10 @@
     },
     "traderflies_traders": {
       "label": "交易蝇",
-      "desc": "你所有的苍蝇和它们的钱包"
+      "desc": "你所有的果蝇和它们的钱包"
     },
     "traderflies_market": {
-      "label": "苍蝇市场",
+      "label": "Fly Market",
       "desc": "买卖 Trader Flies"
     },
     "opensea": {
@@ -124,27 +124,27 @@
     },
     "traderflies_breed": {
       "label": "繁殖",
-      "desc": "把两只苍蝇合成一只"
+      "desc": "把两只果蝇合成一只"
     },
     "traderflies_claim": {
       "label": "领取",
-      "desc": "领取你的苍蝇赚到的 $FLYAI"
+      "desc": "领取你的果蝇赚到的 $FLYAI"
     },
     "traderflies_pets": {
-      "label": "Hardware NFTs",
-      "desc": "FLYAI 宠物：预订一只口袋苍蝇"
+      "label": "硬件 NFT",
+      "desc": "FLYAI 宠物：预订一只口袋果蝇"
     },
     "traderflies_pass": {
       "label": "FlightPass",
-      "desc": "让你的苍蝇自动驾驶"
+      "desc": "让你的果蝇自动驾驶"
     },
     "desk-api": {
       "label": "API 与技能",
-      "desc": "通过 x402 购买 desk 的答案"
+      "desc": "通过 x402 购买交易台的分析结果"
     },
     "traderflies_inventory": {
       "label": "库存",
-      "desc": "你的苍蝇和它们的钱包"
+      "desc": "你的果蝇和它们的钱包"
     },
     "traderflies_leaderboard": {
       "label": "排行榜",
@@ -153,21 +153,21 @@
     "acct": {
       "signInHint": "请在右上角登录 ↗",
       "signIn": "登录",
-      "myFlies": "我的苍蝇",
+      "myFlies": "我的果蝇",
       "leaderboard": "排行榜",
       "nickname": "昵称",
       "nickHint": "3-20 个字符",
       "save": "保存",
       "saved": "已保存",
-      "compute": "Compute 与余额",
+      "compute": "算力与余额",
       "signOut": "退出",
       "search": "搜索",
-      "searchHint": "应用、#苍蝇、用户",
-      "openFly": "打开苍蝇",
-      "flies": "苍蝇",
+      "searchHint": "应用、#果蝇、用户",
+      "openFly": "查看果蝇",
+      "flies": "果蝇",
       "noResults": "无结果",
       "notifications": "通知",
-      "nothingYet": "暂无：给苍蝇注资或玩个游戏",
+      "nothingYet": "暂无：给果蝇注资或玩个游戏",
       "bought": "买入",
       "sold": "卖出",
       "colosseum": "竞技场",
@@ -177,7 +177,7 @@
       "deskClaim": "Fly Desk 待领取支付",
       "claimBy": "请在 {t} 前领取",
       "b_nickname": "已起名",
-      "b_funded": "注资苍蝇",
+      "b_funded": "已注资果蝇",
       "b_profit": "盈利中",
       "b_trader": "10+ 笔交易",
       "b_gladiator": "角斗士",
@@ -193,8 +193,8 @@
       "whatsNew": "新功能"
     },
     "terminal": {
-      "label": "Fly 终端",
-      "desc": "实时观看苍蝇交易"
+      "label": "Fly Terminal",
+      "desc": "实时观看果蝇交易"
     },
     "how": {
       "label": "运作方式",
@@ -225,8 +225,8 @@
       "desc": "交易台是什么、如何交易和分红"
     },
     "myFlies": {
-      "label": "我的苍蝇",
-      "desc": "你的苍蝇、它们的钱包、下一步"
+      "label": "我的果蝇",
+      "desc": "你的果蝇、它们的钱包、下一步"
     },
     "flyMarket": {
       "label": "市场",
@@ -240,8 +240,8 @@
       "label": "GitHub"
     },
     "gta": {
-      "label": "GTA VI 赠送",
-      "desc": "持有 10 万 $FLYAI，赢取一份"
+      "label": "GTA VI 抽奖",
+      "desc": "持有 10 万枚 $FLYAI，赢取一份游戏"
     },
     "researchAll": {
       "label": "研究",
