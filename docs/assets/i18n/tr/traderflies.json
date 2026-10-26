@@ -14,15 +14,15 @@
   },
   "traders": {
     "more": "{n} tane daha göster",
-    "title": "Trader Flies'ların",
+    "title": "Trader Fly'ların",
     "connect": "Sineklerini görmek için cüzdanını bağla.",
     "loading": "Sineklerin bulunuyor…",
     "none": "Bu cüzdanda Trader Fly yok.",
     "getFly": "Fly Market'ten bir sinek al",
     "count": "Bu cüzdanda: {n}. Cüzdanı, ayarları ve işlemleri için bir sinek aç.",
     "wallet": "Cüzdan",
-    "empty": "Cüzdan boş - yatırmak için aç",
-    "funded": "Cüzdan dolu - işlemleri için aç",
+    "empty": "Cüzdan boş - bakiye yüklemek için aç",
+    "funded": "Cüzdan dolu - işlemleri görmek için aç",
     "tab": "Sineklerim",
     "copyPick": "{fly} sineğini hangi sineğinin kopyalayacağını seç."
   },
@@ -37,7 +37,7 @@
     "home": "fly.ai ↗",
     "disconnect": "Bağlantıyı kes",
     "afterMint": "Mint bitince açılır",
-    "pets": "Hardware NFTs",
+    "pets": "Donanım NFT'leri",
     "pass": "FlightPass",
     "inventory": "Sineklerim",
     "leaderboard": "Sıralama",
@@ -160,7 +160,7 @@
   },
   "shop": {
     "title": "Mağaza",
-    "text": "Dükkânda kalan sinekler. Her biri dükkân fiyatı çarpı nadirlik ağırlığı (Efsanevi 3x) tutar; USDG ile ya da {pct}% indirimli $FLYAI ile (yukarıdan seç). Para mint gibi bölünür: %80'i sineklerin trading havuzuna gider.",
+    "text": "Mağazada kalan sinekler. Her biri mağaza fiyatı çarpı nadirlik ağırlığı (Efsanevi 3x) tutarındadır; USDG ile ya da %{pct} indirimli $FLYAI ile alınabilir (yukarıdan seç). Gelir mint gibi bölünür: %80'i sineklerin işlem havuzuna aktarılır.",
     "step2": "Adım 2/2: satın almayı cüzdanında onayla.",
     "yours": "Trader Fly #{id} artık senin. Bu cüzdanda yeterli $FLYAI olduğu sürece masada.",
     "connectToBuy": "Satın almak için bağlan",
@@ -447,8 +447,8 @@
       "clear": "Temizle",
       "buyNote": "Tek işlem. Seninkinden önce satılan ya da fiyatı değişen atlanır, ücret alınmaz. Her biri %{pct} ücret.",
       "approveToken": "Sepet için {amount} onaylanıyor…",
-      "boughtAll": "{n} öğenin hepsi alındı. Alışveriş tamam.",
-      "boughtSome": "{n} öğeden {got} alındı. Gerisini başkası kaptı, ücret alınmadı.",
+      "boughtAll": "{n} öğenin tamamı satın alındı. Toplu alım tamamlandı.",
+      "boughtSome": "{n} öğeden {got} tanesi alındı. Kalanları senden önce başkası kaptı; onlar için ücret kesilmedi.",
       "pickedOf": "{of} içinden {n} seçili",
       "untracked": "Cüzdanın toplu işlemi gönderdi ama durumunu bildiremiyor. İşlem geçmişine bak, sonra bu sayfayı yenile.",
       "failedChain": "Toplu işlem zincirde başarısız oldu."
@@ -510,7 +510,7 @@
     }
   },
   "mine": {
-    "title": "Trader Flies'ın",
+    "title": "Trader Fly'ların",
     "active": "● aktif",
     "idle": "○ aktif değil",
     "holdOk": "Sineklerin aktif: bu cüzdanda {have} $FLYAI var, gereken {amount}.",
@@ -520,11 +520,11 @@
   "how": {
     "mint": "<b>Mint</b> USDG ile ya da %{pct} indirimle $FLYAI ile. Mint açıkken tüm sinekler aynı görünür, bu yüzden kimse nadir olanları seçemez.",
     "reveal": "<b>Açılış.</b> Mint bitince gelecekteki bir bloğun hash'i, sözleşmenin içinde her sineğin özelliklerini belirler: nadirlik (Sıradan, Nadir olmayan, Nadir ya da Efsanevi), poz, renk, arka plan ve ekipman. Herkes zincirde kontrol edebilir.",
-    "activate": "<b>$FLYAI tut.</b> Bir sinek, sahibinin cüzdanında {amount} $FLYAI olduğu sürece aktiftir. Ödeme yok, basılacak düğme yok; tek bir bakiye cüzdandaki bütün sinekleri kapsar. Aktif sinekler masada birlikte işlem yapar. Her mint %80 sineklerin işlem havuzuna, %20 ekibe bölündü. Bir hafta havuzun önceki zirvesinin üstünde biterse, o kârın %95'i $FLYAI olarak aktif sineklere gider (%5 ekibe); nadirliğe ve ne kadar süre aktif kaldıklarına göre ağırlıklandırılır. Kayıtlı FLYAI evcil hayvanları (fiziksel tamagotchi'lerimiz) da 3.5x ile pay alır. Bir sineği satarsan ya da bu miktarın altına düşersen durur.",
+    "activate": "<b>$FLYAI tut.</b> Bir sinek, sahibinin cüzdanında {amount} $FLYAI olduğu sürece aktiftir. Ödeme yok, basılacak düğme yok; tek bir bakiye cüzdandaki bütün sinekleri kapsar. Aktif sinekler masada birlikte işlem yapar. Her mint %80 sineklerin işlem havuzuna, %20 ekibe bölündü. Bir hafta havuzun önceki zirvesinin üstünde biterse, o kârın %95'i $FLYAI olarak aktif sineklere gider (%5 ekibe); nadirliğe ve ne kadar süre aktif kaldıklarına göre ağırlıklandırılır. Kayıtlı FLYAI evcil hayvanları (fiziksel tamagotchi'lerimiz) da 3,5x ile pay alır. Bir sineği satarsan ya da bu miktarın altına düşersen durur.",
     "risk": "İşlem yapmak para kaybettirebilir ve kârsız bir hafta hiçbir şey ödemez. Buradaki hiçbir şey getiri vaat etmez."
   },
   "claim": {
-    "soon": "Ödemeler trade'in ilk haftasından sonra açılır.",
+    "soon": "Ödemeler işlemlerin ilk haftasından sonra açılır.",
     "connectFirst": "Sineklerini tutan cüzdanı bağla.",
     "ready": "Almaya hazır",
     "claimedSoFar": "Şimdiye kadar alınan",
@@ -563,13 +563,13 @@
     "how": {
       "title": "Haftalık ödeme nasıl çalışır",
       "weekTitle": "Haftada bir, desk'in kârından",
-      "week": "Bir trading haftası kârla biterse, bir kısmı $FLYAI'a çevrilir ve aktif Trader Flies arasında nadirliğe ve her sineğin haftanın ne kadarında aktif olduğuna göre bölünür. Kârsız bir hafta ödeme yapmaz.",
+      "week": "Bir işlem haftası kârla kapanırsa, kârın bir kısmı $FLYAI'ye çevrilir ve aktif Trader Flies arasında nadirliğe ve her sineğin haftanın ne kadarında aktif kaldığına göre bölüştürülür. Kârsız geçen haftalarda ödeme yapılmaz.",
       "windowTitle": "{hours} saat içinde talep et",
-      "window": "Her ödeme açıldıktan sonra {hours} saat boyunca talep edilebilir. Tek bir talep tüm sineklerini birden toplar, \"Claim & stake\" ise aynı adımda stake eder.",
+      "window": "Her ödeme açıldıktan sonra {hours} saat boyunca talep edilebilir. Tek bir talep tüm sineklerini birden toplar, \"Al ve stake et\" ise aynı adımda stake eder.",
       "unclaimedTitle": "Talep edilmeyen $FLYAI talep edenlere gider",
       "unclaimed": "Zamanında talep edilmeyen kısım senin için saklanmaz ve bir sonraki ödemeni artırmaz. O hafta talep eden cüzdanlara, her birinin talep ettiği miktara göre gönderilir; yani zamanında talep etmek sana biraz ekstra kazandırabilir. Kimse talep etmezse Fly Desk'te kalır.",
       "growTitle": "Daha büyük ödemeler mi istiyorsun? Besle ya da stake et",
-      "grow": "Bir sineğin sonraki ödemelerdeki payını büyütmek için onu kendi sayfasında besle: ödemesi desk'te kalır ve o andan itibaren payına eklenir. Ya da aşağıdan $FLYAI stake et: 1M stake = 1.5×, 10M'de 4×'e kadar."
+      "grow": "Bir sineğin sonraki ödemelerdeki payını büyütmek için onu kendi sayfasında besle: ödemesi desk'te kalır ve o andan itibaren payına eklenir. Ya da aşağıdan $FLYAI stake et: 1M stake = 1,5×, 10M'de 4×'e kadar."
     },
     "s": {
       "closes": "{when} tarihinden önce al ({hours} sa kaldı). Geç kalan $FLYAI, alan sahiplere gider.",
@@ -605,7 +605,7 @@
       "flies": "Sinek (1.000 içinden)",
       "weight": "Ödeme ağırlığı"
     },
-    "reveal": "Mint açıkken tüm sinekler aynı görünür. Mint bitince (reveal), gelecekteki bir bloğun hash'i her sineğin nadirliğini ve özelliklerini sözleşmenin içinde belirler; bu yüzden ekip dahil kimse önceden seçemez ya da göremez. Sayılar kesindir: yaklaşık değil, tam 30 Efsanevi sinek olacak. Nadirlik bir sineğin ödeme payını belirler, nasıl trade yaptığını asla.",
+    "reveal": "Mint açıkken tüm sinekler aynı görünür. Mint bitince (reveal), gelecekteki bir bloğun hash'i her sineğin nadirliğini ve özelliklerini sözleşmenin içinde belirler; bu yüzden ekip dahil kimse önceden seçemez ya da göremez. Sayılar kesindir: yaklaşık değil, tam 30 Efsanevi sinek olacak. Nadirlik bir sineğin ödeme payını belirler, nasıl işlem yaptığını asla etkilemez.",
     "traits": "Her sinek ayrıca bir poz (14), bir renk düzeni (nadirlik başına 4), bir arka plan (14), bir ekipman (10) ve ekstra bir eşya (13) çeker; çizimler hiçbir iki resmin aynı olmamasını sağlar."
   },
   "contracts": {
@@ -616,7 +616,7 @@
     "pets": "FLYAI evcil hayvan ön siparişleri"
   },
   "pets": {
-    "kicker": "Hardware NFTs · FLYAI evcil hayvanları",
+    "kicker": "Donanım NFT'leri · FLYAI evcil hayvanları",
     "title": "Cebinde bir sinek",
     "lede": "FLYAI evcil hayvanları, ekranında bir sineğin yaşadığı küçük el cihazlarıdır. Onu büyüt, onunla oyna; kaydedildikten sonra masadaki bir sinek gibi Trader Flies'ın haftalık kârından pay alır.",
     "soon": "Ön siparişler yakında açılıyor. Açıldığında buraya gelip cüzdanını bağla.",
@@ -681,7 +681,7 @@
       "register": "<b>Kaydedilir, mint edilmez.</b> Her evcil hayvan ilk açılışta kendi anahtarını üretir. Açık adresini Robinhood Chain'deki evcil hayvan kaydına ekleriz; NFT mint edilmez.",
       "bind": "<b>Cüzdanına bağla.</b> Cihazı tak; cüzdanın için imza atar ve payını o cüzdan alır.",
       "share": "<b>Masanın kârından pay alır.</b> Kayıtlı evcil hayvanlar Trader Flies'ın haftalık kâr payından 3,5x ile pay alır, Efsanevi bir sinekten (3x) fazla. Hep açık: aktivasyon gerekmez.",
-      "risk": "Trade para kaybettirebilir ve kârsız bir hafta hiçbir şey ödemez. Evcil hayvan her şeyden önce bir oyuncak; burada hiçbir getiri vaadi yoktur."
+      "risk": "İşlem yapmak kayıpla sonuçlanabilir ve kârsız geçen bir hafta ödeme yapmaz. Evcil hayvan her şeyden önce fiziksel bir cihazdır; burada hiçbir getiri vaadi yoktur."
     },
     "faqTitle": "Sorular",
     "faq": {
@@ -721,16 +721,16 @@
     "name": "FlightPass #{id}",
     "soon": "FlightPass yakında iniyor.",
     "title": "FlightPass",
-    "text": "Sineğin otomatik pilotta. Pasa $FLYAI yükle, oyunları seç, sen uyurken sineğin oynasın. $FLYAI pasla birlikte gider: pası satarsan bakiye de onunla gider.",
+    "text": "Sineğin otomatik pilotta. Pass'e $FLYAI yükle, oyunları seç, sen uyurken sineğin oynasın. $FLYAI pass ile birlikte gider: pass'i satarsan bakiye de onunla gider.",
     "perks": {
       "autoTitle": "Otomatik pilot",
       "auto": "Fly Roulette, Flybook görevleri, düellolar ve üreme, senin yerine oynanır.",
       "mineTitle": "{x} madencilik",
-      "mine": "Bir pası tam bir UTC günü boyunca tut, o günün madencilik puanları stake kademene ek olarak {x} olsun.",
+      "mine": "Bir pass'i tam bir UTC günü boyunca tut, o günün madencilik puanları stake kademene ek olarak {x} olsun.",
       "tradeTitle": "Takas edilebilir",
       "trade": "Pazarda listele. İçindeki $FLYAI alıcıya gider."
     },
-    "signInText": "Paslarını görmek için cüzdanınla bir kez giriş yap. Ücretsiz, işlem yok, Fly Roulette ve madencilikle aynı giriş.",
+    "signInText": "Pass'lerini görmek için cüzdanınla bir kez giriş yap. Ücretsiz, işlem yok, Fly Roulette ve madencilikle aynı giriş.",
     "signIn": "Giriş yap",
     "signing": "Cüzdanında mesajı imzala…",
     "none": "Bu cüzdanda FlightPass yok.",
@@ -742,35 +742,35 @@
     "listedBadge": "Satışta",
     "flying": "Otomatik pilot açık",
     "parked": "Park halinde",
-    "frozen": "Bu pas satışta, bu yüzden donduruldu: pazardan kaldırana kadar yükleme, çekim ve otomatik oyun yok.",
+    "frozen": "Bu pass satışta, bu yüzden donduruldu: pazardan kaldırana kadar yükleme, çekim ve otomatik oyun yok.",
     "balance": "Bakiye",
     "locked": "Kilitli",
-    "lockedNote": "Ücretsiz $2,50 pasta kalır",
+    "lockedNote": "Ücretsiz $2,50 pass'te kalır",
     "withdrawable": "Çekilebilir",
     "betToday": "Bugünkü bahis",
     "topUp": "Yükle",
-    "topUpText": "Pasa $FLYAI gönder. Ücret yok.",
+    "topUpText": "Pass'e $FLYAI gönder. Ücret yok.",
     "amount": "$FLYAI miktarı",
     "topUpGo": "Yükle",
     "withdraw": "Çek",
     "withdrawPending": "{amount} $FLYAI çekimi yolda.",
-    "withdrawLocked": "Çekimleri açmak için bir kez yükleme yap. Ücretsiz $2,50 her zaman pasta kalır.",
+    "withdrawLocked": "Çekimleri açmak için bir kez yükleme yap. Ücretsiz $2,50 her zaman pass'te kalır.",
     "withdrawText": "Ücretsiz $2,50'in üstündeki her şey, kazançlar dahil, çekilebilir. %{pct} ücret.",
     "max": "Maks",
     "withdrawGo": "Çek",
     "youGet": "Alacağın: {amount} $FLYAI ({fee} ücret)",
     "depositing": "Transferi cüzdanında onayla…",
-    "crediting": "Pasa işleniyor…",
-    "deposited": "FlightPass #{id} pasına {amount} $FLYAI eklendi.",
+    "crediting": "Pass'e işleniyor…",
+    "deposited": "FlightPass #{id} bakiyesine {amount} $FLYAI eklendi.",
     "withdrawAsked": "Çekim talep edildi: {amount} $FLYAI sana geliyor.",
     "saved": "FlightPass #{id} ayarları kaydedildi.",
     "autopilot": "Otomatik pilot",
     "games": {
       "roulette": "Fly Roulette",
-      "rouletteText": "Limitlerin içinde, pas bakiyesinden bahis yapar.",
-      "slots": "Sinek Slotları",
+      "rouletteText": "Limitlerin içinde, pass bakiyesinden bahis yapar.",
+      "slots": "Fly Slots",
       "slotsText": "Pass bakiyesiyle, senin sınırların içinde çevirir. Sinek sadece tepki verir; makaralar rastgeledir.",
-      "race": "Sinek Yarışı",
+      "race": "Fly Race",
       "raceText": "Pass bakiyesiyle, senin sınırların içinde rastgele bir kulvarda yarışır. Kimin kazanacağına sineklerin beyinleri karar verir.",
       "missions": "Flybook görevleri",
       "missionsText": "Her gün dürtme, beğeni ve tepkiler, sezon tablosu için.",
@@ -816,7 +816,7 @@
     },
     "terms": {
       "title": "Fly Roulette şartları",
-      "text": "Pasın kasaya karşı gerçek $FLYAI ile bahis yapar. Bahisler kaybedebilir.",
+      "text": "Pass'in kasaya karşı gerçek $FLYAI ile bahis yapar. Bahisler kaybedebilir.",
       "age": "18 yaşında veya daha büyüğüm",
       "accept": "<a href=\"{href}\" target=\"_blank\" rel=\"noopener\">Fly Roulette şartlarını</a> kabul ediyorum",
       "go": "Kabul et"
@@ -897,18 +897,18 @@
     "houseLimits": "Fly Roulette limitleri: bahis başına {min}–{max} $FLYAI, günde en fazla {day} $FLYAI.",
     "slots": {
       "stake": "Çevirme başı bahis ($FLYAI)",
-      "house": "Sinek Slotları sınırları: çevirme başı {min}–{max} $FLYAI, günde en çok {day} $FLYAI.",
+      "house": "Fly Slots limitleri: çevirme başına {min}–{max} $FLYAI, günde en fazla {day} $FLYAI.",
       "today": "Bugün çevrilen: {spent} / {cap} $FLYAI",
-      "termsNeeded": "Sinek Slotları, Fly Roulette’in 18+ şartlarını kullanır; bir kez kabul edilir. Kaydederken sorulur.",
+      "termsNeeded": "Fly Slots, Fly Roulette'in 18+ şartlarını kullanır; bir kez kabul edilir. Kaydederken sorulur.",
       "spinWon": "{mult}x kazandı",
       "spinLost": "Kazanç yok",
       "status": {
         "listed": "Pass satışta olduğu sürece duraklatıldı.",
-        "paused": "Sinek Slotları şu an herkes için durduruldu. Geri gelince sineğin yine çevirir.",
+        "paused": "Fly Slots şu an herkes için duraklatıldı. Geri geldiğinde sineğin yeniden çevirir.",
         "terms": "18+ şartları kabul et, sineğin çevirmeye başlasın.",
         "stake": "Çevirme başı bahis {min} ile {max} $FLYAI arasında olmalı. Değiştir ve kaydet.",
         "dayCapYours": "Günlük sınıra ulaşıldı: bugün {cap} $FLYAI çevrildi. Sineğin {time} (00:00 UTC) saatinde yine çevirir ya da “Günlük maksimum”u artır.",
-        "dayCapHouse": "Günlük sınıra ulaşıldı: bugün {cap} $FLYAI çevrildi, Sinek Slotları’nın günlük üst sınırı. Sineğin {time} (00:00 UTC) saatinde yine çevirir.",
+        "dayCapHouse": "Günlük limite ulaşıldı: bugün {cap} $FLYAI çevrildi, Fly Slots'un günlük üst sınırı bu. Sineğin {time} (00:00 UTC) itibarıyla yeniden çevirir.",
         "lowBalance": "Pass'te bir çevirmeye yetecek bakiye yok ({need} $FLYAI). Oynamaya devam etmek için yükle.",
         "waiting": "Otomatik pilot açık. Sonraki çevirme {time} civarı."
       }
@@ -964,20 +964,20 @@
         "podium": "Podyum (ilk 3)"
       },
       "pickNote": "Sineğin her yarışta rastgele bir kulvara oynar.",
-      "house": "Sinek Yarışı sınırları: yarış başına {min}–{max} $FLYAI, günde en fazla {day} $FLYAI.",
+      "house": "Fly Race limitleri: yarış başına {min}–{max} $FLYAI, günde en fazla {day} $FLYAI.",
       "today": "Bugün yarışılan: {spent} / {cap} $FLYAI",
-      "termsNeeded": "Sinek Yarışı, Fly Roulette'in 18+ şartlarını kullanır; bir kez kabul edilir. Kaydederken sorulur.",
+      "termsNeeded": "Fly Race, Fly Roulette'in 18+ şartlarını kullanır; bir kez kabul edilir. Kaydederken sorulur.",
       "place": "{n}. sıra",
       "running": "sürüyor…",
       "refunded": "iade edildi",
       "status": {
         "listed": "Pass satışa çıkarıldığı sürece duraklatıldı.",
-        "paused": "Sinek Yarışı şu an herkes için duraklatıldı. Geri geldiğinde sineğin yine yarışır.",
+        "paused": "Fly Race şu an herkes için duraklatıldı. Geri geldiğinde sineğin yeniden yarışır.",
         "terms": "18+ şartları kabul et, sineğin yarışmaya başlasın.",
         "playing": "Şu an bir yarış sürüyor.",
         "stake": "Yarış başına bahis {min} ile {max} $FLYAI arasında olmalı. Değiştir ve kaydet.",
         "dayCapYours": "Günlük sınıra ulaşıldı: bugün {cap} $FLYAI yarışıldı. Sineğin {time} (00:00 UTC) sonra yine yarışır ya da \"Günlük en fazla\"yı artır.",
-        "dayCapHouse": "Günlük sınıra ulaşıldı: bugün {cap} $FLYAI yarışıldı, Sinek Yarışı'nın günlük en fazlası. Sineğin {time} (00:00 UTC) sonra yine yarışır.",
+        "dayCapHouse": "Günlük limite ulaşıldı: bugün {cap} $FLYAI yarışıldı, Fly Race'in günlük üst sınırı bu. Sineğin {time} (00:00 UTC) itibarıyla yeniden yarışır.",
         "lowBalance": "Pass'te bir yarış için yeterli yok ({need} $FLYAI). Oynamaya devam etmek için yükle.",
         "waiting": "Otopilot açık. Sonraki yarış yaklaşık {time}."
       }
@@ -1103,7 +1103,7 @@
     "watch": {
       "title": "Sineğinin her zaman izlediği tokenler",
       "text": "$FLYAI her zaman listede. Robinhood Chain'de adresle en fazla 5 token daha ekle: beyin ve seçenekler onları her zaman görür ve işlem yapabilir.",
-      "flyai": "$FLYAI ev tokenidir: her sinek onu izler, kaldırılamaz.",
+      "flyai": "$FLYAI ana (kasa) tokendır: her sinek onu izler, listeden kaldırılamaz.",
       "always": "her zaman",
       "remove": "Bu tokeni kaldır",
       "aria": "İzlenecek token adresi",
@@ -1156,7 +1156,7 @@
     "value": "Değer",
     "putIn": "{usd} yatırıldı",
     "profit": "Kâr",
-    "recent": "Son 24 h",
+    "recent": "Son 24 sa",
     "week": "Bu hafta {usd}",
     "trades": "İşlemler",
     "winRate": "Kapanan işlemlerin %{pct}'i kazandı",
@@ -1213,7 +1213,7 @@
     "passNo": "Vazgeç",
     "countingText": "Yeni para geldi. Sinek bir sonraki turunda, 15 dakika içinde onunla işlem yapmaya başlar.",
     "gasTitle": "Gas için {sym} gerekiyor.",
-    "gasText": "Her işlem biraz {sym} harcar. Ev, bir sonraki turda (15 dakika içinde) sineğe başlangıç miktarı gönderir; ya da şimdi sen ekleyebilirsin.",
+    "gasText": "Her işlem biraz {sym} harcar. Kasa, bir sonraki turda (15 dakika içinde) sineğe başlangıç miktarı gönderir; ya da şimdi sen ekleyebilirsin.",
     "gasGo": "{amount} {sym} gönder",
     "gasSent": "Gönderildi: sinek işlemlerinin ücretini ödeyebilir.",
     "active": "Aktif",
@@ -1303,9 +1303,9 @@
       },
       "house": {
         "title": "FLYAI düşüşlerini al",
-        "blurb": "Ev tokeni FLYAI normal fiyatının belirgin şekilde altına düştüğünde biraz alır, fiyat geri gelince satar.",
+        "blurb": "Kasa tokenı FLYAI normal fiyatının belirgin şekilde altına düştüğünde biraz alır, fiyat geri gelince satar.",
         "titleTok": "{sym} düşüşlerini al",
-        "blurbTok": "Bu koleksiyonun ev tokeni {sym} olağan fiyatının epey altına düştüğünde biraz alır, fiyat dönünce satar."
+        "blurbTok": "Bu koleksiyonun kasa tokenı {sym} olağan fiyatının epey altına düştüğünde biraz alır, fiyat dönünce satar."
       },
       "earn": {
         "title": "Earn",
@@ -1324,11 +1324,11 @@
       "rsi_period": "RSI uzunluğu",
       "stop_pct": "Stop %",
       "take_profit_pct": "Hedef %",
-      "max_hold_hours": "En uzun tutma (h)",
+      "max_hold_hours": "En uzun tutma (sa)",
       "size_pct": "Her alım, parasının %'si",
       "stop_atr": "Stop × ATR",
       "take_profit_r": "Hedef × risk",
-      "hours": "Pencere (h)",
+      "hours": "Pencere (sa)",
       "min_pct": "En az % yükseliş",
       "max_pct": "En fazla % yükseliş",
       "volume_x": "Hacim × normal",
@@ -1340,15 +1340,15 @@
       "hold_bars": "Tutma (5 dk'lık mum)",
       "lookback_bars": "Geriye bakış (mum)",
       "max_positions": "En fazla token",
-      "usd_per_launch": "$ per launch",
-      "max_open": "Most at once",
-      "max_age_s": "Newer than (s)",
-      "tp_x": "Take half at (x)",
-      "tp_part": "Part taken (%)",
-      "drain_pct": "Exit on a pool drain (%)",
-      "min_return_pct": "Leader up at least (%)",
-      "min_days": "Leader's record at least (days)",
-      "min_trades": "Leader's trades at least",
+      "usd_per_launch": "Lansman başına $",
+      "max_open": "Aynı anda en fazla",
+      "max_age_s": "Şundan yeni (sn)",
+      "tp_x": "Yarısını sat (x)",
+      "tp_part": "Satılan kısım (%)",
+      "drain_pct": "Havuz boşalmasında çıkış (%)",
+      "min_return_pct": "Lider en az kârda (%)",
+      "min_days": "Liderin geçmişi en az (gün)",
+      "min_trades": "Liderin işlem sayısı en az",
       "min_traders": "Alan en iyi trader sayısı",
       "min_usd": "Alımları en az ($)",
       "window_minutes": "İçinde (dakika)",
@@ -1373,7 +1373,7 @@
       "min_fdv": "FDV en az",
       "max_fdv": "FDV en fazla",
       "min_liquidity": "Havuz en az",
-      "min_volume_24h": "24 h hacim en az",
+      "min_volume_24h": "24 sa hacim en az",
       "min_age_hours": "Şundan eski",
       "max_age_hours": "Şundan yeni",
       "max_tax_pct": "Vergi en fazla",
@@ -1431,7 +1431,7 @@
       },
       "fresh_launch_hunter": {
         "title": "Yeni Lansman Avcısı",
-        "blurb": "Yepyeni token'lar (1 h ile 3 günlük arası), gerçek havuzlar ve artan hacimle. Çok küçük miktarlar, geniş stoplar."
+        "blurb": "Yepyeni token'lar (1 sa ile 3 günlük arası), gerçek havuzlar ve artan hacimle. Çok küçük miktarlar, geniş stoplar."
       },
       "custom": {
         "title": "Özel"
@@ -1445,7 +1445,7 @@
     "tab": {
       "all": "Tüm zamanlar",
       "d7": "7 gün",
-      "h24": "24 h"
+      "h24": "24 sa"
     },
     "err": {
       "notOwner": "İlk yüklemeyi yalnızca sineğin sahibi yapabilir.",
@@ -1551,7 +1551,7 @@
         "width_pct": "Aralık genişliği (±%)",
         "recenter_pct": "Yeniden ortala (kenara yolun %'si)",
         "min_recenter_min": "Yeniden ortalamalar arası en az süre (dakika)",
-        "target_pct": "Basmadan önce token payı (%)",
+        "target_pct": "Likidite eklemeden önce token payı (%)",
         "deployed_pct": "Bantta (maker parasının %'si)",
         "collect_hours": "Ücretleri topla (saatte bir)"
       },
@@ -1651,8 +1651,8 @@
     "Extra": "Ekstra"
   },
   "breedHow": {
-    "title": "Üreme nasıl çalışır",
-    "text": "Üreme, iki Trader Fly'ını tek ve daha güçlü bir sineğe birleştirir. Mint'ten sonra koleksiyona yeni özelliklerin ve daha nadir sineklerin gelmesinin tek yolu budur.",
+    "title": "Çiftleştirme nasıl çalışır",
+    "text": "Çiftleştirme, iki Trader Fly'ını tek ve daha güçlü bir sinekte birleştirir. Mint'ten sonra koleksiyona yeni özelliklerin ve daha nadir sineklerin gelmesinin tek yolu budur.",
     "s1title": "İki sinek seç",
     "s1": "İkisi de senin olmalı. Biri yavru olur ve numarasını korur; diğeri yakılır.",
     "s2title": "Ücreti öde",
@@ -1662,7 +1662,7 @@
     "s4title": "Yumurtadan çık",
     "s4": "Her özellik bir ebeveynden gelir ya da yeni bir şeye mutasyona uğrar; nadirlik düşük ebeveyninkidir, %5 ihtimalle bir kademe yukarı.",
     "why": "Daha az sinek, daha nadir sinekler: her birleştirme arzdan bir sineği kalıcı olarak çıkarır ve üstüne $FLYAI yakar.",
-    "fold": "Üreme nasıl çalışır · olasılıkları dene"
+    "fold": "Çiftleştirme nasıl çalışır · olasılıkları dene"
   },
   "share": {
     "button": "K/Z paylaş",

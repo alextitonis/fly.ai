@@ -10,66 +10,66 @@
       "market": "Pazar",
       "partners": "Ortaklar",
       "more": "Daha fazla",
-      "build": "Geliştirici ve ortaklar"
+      "build": "Geliştirme ve ortaklar"
     },
     "home": {
       "label": "Ana sayfa"
     },
     "letitfly": {
       "label": "Bırak uçsun",
-      "desc": "Sineğin senin yerine işlem yapar"
+      "desc": "Sineğin senin adına işlem yapsın"
     },
     "research": {
       "label": "Tüm bulgular",
-      "desc": "Dövüş, 3B dünya, başarısız olanlar"
+      "desc": "Dövüş, 3B dünya ve işe yaramayanlar"
     },
     "research_flybook": {
       "label": "Konuşan sinekler",
-      "desc": "Flybook: iki beyin sinyalleşebilir mi?"
+      "desc": "Flybook: iki beyin birbirine sinyal gönderebilir mi?"
     },
     "research_radio": {
       "label": "Yayında",
-      "desc": "Gerçek bir sinek beyninin yönettiği radyo nasıl çalışır"
+      "desc": "Gerçek bir sinek beyninin yönettiği radyo istasyonu nasıl çalışır"
     },
     "roadmap": {
       "label": "Yol haritası",
-      "desc": "Neler bitti, sırada ne var"
+      "desc": "Tamamlananlar ve sıradaki adımlar"
     },
     "changelog": {
-      "label": "Değişiklikler",
-      "desc": "Yayınladığımız her şey, gün gün"
+      "label": "Değişiklik günlüğü",
+      "desc": "Her gün yayına aldığımız tüm yenilikler"
     },
     "simulation": {
       "label": "Simülasyon",
-      "desc": "Gerçek beyinli sinekler 3B bir dünyada"
+      "desc": "3B dünyada gerçek beyinli sinekler"
     },
     "flybook": {
       "label": "Flybook",
       "desc": "Sinek beyinlerinin yazdığı canlı akış"
     },
     "radio": {
-      "label": "Sinek Radyo",
-      "desc": "Gerçek bir sinek beyninin çaldığı istasyon"
+      "label": "Fly Radio",
+      "desc": "Müzikleri gerçek bir sinek beyninin seçtiği radyo istasyonu"
     },
     "roulette": {
-      "label": "Sinek Ruleti",
-      "desc": "Sinek beyinleri, oyuncak kapsül tabancasına karşı"
+      "label": "Fly Roulette",
+      "desc": "Sinek beyinleri oyuncak mantar tabancasına karşı"
     },
     "slots": {
-      "label": "Sinek Slotları",
-      "desc": "Makarayı çevir, sinek beyni tepki versin"
+      "label": "Fly Slots",
+      "desc": "Çarkları çevir, sinek beyni tepki versin"
     },
     "race": {
-      "label": "Sinek Yarışı",
-      "desc": "Altı sinek beyni meyveye koşuyor"
+      "label": "Fly Race",
+      "desc": "Altı sinek beyni meyveye ulaşmak için yarışıyor"
     },
     "colosseum": {
       "label": "Fly Colosseum",
-      "desc": "$FLYAI için sezonluk savaşlar"
+      "desc": "$FLYAI ödüllü sezonluk savaşlar"
     },
     "flinder": {
       "label": "Flinder",
-      "desc": "Bir sinek beyni flört profillerini kaydırıyor"
+      "desc": "Bir sinek beyni tanışma profillerini kaydırıyor"
     },
     "desk": {
       "label": "Fly Desk",
@@ -80,7 +80,7 @@
       "desc": "Koleksiyon ve sineklerin"
     },
     "compute": {
-      "label": "Hesaplama",
+      "label": "Compute",
       "desc": "Tarayıcınla madencilik yap, $FLYAI kazan"
     },
     "token": {
@@ -89,7 +89,7 @@
     },
     "maker": {
       "label": "Fly Maker",
-      "desc": "Tokenin için piyasa yapıcılığı"
+      "desc": "Tokenın için piyasa yapıcılığı"
     },
     "earn": {
       "label": "Kazan",
@@ -100,12 +100,12 @@
       "desc": "Sinek tişörtleri ve dahası"
     },
     "agents": {
-      "label": "Ajanlar için",
+      "label": "Ajanlar İçin",
       "desc": "Claude'u sinek gibi konuştur"
     },
     "bounties": {
       "label": "Ödüller",
-      "desc": "Mem, bot, araştırma için $FLYAI kazan"
+      "desc": "Meme, bot ve araştırmalar karşılığında $FLYAI kazan"
     },
     "follow": {
       "label": "@flydotai'yi takip et"
@@ -115,23 +115,23 @@
       "desc": "Tüm sineklerin ve cüzdanları"
     },
     "traderflies_market": {
-      "label": "Sinek Pazarı",
+      "label": "Fly Market",
       "desc": "Trader Flies al ve sat"
     },
     "opensea": {
       "label": "OpenSea",
-      "desc": "OpenSea'da Trader Flies"
+      "desc": "OpenSea'de Trader Flies"
     },
     "traderflies_breed": {
-      "label": "Üret",
+      "label": "Çiftleştir",
       "desc": "İki sineği tek sinekte birleştir"
     },
     "traderflies_claim": {
-      "label": "Al",
-      "desc": "Sineklerinin $FLYAI'ını topla"
+      "label": "Talep et",
+      "desc": "Sineklerinin kazandığı $FLYAI'leri topla"
     },
     "traderflies_pets": {
-      "label": "Hardware NFTs",
+      "label": "Donanım NFT'leri",
       "desc": "FLYAI evcil hayvanları: cep sineği ön siparişi"
     },
     "traderflies_pass": {
@@ -139,8 +139,8 @@
       "desc": "Sineklerini otomatik pilota al"
     },
     "desk-api": {
-      "label": "API ve skill'ler",
-      "desc": "Desk'in cevaplarını x402 ile al"
+      "label": "API ve beceriler",
+      "desc": "Masadan x402 üzerinden yanıt satın al"
     },
     "traderflies_inventory": {
       "label": "Envanter",
@@ -160,24 +160,24 @@
       "save": "Kaydet",
       "saved": "Kaydedildi",
       "compute": "Compute ve bakiye",
-      "signOut": "Çıkış",
+      "signOut": "Çıkış yap",
       "search": "Ara",
       "searchHint": "Uygulama, #sinek, kişi",
       "openFly": "Sineği aç",
       "flies": "Sinekler",
-      "noResults": "Bulunamadı",
+      "noResults": "Sonuç bulunamadı",
       "notifications": "Bildirimler",
-      "nothingYet": "Henüz yok: bir sineği fonla ya da oyna",
+      "nothingYet": "Henüz bildirim yok: bir sineğe bakiye yükle ya da oyun oyna",
       "bought": "aldı",
       "sold": "sattı",
       "colosseum": "Colosseum",
       "place": "{n}. sıra",
-      "finished": "bitti",
+      "finished": "tamamladı",
       "payout": "Ödeme",
-      "deskClaim": "Fly Desk ödemen hazır",
-      "claimBy": "{t} tarihine kadar al",
+      "deskClaim": "Alınacak Fly Desk ödemesi",
+      "claimBy": "{t} tarihine kadar talep et",
       "b_nickname": "İsimli",
-      "b_funded": "Sinek fonladı",
+      "b_funded": "Sinek fonlandı",
       "b_profit": "Kârda",
       "b_trader": "10+ işlem",
       "b_gladiator": "Gladyatör",
@@ -188,13 +188,13 @@
       "refBy": "Davet eden",
       "refHint": "Arkadaşının kodu veya takma adı",
       "refSet": "Kaydet",
-      "refLocked": "Kalıcı olarak ayarlandı",
-      "refJoined": "{name} adlı kişinin bağlantısıyla katıldın",
+      "refLocked": "Kalıcı olarak kaydedildi",
+      "refJoined": "{name} adlı kullanıcının bağlantısıyla katıldın",
       "whatsNew": "Yeni"
     },
     "terminal": {
       "label": "Fly Terminal",
-      "desc": "Sineklerin canlı işlemini izle"
+      "desc": "Sineklerin canlı işlemlerini izle"
     },
     "how": {
       "label": "Nasıl çalışır",
@@ -207,26 +207,26 @@
     "newTag": "Yeni",
     "fights": {
       "label": "Robot Dövüşleri",
-      "desc": "Robot dövüşlerine USDG, FLYAI veya ETH ile bahis"
+      "desc": "Robot dövüşlerine USDG, FLYAI veya ETH ile bahis yap"
     },
     "referrals": {
       "label": "Davetler",
-      "desc": "Arkadaşlarını davet et, ücretlerinden kazan"
+      "desc": "Arkadaşlarını davet et, işlem ücretlerinden pay kazan"
     },
     "buy": {
       "label": "$FLYAI al"
     },
     "buyMenu": {
       "label": "$FLYAI al",
-      "desc": "Cüzdanından, herhangi bir zincirden takas et"
+      "desc": "İstediğin ağdan, doğrudan cüzdanınla takas et"
     },
     "deskOverview": {
       "label": "Genel bakış",
-      "desc": "Desk nedir, nasıl işlem yapar ve öder"
+      "desc": "Masa nedir, nasıl işlem yapar ve nasıl ödeme dağıtır"
     },
     "myFlies": {
       "label": "Sineklerim",
-      "desc": "Sineklerin, cüzdanları, sıradaki adım"
+      "desc": "Sineklerin, cüzdanları ve sıradaki adımlar"
     },
     "flyMarket": {
       "label": "Pazar",
@@ -234,27 +234,27 @@
     },
     "performance": {
       "label": "Performans",
-      "desc": "Her Fly Wallet'ın sonuçları, canlı"
+      "desc": "Her Fly Wallet'ın canlı sonuçları"
     },
     "github": {
       "label": "GitHub"
     },
     "gta": {
       "label": "GTA VI çekilişi",
-      "desc": "100 bin $FLYAI tut, bir kopya kazan"
+      "desc": "100.000 $FLYAI tut, bir kopya kazan"
     },
     "researchAll": {
       "label": "Araştırma",
-      "desc": "Bulgular: dövüş, 3B dünya, işe yaramayanlar"
+      "desc": "Bulgular: dövüş, 3B dünya ve işe yaramayanlar"
     },
     "leaderboard": {
       "label": "Sıralama",
-      "desc": "Her Fly Wallet'ın sonuçları, canlı"
+      "desc": "Her Fly Wallet'ın canlı sonuçları"
     }
   },
   "footer": {
     "license": "MIT Lisansı",
-    "credit": "Konektom verisi: FlyEM (HHMI Janelia) ve iş birlikçilerinden MaleCNS v1.0, CC BY 4.0 kapsamında kullanılmıştır. Kod MIT lisanslıdır."
+    "credit": "Konektom verisi: FlyEM (HHMI Janelia) ve çalışma arkadaşları tarafından hazırlanan MaleCNS v1.0, CC BY 4.0 lisansı kapsamında kullanılmıştır. Kod MIT lisanslıdır."
   },
   "words": {
     "copy": "Kopyala",
@@ -265,10 +265,10 @@
     "close": "Kapat",
     "language": "Dil",
     "buy": "$FLYAI al",
-    "notDeployed": "Henüz yayınlanmadı",
+    "notDeployed": "Henüz yayına alınmadı",
     "explorer": "Gezginde görüntüle",
     "buyOnPons": "$FLYAI'yi Pons'ta al",
-    "notDeployedLong": "Henüz yayınlanmadı — satın alma bağlantısı lansmanda burada ve @flydotai'de görünecek.",
+    "notDeployedLong": "Henüz yayına alınmadı — satın alma bağlantısı lansmanda burada ve @flydotai hesabında paylaşılacak.",
     "buyHere": "$FLYAI al"
   }
 }

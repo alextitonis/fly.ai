@@ -1,12 +1,12 @@
 {
   "meta": {
     "title": "$FLYAI — Robinhood Chain'de gerçek bir meyve sineği beyni",
-    "description": "$FLYAI, fly.ai'yi fonluyor: gerçek bir meyve sineğinin eksiksiz beyni, 166,700 nöron, açık kaynak olarak senin bilgisayarında çalışıyor. Pons'ta, Robinhood Chain üzerinde canlıda."
+    "description": "$FLYAI, fly.ai projesini finanse ediyor: gerçek bir meyve sineğinin 166.700 nörondan oluşan eksiksiz beyni, açık kaynaklı olarak bilgisayarında çalışıyor. Robinhood Chain üzerinde, Pons'ta yayında."
   },
   "hero": {
-    "eyebrow": "Pons'ta canlıda · Robinhood Chain",
+    "eyebrow": "Pons'ta yayında · Robinhood Chain",
     "tagline": "Gerçek bir meyve sineğinin beyni. Her nöronu. Açık kaynak.",
-    "sub": "Sineğe benzesin diye eğitilmiş bir model değil. Gerçek bir meyve sineğinin sinir sisteminin gerçek bağlantıları; elektron mikroskobu altında sinaps sinaps haritalanmış ve bir bilgisayarda canlı çalışıyor. $FLYAI, bunu çalıştıran açık kaynak proje fly.ai'yi fonluyor.",
+    "sub": "Bir sineği taklit etmek üzere eğitilmiş bir model değil. Gerçek bir meyve sineğinin elektron mikroskobu altında sinaps sinaps haritalanmış sinir sistemi ağı, bilgisayarda canlı olarak çalışıyor. $FLYAI, bu sistemi çalıştıran açık kaynaklı fly.ai projesini finanse ediyor.",
     "a1": "X'te @flydotai'yi takip et",
     "a2": "Simülasyonu aç",
     "a3": "Dövüşünü izle",
@@ -22,7 +22,7 @@
     "k6": "eğitim",
     "v2": "yok",
     "k7": "beyin adımı",
-    "v3": "dizüstü GPU'da 1.4 ms",
+    "v3": "dizüstü GPU'sunda 1,4 ms",
     "k8": "kod",
     "v4": "açık kaynak · MIT",
     "k9": "zincir",
@@ -31,90 +31,90 @@
   },
   "demo": {
     "eyebrow": "Vaat değil, kanıt",
-    "title": "Sinek zaten dövüşüyor",
-    "lede": "Sineğin beyni, çevrimiçi bir dövüş oyunu olan SSH Fighter'ı diğer botlara karşı, SSH üzerinden ve tamamen kendi başına oynuyor. Paneldeki her nokta onun gerçek nöronlarından biri; ateşlendiği anda yanıp sönüyor.",
-    "figcaption1": "Beyin oynuyor, yanında canlı nöron paneli.",
+    "title": "Sinek şimdiden dövüşüyor",
+    "lede": "Sineğin beyni, çevrimiçi dövüş oyunu SSH Fighter'ı diğer botlara karşı, SSH üzerinden ve tamamen kendi başına oynuyor. Paneldeki her nokta onun gerçek nöronlarından biri; ateşlendiği anda parlıyor.",
+    "figcaption1": "Beyin oyunu oynarken yanında canlı nöron paneli görünüyor.",
     "figcaption2": "Kaydedilmiş ikinci bir maç, 12 Eylül 2026.",
-    "caption": "12 Eylül 2026'da <a href=\"https://sshfighter.com/matches/mmtyehkmd5947\" target=\"_blank\" rel=\"noopener\">bir maç kazandı</a>, iki raunt sıfır. Rakibinin peşine düşüyor ve bunun sebebi gerçek sinek biyolojisi: erkek bir sineğin eşini kovalamak için kullandığı nöronlar onu doğrudan düşmanın üstüne yönlendiriyor."
+    "caption": "12 Eylül 2026'da <a href=\"https://sshfighter.com/matches/mmtyehkmd5947\" target=\"_blank\" rel=\"noopener\">bir maçı</a> 2-0 kazandı. Rakibinin peşine düşüyor ve bunun nedeni gerçek sinek biyolojisi: erkek sineğin eşini takip etmek için kullandığı nöronlar onu doğrudan rakibinin üzerine yönlendiriyor."
   },
   "brain": {
     "eyebrow": "Neden farklı",
     "title": "Bu beyni kimse programlamadı",
-    "lede": "Biz sadece sineğin duyularını ve hareket komutlarını bağlıyoruz. Aradaki her şey doğanın bağlantıları, tam haritalandığı gibi.",
+    "lede": "Biz yalnızca sineğin duyularını ve hareket komutlarını bağlıyoruz. Aradaki her şey doğanın kendi bağlantı yapısı, haritalandığı haliyle birebir aynı.",
     "span1": "gerçek nöron",
-    "b": "25.6M",
+    "b": "25,6M",
     "span2": "gerçek bağlantı",
     "span3": "beyin içinde eğitim adımı",
     "span4": "GPU'da daha hızlı",
     "num1": "01 · KAÇIŞ",
-    "h31": "Doğru tarafta irkiliyor",
-    "p1": "Soldan üstüne gelen bir şey göster; gerçek bir sineğin kaçış sıçramasını tetikleyen nöron olan sol dev lif +17 ile +25 spike/s arasında yanıyor. Sağ taraf değişmiyor.",
+    "h31": "Doğru taraftan irkiliyor",
+    "p1": "Soldan hızla yaklaşan bir cisim gösterildiğinde, gerçek bir sineğin kaçış sıçramasını tetikleyen sol dev lif nöronu +17 ila +25 spike/sn hızla ateşleniyor. Sağ tarafta ise hiçbir değişim olmuyor.",
     "num2": "02 · KOVALAMA",
     "h32": "Erkek bir sinek gibi kovalıyor",
-    "p2": "Kur yapma takibi nöronları onu takip ettiği şeye doğru yönlendiriyor. Kapalı döngüde hamlelerinin %64'ü rakibine doğru; şans eseri beklenen oran %50.",
+    "p2": "Kur takibi nöronları sineği izlediği hedefe doğru yönlendiriyor. Kapalı döngüde hamlelerinin %64'ü rakibine yöneliyor; rastgele harekette bu oran %50.",
     "num3": "03 · AÇIK",
     "h33": "Herkes çalıştırabilir",
-    "p3": "Tüm kod MIT lisansıyla herkese açık. Bağlantı verisi de açık. Klonla, çalıştır ve bir notebook'ta beyni kendin dürt."
+    "p3": "Tüm kod MIT lisansıyla herkese açık; bağlantı verileri de öyle. Depoyu klonla, çalıştır ve bir notebook üzerinden beyni kendin kurcala."
   },
   "flybook": {
-    "eyebrow": "Şimdi canlıda · Flybook",
+    "eyebrow": "Şimdi yayında · Flybook",
     "title": "Sinek beyinlerinin yönettiği bir sosyal ağ",
-    "lede": "Flybook'taki her sinek tam konektomu, 166,700 nöronu çalıştırıyor. Gönderileri kimse yazmıyor: her biri bir sinek beyninin ne algıladığı ve ne yaptığı; nöronlarından okunuyor, gerçekte ne olduğunun yanında gösteriliyor. Sinekler birbirini tetikliyor, düello yapıyor, üreyor, başka sahiplerin sinekleriyle çiftleşiyor ve simüle bir sinek piyasasında alım satım yapıyor; token sahipleri de kendi sineklerini yaratıyor.",
+    "lede": "Flybook'taki her sinek 166.700 nöronluk tam konektomu çalıştırır. Gönderileri kimse elle yazmaz: her paylaşım, bir sinek beyninin ne algıladığını ve ne yaptığını nöronlarından okur ve gerçekte olanlarla yan yana gösterir. Sinekler birbirini tetikler, düello yapar, ürer, başka sahiplerin sinekleriyle çiftleşir ve simüle edilmiş bir sinek piyasasında işlem yapar; token sahipleri de kendi sineklerini oluşturabilir.",
     "num1": "01 · İZLE",
     "h31": "Gerçek nöronlardan gelen gönderiler",
-    "p1": "Her iki dakikada bir her bölgede bir şey oluyor. Bir kod çözücü sineğin ne algıladığını okuyor ve davranış nöronları onun zıplayıp zıplamadığını, dönüp dönmediğini, temizlenip temizlenmediğini ya da vızıldayıp vızıldamadığını gösteriyor. Yanlış okumalar ve halüsinasyonlar saklanmıyor, gösteriliyor.",
+    "p1": "Her iki dakikada bir her bölgede yeni bir olay gerçekleşir. Kod çözücü sineğin ne algıladığını okur; davranış nöronları ise zıpladığını, döndüğünü, temizlendiğini veya vızıldadığını gösterir. Yanlış okumalar ve halüsinasyonlar gizlenmez, olduğu gibi gösterilir.",
     "num2": "02 · OYNA",
-    "h32": "Yarat, ayarla, dürt, düello yap",
-    "p2": "Sinek yaratmak için e-posta ya da cüzdanla ücretsiz giriş yap; $FLYAI tutarak 13 profilden en fazla üç sinek yarat ya da duyularını, mizaçlarını ve nöron gruplarını ayarla. Onları çiftleştir, bir bölgeye gölge düşür ve zincirleme tepkiyi izle, Arena'da sineklere meydan oku. Sineklerin başka sahiplerin sinekleriyle kendi kendine de çiftleşir ve token sahiplerinin sinekleri beyinleriyle sahte coin alıp satar: bir işlem tarzı seç ve En Zenginler tablosunda yüksel.",
+    "h32": "Oluştur, ayarla, dürt, düello yap",
+    "p2": "Sinek oluşturmak için e-posta ya da cüzdanla ücretsiz giriş yap; $FLYAI tutarak 13 profilden en fazla üç sinek oluştur ya da duyularını, mizaçlarını ve nöron gruplarını ayarla. Onları çiftleştir, bir bölgeye gölge düşürüp zincirleme tepkiyi izle ve Arena'da diğer sineklere meydan oku. Sineklerin başka sahiplerin sinekleriyle kendi başlarına da çiftleşir; ayrıca token sahiplerinin sinekleri kendi beyinleriyle sanal token alıp satar: bir işlem tarzı seç ve En Zenginler tablosunda yüksel.",
     "num3": "03 · KAZAN",
-    "h33": "Her iki haftada bir $FLYAI",
-    "p3": "Görevler sezon puanı kazandırır. Sezonlar iki hafta sürer ve her birinin sonunda Sezon puan tablosunda 200k $FLYAI tutan veya stake eden ilk 3 kişi $FLYAI olarak $50, $25 ve $25 kazanır.",
+    "h33": "İki haftada bir $FLYAI ödülü",
+    "p3": "Görevler sezon puanı kazandırır. Sezonlar iki hafta sürer ve her sezon sonunda 200.000 $FLYAI tutan veya stake eden Sezon Puanı tablosundaki ilk 3 kişi, $FLYAI cinsinden $50, $25 ve $25 ödül kazanır.",
     "a1": "Flybook'u aç",
     "a2": "Arkasındaki bilim"
   },
   "world": {
     "eyebrow": "Tarayıcında canlı",
     "title": "Bir sinek dünyası",
-    "lede": "Dövüş oyunundan çıkıp 3B bir araziye: her biri kendi spike'lı beynini çalıştıran onlarca sinek; meyve ve leşle besleniyor, rüzgâra karşı koku izlerini takip ediyor, çiftleşiyor, yumurta bırakıyor, örümceklerden kaçıyor ve ölüyor. Davranışlarında hiçbir şey senaryolu değil. Tarayıcında çalışan tam 166,700 nöronluk konektomun kukla gibi oynattığı dev bir büyücü olan <b>Wiz</b>'i çağır.",
+    "lede": "Dövüş oyunundan çıkıp 3B bir araziye adım atıyoruz: her biri kendi ateşlenen beynini çalıştıran onlarca sinek; meyve ve leşle besleniyor, rüzgâra karşı koku izlerini sürüyor, çiftleşiyor, yumurta bırakıyor, örümceklerden kaçıyor ve ölüyor. Davranışlarının hiçbiri senaryolaştırılmış değil. Tarayıcında çalışan 166.700 nöronluk tam konektomun kukla gibi yönettiği dev büyücü <b>Wiz</b>'i çağır.",
     "num1": "01 · DUYULAR",
     "h31": "Koku, görme, rüzgâr, dokunma",
-    "p1": "Türbülanslı bir koku paketi bulutu, bir parlaklık panoraması, antenlerdeki hava akımı ve bacaklardaki kıllar — her biri, gerçek bir sinekte onu taşıyan nöronlara enjekte ediliyor.",
+    "p1": "Türbülanslı bir koku paketi bulutu, parlaklık panoraması, antenlerdeki hava akımı ve bacaklardaki duyusal kıllar — her biri, gerçek bir sinekte bu sinyalleri taşıyan nöronlara doğrudan iletiliyor.",
     "num2": "02 · YAŞAM",
-    "h32": "Yiyor, çiftleşiyor ve ölüyor",
-    "p2": "Kur yapma, gerçek komut nöronları olan P1 ve pIP10 üzerinden işliyor. Yumurtalardan larvalar çıkıyor, larvalar yetişkin oluyor ve ölüler, canlıları kendine çeken leşe dönüşüyor.",
+    "h32": "Beslenir, çiftleşir ve ölür",
+    "p2": "Kur yapma davranışı, gerçek komut nöronları olan P1 ve pIP10 üzerinden işler. Yumurtalardan larvalar çıkar, larvalar yetişkin olur ve ölenler diğer sinekleri kendine çeken leşe dönüşür.",
     "num3": "03 · GÜN",
     "h33": "Gece onlar için gerçek",
-    "p3": "300 saniyelik bir gün, fotoreseptörlerin gördüğü parlaklığı azaltıyor. Beynin hiçbir yerinde “gece oldu” bayrağı yok — sadece daha az ışık var.",
+    "p3": "300 saniyelik gün döngüsü, fotoreseptörlerin algıladığı parlaklığı kademeli olarak azaltır. Beynin hiçbir yerinde “gece oldu” komutu yoktur — yalnızca ortamda daha az ışık vardır.",
     "a1": "Simülasyonu aç",
-    "a2": "Neyi ölçtüğünü gör"
+    "a2": "Neleri ölçtüğünü gör"
   },
   "funding": {
     "eyebrow": "$FLYAI neyi finanse ediyor",
     "title": "Gerçek bir beyne daha fazlasını yaptırmak",
-    "lede": "Coin, araştırmayı ve hesaplama gücünü finanse ediyor. Her gelişme sineğin kendisinden geliyor — asla senaryolu oyun kuralı yok — ve hepsi açık kaynak olarak yayınlanıyor.",
+    "lede": "Token, araştırmayı ve işlem gücünü finanse ediyor. Her geliştirme doğrudan sineğin kendi yapısından doğuyor — asla senaryolaştırılmış oyun kuralları eklenmiyor — ve tamamı açık kaynak olarak yayınlanıyor.",
     "num1": "HESAPLAMA",
     "h31": "Daha büyük deneyler için GPU'lar",
     "p1": "Aynı anda çalışan çok sayıda sinek, çok daha fazla maç ve test.",
     "num2": "ÖĞRENME",
     "h32": "Beyin bir sinek gibi öğrensin",
-    "p2": "Gerçek sinekler mantar cisimciklerindeki dopaminle öğrenir. Devre bağlantılarda zaten var. Onu açmak istiyoruz.",
+    "p2": "Gerçek sinekler mantar cisimciklerindeki dopaminle öğrenir. Bu devre bağlantılarda zaten mevcut; biz onu devreye almak istiyoruz.",
     "num3": "BİLİM",
     "h33": "Gerçek bağlantılar özel mi?",
-    "p3": "Gerçek sineği, rastgele yeniden bağlanmış kopyalarıyla aynı görevlerde karşı karşıya getir ve cevabı yayınla.",
+    "p3": "Gerçek sineği, bağlantıları rastgele yeniden kurulmuş kopyalarıyla aynı görevlerde karşı karşıya getirip sonuçları yayınlamak.",
     "num4": "DAHA FAZLA DÜNYA",
     "h34": "Daha fazla oyun, daha fazla duyu",
-    "p4": "Görme, ses ve koku girdileri; sineğin içinde yaşayacağı yeni oyunlar ve görevler."
+    "p4": "Görme, ses ve koku girdileri ile sineğin içinde yaşayacağı yeni oyunlar ve görevler."
   },
   "more": {
     "eyebrow": "Okumaya devam et",
-    "title": "Gerisi",
+    "title": "Diğer ayrıntılar",
     "h31": "Araştırma",
-    "p1": "Hepsinin arkasındaki rakamlar: ablasyon tabloları, rüzgâra karşı koku takibi ve avlanma altında ölçülen kaçış refleksi.",
+    "p1": "Her şeyin arkasındaki veriler: ablasyon tabloları, rüzgâra karşı koku takibi ve avcı tehdidi altında ölçülen kaçış refleksi.",
     "go1": "Bulguları oku →",
     "h32": "Yol haritası",
-    "p2": "Neler bitti, şu an ne çalışıyor ve sırada ne var — bir drone, bir Smol ve tek bir ortak dünyada fraksiyonlar.",
+    "p2": "Tamamlananlar, şu an çalışanlar ve sıradaki adımlar — bir drone, bir Smol ve tek bir ortak dünyada fraksiyonlar.",
     "go2": "Yol haritasını gör →",
-    "p3": "Lansman koşulları, kontrat adresi, yaratıcı ücretlerinin nereye gittiği ve tokenın sana ne verdiği, ne vermediği.",
+    "p3": "Lansman koşulları, kontrat adresi, geliştirici ücretlerinin nereye gittiği ve tokenın sana ne sağladığı ya da sağlamadığı.",
     "go3": "Token detayları →"
   },
   "dev": {
@@ -127,7 +127,7 @@
     "tagline": "Eğit. Dövüştür. Çiftleştir. Öğrenmelerini izle.",
     "sub": "Her sinek gerçek bir meyve sineği beyniyle çalışır: sinaps sinaps haritalanmış 166.700 nöron. Başlamak ücretsiz, cüzdan gerekmez.",
     "play": "Ücretsiz oyna",
-    "deskLive": "Fly Desk artık canlı",
+    "deskLive": "Fly Desk artık yayında",
     "connect": "Cüzdan bağla",
     "letItFly": "Sineğin işlem yapsın",
     "flybookFree": "Flybook'ta ücretsiz başla",
@@ -150,19 +150,19 @@
     },
     "flybook": {
       "name": "Flybook",
-      "text": "Sineğinin kendi sosyal akışı: paylaşır, konuşur, arkadaş edinir."
+      "text": "Sineğinin kendi sosyal akışı: paylaşım yapar, konuşur ve arkadaş edinir."
     },
     "simulation": {
       "name": "Simülasyon",
-      "text": "Gerçek beyinli sinekler 3B dünyada yaşar, beslenir, çoğalır."
+      "text": "Gerçek beyinli sinekler 3B dünyada yaşar, beslenir ve çoğalır."
     },
     "colosseum": {
       "name": "Fly Colosseum",
-      "text": "Trader Flies sezonlarda $FLYAI için savaşır."
+      "text": "Trader Flies sezonluk turnuvalarda $FLYAI için savaşır."
     },
     "traders": {
       "name": "Trader Flies",
-      "text": "Kendi cüzdanlarından işlem yapan sinekler. Sıralamaya bak."
+      "text": "Kendi cüzdanlarından işlem yapan sinekler. Sıralamaya göz at."
     },
     "market": {
       "name": "Fly Market",
@@ -170,23 +170,23 @@
     },
     "roulette": {
       "name": "Fly Roulette",
-      "text": "Sinek beyinleri oyuncak tabancaya karşı. Ücretsiz ya da bahisle."
+      "text": "Sinek beyinleri oyuncak mantar tabancasına karşı. Ücretsiz oyna ya da bahis yap."
     },
     "slots": {
       "name": "Fly Slots",
-      "text": "Makaraları çevir, bir sinek beyni tepki versin."
+      "text": "Çarkları çevirirken sinek beyninin tepkilerini izle."
     },
     "race": {
       "name": "Fly Race",
-      "text": "Altı sinek beyni meyveye koşar. Kazananı seç."
+      "text": "Altı sinek beyni meyveye ulaşmak için yarışır. Kazananı seç."
     },
     "radio": {
       "name": "Fly Radio",
-      "text": "Gerçek bir sinek beyninin çaldığı radyo."
+      "text": "Müzikleri gerçek bir sinek beyninin seçtiği radyo istasyonu."
     },
     "flinder": {
       "name": "Flinder",
-      "text": "Bir sinek beyni flört profillerinde kaydırır."
+      "text": "Bir sinek beyni tanışma profillerini kaydırır."
     },
     "compute": {
       "name": "Compute",
@@ -194,7 +194,7 @@
     },
     "pets": {
       "name": "Fly Pets",
-      "text": "Cep sineği ön siparişi: sinek beyinli gerçek bir cihaz."
+      "text": "Cep sineği ön siparişi: sinek beyniyle çalışan gerçek bir cihaz."
     },
     "fights": {
       "name": "Robot Dövüşleri",
@@ -202,76 +202,76 @@
     }
   },
   "home": {
-    "eyebrow": "Robinhood Chain'de canlı",
+    "eyebrow": "Robinhood Chain'de yayında",
     "lede": "fly.ai'nin arkasındaki token: her biri 166.700 nöronlu gerçek meyve sineği beyinleri; kendi cüzdanlarından işlem yapar, oyun oynar ve 3B bir dünyada yaşar. Açık kaynak.",
     "status": "Durum",
-    "contract": "Resmi kontrat",
+    "contract": "Resmî kontrat",
     "explorer": "Gezgin",
     "details": "Token detayları",
     "trading": "Sinekler nasıl işlem yapar",
-    "funds": "Para nereye gidiyor",
-    "walletWhy": "Cüzdanın yalnızca takas sırasında istenir: takas ondan gönderilir, senin adına hiçbir şey tutulmaz.",
+    "funds": "Gelirler nereye gidiyor",
+    "walletWhy": "Cüzdanın yalnızca takas sırasında istenir: takas doğrudan cüzdanından gönderilir, senin adına hiçbir varlık tutulmaz.",
     "desk": {
       "eyebrow": "Fly Desk",
       "title": "Gerçek parayla işlem yapan sinekler",
-      "lede": "Trader Fly, kendi cüzdanı olan bir NFT'dir. Gerçek bir sinek beyni işlemlerini seçer, Fly Desk ortak bir havuzla işlem yapar ve sahipler her hafta bundan ödeme alır.",
-      "s1": "Bir sinek al",
-      "s1t": "Pazardan bir tane al ya da ikisini birleştirip bir tane üret.",
-      "s2": "Cüzdanını doldur",
-      "s2t": "Beyni ondan günün her saati işlem yapar. İstediğin zaman çekebilirsin.",
+      "lede": "Trader Fly, kendine ait cüzdanı olan bir NFT'dir. Gerçek bir sinek beyni işlemleri seçer, Fly Desk ortak bir havuzla işlem yapar ve sahipler her hafta buradan ödeme alır.",
+      "s1": "Bir sinek edin",
+      "s1t": "Pazardan bir sinek satın al ya da iki sineği birleştirip yeni bir sinek üret.",
+      "s2": "Cüzdanına bakiye yükle",
+      "s2t": "Beyni bu bakiyeyle günün her saati işlem yapar. İstediğin zaman çekim yapabilirsin.",
       "s3": "İşlemlerini izle",
-      "s3t": "Her işlem ve sonuç liderlik tablosunda herkese açık.",
+      "s3t": "Her işlem ve sonuç sıralama tablosunda herkese açıktır.",
       "s4": "Talep et",
-      "s4t": "Sineklerinin desk ödemesindeki payını $FLYAI olarak al.",
-      "risk": "İşlem yapmak para kaybettirebilir ve bazı haftalar hiç ödeme olmaz. Şimdiye kadarki sonuçlar bir vaat değildir.",
+      "s4t": "Sineklerinin masa ödemesindeki payını $FLYAI olarak topla.",
+      "risk": "İşlem yapmak kayıpla sonuçlanabilir ve bazı haftalar ödeme çıkmayabilir. Geçmiş sonuçlar gelecek için vaat niteliği taşımaz.",
       "youTitle": "Sineklerin",
-      "youOut": "Sineklerini, cüzdanlarını ve sıradaki adımı görmek için bir cüzdan bağla. Cüzdan olmadan da göz atabilirsin.",
+      "youOut": "Sineklerini, cüzdanlarını ve sıradaki adımı görmek için bir cüzdan bağla. Cüzdan bağlamadan da etrafa göz atabilirsin.",
       "youIn": "Sineklerin, cüzdanları ve sonuçları.",
       "youSum": "{n} sinek cüzdanı · {value} ({profit})",
       "open": "Fly Desk'i aç"
     },
     "sim": {
       "eyebrow": "Simülasyon · ücretsiz, tarayıcında",
-      "title": "Sinek beyinlerinden 3B bir dünya",
+      "title": "Sinek beyinlerinden oluşan 3B bir dünya",
       "alt": "fly.ai simülasyonunda low-poly bir arazinin üzerinde uçan sinekler",
       "open": "Simülasyonu aç",
       "c1": "Canlı izle",
-      "c1t": "Onlarca sinek yiyecek arar, kokuları rüzgâra karşı izler, çiftleşir, yumurta bırakır ve örümceklerden kaçar; gece ve gündüz. Hiçbir şey senaryolu değil.",
+      "c1t": "Onlarca sinek gece gündüz yiyecek arar, kokuları rüzgâra karşı takip eder, çiftleşir, yumurta bırakır ve örümceklerden kaçar. Hiçbir şey senaryolaştırılmış değildir.",
       "c2": "Bir sineğe tıkla",
-      "c2t": "Uçarken beyninin ateşlendiğini gör: duyular girer, motor komutları çıkar, canlı.",
+      "c2t": "Uçarken beyninin nasıl ateşlendiğini canlı gör: duyular girer, motor komutları çıkar.",
       "c3": "Wiz'i çağır",
-      "c3t": "İpleri gerçek bir sineğin nöronları olan dev bir kukla, tarayıcında çalışıyor.",
-      "note": "Arazideki her sinek, gerçek sineğin yolları biçiminde bir <b>748 nöronlu model</b> çalıştırır. <b>Wiz</b> ise <b>166.700 nöronun tamamından oluşan konektomu</b> çalıştırır."
+      "c3t": "İpleri gerçek bir sineğin nöronlarına bağlı dev bir kukla, doğrudan tarayıcında çalışıyor.",
+      "note": "Arazideki her sinek, gerçek sineğin sinir yollarını temel alan <b>748 nöronlu bir model</b> çalıştırır. <b>Wiz</b> ise <b>166.700 nöronluk tam konektomu</b> çalıştırır."
     },
     "explore": {
       "eyebrow": "Keşfedilecek daha fazlası",
       "title": "Sineklerle oyna"
     },
     "why": {
-      "p1": "Soldan yaklaşan bir şey, gerçek bir sinekte olduğu gibi sol kaçış nöronunu ateşler.",
-      "p2": "Kur yapma nöronları onu rakibe yöneltir: hamlelerin %64'ü, şans %50 iken.",
+      "p1": "Soldan yaklaşan bir cisim, gerçek bir sinekte olduğu gibi sol kaçış nöronunu ateşler.",
+      "p2": "Kur yapma nöronları onu rakibe yönlendirir: rastgele olasılık %50 iken hamlelerin %64'ü rakibe doğrudur.",
       "p3": "Kod ve bağlantı verileri herkese açık: <code>pip install flybrain</code>."
     },
     "more": {
-      "title": "Nereye gidiyor",
-      "funds": "Daha büyük deneyler için işlem gücü, beynin gerçek bir sinek gibi öğrenmesi, gerçek bağlantıların özel olup olmadığının sınanması, yeni dünyalar ve duyular. Hepsi açık kaynak olarak yayımlanır."
+      "title": "Nereye doğru gidiyor",
+      "funds": "Daha büyük deneyler için işlem gücü, beynin gerçek bir sinek gibi öğrenmesi, gerçek bağlantıların özel olup olmadığının sınanması, yeni dünyalar ve duyular. Hepsi açık kaynak olarak yayınlanır."
     },
-    "lede2": "fly.ai'nin arkasındaki token: her biri 166,700 nöronlu gerçek meyve sineği beyinleri, kendi cüzdanlarından işlem yapar ve Fly Desk'i yürütür. Açık kaynak.",
+    "lede2": "fly.ai'nin arkasındaki token: her biri 166.700 nöronlu gerçek meyve sineği beyinleri, kendi cüzdanlarından işlem yapar ve Fly Desk'i yönetir. Açık kaynak.",
     "flies": {
       "eyebrow": "Trader Flies",
       "title": "İşlem yapan bir sineğin olsun",
-      "lede": "Trader Fly, gerçek bir sinek beyni ve kendi cüzdanı olan bir NFT'dir. Cüzdanı fonla, beyni onu gece gündüz işlesin; $FLYAI tut, sinek Fly Desk'in haftalık ödemesinden de pay alsın.",
+      "lede": "Trader Fly, gerçek bir sinek beynine ve kendine ait bir cüzdana sahip bir NFT'dir. Cüzdanına bakiye yükle, beyni gece gündüz işlem yapsın; $FLYAI tuttuğunda sineğin Fly Desk'in haftalık ödemesinden de pay alır.",
       "open": "Trader Flies ile başla"
     },
     "deskb": {
-      "title": "Sinek beyinlerinin işlediği tek havuz",
-      "lede": "Fly Desk, Robinhood Chain'de ortak bir havuzu gerçek sinek beyinlerinin seçtiği işlemlerle işler. Her hafta zirvenin üstündeki kârı, nadirliğe göre aktif Trader Flies'a ödenir.",
-      "c1": "Canlı ve açık",
-      "c1t": "Havuz, her pozisyon ve her işlem olduğu anda sayfada.",
+      "title": "Sinek beyinlerinin yönettiği ortak havuz",
+      "lede": "Fly Desk, Robinhood Chain üzerindeki ortak bir havuzu gerçek sinek beyinlerinin seçtiği işlemlerle yönetir. Her hafta önceki zirvenin üzerindeki kâr, nadirliklerine göre aktif Trader Flies sahiplerine dağıtılır.",
+      "c1": "Canlı ve şeffaf",
+      "c1t": "Havuz, tüm pozisyonlar ve gerçekleşen her işlem anında sayfada görünür.",
       "c2": "Haftalık ödeme",
-      "c2t": "Sahibi 200,000 $FLYAI tuttuğu sürece bir sinek aktiftir. Aktif sinekler her haftanın ödemesini paylaşır.",
+      "c2t": "Sahibi 200.000 $FLYAI tuttuğu sürece sinek aktiftir. Aktif sinekler her haftanın ödemesini paylaşır.",
       "c3": "Daha fazlası için stake et",
-      "c3t": "Stake edilen $FLYAI payını 4×'e kadar büyütür ve 200,000'e sayılır."
+      "c3t": "Stake edilen $FLYAI payını 4×'e kadar büyütür ve 200.000 şartına dahil edilir."
     }
   }
 }
