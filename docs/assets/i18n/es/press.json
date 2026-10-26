@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "title": "Kit de prensa — fly.ai",
+    "description": "Logotipos oficiales de fly.ai (PNG, SVG y WebP para fondos claros y oscuros), colores de marca, tipografía Outfit, descripciones del proyecto, capturas de pantalla y el contrato del token $FLYAI."
+  },
+  "head": {
+    "eyebrow": "Prensa y marca",
+    "title": "Kit de prensa",
+    "lede": "Logotipos, colores de marca, tipografía Outfit, descripciones del proyecto, capturas de pantalla y el contrato oficial del token $FLYAI para periodistas, sitios de listado y socios."
+  },
+  "desc": {
+    "title": "Sobre fly.ai",
+    "sub": "Descripciones de una línea y de un párrafo redactadas con datos verificados del proyecto, listas para copiar.",
+    "oneLineLabel": "Descripción en una línea",
+    "oneLine": "fly.ai ejecuta el conectoma cerebral completo de 166.700 neuronas de una mosca de la fruta adulta en código abierto en tu ordenador y en vivo en Robinhood Chain, impulsando Trader Flies, Fly Desk y el token $FLYAI.",
+    "oneParaLabel": "Descripción en un párrafo",
+    "onePara": "fly.ai ejecuta el cableado cerebral completo de una mosca de la fruta macho adulta (Drosophila melanogaster: 166.700 neuronas y 25,6 millones de sinapsis del conectoma MaleCNS v1.0 de Janelia) como una simulación neuronal de impulsos en código abierto. Sin modelos de lenguaje ni estrategias escritas a mano dentro del cerebro, las entradas sensoriales y las neuronas motoras dirigen aplicaciones en tiempo real: Trader Flies (1.000 NFT génesis en Robinhood Chain con sus propias billeteras de trading), Fly Desk (un fondo compartido operado por cerebros de mosca), una simulación biológica en 3D, Flybook y computación distribuida en el navegador. El proyecto se financia mediante el token $FLYAI en Robinhood Chain."
+  },
+  "logos": {
+    "title": "Logotipos",
+    "sub": "Descarga el logotipo y el icono de fly.ai en formatos PNG, SVG y WebP para fondos oscuros y claros.",
+    "darkTitle": "Logotipo — Fondo oscuro",
+    "darkDesc": "Logotipo blanco con el brillo menta de la mosca para fondos negros puros y superficies oscuras.",
+    "lightTitle": "Logotipo — Fondo claro",
+    "lightDesc": "Logotipo negro con el símbolo menta de la mosca sobre fondo transparente para páginas blancas o claras.",
+    "iconDarkTitle": "Icono de la mosca — Oscuro",
+    "iconDarkDesc": "Símbolo cuadrado sobre negro puro para avatares, listados de tokens e iconos de aplicaciones.",
+    "iconLightTitle": "Icono de la mosca — Claro",
+    "iconLightDesc": "Símbolo cuadrado sobre superficie clara para directorios en modo claro e insignias.",
+    "dlPng": "PNG",
+    "dlSvg": "SVG",
+    "dlWebp": "WebP"
+  },
+  "colors": {
+    "title": "Colores de marca",
+    "sub": "Negro puro, blanco y el brillo menta de la mosca. El rojo se reserva exclusivamente para pérdidas y advertencias, nunca como color de marca.",
+    "bg": "Negro puro",
+    "panel": "Panel oscuro",
+    "mint": "Brillo menta",
+    "mintHi": "Menta brillante",
+    "text": "Texto principal",
+    "line": "Línea de borde"
+  },
+  "font": {
+    "title": "Tipografía",
+    "sub": "Outfit es la tipografía principal para titulares y marca, combinada con Inter para texto de lectura y JetBrains Mono para números y direcciones.",
+    "displayRole": "Titulares y marca",
+    "sansRole": "Texto de cuerpo",
+    "monoRole": "Direcciones y datos",
+    "outfitWeights": "Pesos: 400, 500, 600, 700",
+    "interWeights": "Pesos: 400, 500, 600",
+    "monoWeights": "Pesos: 400, 500",
+    "googleFonts": "Google Fonts"
+  },
+  "screens": {
+    "title": "Capturas de pantalla",
+    "sub": "Capturas de pantalla en alta resolución de la simulación en vivo de fly.ai, el panel neuronal, el terminal de trading y Fly Maker.",
+    "s1Title": "Panel neuronal en vivo",
+    "s1Desc": "El cerebro de mosca de la fruta de 166.700 neuronas jugando a SSH Fighter junto a su telemetría neuronal en tiempo real.",
+    "s2Title": "Mundo del conectoma en 3D",
+    "s2Desc": "Moscas dirigidas por el conectoma completo buscando alimento, siguiendo plumas de olor e interactuando en 3D.",
+    "s3Title": "Fly Terminal y Fly Desk",
+    "s3Desc": "Vista de trading en vivo con las billeteras de Trader Flies, posiciones compartidas de Fly Desk y ejecuciones en Robinhood Chain.",
+    "s4Title": "Fly Maker",
+    "s4Desc": "Bóvedas de creación de mercado automatizadas en Robinhood Chain, propiedad de tu billetera y con límites de seguridad en cadena.",
+    "download": "Descargar",
+    "open": "Abrir en tamaño completo"
+  },
+  "token": {
+    "title": "Token $FLYAI y dirección del contrato",
+    "sub": "$FLYAI es el token que financia fly.ai en Robinhood Chain (lanzado en Pons). El suministro total, las transacciones de quema y las condiciones están documentados en TOKEN.md.",
+    "contractLabel": "Robinhood Chain",
+    "tokenMd": "Leer TOKEN.md en GitHub",
+    "tokenPage": "Página del token"
+  }
+}

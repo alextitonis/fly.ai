@@ -254,7 +254,8 @@
   },
   "footer": {
     "license": "Licencia MIT",
-    "credit": "Datos del conectoma: MaleCNS v1.0 de FlyEM (HHMI Janelia) y colaboradores, usados bajo CC BY 4.0. Código con licencia MIT."
+    "credit": "Datos del conectoma: MaleCNS v1.0 de FlyEM (HHMI Janelia) y colaboradores, usados bajo CC BY 4.0. Código con licencia MIT.",
+    "press": "Kit de prensa"
   },
   "words": {
     "copy": "Copiar",
