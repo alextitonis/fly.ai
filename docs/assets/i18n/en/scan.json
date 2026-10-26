@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "title": "Fly Scan: check a token or a site before you sign",
+    "description": "Paste a token contract or a claim site. Fly Scan shows who controls it, what they can still do to holders, and what a site really asks your wallet to sign."
+  },
+  "head": {
+    "eyebrow": "Fly Scan",
+    "title": "Check before you sign",
+    "lede": "Paste a token contract or a claim site. Fly Scan reads the code and the chain, opens the site with a fake wallet, and tells you in plain words who controls it and what it can do to your money."
+  },
+  "form": {
+    "contract": "Token contract",
+    "site": "Website",
+    "contractHint": "0x… token contract address",
+    "siteHint": "claim-site.xyz or a full link",
+    "go": "Scan",
+    "price": "A scan is {usd} USDG or {n} $FLYAI (${fusd}). Reports from the last 24 hours are free to view."
+  },
+  "pay": {
+    "ask": "Pay for this scan on Robinhood Chain:",
+    "usdg": "Pay {usd} USDG",
+    "flyai": "Pay {n} $FLYAI (${usd})",
+    "buy": "Get $FLYAI",
+    "free": "Holders of {n} $FLYAI (held or staked) get one free scan a day."
+  },
+  "msg": {
+    "looking": "Looking for a recent report…",
+    "cached": "Scanned recently: here is that report.",
+    "signIn": "Sign in to start a scan.",
+    "starting": "Starting the scan…",
+    "checkingPayment": "Checking your payment…",
+    "free": "Your free scan for today.",
+    "confirm": "Confirm the payment in your wallet…",
+    "waiting": "Waiting for the payment to confirm…",
+    "slowTx": "Your payment is taking long to confirm. Press Scan again in a minute: it won't charge twice.",
+    "noWallet": "No wallet found in this browser."
+  },
+  "wait": {
+    "queued": {
+      "one": "In line: {n} scan ahead of yours.",
+      "other": "In line: {n} scans ahead of yours."
+    },
+    "running": "Scanning now. This takes 15 to 60 seconds.",
+    "failed": "This scan couldn't finish. Your payment is kept for your next scan."
+  },
+  "verdict": {
+    "danger": "Danger",
+    "caution": "Caution",
+    "clear": "No red flags found",
+    "unknown": "Can't tell"
+  },
+  "status": {
+    "queued": "Queued",
+    "running": "Scanning",
+    "done": "Done",
+    "failed": "Failed"
+  },
+  "severity": {
+    "high": "high",
+    "medium": "medium",
+    "low": "low",
+    "info": "info"
+  },
+  "facts": {
+    "owner": "Owner",
+    "role": "Other rights",
+    "upgradeable": "Code can be replaced",
+    "source": "Source code",
+    "sell": "Sell test",
+    "pool": "Deepest pool",
+    "domainAge": "Domain age",
+    "lists": "Phishing lists",
+    "lookalike": "Looks like",
+    "asked": "Wallet requests",
+    "sendsTo": "Sends your address to",
+    "none": "none",
+    "no": "no",
+    "unknown": "unknown",
+    "verified": "verified ({via})",
+    "unverified": "not verified",
+    "sellOk": "sells go through",
+    "sellBlocked": "SELLS ARE BLOCKED",
+    "sellNotRun": "not run",
+    "days": "{n} days",
+    "notListed": "not listed",
+    "requests": "{n} ({gives} hand over assets)",
+    "nothingAsked": "nothing to sign"
+  },
+  "report": {
+    "when": "scanned {at}",
+    "request": "request #{n}:",
+    "script": "script:",
+    "noFindings": "Nothing to report beyond standard code.",
+    "disclaimer": "An automated read, not a guarantee. Scam sites can hide from automated browsers, and a team with no special powers can still sell. Never sign what you don't understand.",
+    "copy": "Copy link",
+    "copied": "Copied",
+    "share": "Share on X",
+    "explorer": "View on explorer",
+    "tweet": "Fly Scan on {what}: {verdict}"
+  },
+  "recent": {
+    "title": "Latest scans",
+    "empty": "No scans yet."
+  },
+  "mine": {
+    "title": "Your scans",
+    "signedOut": "Sign in to scan and to see your scans. Holders of 200,000 $FLYAI get a free scan every day.",
+    "signIn": "Sign in",
+    "free": "You have a free scan today.",
+    "freeUsed": "You used today's free scan.",
+    "noFree": "Hold {n} $FLYAI for a free scan every day.",
+    "credits": {
+      "one": "{count} paid scan waiting to be used (from a scan that failed).",
+      "other": "{count} paid scans waiting to be used (from scans that failed)."
+    },
+    "empty": "No scans yet."
+  },
+  "how": {
+    "title": "How it works",
+    "contract": "<b>Token contracts.</b> We read the verified source and the chain: who the owner is (a wallet, a multisig, a timelock or nobody), whether the code can be swapped (a proxy), and every power that's left: minting, blacklists, pausing, tax switches, trading switches. We also simulate a buy and a sell to catch honeypots. An AI reads the code and explains each power, and every point it makes is tied to a line of code or a chain fact.",
+    "site": "<b>Websites.</b> We open the site in a sealed browser with a fake wallet that holds no keys, click its connect and claim buttons, and record everything it asks the wallet to sign: approvals, permits, marketplace orders, transfers. We also check public phishing lists, the domain's age and look-alike names.",
+    "price": "<b>Price.</b> 0.50 USDG, or $0.30 of $FLYAI, on Robinhood Chain. Holders of 200,000 $FLYAI (held or staked) get one free scan a day. A scan that fails gives your payment back for the next one. Reports are public and shareable, and a token or site scanned in the last 24 hours shows for free.",
+    "limits": "<b>Limits.</b> \"No red flags found\" is not a promise of safety. Scam sites can hide from automated browsers, and a team that holds no special powers can still sell its tokens. Never sign something you don't understand."
+  }
+}

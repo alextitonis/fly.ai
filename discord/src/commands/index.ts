@@ -6,6 +6,7 @@ import { leaderboard } from "./leaderboard.ts";
 import { marketplace } from "./marketplace.ts";
 import { price } from "./price.ts";
 import { project } from "./project.ts";
+import { scan } from "./scan.ts";
 import { stats } from "./stats.ts";
 import { token } from "./token.ts";
 
@@ -19,4 +20,4 @@ export type Command = {
 };
 
 export const PREFIX = "!";
-export const commands: Command[] = [project, token, price, stats, flydesk, leaderboard, marketplace, help];
+export const commands: Command[] = [project, token, price, stats, flydesk, leaderboard, marketplace, scan, help];

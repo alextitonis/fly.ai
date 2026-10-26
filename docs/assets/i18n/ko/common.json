@@ -250,6 +250,10 @@
     "leaderboard": {
       "label": "리더보드",
       "desc": "모든 Fly Wallet의 실시간 결과"
+    },
+    "scan": {
+      "label": "Fly Scan",
+      "desc": "서명하기 전에 토큰이나 사이트 확인"
     }
   },
   "footer": {

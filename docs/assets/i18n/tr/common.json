@@ -250,6 +250,10 @@
     "leaderboard": {
       "label": "Sıralama",
       "desc": "Her Fly Wallet'ın sonuçları, canlı"
+    },
+    "scan": {
+      "label": "Fly Scan",
+      "desc": "İmzalamadan önce token ya da siteyi kontrol et"
     }
   },
   "footer": {

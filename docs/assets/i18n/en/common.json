@@ -250,6 +250,10 @@
     "leaderboard": {
       "label": "Leaderboard",
       "desc": "Every Fly Wallet's results, live"
+    },
+    "scan": {
+      "label": "Fly Scan",
+      "desc": "Check a token or a site before you sign"
     }
   },
   "footer": {

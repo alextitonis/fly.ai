@@ -250,6 +250,10 @@
     "leaderboard": {
       "label": "排行榜",
       "desc": "每个 Fly Wallet 的实时结果"
+    },
+    "scan": {
+      "label": "Fly Scan",
+      "desc": "签名前检查代币或网站"
     }
   },
   "footer": {

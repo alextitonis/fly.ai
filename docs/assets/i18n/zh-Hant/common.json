@@ -250,6 +250,10 @@
     "leaderboard": {
       "label": "排行榜",
       "desc": "每個 Fly Wallet 的即時結果"
+    },
+    "scan": {
+      "label": "Fly Scan",
+      "desc": "簽名前檢查代幣或網站"
     }
   },
   "footer": {

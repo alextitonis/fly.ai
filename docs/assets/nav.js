@@ -42,6 +42,8 @@
       ["How it works", "/how", "The brain, the pots, payouts and partners"],
       // 2026-10-16: market making for any token on GIGA DEX (flytrade/MAKER-PLAN.md)
       ["Fly Maker", "/maker", "Market making for your token"],
+      // 2026-10-27: token / site safety scans (scan.js, mine/src/scan.ts, flytrade/SCAN-PLAN.md)
+      ["Fly Scan", "/scan", "Check a token or a site before you sign", false, true],
       ["API & skills", "/desk-api"],
       ["For Agents", "/agents"],
     ]],

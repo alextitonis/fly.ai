@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="scan">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="scan.meta.title">Fly Scan: check a token or a site before you sign</title>
+<meta name="description" content="Paste a token contract or a claim site. Fly Scan shows who controls it, what they can still do to holders, and what a site really asks your wallet to sign." data-i18n-attr="content:scan.meta.description">
+<meta property="og:title" content="Fly Scan by fly.ai">
+<meta property="og:description" content="Is this token a rug? Is this claim site a drainer? Check before you sign.">
+<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/scan">
+<meta property="og:url" content="https://flyaiworld.com/scan">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/dashboard.png">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/scan.css">
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="scan.head.eyebrow">Fly Scan</p>
+    <h1 data-i18n="scan.head.title">Check before you sign</h1>
+    <p class="lede" data-i18n="scan.head.lede">Paste a token contract or a claim site. Fly Scan reads the code and the chain, opens the site with a fake wallet, and tells you in plain words who controls it and what it can do to your money.</p>
+  </div>
+</header>
+
+<section class="firstsec scan">
+  <div class="wrap">
+    <div class="card pad scan-box">
+      <div class="scan-tabs" role="tablist">
+        <button type="button" role="tab" class="scan-tab on" data-kind="contract" aria-selected="true" data-i18n="scan.form.contract">Token contract</button>
+        <button type="button" role="tab" class="scan-tab" data-kind="site" aria-selected="false" data-i18n="scan.form.site">Website</button>
+      </div>
+      <form id="scan-form" class="scan-row" autocomplete="off">
+        <input id="scan-target" spellcheck="false" placeholder="0x… token contract address" data-i18n-attr="placeholder:scan.form.contractHint" aria-label="What to scan">
+        <select id="scan-chain" aria-label="Chain">
+          <option value="robinhood">Robinhood Chain</option>
+          <option value="base">Base</option>
+          <option value="bsc">BNB Chain</option>
+          <option value="arbitrum">Arbitrum</option>
+        </select>
+        <button class="btn red" type="submit" id="scan-go" data-i18n="scan.form.go">Scan</button>
+      </form>
+      <p class="scan-muted" id="scan-price"></p>
+      <div id="scan-pay" hidden></div>
+      <p class="scan-msg" id="scan-msg" role="status"></p>
+    </div>
+
+    <div id="scan-report" hidden></div>
+
+    <div class="grid2 scan-two">
+      <div class="card pad">
+        <h3 data-i18n="scan.recent.title">Latest scans</h3>
+        <ul class="scan-list" id="scan-recent"><li class="scan-muted">…</li></ul>
+      </div>
+      <div class="card pad" id="scan-mine-card">
+        <h3 data-i18n="scan.mine.title">Your scans</h3>
+        <div id="scan-mine">
+          <p class="scan-muted" data-i18n="scan.mine.signedOut">Sign in to scan and to see your scans. Holders of 200,000 $FLYAI get a free scan every day.</p>
+          <button class="btn" type="button" data-nav-signin data-i18n="scan.mine.signIn">Sign in</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card pad scan-how">
+      <h3 data-i18n="scan.how.title">How it works</h3>
+      <p data-i18n-html="scan.how.contract"><b>Token contracts.</b> We read the verified source and the chain: who the owner is (a wallet, a multisig, a timelock or nobody), whether the code can be swapped (a proxy), and every power that's left: minting, blacklists, pausing, tax switches, trading switches. We also simulate a buy and a sell to catch honeypots. An AI reads the code and explains each power, and every point it makes is tied to a line of code or a chain fact.</p>
+      <p data-i18n-html="scan.how.site"><b>Websites.</b> We open the site in a sealed browser with a fake wallet that holds no keys, click its connect and claim buttons, and record everything it asks the wallet to sign: approvals, permits, marketplace orders, transfers. We also check public phishing lists, the domain's age and look-alike names.</p>
+      <p data-i18n-html="scan.how.price"><b>Price.</b> 0.50 USDG, or $0.30 of $FLYAI, on Robinhood Chain. Holders of 200,000 $FLYAI (held or staked) get one free scan a day. A scan that fails gives your payment back for the next one. Reports are public and shareable, and a token or site scanned in the last 24 hours shows for free.</p>
+      <p data-i18n-html="scan.how.limits"><b>Limits.</b> "No red flags found" is not a promise of safety. Scam sites can hide from automated browsers, and a team that holds no special powers can still sell its tokens. Never sign something you don't understand.</p>
+    </div>
+  </div>
+</section>
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261027a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script type="module" src="assets/scan.js?v=20261027a"></script>
+</body>
+</html>

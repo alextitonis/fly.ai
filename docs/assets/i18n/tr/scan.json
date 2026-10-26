@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "title": "Fly Scan: imzalamadan önce bir tokeni ya da siteyi kontrol et",
+    "description": "Bir token kontratı ya da claim sitesi yapıştır. Fly Scan onu kimin yönettiğini, sahiplerine hâlâ neler yapabileceğini ve bir sitenin cüzdanına gerçekte neyi imzalattığını gösterir."
+  },
+  "head": {
+    "eyebrow": "Fly Scan",
+    "title": "İmzalamadan önce kontrol et",
+    "lede": "Bir token kontratı ya da claim sitesi yapıştır. Fly Scan kodu ve zinciri okur, siteyi sahte bir cüzdanla açar ve onu kimin yönettiğini, paranla neler yapabileceğini sade bir dille anlatır."
+  },
+  "form": {
+    "contract": "Token kontratı",
+    "site": "Web sitesi",
+    "contractHint": "0x… token kontrat adresi",
+    "siteHint": "claim-sitesi.xyz ya da tam bağlantı",
+    "go": "Tara",
+    "price": "Bir tarama {usd} USDG ya da {n} $FLYAI (${fusd}). Son 24 saatin raporları ücretsiz görülür."
+  },
+  "pay": {
+    "ask": "Bu taramayı Robinhood Chain üzerinde öde:",
+    "usdg": "{usd} USDG öde",
+    "flyai": "{n} $FLYAI öde (${usd})",
+    "buy": "$FLYAI al",
+    "free": "{n} $FLYAI tutanlar (cüzdanda ya da stake'te) günde bir ücretsiz tarama alır."
+  },
+  "msg": {
+    "looking": "Yakın tarihli bir rapor aranıyor…",
+    "cached": "Yakın zamanda tarandı: işte o rapor.",
+    "signIn": "Tarama başlatmak için giriş yap.",
+    "starting": "Tarama başlıyor…",
+    "checkingPayment": "Ödemen kontrol ediliyor…",
+    "free": "Bugünkü ücretsiz taraman.",
+    "confirm": "Ödemeyi cüzdanında onayla…",
+    "waiting": "Ödemenin onaylanması bekleniyor…",
+    "slowTx": "Ödemenin onaylanması uzun sürüyor. Bir dakika sonra yeniden Tara'ya bas: iki kez ücret alınmaz.",
+    "noWallet": "Bu tarayıcıda cüzdan bulunamadı."
+  },
+  "wait": {
+    "queued": {
+      "one": "Sırada: seninkinden önce {n} tarama var.",
+      "other": "Sırada: seninkinden önce {n} tarama var."
+    },
+    "running": "Taranıyor. 15 ile 60 saniye sürer.",
+    "failed": "Bu tarama tamamlanamadı. Ödemen bir sonraki taraman için saklandı."
+  },
+  "verdict": {
+    "danger": "Tehlike",
+    "caution": "Dikkat",
+    "clear": "Uyarı işareti yok",
+    "unknown": "Belirlenemedi"
+  },
+  "status": {
+    "queued": "Sırada",
+    "running": "Taranıyor",
+    "done": "Bitti",
+    "failed": "Başarısız"
+  },
+  "severity": {
+    "high": "yüksek",
+    "medium": "orta",
+    "low": "düşük",
+    "info": "bilgi"
+  },
+  "facts": {
+    "owner": "Sahip",
+    "role": "Diğer yetkiler",
+    "upgradeable": "Kod değiştirilebilir",
+    "source": "Kaynak kod",
+    "sell": "Satış testi",
+    "pool": "En derin havuz",
+    "domainAge": "Alan adı yaşı",
+    "lists": "Oltalama listeleri",
+    "lookalike": "Benzediği",
+    "asked": "Cüzdan istekleri",
+    "sendsTo": "Adresini gönderdiği yer",
+    "none": "yok",
+    "no": "hayır",
+    "unknown": "bilinmiyor",
+    "verified": "doğrulanmış ({via})",
+    "unverified": "doğrulanmamış",
+    "sellOk": "satışlar geçiyor",
+    "sellBlocked": "SATIŞLAR ENGELLİ",
+    "sellNotRun": "yapılmadı",
+    "days": "{n} gün",
+    "notListed": "listede değil",
+    "requests": "{n} ({gives} tanesi varlık devrediyor)",
+    "nothingAsked": "imzalanacak bir şey yok"
+  },
+  "report": {
+    "when": "{at} tarihinde tarandı",
+    "request": "istek #{n}:",
+    "script": "script:",
+    "noFindings": "Standart kod dışında bildirilecek bir şey yok.",
+    "disclaimer": "Otomatik bir okuma, garanti değil. Dolandırıcı siteler otomatik tarayıcılardan saklanabilir ve özel yetkisi olmayan bir ekip yine de satabilir. Anlamadığın hiçbir şeyi imzalama.",
+    "copy": "Bağlantıyı kopyala",
+    "copied": "Kopyalandı",
+    "share": "X'te paylaş",
+    "explorer": "Explorer'da gör",
+    "tweet": "{what} için Fly Scan: {verdict}"
+  },
+  "recent": {
+    "title": "Son taramalar",
+    "empty": "Henüz tarama yok."
+  },
+  "mine": {
+    "title": "Taramaların",
+    "signedOut": "Taramak ve taramalarını görmek için giriş yap. 200.000 $FLYAI tutanlar her gün bir ücretsiz tarama alır.",
+    "signIn": "Giriş yap",
+    "free": "Bugün bir ücretsiz taraman var.",
+    "freeUsed": "Bugünkü ücretsiz taramanı kullandın.",
+    "noFree": "Her gün ücretsiz tarama için {n} $FLYAI tut.",
+    "credits": {
+      "one": "Kullanılmayı bekleyen {count} ücretli tarama (başarısız bir taramadan).",
+      "other": "Kullanılmayı bekleyen {count} ücretli tarama (başarısız taramalardan)."
+    },
+    "empty": "Henüz tarama yok."
+  },
+  "how": {
+    "title": "Nasıl çalışır",
+    "contract": "<b>Token kontratları.</b> Doğrulanmış kaynak kodu ve zinciri okuruz: sahibin kim olduğu (bir cüzdan, bir multisig, bir timelock ya da kimse), kodun değiştirilip değiştirilemeyeceği (proxy) ve kalan her yetki: mint, kara liste, durdurma, vergi ayarları, işlem anahtarları. Honeypot'ları yakalamak için bir alım ve bir satışı da simüle ederiz. Bir yapay zekâ kodu okuyup her yetkiyi açıklar ve her nokta bir kod satırına ya da zincir verisine bağlıdır.",
+    "site": "<b>Web siteleri.</b> Siteyi anahtarı olmayan sahte bir cüzdanla, kapalı bir tarayıcıda açar, bağlan ve claim düğmelerine basar ve cüzdana imzalatmak istediği her şeyi kaydederiz: onaylar, permit'ler, pazar yeri emirleri, transferler. Herkese açık oltalama listelerini, alan adının yaşını ve taklit isimleri de kontrol ederiz.",
+    "price": "<b>Fiyat.</b> Robinhood Chain üzerinde 0,50 USDG ya da $0,30 değerinde $FLYAI. 200.000 $FLYAI tutanlar (cüzdanda ya da stake'te) günde bir ücretsiz tarama alır. Başarısız olan bir tarama ödemeni bir sonraki için geri verir. Raporlar herkese açıktır ve paylaşılabilir; son 24 saatte taranmış bir token ya da site ücretsiz görünür.",
+    "limits": "<b>Sınırlar.</b> \"Uyarı işareti yok\" güvenlik sözü değildir. Dolandırıcı siteler otomatik tarayıcılardan saklanabilir ve özel yetkisi olmayan bir ekip yine de tokenlerini satabilir. Anlamadığın hiçbir şeyi imzalama."
+  }
+}

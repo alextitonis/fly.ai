@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "title": "Fly Scan: revisa un token o un sitio antes de firmar",
+    "description": "Pega el contrato de un token o un sitio de reclamo. Fly Scan muestra quién lo controla, qué puede hacer todavía con los holders y qué le pide realmente un sitio firmar a tu wallet."
+  },
+  "head": {
+    "eyebrow": "Fly Scan",
+    "title": "Revisa antes de firmar",
+    "lede": "Pega el contrato de un token o un sitio de reclamo. Fly Scan lee el código y la cadena, abre el sitio con una wallet falsa y te dice en palabras simples quién lo controla y qué puede hacer con tu dinero."
+  },
+  "form": {
+    "contract": "Contrato de token",
+    "site": "Sitio web",
+    "contractHint": "0x… dirección del contrato",
+    "siteHint": "sitio-de-reclamo.xyz o un enlace completo",
+    "go": "Escanear",
+    "price": "Un escaneo cuesta {usd} USDG o {n} $FLYAI (${fusd}). Los informes de las últimas 24 horas se ven gratis."
+  },
+  "pay": {
+    "ask": "Paga este escaneo en Robinhood Chain:",
+    "usdg": "Pagar {usd} USDG",
+    "flyai": "Pagar {n} $FLYAI (${usd})",
+    "buy": "Conseguir $FLYAI",
+    "free": "Quien tenga {n} $FLYAI (en wallet o en staking) recibe un escaneo gratis al día."
+  },
+  "msg": {
+    "looking": "Buscando un informe reciente…",
+    "cached": "Se escaneó hace poco: este es ese informe.",
+    "signIn": "Inicia sesión para empezar un escaneo.",
+    "starting": "Empezando el escaneo…",
+    "checkingPayment": "Revisando tu pago…",
+    "free": "Tu escaneo gratis de hoy.",
+    "confirm": "Confirma el pago en tu wallet…",
+    "waiting": "Esperando a que se confirme el pago…",
+    "slowTx": "Tu pago tarda en confirmarse. Pulsa Escanear otra vez en un minuto: no se cobra dos veces.",
+    "noWallet": "No se encontró ninguna wallet en este navegador."
+  },
+  "wait": {
+    "queued": {
+      "one": "En cola: {n} escaneo antes del tuyo.",
+      "other": "En cola: {n} escaneos antes del tuyo."
+    },
+    "running": "Escaneando. Tarda entre 15 y 60 segundos.",
+    "failed": "Este escaneo no pudo terminar. Tu pago queda guardado para el próximo."
+  },
+  "verdict": {
+    "danger": "Peligro",
+    "caution": "Precaución",
+    "clear": "Sin señales de alerta",
+    "unknown": "No se puede saber"
+  },
+  "status": {
+    "queued": "En cola",
+    "running": "Escaneando",
+    "done": "Listo",
+    "failed": "Falló"
+  },
+  "severity": {
+    "high": "alta",
+    "medium": "media",
+    "low": "baja",
+    "info": "info"
+  },
+  "facts": {
+    "owner": "Dueño",
+    "role": "Otros permisos",
+    "upgradeable": "El código se puede cambiar",
+    "source": "Código fuente",
+    "sell": "Prueba de venta",
+    "pool": "Pool más profundo",
+    "domainAge": "Edad del dominio",
+    "lists": "Listas de phishing",
+    "lookalike": "Se parece a",
+    "asked": "Pedidos a la wallet",
+    "sendsTo": "Envía tu dirección a",
+    "none": "ninguno",
+    "no": "no",
+    "unknown": "desconocido",
+    "verified": "verificado ({via})",
+    "unverified": "no verificado",
+    "sellOk": "las ventas pasan",
+    "sellBlocked": "LAS VENTAS ESTÁN BLOQUEADAS",
+    "sellNotRun": "no se hizo",
+    "days": "{n} días",
+    "notListed": "no aparece",
+    "requests": "{n} ({gives} entregan activos)",
+    "nothingAsked": "nada que firmar"
+  },
+  "report": {
+    "when": "escaneado {at}",
+    "request": "pedido #{n}:",
+    "script": "script:",
+    "noFindings": "Nada que reportar aparte de código estándar.",
+    "disclaimer": "Una lectura automática, no una garantía. Los sitios de estafa pueden esconderse de los navegadores automáticos, y un equipo sin poderes especiales igual puede vender. Nunca firmes lo que no entiendes.",
+    "copy": "Copiar enlace",
+    "copied": "Copiado",
+    "share": "Compartir en X",
+    "explorer": "Ver en el explorador",
+    "tweet": "Fly Scan sobre {what}: {verdict}"
+  },
+  "recent": {
+    "title": "Últimos escaneos",
+    "empty": "Todavía no hay escaneos."
+  },
+  "mine": {
+    "title": "Tus escaneos",
+    "signedOut": "Inicia sesión para escanear y ver tus escaneos. Quien tenga 200.000 $FLYAI recibe un escaneo gratis cada día.",
+    "signIn": "Iniciar sesión",
+    "free": "Hoy tienes un escaneo gratis.",
+    "freeUsed": "Ya usaste el escaneo gratis de hoy.",
+    "noFree": "Ten {n} $FLYAI para un escaneo gratis cada día.",
+    "credits": {
+      "one": "{count} escaneo pagado esperando a usarse (de un escaneo que falló).",
+      "other": "{count} escaneos pagados esperando a usarse (de escaneos que fallaron)."
+    },
+    "empty": "Todavía no hay escaneos."
+  },
+  "how": {
+    "title": "Cómo funciona",
+    "contract": "<b>Contratos de token.</b> Leemos el código fuente verificado y la cadena: quién es el dueño (una wallet, una multisig, un timelock o nadie), si el código se puede reemplazar (un proxy) y cada poder que queda: mint, listas negras, pausa, cambios de impuestos, interruptores de trading. También simulamos una compra y una venta para detectar honeypots. Una IA lee el código y explica cada poder, y cada punto está ligado a una línea de código o a un dato de la cadena.",
+    "site": "<b>Sitios web.</b> Abrimos el sitio en un navegador aislado con una wallet falsa sin llaves, pulsamos sus botones de conectar y reclamar, y registramos todo lo que le pide firmar a la wallet: aprobaciones, permits, órdenes de marketplace, transferencias. También revisamos listas públicas de phishing, la edad del dominio y nombres que imitan a otros.",
+    "price": "<b>Precio.</b> 0,50 USDG, o $0,30 en $FLYAI, en Robinhood Chain. Quien tenga 200.000 $FLYAI (en wallet o en staking) recibe un escaneo gratis al día. Si un escaneo falla, tu pago queda para el siguiente. Los informes son públicos y se pueden compartir, y un token o sitio escaneado en las últimas 24 horas se ve gratis.",
+    "limits": "<b>Límites.</b> \"Sin señales de alerta\" no es una promesa de seguridad. Los sitios de estafa pueden esconderse de los navegadores automáticos, y un equipo sin poderes especiales igual puede vender sus tokens. Nunca firmes algo que no entiendes."
+  }
+}

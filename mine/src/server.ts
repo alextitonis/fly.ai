@@ -49,6 +49,7 @@ import { createBounties } from "./bounties.ts";
 import { blockscoutTransfers, createDeskChat } from "./deskchat.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
+import { createScan, scanConfig, FLYAI as SCAN_FLYAI } from "./scan.ts";
 import { createLaunchpad, launchpadChain } from "./launchpad.ts";
 import { createRace } from "./race.ts";
 import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
@@ -3591,6 +3592,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/gta") || p === "/api/admin/gta")) {
     if (await gta.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p === "/api/scan" || p.startsWith("/api/scan/"))) {
+    if (await scan.route(req, res, url)) return;
+  }
   if (req.method === "GET" && p.startsWith("/api/launchpad")) {
     if (!launchpad) return send(res, 404, { error: "the launchpad isn't live yet" });
     if (await launchpad.route(req, res, url)) return;
@@ -3936,6 +3940,16 @@ const gta = createGta({
   admins: (process.env.BOUNTY_ADMINS ?? "").split(","), explorer: "https://robinhoodchain.blockscout.com",
 });
 if (USER && process.env.GTA_OFF !== "1") gta.start();
+// Fly Scan (src/scan.ts): paid contract / website scans; the scanning runs in the scan worker (flytrade/scan)
+const scanCfg = scanConfig(process.env);
+const scanChain = robinhoodChain(CLAIMS.rpc, STAKING.contract);
+const scanPrices = marketPrices();
+const scan = createScan({
+  pg, cfg: scanCfg, HttpError, send, readJson, sessionWallet: sessionAddress,
+  transfersIn: (tx, token) => transfersIn(CLAIMS.rpc, tx, token, scanCfg.payTo),
+  holdings: async (w) => (await scanChain.holdings([w]))[0] ?? 0n,
+  flyaiPrice: () => process.env.FLYAI_USD_PRICE ? Promise.resolve(Number(process.env.FLYAI_USD_PRICE)) : scanPrices.usd(SCAN_FLYAI),
+});
 // the Fly Desk chat (src/deskchat.ts): holders' messages with their weight; the desk replies with its rug checks
 const deskChat = createDeskChat({
   pg, staking: STAKING.contract, HttpError, send, readJson, sessionWallet: sessionAddress,

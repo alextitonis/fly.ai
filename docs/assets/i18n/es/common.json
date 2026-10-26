@@ -250,6 +250,10 @@
     "leaderboard": {
       "label": "Clasificación",
       "desc": "Los resultados de cada Fly Wallet, en vivo"
+    },
+    "scan": {
+      "label": "Fly Scan",
+      "desc": "Revisa un token o un sitio antes de firmar"
     }
   },
   "footer": {
