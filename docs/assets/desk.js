@@ -976,6 +976,7 @@
       $("err").hidden = true;
       render();
       renderTicker();
+      window.dispatchEvent(new CustomEvent("desk-board", { detail: board }));   // the chat's "in view" chips (deskchat.js)
       playEye(false);
     } catch (e) {
       $("err").hidden = false;

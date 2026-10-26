@@ -117,6 +117,7 @@
     "d1015c": "<b>Her fly wallet'ta spor bahisleri.</b> Bahisler her cüzdanda varsayılan olarak açık, bahis başına $2'dan başlıyor.",
     "d1015d": "<b>Beslemek daha ucuz.</b> +1x büyüme artık $5 yerine bir sineğin yaklaşık dört haftalık ödemesine mal oluyor ve bundan sonra ödemeleri takip ediyor. \"Feed all\" tek tuşla sahip olduğun tüm sinekleri besler.",
     "d1015e": "<b>Sineklerini bulmak daha kolay.</b> Cüzdanında para olan sinekler artık listende ilk sırada, açık bahisler de uzun bir numara yerine seçimi ve maçı gösteriyor.",
-    "d1015f": "<b>Ana sayfadan yeniden $FLYAI al.</b> Ana sayfadaki alım kutusu yeniden fiyat veriyor."
+    "d1015f": "<b>Ana sayfadan yeniden $FLYAI al.</b> Ana sayfadaki alım kutusu yeniden fiyat veriyor.",
+    "d1026b": "<b>Fly Desk'te holder sohbeti.</b> Herkes okuyabilir; 10k+ $FLYAI tutan cüzdanlar yazabilir. Bir token an, masa sohbette rug kontrollerini çalıştırsın. Daha uzun süre tutulan büyük bakiyeler daha çok ağırlık taşır; yeterince holder'ın desteklediği ve kontrollerden geçen tokenlar sineklerin görüşüne girer. <a href=\"/desk#chat\">Fly Desk</a>"
   }
 }

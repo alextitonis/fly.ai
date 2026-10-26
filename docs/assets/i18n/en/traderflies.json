@@ -2139,5 +2139,16 @@
       "fund": "Fund a Fly Wallet (optional)",
       "fundText": "Put USDG or ETH in a fly's own wallet and its brain trades it. Withdraw from the fly's page."
     }
+  },
+  "smell": {
+    "title": "What it smelled lately",
+    "buy": "Smelled a {usd} buy on ${symbol}",
+    "trend": "Caught a whiff of #{word} on X ({n} posts)",
+    "launch": "Sniffed a brand-new launch, ${symbol} at {fdv}",
+    "react0": "got curious",
+    "react1": "kept its distance",
+    "react2": "twitched its antennae",
+    "react3": "buzzed a little closer",
+    "note": "Just sniffing: none of this is traded."
   }
 }

@@ -35,7 +35,7 @@ import { fileURLToPath } from "node:url";
 import { Worker } from "node:worker_threads";
 import { CHANNELS } from "./model.ts";
 import type { TaskParams, TaskResult } from "./runner.ts";
-import { screenKey, screenRates } from "./screensum.ts";
+import { addSpread, emptySpread, screenKey, screenRates, type Spread } from "./screensum.ts";
 import { ADDRESS, checksumAddress, recoverAddress, siweMessage } from "./wallet.ts";
 import { createRoulette } from "./roulette.ts";
 import { createSlots } from "./slots.ts";
@@ -46,6 +46,7 @@ import { createPartners } from "./partners.ts";
 import { createProfiles } from "./profiles.ts";
 import { createReferrals } from "./referrals.ts";
 import { createBounties } from "./bounties.ts";
+import { blockscoutTransfers, createDeskChat } from "./deskchat.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
 import { createLaunchpad, launchpadChain } from "./launchpad.ts";
@@ -215,7 +216,7 @@ function round(r: number): TaskParams[] {
 }
 
 // ---- storage -----------------------------------------------------------------------------------------
-const SCHEMA = 21; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables), 18 FlightPass withdrawals sent by the server (sending_at, error), 19 Fly Slots (slots_commits, slots_spins; 2026-09-29), 20 Fly Race (race_commits, race_games, race_events; 2026-09-29), 21 players and money moved to Postgres (src/pg.ts; their tables here are left as they were, unused) and pg_outbox; created below for new and old databases alike
+const SCHEMA = 22; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables), 18 FlightPass withdrawals sent by the server (sending_at, error), 19 Fly Slots (slots_commits, slots_spins; 2026-09-29), 20 Fly Race (race_commits, race_games, race_events; 2026-09-29), 21 players and money moved to Postgres (src/pg.ts; their tables here are left as they were, unused) and pg_outbox, 22 screen_sums.spread (per-seed spread for the open dataset); created below for new and old databases alike
 /** PROGRAM_BONUS before schema 15, and the factor stored program units are scaled by so credit keeps its value. */
 const OLD_PROGRAM_BONUS = 1.25;
 mkdirSync(dirname(DB_PATH), { recursive: true });
@@ -551,7 +552,8 @@ db.exec(`
     key text primary key,             -- the job's params without the seed (src/screensum.ts)
     seeds integer not null,
     base text not null,               -- JSON: per output group, spikes per neuron per second summed over seeds
-    stim text not null
+    stim text not null,
+    spread text                       -- 22: JSON Spread (src/screensum.ts) over the seeds folded in since; null before
   ) without rowid;
   create table if not exists counters (name text primary key, n integer not null) without rowid;
   create index if not exists order_tasks_by_task on order_tasks (task);
@@ -575,6 +577,12 @@ if (hasTables && !hadDayCredit) {
       coalesce(sum(a.status = 'accepted'), 0), coalesce(sum(a.status = 'pending'), 0), coalesce(sum(a.status = 'rejected'), 0)
     from assignments a join tasks t on t.id = a.task where a.day is not null group by a.day, a.miner`);
   console.log(`database upgraded to schema 13 (day_credit, ${Date.now() - t} ms)`);
+}
+
+if (!(db.prepare("pragma table_info(screen_sums)").all() as { name: string }[]).some((c) => c.name === "spread")) {
+  // 22: screen_sums made before it get the column empty; their spread starts with the next prune
+  db.exec("alter table screen_sums add column spread text");
+  console.log("database upgraded to schema 22 (screen_sums.spread)");
 }
 
 type TaskRow = { id: number; params: string; kind?: string };
@@ -876,6 +884,7 @@ const EDGE_PATHS: RegExp[] = [
   /^\/api\/partners(\/[a-z][a-z0-9]{1,19}(\/(config|leaderboard|pool|pool\/epochs\/\d{1,5}|token\/\d{1,7}|wallet\/0x[0-9a-fA-F]{40}|holder\/0x[0-9a-fA-F]{40}))?)?$/,
   /^\/api\/ruyui\/(config|leaderboard|pool|pool\/epochs\/\d{1,5})$/,
   /^\/api\/gta$/,                                    // the GTA VI giveaway (src/gta.ts), ?wallet= included in the URL
+  /^\/api\/desk-chat$/,                              // the Fly Desk chat's history (src/deskchat.ts); new rows come by Realtime
   /^\/api\/launchpad(\/token\/0x[0-9a-fA-F]{40})?$/,   // Fly Launchpad lists and token pages (src/launchpad.ts)
 ];
 const edgeCached = new WeakSet<ServerResponse>();
@@ -1839,11 +1848,13 @@ const stats = cached(60_000, (_: null) => {
 });
 
 /**
- * Screen results, averaged over seeds, as spikes per neuron per second. A job counts once the server has
- * re-run it, or once a miner with no wrong answers has returned it. Hashes are never included.
+ * Screen results, averaged over seeds, as spikes per neuron per second, with each group's per-seed standard deviation
+ * over the seeds summed since schema 22. A job counts once the server has re-run it, or once a miner with no wrong
+ * answers had returned it when it was pruned. Hashes are never included.
  *
- * Worked out in src/results.worker.ts: over ~2M jobs it takes a minute, which on this thread froze every request
- * (2026-09-21). A request gets the last finished summary and starts a fresh one when that is RESULTS_MS old.
+ * Worked out in src/results.worker.ts from screen_sums and the checked jobs, so jobs not yet pruned show up a day
+ * late (2026-10-26; reading them live never finished). On this thread it froze every request (2026-09-21). A request
+ * gets the last finished summary and starts a fresh one when that is RESULTS_MS old.
  */
 const RESULTS_MS = 10 * 60_000;
 let resultsDone: { at: number; value: unknown } | null = null;
@@ -3108,8 +3119,8 @@ async function pruneScreen(): Promise<void> {
     from tasks t where t.id >= ? and t.id < ? and +t.kind = 'connectome' and +t.state = 'done' and t.truth is null
       and not exists (select 1 from order_tasks ot where ot.task = t.id)
       and not exists (select 1 from assignments a where a.task = t.id and (a.status = 'issued' or coalesce(a.submitted_at, a.issued_at) >= ?))`);
-  const getSum = db.prepare("select seeds, base, stim from screen_sums where key = ?");
-  const putSum = db.prepare("insert into screen_sums (key, seeds, base, stim) values (?, ?, ?, ?) on conflict (key) do update set seeds = excluded.seeds, base = excluded.base, stim = excluded.stim");
+  const getSum = db.prepare("select seeds, base, stim, spread from screen_sums where key = ?");
+  const putSum = db.prepare("insert into screen_sums (key, seeds, base, stim, spread) values (?, ?, ?, ?, ?) on conflict (key) do update set seeds = excluded.seeds, base = excluded.base, stim = excluded.stim, spread = excluded.spread");
   const dropAssignments = db.prepare("delete from assignments where task = ?");
   const dropTask = db.prepare("delete from tasks where id = ?");
   const addCount = db.prepare("insert into counters (name, n) values ('pruned_tasks', ?) on conflict (name) do update set n = n + excluded.n");
@@ -3122,25 +3133,27 @@ async function pruneScreen(): Promise<void> {
       const rows = (pick.all(from, from + PRUNE_BATCH, cutoff) as { id: number; params: string; result: string | null }[])
         .filter((row) => !queued.has(row.id));
       if (rows.length) transaction(() => {
-        const sums = new Map<string, { seeds: number; base: number[]; stim: number[] }>();
+        const sums = new Map<string, { seeds: number; base: number[]; stim: number[]; spread: Spread }>();
         for (const row of rows) {
           if (row.result) {
             const { key, params } = screenKey(JSON.parse(row.params) as TaskParams);
             const r = screenRates(params, JSON.parse(row.result) as TaskResult, ref.outputSizes, ref.dt);
             let s = sums.get(key);
             if (!s) {
-              const old = getSum.get(key) as { seeds: number; base: string; stim: string } | undefined;
-              s = old ? { seeds: old.seeds, base: JSON.parse(old.base), stim: JSON.parse(old.stim) } : { seeds: 0, base: r.base.map(() => 0), stim: r.stim.map(() => 0) };
+              const old = getSum.get(key) as { seeds: number; base: string; stim: string; spread: string | null } | undefined;
+              const spread = old?.spread ? JSON.parse(old.spread) as Spread : emptySpread(r.base.length);
+              s = old ? { seeds: old.seeds, base: JSON.parse(old.base), stim: JSON.parse(old.stim), spread } : { seeds: 0, base: r.base.map(() => 0), stim: r.stim.map(() => 0), spread };
               sums.set(key, s);
             }
             s.seeds++;
             r.base.forEach((x, g) => { s.base[g] += x; });
             r.stim.forEach((x, g) => { s.stim[g] += x; });
+            addSpread(s.spread, r);
           }
           dropAssignments.run(row.id);
           dropTask.run(row.id);
         }
-        for (const [key, s] of sums) putSum.run(key, s.seeds, JSON.stringify(s.base), JSON.stringify(s.stim));
+        for (const [key, s] of sums) putSum.run(key, s.seeds, JSON.stringify(s.base), JSON.stringify(s.stim), JSON.stringify(s.spread));
         addCount.run(rows.length);
       });
       pruned += rows.length;
@@ -3572,6 +3585,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/bounties") || p.startsWith("/api/admin/bounties"))) {
     if (await bounties.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p === "/api/desk-chat" || p === "/api/desk-chat/me")) {
+    if (await deskChat.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p.startsWith("/api/gta") || p === "/api/admin/gta")) {
     if (await gta.route(req, res, url)) return;
   }
@@ -3920,6 +3936,16 @@ const gta = createGta({
   admins: (process.env.BOUNTY_ADMINS ?? "").split(","), explorer: "https://robinhoodchain.blockscout.com",
 });
 if (USER && process.env.GTA_OFF !== "1") gta.start();
+// the Fly Desk chat (src/deskchat.ts): holders' messages with their weight; the desk replies with its rug checks
+const deskChat = createDeskChat({
+  pg, staking: STAKING.contract, HttpError, send, readJson, sessionWallet: sessionAddress,
+  chain: {
+    holdings: robinhoodChain(CLAIMS.rpc, STAKING.contract).holdings,
+    transfers: blockscoutTransfers("https://robinhoodchain.blockscout.com", STAKING.token),
+  },
+  team: (process.env.CHAT_TEAM ?? "").split(","),
+});
+if (USER) deskChat.start();
 // Fly Launchpad (src/launchpad.ts): indexes the FlyLaunchpad contract once LAUNCHPAD_ADDRESS is set
 const launchpad = /^0x[0-9a-fA-F]{40}$/.test(process.env.LAUNCHPAD_ADDRESS ?? "")
   ? createLaunchpad({

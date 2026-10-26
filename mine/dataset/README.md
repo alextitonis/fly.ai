@@ -98,8 +98,8 @@ How the server checks answers:
 
 What counts in each file:
 
-- **Screen (`screen.csv`):** a job counts once the server has re-run it, or once a miner with no wrong answers has
-  returned it. Each screen job therefore rests on one miner's answer, and only a sample was re-run by the server.
+- **Screen (`screen.csv`):** a job counts once the server has re-run it, or once it was returned by a miner who
+  had no wrong answers when the job was folded into the sums (about a day after it finished). Each screen job therefore rests on one miner's answer, and only a sample was re-run by the server.
   `n_checked_seeds` gives the number that were re-run.
 - **House orders (`tuning_runs.csv`):** a run counts once it is settled, either by two independent miners (wallets)
   agreeing exactly (`checked_by = miners`) or by the server's own run (`checked_by = server`).
@@ -128,9 +128,17 @@ Source: `GET https://flyai-mine.fly.dev/api/results`. There is one row per condi
 | `rest_hz` | float | mean spikes per neuron per second in the rest window (5 s), averaged over seeds |
 | `driven_hz` | float | the same in the driven window (10 s) |
 | `delta_hz` | float | `driven_hz − rest_hz` |
+| `n_sd_seeds` | int | seeds the two spread columns cover (see below) |
+| `rest_sd_hz` | float | sample standard deviation of `rest_hz` across those seeds; empty under two seeds |
+| `driven_sd_hz` | float | the same for `driven_hz` |
 
-The API serves only means rounded to 0.01 Hz, so this file has no spread or confidence interval. `delta_hz` is
-computed from the rounded means. Per-seed values are available only for the tuning runs below.
+Means are rounded to 0.01 Hz and standard deviations to 0.001 Hz. `delta_hz` is computed from the rounded means.
+A 95% interval for a mean is about `± 1.96 · sd / √n_sd_seeds`.
+
+The server started keeping per-seed spread on 2026-10-26 (schema 22). Seeds summed before that have means but no
+spread, so `n_sd_seeds` is smaller than `n_seeds`: the spread describes the seeds since that date only. Jobs are
+added to the screen file about a day after they finish (once the server folds them into its sums). Per-seed values
+are available only for the tuning runs below.
 
 ### `tuning_runs.csv`: per-run house tuning sweeps (long format)
 

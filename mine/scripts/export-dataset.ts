@@ -110,7 +110,8 @@ try {
 
 // ---- screen: /api/results -------------------------------------------------------------------------------------
 type ScreenRow = { channel: string; side: string; amount: number; gain: number; tonic: number; steps: number; warm: number;
-  seeds: number; checked_seeds: number; base_hz: number[]; stim_hz: number[] };
+  seeds: number; checked_seeds: number; base_hz: number[]; stim_hz: number[];
+  spread_seeds?: number; base_sd_hz?: number[] | null; stim_sd_hz?: number[] | null };
 let screen: { units: string; outputs: string[]; rows: ScreenRow[] } | null = null;
 try {
   const deadline = Date.now() + WAIT_S * 1000;
@@ -136,16 +137,18 @@ if (screen) {
     screen.outputs.forEach((g, i) => {
       const [group, groupSide] = splitGroup(g);
       out.push([r.channel, control ? "" : r.side, r.amount, r.gain, r.tonic, r.steps, r.warm, group, groupSide,
-        r.seeds, r.checked_seeds, r.base_hz[i], r.stim_hz[i], r2(r.stim_hz[i] - r.base_hz[i])]);
+        r.seeds, r.checked_seeds, r.base_hz[i], r.stim_hz[i], r2(r.stim_hz[i] - r.base_hz[i]),
+        r.spread_seeds ?? 0, r.base_sd_hz?.[i] ?? "", r.stim_sd_hz?.[i] ?? ""]);
     });
   }
   writeCsv("screen.csv", ["channel", "side", "amount", "gain", "tonic", "steps", "warm", "motor_group", "motor_side",
-    "n_seeds", "n_checked_seeds", "rest_hz", "driven_hz", "delta_hz"], out);
+    "n_seeds", "n_checked_seeds", "rest_hz", "driven_hz", "delta_hz", "n_sd_seeds", "rest_sd_hz", "driven_sd_hz"], out);
   const seeds = rows.map((r) => r.seeds);
   screenSummary = {
     units: screen.units, conditions: rows.length, motor_groups: screen.outputs.length,
     seeds_min: Math.min(...seeds), seeds_max: Math.max(...seeds), seeds_total: seeds.reduce((a, b) => a + b, 0),
     checked_seeds_total: rows.reduce((a, r) => a + r.checked_seeds, 0),
+    sd_seeds_total: rows.reduce((a, r) => a + (r.spread_seeds ?? 0), 0),
   };
   console.log(`  screen.csv: ${rows.length} conditions x ${screen.outputs.length} groups = ${out.length} rows`);
 }

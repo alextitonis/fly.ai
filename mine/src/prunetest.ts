@@ -1,7 +1,8 @@
 /**
  * Pruning on a real server: finished screen jobs older than PRUNE_AFTER_HOURS are summed into screen_sums and
- * deleted, and nothing anyone sees changes: /api/results reports the same rates, every miner keeps its credit, the
- * job totals in /api/stats hold, and canaries, paid jobs and recent jobs stay. A mining order's jobs older than
+ * deleted, and nothing anyone sees changes: /api/results reports the pruned jobs' and the checked jobs' rates and
+ * per-seed spread (from screen_sums, schema 22), every miner keeps its credit, the job totals in /api/stats hold, and
+ * canaries, paid jobs and recent jobs stay. A mining order's jobs older than
  * RETAIN_DAYS are emptied in place (their order_tasks rows keep pointing at them: deleting them failed on that foreign
  * key and rolled every run back, 2026-10-03), but not a recent one or one a paid order shares.
  *
@@ -13,7 +14,10 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
+import { loadModel } from "./load.ts";
 import { startPg } from "./pgtest.ts";
+import type { TaskParams, TaskResult } from "./runner.ts";
+import { addSpread, emptySpread, screenKey, screenRates, spreadSd, type Spread } from "./screensum.ts";
 
 const PORT = 8785;
 const BASE = `http://localhost:${PORT}`;
@@ -113,9 +117,17 @@ try {
   rw.prepare("insert into order_tasks (order_id, task, state) values ('test-order', ?, 2)").run(shared);
   rw.prepare(`update tasks set kind = 'wasm' where id in (${[...mineOld, shared].join(",")})`).run();
   const creditBefore = JSON.stringify(rw.prepare("select * from day_credit order by day, miner").all());
+  // three seeds of one stimulus, so a spread has something to measure (a round spreads its seeds over the whole grid)
+  for (const [i, id] of done.slice(10, 12).entries()) {
+    rw.prepare("update tasks set params = json_set((select params from tasks where id = ?), '$.seed', ?) where id = ?").run(done[9], 900_000 + i, id);
+  }
+  // what pruning folds: the old screen jobs outside any order, with their answer (no checked job among them)
+  const folded = rw.prepare(`select t.params, (select a.result from assignments a join miners m on m.id = a.miner
+      where a.task = t.id and (a.status = 'accepted' or (a.status = 'pending' and m.strikes = 0)) limit 1) as result
+    from tasks t where t.state = 'done' and t.kind = 'connectome' and t.truth is null and t.id not in (${recent.join(",")})
+      and not exists (select 1 from order_tasks ot where ot.task = t.id)`).all() as { params: string; result: string | null }[];
   rw.close();
   await start();
-  const resultsBefore = await results(); // worked out before the first prune (it starts on the 15 s tick)
 
   for (let i = 0; ; i++) {
     const ro = new DatabaseSync(DB, { readOnly: true });
@@ -161,21 +173,54 @@ try {
   // pruned jobs still count; never fewer (the verifier works open jobs itself after the restart, so it can be more)
   check("job totals in /api/stats hold", statsAfter.tasks_done >= statsBefore.tasks_done && statsAfter.tasks >= statsBefore.tasks,
     `${statsBefore.tasks_done} -> ${statsAfter.tasks_done}`);
-  // the summary is 10 minutes old at most: restart so the next request works it out from screen_sums
+  // the summary is 10 minutes old at most: restart so the next request works it out from screen_sums. The verifier
+  // checks open jobs of its own meanwhile, and checked jobs count too, so the expectation reads them after the summary
   await stop();
   await start();
-  const resultsAfter = await results();
-  const byKey = (r: any) => new Map((r.rows as any[]).map((row) => {
-    const { seeds: _s, checked_seeds: _c, base_hz: _b, stim_hz: _t, ...params } = row;
-    return [JSON.stringify(params), row];
-  }));
-  const a = byKey(resultsBefore), b = byKey(resultsAfter);
-  const same = a.size === b.size && [...a].every(([k, row]) => {
-    const other = b.get(k);
-    return other && other.seeds === row.seeds && other.base_hz.every((x: number, g: number) => Math.abs(x - row.base_hz[g]) < 0.011)
-      && other.stim_hz.every((x: number, g: number) => Math.abs(x - row.stim_hz[g]) < 0.011);
-  });
-  check("/api/results reports the same rates from screen_sums", same && a.size > 0, `${a.size} stimuli before, ${b.size} after`);
+  const model = loadModel(fileURLToPath(new URL("../../world/public/connectome/", import.meta.url)));
+  let got: any = null, want = new Map<string, { seeds: number; checked: number; base: number[]; stim: number[]; spread: Spread }>();
+  for (let attempt = 0; attempt < 5; attempt++) {
+    got = await results();
+    const r = new DatabaseSync(DB, { readOnly: true });
+    const checkedRows = r.prepare(`select params, truth as result from tasks t where truth is not null and kind = 'connectome'
+      and not exists (select 1 from order_tasks ot where ot.task = t.id)`).all() as { params: string; result: string }[];
+    r.close();
+    want = new Map();
+    for (const [rows, isChecked] of [[folded, 0], [checkedRows, 1]] as const) {
+      for (const row of rows) {
+        if (!row.result) continue;
+        const { key, params } = screenKey(JSON.parse(row.params) as TaskParams);
+        const rates = screenRates(params, JSON.parse(row.result) as TaskResult, model.outputSizes, model.meta.params.dt);
+        const w = want.get(key) ?? { seeds: 0, checked: 0, base: rates.base.map(() => 0), stim: rates.stim.map(() => 0), spread: emptySpread(rates.base.length) };
+        w.seeds++;
+        w.checked += isChecked;
+        rates.base.forEach((x, g) => { w.base[g] += x; });
+        rates.stim.forEach((x, g) => { w.stim[g] += x; });
+        addSpread(w.spread, rates);
+        want.set(key, w);
+      }
+    }
+    const seedsGot = (got.rows as any[]).reduce((a, row) => a + row.seeds, 0);
+    const seedsWant = [...want.values()].reduce((a, w) => a + w.seeds, 0);
+    if (seedsGot === seedsWant) break; // else the verifier checked a job in between: read both again
+  }
+  const near = (a: number[] | null, b: number[] | null, tol: number) => !!a && !!b && a.length === b.length && a.every((x, g) => Math.abs(x - b[g]) < tol);
+  const rows = got.rows as any[];
+  let meansOk = rows.length === want.size, sdOk = rows.length === want.size, checkedOk = rows.length === want.size, withSd = 0;
+  for (const row of rows) {
+    const { seeds: _s, checked_seeds: _c, base_hz: _b, stim_hz: _t, spread_seeds: _n, base_sd_hz: _bs, stim_sd_hz: _ss, ...params } = row;
+    const w = want.get(JSON.stringify(params));
+    if (!w) { meansOk = sdOk = checkedOk = false; continue; }
+    meansOk &&= row.seeds === w.seeds && near(row.base_hz, w.base.map((x) => x / w.seeds), 0.011) && near(row.stim_hz, w.stim.map((x) => x / w.seeds), 0.011);
+    checkedOk &&= row.checked_seeds === w.checked;
+    const sdBase = spreadSd(w.spread.n, w.spread.base, w.spread.base2), sdStim = spreadSd(w.spread.n, w.spread.stim, w.spread.stim2);
+    sdOk &&= row.spread_seeds === w.seeds && (sdBase === null ? row.base_sd_hz === null : near(row.base_sd_hz, sdBase, 0.0011))
+      && (sdStim === null ? row.stim_sd_hz === null : near(row.stim_sd_hz, sdStim, 0.0011));
+    if (row.base_sd_hz) withSd++;
+  }
+  check("/api/results reports the pruned and checked jobs' rates from screen_sums", meansOk && rows.length > 0, `${rows.length} stimuli, ${want.size} expected`);
+  check("checked seeds are counted", checkedOk);
+  check("/api/results reports the per-seed spread", sdOk && withSd > 0, `${withSd} stimuli with a spread`);
 } catch (err) {
   console.error(err);
   failed++;

@@ -2139,5 +2139,16 @@
       "fund": "Financia una Fly Wallet (opcional)",
       "fundText": "Pon USDG o ETH en la cartera propia de una mosca y su cerebro la opera. Retira desde la página de la mosca."
     }
+  },
+  "smell": {
+    "title": "Lo que olió hace poco",
+    "buy": "Olió una compra de {usd} en ${symbol}",
+    "trend": "Captó un olor a #{word} en X ({n} posts)",
+    "launch": "Olfateó un lanzamiento recién salido, ${symbol} a {fdv}",
+    "react0": "le picó la curiosidad",
+    "react1": "mantuvo la distancia",
+    "react2": "movió las antenas",
+    "react3": "se acercó zumbando",
+    "note": "Solo olfatea: nada de esto se opera."
   }
 }

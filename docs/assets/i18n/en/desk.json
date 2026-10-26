@@ -26,7 +26,8 @@
     "tape": "Tape",
     "how": "How it trades",
     "launches": "Launches",
-    "vote": "Vote"
+    "vote": "Vote",
+    "chat": "Chat"
   },
   "sys": {
     "mode": "mode",
@@ -358,5 +359,42 @@
     "yours": "See which of your flies are active and claim your weekly payout.",
     "claim": "Claim payout",
     "myFlies": "My flies"
+  },
+  "chat": {
+    "title": "Holder chat",
+    "lede": "Holders talk, the desk listens. Name a token ($SYMBOL or its address) and the desk runs its own rug checks on it right here. Each message carries its writer's weight: bigger bags held longer count more. Tokens with enough weight behind them that pass the checks join the flies' view. Nothing is ever bought just because the chat said so.",
+    "placeholder": "Say something, or name a token like $NVDA",
+    "inputLabel": "Message",
+    "send": "Send",
+    "connect": "Connect wallet",
+    "readOnly": "Anyone can read. Sign in with a wallet holding 10,000+ $FLYAI to post.",
+    "needHold": "Hold at least {n} $FLYAI to post. You can still read along.",
+    "blocked": "This wallet can't post here.",
+    "you": "{held} $FLYAI · held {days} days",
+    "team": "team wallet: weight 0, it can't steer the desk",
+    "w": "w",
+    "weightTip": "Weight: $FLYAI held (full at 1M) × days held (full at 30)",
+    "desk": "Desk",
+    "checking": "checking the tokens…",
+    "passed": "passes the desk's checks",
+    "passUnlisted": "passes, but isn't on the desk's list",
+    "fail": "refused:",
+    "info": "",
+    "holders": "{n} holders",
+    "whales": "top 10 hold {p}",
+    "creator": "creator {p}",
+    "pool": "pool {usd}",
+    "days": "{n} days old",
+    "hours": "{n} h old",
+    "watching": "In the flies' view from the chat:",
+    "empty": "No messages yet. Say gm, or name a token for the desk to check.",
+    "error": "Couldn't load the chat. Retrying…",
+    "now": "now",
+    "minAgo": "{n} min ago",
+    "hAgo": "{n} h ago",
+    "count": {
+      "one": "{count} message",
+      "other": "{count} messages"
+    }
   }
 }

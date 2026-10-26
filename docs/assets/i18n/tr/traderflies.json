@@ -2139,5 +2139,16 @@
       "fund": "Bir Fly Wallet fonla (isteğe bağlı)",
       "fundText": "Bir sineğin kendi cüzdanına USDG veya ETH koy, beyni onu işlesin. Çekimi sineğin sayfasından yaparsın."
     }
+  },
+  "smell": {
+    "title": "Son zamanlarda kokladıkları",
+    "buy": "${symbol} üzerinde {usd} alımı kokladı",
+    "trend": "X'te #{word} kokusu aldı ({n} gönderi)",
+    "launch": "Yepyeni bir lansman kokladı, ${symbol} {fdv}",
+    "react0": "merak etti",
+    "react1": "uzak durdu",
+    "react2": "antenlerini oynattı",
+    "react3": "vızıldayarak biraz yaklaştı",
+    "note": "Sadece kokluyor: bunların hiçbiri işleme girmez."
   }
 }

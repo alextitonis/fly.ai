@@ -26,7 +26,8 @@
     "tape": "İşlem akışı",
     "how": "Nasıl işlem yapıyor",
     "launches": "Lansmanlar",
-    "vote": "Oy"
+    "vote": "Oy",
+    "chat": "Sohbet"
   },
   "sys": {
     "mode": "mod",
@@ -358,5 +359,42 @@
     "yours": "Hangi sineklerinin aktif olduğunu gör ve haftalık ödemeni al.",
     "claim": "Ödemeyi al",
     "myFlies": "Sineklerim"
+  },
+  "chat": {
+    "title": "Holder sohbeti",
+    "lede": "Holder'lar konuşur, masa dinler. Bir token yaz ($SEMBOL ya da adresi), masa kendi rug kontrollerini burada çalıştırsın. Her mesaj yazanın ağırlığını taşır: daha uzun süre tutulan daha büyük bakiyeler daha çok sayılır. Arkasında yeterli ağırlık olan ve kontrollerden geçen tokenlar sineklerin görüşüne girer. Sohbet söyledi diye hiçbir şey alınmaz.",
+    "placeholder": "Bir şey yaz ya da $NVDA gibi bir token an",
+    "inputLabel": "Mesaj",
+    "send": "Gönder",
+    "connect": "Cüzdan bağla",
+    "readOnly": "Herkes okuyabilir. Yazmak için 10.000+ $FLYAI tutan bir cüzdanla giriş yap.",
+    "needHold": "Yazmak için en az {n} $FLYAI tutmalısın. Okumaya devam edebilirsin.",
+    "blocked": "Bu cüzdan burada yazamaz.",
+    "you": "{held} $FLYAI · {days} gündür tutuluyor",
+    "team": "ekip cüzdanı: ağırlık 0, masayı yönlendiremez",
+    "w": "a",
+    "weightTip": "Ağırlık: tutulan $FLYAI (1M'de tam) × tutulan gün (30'da tam)",
+    "desk": "Masa",
+    "checking": "tokenlar kontrol ediliyor…",
+    "passed": "masanın kontrollerinden geçti",
+    "passUnlisted": "geçti, ama masanın listesinde değil",
+    "fail": "reddedildi:",
+    "info": "",
+    "holders": "{n} holder",
+    "whales": "ilk 10 cüzdan {p}",
+    "creator": "yaratıcı {p}",
+    "pool": "havuz {usd}",
+    "days": "{n} günlük",
+    "hours": "{n} saatlik",
+    "watching": "Sohbetten sineklerin görüşünde:",
+    "empty": "Henüz mesaj yok. gm de ya da masanın kontrol etmesi için bir token an.",
+    "error": "Sohbet yüklenemedi. Yeniden deneniyor…",
+    "now": "şimdi",
+    "minAgo": "{n} dk önce",
+    "hAgo": "{n} sa önce",
+    "count": {
+      "one": "{count} mesaj",
+      "other": "{count} mesaj"
+    }
   }
 }
