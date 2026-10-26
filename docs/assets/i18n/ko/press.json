@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "title": "프레스 키트 — fly.ai",
+    "description": "공식 fly.ai 로고(다크 및 라이트용 PNG, SVG, WebP), 브랜드 컬러, Outfit 타이포그래피, 프로젝트 소개문, 사이트 스크린샷 및 $FLYAI 토큰 컨트랙트."
+  },
+  "head": {
+    "eyebrow": "프레스 및 브랜드",
+    "title": "프레스 키트",
+    "lede": "작가, 리스팅 사이트 및 파트너를 위한 로고, 브랜드 컬러, Outfit 서체, 프로젝트 소개문, 사이트 스크린샷 및 공식 $FLYAI 토큰 컨트랙트."
+  },
+  "desc": {
+    "title": "fly.ai 소개",
+    "sub": "검증된 프로젝트 사실만을 바탕으로 작성된 한 줄 및 한 단락 공식 소개문입니다.",
+    "oneLineLabel": "한 줄 소개",
+    "oneLine": "fly.ai는 성체 초파리의 166,700개 뉴런 뇌 커넥톰 전체를 오픈 소스로 컴퓨터에서 실행하고 Robinhood Chain에서 실시간으로 구동하여 Trader Flies, Fly Desk 및 $FLYAI 토큰을 움직입니다.",
+    "oneParaLabel": "한 단락 소개",
+    "onePara": "fly.ai는 성체 수컷 초파리(Drosophila melanogaster — Janelia MaleCNS v1.0 커넥톰의 166,700개 뉴런과 2,560만 개 시냅스)의 전체 뇌 배선을 오픈 소스 스파이킹 신경 시뮬레이션으로 실행합니다. 뇌 내부에 언어 모델이나 수동으로 작성된 전략 없이 감각 입력과 운동 뉴런만으로 Trader Flies(자체 트레이딩 지갑을 가진 Robinhood Chain의 제네시스 NFT 1,000개), Fly Desk(초파리 뇌가 거래하는 공유 팟), 3D 생물학적 세계 시뮬레이션, Flybook 및 분산 브라우저 컴퓨팅을 실시간으로 구동합니다. 이 프로젝트는 Robinhood Chain의 $FLYAI 토큰으로 자금을 지원받습니다."
+  },
+  "logos": {
+    "title": "로고",
+    "sub": "다크 및 라이트 배경용 fly.ai 워드마크와 초파리 아이콘을 PNG, SVG, WebP 형식으로 다운로드하세요.",
+    "darkTitle": "워드마크 — 다크 배경",
+    "darkDesc": "순수 블랙 및 어두운 표면을 위한 민트색 초파리 글로우가 있는 화이트 워드마크.",
+    "lightTitle": "워드마크 — 라이트 배경",
+    "lightDesc": "흰색 또는 밝은 페이지를 위해 투명 배경에 블랙 워드마크와 민트 초파리 마크를 적용.",
+    "iconDarkTitle": "초파리 아이콘 — 다크",
+    "iconDarkDesc": "아바타, 토큰 리스팅 및 앱 아이콘을 위한 블랙 배경의 정사각형 초파리 마크.",
+    "iconLightTitle": "초파리 아이콘 — 라이트",
+    "iconLightDesc": "라이트 모드 디렉토리 및 배지를 위한 밝은 배경의 정사각형 초파리 마크.",
+    "dlPng": "PNG",
+    "dlSvg": "SVG",
+    "dlWebp": "WebP"
+  },
+  "colors": {
+    "title": "브랜드 컬러",
+    "sub": "순수 블랙, 화이트, 그리고 초파리의 민트 글로우. 레드는 손실과 경고에만 사용되며 브랜드 컬러로 사용되지 않습니다.",
+    "bg": "퓨어 블랙",
+    "panel": "패널 다크",
+    "mint": "민트 글로우",
+    "mintHi": "민트 하이라이트",
+    "text": "기본 텍스트",
+    "line": "보더 라인"
+  },
+  "font": {
+    "title": "타이포그래피",
+    "sub": "헤드라인과 워드마크에는 Outfit 디스플레이 서체를 사용하며, 본문에는 Inter, 숫자와 주소에는 JetBrains Mono를 함께 사용합니다.",
+    "displayRole": "디스플레이 및 헤드라인",
+    "sansRole": "본문 텍스트",
+    "monoRole": "주소 및 데이터",
+    "outfitWeights": "굵기: 400, 500, 600, 700",
+    "interWeights": "굵기: 400, 500, 600",
+    "monoWeights": "굵기: 400, 500",
+    "googleFonts": "Google Fonts"
+  },
+  "screens": {
+    "title": "스크린샷",
+    "sub": "실시간 fly.ai 시뮬레이션, 뉴런 대시보드, 트레이딩 터미널 및 Fly Maker의 고해상도 스크린샷.",
+    "s1Title": "실시간 뉴런 대시보드",
+    "s1Desc": "실시간 스파이킹 뉴런 텔레메트리와 함께 SSH Fighter를 플레이하는 166,700개 뉴런 초파리 뇌.",
+    "s2Title": "3D 커넥톰 월드",
+    "s2Desc": "브라우저 3D 시뮬레이션에서 먹이를 찾고 냄새 기둥을 추적하며 상호작용하는 전체 커넥톰 초파리들.",
+    "s3Title": "Fly Terminal 및 Fly Desk",
+    "s3Desc": "Robinhood Chain의 Trader Flies 지갑, Fly Desk 공유 포지션 및 실시간 체결을 보여주는 라이브 트레이딩 화면.",
+    "s4Title": "Fly Maker",
+    "s4Desc": "온체인 안전장치 안에서 운영되며 사용자 지갑이 직접 소유하는 Robinhood Chain 자동 마켓 메이킹 볼트.",
+    "download": "다운로드",
+    "open": "원본 크기 열기"
+  },
+  "token": {
+    "title": "$FLYAI 토큰 및 컨트랙트 주소",
+    "sub": "$FLYAI는 Robinhood Chain(Pons에서 출시)에서 fly.ai의 자금을 지원하는 토큰입니다. 전체 공급량, 소각 트랜잭션 및 조건은 TOKEN.md에 문서화되어 있습니다.",
+    "contractLabel": "Robinhood Chain",
+    "tokenMd": "GitHub에서 TOKEN.md 읽기",
+    "tokenPage": "토큰 페이지"
+  }
+}

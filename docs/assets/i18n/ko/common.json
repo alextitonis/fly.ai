@@ -254,7 +254,8 @@
   },
   "footer": {
     "license": "MIT 라이선스",
-    "credit": "커넥톰 데이터: FlyEM(HHMI Janelia) 및 공동 연구자의 MaleCNS v1.0, CC BY 4.0에 따라 사용. 코드는 MIT 라이선스."
+    "credit": "커넥톰 데이터: FlyEM(HHMI Janelia) 및 공동 연구자의 MaleCNS v1.0, CC BY 4.0에 따라 사용. 코드는 MIT 라이선스.",
+    "press": "프레스 키트"
   },
   "words": {
     "copy": "복사",
