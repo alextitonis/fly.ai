@@ -19,12 +19,37 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "fly.ai",
-  "alternateName": "$FLYAI",
-  "url": "https://flyaiworld.com/",
-  "description": "$FLYAI funds fly.ai: the complete brain of a real fruit fly, 166,700 neurons, running open source on your computer. Live on Pons, on Robinhood Chain.",
-  "sameAs": ["https://x.com/flydotai", "https://github.com/alextitonis/fly.ai"]
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://flyaiworld.com/#organization",
+      "name": "fly.ai",
+      "alternateName": "$FLYAI",
+      "url": "https://flyaiworld.com/",
+      "logo": "https://flyaiworld.com/assets/logo.webp",
+      "description": "$FLYAI funds fly.ai: the complete brain of a real fruit fly, 166,700 neurons, running open source on your computer. Live on Pons, on Robinhood Chain.",
+      "sameAs": [
+        "https://x.com/flydotai",
+        "https://discord.gg/2KqfZs4aK8",
+        "https://t.me/+Cs5zp1zmD5NjMmI1",
+        "https://github.com/alextitonis/fly.ai",
+        "https://pypi.org/project/flybrain/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://flyaiworld.com/#website",
+      "name": "fly.ai",
+      "alternateName": "$FLYAI",
+      "url": "https://flyaiworld.com/",
+      "description": "$FLYAI funds fly.ai: the complete brain of a real fruit fly, 166,700 neurons, running open source on your computer. Live on Pons, on Robinhood Chain.",
+      "publisher": { "@id": "https://flyaiworld.com/#organization" },
+      "sameAs": [
+        "https://x.com/flydotai",
+        "https://github.com/alextitonis/fly.ai"
+      ]
+    }
+  ]
 }
 </script>
 <script src="assets/i18n/boot.js"></script>
