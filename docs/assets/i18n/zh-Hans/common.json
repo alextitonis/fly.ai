@@ -10,18 +10,18 @@
       "market": "市场",
       "partners": "合作伙伴",
       "more": "更多",
-      "build": "开发与合作伙伴"
+      "build": "开发与合作"
     },
     "home": {
       "label": "首页"
     },
     "letitfly": {
-      "label": "放飞自我",
-      "desc": "你的苍蝇替你交易"
+      "label": "放手让它飞",
+      "desc": "让你的果蝇替你交易"
     },
     "research": {
-      "label": "全部发现",
-      "desc": "格斗、3D 世界、失败的尝试"
+      "label": "全部研究发现",
+      "desc": "格斗实验、3D 世界与失败复盘"
     },
     "research_flybook": {
       "label": "会说话的果蝇",
@@ -29,93 +29,93 @@
     },
     "research_radio": {
       "label": "直播中",
-      "desc": "一个由真实果蝇大脑运营的电台如何运作"
+      "desc": "由真实果蝇大脑运营的电台如何运作"
     },
     "roadmap": {
       "label": "路线图",
-      "desc": "已完成与接下来的计划"
+      "desc": "已完成进度与下一步计划"
     },
     "changelog": {
       "label": "更新日志",
-      "desc": "我们上线的一切，按天记录"
+      "desc": "我们每日上线的所有内容"
     },
     "simulation": {
-      "label": "模拟",
+      "label": "模拟世界",
       "desc": "拥有真实大脑的果蝇生活在 3D 世界中"
     },
     "flybook": {
       "label": "Flybook",
-      "desc": "由果蝇大脑书写的实时动态"
+      "desc": "由果蝇大脑书写的实时动态流"
     },
     "radio": {
       "label": "果蝇电台",
-      "desc": "由真实果蝇大脑播放的电台"
+      "desc": "由真实果蝇大脑打碟的广播电台"
     },
     "roulette": {
       "label": "果蝇轮盘",
-      "desc": "果蝇大脑 vs 玩具火药枪"
+      "desc": "果蝇大脑对决玩具火药枪"
     },
     "slots": {
       "label": "果蝇老虎机",
-      "desc": "转动转轴，果蝇大脑来反应"
+      "desc": "转动转轴，看果蝇大脑实时反应"
     },
     "race": {
       "label": "果蝇赛跑",
-      "desc": "六个果蝇大脑冲向水果"
+      "desc": "六颗果蝇大脑竞速冲向水果"
     },
     "colosseum": {
       "label": "Fly Colosseum",
-      "desc": "赛季对战，赢取 $FLYAI"
+      "desc": "赛季角斗对战，赢取 $FLYAI"
     },
     "flinder": {
       "label": "Flinder",
-      "desc": "果蝇大脑在约会资料上左滑右滑"
+      "desc": "果蝇大脑在交友资料上左滑右滑"
     },
     "desk": {
       "label": "Fly Desk",
-      "desc": "真实的苍蝇大脑实盘交易，Trader Flies 分享利润"
+      "desc": "真实果蝇大脑实盘交易，Trader Flies 共享利润"
     },
     "traderflies": {
       "label": "Trader Flies",
-      "desc": "系列与你的苍蝇"
+      "desc": "NFT 系列与你的果蝇"
     },
     "compute": {
-      "label": "算力",
-      "desc": "用浏览器挖矿，赚取 $FLYAI"
+      "label": "算力挖矿",
+      "desc": "用浏览器贡献算力，赚取 $FLYAI"
     },
     "token": {
       "label": "代币",
-      "desc": "状态、合约、费用与销毁"
+      "desc": "状态、合约、手续费与销毁记录"
     },
     "maker": {
       "label": "Fly Maker",
-      "desc": "为你的代币做市"
+      "desc": "为你的代币自动做市"
     },
     "earn": {
-      "label": "赚取",
-      "desc": "从你的钱包出借 USDG"
+      "label": "赚取收益",
+      "desc": "从钱包出借 USDG 赚取利息"
     },
     "shop": {
-      "label": "周边",
-      "desc": "果蝇 T 恤等"
+      "label": "周边商店",
+      "desc": "果蝇主题 T 恤及更多周边"
     },
     "agents": {
-      "label": "面向 AI 代理",
-      "desc": "让 Claude 像苍蝇一样说话"
+      "label": "面向 AI 智能体",
+      "desc": "让 Claude 像果蝇一样说话"
     },
     "bounties": {
-      "label": "赏金",
-      "desc": "做表情包、机器人、研究，赚 $FLYAI"
+      "label": "悬赏任务",
+      "desc": "创作梗图、开发机器人或参与研究，赚取 $FLYAI"
     },
     "follow": {
       "label": "关注 @flydotai"
     },
     "traderflies_traders": {
-      "label": "交易蝇",
-      "desc": "你所有的苍蝇和它们的钱包"
+      "label": "交易果蝇",
+      "desc": "你的所有果蝇及其专属钱包"
     },
     "traderflies_market": {
-      "label": "苍蝇市场",
+      "label": "果蝇市场",
       "desc": "买卖 Trader Flies"
     },
     "opensea": {
@@ -123,86 +123,86 @@
       "desc": "OpenSea 上的 Trader Flies"
     },
     "traderflies_breed": {
-      "label": "繁殖",
-      "desc": "把两只苍蝇合成一只"
+      "label": "繁育",
+      "desc": "将两只果蝇合成为一只"
     },
     "traderflies_claim": {
-      "label": "领取",
-      "desc": "领取你的苍蝇赚到的 $FLYAI"
+      "label": "领取分红",
+      "desc": "领取你的果蝇赚到的 $FLYAI"
     },
     "traderflies_pets": {
-      "label": "Hardware NFTs",
-      "desc": "FLYAI 宠物：预订一只口袋苍蝇"
+      "label": "硬件 NFT",
+      "desc": "FLYAI 宠物：预订一只口袋果蝇"
     },
     "traderflies_pass": {
       "label": "FlightPass",
-      "desc": "让你的苍蝇自动驾驶"
+      "desc": "让你的果蝇开启自动托管"
     },
     "desk-api": {
       "label": "API 与技能",
-      "desc": "通过 x402 购买 desk 的答案"
+      "desc": "通过 x402 购买交易台的信号与解答"
     },
     "traderflies_inventory": {
-      "label": "库存",
-      "desc": "你的苍蝇和它们的钱包"
+      "label": "果蝇库",
+      "desc": "你的果蝇及其专属钱包"
     },
     "traderflies_leaderboard": {
       "label": "排行榜",
-      "desc": "最佳 Fly Wallet，实时"
+      "desc": "实时查看表现最佳的 Fly Wallet"
     },
     "acct": {
       "signInHint": "请在右上角登录 ↗",
       "signIn": "登录",
-      "myFlies": "我的苍蝇",
+      "myFlies": "我的果蝇",
       "leaderboard": "排行榜",
       "nickname": "昵称",
-      "nickHint": "3-20 个字符",
+      "nickHint": "3–20 个字符",
       "save": "保存",
       "saved": "已保存",
-      "compute": "Compute 与余额",
-      "signOut": "退出",
+      "compute": "算力与余额",
+      "signOut": "退出登录",
       "search": "搜索",
-      "searchHint": "应用、#苍蝇、用户",
-      "openFly": "打开苍蝇",
-      "flies": "苍蝇",
-      "noResults": "无结果",
+      "searchHint": "应用、#果蝇编号、用户",
+      "openFly": "查看果蝇",
+      "flies": "果蝇",
+      "noResults": "未找到相关结果",
       "notifications": "通知",
-      "nothingYet": "暂无：给苍蝇注资或玩个游戏",
+      "nothingYet": "暂无动态：先为果蝇充值或玩局游戏吧",
       "bought": "买入",
       "sold": "卖出",
       "colosseum": "竞技场",
       "place": "第 {n} 名",
-      "finished": "已结束",
-      "payout": "支付",
-      "deskClaim": "Fly Desk 待领取支付",
+      "finished": "已完赛",
+      "payout": "分红",
+      "deskClaim": "Fly Desk 待领取分红",
       "claimBy": "请在 {t} 前领取",
-      "b_nickname": "已起名",
-      "b_funded": "注资苍蝇",
+      "b_nickname": "已设置昵称",
+      "b_funded": "已注资果蝇",
       "b_profit": "盈利中",
       "b_trader": "10+ 笔交易",
       "b_gladiator": "角斗士",
       "b_champion": "冠军",
       "b_player": "玩家",
       "b_regular": "常客",
-      "referrals": "邀请",
+      "referrals": "邀请返佣",
       "refBy": "邀请人",
       "refHint": "好友的邀请码或昵称",
-      "refSet": "设置",
-      "refLocked": "已永久设置",
-      "refJoined": "你通过 {name} 的链接加入",
-      "whatsNew": "新功能"
+      "refSet": "绑定",
+      "refLocked": "已永久绑定",
+      "refJoined": "你已通过 {name} 的链接加入",
+      "whatsNew": "最新动态"
     },
     "terminal": {
       "label": "Fly 终端",
-      "desc": "实时观看苍蝇交易"
+      "desc": "实时观看果蝇实盘交易"
     },
     "how": {
-      "label": "运作方式",
-      "desc": "大脑、资金池、分配与合作方"
+      "label": "运作原理",
+      "desc": "大脑机制、资金池、分红与合作方"
     },
     "traderflies_partner": {
       "label": "Bullas",
-      "desc": "Bullas NFT：各自的交易钱包和共享奖池"
+      "desc": "Bullas NFT：独立交易钱包与共享奖池"
     },
     "newTag": "新",
     "fights": {
@@ -210,69 +210,69 @@
       "desc": "用 USDG、FLYAI 或 ETH 押注机器人格斗"
     },
     "referrals": {
-      "label": "邀请",
-      "desc": "邀请好友，从他们的手续费中赚取收益"
+      "label": "邀请返佣",
+      "desc": "邀请好友，按其手续费赚取分成"
     },
     "buy": {
       "label": "购买 $FLYAI"
     },
     "buyMenu": {
       "label": "购买 $FLYAI",
-      "desc": "从你的钱包、任意链兑换"
+      "desc": "连接钱包，支持任意链一键兑换"
     },
     "deskOverview": {
       "label": "概览",
-      "desc": "交易台是什么、如何交易和分红"
+      "desc": "了解交易台是什么、如何交易及分红"
     },
     "myFlies": {
-      "label": "我的苍蝇",
-      "desc": "你的苍蝇、它们的钱包、下一步"
+      "label": "我的果蝇",
+      "desc": "你的果蝇、专属钱包与下一步操作"
     },
     "flyMarket": {
       "label": "市场",
       "desc": "买卖 Trader Flies"
     },
     "performance": {
-      "label": "表现",
-      "desc": "每个 Fly Wallet 的实时结果"
+      "label": "实盘表现",
+      "desc": "每个 Fly Wallet 的实时收益表现"
     },
     "github": {
       "label": "GitHub"
     },
     "gta": {
-      "label": "GTA VI 赠送",
-      "desc": "持有 10 万 $FLYAI，赢取一份"
+      "label": "GTA VI 抽奖送",
+      "desc": "持有 10 万枚 $FLYAI，赢取正版游戏"
     },
     "researchAll": {
       "label": "研究",
-      "desc": "发现：打斗、3D 世界、失败的尝试"
+      "desc": "研究发现：格斗、3D 世界与失败复盘"
     },
     "leaderboard": {
       "label": "排行榜",
-      "desc": "每个 Fly Wallet 的实时结果"
+      "desc": "每个 Fly Wallet 的实时收益表现"
     },
     "scan": {
       "label": "Fly Scan",
-      "desc": "签名前检查代币或网站"
+      "desc": "签名前先检测代币或网站"
     }
   },
   "footer": {
     "license": "MIT 许可证",
-    "credit": "连接组数据：MaleCNS v1.0，由 FlyEM（HHMI Janelia）及合作者提供，依据 CC BY 4.0 使用。代码采用 MIT 许可。"
+    "credit": "连接组数据：MaleCNS v1.0，由 FlyEM（HHMI Janelia）及合作者提供，遵循 CC BY 4.0 协议使用。代码采用 MIT 许可证开源。"
   },
   "words": {
     "copy": "复制",
     "copied": "已复制",
     "live": "已上线",
-    "prelaunch": "未发行",
+    "prelaunch": "即将上线",
     "loading": "加载中…",
     "close": "关闭",
     "language": "语言",
     "buy": "购买 $FLYAI",
     "notDeployed": "尚未部署",
-    "explorer": "在浏览器中查看",
+    "explorer": "在区块浏览器中查看",
     "buyOnPons": "在 Pons 上购买 $FLYAI",
-    "notDeployedLong": "尚未部署——购买链接将在发行时出现在这里和 @flydotai 上。",
+    "notDeployedLong": "尚未部署——购买链接将在上线时发布于此处及 @flydotai。",
     "buyHere": "购买 $FLYAI"
   }
 }
