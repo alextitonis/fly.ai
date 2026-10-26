@@ -10,18 +10,18 @@
       "market": "市場",
       "partners": "合作夥伴",
       "more": "更多",
-      "build": "開發與合作夥伴"
+      "build": "開發與合作"
     },
     "home": {
       "label": "首頁"
     },
     "letitfly": {
-      "label": "放手讓它飛",
-      "desc": "你的蒼蠅替你交易"
+      "label": "放手讓牠飛",
+      "desc": "讓你的果蠅替你交易"
     },
     "research": {
-      "label": "全部發現",
-      "desc": "格鬥、3D 世界、失敗的嘗試"
+      "label": "全部研究發現",
+      "desc": "格鬥實驗、3D 世界與失敗復盤"
     },
     "research_flybook": {
       "label": "會說話的果蠅",
@@ -29,43 +29,43 @@
     },
     "research_radio": {
       "label": "直播中",
-      "desc": "一個由真實果蠅大腦經營的電台如何運作"
+      "desc": "由真實果蠅大腦經營的電台如何運作"
     },
     "roadmap": {
       "label": "路線圖",
-      "desc": "已完成與接下來的計畫"
+      "desc": "已完成進度與下一步計畫"
     },
     "changelog": {
       "label": "更新日誌",
-      "desc": "我們上線的一切，按天記錄"
+      "desc": "我們每日上線的所有內容"
     },
     "simulation": {
-      "label": "模擬",
+      "label": "模擬世界",
       "desc": "擁有真實大腦的果蠅生活在 3D 世界中"
     },
     "flybook": {
       "label": "Flybook",
-      "desc": "由果蠅大腦撰寫的即時動態"
+      "desc": "由果蠅大腦撰寫的即時動態牆"
     },
     "radio": {
       "label": "果蠅電台",
-      "desc": "由真實果蠅大腦播放的電台"
+      "desc": "由真實果蠅大腦放歌的廣播電台"
     },
     "roulette": {
       "label": "果蠅輪盤",
-      "desc": "果蠅大腦 vs 玩具火藥槍"
+      "desc": "果蠅大腦對決玩具火藥槍"
     },
     "slots": {
       "label": "果蠅拉霸",
-      "desc": "轉動轉軸，果蠅大腦來反應"
+      "desc": "轉動轉軸，看果蠅大腦即時反應"
     },
     "race": {
       "label": "果蠅賽跑",
-      "desc": "六個果蠅大腦衝向水果"
+      "desc": "六顆果蠅大腦競速衝向水果"
     },
     "colosseum": {
       "label": "Fly Colosseum",
-      "desc": "賽季對戰，贏取 $FLYAI"
+      "desc": "賽季角鬥對戰，贏取 $FLYAI"
     },
     "flinder": {
       "label": "Flinder",
@@ -73,49 +73,49 @@
     },
     "desk": {
       "label": "Fly Desk",
-      "desc": "真實的蒼蠅大腦實盤交易，Trader Flies 分享利潤"
+      "desc": "真實果蠅大腦實盤交易，Trader Flies 共享利潤"
     },
     "traderflies": {
       "label": "Trader Flies",
-      "desc": "系列與你的蒼蠅"
+      "desc": "NFT 系列與你的果蠅"
     },
     "compute": {
-      "label": "算力",
-      "desc": "用瀏覽器挖礦，賺取 $FLYAI"
+      "label": "算力挖礦",
+      "desc": "用瀏覽器貢獻算力，賺取 $FLYAI"
     },
     "token": {
       "label": "代幣",
-      "desc": "狀態、合約、費用與銷毀"
+      "desc": "狀態、合約、手續費與銷毀紀錄"
     },
     "maker": {
       "label": "Fly Maker",
-      "desc": "為你的代幣做市"
+      "desc": "為你的代幣自動做市"
     },
     "earn": {
-      "label": "賺取",
-      "desc": "從你的錢包出借 USDG"
+      "label": "賺取收益",
+      "desc": "從錢包出借 USDG 賺取利息"
     },
     "shop": {
-      "label": "周邊",
-      "desc": "果蠅 T 恤等"
+      "label": "周邊商店",
+      "desc": "果蠅主題 T 恤及更多周邊"
     },
     "agents": {
       "label": "給 AI 代理",
-      "desc": "讓 Claude 像蒼蠅一樣說話"
+      "desc": "讓 Claude 像果蠅一樣說話"
     },
     "bounties": {
-      "label": "賞金",
-      "desc": "做迷因圖、機器人、研究，賺 $FLYAI"
+      "label": "懸賞任務",
+      "desc": "創作迷因圖、開發機器人或參與研究，賺取 $FLYAI"
     },
     "follow": {
       "label": "追蹤 @flydotai"
     },
     "traderflies_traders": {
-      "label": "交易蠅",
-      "desc": "你所有的蒼蠅和牠們的錢包"
+      "label": "交易果蠅",
+      "desc": "你的所有果蠅及其專屬錢包"
     },
     "traderflies_market": {
-      "label": "蒼蠅市場",
+      "label": "果蠅市場",
       "desc": "買賣 Trader Flies"
     },
     "opensea": {
@@ -123,86 +123,86 @@
       "desc": "OpenSea 上的 Trader Flies"
     },
     "traderflies_breed": {
-      "label": "繁殖",
-      "desc": "把兩隻蒼蠅合成一隻"
+      "label": "繁育",
+      "desc": "將兩隻果蠅合成為一隻"
     },
     "traderflies_claim": {
-      "label": "領取",
-      "desc": "領取你的蒼蠅賺到的 $FLYAI"
+      "label": "領取分紅",
+      "desc": "領取你的果蠅賺到的 $FLYAI"
     },
     "traderflies_pets": {
-      "label": "Hardware NFTs",
-      "desc": "FLYAI 寵物：預訂一隻口袋蒼蠅"
+      "label": "硬體 NFT",
+      "desc": "FLYAI 寵物：預訂一隻口袋果蠅"
     },
     "traderflies_pass": {
       "label": "FlightPass",
-      "desc": "讓你的蒼蠅自動駕駛"
+      "desc": "讓你的果蠅開啟自動託管"
     },
     "desk-api": {
       "label": "API 與技能",
-      "desc": "透過 x402 購買 desk 的答案"
+      "desc": "透過 x402 購買交易台的訊號與解答"
     },
     "traderflies_inventory": {
-      "label": "庫存",
-      "desc": "你的蒼蠅和牠們的錢包"
+      "label": "果蠅庫",
+      "desc": "你的果蠅及其專屬錢包"
     },
     "traderflies_leaderboard": {
       "label": "排行榜",
-      "desc": "最佳 Fly Wallet，即時"
+      "desc": "即時查看表現最佳的 Fly Wallet"
     },
     "acct": {
       "signInHint": "請在右上角登入 ↗",
       "signIn": "登入",
-      "myFlies": "我的蒼蠅",
+      "myFlies": "我的果蠅",
       "leaderboard": "排行榜",
       "nickname": "暱稱",
-      "nickHint": "3-20 個字元",
+      "nickHint": "3–20 個字元",
       "save": "儲存",
       "saved": "已儲存",
-      "compute": "Compute 與餘額",
+      "compute": "算力與餘額",
       "signOut": "登出",
       "search": "搜尋",
-      "searchHint": "應用、#蒼蠅、用戶",
-      "openFly": "打開蒼蠅",
-      "flies": "蒼蠅",
-      "noResults": "無結果",
+      "searchHint": "應用、#果蠅編號、用戶",
+      "openFly": "查看果蠅",
+      "flies": "果蠅",
+      "noResults": "找不到相關結果",
       "notifications": "通知",
-      "nothingYet": "暫無：替蒼蠅注資或玩個遊戲",
+      "nothingYet": "尚無動態：先替果蠅儲值或玩局遊戲吧",
       "bought": "買入",
       "sold": "賣出",
       "colosseum": "競技場",
       "place": "第 {n} 名",
-      "finished": "已結束",
-      "payout": "支付",
-      "deskClaim": "Fly Desk 待領取支付",
+      "finished": "已完賽",
+      "payout": "分紅",
+      "deskClaim": "Fly Desk 待領取分紅",
       "claimBy": "請在 {t} 前領取",
-      "b_nickname": "已命名",
-      "b_funded": "注資蒼蠅",
-      "b_profit": "盈利中",
+      "b_nickname": "已設定暱稱",
+      "b_funded": "已注資果蠅",
+      "b_profit": "獲利中",
       "b_trader": "10+ 筆交易",
       "b_gladiator": "角鬥士",
       "b_champion": "冠軍",
       "b_player": "玩家",
       "b_regular": "常客",
-      "referrals": "邀請",
+      "referrals": "邀請返傭",
       "refBy": "邀請人",
       "refHint": "好友的邀請碼或暱稱",
-      "refSet": "設定",
-      "refLocked": "已永久設定",
-      "refJoined": "你透過 {name} 的連結加入",
-      "whatsNew": "新功能"
+      "refSet": "綁定",
+      "refLocked": "已永久綁定",
+      "refJoined": "你已透過 {name} 的連結加入",
+      "whatsNew": "最新動態"
     },
     "terminal": {
-      "label": "Fly 終端",
-      "desc": "即時觀看蒼蠅交易"
+      "label": "Fly 終端機",
+      "desc": "即時觀看果蠅實盤交易"
     },
     "how": {
-      "label": "運作方式",
-      "desc": "大腦、資金池、分配與合作方"
+      "label": "運作原理",
+      "desc": "大腦機制、資金池、分紅與合作方"
     },
     "traderflies_partner": {
       "label": "Bullas",
-      "desc": "Bullas NFT：各自的交易錢包和共享獎池"
+      "desc": "Bullas NFT：獨立交易錢包與共享獎池"
     },
     "newTag": "新",
     "fights": {
@@ -210,65 +210,65 @@
       "desc": "用 USDG、FLYAI 或 ETH 押注機器人格鬥"
     },
     "referrals": {
-      "label": "邀請",
-      "desc": "邀請好友，從他們的手續費中賺取收益"
+      "label": "邀請返傭",
+      "desc": "邀請好友，按其手續費賺取分成"
     },
     "buy": {
       "label": "購買 $FLYAI"
     },
     "buyMenu": {
       "label": "購買 $FLYAI",
-      "desc": "從你的錢包、任意鏈兌換"
+      "desc": "連接錢包，支援任意鏈一鍵兌換"
     },
     "deskOverview": {
       "label": "概覽",
-      "desc": "交易台是什麼、如何交易和分紅"
+      "desc": "了解交易台是什麼、如何交易及分紅"
     },
     "myFlies": {
-      "label": "我的蒼蠅",
-      "desc": "你的蒼蠅、牠們的錢包、下一步"
+      "label": "我的果蠅",
+      "desc": "你的果蠅、專屬錢包與下一步操作"
     },
     "flyMarket": {
       "label": "市場",
       "desc": "買賣 Trader Flies"
     },
     "performance": {
-      "label": "表現",
-      "desc": "每個 Fly Wallet 的即時結果"
+      "label": "實盤表現",
+      "desc": "每個 Fly Wallet 的即時收益表現"
     },
     "github": {
       "label": "GitHub"
     },
     "gta": {
-      "label": "GTA VI 贈送",
-      "desc": "持有 10 萬 $FLYAI，贏取一份"
+      "label": "GTA VI 抽獎送",
+      "desc": "持有 10 萬枚 $FLYAI，贏取正版遊戲"
     },
     "researchAll": {
       "label": "研究",
-      "desc": "發現：打鬥、3D 世界、失敗的嘗試"
+      "desc": "研究發現：格鬥、3D 世界與失敗復盤"
     },
     "leaderboard": {
       "label": "排行榜",
-      "desc": "每個 Fly Wallet 的即時結果"
+      "desc": "每個 Fly Wallet 的即時收益表現"
     }
   },
   "footer": {
-    "license": "MIT 授權",
-    "credit": "連接體資料：MaleCNS v1.0，由 FlyEM（HHMI Janelia）及合作者提供，依 CC BY 4.0 使用。程式碼採用 MIT 授權。"
+    "license": "MIT 授權條款",
+    "credit": "連接體資料：MaleCNS v1.0，由 FlyEM（HHMI Janelia）及合作者提供，依 CC BY 4.0 授權使用。程式碼採用 MIT 授權開源。"
   },
   "words": {
     "copy": "複製",
     "copied": "已複製",
     "live": "已上線",
-    "prelaunch": "未發行",
+    "prelaunch": "即將上線",
     "loading": "載入中…",
     "close": "關閉",
     "language": "語言",
     "buy": "購買 $FLYAI",
     "notDeployed": "尚未部署",
-    "explorer": "在區塊瀏覽器查看",
+    "explorer": "在區塊鏈瀏覽器中查看",
     "buyOnPons": "在 Pons 上購買 $FLYAI",
-    "notDeployedLong": "尚未部署——購買連結將在發行時出現在這裡和 @flydotai 上。",
+    "notDeployedLong": "尚未部署——購買連結將於上線時公布於此處及 @flydotai。",
     "buyHere": "購買 $FLYAI"
   }
 }
