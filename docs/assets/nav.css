@@ -6,7 +6,7 @@ nav, nav * { box-sizing: border-box; }
 nav .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 24px; }
 @media (max-width: 600px) { nav .wrap { padding-inline: 16px; } }
 
-nav { position: sticky; top: 0; z-index: 10; background: rgba(0,0,0,.78); backdrop-filter: blur(10px);
+nav { position: sticky; top: 0; z-index: 10; min-height: 58px; background: rgba(0,0,0,.78); backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line, #1a1d1c); }
 nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 58px; }
 .brand { display: flex; align-items: center; gap: 10px; font: 700 18px var(--display, "Outfit", "Inter", system-ui, sans-serif); text-decoration: none; }
@@ -163,6 +163,7 @@ nav li.dd.shut:not(.open) .ddmenu { display: none !important; }
 /* the phone bar (2026-10-03): one row - logo, search, bell, account, ☰ - and the menus in a panel under it */
 nav li.burger, .mnav { display: none; }
 @media (max-width: 760px) {
+  nav { min-height: 56px; }
   nav .wrap { flex-wrap: nowrap !important; height: 56px !important; min-height: 0 !important; padding-block: 0 !important; gap: 10px !important; }
   nav .wrap > ul { flex: 1; min-width: 0; flex-wrap: nowrap !important; justify-content: flex-end !important; gap: 6px !important; width: auto !important; }
   nav li.main { display: none !important; }

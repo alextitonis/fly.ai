@@ -27,11 +27,16 @@
   "publisher": { "@type": "Organization", "name": "fly.ai" }
 }
 </script>
-<script src="assets/i18n/boot.js"></script>
+<script defer src="assets/i18n/boot.js"></script>
 <link rel="icon" href="assets/logo.webp" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="assets/nav.css">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -44,6 +49,7 @@
     <p class="lede" data-i18n-html="token.head.lede">The coin that funds fly.ai. It is <b>live</b>. The contract address is published here and on <a href="https://x.com/flydotai" target="_blank" rel="noopener">@flydotai</a>, and nowhere else &mdash; treat any other address as a scam. Every term is fixed before launch and written down in <a href="https://github.com/alextitonis/fly.ai/blob/main/TOKEN.md" target="_blank" rel="noopener">TOKEN.md</a>.</p>
   </div>
 </header>
+<main id="main">
 <section id="chain" class="firstsec">
   <div class="wrap">
     <div class="chain">
@@ -64,7 +70,7 @@
         <div class="row"><span class="k" data-i18n="token.card.k.creatorFees">creator fees</span><span class="v" data-i18n-html="token.card.v.creatorFees">60% buy &amp; burn $FLYAI &middot; 40% development</span></div>
       </div>
       <div class="card pad">
-        <h3 style="margin-bottom: 18px;" data-i18n="token.steps.title">How to get $FLYAI</h3>
+        <h2 class="h3-style" style="margin-bottom: 18px;" data-i18n="token.steps.title">How to get $FLYAI</h2>
         <ol class="steps">
           <li><div data-i18n-html="token.steps.s1"><b>Get a wallet</b>MetaMask, Rabby or any EVM wallet. On a phone, connect with WalletConnect or open this page in your wallet app.</div></li>
           <li><div data-i18n-html="token.steps.s2"><b>Have USDG, ETH or USDC</b>On Robinhood Chain, or on Base, Arbitrum, Ethereum or Berachain: the box below brings it over in one step.</div></li>
@@ -79,7 +85,7 @@
     </div>
     <div class="card pad buybox" id="buy" style="margin-top: 18px;">
       <div class="buy-top">
-        <h3 data-i18n="token.buy.title">Buy $FLYAI here</h3>
+        <h2 class="h3-style" data-i18n="token.buy.title">Buy $FLYAI here</h2>
         <span class="buy-pick">
           <select id="buy-dir" class="buy-dir" aria-label="Buy or sell">
             <option value="buy" data-i18n="token.buy.dirBuy">Buy $FLYAI</option>
@@ -94,7 +100,7 @@
         </span>
       </div>
       <p class="buy-lede" data-i18n="token.buy.lede">Swap from your own wallet: on Robinhood Chain, or straight from Base, Arbitrum or Ethereum in one step, routed by Relay.</p>
-      <div class="buy-route" id="buy-route" role="radiogroup" hidden>
+      <div class="buy-route" id="buy-route" role="radiogroup" aria-label="Swap route" hidden>
         <button type="button" role="radio" aria-checked="true" data-route="best"><b data-i18n="token.buy.routeBest">Best price</b>
           <small data-i18n="token.buy.routeBestNote">Our GIGA pool or Relay, whichever gives you more. Through Relay, the 0.25% fee is included.</small></button>
         <button type="button" role="radio" aria-checked="false" data-route="giga"><b data-i18n="token.buy.routeOursName">Our GIGA pool</b>
@@ -129,7 +135,7 @@
       <p class="buy-msg" id="buy-msg" aria-live="polite"></p>
     </div>
     <div class="card pad fees" style="margin-top: 18px;">
-      <h3 style="margin-bottom: 12px;" data-i18n="token.use.title">What $FLYAI is for</h3>
+      <h2 class="h3-style" style="margin-bottom: 12px;" data-i18n="token.use.title">What $FLYAI is for</h2>
       <p data-i18n-html="token.use.p1"><b>Flybook is live.</b> Hold at least 1 $FLYAI and sign in with your wallet at
         <a href="/flybook/">flyaiworld.com/flybook</a> to make up to three flies, tune and breed them, poke patches,
         like and comment, and challenge other flies in the Arena. <b>Every two weeks the top 3 on the Season points
@@ -146,7 +152,7 @@
         wiring seed &mdash; so the world doubles as a live experiment in which settings survive.
         This is the roadmap, not a live feature, and it is no promise of a return. The research itself
         stays free: everything in the repo is MIT-licensed and runs on your own machine without the token.</p>
-      <h3 style="margin: 22px 0 12px;" data-i18n="token.use.feesTitle">Where the fees go</h3>
+      <h2 class="h3-style" style="margin: 22px 0 12px;" data-i18n="token.use.feesTitle">Where the fees go</h2>
       <p data-i18n-html="token.use.p4">$FLYAI takes nothing from your trade. There is no transfer tax, and nothing is skimmed from holders.
         The one exception is the swap box on this page, which adds a 0.25% interface fee for fly.ai; buy anywhere else (Pons, or any Robinhood Chain swap) and there is none. The token's own revenue is the creator fee the launchpad pays on swaps, and it is split two ways:</p>
       <ul>
@@ -180,6 +186,7 @@
     </div>
   </div>
 </section>
+</main>
 <!-- @footer -->
 <footer>
   <div class="wrap">
@@ -195,9 +202,9 @@
 </footer>
 <!-- /@footer -->
 
-<script src="assets/site.js"></script>
-<script src="assets/nav.js?v=20261024a"></script>
-<script src="assets/buy.js?v=20261016a"></script>
+<script defer src="assets/site.js"></script>
+<script defer src="assets/nav.js?v=20261024a"></script>
+<script defer src="assets/buy.js?v=20261016a"></script>
 <script type="module" src="assets/i18n/page.js"></script>
 </body>
 </html>

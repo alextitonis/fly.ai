@@ -1,14 +1,17 @@
 @import url("nav.css");   /* the nav's rules (2026-10-04): must stay the first line */
+  @font-face { font-family: "Outfit Fallback"; src: local("Segoe UI"), local("Roboto"), local("Arial"); size-adjust: 97%; ascent-override: 100%; descent-override: 26%; line-gap-override: 0%; }
+  @font-face { font-family: "Inter Fallback"; src: local("Segoe UI"), local("Roboto"), local("Arial"); size-adjust: 100.5%; ascent-override: 96%; descent-override: 24%; line-gap-override: 0%; }
+  @font-face { font-family: "JetBrains Mono Fallback"; src: local("Consolas"), local("Menlo"), local("Courier New"); size-adjust: 109%; ascent-override: 93%; descent-override: 22%; line-gap-override: 0%; }
   :root {
     /* the logo's palette (2026-09-23): pure black, white, and the fly's mint glow. Red is kept for losses and
        warnings only, never as the brand colour. */
     --bg: #000000; --bg-2: #060707; --panel: #0a0b0b; --line: #1a1d1c;
-    --text: #f4f7f6; --muted: #9ba5a1; --dim: #5f6865;
+    --text: #f4f7f6; --muted: #9ba5a1; --dim: #828c88;
     --mint: #5ef2cc; --mint-hi: #a4fbe6; --mint-deep: #19c99a; --glow: rgba(94,242,204,.28);
     --red: #ff5b4f; --red-hi: #ff7a70; --green: #5ef2cc; --cool: #a4fbe6;
-    --display: "Outfit", "Inter", system-ui, sans-serif;
-    --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-    --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    --display: "Outfit", "Outfit Fallback", "Inter", "Inter Fallback", system-ui, sans-serif;
+    --sans: "Inter", "Inter Fallback", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --mono: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace, Menlo, Consolas, monospace;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -20,7 +23,7 @@
   .eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--mint); margin: 0 0 16px; }
   h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 600; letter-spacing: -.01em; line-height: 1.05; }
   h2 { font-size: clamp(30px, 5vw, 48px); margin-bottom: 18px; }
-  h3 { font-size: 19px; margin-bottom: 8px; }
+  h3, h2.h3-style { font-size: 19px; margin-bottom: 8px; }
   p { margin: 0 0 14px; }
   .lede { color: var(--muted); font-size: 18px; max-width: 640px; margin-bottom: 40px; }
   .mono { font-family: var(--mono); }
@@ -75,7 +78,7 @@
   .band span { color: var(--muted); font-size: 14px; }
 
   .frame { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: #000; }
-  .frame video { width: 100%; height: auto; }
+  .frame video { width: 100%; height: auto; aspect-ratio: 1910 / 1079; }
   .caption { color: var(--muted); font-size: 14px; margin-top: 12px; }
 
   .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
@@ -270,7 +273,7 @@
   }
   .num { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; font-size: 11px;
          border: 1px solid rgba(94,242,204,.22); background: rgba(94,242,204,.05); margin-bottom: 16px; }
-  .card h3 { font-size: 20px; letter-spacing: -.01em; }
+  .card h3, .card h2.h3-style { font-size: 20px; letter-spacing: -.01em; margin: 0 0 8px; background: none; -webkit-text-fill-color: currentColor; color: var(--text); padding-bottom: 0; }
   .card p { line-height: 1.6; }
   .frame { border-radius: var(--r-lg); border-color: var(--edge);
            box-shadow: 0 30px 80px -40px rgba(94,242,204,.25), 0 0 0 1px rgba(255,255,255,.02); }
@@ -464,7 +467,7 @@
 
 /* the Buy/Sell $FLYAI box (assets/buy.js; token page and main page, 2026-10-05) */
 .buybox { text-align: left; }
-.buybox h3 { margin: 0 0 6px; }
+.buybox h3, .buybox h2.h3-style { margin: 0 0 6px; }
 .buybox .buy-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 .buybox .buy-dir { background: var(--bg-2); color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font: 500 14px var(--sans); cursor: pointer; }
 .buybox .buy-pick { display: flex; align-items: center; gap: 8px; color: var(--ink-dim, #9aa3a0); font-size: 14px; }
@@ -678,7 +681,7 @@
 .hh-side { display: grid; gap: 16px; align-content: start; }
 .hh-side .door { margin: 0; display: grid; gap: 8px; align-content: start; padding: 24px; }
 .hh-side .door .eyebrow { justify-self: start; margin: 0 0 4px; }
-.hh-side .door h3 { font: 600 24px var(--display); margin: 0; }
+.hh-side .door h3, .hh-side .door h2.h3-style { font: 600 24px var(--display); margin: 0; background: none; -webkit-text-fill-color: currentColor; color: var(--text); padding-bottom: 0; }
 .hh-side .door p { color: var(--muted); font-size: 15px; line-height: 1.5; margin: 0 0 8px; }
 .hh-side .door .cta { margin: 0 !important; justify-content: flex-start; gap: 8px; }
 .home .home-hero .hh-links { margin-top: 14px; }
