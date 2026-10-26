@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "title": "Press kit — fly.ai",
+    "description": "Official fly.ai logos (PNG, SVG, WebP in light and dark), brand colors, Outfit typography, boilerplate descriptions, site screenshots, and the $FLYAI token contract."
+  },
+  "head": {
+    "eyebrow": "Press & Brand",
+    "title": "Press kit",
+    "lede": "Logos, brand colors, Outfit typography, project descriptions, site screenshots, and the official $FLYAI token contract for writers, listing sites, and partners."
+  },
+  "desc": {
+    "title": "About fly.ai",
+    "sub": "One-line and one-paragraph descriptions built from verified project facts, ready to copy.",
+    "oneLineLabel": "One-line description",
+    "oneLine": "fly.ai runs the complete 166,700-neuron brain connectome of an adult fruit fly open source on your computer and live on Robinhood Chain, powering Trader Flies, the Fly Desk, and the $FLYAI token.",
+    "oneParaLabel": "One-paragraph description",
+    "onePara": "fly.ai runs the complete brain wiring of an adult male fruit fly (Drosophila melanogaster — 166,700 neurons and 25.6 million synapses from the Janelia MaleCNS v1.0 connectome) as an open-source spiking neural simulation. With no language model or hand-written strategy inside the brain, sensory inputs and motor neurons drive real-time applications: Trader Flies (1,000 genesis NFTs on Robinhood Chain with their own trading wallets), the Fly Desk (a shared pot traded by fruit-fly brains), a 3-D biological world simulation, Flybook, and distributed browser compute. The project is funded by the $FLYAI token on Robinhood Chain."
+  },
+  "logos": {
+    "title": "Logos",
+    "sub": "Download the fly.ai wordmark and fly icon in PNG, SVG, and WebP for dark and light backgrounds.",
+    "darkTitle": "Wordmark — Dark background",
+    "darkDesc": "White wordmark with the mint fly glow for pure black and dark surfaces.",
+    "lightTitle": "Wordmark — Light background",
+    "lightDesc": "Black wordmark with the mint fly mark on a transparent background for white or light pages.",
+    "iconDarkTitle": "Fly icon — Dark",
+    "iconDarkDesc": "Square fly mark on pure black for avatars, token listings, and app icons.",
+    "iconLightTitle": "Fly icon — Light",
+    "iconLightDesc": "Square fly mark on a light surface for light-mode directories and badges.",
+    "dlPng": "PNG",
+    "dlSvg": "SVG",
+    "dlWebp": "WebP"
+  },
+  "colors": {
+    "title": "Brand colors",
+    "sub": "Pure black, white, and the fly's mint glow. Red is reserved strictly for losses and warnings, never as the brand color.",
+    "bg": "Pure Black",
+    "panel": "Panel Dark",
+    "mint": "Mint Glow",
+    "mintHi": "Mint Highlight",
+    "text": "Primary Text",
+    "line": "Border Line"
+  },
+  "font": {
+    "title": "Typography",
+    "sub": "Outfit is the display typeface for headings and wordmarks, paired with Inter for body copy and JetBrains Mono for numbers and addresses.",
+    "displayRole": "Display & Headings",
+    "sansRole": "Body Copy",
+    "monoRole": "Addresses & Data",
+    "outfitWeights": "Weights: 400, 500, 600, 700",
+    "interWeights": "Weights: 400, 500, 600",
+    "monoWeights": "Weights: 400, 500",
+    "googleFonts": "Google Fonts"
+  },
+  "screens": {
+    "title": "Screenshots",
+    "sub": "High-resolution screenshots of the live fly.ai simulation, neuron dashboard, trading terminal, and Fly Maker.",
+    "s1Title": "Live Neuron Dashboard",
+    "s1Desc": "The 166,700-neuron fruit-fly brain playing SSH Fighter alongside its real-time spiking neuron telemetry.",
+    "s2Title": "3-D Connectome World",
+    "s2Desc": "Flies driven by the full connectome foraging, tracking odor plumes, and interacting in a 3-D browser simulation.",
+    "s3Title": "Fly Terminal & Fly Desk",
+    "s3Desc": "Live trading view showing Trader Flies wallets, shared Fly Desk positions, and real-time fills on Robinhood Chain.",
+    "s4Title": "Fly Maker",
+    "s4Desc": "Automated market-making vaults on Robinhood Chain owned by your wallet and steered within on-chain guardrails.",
+    "download": "Download",
+    "open": "Open full size"
+  },
+  "token": {
+    "title": "$FLYAI token & contract address",
+    "sub": "$FLYAI is the token that funds fly.ai on Robinhood Chain (launched on Pons). Full supply, burn transactions, and terms are documented in TOKEN.md.",
+    "contractLabel": "Robinhood Chain",
+    "tokenMd": "Read TOKEN.md on GitHub",
+    "tokenPage": "Token page"
+  }
+}

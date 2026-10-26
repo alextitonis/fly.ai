@@ -254,7 +254,8 @@
   },
   "footer": {
     "license": "MIT License",
-    "credit": "Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed."
+    "credit": "Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.",
+    "press": "Press kit"
   },
   "words": {
     "copy": "Copy",
