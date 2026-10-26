@@ -921,7 +921,7 @@
     ((nft && nft.flies) || []).forEach((f) => { if (f.holder) holderOf[String(f.id)] = String(f.holder).toLowerCase(); });
     const by = {};
     p.flies.forEach((f) => {
-      const h = holderOf[String(f.fly)] || "?";
+      const h = holderOf[String(f.fly)] || (f.holder ? String(f.holder).toLowerCase() : "?");
       const o = (by[h] = by[h] || { holder: h, flies: [], usd: 0, share: 0, boost: 1 });
       o.flies.push(f.fly);
       o.usd += f.usd || 0;
@@ -944,9 +944,16 @@
     $("pay-sum").innerHTML = p.profit_usd > 0
       ? t("pay.sum", { profit: `<b class="up">${esc(usd(p.profit_usd))}</b>`, share: Math.round(p.holders_share * 100), holders: `<b class="up">${esc(usd(p.holders_usd))}</b>`, n: p.active })
       : t("pay.none", { gap: `<b>${esc(usd(p.peak_usd - p.pot_usd))}</b>`, n: p.active });
+    // activated Bullas / RUYUIs share it as Common flies (flytrade/desk/partnerflies.py, 2026-10-26)
+    const pc = p.partners || {};
+    if (pc.bullas || pc.ruyui) $("pay-sum").innerHTML += " " + esc(t("pay.partners", { bullas: pc.bullas || 0, ruyui: pc.ruyui || 0 }));
+    const nftName = (f) => (f.partner === "ruyui" ? `RUYUI #${f.token}` : f.partner === "bullas"
+      ? (f.token >= 1_000_000 ? `Booga Bullas #${f.token - 1_000_000}` : `Bullas #${f.token}`) : `Trader Fly #${f.fly}`);
+    const nftHref = (f) => (f.partner === "ruyui" ? "" : f.partner === "bullas" ? "/traderflies/partner?p=bullas" : `/traderflies/fly?id=${encodeURIComponent(f.fly)}`);
+    const nftCell = (f) => (nftHref(f) ? `<a href="${nftHref(f)}">${esc(nftName(f))}</a>` : esc(nftName(f)));
     const rows = p.flies;
     $("pay-tbl").innerHTML = `<thead><tr><th>${esc(t("pay.thFly"))}</th><th>${esc(t("pay.thHolder"))}</th><th class="r">${esc(t("pay.thWeight"))}</th><th class="r">${esc(t("pay.thActive"))}</th><th class="r">${esc(t("pay.thStake"))}</th><th class="r">${esc(t("pay.thShare"))}</th><th class="r">${esc(t("pay.thUsd"))}</th></tr></thead><tbody>` +
-      (rows.length ? rows.map((f) => `<tr class="${f.active_now ? "" : "off"}"><td><a href="/traderflies/fly?id=${encodeURIComponent(f.fly)}">Trader Fly #${esc(f.fly)}</a></td><td>${who(holderOf[String(f.fly)] || "?")}</td>` +
+      (rows.length ? rows.map((f) => `<tr class="${f.active_now ? "" : "off"}"><td>${nftCell(f)}</td><td>${who(holderOf[String(f.fly)] || (f.holder ? String(f.holder).toLowerCase() : "?"))}</td>` +
         `<td class="r">×${esc(f.weight)}</td><td class="r">${nf(0).format(f.active_pct)}%</td><td class="r">${boostCell(f.stake_boost || 1)}</td><td class="r">${nf(2).format(f.share_pct)}%</td>` +
         `<td class="r"><b class="${f.usd > 0 ? "up" : ""}">${esc(usd(f.usd))}</b></td></tr>`).join("")
         : `<tr class="empty"><td colspan="7">${esc(t("pay.empty"))}</td></tr>`) + "</tbody>";

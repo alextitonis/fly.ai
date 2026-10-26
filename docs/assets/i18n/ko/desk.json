@@ -282,8 +282,9 @@
     "thHolder": "보유자",
     "thFlies": "플라이",
     "byFly": "플라이별",
-    "empty": "아직 활성화된 플라이가 없습니다: 보유자가 200,000 $FLYAI를 보유하는 동안 플라이가 활성화됩니다.",
-    "thStake": "스테이킹 부스트"
+    "empty": "아직 활성화된 플라이가 없습니다: 보유자가 200,000 $FLYAI를 보유하는 동안 플라이(또는 Bullas / RUYUI)가 활성화됩니다.",
+    "thStake": "스테이킹 부스트",
+    "partners": "활성화된 파트너 NFT도 Common 플라이처럼 나눠 받습니다: 이번 주 Bullas {bullas}개, RUYUI {ruyui}개."
   },
   "market": {
     "label": "시장",

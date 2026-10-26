@@ -282,8 +282,9 @@
     "thHolder": "Holder",
     "thFlies": "Flies",
     "byFly": "Each fly",
-    "empty": "No activated flies yet: a fly is activated while its holder holds 200,000 $FLYAI.",
-    "thStake": "Stake boost"
+    "empty": "No activated flies yet: a fly (or a Bullas / RUYUI) is activated while its holder holds 200,000 $FLYAI.",
+    "thStake": "Stake boost",
+    "partners": "Activated partner NFTs share it too, like a Common fly: {bullas} Bullas and {ruyui} RUYUI this week."
   },
   "market": {
     "label": "Market",

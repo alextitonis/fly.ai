@@ -282,8 +282,9 @@
     "thHolder": "Sahip",
     "thFlies": "Sinek",
     "byFly": "Her sinek",
-    "empty": "Henüz aktif sinek yok: sahibi 200.000 $FLYAI tuttuğu sürece sinek aktiftir.",
-    "thStake": "Stake artışı"
+    "empty": "Henüz aktif sinek yok: sahibi 200.000 $FLYAI tuttuğu sürece bir sinek (ya da Bullas / RUYUI) aktiftir.",
+    "thStake": "Stake artışı",
+    "partners": "Aktif ortak NFT'leri de Common bir sinek gibi pay alır: bu hafta {bullas} Bullas ve {ruyui} RUYUI."
   },
   "market": {
     "label": "Piyasa",

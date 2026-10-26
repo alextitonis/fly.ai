@@ -594,7 +594,8 @@
       "turnOff": "Turn off",
       "onDone": "Auto-feed is on: from the next payout, your flies keep their share and grow.",
       "offDone": "Auto-feed is off: payouts come here to claim again."
-    }
+    },
+    "partner": "Partner NFT"
   },
   "odds": {
     "title": "Rarity chances",
@@ -1932,7 +1933,10 @@
     "setup": "Set up its wallet",
     "making": "Making its wallet… (a minute or two)",
     "walletIntro": "This {name}'s own wallet on Robinhood Chain: send it ETH or USDG and its brain trades it, with any options you switch on beside it. Only you can take money out; a {fee}% fee on profit only.",
-    "holdNeed": "{name} wallets need {need} $FLYAI in your wallet (you have {have}). Below it the wallet only closes trades; withdrawals always work."
+    "holdNeed": "{name} wallets need {need} $FLYAI in your wallet (you have {have}). Below it the wallet only closes trades; withdrawals always work.",
+    "deskShare": "Fly Desk payout: while you hold {hold} $FLYAI (staked counts), each of your {name} earns a weekly share of the Fly Desk's profit, the same as a Common Trader Fly. Claim it in $FLYAI every week.",
+    "deskLink": "See the Fly Desk",
+    "claimLink": "Claim"
   },
   "fights": {
     "title": "Robot Fights",

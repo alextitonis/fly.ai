@@ -592,7 +592,8 @@
       "turnOff": "끄기",
       "onDone": "자동 먹이 주기가 켜졌습니다: 다음 지급부터 플라이가 몫을 유지하며 성장합니다.",
       "offDone": "자동 먹이 주기가 꺼졌습니다: 지급액은 다시 여기서 청구합니다."
-    }
+    },
+    "partner": "파트너 NFT"
   },
   "odds": {
     "title": "희귀도 확률",
@@ -1930,7 +1931,10 @@
     "setup": "지갑 만들기",
     "making": "지갑 만드는 중… (1~2분)",
     "walletIntro": "Robinhood Chain에 있는 이 {name}의 전용 지갑: ETH나 USDG를 보내면 브레인이 거래하고, 켜 둔 옵션도 함께 거래합니다. 출금은 본인만 할 수 있으며, 수익에 대해서만 {fee}% 수수료가 붙습니다.",
-    "holdNeed": "{name} 지갑은 내 지갑에 $FLYAI {need}개가 필요합니다(보유 {have}). 부족하면 포지션 정리만 하며, 출금은 언제나 가능합니다."
+    "holdNeed": "{name} 지갑은 내 지갑에 $FLYAI {need}개가 필요합니다(보유 {have}). 부족하면 포지션 정리만 하며, 출금은 언제나 가능합니다.",
+    "deskShare": "Fly Desk 지급: {hold} $FLYAI를 보유하는 동안(스테이킹 포함) 보유한 {name} 하나하나가 Common 트레이더 플라이와 똑같이 Fly Desk 수익의 주간 몫을 받습니다. 매주 $FLYAI로 클레임하세요.",
+    "deskLink": "Fly Desk 보기",
+    "claimLink": "클레임"
   },
   "fights": {
     "title": "로봇 격투",

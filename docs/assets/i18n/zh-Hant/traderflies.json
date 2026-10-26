@@ -592,7 +592,8 @@
       "turnOff": "關閉",
       "onDone": "自動餵養已開啟：從下一筆分紅起，你的蒼蠅會保留份額並成長。",
       "offDone": "自動餵養已關閉：分紅會重新到這裡領取。"
-    }
+    },
+    "partner": "合作夥伴 NFT"
   },
   "odds": {
     "title": "稀有度機率",
@@ -1930,7 +1931,10 @@
     "setup": "建立錢包",
     "making": "正在建立錢包…（一兩分鐘）",
     "walletIntro": "這個 {name} 在 Robinhood Chain 上的專屬錢包：向它發送 ETH 或 USDG，它的大腦就會交易，你開啟的選項也會一起交易。只有你能取出資金；僅對利潤收取 {fee}% 手續費。",
-    "holdNeed": "{name} 錢包需要你的錢包持有 {need} $FLYAI（你有 {have}）。不足時錢包只會平倉；提款隨時可用。"
+    "holdNeed": "{name} 錢包需要你的錢包持有 {need} $FLYAI（你有 {have}）。不足時錢包只會平倉；提款隨時可用。",
+    "deskShare": "Fly Desk 分紅：只要你持有 {hold} $FLYAI（質押也算），你的每個 {name} 都能像一隻普通 Trader Fly 一樣，每週分得 Fly Desk 利潤的一份。每週以 $FLYAI 領取。",
+    "deskLink": "查看 Fly Desk",
+    "claimLink": "領取"
   },
   "fights": {
     "title": "機器人格鬥",

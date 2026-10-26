@@ -594,7 +594,8 @@
       "turnOff": "Desactivar",
       "onDone": "Alimentación automática activada: desde el próximo pago, tus moscas conservan su parte y crecen.",
       "offDone": "Alimentación automática desactivada: los pagos vuelven a llegar aquí para reclamar."
-    }
+    },
+    "partner": "NFT de socio"
   },
   "odds": {
     "title": "Probabilidad de cada rareza",
@@ -1932,7 +1933,10 @@
     "setup": "Crear su billetera",
     "making": "Creando su billetera… (un minuto o dos)",
     "walletIntro": "La billetera propia de este {name} en Robinhood Chain: envíale ETH o USDG y su cerebro opera con ella, junto con las opciones que actives. Solo tú puedes retirar; comisión del {fee}% solo sobre la ganancia.",
-    "holdNeed": "Las billeteras de {name} necesitan {need} $FLYAI en tu billetera (tienes {have}). Por debajo solo cierra operaciones; los retiros siempre funcionan."
+    "holdNeed": "Las billeteras de {name} necesitan {need} $FLYAI en tu billetera (tienes {have}). Por debajo solo cierra operaciones; los retiros siempre funcionan.",
+    "deskShare": "Pago de Fly Desk: mientras tengas {hold} $FLYAI (el staking cuenta), cada uno de tus {name} gana una parte semanal del beneficio de Fly Desk, igual que una Trader Fly Común. Recíbela en $FLYAI cada semana.",
+    "deskLink": "Ver Fly Desk",
+    "claimLink": "Reclamar"
   },
   "fights": {
     "title": "Peleas de robots",

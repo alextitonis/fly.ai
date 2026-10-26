@@ -592,7 +592,8 @@
       "turnOff": "关闭",
       "onDone": "自动喂养已开启：从下一笔分红起，你的苍蝇会保留份额并成长。",
       "offDone": "自动喂养已关闭：分红会重新到这里领取。"
-    }
+    },
+    "partner": "合作伙伴 NFT"
   },
   "odds": {
     "title": "稀有度概率",
@@ -1930,7 +1931,10 @@
     "setup": "创建钱包",
     "making": "正在创建钱包…（一两分钟）",
     "walletIntro": "这个 {name} 在 Robinhood Chain 上的专属钱包：向它发送 ETH 或 USDG，它的大脑就会交易，你开启的选项也会一起交易。只有你能取出资金；仅对利润收取 {fee}% 手续费。",
-    "holdNeed": "{name} 钱包需要你的钱包持有 {need} $FLYAI（你有 {have}）。不足时钱包只会平仓；提款随时可用。"
+    "holdNeed": "{name} 钱包需要你的钱包持有 {need} $FLYAI（你有 {have}）。不足时钱包只会平仓；提款随时可用。",
+    "deskShare": "Fly Desk 分红：只要你持有 {hold} $FLYAI（质押也算），你的每个 {name} 都能像一只普通 Trader Fly 一样，每周分得 Fly Desk 利润的一份。每周以 $FLYAI 领取。",
+    "deskLink": "查看 Fly Desk",
+    "claimLink": "领取"
   },
   "fights": {
     "title": "机器人格斗",
