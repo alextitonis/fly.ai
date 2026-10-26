@@ -254,7 +254,8 @@
   },
   "footer": {
     "license": "MIT 授權",
-    "credit": "連接體資料：MaleCNS v1.0，由 FlyEM（HHMI Janelia）及合作者提供，依 CC BY 4.0 使用。程式碼採用 MIT 授權。"
+    "credit": "連接體資料：MaleCNS v1.0，由 FlyEM（HHMI Janelia）及合作者提供，依 CC BY 4.0 使用。程式碼採用 MIT 授權。",
+    "press": "媒體資料包"
   },
   "words": {
     "copy": "複製",

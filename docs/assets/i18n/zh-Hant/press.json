@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "title": "媒體資料包 — fly.ai",
+    "description": "fly.ai 官方標誌（深淺色 PNG、SVG、WebP）、品牌配色、Outfit 字體、專案簡介、網站截圖及 $FLYAI 代幣合約地址。"
+  },
+  "head": {
+    "eyebrow": "媒體與品牌",
+    "title": "媒體資料包",
+    "lede": "供媒體作者、收錄網站與合作夥伴使用的官方標誌、品牌配色、Outfit 字體、標準簡介、高畫質截圖及 $FLYAI 代幣合約資訊。"
+  },
+  "desc": {
+    "title": "關於 fly.ai",
+    "sub": "基於專案真實資料編寫的一句話與一段話標準簡介，可直接複製使用。",
+    "oneLineLabel": "一句話簡介",
+    "oneLine": "fly.ai 在您的電腦上開源運行包含 166,700 個神經元的完整成年果蠅大腦連接體，並在 Robinhood Chain 上線，驅動 Trader Flies、Fly Desk 與 $FLYAI 代幣。",
+    "oneParaLabel": "一段話簡介",
+    "onePara": "fly.ai 以開源脈衝神經網路模擬的形式運行成年雄性果蠅（Drosophila melanogaster，源自 Janelia MaleCNS v1.0 連接體的 166,700 個神經元與 2,560 萬個突觸）的完整大腦連線。大腦內部沒有語言模型或人工編寫的策略，完全由感官輸入和運動神經元驅動即時應用：Trader Flies（Robinhood Chain 上擁有獨立交易錢包的 1,000 個創世 NFT）、Fly Desk（由果蠅大腦共同交易的共享資金池）、3D 生物世界模擬、Flybook 以及分散式瀏覽器算力。專案由 Robinhood Chain 上的 $FLYAI 代幣提供資金支持。"
+  },
+  "logos": {
+    "title": "官方標誌",
+    "sub": "下載適用於深色與淺色背景的 fly.ai 字標和果蠅圖示（PNG、SVG 與 WebP 格式）。",
+    "darkTitle": "字標 — 深色背景",
+    "darkDesc": "純白字標搭配薄荷綠果蠅螢光，適用於純黑與深色介面。",
+    "lightTitle": "字標 — 淺色背景",
+    "lightDesc": "透明背景上的黑色字標與薄荷綠果蠅標識，適用於白底或淺色頁面。",
+    "iconDarkTitle": "果蠅圖示 — 深色",
+    "iconDarkDesc": "純黑底色方形果蠅圖示，適用於頭像、代幣收錄網站與應用圖示。",
+    "iconLightTitle": "果蠅圖示 — 淺色",
+    "iconLightDesc": "淺色底面方形果蠅圖示，適用於淺色模式目錄與徽章。",
+    "dlPng": "PNG",
+    "dlSvg": "SVG",
+    "dlWebp": "WebP"
+  },
+  "colors": {
+    "title": "品牌配色",
+    "sub": "純黑、純白與果蠅薄荷綠螢光。紅色僅用於表示虧損與警告，絕不作為品牌主色。",
+    "bg": "純黑背景",
+    "panel": "深色面板",
+    "mint": "薄荷螢光綠",
+    "mintHi": "高亮薄荷綠",
+    "text": "主文字白",
+    "line": "邊框線條"
+  },
+  "font": {
+    "title": "排版字體",
+    "sub": "Outfit 為標題與品牌字標字體，內文搭配 Inter，數字與合約地址使用 JetBrains Mono。",
+    "displayRole": "標題與品牌展示",
+    "sansRole": "內文內容",
+    "monoRole": "地址與數據",
+    "outfitWeights": "字重：400, 500, 600, 700",
+    "interWeights": "字重：400, 500, 600",
+    "monoWeights": "字重：400, 500",
+    "googleFonts": "Google Fonts"
+  },
+  "screens": {
+    "title": "官方截圖",
+    "sub": "fly.ai 即時模擬世界、神經元儀表板、交易終端與 Fly Maker 的高畫質截圖。",
+    "s1Title": "即時神經元儀表板",
+    "s1Desc": "166,700 個果蠅大腦神經元自主進行 SSH Fighter 對戰及其即時脈衝遙測畫面。",
+    "s2Title": "3D 連接體模擬世界",
+    "s2Desc": "由完整連接體驅動的果蠅在瀏覽器 3D 世界中覓食、追蹤氣味羽流並互動。",
+    "s3Title": "Fly Terminal 與 Fly Desk",
+    "s3Desc": "展示 Robinhood Chain 上 Trader Flies 錢包、Fly Desk 共享倉位及即時成交的交易介面。",
+    "s4Title": "Fly Maker",
+    "s4Desc": "Robinhood Chain 上由您自己錢包擁有、並在鏈上安全護欄內運行的自動造市金庫。",
+    "download": "下載",
+    "open": "查看原圖"
+  },
+  "token": {
+    "title": "$FLYAI 代幣與合約地址",
+    "sub": "$FLYAI 是在 Robinhood Chain（透過 Pons 發射）上支持 fly.ai 的代幣。完整供應量、銷毀交易記錄及條款均記錄在 TOKEN.md 中。",
+    "contractLabel": "Robinhood Chain",
+    "tokenMd": "在 GitHub 閱讀 TOKEN.md",
+    "tokenPage": "代幣頁面"
+  }
+}
