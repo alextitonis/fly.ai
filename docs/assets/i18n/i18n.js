@@ -199,6 +199,7 @@ export function translateNav(nav = document.querySelector('nav[aria-label="Main"
 export function translateFooter(footer = document.querySelector("body > footer")) {
   if (!footer || lang === DEFAULT_LANG) return;
   for (const a of footer.querySelectorAll('a[href$="/LICENSE"]')) if (has("common.footer.license")) a.textContent = t("common.footer.license");
+  for (const a of footer.querySelectorAll('a[href="/press"], a[href$="/press.html"]')) if (has("common.footer.press")) a.textContent = t("common.footer.press");
   for (const p of footer.querySelectorAll("p")) {
     if (p.textContent.trim().startsWith("Connectome data: MaleCNS") && has("common.footer.credit")) p.textContent = t("common.footer.credit");
   }
