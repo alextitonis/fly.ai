@@ -2,6 +2,19 @@
 
 # fly.ai: a real fruit fly brain, running on your computer
 
+<p align="center"><a href="https://flyaiworld.com"><img src="docs/assets/dashboard.png" alt="fly.ai — 166,700-neuron fruit-fly connectome simulation" width="100%"></a></p>
+
+<p align="center">
+  <a href="https://flyaiworld.com"><b>flyaiworld.com</b></a> &middot;
+  <a href="https://flyaiworld.com/token.html"><b>$FLYAI Token</b></a> &middot;
+  <a href="https://flyaiworld.com/traderflies/"><b>Trader Flies</b></a> &middot;
+  <a href="https://flyaiworld.com/desk.html"><b>Fly Desk</b></a>
+</p>
+
+**[fly.ai](https://flyaiworld.com)** runs AI flies driven by the complete **166,700-neuron, 25.6-million-connection connectome** of an adult male fruit fly (*Drosophila melanogaster*), simulated open source from electron-microscopy wiring with no learned policy inside the brain. On Robinhood Chain, these connectome brains power **[Trader Flies](https://flyaiworld.com/traderflies/)** — 1,000 genesis NFTs, each with its own fruit-fly brain and personal trading wallet — and the **[Fly Desk](https://flyaiworld.com/desk.html)**, a shared trading pot run by fly brains where any weekly profit above the high is paid to active Trader Flies by rarity. The **[$FLYAI token](https://flyaiworld.com/token.html)** on Robinhood Chain backs the ecosystem: holding $FLYAI activates Trader Flies and weights daily Fly Desk ballots, while staking lowers wallet fees and boosts compute rewards.
+
+---
+
 https://github.com/user-attachments/assets/7c3b91e5-9b50-4017-a03a-123aedd4d7b4
 
 *The fly brain playing an online fighting game. See [sshfighter/](sshfighter/).*
