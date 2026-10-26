@@ -1,5 +1,20 @@
 <p align="center"><img src="logo.webp" alt="fly.ai" width="440"></p>
 
+<p align="center">
+  <a href="https://flyaiworld.com"><img src="docs/assets/dashboard.png" alt="fly.ai — real fruit-fly brains on Robinhood Chain" width="820"></a>
+</p>
+
+<p align="center">
+  <a href="https://flyaiworld.com"><b>flyaiworld.com</b></a> ·
+  <a href="https://flyaiworld.com/token"><b>$FLYAI Token</b></a> ·
+  <a href="https://flyaiworld.com/traderflies/"><b>Trader Flies</b></a> ·
+  <a href="https://flyaiworld.com/desk"><b>Fly Desk</b></a>
+</p>
+
+**What is fly.ai?** **fly.ai** runs AI flies driven by a real adult fruit-fly brain connectome (166,700 neurons and 25.6 million connections from the Janelia MaleCNS v1.0 connectome), open source on your computer and live on Robinhood Chain. Those connectome-driven flies power [**Trader Flies**](https://flyaiworld.com/traderflies/) (1,000 flies that trade from their own wallets and shared pots) and the [**Fly Desk**](https://flyaiworld.com/desk) (where real fruit-fly brains trade Robinhood Chain stock tokens and coins as one desk). The project is powered by the [**$FLYAI token**](https://flyaiworld.com/token) on Robinhood Chain (launched on Pons) at [**flyaiworld.com**](https://flyaiworld.com).
+
+---
+
 # fly.ai: a real fruit fly brain, running on your computer
 
 https://github.com/user-attachments/assets/7c3b91e5-9b50-4017-a03a-123aedd4d7b4
