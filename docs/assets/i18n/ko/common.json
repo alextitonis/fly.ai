@@ -16,169 +16,169 @@
       "label": "홈"
     },
     "letitfly": {
-      "label": "그냥 날게 두기",
-      "desc": "당신의 파리가 대신 트레이딩합니다"
+      "label": "자율 트레이딩",
+      "desc": "내 파리가 대신 거래합니다"
     },
     "research": {
-      "label": "모든 발견",
-      "desc": "격투, 3D 세계, 실패한 것들"
+      "label": "전체 연구 결과",
+      "desc": "격투 실험, 3D 환경, 그리고 실패 기록"
     },
     "research_flybook": {
-      "label": "말하는 파리",
-      "desc": "Flybook: 두 뇌가 신호를 주고받을 수 있을까?"
+      "label": "소통하는 파리",
+      "desc": "Flybook: 두 뇌가 서로 신호를 주고받을 수 있을까?"
     },
     "research_radio": {
-      "label": "방송 중",
-      "desc": "실제 파리 뇌가 운영하는 라디오 방송국의 원리"
+      "label": "온에어",
+      "desc": "실제 파리 뇌가 운영하는 라디오 방송국의 작동 원리"
     },
     "roadmap": {
       "label": "로드맵",
-      "desc": "완료된 것과 다음 계획"
+      "desc": "지금까지 완료한 일과 다음 계획"
     },
     "changelog": {
       "label": "변경 내역",
-      "desc": "지금까지 출시한 모든 것, 날짜별로"
+      "desc": "지금까지 출시한 모든 기능의 일별 기록"
     },
     "simulation": {
       "label": "시뮬레이션",
-      "desc": "실제 뇌를 가진 파리들의 3D 세계"
+      "desc": "실제 뇌로 움직이는 파리들의 3D 세계"
     },
     "flybook": {
       "label": "Flybook",
-      "desc": "파리 뇌가 쓰는 실시간 피드"
+      "desc": "파리 뇌가 직접 기록하는 실시간 피드"
     },
     "radio": {
-      "label": "플라이 라디오",
-      "desc": "실제 파리 뇌가 트는 방송국"
+      "label": "Fly Radio",
+      "desc": "실제 파리 뇌가 선곡하고 진행하는 라디오 방송국"
     },
     "roulette": {
-      "label": "플라이 룰렛",
+      "label": "Fly Roulette",
       "desc": "파리 뇌 vs 장난감 화약총"
     },
     "slots": {
-      "label": "플라이 슬롯",
-      "desc": "릴을 돌리면 파리 뇌가 반응해요"
+      "label": "Fly Slots",
+      "desc": "릴을 돌리면 파리 뇌가 실시간으로 반응합니다"
     },
     "race": {
-      "label": "플라이 레이스",
-      "desc": "파리 뇌 여섯 개가 과일을 향해 달려요"
+      "label": "Fly Race",
+      "desc": "여섯 파리 뇌가 과일을 향해 펼치는 레이스"
     },
     "colosseum": {
       "label": "Fly Colosseum",
-      "desc": "$FLYAI를 건 시즌 배틀"
+      "desc": "$FLYAI를 걸고 펼쳐지는 시즌 배틀"
     },
     "flinder": {
       "label": "Flinder",
-      "desc": "파리 뇌가 데이팅 프로필을 스와이프"
+      "desc": "파리 뇌가 데이팅 프로필을 스와이프합니다"
     },
     "desk": {
       "label": "Fly Desk",
-      "desc": "실제 파리 뇌가 라이브로 거래하고, Trader Flies가 수익을 나눕니다"
+      "desc": "실제 파리 뇌가 실시간으로 거래하고 Trader Flies가 수익을 나눕니다"
     },
     "traderflies": {
       "label": "Trader Flies",
-      "desc": "컬렉션과 내 파리들"
+      "desc": "컬렉션 소개 및 내 파리 관리"
     },
     "compute": {
       "label": "컴퓨트",
-      "desc": "브라우저로 채굴하고 $FLYAI 받기"
+      "desc": "브라우저 연산을 공유하고 $FLYAI 받기"
     },
     "token": {
       "label": "토큰",
-      "desc": "상태, 컨트랙트, 수수료와 소각"
+      "desc": "현황, 컨트랙트, 수수료 및 소각 내역"
     },
     "maker": {
       "label": "Fly Maker",
-      "desc": "내 토큰을 위한 마켓 메이킹"
+      "desc": "보유 토큰을 위한 자동 마켓 메이킹"
     },
     "earn": {
-      "label": "이자 받기",
-      "desc": "내 지갑에서 USDG 빌려주기"
+      "label": "Earn",
+      "desc": "지갑의 USDG를 예치하고 이자 받기"
     },
     "shop": {
       "label": "굿즈",
-      "desc": "파리 티셔츠 등"
+      "desc": "파리 티셔츠 및 공식 상품"
     },
     "agents": {
       "label": "에이전트용",
-      "desc": "Claude가 파리처럼 말하게 하기"
+      "desc": "Claude가 파리처럼 사고하고 말하게 만들기"
     },
     "bounties": {
       "label": "바운티",
-      "desc": "밈, 봇, 연구로 $FLYAI 받기"
+      "desc": "밈, 봇, 연구 기여로 $FLYAI 보상 받기"
     },
     "follow": {
       "label": "@flydotai 팔로우"
     },
     "traderflies_traders": {
       "label": "트레이더",
-      "desc": "내 모든 파리와 지갑"
+      "desc": "내 모든 파리와 전용 지갑"
     },
     "traderflies_market": {
-      "label": "플라이 마켓",
+      "label": "Fly Market",
       "desc": "Trader Flies 사고팔기"
     },
     "opensea": {
       "label": "OpenSea",
-      "desc": "OpenSea의 Trader Flies"
+      "desc": "OpenSea에서 만나는 Trader Flies"
     },
     "traderflies_breed": {
       "label": "교배",
-      "desc": "파리 두 마리를 하나로 합치기"
+      "desc": "파리 두 마리를 한 마리로 합치기"
     },
     "traderflies_claim": {
-      "label": "받기",
-      "desc": "파리들의 $FLYAI 받기"
+      "label": "보상 수령",
+      "desc": "내 파리들의 $FLYAI 배당 수령하기"
     },
     "traderflies_pets": {
-      "label": "Hardware NFTs",
-      "desc": "FLYAI 펫: 주머니 파리 사전 주문"
+      "label": "하드웨어 NFT",
+      "desc": "FLYAI 펫: 주머니 속 파리 기기 사전 주문"
     },
     "traderflies_pass": {
       "label": "FlightPass",
-      "desc": "파리를 자동 조종으로"
+      "desc": "내 파리를 자동 조종 모드로 실행"
     },
     "desk-api": {
       "label": "API 및 스킬",
-      "desc": "x402로 데스크의 답변 구매"
+      "desc": "x402를 통해 데스크의 분석 응답 구매"
     },
     "traderflies_inventory": {
       "label": "인벤토리",
-      "desc": "내 파리와 지갑"
+      "desc": "내 파리와 전용 지갑"
     },
     "traderflies_leaderboard": {
       "label": "리더보드",
-      "desc": "최고의 Fly Wallet, 실시간"
+      "desc": "최고의 성과를 내는 Fly Wallet 실시간 순위"
     },
     "acct": {
-      "signInHint": "오른쪽 위에서 로그인 ↗",
+      "signInHint": "오른쪽 상단에서 로그인 ↗",
       "signIn": "로그인",
       "myFlies": "내 파리",
       "leaderboard": "리더보드",
       "nickname": "닉네임",
-      "nickHint": "3-20자",
+      "nickHint": "3~20자",
       "save": "저장",
       "saved": "저장됨",
-      "compute": "Compute와 잔액",
+      "compute": "컴퓨트 및 잔액",
       "signOut": "로그아웃",
       "search": "검색",
-      "searchHint": "앱, #파리, 사람",
+      "searchHint": "앱, #파리, 사용자",
       "openFly": "파리 열기",
       "flies": "파리",
-      "noResults": "결과 없음",
+      "noResults": "검색 결과 없음",
       "notifications": "알림",
-      "nothingYet": "아직 없음: 파리에 자금을 넣거나 게임을 해보세요",
+      "nothingYet": "아직 알림이 없습니다. 파리 지갑에 자금을 입금하거나 게임을 플레이해 보세요",
       "bought": "매수",
       "sold": "매도",
       "colosseum": "콜로세움",
       "place": "{n}위",
       "finished": "종료",
-      "payout": "지급",
-      "deskClaim": "수령할 Fly Desk 지급금",
+      "payout": "배당금",
+      "deskClaim": "수령 가능한 Fly Desk 배당금",
       "claimBy": "{t}까지 수령",
-      "b_nickname": "이름 설정",
-      "b_funded": "파리 자금",
-      "b_profit": "수익 중",
+      "b_nickname": "닉네임 등록",
+      "b_funded": "파리 지갑 입금",
+      "b_profit": "수익 달성",
       "b_trader": "거래 10회+",
       "b_gladiator": "검투사",
       "b_champion": "챔피언",
@@ -186,47 +186,47 @@
       "b_regular": "단골",
       "referrals": "추천",
       "refBy": "추천인",
-      "refHint": "친구의 코드 또는 닉네임",
-      "refSet": "설정",
-      "refLocked": "영구 설정됨",
-      "refJoined": "{name}님의 링크로 가입했습니다",
+      "refHint": "친구의 추천 코드 또는 닉네임",
+      "refSet": "등록",
+      "refLocked": "등록 완료 (변경 불가)",
+      "refJoined": "{name}님의 추천 링크로 가입했습니다",
       "whatsNew": "새 소식"
     },
     "terminal": {
-      "label": "Fly 터미널",
-      "desc": "파리들의 실시간 거래 보기"
+      "label": "Fly Terminal",
+      "desc": "파리들의 실시간 거래 내역 보기"
     },
     "how": {
-      "label": "작동 방식",
-      "desc": "뇌, 팟, 지급, 파트너"
+      "label": "작동 원리",
+      "desc": "파리 뇌, 공동 풀, 수익 배분 및 파트너"
     },
     "traderflies_partner": {
       "label": "Bullas",
-      "desc": "Bullas NFT: 각자의 트레이딩 지갑과 공동 풀"
+      "desc": "Bullas NFT: 전용 트레이딩 지갑과 공동 풀"
     },
     "newTag": "신규",
     "fights": {
       "label": "로봇 격투",
-      "desc": "USDG, FLYAI, ETH로 로봇 격투에 베팅"
+      "desc": "USDG, FLYAI, ETH로 로봇 격투 승자에 베팅"
     },
     "referrals": {
       "label": "추천",
-      "desc": "친구를 초대하고 그들의 수수료에서 수익을 받으세요"
+      "desc": "친구를 초대하고 거래 수수료 수익을 나누세요"
     },
     "buy": {
       "label": "$FLYAI 구매"
     },
     "buyMenu": {
       "label": "$FLYAI 구매",
-      "desc": "내 지갑에서, 어떤 체인에서든 스왑"
+      "desc": "어떤 체인에서든 내 지갑으로 바로 스왑"
     },
     "deskOverview": {
       "label": "개요",
-      "desc": "데스크가 무엇이고 어떻게 거래하고 지급하는지"
+      "desc": "Fly Desk 소개와 거래 및 수익 배분 방식"
     },
     "myFlies": {
       "label": "내 파리",
-      "desc": "내 파리, 지갑, 다음 단계"
+      "desc": "내 파리와 전용 지갑, 다음 단계 안내"
     },
     "flyMarket": {
       "label": "마켓",
@@ -234,27 +234,27 @@
     },
     "performance": {
       "label": "성과",
-      "desc": "모든 Fly Wallet의 실시간 결과"
+      "desc": "모든 Fly Wallet의 실시간 거래 실적"
     },
     "github": {
       "label": "GitHub"
     },
     "gta": {
-      "label": "GTA VI 경품",
-      "desc": "$FLYAI 10만 개 보유하고 한 카피 받기"
+      "label": "GTA VI 증정 이벤트",
+      "desc": "$FLYAI 10만 개를 보유하고 게임 타이틀에 응모하세요"
     },
     "researchAll": {
       "label": "연구",
-      "desc": "발견: 싸움, 3D 세계, 실패한 것"
+      "desc": "연구 결과: 격투 실험, 3D 환경, 그리고 실패 기록"
     },
     "leaderboard": {
       "label": "리더보드",
-      "desc": "모든 Fly Wallet의 실시간 결과"
+      "desc": "모든 Fly Wallet의 실시간 거래 실적"
     }
   },
   "footer": {
     "license": "MIT 라이선스",
-    "credit": "커넥톰 데이터: FlyEM(HHMI Janelia) 및 공동 연구자의 MaleCNS v1.0, CC BY 4.0에 따라 사용. 코드는 MIT 라이선스."
+    "credit": "커넥톰 데이터: FlyEM(HHMI Janelia) 및 공동 연구진의 MaleCNS v1.0 (CC BY 4.0 라이선스 적용). 코드는 MIT 라이선스를 따릅니다."
   },
   "words": {
     "copy": "복사",
@@ -268,7 +268,7 @@
     "notDeployed": "아직 배포되지 않음",
     "explorer": "익스플로러에서 보기",
     "buyOnPons": "Pons에서 $FLYAI 구매",
-    "notDeployedLong": "아직 배포되지 않았습니다. 구매 링크는 출시 시 이곳과 @flydotai에 올라옵니다.",
+    "notDeployedLong": "아직 배포되지 않았습니다. 출시 시 이곳과 @flydotai에 구매 링크가 공개됩니다.",
     "buyHere": "$FLYAI 구매"
   }
 }
