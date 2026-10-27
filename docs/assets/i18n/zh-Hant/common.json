@@ -276,5 +276,19 @@
     "notDeployedLong": "尚未部署——購買連結將在發行時出現在這裡和 @flydotai 上。",
     "buyHere": "購買 $FLYAI",
     "stakedNote": "+ {amount} 已質押{usd}"
+  },
+  "lock": {
+    "button": "🔒 已鎖定 {amount} FLYAI",
+    "title": "已鎖定的 FLYAI",
+    "intro": "發給你的 FLYAI 處於鎖定狀態。每筆在到帳 7 天後解鎖，在此之前按質押計算。",
+    "unlocksAt": "{t} 解鎖",
+    "ready": "可提取",
+    "total": "可提取：{amount} FLYAI",
+    "withdraw": "提取",
+    "nothingReady": "暫無可提取",
+    "confirm": "請在錢包中確認…",
+    "waiting": "等待鏈上確認…",
+    "done": "已提取到你的錢包",
+    "close": "關閉"
   }
 }

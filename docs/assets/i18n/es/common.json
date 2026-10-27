@@ -276,5 +276,19 @@
     "notDeployedLong": "Aún no desplegado: el enlace de compra aparecerá aquí y en @flydotai en el lanzamiento.",
     "buyHere": "Comprar $FLYAI",
     "stakedNote": "+ {amount} en stake{usd}"
+  },
+  "lock": {
+    "button": "🔒 {amount} FLYAI bloqueados",
+    "title": "FLYAI bloqueados",
+    "intro": "FLYAI que te enviamos bloqueados. Cada cantidad se desbloquea 7 días después de llegar y cuenta como stake hasta entonces.",
+    "unlocksAt": "se desbloquea {t}",
+    "ready": "listo",
+    "total": "Listo para retirar: {amount} FLYAI",
+    "withdraw": "Retirar",
+    "nothingReady": "Aún no hay nada listo",
+    "confirm": "Confirma en tu billetera…",
+    "waiting": "Esperando a la cadena…",
+    "done": "Retirado a tu billetera",
+    "close": "Cerrar"
   }
 }

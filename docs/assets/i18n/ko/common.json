@@ -276,5 +276,19 @@
     "notDeployedLong": "아직 배포되지 않았습니다. 구매 링크는 출시 시 이곳과 @flydotai에 올라옵니다.",
     "buyHere": "$FLYAI 구매",
     "stakedNote": "+ {amount} 스테이킹됨{usd}"
+  },
+  "lock": {
+    "button": "🔒 {amount} FLYAI 잠김",
+    "title": "잠긴 FLYAI",
+    "intro": "잠긴 상태로 받은 FLYAI입니다. 각 금액은 도착 후 7일 뒤에 풀리며, 그때까지는 스테이킹으로 계산됩니다.",
+    "unlocksAt": "{t} 해제",
+    "ready": "출금 가능",
+    "total": "출금 가능: {amount} FLYAI",
+    "withdraw": "출금",
+    "nothingReady": "아직 출금할 수 있는 금액이 없습니다",
+    "confirm": "지갑에서 확인하세요…",
+    "waiting": "체인 확인 대기 중…",
+    "done": "지갑으로 출금됨",
+    "close": "닫기"
   }
 }

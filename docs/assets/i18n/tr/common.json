@@ -276,5 +276,19 @@
     "notDeployedLong": "Henüz yayınlanmadı — satın alma bağlantısı lansmanda burada ve @flydotai'de görünecek.",
     "buyHere": "$FLYAI al",
     "stakedNote": "+ {amount} stake edildi{usd}"
+  },
+  "lock": {
+    "button": "🔒 {amount} FLYAI kilitli",
+    "title": "Kilitli FLYAI",
+    "intro": "Sana kilitli gönderilen FLYAI. Her tutar geldikten 7 gün sonra açılır ve o zamana kadar stake gibi sayılır.",
+    "unlocksAt": "{t} açılır",
+    "ready": "hazır",
+    "total": "Çekilebilir: {amount} FLYAI",
+    "withdraw": "Çek",
+    "nothingReady": "Henüz çekilebilir bir şey yok",
+    "confirm": "Cüzdanında onayla…",
+    "waiting": "Zincir bekleniyor…",
+    "done": "Cüzdanına çekildi",
+    "close": "Kapat"
   }
 }

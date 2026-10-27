@@ -73,19 +73,20 @@ export function refused(text: string): string | null {
 
 /**
  * When the wallet's held amount last went from under MIN_HOLD to MIN_HOLD or more (ms), walking its transfers back from
- * what it holds now. Transfers to and from the staking contract move nothing (held counts staked). null: under it now.
+ * what it holds now. Transfers to and from the staking contract (and FlyLock) move nothing (held counts staked and
+ * locked). null: under it now.
  * A history longer than maxPages is cut: the oldest transfer read is the answer (a long holder, counted from there).
  */
-export async function heldSince(chain: ChatChain, wallet: string, heldNow: bigint, staking: string | null,
+export async function heldSince(chain: ChatChain, wallet: string, heldNow: bigint, staking: string | null | (string | null)[],
                                 now: number, maxPages = 10): Promise<number | null> {
   if (heldNow < MIN_HOLD) return null;
-  const st = staking?.toLowerCase() ?? "";
+  const st = new Set((Array.isArray(staking) ? staking : [staking]).filter(Boolean).map((a) => a!.toLowerCase()));
   let held = heldNow, cursor: string | null = null, oldest = now;
   for (let page = 0; page < maxPages; page++) {
     const { items, next } = await chain.transfers(wallet, cursor);
     for (const t of items) {
       const from = t.from.toLowerCase(), to = t.to.toLowerCase();
-      if ((from === wallet && to === st) || (to === wallet && from === st) || from === to) continue;
+      if ((from === wallet && st.has(to)) || (to === wallet && st.has(from)) || from === to) continue;
       const before = to === wallet ? held - t.value : from === wallet ? held + t.value : held;
       if (before < MIN_HOLD) return t.at;       // this transfer took it to 10k+ for the last time
       held = before;
@@ -123,7 +124,7 @@ const out = (r: Row) => ({
 });
 
 export function createDeskChat(d: {
-  pg: Pg; chain: ChatChain; staking: string | null;
+  pg: Pg; chain: ChatChain; staking: string | null | (string | null)[];
   HttpError: new (status: number, message: string) => Error;
   send: (res: ServerResponse, status: number, body: unknown) => void;
   readJson: (req: IncomingMessage) => Promise<any>;

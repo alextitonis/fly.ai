@@ -148,6 +148,8 @@ const claimsContractFor = (monthId: number): string | null =>
 /** Stake tiers (src/staking.ts): off until STAKING_CONTRACT is set. */
 const STAKING = {
   contract: process.env.STAKING_CONTRACT ?? null,
+  /** FlyLock (FLYAI we send locked for 7 days, proxy deployed 2026-10-27): counts like a stake everywhere a stake counts */
+  lock: process.env.FLYLOCK_CONTRACT || "0x87Ded9d9788a1F6653A0261eF84c56658D0bf5e9",
   token: env("TOKEN_ADDRESS", "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C"),
   rpc: env("STAKE_RPC", CLAIMS.rpc),
   tiers: parseTiers(process.env.STAKE_TIERS),
@@ -1680,7 +1682,7 @@ function stakeOf(snap: WalletSnap, wallet: string) {
  */
 async function sampleStake(wallet: string): Promise<void> {
   if (!STAKING.contract) return;
-  const staked = await readStake(STAKING.rpc, STAKING.contract, wallet);
+  const staked = await readStake(STAKING.rpc, STAKING.contract, wallet, STAKING.lock);
   const day = today();
   // the day's lowest, kept by the upsert itself: both processes sample (a sign-in link on one, the loop on the other)
   await pg.run(`insert into mine.stake_samples (wallet, day, staked_wei, last_wei, sampled_at) values (?, ?, ?, ?, ?)
@@ -3947,14 +3949,14 @@ const bounties = createBounties({
 });
 // the GTA VI giveaway (src/gta.ts): half the Fly Desk and Pons fees, a copy per $70, drawn among 100k+ holders
 const gta = createGta({
-  pg, chain: robinhoodChain(CLAIMS.rpc, STAKING.contract), prices: marketPrices(), cfg: gtaConfig(process.env),
+  pg, chain: robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock), prices: marketPrices(), cfg: gtaConfig(process.env),
   HttpError, send, readJson, sessionWallet: sessionAddress, isAdminToken: isAdmin,
   admins: (process.env.BOUNTY_ADMINS ?? "").split(","), explorer: "https://robinhoodchain.blockscout.com",
 });
 if (USER && process.env.GTA_OFF !== "1") gta.start();
 // Fly Scan (src/scan.ts): paid contract / website scans; the scanning runs in the scan worker (flytrade/scan)
 const scanCfg = scanConfig(process.env);
-const scanChain = robinhoodChain(CLAIMS.rpc, STAKING.contract);
+const scanChain = robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock);
 const scanPrices = marketPrices();
 const scan = createScan({
   pg, cfg: scanCfg, HttpError, send, readJson, sessionWallet: sessionAddress,
@@ -3964,9 +3966,9 @@ const scan = createScan({
 });
 // the Fly Desk chat (src/deskchat.ts): holders' messages with their weight; the desk replies with its rug checks
 const deskChat = createDeskChat({
-  pg, staking: STAKING.contract, HttpError, send, readJson, sessionWallet: sessionAddress,
+  pg, staking: [STAKING.contract, STAKING.lock], HttpError, send, readJson, sessionWallet: sessionAddress,
   chain: {
-    holdings: robinhoodChain(CLAIMS.rpc, STAKING.contract).holdings,
+    holdings: robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock).holdings,
     transfers: blockscoutTransfers("https://robinhoodchain.blockscout.com", STAKING.token),
   },
   team: (process.env.CHAT_TEAM ?? "").split(","),
@@ -3979,7 +3981,7 @@ const flyChat = createFlyChat({
   pg, HttpError, send, readJson, sessionWallet: sessionAddress,
   flyView: (fly) => vaults.flyView(fly), flyLog: (fly) => vaults.flyLog(fly),
   starters: async () => ((await vaults.config()).starters as any[] | null) ?? [],
-  holdings: async (w) => (await robinhoodChain(CLAIMS.rpc, STAKING.contract).holdings([w]))[0] ?? 0n,
+  holdings: async (w) => (await robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock).holdings([w]))[0] ?? 0n,
   standing: (w) => deskChat.standing(w),
   llm: flyChatKey && process.env.FLYCHAT_OFF !== "1" ? openRouter(flyChatKey, process.env.FLYCHAT_MODEL ?? "anthropic/claude-haiku-5.5") : null,
   holdFlyai: Number(process.env.VAULT_HOLD_FLYAI ?? "200000"),
@@ -3988,7 +3990,7 @@ const flyChat = createFlyChat({
 if (USER) flyChat.start();
 // the buy flow (src/buyweek.ts): Buy Week standing for the "You're in" card, and where swap-box visitors drop off
 const buyWeek = createBuyWeek({
-  pg, chain: robinhoodChain(CLAIMS.rpc, STAKING.contract), prices: marketPrices(), cfg: buyWeekConfig(process.env),
+  pg, chain: robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock), prices: marketPrices(), cfg: buyWeekConfig(process.env),
   HttpError, send, readJson, adminOnly, team: CHAT_TEAM_WALLETS,
 });
 if (USER) buyWeek.start();

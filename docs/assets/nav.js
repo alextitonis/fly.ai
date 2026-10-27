@@ -263,7 +263,7 @@
       el("div", null, el("input", { id: "acct-nick", maxlength: "20", placeholder: L("nickHint"), "data-l-ph": "nickHint" }),
         el("button", { type: "button", class: "btn sm", "data-l": "save" }, L("save"))),
       el("small", { class: "acct-msg" }));
-    menu.append(el("li", { class: "acct-badges", hidden: "" }),
+    menu.append(el("li", { class: "acct-badges", hidden: "" }), el("li", { class: "acct-lock", hidden: "" }),
       item("myFlies", "/traderflies/traders?view=mine"), item("leaderboard", "/traderflies/traders?view=board"),
       form, el("li", { class: "acct-ref", hidden: "" }), item("referrals", "/referrals"), item("Flybook", "/flybook/"),
       el("li", null, el("button", { type: "button", class: "acct-out", "data-l": "signOut" }, L("signOut"))));
@@ -309,11 +309,29 @@
     });
     li.querySelector(".acct-nick").addEventListener("click", (e) => e.stopPropagation());   // typing doesn't close it
     wireReferral(li, s);
+    wireLock(li, s);
     li.querySelector(".acct-out").addEventListener("click", async () => {
       try { (await import(ACCOUNT_JS)).signOut(); } catch { /* the page had no wallet code: clear it here */ }
       try { localStorage.removeItem(SESSION_KEY); } catch {}
       sessionChanged();
     });
+  }
+
+  /** Locked $FLYAI (flylock.js, 2026-10-27): the menu item shows only for a wallet with FLYAI waiting in FlyLock. */
+  let lockJs = null;
+  function wireLock(li, s) {
+    const box = li.querySelector(".acct-lock");
+    if (!box) return;
+    if (!lockJs) {
+      lockJs = new Promise((ok) => {
+        const tag = document.createElement("script");
+        tag.src = NAV_SRC ? new URL("flylock.js?v=20261027a", NAV_SRC).href : "/assets/flylock.js?v=20261027a";
+        tag.onload = ok;
+        tag.onerror = ok;
+        (document.body || document.head).append(tag);
+      });
+    }
+    lockJs.then(() => { if (window.flyLock) window.flyLock.mount(box, s.wallet); });
   }
 
   /** After a sign-in or sign-out: the live page hears it, every other page reloads as before. */

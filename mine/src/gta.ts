@@ -419,7 +419,8 @@ export function createGta(d: {
 }
 
 /** Robinhood Chain for the giveaway: logs from the public RPC (QuickNode caps a log query's span), the rest as usual. */
-export function robinhoodChain(rpcUrl: string, staking: string | null): Chain {
+/** Holdings count the wallet's $FLYAI + its FlyStaking stake + what FlyLock holds locked for it (`lock`, when set). */
+export function robinhoodChain(rpcUrl: string, staking: string | null, lock: string | null = null): Chain {
   const PUBLIC = "https://rpc.mainnet.chain.robinhood.com";
   const mc = multicall(rpcUrl);
   const hex = (n: number) => `0x${n.toString(16)}`;
@@ -432,9 +433,10 @@ export function robinhoodChain(rpcUrl: string, staking: string | null): Chain {
       const calls = wallets.flatMap((w) => [
         { to: FLYAI, data: `${selector("balanceOf(address)")}${word(BigInt(w))}` },
         ...(staking ? [{ to: staking, data: `${selector("stakedOf(address)")}${word(BigInt(w))}` }] : []),
+        ...(lock ? [{ to: lock, data: `${selector("lockedOf(address)")}${word(BigInt(w))}` }] : []),
       ]);
       const rets = await mc.batch(calls);
-      const per = staking ? 2 : 1;
+      const per = 1 + (staking ? 1 : 0) + (lock ? 1 : 0);
       return wallets.map((_, i) => rets.slice(i * per, i * per + per)
         .reduce((s, r) => s + (r && r.length >= 66 ? BigInt(r.slice(0, 66)) : 0n), 0n));
     },

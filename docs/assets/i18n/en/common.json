@@ -276,5 +276,19 @@
     "notDeployedLong": "Not deployed yet — the buy link appears here and on @flydotai at launch.",
     "buyHere": "Buy $FLYAI",
     "stakedNote": "+ {amount} staked{usd}"
+  },
+  "lock": {
+    "button": "🔒 {amount} FLYAI locked",
+    "title": "Locked FLYAI",
+    "intro": "FLYAI sent to you locked. Each amount unlocks 7 days after it arrived, and counts like a stake until then.",
+    "unlocksAt": "unlocks {t}",
+    "ready": "ready",
+    "total": "Ready to withdraw: {amount} FLYAI",
+    "withdraw": "Withdraw",
+    "nothingReady": "Nothing ready yet",
+    "confirm": "Confirm in your wallet…",
+    "waiting": "Waiting for the chain…",
+    "done": "Withdrawn to your wallet",
+    "close": "Close"
   }
 }

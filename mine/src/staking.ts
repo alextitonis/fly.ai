@@ -29,6 +29,9 @@ export const selector = (signature: string): string =>
   `0x${Buffer.from(keccak_256(new TextEncoder().encode(signature)).subarray(0, 4)).toString("hex")}`;
 const addressWord = (a: string) => checksumAddress(a).slice(2).toLowerCase().padStart(64, "0");
 
+/** FlyLock.lockedOf(address): FLYAI still waiting out its 7-day lock. */
+export const LOCKED_OF = selector("lockedOf(address)");
+
 /** Selectors the /stake page calls through the wallet. */
 export const STAKE_SELECTORS = {
   stake: selector("stake(uint256)"),
@@ -60,10 +63,15 @@ export function tierFor(tiers: Tier[], stakedWei: bigint): Tier | null {
   return found;
 }
 
-/** FlyStaking.stakedOf(wallet) through a JSON-RPC endpoint. */
-export async function readStake(rpc: string, contract: string, wallet: string): Promise<bigint> {
-  const body = await postRpc(rpc, { jsonrpc: "2.0", id: 1, method: "eth_call",
-    params: [{ to: contract, data: STAKE_SELECTORS.stakedOf + addressWord(wallet) }, "latest"] });
-  if (body.error || typeof body.result !== "string") throw new Error(`stakedOf: ${JSON.stringify(body.error ?? body)}`);
-  return BigInt(body.result);
+/** FlyStaking.stakedOf(wallet) through a JSON-RPC endpoint, plus FlyLock.lockedOf(wallet) when `lock` is set: FLYAI
+ * we sent locked (flytrade/contracts/src/FlyLock.sol, 2026-10-27) counts like a stake. */
+export async function readStake(rpc: string, contract: string, wallet: string, lock: string | null = null): Promise<bigint> {
+  const one = async (to: string, sel: string, what: string) => {
+    const body = await postRpc(rpc, { jsonrpc: "2.0", id: 1, method: "eth_call", params: [{ to, data: sel + addressWord(wallet) }, "latest"] });
+    if (body.error || typeof body.result !== "string") throw new Error(`${what}: ${JSON.stringify(body.error ?? body)}`);
+    return BigInt(body.result);
+  };
+  const [staked, locked] = await Promise.all([one(contract, STAKE_SELECTORS.stakedOf, "stakedOf"),
+    lock ? one(lock, LOCKED_OF, "lockedOf") : Promise.resolve(0n)]);
+  return staked + locked;
 }
