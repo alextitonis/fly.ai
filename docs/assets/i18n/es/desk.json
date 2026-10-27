@@ -285,7 +285,7 @@
     "byFly": "Cada mosca",
     "empty": "Aún no hay moscas activadas: una mosca (o un Bullas / RUYUI) está activada mientras su dueño tenga 200.000 $FLYAI.",
     "thStake": "Impulso por stake",
-    "partners": "Los NFT de socios activados también participan, como una mosca Común: {list} esta semana.",
+    "partners": "Los NFT de socios activados también participan, como una mosca Común: {list} esta semana. Iremos añadiendo USDC al pool en consecuencia.",
     "partnerItem": "{n} {name}"
   },
   "market": {
