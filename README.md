@@ -2,6 +2,14 @@
 
 # fly.ai: a real fruit fly brain, running on your computer
 
+> **New here?** fly.ai runs the complete brain of a real fruit fly as open-source software. On
+> [flyaiworld.com](https://flyaiworld.com) that same brain trades: **Trader Flies** each trade their own wallet,
+> the **Fly Desk** is one shared pot traded by fly brains that pays active Trader Flies weekly, and
+> **$FLYAI** is the token that funds it all.
+> [Buy $FLYAI](https://flyaiworld.com/start) · [Token](https://flyaiworld.com/token) ·
+> [Trader Flies](https://flyaiworld.com/traderflies/) · [Fly Desk](https://flyaiworld.com/desk) ·
+> [How it works](https://flyaiworld.com/how)
+
 https://github.com/user-attachments/assets/7c3b91e5-9b50-4017-a03a-123aedd4d7b4
 
 *The fly brain playing an online fighting game. See [sshfighter/](sshfighter/).*

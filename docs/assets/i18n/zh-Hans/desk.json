@@ -170,7 +170,7 @@
     "price": "价格",
     "copy": "点击复制地址",
     "copied": "已复制！",
-    "explorer": "在浏览器中查看",
+    "explorer": "在区块浏览器中查看",
     "pons": "在 Pons 上交易"
   },
   "chains": {

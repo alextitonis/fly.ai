@@ -483,7 +483,7 @@
       el("button", { class: "ddbtn ddlabel srch-btn", type: "button", "aria-expanded": "false", "aria-controls": "dd-srch",
         "aria-label": L("search"), title: L("search"), "data-l-aria": "search" }, "🔍"),
       el("ul", { class: "ddmenu right", id: "dd-srch" },
-        el("li", { class: "srch-box" }, el("input", { type: "search", id: "srch-q", placeholder: L("searchHint"), "data-l-ph": "searchHint", autocomplete: "off" })),
+        el("li", { class: "srch-box" }, el("input", { type: "search", id: "srch-q", placeholder: L("searchHint"), "data-l-ph": "searchHint", "aria-label": L("search"), "data-l-aria": "search", autocomplete: "off" })),
         el("li", { class: "srch-out" })));
   }
   function wireSearch(nav, NAV) {

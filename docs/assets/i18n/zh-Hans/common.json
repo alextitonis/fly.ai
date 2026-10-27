@@ -16,7 +16,7 @@
       "label": "首页"
     },
     "letitfly": {
-      "label": "放飞自我",
+      "label": "放飞交易",
       "desc": "你的苍蝇替你交易"
     },
     "research": {
@@ -271,7 +271,7 @@
     "language": "语言",
     "buy": "购买 $FLYAI",
     "notDeployed": "尚未部署",
-    "explorer": "在浏览器中查看",
+    "explorer": "在区块浏览器中查看",
     "buyOnPons": "在 Pons 上购买 $FLYAI",
     "notDeployedLong": "尚未部署——购买链接将在发行时出现在这里和 @flydotai 上。",
     "buyHere": "购买 $FLYAI",

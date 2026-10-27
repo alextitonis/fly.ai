@@ -6,7 +6,7 @@
  */
 import { readFileSync } from "node:fs";
 import type { ServerResponse } from "node:http";
-import { cardOf, context, createFlyChat, mergeSettings, shortcut, GAP_MS, PER_DAY, type Llm } from "./flychat.ts";
+import { cardOf, context, createFlyChat, mergeSettings, openRouter, shortcut, GAP_MS, PER_DAY, type Llm } from "./flychat.ts";
 import { startPg } from "./pgtest.ts";
 
 let failed = 0;
@@ -108,6 +108,16 @@ try {
   check("the model hears the owner's language and the fly's data", /\(tr\)/.test(lastPrompt[0].content) && /Fly #1/.test(lastPrompt[0].content));
   r = await call("POST", "/api/flychat/1", { text: "and now?" });
   check("one message every 30 s", r.status === 429 && /wait/.test(r.body.error));
+  now += GAP_MS;
+  reply = { text: "", tool: null, cost: 0 };          // 2026-10-27 live: no text, no tool (the model ran out of tokens)
+  r = await call("POST", "/api/flychat/1", { text: "how are we doing?" });
+  check("an empty answer never points at a card that isn't there", r.status === 200 && !r.body.messages[1].card &&
+    !/approve/.test(r.body.messages[1].text), JSON.stringify(r.body.messages[1]));
+  let sentBody: any = null;
+  const fakeFetch = (async (_u: string, init: any) => { sentBody = JSON.parse(init.body);
+    return new Response(JSON.stringify({ choices: [{ message: { content: "bzz" } }], usage: { cost: 0.0002 } })); }) as typeof fetch;
+  const ans = await openRouter("k", "m", fakeFetch)([{ role: "user", content: "hi" }], []);
+  check("the model call keeps reasoning low with room to answer", sentBody?.reasoning?.effort === "low" && sentBody.max_tokens >= 1000 && ans.text === "bzz");
   now += GAP_MS;
   reply = { text: "", tool: { name: "withdraw", args: { percent: 50 } }, cost: 0.001 };
   r = await call("POST", "/api/flychat/1", { text: "take half out" });

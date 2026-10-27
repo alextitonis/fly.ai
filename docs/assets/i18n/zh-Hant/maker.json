@@ -67,7 +67,7 @@
       "cancelled": "已在錢包中取消。",
       "connectFirst": "請先連接錢包",
       "depositNumber": "存入金額必須是一般數字",
-      "noReceipt": "{tx} 還沒有回執：重試前請先在瀏覽器中查看",
+      "noReceipt": "{tx} 還沒有回執：重試前請先在區塊瀏覽器中查看",
       "noWallet": "找不到瀏覽器錢包。請安裝一個（MetaMask、Rabby）後重試。",
       "notToken": "不是 ERC-20 代幣：{addr}",
       "notVault": "不是 Fly Maker 金庫：{addr}",

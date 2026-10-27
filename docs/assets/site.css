@@ -3,7 +3,7 @@
     /* the logo's palette (2026-09-23): pure black, white, and the fly's mint glow. Red is kept for losses and
        warnings only, never as the brand colour. */
     --bg: #000000; --bg-2: #060707; --panel: #0a0b0b; --line: #1a1d1c;
-    --text: #f4f7f6; --muted: #9ba5a1; --dim: #5f6865;
+    --text: #f4f7f6; --muted: #9ba5a1; --dim: #7a8480;   /* 4.8:1+ on every panel (was #5f6865, 3.2-3.7:1) */
     --mint: #5ef2cc; --mint-hi: #a4fbe6; --mint-deep: #19c99a; --glow: rgba(94,242,204,.28);
     --red: #ff5b4f; --red-hi: #ff7a70; --green: #5ef2cc; --cool: #a4fbe6;
     --display: "Outfit", "Inter", system-ui, sans-serif;
@@ -75,7 +75,7 @@
   .band span { color: var(--muted); font-size: 14px; }
 
   .frame { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: #000; }
-  .frame video { width: 100%; height: auto; }
+  .frame video { width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; }   /* no jump when it loads */
   .caption { color: var(--muted); font-size: 14px; margin-top: 12px; }
 
   .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
@@ -489,6 +489,13 @@
 .buybox .buy-pcts { display: flex; gap: 4px; }
 .buybox .buy-pcts button { background: var(--bg-2); color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; font: 500 12px var(--mono); cursor: pointer; }
 .buybox .buy-pcts button:hover { border-color: var(--mint); color: var(--mint); }
+/* phones: fingers, not cursors (2026-10-27): the 25/50/75/Max and route buttons big enough to hit */
+@media (max-width: 640px) {
+  .buybox .buy-pcts { gap: 8px; }
+  .buybox .buy-pcts button { min-height: 40px; min-width: 48px; padding: 6px 12px; font-size: 13px; }
+  .buybox .buy-route button { min-height: 44px; }
+  .start-page .start-amounts button { min-height: 44px; }
+}
 .buybox .buy-route { display: flex; gap: 6px; flex-wrap: wrap; margin: -6px 0 14px; }
 .buybox .buy-route[hidden] { display: none; }
 .buybox .buy-route button { background: var(--bg-2); color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font: 500 12px var(--mono); cursor: pointer; }

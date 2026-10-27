@@ -18,6 +18,28 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="fly.ai">
 <meta name="twitter:image" content="https://flyaiworld.com/assets/og/start.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Start here: buy $FLYAI in a minute",
+  "url": "https://flyaiworld.com/start",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "fly.ai",
+    "url": "https://flyaiworld.com/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "fly.ai",
+    "url": "https://flyaiworld.com/",
+    "logo": "https://flyaiworld.com/assets/logo.webp"
+  },
+  "description": "Connect your wallet and buy $FLYAI on Robinhood Chain in under a minute, at the best price across Pons, Relay and our own pool.",
+  "image": "https://flyaiworld.com/assets/og/start.jpg"
+}
+</script>
 <script src="assets/i18n/boot.js"></script>
 <link rel="icon" href="assets/logo.webp" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,7 +84,7 @@
           <button type="button" class="btn sm ghost" data-usd="100">$100</button>
           <button type="button" class="btn sm ghost" data-usd="250">$250</button>
         </div>
-        <div class="buy-route" id="buy-route" role="radiogroup" hidden>
+        <div class="buy-route" id="buy-route" role="radiogroup" aria-label="Swap route" data-i18n-attr="aria-label:token.buy.routeAria" hidden>
           <button type="button" role="radio" aria-checked="true" data-route="best"><b data-i18n="token.buy.routeBest">Best price</b>
             <small data-i18n="token.buy.routeBestNote">Our GIGA pool or Relay, whichever gives you more. Through Relay, the 0.25% fee is included.</small></button>
           <button type="button" role="radio" aria-checked="false" data-route="giga"><b data-i18n="token.buy.routeOursName">Our GIGA pool</b>
