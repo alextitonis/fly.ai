@@ -2148,5 +2148,46 @@
     "react2": "더듬이를 씰룩임",
     "react3": "윙윙대며 조금 다가감",
     "note": "냄새만 맡을 뿐, 이건 거래하지 않습니다."
+  },
+  "flychat": {
+    "title": "플라이 #{id}",
+    "openAria": "플라이 #{id}와 채팅",
+    "close": "닫기",
+    "hello": "안녕하세요! 왜 거래했는지(또는 안 했는지) 물어보거나 바꿀 것을 말해 주세요. 자주 쓰는 변경은 아래 버튼을 누르세요. 저는 제안만 해요: 승인하기 전엔 아무것도 바뀌지 않아요.",
+    "placeholder": "플라이에게 묻거나 말하기…",
+    "resting": "오늘은 쉬는 중: 버튼은 계속 작동해요",
+    "send": "보내기",
+    "left": "오늘 남은 메시지 {n}개 · 30초에 한 번",
+    "doneToday": "오늘은 여기까지: 내일 만나요",
+    "needHold": "채팅하려면 이 플라이 지갑에 자금을 넣거나 200k $FLYAI를 보유하세요.",
+    "cantLoad": "채팅을 불러오지 못했어요",
+    "quickAsk": "{what}? 이렇게 바뀌어요:",
+    "approve": "승인",
+    "decline": "거절",
+    "desk": "Fly Desk:",
+    "deskPending": "러그 검사를 위해 Fly Desk로 보냈어요…",
+    "q": {
+      "earn": "대출만",
+      "letItFly": "Let it fly",
+      "safe": "안전하게",
+      "stocks": "주식",
+      "pause": "일시정지",
+      "resume": "재개",
+      "careful": "더 신중하게",
+      "bolder": "더 과감하게"
+    },
+    "card": {
+      "withdraw": "{chain}에서 {pct}% 출금",
+      "move": "{from}에서 {to}로 ${usd} 이동",
+      "watch": "이 토큰 항상 지켜보기",
+      "watchNote": "지켜보는 토큰은 러그 필터 없이 거래되므로 위험은 본인 책임이에요. Fly Desk도 검사하고 괜찮아 보이면 모든 플라이에 추가할 수 있어요.",
+      "moneyNote": "자금이 이동해요. 일반 출금 규칙을 따릅니다(수익 수수료 적용)."
+    },
+    "status": {
+      "approved": "완료",
+      "declined": "거절됨",
+      "failed": "처리되지 않음",
+      "pending": ""
+    }
   }
 }

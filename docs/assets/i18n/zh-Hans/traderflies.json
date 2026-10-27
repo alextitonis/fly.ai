@@ -2148,5 +2148,46 @@
     "react2": "抖了抖触角",
     "react3": "嗡嗡地凑近了一点",
     "note": "只是闻闻：这些都不会交易。"
+  },
+  "flychat": {
+    "title": "苍蝇 #{id}",
+    "openAria": "与苍蝇 #{id} 聊天",
+    "close": "关闭",
+    "hello": "你好！可以问我为什么交易（或没交易），或告诉我要改什么。常用改动点下面的按钮。我只提建议：你批准之前什么都不会发生。",
+    "placeholder": "问问或告诉你的苍蝇…",
+    "resting": "今天休息：按钮仍可使用",
+    "send": "发送",
+    "left": "今天还剩 {n} 条 · 每 30 秒一条",
+    "doneToday": "今天到此为止：明天见",
+    "needHold": "在这只苍蝇的钱包里存入资金或持有 20 万 $FLYAI 才能聊天。",
+    "cantLoad": "无法加载聊天",
+    "quickAsk": "{what}？以下是改动：",
+    "approve": "批准",
+    "decline": "拒绝",
+    "desk": "Fly Desk：",
+    "deskPending": "已发送给 Fly Desk 做防跑路检查…",
+    "q": {
+      "earn": "只放贷",
+      "letItFly": "Let it fly",
+      "safe": "稳健",
+      "stocks": "股票",
+      "pause": "暂停",
+      "resume": "恢复",
+      "careful": "更谨慎",
+      "bolder": "更大胆"
+    },
+    "card": {
+      "withdraw": "在 {chain} 提取 {pct}%",
+      "move": "从 {from} 转 ${usd} 到 {to}",
+      "watch": "始终关注这个代币",
+      "watchNote": "你的苍蝇交易关注的代币时不经过防跑路筛选，风险由你承担。Fly Desk 也会检查，看起来不错的话可能为所有苍蝇加入。",
+      "moneyNote": "这会移动资金，按常规提现规则处理（收取利润费）。"
+    },
+    "status": {
+      "approved": "已完成",
+      "declined": "已拒绝",
+      "failed": "未成功",
+      "pending": ""
+    }
   }
 }

@@ -47,6 +47,7 @@ import { createProfiles } from "./profiles.ts";
 import { createReferrals } from "./referrals.ts";
 import { createBounties } from "./bounties.ts";
 import { blockscoutTransfers, createDeskChat } from "./deskchat.ts";
+import { createFlyChat, openRouter } from "./flychat.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
 import { createScan, scanConfig, FLYAI as SCAN_FLYAI } from "./scan.ts";
@@ -3586,6 +3587,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/bounties") || p.startsWith("/api/admin/bounties"))) {
     if (await bounties.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && p.startsWith("/api/flychat/")) {
+    if (await flyChat.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p === "/api/desk-chat" || p === "/api/desk-chat/me")) {
     if (await deskChat.route(req, res, url)) return;
   }
@@ -3960,6 +3964,20 @@ const deskChat = createDeskChat({
   team: (process.env.CHAT_TEAM ?? "").split(","),
 });
 if (USER) deskChat.start();
+// the fly chat (src/flychat.ts, flytrade/FLYCHAT-PLAN.md): an owner talks to their fly; one cheap model call a message
+// proposes settings / withdrawals / moves / watched tokens as cards the owner approves on the page
+const flyChatKey = process.env.FLYCHAT_OPENROUTER_KEY ?? process.env.OPENROUTER_API_KEY ?? "";
+const flyChat = createFlyChat({
+  pg, HttpError, send, readJson, sessionWallet: sessionAddress,
+  flyView: (fly) => vaults.flyView(fly), flyLog: (fly) => vaults.flyLog(fly),
+  starters: async () => ((await vaults.config()).starters as any[] | null) ?? [],
+  holdings: async (w) => (await robinhoodChain(CLAIMS.rpc, STAKING.contract).holdings([w]))[0] ?? 0n,
+  standing: (w) => deskChat.standing(w),
+  llm: flyChatKey && process.env.FLYCHAT_OFF !== "1" ? openRouter(flyChatKey, process.env.FLYCHAT_MODEL ?? "anthropic/claude-haiku-5.5") : null,
+  holdFlyai: Number(process.env.VAULT_HOLD_FLYAI ?? "200000"),
+  dailyUsd: Number(process.env.FLYCHAT_DAILY_USD ?? "1"),
+});
+if (USER) flyChat.start();
 // Fly Launchpad (src/launchpad.ts): indexes the FlyLaunchpad contract once LAUNCHPAD_ADDRESS is set
 const launchpad = /^0x[0-9a-fA-F]{40}$/.test(process.env.LAUNCHPAD_ADDRESS ?? "")
   ? createLaunchpad({

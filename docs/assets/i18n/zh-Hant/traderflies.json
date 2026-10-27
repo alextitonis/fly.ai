@@ -2148,5 +2148,46 @@
     "react2": "抖了抖觸角",
     "react3": "嗡嗡地湊近了一點",
     "note": "只是聞聞：這些都不會交易。"
+  },
+  "flychat": {
+    "title": "蒼蠅 #{id}",
+    "openAria": "與蒼蠅 #{id} 聊天",
+    "close": "關閉",
+    "hello": "你好！可以問我為什麼交易（或沒交易），或告訴我要改什麼。常用改動點下面的按鈕。我只提建議：你批准之前什麼都不會發生。",
+    "placeholder": "問問或告訴你的蒼蠅…",
+    "resting": "今天休息：按鈕仍可使用",
+    "send": "發送",
+    "left": "今天還剩 {n} 則 · 每 30 秒一則",
+    "doneToday": "今天到此為止：明天見",
+    "needHold": "在這隻蒼蠅的錢包裡存入資金或持有 20 萬 $FLYAI 才能聊天。",
+    "cantLoad": "無法載入聊天",
+    "quickAsk": "{what}？以下是改動：",
+    "approve": "批准",
+    "decline": "拒絕",
+    "desk": "Fly Desk：",
+    "deskPending": "已發送給 Fly Desk 做防跑路檢查…",
+    "q": {
+      "earn": "只放貸",
+      "letItFly": "Let it fly",
+      "safe": "穩健",
+      "stocks": "股票",
+      "pause": "暫停",
+      "resume": "恢復",
+      "careful": "更謹慎",
+      "bolder": "更大膽"
+    },
+    "card": {
+      "withdraw": "在 {chain} 提取 {pct}%",
+      "move": "從 {from} 轉 ${usd} 到 {to}",
+      "watch": "始終關注這個代幣",
+      "watchNote": "你的蒼蠅交易關注的代幣時不經過防跑路篩選，風險由你承擔。Fly Desk 也會檢查，看起來不錯的話可能為所有蒼蠅加入。",
+      "moneyNote": "這會移動資金，按一般提現規則處理（收取利潤費）。"
+    },
+    "status": {
+      "approved": "已完成",
+      "declined": "已拒絕",
+      "failed": "未成功",
+      "pending": ""
+    }
   }
 }

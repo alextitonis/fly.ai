@@ -2150,5 +2150,46 @@
     "react2": "movió las antenas",
     "react3": "se acercó zumbando",
     "note": "Solo olfatea: nada de esto se opera."
+  },
+  "flychat": {
+    "title": "Mosca #{id}",
+    "openAria": "Chatea con la mosca #{id}",
+    "close": "Cerrar",
+    "hello": "¡Hola! Pregúntame por qué operé (o no), o dime qué cambiar. Toca un botón de abajo para los cambios habituales. Solo sugiero: nada pasa hasta que lo apruebes.",
+    "placeholder": "Pregunta o dile algo a tu mosca…",
+    "resting": "Descansando por hoy: los botones siguen funcionando",
+    "send": "Enviar",
+    "left": "Te quedan {n} mensajes hoy · uno cada 30 s",
+    "doneToday": "Eso es todo por hoy: vuelvo mañana",
+    "needHold": "Pon dinero en la cartera de esta mosca o ten 200k $FLYAI para chatear.",
+    "cantLoad": "No se pudo cargar el chat",
+    "quickAsk": "¿{what}? Esto es lo que cambia:",
+    "approve": "Aprobar",
+    "decline": "Rechazar",
+    "desk": "Fly Desk:",
+    "deskPending": "Enviado a la Fly Desk para sus revisiones anti-rug…",
+    "q": {
+      "earn": "Solo préstamos",
+      "letItFly": "Déjala volar",
+      "safe": "Ir a lo seguro",
+      "stocks": "Acciones",
+      "pause": "Pausar",
+      "resume": "Reanudar",
+      "careful": "Más prudente",
+      "bolder": "Más audaz"
+    },
+    "card": {
+      "withdraw": "Retirar {pct}% en {chain}",
+      "move": "Mover ${usd} de {from} a {to}",
+      "watch": "Vigilar siempre este token",
+      "watchNote": "Tu mosca opera los tokens vigilados sin sus filtros anti-rug, así que el riesgo es tuyo. La Fly Desk también lo revisa y puede añadirlo para todas las moscas si se ve bien.",
+      "moneyNote": "Esto mueve dinero. Sigue las reglas normales de retiro (se aplica la comisión sobre beneficios)."
+    },
+    "status": {
+      "approved": "Hecho",
+      "declined": "Rechazado",
+      "failed": "No se pudo",
+      "pending": ""
+    }
   }
 }

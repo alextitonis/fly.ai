@@ -2150,5 +2150,46 @@
     "react2": "twitched its antennae",
     "react3": "buzzed a little closer",
     "note": "Just sniffing: none of this is traded."
+  },
+  "flychat": {
+    "title": "Fly #{id}",
+    "openAria": "Chat with fly #{id}",
+    "close": "Close",
+    "hello": "Hi! Ask me why I traded (or didn't), or tell me what to change. Tap a button below for the usual changes. I only suggest: nothing happens until you approve it.",
+    "placeholder": "Ask or tell your fly…",
+    "resting": "Resting for today: the buttons still work",
+    "send": "Send",
+    "left": "{n} messages left today · one every 30 s",
+    "doneToday": "That's all for today: back tomorrow",
+    "needHold": "Put money in this fly's wallet or hold 200k $FLYAI to chat.",
+    "cantLoad": "Couldn't load the chat",
+    "quickAsk": "{what}? Here's what changes:",
+    "approve": "Approve",
+    "decline": "Decline",
+    "desk": "Fly Desk:",
+    "deskPending": "Sent to the Fly Desk for its rug checks…",
+    "q": {
+      "earn": "Only lending",
+      "letItFly": "Let it fly",
+      "safe": "Play safe",
+      "stocks": "Stocks",
+      "pause": "Pause",
+      "resume": "Resume",
+      "careful": "More careful",
+      "bolder": "Bolder"
+    },
+    "card": {
+      "withdraw": "Withdraw {pct}% on {chain}",
+      "move": "Move ${usd} from {from} to {to}",
+      "watch": "Always watch this token",
+      "watchNote": "Your fly trades watched tokens without its rug filters, so the risk is yours. The Fly Desk checks it too and may add it for every fly if it looks good.",
+      "moneyNote": "This moves money. It goes through the normal withdrawal rules (the profit fee applies)."
+    },
+    "status": {
+      "approved": "Done",
+      "declined": "Declined",
+      "failed": "Didn't go through",
+      "pending": ""
+    }
   }
 }

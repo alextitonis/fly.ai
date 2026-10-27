@@ -764,5 +764,6 @@ export function createVaults(d: VaultsDeps) {
     return false;
   }
 
-  return { route, start, on, CFG };
+  // the fly chat's reads (src/flychat.ts, 2026-10-27)
+  return { route, start, on, CFG, flyView, flyLog, config };
 }

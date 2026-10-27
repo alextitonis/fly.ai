@@ -2150,5 +2150,46 @@
     "react2": "antenlerini oynattı",
     "react3": "vızıldayarak biraz yaklaştı",
     "note": "Sadece kokluyor: bunların hiçbiri işleme girmez."
+  },
+  "flychat": {
+    "title": "Sinek #{id}",
+    "openAria": "#{id} sineğiyle sohbet",
+    "close": "Kapat",
+    "hello": "Merhaba! Neden işlem yaptığımı (ya da yapmadığımı) sor ya da neyi değiştireceğimi söyle. Sık değişiklikler için aşağıdaki düğmelere dokun. Ben sadece öneririm: sen onaylamadan hiçbir şey olmaz.",
+    "placeholder": "Sineğine sor ya da söyle…",
+    "resting": "Bugünlük dinleniyor: düğmeler çalışmaya devam ediyor",
+    "send": "Gönder",
+    "left": "Bugün {n} mesaj kaldı · 30 sn'de bir",
+    "doneToday": "Bugünlük bu kadar: yarın görüşürüz",
+    "needHold": "Sohbet için bu sineğin cüzdanına para koy ya da 200k $FLYAI tut.",
+    "cantLoad": "Sohbet yüklenemedi",
+    "quickAsk": "{what}? Değişecekler:",
+    "approve": "Onayla",
+    "decline": "Reddet",
+    "desk": "Fly Desk:",
+    "deskPending": "Rug kontrolleri için Fly Desk'e gönderildi…",
+    "q": {
+      "earn": "Sadece borç verme",
+      "letItFly": "Let it fly",
+      "safe": "Güvenli oyna",
+      "stocks": "Hisseler",
+      "pause": "Duraklat",
+      "resume": "Devam et",
+      "careful": "Daha temkinli",
+      "bolder": "Daha cesur"
+    },
+    "card": {
+      "withdraw": "{chain} üzerinde %{pct} çek",
+      "move": "{from} ağından {to} ağına ${usd} taşı",
+      "watch": "Bu tokeni hep izle",
+      "watchNote": "Sineğin izlenen tokenlerde rug filtrelerini kullanmaz, yani risk senin. Fly Desk de kontrol eder ve iyi görünürse tüm sinekler için ekleyebilir.",
+      "moneyNote": "Bu para taşır. Normal çekim kurallarından geçer (kâr ücreti uygulanır)."
+    },
+    "status": {
+      "approved": "Tamam",
+      "declined": "Reddedildi",
+      "failed": "Gerçekleşmedi",
+      "pending": ""
+    }
   }
 }

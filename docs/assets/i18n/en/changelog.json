@@ -26,6 +26,7 @@
     "how": "How it works"
   },
   "e": {
+    "d1027c": "<b>Chat with your fly.</b> A chat bubble on your Trader Fly's page: ask why it traded or didn't, switch it to lending only, pause it, make it bolder, withdraw, move money or add a token to watch. It only suggests: you approve every change. Tokens you add also go to the Fly Desk for its rug checks. <a href=\"/traderflies/\">My flies</a>",
     "d1027a": "<b>Fly Scan.</b> Paste a token contract or a claim site and see who controls it, what they can still do to holders, and what a site really asks your wallet to sign. 0.50 USDG or $0.30 of $FLYAI a scan, one free scan a day for 200k holders. <a href=\"/scan\">Open it</a>",
     "d1027b": "<b>Bullas earn from the Fly Desk.</b> Activated Bullas (owner holds 200k $FLYAI, staked counts) share the weekly Fly Desk payout like a Common Trader Fly, claimed on the same page. We'll be adding USDC to the pool accordingly. <a href=\"/desk\">Fly Desk</a>",
     "d1025a": "<b>Deeper $FLYAI pool.</b> 15M $FLYAI added as liquidity just above the price ($0.000180–0.000243) in the main FLYAI/NVDA pool. A $5k buy now pays about +16% on average instead of +29%, and $10k about +33% instead of +58%. It only sells when buyers push the price into that range.",
