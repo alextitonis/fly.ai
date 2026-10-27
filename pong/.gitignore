@@ -1,0 +1,6 @@
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+# copied from world/public/connectome by `npm run brain` (58 MB)
+public/connectome/
