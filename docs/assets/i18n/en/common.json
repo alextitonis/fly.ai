@@ -254,7 +254,8 @@
     "scan": {
       "label": "Fly Scan",
       "desc": "Check a token or a site before you sign"
-    }
+    },
+    "start": "Start here"
   },
   "footer": {
     "license": "MIT License",
@@ -273,6 +274,7 @@
     "explorer": "View on explorer",
     "buyOnPons": "Buy $FLYAI on Pons",
     "notDeployedLong": "Not deployed yet — the buy link appears here and on @flydotai at launch.",
-    "buyHere": "Buy $FLYAI"
+    "buyHere": "Buy $FLYAI",
+    "stakedNote": "+ {amount} staked{usd}"
   }
 }

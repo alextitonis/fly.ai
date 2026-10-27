@@ -20,7 +20,8 @@
   // robot fights, colosseum), Hardware NFTs, Compute, Terminal and Bounties are off the menus; their pages stay.
   const NAV = [
     ["token", "$FLYAI", [
-      ["Buy $FLYAI", "/token#buy", "Swap from your wallet, from any chain", false, false, "buyMenu"],
+      // 2026-10-27 (the buy-flow plan step 3): one page to buy from, linked from every post
+      ["Buy $FLYAI", "/start", "Swap from your wallet, from any chain", false, false, "buyMenu"],
       ["Token", "/token", "Status, contract, fees and burns"],
       ["Earn", "/earn", "Lend USDG from your wallet"],   // 2026-10-06: flytrade/EARN-PAGE-PLAN.md
       ["Referrals", "/referrals", "Invite friends, earn from their fees"],   // 2026-10-15 (referrals.js)
@@ -58,7 +59,7 @@
     ], true],
   ];
   // the one action on every page (the brief: "a persistent Buy $FLYAI action"; the wallet is asked for only there)
-  const BUY = ["Buy $FLYAI", "/token#buy", undefined, false, false, "buy"];
+  const BUY = ["Buy $FLYAI", "/start", undefined, false, false, "buy"];
   const isGroup = (x) => Array.isArray(x[2]);
   /** Every link in NAV, groups flattened (search, the phone panel). */
   const linksOf = (items) => items.flatMap((x) => (isGroup(x) ? x[2] : [x]));

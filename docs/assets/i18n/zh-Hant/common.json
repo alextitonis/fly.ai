@@ -254,7 +254,8 @@
     "scan": {
       "label": "Fly Scan",
       "desc": "簽名前檢查代幣或網站"
-    }
+    },
+    "start": "從這裡開始"
   },
   "footer": {
     "license": "MIT 授權",
@@ -273,6 +274,7 @@
     "explorer": "在區塊瀏覽器查看",
     "buyOnPons": "在 Pons 上購買 $FLYAI",
     "notDeployedLong": "尚未部署——購買連結將在發行時出現在這裡和 @flydotai 上。",
-    "buyHere": "購買 $FLYAI"
+    "buyHere": "購買 $FLYAI",
+    "stakedNote": "+ {amount} 已質押{usd}"
   }
 }

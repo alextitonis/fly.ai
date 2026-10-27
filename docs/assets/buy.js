@@ -23,6 +23,18 @@
  * we earn the pool's LP fee instead. Its two transactions are built here, to GIGA's router only: approve exactly the
  * amount paid (when the allowance is short), then exactInputSingle to the visitor's own wallet with a 1% floor.
  */
+/*
+ * The buy flow (2026-10-27, the buy-flow plan):
+ *  - the direct route (assets/route.js): USDG / ETH / NVDA -> NVDA -> $FLYAI through Pons' v4 pool in one Universal
+ *    Router call, our 0.25% fee inside it. Best price compares it with Relay and our GIGA pool and takes whichever
+ *    gives the most $FLYAI; a USDG buy that would need new Permit2 approvals takes it only when it's DIRECT_EDGE_BPS
+ *    better (an extra signature costs buyers more than a hair of price). NVDA (Relay has none) only goes direct.
+ *  - gas on the chain paid from: USDC from Base / Arbitrum / Ethereum with too little coin there for gas goes through
+ *    Relay's gasless permit (one signature, no transaction) when Relay offers it; otherwise the box says so before
+ *    the click.
+ *  - every step is logged to mine /api/swaplog (quote, route, approved, sent, success / failed and why), and a buy
+ *    that went through fires "flyai:bought" (assets/buyweek.js redraws the "You're in" card).
+ */
 (function () {
   "use strict";
   const $ = (id) => document.getElementById(id);
@@ -39,8 +51,16 @@
   const PAY = {
     USDG: { address: "0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168", decimals: 6 },
     ETH: { address: "0x0000000000000000000000000000000000000000", decimals: 18 },
+    // $FLYAI's main pair (Pons' FLYAI/NVDA pool): buying only, through the direct route (Relay has no NVDA)
+    NVDA: { address: "0xd0601ce157dB5bDc3162BBAc2A2c8Af5320d9eEC", decimals: 18 },
   };
   const FLY = { address: FLYAI, decimals: 18 };
+  const DIRECT_ONLY = ["NVDA"];
+  const DIRECT_EDGE_BPS = 30n;                          // a USDG buy needing new approvals goes direct only this much better
+  const MINE = (window.flyNav && window.flyNav.MINE_API) || "https://flyai-mine.fly.dev";
+  // gas on the chain paid from (wei): under this a USDC payment there needs Relay's gasless permit, or coin first
+  const GAS_MIN = { 8453: 3n * 10n ** 13n, 42161: 3n * 10n ** 13n, 1: 6n * 10n ** 14n, 80094: 10n ** 16n };
+  const CHAIN_NAMES = { 8453: "Base", 42161: "Arbitrum", 1: "Ethereum", 80094: "Berachain" };
   // the chains a visitor can pay from: their coin and their USDC (public RPCs for the balance line)
   const ORIGINS = {
     4663: { rpc: RPC, explorer: EXPLORER, pay: PAY },
@@ -113,13 +133,15 @@
   }
 
   // a Relay quote into Robinhood Chain, our app fee included: tin (on `origin`, Robinhood by default) -> tout, exact input
-  async function relayQuote(user, tin, tout, amount, origin) {
+  async function relayQuote(user, tin, tout, amount, origin, usePermit) {
     const r = await fetch(API + "/quote", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         user, recipient: user, originChainId: origin || CHAIN, destinationChainId: CHAIN,
         originCurrency: tin, destinationCurrency: tout, amount: amount.toString(),
         tradeType: "EXACT_INPUT", appFees: [{ recipient: FEE_TO, fee: String(FEE_BPS) }],
+        // gasless (2026-10-27): the token's own permit (EIP-3009 / 2612) signed instead of an approve + deposit
+        ...(usePermit ? { usePermit: true } : {}),
       }),
     });
     const d = await r.json();
@@ -134,6 +156,17 @@
     tokenIn = tokenIn.toLowerCase();
     const txs = [];
     for (const step of q.steps) {
+      if (step.kind === "signature" && q.gasless) {        // the gasless permit: checked here, signed in buy()
+        for (const it of step.items || []) {
+          const sg = (it.data || {}).sign || {}, post = (it.data || {}).post || {}, v = sg.value || {};
+          if (sg.signatureKind !== "eip712" || Number((sg.domain || {}).chainId) !== origin ||
+              String((sg.domain || {}).verifyingContract || "").toLowerCase() !== tokenIn ||
+              !calls.has(String(v.to || v.spender || "").toLowerCase()) || BigInt(v.value || 0) > amount ||
+              !/^\/execute\/permits/.test(String(post.endpoint || ""))) throw new Error("an unexpected signature request");
+          txs.push({ sign: sg, post });
+        }
+        continue;
+      }
       if (step.kind !== "transaction") throw new Error("unexpected step: " + step.kind);
       for (const it of step.items || []) {
         const d = it.data || {};
@@ -187,15 +220,35 @@
   let bal = null, balFor = "";                         // the paid token's balance (base units) for the wallet
   const GAS_KEEP = 3n * 10n ** 14n;                     // Max on ETH leaves 0.0003 ETH for this swap's gas
 
-  function msg(text, kind, link) {
+  function msg(text, kind, link, help) {
     const el = $("buy-msg");
     el.textContent = text || "";
     el.dataset.kind = kind || "";
-    if (link) {
+    if (link || help) {
       const a = document.createElement("a");
-      a.href = link; a.target = "_blank"; a.rel = "noopener"; a.textContent = " " + t("viewTx");
+      a.href = link || help; a.target = "_blank"; a.rel = "noopener"; a.textContent = " " + t(link ? "viewTx" : "gasHelp");
       el.appendChild(a);
     }
+  }
+
+  // ---- where visitors give up (the buy-flow plan step 5): one row a step to mine, nothing personal but the wallet ----
+  const SESSION = Math.random().toString(36).slice(2, 12) + Date.now().toString(36);
+  const PAGE = (location.pathname.replace(/^\/|\.html$|\/$/g, "") || "home").replace(/[^a-z]/g, "").slice(0, 16) || "home";
+  let quoted = false;
+  function routeOf(q) { return !q ? null : q.via === "direct" ? "direct" : q.via === "giga" ? "giga" : q.gasless ? "gasless" : "relay"; }
+  function track(step, q, pay, amount, reason) {
+    if (step === "quote") { if (quoted) return; quoted = true; }   // the first quote of a visit is enough
+    let usd = null;
+    try {
+      const sym = sides(pay)[2];
+      if (amount && (sym === "USDG" || sym === "USDC")) usd = Number(decimalOf(amount, 6, 2));
+    } catch (e) { /* no amount */ }
+    const body = { session: SESSION, step, wallet: wallet || null, route: routeOf(q), pay: sides(pay || "USDG")[2], chain: origin(),
+                   usd, reason: reason ? String(reason).slice(0, 160) : null, page: PAGE };
+    try {
+      fetch(MINE + "/api/swaplog", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+        keepalive: true }).catch(() => {});
+    } catch (e) { /* never in the buyer's way */ }
   }
 
   function units(amount, decimals) {                    // "12.5" -> 12500000n (no float rounding)
@@ -205,28 +258,66 @@
   }
 
   // the better of Relay (our 0.25% app fee in it) and our own GIGA pool (no app fee), for what the visitor gets
+  /** The paying wallet's coin on the chain paid from is under what its gas needs (USDC payments only). */
+  async function gasLow(user, symIn) {
+    if (!away() || isNative(symIn) || !user || user === PREVIEW_USER || !GAS_MIN[origin()]) return false;
+    try { return BigInt(await rpc("eth_getBalance", [user, "latest"], ORIGINS[origin()].rpc)) < GAS_MIN[origin()]; }
+    catch (e) { return false; }
+  }
+
+  // does a direct buy with this token need new approvals (Permit2) from this wallet? (no wallet yet: assume it does)
+  async function directSetup(user, q) {
+    if (q.sym === "ETH" || !user || user === PREVIEW_USER) return q.sym !== "ETH";
+    try { return (await window.flyRoute.txs(user, q.plan)).length > 1; } catch (e) { return true; }
+  }
+
   async function getQuote(user, pay, amount) {
-    const [tin, tout] = sides(pay);
-    if (away()) return relayQuote(user, tin.address, tout.address, amount, origin());   // Relay brings it over
+    const [tin, tout, symIn] = sides(pay);
+    if (away()) {                                   // Relay brings it over; with no gas there, its gasless permit
+      if (await gasLow(user, symIn)) {
+        const g = await relayQuote(user, tin.address, tout.address, amount, origin(), true).catch(() => null);
+        if (g && g.steps && g.steps.some((s) => s.kind === "signature")) { g.gasless = true; return g; }
+        const q = await relayQuote(user, tin.address, tout.address, amount, origin());
+        q.gasLow = true;
+        return q;
+      }
+      return relayQuote(user, tin.address, tout.address, amount, origin());
+    }
     if (route === "giga" && routable()) {
       const out = await gigaQuote(tin.address, tout.address, amount);
       if (!(out > 0n)) throw new Error("no quote");
       return { via: "giga", out, amount, tin: tin.address, tout: tout.address, relay: null };
     }
-    const [rq, gq] = await Promise.all([
+    const direct = !selling() && window.flyRoute ? window.flyRoute.quote(symIn, amount).catch(() => null) : Promise.resolve(null);
+    if (DIRECT_ONLY.includes(symIn)) {
+      const d = await direct;
+      if (!d) throw new Error("no quote");
+      return { via: "direct", out: d.out, amount, plan: d, impact: d.impact };
+    }
+    const [rq, gq, dq] = await Promise.all([
       relayQuote(user, tin.address, tout.address, amount).catch((e) => e),
       gigaPair(tin.address, tout.address) ? gigaQuote(tin.address, tout.address, amount).catch(() => 0n) : Promise.resolve(0n),
+      direct,
     ]);
     const relayOut = rq instanceof Error ? 0n : BigInt(rq.details.currencyOut.amount || 0);
-    // both amounts ride along so the box can show the visitor what each route gives (2026-10-13 review: "doesn't clearly
-    // compare the final amount received")
-    const both = gq > 0n && relayOut > 0n ? { giga: gq, relay: relayOut } : null;
+    // every route's amount rides along so the box can show the visitor what each gives (2026-10-13 review: "doesn't
+    // clearly compare the final amount received")
+    const all = { giga: gq, relay: relayOut, direct: dq ? dq.out : 0n };
+    const both = [all.giga, all.relay, all.direct].filter((x) => x > 0n).length > 1 ? all : null;
+    // the direct route wins on more $FLYAI; with new approvals to sign first, only by DIRECT_EDGE_BPS or more
+    const edge = dq && (await directSetup(user, { sym: symIn, plan: dq })) ? DIRECT_EDGE_BPS : 0n;
+    const rival = gq > relayOut ? gq : relayOut;
+    if (dq && dq.out * 10000n >= rival * (10000n + edge) && dq.out > 0n) {
+      return { via: "direct", out: dq.out, amount, plan: dq, impact: dq.impact, both };
+    }
     if (gq > 0n && gq >= relayOut) return { via: "giga", out: gq, amount, tin: tin.address, tout: tout.address, relay: rq instanceof Error ? null : rq, both };
     if (rq instanceof Error) throw rq;
     rq.both = both;
     return rq;
   }
-  const checked = (q, pay, amount) => {
+  const checked = async (q, pay, amount) => {
+    if (q.via === "direct") return window.flyRoute.check(await window.flyRoute.txs(wallet, q.plan), q.plan)
+      .map((t) => ({ to: t.to, data: t.data, value: t.value, kind: t.kind }));
     if (q.via === "giga") return gigaTxs(wallet, q.tin, q.tout, amount, q.out);
     const [tin, , symIn] = sides(pay);
     return relayCheck(q, tin.address, isNative(symIn), amount, origin());
@@ -238,13 +329,20 @@
     if (!q.both) return "";
     const [, tout, , sym] = sides(pay), d = sym === "FLYAI" ? 0 : 2;
     const amt = (raw) => fmt(Number(decimalOf(raw, tout.decimals, 8)), d) + " " + (sym === "FLYAI" ? "$FLYAI" : sym);
-    return t("compare", { giga: amt(q.both.giga), relay: amt(q.both.relay) });
+    // each route that quoted, what it gives (the direct route and Relay with our fee in, our GIGA pool without)
+    return [["direct", "cmpDirect"], ["relay", "cmpRelay"], ["giga", "cmpGiga"]]
+      .filter(([k]) => q.both[k] > 0n).map(([k, s]) => t(s, { amt: amt(q.both[k]) })).join(" · ");
   }
 
   function show(q, pay) {
     $("buy-fee").textContent = feeText(q);
     const cmp = $("buy-compare");                    // only token.html has the Best-price comparison line
     if (cmp) cmp.textContent = compareLine(q, pay);
+    if (q.via === "direct") {                        // "You get X FLYAI · price impact Y% · route: direct"
+      $("buy-out").textContent = fmt(Number(decimalOf(q.out, 18, 2)), 0) + " $FLYAI";
+      $("buy-detail").textContent = t("detailDirect", { impact: q.impact == null ? "-" : fmt(q.impact, 2) });
+      return;
+    }
     if (q.via === "giga") {
       const sym = sides(pay)[3], dec = sides(pay)[1].decimals;
       const got = Number(decimalOf(q.out, dec, 8));
@@ -261,8 +359,11 @@
     $("buy-detail").textContent = t("detail", {
       usd: fmt(Number(out.amountUsd || 0), 2), fee: fmt(fee, 2),
       impact: imp == null || isNaN(imp) ? "-" : fmt(Math.abs(imp), 2),
-    });
+    }) + " · " + t(q.gasless ? "routeGasless" : "routeRelay");
+    // no gas on the chain paid from, and no gasless way there: say so before the click
+    if (q.gasLow) msg(t("gasLow", { chain: CHAIN_NAMES[origin()] || "", coin: Object.keys(ORIGINS[origin()].pay).find(isNative) || "ETH" }), "err", null, GAS_HELP);
   }
+  const GAS_HELP = "https://relay.link/bridge";
 
   function refresh() {
     clearTimeout(timer);
@@ -279,8 +380,9 @@
         const q = await getQuote(wallet || PREVIEW_USER, pay, amount);
         if (quoteFor !== key) return;                  // the amount changed meanwhile
         quote = q;
-        show(q, pay);
         msg("");
+        show(q, pay);
+        track("quote", q, pay, amount);
       } catch (e) {
         if (quoteFor === key) msg(t("noQuote"), "err");
       }
@@ -328,7 +430,16 @@
   function showBalance() {
     const [tin, , symIn] = sides($("buy-pay").value);
     $("buy-balrow").hidden = bal == null;
-    if (bal != null) $("buy-bal").textContent = t("balance", { amt: compact(bal, tin.decimals) + " " + symIn });
+    if (bal == null) return;
+    const line = t("balance", { amt: compact(bal, tin.decimals) + " " + symIn });
+    $("buy-bal").textContent = line;
+    // FLYAI staked in FlyStaking isn't in the wallet's balance (no receipt token): say it beside it (staked.js)
+    if (symIn !== "FLYAI" || !window.flyStaked) return;
+    const who = wallet;
+    window.flyStaked(who).then((st) => {
+      const note = window.flyStakedNote(st);
+      if (note && who === wallet && sides($("buy-pay").value)[2] === "FLYAI") $("buy-bal").textContent = line + " " + note;
+    });
   }
 
   function usePct(pct) {
@@ -431,18 +542,37 @@
     if (!amount || amount <= 0n) { msg(t("enterAmount"), "err"); return; }
     busy = true;
     $("buy-go").disabled = true;
+    let q = null;
     try {
       const from = origin();
       if (!acct) await ensureChain(from);              // the shared wallet kit switches chains itself
       msg(t("quoting"));
-      const q = await getQuote(wallet, pay, amount);  // a fresh quote for this wallet
+      q = await getQuote(wallet, pay, amount);        // a fresh quote for this wallet
+      msg("");
       show(q, pay);
+      if (q.gasLow) { track("gas_low", q, pay, amount, "no gas on " + from); return; }   // the box already says what's needed
+      track("route", q, pay, amount);
       const txs = await checked(q, pay, amount);
       let last = null;
       for (let i = 0; i < txs.length; i++) {
         if (i > 0) await sleep(2500);                    // let the wallet's node see the approve before the swap
         msg(t("confirm", { n: i + 1, of: txs.length }));
+        if (txs[i].sign) {                               // the gasless permit: a signature, posted to Relay
+          const sg = txs[i].sign;
+          const typed = { domain: sg.domain, types: sg.types, primaryType: sg.primaryType, message: sg.value };
+          const sig = acct ? await acct.signTyped(typed)
+            : await window.ethereum.request({ method: "eth_signTypedData_v4", params: [wallet, JSON.stringify({
+              ...typed, types: { EIP712Domain: [{ name: "name", type: "string" }, { name: "version", type: "string" },
+                { name: "chainId", type: "uint256" }, { name: "verifyingContract", type: "address" }], ...sg.types } })] });
+          const p = txs[i].post;
+          const r = await fetch(API + p.endpoint + (p.endpoint.includes("?") ? "&" : "?") + "signature=" + sig, {
+            method: p.method || "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(p.body || {}) });
+          if (!r.ok) throw new Error(((await r.json().catch(() => ({}))).message) || "Relay refused the signature");
+          track("sent", q, pay, amount);
+          continue;
+        }
         last = await sendStep(txs[i], from);
+        track(i < txs.length - 1 ? "approved" : "sent", q, pay, amount);
         msg(t("waiting"));
         if (acct) {
           await acct.mined(last, from);                 // throws if it reverted
@@ -455,14 +585,17 @@
         msg(t("arriving"));
         const s = await delivered(q);
         if (s === "failure" || s === "refund") throw new Error(t("notDelivered"));
-        msg(s === "success" ? t("done") : t("arrivingSoon"), "ok", ORIGINS[from].explorer + "/tx/" + last);
+        msg(s === "success" ? t("done") : t("arrivingSoon"), "ok", last ? ORIGINS[from].explorer + "/tx/" + last : null);
       } else {
         msg(t("done"), "ok", EXPLORER + "/tx/" + last);
       }
+      track("success", q, pay, amount);
+      if (!selling()) window.dispatchEvent(new CustomEvent("flyai:bought", { detail: { wallet } }));
       loadBalance();
     } catch (e) {
       const why = acct ? acct.errorText(e) : (e && e.message) || String(e);
       const cancelled = (e && (e.code === 4001 || (e.cause && e.cause.code === 4001))) || /rejected|denied|cancel/i.test(why);
+      track(cancelled ? "cancelled" : "failed", q, pay, amount, why);
       msg(cancelled ? t("cancelled") : t("failed", { why }), "err");
     } finally {
       busy = false;
@@ -480,7 +613,8 @@
     // 2026-10-16 brief ("explain the fee and routing consequence beside each option, before the visitor commits"):
     // with a choice, each route card carries its own note; without one, this line says Relay routes it and its fee
     const help = $("buy-routehelp");
-    if (help) help.hidden = routable();
+    // on Robinhood every quote's own line says its route (direct / Relay / GIGA, 2026-10-27): the note is for other chains
+    if (help) help.hidden = !away();
   }
 
   function start() {
@@ -502,7 +636,13 @@
     };
     if ($("buy-from")) $("buy-from").addEventListener("change", () => { fillPay(); sym(); showRoute(); label(); refresh(); loadBalance(); });
     for (const b of document.querySelectorAll("#buy [data-pct]")) b.addEventListener("click", () => usePct(Number(b.dataset.pct)));
+    // NVDA is buying only (the direct route); selling into it isn't offered
+    const directOnly = () => {
+      for (const o of $("buy-pay").options) if (DIRECT_ONLY.includes(o.value)) o.disabled = selling();
+      if (selling() && DIRECT_ONLY.includes($("buy-pay").value)) $("buy-pay").value = "USDG";
+    };
     $("buy-dir").addEventListener("change", () => {
+      directOnly();
       const sell = selling();
       $("buy-amount").value = sell ? "100000" : "25";
       $("buy-with").textContent = sell ? t("for") : t("with");

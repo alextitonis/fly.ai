@@ -2189,5 +2189,6 @@
       "failed": "처리되지 않음",
       "pending": ""
     }
-  }
+  },
+  "stakedNote": "+ {amount} 스테이킹됨{usd}"
 }

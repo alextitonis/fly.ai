@@ -254,7 +254,8 @@
     "scan": {
       "label": "Fly Scan",
       "desc": "İmzalamadan önce token ya da siteyi kontrol et"
-    }
+    },
+    "start": "Buradan başla"
   },
   "footer": {
     "license": "MIT Lisansı",
@@ -273,6 +274,7 @@
     "explorer": "Gezginde görüntüle",
     "buyOnPons": "$FLYAI'yi Pons'ta al",
     "notDeployedLong": "Henüz yayınlanmadı — satın alma bağlantısı lansmanda burada ve @flydotai'de görünecek.",
-    "buyHere": "$FLYAI al"
+    "buyHere": "$FLYAI al",
+    "stakedNote": "+ {amount} stake edildi{usd}"
   }
 }

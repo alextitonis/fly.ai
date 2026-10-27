@@ -254,7 +254,8 @@
     "scan": {
       "label": "Fly Scan",
       "desc": "서명하기 전에 토큰이나 사이트 확인"
-    }
+    },
+    "start": "여기서 시작"
   },
   "footer": {
     "license": "MIT 라이선스",
@@ -273,6 +274,7 @@
     "explorer": "익스플로러에서 보기",
     "buyOnPons": "Pons에서 $FLYAI 구매",
     "notDeployedLong": "아직 배포되지 않았습니다. 구매 링크는 출시 시 이곳과 @flydotai에 올라옵니다.",
-    "buyHere": "$FLYAI 구매"
+    "buyHere": "$FLYAI 구매",
+    "stakedNote": "+ {amount} 스테이킹됨{usd}"
   }
 }

@@ -46,7 +46,8 @@ import { createPartners } from "./partners.ts";
 import { createProfiles } from "./profiles.ts";
 import { createReferrals } from "./referrals.ts";
 import { createBounties } from "./bounties.ts";
-import { blockscoutTransfers, createDeskChat } from "./deskchat.ts";
+import { blockscoutTransfers, createDeskChat, TEAM as CHAT_TEAM_WALLETS } from "./deskchat.ts";
+import { buyWeekConfig, createBuyWeek } from "./buyweek.ts";
 import { createFlyChat, openRouter } from "./flychat.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
@@ -3587,6 +3588,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/bounties") || p.startsWith("/api/admin/bounties"))) {
     if (await bounties.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/buyweek/") || p === "/api/swaplog" || p === "/api/admin/swaplog")) {
+    if (await buyWeek.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && p.startsWith("/api/flychat/")) {
     if (await flyChat.route(req, res, url)) return;
   }
@@ -3978,6 +3982,12 @@ const flyChat = createFlyChat({
   dailyUsd: Number(process.env.FLYCHAT_DAILY_USD ?? "1"),
 });
 if (USER) flyChat.start();
+// the buy flow (src/buyweek.ts): Buy Week standing for the "You're in" card, and where swap-box visitors drop off
+const buyWeek = createBuyWeek({
+  pg, chain: robinhoodChain(CLAIMS.rpc, STAKING.contract), prices: marketPrices(), cfg: buyWeekConfig(process.env),
+  HttpError, send, readJson, adminOnly, team: CHAT_TEAM_WALLETS,
+});
+if (USER) buyWeek.start();
 // Fly Launchpad (src/launchpad.ts): indexes the FlyLaunchpad contract once LAUNCHPAD_ADDRESS is set
 const launchpad = /^0x[0-9a-fA-F]{40}$/.test(process.env.LAUNCHPAD_ADDRESS ?? "")
   ? createLaunchpad({

@@ -2191,5 +2191,6 @@
       "failed": "No se pudo",
       "pending": ""
     }
-  }
+  },
+  "stakedNote": "+ {amount} en stake{usd}"
 }

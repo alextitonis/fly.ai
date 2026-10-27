@@ -45,6 +45,7 @@
   let busy = false;
   let s = null;           // { staked, pending, unlocksAt, balance, cooldown } (wei / seconds)
   let total = null;
+  let stakedUsd = null;   // $ value of s.staked (null: no price)
 
   // ---- words on the chain ----
   const word = (v) => (typeof v === "string" ? v.replace(/^0x/, "").toLowerCase().padStart(64, "0") : v.toString(16).padStart(64, "0"));
@@ -105,6 +106,8 @@
           read(FLYAI, data(SEL.balanceOf, wallet)), read(STAKING, SEL.cooldown)]);
         const [pending, unlocksAt] = words(unstaking);
         s = { staked: words(staked)[0], pending, unlocksAt: Number(unlocksAt), balance: words(balance)[0], cooldown: Number(words(cooldown)[0]) };
+        const p = window.flyaiUsd ? await window.flyaiUsd() : null;   // staked.js: the stake's $ value under it
+        stakedUsd = p == null ? null : whole(s.staked) * p;
       } catch (e) {
         if (!s) msg(t("down"), "err");
       }
@@ -125,7 +128,7 @@
     const boost = boostOf(s.staked);
     const next = nextOf(s.staked);
     tiles.innerHTML = [
-      [t("staked"), flyai(s.staked) + " $FLYAI"],
+      [t("staked"), flyai(s.staked) + " $FLYAI" + (stakedUsd != null && s.staked > 0n ? ` <small>${esc(window.flyUsd(stakedUsd))}</small>` : "")],
       [t("boost"), "×" + boost.toFixed(2) + (next ? ` <small>${esc(t("boostMax", { amount: new Intl.NumberFormat(lang()).format(next[0]), cap: next[1] }))}</small>` : "")],
       [t("inWallet"), flyai(s.balance) + " $FLYAI"],
     ].map(([k, v]) => `<div class="stk-tile"><span class="vs-k">${esc(k)}</span><b class="mono">${v}</b></div>`).join("");

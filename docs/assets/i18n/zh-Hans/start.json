@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "title": "从这里开始：一分钟买入 $FLYAI",
+    "description": "连接钱包，一分钟内在 Robinhood Chain 买入 $FLYAI，在 Pons、Relay 和我们自己的池子中取最优价。"
+  },
+  "eyebrow": "从这里开始",
+  "title": "一分钟买入 $FLYAI",
+  "lede": "连接钱包，选金额，确认。系统会比较所有路线，用给你最多 $FLYAI 的那条。",
+  "amounts": "选择金额",
+  "whatTitle": "$FLYAI 能做什么",
+  "w1": "<b>持有 20 万 $FLYAI</b>（钱包或质押）即可激活 Trader Fly：它真实的苍蝇大脑用自己的钱包替你交易。",
+  "w2": "<b>每周 Fly Desk 分红</b>：desk 的利润每周日发给持有活跃 Trader Fly 的人。",
+  "w3": "<b>质押降低费用</b>：质押的 $FLYAI 会降低你的苍蝇利润的费用。",
+  "more": "了解更多 $FLYAI"
+}

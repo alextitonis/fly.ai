@@ -2189,5 +2189,6 @@
       "failed": "未成功",
       "pending": ""
     }
-  }
+  },
+  "stakedNote": "+ {amount} 已質押{usd}"
 }

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="start token">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="start.meta.title">Start here: buy $FLYAI in a minute</title>
+<meta name="description" content="Connect your wallet and buy $FLYAI on Robinhood Chain in under a minute, at the best price across Pons, Relay and our own pool." data-i18n-attr="content:start.meta.description">
+<meta property="og:title" content="Start here: buy $FLYAI in a minute">
+<meta property="og:description" content="Connect your wallet and buy $FLYAI on Robinhood Chain in under a minute, at the best price across Pons, Relay and our own pool.">
+<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/start">
+<meta property="og:url" content="https://flyaiworld.com/start">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/dashboard.png">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="start-page">
+<nav aria-label="Main"></nav>
+<!-- Start here (2026-10-27, the buy-flow plan step 3): one screen, connect -> pick an amount -> buy, at the best
+     route (assets/route.js + assets/buy.js), then the "You're in" card (assets/buyweek.js). Every post links here. -->
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="start.eyebrow">Start here</p>
+    <h1 data-i18n="start.title">Buy $FLYAI in a minute</h1>
+    <p class="lede" data-i18n="start.lede">Connect your wallet, pick an amount, confirm. The box checks every route and uses the one that gives you the most $FLYAI.</p>
+  </div>
+</header>
+<main>
+  <section class="section">
+    <div class="wrap">
+      <div class="card pad buybox" id="buy">
+        <div class="buy-top">
+          <h3 data-i18n="start.amounts">Pick an amount</h3>
+          <span class="buy-pick">
+            <select id="buy-dir" class="buy-dir" aria-label="Buy or sell" hidden>
+              <option value="buy" data-i18n="token.buy.dirBuy">Buy $FLYAI</option>
+              <option value="sell" data-i18n="token.buy.dirSell">Sell $FLYAI</option>
+            </select>
+            <span id="buy-with" data-i18n="token.buy.with">with</span>
+            <select id="buy-pay" class="buy-dir" aria-label="Token"><option value="USDG">USDG</option><option value="ETH">ETH</option><option value="NVDA">NVDA</option></select>
+            <span data-i18n="token.buy.on">on</span>
+            <select id="buy-from" class="buy-dir" aria-label="Chain">
+              <option value="4663">Robinhood</option><option value="8453">Base</option><option value="42161">Arbitrum</option><option value="1">Ethereum</option><option value="80094">Berachain</option>
+            </select>
+          </span>
+        </div>
+        <!-- dollar amounts: USDG / USDC as is; ETH and NVDA at today's price (start.js) -->
+        <div class="start-amounts" id="start-amounts" role="group">
+          <button type="button" class="btn sm ghost" data-usd="20">$20</button>
+          <button type="button" class="btn sm ghost" data-usd="50" aria-pressed="true">$50</button>
+          <button type="button" class="btn sm ghost" data-usd="100">$100</button>
+          <button type="button" class="btn sm ghost" data-usd="250">$250</button>
+        </div>
+        <div class="buy-route" id="buy-route" role="radiogroup" hidden>
+          <button type="button" role="radio" aria-checked="true" data-route="best"><b data-i18n="token.buy.routeBest">Best price</b>
+            <small data-i18n="token.buy.routeBestNote">Our GIGA pool or Relay, whichever gives you more. Through Relay, the 0.25% fee is included.</small></button>
+          <button type="button" role="radio" aria-checked="false" data-route="giga"><b data-i18n="token.buy.routeOursName">Our GIGA pool</b>
+            <small data-i18n="token.buy.routeOursNote">Always our own pool on GIGA DEX. No fee, but it can give less on big amounts.</small></button>
+        </div>
+        <p class="buy-detail buy-relaynote" id="buy-routehelp" data-i18n="token.buy.relayNote">Routed by Relay. Its quote already includes the 0.25% fee.</p>
+        <div class="buy-row">
+          <label class="buy-in">
+            <span data-i18n="token.buy.pay">You pay</span>
+            <span class="buy-field">
+              <input id="buy-amount" type="text" inputmode="decimal" autocomplete="off" value="50" aria-label="Amount">
+              <span class="buy-sym" id="buy-paysym">USDG</span>
+            </span>
+            <span class="buy-balrow" id="buy-balrow" hidden>
+              <span class="buy-bal" id="buy-bal"></span>
+              <span class="buy-pcts">
+                <button type="button" data-pct="25">25%</button><button type="button" data-pct="50">50%</button><button type="button" data-pct="75">75%</button><button type="button" data-pct="100" data-i18n="token.buy.max">Max</button>
+              </span>
+            </span>
+          </label>
+          <div class="buy-in">
+            <span data-i18n="token.buy.get">You get (about)</span>
+            <strong id="buy-out" class="buy-out">&ndash;</strong>
+          </div>
+        </div>
+        <p class="buy-detail" id="buy-detail"></p>
+        <p class="buy-detail" id="buy-compare"></p>
+        <div class="buy-act">
+          <button class="btn red" id="buy-go" type="button">Connect wallet</button>
+          <span class="buy-fee" id="buy-fee"></span>
+        </div>
+        <p class="buy-msg" id="buy-msg" aria-live="polite"></p>
+      </div>
+      <div class="card pad buyweek" id="buyweek" style="margin-top: 18px;" hidden></div>
+      <div class="card pad start-what" style="margin-top: 18px;">
+        <h3 data-i18n="start.whatTitle">What $FLYAI does</h3>
+        <ul>
+          <li data-i18n-html="start.w1"><b>Hold 200k $FLYAI</b> (wallet or staked) to switch on a Trader Fly: its real fly brain trades its own wallet for you.</li>
+          <li data-i18n-html="start.w2"><b>Weekly Fly Desk payouts</b>: the desk's profits are paid to holders of active Trader Flies every Sunday.</li>
+          <li data-i18n-html="start.w3"><b>Staking cuts fees</b>: staked $FLYAI lowers the fee on your fly's profits.</li>
+        </ul>
+        <p><a href="/token" data-i18n="start.more">More about $FLYAI</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="/start">Start here: buy $FLYAI</a>
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261027b"></script>
+<script src="assets/route.js?v=20261027a"></script>
+<script src="assets/staked.js?v=20261027a"></script>
+<script src="assets/buy.js?v=20261027b"></script>
+<script src="assets/buyweek.js?v=20261027a"></script>
+<script src="assets/start.js?v=20261027a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+</body>
+</html>

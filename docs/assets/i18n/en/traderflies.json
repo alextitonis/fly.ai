@@ -2191,5 +2191,6 @@
       "failed": "Didn't go through",
       "pending": ""
     }
-  }
+  },
+  "stakedNote": "+ {amount} staked{usd}"
 }

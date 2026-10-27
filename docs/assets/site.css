@@ -686,3 +686,19 @@
 .home #swap > .wrap { display: block; }
 .home #swap .buybox { max-width: 640px; margin: 0 auto; }
 @media (max-width: 640px) { .home #swap { padding-block: 8px 52px; } }
+
+/* the "You're in" card under the swap box (assets/buyweek.js, 2026-10-27) and the /start page */
+.buyweek { text-align: left; }
+.buyweek h3 { margin: 0 0 8px; }
+.buyweek p { margin: 6px 0; }
+.buyweek .bw-big { font-size: 20px; }
+.buyweek .bw-list { margin: 8px 0; padding-left: 18px; }
+.buyweek .bw-list li { margin: 3px 0; }
+.buyweek .bw-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.start-page .start-amounts { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 14px; }
+.start-page .start-amounts button { flex: 1 1 70px; }
+.start-page .start-amounts button[aria-pressed="true"] { background: var(--mint); color: #000; border-color: var(--mint); }
+.start-page .start-what { text-align: left; }
+.start-page .start-what ul { margin: 10px 0 0; padding-left: 18px; }
+.start-page .start-what li { margin: 8px 0; }
+.start-page .buybox, .start-page .buyweek, .start-page .start-what { max-width: 640px; margin-left: auto; margin-right: auto; }

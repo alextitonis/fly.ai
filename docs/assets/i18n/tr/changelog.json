@@ -26,6 +26,7 @@
     "how": "Nasıl çalışır"
   },
   "e": {
+    "d1027d": "<b>Bir dakikada $FLYAI al.</b> Yeni Başla sayfası: 20$, 50$, 100$ ya da 250$ seç ve al. Takas kutusu artık Pons havuzu üzerinden doğrudan rotayı da kontrol edip sana en çok $FLYAI vereni kullanıyor, NVDA ile ödeyebilirsin, Base ya da Arbitrum'dan USDC orada gas gerektirmiyor ve aldıktan sonra Buy Week durumunu görüyorsun. <a href=\"/start\">Buradan başla</a>",
     "d1027c": "<b>Sineğinle sohbet et.</b> Trader Fly sayfandaki sohbet balonu: neden işlem yaptığını ya da yapmadığını sor, sadece borç vermeye al, duraklat, daha cesur yap, para çek, ağlar arası taşı ya da izlenecek token ekle. Sadece önerir: her değişikliği sen onaylarsın. Eklediğin tokenler rug kontrolleri için Fly Desk'e de gider. <a href=\"/traderflies/\">Sineklerim</a>",
     "d1027a": "<b>Fly Scan.</b> Bir token kontratı ya da claim sitesi yapıştır; onu kimin yönettiğini, sahiplerine hâlâ neler yapabileceğini ve bir sitenin cüzdanına gerçekte neyi imzalattığını gör. Tarama başına 0,50 USDG ya da $0,30 değerinde $FLYAI, 200 bin tutanlara günde bir ücretsiz tarama. <a href=\"/scan\">Aç</a>",
     "d1027b": "<b>Bullas Fly Desk'ten kazanıyor.</b> Aktif Bullas'lar (sahibi 200k $FLYAI tutuyor, stake sayılır) Common bir Trader Fly gibi haftalık Fly Desk ödemesinden pay alıyor, aynı sayfadan talep ediliyor. Buna göre havuza USDC ekleyeceğiz. <a href=\"/desk\">Fly Desk</a>",

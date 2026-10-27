@@ -2191,5 +2191,6 @@
       "failed": "Gerçekleşmedi",
       "pending": ""
     }
-  }
+  },
+  "stakedNote": "+ {amount} stake edildi{usd}"
 }

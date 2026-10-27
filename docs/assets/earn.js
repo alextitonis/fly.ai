@@ -600,7 +600,18 @@
     $("earn-swapnote").textContent = tab === "USDG" ? "" : tr("box.swapNote", { sym: tab });
     const bal = bals[tab];
     $("earn-balrow").hidden = bal == null;
-    if (bal != null) $("earn-bal").textContent = tr("box.balance", { amt: fmt(Number(decimalOf(bal, tok.decimals, 8)), tab === "USDG" ? 2 : tab === "ETH" ? 6 : 0) + " " + tab });
+    if (bal != null) {
+      const line = tr("box.balance", { amt: fmt(Number(decimalOf(bal, tok.decimals, 8)), tab === "USDG" ? 2 : tab === "ETH" ? 6 : 0) + " " + tab });
+      $("earn-bal").textContent = line;
+      // FLYAI staked in FlyStaking isn't in the wallet's balance: say it beside it (staked.js)
+      if (tab === "FLYAI" && wallet && window.flyStaked) {
+        const who = wallet;
+        window.flyStaked(who).then((st) => {
+          const note = window.flyStakedNote(st);
+          if (note && who === wallet && tab === "FLYAI") $("earn-bal").textContent = line + " " + note;
+        });
+      }
+    }
     const go = $("earn-go");
     if (!wallet || watchOnly) { go.textContent = acct || window.ethereum ? tr("box.connect") : tr("box.noWallet"); go.disabled = busy; }
     else if (v && isPaused(v)) { go.textContent = tr("box.paused"); go.disabled = true; }
