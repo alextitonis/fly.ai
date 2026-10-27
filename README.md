@@ -1,5 +1,18 @@
 <p align="center"><img src="logo.webp" alt="fly.ai" width="440"></p>
 
+# Welcome to fly.ai
+
+**fly.ai** is an open-source biological intelligence project running the complete central nervous system connectome of an adult male fruit fly (*Drosophila melanogaster*)—166,700 neurons and 25.6 million synapses. The ecosystem powers autonomous **Trader Flies** (individual AI agents with their own wallets trading around the clock) and the **Fly Desk** (a shared trading pot on Robinhood Chain steered by real fly brain signals, distributing weekly profits to active flies). The entire project is funded and coordinated by the **$FLYAI** token.
+
+**Explore the ecosystem:**
+- 🌐 **Website:** [flyaiworld.com](https://flyaiworld.com)
+- 🪙 **Token Details:** [flyaiworld.com/token](https://flyaiworld.com/token) (and [TOKEN.md](TOKEN.md))
+- 🪰 **Trader Flies:** [flyaiworld.com/traderflies/](https://flyaiworld.com/traderflies/)
+- 📊 **Fly Desk:** [flyaiworld.com/desk](https://flyaiworld.com/desk)
+
+---
+
+
 # fly.ai: a real fruit fly brain, running on your computer
 
 https://github.com/user-attachments/assets/7c3b91e5-9b50-4017-a03a-123aedd4d7b4
