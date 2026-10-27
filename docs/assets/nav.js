@@ -91,6 +91,7 @@
   let acctText = ACCT_EN;
 
   let hintCss = null;                                      // pageSignIns' style, rebuilt by relabel()
+  let lockJs = null;                                       // flylock.js loading (wireLock); up here: wireAccount runs early
 
   // 2026-10-04: pages read the session, the mine server and nicknames from here instead of their own copies
   // (they keep a fallback: this loads at the end of <body> and may fail)
@@ -318,7 +319,6 @@
   }
 
   /** Locked $FLYAI (flylock.js, 2026-10-27): the menu item shows only for a wallet with FLYAI waiting in FlyLock. */
-  let lockJs = null;
   function wireLock(li, s) {
     const box = li.querySelector(".acct-lock");
     if (!box) return;
