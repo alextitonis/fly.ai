@@ -2,6 +2,17 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "pong",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "pong",
+        "run",
+        "dev"
+      ],
+      "port": 3210
+    },
+    {
       "name": "flyborne",
       "runtimeExecutable": "npm",
       "runtimeArgs": [

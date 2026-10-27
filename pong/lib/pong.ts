@@ -4,7 +4,7 @@
  * caller (your mouse/keys, the fly's descending neurons in fly.ts).
  */
 export const FIELD = { w: 800, h: 500 };
-export const PADDLE = { w: 12, h: 96, inset: 24, maxSpeed: 620 };
+export const PADDLE = { w: 12, h: 96, inset: 52, maxSpeed: 620 };
 export const BALL = { r: 8, speed: 380, speedUp: 1.05, maxSpeed: 760, maxAngle: 0.9 };
 export const WIN_AT = 7;
 
