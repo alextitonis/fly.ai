@@ -6,7 +6,9 @@ nav, nav * { box-sizing: border-box; }
 nav .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 24px; }
 @media (max-width: 600px) { nav .wrap { padding-inline: 16px; } }
 
-nav { position: sticky; top: 0; z-index: 10; background: rgba(0,0,0,.78); backdrop-filter: blur(10px);
+/* z-index 45 (2026-10-27): above the pages' own sticky bars (Trader Flies' tab bar is 30) so an open menu is never
+   covered, below the modals and sheets (50+) so they still cover the nav */
+nav { position: sticky; top: 0; z-index: 45; background: rgba(0,0,0,.78); backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line, #1a1d1c); }
 nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 58px; }
 .brand { display: flex; align-items: center; gap: 10px; font: 700 18px var(--display, "Outfit", "Inter", system-ui, sans-serif); text-decoration: none; }
