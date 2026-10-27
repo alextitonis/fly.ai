@@ -285,7 +285,8 @@
     "byFly": "每只苍蝇",
     "empty": "还没有激活的苍蝇：持有人持有 200,000 $FLYAI 期间，苍蝇（或 Bullas / RUYUI）即为激活状态。",
     "thStake": "质押加成",
-    "partners": "已激活的合作伙伴 NFT 也会像普通苍蝇一样分得收益：本周 {bullas} 个 Bullas、{ruyui} 个 RUYUI。"
+    "partners": "已激活的合作伙伴 NFT 也会像普通苍蝇一样分得收益：本周 {list}。",
+    "partnerItem": "{n} 个 {name}"
   },
   "market": {
     "label": "市场",

@@ -285,7 +285,8 @@
     "byFly": "每隻蒼蠅",
     "empty": "還沒有啟用的蒼蠅：持有人持有 200,000 $FLYAI 期間，蒼蠅（或 Bullas / RUYUI）即為啟用狀態。",
     "thStake": "質押加成",
-    "partners": "已啟用的合作夥伴 NFT 也會像普通蒼蠅一樣分得收益：本週 {bullas} 個 Bullas、{ruyui} 個 RUYUI。"
+    "partners": "已啟用的合作夥伴 NFT 也會像普通蒼蠅一樣分得收益：本週 {list}。",
+    "partnerItem": "{n} 個 {name}"
   },
   "market": {
     "label": "市場",

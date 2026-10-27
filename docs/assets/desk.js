@@ -946,7 +946,10 @@
       : t("pay.none", { gap: `<b>${esc(usd(p.peak_usd - p.pot_usd))}</b>`, n: p.active });
     // activated Bullas / RUYUIs share it as Common flies (flytrade/desk/partnerflies.py, 2026-10-26)
     const pc = p.partners || {};
-    if (pc.bullas || pc.ruyui) $("pay-sum").innerHTML += " " + esc(t("pay.partners", { bullas: pc.bullas || 0, ruyui: pc.ruyui || 0 }));
+    // only the partners with activated NFTs this week are named
+    const active = [["bullas", "Bullas"], ["ruyui", "RUYUI"]].filter(([k]) => pc[k] > 0)
+      .map(([k, name]) => t("pay.partnerItem", { n: pc[k], name }));
+    if (active.length) $("pay-sum").innerHTML += " " + esc(t("pay.partners", { list: new Intl.ListFormat(lang(), { type: "conjunction" }).format(active) }));
     const nftName = (f) => (f.partner === "ruyui" ? `RUYUI #${f.token}` : f.partner === "bullas"
       ? (f.token >= 1_000_000 ? `Booga Bullas #${f.token - 1_000_000}` : `Bullas #${f.token}`) : `Trader Fly #${f.fly}`);
     const nftHref = (f) => (f.partner === "ruyui" ? "" : f.partner === "bullas" ? "/traderflies/partner?p=bullas" : `/traderflies/fly?id=${encodeURIComponent(f.fly)}`);
