@@ -702,3 +702,19 @@
 .start-page .start-what ul { margin: 10px 0 0; padding-left: 18px; }
 .start-page .start-what li { margin: 8px 0; }
 .start-page .buybox, .start-page .buyweek, .start-page .start-what { max-width: 640px; margin-left: auto; margin-right: auto; }
+
+/* press kit (docs/press.html, 2026-10-27) */
+.press .press-copy { margin: 8px 0 10px; padding: 14px 16px; border-left: 3px solid var(--mint); background: var(--bg-2); border-radius: 8px; color: var(--text); }
+.press .press-facts { display: grid; gap: 10px; margin: 6px 0 12px; }
+.press .press-facts > div { display: grid; grid-template-columns: 130px 1fr; gap: 12px; align-items: baseline; }
+.press .press-facts dt { color: var(--muted); font: 500 13px var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+.press .press-facts dd { margin: 0; overflow-wrap: anywhere; }
+.press .press-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-top: 8px; }
+.press .press-logo { margin: 0; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #000; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.press .press-logo img { max-width: 100%; height: auto; }
+.press .press-logo figcaption { color: var(--muted); font-size: 13px; text-align: center; }
+.press .shots img { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); display: block; }
+.press .press-swatches { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 14px; }
+.press .press-sw { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-2); border: 1px solid var(--line); color: var(--text); border-radius: 999px; padding: 6px 12px 6px 6px; cursor: pointer; font: 500 13px var(--sans); }
+.press .press-sw span { width: 22px; height: 22px; border-radius: 50%; background: var(--sw); border: 1px solid var(--line-2, var(--line)); }
+@media (max-width: 560px) { .press .press-facts > div { grid-template-columns: 1fr; gap: 2px; } }

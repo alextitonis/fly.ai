@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "title": "fly.ai 媒體資料包：標誌、顏色、介紹文字與關鍵資訊",
+    "description": "撰寫 fly.ai 所需的一切：現成的介紹文字、關鍵資訊、$FLYAI 合約、標誌、品牌顏色、字型和圖片。"
+  },
+  "head": {
+    "eyebrow": "媒體",
+    "title": "fly.ai 媒體資料包",
+    "lede": "撰寫 fly.ai 所需的一切：可複製的介紹文字、關鍵資訊、標誌、顏色、字型和圖片。"
+  },
+  "copy": "複製",
+  "desc": {
+    "title": "介紹 fly.ai",
+    "short": "一句話",
+    "long": "一段話",
+    "line": "fly.ai 以開源軟體運行一隻真實果蠅的完整大腦——來自 MaleCNS 連接組的 166,700 個神經元，並讓它在 Robinhood Chain 上交易。",
+    "para": "fly.ai 以 MaleCNS v1.0 連接組模擬成年雄性果蠅的整個中樞神經系統：166,700 個神經元、2,560 萬個連接，以 MIT 授權開源。同一個大腦驅動 Trader Flies（每隻都用自己的鏈上錢包交易的 NFT）和 Fly Desk（由果蠅大腦共同交易、每週向活躍 Trader Fly 發放收益的共享資金池）。它在 Robinhood Chain 上的代幣 $FLYAI 為這項工作提供資金。"
+  },
+  "facts": {
+    "title": "關鍵資訊",
+    "name": "名稱",
+    "nameNote": "（小寫，帶點）",
+    "token": "代幣",
+    "tokenNote": "（Robinhood Chain 上的代幣，在 Pons 發行）",
+    "contract": "合約",
+    "brain": "大腦",
+    "brainV": "166,700 個神經元，25,582,938 個連接：FlyEM（HHMI Janelia）及合作者的 MaleCNS v1.0 連接組，CC BY 4.0",
+    "code": "程式碼",
+    "terms": "代幣條款",
+    "links": "連結",
+    "note": "請稱 $FLYAI 為代幣，並只連結上面的合約：其他任何地址都不是我們的。"
+  },
+  "logos": {
+    "title": "標誌",
+    "black": "黑底",
+    "clear": "透明（用於深色背景）",
+    "icon": "圖示"
+  },
+  "brand": {
+    "title": "顏色和字型",
+    "fonts": "標題用 <b>Outfit</b>，內文用 <b>Inter</b>，數字和程式碼用 <b>JetBrains Mono</b>（皆可在 Google Fonts 取得）。"
+  },
+  "images": {
+    "title": "圖片",
+    "note": "撰寫 fly.ai 相關文章時可免費使用。點擊即可下載。"
+  },
+  "contact": {
+    "title": "聯絡",
+    "text": "聯絡我們最快的方式是在 <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">X @flydotai</a> 私訊，或加入我們的 <a href=\"https://discord.gg/2KqfZs4aK8\" target=\"_blank\" rel=\"noopener\">Discord</a>。"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "title": "Kit de prensa de fly.ai: logos, colores, descripciones y datos",
+    "description": "Todo lo que necesitas para escribir sobre fly.ai: descripciones listas para usar, datos clave, el contrato de $FLYAI, logos, colores, fuentes e imágenes."
+  },
+  "head": {
+    "eyebrow": "Prensa",
+    "title": "Kit de prensa de fly.ai",
+    "lede": "Todo lo que necesitas para escribir sobre fly.ai: descripciones para copiar, los datos clave, logos, colores, fuentes e imágenes."
+  },
+  "copy": "Copiar",
+  "desc": {
+    "title": "Describe fly.ai",
+    "short": "En una línea",
+    "long": "En un párrafo",
+    "line": "fly.ai ejecuta el cerebro completo de una mosca de la fruta real, 166.700 neuronas del conectoma MaleCNS, como software de código abierto, y lo deja operar en Robinhood Chain.",
+    "para": "fly.ai simula todo el sistema nervioso central de una mosca de la fruta macho adulta a partir del conectoma MaleCNS v1.0: 166.700 neuronas y 25,6 millones de conexiones, de código abierto bajo la licencia MIT. El mismo cerebro mueve a las Trader Flies, NFT que operan cada uno su propia cartera on-chain, y a la Fly Desk, un fondo común operado por cerebros de mosca que paga cada semana a las Trader Flies activas. $FLYAI, su token en Robinhood Chain, financia el trabajo."
+  },
+  "facts": {
+    "title": "Datos clave",
+    "name": "Nombre",
+    "nameNote": "(en minúsculas, con el punto)",
+    "token": "Token",
+    "tokenNote": "(un token en Robinhood Chain, lanzado en Pons)",
+    "contract": "Contrato",
+    "brain": "Cerebro",
+    "brainV": "166.700 neuronas, 25.582.938 conexiones: el conectoma MaleCNS v1.0 de FlyEM (HHMI Janelia) y colaboradores, CC BY 4.0",
+    "code": "Código",
+    "terms": "Condiciones del token",
+    "links": "Enlaces",
+    "note": "Llama a $FLYAI un token y enlaza solo al contrato de arriba: cualquier otra dirección no es nuestra."
+  },
+  "logos": {
+    "title": "Logos",
+    "black": "Sobre negro",
+    "clear": "Transparente (para fondos oscuros)",
+    "icon": "Icono"
+  },
+  "brand": {
+    "title": "Colores y fuentes",
+    "fonts": "Títulos en <b>Outfit</b>, texto en <b>Inter</b>, números y código en <b>JetBrains Mono</b> (todas en Google Fonts)."
+  },
+  "images": {
+    "title": "Imágenes",
+    "note": "Libres para usar en artículos sobre fly.ai. Haz clic en una para descargarla."
+  },
+  "contact": {
+    "title": "Contacto",
+    "text": "La forma más rápida de contactarnos es un MD en <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">X @flydotai</a> o nuestro <a href=\"https://discord.gg/2KqfZs4aK8\" target=\"_blank\" rel=\"noopener\">Discord</a>."
+  }
+}

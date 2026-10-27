@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "title": "fly.ai basın kiti: logolar, renkler, tanıtım metinleri ve bilgiler",
+    "description": "fly.ai hakkında yazmak için gereken her şey: hazır tanıtım metinleri, temel bilgiler, $FLYAI kontratı, logolar, marka renkleri, yazı tipleri ve görseller."
+  },
+  "head": {
+    "eyebrow": "Basın",
+    "title": "fly.ai basın kiti",
+    "lede": "fly.ai hakkında yazmak için gereken her şey: kopyalanacak tanıtım metinleri, temel bilgiler, logolar, renkler, yazı tipleri ve görseller."
+  },
+  "copy": "Kopyala",
+  "desc": {
+    "title": "fly.ai'ı tanıt",
+    "short": "Tek satırda",
+    "long": "Tek paragrafta",
+    "line": "fly.ai, gerçek bir meyve sineğinin tüm beynini, MaleCNS konektomundan 166.700 nöronu açık kaynak yazılım olarak çalıştırır ve Robinhood Chain'de işlem yapmasını sağlar.",
+    "para": "fly.ai, MaleCNS v1.0 konektomundan yetişkin erkek bir meyve sineğinin tüm merkezi sinir sistemini simüle eder: 166.700 nöron ve 25,6 milyon bağlantı, MIT lisanslı açık kaynak. Aynı beyin, her biri kendi zincir üstü cüzdanıyla işlem yapan NFT'ler olan Trader Flies'ı ve sinek beyinlerinin birlikte işlem yaptığı, aktif Trader Fly'lara her hafta ödeme yapan ortak havuz Fly Desk'i yönetir. Robinhood Chain'deki tokeni $FLYAI bu çalışmayı finanse eder."
+  },
+  "facts": {
+    "title": "Temel bilgiler",
+    "name": "Ad",
+    "nameNote": "(küçük harf, noktalı)",
+    "token": "Token",
+    "tokenNote": "(Robinhood Chain'de bir token, Pons'ta çıktı)",
+    "contract": "Kontrat",
+    "brain": "Beyin",
+    "brainV": "166.700 nöron, 25.582.938 bağlantı: FlyEM (HHMI Janelia) ve iş birlikçilerinin MaleCNS v1.0 konektomu, CC BY 4.0",
+    "code": "Kod",
+    "terms": "Token koşulları",
+    "links": "Bağlantılar",
+    "note": "Lütfen $FLYAI'a token deyin ve yalnızca yukarıdaki kontrata bağlantı verin: başka hiçbir adres bizim değil."
+  },
+  "logos": {
+    "title": "Logolar",
+    "black": "Siyah üzerinde",
+    "clear": "Şeffaf (koyu arka planlar için)",
+    "icon": "Simge"
+  },
+  "brand": {
+    "title": "Renkler ve yazı tipleri",
+    "fonts": "Başlıklar <b>Outfit</b>, metin <b>Inter</b>, sayılar ve kod <b>JetBrains Mono</b> (hepsi Google Fonts'ta)."
+  },
+  "images": {
+    "title": "Görseller",
+    "note": "fly.ai hakkındaki yazılarda serbestçe kullanılabilir. İndirmek için birine tıklayın."
+  },
+  "contact": {
+    "title": "İletişim",
+    "text": "Bize en hızlı ulaşma yolu <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">X @flydotai</a> üzerinden DM ya da <a href=\"https://discord.gg/2KqfZs4aK8\" target=\"_blank\" rel=\"noopener\">Discord</a> sunucumuz."
+  }
+}

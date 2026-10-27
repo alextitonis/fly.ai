@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "title": "fly.ai press kit: logos, colors, descriptions and facts",
+    "description": "Everything you need to write about fly.ai: ready-to-use descriptions, key facts, the $FLYAI contract, logos, brand colors, fonts and images."
+  },
+  "head": {
+    "eyebrow": "Press",
+    "title": "fly.ai press kit",
+    "lede": "Everything you need to write about fly.ai: descriptions to copy, the key facts, logos, colors, fonts and images."
+  },
+  "copy": "Copy",
+  "desc": {
+    "title": "Describe fly.ai",
+    "short": "In one line",
+    "long": "In one paragraph",
+    "line": "fly.ai runs the complete brain of a real fruit fly, 166,700 neurons from the MaleCNS connectome, as open-source software, and lets it trade on Robinhood Chain.",
+    "para": "fly.ai simulates the whole central nervous system of an adult male fruit fly from the MaleCNS v1.0 connectome: 166,700 neurons and 25.6 million connections, open source under the MIT license. The same brain drives Trader Flies, NFTs that each trade their own on-chain wallet, and the Fly Desk, one shared pot traded by fly brains that pays active Trader Flies every week. $FLYAI, its token on Robinhood Chain, funds the work."
+  },
+  "facts": {
+    "title": "Key facts",
+    "name": "Name",
+    "nameNote": "(lower case, with the dot)",
+    "token": "Token",
+    "tokenNote": "(a token on Robinhood Chain, launched on Pons)",
+    "contract": "Contract",
+    "brain": "Brain",
+    "brainV": "166,700 neurons, 25,582,938 connections: the MaleCNS v1.0 connectome by FlyEM (HHMI Janelia) and collaborators, CC BY 4.0",
+    "code": "Code",
+    "terms": "Token terms",
+    "links": "Links",
+    "note": "Please call $FLYAI a token, and link only to the contract above: any other address is not ours."
+  },
+  "logos": {
+    "title": "Logos",
+    "black": "On black",
+    "clear": "Transparent (for dark backgrounds)",
+    "icon": "Icon"
+  },
+  "brand": {
+    "title": "Colors and fonts",
+    "fonts": "Headlines in <b>Outfit</b>, text in <b>Inter</b>, numbers and code in <b>JetBrains Mono</b> (all on Google Fonts)."
+  },
+  "images": {
+    "title": "Images",
+    "note": "Free to use with articles about fly.ai. Click one to download it."
+  },
+  "contact": {
+    "title": "Contact",
+    "text": "The fastest way to reach us is a DM on <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">X @flydotai</a> or our <a href=\"https://discord.gg/2KqfZs4aK8\" target=\"_blank\" rel=\"noopener\">Discord</a>."
+  }
+}
