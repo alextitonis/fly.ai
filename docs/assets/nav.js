@@ -87,6 +87,7 @@
       search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", deskClaim: "Fly Desk payout to claim", claimBy: "claim by {t}", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
       whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link" };
   const LANGS = ["en", "zh-Hans", "zh-Hant", "ko", "tr", "es"];   // i18n.js LANGUAGES
+  const NAV_SRC = document.currentScript && document.currentScript.src;   // welcome.js sits beside it
   let acctText = ACCT_EN;
 
   let hintCss = null;                                      // pageSignIns' style, rebuilt by relabel()
@@ -97,6 +98,7 @@
   window.flyNav = { session, MINE_API, MINE_READ, short, names };
 
   keepRef();                                                // (on every page, before anything else can fail)
+  welcome();
   const nav = document.querySelector('nav[aria-label="Main"]');
   if (!nav) return;
   let makeAccount = null;                                  // the account menu's builder, for redrawAccount()
@@ -338,6 +340,16 @@
       const code = new URLSearchParams(location.search).get("ref");
       if (code && /^[A-Za-z0-9 _.\-]{3,40}$/.test(code)) localStorage.setItem(REF_KEY, JSON.stringify({ code, at: Date.now() }));
     } catch {}
+  }
+  /** The first-visit "fly.ai in 30 seconds" popup (welcome.js, 2026-10-27): once per browser, not for a signed-in
+   * wallet, not on /start (a buyer from a post), not in a frame or a headless browser. ?welcome shows it anyway. */
+  function welcome() {
+    let force = false, seen = false;
+    try { force = new URLSearchParams(location.search).has("welcome"); seen = !!localStorage.getItem("flyai.welcome.seen"); } catch { return; }
+    if (!force && (seen || session() || window.top !== window || navigator.webdriver || /^\/start(\.html)?\/?$/.test(location.pathname))) return;
+    const s = document.createElement("script");
+    s.src = NAV_SRC ? new URL("welcome.js?v=20261027a", NAV_SRC).href : "/assets/welcome.js?v=20261027a";
+    (document.body || document.head).append(s);
   }
   function pendingRef() {
     try {
