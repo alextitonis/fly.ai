@@ -30,6 +30,7 @@
     "test:deskchat": "node --disable-warning=ExperimentalWarning src/deskchattest.ts",
     "test:flychat": "node --disable-warning=ExperimentalWarning src/flychattest.ts",
     "test:buyweek": "node --disable-warning=ExperimentalWarning src/buyweektest.ts",
+    "test:hunt": "node --disable-warning=ExperimentalWarning src/hunttest.ts",
     "test:launchpad": "node --disable-warning=ExperimentalWarning src/launchpadtest.ts",
     "test:roulette": "node --disable-warning=ExperimentalWarning src/roulettetest.ts",
     "test:slots": "node --disable-warning=ExperimentalWarning src/slotstest.ts",

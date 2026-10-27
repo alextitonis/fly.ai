@@ -1314,6 +1314,14 @@
       "poly": {
         "title": "Sports bets",
         "blurb": "Bets on sports and esports games starting within a day or so (on Azuro), where the Fly Desk's AI rates a side well above its odds, held to the final result. Paid from this wallet's money through Relay, winnings come straight back."
+      },
+      "core": {
+        "title": "Core basket",
+        "blurb": "The biggest stock tokens, index funds and ETH, held in equal parts and rebalanced now and then."
+      },
+      "stockgap": {
+        "title": "Stock gap",
+        "blurb": "Buys a stock token when it trades under the real share price on the US market, and sells once the gap has closed. Only in the US morning session, only in deep pools."
       }
     },
     "params": {
@@ -1403,7 +1411,7 @@
     "starters": {
       "let_it_fly": {
         "title": "Let it fly",
-        "blurb": "The fly's brain picks, steered by trend-following, with rug filters and fewer, better trades."
+        "blurb": "Mostly the biggest stock tokens and ETH held as a basket, idle cash earning interest, stock tokens bought when they trade under the real share price, and a small part for the fly's brain."
       },
       "safe_majors": {
         "title": "Safe Majors",

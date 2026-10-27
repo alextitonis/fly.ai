@@ -1314,6 +1314,14 @@
       "poly": {
         "title": "Apuestas deportivas",
         "blurb": "Apuestas en partidos de deportes y esports que empiezan en un día más o menos (en Azuro), donde la IA del Fly Desk ve un lado muy por encima de sus cuotas, mantenidas hasta el resultado final. Se pagan con el dinero de esta billetera vía Relay y las ganancias vuelven directamente."
+      },
+      "core": {
+        "title": "Cesta base",
+        "blurb": "Los mayores tokens de acciones, fondos indexados y ETH, en partes iguales y reequilibrados de vez en cuando."
+      },
+      "stockgap": {
+        "title": "Brecha de acciones",
+        "blurb": "Compra un token de acción cuando cotiza por debajo del precio real de la acción en EE. UU. y lo vende cuando la brecha se cierra. Solo en la sesión de mañana de EE. UU. y solo en pools profundos."
       }
     },
     "params": {
@@ -1403,7 +1411,7 @@
     "starters": {
       "let_it_fly": {
         "title": "Déjala volar",
-        "blurb": "El cerebro de la mosca elige, guiado por el seguimiento de tendencia, con filtros anti-rug y menos operaciones, mejores."
+        "blurb": "Sobre todo una cesta de los mayores tokens de acciones y ETH, el efectivo libre ganando intereses, tokens de acciones comprados cuando cotizan por debajo del precio real de la acción, y una parte pequeña para el cerebro de la mosca."
       },
       "safe_majors": {
         "title": "Majors seguros",

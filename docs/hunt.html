@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="hunt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="hunt.meta.title">Fly Hunt: five clues, five Trader Flies</title>
+<meta name="description" content="Clues hidden across fly.ai. Solve them in order: the first five wallets to finish each win a Trader Fly." data-i18n-attr="content:hunt.meta.description">
+<meta property="og:title" content="Fly Hunt: five clues, five Trader Flies">
+<meta property="og:description" content="Clues hidden across fly.ai. Solve them in order: the first five wallets to finish each win a Trader Fly.">
+<meta property="og:image" content="https://flyaiworld.com/assets/og/home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/og/home.jpg">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/hunt">
+<meta property="og:url" content="https://flyaiworld.com/hunt">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/hunt.css">
+</head>
+<body>
+<nav aria-label="Main"></nav>
+<!-- Fly Hunt (2026-10-27, flytrade/HUNT-PLAN.md): nothing about the hunt is in this file. The clues come from the mine
+     server (mine/src/hunt.ts) one at a time to the wallet that reached them, and the answers are kept there as hashes. -->
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="hunt.head.eyebrow">Fly Hunt</p>
+    <h1 data-i18n="hunt.head.title">Find the fly</h1>
+    <p class="lede" data-i18n="hunt.head.lede">Five clues hidden across fly.ai. Each answer unlocks the next one. The first five wallets to solve them all win a Trader Fly.</p>
+  </div>
+</header>
+
+<section class="firstsec hunt">
+  <div class="wrap">
+    <div class="card pad hunt-status">
+      <div class="hunt-top">
+        <h3 id="hunt-when" data-i18n="hunt.status.loading">Loading…</h3>
+        <span class="hunt-found mono" id="hunt-found"></span>
+      </div>
+      <ol class="hunt-finishers" id="hunt-finishers"></ol>
+    </div>
+
+    <div class="card pad hunt-play" id="hunt-play">
+      <div class="hunt-dots" id="hunt-dots" aria-hidden="true"></div>
+      <div id="hunt-body">
+        <p class="hunt-muted" data-i18n="hunt.play.signedOut">Sign in with your wallet to get the clues and answer them.</p>
+        <button class="btn red" type="button" data-nav-signin data-i18n="hunt.play.signIn">Sign in</button>
+      </div>
+    </div>
+
+    <div class="card pad hunt-how">
+      <h3 data-i18n="hunt.how.title">How it works</h3>
+      <p data-i18n-html="hunt.how.clues"><b>The clues.</b> Every clue sends you somewhere on fly.ai. Some answers change with live data: then an answer that was right while the hunt runs still counts.</p>
+      <p data-i18n-html="hunt.how.answers"><b>Answering.</b> Case, spaces and a leading # or $ don't matter. One try every 10 seconds, and five wrong tries per clue an hour.</p>
+      <p data-i18n-html="hunt.how.prize"><b>The prize.</b> The first five wallets to solve the last clue win one Trader Fly each, sent to that wallet. Activate it to have it trade and share in the Fly Desk's payouts.</p>
+      <p data-i18n-html="hunt.how.fair"><b>Fair play.</b> One wallet per person. Finishers are checked before anything is sent: wallet rings and shared answers between linked wallets are skipped, and the next finisher moves up.</p>
+    </div>
+  </div>
+</section>
+
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="/start">Start here: buy $FLYAI</a>
+      <a href="/press">Press kit</a>
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261027b"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script type="module" src="assets/hunt.js?v=20261027a"></script>
+</body>
+</html>

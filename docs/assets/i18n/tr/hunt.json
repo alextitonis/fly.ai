@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Fly Hunt: beş ipucu, beş Trader Fly",
+    "description": "fly.ai'nin her yerine saklanmış ipuçları. Sırayla çöz: bitiren ilk beş cüzdan birer Trader Fly kazanır."
+  },
+  "head": {
+    "eyebrow": "Fly Hunt",
+    "title": "Sineği bul",
+    "lede": "fly.ai'nin her yerine saklanmış beş ipucu. Her cevap bir sonrakini açar. Hepsini ilk çözen beş cüzdan birer Trader Fly kazanır."
+  },
+  "status": {
+    "loading": "Yükleniyor…",
+    "none": "Şu an süren bir av yok. Bir sonraki için @flydotai'yi takip et.",
+    "live": "Av sürüyor, {end} tarihine kadar",
+    "soon": "Av {start} tarihinde başlıyor",
+    "ended": "Bu av bitti. Oynadığın için teşekkürler!",
+    "found": "{of} ödülün {n} tanesi bulundu",
+    "error": "Av yüklenemedi. Birazdan tekrar dene."
+  },
+  "play": {
+    "signedOut": "İpuçlarını almak ve cevaplamak için cüzdanınla giriş yap.",
+    "signIn": "Giriş yap",
+    "placeholder": "Cevabın",
+    "go": "Cevapla",
+    "clue": "İpucu {n} / {of}",
+    "wrong": "Olmadı. Bu ipucu için bu saat {n} hakkın kaldı.",
+    "right": "Doğru! İşte sıradaki ipucu.",
+    "lockedOut": "Çok fazla yanlış deneme. {min} dk sonra tekrar dene.",
+    "won": "Sineği buldun! {n}. sıradasın.",
+    "wonNext": "Ekip bitirenleri kontrol ediyor, sonra Trader Fly'ını bu cüzdana gönderiyor. 🔔'ını takip et.",
+    "finished": "{n}. sırada bitirdin.",
+    "finishedNext": "Beş ödül daha hızlı avcılara gitti, ama kontrollerde biri elenirse sıradaki bitiren yukarı çıkar."
+  },
+  "how": {
+    "title": "Nasıl çalışır",
+    "clues": "<b>İpuçları.</b> Her ipucu seni fly.ai'de bir yere götürür. Bazı cevaplar canlı verilere göre değişir: av sürerken doğru olan bir cevap yine sayılır.",
+    "answers": "<b>Cevaplamak.</b> Büyük/küçük harf, boşluklar ve baştaki # veya $ fark etmez. 10 saniyede bir deneme, ipucu başına saatte beş yanlış deneme.",
+    "prize": "<b>Ödül.</b> Son ipucunu ilk çözen beş cüzdan, o cüzdana gönderilen birer Trader Fly kazanır. İşlem yapması ve Fly Desk ödemelerinden pay alması için onu aktifleştir.",
+    "fair": "<b>Adil oyun.</b> Kişi başı bir cüzdan. Bir şey gönderilmeden önce bitirenler kontrol edilir: cüzdan halkaları ve bağlantılı cüzdanlar arasında paylaşılan cevaplar elenir, sıradaki bitiren yukarı çıkar."
+  }
+}

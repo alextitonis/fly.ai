@@ -49,6 +49,7 @@ import { createBounties } from "./bounties.ts";
 import { blockscoutTransfers, createDeskChat, TEAM as CHAT_TEAM_WALLETS } from "./deskchat.ts";
 import { buyWeekConfig, createBuyWeek } from "./buyweek.ts";
 import { createFlyChat, openRouter } from "./flychat.ts";
+import { createHunt } from "./hunt.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
 import { createScan, scanConfig, FLYAI as SCAN_FLYAI } from "./scan.ts";
@@ -3591,6 +3592,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/buyweek/") || p === "/api/swaplog" || p === "/api/admin/swaplog")) {
     if (await buyWeek.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p === "/api/hunt" || p.startsWith("/api/hunt/") || p === "/api/admin/hunt")) {
+    if (await hunt.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && p.startsWith("/api/flychat/")) {
     if (await flyChat.route(req, res, url)) return;
   }
@@ -3988,6 +3992,9 @@ const buyWeek = createBuyWeek({
   HttpError, send, readJson, adminOnly, team: CHAT_TEAM_WALLETS,
 });
 if (USER) buyWeek.start();
+// Fly Hunt (src/hunt.ts, flytrade/HUNT-PLAN.md): clues one at a time, answers kept as hashes; the first finishers win a fly
+const hunt = createHunt({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, adminOnly });
+if (USER) hunt.start();
 // Fly Launchpad (src/launchpad.ts): indexes the FlyLaunchpad contract once LAUNCHPAD_ADDRESS is set
 const launchpad = /^0x[0-9a-fA-F]{40}$/.test(process.env.LAUNCHPAD_ADDRESS ?? "")
   ? createLaunchpad({

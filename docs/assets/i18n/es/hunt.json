@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Fly Hunt: cinco pistas, cinco Trader Flies",
+    "description": "Pistas escondidas por fly.ai. Resuélvelas en orden: las cinco primeras wallets en terminar ganan un Trader Fly cada una."
+  },
+  "head": {
+    "eyebrow": "Fly Hunt",
+    "title": "Encuentra la mosca",
+    "lede": "Cinco pistas escondidas por fly.ai. Cada respuesta desbloquea la siguiente. Las cinco primeras wallets en resolverlas todas ganan un Trader Fly."
+  },
+  "status": {
+    "loading": "Cargando…",
+    "none": "No hay ninguna búsqueda en marcha ahora. Sigue a @flydotai para la próxima.",
+    "live": "La búsqueda está en marcha hasta el {end}",
+    "soon": "La búsqueda empieza el {start}",
+    "ended": "Esta búsqueda terminó. ¡Gracias por jugar!",
+    "found": "{n} de {of} encontrados",
+    "error": "No se pudo cargar la búsqueda. Inténtalo de nuevo en un momento."
+  },
+  "play": {
+    "signedOut": "Inicia sesión con tu wallet para recibir las pistas y responderlas.",
+    "signIn": "Iniciar sesión",
+    "placeholder": "Tu respuesta",
+    "go": "Responder",
+    "clue": "Pista {n} de {of}",
+    "wrong": "Casi. Te quedan {n} intentos en esta pista esta hora.",
+    "right": "¡Correcto! Aquí tienes la siguiente pista.",
+    "lockedOut": "Demasiados intentos fallidos. Vuelve en {min} min.",
+    "won": "¡Encontraste la mosca! Eres el #{n}.",
+    "wonNext": "El equipo revisa a quienes terminaron y luego envía tu Trader Fly a esta wallet. Atento a tu 🔔.",
+    "finished": "Terminaste #{n}.",
+    "finishedNext": "Los cinco premios fueron para cazadores más rápidos, pero si alguno queda fuera en la revisión, el siguiente sube un puesto."
+  },
+  "how": {
+    "title": "Cómo funciona",
+    "clues": "<b>Las pistas.</b> Cada pista te lleva a algún sitio de fly.ai. Algunas respuestas cambian con datos en vivo: una respuesta que fue correcta mientras dura la búsqueda sigue contando.",
+    "answers": "<b>Responder.</b> Mayúsculas, espacios y un # o $ al principio no importan. Un intento cada 10 segundos y cinco intentos fallidos por pista cada hora.",
+    "prize": "<b>El premio.</b> Las cinco primeras wallets en resolver la última pista ganan un Trader Fly cada una, enviado a esa wallet. Actívalo para que opere y participe en los pagos del Fly Desk.",
+    "fair": "<b>Juego limpio.</b> Una wallet por persona. Antes de enviar nada se revisa a quienes terminaron: los anillos de wallets y las respuestas compartidas entre wallets vinculadas quedan fuera, y el siguiente sube un puesto."
+  }
+}

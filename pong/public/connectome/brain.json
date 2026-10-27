@@ -1,0 +1,13 @@
+{
+  "neurons": 166700,
+  "connections": 25088107,
+  "ln_min": -11.694705171391272,
+  "weights_mb": 57.6,
+  "parts": [
+    "weights.0.bin",
+    "weights.1.bin"
+  ],
+  "meta_mb": 0.34,
+  "weight_error_mean": 0.023,
+  "weight_error_max": 0.0471
+}

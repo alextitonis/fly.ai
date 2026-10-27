@@ -1,0 +1,26 @@
+/* docs/hunt.html (2026-10-27): Fly Hunt */
+.hunt .wrap { display: grid; gap: 16px; }
+.hunt-muted { color: var(--muted); font-size: 14px; margin: 8px 0 12px; }
+.hunt-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.hunt-top h3 { margin: 0; }
+.hunt-found { color: var(--mint); font-size: 14px; }
+.hunt-finishers { margin: 12px 0 0; padding-left: 22px; font: 14px/1.8 var(--mono); color: var(--muted); }
+.hunt-finishers:empty { display: none; }
+.hunt-dots { display: flex; gap: 8px; margin-bottom: 18px; }
+.hunt-dots span { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center;
+                  font: 500 13px var(--mono); color: var(--dim); background: var(--bg-2); }
+.hunt-dots span.done { background: var(--mint); color: #000; border-color: var(--mint); }
+.hunt-dots span.now { border-color: var(--mint); color: var(--mint); box-shadow: 0 0 0 3px var(--glow); }
+.hunt-clue { font: 500 19px/1.5 var(--display); margin: 0 0 16px; white-space: pre-line; }
+.hunt-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.hunt-row input { flex: 1 1 260px; min-width: 0; font: 15px var(--mono); color: var(--text); background: var(--bg-2);
+                  border: 1px solid var(--line); border-radius: 12px; padding: 11px 12px; }
+.hunt-row input:focus { outline: none; border-color: var(--mint); }
+.hunt-msg { min-height: 22px; margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+.hunt-msg.ok { color: var(--mint); }
+.hunt-msg.err { color: var(--red-hi); }
+.hunt-won { font: 600 22px/1.4 var(--display); color: var(--mint); margin: 0 0 8px; }
+.hunt-how p { color: var(--muted); margin: 0 0 12px; }
+.hunt-how p:last-child { margin-bottom: 0; }
+.hunt-how b { color: var(--text); }
+@media (max-width: 640px) { .hunt-row .btn { flex: 1 1 auto; min-height: 44px; } .hunt-dots span { width: 30px; height: 30px; } }

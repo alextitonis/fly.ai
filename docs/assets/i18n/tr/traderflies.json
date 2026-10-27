@@ -1314,6 +1314,14 @@
       "poly": {
         "title": "Spor bahisleri",
         "blurb": "Bir gün kadar içinde başlayan spor ve e-spor maçlarına bahisler (Azuro'da): Fly Desk'in yapay zekâsı bir tarafı oranının çok üstünde görürse oynar ve sonuca kadar tutar. Bu cüzdanın parasıyla Relay üzerinden ödenir, kazançlar doğrudan geri gelir."
+      },
+      "core": {
+        "title": "Ana sepet",
+        "blurb": "En büyük hisse tokenları, endeks fonları ve ETH; eşit paylarla tutulur ve zaman zaman dengelenir."
+      },
+      "stockgap": {
+        "title": "Hisse farkı",
+        "blurb": "Bir hisse tokenı ABD piyasasındaki gerçek hisse fiyatının altında işlem görünce alır, fark kapanınca satar. Yalnızca ABD sabah seansında ve yalnızca derin havuzlarda."
       }
     },
     "params": {
@@ -1403,7 +1411,7 @@
     "starters": {
       "let_it_fly": {
         "title": "Bırak uçsun",
-        "blurb": "Sineğin beyni seçer; trend takibiyle yönlenir, rug filtreleri ve daha az ama daha iyi işlemlerle."
+        "blurb": "Çoğunlukla en büyük hisse tokenları ve ETH'den oluşan bir sepet, boşta duran nakit faiz kazanır, hisse tokenları gerçek hisse fiyatının altında işlem gördüğünde alınır ve küçük bir kısım sineğin beynine ayrılır."
       },
       "safe_majors": {
         "title": "Güvenli Büyükler",

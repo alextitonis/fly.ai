@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Fly Hunt: five clues, five Trader Flies",
+    "description": "Clues hidden across fly.ai. Solve them in order: the first five wallets to finish each win a Trader Fly."
+  },
+  "head": {
+    "eyebrow": "Fly Hunt",
+    "title": "Find the fly",
+    "lede": "Five clues hidden across fly.ai. Each answer unlocks the next one. The first five wallets to solve them all win a Trader Fly."
+  },
+  "status": {
+    "loading": "Loading…",
+    "none": "No hunt running right now. Follow @flydotai for the next one.",
+    "live": "The hunt is on, until {end}",
+    "soon": "The hunt starts {start}",
+    "ended": "This hunt is over. Thanks for playing!",
+    "found": "{n} of {of} found",
+    "error": "Couldn't load the hunt. Try again in a moment."
+  },
+  "play": {
+    "signedOut": "Sign in with your wallet to get the clues and answer them.",
+    "signIn": "Sign in",
+    "placeholder": "Your answer",
+    "go": "Answer",
+    "clue": "Clue {n} of {of}",
+    "wrong": "Not quite. {n} tries left on this clue this hour.",
+    "right": "Right! Here's the next clue.",
+    "lockedOut": "Too many wrong tries. Back in {min} min.",
+    "won": "You found the fly! You're #{n}.",
+    "wonNext": "The team checks the finishers, then sends your Trader Fly to this wallet. Watch your 🔔.",
+    "finished": "You finished #{n}.",
+    "finishedNext": "The five prizes went to faster hunters, but if one of them is skipped in the checks, the next finisher moves up."
+  },
+  "how": {
+    "title": "How it works",
+    "clues": "<b>The clues.</b> Every clue sends you somewhere on fly.ai. Some answers change with live data: then an answer that was right while the hunt runs still counts.",
+    "answers": "<b>Answering.</b> Case, spaces and a leading # or $ don't matter. One try every 10 seconds, and five wrong tries per clue an hour.",
+    "prize": "<b>The prize.</b> The first five wallets to solve the last clue win one Trader Fly each, sent to that wallet. Activate it to have it trade and share in the Fly Desk's payouts.",
+    "fair": "<b>Fair play.</b> One wallet per person. Finishers are checked before anything is sent: wallet rings and shared answers between linked wallets are skipped, and the next finisher moves up."
+  }
+}
