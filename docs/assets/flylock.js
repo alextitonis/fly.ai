@@ -29,11 +29,17 @@
     if (!v || v === "common.lock." + key) v = EN[key].replace(/\{(\w+)\}/g, (_, k) => (vars && vars[k] != null ? vars[k] : ""));
     return v;
   }
+  // older phone browsers lack some Intl options (compact notation, dateStyle) and throw: plain numbers and dates then
   const fmt = (wei) => {
     const n = Number(wei / WEI) + Number(wei % WEI) / 1e18;
-    return new Intl.NumberFormat(lang(), { notation: n >= 1e6 ? "compact" : "standard", maximumFractionDigits: n >= 1e6 ? 2 : 0 }).format(n);
+    try {
+      return new Intl.NumberFormat(lang(), { notation: n >= 1e6 ? "compact" : "standard", maximumFractionDigits: n >= 1e6 ? 2 : 0 }).format(n);
+    } catch { return Math.round(n).toLocaleString(); }
   };
-  const when = (sec) => new Intl.DateTimeFormat(lang(), { dateStyle: "medium", timeStyle: "short" }).format(new Date(sec * 1000));
+  const when = (sec) => {
+    try { return new Intl.DateTimeFormat(lang(), { dateStyle: "medium", timeStyle: "short" }).format(new Date(sec * 1000)); }
+    catch { return new Date(sec * 1000).toLocaleString(); }
+  };
 
   const word = (v) => (typeof v === "string" ? v.replace(/^0x/, "").toLowerCase().padStart(64, "0") : v.toString(16).padStart(64, "0"));
   async function call(input) {
@@ -148,7 +154,13 @@
         b.addEventListener("click", (e) => { e.stopPropagation(); popup(wallet, state, draw); });
         li.append(b);
         li.hidden = false;
-      }).catch(() => { li.hidden = true; });
+      }).catch((err) => {
+        // a phone on a flaky connection: try again a few times before giving up (it stays hidden meanwhile)
+        console.warn("flylock:", err);
+        li.hidden = true;
+        if (tries++ < 3) setTimeout(draw, 3000 * tries);
+      });
+      let tries = 0;
       draw();
     },
   };
