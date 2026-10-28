@@ -2,6 +2,18 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "werewolf",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8321",
+        "--directory",
+        "C:/Users/artif/OneDrive/Desktop/werewolf/site"
+      ],
+      "port": 8321
+    },
+    {
       "name": "pong",
       "runtimeExecutable": "npm",
       "runtimeArgs": [

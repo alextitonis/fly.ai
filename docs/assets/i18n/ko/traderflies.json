@@ -1942,7 +1942,8 @@
     "holdNeed": "{name} 지갑은 내 지갑에 $FLYAI {need}개가 필요합니다(보유 {have}). 부족하면 포지션 정리만 하며, 출금은 언제나 가능합니다.",
     "deskShare": "Fly Desk 지급: {hold} $FLYAI를 보유하는 동안(스테이킹 포함) 보유한 {name} 하나하나가 Common 트레이더 플라이와 똑같이 Fly Desk 수익의 주간 몫을 받습니다. 매주 $FLYAI로 클레임하세요.",
     "deskLink": "Fly Desk 보기",
-    "claimLink": "클레임"
+    "claimLink": "클레임",
+    "boardLink": "리더보드에서 {name} 지갑 순위 보기 →"
   },
   "fights": {
     "title": "로봇 격투",
@@ -2134,6 +2135,8 @@
     "walletOff": "지갑 비어 있음",
     "seeTrades": "거래 보기",
     "fundIt": "지갑에 자금 넣기",
+    "setUp": "지갑 설정하기",
+    "openWallet": "지갑 열기",
     "flyEarns": "이 파리는 두 가지로 법니다: 보유자가 $FLYAI를 충분히 보유하는 동안 Fly Desk 주간 지급금의 몫, 그리고 뇌가 거래하는 자기 Fly Wallet.",
     "step": {
       "connect": "지갑 연결",

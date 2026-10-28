@@ -52,6 +52,7 @@
     "pull:house": "node --disable-warning=ExperimentalWarning scripts/pull-house.ts",
     "seed:house": "node --disable-warning=ExperimentalWarning scripts/seed-house.ts",
     "export:dataset": "node --disable-warning=ExperimentalWarning scripts/export-dataset.ts",
+    "pay:withdrawals": "node --disable-warning=ExperimentalWarning scripts/pay-withdrawals.ts",
     "test:passfights": "node --disable-warning=ExperimentalWarning src/passfightstest.ts"
   },
   "devDependencies": {

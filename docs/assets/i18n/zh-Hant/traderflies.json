@@ -1942,7 +1942,8 @@
     "holdNeed": "{name} 錢包需要你的錢包持有 {need} $FLYAI（你有 {have}）。不足時錢包只會平倉；提款隨時可用。",
     "deskShare": "Fly Desk 分紅：只要你持有 {hold} $FLYAI（質押也算），你的每個 {name} 都能像一隻普通 Trader Fly 一樣，每週分得 Fly Desk 利潤的一份。每週以 $FLYAI 領取。",
     "deskLink": "查看 Fly Desk",
-    "claimLink": "領取"
+    "claimLink": "領取",
+    "boardLink": "在排行榜上查看 {name} 錢包排名 →"
   },
   "fights": {
     "title": "機器人格鬥",
@@ -2134,6 +2135,8 @@
     "walletOff": "錢包為空",
     "seeTrades": "查看交易",
     "fundIt": "為錢包儲值",
+    "setUp": "設定錢包",
+    "openWallet": "打開錢包",
     "flyEarns": "這隻蒼蠅有兩種收益：持有人持有足夠 $FLYAI 時分享 Fly Desk 的每週收益，以及由牠的大腦交易的自己的 Fly Wallet。",
     "step": {
       "connect": "連接錢包",

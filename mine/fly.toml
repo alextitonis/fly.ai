@@ -117,5 +117,5 @@ primary_region = "cdg"
 [[vm]]
   # dedicated since 2026-09-19: shared vCPUs got throttled under the mining fleet (every request 15-55 s, health checks flapping)
   cpu_kind = "performance"
-  cpus = 2
-  memory = "4gb"
+  cpus = 1            # 2 -> 1 and 4gb -> 3gb 2026-10-28 (user: cut the Fly bill; load ~0.8, CPU pressure ~3%, ~1.8 GB used)
+  memory = "3gb"

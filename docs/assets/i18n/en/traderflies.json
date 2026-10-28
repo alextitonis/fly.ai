@@ -1944,7 +1944,8 @@
     "holdNeed": "{name} wallets need {need} $FLYAI in your wallet (you have {have}). Below it the wallet only closes trades; withdrawals always work.",
     "deskShare": "Fly Desk payout: while you hold {hold} $FLYAI (staked counts), each of your {name} earns a weekly share of the Fly Desk's profit, the same as a Common Trader Fly. Claim it in $FLYAI every week.",
     "deskLink": "See the Fly Desk",
-    "claimLink": "Claim"
+    "claimLink": "Claim",
+    "boardLink": "See how {name} wallets rank on the leaderboard →"
   },
   "fights": {
     "title": "Robot Fights",
@@ -2136,6 +2137,8 @@
     "walletOff": "Wallet empty",
     "seeTrades": "See its trades",
     "fundIt": "Fund its wallet",
+    "setUp": "Set up its wallet",
+    "openWallet": "Open its wallet",
     "flyEarns": "This fly earns two ways: a share of the Fly Desk's weekly payout while its holder holds enough $FLYAI, and its own Fly Wallet, which its brain trades.",
     "step": {
       "connect": "Connect your wallet",

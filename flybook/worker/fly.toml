@@ -49,7 +49,7 @@ primary_region = "cdg"
   processes = ["tick"]
   cpu_kind = "shared"
   cpus = 2
-  memory = "2gb"
+  memory = "1280mb"   # 2gb -> 1.25gb 2026-10-28 (user: cut the Fly bill; ~0.73 GB used, load ~1.8 so the 2 CPUs stay)
 
 [[vm]]
   processes = ["api"]

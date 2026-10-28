@@ -1942,7 +1942,8 @@
     "holdNeed": "{name} 钱包需要你的钱包持有 {need} $FLYAI（你有 {have}）。不足时钱包只会平仓；提款随时可用。",
     "deskShare": "Fly Desk 分红：只要你持有 {hold} $FLYAI（质押也算），你的每个 {name} 都能像一只普通 Trader Fly 一样，每周分得 Fly Desk 利润的一份。每周以 $FLYAI 领取。",
     "deskLink": "查看 Fly Desk",
-    "claimLink": "领取"
+    "claimLink": "领取",
+    "boardLink": "在排行榜上查看 {name} 钱包排名 →"
   },
   "fights": {
     "title": "机器人格斗",
@@ -2134,6 +2135,8 @@
     "walletOff": "钱包为空",
     "seeTrades": "查看交易",
     "fundIt": "为钱包充值",
+    "setUp": "设置钱包",
+    "openWallet": "打开钱包",
     "flyEarns": "这只苍蝇有两种收益：持有人持有足够 $FLYAI 时分享 Fly Desk 的每周收益，以及由它的大脑交易的自己的 Fly Wallet。",
     "step": {
       "connect": "连接钱包",

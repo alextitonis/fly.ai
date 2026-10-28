@@ -1944,7 +1944,8 @@
     "holdNeed": "{name} cüzdanları için cüzdanında {need} $FLYAI gerekir (sende {have} var). Altında cüzdan sadece pozisyon kapatır; çekimler her zaman çalışır.",
     "deskShare": "Fly Desk ödemesi: {hold} $FLYAI tuttuğun sürece (stake edilen de sayılır) her {name} NFT'in, Common bir Trader Fly gibi Fly Desk kârından haftalık pay alır. Her hafta $FLYAI olarak talep et.",
     "deskLink": "Fly Desk'e bak",
-    "claimLink": "Talep et"
+    "claimLink": "Talep et",
+    "boardLink": "{name} cüzdanlarının sıralamasını liderlik tablosunda gör →"
   },
   "fights": {
     "title": "Robot Dövüşleri",
@@ -2136,6 +2137,8 @@
     "walletOff": "Cüzdan boş",
     "seeTrades": "İşlemlerini gör",
     "fundIt": "Cüzdanını fonla",
+    "setUp": "Cüzdanını kur",
+    "openWallet": "Cüzdanını aç",
     "flyEarns": "Bu sinek iki yolla kazanır: sahibi yeterli $FLYAI tuttuğu sürece Fly Desk'in haftalık ödemesinden pay, ve beyninin işlem yaptığı kendi Fly Wallet'ı.",
     "step": {
       "connect": "Cüzdanını bağla",

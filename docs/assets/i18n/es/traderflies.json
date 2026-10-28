@@ -1944,7 +1944,8 @@
     "holdNeed": "Las billeteras de {name} necesitan {need} $FLYAI en tu billetera (tienes {have}). Por debajo solo cierra operaciones; los retiros siempre funcionan.",
     "deskShare": "Pago de Fly Desk: mientras tengas {hold} $FLYAI (el staking cuenta), cada uno de tus {name} gana una parte semanal del beneficio de Fly Desk, igual que una Trader Fly Común. Recíbela en $FLYAI cada semana.",
     "deskLink": "Ver Fly Desk",
-    "claimLink": "Reclamar"
+    "claimLink": "Reclamar",
+    "boardLink": "Mira cómo se clasifican las carteras de {name} en la tabla →"
   },
   "fights": {
     "title": "Peleas de robots",
@@ -2136,6 +2137,8 @@
     "walletOff": "Cartera vacía",
     "seeTrades": "Ver sus operaciones",
     "fundIt": "Financiar su cartera",
+    "setUp": "Configurar su cartera",
+    "openWallet": "Abrir su cartera",
     "flyEarns": "Esta mosca gana de dos formas: una parte del pago semanal del Fly Desk mientras su dueño tenga suficiente $FLYAI, y su propia Fly Wallet, que opera su cerebro.",
     "step": {
       "connect": "Conecta tu cartera",
