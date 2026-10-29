@@ -270,7 +270,8 @@
    * has read the vault once. */
   function earnCell() {
     const e = board && board.earn;
-    if (!e) return "";
+    // Earn off (2026-10-28, the user: the lent USDG used for something more useful): no box while nothing is lent
+    if (!e || !(e.lent_usd >= 0.01)) return "";
     const rate = e.rate != null && isFinite(e.rate) ? nf(2).format(100 * e.rate) : null;
     // a day-old cached desk.json has no stats.earn*: the English then, not the key
     const EN = { earn: "In Earn (lent)", earnSub: "earned {earned} so far · ~{rate}% base, variable",
