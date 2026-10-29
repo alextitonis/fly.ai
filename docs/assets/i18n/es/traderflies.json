@@ -595,7 +595,22 @@
       "onDone": "Alimentación automática activada: desde el próximo pago, tus moscas conservan su parte y crecen.",
       "offDone": "Alimentación automática desactivada: los pagos vuelven a llegar aquí para reclamar."
     },
-    "partner": "NFT de socio"
+    "partner": "NFT de socio",
+    "e": {
+      "title": "Tus ganancias",
+      "thisWeek": "Esta semana hasta ahora",
+      "lastWeek": "La semana pasada",
+      "allTime": "En total",
+      "flies": "{n} moscas ganando",
+      "thisWeekNote": "Esta semana se paga el {when}. Cambia con cada operación hasta entonces.",
+      "boostNow": "Tu bonus por stake: ×{mult}.",
+      "boostNext": "Haz stake de {amount} $FLYAI más para ×{mult}: unos +{usd} esta semana.",
+      "boostNextPlain": "Haz stake de {amount} $FLYAI más para ×{mult}.",
+      "boostMax": "Es el bonus más alto.",
+      "none": "Ninguna de tus moscas gana todavía. Ten {hold} $FLYAI y una Trader Fly, y ganará una parte del beneficio del desk cada semana.",
+      "noneExample": "Ahora mismo una mosca Common activa toda la semana va camino de unos {usd} esta semana.",
+      "getFly": "Consigue una Trader Fly"
+    }
   },
   "odds": {
     "title": "Probabilidad de cada rareza",

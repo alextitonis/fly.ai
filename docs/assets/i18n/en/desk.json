@@ -286,7 +286,17 @@
     "empty": "No activated flies yet: a fly (or a Bullas / RUYUI) is activated while its holder holds 200,000 $FLYAI.",
     "thStake": "Stake boost",
     "partners": "Activated partner NFTs share it too, like a Common fly: {list} this week. We'll be adding USDC to the pool accordingly.",
-    "partnerItem": "{n} {name}"
+    "partnerItem": "{n} {name}",
+    "calc": {
+      "title": "What would I earn?",
+      "rarity": "Rarity",
+      "stake": "Staked $FLYAI",
+      "result": "About {usd} a week",
+      "basisWeeks": "From the last {n} paid weeks: {list}.",
+      "basisNow": "From this week so far.",
+      "note": "An estimate: each week's split depends on how many flies are active and how much their holders stake. Needs {hold} $FLYAI held.",
+      "none": "No paid weeks to estimate from yet."
+    }
   },
   "market": {
     "label": "Market",

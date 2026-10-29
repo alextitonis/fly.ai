@@ -433,6 +433,7 @@
     const kp = $("k-pot") && $("k-pot").closest(".dkt-kpis");
     if (kp) kp.style.gridTemplateColumns = one ? "repeat(2, minmax(0, 1fr))" : "";
     renderPayout(b.payout, b.nft);
+    renderCalc(b);
     renderStats(s, start);
     renderRecords(b.records);
     drawChart($("chart"), s, starts());
@@ -962,6 +963,59 @@
         `<td class="r"><b class="${f.usd > 0 ? "up" : ""}">${esc(usd(f.usd))}</b></td></tr>`).join("")
         : `<tr class="empty"><td colspan="7">${esc(t("pay.empty"))}</td></tr>`) + "</tbody>";
   }
+
+  // ------------------------------------------------------------------ what would I earn? (2026-10-29)
+  /** A fly's week from the paid weeks: what a full-week weight-1 fly earned (publish.per_weight_usd, before stake
+   *  boosts) x its rarity x its stake boost, scaled back by this week's average boost the way settle.py scales the
+   *  boosts back to the same total. With no paid week recorded yet: this week so far. An estimate, said so. */
+  const calc = { rarity: 0, stake: 0 };
+  const STAKES = [0, 2e6, 5e6, 10e6];
+  function stakeMult(flyai, st) {
+    const unit = Number(st.stake_unit_flyai) || 2e6, cap = Number(st.stake_cap) || 2;
+    if (!(flyai > 0)) return 1;
+    let m = Math.min(cap, 1 + flyai / unit);
+    (st.stake_tiers || [[5e6, 3], [10e6, 4]]).forEach(([least, mult]) => { if (flyai >= least) m = Math.max(m, mult); });
+    return m;
+  }
+  function renderCalc(b) {
+    const box = $("pay-calc"), p = b.payout;
+    if (!box || !p || !p.flies) { if (box) box.hidden = true; return; }
+    box.hidden = false;
+    const st = b.stake || {};
+    const weights = ((b.nft && b.nft.terms && b.nft.terms.rarity_weights) || [1, 1.5, 2, 3]).map(Number);
+    const names = ["Common", "Uncommon", "Rare", "Legendary"];
+    const seg = (id, items, on) => {
+      $(id).innerHTML = items.map((txt, i) => `<button type="button" data-i="${i}" class="${i === on ? "on" : ""}">${esc(txt)}</button>`).join("");
+    };
+    seg("calc-rarity", names.map((n, i) => `${n} ×${weights[i]}`), calc.rarity);
+    const compact = new Intl.NumberFormat(lang(), { notation: "compact" });
+    seg("calc-stake", STAKES.map((s) => `${compact.format(s)} (×${nf(0).format(stakeMult(s, st))})`), calc.stake);
+    const w = weights[calc.rarity] || 1, m = stakeMult(STAKES[calc.stake], st);
+    const flies = p.flies.filter((f) => f.active_pct > 0);
+    const base = flies.reduce((a, f) => a + f.weight * f.active_pct / 100, 0);
+    const boosted = flies.reduce((a, f) => a + f.weight * f.active_pct / 100 * (f.stake_boost || 1), 0);
+    const avg = base > 0 && boosted > 0 ? boosted / base : 1;
+    const paid = (b.epochs || []).filter((e) => e.per_weight_usd > 0).slice(-4);
+    let weeks, basis;
+    if (paid.length) {
+      weeks = paid.map((e) => e.per_weight_usd * w * m / avg);
+      basis = t("pay.calc.basisWeeks", { n: paid.length, list: weeks.map((v) => usd(v)).join(", ") });
+    } else if (p.holders_usd > 0 && boosted > 0) {
+      weeks = [p.holders_usd / boosted * w * m];
+      basis = t("pay.calc.basisNow");
+    }
+    $("calc-out").innerHTML = weeks
+      ? `<b class="up">${esc(t("pay.calc.result", { usd: usd(weeks.reduce((a, v) => a + v, 0) / weeks.length) }))}</b> <span class="dim">${esc(basis)}</span>`
+      : esc(t("pay.calc.none"));
+    $("calc-note").textContent = t("pay.calc.note", { hold: qty(Number(st.hold_flyai) || 200000) });
+  }
+  document.addEventListener("click", (e) => {
+    const r = e.target.closest("#calc-rarity [data-i]"), s = e.target.closest("#calc-stake [data-i]");
+    if (!r && !s) return;
+    if (r) calc.rarity = Number(r.dataset.i);
+    if (s) calc.stake = Number(s.dataset.i);
+    if (board) renderCalc(board);
+  });
 
   // the clock in the top bar (local time, like /terminal's)
   const clock = $("dk-clock");

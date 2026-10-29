@@ -286,7 +286,17 @@
     "empty": "아직 활성화된 플라이가 없습니다: 보유자가 200,000 $FLYAI를 보유하는 동안 플라이(또는 Bullas / RUYUI)가 활성화됩니다.",
     "thStake": "스테이킹 부스트",
     "partners": "활성화된 파트너 NFT도 Common 플라이처럼 나눠 받습니다: 이번 주 {list}. 그에 맞춰 풀에 USDC를 추가할 예정입니다.",
-    "partnerItem": "{name} {n}개"
+    "partnerItem": "{name} {n}개",
+    "calc": {
+      "title": "얼마를 벌까요?",
+      "rarity": "희귀도",
+      "stake": "스테이킹한 $FLYAI",
+      "result": "주당 약 {usd}",
+      "basisWeeks": "최근 지급된 {n}주 기준: {list}.",
+      "basisNow": "이번 주 현재 기준.",
+      "note": "추정치입니다. 매주 분배는 활성화된 파리 수와 보유자들의 스테이킹 양에 따라 달라집니다. $FLYAI {hold}개 보유가 필요합니다.",
+      "none": "아직 추정할 지급 주가 없습니다."
+    }
   },
   "market": {
     "label": "시장",

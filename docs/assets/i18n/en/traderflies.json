@@ -595,7 +595,22 @@
       "onDone": "Auto-feed is on: from the next payout, your flies keep their share and grow.",
       "offDone": "Auto-feed is off: payouts come here to claim again."
     },
-    "partner": "Partner NFT"
+    "partner": "Partner NFT",
+    "e": {
+      "title": "Your earnings",
+      "thisWeek": "This week so far",
+      "lastWeek": "Last week",
+      "allTime": "All time",
+      "flies": "{n} earning flies",
+      "thisWeekNote": "This week is paid {when}. It moves with every trade until then.",
+      "boostNow": "Your stake boost: ×{mult}.",
+      "boostNext": "Stake {amount} more $FLYAI for ×{mult}: about +{usd} this week.",
+      "boostNextPlain": "Stake {amount} more $FLYAI for ×{mult}.",
+      "boostMax": "That's the top boost.",
+      "none": "None of your flies is earning yet. Hold {hold} $FLYAI and a Trader Fly, and it earns a share of the desk's profit every week.",
+      "noneExample": "Right now a Common fly active all week is on track for about {usd} this week.",
+      "getFly": "Get a Trader Fly"
+    }
   },
   "odds": {
     "title": "Rarity chances",

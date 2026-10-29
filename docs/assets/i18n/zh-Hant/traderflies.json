@@ -593,7 +593,22 @@
       "onDone": "自動餵養已開啟：從下一筆分紅起，你的蒼蠅會保留份額並成長。",
       "offDone": "自動餵養已關閉：分紅會重新到這裡領取。"
     },
-    "partner": "合作夥伴 NFT"
+    "partner": "合作夥伴 NFT",
+    "e": {
+      "title": "你的收益",
+      "thisWeek": "本週至今",
+      "lastWeek": "上週",
+      "allTime": "累計",
+      "flies": "{n} 隻在賺錢的蒼蠅",
+      "thisWeekNote": "本週將於 {when} 發放，在此之前會隨每筆交易變化。",
+      "boostNow": "你的質押加成：×{mult}。",
+      "boostNext": "再質押 {amount} $FLYAI 可得 ×{mult}：本週約 +{usd}。",
+      "boostNextPlain": "再質押 {amount} $FLYAI 可得 ×{mult}。",
+      "boostMax": "已是最高加成。",
+      "none": "你還沒有在賺錢的蒼蠅。持有 {hold} $FLYAI 和一隻 Trader Fly，它每週都能分到交易台的利潤。",
+      "noneExample": "目前，一隻整週啟用的 Common 蒼蠅本週預計約 {usd}。",
+      "getFly": "取得 Trader Fly"
+    }
   },
   "odds": {
     "title": "稀有度機率",

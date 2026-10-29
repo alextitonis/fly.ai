@@ -593,7 +593,22 @@
       "onDone": "자동 먹이 주기가 켜졌습니다: 다음 지급부터 플라이가 몫을 유지하며 성장합니다.",
       "offDone": "자동 먹이 주기가 꺼졌습니다: 지급액은 다시 여기서 청구합니다."
     },
-    "partner": "파트너 NFT"
+    "partner": "파트너 NFT",
+    "e": {
+      "title": "내 수익",
+      "thisWeek": "이번 주 현재",
+      "lastWeek": "지난주",
+      "allTime": "전체",
+      "flies": "수익 중인 파리 {n}마리",
+      "thisWeekNote": "이번 주 지급: {when}. 그때까지 거래마다 바뀝니다.",
+      "boostNow": "내 스테이킹 부스트: ×{mult}.",
+      "boostNext": "$FLYAI {amount}개를 더 스테이킹하면 ×{mult}: 이번 주 약 +{usd}.",
+      "boostNextPlain": "$FLYAI {amount}개를 더 스테이킹하면 ×{mult}.",
+      "boostMax": "최고 부스트입니다.",
+      "none": "아직 수익을 내는 파리가 없습니다. $FLYAI {hold}개와 Trader Fly를 보유하면 매주 데스크 수익의 일부를 받습니다.",
+      "noneExample": "지금 일주일 내내 활성화된 Common 파리는 이번 주 약 {usd}를 받을 예정입니다.",
+      "getFly": "Trader Fly 받기"
+    }
   },
   "odds": {
     "title": "희귀도 확률",

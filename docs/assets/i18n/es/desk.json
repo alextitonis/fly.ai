@@ -286,7 +286,17 @@
     "empty": "Aún no hay moscas activadas: una mosca (o un Bullas / RUYUI) está activada mientras su dueño tenga 200.000 $FLYAI.",
     "thStake": "Impulso por stake",
     "partners": "Los NFT de socios activados también participan, como una mosca Común: {list} esta semana. Iremos añadiendo USDC al pool en consecuencia.",
-    "partnerItem": "{n} {name}"
+    "partnerItem": "{n} {name}",
+    "calc": {
+      "title": "¿Cuánto ganaría?",
+      "rarity": "Rareza",
+      "stake": "$FLYAI en stake",
+      "result": "Unos {usd} por semana",
+      "basisWeeks": "Según las últimas {n} semanas pagadas: {list}.",
+      "basisNow": "Según esta semana hasta ahora.",
+      "note": "Es una estimación: el reparto de cada semana depende de cuántas moscas están activas y cuánto hacen stake sus dueños. Hace falta tener {hold} $FLYAI.",
+      "none": "Aún no hay semanas pagadas para estimar."
+    }
   },
   "market": {
     "label": "Mercado",

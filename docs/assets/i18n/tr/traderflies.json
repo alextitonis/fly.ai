@@ -595,7 +595,22 @@
       "onDone": "Otomatik besleme açık: sonraki ödemeden itibaren sineklerin paylarını tutup büyür.",
       "offDone": "Otomatik besleme kapalı: ödemeler yine buradan alınır."
     },
-    "partner": "Ortak NFT"
+    "partner": "Ortak NFT",
+    "e": {
+      "title": "Kazançların",
+      "thisWeek": "Bu hafta şimdiye kadar",
+      "lastWeek": "Geçen hafta",
+      "allTime": "Toplam",
+      "flies": "{n} kazanan sinek",
+      "thisWeekNote": "Bu hafta {when} ödenir. O zamana kadar her işlemle değişir.",
+      "boostNow": "Stake bonusun: ×{mult}.",
+      "boostNext": "×{mult} için {amount} $FLYAI daha stake et: bu hafta yaklaşık +{usd}.",
+      "boostNextPlain": "×{mult} için {amount} $FLYAI daha stake et.",
+      "boostMax": "Bu en yüksek bonus.",
+      "none": "Henüz kazanan sineğin yok. {hold} $FLYAI ve bir Trader Fly tut; her hafta masanın kârından pay alır.",
+      "noneExample": "Şu an tüm hafta aktif bir Common sinek bu hafta yaklaşık {usd} alacak.",
+      "getFly": "Trader Fly al"
+    }
   },
   "odds": {
     "title": "Nadirlik olasılıkları",

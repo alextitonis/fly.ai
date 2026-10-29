@@ -416,8 +416,15 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
 .desk .stk-row input { flex: 1 1 auto; min-width: 0; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line-2);
   background: var(--plate); color: var(--ink); font-size: 15px; }
 @media (max-width: 700px) { .desk .stk-tiles { grid-template-columns: 1fr; } }
-.dkt-pay { grid-area: pay; max-height: 520px; }
+.dkt-pay { grid-area: pay; max-height: 720px; }
 .dkt-pay[hidden] { display: none; }
+/* what would I earn? (desk.js renderCalc, 2026-10-29) */
+.desk .pay-calc { border: 1px solid var(--line-2); border-radius: 12px; padding: 10px 12px; margin: 8px 0 10px; display: grid; gap: 6px; }
+.desk .pay-calc[hidden] { display: none; }
+.desk .pay-calc-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.desk .pay-calc-row > .dim { min-width: 96px; font-size: 12px; }
+.desk .pay-calc .seg { flex-wrap: wrap; max-width: 100%; }
+.desk .pay-calc .caption { margin: 0; }
 .desk .dkt .dkt-pay-note { color: #f2b33d; }
 .desk .dkt .dkt-pay h2 small { color: var(--t-dim); letter-spacing: .04em; text-transform: none; font-weight: 500; }
 .desk .dkt #pay-tbl a { color: var(--t-text); text-decoration: none; } .desk .dkt #pay-tbl a:hover { color: var(--t-mint); }

@@ -26,6 +26,7 @@
     "how": "運作方式"
   },
   "e": {
+    "d1029a": "<b>看看你的蒼蠅賺了多少。</b>Claim 頁面現在會顯示你的 Trader Fly 本週預計收益、上週發放的金額、累計收益，以及多質押能多拿多少。Fly Desk 新增計算器：選擇稀有度和質押量，看看一隻蒼蠅每週大約能賺多少。<a href=\"/traderflies/claim\">Claim</a>",
     "d1028a": "<b>Trader Flies 交易更聰明。</b>當 $FLYAI 價格下跌時，蒼蠅錢包不再卡在安全模式：安全檢查現在只看交易本身的表現，你的蒼蠅會繼續交易。<a href=\"/traderflies/\">我的蒼蠅</a>",
     "d1028b": "<b>Fly Desk 升級。</b>交易台在一週內從市場分批買入每週派發所需的 $FLYAI，讓閒置資金重新運轉，全天候讀取股票價格，買入股票前先檢查新聞，並新增一個慢速 ETH 趨勢策略。<a href=\"/desk\">Fly Desk</a>",
     "d1028c": "<b>Bullas 上榜。</b>Bullas 錢包現在與 Trader Flies 在同一個排行榜上排名，並顯示合計數據；你也可以直接在「我的蒼蠅」裡設定你的 Bullas。<a href=\"/traderflies/leaderboard\">排行榜</a>",

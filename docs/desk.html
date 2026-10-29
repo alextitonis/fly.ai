@@ -47,7 +47,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/terminal.css">
-<link rel="stylesheet" href="assets/desk.css?v=20261026a">
+<link rel="stylesheet" href="assets/desk.css?v=20261029a">
 <link rel="stylesheet" href="assets/marketbar.css">
 </head>
 <body class="desk term">
@@ -213,6 +213,13 @@
     <h2><span data-i18n="desk.pay.title">This week's payout</span><small id="pay-when"></small></h2>
     <p class="caption" id="pay-sum"></p>
     <p class="caption dkt-pay-note" id="pay-note" data-i18n="desk.pay.off">Payouts aren't switched on yet: these are the amounts each fly would get. Once they are, a week's payout settles on Sunday at 23:00 UTC and can be claimed on the Claim page two days later.</p>
+    <div class="pay-calc" id="pay-calc" hidden>
+      <b data-i18n="desk.pay.calc.title">What would I earn?</b>
+      <div class="pay-calc-row"><span class="dim" data-i18n="desk.pay.calc.rarity">Rarity</span><div class="seg" id="calc-rarity"></div></div>
+      <div class="pay-calc-row"><span class="dim" data-i18n="desk.pay.calc.stake">Staked $FLYAI</span><div class="seg" id="calc-stake"></div></div>
+      <p class="caption" id="calc-out" aria-live="polite"></p>
+      <p class="caption dim" id="calc-note"></p>
+    </div>
     <div class="scroll tm-scroll"><table class="tbl" id="pay-holders"></table></div>
     <details class="tbl-details">
       <summary data-i18n="desk.pay.byFly">Each fly</summary>
@@ -327,7 +334,7 @@
 </script>
 <script type="module" src="assets/i18n/page.js"></script>
 <script src="assets/marketbar.js?v=20261006"></script>
-<script src="assets/desk.js?v=20261027a"></script>
+<script src="assets/desk.js?v=20261029a"></script>
 <script src="assets/deskvote.js?v=20261005b"></script>
 <script src="assets/deskchat.js?v=20261026a"></script>
 <script src="assets/staked.js?v=20261027a"></script>

@@ -26,6 +26,7 @@
     "how": "运作方式"
   },
   "e": {
+    "d1029a": "<b>看看你的苍蝇赚了多少。</b>Claim 页面现在会显示你的 Trader Fly 本周预计收益、上周发放的金额、累计收益，以及多质押能多拿多少。Fly Desk 新增计算器：选择稀有度和质押量，看看一只苍蝇每周大约能赚多少。<a href=\"/traderflies/claim\">Claim</a>",
     "d1028a": "<b>Trader Flies 交易更聪明。</b>当 $FLYAI 价格下跌时，苍蝇钱包不再卡在安全模式：安全检查现在只看交易本身的表现，你的苍蝇会继续交易。<a href=\"/traderflies/\">我的苍蝇</a>",
     "d1028b": "<b>Fly Desk 升级。</b>交易台在一周内从市场分批买入每周派发所需的 $FLYAI，让闲置资金重新运转，全天候读取股票价格，买入股票前先检查新闻，并新增一个慢速 ETH 趋势策略。<a href=\"/desk\">Fly Desk</a>",
     "d1028c": "<b>Bullas 上榜。</b>Bullas 钱包现在与 Trader Flies 在同一个排行榜上排名，并显示合计数据；你也可以直接在“我的苍蝇”里设置你的 Bullas。<a href=\"/traderflies/leaderboard\">排行榜</a>",

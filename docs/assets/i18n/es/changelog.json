@@ -26,6 +26,7 @@
     "how": "Cómo funciona"
   },
   "e": {
+    "d1029a": "<b>Mira lo que ganan tus moscas.</b> La página Claim ahora muestra lo que tus Trader Flies van a ganar esta semana, lo que pagó la semana pasada y todo lo ganado hasta ahora, y cuánto suma hacer más stake. El Fly Desk tiene una calculadora: elige una rareza y un stake para ver cuánto gana una mosca por semana. <a href=\"/traderflies/claim\">Claim</a>",
     "d1028a": "<b>Trading más inteligente para los Trader Flies.</b> Las carteras de las moscas ya no se quedan bloqueadas en modo seguro cuando baja el precio de $FLYAI: el control ahora mira lo que gana el trading en sí, así que tu mosca sigue operando. <a href=\"/traderflies/\">Mis moscas</a>",
     "d1028b": "<b>Mejoras del Fly Desk.</b> El desk compra el $FLYAI del pago semanal en el mercado durante la semana, vuelve a poner a trabajar su efectivo inactivo, lee los precios de las acciones a toda hora, revisa las noticias antes de comprar una acción y suma una tendencia lenta en ETH. <a href=\"/desk\">Fly Desk</a>",
     "d1028c": "<b>Los Bullas en el ranking.</b> Las carteras de Bullas ahora aparecen en el mismo ranking que los Trader Flies, con totales combinados, y puedes configurar tus Bullas directamente desde Mis moscas. <a href=\"/traderflies/leaderboard\">Ranking</a>",

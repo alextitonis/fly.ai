@@ -593,7 +593,22 @@
       "onDone": "自动喂养已开启：从下一笔分红起，你的苍蝇会保留份额并成长。",
       "offDone": "自动喂养已关闭：分红会重新到这里领取。"
     },
-    "partner": "合作伙伴 NFT"
+    "partner": "合作伙伴 NFT",
+    "e": {
+      "title": "你的收益",
+      "thisWeek": "本周至今",
+      "lastWeek": "上周",
+      "allTime": "累计",
+      "flies": "{n} 只在赚钱的苍蝇",
+      "thisWeekNote": "本周将于 {when} 发放，在此之前会随每笔交易变化。",
+      "boostNow": "你的质押加成：×{mult}。",
+      "boostNext": "再质押 {amount} $FLYAI 可得 ×{mult}：本周约 +{usd}。",
+      "boostNextPlain": "再质押 {amount} $FLYAI 可得 ×{mult}。",
+      "boostMax": "已是最高加成。",
+      "none": "你还没有在赚钱的苍蝇。持有 {hold} $FLYAI 和一只 Trader Fly，它每周都能分到交易台的利润。",
+      "noneExample": "目前，一只整周激活的 Common 苍蝇本周预计约 {usd}。",
+      "getFly": "获取 Trader Fly"
+    }
   },
   "odds": {
     "title": "稀有度概率",

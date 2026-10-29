@@ -286,7 +286,17 @@
     "empty": "Henüz aktif sinek yok: sahibi 200.000 $FLYAI tuttuğu sürece bir sinek (ya da Bullas / RUYUI) aktiftir.",
     "thStake": "Stake artışı",
     "partners": "Aktif ortak NFT'leri de Common bir sinek gibi pay alır: bu hafta {list}. Buna göre havuza USDC ekleyeceğiz.",
-    "partnerItem": "{n} {name}"
+    "partnerItem": "{n} {name}",
+    "calc": {
+      "title": "Ne kazanırım?",
+      "rarity": "Nadirlik",
+      "stake": "Stake edilen $FLYAI",
+      "result": "Haftada yaklaşık {usd}",
+      "basisWeeks": "Son {n} ödeme haftasına göre: {list}.",
+      "basisNow": "Bu haftanın şu ana kadarına göre.",
+      "note": "Bir tahmin: her haftanın dağılımı kaç sineğin aktif olduğuna ve sahiplerinin ne kadar stake ettiğine bağlı. {hold} $FLYAI tutmak gerekir.",
+      "none": "Tahmin için henüz ödenmiş hafta yok."
+    }
   },
   "market": {
     "label": "Piyasa",
