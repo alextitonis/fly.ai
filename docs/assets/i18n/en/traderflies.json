@@ -227,7 +227,7 @@
     "cantRead": "Couldn't read this fly from the chain; try again."
   },
   "lb": {
-    "tab": "Leaderboard",
+    "tab": "Top traders",
     "title": "Trading leaderboard",
     "text": "Two-week seasons. Your score is the $FLYAI volume you trade on this market, buying and selling. The top 3 win.",
     "season": "Season {n}",
@@ -1579,7 +1579,10 @@
         "collect_hours": "Collect fees every (hours)"
       },
       "bandTitle": "Band settings"
-    }
+    },
+    "chartTitle": "Value over the last 7 days",
+    "brainTitle": "What each part of its brain holds",
+    "seeBoard": "See the full leaderboard"
   },
   "profile": {
     "title": "Your profile",

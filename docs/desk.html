@@ -49,68 +49,95 @@
 <link rel="stylesheet" href="assets/terminal.css">
 <link rel="stylesheet" href="assets/desk.css?v=20261029a">
 <link rel="stylesheet" href="assets/marketbar.css">
+<link rel="stylesheet" href="assets/deskfd.css?v=20261029a">
 </head>
 <body class="desk term">
 <a class="skip" href="#pot">Skip to the pot</a>
 
 <nav aria-label="Main"></nav>
 
-<!-- the Fly Desk as a terminal (2026-10-05, the user: "simplify the flydesk and make it look more like the /terminal"):
-     terminal.css panels and type, desk.js unchanged in what it draws. The sections it still reads but this page no
-     longer shows (records, the fly's eye, other chains, launches) sit in a hidden block at the end. -->
-<main class="dkt">
-  <header class="tm-top dkt-top">
-    <div class="tm-brand">
-      <span class="tm-glyph" aria-hidden="true"></span>
-      <div><h1>FLY <i>//</i> DESK</h1><small data-i18n="desk.term.sub">real fly brains trade one desk · Robinhood Chain</small></div>
+<!-- the Fly Desk as a vault page (2026-10-29, the user: "too messy and ugly ... see how websites are now"): a title,
+     four numbers, the chart beside one action card, and every table behind tabs, like Hyperliquid's and Drift's vault
+     pages. Every element id desk.js and the other desk scripts write to is kept. The sections desk.js still reads but
+     this page doesn't show (records, the fly's eye, other chains) sit in a hidden block at the end. -->
+<main class="fd">
+  <header class="fd-head">
+    <div class="fd-title">
+      <h1 data-i18n="desk.fd.title">Fly Desk</h1>
+      <p data-i18n="desk.fd.sub">Real fly brains trade one pot on Robinhood Chain. Each week its profit above its high is paid to Trader Fly holders.</p>
     </div>
-    <div class="tm-status">
+    <div class="fd-status">
       <span class="tm-mode" id="dk-mode" data-mode="paper" data-i18n="desk.mode.paper">PAPER</span>
       <span class="tm-live" id="conn" data-state="connecting"><span id="conn-text" data-i18n="desk.chip.connecting">Connecting</span></span>
-      <span class="tm-clock mono" id="dk-clock">--:--:--</span>
+      <span class="fd-clock mono" id="dk-clock">--:--:--</span>
     </div>
   </header>
 
-  <!-- what the desk is and how you take part, in plain words, before the terminal (2026-10-24, the user: "easier to
-       understand ... what they are, easier setup"); the third box follows the site sign-in (nav.js flyNav.session) -->
-  <section class="dkt-intro" aria-label="The Fly Desk in short">
-    <div>
-      <span class="dki-num" data-i18n="desk.intro.whatTag">What it is</span>
-      <b data-i18n="desk.intro.whatTitle">Real fly brains trade one pot</b>
-      <p data-i18n="desk.intro.what">Connectomes of real fruit flies pick the trades: stock tokens and coins on Robinhood Chain, from one shared pot. Everything below is live: the pot, positions and every fill.</p>
-    </div>
-    <div>
-      <span class="dki-num" data-i18n="desk.intro.earnTag">How you earn</span>
-      <b data-i18n="desk.intro.earnTitle">A weekly payout to active flies</b>
-      <p data-i18n="desk.intro.earn">Each week the desk's profit above its high is shared out to active Trader Flies, by rarity. A fly is active while its holder holds 200,000 $FLYAI; staking $FLYAI makes your slice bigger.</p>
-    </div>
-    <div class="dki-you" id="dki-out">
-      <span class="dki-num" data-i18n="desk.intro.youTag">You</span>
-      <b data-i18n="desk.intro.startTitle">Get started</b>
-      <p data-i18n="desk.intro.start">Get a Trader Fly and hold 200,000 $FLYAI to share the payout. Stake below for a bigger slice.</p>
-      <div class="dki-btns">
-        <a class="btn red sm" href="/traderflies/market" data-i18n="desk.intro.getFly">Get a fly</a>
-        <a class="btn sm" href="/token#buy" data-i18n="desk.intro.buy">Buy $FLYAI</a>
-      </div>
-    </div>
-    <div class="dki-you" id="dki-in" hidden>
-      <span class="dki-num" data-i18n="desk.intro.youTag">You</span>
-      <b data-i18n="desk.intro.yoursTitle">Your desk</b>
-      <p data-i18n="desk.intro.yours">See which of your flies are active and claim your weekly payout.</p>
-      <div class="dki-btns">
-        <a class="btn red sm" href="/traderflies/claim" data-i18n="desk.intro.claim">Claim payout</a>
-        <a class="btn sm" href="/traderflies/" data-i18n="desk.intro.myFlies">My flies</a>
-      </div>
-    </div>
+  <div id="market-bar" hidden></div>
+  <p class="err fd-err" id="err" hidden data-i18n="desk.t.error">Couldn't load the desk. Retrying…</p>
+
+  <section class="fd-stats" aria-label="Totals">
+    <div class="fd-stat"><span data-i18n="desk.pot.value">Pot</span><b id="k-pot">—</b></div>
+    <div class="fd-stat"><span data-i18n="desk.pot.pnl">P&amp;L</span><b id="k-ret">—</b></div>
+    <div class="fd-stat"><span data-i18n="desk.fd.paid">Paid to holders</span><b id="k-paid">—</b><em id="k-paid-sub"></em></div>
+    <div class="fd-stat"><span data-i18n="desk.fd.next">Next payout</span><b id="k-next">—</b><em id="k-next-sub"></em></div>
+    <div class="fd-stat"><span data-i18n="desk.pot.median">Median fly</span><b id="k-median">—</b></div>
+    <div class="fd-stat"><span data-i18n="desk.pot.best">Best fly</span><b id="k-best">—</b></div>
   </section>
 
-  <div id="market-bar" hidden></div>
-  <div class="ticker dkt-ticker" id="ticker" hidden aria-label="Latest trades"></div>
-  <p class="err dkt-err" id="err" hidden data-i18n="desk.t.error">Couldn't load the desk. Retrying…</p>
+  <div class="fd-main">
+    <section id="pot" class="fd-card fd-chart">
+      <div class="fd-card-head">
+        <h2 data-i18n="desk.pot.title">The pot</h2>
+        <div class="seg" role="group" aria-label="Scale">
+          <button type="button" class="on" data-zoom="ret" data-i18n="desk.pot.modeReturn">Return %</button>
+          <button type="button" data-zoom="usd" data-i18n="desk.pot.modeUsd">Pot in $</button>
+        </div>
+      </div>
+      <ul class="legend" id="legend"></ul>
+      <div class="chart" id="chart" role="img" aria-label="Pot value by bar"></div>
+      <div class="stats fd-minis" id="stats"></div>
+      <details class="tbl-details">
+        <summary data-i18n="desk.pot.table">Table view of the curve</summary>
+        <div class="scroll"><table class="tbl" id="curve-tbl"></table></div>
+      </details>
+    </section>
 
-  <section id="stake" class="tm-panel dkt-stake">
-    <h2><span data-i18n="desk.stake.title">Stake $FLYAI</span><small id="stk-total"></small></h2>
-    <p class="caption" data-i18n="desk.stake.lede">Stake $FLYAI to get a bigger slice of the weekly payout: 1M staked = 1.5×, 2M = 2×, 5M = 3×, 10M or more = 4× (the most). It counts right away, on what you have staked now. The pot stays the same size, so it's your slice next to holders who stake less. Staked $FLYAI also counts toward the 200,000 that keeps your flies activated. Unstaking takes 7 days.</p>
+    <aside class="fd-side">
+      <!-- one action card: how to take part (signed out) or your desk (signed in, nav.js flyNav.session), then the
+           earnings calculator (desk.js renderCalc) -->
+      <section class="fd-card fd-act">
+        <div id="dki-out">
+          <h2 data-i18n="desk.fd.joinTitle">Earn from the desk</h2>
+          <p data-i18n="desk.fd.join">Hold a Trader Fly and 200,000 $FLYAI and your fly gets a share of every weekly payout. Stake $FLYAI for a bigger share.</p>
+          <div class="fd-btns">
+            <a class="btn red" href="/traderflies/market" data-i18n="desk.intro.getFly">Get a fly</a>
+            <a class="btn" href="/token#buy" data-i18n="desk.intro.buy">Buy $FLYAI</a>
+          </div>
+        </div>
+        <div id="dki-in" hidden>
+          <h2 data-i18n="desk.intro.yoursTitle">Your desk</h2>
+          <p data-i18n="desk.fd.yours">See what your flies earn and claim your weekly payout.</p>
+          <div class="fd-btns">
+            <a class="btn red" href="/traderflies/claim" data-i18n="desk.fd.seeEarnings">See my earnings</a>
+            <a class="btn" href="/traderflies/" data-i18n="desk.intro.myFlies">My flies</a>
+          </div>
+        </div>
+        <div class="pay-calc" id="pay-calc" hidden>
+          <b data-i18n="desk.pay.calc.title">What would I earn?</b>
+          <div class="pay-calc-row"><span class="dim" data-i18n="desk.pay.calc.rarity">Rarity</span><div class="seg" id="calc-rarity"></div></div>
+          <div class="pay-calc-row"><span class="dim" data-i18n="desk.pay.calc.stake">Staked $FLYAI</span><div class="seg" id="calc-stake"></div></div>
+          <p class="caption" id="calc-out" aria-live="polite"></p>
+          <p class="caption dim" id="calc-note"></p>
+        </div>
+      </section>
+
+  <section id="stake" class="fd-card fd-stake">
+    <div class="fd-card-head"><h2 data-i18n="desk.stake.title">Stake $FLYAI</h2><small id="stk-total"></small></div>
+    <details class="fd-more">
+      <summary data-i18n="desk.fd.stakeHow">How staking works</summary>
+      <p class="caption" data-i18n="desk.stake.lede">Stake $FLYAI to get a bigger slice of the weekly payout: 1M staked = 1.5×, 2M = 2×, 5M = 3×, 10M or more = 4× (the most). It counts right away, on what you have staked now. The pot stays the same size, so it's your slice next to holders who stake less. Staked $FLYAI also counts toward the 200,000 that keeps your flies activated. Unstaking takes 7 days.</p>
+    </details>
     <div class="vote-panel stk-panel">
       <div class="stk-tiles" id="stk-tiles"></div>
       <div class="stk-pending" id="stk-pending" hidden>
@@ -137,39 +164,62 @@
     </div>
   </section>
 
-  <section class="tm-kpis dkt-kpis" aria-label="Totals">
-    <div class="tm-kpi"><span data-i18n="desk.pot.value">Pot</span><b id="k-pot">—</b></div>
-    <div class="tm-kpi"><span data-i18n="desk.pot.pnl">P&amp;L</span><b id="k-ret">—</b></div>
-    <div class="tm-kpi"><span data-i18n="desk.pot.median">Median fly</span><b id="k-median">—</b></div>
-    <div class="tm-kpi"><span data-i18n="desk.pot.best">Best fly</span><b id="k-best">—</b></div>
-  </section>
-  <div class="stats dkt-stats" id="stats"></div>
+    </aside>
+  </div>
 
-  <section id="pot" class="tm-panel dkt-chart">
-    <h2><span data-i18n="desk.pot.title">The pot</span></h2>
-    <div class="chart-head">
-      <ul class="legend" id="legend"></ul>
-      <div class="seg" role="group" aria-label="Scale">
-        <button type="button" class="on" data-zoom="ret" data-i18n="desk.pot.modeReturn">Return %</button>
-        <button type="button" data-zoom="usd" data-i18n="desk.pot.modeUsd">Pot in $</button>
-      </div>
+  <!-- the tables, one at a time (2026-10-29): desk.js still writes every one of them; the tabs only show one -->
+  <section class="fd-card fd-tabs-card" id="fd-tables">
+    <div class="fd-tabs" role="tablist" id="fd-tabs">
+      <button type="button" role="tab" data-pane="positions" aria-selected="true" data-i18n="desk.pos.title">Positions</button>
+      <button type="button" role="tab" data-pane="tape" aria-selected="false" data-i18n="desk.fd.trades">Trades</button>
+      <button type="button" role="tab" data-pane="payout" aria-selected="false" data-i18n="desk.pay.title">This week's payout</button>
+      <button type="button" role="tab" data-pane="launches" aria-selected="false" data-i18n="desk.fd.launches">Launches</button>
+      <button type="button" role="tab" data-pane="books" aria-selected="false" data-i18n="desk.books.title">The books</button>
     </div>
-    <div class="chart" id="chart" role="img" aria-label="Pot value by bar"></div>
+
+  <section id="positions" class="fd-pane">
+    <div class="tabs" id="pos-tabs" role="tablist"></div>
+    <p class="caption" id="pos-cash"></p>
+    <div class="scroll"><table class="tbl" id="pos-tbl"></table></div>
+  </section>
+
+  <section id="tape" class="fd-pane fd-off">
+    <div class="scroll tape"><table class="tbl" id="tape-tbl"></table></div>
+  </section>
+
+  <!-- the week's payout per activated Trader Fly, if the week closed now (2026-10-05; publish.payout_preview). desk.js
+       sets its hidden attribute; the tabs use .fd-off, so the two never fight -->
+  <section id="payout" class="fd-pane fd-off" hidden>
+    <p class="caption fd-pay-when" id="pay-when"></p>
+    <p class="caption" id="pay-sum"></p>
+    <p class="caption fd-pay-note" id="pay-note" data-i18n="desk.pay.off">Payouts aren't switched on yet: these are the amounts each fly would get. Once they are, a week's payout settles on Sunday at 23:00 UTC and can be claimed on the Claim page two days later.</p>
+    <div class="scroll"><table class="tbl" id="pay-holders"></table></div>
     <details class="tbl-details">
-      <summary data-i18n="desk.pot.table">Table view of the curve</summary>
-      <div class="scroll"><table class="tbl" id="curve-tbl"></table></div>
+      <summary data-i18n="desk.pay.byFly">Each fly</summary>
+      <div class="scroll"><table class="tbl" id="pay-tbl"></table></div>
     </details>
   </section>
 
-  <section id="positions" class="tm-panel dkt-pos">
-    <h2><span data-i18n="desk.pos.title">Positions</span></h2>
-    <div class="tabs" id="pos-tabs" role="tablist"></div>
-    <p class="caption" id="pos-cash"></p>
-    <div class="scroll tm-scroll"><table class="tbl" id="pos-tbl"></table></div>
+  <!-- the flies' own Pons tokens (2026-10-08, flylaunch.py: the house wallet launches, holds the starting bag and
+       trades it on its curve; publish.launches_view) -->
+  <section id="launches" class="fd-pane fd-off">
+    <p class="caption"><span data-i18n="desk.launch.lede">When enough of the flies want the same thing in the same moment, the swarm launches a meme token of its own on Pons. The desk holds the first bag, trades it, and earns the creator fees.</span> <small id="launch-next"></small></p>
+    <ul class="launches lc-grid" id="launch-list"></ul>
   </section>
 
-  <section id="chat" class="tm-panel dkt-chat">
-    <h2><span data-i18n="desk.chat.title">Holder chat</span><small id="chat-count"></small></h2>
+  <section id="books" class="fd-pane fd-off">
+    <div class="scroll"><table class="tbl" id="books-tbl"></table></div>
+    <div id="ghosts-wrap" hidden>
+      <h3 class="chain-h" data-i18n="desk.ghosts.title">Test books</h3>
+      <div class="scroll"><table class="tbl" id="ghosts-tbl"></table></div>
+    </div>
+  </section>
+  </section>
+
+  <!-- holders: the chat and the vote side by side -->
+  <div class="fd-row2">
+  <section id="chat" class="fd-card fd-chat">
+    <div class="fd-card-head"><h2 data-i18n="desk.chat.title">Holder chat</h2><small id="chat-count"></small></div>
     <p class="caption" data-i18n="desk.chat.lede">Holders talk, the desk listens. Name a token ($SYMBOL or its address) and the desk runs its own rug checks on it right here. Each message carries its writer's weight: bigger bags held longer count more. Tokens with enough weight behind them that pass the checks join the flies' view. Nothing is ever bought just because the chat said so.</p>
     <div class="chat-watch" id="chat-watch" hidden></div>
     <div class="chat-log" id="chat-log" aria-live="polite"></div>
@@ -186,49 +236,8 @@
     </form>
   </section>
 
-  <section id="tape" class="tm-panel dkt-tape">
-    <h2><span data-i18n="desk.tape.title">The tape</span></h2>
-    <div class="scroll tm-scroll tape"><table class="tbl" id="tape-tbl"></table></div>
-  </section>
-
-  <section id="books" class="tm-panel dkt-books">
-    <h2><span data-i18n="desk.books.title">The books</span></h2>
-    <div class="scroll tm-scroll"><table class="tbl" id="books-tbl"></table></div>
-    <div id="ghosts-wrap" hidden>
-      <h3 class="chain-h" data-i18n="desk.ghosts.title">Test books</h3>
-      <div class="scroll"><table class="tbl" id="ghosts-tbl"></table></div>
-    </div>
-  </section>
-
-  <!-- the flies' own Pons tokens (2026-10-08, flylaunch.py: the house wallet launches, holds the starting bag and
-       trades it on its curve; publish.launches_view) -->
-  <section id="launches" class="tm-panel dkt-launch">
-    <h2><span data-i18n="desk.launch.title">Launched by the flies</span><small id="launch-next"></small></h2>
-    <p class="caption" data-i18n="desk.launch.lede">When enough of the flies want the same thing in the same moment, the swarm launches a meme token of its own on Pons. The desk holds the first bag, trades it, and earns the creator fees.</p>
-    <ul class="launches lc-grid" id="launch-list"></ul>
-  </section>
-
-  <!-- the week's payout per activated Trader Fly, if the week closed now (2026-10-05; publish.payout_preview) -->
-  <section id="payout" class="tm-panel dkt-pay" hidden>
-    <h2><span data-i18n="desk.pay.title">This week's payout</span><small id="pay-when"></small></h2>
-    <p class="caption" id="pay-sum"></p>
-    <p class="caption dkt-pay-note" id="pay-note" data-i18n="desk.pay.off">Payouts aren't switched on yet: these are the amounts each fly would get. Once they are, a week's payout settles on Sunday at 23:00 UTC and can be claimed on the Claim page two days later.</p>
-    <div class="pay-calc" id="pay-calc" hidden>
-      <b data-i18n="desk.pay.calc.title">What would I earn?</b>
-      <div class="pay-calc-row"><span class="dim" data-i18n="desk.pay.calc.rarity">Rarity</span><div class="seg" id="calc-rarity"></div></div>
-      <div class="pay-calc-row"><span class="dim" data-i18n="desk.pay.calc.stake">Staked $FLYAI</span><div class="seg" id="calc-stake"></div></div>
-      <p class="caption" id="calc-out" aria-live="polite"></p>
-      <p class="caption dim" id="calc-note"></p>
-    </div>
-    <div class="scroll tm-scroll"><table class="tbl" id="pay-holders"></table></div>
-    <details class="tbl-details">
-      <summary data-i18n="desk.pay.byFly">Each fly</summary>
-      <div class="scroll"><table class="tbl" id="pay-tbl"></table></div>
-    </details>
-  </section>
-
-  <section id="vote" class="tm-panel dkt-vote">
-    <h2><span data-i18n="desk.vote.title">Holder vote</span></h2>
+  <section id="vote" class="fd-card fd-vote">
+    <div class="fd-card-head"><h2 data-i18n="desk.vote.title">Holder vote</h2></div>
     <p class="caption" data-i18n="desk.vote.lede">$FLYAI holders pick how the flies trade tomorrow. One vote per wallet per day, weighted by the dollars of $FLYAI it holds when the day closes. Biggest bag wins. Signing is free, no gas.</p>
       <div class="vote-panel">
         <div class="vote-status" id="vote-status"></div>
@@ -245,10 +254,9 @@
         <div class="scroll"><table class="tbl" id="vote-hist"></table></div>
       </details>
   </section>
+  </div>
 
-  <footer class="tm-foot dkt-foot"><span class="sysline" id="sysline" aria-live="polite"></span></footer>
-
-  <details id="how" class="tm-panel dkt-how">
+  <details id="how" class="fd-card fd-how">
     <summary data-i18n="desk.how.title">How it trades</summary>
     <div class="how">
         <p data-i18n-html="desk.how.p1"><b>The brain decides.</b> Each token the fly sees becomes a smell on its olfactory receptor neurons; its mushroom body learns from dopamine what paid. What its motor neurons do in that bar is turned into buy, hold or sell.</p>
@@ -256,9 +264,11 @@
         <p data-i18n-html="desk.how.p4"><b>Paper, shadow or live.</b> The pill at the top says which: on paper nothing is sent; in shadow every trade is quoted on the chain but not sent; live, the desk trades from its own wallet, a slice at a time.</p>
       </div>
   </details>
+  <footer class="fd-foot"><span class="sysline" id="sysline" aria-live="polite"></span></footer>
 
   <!-- read by desk.js, not shown on this page -->
   <div class="dkt-off" hidden>
+  <div class="ticker" id="ticker" hidden aria-label="Latest trades"></div>
 <section id="records" class="dsec" hidden>
     <div class="wrap">
       <h2><span class="num">03</span> <span data-i18n="desk.rec.title">All-time records</span></h2>
@@ -334,7 +344,7 @@
 </script>
 <script type="module" src="assets/i18n/page.js"></script>
 <script src="assets/marketbar.js?v=20261006"></script>
-<script src="assets/desk.js?v=20261029a"></script>
+<script src="assets/desk.js?v=20261029b"></script>
 <script src="assets/deskvote.js?v=20261005b"></script>
 <script src="assets/deskchat.js?v=20261026a"></script>
 <script src="assets/staked.js?v=20261027a"></script>

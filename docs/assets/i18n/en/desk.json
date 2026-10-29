@@ -407,5 +407,21 @@
       "one": "{count} message",
       "other": "{count} messages"
     }
+  },
+  "fd": {
+    "title": "Fly Desk",
+    "sub": "Real fly brains trade one pot on Robinhood Chain. Each week its profit above its high is paid to Trader Fly holders.",
+    "paid": "Paid to holders",
+    "next": "Next payout",
+    "weeks": "over {n} weeks",
+    "onTrack": "{usd} on track so far",
+    "belowHigh": "Under its high: nothing yet",
+    "joinTitle": "Earn from the desk",
+    "join": "Hold a Trader Fly and 200,000 $FLYAI and your fly gets a share of every weekly payout. Stake $FLYAI for a bigger share.",
+    "yours": "See what your flies earn and claim your weekly payout.",
+    "seeEarnings": "See my earnings",
+    "stakeHow": "How staking works",
+    "trades": "Trades",
+    "launches": "Launches"
   }
 }

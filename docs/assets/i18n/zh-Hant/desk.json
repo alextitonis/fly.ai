@@ -407,5 +407,21 @@
       "one": "{count} 則訊息",
       "other": "{count} 則訊息"
     }
+  },
+  "fd": {
+    "title": "Fly Desk",
+    "sub": "真實蒼蠅的大腦在 Robinhood Chain 上交易同一個資金池。每週超過歷史高點的利潤發放給 Trader Fly 持有者。",
+    "paid": "已發放給持有者",
+    "next": "下次發放",
+    "weeks": "共 {n} 週",
+    "onTrack": "目前預計 {usd}",
+    "belowHigh": "低於高點：暫無",
+    "joinTitle": "從交易台賺錢",
+    "join": "持有一隻 Trader Fly 和 200,000 $FLYAI，你的蒼蠅就能分到每週發放的一份。質押 $FLYAI 可分得更多。",
+    "yours": "查看你的蒼蠅收益並領取每週發放。",
+    "seeEarnings": "查看我的收益",
+    "stakeHow": "質押如何運作",
+    "trades": "交易",
+    "launches": "發行"
   }
 }

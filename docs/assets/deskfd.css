@@ -1,0 +1,152 @@
+/* The Fly Desk as a vault page (2026-10-29, the user: "too messy and ugly ... see how websites are now"): one title, four
+   numbers, the chart beside one action card, every table behind tabs, the holders' chat and vote side by side. Flat
+   surfaces and hairlines like the Trader Flies refresh (flytrade/web/src/site.css), sentence case, Inter for text and
+   the mono only for numbers. Loads after desk.css; terminal.css stays for its tokens and the status pills. */
+body.desk.term { font: 14px/1.55 Inter, system-ui, sans-serif; color: #e8ecea; background: #000; }
+body.desk.term::after { display: none; }                       /* no scanlines here */
+
+.fd {
+  --fd-card: #0b0e0d; --fd-card-2: #111514; --fd-line: #1c2321; --fd-line-2: #26302d;
+  --fd-text: #e8ecea; --fd-muted: #9aa5a1; --fd-dim: #6d7874; --fd-mint: #5ef2cc; --fd-red: #ff6b63;
+  max-width: 1280px; margin: 0 auto; padding: 28px 24px 48px; display: grid; gap: 16px;
+}
+.fd > section { padding: 0; border-top: 0; }
+.fd .mono, .fd b, .fd .tbl td.r { font-variant-numeric: tabular-nums; }
+
+/* title row */
+.fd-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.fd-title h1 { margin: 0; font: 700 34px/1.1 Outfit, sans-serif; letter-spacing: -.01em; color: var(--fd-text); }
+.fd-title p { margin: 6px 0 0; max-width: 62ch; color: var(--fd-muted); font-size: 15px; }
+.fd-status { display: flex; align-items: center; gap: 10px; }
+.fd-clock { color: var(--fd-dim); font: 12px var(--t-mono); }
+.fd .tm-live, .fd .tm-mode { font: 600 11px Inter, sans-serif; letter-spacing: .02em; text-transform: none; }
+.fd-err { margin: 0; }
+.fd #market-bar { margin: 0; }
+
+/* the numbers */
+.fd-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.fd-stat { background: var(--fd-card); border: 1px solid var(--fd-line); border-radius: 14px; padding: 14px 16px; display: grid; gap: 4px; min-width: 0; }
+.fd-stat[hidden] { display: none; }
+.fd-stat > span { color: var(--fd-muted); font-size: 13px; }
+.fd-stat > b { font: 600 26px/1.15 Outfit, sans-serif; color: var(--fd-text); overflow-wrap: anywhere; }
+.fd-stat > b .sub { display: block; font: 500 12px Inter, sans-serif; color: var(--fd-muted); margin-top: 2px; }
+.fd-stat > b .sub.up { color: var(--fd-mint); } .fd-stat > b .sub.down { color: var(--fd-red); }
+.fd-stat > em { font-style: normal; font-size: 12px; color: var(--fd-muted); }
+
+/* cards */
+.fd-card { background: var(--fd-card); border: 1px solid var(--fd-line); border-radius: 16px; padding: 18px; min-width: 0; }
+.fd-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.fd h2 { margin: 0; font: 600 17px/1.3 Outfit, sans-serif; letter-spacing: 0; text-transform: none; color: var(--fd-text); }
+.fd-card-head small { color: var(--fd-muted); font-size: 12px; }
+.fd .caption { color: var(--fd-muted); font-size: 13px; margin: 0 0 10px; }
+.fd .dim { color: var(--fd-dim); }
+.fd .up { color: var(--fd-mint); } .fd .down { color: var(--fd-red); }
+
+/* chart + side */
+.fd-main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 16px; align-items: start; }
+.fd-chart .chart { height: 360px; border-radius: 10px; }
+.fd-chart .chart:empty { background: linear-gradient(90deg, var(--fd-card-2) 25%, #161b1a 50%, var(--fd-card-2) 75%) 0 0 / 200% 100%;
+  animation: fd-load 1.4s linear infinite; }
+@keyframes fd-load { to { background-position: -200% 0; } }
+.fd .legend { margin: 0 0 8px; font-size: 12px; color: var(--fd-muted); }
+.fd-minis { margin-top: 12px; }
+.fd-side { display: grid; gap: 16px; position: sticky; top: 76px; }
+.fd-act { border-color: color-mix(in srgb, var(--fd-mint) 35%, var(--fd-line)); display: grid; gap: 12px; }
+.fd-act p { margin: 6px 0 0; color: var(--fd-muted); font-size: 14px; }
+.fd-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.fd-btns .btn { flex: 1 1 auto; justify-content: center; text-align: center; }
+.fd .pay-calc { border: 0; border-top: 1px solid var(--fd-line); border-radius: 0; padding: 12px 0 0; margin: 0; gap: 8px; }
+.fd .pay-calc > b { font: 600 14px Outfit, sans-serif; color: var(--fd-text); }
+.fd .pay-calc-row { flex-direction: column; align-items: stretch; gap: 6px; }
+.fd .pay-calc-row > .dim { min-width: 0; font-size: 12px; }
+.fd .pay-calc .seg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-radius: 10px; }
+.fd .pay-calc .seg button { white-space: nowrap; padding: 7px 6px; }
+#calc-out b { font: 600 18px Outfit, sans-serif; display: block; margin-bottom: 2px; }
+.fd-more summary { cursor: pointer; color: var(--fd-muted); font-size: 13px; margin-bottom: 10px; }
+.fd-more[open] summary { margin-bottom: 6px; }
+.fd .stk-panel, .fd .vote-panel { background: transparent; border: 0; padding: 0; }
+
+/* segmented controls and inner tabs: one look everywhere */
+.fd .seg { border: 1px solid var(--fd-line-2); border-radius: 999px; background: var(--fd-card-2); }
+.fd .seg button { font: 500 12px Inter, sans-serif; letter-spacing: 0; text-transform: none; color: var(--fd-muted); }
+.fd .seg button.on { background: #1d2523; color: var(--fd-text); }
+.fd .tabs button { font: 500 12px Inter, sans-serif; text-transform: none; letter-spacing: 0; border-radius: 999px; }
+.fd .tabs button[aria-selected="true"] { border-color: var(--fd-mint); color: var(--fd-mint); }
+
+/* the tables card */
+.fd-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--fd-line); margin: -4px 0 14px; overflow-x: auto; scrollbar-width: none; }
+.fd-tabs::-webkit-scrollbar { display: none; }
+.fd-tabs button { flex: none; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--fd-muted);
+  font: 500 14px Inter, sans-serif; padding: 8px 12px 10px; cursor: pointer; }
+.fd-tabs button:hover { color: var(--fd-text); }
+.fd-tabs button[aria-selected="true"] { color: var(--fd-text); border-bottom-color: var(--fd-mint); }
+.fd-tabs button[hidden] { display: none; }
+.fd-pane.fd-off, .fd-pane[hidden] { display: none; }
+.fd .scroll { overflow-x: auto; max-height: none; }
+.fd .tbl { width: 100%; font: 13px Inter, sans-serif; border-collapse: collapse; }
+.fd .tbl th { font: 500 12px Inter, sans-serif; text-transform: none; letter-spacing: 0; color: var(--fd-dim); text-align: left;
+  padding: 8px 10px; border-bottom: 1px solid var(--fd-line); background: none; position: static; }
+.fd .tbl th.r, .fd .tbl td.r { text-align: right; }
+.fd .tbl td { padding: 9px 10px; border-bottom: 1px solid #141a18; color: #d6dcda; }
+.fd .tbl tr:hover td { background: #0f1312; }
+.fd .tbl td .mono, .fd .tbl td.r { font-family: var(--t-mono); font-size: 12.5px; }
+.fd .tape { max-height: 560px; overflow-y: auto; border: 0; }        /* the one long table: capped, sticky header */
+.fd .tape .tbl th { position: sticky; top: 0; background: var(--fd-card); z-index: 1; }
+.fd-pay-note { color: #f2b33d !important; }
+.fd .tbl-details summary { cursor: pointer; color: var(--fd-muted); font: 13px Inter, sans-serif; padding: 8px 0; }
+
+/* the holders' row */
+.fd-row2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.fd .chat-log { max-height: 360px; }
+.fd .vote-card { border-radius: 12px; background: var(--fd-card-2); border-color: var(--fd-line); }
+
+/* bottom */
+.fd-how summary { cursor: pointer; font: 600 15px Outfit, sans-serif; color: var(--fd-text); }
+.fd-how .how { margin-top: 12px; max-width: 80ch; }
+.fd-how .how p { color: var(--fd-muted); font-size: 14px; }
+.fd-foot .sysline { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--fd-dim); font: 12px Inter, sans-serif; padding: 0 2px; }
+.fd-foot .sysline b { color: var(--fd-muted); font-weight: 500; }
+
+/* launches: the cards keep their own layout, on the new surface */
+.fd .lc-grid > li { background: var(--fd-card-2); border-color: var(--fd-line); border-radius: 12px; }
+
+@media (max-width: 1000px) {
+  .fd-main { grid-template-columns: 1fr; }
+  .fd-side { position: static; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .fd-row2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .fd { padding: 18px 16px 36px; gap: 12px; }
+  .fd-title h1 { font-size: 28px; }
+  .fd-title p { font-size: 14px; }
+  .fd-stats { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .fd-stat { padding: 12px; }
+  .fd-stat > b { font-size: 20px; }
+  .fd-side { grid-template-columns: 1fr; }
+  .fd-act { order: -1; }
+  .fd-chart .chart { height: 240px; }
+  .fd-card { padding: 14px; border-radius: 14px; }
+  .fd-clock { display: none; }
+}
+
+/* fixes after the first look (2026-10-29): the site's section bands off the panes, Inter labels in the bits desk.js and
+   deskvote.js draw, and the vote cards' facts one per line so three cards fit half the width */
+.fd section { padding-block: 0; border-top: 0; }
+.fd .fd-card { padding: 18px; }
+.fd .stats { margin: 12px 0 0; background: var(--fd-line); border-color: var(--fd-line); border-radius: 12px; }
+.fd .stats .st { background: var(--fd-card); }
+.fd .stats .k, .fd .vs-k, .fd .vc-chips small, .fd .vc-tag, .fd .legend { font-family: Inter, sans-serif; text-transform: none; letter-spacing: 0; }
+.fd .stats .k { font-size: 12px; color: var(--fd-muted); }
+.fd .vs-empty, .fd .vc-num, .fd .vote-msg, .fd .chat-me { font-family: Inter, sans-serif; }
+.fd .vc-chips { grid-template-columns: 1fr; }
+.fd .vote-cards { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.fd .vc-name { font-size: 20px; }
+.fd .vc-desc { font-size: 13px; }
+/* every long table in a tab: capped, its header stays put (the payout lists every holder: 120+ rows) */
+.fd .fd-pane > .scroll, .fd .fd-pane .tbl-details .scroll { max-height: 560px; overflow-y: auto; }
+.fd .fd-pane .scroll .tbl th { position: sticky; top: 0; background: var(--fd-card); z-index: 1; }
+/* phones: the action card right under the numbers, then the chart, then staking */
+@media (max-width: 600px) {
+  .fd-side { display: contents; }
+  .fd-act { order: -1; } .fd-chart { order: 0; } .fd-stake { order: 1; }
+}

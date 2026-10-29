@@ -227,7 +227,7 @@
     "cantRead": "Bu sinek zincirden okunamadı; tekrar dene."
   },
   "lb": {
-    "tab": "Liderlik",
+    "tab": "En iyi traderlar",
     "title": "İşlem liderlik tablosu",
     "text": "İki haftalık sezonlar. Puanın, bu pazarda alarak ve satarak yaptığın $FLYAI hacmidir. İlk 3 kazanır.",
     "season": "Sezon {n}",
@@ -1579,7 +1579,10 @@
         "collect_hours": "Ücretleri topla (saatte bir)"
       },
       "bandTitle": "Bant ayarları"
-    }
+    },
+    "chartTitle": "Son 7 gündeki değer",
+    "brainTitle": "Beyninin her parçasının tuttukları",
+    "seeBoard": "Tüm sıralamayı gör"
   },
   "profile": {
     "title": "Profilin",

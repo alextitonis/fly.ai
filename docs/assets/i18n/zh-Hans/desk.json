@@ -407,5 +407,21 @@
       "one": "{count} 条消息",
       "other": "{count} 条消息"
     }
+  },
+  "fd": {
+    "title": "Fly Desk",
+    "sub": "真实苍蝇的大脑在 Robinhood Chain 上交易同一个资金池。每周超过历史高点的利润发放给 Trader Fly 持有者。",
+    "paid": "已发放给持有者",
+    "next": "下次发放",
+    "weeks": "共 {n} 周",
+    "onTrack": "目前预计 {usd}",
+    "belowHigh": "低于高点：暂无",
+    "joinTitle": "从交易台赚钱",
+    "join": "持有一只 Trader Fly 和 200,000 $FLYAI，你的苍蝇就能分到每周发放的一份。质押 $FLYAI 可分得更多。",
+    "yours": "查看你的苍蝇收益并领取每周发放。",
+    "seeEarnings": "查看我的收益",
+    "stakeHow": "质押如何运作",
+    "trades": "交易",
+    "launches": "发行"
   }
 }

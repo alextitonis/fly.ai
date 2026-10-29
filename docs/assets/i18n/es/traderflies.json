@@ -227,7 +227,7 @@
     "cantRead": "No se pudo leer esta mosca de la cadena; inténtalo de nuevo."
   },
   "lb": {
-    "tab": "Clasificación",
+    "tab": "Mejores traders",
     "title": "Clasificación de trading",
     "text": "Temporadas de dos semanas. Tu puntuación es el volumen en $FLYAI que operas en este mercado, comprando y vendiendo. Ganan los 3 primeros.",
     "season": "Temporada {n}",
@@ -1579,7 +1579,10 @@
         "collect_hours": "Cobrar comisiones cada (horas)"
       },
       "bandTitle": "Ajustes de la banda"
-    }
+    },
+    "chartTitle": "Valor en los últimos 7 días",
+    "brainTitle": "Qué tiene cada parte de su cerebro",
+    "seeBoard": "Ver la clasificación completa"
   },
   "profile": {
     "title": "Tu perfil",

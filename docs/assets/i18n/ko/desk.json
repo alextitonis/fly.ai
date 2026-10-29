@@ -407,5 +407,21 @@
       "one": "메시지 {count}개",
       "other": "메시지 {count}개"
     }
+  },
+  "fd": {
+    "title": "Fly Desk",
+    "sub": "실제 파리의 뇌가 Robinhood Chain에서 하나의 풀을 거래합니다. 매주 최고점을 넘는 수익이 Trader Fly 보유자에게 지급됩니다.",
+    "paid": "보유자 지급액",
+    "next": "다음 지급",
+    "weeks": "{n}주 동안",
+    "onTrack": "현재까지 {usd} 예정",
+    "belowHigh": "최고점 아래: 아직 없음",
+    "joinTitle": "데스크로 수익 얻기",
+    "join": "Trader Fly와 $FLYAI 200,000개를 보유하면 파리가 매주 지급액의 일부를 받습니다. $FLYAI를 스테이킹하면 더 많이 받습니다.",
+    "yours": "내 파리의 수익을 보고 주간 지급액을 받으세요.",
+    "seeEarnings": "내 수익 보기",
+    "stakeHow": "스테이킹 방식",
+    "trades": "거래",
+    "launches": "런칭"
   }
 }

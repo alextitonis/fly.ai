@@ -407,5 +407,21 @@
       "one": "{count} mesaj",
       "other": "{count} mesaj"
     }
+  },
+  "fd": {
+    "title": "Fly Desk",
+    "sub": "Gerçek sinek beyinleri Robinhood Chain'de tek bir havuzla işlem yapar. Her hafta zirvesinin üstündeki kâr Trader Fly sahiplerine ödenir.",
+    "paid": "Sahiplere ödenen",
+    "next": "Sonraki ödeme",
+    "weeks": "{n} haftada",
+    "onTrack": "şu ana kadar {usd} yolda",
+    "belowHigh": "Zirvenin altında: henüz yok",
+    "joinTitle": "Masadan kazan",
+    "join": "Bir Trader Fly ve 200.000 $FLYAI tut, sineğin her haftalık ödemeden pay alsın. Daha büyük pay için $FLYAI stake et.",
+    "yours": "Sineklerinin kazancını gör ve haftalık ödemeni al.",
+    "seeEarnings": "Kazançlarımı gör",
+    "stakeHow": "Stake nasıl çalışır",
+    "trades": "İşlemler",
+    "launches": "Lansmanlar"
   }
 }

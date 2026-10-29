@@ -407,5 +407,21 @@
       "one": "{count} mensaje",
       "other": "{count} mensajes"
     }
+  },
+  "fd": {
+    "title": "Fly Desk",
+    "sub": "Cerebros de moscas reales operan un solo fondo en Robinhood Chain. Cada semana, el beneficio por encima de su máximo se paga a los dueños de Trader Flies.",
+    "paid": "Pagado a holders",
+    "next": "Próximo pago",
+    "weeks": "en {n} semanas",
+    "onTrack": "{usd} en camino hasta ahora",
+    "belowHigh": "Por debajo de su máximo: nada aún",
+    "joinTitle": "Gana con el desk",
+    "join": "Ten una Trader Fly y 200.000 $FLYAI y tu mosca recibe una parte de cada pago semanal. Haz stake de $FLYAI para una parte mayor.",
+    "yours": "Mira lo que ganan tus moscas y cobra tu pago semanal.",
+    "seeEarnings": "Ver mis ganancias",
+    "stakeHow": "Cómo funciona el stake",
+    "trades": "Operaciones",
+    "launches": "Lanzamientos"
   }
 }

@@ -429,10 +429,10 @@
     $("k-median").innerHTML = mv == null ? "—" : `${usd(mv)} <span class="sub ${cls(mr)}">${pct(mr)}</span>`;
     // one fly trades the desk (2026-10-05): "median fly" and "best fly" say nothing then - only the pot and the P&L
     const one = b.books.length <= 1;
-    ["k-median", "k-best"].forEach((id) => { const k = $(id) && $(id).closest(".tm-kpi"); if (k) k.style.display = one ? "none" : ""; });
-    const kp = $("k-pot") && $("k-pot").closest(".dkt-kpis");
-    if (kp) kp.style.gridTemplateColumns = one ? "repeat(2, minmax(0, 1fr))" : "";
+    ["k-median", "k-best"].forEach((id) => { const k = $(id) && $(id).closest(".fd-stat"); if (k) k.hidden = one; });
+    renderPaid(b);
     renderPayout(b.payout, b.nft);
+    syncTabs();
     renderCalc(b);
     renderStats(s, start);
     renderRecords(b.records);
@@ -962,6 +962,39 @@
         `<td class="r">×${esc(f.weight)}</td><td class="r">${nf(0).format(f.active_pct)}%</td><td class="r">${boostCell(f.stake_boost || 1)}</td><td class="r">${nf(2).format(f.share_pct)}%</td>` +
         `<td class="r"><b class="${f.usd > 0 ? "up" : ""}">${esc(usd(f.usd))}</b></td></tr>`).join("")
         : `<tr class="empty"><td colspan="7">${esc(t("pay.empty"))}</td></tr>`) + "</tbody>";
+  }
+
+  // ------------------------------------------------------------------ paid so far + the next payout (2026-10-29)
+  /** The header's last two numbers: every paid week's holders' dollars (publish.site_view epochs) and how long until
+   *  Sunday's settlement, with what this week is on track to pay. */
+  function renderPaid(b) {
+    const paid = (b.epochs || []).filter((e) => e.holders_usd > 0);
+    $("k-paid").textContent = paid.length ? usd(paid.reduce((a, e) => a + e.holders_usd, 0), 0) : "—";
+    $("k-paid-sub").textContent = paid.length ? t("fd.weeks", { n: paid.length }) : "";
+    const p = b.payout;
+    if (!p || !p.settles_at) { $("k-next").textContent = "—"; $("k-next-sub").textContent = ""; return; }
+    const left = Math.max(0, p.settles_at * 1000 - Date.now()), d = Math.floor(left / 86_400_000), h = Math.floor(left / 3_600_000) % 24;
+    $("k-next").textContent = d ? `${d}d ${h}h` : `${h}h`;
+    $("k-next-sub").innerHTML = p.holders_usd > 0
+      ? esc(t("fd.onTrack", { usd: usd(p.holders_usd, 0) })) : esc(t("fd.belowHigh"));
+  }
+
+  // the tables, one at a time (desk.html #fd-tabs): a tab shows its pane with .fd-off; the payout tab goes with the
+  // payout section (renderPayout hides it when there's nothing to show)
+  let pane = "positions";
+  function showPane(name) {
+    pane = name;
+    document.querySelectorAll("#fd-tabs [data-pane]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.pane === name)));
+    document.querySelectorAll("#fd-tables .fd-pane").forEach((s) => s.classList.toggle("fd-off", s.id !== name));
+  }
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest("#fd-tabs [data-pane]");
+    if (b) showPane(b.dataset.pane);
+  });
+  function syncTabs() {
+    const payTab = document.querySelector('#fd-tabs [data-pane="payout"]');
+    if (payTab) payTab.hidden = !!($("payout") && $("payout").hidden);
+    if (payTab && payTab.hidden && pane === "payout") showPane("positions");
   }
 
   // ------------------------------------------------------------------ what would I earn? (2026-10-29)
