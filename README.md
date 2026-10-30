@@ -170,7 +170,7 @@ python drone/reflex.py                                  # a hand swipe turns it,
 ```
 
 * **Following with no radio:** the follower knows only what its four onboard cameras show. It stays 0.97 m from the leader, against 1.84 m when it tracks a different drone and 1.39 m on scrambled wiring. It missed one of four pre-set rules: within 1 m 55% of the time, against 60%.
-* **Learning who to follow:** dopamine at the Kenyon-cell output synapses teaches it a leader by colour, and swapping the rewards flips its choice. This passes every pre-set rule so far (82 points of flip with people), but the test stopped at 39 of 48 flights. It only knows colour, and the "blink" that keeps the Kenyon cells working in flight is our addition.
+* **Learning who to follow:** dopamine at the Kenyon-cell output synapses teaches it a leader by colour, and swapping the rewards flips its choice. This passed every pre-set rule over 48 flights: with people it picks the rewarded one 91-93% of the time, and retraining shifts its picks by 84 points. It only knows colour, and the "blink" that keeps the Kenyon cells working in flight is our addition.
 * **Hand gestures:** with no trained readout, two types of its descending neurons (DNg41, DNb03) read left and right swipes the right way 100% of the time on rendered hands, against 35-45% on scrambled wiring, and 8 of 9 on one real clip. It only tells left from right. A trained 7-gesture readout did no better than scrambled wiring.
 
 Commands, how to train each part, full results and limits: [drone/README.md](drone/README.md).

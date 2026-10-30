@@ -144,23 +144,24 @@ The leader flies a scripted route with no physics. 8 seeds, 60 s each.
 **Missed: within 1 m at least 60% of the time.** With exact positions instead of a camera (no distraction), the same test gave
 0.79 m and 75%, and passed all four. The speed cap and the stop on DNp01 are our mapping.
 
-### Learning who to follow: passing so far, test not finished
+### Learning who to follow: all rules passed
 
 On the bench (`imprint.py`), all 5 rules passed: 100% of flies prefer the rewarded colour, 100% flip when the rewards swap,
 random rewards give 63%, scrambled wiring 33%. A colour within about 40 degrees of hue reads as the same leader. That bench
 resets the brain before every look. Left running, the Kenyon cells go all-or-nothing, so flight needs a quiet "blink" before
 each look.
 
-In flight (`choose.py`), low memory stopped the test at **39 of 48 flights**, so these are interim:
+In flight (`choose.py`): 8 seeds, 60 s each, trained on A, on B, or not at all, 48 flights.
 
 | | Rewarded picks | Flip in picks (95% interval) | Distance shift (95% interval) | Untrained picks A |
 |---|---|---|---|---|
-| Drones, 7 seeds | 72% / 82% | 54 pts (41 to 66) | 0.54 m (0.30 to 0.78) | 53% |
-| People, 6 seeds | 90% / 92% | 82 pts (76 to 88) | 0.85 m (0.44 to 1.27) | 40% |
+| Drones | 73% / 82% | 54 pts (43 to 65) | 0.57 m (0.35 to 0.79) | 52% |
+| People | 91% / 93% | 84 pts (78 to 90) | 0.86 m (0.55 to 1.16) | 39% |
 
 Rules: picks flip by 30+ points, distance shifts by 0.2+ m, at least 70% rewarded picks. Limits: following is loose (people,
-trained on A: 1.18 m to A, 1.58 m to B); it stops about 48% of the time near people; each visual neuron's colour preference, the
-blink, the 2 V colour drive and the step from learned value to LC10a are ours, not the wiring.
+trained on A: 1.23 m to A, 1.59 m to B); it stops about 47% of the time near people; drones crash about 0.4 times a minute;
+each visual neuron's colour preference, the blink, the 2 V colour drive and the step from learned value to LC10a are ours, not the
+wiring. No scrambled-wiring flights were run: the wiring comparison is the bench's.
 
 ### Real footage: works on a saturated colour only
 

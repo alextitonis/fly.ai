@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "在 fly.ai 发行代币",
+    "description": "在 Robinhood Chain 上发行代币。先在联合曲线上交易,然后毕业进入流动性锁定的 FLYAI 资金池。"
+  },
+  "head": {
+    "eyebrow": "Fly launchpad",
+    "title": "发行代币",
+    "lede": "从第一分钟起就在联合曲线上交易。曲线售罄后,毕业进入自己的 FLYAI 资金池,流动性锁定。"
+  },
+  "closed": {
+    "title": "尚未开放",
+    "body": "launchpad 尚未开放。"
+  },
+  "form": {
+    "name": "名称",
+    "namePh": "Fruit Market",
+    "symbol": "符号",
+    "symbolPh": "FRUIT",
+    "logo": "Logo 链接(可选)",
+    "logoHelp": "一张方形图片的链接。它会保存在链上,之后无法更改。",
+    "tax": "你的创建者税",
+    "taxHelp": "在曲线上的每笔交易中收取并支付给你。毕业时停止,且无法更改。",
+    "dev": "你用 USDG 的首次买入(可选)",
+    "devHelp": "最多 ${max}(供应量的 {pct}%)。在毕业前为你保管。",
+    "devGets": "你将获得约 {tokens} 个代币(供应量的 {pct}%),在毕业前为你保管。",
+    "connect": "连接钱包",
+    "go": "支付 {fee} ETH 发行",
+    "paused": "发行已暂停"
+  },
+  "preview": {
+    "title": "预览",
+    "name": "你的代币",
+    "symbol": "符号"
+  },
+  "rules": {
+    "title": "规则",
+    "fee": "创建代币需要 {fee} ETH。",
+    "supply": "共 10 亿枚:8 亿在曲线上,2 亿在毕业时进入资金池。任何人都无法增发。",
+    "open": "发行后 {secs} 秒开放交易。狙击税从 {snipe}% 开始,在 {mins} 分钟内降至 0。",
+    "limit": "前 {mins} 分钟内,每个钱包最多持有供应量的 {pct}%,每个区块只能买入一次。",
+    "trade": "每笔交易 {fee}% 手续费:70% 给你,20% 给 fly.ai,10% 给已激活的 Trader Flies。",
+    "grad": "筹集到 {target} 后,资金自动转换为 FLYAI,代币进入自己的 FLYAI 资金池。流动性永久锁定。",
+    "dev": "你自己的首次买入在毕业前被保管,因此不能在曲线上卖出。"
+  },
+  "problem": {
+    "name": "请填写最多 32 个字符的名称,开头和结尾不能有空格。",
+    "symbol": "符号为 1 到 10 个大写字母或数字。",
+    "reserved": "这个名称属于 fly.ai 自己的代币,请换一个。",
+    "logo": "Logo 链接必须以 https:// 或 ipfs:// 开头。",
+    "tax": "创建者税最高为 2%。",
+    "dev": "首次买入金额不是数字。",
+    "devMax": "首次买入金额超过上限。",
+    "eth": "你的钱包 ETH 不足以支付费用。",
+    "usdg": "你的钱包 USDG 不足以完成首次买入。"
+  },
+  "msg": {
+    "confirm": "请在钱包中确认第 {n} 步,共 {of} 步…",
+    "waiting": "正在等待链上确认…",
+    "done": "发行成功!",
+    "view": "打开页面",
+    "noToken": "交易已完成,但无法读取代币地址。请在钱包中查看交易。",
+    "noWallet": "此浏览器中未找到钱包。",
+    "cancelled": "已取消。",
+    "failed": "失败:{why}"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "fly.ai'de token çıkar",
+    "description": "Robinhood Chain'de token çıkar. Önce bonding eğrisinde işlem görür, sonra kilitli likiditeyle kendi FLYAI havuzuna mezun olur."
+  },
+  "head": {
+    "eyebrow": "Fly launchpad",
+    "title": "Token çıkar",
+    "lede": "İlk dakikadan itibaren bonding eğrisinde işlem görür. Eğri tükenince kilitli likiditeyle kendi FLYAI havuzuna mezun olur."
+  },
+  "closed": {
+    "title": "Henüz açık değil",
+    "body": "Launchpad henüz açık değil."
+  },
+  "form": {
+    "name": "Ad",
+    "namePh": "Fruit Market",
+    "symbol": "Sembol",
+    "symbolPh": "FRUIT",
+    "logo": "Logo bağlantısı (isteğe bağlı)",
+    "logoHelp": "Kare bir görselin bağlantısı. Zincire kaydedilir ve sonradan değiştirilemez.",
+    "tax": "Yaratıcı vergin",
+    "taxHelp": "Eğrideki her işlemden alınır ve sana ödenir. Mezuniyette biter ve değiştirilemez.",
+    "dev": "USDG ile ilk alımın (isteğe bağlı)",
+    "devHelp": "En fazla ${max} (arzın %{pct}'i). Mezuniyete kadar senin için tutulur.",
+    "devGets": "Yaklaşık {tokens} token alırsın (arzın %{pct}'i), mezuniyete kadar senin için tutulur.",
+    "connect": "Cüzdan bağla",
+    "go": "{fee} ETH ile çıkar",
+    "paused": "Token çıkarma duraklatıldı"
+  },
+  "preview": {
+    "title": "Önizleme",
+    "name": "Tokenin",
+    "symbol": "SEMBOL"
+  },
+  "rules": {
+    "title": "Kurallar",
+    "fee": "Token oluşturmak {fee} ETH tutar.",
+    "supply": "1 milyar token: 800M eğride, 200M mezuniyette havuza. Kimse daha fazla basamaz.",
+    "open": "İşlemler çıkıştan {secs} saniye sonra açılır. Sniper vergisi %{snipe} ile başlar ve {mins} dakikada 0'a iner.",
+    "limit": "İlk {mins} dakika bir cüzdan arzın en fazla %{pct}'ini tutabilir ve blok başına bir kez alabilir.",
+    "trade": "İşlem başına %{fee} ücret: %70 sana, %20 fly.ai'ye, %10 aktif Trader Flies'a.",
+    "grad": "{target} toplanınca tutar otomatik olarak FLYAI'ye çevrilir ve token kendi FLYAI havuzuna geçer. Likidite kalıcı olarak kilitlenir.",
+    "dev": "Kendi ilk alımın mezuniyete kadar tutulur, yani eğride satamazsın."
+  },
+  "problem": {
+    "name": "En fazla 32 karakterlik bir ad ver; başında ve sonunda boşluk olmasın.",
+    "symbol": "Sembol 1-10 büyük harf veya rakamdır.",
+    "reserved": "Bu ad fly.ai'nin kendi tokenine ait. Başka bir ad seç.",
+    "logo": "Logo bağlantısı https:// veya ipfs:// ile başlamalı.",
+    "tax": "Yaratıcı vergisi en fazla %2 olabilir.",
+    "dev": "İlk alım tutarı bir sayı değil.",
+    "devMax": "İlk alım limiti aşıyor.",
+    "eth": "Cüzdanında ücret için yeterli ETH yok.",
+    "usdg": "Cüzdanında bu ilk alım için yeterli USDG yok."
+  },
+  "msg": {
+    "confirm": "{of} adımın {n}. adımını cüzdanında onayla…",
+    "waiting": "Zincir bekleniyor…",
+    "done": "Çıktı!",
+    "view": "Sayfasını aç",
+    "noToken": "İşlem tamamlandı ama token adresini okuyamadık. İşlemi cüzdanından kontrol et.",
+    "noWallet": "Bu tarayıcıda cüzdan bulunamadı.",
+    "cancelled": "İptal edildi.",
+    "failed": "Başarısız: {why}"
+  }
+}

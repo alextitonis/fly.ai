@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Launch a token on fly.ai",
+    "description": "Launch a token on Robinhood Chain. It trades on a bonding curve, then graduates into its own FLYAI pool with locked liquidity."
+  },
+  "head": {
+    "eyebrow": "Fly launchpad",
+    "title": "Launch a token",
+    "lede": "It trades on a bonding curve from your first minute. When the curve sells out, it graduates into its own FLYAI pool with locked liquidity."
+  },
+  "closed": {
+    "title": "Not open yet",
+    "body": "The launchpad isn't open yet."
+  },
+  "form": {
+    "name": "Name",
+    "namePh": "Fruit Market",
+    "symbol": "Symbol",
+    "symbolPh": "FRUIT",
+    "logo": "Logo link (optional)",
+    "logoHelp": "A link to a square image. It's saved on chain and can't be changed later.",
+    "tax": "Your creator tax",
+    "taxHelp": "Taken on every trade on the curve and paid to you. It stops at graduation and can't be changed.",
+    "dev": "Your first buy in USDG (optional)",
+    "devHelp": "Up to ${max} ({pct}% of the supply). Held for you until graduation.",
+    "devGets": "You get about {tokens} tokens ({pct}% of the supply), held for you until graduation.",
+    "connect": "Connect wallet",
+    "go": "Launch for {fee} ETH",
+    "paused": "Launching is paused"
+  },
+  "preview": {
+    "title": "Preview",
+    "name": "Your token",
+    "symbol": "SYMBOL"
+  },
+  "rules": {
+    "title": "The rules",
+    "fee": "Creating a token costs {fee} ETH.",
+    "supply": "1 billion tokens: 800M on the curve, 200M for the pool at graduation. Nobody can mint more.",
+    "open": "Trading opens {secs} seconds after you launch. A sniping tax starts at {snipe}% and falls to 0 over {mins} minutes.",
+    "limit": "For the first {mins} minutes a wallet can hold at most {pct}% of the supply and buy once per block.",
+    "trade": "{fee}% fee on each trade: 70% to you, 20% to fly.ai, 10% to activated Trader Flies.",
+    "grad": "At {target} raised, the raise converts to FLYAI automatically and the token moves to its own FLYAI pool. The liquidity is locked for good.",
+    "dev": "Your own first buy is held until graduation, so you can't sell it on the curve."
+  },
+  "problem": {
+    "name": "Give it a name of up to 32 characters, with no spaces at the start or end.",
+    "symbol": "The symbol is 1 to 10 capital letters or numbers.",
+    "reserved": "That name belongs to fly.ai's own token. Pick another.",
+    "logo": "The logo link must start with https:// or ipfs://.",
+    "tax": "The creator tax can be 2% at most.",
+    "dev": "That first buy isn't a number.",
+    "devMax": "That first buy is over the limit.",
+    "eth": "Your wallet doesn't have enough ETH for the fee.",
+    "usdg": "Your wallet doesn't have enough USDG for that first buy."
+  },
+  "msg": {
+    "confirm": "Confirm step {n} of {of} in your wallet…",
+    "waiting": "Waiting for the chain…",
+    "done": "Launched!",
+    "view": "Open its page",
+    "noToken": "It went through, but we couldn't read the token's address. Check the transaction in your wallet.",
+    "noWallet": "No wallet found in this browser.",
+    "cancelled": "Cancelled.",
+    "failed": "It failed: {why}"
+  }
+}

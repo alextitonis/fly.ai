@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Lanza un token en fly.ai",
+    "description": "Lanza un token en Robinhood Chain. Cotiza en una curva de bonding y luego se gradúa a su propio pool con FLYAI y liquidez bloqueada."
+  },
+  "head": {
+    "eyebrow": "Launchpad de Fly",
+    "title": "Lanza un token",
+    "lede": "Cotiza en una curva de bonding desde el primer minuto. Cuando la curva se agota, se gradúa a su propio pool con FLYAI y liquidez bloqueada."
+  },
+  "closed": {
+    "title": "Aún no está abierto",
+    "body": "El launchpad aún no está abierto."
+  },
+  "form": {
+    "name": "Nombre",
+    "namePh": "Fruit Market",
+    "symbol": "Símbolo",
+    "symbolPh": "FRUIT",
+    "logo": "Enlace del logo (opcional)",
+    "logoHelp": "Un enlace a una imagen cuadrada. Se guarda en la cadena y no se puede cambiar después.",
+    "tax": "Tu impuesto de creador",
+    "taxHelp": "Se cobra en cada operación en la curva y se te paga a ti. Termina con la graduación y no se puede cambiar.",
+    "dev": "Tu primera compra en USDG (opcional)",
+    "devHelp": "Hasta ${max} ({pct}% del suministro). Se guarda para ti hasta la graduación.",
+    "devGets": "Recibes aprox. {tokens} tokens ({pct}% del suministro), guardados para ti hasta la graduación.",
+    "connect": "Conectar wallet",
+    "go": "Lanzar por {fee} ETH",
+    "paused": "Los lanzamientos están en pausa"
+  },
+  "preview": {
+    "title": "Vista previa",
+    "name": "Tu token",
+    "symbol": "SÍMBOLO"
+  },
+  "rules": {
+    "title": "Las reglas",
+    "fee": "Crear un token cuesta {fee} ETH.",
+    "supply": "1.000 millones de tokens: 800M en la curva y 200M para el pool en la graduación. Nadie puede acuñar más.",
+    "open": "Las operaciones abren {secs} segundos después del lanzamiento. Un impuesto antisniper empieza en {snipe}% y baja a 0 en {mins} minutos.",
+    "limit": "Durante los primeros {mins} minutos, una wallet puede tener como máximo {pct}% del suministro y comprar una vez por bloque.",
+    "trade": "Comisión del {fee}% por operación: 70% para ti, 20% para fly.ai, 10% para las Trader Flies activadas.",
+    "grad": "Al recaudar {target}, lo recaudado se convierte automáticamente a FLYAI y el token pasa a su propio pool con FLYAI. La liquidez queda bloqueada para siempre.",
+    "dev": "Tu primera compra se guarda hasta la graduación, así que no puedes venderla en la curva."
+  },
+  "problem": {
+    "name": "Ponle un nombre de hasta 32 caracteres, sin espacios al principio ni al final.",
+    "symbol": "El símbolo tiene de 1 a 10 mayúsculas o números.",
+    "reserved": "Ese nombre es del token de fly.ai. Elige otro.",
+    "logo": "El enlace del logo debe empezar por https:// o ipfs://.",
+    "tax": "El impuesto de creador puede ser del 2% como máximo.",
+    "dev": "Esa primera compra no es un número.",
+    "devMax": "Esa primera compra supera el límite.",
+    "eth": "Tu wallet no tiene suficiente ETH para la comisión.",
+    "usdg": "Tu wallet no tiene suficiente USDG para esa primera compra."
+  },
+  "msg": {
+    "confirm": "Confirma el paso {n} de {of} en tu wallet…",
+    "waiting": "Esperando a la cadena…",
+    "done": "¡Lanzado!",
+    "view": "Abrir su página",
+    "noToken": "Se completó, pero no pudimos leer la dirección del token. Revisa la transacción en tu wallet.",
+    "noWallet": "No se encontró ninguna wallet en este navegador.",
+    "cancelled": "Cancelado.",
+    "failed": "Ha fallado: {why}"
+  }
+}
