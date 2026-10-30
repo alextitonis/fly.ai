@@ -603,6 +603,7 @@
     "signOut": "로그아웃",
     "noAnswer": "그 지갑에서 아직 응답이 없습니다. 지갑 창이 열리지 않았다면 위에서 다른 지갑을 고르거나, 쓰지 않는 지갑 확장 프로그램을 끄고 새로고침하세요.",
     "tryAgain": "다시 시도하려면 지갑을 고르세요.",
+    "wcUnreachable": "현재 연결로는 WalletConnect 네트워크에 접속할 수 없습니다. MetaMask나 Rabby 같은 브라우저 지갑을 사용하거나, 다른 네트워크로 바꾼 뒤 다시 시도하세요.",
     "signMessage": "지갑에서 메시지에 서명하세요 (무료, 트랜잭션 없음)",
     "checkingSignature": "서명 확인 중",
     "signInFirst": "먼저 로그인하세요",

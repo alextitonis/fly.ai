@@ -85,6 +85,44 @@ export function onConnection(fn: (c: Connection | null) => void): () => void {
   return watchConnection(cfg(), { onChange: () => fn(connection()) });
 }
 
+/** WalletConnect's relay can't be reached from this browser (a blocked network, an extension): no QR code can come. */
+export class RelayUnreachable extends Error {
+  override name = "RelayUnreachable";
+  constructor() { super("can't reach the WalletConnect network"); }
+}
+
+const RELAY_WAIT_MS = 10_000;
+
+/**
+ * A WalletConnect attempt, given up when its relay never connects: left alone it shows a blank QR code for over a
+ * minute, then "Failed to publish custom payload" (issue #38). Once the relay has connected it may drop again (a phone
+ * switching to its wallet app), so only the first connection is watched. A provider without a relayer we can read isn't cut.
+ */
+async function watchRelay(connector: Connector, attempt: Promise<unknown>): Promise<void> {
+  const provider = await connector.getProvider().catch(() => null) as {
+    signer?: { client?: { core?: { relayer?: { connected?: boolean } } } };
+    modal?: { close?: () => void };
+  } | null;
+  const started = Date.now();
+  let timer: ReturnType<typeof setInterval> | undefined;
+  const cut = new Promise<never>((_, reject) => {
+    timer = setInterval(() => {
+      const relayer = provider?.signer?.client?.core?.relayer;
+      if (relayer?.connected) return clearInterval(timer);
+      if (Date.now() - started < RELAY_WAIT_MS) return;
+      clearInterval(timer);
+      if (!relayer) return;
+      provider?.modal?.close?.();
+      reject(new RelayUnreachable());
+    }, 250);
+  });
+  try {
+    await Promise.race([attempt, cut]);
+  } finally {
+    clearInterval(timer);
+  }
+}
+
 /** Connects the chosen wallet (a no-op when it's already the one connected) and returns the account. */
 export async function connect(uid: string): Promise<Connection> {
   const connector = getConnectors(cfg()).find((c: Connector) => c.uid === uid);
@@ -94,7 +132,8 @@ export async function connect(uid: string): Promise<Connection> {
   if (connections.has(uid)) {
     if (current !== uid) await switchConnection(cfg(), { connector });
   } else {
-    await wagmiConnect(cfg(), { connector, chainId: chain.id });
+    const attempt = wagmiConnect(cfg(), { connector, chainId: chain.id });
+    await (connector.type === "walletConnect" ? watchRelay(connector, attempt) : attempt);
   }
   const c = connection();
   if (!c) throw new Error("the wallet shared no account");

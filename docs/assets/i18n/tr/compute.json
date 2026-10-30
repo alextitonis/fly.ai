@@ -603,6 +603,7 @@
     "signOut": "Çıkış yap",
     "noAnswer": "Bu cüzdandan henüz yanıt yok. Cüzdan penceresi açılmadıysa yukarıdan başka bir cüzdan seç ya da kullanmadığın cüzdan eklentilerini kapatıp sayfayı yenile.",
     "tryAgain": "Tekrar denemek için bir cüzdan seç.",
+    "wcUnreachable": "Bu bağlantıdan WalletConnect ağına ulaşılamıyor. MetaMask veya Rabby gibi bir tarayıcı cüzdanı kullan ya da ağını değiştirip tekrar dene.",
     "signMessage": "mesajı cüzdanında imzala (ücretsiz, işlem yok)",
     "checkingSignature": "imza kontrol ediliyor",
     "signInFirst": "önce giriş yap",

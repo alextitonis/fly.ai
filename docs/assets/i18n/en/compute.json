@@ -603,6 +603,7 @@
     "signOut": "Sign out",
     "noAnswer": "No answer from that wallet yet. If no wallet window opened, pick another wallet above, or turn off wallet extensions you don't use and reload.",
     "tryAgain": "Pick a wallet to try again.",
+    "wcUnreachable": "Can't reach the WalletConnect network from this connection. Use a browser wallet like MetaMask or Rabby, or switch networks and try again.",
     "signMessage": "sign the message in your wallet (free, no transaction)",
     "checkingSignature": "checking the signature",
     "signInFirst": "sign in first",

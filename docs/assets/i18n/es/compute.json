@@ -603,6 +603,7 @@
     "signOut": "Cerrar sesión",
     "noAnswer": "Esa billetera aún no responde. Si no se abrió ninguna ventana de billetera, elige otra arriba, o desactiva las extensiones de billetera que no uses y recarga.",
     "tryAgain": "Elige una billetera para intentarlo de nuevo.",
+    "wcUnreachable": "No se puede conectar con la red de WalletConnect desde esta conexión. Usa una billetera de navegador como MetaMask o Rabby, o cambia de red e inténtalo de nuevo.",
     "signMessage": "firma el mensaje en tu billetera (gratis, sin transacción)",
     "checkingSignature": "comprobando la firma",
     "signInFirst": "inicia sesión primero",

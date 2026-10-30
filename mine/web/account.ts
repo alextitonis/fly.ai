@@ -57,6 +57,7 @@ window.addEventListener("storage", (e) => {
 /** A wallet error in words; a refusal in the wallet reads as a cancel. */
 export function errorText(err: unknown): string {
   const e = err as { code?: number; name?: string; shortMessage?: string; message?: string; cause?: { code?: number } };
+  if (e?.name === "RelayUnreachable") return t("compute.account.wcUnreachable");
   if (e?.code === 4001 || e?.cause?.code === 4001 || /UserRejected/.test(e?.name ?? "") || /rejected|denied|cancel/i.test(e?.shortMessage ?? "")) return t("compute.account.cancelled");
   return e?.shortMessage ?? e?.message ?? String(err);
 }

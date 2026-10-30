@@ -603,6 +603,7 @@
     "signOut": "退出登录",
     "noAnswer": "该钱包尚未响应。如果没有弹出钱包窗口，请在上方选择其他钱包，或关闭不用的钱包扩展并刷新。",
     "tryAgain": "选择一个钱包重试。",
+    "wcUnreachable": "当前网络无法连接 WalletConnect。请使用 MetaMask 或 Rabby 等浏览器钱包，或更换网络后重试。",
     "signMessage": "请在钱包中签名消息（免费，不发送交易）",
     "checkingSignature": "正在验证签名",
     "signInFirst": "请先登录",
