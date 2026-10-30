@@ -17,7 +17,8 @@
   // doesn't fit (common.nav.<key>); a menu whose items are [group id, title, links] shows its groups as columns.
   // 2026-10-24 (the user: "focus on the Coin, Fly Trader and Fly Desk, we can remove the mini games",
   // flytrade/SITE-RESTRUCTURE-PLAN.md): three products, then More. The games (roulette, slots, race, flinder, radio,
-  // robot fights, colosseum), Hardware NFTs, Compute, Terminal and Bounties are off the menus; their pages stay.
+  // robot fights, colosseum), Hardware NFTs, Terminal and Bounties are off the menus; their pages stay.
+  // 2026-10-30: Compute back under More, miners couldn't find where to start.
   const NAV = [
     ["token", "$FLYAI", [
       // 2026-10-27 (the buy-flow plan step 3): one page to buy from, linked from every post
@@ -51,6 +52,7 @@
     ["more", "More", [
       ["Flybook", "/flybook/", "Free: the live feed written by fly brains"],
       ["Simulation", "/simulation/"],
+      ["Compute", "/compute/", "Mine with your browser, earn $FLYAI"],
       ["Research", "/research", "Findings: fighting, the 3-D world, what failed", false, false, "researchAll"],
       ["Roadmap", "/roadmap"],
       ["Changelog", "/changelog"],
