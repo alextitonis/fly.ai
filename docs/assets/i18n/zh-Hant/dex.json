@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "title": "Fly DEX:在 fly.ai 發行的代幣",
+    "description": "在 fly.ai 發行的每個代幣都會自動上架,並顯示即時價格、交易量、流動性和持有人。用你自己的錢包交易。"
+  },
+  "head": {
+    "eyebrow": "Fly DEX",
+    "title": "在 fly.ai 發行的每個代幣",
+    "lede": "發行即自動上架。即時價格、交易量、流動性和持有人,交易都從你自己的錢包發起。",
+    "launch": "發行代幣"
+  },
+  "closed": { "title": "尚未開放", "body": "Fly DEX 將與 launchpad 一同開放。" },
+  "list": {
+    "sortAria": "排序",
+    "filterAria": "篩選",
+    "search": "名稱、符號或地址",
+    "note": "任何人都可以在這裡發行代幣。上架是自動的,不代表背書。請務必核對地址。",
+    "empty": "還沒有發行的代幣。",
+    "noMatch": "沒有符合的代幣。"
+  },
+  "sort": { "trending": "熱門", "new": "最新", "volume": "交易量", "mcap": "市值", "gainers": "漲幅榜" },
+  "state": { "all": "全部", "curve": "曲線中", "graduated": "已畢業", "tagGraduated": "已畢業", "tagSoldOut": "畢業中", "tagOwn": "fly.ai" },
+  "col": { "token": "代幣", "price": "價格", "change": "24小時", "volume": "24小時交易量", "traders": "交易者", "liquidity": "流動性", "mcap": "市值", "holders": "持有人" },
+  "totals": { "launches": "發行數", "graduated": "已畢業", "volume": "總交易量" },
+  "time": { "s": "{n}秒前", "m": "{n}分鐘前", "h": "{n}小時前", "d": "{n}天前" },
+  "token": {
+    "back": "所有代幣",
+    "trades": "交易",
+    "holders": "主要持有人",
+    "noChart": "圖表在首批交易後開始顯示。",
+    "noTrades": "還沒有交易。",
+    "chartAria": "價格圖表",
+    "points": "{n} 筆交易",
+    "volume": "總交易量",
+    "tradeCount": "交易",
+    "creatorTax": "創建者稅",
+    "taxNone": "無",
+    "bundled": "多個錢包在開盤後立即於同一區塊首次買入,可能是同一買家。",
+    "progress": "已籌集 {raised},目標 {target}。曲線售罄後,籌集的資金會自動轉換為 FLYAI,代幣進入其在 GIGA 上的 FLYAI 資金池。"
+  },
+  "trades": { "when": "時間", "side": "方向", "usd": "USD", "price": "價格", "venue": "位置", "wallet": "錢包", "pool": "資金池", "curve": "曲線" },
+  "swap": {
+    "sideAria": "買入或賣出",
+    "buy": "買入",
+    "sell": "賣出",
+    "pay": "你支付",
+    "youSell": "你賣出",
+    "payAria": "支付幣種",
+    "get": "預計獲得",
+    "max": "最大",
+    "slippage": "滑點上限",
+    "connect": "連接錢包",
+    "balance": "餘額:{amt}",
+    "cost": "手續費和價格影響:約 {pct}%",
+    "costHigh": "手續費和價格影響:約 {pct}%。對這個資金池來說偏高,請嘗試更小的金額。",
+    "noQuote": "目前無法報價此金額。",
+    "noWallet": "此瀏覽器中未找到錢包。",
+    "notEnough": "超過了你的餘額。",
+    "paused": "曲線交易已暫停。",
+    "confirm": "請在錢包中確認第 {n} 步,共 {of} 步…",
+    "waiting": "正在等待鏈上確認…",
+    "done": "完成。",
+    "viewTx": "查看交易",
+    "cancelled": "已取消。",
+    "failed": "失敗:{why}",
+    "feesPool": "此代幣的交易對是 FLYAI。資金池每筆收取 1% 手續費,fly.ai 不額外收費。",
+    "feesCurve": "曲線上收取 1% 交易費和 {tax}% 創建者稅,從你的交易中扣除。"
+  }
+}

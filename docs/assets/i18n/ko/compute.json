@@ -447,13 +447,13 @@
   "claim": {
     "flyAiComputeClaims": "fly.ai 컴퓨트 · 청구",
     "monthlyClaims": "월간 청구",
-    "pointsBuildUpOver": "포인트는 매 UTC 월 동안 쌓입니다. 달이 끝나면 $FLYAI 풀이 포인트에 따라 나뉘고, 각 지갑은 여기 Robinhood Chain에서 자기 몫을 청구합니다. 2026년 10월부터는 지급 후 30일 안에 청구하세요. 청구하지 않은 몫은 fly.ai로 돌아갑니다.",
+    "pointsBuildUpOver": "포인트는 UTC 기준 매월 쌓입니다. 한 달이 끝나면 $FLYAI 풀이 포인트에 따라 나뉘고, 각 지갑은 여기 Robinhood Chain에서 자기 몫을 클레임합니다. 2026년 10월부터 한 달 몫은 매주 4회로 나뉘어 잠금 해제되며, 첫 회차는 지급이 열릴 때 풀립니다. 마지막 회차 후 30일 안에 클레임하세요. 클레임하지 않은 금액은 fly.ai로 돌아갑니다.",
     "yourWallet": "내 지갑",
     "wallet": "지갑",
     "notSignedIn": "로그인하지 않음",
     "signIn": "로그인",
     "thisMonth": "이번 달",
-    "claimingIsATransaction": "청구는 Robinhood Chain 트랜잭션이며 약간의 가스비가 듭니다. 매달의 배분은 fly.ai 트레저리가 온체인에 올리며, 청구 기간 동안에는 바꾸거나 회수할 수 없습니다. 2026년 9월분은 90일 동안 청구할 수 있고, 10월부터는 기간이 30일이며 컨트랙트가 청구 조건으로 소량의 $FLYAI 보유를 요구할 수 있습니다. 청구 컨트랙트: <a id=\"contract-link\" class=\"mono\" target=\"_blank\" rel=\"noopener\">—</a>",
+    "claimingIsATransaction": "클레임은 Robinhood Chain 트랜잭션이며 약간의 가스비가 듭니다. 매월 분배는 fly.ai 트레저리가 온체인에 게시하며, 클레임 기간 중에는 변경하거나 회수할 수 없습니다. 2026년 9월분은 90일 동안 클레임할 수 있습니다. 10월부터는 한 달 몫이 매주 4회로 나뉘어 풀리고, 기간은 마지막 회차부터 30일이며, 컨트랙트가 클레임 조건으로 소량의 $FLYAI 보유를 요구할 수 있습니다. 놓친 회차는 누적되므로 한 번에 여러 회차를 클레임할 수 있습니다. 클레임 컨트랙트: <a id=\"contract-link\" class=\"mono\" target=\"_blank\" rel=\"noopener\">—</a>",
     "claims2": "청구",
     "signInToSee": "청구 내역을 보려면 로그인하세요.",
     "metaTitle": "청구 — fly.ai 컴퓨트",
@@ -471,7 +471,11 @@
     "claimBy": "{date}까지 청구",
     "windowClosed": "청구 기간이 {date}에 끝났습니다. 청구되지 않은 $FLYAI는 fly.ai로 돌아갔습니다",
     "holdToClaim": "청구하려면 이 지갑에 $FLYAI를 {amount}개 이상 보유하세요 (현재 {held})",
-    "buyFlyai": "$FLYAI 사기"
+    "buyFlyai": "$FLYAI 사기",
+    "partsOpen": "{parts}회 중 {open}회 잠금 해제",
+    "nextPart": "다음 회차 {date}",
+    "partClaimed": "이번 회차 클레임 완료 ✓",
+    "claimAmount": "{amount} 클레임"
   },
   "leaderboard": {
     "flyAiComputeLeaderboard": "fly.ai 컴퓨트 · 리더보드",

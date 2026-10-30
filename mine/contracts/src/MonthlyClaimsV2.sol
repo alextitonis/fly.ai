@@ -14,6 +14,8 @@ import {Ownable2StepUpgradeable} from "@openzeppelin/contracts-upgradeable/acces
 ///  - `claimWindow`: how long a month stays claimable (30 days at launch). A change applies to months opened after
 ///    it; a month's deadline is fixed when it opens.
 ///  - `minHold`: the $FLYAI a wallet must already hold to claim (0 at launch). Checked on the receiving account.
+///  - `vesting`: how a month unlocks, in equal parts a fixed time apart, the first part when it opens (off at launch:
+///    all at once). A change applies to months opened after it. The claim window starts at the last unlock.
 /// @dev Behind a TransparentUpgradeableProxy whose ProxyAdmin the owner holds. Storage lives in one ERC-7201
 /// namespace, so an upgrade can append fields to it. What the owner can't do: change a month's root or deadline once
 /// posted, or take a month's funds before its window closes.
@@ -29,6 +31,13 @@ contract MonthlyClaimsV2 is Ownable2StepUpgradeable {
         bool swept;
     }
 
+    /// How one month unlocks, fixed when it opens. parts 0 = all at once.
+    struct Vest {
+        uint8 parts;
+        uint64 step;
+        uint64 start;
+    }
+
     /// @custom:storage-location erc7201:flyai.storage.MonthlyClaims
     struct ClaimsStorage {
         IERC20 token;
@@ -36,6 +45,11 @@ contract MonthlyClaimsV2 is Ownable2StepUpgradeable {
         uint256 minHold;
         mapping(uint256 => Month) months;
         mapping(uint256 => mapping(address => bool)) hasClaimed;
+        // appended 2026-10-30 (weekly release)
+        uint8 vestParts;
+        uint64 vestStep;
+        mapping(uint256 => Vest) vests;
+        mapping(uint256 => mapping(address => uint256)) paid;
     }
 
     // keccak256(abi.encode(uint256(keccak256("flyai.storage.MonthlyClaims")) - 1)) & ~bytes32(uint256(0xff))
@@ -43,12 +57,16 @@ contract MonthlyClaimsV2 is Ownable2StepUpgradeable {
 
     uint64 public constant MIN_WINDOW = 7 days;
     uint64 public constant MAX_WINDOW = 730 days;
+    uint8 public constant MAX_VEST_PARTS = 52;
+    uint64 public constant MIN_VEST_STEP = 1 days;
+    uint64 public constant MAX_VEST_STEP = 31 days;
 
     event MonthOpened(uint256 indexed month, bytes32 root, uint256 total, uint256 deadline);
     event Claimed(uint256 indexed month, address indexed account, uint256 amount);
     event Swept(uint256 indexed month, address indexed to, uint256 amount);
     event ClaimWindowSet(uint64 window);
     event MinHoldSet(uint256 amount);
+    event VestingSet(uint8 parts, uint64 step);
 
     error BadMonth();
     error MonthExists();
@@ -65,6 +83,8 @@ contract MonthlyClaimsV2 is Ownable2StepUpgradeable {
     error BadWindow();
     error RenounceDisabled();
     error HoldTooLow(uint256 held, uint256 needed);
+    error BadVesting();
+    error NothingUnlocked();
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -112,8 +132,33 @@ contract MonthlyClaimsV2 is Ownable2StepUpgradeable {
         return (m.root, m.total, m.claimed, m.deadline, m.swept);
     }
 
+    /// @notice true once `account` has been paid its whole amount for `month`
     function hasClaimed(uint256 month, address account) external view returns (bool) {
         return _s().hasClaimed[month][account];
+    }
+
+    /// @notice how months opened from now on unlock; parts 0 or 1 = all at once
+    function vesting() external view returns (uint8 parts, uint64 step) {
+        return (_s().vestParts, _s().vestStep);
+    }
+
+    /// @notice how `month` unlocks; parts 0 = all at once
+    function vestOf(uint256 month) external view returns (uint8 parts, uint64 step, uint64 start) {
+        Vest storage v = _s().vests[month];
+        return (v.parts, v.step, v.start);
+    }
+
+    /// @notice $FLYAI (wei) already paid to `account` for `month`
+    function paidOf(uint256 month, address account) external view returns (uint256) {
+        return _s().paid[month][account];
+    }
+
+    /// @notice how much of a wallet's `amount` for `month` has unlocked by now, paid or not
+    function unlocked(uint256 month, uint256 amount) public view returns (uint256) {
+        Vest storage v = _s().vests[month];
+        if (v.parts == 0) return amount;
+        uint256 done = (block.timestamp - v.start) / v.step + 1;
+        return done >= v.parts ? amount : amount * done / v.parts;
     }
 
     // ---- owner settings ----
@@ -139,6 +184,14 @@ contract MonthlyClaimsV2 is Ownable2StepUpgradeable {
         emit MinHoldSet(amount);
     }
 
+    /// @notice Applies to months opened after this call; open months keep their schedule. 1 part = all at once.
+    function setVesting(uint8 parts, uint64 step) external onlyOwner {
+        if (parts == 0 || parts > MAX_VEST_PARTS || step < MIN_VEST_STEP || step > MAX_VEST_STEP) revert BadVesting();
+        _s().vestParts = parts;
+        _s().vestStep = step;
+        emit VestingSet(parts, step);
+    }
+
     // ---- months ----
 
     /// @notice Post a month's root and fund it. The owner must have approved `total` first.
@@ -148,6 +201,10 @@ contract MonthlyClaimsV2 is Ownable2StepUpgradeable {
         if (s.months[month].root != bytes32(0)) revert MonthExists();
         if (root == bytes32(0)) revert EmptyRoot();
         uint64 deadline = uint64(block.timestamp) + s.claimWindow;
+        if (s.vestParts > 1) {
+            s.vests[month] = Vest(s.vestParts, s.vestStep, uint64(block.timestamp));
+            deadline += uint64(s.vestParts - 1) * s.vestStep;
+        }
         s.months[month] = Month(root, total, 0, deadline, false);
         uint256 before = s.token.balanceOf(address(this));
         s.token.safeTransferFrom(msg.sender, address(this), total);
@@ -156,8 +213,8 @@ contract MonthlyClaimsV2 is Ownable2StepUpgradeable {
         emit MonthOpened(month, root, total, deadline);
     }
 
-    /// @notice Pay `account` its amount for `month`. Anyone may send it; the tokens always go to `account`, and it's
-    /// `account` that must hold `minHold`.
+    /// @notice Pay `account` what has unlocked of its amount for `month` and isn't paid yet. Anyone may send it; the
+    /// tokens always go to `account`, and it's `account` that must hold `minHold`.
     function claim(uint256 month, address account, uint256 amount, bytes32[] calldata proof) external {
         ClaimsStorage storage s = _s();
         Month storage m = s.months[month];
@@ -171,11 +228,16 @@ contract MonthlyClaimsV2 is Ownable2StepUpgradeable {
         }
         bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(account, amount))));
         if (!MerkleProof.verifyCalldata(proof, m.root, leaf)) revert BadProof();
-        if (amount > m.total - m.claimed) revert OverTotal();
-        s.hasClaimed[month][account] = true;
-        m.claimed += uint128(amount);
-        s.token.safeTransfer(account, amount);
-        emit Claimed(month, account, amount);
+        uint256 open = unlocked(month, amount);
+        uint256 paid = s.paid[month][account];
+        if (open == paid) revert NothingUnlocked();
+        uint256 due = open - paid;
+        if (due > m.total - m.claimed) revert OverTotal();
+        s.paid[month][account] = open;
+        if (open == amount) s.hasClaimed[month][account] = true;
+        m.claimed += uint128(due);
+        s.token.safeTransfer(account, due);
+        emit Claimed(month, account, due);
     }
 
     /// @notice After a month's window, return what nobody claimed.

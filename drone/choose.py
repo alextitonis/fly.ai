@@ -25,7 +25,6 @@ from PIL import Image, ImageDraw, ImageFont
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent))
-sys.path.insert(0, str(HERE.parent / "flytrade" / "research"))
 from sim import DroneSim, Thing  # noqa: E402
 from sim.world import BEACONS, SHIRTS  # noqa: E402
 from eyes import ColourEyes, hue_of  # noqa: E402
@@ -34,7 +33,7 @@ from follow import TURN_GAIN, FollowPilot, FollowSenses, TopMap  # noqa: E402
 import pilot as pilot_module  # noqa: E402
 from imprint import KC_OFFSET, Colours  # noqa: E402
 from flybrain import FlyBrain  # noqa: E402
-import plasticity  # noqa: E402
+import learning  # noqa: E402
 
 LOOK_STEPS = 25        # brain steps on each shape in turn
 BLINK_STEPS = 5        # before each look the Kenyon cells and APL are held quiet: our addition, not in the wiring. Left running,
@@ -82,7 +81,7 @@ class Chooser:
         self.counts[h[h >= 0]] += 1
         self.steps += 1
         if self.steps >= LOOK_STEPS:
-            v = float(plasticity.valence([0], self.counts[None], len(self.c.kc))[0])
+            v = float(learning.value([0], self.counts[None], len(self.c.kc))[0])
             k = self.key(self.current["hue"])
             self.value[k] = self.value.get(k, v) + STICK * (v - self.value.get(k, v))
             self.steps, self.counts = 0, np.zeros_like(self.counts)
@@ -112,13 +111,12 @@ def teach(c: Colours, hues: dict[str, float], train: str, seed: int) -> None:
             b.v[c.cells] += c.drive(hues[name])[:, None]
             h = c.where[b.step(inject=offset)]
             counts[0, h[h >= 0]] += 1
-        plasticity.valence([0], counts, len(c.kc))
-        plasticity.learn([0], [1.0 if name == train else -1.0], len(c.kc))
+        learning.value([0], counts, len(c.kc))
+        learning.learn([0], [1.0 if name == train else -1.0], len(c.kc))
 
 
 def run(args) -> dict:
-    plasticity.reset()
-    plasticity.LR = 0.25
+    learning.reset()
     print("loading connectome...", flush=True)
     brain = FlyBrain(device="cpu", batch=1, seed=args.seed, sensory_input=False)
     colours = Colours(brain)

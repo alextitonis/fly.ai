@@ -59,7 +59,7 @@ import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
 import { createPassFights } from "./passfights.ts";
 import { connectPg, lockWallet, type Q } from "./pg.ts";
 import { copyLegacy } from "./legacy.ts";
-import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, merkleTree, monthCalldata, monthId, toWei, withReferrals } from "./payouts.ts";
+import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, merkleTree, monthCalldata, monthId, paidCalldata, toWei, vestCalldata, withReferrals } from "./payouts.ts";
 import { parseTiers, readStake, STAKE_SELECTORS, tierFor } from "./staking.ts";
 import {
   cachedCharge, expandSpec, intentMessage, orderConfig, orderTerms, poolPart, rpc, SpecError, sweepCost, TAG_MAX, TRANSFER_SELECTOR, transfersIn,
@@ -891,7 +891,7 @@ const EDGE_PATHS: RegExp[] = [
   /^\/api\/ruyui\/(config|leaderboard|pool|pool\/epochs\/\d{1,5})$/,
   /^\/api\/gta$/,                                    // the GTA VI giveaway (src/gta.ts), ?wallet= included in the URL
   /^\/api\/desk-chat$/,                              // the Fly Desk chat's history (src/deskchat.ts); new rows come by Realtime
-  /^\/api\/launchpad(\/token\/0x[0-9a-fA-F]{40})?$/,   // Fly Launchpad lists and token pages (src/launchpad.ts)
+  /^\/api\/launchpad(\/markets|\/token\/0x[0-9a-fA-F]{40})?$/,   // Fly Launchpad lists, the /dex listing and token pages (src/launchpad.ts)
 ];
 const edgeCached = new WeakSet<ServerResponse>();
 function markEdge(req: IncomingMessage, res: ServerResponse, path: string): void {
@@ -1622,6 +1622,8 @@ async function claimsFor(wallet: string) {
         claim_data: claimCalldata(id, w, amount, JSON.parse(r.proof)),
         has_claimed_data: hasClaimedCalldata(id, w),
         month_data: monthCalldata(id),
+        vest_data: vestCalldata(id),
+        paid_data: paidCalldata(id, w),
       };
     }),
   };
@@ -4003,6 +4005,7 @@ const launchpad = /^0x[0-9a-fA-F]{40}$/.test(process.env.LAUNCHPAD_ADDRESS ?? ""
     pg, chain: launchpadChain(rpc, CLAIMS.rpc), address: process.env.LAUNCHPAD_ADDRESS!,
     fromBlock: process.env.LAUNCHPAD_FROM_BLOCK ? Number(process.env.LAUNCHPAD_FROM_BLOCK) : undefined,
     HttpError, send, explorer: "https://robinhoodchain.blockscout.com",
+    flyaiUsd: () => flyaiPrice().then((p) => p.usd),
   })
   : null;
 if (USER && launchpad) launchpad.start();

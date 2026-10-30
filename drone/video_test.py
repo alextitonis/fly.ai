@@ -21,7 +21,6 @@ from PIL import Image, ImageDraw, ImageFont
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent))
-sys.path.insert(0, str(HERE.parent / "flytrade" / "research"))
 from sim import Thing  # noqa: E402
 from eyes import ColourEyes  # noqa: E402
 from follow import FollowSenses  # noqa: E402
@@ -29,7 +28,7 @@ from pilot import Pilot  # noqa: E402
 from choose import BLINK_STEPS, LOOK_STEPS, Chooser, PERSON_SIZE, hue_gap, teach  # noqa: E402
 from imprint import KC_OFFSET, Colours  # noqa: E402
 from flybrain import FlyBrain  # noqa: E402
-import plasticity  # noqa: E402
+import learning  # noqa: E402
 
 W, H = 128, 72
 TOWARD = 8.0      # degrees: off-centre by more than this, a turn has a right answer
@@ -46,8 +45,7 @@ def main() -> None:
     ap.add_argument("--out", default="")
     a = ap.parse_args()
 
-    plasticity.reset()
-    plasticity.LR = 0.25
+    learning.reset()
     brain = FlyBrain(device="cpu", batch=1, seed=a.seed, sensory_input=False)
     colours = Colours(brain)
     colours.quiet = np.r_[colours.all_kc, np.flatnonzero(brain.cell_type.astype(str) == "APL")]

@@ -246,6 +246,32 @@ try {
   check("minimum back to 0, bob claims 180", await send(owner.address, claims, calldata("setMinHold(uint256)", 0n))
     && await send(bob.address, claims, bc.claim_data) && await balance(token, bob.address) === 180n * WEI);
 
+  // weekly release: the server's calldata against a month that unlocks in 4 parts, 7 days apart. The contract doesn't
+  // tie a leaf to a month, so the same root opens 2026-09 here and only the month word of alice's calldata changes.
+  const read = async (data: string) => BigInt(await rpc("eth_call", [{ to: claims, data }, "latest"]));
+  const week = async () => { await rpc("evm_increaseTime", [7 * 24 * 3600]); await rpc("evm_mine", []); };
+  const onSept = (data: string) => data.replace(word(202608n), word(202609n));
+  check("the first contract has no vestOf, so the page pays it all at once", await reverts(alice.address, legacy, ac.vest_data));
+  check("a month opened without vesting reads 0 parts and paid in full",
+    await read(ac.vest_data) === 0n && await read(ac.paid_data) === 720n * WEI);
+  const aliceBefore = await balance(token, alice.address);
+  check("owner sets 4 parts a week and opens the next month",
+    await send(owner.address, claims, calldata("setVesting(uint8,uint64)", 4n, 7n * 24n * 3600n))
+    && await send(owner.address, token, calldata("mint(address,uint256)", owner.address, 900n * WEI))
+    && await send(owner.address, token, calldata("approve(address,uint256)", claims, 900n * WEI))
+    && await send(owner.address, claims, calldata("openMonth(uint256,bytes32,uint128)", 202609n, snap.json.root, 900n * WEI)));
+  check("month reads 4 parts", BigInt(`0x${(await rpc("eth_call", [{ to: claims, data: onSept(ac.vest_data) }, "latest"])).slice(2, 66)}`) === 4n);
+  check("first part: 180 of 720", await send(alice.address, claims, onSept(ac.claim_data))
+    && await balance(token, alice.address) === aliceBefore + 180n * WEI && await read(onSept(ac.has_claimed_data)) === 0n);
+  check("nothing more this week", await reverts(alice.address, claims, onSept(ac.claim_data)));
+  await week();
+  check("second week pays the second part", await send(alice.address, claims, onSept(ac.claim_data))
+    && await balance(token, alice.address) === aliceBefore + 360n * WEI && await read(onSept(ac.paid_data)) === 360n * WEI);
+  await week(); await week();
+  check("a late claim pays the rest and marks it claimed", await send(alice.address, claims, onSept(ac.claim_data))
+    && await balance(token, alice.address) === aliceBefore + 720n * WEI && await read(onSept(ac.has_claimed_data)) === 1n);
+  check("nothing left to claim", await reverts(alice.address, claims, onSept(ac.claim_data)));
+
   if (HOLD) {
     await send(owner.address, token, calldata("mint(address,uint256)", bob.address, 500n * WEI));
     console.log(`HOLD ${JSON.stringify({ server: BASE, rpc: RPC, token, claims, staking, bob: bob.address })}`);

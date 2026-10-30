@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "title": "Fly DEX: fly.ai에서 출시된 토큰",
+    "description": "fly.ai에서 출시된 모든 토큰이 실시간 가격, 거래량, 유동성, 보유자와 함께 자동으로 상장됩니다. 내 지갑에서 바로 거래하세요."
+  },
+  "head": {
+    "eyebrow": "Fly DEX",
+    "title": "fly.ai에서 출시된 모든 토큰",
+    "lede": "출시 즉시 자동으로 상장됩니다. 실시간 가격, 거래량, 유동성, 보유자를 확인하고 내 지갑에서 거래하세요.",
+    "launch": "토큰 출시"
+  },
+  "closed": { "title": "아직 열리지 않았습니다", "body": "Fly DEX는 launchpad와 함께 열립니다." },
+  "list": {
+    "sortAria": "정렬",
+    "filterAria": "필터",
+    "search": "이름, 심볼 또는 주소",
+    "note": "누구나 여기서 토큰을 출시할 수 있습니다. 상장은 자동이며 보증이 아닙니다. 항상 주소를 확인하세요.",
+    "empty": "아직 출시된 토큰이 없습니다.",
+    "noMatch": "일치하는 토큰이 없습니다."
+  },
+  "sort": { "trending": "트렌딩", "new": "신규", "volume": "거래량", "mcap": "시가총액", "gainers": "상승률" },
+  "state": { "all": "전체", "curve": "커브 진행 중", "graduated": "졸업", "tagGraduated": "졸업", "tagSoldOut": "졸업 중", "tagOwn": "fly.ai" },
+  "col": { "token": "토큰", "price": "가격", "change": "24시간", "volume": "24시간 거래량", "traders": "트레이더", "liquidity": "유동성", "mcap": "시가총액", "holders": "보유자" },
+  "totals": { "launches": "출시", "graduated": "졸업", "volume": "총 거래량" },
+  "time": { "s": "{n}초 전", "m": "{n}분 전", "h": "{n}시간 전", "d": "{n}일 전" },
+  "token": {
+    "back": "모든 토큰",
+    "trades": "거래",
+    "holders": "상위 보유자",
+    "noChart": "차트는 첫 거래 후에 시작됩니다.",
+    "noTrades": "아직 거래가 없습니다.",
+    "chartAria": "가격 차트",
+    "points": "거래 {n}건",
+    "volume": "총 거래량",
+    "tradeCount": "거래",
+    "creatorTax": "크리에이터 세금",
+    "taxNone": "없음",
+    "bundled": "여러 지갑이 오픈 직후 같은 블록에서 첫 매수를 했습니다. 한 명의 구매자일 수 있습니다.",
+    "progress": "{target} 중 {raised} 모금. 커브가 모두 팔리면 모금액이 자동으로 FLYAI로 전환되고 토큰은 GIGA의 자체 FLYAI 풀로 이동합니다."
+  },
+  "trades": { "when": "시간", "side": "방향", "usd": "USD", "price": "가격", "venue": "장소", "wallet": "지갑", "pool": "풀", "curve": "커브" },
+  "swap": {
+    "sideAria": "매수 또는 매도",
+    "buy": "매수",
+    "sell": "매도",
+    "pay": "지불",
+    "youSell": "매도 수량",
+    "payAria": "지불 수단",
+    "get": "예상 수령",
+    "max": "최대",
+    "slippage": "슬리피지 한도",
+    "connect": "지갑 연결",
+    "balance": "잔액: {amt}",
+    "cost": "수수료 및 가격 영향: 약 {pct}%",
+    "costHigh": "수수료 및 가격 영향: 약 {pct}%. 이 풀에는 큰 금액입니다. 더 적은 금액을 시도하세요.",
+    "noQuote": "지금은 이 금액의 견적이 없습니다.",
+    "noWallet": "이 브라우저에서 지갑을 찾을 수 없습니다.",
+    "notEnough": "잔액보다 많습니다.",
+    "paused": "커브 거래가 일시 중지되었습니다.",
+    "confirm": "지갑에서 {of}단계 중 {n}단계를 확인하세요…",
+    "waiting": "체인을 기다리는 중…",
+    "done": "완료.",
+    "viewTx": "거래 보기",
+    "cancelled": "취소되었습니다.",
+    "failed": "실패: {why}",
+    "feesPool": "이 토큰의 페어는 FLYAI입니다. 풀은 거래당 1% 수수료를 받으며 fly.ai는 추가 수수료를 받지 않습니다.",
+    "feesCurve": "커브에서 1% 거래 수수료와 {tax}% 크리에이터 세금이 거래에서 차감됩니다."
+  }
+}

@@ -1,0 +1,114 @@
+/* docs/dex.html (2026-10-30): the Fly DEX listing and token page */
+.dex .card { margin-bottom: 18px; }
+.dex h3 { margin: 0 0 12px; font-size: 18px; }
+.dex-muted { color: var(--muted); font-size: 15px; margin: 0; }
+.dex-note { color: var(--dim); font-size: 13px; margin: 10px 0 0; }
+
+.dex-totals { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-bottom: 18px; color: var(--muted); font-size: 14px; }
+.dex-totals b { color: var(--text); font: 500 15px var(--mono); margin-left: 6px; }
+.dex-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+.dex-pills { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.dex-pills.wide { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 14px; }
+.dex-pills button { font: 500 13px var(--sans); padding: 7px 13px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; }
+.dex-pills button:hover { color: var(--text); }
+.dex-pills button.on { border-color: var(--mint); color: var(--text); }
+#dex-q { flex: 1 1 200px; min-width: 0; font-size: 14px; color: var(--text); background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; }
+#dex-q:focus { outline: none; border-color: var(--mint); }
+
+.dex-tablewrap { overflow-x: auto; }
+.dex-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.dex-table th { text-align: left; font: 500 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; padding: 12px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.dex-table td { padding: 11px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.dex-table tr:last-child td { border-bottom: 0; }
+.dex-table .dex-num { text-align: right; font-family: var(--mono); font-size: 13px; }
+.dex-table tbody tr[data-href] { cursor: pointer; }
+.dex-table tbody tr[data-href]:hover td { background: var(--bg-2); }
+.dex-table.small td, .dex-table.small th { padding: 8px 10px; font-size: 13px; }
+.dex-table .up, .dex-up { color: var(--mint); }
+.dex-table .down, .dex-down { color: var(--red-hi); }
+.dex-table a { color: inherit; text-decoration: none; }
+.dex-scroll { overflow-x: auto; }
+.dex-empty { color: var(--muted); padding: 24px 14px; text-align: center; white-space: normal; }
+
+.dex-who { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.dex-logo { flex: 0 0 auto; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; overflow: hidden; font: 600 14px var(--display); color: #000; }
+.dex-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dex-who b { display: block; font-weight: 600; max-width: 280px; overflow: hidden; text-overflow: ellipsis; }
+.dex-who small { display: block; color: var(--dim); font: 12px var(--mono); max-width: 180px; overflow: hidden; text-overflow: ellipsis; }
+.dex-tag { display: inline-block; font: 500 10px var(--mono); text-transform: uppercase; letter-spacing: .05em; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); margin-left: 6px; vertical-align: 1px; }
+.dex-tag.grad { border-color: var(--mint); color: var(--mint); }
+.dex-tag.own { border-color: var(--mint); background: rgba(94, 242, 204, .1); color: var(--mint); }
+.dex-mini { display: block; width: 72px; height: 4px; border-radius: 2px; background: var(--line); margin-top: 5px; overflow: hidden; }
+.dex-mini i { display: block; height: 100%; background: var(--mint); }
+
+.dex-back { margin: 0 0 14px; font-size: 14px; }
+.dex-back a { color: var(--muted); }
+.dex-tokenhead { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-bottom: 14px; }
+.dex-tokenhead .dex-logo { width: 52px; height: 52px; font-size: 22px; }
+.dex-tokenhead h1 { font-size: clamp(24px, 4vw, 34px); margin: 0; overflow-wrap: anywhere; }
+.dex-addr { font: 12px var(--mono); color: var(--muted); overflow-wrap: anywhere; margin: 3px 0 0; }
+.dex-addr a { color: inherit; }
+.dex-headprice { margin-left: auto; text-align: right; font: 500 24px var(--mono); }
+.dex-headprice small { display: block; font-size: 13px; }
+.dex-warn { border: 1px solid var(--red); background: rgba(255, 91, 79, .08); border-radius: 12px; padding: 10px 14px; font-size: 14px; margin-bottom: 14px; color: var(--text); }
+.dex-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 18px; }
+.dex-facts div { background: var(--panel); padding: 11px 14px; min-width: 0; }
+.dex-facts span { display: block; font: 500 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }
+.dex-facts b { font: 500 15px var(--mono); overflow-wrap: anywhere; }
+
+.dex-two { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: start; }
+.dex-main { min-width: 0; }
+.dex-swap { position: sticky; top: 84px; }
+.dex-chart { position: relative; height: 280px; }
+.dex-chart svg { display: block; width: 100%; height: 100%; }
+.dex-chart .tip { position: absolute; top: 6px; left: 8px; font: 12px var(--mono); color: var(--muted); pointer-events: none; }
+.dex-progress { margin-bottom: 14px; font-size: 14px; color: var(--muted); }
+.dex-progress .bar { height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; margin-top: 6px; }
+.dex-progress .bar i { display: block; height: 100%; background: var(--mint); }
+.dex-holders { margin: 0; padding: 0; list-style: none; font: 13px var(--mono); }
+.dex-holders li { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--line); }
+.dex-holders li:last-child { border-bottom: 0; }
+.dex-holders a { color: var(--muted); text-decoration: none; }
+
+.dex-field { display: block; font-size: 13px; color: var(--muted); }
+.dex-amount { display: flex; gap: 6px; align-items: stretch; margin-top: 6px; }
+.dex-amount input { flex: 1 1 auto; min-width: 0; font: 500 17px var(--mono); color: var(--text); background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.dex-amount input:focus { outline: none; border-color: var(--mint); }
+.dex-amount select, .dex-slip select { font-size: 14px; color: var(--text); background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; }
+.dex-sym { flex: 0 0 auto; align-self: center; font: 500 14px var(--mono); padding: 0 8px; max-width: 110px; overflow: hidden; text-overflow: ellipsis; }
+.dex-balrow { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+.dex-pct { display: inline-flex; gap: 3px; }
+.dex-pct button { font: 500 11px var(--mono); padding: 2px 7px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; }
+.dex-out { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+.dex-out b { font: 500 17px var(--mono); color: var(--text); overflow-wrap: anywhere; text-align: right; }
+.dex-detail { font-size: 12px; color: var(--muted); margin: 6px 0 0; min-height: 1.3em; }
+.dex-detail.bad { color: var(--red-hi); }
+.dex-slip { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); margin: 12px 0; }
+.dex-go { width: 100%; justify-content: center; }
+.dex-msg { font-size: 13px; margin: 10px 0 0; min-height: 1em; color: var(--muted); overflow-wrap: anywhere; }
+.dex-msg.err { color: var(--red-hi); }
+.dex-msg.ok { color: var(--mint); }
+
+@media (max-width: 900px) {
+  .dex-two { grid-template-columns: minmax(0, 1fr); }
+  .dex-swap { position: static; order: -1; }
+  .dex-table .opt { display: none; }
+}
+@media (max-width: 560px) {
+  .dex-table td, .dex-table th { padding: 10px 8px; }
+  .dex-who b, .dex-who small { max-width: 110px; }
+  .dex-logo { width: 26px; height: 26px; font-size: 12px; }
+  .dex-headprice { margin-left: 0; text-align: left; width: 100%; }
+}
+
+/* docs/launch.html: the create form */
+.lc-field { display: block; font-size: 14px; color: var(--text); margin-bottom: 18px; }
+.lc-field input, .lc-field select { display: block; width: 100%; box-sizing: border-box; margin-top: 6px; font-size: 15px; color: var(--text); background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 11px 12px; }
+.lc-field input:focus, .lc-field select:focus { outline: none; border-color: var(--mint); }
+.lc-field small { display: block; margin-top: 6px; color: var(--muted); font-size: 12.5px; }
+.lc-form .dex-msg:empty { display: none; }
+.lc-form .dex-go { margin-top: 4px; }
+.lc-side { min-width: 0; }
+.lc-rules { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
+.lc-rules li { margin-bottom: 8px; }
+.dex-launchlink { margin-top: 18px; }

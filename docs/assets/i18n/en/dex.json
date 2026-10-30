@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "title": "Fly DEX: tokens launched on fly.ai",
+    "description": "Every token launched on fly.ai, listed automatically with live price, volume, liquidity and holders. Trade from your own wallet."
+  },
+  "head": {
+    "eyebrow": "Fly DEX",
+    "title": "Every token launched on fly.ai",
+    "lede": "Listed automatically from launch. Live price, volume, liquidity and holders, and trades from your own wallet.",
+    "launch": "Launch a token"
+  },
+  "closed": { "title": "Not open yet", "body": "The Fly DEX opens with the launchpad." },
+  "list": {
+    "sortAria": "Sort",
+    "filterAria": "Filter",
+    "search": "Name, symbol or address",
+    "note": "Anyone can launch a token here. A listing is automatic and is not an endorsement. Always check the address.",
+    "empty": "No tokens launched yet.",
+    "noMatch": "No token matches that."
+  },
+  "sort": { "trending": "Trending", "new": "New", "volume": "Volume", "mcap": "Market cap", "gainers": "Gainers" },
+  "state": { "all": "All", "curve": "On the curve", "graduated": "Graduated", "tagGraduated": "Graduated", "tagSoldOut": "Graduating", "tagOwn": "fly.ai" },
+  "col": { "token": "Token", "price": "Price", "change": "24h", "volume": "24h volume", "traders": "Traders", "liquidity": "Liquidity", "mcap": "Market cap", "holders": "Holders" },
+  "totals": { "launches": "Launches", "graduated": "Graduated", "volume": "Total volume" },
+  "time": { "s": "{n}s ago", "m": "{n}m ago", "h": "{n}h ago", "d": "{n}d ago" },
+  "token": {
+    "back": "All tokens",
+    "trades": "Trades",
+    "holders": "Top holders",
+    "noChart": "The chart starts after the first trades.",
+    "noTrades": "No trades yet.",
+    "chartAria": "Price chart",
+    "points": "{n} trades",
+    "volume": "Total volume",
+    "tradeCount": "Trades",
+    "creatorTax": "Creator tax",
+    "taxNone": "None",
+    "bundled": "Several wallets made their first buys in the same block right after opening. They may be one buyer.",
+    "progress": "{raised} of {target} raised. When the curve sells out, the raise converts to FLYAI automatically and the token moves to its own FLYAI pool on GIGA."
+  },
+  "trades": { "when": "When", "side": "Side", "usd": "USD", "price": "Price", "venue": "Where", "wallet": "Wallet", "pool": "Pool", "curve": "Curve" },
+  "swap": {
+    "sideAria": "Buy or sell",
+    "buy": "Buy",
+    "sell": "Sell",
+    "pay": "You pay",
+    "youSell": "You sell",
+    "payAria": "Paid in",
+    "get": "You get about",
+    "max": "Max",
+    "slippage": "Slippage limit",
+    "connect": "Connect wallet",
+    "balance": "Balance: {amt}",
+    "cost": "Fees and price impact: about {pct}%",
+    "costHigh": "Fees and price impact: about {pct}%. That's a lot for this pool, try a smaller amount.",
+    "noQuote": "No quote for this amount right now.",
+    "noWallet": "No wallet found in this browser.",
+    "notEnough": "That's more than your balance.",
+    "paused": "Trading on the curve is paused.",
+    "confirm": "Confirm step {n} of {of} in your wallet…",
+    "waiting": "Waiting for the chain…",
+    "done": "Done.",
+    "viewTx": "View transaction",
+    "cancelled": "Cancelled.",
+    "failed": "It failed: {why}",
+    "feesPool": "This token's pair is FLYAI. The pool takes a 1% fee on each trade, and fly.ai adds nothing on top.",
+    "feesCurve": "1% trading fee and a {tax}% creator tax on the curve, taken from your trade."
+  }
+}

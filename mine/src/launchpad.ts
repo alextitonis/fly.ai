@@ -10,6 +10,10 @@
  * Fees (on chain): 1% a trade, 0.7 creator / 0.2 dev / 0.1 the activated flies, plus each launch's own creator tax
  * (0-2%, all to the creator); nothing is burned.
  *
+ * Fly DEX (2026-10-30, the /dex page): the same tokens listed with live numbers. A graduated token trades in its
+ * TOKEN/FLYAI GIGA pool, so the pools' Swap logs go into mine.launch_swaps and the price follows the pool times FLYAI.
+ *   GET /api/launchpad/markets?sort=trending|new|volume|mcap|gainers&state=all|curve|graduated&q=&limit=
+ *
  * Off until LAUNCHPAD_ADDRESS is set. Logs come from the public RPC (rule: RPC cost), one tick every LAUNCHPAD_TICK_MS.
  * Nothing here signs or sends: graduating and buying back is the keeper's (flytrade/desk/launchkeeper.py).
  */
@@ -24,6 +28,7 @@ export type LpChain = {
   blockTime(n: number): Promise<number>;                    // seconds
   logs(q: { address: string | string[]; topics: (string | string[] | null)[]; from: number; to: number }): Promise<Log[]>;
   call(to: string, data: string): Promise<string>;          // eth_call result hex
+  txFrom(hash: string): Promise<string>;                    // who sent a transaction
 };
 
 const ADDRESS = /^0x[0-9a-f]{40}$/;
@@ -36,10 +41,12 @@ export const TOPICS = {
   soldOut: topicOf("SoldOut(address,uint256)"),
   graduated: topicOf("Graduated(address,address,uint256,uint256,uint256,uint256)"),
   transfer: topicOf("Transfer(address,address,uint256)"),
+  swap: topicOf("Swap(address,address,int256,int256,uint160,uint128,int24,uint128,uint128)"),   // GIGA's pools (PancakeSwap v3)
 };
 const CURVE_TOKENS = 800_000_000n * 10n ** 18n;
 const SUPPLY = 1_000_000_000;
 const FLYAI = "0x0088ce7905025c4b5ea1d49ab6179b6aaadb3b9c";
+const POOL_FEE = 10_000;                                    // a graduated pool's tier: 1%
 const DEAD = "0x000000000000000000000000000000000000dead";
 const ZERO = "0x0000000000000000000000000000000000000000";
 
@@ -50,6 +57,7 @@ const words = (hex: string) => {
 };
 const asAddr = (w: string) => `0x${w.replace(/^0x/, "").slice(24)}`.toLowerCase();   // a data word or a topic
 const asInt = (w: string) => BigInt(`0x${w || "0"}`);
+const asSigned = (w: string) => BigInt.asIntN(256, asInt(w));
 function asString(hex: string, offsetWord: string): string {
   const h = hex.startsWith("0x") ? hex.slice(2) : hex;
   const at = Number(asInt(offsetWord)) * 2;
@@ -73,19 +81,31 @@ export const targetOf = (r: Rules) => {
   const x0 = BigInt(r.x0), y0 = BigInt(r.y0);
   return (x0 * y0 + (y0 - CURVE_TOKENS) - 1n) / (y0 - CURVE_TOKENS) - x0;
 };
+/** FLYAI per token from a pool's sqrtPriceX96 (both sides 18 decimals; the lower address is token0). */
+export const poolPriceFlyai = (sqrtX96: bigint, token: string) => {
+  const s = Number(sqrtX96) / 2 ** 96;
+  const oneInZero = s * s;                                  // token1 per token0
+  return token.toLowerCase() < FLYAI ? oneInZero : oneInZero > 0 ? 1 / oneInZero : 0;
+};
+/** The trending sort: wallets trading count first, so one wallet churning volume doesn't get far. */
+export const trendScore = (traders: number, volumeUsd: number) => traders * Math.log1p(Math.max(0, volumeUsd));
 
 type TokenRow = {
   token: string; creator: string; pool: string; name: string; symbol: string; uri: string; created_block: string;
   created_at: Date; open_at: Date; rules: Rules; state: string; x: string; y: string; price_usd: number; trades: number;
   volume_usdg: string; sold_out_at: Date | null; graduated_at: Date | null; position_id: string | null;
   pool_flyai: string | null; pool_tokens: string | null; holders?: number;
+  price_flyai: number | null; pool_trades: number; pool_volume_usd: number;
 };
+type MarketRow = TokenRow & { volume_24h: number; traders_24h: number; buys_24h: number; sells_24h: number; price_before: number | null; price_first: number | null };
 
 export function createLaunchpad(d: {
   pg: Pg; chain: LpChain; address: string; fromBlock?: number;
   HttpError: new (status: number, message: string) => Error;
   send: (res: ServerResponse, status: number, body: unknown) => void;
   explorer: string;
+  flyaiUsd?: () => Promise<number | null>;                  // the FLYAI price; the last good one is kept when it fails
+  now?: () => Date;
 }) {
   const { pg, chain, HttpError } = d;
   const lp = d.address.toLowerCase();
@@ -165,9 +185,76 @@ export function createLaunchpad(d: {
   async function onGraduated(l: Log) {
     const w = words(l.data);
     const block = parseInt(l.blockNumber, 16);
-    await pg.run(`update mine.launch_tokens set state = 'graduated', graduated_at = ?, position_id = ?, pool_flyai = ?, pool_tokens = ?
-        where token = ?`, (await timeOf(block)).toISOString(), asInt(w(1)).toString(), asInt(w(2)).toString(), asInt(w(3)).toString(),
-      asAddr(l.topics[1]));
+    const flyai = asInt(w(2)), tokens = asInt(w(3));
+    await pg.run(`update mine.launch_tokens set state = 'graduated', graduated_at = ?, position_id = ?, pool_flyai = ?, pool_tokens = ?,
+        price_flyai = ? where token = ?`, (await timeOf(block)).toISOString(), asInt(w(1)).toString(), flyai.toString(), tokens.toString(),
+      tokens > 0n ? Number(flyai) / Number(tokens) : null, asAddr(l.topics[1]));
+  }
+
+  // ---- after graduation: the pools --------------------------------------------------------------------------------
+  let flyaiCache: { at: number; usd: number } | null = null;
+  /** The FLYAI price now: a minute's cache, then the feed, then the last good one saved. Null only before any price. */
+  async function flyaiNow(): Promise<number | null> {
+    if (flyaiCache && Date.now() - flyaiCache.at < 60_000) return flyaiCache.usd;
+    const fresh = await (d.flyaiUsd?.() ?? Promise.resolve(null)).catch(() => null);
+    if (fresh && fresh > 0) {
+      flyaiCache = { at: Date.now(), usd: fresh };
+      await setState("flyai_usd", { usd: fresh }).catch(() => {});
+      return fresh;
+    }
+    return (await getState<{ usd: number }>("flyai_usd").catch(() => undefined))?.usd ?? null;
+  }
+
+  async function onPoolSwap(l: Log, token: string, flyUsd: number): Promise<boolean> {
+    const sender = asAddr(l.topics[1]);
+    if (sender === lp) return false;                         // the graduation's own price fix, not a trade
+    const id = `${l.transactionHash}:${parseInt(l.logIndex, 16)}`;
+    if (await pg.one("select 1 as x from mine.launch_swaps where id = ?", id)) return false;
+    const w = words(l.data);
+    const zero = token < FLYAI;
+    const a0 = asSigned(w(0)), a1 = asSigned(w(1));
+    const tokenDelta = zero ? a0 : a1, flyaiDelta = zero ? a1 : a0;   // what went INTO the pool
+    const abs = (v: bigint) => (v < 0n ? -v : v);
+    const priceFlyai = poolPriceFlyai(asInt(w(2)), token);
+    const price = priceFlyai * flyUsd;
+    const usd = (Number(abs(flyaiDelta)) / 1e18) * flyUsd;
+    const block = parseInt(l.blockNumber, 16);
+    const n = await pg.run(`insert into mine.launch_swaps (id, token, trader, buy, tokens, flyai, usd, price_usd, block, at)
+        values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) on conflict do nothing`,
+      id, token, (await chain.txFrom(l.transactionHash)).toLowerCase(), tokenDelta < 0n, abs(tokenDelta).toString(),
+      abs(flyaiDelta).toString(), usd, price, block, (await timeOf(block)).toISOString());
+    if (!n) return false;
+    await pg.run(`update mine.launch_tokens set price_flyai = ?, price_usd = ?, pool_trades = pool_trades + 1,
+        pool_volume_usd = pool_volume_usd + ? where token = ?`, priceFlyai, price, usd, token);
+    return true;
+  }
+
+  /** What a pool holds, read only when it traded: each swap would drift from it (fees, collects). */
+  async function refreshPool(token: string, pool: string) {
+    const balance = (t: string) => chain.call(t, `${selector("balanceOf(address)")}${word(pool)}`).then((r) => asInt(words(r)(0)).toString());
+    await pg.run("update mine.launch_tokens set pool_flyai = ?, pool_tokens = ? where token = ?", await balance(FLYAI), await balance(token), token);
+  }
+
+  /** The graduated pools' swaps, on their own cursor: no FLYAI price yet just waits for one, the launches carry on. */
+  async function tickPools(from: number, head: number) {
+    const cur = (await getState<{ block: number }>("pool_cursor"))?.block ?? from;
+    if (cur > head) return;
+    const rows = await pg.all<{ token: string; pool: string }>("select token, pool from mine.launch_tokens where state = 'graduated'");
+    if (rows.length) {
+      const flyUsd = await flyaiNow();
+      if (!flyUsd) return;
+      const byPool = new Map(rows.map((r) => [r.pool, r.token]));
+      const touched = new Set<string>();
+      for (let i = 0; i < rows.length; i += 50) {
+        const logs = await scan(rows.slice(i, i + 50).map((r) => r.pool), [TOPICS.swap], cur, head);
+        for (const l of logs) {
+          const token = byPool.get((l.address ?? "").toLowerCase());
+          if (token && await onPoolSwap(l, token, flyUsd)) touched.add(token);
+        }
+      }
+      for (const t of touched) await refreshPool(t, rows.find((r) => r.token === t)!.pool);
+    }
+    await setState("pool_cursor", { block: head + 1 });
   }
 
   async function onTransfers(logs: Log[]) {
@@ -199,7 +286,7 @@ export function createLaunchpad(d: {
     try {
       const head = await chain.head();
       const cur = (await getState<{ block: number }>("cursor")) ?? { block: d.fromBlock ?? Math.max(0, head - 50_000) };
-      if (cur.block > head) return;
+      if (cur.block > head) { await tickPools(cur.block, head); return; }   // the pools may still be waiting for a price
       const events = await scan(lp, [[TOPICS.launched, TOPICS.trade, TOPICS.soldOut, TOPICS.graduated]], cur.block, head);
       for (const l of events) {
         const t = l.topics[0];
@@ -213,6 +300,7 @@ export function createLaunchpad(d: {
         await onTransfers(await scan(tokens.slice(i, i + 50), [TOPICS.transfer], cur.block, head));
       }
       await setState("cursor", { block: head + 1 });
+      await tickPools(cur.block, head);
     } catch (err) {
       console.error(`launchpad: ${err instanceof Error ? err.message : err}`);
     } finally {
@@ -223,17 +311,27 @@ export function createLaunchpad(d: {
   // ---- views -------------------------------------------------------------------------------------------------------
   const notHolders = (r: TokenRow) => [lp, r.pool, DEAD, ZERO];
 
-  function summary(r: TokenRow) {
+  /** A graduated token's price moves with FLYAI even with no swap in its pool. */
+  const livePrice = (r: TokenRow, flyUsd: number | null) =>
+    (r.state === "graduated" && r.price_flyai && flyUsd ? r.price_flyai * flyUsd : r.price_usd);
+  function liquidityOf(r: TokenRow, price: number, flyUsd: number | null) {
+    if (r.state !== "graduated") return Number(BigInt(r.x) - BigInt(r.rules.x0)) / 1e6;   // the USDG in the curve
+    if (!flyUsd) return null;
+    return (Number(r.pool_flyai ?? 0) / 1e18) * flyUsd + (Number(r.pool_tokens ?? 0) / 1e18) * price;
+  }
+
+  function summary(r: TokenRow, flyUsd: number | null = null) {
     const x = BigInt(r.x), x0 = BigInt(r.rules.x0);
     const target = targetOf(r.rules);
     const raised = x - x0;
+    const price = livePrice(r, flyUsd);
     return {
       token: r.token, name: r.name, symbol: r.symbol, uri: r.uri, creator: r.creator, pool: r.pool, state: r.state,
       creator_tax_bps: r.rules.creatorTaxBps ?? 0,
-      price_usd: r.price_usd, mcap_usd: r.price_usd * SUPPLY,
+      price_usd: price, mcap_usd: price * SUPPLY, liquidity_usd: liquidityOf(r, price, flyUsd),
       raised_usd: Number(raised) / 1e6, target_usd: Number(target) / 1e6,
       progress_pct: r.state === "curve" ? Math.min(100, (Number(raised) / Number(target)) * 100) : 100,
-      trade_count: r.trades, volume_usd: Number(r.volume_usdg) / 1e6, holders: r.holders ?? null,
+      trade_count: r.trades + r.pool_trades, volume_usd: Number(r.volume_usdg) / 1e6 + r.pool_volume_usd, holders: r.holders ?? null,
       created_at: r.created_at, open_at: r.open_at, sold_out_at: r.sold_out_at, graduated_at: r.graduated_at,
     };
   }
@@ -270,13 +368,68 @@ export function createLaunchpad(d: {
     const where = tab === "graduated" ? "where state = 'graduated'" : tab === "top" ? "where state <> 'graduated'" : "";
     const rows = await pg.all<TokenRow>(`select * from mine.launch_tokens ${where} order by ${order} limit ?`, limit);
     await holdersCount(rows);
-    const totals = await pg.one<{ n: number; graduated: number; volume: string }>(`select count(*)::int as n,
-      count(*) filter (where state = 'graduated')::int as graduated, coalesce(sum(volume_usdg::numeric), 0)::text as volume
-      from mine.launch_tokens`);
+    const flyUsd = await flyaiNow();
     return {
       live: true, address: lp, explorer: d.explorer, settings: await chainSettings().catch(() => null),
-      totals: { launches: totals?.n ?? 0, graduated: totals?.graduated ?? 0, volume_usd: Number(totals?.volume ?? 0) / 1e6 },
-      launches: rows.map(summary),
+      totals: await totalsNow(), flyai_usd: flyUsd,
+      launches: rows.map((r) => summary(r, flyUsd)),
+    };
+  }
+
+  async function totalsNow() {
+    const totals = await pg.one<{ n: number; graduated: number; volume: string; pool: number }>(`select count(*)::int as n,
+      count(*) filter (where state = 'graduated')::int as graduated, coalesce(sum(volume_usdg::numeric), 0)::text as volume,
+      coalesce(sum(pool_volume_usd), 0)::float8 as pool from mine.launch_tokens`);
+    return { launches: totals?.n ?? 0, graduated: totals?.graduated ?? 0, volume_usd: Number(totals?.volume ?? 0) / 1e6 + (totals?.pool ?? 0) };
+  }
+
+  /** The /dex listing: every launch, on the curve or graduated, with its last 24 hours. Ranked here (the live price lives here). */
+  async function markets(o: { sort?: string; state?: string; q?: string; limit?: number } = {}) {
+    const at = (d.now?.() ?? new Date()).toISOString();
+    const state = o.state === "curve" ? "t.state <> 'graduated'" : o.state === "graduated" ? "t.state = 'graduated'" : "true";
+    const q = (o.q ?? "").trim().toLowerCase().slice(0, 64);
+    const args = [at, at, at, at];
+    let search = "true";
+    if (q) {
+      search = "(t.token = ? or lower(t.name) like ? or lower(t.symbol) like ?)";
+      const like = `%${q.replace(/[\\%_]/g, "\\$&")}%`;
+      args.push(q, like, like);
+    }
+    const rows = await pg.all<MarketRow>(`select t.*, coalesce(a.volume, 0)::float8 as volume_24h, coalesce(a.traders, 0)::int as traders_24h,
+        coalesce(a.buys, 0)::int as buys_24h, coalesce(a.sells, 0)::int as sells_24h,
+        (select f.price_usd from mine.launch_fills f where f.token = t.token and f.at <= ?::timestamptz - interval '24 hours' order by f.at desc limit 1) as price_before,
+        (select f.price_usd from mine.launch_fills f where f.token = t.token and f.at > ?::timestamptz - interval '24 hours' order by f.at limit 1) as price_first
+      from mine.launch_tokens t left join (
+        select token, sum(usd) as volume, count(distinct trader) as traders, count(*) filter (where buy) as buys, count(*) filter (where not buy) as sells
+          from mine.launch_fills where at > ?::timestamptz - interval '24 hours' and at <= ?::timestamptz group by token
+      ) a on a.token = t.token
+      where ${state} and ${search} order by t.created_block desc limit 500`, ...args);
+    const flyUsd = await flyaiNow();
+    const listed = rows.map((r) => {
+      const s = summary(r, flyUsd);
+      const ref = r.price_before ?? r.price_first;
+      return {
+        row: r,
+        ...s,
+        volume_24h: r.volume_24h, traders_24h: r.traders_24h, buys_24h: r.buys_24h, sells_24h: r.sells_24h,
+        change_24h: ref ? ((s.price_usd - ref) / ref) * 100 : null,
+        score: trendScore(r.traders_24h, r.volume_24h),
+      };
+    });
+    const by: Record<string, (a: (typeof listed)[number], b: (typeof listed)[number]) => number> = {
+      trending: (a, b) => b.score - a.score || b.volume_24h - a.volume_24h,
+      new: () => 0,                                          // the query's order
+      volume: (a, b) => b.volume_24h - a.volume_24h,
+      mcap: (a, b) => b.mcap_usd - a.mcap_usd,
+      gainers: (a, b) => (b.change_24h ?? -Infinity) - (a.change_24h ?? -Infinity),
+    };
+    listed.sort(by[o.sort ?? ""] ?? by.trending);
+    const page = listed.slice(0, Math.max(1, Math.min(100, o.limit ?? 50)));
+    await holdersCount(page.map((p) => p.row));
+    return {
+      live: true, address: lp, explorer: d.explorer, flyai: FLYAI, flyai_usd: flyUsd, pool_fee: POOL_FEE,
+      settings: await chainSettings().catch(() => null), totals: await totalsNow(),
+      markets: page.map(({ row, ...p }) => ({ ...p, holders: row.holders ?? 0 })),
     };
   }
 
@@ -296,13 +449,15 @@ export function createLaunchpad(d: {
     const r = await pg.one<TokenRow>("select * from mine.launch_tokens where token = ?", addr);
     if (!r) throw new HttpError(404, "no such launch");
     await holdersCount([r]);
-    const trades = await pg.all<{ id: string; trader: string; buy: boolean; usdg: string; tokens: string; fee: string; tax: string;
-      price_usd: number; block: string; at: Date }>("select * from mine.launch_trades where token = ? order by block desc, id desc limit 1000", addr);
+    const trades = await pg.all<{ id: string; trader: string; buy: boolean; usd: number; tokens: string; venue: string;
+      price_usd: number; block: string; at: Date }>("select * from mine.launch_fills where token = ? order by block desc, id desc limit 1000", addr);
     const skip = notHolders(r);
+    const flyUsd = await flyaiNow();
     const top = await pg.all<{ wallet: string; balance: string }>(`select wallet, balance::text from mine.launch_holders
       where token = ? and balance > 0 order by balance desc limit 60`, addr);
     return {
-      ...summary(r), rules: r.rules, explorer: d.explorer, launchpad: lp,
+      ...summary(r, flyUsd), rules: r.rules, explorer: d.explorer, launchpad: lp, flyai: FLYAI, flyai_usd: flyUsd, pool_fee: POOL_FEE,
+      paused: ((await chainSettings().catch(() => null)) as { paused?: boolean } | null)?.paused ?? null,
       position_id: r.position_id, pool_flyai: r.pool_flyai, pool_tokens: r.pool_tokens,
       curve: { x: r.x, y: r.y },
       trades: trades.slice(0, 200).map((t) => ({ ...t, block: Number(t.block) })),
@@ -310,13 +465,14 @@ export function createLaunchpad(d: {
       holders_top: top.filter((h) => !skip.includes(h.wallet)).slice(0, 50)
         .map((h) => ({ wallet: h.wallet, tokens: h.balance, pct: (Number(h.balance) / 1e18 / SUPPLY) * 100 })),
       curve_tokens: top.find((h) => h.wallet === lp)?.balance ?? "0",
-      bundles: bundles(trades, new Date(r.open_at)),
+      bundles: bundles(trades.filter((t) => t.venue === "curve"), new Date(r.open_at)),
     };
   }
 
   async function creator(addr: string) {
     const rows = await pg.all<TokenRow>("select * from mine.launch_tokens where creator = ? order by created_block desc", addr);
     await holdersCount(rows);
+    const flyUsd = await flyaiNow();
     const owed = asInt(words(await chain.call(lp, `${selector("creatorOwed(address)")}${word(addr)}`))(0));
     const locker = ((await chainSettings()) as { locker: string }).locker;
     const pool: Record<string, string> = {};
@@ -326,7 +482,7 @@ export function createLaunchpad(d: {
         if (v > 0n) pool[t] = v.toString();
       }
     }
-    return { creator: addr, curve_fees_usdg: owed.toString(), pool_fees: pool, launches: rows.map(summary) };
+    return { creator: addr, curve_fees_usdg: owed.toString(), pool_fees: pool, launches: rows.map((r) => summary(r, flyUsd)) };
   }
 
   async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promise<boolean> {
@@ -337,6 +493,11 @@ export function createLaunchpad(d: {
       const tab = ["new", "top", "graduated"].includes(url.searchParams.get("tab") ?? "") ? url.searchParams.get("tab")! : "new";
       const limit = Math.max(1, Math.min(100, Number(url.searchParams.get("limit") ?? 50) || 50));
       d.send(res, 200, await list(tab, limit));
+      return true;
+    }
+    if (p === "/api/launchpad/markets") {
+      const g = (k: string) => url.searchParams.get(k) ?? undefined;
+      d.send(res, 200, await markets({ sort: g("sort"), state: g("state"), q: g("q"), limit: Number(g("limit") ?? 50) || 50 }));
       return true;
     }
     if ((m = /^\/api\/launchpad\/token\/(0x[0-9a-fA-F]{40})$/.exec(p))) {
@@ -355,7 +516,7 @@ export function createLaunchpad(d: {
     setInterval(tick, everyMs).unref();
   }
 
-  return { route, start, tick, list, token, creator };
+  return { route, start, tick, list, markets, token, creator };
 }
 
 /** Robinhood Chain for the indexer: logs from the public RPC (QuickNode caps a log query's span), the rest from rpcUrl. */
@@ -367,6 +528,7 @@ export function launchpadChain(rpc: (url: string, method: string, params: unknow
     blockTime: async (n) => parseInt((await rpc(rpcUrl, "eth_getBlockByNumber", [hex(n), false])).timestamp, 16),
     logs: (q) => rpc(PUBLIC, "eth_getLogs", [{ address: q.address, topics: q.topics, fromBlock: hex(q.from), toBlock: hex(q.to) }]),
     call: (to, data) => rpc(rpcUrl, "eth_call", [{ to, data }, "latest"]),
+    txFrom: async (hash) => (await rpc(PUBLIC, "eth_getTransactionByHash", [hash])).from,
   };
 }
 

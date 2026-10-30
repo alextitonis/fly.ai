@@ -2,11 +2,11 @@
 
     python drone/imprint.py          # the bench test below
 
-The learning is the project's own rule (flytrade/research/plasticity.py): which Kenyon cells fired x dopamine = a change
+The learning is learning.py: which Kenyon cells fired x dopamine = a change
 at their output synapses. Rewarded patterns get a positive valence, punished ones a negative. The wiring into the
 Kenyon cells is the connectome's. Only the visual Kenyon cells (KCg-d, KCab-p) learn here: the rest are smell cells. They
 are made sparse with the brain's own APL neuron, or every cell fires always and nothing can be learned. The smell setting
-(kc_sparsity.py, offset -0.6) silences these visual cells completely, which is what failed the first run (2026-10-30);
+(offset -0.6) silences these visual cells completely, which is what failed the first run (2026-10-30);
 offset -0.2 and drive 2.0 V (over the project's usual 0.8 V cap) gave 5% active, picked on a screen of other seeds.
 
 What goes in: a colour, as the camera reads it, drives the 248 visual projection neurons that feed the Kenyon cells. Each
@@ -30,9 +30,9 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
-sys.path.insert(0, str(HERE.parent / "flytrade" / "research"))
+sys.path.insert(0, str(HERE))
 from flybrain import FlyBrain  # noqa: E402
-import plasticity  # noqa: E402
+import learning  # noqa: E402
 
 BATCH = 24
 APL_GAIN, KC_OFFSET = 4.0, -0.2
@@ -94,22 +94,22 @@ def train(c: Colours, rewards: dict[float, float], tag: str, seed: int) -> list[
     order = np.random.default_rng(seed).permutation(list(rewards) * ROUNDS)
     for i, hue in enumerate(order):
         counts = c.look(float(hue), seed + i)
-        plasticity.valence(keys, counts, len(c.kc))
+        learning.value(keys, counts, len(c.kc))
         reward = rewards[float(hue)]
         d = reward if not callable(reward) else reward()
-        plasticity.learn(keys, [d] * BATCH, len(c.kc))
+        learning.learn(keys, [d] * BATCH, len(c.kc))
     return keys
 
 
 def preference(c: Colours, keys: list[int], seed: int) -> tuple[float, float]:
     """Share of flies preferring A over B, on fresh looks that do not teach; and the mean valence gap."""
-    saved = [plasticity.of(k, len(c.kc))["elig"] for k in keys]
+    saved = [learning.of(k, len(c.kc))["elig"] for k in keys]
     gap = np.zeros(BATCH)
     for t in range(4):                                  # a few looks, as a fly gets
-        gap += plasticity.valence(keys, c.look(A, seed + t), len(c.kc))
-        gap -= plasticity.valence(keys, c.look(B, seed + 100 + t), len(c.kc))
+        gap += learning.value(keys, c.look(A, seed + t), len(c.kc))
+        gap -= learning.value(keys, c.look(B, seed + 100 + t), len(c.kc))
     for k, e in zip(keys, saved):
-        plasticity.of(k, len(c.kc))["elig"] = e
+        learning.of(k, len(c.kc))["elig"] = e
     return float((gap > 0).mean()), float(gap.mean() / 4)
 
 
@@ -123,7 +123,7 @@ def bench(c: Colours, seed: int) -> dict:
     out["gap"] = round(out["gap"], 3)
     near = {}
     for dh in LOOKALIKE:
-        v = np.mean([plasticity.valence(k, c.look(A + dh, seed + 600 + i), len(c.kc)) for i in range(3)], 0)
+        v = np.mean([learning.value(k, c.look(A + dh, seed + 600 + i), len(c.kc)) for i in range(3)], 0)
         near[dh] = round(float(v.mean()), 3)
     out["valence by hue distance"] = near
     k2 = train(c, {A: -1.0, B: 1.0}, f"b{seed}", seed + 20)
@@ -134,8 +134,6 @@ def bench(c: Colours, seed: int) -> dict:
 
 
 def main() -> None:
-    plasticity.configure(punish=False)
-    plasticity.LR = 0.25                                # 24 trials, not a season: picked before the run, on nothing else
     brain = FlyBrain(batch=BATCH, sensory_input=False)
     c = Colours(brain)
     print(f"{len(c.cells)} visual neurons feed the Kenyon cells; {len(c.kc)} visual Kenyon cells", flush=True)

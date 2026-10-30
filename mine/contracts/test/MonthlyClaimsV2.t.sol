@@ -314,6 +314,157 @@ contract MonthlyClaimsV2Test is Test {
         claims.claim(month, accounts[0], amounts[0], proof(0));
     }
 
+    // ---- weekly release ----
+
+    function openVesting() internal {
+        vm.prank(owner);
+        claims.setVesting(4, 7 days);
+        open();
+    }
+
+    function test_vestingOffByDefaultPaysAllAtOnce() public {
+        open();
+        (uint8 parts,,) = claims.vestOf(month);
+        assertEq(parts, 0);
+        assertEq(claims.unlocked(month, 100), 100);
+    }
+
+    function test_vestingUnlocksAQuarterAWeek() public {
+        openVesting();
+        address a = accounts[0];
+        uint256 amt = amounts[0];
+        uint256 start = block.timestamp;
+
+        claims.claim(month, a, amt, proof(0));
+        assertEq(token.balanceOf(a), amt / 4);
+        assertFalse(claims.hasClaimed(month, a));
+        assertEq(claims.paidOf(month, a), amt / 4);
+
+        // nothing more until the next week starts
+        vm.expectRevert(MonthlyClaimsV2.NothingUnlocked.selector);
+        claims.claim(month, a, amt, proof(0));
+        vm.warp(start + 7 days - 1);
+        vm.expectRevert(MonthlyClaimsV2.NothingUnlocked.selector);
+        claims.claim(month, a, amt, proof(0));
+
+        vm.warp(start + 7 days);
+        claims.claim(month, a, amt, proof(0));
+        assertEq(token.balanceOf(a), amt * 2 / 4);
+
+        vm.warp(start + 14 days);
+        claims.claim(month, a, amt, proof(0));
+        assertEq(token.balanceOf(a), amt * 3 / 4);
+        assertFalse(claims.hasClaimed(month, a));
+
+        vm.warp(start + 21 days);
+        claims.claim(month, a, amt, proof(0));
+        assertEq(token.balanceOf(a), amt);
+        assertTrue(claims.hasClaimed(month, a));
+        vm.expectRevert(MonthlyClaimsV2.AlreadyClaimed.selector);
+        claims.claim(month, a, amt, proof(0));
+    }
+
+    function test_vestingLateClaimPaysEverythingUnlockedInOneGo() public {
+        openVesting();
+        uint256 start = block.timestamp;
+        vm.warp(start + 15 days);
+        claims.claim(month, accounts[0], amounts[0], proof(0));
+        assertEq(token.balanceOf(accounts[0]), amounts[0] * 3 / 4);
+        vm.warp(start + 25 days);
+        claims.claim(month, accounts[0], amounts[0], proof(0));
+        assertEq(token.balanceOf(accounts[0]), amounts[0]);
+        assertTrue(claims.hasClaimed(month, accounts[0]));
+    }
+
+    function test_vestingEveryoneEndsUpWithExactlyTheirAmount() public {
+        openVesting();
+        uint256 start = block.timestamp;
+        for (uint256 w = 0; w < 4; w++) {
+            vm.warp(start + w * 7 days);
+            for (uint256 i = 0; i < accounts.length; i++) claims.claim(month, accounts[i], amounts[i], proof(i));
+        }
+        for (uint256 i = 0; i < accounts.length; i++) assertEq(token.balanceOf(accounts[i]), amounts[i]);
+        assertEq(token.balanceOf(address(claims)), 0);
+        (,, uint128 claimed,,) = claims.months(month);
+        assertEq(claimed, total);
+    }
+
+    function test_vestingWindowStartsAtTheLastUnlock() public {
+        openVesting();
+        uint256 start = block.timestamp;
+        (,,, uint64 deadline,) = claims.months(month);
+        assertEq(deadline, start + 21 days + WINDOW);
+        vm.warp(start + 21 days + WINDOW);
+        vm.prank(owner);
+        vm.expectRevert(MonthlyClaimsV2.WindowOpen.selector);
+        claims.sweep(month, treasury);
+        claims.claim(month, accounts[0], amounts[0], proof(0)); // still pays on the last day
+        vm.warp(start + 21 days + WINDOW + 1);
+        vm.expectRevert(MonthlyClaimsV2.WindowClosed.selector);
+        claims.claim(month, accounts[1], amounts[1], proof(1));
+        vm.prank(owner);
+        claims.sweep(month, treasury);
+        assertEq(token.balanceOf(treasury), total - amounts[0]);
+    }
+
+    function test_vestingSweepReturnsOnlyWhatWasNotPaid() public {
+        openVesting();
+        claims.claim(month, accounts[0], amounts[0], proof(0)); // one quarter, then never back
+        vm.warp(block.timestamp + 21 days + WINDOW + 1);
+        vm.prank(owner);
+        claims.sweep(month, treasury);
+        assertEq(token.balanceOf(treasury), total - amounts[0] / 4);
+        assertEq(token.balanceOf(address(claims)), 0);
+    }
+
+    function test_vestingChangeAppliesToLaterMonthsOnly() public {
+        openVesting();
+        vm.prank(owner);
+        claims.setVesting(1, 1 days);
+        vm.prank(owner);
+        claims.openMonth(month + 1, root, uint128(total));
+        (uint8 p0,,) = claims.vestOf(month);
+        (uint8 p1,,) = claims.vestOf(month + 1);
+        assertEq(p0, 4);
+        assertEq(p1, 0);
+        claims.claim(month, accounts[0], amounts[0], proof(0));
+        claims.claim(month + 1, accounts[0], amounts[0], proof(0));
+        assertEq(token.balanceOf(accounts[0]), amounts[0] / 4 + amounts[0]);
+    }
+
+    function test_vestingBoundsAndOwnerOnly() public {
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, address(this)));
+        claims.setVesting(4, 7 days);
+        vm.startPrank(owner);
+        vm.expectRevert(MonthlyClaimsV2.BadVesting.selector);
+        claims.setVesting(0, 7 days);
+        vm.expectRevert(MonthlyClaimsV2.BadVesting.selector);
+        claims.setVesting(53, 7 days);
+        vm.expectRevert(MonthlyClaimsV2.BadVesting.selector);
+        claims.setVesting(4, 1 days - 1);
+        vm.expectRevert(MonthlyClaimsV2.BadVesting.selector);
+        claims.setVesting(4, 31 days + 1);
+        vm.stopPrank();
+    }
+
+    function test_vestingMinHoldAppliesToEveryPart() public {
+        openVesting();
+        address a = accounts[0];
+        claims.claim(month, a, amounts[0], proof(0));
+        vm.prank(owner);
+        claims.setMinHold(amounts[0]);
+        vm.warp(block.timestamp + 7 days);
+        vm.expectRevert(abi.encodeWithSelector(MonthlyClaimsV2.HoldTooLow.selector, amounts[0] / 4, amounts[0]));
+        claims.claim(month, a, amounts[0], proof(0));
+    }
+
+    function test_vestingWrongAmountCantUnlockMore() public {
+        openVesting();
+        bytes32[] memory p = proof(0);
+        vm.expectRevert(MonthlyClaimsV2.BadProof.selector);
+        claims.claim(month, accounts[0], amounts[0] * 4, p);
+    }
+
     // ---- upgrades ----
 
     function test_upgradeKeepsStateAndOnlyTheAdminOwnerCanUpgrade() public {

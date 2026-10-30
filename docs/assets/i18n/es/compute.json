@@ -447,13 +447,13 @@
   "claim": {
     "flyAiComputeClaims": "fly.ai compute · reclamos",
     "monthlyClaims": "Reclamos mensuales",
-    "pointsBuildUpOver": "Los puntos se acumulan durante cada mes UTC. Cuando termina, un fondo de $FLYAI se reparte según los puntos y cada wallet reclama su parte aquí, en Robinhood Chain. Desde octubre de 2026, reclama en los 30 días siguientes al pago: lo que no se reclame vuelve a fly.ai.",
+    "pointsBuildUpOver": "Los puntos se acumulan durante cada mes UTC. Cuando termina, un fondo de $FLYAI se reparte según los puntos y cada wallet reclama su parte aquí, en Robinhood Chain. Desde octubre de 2026, la parte de un mes se desbloquea en 4 tramos semanales, el primero cuando se abre el pago. Reclama en los 30 días siguientes al último tramo: lo no reclamado vuelve a fly.ai.",
     "yourWallet": "TU BILLETERA",
     "wallet": "Billetera",
     "notSignedIn": "sin iniciar sesión",
     "signIn": "Iniciar sesión",
     "thisMonth": "Este mes",
-    "claimingIsATransaction": "Reclamar es una transacción en Robinhood Chain y cuesta un poco de gas. El reparto de cada mes lo publica on-chain la tesorería de fly.ai, que no puede cambiarlo ni retirarlo durante el plazo de reclamo. Septiembre de 2026 se puede reclamar durante 90 días; desde octubre el plazo es de 30 días, y el contrato puede exigir tener una pequeña cantidad de $FLYAI para reclamar. Contrato de reclamos: <a id=\"contract-link\" class=\"mono\" target=\"_blank\" rel=\"noopener\">—</a>",
+    "claimingIsATransaction": "Reclamar es una transacción en Robinhood Chain y cuesta un poco de gas. El reparto de cada mes lo publica on-chain la tesorería de fly.ai, que no puede cambiarlo ni retirarlo durante el plazo de reclamación. Septiembre de 2026 se puede reclamar durante 90 días; desde octubre, un mes se desbloquea en 4 tramos semanales, el plazo es de 30 días desde el último tramo y el contrato puede exigir tener una pequeña cantidad de $FLYAI para reclamar. Los tramos que no reclames se acumulan, así que puedes reclamar varios a la vez. Contrato de reclamaciones: <a id=\"contract-link\" class=\"mono\" target=\"_blank\" rel=\"noopener\">—</a>",
     "claims2": "RECLAMOS",
     "signInToSee": "Inicia sesión para ver tus reclamos.",
     "metaTitle": "Reclamos — fly.ai compute",
@@ -471,7 +471,11 @@
     "claimBy": "reclama antes del {date}",
     "windowClosed": "el plazo terminó el {date}; los $FLYAI no reclamados volvieron a fly.ai",
     "holdToClaim": "ten al menos {amount} $FLYAI en esta wallet para reclamar (tienes {held})",
-    "buyFlyai": "Comprar $FLYAI"
+    "buyFlyai": "Comprar $FLYAI",
+    "partsOpen": "{open} de {parts} tramos desbloqueados",
+    "nextPart": "el siguiente el {date}",
+    "partClaimed": "tramo reclamado ✓",
+    "claimAmount": "Reclamar {amount}"
   },
   "leaderboard": {
     "flyAiComputeLeaderboard": "fly.ai compute · clasificación",

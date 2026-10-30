@@ -123,6 +123,7 @@ These are small experiments, run on a desktop. They are not peer-reviewed scienc
 | [`sshfighter/`](sshfighter/) | plays [SSH Fighter](https://sshfighter.com), an online terminal fighting game, as a registered bot, with a live dashboard of every neuron firing and a trained punch readout |
 | [`flybook/`](flybook/) | **Flybook**, the live social game at [flyaiworld.com/flybook](https://flyaiworld.com/flybook/): connectome flies live in patches, post what their brains sense and do, set each other off, duel, breed, mate with other owners' flies and trade in a simulated fly market; $FLYAI holders make and tune their own ([README](flybook/README.md)) |
 | [`world/`](world/) | the 3-D fly world, running around the clock on a server that records every life, egg, relationship and memory (`world/server/`), and **Wiz**: a giant monkey wizard puppeted by the full connectome running in the browser (`flybrain export --web`), with the puppet strings read off descending neurons ([README](world/README.md)) |
+| [`drone/`](drone/) | the connectome flies a simulated quadcopter: it follows a leader using only its cameras, learns who to follow with dopamine, and turns when it sees a hand swipe. Simulation only so far ([README](drone/README.md)) |
 | [`flytalk.py`](flytalk.py), [`flybook.py`](flybook.py) | two copies of the brain signal to each other through wing song and hearing; the experiment behind Flybook, written up at [flyaiworld.com/research/flybook](https://flyaiworld.com/research/flybook) |
 
 ![Dashboard: the fight on the left, every neuron of the fly's nervous system on the right](sshfighter/media/dashboard.png)
@@ -155,6 +156,24 @@ How it is built, measured and deployed: [flybook/README.md](flybook/README.md).
 * **Mining for the project:** the fleet mines a yespower coin on CPU threads and Kaspa on GPUs, paid to the project's own wallets, with the miners still earning their usual points. The pool bridges run on [fly.io](https://flyai-bridge.fly.dev/). It is small money — about $0.02 per machine-day on the CPU side and a rounding error on the GPU — and the measurements behind that, along with every coin that was tried and rejected, are in [mine/README.md](mine/README.md#mining-for-the-project).
 
 How it works, how answers are checked, the contracts and operations: [mine/README.md](mine/README.md).
+
+## Drone
+
+The full connectome pilots a simulated [Crazyflie 2](drone/sim/crazyflie/) in MuJoCo. It has not flown on real hardware; the
+[drone README](drone/README.md#using-it-in-the-real-world) says what that would take.
+
+```bash
+pip install -r drone/requirements.txt
+python drone/follow.py                                  # follows a leader by sight -> drone/runs/follow.mp4
+python drone/choose.py --people --train A --out drone/runs/person.mp4   # learns who to follow
+python drone/reflex.py                                  # a hand swipe turns it, nothing trained
+```
+
+* **Following with no radio:** the follower knows only what its four onboard cameras show. It stays 0.97 m from the leader, against 1.84 m when it tracks a different drone and 1.39 m on scrambled wiring. It missed one of four pre-set rules: within 1 m 55% of the time, against 60%.
+* **Learning who to follow:** dopamine at the Kenyon-cell output synapses teaches it a leader by colour, and swapping the rewards flips its choice. This passes every pre-set rule so far (82 points of flip with people), but the test stopped at 39 of 48 flights. It only knows colour, and the "blink" that keeps the Kenyon cells working in flight is our addition.
+* **Hand gestures:** with no trained readout, two types of its descending neurons (DNg41, DNb03) read left and right swipes the right way 100% of the time on rendered hands, against 35-45% on scrambled wiring, and 8 of 9 on one real clip. It only tells left from right. A trained 7-gesture readout did no better than scrambled wiring.
+
+Commands, how to train each part, full results and limits: [drone/README.md](drone/README.md).
 
 ## Use it on your own task
 
@@ -350,6 +369,7 @@ types, sides, positions, readout groups, eye layout) into `$FLY_DATA`. Expect ex
 | `talk/`, `talk-fix/`, `talk-2ms/` | results of the three talking-flies runs (`results.json`; the raw `.npz` recordings are not committed) |
 | `mine/` | fly.ai compute: integer brain (CPU and WebGPU), checking server on fly.io, paid orders and buyers' programs (WASM, WGSL), house orders, website pages, Chrome extension, staking and monthly-claims contracts, example programs ([README](mine/README.md)) |
 | `sshfighter/` | the SSH Fighter bot, dashboard and trained readout ([README](sshfighter/README.md)), built on `flybrain/reservoir.py` |
+| `drone/` | the connectome flying a simulated quadcopter: following by camera, learning who to follow, hand gestures ([README](drone/README.md)) |
 
 ## What's next
 
@@ -359,7 +379,8 @@ types, sides, positions, readout groups, eye layout) into `$FLY_DATA`. Expect ex
 * A benchmark: does the real wiring beat randomly rewired copies of itself on the same tasks?
   The talking-flies control is the first data point, and it points both ways: scrambled wiring
   carries nothing at 20 ms and as much as the real brain at 2 ms.
-* Learning inside the brain through the mushroom body's dopamine rule, the way real flies learn.
+* Learning inside the brain through the mushroom body's dopamine rule, the way real flies learn. First working use:
+  [`drone/`](drone/README.md) learns who to follow by colour, with the learned weights kept outside the connectome's own.
 * ~~A 3-D world~~ built as a prototype in [`world/`](world/)
   ([flyaiworld.com/simulation](https://flyaiworld.com/simulation/)). It runs a separate,
   748-neuron model per fly, not the connectome, with a mushroom body that learns which smells to avoid.

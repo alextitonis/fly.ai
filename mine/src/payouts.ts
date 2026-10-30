@@ -149,6 +149,16 @@ export function monthCalldata(month: number): string {
   return selector("months(uint256)") + Buffer.from(word(BigInt(month))).toString("hex");
 }
 
+/** Calldata for MonthlyClaimsV2.vestOf(uint256): parts, step, start; parts 0 = all at once. The first contract has no vestOf. */
+export function vestCalldata(month: number): string {
+  return selector("vestOf(uint256)") + Buffer.from(word(BigInt(month))).toString("hex");
+}
+
+/** Calldata for MonthlyClaimsV2.paidOf(uint256 month, address account). */
+export function paidCalldata(month: number, wallet: string): string {
+  return selector("paidOf(uint256,address)") + Buffer.from(concat(word(BigInt(month)), addressWord(wallet))).toString("hex");
+}
+
 /** Calldata for MonthlyClaims.hasClaimed(uint256 month, address account). */
 export function hasClaimedCalldata(month: number, wallet: string): string {
   return selector("hasClaimed(uint256,address)") + Buffer.from(concat(word(BigInt(month)), addressWord(wallet))).toString("hex");

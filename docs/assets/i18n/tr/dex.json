@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "title": "Fly DEX: fly.ai'de çıkan tokenlar",
+    "description": "fly.ai'de çıkan her token, canlı fiyat, hacim, likidite ve sahip sayısıyla otomatik listelenir. Kendi cüzdanından işlem yap."
+  },
+  "head": {
+    "eyebrow": "Fly DEX",
+    "title": "fly.ai'de çıkan her token",
+    "lede": "Çıktığı andan itibaren otomatik listelenir. Canlı fiyat, hacim, likidite ve sahipler; işlemler kendi cüzdanından.",
+    "launch": "Token çıkar"
+  },
+  "closed": { "title": "Henüz açık değil", "body": "Fly DEX, launchpad ile birlikte açılacak." },
+  "list": {
+    "sortAria": "Sırala",
+    "filterAria": "Filtrele",
+    "search": "Ad, sembol veya adres",
+    "note": "Burada herkes token çıkarabilir. Listeleme otomatiktir ve bir onay anlamına gelmez. Adresi her zaman kontrol et.",
+    "empty": "Henüz çıkan token yok.",
+    "noMatch": "Eşleşen token yok."
+  },
+  "sort": { "trending": "Trend", "new": "Yeni", "volume": "Hacim", "mcap": "Piyasa değeri", "gainers": "En çok yükselen" },
+  "state": { "all": "Tümü", "curve": "Eğride", "graduated": "Mezun", "tagGraduated": "Mezun", "tagSoldOut": "Mezun oluyor", "tagOwn": "fly.ai" },
+  "col": { "token": "Token", "price": "Fiyat", "change": "24s", "volume": "24s hacim", "traders": "Trader", "liquidity": "Likidite", "mcap": "Piyasa değeri", "holders": "Sahipler" },
+  "totals": { "launches": "Çıkışlar", "graduated": "Mezun", "volume": "Toplam hacim" },
+  "time": { "s": "{n} sn önce", "m": "{n} dk önce", "h": "{n} sa önce", "d": "{n} g önce" },
+  "token": {
+    "back": "Tüm tokenlar",
+    "trades": "İşlemler",
+    "holders": "En büyük sahipler",
+    "noChart": "Grafik ilk işlemlerden sonra başlar.",
+    "noTrades": "Henüz işlem yok.",
+    "chartAria": "Fiyat grafiği",
+    "points": "{n} işlem",
+    "volume": "Toplam hacim",
+    "tradeCount": "İşlemler",
+    "creatorTax": "Yaratıcı vergisi",
+    "taxNone": "Yok",
+    "bundled": "Birkaç cüzdan ilk alımını açılıştan hemen sonra aynı blokta yaptı. Tek bir alıcı olabilirler.",
+    "progress": "{target} hedefinin {raised} kadarı toplandı. Eğri tükenince toplanan tutar otomatik olarak FLYAI'ye çevrilir ve token GIGA'daki kendi FLYAI havuzuna geçer."
+  },
+  "trades": { "when": "Ne zaman", "side": "Yön", "usd": "USD", "price": "Fiyat", "venue": "Nerede", "wallet": "Cüzdan", "pool": "Havuz", "curve": "Eğri" },
+  "swap": {
+    "sideAria": "Al veya sat",
+    "buy": "Al",
+    "sell": "Sat",
+    "pay": "Ödüyorsun",
+    "youSell": "Satıyorsun",
+    "payAria": "Ödeme birimi",
+    "get": "Yaklaşık alacağın",
+    "max": "Maks",
+    "slippage": "Kayma limiti",
+    "connect": "Cüzdan bağla",
+    "balance": "Bakiye: {amt}",
+    "cost": "Ücretler ve fiyat etkisi: yaklaşık %{pct}",
+    "costHigh": "Ücretler ve fiyat etkisi: yaklaşık %{pct}. Bu havuz için yüksek, daha küçük bir tutar dene.",
+    "noQuote": "Bu tutar için şu an fiyat yok.",
+    "noWallet": "Bu tarayıcıda cüzdan bulunamadı.",
+    "notEnough": "Bu tutar bakiyenden fazla.",
+    "paused": "Eğride işlemler duraklatıldı.",
+    "confirm": "{of} adımın {n}. adımını cüzdanında onayla…",
+    "waiting": "Zincir bekleniyor…",
+    "done": "Tamam.",
+    "viewTx": "İşlemi gör",
+    "cancelled": "İptal edildi.",
+    "failed": "Başarısız: {why}",
+    "feesPool": "Bu tokenin paritesi FLYAI. Havuz işlem başına %1 ücret alır, fly.ai üstüne bir şey eklemez.",
+    "feesCurve": "Eğride %1 işlem ücreti ve %{tax} yaratıcı vergisi işleminden kesilir."
+  }
+}

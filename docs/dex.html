@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="dex">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="dex.meta.title">Fly DEX: tokens launched on fly.ai</title>
+<meta name="description" content="Every token launched on fly.ai, listed automatically with live price, volume, liquidity and holders. Trade from your own wallet." data-i18n-attr="content:dex.meta.description">
+<!-- not launched yet (2026-10-30): remove this noindex and add the page to the nav + sitemap when the launchpad opens -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/dex.css">
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead" id="dex-head">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="dex.head.eyebrow">Fly DEX</p>
+    <h1 data-i18n="dex.head.title">Every token launched on fly.ai</h1>
+    <p class="lede" data-i18n="dex.head.lede">Listed automatically from launch. Live price, volume, liquidity and holders, and trades from your own wallet.</p>
+    <p class="dex-launchlink"><a class="btn red" href="/launch" data-i18n="dex.head.launch">Launch a token</a></p>
+  </div>
+</header>
+
+<section class="firstsec dex">
+  <div class="wrap">
+    <div id="dex-closed" class="card pad" hidden>
+      <h3 data-i18n="dex.closed.title">Not open yet</h3>
+      <p class="dex-muted" data-i18n="dex.closed.body">The Fly DEX opens with the launchpad.</p>
+    </div>
+
+    <div id="dex-list" hidden>
+      <div class="dex-totals" id="dex-totals"></div>
+      <div class="dex-bar">
+        <div class="dex-pills" id="dex-sort" role="group" aria-label="Sort" data-i18n-attr="aria-label:dex.list.sortAria">
+          <button type="button" data-sort="trending" class="on" data-i18n="dex.sort.trending">Trending</button>
+          <button type="button" data-sort="new" data-i18n="dex.sort.new">New</button>
+          <button type="button" data-sort="volume" data-i18n="dex.sort.volume">Volume</button>
+          <button type="button" data-sort="mcap" data-i18n="dex.sort.mcap">Market cap</button>
+          <button type="button" data-sort="gainers" data-i18n="dex.sort.gainers">Gainers</button>
+        </div>
+        <div class="dex-pills" id="dex-state" role="group" aria-label="Filter" data-i18n-attr="aria-label:dex.list.filterAria">
+          <button type="button" data-state="all" class="on" data-i18n="dex.state.all">All</button>
+          <button type="button" data-state="curve" data-i18n="dex.state.curve">On the curve</button>
+          <button type="button" data-state="graduated" data-i18n="dex.state.graduated">Graduated</button>
+        </div>
+        <input id="dex-q" type="search" spellcheck="false" autocomplete="off" placeholder="Name, symbol or address" data-i18n-attr="placeholder:dex.list.search;aria-label:dex.list.search">
+      </div>
+      <div class="card dex-tablewrap">
+        <table class="dex-table">
+          <thead><tr>
+            <th data-i18n="dex.col.token">Token</th>
+            <th class="dex-num" data-i18n="dex.col.price">Price</th>
+            <th class="dex-num" data-i18n="dex.col.change">24h</th>
+            <th class="dex-num" data-i18n="dex.col.volume">24h volume</th>
+            <th class="dex-num opt" data-i18n="dex.col.traders">Traders</th>
+            <th class="dex-num opt" data-i18n="dex.col.liquidity">Liquidity</th>
+            <th class="dex-num" data-i18n="dex.col.mcap">Market cap</th>
+            <th class="dex-num opt" data-i18n="dex.col.holders">Holders</th>
+          </tr></thead>
+          <tbody id="dex-rows"></tbody>
+        </table>
+      </div>
+      <p class="dex-note" data-i18n="dex.list.note">Anyone can launch a token here. A listing is automatic and is not an endorsement. Always check the address.</p>
+    </div>
+
+    <div id="dex-token" hidden>
+      <p class="dex-back"><a href="/dex" id="dex-backlink" data-i18n="dex.token.back">All tokens</a></p>
+      <div class="dex-tokenhead" id="dex-tokenhead"></div>
+      <div class="dex-warn" id="dex-warn" hidden></div>
+      <div class="dex-facts" id="dex-facts"></div>
+      <div class="dex-two">
+        <div class="dex-main">
+          <div class="card pad">
+            <div class="dex-progress" id="dex-progress" hidden></div>
+            <div id="dex-chart" class="dex-chart"></div>
+          </div>
+          <div class="card pad">
+            <h3 data-i18n="dex.token.trades">Trades</h3>
+            <div class="dex-scroll"><table class="dex-table small"><thead><tr>
+              <th data-i18n="dex.trades.when">When</th><th data-i18n="dex.trades.side">Side</th>
+              <th class="dex-num" data-i18n="dex.trades.usd">USD</th><th class="dex-num" data-i18n="dex.trades.price">Price</th>
+              <th class="opt" data-i18n="dex.trades.venue">Where</th><th data-i18n="dex.trades.wallet">Wallet</th>
+            </tr></thead><tbody id="dex-trades"></tbody></table></div>
+          </div>
+          <div class="card pad">
+            <h3 data-i18n="dex.token.holders">Top holders</h3>
+            <ol class="dex-holders" id="dex-holders"></ol>
+          </div>
+        </div>
+        <aside class="card pad dex-swap" id="dex-swap">
+          <div class="dex-pills wide" role="group" id="swap-side" aria-label="Buy or sell" data-i18n-attr="aria-label:dex.swap.sideAria">
+            <button type="button" data-side="buy" class="on" data-i18n="dex.swap.buy">Buy</button>
+            <button type="button" data-side="sell" data-i18n="dex.swap.sell">Sell</button>
+          </div>
+          <label class="dex-field"><span id="swap-paylabel" data-i18n="dex.swap.pay">You pay</span>
+            <span class="dex-amount">
+              <input id="swap-amount" inputmode="decimal" autocomplete="off" value="25">
+              <select id="swap-pay" aria-label="Paid in" data-i18n-attr="aria-label:dex.swap.payAria"></select>
+              <span id="swap-paysym" class="dex-sym" hidden></span>
+            </span>
+          </label>
+          <div class="dex-balrow" id="swap-balrow" hidden>
+            <span id="swap-bal"></span>
+            <span class="dex-pct"><button type="button" data-pct="25">25%</button><button type="button" data-pct="50">50%</button><button type="button" data-pct="100" data-i18n="dex.swap.max">Max</button></span>
+          </div>
+          <div class="dex-out"><span data-i18n="dex.swap.get">You get about</span><b id="swap-out">–</b></div>
+          <p class="dex-detail" id="swap-detail"></p>
+          <label class="dex-slip"><span data-i18n="dex.swap.slippage">Slippage limit</span>
+            <select id="swap-slip"><option value="50">0.5%</option><option value="100" selected>1%</option><option value="300">3%</option><option value="500">5%</option></select>
+          </label>
+          <button class="btn red dex-go" type="button" id="swap-go" data-i18n="dex.swap.connect">Connect wallet</button>
+          <p class="dex-msg" id="swap-msg" role="status"></p>
+          <p class="dex-note" id="swap-fees"></p>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="/start">Start here: buy $FLYAI</a>
+      <a href="/press">Press kit</a>
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261028a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script type="module" src="assets/dex.js?v=20261030a"></script>
+</body>
+</html>

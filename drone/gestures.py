@@ -35,6 +35,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 from flybrain import FlyBrain  # noqa: E402
+from flybrain.data import DATA  # noqa: E402
 
 GESTURES = ["still", "swipe left", "swipe right", "swipe up", "swipe down", "push", "pull"]
 W, H = 64, 48            # the picture the retina model sees
@@ -123,7 +124,7 @@ def motion(frames: np.ndarray) -> np.ndarray:
 
 def eye_places(brain: FlyBrain) -> dict:
     """For each T4/T5 type: neuron indices with their (x, y) in the picture, from the wiring (see the top of this file)."""
-    raw = Path(r"C:\Users\artif\fly-data") if Path(r"C:\Users\artif\fly-data").exists() else Path.home() / "fly-data"
+    raw = DATA                                         # optic-columns.xlsx comes with `flybrain build`
     import pandas as pd
     ids = np.load(raw / "brain.npz", allow_pickle=True)["ids"]
     index = {int(b): i for i, b in enumerate(ids)}

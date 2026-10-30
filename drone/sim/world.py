@@ -146,7 +146,7 @@ def _arena(n_fruit: int, pillars: list[tuple[float, float]], leader: bool = Fals
                            contype=0, conaffinity=0, pos=g.pos, quat=g.quat)
             b.add_geom(type=mujoco.mjtGeom.mjGEOM_SPHERE, size=[0.035, 0, 0], pos=[0, 0, 0.05], material=mat.name,
                        contype=0, conaffinity=0)
-        cf2.add_geom(type=mujoco.mjtGeom.mjGEOM_SPHERE, size=[0.035, 0, 0], pos=[0, 0, 0.05], mass=0,
+        cf2.add_geom(type=mujoco.mjtGeom.mjGEOM_SPHERE, size=[0.07 if people else 0.035, 0, 0], pos=[0, 0, 0.05], mass=0,
                      rgba=[1.0, 0.55, 0.15, 1], contype=0, conaffinity=0, group=2)
         for name, right in (("front", (0, -1, 0)), ("left", (1, 0, 0)), ("back", (0, 1, 0)), ("right", (-1, 0, 0))):
             cf2.add_camera(name=f"eye_{name}", pos=[0, 0, 0], xyaxes=[*right, 0, 0, 1], fovy=EYE_FOVY)
@@ -339,9 +339,10 @@ class DroneSim:
                 self.cam_lookat = getattr(self, "cam_lookat", self.pos.copy())
                 self.cam_lookat += 0.04 * ((self.pos + self.leader.pos) / 2 - self.cam_lookat)
                 self.cam_dist = getattr(self, "cam_dist", 2.0)
-                self.cam_dist += 0.02 * (max(1.6, 1.3 * gap + 1.0) - self.cam_dist)
+                want_dist = max(4.2, 1.2 * gap + 3.0) if self.people else max(1.6, 1.3 * gap + 1.0)
+                self.cam_dist += 0.02 * (want_dist - self.cam_dist)
                 self.cam.lookat[:] = self.cam_lookat
-                self.cam.distance, self.cam.elevation, self.cam.azimuth = self.cam_dist, -52, 90
+                self.cam.distance, self.cam.elevation, self.cam.azimuth = self.cam_dist, -62 if self.people else -52, 90
             self.renderer.update_scene(self.data, self.cam)
         else:
             self.renderer.update_scene(self.data, camera)

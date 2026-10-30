@@ -745,7 +745,7 @@ Deployed 2026-09-16 and verified on Sourcify and on Etherscan (robin.etherscan.i
 | contract | address | settings |
 |---|---|---|
 | MonthlyClaims | `0x9C11Cfba5564Fb6e3f0258DDcB92Fd6BA6b4d77A` | owner `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` (dev wallet), claim window 90 days; pays September 2026 only (`CLAIMS_LEGACY=202609:<this>`) |
-| MonthlyClaimsV2 | not deployed yet (`script/DeployClaimsV2.s.sol`) | proxy + ProxyAdmin owned by the dev wallet; pays October 2026 on (`CLAIMS_CONTRACT`); `claimWindow` 30 days and `minHold` 0 at launch, both owner settings that apply to months opened later |
+| MonthlyClaimsV2 | not deployed yet (`script/DeployClaimsV2.s.sol`) | proxy + ProxyAdmin owned by the dev wallet; pays October 2026 on (`CLAIMS_CONTRACT`); `claimWindow` 30 days and `minHold` 0 at launch, both owner settings that apply to months opened later; `setVesting(parts, step)` releases a month in equal parts, the window starting at the last (4 parts, 7 days from October 2026) |
 | FlyStaking | `0x5279dafA0858d4A5B2DCeb05E5b41f954CD692Cc` | no owner, cooldown 7 days |
 
 Both use $FLYAI, `0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C`.
@@ -873,11 +873,14 @@ Re-check the price monthly on DexScreener (FLYAI/NVDA, Uniswap V4 on Robinhood C
      cast send $CLAIMS "openMonth(uint256,bytes32,uint128)" <month_id> <root> <pool_wei> --rpc-url $RPC --account owner
      ```
 
+   The schedule is fixed when the month opens, so check it first: `cast call $CLAIMS "vesting()(uint8,uint64)" --rpc-url $RPC`
+   should say `4` and `604800`.
+
 4. **Miners claim on `/claim`.** Check progress with
    `cast call $CLAIMS "months(uint256)(bytes32,uint128,uint128,uint64,bool)" <month_id> --rpc-url $RPC`,
    which returns the root, total, claimed amount, deadline and whether it's been swept.
 
-5. **After the claim window** (`CLAIM_WINDOW_DAYS` after opening), return what nobody claimed:
+5. **After the claim window** (3 weeks of unlocks + `CLAIM_WINDOW_DAYS` after opening), return what nobody claimed:
 
    ```bash
    cast send $CLAIMS "sweep(uint256,address)" <month_id> $OWNER --rpc-url $RPC --account owner

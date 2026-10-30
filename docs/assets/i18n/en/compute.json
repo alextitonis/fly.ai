@@ -447,13 +447,13 @@
   "claim": {
     "flyAiComputeClaims": "fly.ai compute · claims",
     "monthlyClaims": "Monthly claims",
-    "pointsBuildUpOver": "Points build up over each UTC month. After it ends, a pool of $FLYAI is split by points and each wallet claims its share here, on Robinhood Chain. From October 2026, claim within 30 days of the payout: anything unclaimed goes back to fly.ai.",
+    "pointsBuildUpOver": "Points build up over each UTC month. After it ends, a pool of $FLYAI is split by points and each wallet claims its share here, on Robinhood Chain. From October 2026, a month's share unlocks in 4 weekly parts, the first when the payout opens. Claim within 30 days of the last part: anything unclaimed goes back to fly.ai.",
     "yourWallet": "YOUR WALLET",
     "wallet": "Wallet",
     "notSignedIn": "not signed in",
     "signIn": "Sign in",
     "thisMonth": "This month",
-    "claimingIsATransaction": "Claiming is a transaction on Robinhood Chain and costs a little gas. Each month's split is posted on-chain by the fly.ai treasury, which can't change it or take it back during the claim window. September 2026 stays claimable for 90 days; from October on the window is 30 days, and the contract can require holding a small amount of $FLYAI to claim. Claims contract: <a id=\"contract-link\" class=\"mono\" target=\"_blank\" rel=\"noopener\">—</a>",
+    "claimingIsATransaction": "Claiming is a transaction on Robinhood Chain and costs a little gas. Each month's split is posted on-chain by the fly.ai treasury, which can't change it or take it back during the claim window. September 2026 stays claimable for 90 days; from October on a month unlocks in 4 weekly parts, the window is 30 days from the last part, and the contract can require holding a small amount of $FLYAI to claim. Parts you miss add up, so you can claim several at once. Claims contract: <a id=\"contract-link\" class=\"mono\" target=\"_blank\" rel=\"noopener\">—</a>",
     "claims2": "CLAIMS",
     "signInToSee": "Sign in to see your claims.",
     "metaTitle": "Claims — fly.ai compute",
@@ -471,7 +471,11 @@
     "claimBy": "claim by {date}",
     "windowClosed": "claim window closed {date}; unclaimed $FLYAI went back to fly.ai",
     "holdToClaim": "hold at least {amount} $FLYAI in this wallet to claim (you hold {held})",
-    "buyFlyai": "Buy $FLYAI"
+    "buyFlyai": "Buy $FLYAI",
+    "partsOpen": "{open} of {parts} parts unlocked",
+    "nextPart": "next on {date}",
+    "partClaimed": "this part claimed ✓",
+    "claimAmount": "Claim {amount}"
   },
   "leaderboard": {
     "flyAiComputeLeaderboard": "fly.ai compute · leaderboard",

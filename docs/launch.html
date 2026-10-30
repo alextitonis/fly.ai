@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="launch">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="launch.meta.title">Launch a token on fly.ai</title>
+<meta name="description" content="Launch a token on Robinhood Chain. It trades on a bonding curve, then graduates into its own FLYAI pool with locked liquidity." data-i18n-attr="content:launch.meta.description">
+<!-- not launched yet (2026-10-30): remove this noindex and add the page to the nav + sitemap when the launchpad opens -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/dex.css">
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="launch.head.eyebrow">Fly launchpad</p>
+    <h1 data-i18n="launch.head.title">Launch a token</h1>
+    <p class="lede" data-i18n="launch.head.lede">It trades on a bonding curve from your first minute. When the curve sells out, it graduates into its own FLYAI pool with locked liquidity.</p>
+  </div>
+</header>
+
+<section class="firstsec dex">
+  <div class="wrap">
+    <div id="lc-closed" class="card pad" hidden>
+      <h3 data-i18n="launch.closed.title">Not open yet</h3>
+      <p class="dex-muted" data-i18n="launch.closed.body">The launchpad isn't open yet.</p>
+    </div>
+
+    <div class="dex-two" id="lc-open" hidden>
+      <form class="card pad lc-form" id="lc-form" autocomplete="off" novalidate>
+        <label class="lc-field"><span data-i18n="launch.form.name">Name</span>
+          <input id="lc-name" maxlength="32" spellcheck="false" placeholder="Fruit Market" data-i18n-attr="placeholder:launch.form.namePh">
+        </label>
+        <label class="lc-field"><span data-i18n="launch.form.symbol">Symbol</span>
+          <input id="lc-symbol" maxlength="10" spellcheck="false" autocapitalize="characters" placeholder="FRUIT" data-i18n-attr="placeholder:launch.form.symbolPh">
+        </label>
+        <label class="lc-field"><span data-i18n="launch.form.logo">Logo link (optional)</span>
+          <input id="lc-logo" maxlength="300" spellcheck="false" inputmode="url" placeholder="https://… or ipfs://…">
+          <small data-i18n="launch.form.logoHelp">A link to a square image. It's saved on chain and can't be changed later.</small>
+        </label>
+        <label class="lc-field"><span data-i18n="launch.form.tax">Your creator tax</span>
+          <select id="lc-tax">
+            <option value="0">0%</option><option value="50">0.5%</option><option value="100">1%</option><option value="150">1.5%</option><option value="200">2%</option>
+          </select>
+          <small data-i18n="launch.form.taxHelp">Taken on every trade on the curve and paid to you. It stops at graduation and can't be changed.</small>
+        </label>
+        <label class="lc-field"><span data-i18n="launch.form.dev">Your first buy in USDG (optional)</span>
+          <input id="lc-dev" inputmode="decimal" placeholder="0">
+          <small id="lc-devhelp"></small>
+        </label>
+        <p class="dex-msg" id="lc-problem" role="alert"></p>
+        <button class="btn red dex-go" type="submit" id="lc-go" data-i18n="launch.form.connect">Connect wallet</button>
+        <p class="dex-msg" id="lc-msg" role="status"></p>
+      </form>
+
+      <aside class="lc-side">
+        <div class="card pad">
+          <h3 data-i18n="launch.preview.title">Preview</h3>
+          <div class="dex-who" id="lc-preview"></div>
+        </div>
+        <div class="card pad">
+          <h3 data-i18n="launch.rules.title">The rules</h3>
+          <ul class="lc-rules" id="lc-rules"></ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="/start">Start here: buy $FLYAI</a>
+      <a href="/press">Press kit</a>
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261028a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script type="module" src="assets/launch.js?v=20261030a"></script>
+</body>
+</html>

@@ -2,3 +2,10 @@ mujoco>=3.2
 numpy
 pillow
 flybrain>=0.1.0
+opencv-python
+scipy
+scikit-learn
+pandas
+openpyxl
+joblib
+torch

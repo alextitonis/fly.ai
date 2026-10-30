@@ -64,7 +64,9 @@ re-runs a sample of answers, and a wrong answer zeroes that day's credit.
   contract, and wallets claim their share within the claim window. Anything unclaimed after that returns to the team.
   September 2026 is paid by MonthlyClaims with a 90-day window. From October 2026 months are paid by MonthlyClaimsV2
   (upgradeable, owned by the team): a 30-day window, and a minimum $FLYAI balance a wallet must hold to claim, which
-  starts at 0 and may be raised to 1 FLYAI. A change to either applies to months opened after it.
+  starts at 0 and may be raised to 1 FLYAI. A change to the window applies to months opened after it.
+  From October 2026 a month's share also unlocks in 4 equal weekly parts, the first when the month opens, and the 30-day
+  window starts at the last part. Parts not claimed add up. A change to this applies to months opened after it.
 * **Mining for the project.** Since 18 September 2026 the network also mines for the project itself: a yespower
   coin on miners' CPU threads and Kaspa on their GPUs, paid to wallets the team holds. Miners earn their usual
   points for those jobs, priced at what the brain job they displace would have paid, and the switch that runs them

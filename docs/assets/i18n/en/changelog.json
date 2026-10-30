@@ -126,6 +126,7 @@
     "d1015d": "<b>Feeding costs less.</b> +1x of growth now costs about four weeks of a fly's payout instead of $5, and follows the payouts from now on. \"Feed all\" feeds every fly you hold with one button.",
     "d1015e": "<b>Easier to find your flies.</b> Flies with money in their wallet now come first in your list, and open bets show the pick and the match instead of a long number.",
     "d1015f": "<b>Buy $FLYAI from the home page again.</b> The buy box on the home page gives quotes again.",
-    "d1026b": "<b>Holder chat on the Fly Desk.</b> Anyone can read it; wallets holding 10k+ $FLYAI can post. Name a token and the desk runs its rug checks on it in the chat. Bigger bags held longer carry more weight, and tokens enough holders back that pass the checks join the flies' view. <a href=\"/desk#chat\">Fly Desk</a>"
+    "d1026b": "<b>Holder chat on the Fly Desk.</b> Anyone can read it; wallets holding 10k+ $FLYAI can post. Name a token and the desk runs its rug checks on it in the chat. Bigger bags held longer carry more weight, and tokens enough holders back that pass the checks join the flies' view. <a href=\"/desk#chat\">Fly Desk</a>",
+    "d1030a": "<b>Mining pay now unlocks weekly.</b> From October's payout, your share unlocks in 4 weekly parts, the first when the payout opens. Parts you miss add up, and you have 30 days after the last one to claim. It's on the Compute claim page."
   }
 }
