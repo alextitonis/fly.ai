@@ -12,6 +12,9 @@
  *   profit fee. GET /api/vaults/requests/:id follows it.
  * - moves: the holder moves some of the fly's cash to another chain (the desk bridges it through Relay, relay.link,
  *   into the same wallet address there).
+ * - Solana (2026-10-30, flytrade/SOLANA-PLAN.md): off until the fly's owner turns it on; the desk makes its Solana address and
+ *   runs its own balance there (flytrade/vaults/vsolana.py). POST /api/vaults/<wallet>/solana asks (on, off, in, out); the fly's
+ *   view carries the desk's public row. VAULT_SOLANA=1 opens it on the site. Individual Trader Flies only.
  * - FlightPass burns: the owner of a fly and a pass registers the burn, sends the pass to 0x...dEaD, and this worker
  *   then pays the pass's whole balance plus the house grant (VAULT_GRANT_USD of FLYAI, $10) from the granter wallet into
  *   the fly's wallet, and asks the desk to lock that much (kind pass_burn). The pass's ledger is emptied first (one row,
@@ -53,6 +56,7 @@ const word = (v: bigint | number | string) =>
 const ADDRESS = /^0x[0-9a-fA-F]{40}$/;
 const MAX_DOC = 16_000;
 const DEAD = "0x000000000000000000000000000000000000dEaD";
+const SOL_ADDRESS = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
 
 /** The chains a fly's wallet trades on besides Robinhood Chain (switched on with VAULT_CHAINS=base,arbitrum,...). */
 const NETS: Record<string, { chainId: number; native: string; stable: string; stableDec: number; stableSym: string; poly?: boolean }> = {
@@ -102,6 +106,7 @@ export function createVaults(d: VaultsDeps) {
   };
   const admins = new Set(d.admins.map((w) => w.trim().toLowerCase()).filter((w) => ADDRESS.test(w)));
   const on = d.env.VAULT_ON === "1";
+  const SOLANA = d.env.VAULT_SOLANA === "1";
   const AWAY = (d.env.VAULT_CHAINS ?? "").split(",").map((c) => c.trim().toLowerCase()).filter((c) => NETS[c]);
   const call = (to: string, data: string) => rpc(d.rpcUrl, "eth_call", [{ to, data }, "latest"]) as Promise<string>;
   const addr = (ret: string) => checksumAddress(`0x${ret.slice(-40)}`);
@@ -160,7 +165,7 @@ export function createVaults(d: VaultsDeps) {
   // ---- views -------------------------------------------------------------------------------------------------
   async function config() {
     return { on, grant_usd: CFG.grantUsd, starters: await publicOf("starters"), flightpass: CFG.flightPass, dead: DEAD,
-             hold_flyai: Number(d.env.VAULT_HOLD_FLYAI ?? "200000"),
+             hold_flyai: Number(d.env.VAULT_HOLD_FLYAI ?? "200000"), solana: SOLANA,
              chains: AWAY.map((chain) => { const n = NETS[chain]; return { chain, chain_id: n.chainId, native: n.native,
                stable: n.stable, stable_dec: n.stableDec, stable_sym: n.stableSym, ...(n.poly ? { poly: true } : {}) }; }) };
   }
@@ -177,7 +182,8 @@ export function createVaults(d: VaultsDeps) {
       return { chain, ledger, stats, settings: settings?.doc ?? null };
     };
     const [home, ...away] = await Promise.all([one("robinhood"), ...AWAY.map(one)]);
-    return { fly, owner, wallet, ...home, pass: granted ?? null, away };
+    const solana = SOLANA && wallet ? await publicOf(`vault:solana:${wallet}`) : null;
+    return { fly, owner, wallet, ...home, pass: granted ?? null, away, solana };
   }
 
   /**
@@ -333,6 +339,44 @@ export function createVaults(d: VaultsDeps) {
     return { id: row!.id, status: "new" };
   }
 
+  // ---- Solana: the fly's owner (its money's holder, once there is some) asks, the desk does it ----------------------
+  async function solana(req: IncomingMessage, wallet: string, body: any) {
+    isOn();
+    if (!SOLANA) throw new HttpError(503, "Solana isn't open yet");
+    const me = await d.sessionWallet(req);
+    const fly = await flyOfWallet(wallet);
+    if (fly == null) throw new HttpError(404, "no such fly wallet");
+    const holder: string | null = (await publicOf(`vault:solana:${wallet}`))?.holder ?? null;
+    if ((holder ?? (await ownerOfFly(fly)))?.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the fly's owner can do this");
+    const action = String(body?.action ?? "");
+    let kind: string, params: Record<string, unknown> = {};
+    if (action === "on" || action === "off") {
+      kind = `sol_${action}`;
+    } else if (action === "in") {
+      const usd = Number(body?.usd);
+      if (!Number.isFinite(usd) || usd < 5 || usd > 1_000_000) throw new HttpError(400, "usd is at least 5");
+      const led = await ledgerOf(wallet, "robinhood");
+      if (!led?.holder || led.holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can move its money");
+      kind = "sol_in";
+      params = { usd };
+    } else if (action === "out") {
+      const bps = Number(body?.bps);
+      if (!Number.isInteger(bps) || bps < 1 || bps > 10_000) throw new HttpError(400, "bps is 1..10000");
+      const to = body?.mode === "withdraw" ? String(body?.to ?? "").trim() : null;
+      if (body?.mode === "withdraw" && !SOL_ADDRESS.test(to ?? "")) throw new HttpError(400, "that isn't a Solana address");
+      kind = "sol_out";
+      params = { bps, mode: to ? "withdraw" : "home", ...(to ? { to } : {}) };
+    } else {
+      throw new HttpError(400, "action is on, off, in or out");
+    }
+    const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = 'robinhood'
+      and kind like 'sol\\_%' and status in ('new', 'doing')`, wallet);
+    if (open) throw new HttpError(409, "a Solana request is already on its way");
+    const row = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
+      values (?, 'robinhood', ?, ?, ?::text::jsonb) returning id`, wallet, kind, me, JSON.stringify(params));
+    return { id: row!.id, status: "new" };
+  }
+
   /**
    * Every funded fly's published stats in one read, for the terminal (docs/terminal.html, 2026-10-04): its trades,
    * holdings and curve, keyed by fly. One query every FEED_TTL_MS however many people watch (it read each fly's view
@@ -354,7 +398,8 @@ export function createVaults(d: VaultsDeps) {
     if (!on) return { flies: [] };
     const rows = await pg.all<{ fly_id: number }>(`select distinct w.fly_id from mine.vault_ledger l
       join mine.vault_wallets w on lower(w.address) = lower(l.wallet) where l.holder is not null and w.fly_id is not null`);
-    return { flies: rows.map((r) => r.fly_id) };
+    const sol: number[] = (SOLANA ? (await publicOf("solana_funded"))?.flies : null) ?? [];   // (their Solana money counts too)
+    return { flies: [...new Set([...rows.map((r) => r.fly_id), ...sol])] };
   }
 
   async function requestView(id: number) {
@@ -746,11 +791,11 @@ export function createVaults(d: VaultsDeps) {
     }
     if (req.method === "POST") {
       if (p === "/api/vaults/labels") return d.send(res, 200, await saveLabel(req, await d.readJson(req))), true;
-      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move)$/.exec(p))) {
+      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move|solana)$/.exec(p))) {
         if (!ADDRESS.test(m[1])) throw new HttpError(400, "bad wallet address");
         const wallet = checksumAddress(m[1]);
         const body = await d.readJson(req);
-        const go = m[2] === "settings" ? saveSettings : m[2] === "withdraw" ? withdraw : move;
+        const go = m[2] === "settings" ? saveSettings : m[2] === "withdraw" ? withdraw : m[2] === "solana" ? solana : move;
         return d.send(res, 200, await go(req, wallet, body)), true;
       }
       if (p === "/api/admin/promo/manual") return d.send(res, 200, await manualPromo(req, await d.readJson(req))), true;

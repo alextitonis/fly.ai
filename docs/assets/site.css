@@ -572,6 +572,13 @@
 .home .home-hero .welcome { margin-top: 14px; }
 .home .home-hero .buybox { margin: 0; }
 .buybox .buy-why { margin: 10px 0 0; color: var(--dim); font-size: 12px; line-height: 1.5; }
+/* paying from Solana (buy.js): where the $FLYAI lands on Robinhood Chain */
+.buybox .buy-to { margin: 0 0 16px; display: flex; flex-direction: column; gap: 6px; }
+.buybox .buy-to[hidden], .buybox #buy-solw[hidden] { display: none; }
+.buybox #buy-solw { align-self: flex-start; }
+.buybox .buy-to input { font: 500 14px var(--mono); }
+.buybox .buy-to button { flex: none; background: var(--bg-2); color: var(--mint); border: 0; border-left: 1px solid var(--line); padding: 0 12px; font: 600 13px var(--sans); cursor: pointer; }
+.buybox .buy-to .buy-why { margin: 0; }
 @media (max-width: 960px) {
   .home .home-hero .wrap { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .home .home-hero { padding-block: 40px 56px; }

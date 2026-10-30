@@ -35,9 +35,16 @@
  *  - every step is logged to mine /api/swaplog (quote, route, approved, sent, success / failed and why), and a buy
  *    that went through fires "flyai:bought" (assets/buyweek.js redraws the "You're in" card).
  */
+/*
+ * Pay from Solana (2026-10-30, flytrade/SOLANA-PLAN.md part A): SOL or USDC on Solana buys $FLYAI on Robinhood Chain through
+ * Relay, our app fee included. The Solana wallet pays, so $FLYAI needs an address of the buyer's on Robinhood Chain
+ * (#buy-to: their signed-in wallet, or pasted). assets/solana.js checks and simulates the order before the wallet signs,
+ * and only loads when someone picks Solana.
+ */
 (function () {
   "use strict";
   const $ = (id) => document.getElementById(id);
+  const HERE = document.currentScript ? document.currentScript.src : location.href;
 
   const API = "https://api.relay.link";
   const CHAIN = 4663;
@@ -60,7 +67,10 @@
   const MINE = (window.flyNav && window.flyNav.MINE_API) || "https://flyai-mine.fly.dev";
   // gas on the chain paid from (wei): under this a USDC payment there needs Relay's gasless permit, or coin first
   const GAS_MIN = { 8453: 3n * 10n ** 13n, 42161: 3n * 10n ** 13n, 1: 6n * 10n ** 14n, 80094: 10n ** 16n };
-  const CHAIN_NAMES = { 8453: "Base", 42161: "Arbitrum", 1: "Ethereum", 80094: "Berachain" };
+  const SOLANA = 792703809;                             // Relay's id for it
+  const SOL_PREVIEW = "HHTEVaETWsabcpHK7zcS7xzqqGhWKKTcfLd93boP4HjN";   // Solana quotes before a wallet is connected
+  const SOL_KEEP = 10n ** 7n;                           // Max on SOL leaves 0.01 SOL for fees
+  const CHAIN_NAMES = { 8453: "Base", 42161: "Arbitrum", 1: "Ethereum", 80094: "Berachain", [SOLANA]: "Solana" };
   // the chains a visitor can pay from: their coin and their USDC (public RPCs for the balance line)
   const ORIGINS = {
     4663: { rpc: RPC, explorer: EXPLORER, pay: PAY },
@@ -76,8 +86,11 @@
                     USDC: { address: "0x549943e04f40284185054145c6e4e9568c1d3241", decimals: 6 } },
              add: { chainName: "Berachain", rpcUrls: ["https://rpc.berachain.com"], blockExplorerUrls: ["https://berascan.com"],
                     nativeCurrency: { name: "BERA", symbol: "BERA", decimals: 18 } } },
+    [SOLANA]: { explorer: "https://solscan.io",
+                pay: { SOL: { address: "11111111111111111111111111111111", decimals: 9 },
+                       USDC: { address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", decimals: 6 } } },
   };
-  const NATIVE_SYMS = ["ETH", "BERA"];                  // a chain's own coin: no approve, its balance by eth_getBalance
+  const NATIVE_SYMS = ["ETH", "BERA", "SOL"];                  // a chain's own coin: no approve, its balance by eth_getBalance
   const isNative = (sym) => NATIVE_SYMS.includes(sym);
   const APPROVE = "0x095ea7b3";
   const allowedCache = {};
@@ -133,11 +146,11 @@
   }
 
   // a Relay quote into Robinhood Chain, our app fee included: tin (on `origin`, Robinhood by default) -> tout, exact input
-  async function relayQuote(user, tin, tout, amount, origin, usePermit) {
+  async function relayQuote(user, tin, tout, amount, origin, usePermit, recipient) {
     const r = await fetch(API + "/quote", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        user, recipient: user, originChainId: origin || CHAIN, destinationChainId: CHAIN,
+        user, recipient: recipient || user, originChainId: origin || CHAIN, destinationChainId: CHAIN,
         originCurrency: tin, destinationCurrency: tout, amount: amount.toString(),
         tradeType: "EXACT_INPUT", appFees: [{ recipient: FEE_TO, fee: String(FEE_BPS) }],
         // gasless (2026-10-27): the token's own permit (EIP-3009 / 2612) signed instead of an approve + deposit
@@ -190,6 +203,7 @@
   if (!$("buy")) return;
 
   const origin = () => Number(($("buy-from") && $("buy-from").value) || CHAIN);
+  const onSol = () => origin() === SOLANA;
   const away = () => origin() !== CHAIN;                            // paying on another chain: buying only
   const selling = () => !away() && $("buy-dir").value === "sell";
   const payOf = (sym) => ORIGINS[origin()].pay[sym] || PAY[sym];
@@ -273,6 +287,7 @@
 
   async function getQuote(user, pay, amount) {
     const [tin, tout, symIn] = sides(pay);
+    if (onSol()) return relayQuote(solAddr() || SOL_PREVIEW, tin.address, tout.address, amount, SOLANA, false, toAddr() || PREVIEW_USER);
     if (away()) {                                   // Relay brings it over; with no gas there, its gasless permit
       if (await gasLow(user, symIn)) {
         const g = await relayQuote(user, tin.address, tout.address, amount, origin(), true).catch(() => null);
@@ -411,9 +426,21 @@
   }
 
   async function loadBalance() {
-    const pay = $("buy-pay").value, [tin, , symIn] = sides(pay), key = (wallet || "") + ":" + symIn + ":" + origin();
+    const pay = $("buy-pay").value, [tin, , symIn] = sides(pay), key = (onSol() ? solAddr() || "" : wallet || "") + ":" + symIn + ":" + origin();
     const url = ORIGINS[origin()].rpc;
     balFor = key;
+    if (onSol()) {
+      bal = null;
+      const who = solAddr();
+      if (who) {
+        try {
+          const raw = await sol.balance(who, tin.address);
+          if (balFor === key) bal = raw;
+        } catch (e) { /* no balance line */ }
+      }
+      if (balFor === key) showBalance();
+      return;
+    }
     if (!wallet) { bal = null; showBalance(); return; }
     try {
       const raw = isNative(symIn)
@@ -446,7 +473,8 @@
     if (bal == null) return;
     const [tin, , symIn] = sides($("buy-pay").value);
     let amt = bal * BigInt(pct) / 100n;
-    if (isNative(symIn) && pct === 100) amt = amt > GAS_KEEP ? amt - GAS_KEEP : 0n;
+    const keep = onSol() ? SOL_KEEP : GAS_KEEP;
+    if (isNative(symIn) && pct === 100) amt = amt > keep ? amt - keep : 0n;
     $("buy-amount").value = decimalOf(amt, tin.decimals, symIn === "USDG" || symIn === "USDC" ? 6 : isNative(symIn) ? 8 : 4);
     refresh();
   }
@@ -513,7 +541,7 @@
   const label = () => {
     // no wallet yet: always "Connect wallet" - the sign-in's picker has WalletConnect, so a browser without a wallet
     // extension can still connect from a phone (2026-10-13 review: "No wallet found" was a dead end on the button)
-    $("buy-go").textContent = !wallet ? t("connect") : selling() ? t("sell") : t("buy");
+    $("buy-go").textContent = onSol() ? (solAddr() ? t("buy") : t("connectSol")) : !wallet ? t("connect") : selling() ? t("sell") : t("buy");
   };
 
   async function connect() {
@@ -535,7 +563,146 @@
     return true;
   }
 
+  // ---- paying from Solana (assets/solana.js): its own wallet, and an address on Robinhood Chain for the $FLYAI ----
+  let sol = null, solWallet = null, solAcct = null, toAuto = true;
+  const loadSol = () => (sol ? Promise.resolve(sol) : import(new URL("solana.js?v=20261030a", HERE).href).then((m) => (sol = m)));
+  const solAddr = () => (solAcct ? solAcct.address : null);
+  function toAddr() {
+    const v = (($("buy-to") && $("buy-to").value) || "").trim();
+    return /^0x[0-9a-fA-F]{40}$/.test(v) && !/^0x0{40}$/.test(v) ? v : null;
+  }
+  // the buyer's own address, when we can know it: the signed-in wallet, else the EVM side of a wallet like Phantom
+  async function fillTo() {
+    const box = $("buy-to");
+    if (!box || !toAuto) return;
+    let who = wallet;
+    if (!who && window.phantom && window.phantom.ethereum) {
+      who = await window.phantom.ethereum.request({ method: "eth_accounts" }).then((a) => a && a[0]).catch(() => null);
+    }
+    if (who && toAuto) { box.value = who; refresh(); }
+  }
+  function solWalletOf() {
+    const list = sol.wallets(), pick = $("buy-solw");
+    if (pick) {
+      pick.innerHTML = list.map(() => "<option></option>").join("");
+      list.forEach((w, i) => { pick.options[i].value = w.name; pick.options[i].textContent = w.name; });
+      pick.hidden = list.length < 2;
+      if (solWallet && list.some((w) => w.name === solWallet.name)) pick.value = solWallet.name;
+    }
+    return list.find((w) => pick && w.name === pick.value) || list[0] || null;
+  }
+  async function connectSol(silent) {
+    await loadSol();
+    solWallet = solWalletOf();
+    if (!solWallet) {
+      if (!silent) msg(t("noSolWallet"), "err");
+      return false;
+    }
+    solAcct = await sol.connect(solWallet, silent).catch((e) => { if (!silent) throw e; return null; });
+    label();
+    loadBalance();
+    fillTo();
+    if (solAcct) refresh();
+    return !!solAcct;
+  }
+
+  async function buySol() {
+    if (busy) return;
+    try {
+      if (!solAddr() && !(await connectSol())) return;
+    } catch (e) {
+      msg(t("cancelled"), "err");
+      return;
+    }
+    const pay = $("buy-pay").value, amount = units($("buy-amount").value, sides(pay)[0].decimals), to = toAddr();
+    if (!amount || amount <= 0n) { msg(t("enterAmount"), "err"); return; }
+    if (!to) { msg(t("solToNeeded"), "err"); $("buy-to").focus(); return; }
+    busy = true;
+    $("buy-go").disabled = true;
+    let q = null;
+    try {
+      const [tin] = sides(pay), user = solAddr();
+      msg(t("quoting"));
+      const [have, gas] = await Promise.all([sol.balance(user, tin.address), sol.balance(user)]);
+      if (have < amount + (isNative(pay) ? sol.MIN_GAS : 0n)) {
+        track("failed", null, pay, amount, "not enough " + pay);
+        msg(t("solShort", { coin: pay }), "err");
+        return;
+      }
+      if (gas < sol.MIN_GAS) {
+        track("gas_low", null, pay, amount, "no gas on Solana");
+        msg(t("gasLow", { chain: "Solana", coin: "SOL" }), "err");
+        return;
+      }
+      q = await relayQuote(user, tin.address, FLYAI, amount, SOLANA, false, to);
+      msg("");
+      show(q, pay);
+      track("route", q, pay, amount);
+      const tx = await sol.prepare(q, { user, recipient: to, tokenIn: tin.address, tokenOut: FLYAI, chainOut: CHAIN, amount });
+      msg(t("confirm", { n: 1, of: 1 }));
+      const sig = await sol.send(solWallet, solAcct, tx);
+      track("sent", q, pay, amount);
+      msg(t("waiting"));
+      await sol.landed(sig);
+      msg(t("arriving"));
+      const s = await delivered(q);
+      if (s === "failure" || s === "refund") throw new Error(t("notDelivered"));
+      msg(s === "success" ? t("done") : t("arrivingSoon"), "ok", ORIGINS[SOLANA].explorer + "/tx/" + sig);
+      track("success", q, pay, amount);
+      window.dispatchEvent(new CustomEvent("flyai:bought", { detail: { wallet: to } }));
+      loadBalance();
+    } catch (e) {
+      const why = (e && e.message) || String(e);
+      const cancelled = (e && e.code === 4001) || /rejected|denied|cancel/i.test(why);
+      track(cancelled ? "cancelled" : "failed", q, pay, amount, why);
+      msg(cancelled ? t("cancelled") : t("failed", { why }), "err");
+    } finally {
+      busy = false;
+      $("buy-go").disabled = false;
+    }
+  }
+
+  function addSolana() {
+    const from = $("buy-from");
+    if (!from) return;
+    from.add(new Option("Solana", String(SOLANA)));
+    const row = document.createElement("div");
+    row.className = "buy-to";
+    row.id = "buy-to-row";
+    row.hidden = true;
+    row.innerHTML = '<select id="buy-solw" class="buy-dir" aria-label="Solana wallet" hidden></select>'
+      + '<label class="buy-in" for="buy-to"></label>'
+      + '<span class="buy-field"><input id="buy-to" type="text" autocomplete="off" spellcheck="false" placeholder="0x…">'
+      + '<button type="button" id="buy-to-use"></button></span><p class="buy-why"></p>';
+    row.querySelector("label").textContent = t("solTo");
+    row.querySelector("button").textContent = t("solToUse");
+    row.querySelector("p").textContent = t("solToNote");
+    $("buy-go").parentElement.before(row);
+    $("buy-to").addEventListener("input", () => { toAuto = false; refresh(); });
+    $("buy-to-use").addEventListener("click", async () => {
+      if (!wallet && !(await connect().catch(() => false))) return;
+      $("buy-to").value = wallet;
+      toAuto = true;
+      refresh();
+    });
+    $("buy-solw").addEventListener("change", () => { solAcct = null; label(); connectSol().catch(() => msg(t("cancelled"), "err")); });
+    from.addEventListener("change", () => {
+      row.hidden = !onSol();
+      const box = $("buy-amount");                       // the default $25 of USDC isn't 25 SOL
+      if (onSol() && $("buy-pay").value === "SOL" && box.value === "25") { box.value = "0.25"; refresh(); }
+      if (onSol()) connectSol(true).catch(() => {});
+    });
+    $("buy-pay").addEventListener("change", () => {
+      const box = $("buy-amount");
+      if (!onSol()) return;
+      if ($("buy-pay").value === "SOL" && box.value === "25") box.value = "0.25";
+      if ($("buy-pay").value === "USDC" && box.value === "0.25") box.value = "25";
+      refresh();
+    });
+  }
+
   async function buy() {
+    if (onSol()) return buySol();
     if (busy) return;
     if (!wallet && !(await connect())) return;
     const pay = $("buy-pay").value, amount = units($("buy-amount").value, sides(pay)[0].decimals);
@@ -618,6 +785,7 @@
   }
 
   function start() {
+    addSolana();
     $("buy-amount").addEventListener("input", refresh);
     for (const b of document.querySelectorAll("#buy-route [data-route]")) {
       b.addEventListener("click", () => { route = b.dataset.route; showRoute(); refresh(); });
@@ -656,7 +824,7 @@
     // signed in already (the nav's session): show Buy at once, then follow sign-ins and sign-outs on any page/tab
     const s = window.flyNav && window.flyNav.session && window.flyNav.session();
     if (s && s.wallet) wallet = s.wallet;
-    loadAcct().then((a) => { if (a) a.onAccount((w) => { wallet = w; label(); refresh(); loadBalance(); }); else label(); });
+    loadAcct().then((a) => { if (a) a.onAccount((w) => { wallet = w; label(); refresh(); loadBalance(); if (onSol()) fillTo(); }); else label(); });
     label();
     loadBalance();
     showRoute();

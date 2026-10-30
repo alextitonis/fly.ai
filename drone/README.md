@@ -36,7 +36,7 @@ the machine gets slow.
 | `python drone/gestures.py measure` | 7 gestures through a trained readout, against scrambled wiring and no brain | about 15 min |
 | `python drone/gestures.py record` / `live` | Records your hands on a webcam; reads them live. **Neither has been run on a real camera yet** | about 5 min to record |
 | `python drone/readout_checks.py` | World-Sim's readout checks (after `gestures.py measure`) | about 10 min |
-| `python drone/planner.py ...` | World-Sim's planner against the fly. **The comparison hasn't been run** | see below |
+| `python drone/planner.py ...` | World-Sim's planner against the fly. Failed its rule, see Results | see below |
 
 ## How to train it more
 
@@ -47,7 +47,7 @@ The connectome's own wiring never changes. Everything that learns sits on top of
 | **Who to follow** | `TRAIN_ROUNDS` in `choose.py` (12 per colour) | Training takes seconds and happens at the start of every run: nothing is saved yet. To teach new colours, change `SHIRTS` or `BEACONS` in `sim/world.py`, or `--train` and `--against` in `video_test.py`. Reward is `+1`, punishment `-1`, in `teach()`. |
 | **Gesture readout** | `gestures.py measure --train 60` (clips per gesture); `record --takes 12`, then `measure --clips drone/runs/my_hand` | So far only trained on rendered hands. Your own recordings are the obvious next step. |
 | **Reflex gestures** | Nothing to train | You can change which neurons are read (`TYPES`), the lean at rest (`OFFSET`) and the dead zone (`DEAD`) in `reflex.py`. |
-| **The planner** | `collect` more flights, then `fit` again | `python drone/planner.py collect --kind fly --minutes 8 --seed 1 --out data/fly1.npz`, then `fit --kind fly --data "data/fly*.npz" --out data/fly.pt`, then `fly --policy flyplan --model data/fly.pt`. `--kind raw` and `--policy raw` is the same with no fly. |
+| **The planner** | `collect` more flights, then `fit` again | `python drone/planner.py collect --kind fly --minutes 8 --seed 1 --out data/fly1.npz`, then `fit --kind fly --data "data/fly*.npz" --out data/fly.pt`, then `fly --policy flyplan --model data/fly.pt`. `--kind raw` and `--policy raw` is the same with no fly. For the fly with a planner stepping in: `collect --kind hybrid --route dna02 --nudge 0.6`, then `fly --policy hybrid --route dna02 --nudge 0.6 --margin 0.1 --model ...`. |
 
 When you change anything, test on **fresh seeds** with the pass rule written down first, and compare with `--rewire`. If
 scrambled wiring does just as well, the fly isn't what's doing the work.
@@ -210,9 +210,42 @@ Scrambled wiring does as well, so a trained readout can decode the signal throug
 20%. On a real hand it got 9 of 21 moving windows right (rule: 50%), trained only on rendered hands. It only sees motion: a still
 pose like a fist is invisible to it.
 
+### Sound between drones: the bench, one command so far
+
+`hear.py`, no flying, rules at the top of the file. Four ear channels, left or right antenna, three loudnesses, on seeds 5051 and 5052.
+The microphone side is ours and hasn't been built.
+
+| Rule | Result |
+|---|---|
+| Come here (turn toward the sound) | Passes on JO-E at 0.4 and 0.8 V on both seeds, 94-100% the right way. Yaw grows with loudness. |
+| Tell channels apart (decoder, 9 classes) | Misses: 74% both seeds, but only 19 and 13 points over scrambled wiring, and the rule is 20. |
+| Alarm (jump) | Misses on every channel. |
+| Stop (brake) | Misses on every channel. |
+| Sound reaches dopamine | Misses at 2 ms. A rise on JO-C didn't repeat with 16 flies a side on a fresh seed (-2.4 Hz, z -0.9; resting flies vary from 10 to 37 Hz). At 20 ms it can't be tested: PAM rests at the 50 Hz ceiling. |
+
+The turn runs through the wind neurons, whose meaning as "turn" is our choice, not through DNa02. JO-E also senses wind in a real fly, so
+this is closer to feeling a puff from one side than to hearing. The fly's real sound neurons, JO-A and JO-B, didn't turn it. Scrambled
+wiring is a weak control for jump and stop here: it brakes in nearly every fly with no sound at all, and jumps in 13-100%. So passing
+on a learned colour by sound can't rest on this wiring alone; only steady tones on these channels were tried, but for now the step from
+hearing to dopamine would have to be ours.
+
 ### World-Sim's ideas
 
-- **Planner vs fly:** not run yet.
+- **Planner vs fly:** fails, and the fly adds nothing to the planner. Eight fresh seeds, 60 s each, eating fruit among pillars (rule: `flyplan` at least 1.15x `fly`, paired by seed, 95% bootstrap interval above 0). `flyplan` got 0.86x with an interval of -2.25 to +1.38 fruit a minute, 3 seeds won and 5 lost, so no sign it helps or harms. The planner with no fly beat it 7 seeds to 1. It got stuck turning left on seed 304, and the early 8-12 fruit a minute dropped to 6.9 over all the seeds. The fly model was trained once on 48 minutes of flight, with nothing held out to check it, and its loss rose late in training, so this tests this planner, not every possible one.
+
+  | Pilot | Fruit a minute | Crashes a minute |
+  |---|---|---|
+  | `fly` | 4.4 | 2.0 |
+  | `flyplan` | 3.8 | 1.8 |
+  | `raw` | 6.9 | 0.6 |
+
+- **Fly plus planner stepping in (`hybrid`):** misses its rule, but crashes fell a lot. The fly flies, and a planner reading exact positions nudges DNa02 only when a move looks better than doing nothing by the margin. Route and margin (DNa02, 0.1) were picked on spare seeds 902-905, then tested once on fresh seeds 401-408 (rule: at least 1.15x `fly`'s fruit, interval above 0, crashes no more than `fly`). Fruit reached 1.16x, but the interval was -0.88 to +2.0, so it isn't shown. Crashes fell from 1.9 to 0.25 a minute, better or equal on every seed (7 better, 1 tied), stepping in 7% of the time. The rule didn't ask about crashes alone, though the spare seeds showed the same drop (1.0 to 0.25). `raw` still ate more (7.25, 7 seeds to 0, 1 tied), so the second rule, beating `raw`, misses too. Exact positions aren't available on a real drone, so this is a best case. Pushing on DNa02 is also close to the motor output: LC10a, through the wiring, saturates near 0.35 rad/s and at this margin never stepped in.
+
+  | Pilot | Fruit a minute | Crashes a minute | Planner steps in |
+  |---|---|---|---|
+  | `fly` | 3.9 | 1.9 | never |
+  | `hybrid` | 4.5 | 0.25 | 7% |
+  | `raw` | 7.25 | 0.6 | 80% (flies itself) |
 - **Same neurons:** passes. Two readouts share 135x more top neurons than chance, so they aren't memorising.
 - **Refuse the unfamiliar:** barely. It refuses 70% of unseen gestures, but also 28% of known ones, against the 10% it was set for.
 - **Think less:** fails. It used 98% of the brain time, with no saving.

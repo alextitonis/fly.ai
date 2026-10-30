@@ -13,7 +13,9 @@ Three pilots on one task, eating fruit among pillars:
   flyplan   planner reading ONLY the fly's descending neurons; it acts by nudging LC10a left or right, so the connectome
             still does the flying and its reflexes stay on
   raw       planner reading the simulator's exact state, flying the yaw rate itself: no fly at all
-Comparing flyplan with raw tells whether the fly adds anything. Trained on flights from other seeds than it is tested on.
+  hybrid    the fly flies; a planner reading the simulator's exact state steps in by nudging LC10a, only when it imagines
+            a path better than leaving the fly alone by --margin
+Comparing flyplan or hybrid with raw tells whether the fly adds anything. Trained on flights from other seeds than it is tested on.
 """
 from __future__ import annotations
 
@@ -56,13 +58,14 @@ def raw_state(sim: DroneSim) -> np.ndarray:
 
 class Flight:
     """One drone and one pilot kind, stepped a decision at a time. For kind "fly" the state is the descending neurons'
-    spikes over the last decision; for kind "raw" the exact state."""
+    spikes over the last decision; for kinds "raw" and "hybrid" the exact state. A "hybrid" is flown by the fly as well."""
 
-    def __init__(self, kind: str, seed: int):
-        self.kind = kind
+    def __init__(self, kind: str, seed: int, nudge: float = NUDGE, route: str = "lc10a"):
+        self.kind, self.nudge = kind, nudge
+        self.flown_by_fly = kind in ("fly", "hybrid")
         self.sim = DroneSim(seed=seed, gusts=False)
         self.ate = self.crashes = 0
-        if kind == "fly":
+        if self.flown_by_fly:
             from pilot import Pilot, Senses
             from flybrain import FlyBrain
             self.brain = FlyBrain(batch=1, seed=seed, sensory_input=True)
@@ -75,7 +78,8 @@ class Flight:
             self.counts = np.zeros(len(dn), np.float32)
             self.ticks = round(self.brain.dt / self.sim.dt)
             self.steps = round(DECISION_S / self.brain.dt)
-            self.lc10a = self.senses.cells["chase"]
+            # lc10a goes through the wiring and saturates near +-0.35 rad/s; dna02 is the fly's own turn output, one step from the yaw
+            self.target = self.senses.cells["chase"] if route == "lc10a" else {s: self.brain.groups[f"steer_{s}"] for s in "LR"}
 
     def state(self) -> np.ndarray:
         return np.log1p(self.counts) if self.kind == "fly" else raw_state(self.sim)
@@ -83,12 +87,12 @@ class Flight:
     def act(self, action: int) -> float:
         """Plays one decision; action 0 left, 1 nothing, 2 right. Returns the reward (fruit, less crashes)."""
         ate0, reward = self.sim.eaten, 0.0
-        if self.kind == "fly":
+        if self.flown_by_fly:
             self.counts[:] = 0
             for _ in range(self.steps):
                 inj = self.senses.inject(self.sim.things())
                 if action != 1:
-                    inj = inj + [(self.lc10a["L" if action == 0 else "R"], NUDGE)]
+                    inj = inj + [(self.target["L" if action == 0 else "R"], self.nudge)]
                 fired = self.brain.step(None, inj)
                 self.pilot.observe(fired)
                 h = self.where[fired]
@@ -117,7 +121,7 @@ class Flight:
 
 def collect(args) -> None:
     rng = np.random.default_rng(args.seed + 99)
-    fl = Flight(args.kind, args.seed)
+    fl = Flight(args.kind, args.seed, args.nudge, args.route)
     n = int(args.minutes * 60 / DECISION_S)
     S, A, R, D = [], [], [], []
     action, hold, chase = 1, 0, True
@@ -133,6 +137,8 @@ def collect(args) -> None:
             if near:
                 b = min(near, key=lambda t: t.distance).bearing
                 action = 0 if b > 0.15 else 2 if b < -0.15 else 1
+        if args.kind == "hybrid" and chase:            # half of its data leaves the fly alone, or it would rarely see fruit eaten
+            action = 1
         crash_before = fl.crashes
         r = fl.act(action)
         S.append(s), A.append(action), R.append(r), D.append(fl.crashes > crash_before)
@@ -231,8 +237,9 @@ class Plan:
         import itertools
         self.seqs = list(itertools.product(range(ACTIONS), repeat=3))
 
-    def __call__(self, s: np.ndarray) -> int:
-        """Best first move: imagined rewards over 3 moves, then the value of where that ends."""
+    def __call__(self, s: np.ndarray, margin: float = 0.0) -> int:
+        """Best first move: imagined rewards over 3 moves, then the value of where that ends. A move has to beat doing
+        nothing by `margin` to be taken."""
         torch, m = self.torch, self.m
         x = (s - self.mu) / self.sd
         if self.comp is not None:
@@ -249,16 +256,18 @@ class Plan:
                 disc *= GAMMA
             total += disc * m.value(z).squeeze(1)
             first = seq[:, 0]
-            return int(max(range(ACTIONS), key=lambda a: float(total[first == a].max())))
+            best = [float(total[first == a].max()) for a in range(ACTIONS)]
+            a = int(np.argmax(best))
+            return a if best[a] - best[1] > margin else 1
 
 
 def fly(args) -> None:
-    kind = "raw" if args.policy == "raw" else "fly"
-    fl = Flight(kind, args.seed)
+    kind = {"raw": "raw", "hybrid": "hybrid"}.get(args.policy, "fly")
+    fl = Flight(kind, args.seed, args.nudge, args.route)
     plan = Plan(args.model) if args.policy != "fly" else None
     moves = [0, 0, 0]
     for _ in range(int(args.seconds / DECISION_S)):
-        a = plan(fl.state()) if plan else 1
+        a = plan(fl.state(), args.margin) if plan else 1
         moves[a] += 1
         fl.act(a)
     print(json.dumps({"policy": args.policy, "seed": args.seed, "seconds": args.seconds, "fruit": fl.ate, "crashes": fl.crashes,
@@ -269,18 +278,23 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
     c = sub.add_parser("collect")
-    c.add_argument("--kind", choices=("fly", "raw"), required=True)
+    c.add_argument("--kind", choices=("fly", "raw", "hybrid"), required=True)
+    c.add_argument("--nudge", type=float, default=NUDGE)
+    c.add_argument("--route", choices=("lc10a", "dna02"), default="lc10a")
     c.add_argument("--minutes", type=float, default=8)
     c.add_argument("--seed", type=int, default=1)
     c.add_argument("--out", required=True)
     f = sub.add_parser("fit")
-    f.add_argument("--kind", choices=("fly", "raw"), required=True)
+    f.add_argument("--kind", choices=("fly", "raw", "hybrid"), required=True)
     f.add_argument("--data", nargs="+", required=True)
     f.add_argument("--epochs", type=int, default=120)
     f.add_argument("--out", required=True)
     y = sub.add_parser("fly")
-    y.add_argument("--policy", choices=("fly", "flyplan", "raw"), required=True)
+    y.add_argument("--policy", choices=("fly", "flyplan", "raw", "hybrid"), required=True)
     y.add_argument("--model")
+    y.add_argument("--nudge", type=float, default=NUDGE)
+    y.add_argument("--route", choices=("lc10a", "dna02"), default="lc10a")
+    y.add_argument("--margin", type=float, default=0.0, help="how much better a move must look than doing nothing")
     y.add_argument("--seed", type=int, default=301)
     y.add_argument("--seconds", type=float, default=60)
     args = ap.parse_args()
