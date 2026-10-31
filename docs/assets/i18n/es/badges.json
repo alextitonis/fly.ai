@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "title": "Fly Badges: ganadas en la cadena, tuyas para siempre",
+    "description": "Insignias soulbound para holders de $FLYAI y dueños de Trader Flies. Se quedan en la wallet que las ganó y no se pueden vender ni mover."
+  },
+  "head": {
+    "eyebrow": "Fly Badges",
+    "title": "Se ganan, no se compran",
+    "lede": "Insignias soulbound por tener $FLYAI y Trader Flies. Se quedan en la wallet que las ganó y no se pueden vender ni mover."
+  },
+  "status": {
+    "loading": "Cargando…",
+    "soon": "Las insignias abren pronto.",
+    "signIn": "Iniciar sesión",
+    "signedOut": "Inicia sesión con tu wallet para ver tus insignias y reclamarlas.",
+    "syncing": "Leyendo el historial de tu wallet. Vuelve en unos minutos.",
+    "ready": "Tienes {n} por reclamar.",
+    "none": "Aún no hay nada que reclamar. Tu progreso está abajo.",
+    "all": "Ya reclamaste todo lo que has ganado hasta ahora.",
+    "claim": "Reclamar ({n})",
+    "confirm": "Confirma en tu wallet…",
+    "waiting": "Esperando a la cadena…",
+    "done": "Reclamadas. Ya están en tu wallet para siempre."
+  },
+  "state": {
+    "held": "En tu wallet",
+    "claimable": "Lista para reclamar",
+    "progress": "{days} de {need} días",
+    "progressPayouts": "{n} de {need} pagos",
+    "revoked": "Retirada",
+    "team": "No para wallets del equipo",
+    "closed": "No ganada"
+  },
+  "claimed": "{n} reclamadas",
+  "list": {
+    "larva": { "name": "Larva", "need": "Ten 100.000+ $FLYAI durante 7 días seguidos." },
+    "lord": { "name": "Lord of the Flies", "need": "Ten 10.000.000+ $FLYAI durante 30 días seguidos." },
+    "diamond": { "name": "Diamond Wings", "need": "Ten 100.000+ $FLYAI durante 90 días sin bajar de esa cantidad." },
+    "og": { "name": "OG", "need": "Tenías 10.000+ $FLYAI al terminar los primeros 14 días del token y aún tienes al menos esa cantidad." },
+    "flyowner": { "name": "Fly Owner", "need": "Ten una Trader Fly durante 30 días." },
+    "swarm": { "name": "Swarm", "need": "Ten 10+ Trader Flies durante 30 días seguidos." },
+    "queen": { "name": "Queen of the Hive", "need": "Ten 50+ Trader Flies durante 30 días seguidos." },
+    "payday": { "name": "Payday", "need": "Reclama 4 pagos de Fly Desk." },
+    "payroll": { "name": "On Payroll", "need": "Reclama 8 pagos de Fly Desk." }
+  },
+  "share": {
+    "x": "Compartir en X",
+    "image": "Imagen"
+  },
+  "board": {
+    "title": "Clasificación",
+    "total": "{n} wallets",
+    "empty": "Nadie ha reclamado una insignia todavía. Sé el primero."
+  },
+  "how": {
+    "title": "Cómo funciona",
+    "earn": "<b>Ganar.</b> Tu reloj empieza cuando tu wallet alcanza la cantidad y se reinicia si baja de ella. Los $FLYAI en staking o bloqueados cuentan como tuyos.",
+    "claim": "<b>Reclamar.</b> Reclama todas las insignias que hayas ganado en una sola transacción. Solo pagas el gas, en Robinhood Chain.",
+    "keep": "<b>Conservar.</b> Una insignia reclamada se queda aunque vendas después. Solo se retira por un error o un abuso.",
+    "contract": "El contrato"
+  }
+}

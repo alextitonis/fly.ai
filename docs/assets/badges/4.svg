@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="OG badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#100d16" stroke="#c9a7ff" stroke-width="10"/>
+  <circle cx="176" cy="256" r="56" fill="none" stroke="#fff" stroke-width="30"/>
+  <path d="M388 214c-10-14-28-24-48-24-34 0-60 28-60 66s26 66 60 66c30 0 52-20 52-52h-48" fill="none" stroke="#c9a7ff" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

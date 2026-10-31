@@ -50,6 +50,8 @@ import { blockscoutTransfers, createDeskChat, TEAM as CHAT_TEAM_WALLETS } from "
 import { buyWeekConfig, createBuyWeek } from "./buyweek.ts";
 import { createFlyChat, openRouter } from "./flychat.ts";
 import { createHunt } from "./hunt.ts";
+import { badgeConfig, createBadges } from "./badges.ts";
+import { multicall } from "./multicall.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
 import { createScan, scanConfig, FLYAI as SCAN_FLYAI } from "./scan.ts";
@@ -3599,6 +3601,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p === "/api/hunt" || p.startsWith("/api/hunt/") || p === "/api/admin/hunt")) {
     if (await hunt.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p === "/api/badges" || p.startsWith("/api/badges/"))) {
+    if (await badges.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && p.startsWith("/api/flychat/")) {
     if (await flyChat.route(req, res, url)) return;
   }
@@ -3999,6 +4004,12 @@ if (USER) buyWeek.start();
 // Fly Hunt (src/hunt.ts, flytrade/HUNT-PLAN.md): clues one at a time, answers kept as hashes; the first finishers win a fly
 const hunt = createHunt({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, adminOnly });
 if (USER) hunt.start();
+// soulbound badges (src/badges.ts, FlyBadges.sol): reads the transfers, signs claim vouchers; off until BADGES_CONTRACT + BADGE_SIGNER_KEY
+const badges = createBadges({
+  pg, chain: { ...robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock), batch: multicall(CLAIMS.rpc).batch }, cfg: badgeConfig(process.env),
+  HttpError, send, sessionWallet: sessionAddress,
+});
+if (USER) badges.start();
 // Fly Launchpad (src/launchpad.ts): indexes the FlyLaunchpad contract once LAUNCHPAD_ADDRESS is set
 const launchpad = /^0x[0-9a-fA-F]{40}$/.test(process.env.LAUNCHPAD_ADDRESS ?? "")
   ? createLaunchpad({

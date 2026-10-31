@@ -28,6 +28,8 @@
       ["Referrals", "/referrals", "Invite friends, earn from their fees"],   // 2026-10-15 (referrals.js)
       // 2026-10-23: "New" for the launch (gta.js, mine/src/gta.ts)
       ["GTA VI giveaway", "/gta", "Hold 100k $FLYAI, win a copy", false, true],
+      // 2026-10-31: soulbound NFTs (badges.js, mine/src/badges.ts, FlyBadges.sol)
+      ["Badges", "/badges", "Soulbound badges for holders", false, true],
       ["Merch", "/shop", "Fly shirts and more", true],
     ]],
     ["traderflies", "Trader Flies", [
@@ -87,13 +89,14 @@
       signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
       save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out",
       search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", deskClaim: "Fly Desk payout to claim", claimBy: "claim by {t}", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
-      whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link" };
+      badgesBtn: "🏅 Badges", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link" };
   const LANGS = ["en", "zh-Hans", "zh-Hant", "ko", "tr", "es"];   // i18n.js LANGUAGES
   const NAV_SRC = document.currentScript && document.currentScript.src;   // welcome.js sits beside it
   let acctText = ACCT_EN;
 
   let hintCss = null;                                      // pageSignIns' style, rebuilt by relabel()
   let lockJs = null;                                       // flylock.js loading (wireLock); up here: wireAccount runs early
+  let badgesJs = null;                                     // flybadges.js loading (wireBadges)
 
   // 2026-10-04: pages read the session, the mine server and nicknames from here instead of their own copies
   // (they keep a fallback: this loads at the end of <body> and may fail)
@@ -267,6 +270,7 @@
         el("button", { type: "button", class: "btn sm", "data-l": "save" }, L("save"))),
       el("small", { class: "acct-msg" }));
     menu.append(el("li", { class: "acct-badges", hidden: "" }), el("li", { class: "acct-lock", hidden: "" }),
+      el("li", null, el("button", { type: "button", class: "acct-soulbound", "data-l": "badgesBtn" }, L("badgesBtn"))),
       item("myFlies", "/traderflies/traders?view=mine"), item("leaderboard", "/traderflies/traders?view=board"),
       form, el("li", { class: "acct-ref", hidden: "" }), item("referrals", "/referrals"), item("Flybook", "/flybook/"),
       el("li", null, el("button", { type: "button", class: "acct-out", "data-l": "signOut" }, L("signOut"))));
@@ -313,6 +317,7 @@
     li.querySelector(".acct-nick").addEventListener("click", (e) => e.stopPropagation());   // typing doesn't close it
     wireReferral(li, s);
     wireLock(li, s);
+    wireBadges(li, s);
     li.querySelector(".acct-out").addEventListener("click", async () => {
       try { (await import(ACCOUNT_JS)).signOut(); } catch { /* the page had no wallet code: clear it here */ }
       try { localStorage.removeItem(SESSION_KEY); } catch {}
@@ -334,6 +339,26 @@
       });
     }
     lockJs.then(() => { if (window.flyLock) window.flyLock.mount(box, s.wallet); });
+  }
+
+  /** Soulbound badges (flybadges.js, 2026-10-31): the popup's code and its one read wait for the button. */
+  function wireBadges(li, s) {
+    const btn = li.querySelector(".acct-soulbound");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      li.classList.remove("open");
+      li.querySelector(".ddbtn").setAttribute("aria-expanded", "false");
+      if (!badgesJs) {
+        badgesJs = new Promise((ok) => {
+          const tag = document.createElement("script");
+          tag.src = NAV_SRC ? new URL("flybadges.js?v=20261031a", NAV_SRC).href : "/assets/flybadges.js?v=20261031a";
+          tag.onload = ok;
+          tag.onerror = ok;
+          (document.body || document.head).append(tag);
+        });
+      }
+      badgesJs.then(() => { if (window.flyBadges) window.flyBadges.open(s); });
+    });
   }
 
   /** After a sign-in or sign-out: the live page hears it, every other page reloads as before. */

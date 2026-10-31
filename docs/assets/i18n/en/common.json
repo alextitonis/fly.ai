@@ -151,6 +151,7 @@
       "desc": "The best Fly Wallets, live"
     },
     "acct": {
+      "badgesBtn": "🏅 Badges",
       "signInHint": "Sign in at the top right ↗",
       "signIn": "Sign in",
       "myFlies": "My flies",
@@ -239,6 +240,10 @@
     "github": {
       "label": "GitHub"
     },
+    "badges": {
+      "label": "Badges",
+      "desc": "Soulbound badges for holders"
+    },
     "gta": {
       "label": "GTA VI giveaway",
       "desc": "Hold 100k $FLYAI, win a copy"
@@ -276,6 +281,23 @@
     "notDeployedLong": "Not deployed yet — the buy link appears here and on @flydotai at launch.",
     "buyHere": "Buy $FLYAI",
     "stakedNote": "+ {amount} staked{usd}"
+  },
+  "soulbound": {
+    "title": "Your badges",
+    "count": "{n} of {of} in your wallet",
+    "loading": "Loading…",
+    "soon": "Badges open soon.",
+    "ready": "{n} ready to claim",
+    "open": "See all badges",
+    "close": "Close",
+    "failed": "Couldn't load your badges.",
+    "held": "In your wallet",
+    "claimable": "Ready to claim",
+    "progress": "{days} of {need} days",
+    "progressPayouts": "{n} of {need} payouts",
+    "revoked": "Removed",
+    "team": "Not for team wallets",
+    "closed": "Not earned"
   },
   "lock": {
     "button": "🔒 {amount} FLYAI locked",

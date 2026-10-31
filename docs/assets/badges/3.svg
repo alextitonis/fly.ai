@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Diamond Wings badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#0b1218" stroke="#8fd8ff" stroke-width="10"/>
+  <g fill="#8fd8ff" fill-opacity=".8">
+    <path d="M204 232C160 180 110 170 92 186c-10 34 30 92 112 92z"/>
+    <path d="M308 232c44-52 94-62 112-46 10 34-30 92-112 92z"/>
+  </g>
+  <path d="M196 200h120l42 50-102 136-102-136z" fill="#dff4ff"/>
+  <path d="M196 200l60 50 60-50 42 50H154zM256 386l-42-136h84z" fill="#8fd8ff"/>
+</svg>

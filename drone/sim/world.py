@@ -299,11 +299,11 @@ class DroneSim:
         limb("torso", 1.43, 0.0, 0.0, 0.3)
         limb("head", 1.64, 0.0, 0.0, 0.0)
 
-    def eyes(self, width: int = 128, height: int = 96) -> dict[str, np.ndarray]:
-        """What the four onboard cameras see right now, uint8 (height, width, 3) each: the only thing a camera pilot gets."""
+    def eyes(self, width: int = 128, height: int = 96, names: tuple[str, ...] = ("front", "left", "back", "right")) -> dict[str, np.ndarray]:
+        """What the onboard cameras see right now, uint8 (height, width, 3) each: the only thing a camera pilot gets."""
         r = self.renderers_get(width, height)
         out = {}
-        for name in ("front", "left", "back", "right"):
+        for name in names:
             r.update_scene(self.data, f"eye_{name}", scene_option=self.eye_view)
             out[name] = r.render().copy()
         return out

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Lord of the Flies badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#14120a" stroke="#ffd76a" stroke-width="10"/>
+  <path d="M166 170l34 40 56-68 56 68 34-40-14 96H180z" fill="#ffd76a"/>
+  <g fill="#fff" fill-opacity=".85">
+    <ellipse cx="170" cy="320" rx="76" ry="30" transform="rotate(-18 170 320)"/>
+    <ellipse cx="342" cy="320" rx="76" ry="30" transform="rotate(18 342 320)"/>
+  </g>
+  <ellipse cx="256" cy="338" rx="42" ry="66" fill="#ffd76a"/>
+  <circle cx="256" cy="284" r="32" fill="#ffd76a"/>
+  <circle cx="240" cy="280" r="11" fill="#000"/>
+  <circle cx="272" cy="280" r="11" fill="#000"/>
+</svg>

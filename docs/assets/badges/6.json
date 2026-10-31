@@ -1,0 +1,7 @@
+{
+  "name": "Swarm",
+  "description": "Held 10+ Trader Flies for 30 days straight. Soulbound: stays with the wallet that earned it.",
+  "image": "https://flyaiworld.com/assets/badges/6.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [{ "trait_type": "Type", "value": "Trader Flies" }, { "trait_type": "Soulbound", "value": "Yes" }]
+}

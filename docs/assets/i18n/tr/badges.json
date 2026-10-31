@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "title": "Fly Badges: zincirde kazanılır, sonsuza dek kalır",
+    "description": "$FLYAI sahipleri ve Trader Fly sahipleri için soulbound rozetler. Onları kazanan cüzdanda kalır, satılamaz ve taşınamaz."
+  },
+  "head": {
+    "eyebrow": "Fly Badges",
+    "title": "Satın alınmaz, kazanılır",
+    "lede": "$FLYAI tutmak ve Trader Fly sahibi olmak için soulbound rozetler. Onları kazanan cüzdanda kalır, satılamaz ve taşınamaz."
+  },
+  "status": {
+    "loading": "Yükleniyor…",
+    "soon": "Rozetler yakında açılıyor.",
+    "signIn": "Giriş yap",
+    "signedOut": "Rozetlerini görmek ve almak için cüzdanınla giriş yap.",
+    "syncing": "Cüzdanının geçmişi okunuyor. Birkaç dakika sonra tekrar bak.",
+    "ready": "Alabileceğin {n} rozet var.",
+    "none": "Henüz alınacak bir şey yok. İlerlemen aşağıda.",
+    "all": "Şimdiye kadar kazandığın her şeyi aldın.",
+    "claim": "Al ({n})",
+    "confirm": "Cüzdanında onayla…",
+    "waiting": "Zincir bekleniyor…",
+    "done": "Alındı. Artık sonsuza dek cüzdanında."
+  },
+  "state": {
+    "held": "Cüzdanında",
+    "claimable": "Almaya hazır",
+    "progress": "{days} / {need} gün",
+    "progressPayouts": "{n} / {need} ödeme",
+    "revoked": "Kaldırıldı",
+    "team": "Ekip cüzdanları için değil",
+    "closed": "Kazanılmadı"
+  },
+  "claimed": "{n} alındı",
+  "list": {
+    "larva": { "name": "Larva", "need": "7 gün boyunca kesintisiz 100.000+ $FLYAI tut." },
+    "lord": { "name": "Lord of the Flies", "need": "30 gün boyunca kesintisiz 10.000.000+ $FLYAI tut." },
+    "diamond": { "name": "Diamond Wings", "need": "90 gün boyunca altına düşmeden 100.000+ $FLYAI tut." },
+    "og": { "name": "OG", "need": "Token'ın ilk 14 günü bittiğinde 10.000+ $FLYAI tutuyordun ve hâlâ en az o kadar tutuyorsun." },
+    "flyowner": { "name": "Fly Owner", "need": "30 gün boyunca bir Trader Fly tut." },
+    "swarm": { "name": "Swarm", "need": "30 gün boyunca kesintisiz 10+ Trader Fly tut." },
+    "queen": { "name": "Queen of the Hive", "need": "30 gün boyunca kesintisiz 50+ Trader Fly tut." },
+    "payday": { "name": "Payday", "need": "4 Fly Desk ödemesi al." },
+    "payroll": { "name": "On Payroll", "need": "8 Fly Desk ödemesi al." }
+  },
+  "share": {
+    "x": "X'te paylaş",
+    "image": "Görsel"
+  },
+  "board": {
+    "title": "Sıralama",
+    "total": "{n} cüzdan",
+    "empty": "Henüz kimse rozet almadı. İlk sen ol."
+  },
+  "how": {
+    "title": "Nasıl çalışır",
+    "earn": "<b>Kazanma.</b> Cüzdanın miktara ulaştığında sayaç başlar, altına düşerse yeniden başlar. Stake edilmiş ve kilitli $FLYAI da sayılır.",
+    "claim": "<b>Alma.</b> Kazandığın rozetleri tek işlemde al. Robinhood Chain'de yalnızca gas ödersin.",
+    "keep": "<b>Saklama.</b> Alınan rozet, sonradan satsan bile kalır. Rozetler yalnızca hata veya kötüye kullanım durumunda kaldırılır.",
+    "contract": "Kontrat"
+  }
+}

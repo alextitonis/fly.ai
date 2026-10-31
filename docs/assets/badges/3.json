@@ -1,0 +1,7 @@
+{
+  "name": "Diamond Wings",
+  "description": "Held 100,000+ $FLYAI for 90 days without dropping below it. Soulbound: stays with the wallet that earned it.",
+  "image": "https://flyaiworld.com/assets/badges/3.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [{ "trait_type": "Type", "value": "Holding" }, { "trait_type": "Soulbound", "value": "Yes" }]
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="On Payroll badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#14120a" stroke="#ffd76a" stroke-width="10"/>
+  <circle cx="226" cy="276" r="96" fill="#b8912f"/>
+  <circle cx="286" cy="236" r="96" fill="#ffd76a"/>
+  <circle cx="286" cy="236" r="74" fill="none" stroke="#14120a" stroke-width="7"/>
+  <text x="286" y="278" font-family="Arial, Helvetica, sans-serif" font-size="112" font-weight="700" text-anchor="middle" fill="#14120a">8</text>
+</svg>

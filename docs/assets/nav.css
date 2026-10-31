@@ -129,6 +129,8 @@ nav li.acct .acct-nick div, nav li.acct .acct-ref div { display: flex; gap: 6px;
 nav li.acct .acct-nick input, nav li.acct .acct-ref input { flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 6px 8px; border-radius: 8px;
   border: 1px solid var(--line, #1a1d1c); background: var(--bg, #000000); color: var(--text, #f4f7f6); }
 nav li.acct .acct-nick small, nav li.acct .acct-ref small { font-size: 12px; color: var(--muted, #9ba5a1); min-height: 1em; }
+nav li.acct .acct-soulbound { background: none; border: 0; color: var(--text, #f4f7f6); font: inherit; padding: 8px 12px; cursor: pointer; width: 100%; text-align: left; }
+nav li.acct .acct-soulbound:hover { color: var(--mint, #5ef2cc); }
 nav li.acct .acct-out { background: none; border: 0; color: var(--muted, #9ba5a1); font: inherit; padding: 8px 12px; cursor: pointer; width: 100%; text-align: left; }
 nav li.acct .acct-out:hover { color: var(--text, #f4f7f6); }
 

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Larva badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#0d1412" stroke="#5ef2cc" stroke-width="10"/>
+  <g fill="#5ef2cc">
+    <circle cx="150" cy="300" r="40"/>
+    <circle cx="208" cy="268" r="48" fill="#8ff7dd"/>
+    <circle cx="272" cy="252" r="52"/>
+    <circle cx="338" cy="232" r="46" fill="#8ff7dd"/>
+  </g>
+  <circle cx="352" cy="220" r="9" fill="#000"/>
+  <path d="M340 256c10 8 24 6 32-4" fill="none" stroke="#000" stroke-width="7" stroke-linecap="round"/>
+</svg>

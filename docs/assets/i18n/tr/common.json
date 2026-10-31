@@ -151,6 +151,7 @@
       "desc": "En iyi Fly Wallet'lar, canlı"
     },
     "acct": {
+      "badgesBtn": "🏅 Rozetler",
       "signInHint": "Sağ üstten giriş yap ↗",
       "signIn": "Giriş yap",
       "myFlies": "Sineklerim",
@@ -239,6 +240,10 @@
     "github": {
       "label": "GitHub"
     },
+    "badges": {
+      "label": "Rozetler",
+      "desc": "Sahipler için soulbound rozetler"
+    },
     "gta": {
       "label": "GTA VI çekilişi",
       "desc": "100 bin $FLYAI tut, bir kopya kazan"
@@ -276,6 +281,23 @@
     "notDeployedLong": "Henüz yayınlanmadı — satın alma bağlantısı lansmanda burada ve @flydotai'de görünecek.",
     "buyHere": "$FLYAI al",
     "stakedNote": "+ {amount} stake edildi{usd}"
+  },
+  "soulbound": {
+    "title": "Rozetlerin",
+    "count": "Cüzdanında {n} / {of}",
+    "loading": "Yükleniyor…",
+    "soon": "Rozetler yakında açılıyor.",
+    "ready": "{n} almaya hazır",
+    "open": "Tüm rozetleri gör",
+    "close": "Kapat",
+    "failed": "Rozetlerin yüklenemedi.",
+    "held": "Cüzdanında",
+    "claimable": "Almaya hazır",
+    "progress": "{days} / {need} gün",
+    "progressPayouts": "{n} / {need} ödeme",
+    "revoked": "Kaldırıldı",
+    "team": "Ekip cüzdanları için değil",
+    "closed": "Kazanılmadı"
   },
   "lock": {
     "button": "🔒 {amount} FLYAI kilitli",

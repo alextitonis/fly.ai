@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "title": "Fly Badges: 온체인에서 얻고 영원히 간직하세요",
+    "description": "$FLYAI 보유자와 Trader Fly 소유자를 위한 소울바운드 배지입니다. 획득한 지갑에 남으며 판매하거나 옮길 수 없습니다."
+  },
+  "head": {
+    "eyebrow": "Fly Badges",
+    "title": "사는 것이 아니라 얻는 것",
+    "lede": "$FLYAI 보유와 Trader Fly 소유로 얻는 소울바운드 배지입니다. 획득한 지갑에 남으며 판매하거나 옮길 수 없습니다."
+  },
+  "status": {
+    "loading": "불러오는 중…",
+    "soon": "배지가 곧 열립니다.",
+    "signIn": "로그인",
+    "signedOut": "지갑으로 로그인하면 배지를 확인하고 받을 수 있습니다.",
+    "syncing": "지갑 기록을 읽는 중입니다. 몇 분 후 다시 확인하세요.",
+    "ready": "받을 수 있는 배지가 {n}개 있습니다.",
+    "none": "아직 받을 배지가 없습니다. 진행 상황은 아래에 있습니다.",
+    "all": "지금까지 얻은 배지를 모두 받았습니다.",
+    "claim": "받기 ({n})",
+    "confirm": "지갑에서 확인하세요…",
+    "waiting": "체인을 기다리는 중…",
+    "done": "받았습니다. 이제 지갑에 영원히 남습니다."
+  },
+  "state": {
+    "held": "지갑에 있음",
+    "claimable": "받을 수 있음",
+    "progress": "{days} / {need}일",
+    "progressPayouts": "{n} / {need}회 지급",
+    "revoked": "제거됨",
+    "team": "팀 지갑 제외",
+    "closed": "획득하지 못함"
+  },
+  "claimed": "{n}개 수령됨",
+  "list": {
+    "larva": { "name": "Larva", "need": "100,000개 이상의 $FLYAI를 7일 연속 보유하세요." },
+    "lord": { "name": "Lord of the Flies", "need": "10,000,000개 이상의 $FLYAI를 30일 연속 보유하세요." },
+    "diamond": { "name": "Diamond Wings", "need": "100,000개 이상의 $FLYAI를 그 아래로 떨어지지 않고 90일 동안 보유하세요." },
+    "og": { "name": "OG", "need": "토큰의 첫 14일이 끝날 때 10,000개 이상의 $FLYAI를 보유했고 지금도 그 이상 보유 중입니다." },
+    "flyowner": { "name": "Fly Owner", "need": "Trader Fly를 30일 동안 보유하세요." },
+    "swarm": { "name": "Swarm", "need": "Trader Fly 10마리 이상을 30일 연속 보유하세요." },
+    "queen": { "name": "Queen of the Hive", "need": "Trader Fly 50마리 이상을 30일 연속 보유하세요." },
+    "payday": { "name": "Payday", "need": "Fly Desk 지급금을 4번 받으세요." },
+    "payroll": { "name": "On Payroll", "need": "Fly Desk 지급금을 8번 받으세요." }
+  },
+  "share": {
+    "x": "X에 공유",
+    "image": "이미지"
+  },
+  "board": {
+    "title": "리더보드",
+    "total": "지갑 {n}개",
+    "empty": "아직 배지를 받은 사람이 없습니다. 첫 번째가 되어 보세요."
+  },
+  "how": {
+    "title": "작동 방식",
+    "earn": "<b>획득.</b> 지갑이 해당 수량에 도달하면 시간이 시작되고, 그 아래로 떨어지면 다시 시작됩니다. 스테이킹 및 잠긴 $FLYAI도 보유로 계산됩니다.",
+    "claim": "<b>받기.</b> 얻은 배지를 한 번의 거래로 받으세요. Robinhood Chain의 가스비만 내면 됩니다.",
+    "keep": "<b>보관.</b> 받은 배지는 나중에 판매해도 남습니다. 배지는 오류나 악용이 있을 때만 제거됩니다.",
+    "contract": "컨트랙트"
+  }
+}

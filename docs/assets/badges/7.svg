@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Queen of the Hive badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#160d14" stroke="#ff8fc7" stroke-width="10"/>
+  <g fill="#ff8fc7" fill-opacity=".25" stroke="#ff8fc7" stroke-width="5">
+    <path d="M120 250l36-21 36 21v42l-36 21-36-21z"/>
+    <path d="M320 250l36-21 36 21v42l-36 21-36-21z"/>
+    <path d="M220 360l36-21 36 21v42l-36 21-36-21z"/>
+  </g>
+  <path d="M206 158l22 22 28-40 28 40 22-22-8 50h-84z" fill="#ffd76a"/>
+  <g fill="#fff" fill-opacity=".85">
+    <ellipse cx="190" cy="264" rx="62" ry="24" transform="rotate(-20 190 264)"/>
+    <ellipse cx="322" cy="264" rx="62" ry="24" transform="rotate(20 322 264)"/>
+  </g>
+  <ellipse cx="256" cy="300" rx="36" ry="72" fill="#ff8fc7"/>
+  <circle cx="256" cy="232" r="28" fill="#ff8fc7"/>
+  <circle cx="243" cy="228" r="9" fill="#000"/>
+  <circle cx="269" cy="228" r="9" fill="#000"/>
+</svg>

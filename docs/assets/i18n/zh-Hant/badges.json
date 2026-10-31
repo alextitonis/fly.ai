@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "title": "Fly Badges:鏈上獲得,永久保留",
+    "description": "面向 $FLYAI 持有者和 Trader Fly 擁有者的靈魂綁定徽章。徽章留在獲得它的錢包中,不能出售或轉移。"
+  },
+  "head": {
+    "eyebrow": "Fly Badges",
+    "title": "靠贏得,不靠買",
+    "lede": "持有 $FLYAI 和 Trader Fly 可獲得的靈魂綁定徽章。徽章留在獲得它的錢包中,不能出售或轉移。"
+  },
+  "status": {
+    "loading": "載入中…",
+    "soon": "徽章即將開放。",
+    "signIn": "登入",
+    "signedOut": "使用錢包登入,查看並領取你的徽章。",
+    "syncing": "正在讀取你錢包的歷史記錄,請幾分鐘後再來查看。",
+    "ready": "你有 {n} 個徽章可領取。",
+    "none": "暫無可領取的徽章。你的進度在下方。",
+    "all": "你已領取目前獲得的全部徽章。",
+    "claim": "領取 ({n})",
+    "confirm": "請在錢包中確認…",
+    "waiting": "等待鏈上確認…",
+    "done": "已領取,它們將永久留在你的錢包中。"
+  },
+  "state": {
+    "held": "已在錢包中",
+    "claimable": "可領取",
+    "progress": "{days} / {need} 天",
+    "progressPayouts": "{n} / {need} 次分紅",
+    "revoked": "已移除",
+    "team": "不適用於團隊錢包",
+    "closed": "未獲得"
+  },
+  "claimed": "已領取 {n} 個",
+  "list": {
+    "larva": { "name": "Larva", "need": "連續 7 天持有 100,000 以上 $FLYAI。" },
+    "lord": { "name": "Lord of the Flies", "need": "連續 30 天持有 10,000,000 以上 $FLYAI。" },
+    "diamond": { "name": "Diamond Wings", "need": "持有 100,000 以上 $FLYAI 達 90 天,期間不低於該數量。" },
+    "og": { "name": "OG", "need": "代幣前 14 天結束時持有 10,000 以上 $FLYAI,且現在仍持有至少同等數量。" },
+    "flyowner": { "name": "Fly Owner", "need": "持有一隻 Trader Fly 達 30 天。" },
+    "swarm": { "name": "Swarm", "need": "連續 30 天持有 10 隻以上 Trader Fly。" },
+    "queen": { "name": "Queen of the Hive", "need": "連續 30 天持有 50 隻以上 Trader Fly。" },
+    "payday": { "name": "Payday", "need": "領取 4 次 Fly Desk 分紅。" },
+    "payroll": { "name": "On Payroll", "need": "領取 8 次 Fly Desk 分紅。" }
+  },
+  "share": {
+    "x": "分享到 X",
+    "image": "圖片"
+  },
+  "board": {
+    "title": "排行榜",
+    "total": "{n} 個錢包",
+    "empty": "還沒有人領取徽章,來做第一個吧。"
+  },
+  "how": {
+    "title": "運作方式",
+    "earn": "<b>獲得。</b>錢包達到數量時開始計時,低於該數量則重新計時。質押和鎖定的 $FLYAI 也計入持有。",
+    "claim": "<b>領取。</b>在一筆交易中領取所有已獲得的徽章。你只需支付 Robinhood Chain 上的 gas。",
+    "keep": "<b>保留。</b>已領取的徽章即使之後賣出也會保留。徽章只會因錯誤或濫用而被移除。",
+    "contract": "合約"
+  }
+}

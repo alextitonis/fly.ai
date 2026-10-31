@@ -151,6 +151,7 @@
       "desc": "最佳 Fly Wallet，实时"
     },
     "acct": {
+      "badgesBtn": "🏅 徽章",
       "signInHint": "请在右上角登录 ↗",
       "signIn": "登录",
       "myFlies": "我的苍蝇",
@@ -239,6 +240,10 @@
     "github": {
       "label": "GitHub"
     },
+    "badges": {
+      "label": "徽章",
+      "desc": "面向持有者的灵魂绑定徽章"
+    },
     "gta": {
       "label": "GTA VI 赠送",
       "desc": "持有 10 万 $FLYAI，赢取一份"
@@ -276,6 +281,23 @@
     "notDeployedLong": "尚未部署——购买链接将在发行时出现在这里和 @flydotai 上。",
     "buyHere": "购买 $FLYAI",
     "stakedNote": "+ {amount} 已质押{usd}"
+  },
+  "soulbound": {
+    "title": "你的徽章",
+    "count": "钱包中有 {n} / {of} 个",
+    "loading": "加载中…",
+    "soon": "徽章即将开放。",
+    "ready": "{n} 个可领取",
+    "open": "查看全部徽章",
+    "close": "关闭",
+    "failed": "无法加载你的徽章。",
+    "held": "已在钱包中",
+    "claimable": "可领取",
+    "progress": "{days} / {need} 天",
+    "progressPayouts": "{n} / {need} 次分红",
+    "revoked": "已移除",
+    "team": "不适用于团队钱包",
+    "closed": "未获得"
   },
   "lock": {
     "button": "🔒 已锁定 {amount} FLYAI",

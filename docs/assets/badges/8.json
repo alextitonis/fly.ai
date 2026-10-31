@@ -1,0 +1,7 @@
+{
+  "name": "Payday",
+  "description": "Claimed 4 Fly Desk payouts. Soulbound: stays with the wallet that earned it.",
+  "image": "https://flyaiworld.com/assets/badges/8.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [{ "trait_type": "Type", "value": "Fly Desk" }, { "trait_type": "Soulbound", "value": "Yes" }]
+}

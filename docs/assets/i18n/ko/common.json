@@ -151,6 +151,7 @@
       "desc": "최고의 Fly Wallet, 실시간"
     },
     "acct": {
+      "badgesBtn": "🏅 배지",
       "signInHint": "오른쪽 위에서 로그인 ↗",
       "signIn": "로그인",
       "myFlies": "내 파리",
@@ -239,6 +240,10 @@
     "github": {
       "label": "GitHub"
     },
+    "badges": {
+      "label": "배지",
+      "desc": "보유자를 위한 소울바운드 배지"
+    },
     "gta": {
       "label": "GTA VI 경품",
       "desc": "$FLYAI 10만 개 보유하고 한 카피 받기"
@@ -276,6 +281,23 @@
     "notDeployedLong": "아직 배포되지 않았습니다. 구매 링크는 출시 시 이곳과 @flydotai에 올라옵니다.",
     "buyHere": "$FLYAI 구매",
     "stakedNote": "+ {amount} 스테이킹됨{usd}"
+  },
+  "soulbound": {
+    "title": "내 배지",
+    "count": "지갑에 {n} / {of}개",
+    "loading": "불러오는 중…",
+    "soon": "배지가 곧 열립니다.",
+    "ready": "{n}개 받을 수 있음",
+    "open": "모든 배지 보기",
+    "close": "닫기",
+    "failed": "배지를 불러오지 못했습니다.",
+    "held": "지갑에 있음",
+    "claimable": "받을 수 있음",
+    "progress": "{days} / {need}일",
+    "progressPayouts": "{n} / {need}회 지급",
+    "revoked": "제거됨",
+    "team": "팀 지갑 제외",
+    "closed": "획득하지 못함"
   },
   "lock": {
     "button": "🔒 {amount} FLYAI 잠김",

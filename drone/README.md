@@ -35,6 +35,10 @@ the machine gets slow.
 | `python drone/swipe.py --swipes 6 --out drone/runs/swipe.mp4` | A hand swipe turns the drone in the 3D world, nothing trained. `--clip hand.mp4` uses a recorded hand; `--no-video` measures, `--rewire` scrambles | 30 s flight, about 3 min |
 | `python drone/gestures.py measure` | 7 gestures through a trained readout, against scrambled wiring and no brain | about 15 min |
 | `python drone/gestures.py record` / `live` | Records your hands on a webcam; reads them live. **Neither has been run on a real camera yet** | about 5 min to record |
+| `python drone/novel.py --seed 7101` | Does it notice a colour it wasn't trained on? `--fly --train A --seed 7301` is the flight, firing events | bench several minutes, flight 1-2 min |
+| `python drone/predict.py bench` / `fly --mode one_predict --seed 7601` | One camera: does the brain remember where the target went, and does a predictor on top help? `--mode one\|one_predict\|two\|two_predict\|four`, `--rewire`, `--out clip.mp4` records a video to post (drones only, no brain panel) | bench several minutes, flight 1-2 min |
+| `python drone/avoid.py screen` / `run --mode turn --seed 7801` | Which neurons answer a pillar on one side; flying straight at a pillar. `--mode blind\|stop\|turn`, `--rewire` | several minutes each |
+| `python drone/hear.py --seed 5051` | Sound on the bench: which ear channels drive what | about 12 min |
 | `python drone/readout_checks.py` | World-Sim's readout checks (after `gestures.py measure`) | about 10 min |
 | `python drone/planner.py ...` | World-Sim's planner against the fly. Failed its rule, see Results | see below |
 
@@ -65,8 +69,9 @@ camera frames and `sim.step()` with the drone's command. That adapter isn't writ
   commands back. One fly needs a step every 20 ms, and a desktop CPU takes about 9 ms.
 - **The brain won't fit on a small drone:** so "no radio" would only be true between the drones, each still linked to its
   computer. Truly no radio needs an onboard computer, so a bigger drone.
-- **One camera, not four:** the simulation sees all round. A real front camera loses the leader as soon as it leaves the
-  view, and has no way to find them again.
+- **One camera, maybe two:** that's what real drones have, so it's what this is now designed for. A front camera loses the leader as soon as it
+  leaves the view, so these flights need a predictor on top (`predict.py`, see Results). `eyes.use_cameras()` and `predict.py --mode` set the layout; `follow.py` and
+  `choose.py` still use all four.
 - **Something colourful to follow:** a saturated shirt or a bright LED. Pale or black clothes aren't seen at all (see below).
 
 **What's likely to go wrong first:** auto white balance and changing light shift colours; the colour thresholds in `eyes.py`
@@ -95,6 +100,9 @@ safety system: it can lose its target, or pick the wrong one, at any time.
 | `learning.py`, `imprint.py`, `choose.py` | The dopamine rule, its bench test, and flying by what was learned. |
 | `video_test.py` | Real footage through the follower's chain. |
 | `gestures.py`, `reflex.py`, `swipe.py` | Hand gestures: with a trained readout, with none, and flying the drone. |
+| `events.py` | Hooks: run your own code on `new_colour`, `target_lost`, `obstacle_ahead`, `crash` and others. |
+| `novel.py`, `predict.py`, `avoid.py` | New colours, one camera with prediction, obstacles. |
+| `hear.py` | Sound on the bench. |
 | `planner.py`, `readout_checks.py` | The ideas from [World-Sim](https://github.com/alextitonis/ai-model). |
 
 ## How the brain flies it
@@ -126,7 +134,7 @@ on the right; looming fires DNp01 on that side at 10-25 Hz; wind on one antenna 
 A 2026-10-30 test on a listener brain confirmed it: no smell moved the drone's controls or changed a turn, and a decoder told
 smells apart only 40% of the time. Only cVA, the fly's social scent, is detectable, and only through a trained decoder.
 
-## Results (all 2026-10-30)
+## Results (2026-10-30 unless dated)
 
 Pass rules were written down before each test, on fresh seeds.
 
@@ -228,6 +236,82 @@ this is closer to feeling a puff from one side than to hearing. The fly's real s
 wiring is a weak control for jump and stop here: it brakes in nearly every fly with no sound at all, and jumps in 13-100%. So passing
 on a learned colour by sound can't rest on this wiring alone; only steady tones on these channels were tried, but for now the step from
 hearing to dopamine would have to be ours.
+
+### Noticing a colour it wasn't trained on: all rules passed (2026-10-31)
+
+`novel.py`. A second set of weights at the Kenyon-cell output stores each trained look with no reward attached, and a look that overlaps
+little reads as new. Those weights are ours, like `learning.py`; which Kenyon cells a colour reaches is the connectome's. Each finished
+look sends a hook event (`events.py`): `new_colour`, `trained_colour` or `avoid_colour`.
+
+| Test | Colours 60+ degrees off read as new | Trained colour reads as new |
+|---|---|---|
+| Bench, real wiring, seed 7101, one or two trained colours | 100% | 0% |
+| Bench, scrambled wiring | 57-69% | 50-54% |
+| Flight, seeds 7301-7304, 60 s, trained on A or B | 100% (41 looks) | 2% (1 of 47) |
+
+Rules: at least 90% and at most 10%; on the bench it also names trained colours right 100% of the time (rule 90%), and beats scrambled wiring. **Limits:** 30 degrees off
+is close to a coin flip on the bench (65-68% new), so close shades aren't separate. The flight data is nearly all the green beacon: only 5 of 88 finished looks were
+pink, and the one miss was one of just 2 looks at pink when trained on pink. Finished looks are few, 5-18 a minute, and the bench and flight cutoffs differ (0.8 and 0.55). Only those two colours
+were met in the air, and the eyes only find saturated colours.
+
+### One camera: the brain doesn't remember, a predictor on top helps (2026-10-31)
+
+`predict.py`. On the bench, after a target vanishes, a decoder on all neurons names its side 99% of the time in the first 0.1 s, 60% by 0.25 s and 53-66% after that
+(scrambled 52-59%). DNa02 leans the right way 51% at 0.5-1 s. **Both bench rules missed:** the connectome holds it for about 0.25 s.
+
+`Tracker` is ours, not the fly's. It works out its own movement from the commands the brain just gave, and keeps driving LC10a with the predicted bearing, or a steady scan
+to one side, so the turn still comes through the connectome. Seeds 7601-7608, 60 s each:
+
+| Mode | Distance | Within 1 m | Target in view | Crashes per flight |
+|---|---|---|---|---|
+| Four cameras | 1.02 m | 55% | 90% | 0.4 |
+| One camera | 1.86 m | 32% | 31% | 2.5 |
+| One camera + prediction | 1.31 m | 49% | 58% | 0.9 |
+| The same, scrambled wiring | 1.38 m | 33% | 18% | 0 |
+
+| Rule | Result |
+|---|---|
+| In view at least 1.25x | **Passed:** 1.85x, gain 0.19 to 0.35 |
+| Distance at least 20% lower | **Passed:** 30% lower, 0.28 to 0.87 m |
+| Bearing error in the first second at most 0.7x holding the last bearing | **Missed:** 0.717x |
+| At least 0.2 m closer than scrambled wiring | **Missed:** 0.08 m, -0.14 to 0.29. Scrambled wiring is stopped 71% of the time, so it doesn't drift far |
+
+Predicting the target's own motion adds almost nothing over tracking only the drone's own (error 0.206 against 0.219 rad): the gain comes from knowing how it turned, then
+scanning. Past 1 s the guess is poor (median 2.3 rad): at 0.45 m/s the target has really gone. The tracker's distance comes from the beacon's known size, and all of this is the simulator's clean pictures.
+
+### One or two cameras as the real setup: all four rules passed (2026-10-31)
+
+Two cameras are front and back. Rules are in `predict.py`, fixed before running, on seeds 8001-8008, 60 s each, 40 flights at `NUMBA_NUM_THREADS=2`:
+
+| Setup | Within 1 m | Target in view | Distance | Crashes per flight |
+|---|---|---|---|---|
+| Two cameras + prediction | 56% | 78% | 0.99 m | 0.1 |
+| One camera + prediction | 52% | 61% | 1.45 m | 0.9 |
+| Four cameras, no prediction | 49% | 89% | 1.01 m | 0.4 |
+| Two cameras, no prediction | 29% | 42% | 1.81 m | 2.5 |
+| One camera + prediction, scrambled wiring | 27% | 17% | 1.49 m | 0.1 |
+
+| Rule | Needed | Result (95% interval) | |
+|---|---|---|---|
+| One camera close to four, within 1 m | at most 10 points below | +2.6 points (-5.1 to +11.5) | Pass |
+| Two cameras close to four, within 1 m | at most 10 points below | +6.8 points (-0.5 to +13.3) | Pass |
+| Two cameras add over one, in view | at least 15 points, interval above 0 | +17.3 points (+3.9 to +29.2) | Pass |
+| One camera over scrambled wiring, in view | at least 20 points, interval above 0 | +44.2 points (+32.4 to +56.8) | Pass |
+
+Limits: the comparison passes partly because four cameras are only at 49% themselves, and none of these setups reach the 60% follower rule. Four cameras still keep the target in view most. Two
+cameras without prediction do worst of the real-wiring setups and crash most, so the prediction is doing the work, and it's ours, not the connectome's. Scrambled wiring is stopped 81% of the time.
+The same seed repeats exactly at the same thread count and flies differently at another (one camera on seed 8001: 38% in view at 2 threads, 70% at 3), so a single flight says little. These flights
+have a leader and a distraction but only this one job: learned choice and obstacle avoidance haven't been tried on one or two cameras. Score with `python drone/runs/predict/cams/score.py`.
+
+### Avoiding obstacles: not finished (2026-10-31)
+
+`avoid.py`. Nothing turns it from a pillar today: a close one fires DNp01, which stops it. The screen (nothing trained, seeds 7401-7402) found DNg01, DNa07 and DNae004 fire
+more on the side away from a pillar, on both seeds, which would turn it away if read like DNa02. Reading them that way is ours.
+
+The test on fresh seeds was stopped by low memory after 1 of 16 runs (flying blind on seed 7801: 1 hit, 10 passes, 4 stalls in 15 trials), so the rules at the top of `avoid.py` have no
+result. Free flights among pillars can't answer this: on development seeds it rarely hits one even blind, since it trails a leader who keeps clear. Those runs hint that the stop has a
+cost: with 16 pillars it's stopped 45-52% of the time when it sees them and 17-20% blind, and within 1 m 32-46% against 62-78%. That's two seeds, not a tested result. Pillars are found
+only because they're pale and upright with a known width, so other obstacles would go unseen.
 
 ### World-Sim's ideas
 

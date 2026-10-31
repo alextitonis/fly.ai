@@ -1,0 +1,7 @@
+{
+  "name": "OG",
+  "description": "Held 10,000+ $FLYAI at the end of the token's first 14 days, and at least that much when claiming. Soulbound: stays with the wallet that earned it.",
+  "image": "https://flyaiworld.com/assets/badges/4.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [{ "trait_type": "Type", "value": "Early" }, { "trait_type": "Soulbound", "value": "Yes" }]
+}

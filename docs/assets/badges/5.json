@@ -1,0 +1,7 @@
+{
+  "name": "Fly Owner",
+  "description": "Held a Trader Fly for 30 days. Soulbound: stays with the wallet that earned it.",
+  "image": "https://flyaiworld.com/assets/badges/5.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [{ "trait_type": "Type", "value": "Trader Flies" }, { "trait_type": "Soulbound", "value": "Yes" }]
+}

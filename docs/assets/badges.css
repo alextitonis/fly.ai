@@ -1,0 +1,35 @@
+/* docs/badges.html (2026-10-31): Fly Badges */
+.badges .wrap { display: grid; gap: 16px; }
+.badges-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.badges-msg { margin: 0; color: var(--muted); font-size: 15px; flex: 1 1 260px; }
+.badges-msg.ok { color: var(--mint); }
+.badges-msg.err { color: var(--red-hi); }
+.badges-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+@media (max-width: 520px) { .badges-grid { grid-template-columns: 1fr 1fr; gap: 10px; } .badge-card { padding: 10px; } }
+.badge-card { display: flex; flex-direction: column; gap: 8px; padding: 16px; }
+.badge-card img { width: 100%; height: auto; aspect-ratio: 1; border-radius: 12px; display: block; }
+.badge-card.dim img { opacity: .38; filter: grayscale(.7); }
+.badge-card h3 { margin: 6px 0 0; font-size: 18px; }
+.badge-need { margin: 0; color: var(--muted); font-size: 14px; flex: 1; }
+.badge-state { font: 500 13px var(--mono); color: var(--dim); }
+.badge-state.held, .badge-state.claimable { color: var(--mint); }
+.badge-claimed { font: 12px var(--mono); color: var(--dim); }
+.badge-share { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.badge-share .btn { flex: 1 1 auto; text-align: center; }
+.badge-progress { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.badge-progress span { display: block; height: 100%; background: var(--mint); }
+.badges-board-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+.badges-board-top h3 { margin: 0; }
+.badges-rows { list-style: none; margin: 0; padding: 0; }
+.badges-row { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto 28px; align-items: center; gap: 10px; padding: 8px 6px; border-top: 1px solid var(--line); }
+.badges-row.me { background: var(--glow); border-radius: 8px; }
+.badges-row.apart { margin-top: 10px; }
+.badges-rank { font: 500 13px var(--mono); color: var(--dim); }
+.badges-who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
+.badges-icons { display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
+.badges-icons img { width: 24px; height: 24px; border-radius: 5px; display: block; }
+.badges-count { font: 600 15px var(--mono); color: var(--mint); text-align: right; }
+@media (max-width: 520px) { .badges-row { grid-template-columns: 34px minmax(0, 1fr) 24px; } .badges-icons { grid-column: 2 / -1; grid-row: 2; justify-content: flex-start; } }
+.badges-how p { color: var(--muted); margin: 0 0 12px; }
+.badges-how p:last-child { margin-bottom: 0; }
+.badges-how b { color: var(--text); }

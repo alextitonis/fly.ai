@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Fly Owner badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#0d1412" stroke="#fff" stroke-width="10"/>
+  <g fill="#5ef2cc" fill-opacity=".75">
+    <ellipse cx="164" cy="240" rx="90" ry="36" transform="rotate(-24 164 240)"/>
+    <ellipse cx="348" cy="240" rx="90" ry="36" transform="rotate(24 348 240)"/>
+  </g>
+  <g stroke="#fff" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M222 300l-54 34M222 330l-44 50M290 300l54 34M290 330l44 50"/>
+  </g>
+  <ellipse cx="256" cy="304" rx="48" ry="82" fill="#fff"/>
+  <circle cx="256" cy="200" r="44" fill="#fff"/>
+  <circle cx="234" cy="194" r="17" fill="#e5484d"/>
+  <circle cx="278" cy="194" r="17" fill="#e5484d"/>
+</svg>

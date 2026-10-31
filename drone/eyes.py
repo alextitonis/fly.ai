@@ -14,7 +14,8 @@ import numpy as np
 from sim import Thing
 from sim.world import LEADER_RADIUS, PILLAR_RADIUS
 
-CAMERAS = {"left": np.pi / 2, "front": 0.0, "right": -np.pi / 2, "back": np.pi}   # where each one looks, + = left
+ALL_CAMERAS = {"left": np.pi / 2, "front": 0.0, "right": -np.pi / 2, "back": np.pi}   # where each one looks, + = left
+CAMERAS = dict(ALL_CAMERAS)   # the ones this drone has: real ones have one, maybe two
 BEACON_RADIUS = 0.035        # m: the beacon's real size
 COLOUR_NEAR = 0.3            # how close to the wanted colour a pixel must be
 PALE = 0.3                   # pillars: at least this bright...
@@ -23,6 +24,12 @@ MIN_PILLAR_ROWS = 0.35       # a column counts as pillar if this share of it is 
 NOISE = 2.0                  # camera noise, out of 255
 SEAM = np.radians(3)         # pieces this close are one thing
 SIZE_SCALE = 1.8             # the colour test misses a beacon's dim rim: checked once against the simulator on a test flight
+
+
+def use_cameras(names: tuple[str, ...]) -> None:
+    """Fit the drone with these cameras: from then on the eyes only read these pictures."""
+    CAMERAS.clear()
+    CAMERAS.update({n: ALL_CAMERAS[n] for n in names})
 
 
 def blobs(mask: np.ndarray) -> list[tuple[int, int]]:

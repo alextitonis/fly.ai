@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="badges">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="badges.meta.title">Fly Badges: earned on chain, kept for good</title>
+<meta name="description" content="Soulbound badges for $FLYAI holders and Trader Fly owners. They stay with the wallet that earned them and can't be sold or moved." data-i18n-attr="content:badges.meta.description">
+<meta property="og:title" content="Fly Badges: earned on chain, kept for good">
+<meta property="og:description" content="Soulbound badges for $FLYAI holders and Trader Fly owners. They stay with the wallet that earned them and can't be sold or moved.">
+<meta property="og:image" content="https://flyaiworld.com/assets/og/home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/og/home.jpg">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/badges">
+<meta property="og:url" content="https://flyaiworld.com/badges">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/badges.css">
+</head>
+<body>
+<nav aria-label="Main"></nav>
+<!-- Fly Badges (2026-10-31): soulbound NFTs (flytrade/contracts/src/FlyBadges.sol). The mine server (mine/src/badges.ts)
+     reads the chain's history and signs the vouchers this page claims with. -->
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="badges.head.eyebrow">Fly Badges</p>
+    <h1 data-i18n="badges.head.title">Earned, not bought</h1>
+    <p class="lede" data-i18n="badges.head.lede">Soulbound badges for holding $FLYAI and owning Trader Flies. They stay with the wallet that earned them and can't be sold or moved.</p>
+  </div>
+</header>
+
+<section class="firstsec badges">
+  <div class="wrap">
+    <div class="card pad badges-bar" id="badges-bar">
+      <p class="badges-msg" id="badges-msg" role="status" aria-live="polite" data-i18n="badges.status.loading">Loading…</p>
+      <button class="btn red" type="button" id="badges-signin" data-nav-signin hidden data-i18n="badges.status.signIn">Sign in</button>
+      <button class="btn red" type="button" id="badges-claim" hidden></button>
+    </div>
+    <div class="badges-grid" id="badges-grid"></div>
+    <div class="card pad badges-board" id="badges-board" hidden>
+      <div class="badges-board-top">
+        <h3 data-i18n="badges.board.title">Leaderboard</h3>
+        <span class="badge-claimed" id="badges-board-total"></span>
+      </div>
+      <p class="badges-msg" id="badges-board-empty" hidden data-i18n="badges.board.empty">Nobody has claimed a badge yet. Be the first.</p>
+      <ol class="badges-rows" id="badges-rows"></ol>
+    </div>
+    <div class="card pad badges-how">
+      <h3 data-i18n="badges.how.title">How it works</h3>
+      <p data-i18n-html="badges.how.earn"><b>Earning.</b> Your clock starts when your wallet reaches the amount and restarts if it drops below. Staked and locked $FLYAI counts as held.</p>
+      <p data-i18n-html="badges.how.claim"><b>Claiming.</b> Claim any badges you've earned in one transaction. You only pay the gas, on Robinhood Chain.</p>
+      <p data-i18n-html="badges.how.keep"><b>Keeping.</b> A claimed badge stays even if you sell later. Badges can only be removed for a mistake or abuse.</p>
+      <p><a id="badges-contract" href="https://robinhoodchain.blockscout.com/" target="_blank" rel="noopener" hidden data-i18n="badges.how.contract">The contract</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="/start">Start here: buy $FLYAI</a>
+      <a href="/press">Press kit</a>
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261031a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script type="module" src="assets/badges.js?v=20261031a"></script>
+</body>
+</html>

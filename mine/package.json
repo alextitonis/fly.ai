@@ -26,6 +26,7 @@
     "test:bounties": "node --disable-warning=ExperimentalWarning src/bountiestest.ts",
     "test:referrals": "node --disable-warning=ExperimentalWarning src/referralstest.ts",
     "test:gta": "node --disable-warning=ExperimentalWarning src/gtatest.ts",
+    "test:badges": "node --disable-warning=ExperimentalWarning src/badgestest.ts",
     "test:scan": "node --disable-warning=ExperimentalWarning src/scantest.ts",
     "test:deskchat": "node --disable-warning=ExperimentalWarning src/deskchattest.ts",
     "test:flychat": "node --disable-warning=ExperimentalWarning src/flychattest.ts",

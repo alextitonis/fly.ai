@@ -151,6 +151,7 @@
       "desc": "Las mejores Fly Wallets, en vivo"
     },
     "acct": {
+      "badgesBtn": "🏅 Insignias",
       "signInHint": "Entra arriba a la derecha ↗",
       "signIn": "Entrar",
       "myFlies": "Mis moscas",
@@ -239,6 +240,10 @@
     "github": {
       "label": "GitHub"
     },
+    "badges": {
+      "label": "Insignias",
+      "desc": "Insignias soulbound para holders"
+    },
     "gta": {
       "label": "Sorteo de GTA VI",
       "desc": "Ten 100k $FLYAI y gana una copia"
@@ -276,6 +281,23 @@
     "notDeployedLong": "Aún no desplegado: el enlace de compra aparecerá aquí y en @flydotai en el lanzamiento.",
     "buyHere": "Comprar $FLYAI",
     "stakedNote": "+ {amount} en stake{usd}"
+  },
+  "soulbound": {
+    "title": "Tus insignias",
+    "count": "{n} de {of} en tu wallet",
+    "loading": "Cargando…",
+    "soon": "Las insignias abren pronto.",
+    "ready": "{n} por reclamar",
+    "open": "Ver todas las insignias",
+    "close": "Cerrar",
+    "failed": "No se pudieron cargar tus insignias.",
+    "held": "En tu wallet",
+    "claimable": "Lista para reclamar",
+    "progress": "{days} de {need} días",
+    "progressPayouts": "{n} de {need} pagos",
+    "revoked": "Retirada",
+    "team": "No para wallets del equipo",
+    "closed": "No ganada"
   },
   "lock": {
     "button": "🔒 {amount} FLYAI bloqueados",
