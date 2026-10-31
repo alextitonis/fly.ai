@@ -31,7 +31,13 @@
     "team": "팀 지갑 제외",
     "closed": "획득하지 못함"
   },
-  "claimed": "{n}개 수령됨",
+  "holders": "보유자 {n}명",
+  "rarity": {
+    "common": "일반",
+    "uncommon": "고급",
+    "rare": "희귀",
+    "legendary": "전설"
+  },
   "list": {
     "larva": { "name": "Larva", "need": "100,000개 이상의 $FLYAI를 7일 연속 보유하세요." },
     "lord": { "name": "Lord of the Flies", "need": "10,000,000개 이상의 $FLYAI를 30일 연속 보유하세요." },

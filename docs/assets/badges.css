@@ -16,6 +16,11 @@
 .badge-claimed { font: 12px var(--mono); color: var(--dim); }
 .badge-share { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
 .badge-share .btn { flex: 1 1 auto; text-align: center; }
+.badge-rarity { font-weight: 600; }
+.badge-rarity.common { color: var(--muted); }
+.badge-rarity.uncommon { color: var(--mint); }
+.badge-rarity.rare { color: #8fd8ff; }
+.badge-rarity.legendary { color: #ffd76a; }
 .badge-progress { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
 .badge-progress span { display: block; height: 100%; background: var(--mint); }
 .badges-board-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }

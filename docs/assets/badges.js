@@ -95,7 +95,14 @@ function shareRow(key) {
     el("a", { class: "btn sm", href: shareUrl(key), target: "_blank", rel: "noopener" }, t("badges.share.x")), image);
 }
 
-function card(key, mine, claimed) {
+/** How rare a badge is: its holders against every wallet that holds any badge. */
+const rarity = (n, total) => {
+  if (!n || !total) return null;
+  const share = n / total;
+  return share >= 0.25 ? "common" : share >= 0.1 ? "uncommon" : share >= 0.02 ? "rare" : "legendary";
+};
+
+function card(key, mine, claimed, total) {
   const state = mine?.state;
   const p = mine?.progress;
   const done = p ? p.days ?? p.payouts : 0;
@@ -109,7 +116,9 @@ function card(key, mine, claimed) {
     state === "working" && p ? el("div", { class: "badge-progress", "aria-hidden": "true" }, el("span", { style: `width:${Math.min(100, (done / p.need) * 100)}%` })) : null,
     line ? el("span", { class: `badge-state ${state}` }, line) : null,
     state === "held" ? shareRow(key) : null,
-    claimed !== null ? el("span", { class: "badge-claimed" }, t("badges.claimed", { n: claimed })) : null);
+    claimed !== null ? el("span", { class: "badge-claimed" },
+      rarity(claimed, total) ? el("b", { class: `badge-rarity ${rarity(claimed, total)}` }, t(`badges.rarity.${rarity(claimed, total)}`)) : null,
+      rarity(claimed, total) ? " · " : null, t("badges.holders", { n: claimed })) : null);
 }
 
 const NAMES = Object.fromEntries(Object.entries(IDS).map(([k, id]) => [id, k]));
@@ -169,7 +178,8 @@ async function draw() {
   const signedIn = !!session();
   const me = on && signedIn ? await call("/api/badges/me") : null;
   const by = Object.fromEntries((me?.badges || []).map((b) => [b.key, b]));
-  $("badges-grid").replaceChildren(...KEYS.map((k) => card(k, by[k], on ? counts[k] ?? 0 : null)));
+  const total = on ? (await call("/api/badges/leaderboard").catch(() => null))?.total ?? 0 : 0;
+  $("badges-grid").replaceChildren(...KEYS.map((k) => card(k, by[k], on ? counts[k] ?? 0 : null, total)));
   const open = (me?.badges || []).filter((b) => b.state === "claimable").length;
   const go = $("badges-claim");
   go.hidden = !open;

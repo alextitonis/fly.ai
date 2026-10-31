@@ -31,7 +31,13 @@
     "team": "Ekip cüzdanları için değil",
     "closed": "Kazanılmadı"
   },
-  "claimed": "{n} alındı",
+  "holders": "Sahip: {n}",
+  "rarity": {
+    "common": "Yaygın",
+    "uncommon": "Nadir değil",
+    "rare": "Nadir",
+    "legendary": "Efsanevi"
+  },
   "list": {
     "larva": { "name": "Larva", "need": "7 gün boyunca kesintisiz 100.000+ $FLYAI tut." },
     "lord": { "name": "Lord of the Flies", "need": "30 gün boyunca kesintisiz 10.000.000+ $FLYAI tut." },

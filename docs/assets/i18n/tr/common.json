@@ -283,6 +283,11 @@
     "stakedNote": "+ {amount} stake edildi{usd}"
   },
   "soulbound": {
+    "holders": "Sahip: {n}",
+    "common": "Yaygın",
+    "uncommon": "Nadir değil",
+    "rare": "Nadir",
+    "legendary": "Efsanevi",
     "title": "Rozetlerin",
     "count": "Cüzdanında {n} / {of}",
     "loading": "Yükleniyor…",

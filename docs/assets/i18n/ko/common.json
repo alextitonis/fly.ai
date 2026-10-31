@@ -283,6 +283,11 @@
     "stakedNote": "+ {amount} 스테이킹됨{usd}"
   },
   "soulbound": {
+    "holders": "보유자 {n}명",
+    "common": "일반",
+    "uncommon": "고급",
+    "rare": "희귀",
+    "legendary": "전설",
     "title": "내 배지",
     "count": "지갑에 {n} / {of}개",
     "loading": "불러오는 중…",

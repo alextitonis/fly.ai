@@ -351,7 +351,7 @@
       if (!badgesJs) {
         badgesJs = new Promise((ok) => {
           const tag = document.createElement("script");
-          tag.src = NAV_SRC ? new URL("flybadges.js?v=20261031a", NAV_SRC).href : "/assets/flybadges.js?v=20261031a";
+          tag.src = NAV_SRC ? new URL("flybadges.js?v=20261031b", NAV_SRC).href : "/assets/flybadges.js?v=20261031b";
           tag.onload = ok;
           tag.onerror = ok;
           (document.body || document.head).append(tag);

@@ -15,7 +15,8 @@
     title: "Your badges", count: "{n} of {of} in your wallet", loading: "Loading…", soon: "Badges open soon.",
     ready: "{n} ready to claim", open: "See all badges", close: "Close", failed: "Couldn't load your badges.",
     held: "In your wallet", claimable: "Ready to claim", progress: "{days} of {need} days", progressPayouts: "{n} of {need} payouts",
-    revoked: "Removed", team: "Not for team wallets", closed: "Not earned",
+    revoked: "Removed", team: "Not for team wallets", closed: "Not earned", holders: "Holders: {n}",
+    common: "Common", uncommon: "Uncommon", rare: "Rare", legendary: "Legendary",
   };
 
   function t(key, vars) {
@@ -44,33 +45,45 @@
       .flybadges-one b { font-size: 13px; line-height: 1.25; margin-top: 3px; }
       .flybadges-one small { font-size: 12px; line-height: 1.25; color: var(--muted, #9ba5a1); }
       .flybadges-one small.on { color: var(--mint, #5ef2cc); }
+      .flybadges-one small.common { color: var(--muted, #9ba5a1); font-weight: 600; }
+      .flybadges-one small.uncommon { color: var(--mint, #5ef2cc); font-weight: 600; }
+      .flybadges-one small.rare { color: #8fd8ff; font-weight: 600; }
+      .flybadges-one small.legendary { color: #ffd76a; font-weight: 600; }
       .flybadges-row { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; margin-top: 16px; }`;
     document.head.append(css);
   }
 
-  function badge(b) {
+  // holders against every wallet that holds any badge, as on /badges
+  const rarity = (n, total) => (!n || !total ? null : n / total >= 0.25 ? "common" : n / total >= 0.1 ? "uncommon" : n / total >= 0.02 ? "rare" : "legendary");
+
+  function badge(b, holders, total) {
     const p = b.progress;
     const line = b.state !== "working" || !p ? t(b.state)
       : p.payouts !== undefined ? t("progressPayouts", { n: Math.min(p.payouts, p.need), need: p.need })
       : t("progress", { days: Math.min(p.days, p.need), need: p.need });
     const on = b.state === "held" || b.state === "claimable";
+    const tier = rarity(holders, total);
     return el("div", { className: `flybadges-one${on ? "" : " dim"}` },
       el("img", { src: image(b.id), alt: "", width: 512, height: 512 }),
-      el("b", { textContent: NAMES[b.key] || b.key }), el("small", { className: on ? "on" : "", textContent: line }));
+      el("b", { textContent: NAMES[b.key] || b.key }), el("small", { className: on ? "on" : "", textContent: line }),
+      tier ? el("small", { className: tier, textContent: t(tier) }) : "",
+      holders ? el("small", { textContent: t("holders", { n: holders }) }) : "");
   }
 
   // held first, then ready to claim, then the rest in their usual order
   const rank = (b) => (b.state === "held" ? 0 : b.state === "claimable" ? 1 : 2);
 
   async function fill(session, sub, body, link) {
-    const r = await fetch(`${API}/api/badges/me`, { headers: { "x-flyai-session": session.token } });
+    const open = (path) => fetch(`${API}${path}`).then((x) => x.json()).catch(() => ({}));
+    const [r, pub, board] = await Promise.all([fetch(`${API}/api/badges/me`, { headers: { "x-flyai-session": session.token } }), open("/api/badges"), open("/api/badges/leaderboard")]);
     const me = await r.json().catch(() => ({}));
     if (!r.ok) throw new Error(me.error || `HTTP ${r.status}`);
+    const holders = Object.fromEntries((pub.badges || []).map((b) => [b.key, b.claimed]));
     if (!me.on) { sub.textContent = t("soon"); return; }
     const held = me.badges.filter((b) => b.state === "held").length;
     const ready = me.badges.filter((b) => b.state === "claimable").length;
     sub.textContent = t("count", { n: held, of: me.badges.length }) + (ready ? ` · ${t("ready", { n: ready })}` : "");
-    body.replaceChildren(...[...me.badges].sort((a, b) => rank(a) - rank(b) || a.id - b.id).map(badge));
+    body.replaceChildren(...[...me.badges].sort((a, b) => rank(a) - rank(b) || a.id - b.id).map((b) => badge(b, holders[b.key] ?? 0, board.total ?? 0)));
     link.className = ready ? "btn sm" : "btn sm ghost";
   }
 

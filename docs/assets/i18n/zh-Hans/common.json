@@ -283,6 +283,11 @@
     "stakedNote": "+ {amount} 已质押{usd}"
   },
   "soulbound": {
+    "holders": "{n} 位持有者",
+    "common": "普通",
+    "uncommon": "少见",
+    "rare": "稀有",
+    "legendary": "传奇",
     "title": "你的徽章",
     "count": "钱包中有 {n} / {of} 个",
     "loading": "加载中…",

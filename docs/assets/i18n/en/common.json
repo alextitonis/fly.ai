@@ -283,6 +283,11 @@
     "stakedNote": "+ {amount} staked{usd}"
   },
   "soulbound": {
+    "holders": "Holders: {n}",
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "legendary": "Legendary",
     "title": "Your badges",
     "count": "{n} of {of} in your wallet",
     "loading": "Loading…",

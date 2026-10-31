@@ -31,7 +31,13 @@
     "team": "不適用於團隊錢包",
     "closed": "未獲得"
   },
-  "claimed": "已領取 {n} 個",
+  "holders": "{n} 位持有者",
+  "rarity": {
+    "common": "普通",
+    "uncommon": "少見",
+    "rare": "稀有",
+    "legendary": "傳奇"
+  },
   "list": {
     "larva": { "name": "Larva", "need": "連續 7 天持有 100,000 以上 $FLYAI。" },
     "lord": { "name": "Lord of the Flies", "need": "連續 30 天持有 10,000,000 以上 $FLYAI。" },

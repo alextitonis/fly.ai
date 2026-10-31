@@ -303,13 +303,30 @@ cameras without prediction do worst of the real-wiring setups and crash most, so
 The same seed repeats exactly at the same thread count and flies differently at another (one camera on seed 8001: 38% in view at 2 threads, 70% at 3), so a single flight says little. These flights
 have a leader and a distraction but only this one job: learned choice and obstacle avoidance haven't been tried on one or two cameras. Score with `python drone/runs/predict/cams/score.py`.
 
-### Avoiding obstacles: not finished (2026-10-31)
+### Avoiding obstacles: hits nearly gone, but it stalls (2026-11-01, 2 of 3 rules)
 
-`avoid.py`. Nothing turns it from a pillar today: a close one fires DNp01, which stops it. The screen (nothing trained, seeds 7401-7402) found DNg01, DNa07 and DNae004 fire
+`avoid.py`. Without this, nothing turns it from a pillar: a close one fires DNp01, which stops it. The screen (nothing trained, seeds 7401-7402) found DNg01, DNa07 and DNae004 fire
 more on the side away from a pillar, on both seeds, which would turn it away if read like DNa02. Reading them that way is ours.
 
-The test on fresh seeds was stopped by low memory after 1 of 16 runs (flying blind on seed 7801: 1 hit, 10 passes, 4 stalls in 15 trials), so the rules at the top of `avoid.py` have no
-result. Free flights among pillars can't answer this: on development seeds it rarely hits one even blind, since it trails a leader who keeps clear. Those runs hint that the stop has a
+Rules are in `avoid.py`, seeds 7801-7804, 15 trials each, aimed at a pillar 1.5 m ahead (`runs/avoid/test/score.py`):
+
+| Mode | Hit | Passed | Stalled | Closest (median) |
+|---|---|---|---|---|
+| Blind to pillars | 30% | 58% | 12% | 0.15 m |
+| Stop (DNp01 only) | 17% | 38% | 45% | 0.23 m |
+| Turn | 2% | 45% | 53% | 0.43 m |
+| Turn, scrambled wiring | 0% | 0% | 100% | 1.24 m |
+
+| Rule | Needed | Result (95% interval) | |
+|---|---|---|---|
+| Avoids | hits at most 0.5x blind, interval above 0 | 0.06x, 28 points fewer (+17 to +42) | Pass |
+| Beats stop | passes at least 20 points over stop | +7 points (-12 to +23) | Miss |
+| Wiring | passes at least 20 points over scrambled | +45 points (+33 to +58) | Pass |
+
+Turning almost ends the hits, but it doesn't get past the pillar more often than plain stopping: over half the trials hold still for the full 8 s, and blind still passes most because it just flies on.
+So this is a safe drone, not yet one that goes around things. The wiring rule is a weak control: scrambled wiring never moves in these trials, so it can't hit or pass.
+
+Free flights among pillars can't answer this: on development seeds it rarely hits one even blind, since it trails a leader who keeps clear. Those runs hint that the stop has a
 cost: with 16 pillars it's stopped 45-52% of the time when it sees them and 17-20% blind, and within 1 m 32-46% against 62-78%. That's two seeds, not a tested result. Pillars are found
 only because they're pale and upright with a known width, so other obstacles would go unseen.
 

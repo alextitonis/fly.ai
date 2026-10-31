@@ -283,6 +283,11 @@
     "stakedNote": "+ {amount} en stake{usd}"
   },
   "soulbound": {
+    "holders": "Poseedores: {n}",
+    "common": "Común",
+    "uncommon": "Poco común",
+    "rare": "Rara",
+    "legendary": "Legendaria",
     "title": "Tus insignias",
     "count": "{n} de {of} en tu wallet",
     "loading": "Cargando…",
