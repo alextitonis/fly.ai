@@ -92,8 +92,11 @@ export function createVaults(d: VaultsDeps) {
     holdDays: Number(d.env.PROMO_HOLD_DAYS ?? "14"),
     // bonuses waiting for a deposit (2026-10-20, the user: "once they are deposited, they will get them instantly"):
     // fly ids, "462,463,...". Once a listed fly's wallet has a holder and their own money reaches minUsd, a manual
-    // bonus of bonusUsd locked holdDays is made for it (once: decided_by "on-deposit") and paid in the same tick
-    onDeposit: (d.env.PROMO_ON_DEPOSIT ?? "").split(",").map((x) => Number(x.trim())).filter((n) => Number.isInteger(n) && n > 0),
+    // bonus of bonusUsd locked holdDays is made for it (once: decided_by "on-deposit") and paid in the same tick.
+    // "fly:usd:min" sets that fly's own bonus and deposit (2026-10-31, the X reply bonus: "786:1:5")
+    onDeposit: (d.env.PROMO_ON_DEPOSIT ?? "").split(",").map((x) => x.trim().split(":").map(Number))
+      .filter(([n]) => Number.isInteger(n) && n > 0)
+      .map(([fly, usd, min]) => ({ fly, usd: usd || Number(d.env.PROMO_BONUS_USD ?? "20"), min: min || Number(d.env.PROMO_MIN_USD ?? "20") })),
     // one bonus per holder in a round; PROMO_ONE_PER_HOLDER=0 (2026-10-20, the user: "holders can get for multiple
     // deposits/flies") lets a holder win once per wallet
     onePerHolder: d.env.PROMO_ONE_PER_HOLDER !== "0",
@@ -714,16 +717,16 @@ export function createVaults(d: VaultsDeps) {
     console.log(`promo: manual #${row!.id} for fly #${fly} (${w.wallet}): $${usd} locked ${hold} d, by ${by}`);
     return Number(row!.id);
   }
-  /** PROMO.onDeposit: each listed fly gets its bonus once its owner's own money in the wallet reaches minUsd. */
+  /** PROMO.onDeposit: each listed fly gets its bonus once its owner's own money in the wallet reaches its minimum. */
   async function onDepositPromos(): Promise<void> {
-    for (const fly of PROMO.onDeposit) {
+    for (const { fly, usd, min } of PROMO.onDeposit) {
       if (await pg.one("select 1 from mine.vault_promos where fly_id = ? and decided_by = 'on-deposit'", fly)) continue;
       const w = await pg.one<{ wallet: string; holder: string; principal_usd: number; locked_usd: number; closing: boolean }>(
         `select l.wallet, l.holder, l.principal_usd, l.locked_usd, l.closing from mine.vault_wallets v
            join mine.vault_ledger l on lower(l.wallet) = lower(v.address) and l.chain = 'robinhood'
          where v.fly_id = ? and l.holder is not null order by l.principal_usd desc limit 1`, fly);
-      if (!w || w.closing || Number(w.principal_usd) - Number(w.locked_usd) < PROMO.minUsd) continue;
-      await insertManual(w, fly, PROMO.bonusUsd, PROMO.holdDays, "on-deposit");
+      if (!w || w.closing || Number(w.principal_usd) - Number(w.locked_usd) < min) continue;
+      await insertManual(w, fly, usd, PROMO.holdDays, "on-deposit");
     }
   }
   const MANUAL_MAX_USD = Number(d.env.PROMO_MANUAL_MAX_USD ?? "100");

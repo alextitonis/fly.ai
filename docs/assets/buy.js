@@ -581,24 +581,62 @@
     }
     if (who && toAuto) { box.value = who; refresh(); }
   }
-  function solWalletOf() {
-    const list = sol.wallets(), pick = $("buy-solw");
-    if (pick) {
-      pick.innerHTML = list.map(() => "<option></option>").join("");
-      list.forEach((w, i) => { pick.options[i].value = w.name; pick.options[i].textContent = w.name; });
-      pick.hidden = list.length < 2;
-      if (solWallet && list.some((w) => w.name === solWallet.name)) pick.value = solWallet.name;
-    }
-    return list.find((w) => pick && w.name === pick.value) || list[0] || null;
+  // which wallet pays is the buyer's choice (2026-10-31, the user: it opened an installed Backpack instead of asking - the
+  // first wallet the browser reports isn't the one they use): with several, they pick; the choice is remembered here
+  const SOL_CHOICE = "flySolWallet";
+  function solChoice(name) {
+    try {
+      if (name) localStorage.setItem(SOL_CHOICE, name);
+      return localStorage.getItem(SOL_CHOICE);
+    } catch (e) { return null; }
   }
+  function drawSolWallets(list) {
+    const box = $("buy-solw");
+    box.hidden = list.length < 2;
+    box.replaceChildren(...(list.length < 2 ? [] : list.map((w) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-pressed", String(!!solAcct && !!solWallet && w.name === solWallet.name));
+      if (w.icon) {
+        const img = document.createElement("img");
+        img.src = w.icon;
+        img.alt = "";
+        b.append(img);
+      }
+      b.append(w.name);
+      b.addEventListener("click", () => {
+        solWallet = w;
+        solAcct = null;
+        bal = null;
+        showBalance();
+        label();
+        connectSol().catch(() => msg(t("cancelled"), "err"));
+      });
+      return b;
+    })));
+  }
+  // silent: only the wallet chosen here before, and it doesn't open it; else nothing happens until the buyer picks
   async function connectSol(silent) {
     await loadSol();
-    solWallet = solWalletOf();
-    if (!solWallet) {
+    const list = sol.wallets(), chosen = solChoice();
+    const known = (name) => list.find((w) => w.name === name);
+    solWallet = (solWallet && known(solWallet.name)) || known(chosen) || (list.length === 1 ? list[0] : null);
+    drawSolWallets(list);
+    if (!list.length) {
       if (!silent) msg(t("noSolWallet"), "err");
       return false;
     }
+    if (!solWallet) {
+      if (!silent) msg(t("solPick"));
+      return false;
+    }
+    if (silent && solWallet.name !== chosen) return false;
     solAcct = await sol.connect(solWallet, silent).catch((e) => { if (!silent) throw e; return null; });
+    if (solAcct) {
+      solChoice(solWallet.name);
+      msg("");
+    }
+    drawSolWallets(list);
     label();
     loadBalance();
     fillTo();
@@ -670,7 +708,7 @@
     row.className = "buy-to";
     row.id = "buy-to-row";
     row.hidden = true;
-    row.innerHTML = '<select id="buy-solw" class="buy-dir" aria-label="Solana wallet" hidden></select>'
+    row.innerHTML = '<div id="buy-solw" class="buy-solw" role="group" aria-label="Solana wallet" hidden></div>'
       + '<label class="buy-in" for="buy-to"></label>'
       + '<span class="buy-field"><input id="buy-to" type="text" autocomplete="off" spellcheck="false" placeholder="0x…">'
       + '<button type="button" id="buy-to-use"></button></span><p class="buy-why"></p>';
@@ -685,7 +723,6 @@
       toAuto = true;
       refresh();
     });
-    $("buy-solw").addEventListener("change", () => { solAcct = null; label(); connectSol().catch(() => msg(t("cancelled"), "err")); });
     from.addEventListener("change", () => {
       row.hidden = !onSol();
       const box = $("buy-amount");                       // the default $25 of USDC isn't 25 SOL

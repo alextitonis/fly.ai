@@ -575,7 +575,11 @@
 /* paying from Solana (buy.js): where the $FLYAI lands on Robinhood Chain */
 .buybox .buy-to { margin: 0 0 16px; display: flex; flex-direction: column; gap: 6px; }
 .buybox .buy-to[hidden], .buybox #buy-solw[hidden] { display: none; }
-.buybox #buy-solw { align-self: flex-start; }
+.buybox .buy-solw { display: flex; flex-wrap: wrap; gap: 8px; }
+.buybox .buy-solw button { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg-2); color: #fff; font: 600 14px var(--sans); cursor: pointer; }
+.buybox .buy-solw button:hover, .buybox .buy-solw button[aria-pressed="true"] { border-color: var(--mint); color: var(--mint); }
+.buybox .buy-solw button[aria-pressed="true"] { background: rgba(94, 242, 204, .14); }
+.buybox .buy-solw img { width: 20px; height: 20px; border-radius: 5px; }
 .buybox .buy-to input { font: 500 14px var(--mono); }
 .buybox .buy-to button { flex: none; background: var(--bg-2); color: var(--mint); border: 0; border-left: 1px solid var(--line); padding: 0 12px; font: 600 13px var(--sans); cursor: pointer; }
 .buybox .buy-to .buy-why { margin: 0; }

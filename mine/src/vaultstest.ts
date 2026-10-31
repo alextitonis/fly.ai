@@ -380,7 +380,12 @@ try {
   // bonuses waiting for a deposit (2026-10-20): a listed fly gets one once its owner's money is in, never twice;
   // a listed fly without a set-up wallet waits
   { const s1 = server as unknown as ReturnType<typeof spawn>; const gone = new Promise((r) => s1.once("exit", r)); s1.kill("SIGKILL"); await gone; }
-  await startServer({ PROMO_ON_DEPOSIT: "3,4242" });
+  await startServer({ PROMO_ON_DEPOSIT: "3:1:100000" });
+  await sleep(3000);
+  check("on deposit: a fly's own minimum holds its bonus back",
+    (await PG.pg.all<any>("select * from mine.vault_promos where decided_by = 'on-deposit'")).length === 0);
+  { const s2 = server as unknown as ReturnType<typeof spawn>; const gone = new Promise((r) => s2.once("exit", r)); s2.kill("SIGKILL"); await gone; }
+  await startServer({ PROMO_ON_DEPOSIT: "3:1:5,4242" });
   let od: any[] = [];
   for (let i = 0; i < 30 && !(od.length && od.every((r) => r.status === "paid")); i++) {
     await sleep(500);
@@ -388,8 +393,8 @@ try {
   }
   await sleep(2500);
   const od2 = await PG.pg.all<any>("select * from mine.vault_promos where decided_by = 'on-deposit'");
-  check("on deposit: fly #3 (holder, $100 in) gets one bonus of the default $20, paid; #4242 (no wallet) none",
-    od2.length === 1 && od2[0].fly_id === 3 && od2[0].bonus_usd === 20 && od2[0].hold_days === 14 && od2[0].status === "paid",
+  check("on deposit: fly #3 (holder, $100 in) gets one bonus of its own $1, paid; #4242 (no wallet) none",
+    od2.length === 1 && od2[0].fly_id === 3 && od2[0].bonus_usd === 1 && od2[0].hold_days === 14 && od2[0].status === "paid",
     JSON.stringify(od2));
 } catch (err) {
   console.error(err);
