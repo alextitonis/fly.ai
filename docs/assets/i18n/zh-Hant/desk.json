@@ -290,6 +290,7 @@
     "calc": {
       "title": "我能賺多少？",
       "rarity": "稀有度",
+      "gen": "世代",
       "stake": "已質押 $FLYAI",
       "result": "每週約 {usd}",
       "basisWeeks": "根據最近 {n} 個已發放的週：{list}。",

@@ -290,6 +290,7 @@
     "calc": {
       "title": "얼마를 벌까요?",
       "rarity": "희귀도",
+      "gen": "세대",
       "stake": "스테이킹한 $FLYAI",
       "result": "주당 약 {usd}",
       "basisWeeks": "최근 지급된 {n}주 기준: {list}.",

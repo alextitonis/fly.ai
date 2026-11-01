@@ -290,6 +290,7 @@
     "calc": {
       "title": "Ne kazanırım?",
       "rarity": "Nadirlik",
+      "gen": "Nesil",
       "stake": "Stake edilen $FLYAI",
       "result": "Haftada yaklaşık {usd}",
       "basisWeeks": "Son {n} ödeme haftasına göre: {list}.",

@@ -290,6 +290,7 @@
     "calc": {
       "title": "What would I earn?",
       "rarity": "Rarity",
+      "gen": "Generation",
       "stake": "Staked $FLYAI",
       "result": "About {usd} a week",
       "basisWeeks": "From the last {n} paid weeks: {list}.",

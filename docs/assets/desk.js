@@ -1001,7 +1001,8 @@
   /** A fly's week from the paid weeks: what a full-week weight-1 fly earned (publish.per_weight_usd, before stake
    *  boosts) x its rarity x its stake boost, scaled back by this week's average boost the way settle.py scales the
    *  boosts back to the same total. With no paid week recorded yet: this week so far. An estimate, said so. */
-  const calc = { rarity: 0, stake: 0 };
+  const calc = { rarity: 0, gen: 0, stake: 0 };
+  const GENS = [1, 2.2, 3.3, 4.4];   // what a bred fly's generation multiplies (flytrade/desk/generations.py)
   const STAKES = [0, 2e6, 5e6, 10e6];
   function stakeMult(flyai, st) {
     const unit = Number(st.stake_unit_flyai) || 2e6, cap = Number(st.stake_cap) || 2;
@@ -1021,9 +1022,10 @@
       $(id).innerHTML = items.map((txt, i) => `<button type="button" data-i="${i}" class="${i === on ? "on" : ""}">${esc(txt)}</button>`).join("");
     };
     seg("calc-rarity", names.map((n, i) => `${n} ×${weights[i]}`), calc.rarity);
+    seg("calc-gen", GENS.map((g, i) => `${i === 3 ? "3+" : i} (×${g})`), calc.gen);
     const compact = new Intl.NumberFormat(lang(), { notation: "compact" });
     seg("calc-stake", STAKES.map((s) => `${compact.format(s)} (×${nf(0).format(stakeMult(s, st))})`), calc.stake);
-    const w = weights[calc.rarity] || 1, m = stakeMult(STAKES[calc.stake], st);
+    const w = (weights[calc.rarity] || 1) * GENS[calc.gen], m = stakeMult(STAKES[calc.stake], st);
     const flies = p.flies.filter((f) => f.active_pct > 0);
     const base = flies.reduce((a, f) => a + f.weight * f.active_pct / 100, 0);
     const boosted = flies.reduce((a, f) => a + f.weight * f.active_pct / 100 * (f.stake_boost || 1), 0);
@@ -1043,9 +1045,10 @@
     $("calc-note").textContent = t("pay.calc.note", { hold: qty(Number(st.hold_flyai) || 200000) });
   }
   document.addEventListener("click", (e) => {
-    const r = e.target.closest("#calc-rarity [data-i]"), s = e.target.closest("#calc-stake [data-i]");
-    if (!r && !s) return;
+    const r = e.target.closest("#calc-rarity [data-i]"), s = e.target.closest("#calc-stake [data-i]"), g = e.target.closest("#calc-gen [data-i]");
+    if (!r && !s && !g) return;
     if (r) calc.rarity = Number(r.dataset.i);
+    if (g) calc.gen = Number(g.dataset.i);
     if (s) calc.stake = Number(s.dataset.i);
     if (board) renderCalc(board);
   });
