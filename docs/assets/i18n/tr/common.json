@@ -283,6 +283,7 @@
     "stakedNote": "+ {amount} stake edildi{usd}"
   },
   "soulbound": {
+    "progressReferrals": "{n} / {need} referans",
     "holders": "Sahip: {n}",
     "common": "Yaygın",
     "uncommon": "Nadir değil",

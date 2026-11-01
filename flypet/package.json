@@ -1,0 +1,70 @@
+{
+  "name": "flypet",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build && esbuild electron/main.ts electron/preload.ts --bundle --platform=node --external:electron --format=cjs --outdir=dist-electron --out-extension:.js=.cjs --log-level=warning",
+    "start": "npm run build && electron .",
+    "dist": "npm run build && electron-builder --publish never",
+    "test": "node --disable-warning=ExperimentalWarning src/mood.test.ts",
+    "preview": "vite preview --port 1421 --strictPort"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "electron": "^45.2.1",
+    "electron-builder": "^26.18.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.8.0",
+    "vite": "^6.4.0",
+    "@webgpu/types": "^0.1.72"
+  },
+  "description": "Fly Pet: a tiny fly that lives on your desktop",
+  "author": "fly.ai",
+  "main": "dist-electron/main.cjs",
+  "build": {
+    "appId": "com.flyaiworld.flypet",
+    "productName": "Fly Pet",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "dist-electron/**"
+    ],
+    "win": {
+      "target": "nsis",
+      "signtoolOptions": {
+        "sign": "build/sign-win.cjs",
+        "signingHashAlgorithms": [
+          "sha256"
+        ]
+      }
+    },
+    "nsis": {
+      "oneClick": true,
+      "artifactName": "FlyPet-Setup-${version}.${ext}"
+    },
+    "mac": {
+      "target": {
+        "target": "dmg",
+        "arch": "universal"
+      },
+      "category": "public.app-category.entertainment",
+      "artifactName": "FlyPet-${version}.${ext}",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Game",
+      "artifactName": "FlyPet-${version}.${ext}"
+    }
+  }
+}

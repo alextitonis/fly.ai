@@ -15,8 +15,10 @@
  *                reader (graded target / threat / wind drives, with and without PAM reward)
  *   demo/*       example programs (mine/examples) running on real miners: pi, Mandelbrot tiles, TSP restarts
  *   colosseum/*  Fly Colosseum practice fights between random fighters: what each stat point is really worth
+ *   atlas/*      every sensory cell type -> every descending neuron (scripts/atlas.ts); only with --only atlas/
  */
 import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { CHANNELS } from "../src/model.ts";
 
 const arg = (name: string) => {
@@ -118,6 +120,14 @@ const ORDERS: { label: string; spec: () => Promise<object> | object; max_paralle
   // (balanceSummary on /compute/results). A finished season's replay is queued by scripts/colosseum-replay.ts.
   { label: "colosseum/balance-1", spec: () => ({ kind: "fight", seeds: 5000, seed_base: 1, max_stat: 30 }) },
 ];
+
+// the atlas only starts when asked for by name (--only atlas/, or --only atlas/sensory-dn-1/p0 for the first ten orders)
+if (ONLY.startsWith("atlas/")) {
+  const { loadModel } = await import("../src/load.ts");
+  const { atlasOrders, ATLAS_UNITS } = await import("./atlas.ts");
+  const { meta } = loadModel(fileURLToPath(new URL("../../world/public/connectome/", import.meta.url)));
+  for (const o of atlasOrders(meta)) ORDERS.push({ label: o.label, spec: () => o.spec, max_parallel: 32, units: ATLAS_UNITS });
+}
 
 const existing = new Set(((await (await fetch(`${SERVER}/api/house`)).json()).orders as { label: string }[]).map((o) => o.label));
 for (const o of ORDERS) {

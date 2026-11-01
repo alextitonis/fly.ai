@@ -2278,5 +2278,13 @@
       "pending": ""
     }
   },
-  "stakedNote": "+ {amount} stake edildi{usd}"
+  "stakedNote": "+ {amount} stake edildi{usd}",
+  "petlink": {
+    "title": "Fly Pet'ini bağla",
+    "body": "Giriş yap ve onayla, evcil hayvanın sineklerini takip etsin. Yalnızca herkese açık adresini alır: para taşıyamaz ve asla anahtar ya da kurtarma ifadesi istemez.",
+    "approve": "Bu cüzdanı bağla",
+    "done": "Bağlandı! Sineğine dön.",
+    "noCode": "Bu sayfayı Fly Pet uygulamasındaki Cüzdan bağla düğmesinden aç.",
+    "failed": "Bağlanamadı. Tekrar dene."
+  }
 }

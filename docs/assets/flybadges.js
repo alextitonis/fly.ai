@@ -10,11 +10,11 @@
   const LOCAL_API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get("api");
   const API = LOCAL_API || (window.flyNav && window.flyNav.MINE_API) || "https://flyai-mine.fly.dev";
   const NAMES = { larva: "Larva", lord: "Lord of the Flies", diamond: "Diamond Wings", og: "OG", flyowner: "Fly Owner",
-    swarm: "Swarm", queen: "Queen of the Hive", payday: "Payday", payroll: "On Payroll" };
+    swarm: "Swarm", queen: "Queen of the Hive", payday: "Payday", payroll: "On Payroll", recruiter: "Recruiter", piedpiper: "Pied Piper" };
   const EN = {
     title: "Your badges", count: "{n} of {of} in your wallet", loading: "Loading…", soon: "Badges open soon.",
     ready: "{n} ready to claim", open: "See all badges", close: "Close", failed: "Couldn't load your badges.",
-    held: "In your wallet", claimable: "Ready to claim", progress: "{days} of {need} days", progressPayouts: "{n} of {need} payouts",
+    held: "In your wallet", claimable: "Ready to claim", progress: "{days} of {need} days", progressPayouts: "{n} of {need} payouts", progressReferrals: "{n} of {need} referrals",
     revoked: "Removed", team: "Not for team wallets", closed: "Not earned", holders: "Holders: {n}",
     common: "Common", uncommon: "Uncommon", rare: "Rare", legendary: "Legendary",
   };
@@ -34,10 +34,10 @@
     css.textContent = `.flybadges-back { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,.6); display: flex; align-items: center;
         justify-content: center; padding: 16px; }
       .flybadges-pop { background: var(--bg, #0b0b0b); color: var(--text, #fff); border: 1px solid var(--line, #2a2a2a); border-radius: 16px;
-        width: min(600px, 100%); max-height: 85vh; overflow: auto; padding: 20px; font: 14px/1.5 var(--sans, inherit); }
+        width: min(720px, 100%); max-height: 85vh; overflow: auto; padding: 20px; font: 14px/1.5 var(--sans, inherit); }
       .flybadges-pop h3 { margin: 0 0 2px; font-size: 18px; }
       .flybadges-sub { margin: 0 0 14px; color: var(--muted, #9ba5a1); }
-      .flybadges-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+      .flybadges-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
       @media (max-width: 520px) { .flybadges-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
       .flybadges-one { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
       .flybadges-one img { width: 100%; height: auto; aspect-ratio: 1; border-radius: 10px; display: block; }
@@ -59,6 +59,7 @@
   function badge(b, holders, total) {
     const p = b.progress;
     const line = b.state !== "working" || !p ? t(b.state)
+      : p.referrals !== undefined ? t("progressReferrals", { n: Math.min(p.referrals, p.need), need: p.need })
       : p.payouts !== undefined ? t("progressPayouts", { n: Math.min(p.payouts, p.need), need: p.need })
       : t("progress", { days: Math.min(p.days, p.need), need: p.need });
     const on = b.state === "held" || b.state === "claimable";

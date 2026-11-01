@@ -13,6 +13,8 @@
  *   queen     50+ Trader Flies for 30 days straight 1; 3 wallets hold that many now
  *   payday    claimed 4 Fly Desk payouts            nobody yet: 3 paid so far, 50 wallets claimed all 3
  *   payroll   claimed 8 Fly Desk payouts            nobody yet
+ *   recruiter 1 real referral (src/referrals.ts: $20+ in Fly Wallets for 7 days, or a desk payout)     1 wallet on 11-01
+ *   piedpiper 10 real referrals, the first referral tier     nobody yet
  *
  * Staked and FlyLock-locked FLYAI counts as held: a move into staking or out of either is no change, and a lock counts
  * for its beneficiary. Dropping below a level restarts its clock, so one bag can't count for two wallets at once.
@@ -62,6 +64,7 @@ const VOUCHER_S = 3600;
 export const BADGES = [
   { id: 1, key: "larva" }, { id: 2, key: "lord" }, { id: 3, key: "diamond" }, { id: 4, key: "og" }, { id: 5, key: "flyowner" },
   { id: 6, key: "swarm" }, { id: 7, key: "queen" }, { id: 8, key: "payday" }, { id: 9, key: "payroll" },
+  { id: 10, key: "recruiter" }, { id: 11, key: "piedpiper" },
 ] as const;
 /** how many flies a wallet has to keep for cfg.flyDays, the badge, and its clock's field and column */
 const FLY_LEVELS = [
@@ -69,6 +72,7 @@ const FLY_LEVELS = [
   { flies: 50, badge: "queen", clock: "f50", col: "since_fly50" },
 ] as const;
 const PAYOUT_LEVELS = [{ payouts: 4, badge: "payday" }, { payouts: 8, badge: "payroll" }] as const;
+const REFERRAL_LEVELS = [{ referrals: 1, badge: "recruiter" }, { referrals: 10, badge: "piedpiper" }] as const;
 export type BadgeKey = (typeof BADGES)[number]["key"];
 
 export type BadgeConfig = {
@@ -302,6 +306,11 @@ export function createBadges(d: {
         select wallet, ?, ?::timestamptz from mine.badge_payouts group by wallet having count(*) >= ?::int
         on conflict do nothing returning wallet, badge`, l.badge, iso(t), l.payouts));
     }
+    for (const l of REFERRAL_LEVELS) {
+      fresh.push(...await pg.all<{ wallet: string; badge: string }>(`insert into mine.badge_earned (wallet, badge, earned_at)
+        select referrer, ?, ?::timestamptz from mine.referrals where qualified_at is not null group by referrer having count(*) >= ?::int
+        on conflict do nothing returning wallet, badge`, l.badge, iso(t), l.referrals));
+    }
     // the first full read earns hundreds at once: those wallets find them on the page; after that, a note in the bell
     if (await getState<boolean>(pg, "seeded")) {
       for (const f of fresh) {
@@ -366,22 +375,24 @@ export function createBadges(d: {
 
   /** Each badge for one wallet: held, claimable, working (with its days so far), revoked, closed (OG missed). */
   async function standing(wallet: string) {
-    const [row, earned, paid, reads] = await Promise.all([
+    const [row, earned, paid, referred, reads] = await Promise.all([
       pg.one<{ balance: string; since_low: Date | null; since_high: Date | null; og_amount: string; since_fly1: Date | null; since_fly10: Date | null; since_fly50: Date | null }>(
         "select balance, since_low, since_high, og_amount, since_fly1, since_fly10, since_fly50 from mine.badge_holders where wallet = ?", wallet),
       pg.all<{ badge: string }>("select badge from mine.badge_earned where wallet = ?", wallet),
       pg.one<{ n: number }>("select count(*)::int as n from mine.badge_payouts where wallet = ?", wallet),
+      pg.one<{ n: number }>("select count(*)::int as n from mine.referrals where referrer = ? and qualified_at is not null", wallet),
       chain.batch(BADGES.flatMap((b) => [idCall("balanceOf(address,uint256)", b.id, wallet), idCall("revoked(address,uint256)", b.id, wallet)])),
     ]);
     const has = new Set(earned.map((e) => e.badge));
     const balance = BigInt(row?.balance ?? "0"), og = BigInt(row?.og_amount ?? "0");
     const daysSince = (s: Date | null | undefined) => (s ? Math.floor((now() - new Date(s).getTime()) / DAY_MS) : 0);
-    const clocks: Record<string, { days: number; need: number } | { payouts: number; need: number } | null> = {
+    const clocks: Record<string, { days: number; need: number } | { payouts: number; need: number } | { referrals: number; need: number } | null> = {
       larva: { days: daysSince(row?.since_low), need: cfg.larvaDays }, diamond: { days: daysSince(row?.since_low), need: cfg.diamondDays },
       lord: { days: daysSince(row?.since_high), need: cfg.lordDays }, og: null,
       flyowner: { days: daysSince(row?.since_fly1), need: cfg.flyDays }, swarm: { days: daysSince(row?.since_fly10), need: cfg.flyDays },
       queen: { days: daysSince(row?.since_fly50), need: cfg.flyDays },
       payday: { payouts: paid?.n ?? 0, need: 4 }, payroll: { payouts: paid?.n ?? 0, need: 8 },
+      recruiter: { referrals: referred?.n ?? 0, need: 1 }, piedpiper: { referrals: referred?.n ?? 0, need: 10 },
     };
     const out = cfg.exclude.includes(wallet);
     const badges = BADGES.map((b, i) => {

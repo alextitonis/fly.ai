@@ -1,0 +1,18 @@
+{
+  "name": "Placeholder fly",
+  "moods": {
+    "idle": "idle.gif",
+    "walk": "walk.gif",
+    "held": "held.gif",
+    "fall": "fall.gif",
+    "happy": "happy.gif",
+    "moon": "moon.gif",
+    "sad": "sad.gif",
+    "rugged": "rugged.gif",
+    "buy": "buy.gif",
+    "sell": "sell.gif",
+    "sleep": "sleep.gif",
+    "eat": "eat.gif",
+    "wave": "wave.gif"
+  }
+}

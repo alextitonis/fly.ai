@@ -1,0 +1,75 @@
+# Fly Pet installers for Windows, macOS and Linux, each built on its own system.
+# Run it from the Actions tab (installers under the run's artifacts), or push a tag like flypet-v0.1.0 for a draft release.
+# Signing starts when the secrets are set; unsigned builds show an "unknown publisher" warning (flypet/SIGNING.md).
+name: flypet
+on:
+  workflow_dispatch:
+  push:
+    tags: ["flypet-v*"]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: flypet
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm test
+      - name: Windows signing tool
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        env:
+          ESIGNER_USERNAME: ${{ secrets.ESIGNER_USERNAME }}
+        run: |
+          if (-not $env:ESIGNER_USERNAME) { exit 0 }
+          Invoke-WebRequest https://www.ssl.com/download/codesigntool-for-windows/ -OutFile CodeSignTool.zip
+          Expand-Archive CodeSignTool.zip -DestinationPath "$env:RUNNER_TEMP\codesign"
+          $dir = (Get-ChildItem "$env:RUNNER_TEMP\codesign" -Recurse -Filter CodeSignTool.bat | Select-Object -First 1).DirectoryName
+          "CODE_SIGN_TOOL_DIR=$dir" >> $env:GITHUB_ENV
+      - run: npm run dist
+        env:
+          ESIGNER_USERNAME: ${{ secrets.ESIGNER_USERNAME }}
+          ESIGNER_PASSWORD: ${{ secrets.ESIGNER_PASSWORD }}
+          ESIGNER_CREDENTIAL_ID: ${{ secrets.ESIGNER_CREDENTIAL_ID }}
+          ESIGNER_TOTP_SECRET: ${{ secrets.ESIGNER_TOTP_SECRET }}
+          CSC_LINK: ${{ matrix.os == 'macos-latest' && secrets.APPLE_CERTIFICATE || '' }}
+          CSC_KEY_PASSWORD: ${{ matrix.os == 'macos-latest' && secrets.APPLE_CERTIFICATE_PASSWORD || '' }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: flypet-${{ matrix.os }}
+          path: |
+            flypet/release/*.exe
+            flypet/release/*.dmg
+            flypet/release/*.AppImage
+            flypet/release/*.deb
+
+  release:
+    if: github.ref_type == 'tag'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: installers
+          merge-multiple: true
+      - name: Checksums
+        run: cd installers && sha256sum * > SHA256SUMS.txt
+      - uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          name: Fly Pet ${{ github.ref_name }}
+          files: installers/*

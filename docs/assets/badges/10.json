@@ -1,0 +1,7 @@
+{
+  "name": "Recruiter",
+  "description": "Brought 1 real referral to fly.ai. Soulbound: stays with the wallet that earned it.",
+  "image": "https://flyaiworld.com/assets/badges/10.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [{ "trait_type": "Type", "value": "Referrals" }, { "trait_type": "Soulbound", "value": "Yes" }]
+}

@@ -1,0 +1,24 @@
+// The only native things the pages can do. No keys, no files, no shell.
+import { contextBridge, ipcRenderer } from "electron";
+
+contextBridge.exposeInMainWorld("flyNative", {
+  menu: () => ipcRenderer.send("menu"),
+  quit: () => ipcRenderer.send("quit"),
+  setLang: (lang: string) => ipcRenderer.send("lang", lang),
+  saveImage: (dataUrl: string) => ipcRenderer.invoke("save-image", dataUrl),
+  compute: (on: boolean, anyTime: boolean) => ipcRenderer.send("compute", on, anyTime),
+  computeState: () => ipcRenderer.invoke("compute-state"),
+  onComputeState: (fn: (s: unknown) => void) => ipcRenderer.on("compute-state", (_e, s) => fn(s)),
+  computeReport: (s: unknown) => ipcRenderer.send("compute-report", s),
+  onShare: (fn: () => void) => ipcRenderer.on("share", () => fn()),
+  place: (x: number, y: number) => ipcRenderer.send("place", x, y),
+  setIgnore: (through: boolean) => ipcRenderer.send("set-ignore", through),
+  workArea: () => ipcRenderer.invoke("work-area"),
+  notify: (title: string, body: string) => ipcRenderer.send("notify", title, body),
+  openUrl: (url: string) => ipcRenderer.invoke("open-url", url),
+  autostart: () => ipcRenderer.invoke("autostart-get"),
+  setAutostart: (on: boolean) => ipcRenderer.send("autostart-set", on),
+  onCursor: (fn: (c: { x: number; y: number; inside: boolean }) => void) => ipcRenderer.on("cursor", (_e, c) => fn(c)),
+  onQuiet: (fn: (on: boolean) => void) => ipcRenderer.on("quiet", (_e, on) => fn(on)),
+  onFeed: (fn: () => void) => ipcRenderer.on("feed", () => fn()),
+});

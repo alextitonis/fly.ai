@@ -8,13 +8,9 @@ dataset repo, next to the exported files.
 
 ## Before the first upload
 
-1. Settle the open items in the card:
-   - Add the DOI, volume and pages for Berg et al. (2026).
-   - Paste MaleCNS's own attribution text from https://male-cns.janelia.org/download/ where the
-     `TODO(owner)` comment is, then delete the comment.
-2. Install the CLI: `pip install -U "huggingface_hub[cli]"`.
-3. Log in with a **write** token from https://huggingface.co/settings/tokens: `huggingface-cli login`.
-4. Create the dataset repo. This is a one-time step. The `flyai` organization must exist and you must be able to
+1. Install the CLI: `pip install -U "huggingface_hub[cli]"`.
+2. Log in with a **write** token from https://huggingface.co/settings/tokens: `huggingface-cli login`.
+3. Create the dataset repo. This is a one-time step. The `flyai` organization must exist and you must be able to
    write to it; otherwise use your user name.
 
    ```sh
@@ -69,4 +65,4 @@ Useful options:
 
 To include raw house-order results, pull them first with `npm run pull:house` (see mine/README.md). The export
 then copies `mine/data/house` into `out/house/` (orders and result rows only; bulk outputs are listed in
-`meta.json`).
+`meta.json`). Trading replays (`replay/*`) are never copied. The atlas has its own steps in `ATLAS.md`.

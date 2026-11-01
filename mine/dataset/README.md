@@ -226,11 +226,10 @@ If you use this dataset, cite the fly.ai dataset and the connectome it was simul
 The connectome (as cited by the fly.ai repository):
 
 > Berg, S. et al. (2026). Sexual dimorphism in the complete connectome of the *Drosophila* male central nervous
-> system. *Cell*. Data: [male-cns.janelia.org](https://male-cns.janelia.org)
+> system. *Cell* 189(18), 5504-5526.e15. [doi:10.1016/j.cell.2026.08.015](https://doi.org/10.1016/j.cell.2026.08.015).
+> Data: [male-cns.janelia.org](https://male-cns.janelia.org)
 
-Also follow the [MaleCNS attribution terms](https://male-cns.janelia.org/download/).
-<!-- TODO(owner): add the paper's volume, pages and DOI, and paste MaleCNS's own requested attribution text from
-male-cns.janelia.org/download/ here. The fly.ai repository doesn't record them. -->
+Also follow the [MaleCNS license terms](https://male-cns.janelia.org/download/).
 
 This dataset:
 

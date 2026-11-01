@@ -27,6 +27,7 @@
     "claimable": "Lista para reclamar",
     "progress": "{days} de {need} días",
     "progressPayouts": "{n} de {need} pagos",
+    "progressReferrals": "{n} de {need} referidos",
     "revoked": "Retirada",
     "team": "No para wallets del equipo",
     "closed": "No ganada"
@@ -47,7 +48,9 @@
     "swarm": { "name": "Swarm", "need": "Ten 10+ Trader Flies durante 30 días seguidos." },
     "queen": { "name": "Queen of the Hive", "need": "Ten 50+ Trader Flies durante 30 días seguidos." },
     "payday": { "name": "Payday", "need": "Reclama 4 pagos de Fly Desk." },
-    "payroll": { "name": "On Payroll", "need": "Reclama 8 pagos de Fly Desk." }
+    "payroll": { "name": "On Payroll", "need": "Reclama 8 pagos de Fly Desk." },
+    "recruiter": { "name": "Recruiter", "need": "Trae 1 referido real: $20+ en Fly Wallets durante 7 días, o un pago de Fly Desk." },
+    "piedpiper": { "name": "Pied Piper", "need": "Trae 10 referidos reales." }
   },
   "share": {
     "x": "Compartir en X",

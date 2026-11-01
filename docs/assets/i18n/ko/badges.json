@@ -27,6 +27,7 @@
     "claimable": "받을 수 있음",
     "progress": "{days} / {need}일",
     "progressPayouts": "{n} / {need}회 지급",
+    "progressReferrals": "추천 {n} / {need}명",
     "revoked": "제거됨",
     "team": "팀 지갑 제외",
     "closed": "획득하지 못함"
@@ -47,7 +48,9 @@
     "swarm": { "name": "Swarm", "need": "Trader Fly 10마리 이상을 30일 연속 보유하세요." },
     "queen": { "name": "Queen of the Hive", "need": "Trader Fly 50마리 이상을 30일 연속 보유하세요." },
     "payday": { "name": "Payday", "need": "Fly Desk 지급금을 4번 받으세요." },
-    "payroll": { "name": "On Payroll", "need": "Fly Desk 지급금을 8번 받으세요." }
+    "payroll": { "name": "On Payroll", "need": "Fly Desk 지급금을 8번 받으세요." },
+    "recruiter": { "name": "Recruiter", "need": "실제 추천 1명을 데려오세요: Fly Wallets에 $20 이상을 7일 동안 유지하거나 Fly Desk 지급금 수령." },
+    "piedpiper": { "name": "Pied Piper", "need": "실제 추천 10명을 데려오세요." }
   },
   "share": {
     "x": "X에 공유",

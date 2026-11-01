@@ -49,6 +49,7 @@ import { createBounties } from "./bounties.ts";
 import { blockscoutTransfers, createDeskChat, TEAM as CHAT_TEAM_WALLETS } from "./deskchat.ts";
 import { buyWeekConfig, createBuyWeek } from "./buyweek.ts";
 import { createFlyChat, openRouter } from "./flychat.ts";
+import { createPet, flyOwners } from "./pet.ts";
 import { createHunt } from "./hunt.ts";
 import { badgeConfig, createBadges } from "./badges.ts";
 import { multicall } from "./multicall.ts";
@@ -892,6 +893,7 @@ const EDGE_PATHS: RegExp[] = [
   /^\/api\/partners(\/[a-z][a-z0-9]{1,19}(\/(config|leaderboard|pool|pool\/epochs\/\d{1,5}|token\/\d{1,7}|wallet\/0x[0-9a-fA-F]{40}|holder\/0x[0-9a-fA-F]{40}))?)?$/,
   /^\/api\/ruyui\/(config|leaderboard|pool|pool\/epochs\/\d{1,5})$/,
   /^\/api\/gta$/,                                    // the GTA VI giveaway (src/gta.ts), ?wallet= included in the URL
+  /^\/api\/pet\/(public|wallet\/0x[0-9a-fA-F]{40})$/,   // the desktop pets' polls (src/pet.ts)
   /^\/api\/desk-chat$/,                              // the Fly Desk chat's history (src/deskchat.ts); new rows come by Realtime
   /^\/api\/launchpad(\/markets|\/token\/0x[0-9a-fA-F]{40})?$/,   // Fly Launchpad lists, the /dex listing and token pages (src/launchpad.ts)
 ];
@@ -3410,7 +3412,8 @@ async function computeExperimentsNow(): Promise<void> {
   const ref = reference;
   if (!ref) return;
   const t0 = Date.now();
-  const orders = houseOrders(null).orders.filter((o) => o.label && !o.label.startsWith("mining/"))
+  // (the atlas is 62 orders with no summary of its own: 62 cards with no control, and 18,600 file reads every pass)
+  const orders = houseOrders(null).orders.filter((o) => o.label && !o.label.startsWith("mining/") && !o.label.startsWith("atlas/"))
     .sort((a, b) => a.created_at - b.created_at);
   const outputOf = (row: any): Buffer | null => (row.output?.hash && existsSync(blobPath(row.output.hash)) ? readFileSync(blobPath(row.output.hash)) : null);
   const worldRuns = (id: string) => orderResults(id, 0, SAMPLE.world).rows.map(outputOf).filter(Boolean).map((b) => JSON.parse(b!.toString()) as WorldRun);
@@ -3603,6 +3606,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   }
   if (req.method !== "OPTIONS" && (p === "/api/badges" || p.startsWith("/api/badges/"))) {
     if (await badges.route(req, res, url)) return;
+  }
+  if (req.method !== "OPTIONS" && p.startsWith("/api/pet/")) {
+    if (await pet.route(req, res, url)) return;
   }
   if (req.method !== "OPTIONS" && p.startsWith("/api/flychat/")) {
     if (await flyChat.route(req, res, url)) return;
@@ -3984,6 +3990,13 @@ if (USER) deskChat.start();
 // the fly chat (src/flychat.ts, flytrade/FLYCHAT-PLAN.md): an owner talks to their fly; one cheap model call a message
 // proposes settings / withdrawals / moves / watched tokens as cards the owner approves on the page
 const flyChatKey = process.env.FLYCHAT_OPENROUTER_KEY ?? process.env.OPENROUTER_API_KEY ?? "";
+// the free desktop pet's reads and wallet link (src/pet.ts, flypet/)
+const pet = createPet({
+  pg, HttpError, send, readJson, sessionWallet: sessionAddress,
+  price: async () => (await flyaiPrice()).usd,
+  sweepOwners: flyOwners(env("VAULT_RPC", CLAIMS.rpc), vaults.CFG.traderFly),
+  site: env("SITE_ORIGIN", "https://www.flyaiworld.com"),
+});
 const flyChat = createFlyChat({
   pg, HttpError, send, readJson, sessionWallet: sessionAddress,
   flyView: (fly) => vaults.flyView(fly), flyLog: (fly) => vaults.flyLog(fly),

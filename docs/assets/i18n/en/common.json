@@ -283,6 +283,7 @@
     "stakedNote": "+ {amount} staked{usd}"
   },
   "soulbound": {
+    "progressReferrals": "{n} of {need} referrals",
     "holders": "Holders: {n}",
     "common": "Common",
     "uncommon": "Uncommon",

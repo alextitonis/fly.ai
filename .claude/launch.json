@@ -63,6 +63,24 @@
         "set DOCS_URL=http://127.0.0.1:8090&& set VITE_BASE=/traderflies/&& cd flytrade\\web && npx vite --port 5173 --strictPort"
       ],
       "port": 5173
+    },
+    {
+      "name": "flypet",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "set VITE_FLYPET_API=http://127.0.0.1:8799&& cd /d C:\\Users\\artif\\OneDrive\\Desktop\\fly\\flypet && npx vite --port 1420 --strictPort"
+      ],
+      "port": 1420
+    },
+    {
+      "name": "flypet-built",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "cd /d C:\\Users\\artif\\OneDrive\\Desktop\\fly\\flypet && npx vite preview --port 1421 --strictPort"
+      ],
+      "port": 1421
     }
   ]
 }

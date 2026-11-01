@@ -138,6 +138,15 @@ try {
     send: (_r, status, body) => { sent.push({ status, body }); }, sessionWallet: async () => session });
   const states = async (w: string) => Object.fromEntries((await badges.standing(w)).badges.map((b) => [b.key, b.state]));
 
+  // real referrals: REF1 has 1, REF10 has 10, REF0 has 3 that never qualified, a team wallet has 1
+  const REF1 = addr(0xd1), REF10 = addr(0xd2), REF0 = addr(0xd3);
+  const refer = (wallet: string, referrer: string, real: boolean) => pg.run(`insert into mine.referrals (wallet, referrer, via, qualified_at) values (?, ?, 'link', ?)`,
+    wallet, referrer, real ? new Date(timeAt(head)).toISOString() : null);
+  await refer(addr(0xd100), REF1, true);
+  for (let i = 0; i < 10; i++) await refer(addr(0xd200 + i), REF10, true);
+  for (let i = 0; i < 3; i++) await refer(addr(0xd300 + i), REF0, false);
+  await refer(addr(0xd400), DEV, true);
+
   await badges.tick();
   const balance = async (w: string) => BigInt((await pg.one<{ balance: string }>("select balance from mine.badge_holders where wallet = ?", w))?.balance ?? "0") / E18;
 
@@ -171,6 +180,15 @@ try {
   check("3 payouts claimed: not yet", s.payday === "working", JSON.stringify(s));
   const pay = (await badges.standing(P3)).badges.find((b) => b.key === "payday")!.progress as { payouts: number; need: number };
   check("payout progress counts payouts", pay.payouts === 3 && pay.need === 4, JSON.stringify(pay));
+  s = await states(REF1);
+  check("1 real referral: recruiter, not pied piper", s.recruiter === "claimable" && s.piedpiper === "working", JSON.stringify(s));
+  s = await states(REF10);
+  check("10 real referrals: both", s.recruiter === "claimable" && s.piedpiper === "claimable", JSON.stringify(s));
+  s = await states(REF0);
+  check("referrals that never qualified don't count", s.recruiter === "working", JSON.stringify(s));
+  const refs = (await badges.standing(REF1)).badges.find((b) => b.key === "piedpiper")!.progress as { referrals: number; need: number };
+  check("referral progress counts real referrals", refs.referrals === 1 && refs.need === 10, JSON.stringify(refs));
+  check("team wallets can't claim referral badges", (await states(DEV)).recruiter === "team");
   await pg.run("insert into mine.profiles (wallet, nickname, updated_at_ms) values (?, 'first', 1)", R3);
   const lb: any = await badges.leaderboard(R1);
   check("leaderboard: most badges first, then who got there first", lb.rows.map((r: any) => r.wallet).join() === [R3, R2, R1].join(), JSON.stringify(lb.rows.map((r: any) => [r.rank, r.badges])));
@@ -215,7 +233,7 @@ try {
   check("a claimed badge shows as held", s.larva === "held", JSON.stringify(s));
 
   await badges.route({ method: "GET", headers: {} } as any, res, new URL("http://x/api/badges"));
-  check("the public view has all nine and their claim counts", sent.at(-1)!.body.badges.length === 9 && sent.at(-1)!.body.badges[0].claimed === 7);
+  check("the public view has all eleven and their claim counts", sent.at(-1)!.body.badges.length === 11 && sent.at(-1)!.body.badges[0].claimed === 7);
 
   const off = createBadges({ pg, chain, cfg: badgeConfig({}), HttpError, send: (_r, status, body) => { sent.push({ status, body }); }, sessionWallet: async () => session });
   await off.route({ method: "GET", headers: {} } as any, res, new URL("http://x/api/badges/me"));

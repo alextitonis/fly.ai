@@ -283,6 +283,7 @@
     "stakedNote": "+ {amount} 스테이킹됨{usd}"
   },
   "soulbound": {
+    "progressReferrals": "추천 {n} / {need}명",
     "holders": "보유자 {n}명",
     "common": "일반",
     "uncommon": "고급",

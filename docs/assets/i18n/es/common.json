@@ -283,6 +283,7 @@
     "stakedNote": "+ {amount} en stake{usd}"
   },
   "soulbound": {
+    "progressReferrals": "{n} de {need} referidos",
     "holders": "Poseedores: {n}",
     "common": "Común",
     "uncommon": "Poco común",

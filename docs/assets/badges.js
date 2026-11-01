@@ -7,7 +7,7 @@ const API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearc
 const ACCOUNT_JS = "/compute/mine/web/account.js";
 const EXPLORER = "https://robinhoodchain.blockscout.com/token/";
 const SESSION_KEY = "flyai.compute.session";
-const IDS = { larva: 1, lord: 2, diamond: 3, og: 4, flyowner: 5, swarm: 6, queen: 7, payday: 8, payroll: 9 };
+const IDS = { larva: 1, lord: 2, diamond: 3, og: 4, flyowner: 5, swarm: 6, queen: 7, payday: 8, payroll: 9, recruiter: 10, piedpiper: 11 };
 const KEYS = Object.keys(IDS);
 if (!window.flyI18n) await new Promise((r) => { addEventListener("i18n:ready", r, { once: true }); setTimeout(r, 3000); });
 
@@ -41,6 +41,7 @@ const SHARE = {
   diamond: ["Diamond Wings", "Held 100,000+ $FLYAI for 90 days straight."], og: ["OG", "In $FLYAI since its first 14 days, and still holding."],
   flyowner: ["Fly Owner", "Held a Trader Fly for 30 days."], swarm: ["Swarm", "Held 10+ Trader Flies for 30 days straight."],
   queen: ["Queen of the Hive", "Held 50+ Trader Flies for 30 days straight."], payday: ["Payday", "Claimed 4 Fly Desk payouts."], payroll: ["On Payroll", "Claimed 8 Fly Desk payouts."],
+  recruiter: ["Recruiter", "Brought 1 real referral to fly.ai."], piedpiper: ["Pied Piper", "Brought 10 real referrals to fly.ai."],
 };
 const shareUrl = (key) => `https://x.com/intent/post?text=${encodeURIComponent(
   `I earned the ${SHARE[key][0]} badge on @flydotai.\n\n${SHARE[key][1]} Soulbound, so it stays with my wallet.\n\nhttps://flyaiworld.com/badges`)}`;
@@ -105,8 +106,9 @@ const rarity = (n, total) => {
 function card(key, mine, claimed, total) {
   const state = mine?.state;
   const p = mine?.progress;
-  const done = p ? p.days ?? p.payouts : 0;
+  const done = p ? p.days ?? p.payouts ?? p.referrals : 0;
   const line = !mine ? "" : state !== "working" || !p ? t(`badges.state.${state}`)
+    : p.referrals !== undefined ? t("badges.state.progressReferrals", { n: Math.min(done, p.need), need: p.need })
     : p.payouts !== undefined ? t("badges.state.progressPayouts", { n: Math.min(done, p.need), need: p.need })
     : t("badges.state.progress", { days: Math.min(done, p.need), need: p.need });
   return el("article", { class: `card badge-card${state === "held" || state === "claimable" || !mine ? "" : " dim"}` },

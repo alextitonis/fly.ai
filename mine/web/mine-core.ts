@@ -346,7 +346,10 @@ export class Miner {
   /** Start a worker and wait for it to load the connectome. */
   private spawn(kind: "gpu" | "cpu", index: number, fixed: Fixed, size: number, gen: number): Promise<Lane> {
     const h = this.hooks;
-    const worker = new Worker(new URL(kind === "gpu" ? "./gpu.worker.ts" : "./miner.worker.ts", import.meta.url), { type: "module" });
+    // one literal URL each: the desktop pet's bundler (flypet/) finds workers by this exact shape
+    const worker = kind === "gpu"
+      ? new Worker(new URL("./gpu.worker.ts", import.meta.url), { type: "module" })
+      : new Worker(new URL("./miner.worker.ts", import.meta.url), { type: "module" });
     if (gen !== this.generation) worker.terminate();
     let seq = 0;
     const callProbe = (kind: "probe" | "fight" | "replay" | "replayb", params: Record<string, unknown>): Promise<any> => new Promise((resolve, reject) => {

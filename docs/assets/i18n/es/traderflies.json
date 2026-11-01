@@ -2278,5 +2278,13 @@
       "pending": ""
     }
   },
-  "stakedNote": "+ {amount} en stake{usd}"
+  "stakedNote": "+ {amount} en stake{usd}",
+  "petlink": {
+    "title": "Conecta tu Fly Pet",
+    "body": "Inicia sesión y aprueba para que la mascota siga a tus moscas. Solo recibe tu dirección pública: no puede mover dinero y nunca necesita una clave ni una frase semilla.",
+    "approve": "Conectar esta cartera",
+    "done": "¡Conectado! Vuelve con tu mosca.",
+    "noCode": "Abre esta página desde Conectar cartera en la app Fly Pet.",
+    "failed": "No se pudo conectar. Inténtalo de nuevo."
+  }
 }

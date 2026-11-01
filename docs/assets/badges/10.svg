@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Recruiter badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#0b1218" stroke="#7fb2ff" stroke-width="10"/>
+  <path d="M200 256h112" fill="none" stroke="#7fb2ff" stroke-width="10" stroke-dasharray="14 12" stroke-linecap="round"/>
+  <g fill="#7fb2ff" fill-opacity=".8">
+    <ellipse cx="128" cy="232" rx="50" ry="20" transform="rotate(-24 128 232)"/>
+    <ellipse cx="218" cy="232" rx="50" ry="20" transform="rotate(24 218 232)"/>
+  </g>
+  <ellipse cx="173" cy="272" rx="26" ry="46" fill="#fff"/>
+  <circle cx="173" cy="214" r="24" fill="#fff"/>
+  <circle cx="161" cy="210" r="9" fill="#e5484d"/>
+  <circle cx="185" cy="210" r="9" fill="#e5484d"/>
+  <g fill="#7fb2ff" fill-opacity=".5">
+    <ellipse cx="310" cy="238" rx="40" ry="16" transform="rotate(-24 310 238)"/>
+    <ellipse cx="382" cy="238" rx="40" ry="16" transform="rotate(24 382 238)"/>
+  </g>
+  <ellipse cx="346" cy="270" rx="21" ry="37" fill="#cfe0ff"/>
+  <circle cx="346" cy="224" r="19" fill="#cfe0ff"/>
+  <circle cx="336" cy="221" r="7" fill="#e5484d"/>
+  <circle cx="356" cy="221" r="7" fill="#e5484d"/>
+</svg>

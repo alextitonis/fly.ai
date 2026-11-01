@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Pied Piper badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#160f08" stroke="#ffb35c" stroke-width="10"/>
+  <g transform="rotate(-32 256 256)">
+    <rect x="96" y="238" width="320" height="36" rx="18" fill="#ffb35c"/>
+    <g fill="#160f08">
+      <circle cx="176" cy="256" r="8"/><circle cx="226" cy="256" r="8"/><circle cx="276" cy="256" r="8"/><circle cx="326" cy="256" r="8"/>
+    </g>
+  </g>
+  <g fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round">
+    <path d="M330 118c18 8 18 28 0 36"/>
+    <path d="M366 138c14 6 14 22 0 28"/>
+  </g>
+  <g fill="#fff">
+    <circle cx="170" cy="150" r="12"/><circle cx="118" cy="210" r="10"/><circle cx="346" cy="330" r="12"/><circle cx="292" cy="384" r="10"/><circle cx="214" cy="372" r="8"/>
+  </g>
+  <g fill="#ffb35c" fill-opacity=".65">
+    <ellipse cx="156" cy="146" rx="16" ry="6" transform="rotate(-24 156 146)"/><ellipse cx="184" cy="146" rx="16" ry="6" transform="rotate(24 184 146)"/>
+    <ellipse cx="106" cy="206" rx="14" ry="5" transform="rotate(-24 106 206)"/><ellipse cx="130" cy="206" rx="14" ry="5" transform="rotate(24 130 206)"/>
+    <ellipse cx="332" cy="326" rx="16" ry="6" transform="rotate(-24 332 326)"/><ellipse cx="360" cy="326" rx="16" ry="6" transform="rotate(24 360 326)"/>
+    <ellipse cx="280" cy="380" rx="14" ry="5" transform="rotate(-24 280 380)"/><ellipse cx="304" cy="380" rx="14" ry="5" transform="rotate(24 304 380)"/>
+    <ellipse cx="204" cy="369" rx="12" ry="4" transform="rotate(-24 204 369)"/><ellipse cx="224" cy="369" rx="12" ry="4" transform="rotate(24 224 369)"/>
+  </g>
+</svg>

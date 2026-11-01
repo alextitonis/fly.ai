@@ -21,6 +21,8 @@ export interface ChainInfo { chain_id: number; chain_name: string; rpc: string; 
 let config: ReturnType<typeof createConfig> | null = null;
 /** the main chain ($FLYAI); others (USDC on Base) are passed by id */
 let chain: ReturnType<typeof defineChain>;
+let reconnected: Promise<unknown> = Promise.resolve();
+const RECONNECT_WAIT_MS = 10_000;
 
 const toChain = (c: ChainInfo) => defineChain({
   id: c.chain_id,
@@ -50,7 +52,8 @@ export async function setup(opts: { chain: ChainInfo; others?: ChainInfo[]; wall
   });
   // reconnect asks each wallet in turn and waits for its answer, and a broken extension never answers (two wallet
   // extensions wrapping each other's window.ethereum recurse forever). Don't let that hold up the page.
-  await Promise.race([reconnect(config).catch(() => {}), new Promise((r) => setTimeout(r, 2500))]);
+  reconnected = reconnect(config).catch(() => {});
+  await Promise.race([reconnected, new Promise((r) => setTimeout(r, 2500))]);
 }
 
 const cfg = () => {
@@ -157,8 +160,24 @@ export async function sign(message: string): Promise<string> {
   return signMessage(cfg(), { message });
 }
 
+/**
+ * Until reconnect has reached a saved wallet, its connection holds only what localStorage kept (no getChainId), and
+ * sending throws "connector.getChainId is not a function" (11-01, buyers clicking soon after a page load). Wait for it.
+ */
+async function liveWallet(): Promise<void> {
+  const isLive = () => {
+    const { current, connections } = cfg().state;
+    const c = current ? connections.get(current) : undefined;
+    return !c || typeof c.connector.getChainId === "function";
+  };
+  if (isLive()) return;
+  await Promise.race([reconnected, new Promise((r) => setTimeout(r, RECONNECT_WAIT_MS))]);
+  if (!isLive()) throw new Error("Your wallet hasn't reconnected yet. Unlock it, reload the page and try again.");
+}
+
 /** The wallet on `chainId` (switching it there, adding the chain if it must). */
 async function onChain(chainId: number): Promise<void> {
+  await liveWallet();
   if (connection()?.chainId !== chainId) await switchChain(cfg(), { chainId: chainId as never });
 }
 

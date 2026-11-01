@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:* http://localhost:* http://127.0.0.1:* https://www.flyaiworld.com https://flyai-mine.fly.dev" />
+    <title>Fly Pet</title>
+    <style>
+      :root { color-scheme: dark; --bg: #0b0b0b; --line: #2a2a2a; --mute: #9a9a9a; --mint: #7cf5c4; }
+      body { margin: 0; padding: 20px; background: var(--bg); color: #fff; font: 14px/1.45 "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; }
+      h1 { margin: 0 0 16px; font-size: 20px; }
+      section { padding: 14px 0; border-top: 1px solid var(--line); }
+      h2 { margin: 0 0 8px; font-size: 13px; color: var(--mute); font-weight: 600; }
+      label.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 5px 0; }
+      select { padding: 7px 10px; background: #161616; color: #fff; border: 1px solid var(--line); border-radius: 8px; font: inherit; }
+      .hint { color: var(--mute); font-size: 12px; }
+      input[type=text], input[type=number] { box-sizing: border-box; padding: 7px 10px; background: #161616; color: #fff; border: 1px solid var(--line); border-radius: 8px; font: inherit; }
+      #name { width: 100%; }
+      #minUsd { width: 80px; }
+      button { padding: 8px 16px; border: 0; border-radius: 999px; background: var(--mint); color: #06140e; font: 600 14px inherit; cursor: pointer; }
+      button.plain { background: #1c1c1c; color: #fff; }
+      button:disabled { opacity: .55; cursor: default; }
+      .note { color: var(--mute); font-size: 12px; margin: 8px 0 0; }
+      .error { color: #ff8d8d; }
+      #flies label { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; }
+      .up { color: var(--mint); } .down { color: #ff8d8d; }
+    </style>
+  </head>
+  <body>
+    <h1 id="title">Fly Pet</h1>
+    <section>
+      <h2 data-t="set.name"></h2>
+      <input id="name" type="text" maxlength="24" />
+      <p class="note" id="days"></p>
+    </section>
+    <section>
+      <h2 data-t="set.flies"></h2>
+      <div id="out">
+        <button id="connect" data-t="set.connect"></button>
+        <p class="note" id="connectNote"></p>
+      </div>
+      <div id="in" hidden>
+        <p style="margin:0 0 6px" id="who"></p>
+        <div id="flies"></div>
+        <p class="note" id="noFlies" hidden></p>
+        <p style="margin:10px 0 0"><button class="plain" id="disconnect" data-t="set.disconnect"></button></p>
+      </div>
+    </section>
+    <section id="shareSection">
+      <h2 data-t="set.share"></h2>
+      <canvas id="card" style="display:block;width:100%;border-radius:10px;border:1px solid var(--line)"></canvas>
+      <p style="margin:10px 0 0;display:flex;flex-wrap:wrap;gap:8px">
+        <button id="post" data-t="set.post"></button>
+        <button class="plain" id="copy" data-t="set.copy"></button>
+        <button class="plain" id="saveCard" data-t="set.save"></button>
+      </p>
+      <p class="note" id="shareNote" hidden></p>
+    </section>
+    <section>
+      <h2 data-t="set.alerts"></h2>
+      <label class="row"><span data-t="set.bubbles"></span> <input id="bubbles" type="checkbox" /></label>
+      <label class="row"><span data-t="set.notifications"></span> <input id="notifications" type="checkbox" /></label>
+      <label class="row"><span data-t="set.minUsd"></span> <input id="minUsd" type="number" min="0" step="1" /></label>
+    </section>
+    <section>
+      <h2 data-t="set.mine"></h2>
+      <label class="row"><span data-t="set.mineOn"></span> <input id="mineOn" type="checkbox" /></label>
+      <label class="row" id="mineAnyRow" hidden><span data-t="set.mineAnyTime"></span> <input id="mineAnyTime" type="checkbox" /></label>
+      <p class="note" data-t="set.mineNote"></p>
+      <div id="mineBox" hidden>
+        <p class="note" id="mineStatus"></p>
+        <p class="note" id="mineWallet"></p>
+        <p style="margin:8px 0 0"><button class="plain" id="mineLink" data-t="set.mineLink"></button></p>
+      </div>
+    </section>
+    <section>
+      <h2 data-t="set.app"></h2>
+      <label class="row"><span data-t="set.language"></span> <select id="lang"></select></label>
+      <label class="row" id="autostartRow"><span data-t="set.autostart"></span> <input id="autostart" type="checkbox" /></label>
+      <p style="margin:10px 0 0"><button class="plain" id="quit" data-t="set.close"></button></p>
+    </section>
+    <script type="module" src="/src/settings.ts"></script>
+  </body>
+</html>

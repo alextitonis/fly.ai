@@ -27,6 +27,7 @@
     "claimable": "Almaya hazır",
     "progress": "{days} / {need} gün",
     "progressPayouts": "{n} / {need} ödeme",
+    "progressReferrals": "{n} / {need} referans",
     "revoked": "Kaldırıldı",
     "team": "Ekip cüzdanları için değil",
     "closed": "Kazanılmadı"
@@ -47,7 +48,9 @@
     "swarm": { "name": "Swarm", "need": "30 gün boyunca kesintisiz 10+ Trader Fly tut." },
     "queen": { "name": "Queen of the Hive", "need": "30 gün boyunca kesintisiz 50+ Trader Fly tut." },
     "payday": { "name": "Payday", "need": "4 Fly Desk ödemesi al." },
-    "payroll": { "name": "On Payroll", "need": "8 Fly Desk ödemesi al." }
+    "payroll": { "name": "On Payroll", "need": "8 Fly Desk ödemesi al." },
+    "recruiter": { "name": "Recruiter", "need": "1 gerçek referans getir: 7 gün boyunca Fly Wallets'ta $20+ veya bir Fly Desk ödemesi." },
+    "piedpiper": { "name": "Pied Piper", "need": "10 gerçek referans getir." }
   },
   "share": {
     "x": "X'te paylaş",

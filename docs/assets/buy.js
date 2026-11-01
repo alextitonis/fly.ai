@@ -59,7 +59,7 @@
     USDG: { address: "0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168", decimals: 6 },
     ETH: { address: "0x0000000000000000000000000000000000000000", decimals: 18 },
     // $FLYAI's main pair (Pons' FLYAI/NVDA pool): buying only, through the direct route (Relay has no NVDA)
-    NVDA: { address: "0xd0601ce157dB5bDc3162BBAc2A2c8Af5320d9eEC", decimals: 18 },
+    NVDA: { address: "0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC", decimals: 18 },
   };
   const FLY = { address: FLYAI, decimals: 18 };
   const DIRECT_ONLY = ["NVDA"];

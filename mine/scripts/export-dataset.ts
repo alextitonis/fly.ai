@@ -3,7 +3,7 @@
  * Reads only public endpoints and local files; never writes to the server.
  *
  *   node --experimental-strip-types mine/scripts/export-dataset.ts [--server https://flyai-mine.fly.dev]
- *        [--out mine/dataset/out] [--wait 900] [--no-runs]
+ *        [--out mine/dataset/out] [--house mine/data/house] [--wait 900] [--no-runs]
  *
  * Writes <out>/:
  *   screen.csv             GET /api/results: one row per screen condition x motor group (mean over seeds)
@@ -12,7 +12,8 @@
  *   experiments.csv        one row per house order summary; experiment_tables.csv holds their small tables, long
  *   meta.json              export time, fleet counts (GET /api/stats), engine constants (GET /api/model), neuron
  *                          parameters and sha256 of the local connectome files, row counts and sizes, any errors
- *   house/                 local pulls from scripts/pull-house.ts (mine/data/house), only if present
+ *   house/                 local pulls from scripts/pull-house.ts (mine/data/house), only if present; never replay/*
+ *   atlas.csv.gz           the sensory -> descending neuron atlas (scripts/atlas.ts), only once pulled
  *
  * /api/results is worked out in the background on the server and answers `computing: true` until it's ready;
  * this waits up to --wait seconds for it. If an endpoint fails, the rest is still written, meta.json lists the
@@ -26,6 +27,7 @@ import { fileURLToPath } from "node:url";
 import { gunzipSync } from "node:zlib";
 import { cells, cellsWithPrefix, parseMeta } from "../../world/src/connectome.ts";
 import { CHANNELS } from "../src/model.ts";
+import { atlasInputs, foldAtlas } from "./atlas.ts";
 
 const arg = (name: string, fallback: string) => {
   const i = process.argv.indexOf(`--${name}`);
@@ -37,7 +39,9 @@ const WAIT_S = Number(arg("wait", "900"));
 const RUNS = !process.argv.includes("--no-runs");
 const REPO = fileURLToPath(new URL("../../", import.meta.url));
 const CONNECTOME = join(REPO, "world/public/connectome");
-const HOUSE = fileURLToPath(new URL("../data/house/", import.meta.url));
+const HOUSE = arg("house", fileURLToPath(new URL("../data/house/", import.meta.url)));
+/** Local pulls that stay out of the dataset: the trading replays are ours, not brain research. */
+const PRIVATE_HOUSE = /^replay\//;
 
 const errors: { what: string; error: string }[] = [];
 const fail = (what: string, err: unknown) => {
@@ -222,6 +226,7 @@ if (existsSync(HOUSE)) {
   const skipped = new Map<string, { files: number; bytes: number }>();
   for (const f of all) {
     const rel = relative(HOUSE, f).replace(/\\/g, "/");
+    if (PRIVATE_HOUSE.test(rel)) continue;
     const bytes = statSync(f).size;
     if (/\/outputs\//.test(rel) && !rel.endsWith("/layout.json")) {
       const key = rel.slice(0, rel.indexOf("/outputs/") + 8);
@@ -244,6 +249,19 @@ if (existsSync(HOUSE)) {
 } else {
   console.log("  house: no local pulls (mine/data/house), skipped");
 }
+
+// ---- the atlas: a local pull folded into one table, only if pulled -----------------------------------------------
+let atlas: Record<string, unknown> | null = null;
+try {
+  const raw = readFileSync(join(CONNECTOME, "meta.bin"));
+  const buf = raw[0] === 0x1f && raw[1] === 0x8b ? gunzipSync(raw) : raw;
+  const inputs = atlasInputs(parseMeta(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer));
+  atlas = await foldAtlas(HOUSE, join(OUT, "atlas.csv.gz"), inputs);
+  if (atlas) {
+    files["atlas.csv.gz"] = { bytes: statSync(join(OUT, "atlas.csv.gz")).size, rows: atlas.rows as number };
+    console.log(`  atlas.csv.gz: ${atlas.conditions} conditions, ${atlas.rows} rows`);
+  }
+} catch (err) { fail("atlas", err); }
 
 // ---- connectome provenance (local files, the same ones the server and miners load) ----------------------------
 let connectome: Record<string, unknown> | null = null;
@@ -295,6 +313,7 @@ writeJson("meta.json", {
   },
   connectome,
   house,
+  atlas,
 });
 
 console.log(`\nwrote ${Object.keys(files).length} files to ${OUT}`);

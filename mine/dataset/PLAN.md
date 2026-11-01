@@ -1,7 +1,7 @@
 # Plan: publish the connectome screen as an open dataset
 
-Status 2026-10-26: plan only, nothing built. The export script, dataset card (README.md) and owner steps (PUBLISH.md)
-already exist from 10-01. That first export never shipped, because `screen.csv` was missing.
+Status 2026-11-01: v1 exported locally, not uploaded. Atlas built, not deployed or started; the steps are in ATLAS.md.
+Its real size is 676 types, 62 orders, 39,490 jobs, and a job pays 8 points, not 7.5.
 
 ## Where things stand
 
@@ -62,7 +62,7 @@ descending neuron.
   8 KB.
 - **Size:** ~680 × 2 sides × 3 amounts × 10 seeds ≈ 41k jobs + controls ≈ 330 MB of blobs (store cap 2,000 MB).
   That is about a day of the fleet's CPU lanes.
-- **Pull it within 14 days** (blob TTL). `pull-house` is sequential, ~1 h for 41k jobs. Then add `atlas.csv`
+- **Pull it** (house outputs are kept for good, no 14-day limit). `pull-house` is sequential, ~1 h for 41k jobs. Then add `atlas.csv`
   (type × side × amount × DN type: rest/driven Hz, mean ± sd over seeds) to the export and the card as a new
   config.
 - **Why it's useful:** no public whole-CNS sensory → DN map exists for the male CNS. It's what the Flybook

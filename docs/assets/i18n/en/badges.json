@@ -27,6 +27,7 @@
     "claimable": "Ready to claim",
     "progress": "{days} of {need} days",
     "progressPayouts": "{n} of {need} payouts",
+    "progressReferrals": "{n} of {need} referrals",
     "revoked": "Removed",
     "team": "Not for team wallets",
     "closed": "Not earned"
@@ -47,7 +48,9 @@
     "swarm": { "name": "Swarm", "need": "Hold 10+ Trader Flies for 30 days straight." },
     "queen": { "name": "Queen of the Hive", "need": "Hold 50+ Trader Flies for 30 days straight." },
     "payday": { "name": "Payday", "need": "Claim 4 Fly Desk payouts." },
-    "payroll": { "name": "On Payroll", "need": "Claim 8 Fly Desk payouts." }
+    "payroll": { "name": "On Payroll", "need": "Claim 8 Fly Desk payouts." },
+    "recruiter": { "name": "Recruiter", "need": "Bring 1 real referral: $20+ in Fly Wallets for 7 days, or a Fly Desk payout." },
+    "piedpiper": { "name": "Pied Piper", "need": "Bring 10 real referrals." }
   },
   "share": {
     "x": "Share on X",

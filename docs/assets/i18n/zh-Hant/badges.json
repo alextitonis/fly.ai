@@ -27,6 +27,7 @@
     "claimable": "可領取",
     "progress": "{days} / {need} 天",
     "progressPayouts": "{n} / {need} 次分紅",
+    "progressReferrals": "{n} / {need} 位推薦",
     "revoked": "已移除",
     "team": "不適用於團隊錢包",
     "closed": "未獲得"
@@ -47,7 +48,9 @@
     "swarm": { "name": "Swarm", "need": "連續 30 天持有 10 隻以上 Trader Fly。" },
     "queen": { "name": "Queen of the Hive", "need": "連續 30 天持有 50 隻以上 Trader Fly。" },
     "payday": { "name": "Payday", "need": "領取 4 次 Fly Desk 分紅。" },
-    "payroll": { "name": "On Payroll", "need": "領取 8 次 Fly Desk 分紅。" }
+    "payroll": { "name": "On Payroll", "need": "領取 8 次 Fly Desk 分紅。" },
+    "recruiter": { "name": "Recruiter", "need": "帶來 1 位真實推薦:在 Fly Wallets 持有 $20 以上達 7 天,或獲得一次 Fly Desk 分紅。" },
+    "piedpiper": { "name": "Pied Piper", "need": "帶來 10 位真實推薦。" }
   },
   "share": {
     "x": "分享到 X",

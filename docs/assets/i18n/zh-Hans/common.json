@@ -283,6 +283,7 @@
     "stakedNote": "+ {amount} 已质押{usd}"
   },
   "soulbound": {
+    "progressReferrals": "{n} / {need} 位推荐",
     "holders": "{n} 位持有者",
     "common": "普通",
     "uncommon": "少见",

@@ -2276,5 +2276,13 @@
       "pending": ""
     }
   },
-  "stakedNote": "+ {amount} 已质押{usd}"
+  "stakedNote": "+ {amount} 已质押{usd}",
+  "petlink": {
+    "title": "连接你的 Fly Pet",
+    "body": "登录并批准后，宠物就能关注你的苍蝇。它只会获得你的公开地址：无法转移资金，也绝不需要私钥或助记词。",
+    "approve": "连接此钱包",
+    "done": "已连接！回去看看你的苍蝇吧。",
+    "noCode": "请从 Fly Pet 应用中的“连接钱包”打开此页面。",
+    "failed": "连接失败，请重试。"
+  }
 }

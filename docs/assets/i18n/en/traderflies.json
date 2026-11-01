@@ -2278,5 +2278,13 @@
       "pending": ""
     }
   },
-  "stakedNote": "+ {amount} staked{usd}"
+  "stakedNote": "+ {amount} staked{usd}",
+  "petlink": {
+    "title": "Connect your Fly Pet",
+    "body": "Sign in and approve to let the pet follow your flies. It only gets your public address: it can't move money, and it never needs a key or seed phrase.",
+    "approve": "Connect this wallet",
+    "done": "Connected! Go back to your fly.",
+    "noCode": "Open this page from Connect wallet in the Fly Pet app.",
+    "failed": "Couldn't connect. Try again."
+  }
 }

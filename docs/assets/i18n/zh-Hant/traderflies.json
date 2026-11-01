@@ -2276,5 +2276,13 @@
       "pending": ""
     }
   },
-  "stakedNote": "+ {amount} 已質押{usd}"
+  "stakedNote": "+ {amount} 已質押{usd}",
+  "petlink": {
+    "title": "連接你的 Fly Pet",
+    "body": "登入並核准後，寵物就能關注你的蒼蠅。它只會取得你的公開地址：無法轉移資金，也絕不需要私鑰或助記詞。",
+    "approve": "連接此錢包",
+    "done": "已連接！回去看看你的蒼蠅吧。",
+    "noCode": "請從 Fly Pet 應用程式中的「連接錢包」開啟此頁面。",
+    "failed": "連接失敗，請重試。"
+  }
 }
