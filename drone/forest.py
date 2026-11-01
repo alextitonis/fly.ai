@@ -6,7 +6,7 @@
     python drone/forest.py score --folder test --first-seed 9311
 
 The world: 16 x 16 m of birch trees, pale trunks so eyes.py's obstacle step works unchanged, with a fire that flickers and throws dark smoke, somewhere at least 8 m
-from the start. Each seed places everything.
+from the start. Each seed places everything. The drone has two forward cameras, angled 45 degrees out.
 
 What's ours and what's the connectome's:
   ours    the patrol route, walked by dead reckoning from the drone's own commands (no GPS, so it drifts), and passed to LC10a as a bearing, the way predict.py passes a guess

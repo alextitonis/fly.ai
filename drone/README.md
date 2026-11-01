@@ -41,6 +41,7 @@ the machine gets slow.
 | `python drone/hear.py --seed 5051` | Sound on the bench: which ear channels drive what | about 12 min |
 | `python drone/chirp.py fly --mode sound --seed 8951` / `codes --seed 9101` / `score` | Sound in flight (`--mode sound\|silent\|mirror`, `--rewire`, `--noise`), pulsed chirps on the bench, score the flight test | flight run 1-3 min, bench about 20 min |
 | `python drone/fire.py clips --seed 9201` / `--dry` | Fire on real footage in `runs/clips/forest/`, with no colour step. Missed, see Results | about 10 min |
+| `python drone/forest.py picture --seed 9301` / `fly --seed 9301` / `score` | The 3D forest with a fire: stills, one patrol (`--out clip.mp4`, `--rewire`, `--no-fire`, `--decoys`, `--cameras`), score the test. Not tested yet, see Results | flight up to about 6 min |
 | `python drone/readout_checks.py` | World-Sim's readout checks (after `gestures.py measure`) | about 10 min |
 | `python drone/planner.py ...` | World-Sim's planner against the fly. Failed its rule, see Results | see below |
 
@@ -106,6 +107,7 @@ safety system: it can lose its target, or pick the wrong one, at any time.
 | `novel.py`, `predict.py`, `avoid.py` | New colours, one camera with prediction, obstacles. |
 | `hear.py`, `chirp.py` | Sound on the bench; sound in flight and pulsed chirps. |
 | `fire.py` | Fire on real footage through the motion route. |
+| `forest.py` | A 3D forest with a fire, and a patrol through it with no outside connection. |
 | `planner.py`, `readout_checks.py` | The ideas from [World-Sim](https://github.com/alextitonis/ai-model). |
 
 ## How the brain flies it
@@ -286,6 +288,14 @@ This goes against `flytalk.py`, which found the listener ignores timing. Limits:
 | Tricky clips | at most 3 of 8 called fire | 6 of 8 | Miss |
 
 The same readout with no neurons in between scored 0.54, so the motion model itself carries little here. Looked at afterwards, so not a result: ground-level flames against not-fire score brain 0.72, colour 0.70, picture change 0.74, so the brain adds nothing to plain change, while smoke (0.49) and aerial fire (0.29) get nothing. Fire colour alone can't separate flames from autumn leaves: 0.35, leaves have more of it. About 50 clips, with fire and no-fire footage from different cameras and places, also limits this.
+
+### 3D forest patrol: built, not tested (2026-11-01)
+
+`forest.py`: 16 x 16 m of birch trees and a flickering fire with smoke, placed by the seed. The drone walks a route by dead reckoning from its own commands, with no GPS, and has two forward cameras angled 45 degrees out. Rules are at the top of `forest.py`, on seeds 9311-9318 with scrambled wiring as the control, and none of them has been run, so there is no result yet.
+
+Development flights only, seeds 9301-9304: an earlier setup found the fire on all 4 but crashed about 1.25 times a minute against a limit of 0.5, and the first two-camera runs about 1.6. Most head-on hits came from a bug in the world, now fixed: the camera's near cut grows with the size of the world, which hid any trunk closer than about 0.5 m. Since the fix only seed 9303 has flown, with no crashes, but it had none before the fix either, so whether the fix lowers crashes is still open.
+
+What's ours: the route, stopping at the fire, and finding the fire, which for now is only flame-coloured pixels. Autumn-leaf decoys stay off until a real detection step exists, so this flight says nothing about telling fire from not-fire. The turns are the connectome's. Trunks are pale, glow slightly and are all one width, which real trees aren't.
 
 ### Noticing a colour it wasn't trained on: all rules passed (2026-10-31)
 
