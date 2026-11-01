@@ -13,6 +13,8 @@ hear.py found one command: a steady tone on JO-E, on one side, turns the fly tha
    propellers hasn't been measured, so `--noise` is reported at several levels. The yaw and speed gains are ours too, as in pilot.py.
    Everything between the JO-E neurons and the wind descending neurons is the connectome.
    Modes: sound, silent (speaker off), mirror (mics swapped: it should turn away), and --rewire.
+   Seeds 9001-9004 ran on sensory_input=True, FlyBrain's default, while hear.py's bench is False. Seeds 9021-9024 (--no-sensory-input, folder test_nosensory)
+   repeat the test on the bench's brain with the same constants and the same rules, nothing retuned, so a miss there is a miss.
    Constants below are picked on seeds 8951-8952. Rules fixed before running, seeds 9001-9004, 15 trials each, 95% bootstrap over trials:
      REACHES   sound reaches at least 60% of the time, at least 40 points over silent, interval above 0
      MIRROR    sound reaches at least 20 points over mirror, interval above 0
@@ -24,9 +26,13 @@ hear.py found one command: a steady tone on JO-E, on one side, turns the fly tha
    only counts if it repeats on a fresh seed, since many conditions are tried (9101, then 9102):
      ALARM     the pilot's jump (DNp01) in at least 75% of flies, 20 points over scrambled, silence at most 10%
      STOP      the pilot's brake (MDN) in at least 75% of flies, 20 points over scrambled, silence at most 10%
-     PATTERN   a decoder on the descending neurons (100 ms bins, 4-fold) names the pattern (5 classes) at least 40% of the time, 15 points over scrambled:
-               does the timing get through? flytalk.py says the listener ignores it
+     PATTERN   a decoder on the descending neurons (20 ms bins, 4-fold) names the pattern (5 classes) at least 40% of the time, 15 points over scrambled,
+               and 15 points over the same decoder on each neuron's spike count for the whole second. That last part is what makes it about timing: patterns
+               also differ in how much sound they carry (steady is twice the rest), and counts alone can pick that up. flytalk.py says the listener ignores timing.
+               Changed before any run: this was 100 ms bins, which can't show 25 or 10 Hz at all. Pulses start at the same moment in every trial, which a real
+               listener wouldn't get, so a pass is the easy case.
      DATA      the same decoder names the full message (35 and silence) at at least 2 bits per chirp, 0.5 bits over scrambled
+   The decoder's settings are picked on development seed 9100, before 9101.
    A plain microphone and a demodulator would read all 36 messages (5.2 bits) with no brain at all. So DATA asks what the brain lets through, and can't show that
    the brain is the better way to send data.
 """
@@ -56,7 +62,7 @@ NOISE = 0.05          # volts of propeller noise after filtering, per brain step
 LOUD = 1.0            # volts at 1 m, on a mic pointing straight at the speaker
 SPEED = 0.3           # m/s
 YAW_GAIN = 0.05       # rad/s per spike of the wind neurons left-minus-right in the window: pilot.py's until development says otherwise
-FLIES, WARM, STEPS, BIN = 16, 25, 50, 5
+FLIES, WARM, STEPS, BIN = 16, 25, 50, 1     # BIN in brain steps: 20 ms, so the fastest pattern (25 Hz, one on, one off) shows
 PATTERNS = {"steady": None, "25 Hz": (1, 1), "10 Hz": (2, 3), "5 Hz": (5, 5), "2 Hz": (12, 13)}     # brain steps on, off
 SETS = {"JO-A": ["JO-A"], "JO-B": ["JO-B"], "JO-C": ["JO-C"], "JO-E": ["JO-E"], "A+B": ["JO-A", "JO-B"], "C+E": ["JO-C", "JO-E"], "all": ["JO-A", "JO-B", "JO-C", "JO-E"]}
 
@@ -68,7 +74,7 @@ def mics(bearing: float, distance: float) -> tuple[float, float]:
 
 
 def fly(a) -> dict:
-    brain = FlyBrain(seed=a.seed)
+    brain = FlyBrain(seed=a.seed, sensory_input=a.sensory_input)
     if a.rewire:
         rewire(brain, seed=a.seed + 1000)
     pilot_module.TURN_GAIN = 0.5                   # pilot.py's own gain, as in avoid.py: with nothing to chase, follow.py's turns its noise into spinning
@@ -124,7 +130,7 @@ def fly(a) -> dict:
     sim.close()
     results = [o["result"] for o in out]
     ways = [o["right_way"] for o in out if o["right_way"] is not None]
-    return {"mode": a.mode, "rewired": a.rewire, "seed": a.seed, "noise": a.noise, "speed": a.speed, "yaw_gain": a.yaw_gain, "reach": results.count("reach"), "away": results.count("away"),
+    return {"mode": a.mode, "rewired": a.rewire, "seed": a.seed, "sensory_input": a.sensory_input, "noise": a.noise, "speed": a.speed, "yaw_gain": a.yaw_gain, "reach": results.count("reach"), "away": results.count("away"),
             "timeout": results.count("timeout"), "right_way": round(float(np.mean(ways)), 3) if ways else None, "stopped": round(float(np.mean([o["stopped"] for o in out])), 3), "trials": out}
 
 
@@ -135,7 +141,7 @@ def boot(a: np.ndarray, b: np.ndarray, reps: int = 20000) -> tuple[float, float,
 
 
 def score(a) -> None:
-    folder, seeds = OUT / "test", range(9001, 9005)
+    folder, seeds = OUT / a.folder, range(a.first_seed, a.first_seed + 4)
     runs = {m: [json.loads((folder / f"{m}{s}.json").read_text()) for s in seeds if (folder / f"{m}{s}.json").exists()] for m in ("sound", "silent", "mirror", "sound_rewire")}
     reach = {m: np.array([t["result"] == "reach" for r in rs for t in r["trials"]], float) for m, rs in runs.items()}
     way = {m: np.array([t["right_way"] for r in rs for t in r["trials"] if t["right_way"] is not None], float) for m, rs in runs.items()}
@@ -145,6 +151,11 @@ def score(a) -> None:
     print(f"REACHES {reach['sound'].mean():.3f}, over silent {s[0]:+.3f} ({s[1]:+.3f} to {s[2]:+.3f}): {'PASS' if reach['sound'].mean() >= 0.6 and s[0] >= 0.4 and s[1] > 0 else 'MISS'}")
     print(f"MIRROR  over mirror {m_[0]:+.3f} ({m_[1]:+.3f} to {m_[2]:+.3f}): {'PASS' if m_[0] >= 0.2 and m_[1] > 0 else 'MISS'}")
     print(f"WIRING  right way over scrambled {w[0]:+.3f} ({w[1]:+.3f} to {w[2]:+.3f}): {'PASS' if w[0] >= 0.2 and w[1] > 0 else 'MISS'}")
+    print("sound reach per seed:", [r["reach"] / len(r["trials"]) for r in runs["sound"]])
+    trials = [t for r in runs["sound"] for t in r["trials"]]
+    for lo, hi in ((0, 30), (30, 90), (90, 150), (150, 181)):
+        some = [t["result"] == "reach" for t in trials if lo <= abs(np.degrees(t["bearing"])) < hi]
+        print(f"sound reach from {lo}-{hi} degrees off the nose: {np.mean(some) if some else float('nan'):.2f} of {len(some)}")
 
 
 def conditions() -> list[tuple[str, str]]:
@@ -162,6 +173,8 @@ def play_all(brain, seed: int) -> tuple[np.ndarray, np.ndarray]:
     dn = np.flatnonzero(np.isin(sc, ["descending_neuron", "descending_neuron_tbc"]))
     groups = [brain.groups[g] for g in GROUPS[:6]]
     lut = np.zeros(brain.n, bool)
+    place = np.full(brain.n, -1)
+    place[dn] = np.arange(len(dn))
     counts, traces = [], []
     for i, (name, pattern) in enumerate(conditions()):
         cells = None
@@ -170,18 +183,19 @@ def play_all(brain, seed: int) -> tuple[np.ndarray, np.ndarray]:
         brain.reset(seed + 1000 * i)
         for _ in range(WARM):
             brain.step(None, inject=[])
-        whole = np.zeros((FLIES, STEPS // BIN, brain.n), np.int16)
+        whole = np.zeros((FLIES, STEPS // BIN, len(dn)), np.int8)
         trace = np.zeros((FLIES, STEPS, len(groups)), np.int16)
         for t in range(STEPS):
             inject = [(cells, 0.8)] if cells is not None and on_at(pattern, t) else []
             for b, f in enumerate(brain.step(None, inject=inject)):
-                whole[b, t // BIN, f] += 1
+                here = place[f]
+                whole[b, t // BIN, here[here >= 0]] += 1
                 lut[:] = False
                 lut[f] = True
                 trace[b, t] = [lut[g].sum() for g in groups]
-        counts.append(whole[:, :, dn])
+        counts.append(whole)
         traces.append(trace)
-        print(f"  {name} {pattern}: DN {whole[:, :, dn].sum((1, 2)).mean():.0f} spikes", flush=True)
+        print(f"  {name} {pattern}: DN {whole.sum((1, 2)).mean():.0f} spikes", flush=True)
     return np.stack(counts), np.stack(traces)
 
 
@@ -230,10 +244,11 @@ def score_codes(real: tuple, scr: tuple) -> dict:
     y_pat = np.repeat([names.index(p) for _, p in conds[1:]], FLIES)
     for label, (dn, _) in (("real", real), ("scrambled", scr)):
         res[f"pattern_{label}"] = round(float((predict(shape(dn[1:]), y_pat) == y_pat).mean()), 3)
+        res[f"pattern_counts_{label}"] = round(float((predict(shape(dn[1:].sum(2, keepdims=True)), y_pat) == y_pat).mean()), 3)
         pred = predict(shape(dn), y_all)
         res[f"message_{label}"] = round(float((pred == y_all).mean()), 3)
         res[f"bits_{label}"] = round(bits(y_all, pred), 3)
-    res["rule_pattern"] = bool(res["pattern_real"] >= 0.4 and res["pattern_real"] - res["pattern_scrambled"] >= 0.15)
+    res["rule_pattern"] = bool(res["pattern_real"] >= 0.4 and res["pattern_real"] - res["pattern_scrambled"] >= 0.15 and res["pattern_real"] - res["pattern_counts_real"] >= 0.15)
     res["rule_data"] = bool(res["bits_real"] >= 2 and res["bits_real"] - res["bits_scrambled"] >= 0.5)
     return res
 
@@ -246,6 +261,7 @@ def codes(a) -> None:
     print("scrambled", flush=True)
     rewire(brain, seed=a.seed + 3)
     scr = play_all(brain, a.seed + 500)
+    np.savez_compressed(OUT / f"codes{a.seed}.npz", real_dn=real[0], real_trace=real[1], scr_dn=scr[0], scr_trace=scr[1])
     res = score_codes(real, scr)
     (OUT / f"codes{a.seed}.json").write_text(json.dumps(res, indent=1))
     print(json.dumps({k: v for k, v in res.items() if k != "conditions"}, indent=1))
@@ -262,7 +278,10 @@ def main() -> None:
     f.add_argument("--noise", type=float, default=NOISE)
     f.add_argument("--speed", type=float, default=SPEED)
     f.add_argument("--yaw-gain", type=float, default=YAW_GAIN, help="development only")
-    sub.add_parser("score")
+    f.add_argument("--no-sensory-input", dest="sensory_input", action="store_false", help="the bench's brain: no synapses onto sensory neurons")
+    s = sub.add_parser("score")
+    s.add_argument("--folder", default="test")
+    s.add_argument("--first-seed", type=int, default=9001)
     c = sub.add_parser("codes")
     c.add_argument("--seed", type=int, default=9101)
     a = ap.parse_args()

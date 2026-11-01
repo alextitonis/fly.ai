@@ -7,6 +7,10 @@
  *    the 10-25 snapshot (src/data/buyweek-1026-loyal.json), one draw ticket per $20. Team wallets and fly wallets don't
  *    count. Everything shown is an ESTIMATE: the team checks the payout by hand at the snapshot (the post's rules).
  *
+ *    Rounds (2026-11-01, the second week: BUYWEEK_START / END, 5M cap and locked bonuses announced, no loyalty or draw
+ *    unless BUYWEEK_LOYAL_PCT / BUYWEEK_DRAW say so): the scan cursor and the summary are kept per round (keyed by the
+ *    start) and only the window's flows count, so a new round starts clean and the old rows stay as the record.
+ *
  *    Where the buys come from: the $FLYAI Transfer logs of the window, read in chunks like the GTA giveaway reads them
  *    (src/gta.ts keeps only holder addresses, not amounts, so the week is read here once; a tick every 10 minutes then
  *    reads only the new blocks, from the public RPC). A transaction is a buy when $FLYAI LEFT a pool in it (Pons' v4
@@ -36,19 +40,20 @@ const E18 = 10n ** 18n;
 const CACHE_MS = 120_000;
 export const TIERS: [number, number][] = [[250, 25], [100, 20], [50, 15], [20, 10]];
 export const COMMUNITY: [number, number][] = [[50, 10], [25, 5]];
-export const LOYAL_PCT = 5;
 export const TICKET_USD = 20;
 const STEPS = ["quote", "route", "approved", "sent", "success", "failed", "gas_low", "cancelled"];
 const ROUTES = ["direct", "relay", "giga", "gasless"];
 
-export type BuyWeekConfig = { on: boolean; start: number; end: number; capFlyai: number; exclude: string[] };
+export type BuyWeekConfig = { on: boolean; start: number; end: number; capFlyai: number; exclude: string[]; loyalPct: number; draw: boolean };
 export function buyWeekConfig(env: NodeJS.ProcessEnv): BuyWeekConfig {
   return {
     on: env.BUYWEEK_ON !== "0",
-    start: Date.parse(env.BUYWEEK_START ?? "2026-10-26T00:00:00Z"),
-    end: Date.parse(env.BUYWEEK_END ?? "2026-11-01T08:00:00Z"),       // Sunday's desk payout
+    start: Date.parse(env.BUYWEEK_START ?? "2026-11-01T12:00:00Z"),
+    end: Date.parse(env.BUYWEEK_END ?? "2026-11-08T08:00:00Z"),       // Sunday's desk payout
     capFlyai: Number(env.BUYWEEK_CAP_FLYAI ?? 5_000_000),
     exclude: (env.BUYWEEK_EXCLUDE ?? "").split(",").map((x) => x.trim().toLowerCase()).filter((x) => ADDRESS.test(x)),
+    loyalPct: Number(env.BUYWEEK_LOYAL_PCT ?? 0),
+    draw: env.BUYWEEK_DRAW === "1",
   };
 }
 
@@ -86,6 +91,8 @@ export function createBuyWeek(d: {
   const loyal = d.loyal ?? new Set((JSON.parse(readFileSync(new URL("./data/buyweek-1026-loyal.json", import.meta.url), "utf8")) as string[])
     .map((w) => w.toLowerCase()));
   const team = new Set([...d.team, ...cfg.exclude].map((w) => w.toLowerCase()));
+  const CURSOR = `cursor:${cfg.start}`, SUMMARY = `summary:${cfg.start}`;
+  const startIso = new Date(cfg.start).toISOString(), endIso = new Date(cfg.end).toISOString();
   const getState = async <T>(key: string) => (await pg.one<{ value: T }>("select value from mine.buyweek_state where key = ?", key))?.value;
   const setState = (key: string, value: unknown) => pg.run(`insert into mine.buyweek_state (key, value) values (?, ?::text::jsonb)
     on conflict (key) do update set value = excluded.value`, key, JSON.stringify(value));
@@ -131,7 +138,7 @@ export function createBuyWeek(d: {
   async function scan() {
     const sources = [...POOLS, ...(await relaySources())];
     const head = await chain.head();
-    const cur = (await getState<{ next?: number; start?: number; end?: number }>("cursor")) ?? {};
+    const cur = (await getState<{ next?: number; start?: number; end?: number }>(CURSOR)) ?? {};
     const startBlock = cur.start ?? await blockAt(cfg.start, head);
     const endBlock = cur.end ?? (now() >= cfg.end ? await blockAt(cfg.end, head) : null);
     const last = endBlock ?? head;
@@ -165,20 +172,20 @@ export function createBuyWeek(d: {
       from = to + 1;
       if (logs.length < 1000) span = Math.min(2_000_000, span * 2);
     }
-    await setState("cursor", { next: from, start: startBlock, ...(endBlock !== null ? { end: endBlock } : {}) });
+    await setState(CURSOR, { next: from, start: startBlock, ...(endBlock !== null ? { end: endBlock } : {}) });
   }
 
   /** Every wallet's net buy, its holding now, and how many count ($20+ still held): the community bonus's buyer count. */
   async function summary(price: number) {
     const rows = await pg.all<{ wallet: string; net: string }>(
-      "select wallet, sum(delta)::text as net from mine.buyweek_flows group by wallet having sum(delta) > 0");
+      "select wallet, sum(delta)::text as net from mine.buyweek_flows where at >= ? and at < ? group by wallet having sum(delta) > 0", startIso, endIso);
     const held = rows.length ? await chain.holdings(rows.map((r) => r.wallet)) : [];
-    let buyers = 0, total = 0;
-    rows.forEach((r, i) => {
-      const counted = Math.min(Number(BigInt(r.net) / E18), Number(held[i] / E18));
-      if (counted * price >= TIERS[TIERS.length - 1][0]) { buyers++; total += counted; }
-    });
-    return { buyers, total_flyai: Math.round(total) };
+    const counted = rows.map((r, i) => ({ wallet: r.wallet, flyai: Math.min(Number(BigInt(r.net) / E18), Number(held[i] / E18)) }))
+      .filter((c) => tierOf(c.flyai * price) > 0);
+    const community = communityOf(counted.length);
+    // every wallet at its own percentage: past the cap they're all scaled by the same factor, so the tiers stay apart
+    const pot = counted.reduce((sum, c) => sum + c.flyai * (tierOf(c.flyai * price) + community + (loyal.has(c.wallet) ? cfg.loyalPct : 0)) / 100, 0);
+    return { buyers: counted.length, total_flyai: Math.round(counted.reduce((sum, c) => sum + c.flyai, 0)), pot_flyai: Math.round(pot) };
   }
 
   let ticking = false;
@@ -186,10 +193,10 @@ export function createBuyWeek(d: {
     if (ticking || !cfg.on || now() < cfg.start) return;
     ticking = true;
     try {
-      const cur = await getState<{ end?: number; next?: number }>("cursor");
+      const cur = await getState<{ end?: number; next?: number }>(CURSOR);
       if (!(cur?.end !== undefined && (cur.next ?? 0) > cur.end)) await scan();
       const price = await d.prices.usd(FLYAI);
-      if (price) await setState("summary", { ...(await summary(price)), price, at: now() });
+      if (price) await setState(SUMMARY, { ...(await summary(price)), price, at: now() });
     } catch (e) {
       console.error("buy week:", e instanceof Error ? e.message : e);
     } finally { ticking = false; }
@@ -215,8 +222,8 @@ export function createBuyWeek(d: {
       value = { on: false, ended: cfg.on && now() >= cfg.end, window: { start: cfg.start, end: cfg.end }, next };
     } else {
       const [row, s, [held]] = await Promise.all([
-        pg.one<{ net: string | null }>("select sum(delta)::text as net from mine.buyweek_flows where wallet = ?", wallet),
-        getState<{ buyers: number; total_flyai: number; price: number }>("summary"),
+        pg.one<{ net: string | null }>("select sum(delta)::text as net from mine.buyweek_flows where wallet = ? and at >= ? and at < ?", wallet, startIso, endIso),
+        getState<{ buyers: number; pot_flyai: number; price: number }>(SUMMARY),
         chain.holdings([wallet]),
       ]);
       const price = s?.price ?? (await d.prices.usd(FLYAI)) ?? 0;
@@ -224,11 +231,11 @@ export function createBuyWeek(d: {
       const counted = Math.min(net, Number(held / E18));
       const usd = counted * price;
       const buyers = s?.buyers ?? 0;
-      const tier = tierOf(usd), community = tier ? communityOf(buyers) : 0, loyalPct = tier && loyal.has(wallet) ? LOYAL_PCT : 0;
+      const tier = tierOf(usd), community = tier ? communityOf(buyers) : 0, loyalPct = tier && loyal.has(wallet) ? cfg.loyalPct : 0;
       const pct = tier + community + loyalPct;
       // the pot cap: past it everyone is scaled down evenly (an estimate from the buyers counted so far)
-      const pot = (s?.total_flyai ?? 0) * (pct / 100);
-      const scale = pot > cfg.capFlyai && pot > 0 ? cfg.capFlyai / pot : 1;
+      const pot = s?.pot_flyai ?? 0;
+      const scale = pot > cfg.capFlyai ? cfg.capFlyai / pot : 1;
       const nextTier = [...TIERS].reverse().find(([min]) => usd < min);
       const nextCommunity = [...COMMUNITY].reverse().find(([n]) => buyers < n);
       value = {
@@ -237,7 +244,7 @@ export function createBuyWeek(d: {
         usd: Math.round(usd * 100) / 100, price,
         tier_pct: tier, community_pct: community, loyal: loyal.has(wallet), loyal_pct: loyalPct, bonus_pct: pct,
         est_bonus_flyai: Math.round(counted * (pct / 100) * scale),
-        tickets: Math.floor(usd / TICKET_USD), buyers,
+        tickets: cfg.draw ? Math.floor(usd / TICKET_USD) : 0, buyers, cap_flyai: cfg.capFlyai,
         next_tier: nextTier ? { usd: nextTier[0], pct: nextTier[1], need_usd: Math.round((nextTier[0] - usd) * 100) / 100 } : null,
         next_community: nextCommunity ? { buyers: nextCommunity[0], pct: nextCommunity[1], need: nextCommunity[0] - buyers } : null,
         excluded: team.has(wallet) || (await flyWallets()).has(wallet),

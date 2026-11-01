@@ -39,6 +39,8 @@ the machine gets slow.
 | `python drone/predict.py bench` / `fly --mode one_predict --seed 7601` | One camera: does the brain remember where the target went, and does a predictor on top help? `--mode one\|one_predict\|two\|two_predict\|four`, `--rewire`, `--out clip.mp4` records a video to post (drones only, no brain panel) | bench several minutes, flight 1-2 min |
 | `python drone/avoid.py screen` / `run --mode turn --seed 7801` | Which neurons answer a pillar on one side; flying straight at a pillar. `--mode blind\|stop\|turn`, `--rewire` | several minutes each |
 | `python drone/hear.py --seed 5051` | Sound on the bench: which ear channels drive what | about 12 min |
+| `python drone/chirp.py fly --mode sound --seed 8951` / `codes --seed 9101` / `score` | Sound in flight (`--mode sound\|silent\|mirror`, `--rewire`, `--noise`), pulsed chirps on the bench, score the flight test | flight run 1-3 min, bench about 20 min |
+| `python drone/fire.py clips --seed 9201` / `--dry` | Fire on real footage in `runs/clips/forest/`, with no colour step. Missed, see Results | about 10 min |
 | `python drone/readout_checks.py` | World-Sim's readout checks (after `gestures.py measure`) | about 10 min |
 | `python drone/planner.py ...` | World-Sim's planner against the fly. Failed its rule, see Results | see below |
 
@@ -102,7 +104,8 @@ safety system: it can lose its target, or pick the wrong one, at any time.
 | `gestures.py`, `reflex.py`, `swipe.py` | Hand gestures: with a trained readout, with none, and flying the drone. |
 | `events.py` | Hooks: run your own code on `new_colour`, `target_lost`, `obstacle_ahead`, `crash` and others. |
 | `novel.py`, `predict.py`, `avoid.py` | New colours, one camera with prediction, obstacles. |
-| `hear.py` | Sound on the bench. |
+| `hear.py`, `chirp.py` | Sound on the bench; sound in flight and pulsed chirps. |
+| `fire.py` | Fire on real footage through the motion route. |
 | `planner.py`, `readout_checks.py` | The ideas from [World-Sim](https://github.com/alextitonis/ai-model). |
 
 ## How the brain flies it
@@ -236,6 +239,53 @@ this is closer to feeling a puff from one side than to hearing. The fly's real s
 wiring is a weak control for jump and stop here: it brakes in nearly every fly with no sound at all, and jumps in 13-100%. So passing
 on a learned colour by sound can't rest on this wiring alone; only steady tones on these channels were tried, but for now the step from
 hearing to dopamine would have to be ours.
+
+### Sound in flight: "come here" passed all three rules (2026-11-01)
+
+`chirp.py`. The brain gets only sound: another drone hovers 1.5-2.5 m away at any bearing and chirps, and the drone has to reach it. Rules are at the top of `chirp.py`, seeds 9001-9004, 15 trials each, constants left as they were after development (`python drone/chirp.py score`):
+
+| Mode | Reached it | First turn the right way | Stopped |
+|---|---|---|---|
+| Sound | 63% | 94% | 0% |
+| Speaker off | 13% | 46% | 0% |
+| Mics swapped | 0% | 3% | 0% |
+| Sound, scrambled wiring | 0% | 60% | 81% |
+
+| Rule | Needed | Result (95% interval) | |
+|---|---|---|---|
+| Reaches | at least 60%, 40 points over silent | 63%, +50 points (+35 to +65) | Pass |
+| Mirror | at least 20 points over swapped mics | +63 points (+52 to +75) | Pass |
+| Wiring | first turn at least 20 points over scrambled | +34 points (+17 to +51) | Pass |
+
+Limits: 63% only just clears its rule. The microphone is ours and is a model, and its propeller noise hasn't been measured on real hardware, so a real speaker against real propellers may do much worse. The turn runs through the wind neurons, whose meaning as "turn" is our choice, and JO-E also senses wind in a real fly, so this is closer to feeling a puff than to hearing. The other drone hovers rather than moving, and this is one command, not data. Scrambled wiring can't reach anything because it brakes 81% of the time, which is why that rule scores the first turn.
+
+**Repeated on the bench's brain (2026-11-01).** The run above used `sensory_input=True`, while `hear.py`'s bench uses `False`. Same constants and rules on seeds 9021-9024, folder `runs/chirp/test_nosensory` (`python drone/chirp.py score --folder test_nosensory --first-seed 9021`), and all three rules pass by more: reached 92% (87-93% per seed), speaker off 5%, mics swapped 2%, first turn right 98% against 48% on scrambled wiring, which stopped 59% of the time. From behind (150-180 degrees) it reached 80% of 10 trials, against 38% on the first run. The noise levels in `runs/chirp/noise/` are sound only on the old brain, 77, 70, 50 and 40% at 0, 0.1, 0.2 and 0.4 V (seeds 9011-9012; 0.8 V never finished), and haven't been redone.
+
+### Pulsed chirps on the bench: timing gets through, alarm and stop don't (2026-11-01)
+
+`python drone/chirp.py codes --seed 9101`, repeated on 9102, 16 flies per condition, `NUMBA_NUM_THREADS=2`; rules at the top of `chirp.py`, decoder settings checked on seed 9100 and left alone.
+
+| | Needed | 9101 | 9102 | |
+|---|---|---|---|---|
+| Names the pattern from 20 ms bins | at least 40%, 15 points over scrambled and over counts only | 71% (scrambled 27%, counts only 42%) | 73% (scrambled 30%, counts only 36%) | Pass |
+| Bits per chirp, 36 messages | at least 2, 0.5 over scrambled | 3.2 (scrambled 1.6) | 3.3 (scrambled 1.6) | Pass |
+| Alarm or stop | jump or brake in 75% of flies | none | none | Miss |
+
+This goes against `flytalk.py`, which found the listener ignores timing. Limits: pulses start at the same moment in every trial, which a real listener wouldn't get, so this is the easy case. Small samples push bits up on both sides, so the 1.6 extra matters more than the 3.2. A plain microphone reads all 36 messages with no brain, so this says what the brain lets through, not that it's a better way to send data. Scrambled wiring's silence already jumps and brakes, so it isn't a clean control for those two.
+
+### Fire on real footage, motion through the brain: missed (2026-11-01)
+
+`python drone/fire.py clips --seed 9201`: grey footage -> motion model -> T4/T5 -> connectome -> a ridge readout on the descending neurons, 49 clips, 34 shoots, leave one shoot out. Rules at the top of `fire.py`. The repeat on 9202 was stopped for low memory, and with these misses it can't change the result.
+
+| Rule | Needed | Result | |
+|---|---|---|---|
+| Detect | area under the curve at least 0.80 | 0.47 (0.27 to 0.69), chance is 0.5 | Miss |
+| Wiring | 0.10 over scrambled | +0.03, scrambled 0.44 | Miss |
+| Colour | 0.05 over share of fire-coloured pixels | colour alone 0.49 | Miss |
+| Movement | 0.05 over how much the picture changes | that measure scores 0.35 | Pass, but empty: 0.35 means it points the other way |
+| Tricky clips | at most 3 of 8 called fire | 6 of 8 | Miss |
+
+The same readout with no neurons in between scored 0.54, so the motion model itself carries little here. Looked at afterwards, so not a result: ground-level flames against not-fire score brain 0.72, colour 0.70, picture change 0.74, so the brain adds nothing to plain change, while smoke (0.49) and aerial fire (0.29) get nothing. Fire colour alone can't separate flames from autumn leaves: 0.35, leaves have more of it. About 50 clips, with fire and no-fire footage from different cameras and places, also limits this.
 
 ### Noticing a colour it wasn't trained on: all rules passed (2026-10-31)
 

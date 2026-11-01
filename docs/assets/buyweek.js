@@ -1,7 +1,7 @@
 /**
  * The "You're in" card (2026-10-27, the buy-flow plan step 4): under the swap box on /start and the token page, what a
  * buyer's wallet stands at in Buy Week - net $FLYAI bought and still held, the tier, the estimated Sunday bonus, the
- * loyalty +5%, the draw tickets and how far the next tier / the next "everyone" bonus is (mine GET /api/buyweek/<wallet>,
+ * loyalty and the draw tickets when the round has them, the cap and the lock, and how far the next tier / the next "everyone" bonus is (mine GET /api/buyweek/<wallet>,
  * an estimate: the team checks the payout at the snapshot). Outside the week it shows the next step instead: hold 200k
  * $FLYAI with a Trader Fly to earn from the Fly Desk. Drawn for the signed-in wallet, and again right after a buy
  * (buy.js fires "flyai:bought"), when it asks the server to read the newest blocks first.
@@ -32,7 +32,7 @@
       lines.push(`<li><b>${esc(t("tier", { pct: s.tier_pct }))}</b></li>`);
       if (s.community_pct) lines.push(`<li>${esc(t("community", { pct: s.community_pct, n: s.buyers }))}</li>`);
       if (s.loyal_pct) lines.push(`<li>${esc(t("loyal", { pct: s.loyal_pct }))}</li>`);
-      lines.push(`<li>${esc(t("tickets", { n: s.tickets }))}</li>`);
+      if (s.tickets) lines.push(`<li>${esc(t("tickets", { n: s.tickets }))}</li>`);
     }
     const next = [];
     if (s.next_tier) next.push(t("nextTier", { usd: usd(s.next_tier.need_usd), pct: s.next_tier.pct }));
@@ -43,7 +43,7 @@
       ${s.tier_pct ? `<p>${esc(t("bonus", { amount: n0(s.est_bonus_flyai), pct: s.bonus_pct, when: end }))}</p>` : `<p>${esc(t("notYet"))}</p>`}
       ${lines.length ? `<ul class="bw-list">${lines.join("")}</ul>` : ""}
       ${next.length ? `<p class="fine">${esc(next.join(" · "))}</p>` : ""}
-      <p class="fine">${esc(t("keep", { when: end }))} ${esc(t("estimate"))}</p>`;
+      <p class="fine">${esc(t("keep", { when: end }))} ${esc(t("capLock", { cap: n0(s.cap_flyai) }))} ${esc(t("estimate"))}</p>`;
   }
 
   let wallet = null, timer = null;

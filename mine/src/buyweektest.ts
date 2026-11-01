@@ -68,7 +68,7 @@ try {
     isContract: async (w) => w === CONTRACT || w === UR || w === ROUTER2,
     decimals: async () => 18,
   };
-  const cfg: BuyWeekConfig = { on: true, start: Date.parse("2026-10-26T00:00:00Z"), end: Date.parse("2026-11-01T08:00:00Z"), capFlyai: 5_000_000, exclude: [] };
+  const cfg: BuyWeekConfig = { on: true, start: Date.parse("2026-10-26T00:00:00Z"), end: Date.parse("2026-11-01T08:00:00Z"), capFlyai: 5_000_000, exclude: [], loyalPct: 5, draw: true };
   const sent: { status: number; body: any }[] = [];
   const send = (_r: ServerResponse, status: number, body: unknown) => { sent.push({ status, body }); };
   let now = NOW, body: any = null, admin = true;
@@ -104,6 +104,31 @@ try {
   now = Date.parse("2026-11-02T00:00:00Z");
   r = await call("GET", `/api/buyweek/${A}`);
   check("after the week: the next step instead", r.body.on === false && r.body.ended === true && r.body.next.step === "activate");
+
+  // the pot cap, and a new round
+  const after = now;
+  now = NOW;
+  held.set(A, 500_000n * E18);
+  const D = addr(0xd4);
+  held.set(D, 2_000_000n * E18);
+  await pg.run(`insert into mine.buyweek_flows (id, wallet, delta, block, at) values ('d', ?, ?, 11, '2026-10-27T00:00:00Z')`, D, (2_000_000n * E18).toString());
+  const make = (c: BuyWeekConfig) => createBuyWeek({ pg, chain, prices: { usd: async () => 0.0002 }, cfg: c, HttpError, send, readJson: async () => null,
+    adminOnly: () => {}, team: [FEE], loyal: new Set([A]), now: () => now });
+  const capped = make({ ...cfg, capFlyai: 300_000 });
+  await capped.tick();
+  const [ca, cd] = [await capped.standing(A), await capped.standing(D)];
+  // A 498,500 at 20% + D 2,000,000 at 25% = a pot of 599,700, scaled to 300,000: each keeps their own rate
+  check("over the cap: scaled by the whole pot, the tiers stay apart", ca.est_bonus_flyai === 49_875 && cd.est_bonus_flyai === 250_125 && ca.cap_flyai === 300_000, `${ca.est_bonus_flyai} ${cd.est_bonus_flyai}`);
+  now = Date.parse("2026-11-03T00:00:00Z");
+  const next = make({ ...cfg, start: Date.parse("2026-11-02T00:00:00Z"), end: Date.parse("2026-11-08T08:00:00Z"), loyalPct: 0, draw: false });
+  await next.tick();
+  const na = await next.standing(A);
+  check("a new round: last round's buys don't count", na.on && na.net_flyai === 0 && na.tier_pct === 0 && na.buyers === 0, JSON.stringify(na));
+  await pg.run(`insert into mine.buyweek_flows (id, wallet, delta, block, at) values ('a2', ?, ?, 21, '2026-11-02T12:00:00Z')`, A, (400_000n * E18).toString());
+  now += 121_000;
+  const nb = await next.standing(A);
+  check("a new round: no loyalty and no tickets unless switched on", nb.net_flyai === 400_000 && nb.tier_pct === 15 && nb.loyal_pct === 0 && nb.bonus_pct === 15 && nb.tickets === 0, JSON.stringify(nb));
+  now = after;
 
   // the drop-off log
   r = await call("POST", "/api/swaplog", { session: "abc12345", step: "quote", route: "direct", pay: "USDG", chain: 4663, usd: 20, page: "start" });
