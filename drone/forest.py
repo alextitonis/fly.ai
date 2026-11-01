@@ -36,7 +36,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parent)]
 from avoid import AVOID_GAIN, AVOID_TYPES, TurnAway  # noqa: E402
-from eyes import PixelEyes, use_cameras, _wrap  # noqa: E402
+from eyes import ALL_CAMERAS, PixelEyes, use_cameras, _wrap  # noqa: E402
 from events import Events  # noqa: E402
 from flybrain import FlyBrain  # noqa: E402
 from flytalk import rewire  # noqa: E402
@@ -57,7 +57,8 @@ REACHED, LEG_S = 1.2, 45.0
 STANDOFF = 3.0            # m: it stops this far from the fire, by the fire's apparent width
 MEMORY_S = 8.0            # s: lost sight of the fire behind a trunk, it keeps going where it last was
 TARGET_SIZE = 0.1         # rad: what LC10a is told of its goal's size: a constant, or growth reads as looming
-MIN_HOT = 20              # pixels: about 9 m away. At 6 it saw the fire from the start through the trees on seed 9301 and there was no patrol to speak of
+MIN_HOT = 60              # pixels. At 6 and 20 it saw the fire from the start through the trees (seeds 9301-9303) and there was no patrol to speak of; at 100 it flew past one in plain view
+FIRE_WIDTH = 1.45         # m: how wide the fire looks. Stopping at an estimated 3 m was truly 3.6-4.8 m on seeds 9302-9303 with the 1 m first assumed
 TRUE_NEAR = 4.5
 HOLD_S = 6.0              # s it hovers at the fire before the flight ends
 
@@ -79,7 +80,7 @@ def layout(seed: int, decoys: bool, fire: bool) -> dict:
     outer = []                                         # beyond the patrol, for looks: the forest shouldn't end at the edge of the picture
     while len(outer) < 90:
         p = rng.uniform(-HALF - 12, HALF + 12, 2)
-        if np.max(np.abs(p)) > HALF + 1.0:
+        if np.max(np.abs(p)) > HALF + 3.5:
             outer.append((float(p[0]), float(p[1])))
     return {"trees": trees, "outer": outer, "fire": spot, "autumn": rng.random(len(trees)) < (0.25 if decoys else 0.0), "shade": rng.random((len(trees), 3)), "heights": rng.uniform(3.2, 4.4, len(trees))}
 
@@ -91,6 +92,8 @@ def build(plan: dict) -> mujoco.MjSpec:
     spec.add_texture(name="sky", type=mujoco.mjtTexture.mjTEXTURE_SKYBOX, builtin=mujoco.mjtBuiltin.mjBUILTIN_GRADIENT, rgb1=[0.5, 0.72, 0.92], rgb2=[0.75, 0.85, 0.95], width=512, height=3072)
     spec.add_texture(name="moss", type=mujoco.mjtTexture.mjTEXTURE_2D, builtin=mujoco.mjtBuiltin.mjBUILTIN_CHECKER, rgb1=[0.13, 0.2, 0.09], rgb2=[0.1, 0.17, 0.08], width=300, height=300)
     spec.add_material(name="ground", textures=["", "moss"], texrepeat=[24, 24], texuniform=True)
+    # birch bark keeps a little glow: in the leaves' shadow a plain trunk fell under eyes.py's brightness test close up, and the drone flew into it (seed 9303)
+    spec.add_material(name="birch", rgba=[0.86, 0.85, 0.8, 1], emission=0.45)
     for name, rgba in (("flame_r", [1.0, 0.22, 0.04, 1]), ("flame_o", [1.0, 0.48, 0.05, 1]), ("flame_y", [1.0, 0.72, 0.12, 1])):
         spec.add_material(name=name, rgba=rgba, emission=1.0)
     w = spec.worldbody
@@ -98,11 +101,11 @@ def build(plan: dict) -> mujoco.MjSpec:
     w.add_geom(name="floor", type=mujoco.mjtGeom.mjGEOM_PLANE, size=[HALF + 40, HALF + 40, 0.05], material="ground")
     none = {"contype": 0, "conaffinity": 0}
     for i, (x, y) in enumerate(plan["outer"]):
-        w.add_geom(type=mujoco.mjtGeom.mjGEOM_CYLINDER, size=[PILLAR_RADIUS, 2.0, 0], pos=[x, y, 2.0], rgba=[0.86, 0.85, 0.8, 1], **none)
+        w.add_geom(type=mujoco.mjtGeom.mjGEOM_CYLINDER, size=[PILLAR_RADIUS, 2.0, 0], pos=[x, y, 2.0], material="birch", **none)
         w.add_geom(type=mujoco.mjtGeom.mjGEOM_ELLIPSOID, size=[1.1, 1.1, 0.95], pos=[x, y, 4.0], rgba=[0.14, 0.38 + 0.002 * (i % 90), 0.12, 1], **none)
     for i, (x, y) in enumerate(plan["trees"]):
         h, s = float(plan["heights"][i]), plan["shade"][i]
-        w.add_geom(name=f"trunk{i}", type=mujoco.mjtGeom.mjGEOM_CYLINDER, size=[PILLAR_RADIUS, h / 2, 0], pos=[x, y, h / 2], rgba=[0.86, 0.85, 0.8, 1], **none)
+        w.add_geom(name=f"trunk{i}", type=mujoco.mjtGeom.mjGEOM_CYLINDER, size=[PILLAR_RADIUS, h / 2, 0], pos=[x, y, h / 2], material="birch", **none)
         leaf = [0.72 + 0.2 * s[0], 0.2 + 0.25 * s[1], 0.06, 1] if plan["autumn"][i] else [0.12 + 0.1 * s[0], 0.36 + 0.2 * s[1], 0.12, 1]
         for j, (dx, dy, dz, r) in enumerate(((0, 0, 0, 1.0), (0.55, 0.3, -0.35, 0.72), (-0.5, 0.35, -0.3, 0.75), (0.05, -0.6, -0.4, 0.7))):
             w.add_geom(name=f"leaf{i}_{j}", type=mujoco.mjtGeom.mjGEOM_ELLIPSOID, size=[r, r, r * 0.75], pos=[x + dx, y + dy, h + dz], rgba=leaf, **none)
@@ -116,13 +119,18 @@ def build(plan: dict) -> mujoco.MjSpec:
             b = w.add_body(name=f"smoke{i}", mocap=True, pos=[fx, fy, 2.0])
             b.add_geom(name=f"smoke_g{i}", type=mujoco.mjtGeom.mjGEOM_SPHERE, size=[0.4, 0, 0], rgba=[0.15, 0.15, 0.16, 0.5], **none)
     cf2 = spec.body("cf2")
-    for name, right in (("front", (0, -1, 0)), ("left", (1, 0, 0)), ("back", (0, 1, 0)), ("right", (-1, 0, 0))):
+    c = np.sqrt(0.5)
+    for name, right in (("front", (0, -1, 0)), ("left", (1, 0, 0)), ("back", (0, 1, 0)), ("right", (-1, 0, 0)), ("ahead_l", (c, -c, 0)), ("ahead_r", (-c, -c, 0))):
         cf2.add_camera(name=f"eye_{name}", pos=[0, 0, 0], xyaxes=[*right, 0, 0, 1], fovy=EYE_FOVY)
+    # the camera's near cut scales with the size of the world: in a world this big it hid any trunk closer than about 0.5 m, so the drone flew into trees it couldn't see
+    spec.visual.map.znear = 0.001
+    spec.visual.headlight.ambient = [0.42, 0.42, 0.42]
+    spec.visual.headlight.diffuse = [0.3, 0.3, 0.3]
     return spec
 
 
 class ForestSim(DroneSim):
-    arena = HALF
+    arena = HALF + 2.5                                 # wandering out past the trees isn't a crash until here; three of five crashes on seed 9303 were this edge
 
     def __init__(self, seed: int, decoys: bool = False, fire: bool = True):
         self.plan = layout(seed, decoys, fire)
@@ -187,7 +195,7 @@ class ForestSim(DroneSim):
         self.cam_az += 0.05 * (((np.degrees(self.heading) - self.cam_az) + 180) % 360 - 180)
         self.cam_at += 0.1 * (self.pos - self.cam_at)
         self.cam.lookat[:] = self.cam_at
-        self.cam.distance, self.cam.elevation, self.cam.azimuth = 3.2, -16, self.cam_az
+        self.cam.distance, self.cam.elevation, self.cam.azimuth = 1.5, -14, self.cam_az
         r.update_scene(self.data, self.cam)
         return r.render().copy()
 
@@ -206,7 +214,7 @@ class FireEyes(PixelEyes):
                 best = (n, _wrap(centre + float(self.column[xs].mean())), (xs.max() - xs.min() + 1) * self.rad_per_px)
         if best is None:
             return None
-        return Thing("leader", best[1], 2 * FIRE_R / max(best[2], 1e-3), TARGET_SIZE)
+        return Thing("leader", best[1], FIRE_WIDTH / max(best[2], 1e-3), TARGET_SIZE)
 
 
 def route() -> list[np.ndarray]:
@@ -239,10 +247,11 @@ class Film:
             d.text((42, 34), status, font=self.big, fill=colour)
             d.text((42, 76), "no GPS, no radio, no outside connection. Simulation.", font=self.small, fill=(220, 220, 220))
             if picture is not None:
-                eye = Image.fromarray(picture).resize((320, 240))
-                im.paste(eye, (1280 - 344, 24))
-                d.rectangle([1280 - 344, 24, 1280 - 24, 264], outline=(255, 255, 255, 200), width=2)
-                d.text((1280 - 336, 270), "the drone's camera", font=self.small, fill=(255, 255, 255))
+                eye = Image.fromarray(picture).resize((480, 180))
+                im.paste(eye, (1280 - 504, 24))
+                d.rectangle([1280 - 504, 24, 1280 - 24, 204], outline=(255, 255, 255, 200), width=2)
+                d.rounded_rectangle([1280 - 504, 210, 1280 - 290, 240], radius=8, fill=(0, 0, 0, 170))
+                d.text((1280 - 496, 213), "the drone's two cameras", font=self.small, fill=(255, 255, 255))
             self.ff.stdin.write(np.asarray(im).tobytes())
             self.next += 1 / self.FPS
 
@@ -260,7 +269,8 @@ def fly(a) -> dict:
     for _ in range(100):
         pilot.observe(brain.step())
     sim = ForestSim(a.seed, a.decoys, not a.no_fire)
-    cameras = {"front": 0.0, "back": np.pi} if a.cameras == "two" else {"front": 0.0}
+    cameras = {"two": {"ahead_l": np.pi / 4, "ahead_r": -np.pi / 4}, "front_back": {"front": 0.0, "back": np.pi}, "one": {"front": 0.0}}[a.cameras]
+    ALL_CAMERAS.update(ahead_l=np.pi / 4, ahead_r=-np.pi / 4)
     use_cameras(tuple(cameras))
     eyes = FireEyes((0, 0, 0), seed=a.seed)
     turner = TurnAway(brain, AVOID_TYPES, a.avoid_gain)
@@ -273,7 +283,7 @@ def fly(a) -> dict:
     while sim.t < a.seconds:
         if n % 2 == 0:
             shots = sim.eyes(names=tuple(cameras))
-            picture = shots["front"]
+            picture = np.concatenate([shots["ahead_l"], shots["ahead_r"]], axis=1) if "ahead_l" in shots else shots["front"]
             trees = [t for t in eyes.things(shots) if t.kind == "pillar"]
             fire = eyes.fire(shots, cameras)
             if any(t.distance < 1.0 for t in trees):
@@ -389,10 +399,10 @@ def main() -> None:
     f.add_argument("--rewire", action="store_true")
     f.add_argument("--decoys", action="store_true", help="autumn trees: not until the real fire step exists")
     f.add_argument("--no-fire", action="store_true")
-    f.add_argument("--cameras", choices=("one", "two"), default="two")
+    f.add_argument("--cameras", choices=("one", "two", "front_back"), default="two", help="two = both forward, angled 45 degrees out: on front_back it hit trees it couldn't see at its sides (seed 9303)")
     f.add_argument("--sensory-input", action="store_true", help="the original brain; the default is the bench's")
     f.add_argument("--turn-gain", type=float, default=TURN_GAIN)
-    f.add_argument("--avoid-gain", type=float, default=AVOID_GAIN)
+    f.add_argument("--avoid-gain", type=float, default=0.7, help=f"avoid.py's was {AVOID_GAIN}; 0.7 from seeds 9302-9303")
     f.add_argument("--speed", type=float, default=0.55)
     f.add_argument("--out", default="")
     p = sub.add_parser("picture")

@@ -272,6 +272,19 @@ export async function simulate(tx, want) {
   return v;
 }
 
+/** A plain SOL transfer into a fly's Solana address (the Fly Wallet's Deposit button), built and simulated. */
+export async function depositTx(from, to, lamports) {
+  const amount = BigInt(lamports), raw = new DataView(new ArrayBuffer(12));
+  raw.setUint32(0, 2, true);                                       // the System program's Transfer
+  raw.setBigUint64(4, amount, true);
+  const data = [...new Uint8Array(raw.buffer)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  const ix = { programId: NATIVE_MINT, data, keys: [{ pubkey: from, isSigner: true, isWritable: true }, { pubkey: to, isSigner: false, isWritable: true }] };
+  const latest = await rpc("getLatestBlockhash", [{ commitment: "confirmed" }]);
+  const tx = compile(from, latest.value.blockhash, [ix], []);
+  await simulate(tx, { user: from, tokenIn: NATIVE_MINT, amount });
+  return tx;
+}
+
 /** Everything before the signature: the order checked, built on a fresh blockhash, and simulated. */
 export async function prepare(q, want) {
   const data = await checkOrder(q, want);
