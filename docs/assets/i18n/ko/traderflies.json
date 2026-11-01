@@ -1149,6 +1149,7 @@
       "startText": "아래에서 입금하거나, 어떤 Solana 지갑에서든 이 주소로 SOL만 보내세요. 다른 토큰은 계산되지 않습니다. {reserve} SOL은 네트워크 수수료와 토큰 계정용으로 항상 남습니다.",
       "depositTitle": "SOL 입금",
       "pickWallet": "Solana 지갑을 선택하세요.",
+      "openIn": "지갑 앱에서 이 페이지 열기:",
       "noWallet": "이 브라우저에 Solana 지갑이 없습니다. Phantom이나 Solflare를 설치하거나 위 주소로 SOL을 보내세요.",
       "depositSent": "보냈습니다. 약 1분 안에 여기에 표시됩니다.",
       "depositShort": "SOL이 부족합니다 (수수료용으로 조금 남겨 두세요)",

@@ -96,6 +96,9 @@ const walletApps = () => {
     { name: "MetaMask", href: `https://metamask.app.link/dapp/${here.replace(/^https?:\/\//, "")}` },
     { name: "Trust Wallet", href: `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(here)}` },
     { name: "Coinbase Wallet", href: `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(here)}` },
+    { name: "OKX Wallet", href: `https://www.okx.com/download?deeplink=${encodeURIComponent(`okx://wallet/dapp/url?dappUrl=${encodeURIComponent(here)}`)}` },
+    // (@binance/w3w-utils getDeepLink: its dApp browser, by way of its download page when the app isn't there)
+    { name: "Binance Wallet", href: `https://app.binance.com/en/download?_dp=${btoa(`bnc://app.binance.com/mp/app?appId=yFK5FCqYprrXDiVFbhyRx7&startPagePath=${btoa("/pages/browser/index")}&startPageQuery=${btoa(`url=${here}&defaultChainId=1`)}`)}` },
   ];
 };
 

@@ -116,11 +116,49 @@ export function wallets() {
   window.dispatchEvent(new CustomEvent("wallet-standard:app-ready", { detail: api }));
   window.removeEventListener("wallet-standard:register-wallet", hear);
   const seen = new Set();
-  return found.filter((w) => {
+  const list = found.filter((w) => {
     if (seen.has(w.name)) return false;
     seen.add(w.name);
     return (w.chains || []).includes(STD_CHAIN) && w.features["standard:connect"] && w.features["solana:signAndSendTransaction"];
   });
+  // OKX documents its own provider, not the Wallet Standard (2026-11-01, a holder couldn't find it): offered here if it didn't register;
+  // Binance documents the Standard: its own object is only the fallback, if it's there and didn't register
+  for (const [name, match, p] of [["OKX Wallet", /okx/i, window.okxwallet && window.okxwallet.solana],
+    ["Binance Wallet", /binance/i, window.binancew3w && window.binancew3w.solana]]) {
+    if (p && typeof p.connect === "function" && !list.some((w) => match.test(w.name))) list.push(injected(name, p));
+  }
+  return list;
+}
+
+export const isPhone = () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
+
+/** Wallet apps that open a page in their own browser, where it finds the wallet as a desktop extension would (for phones). */
+export function appLinks(url) {
+  const u = encodeURIComponent(url), ref = encodeURIComponent(location.origin);
+  // (@binance/w3w-utils getDeepLink: its dApp browser, by way of its download page when the app isn't there)
+  const bnc = "bnc://app.binance.com/mp/app?appId=yFK5FCqYprrXDiVFbhyRx7&startPagePath=" + btoa("/pages/browser/index")
+    + "&startPageQuery=" + btoa("url=" + url + "&defaultChainId=1");
+  return [
+    { name: "Phantom", href: `https://phantom.app/ul/browse/${u}?ref=${ref}` },
+    { name: "Solflare", href: `https://solflare.com/ul/v1/browse/${u}?ref=${ref}` },
+    { name: "OKX", href: "https://www.okx.com/download?deeplink=" + encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + u) },
+    { name: "Binance", href: "https://app.binance.com/en/download?_dp=" + btoa(bnc) },
+  ];
+}
+
+function injected(name, okx) {
+  const account = () => ({ address: okx.publicKey.toString(), chains: [STD_CHAIN] });
+  return { name, chains: [STD_CHAIN], accounts: [], features: {
+    "standard:connect": { connect: async (o) => {
+      await okx.connect(o && o.silent ? { onlyIfTrusted: true } : undefined);
+      return { accounts: [account()] };
+    } },
+    "solana:signAndSendTransaction": { signAndSendTransaction: async ({ transaction }) => {
+      const r = await okx.signAndSendTransaction({ version: 0, serialize: () => transaction });
+      const sig = r && r.signature ? r.signature : r;
+      return [{ signature: typeof sig === "string" ? b58decode(sig) : sig }];
+    } },
+  } };
 }
 
 /** Connect a wallet (silent: only if this site is already allowed). Returns its account, or null. */

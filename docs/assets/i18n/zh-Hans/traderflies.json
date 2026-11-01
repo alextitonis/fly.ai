@@ -1149,6 +1149,7 @@
       "startText": "在下方存入，或用任何 Solana 钱包只向此地址发送 SOL：其他代币不计入。{reserve} SOL 会一直留在这里，用于网络费和代币账户。",
       "depositTitle": "存入 SOL",
       "pickWallet": "请选择你的 Solana 钱包。",
+      "openIn": "在你的钱包 App 中打开本页：",
       "noWallet": "此浏览器中没有 Solana 钱包。请安装 Phantom 或 Solflare，或把 SOL 发送到上面的地址。",
       "depositSent": "已发送。约一分钟内会显示在这里。",
       "depositShort": "SOL 不足（请留少量作手续费）",

@@ -565,7 +565,7 @@
 
   // ---- paying from Solana (assets/solana.js): its own wallet, and an address on Robinhood Chain for the $FLYAI ----
   let sol = null, solWallet = null, solAcct = null, toAuto = true;
-  const loadSol = () => (sol ? Promise.resolve(sol) : import(new URL("solana.js?v=20261030a", HERE).href).then((m) => (sol = m)));
+  const loadSol = () => (sol ? Promise.resolve(sol) : import(new URL("solana.js?v=20261101c", HERE).href).then((m) => (sol = m)));
   const solAddr = () => (solAcct ? solAcct.address : null);
   function toAddr() {
     const v = (($("buy-to") && $("buy-to").value) || "").trim();
@@ -592,7 +592,13 @@
   }
   function drawSolWallets(list) {
     const box = $("buy-solw");
-    box.hidden = list.length < 2;
+    // no wallet in this browser, on a phone: open this page in a wallet app's own browser
+    const apps = !list.length && sol.isPhone() ? sol.appLinks(location.href) : [];
+    box.hidden = list.length < 2 && !apps.length;
+    if (apps.length) {
+      box.replaceChildren(...apps.map((w) => Object.assign(document.createElement("a"), { href: w.href, textContent: w.name, rel: "noopener" })));
+      return;
+    }
     box.replaceChildren(...(list.length < 2 ? [] : list.map((w) => {
       const b = document.createElement("button");
       b.type = "button";
@@ -623,7 +629,7 @@
     solWallet = (solWallet && known(solWallet.name)) || known(chosen) || (list.length === 1 ? list[0] : null);
     drawSolWallets(list);
     if (!list.length) {
-      if (!silent) msg(t("noSolWallet"), "err");
+      if (!silent) msg(t(sol.isPhone() ? "solOpenIn" : "noSolWallet"), sol.isPhone() ? "" : "err");
       return false;
     }
     if (!solWallet) {

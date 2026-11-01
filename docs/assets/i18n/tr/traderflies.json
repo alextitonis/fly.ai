@@ -1151,6 +1151,7 @@
       "startText": "Aşağıdan yatır ya da herhangi bir Solana cüzdanından bu adrese yalnızca SOL gönder: diğer tokenlar sayılmaz. {reserve} SOL ağ ücretleri ve token hesapları için hep burada kalır.",
       "depositTitle": "SOL yatır",
       "pickWallet": "Solana cüzdanını seç.",
+      "openIn": "Bu sayfayı cüzdan uygulamanda aç:",
       "noWallet": "Bu tarayıcıda Solana cüzdanı yok. Phantom ya da Solflare kur veya SOL'ü yukarıdaki adrese gönder.",
       "depositSent": "Gönderildi. Yaklaşık bir dakika içinde burada görünür.",
       "depositShort": "yeterli SOL yok (ücretler için biraz bırak)",

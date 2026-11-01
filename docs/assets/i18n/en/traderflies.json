@@ -1151,6 +1151,7 @@
       "startText": "Deposit below, or send only SOL to this address from any Solana wallet: other tokens aren't counted. {reserve} SOL always stays here for network fees and token accounts.",
       "depositTitle": "Deposit SOL",
       "pickWallet": "Choose your Solana wallet.",
+      "openIn": "Open this page in your wallet app:",
       "noWallet": "No Solana wallet in this browser. Install Phantom or Solflare, or send SOL to the address above.",
       "depositSent": "Sent. It shows here within about a minute.",
       "depositShort": "not enough SOL (keep a little for fees)",
