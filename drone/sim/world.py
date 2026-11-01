@@ -158,13 +158,18 @@ def _arena(n_fruit: int, pillars: list[tuple[float, float]], leader: bool = Fals
 
 
 class DroneSim:
+    arena = ARENA                                    # half width: past this plus 0.5 m counts as a crash
+
+    def _build(self, n_fruit: int, leader: bool, decoy: bool, people: bool) -> mujoco.MjSpec:
+        return _arena(n_fruit, self.pillars, leader, decoy, people)
+
     def __init__(self, seed: int = 0, n_fruit: int = 3, pillars: list[tuple[float, float]] | None = None,
                  gusts: bool = True, leader: bool = False, decoy: bool = False, people: bool = False):
         self.rng = np.random.default_rng(seed)
         self.gusts = gusts
         self.pillars = pillars if pillars is not None else [(1.2, 0.8), (-1.0, -1.3), (-1.4, 1.4), (1.5, -1.6)]
         self.people = people
-        self.model = _arena(n_fruit, self.pillars, leader, decoy, people).compile()
+        self.model = self._build(n_fruit, leader, decoy, people).compile()
         self.data = mujoco.MjData(self.model)
         self.body = self.model.body("cf2").id
         self.fruit = [self.model.body(f"fruit{i}").mocapid[0] for i in range(n_fruit)]
@@ -250,7 +255,7 @@ class DroneSim:
                 ate += 1
         self.eaten += ate
         hit_pillar = any(np.hypot(p[0] - x, p[1] - y) < PILLAR_RADIUS + 0.06 for x, y in self.pillars)
-        if hit_pillar or p[2] < 0.05 or np.max(np.abs(p[:2])) > ARENA + 0.5:
+        if hit_pillar or p[2] < 0.05 or np.max(np.abs(p[:2])) > self.arena + 0.5:
             self.crashed = True
         return {"ate": ate, "crashed": self.crashed}
 
