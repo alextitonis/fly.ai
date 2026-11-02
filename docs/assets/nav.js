@@ -24,6 +24,7 @@
       // 2026-10-27 (the buy-flow plan step 3): one page to buy from, linked from every post
       ["Buy $FLYAI", "/start", "Swap from your wallet, from any chain", false, false, "buyMenu"],
       ["Token", "/token", "Status, contract, fees and burns"],
+      ["Stake", "/stake", "Stake $FLYAI for a bigger weekly payout"],   // 2026-11-02: its own page (deskstake.js), easy to find
       ["Earn", "/earn", "Lend USDG from your wallet"],   // 2026-10-06: flytrade/EARN-PAGE-PLAN.md
       ["Referrals", "/referrals", "Invite friends, earn from their fees"],   // 2026-10-15 (referrals.js)
       // 2026-10-23: "New" for the launch (gta.js, mine/src/gta.ts)

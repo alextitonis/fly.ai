@@ -210,6 +210,10 @@
       "label": "로봇 격투",
       "desc": "USDG, FLYAI, ETH로 로봇 격투에 베팅"
     },
+    "stake": {
+      "label": "스테이킹",
+      "desc": "$FLYAI를 스테이킹해 주간 지급액을 늘리세요"
+    },
     "referrals": {
       "label": "추천",
       "desc": "친구를 초대하고 그들의 수수료에서 수익을 받으세요"

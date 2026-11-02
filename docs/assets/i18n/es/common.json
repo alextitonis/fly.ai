@@ -210,6 +210,10 @@
       "label": "Peleas de robots",
       "desc": "Apuesta en peleas de robots con USDG, FLYAI o ETH"
     },
+    "stake": {
+      "label": "Stake",
+      "desc": "Haz stake de $FLYAI para un pago semanal mayor"
+    },
     "referrals": {
       "label": "Referidos",
       "desc": "Invita a amigos, gana con sus comisiones"

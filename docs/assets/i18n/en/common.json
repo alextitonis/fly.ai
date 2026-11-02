@@ -210,6 +210,10 @@
       "label": "Robot Fights",
       "desc": "Bet on robot fights in USDG, FLYAI or ETH"
     },
+    "stake": {
+      "label": "Stake",
+      "desc": "Stake $FLYAI for a bigger weekly payout"
+    },
     "referrals": {
       "label": "Referrals",
       "desc": "Invite friends, earn from their fees"

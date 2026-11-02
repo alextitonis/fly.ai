@@ -24,6 +24,7 @@
  *        MAX_JOBS 64 · JOB_TTL_MIN 20 · TRUST_PROXY (set behind a proxy)
  */
 import { createHash, randomBytes, randomUUID, timingSafeEqual } from "node:crypto";
+import { rm as rmAsync } from "node:fs/promises";
 import { createReadStream, existsSync, mkdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { stripTypeScriptTypes } from "node:module";
@@ -595,6 +596,12 @@ db.exec(`
     row text not null                 -- JSON: the Postgres row
   );
 `);
+// 23 first shipped without these (v167, one day's packs). By what's there, not user_version: the rollback to v166 set that back
+for (const [table, column, type] of [["blob_packed", "offset", "integer"], ["blob_packed", "length", "integer"], ["order_packs", "members", "integer not null default 0"]]) {
+  if ((db.prepare(`pragma table_info(${table})`).all() as { name: string }[]).some((c) => c.name === column)) continue;
+  // the other processes start at the same moment and may get there first
+  try { db.exec(`alter table ${table} add column ${column} ${type}`); } catch (err) { if (!/duplicate column/.test(String(err))) throw err; }
+}
 if (hasTables && !hadDayCredit) {
   // 13: one pass over every assignment so far; from here on the triggers keep it
   const t = Date.now();
@@ -3031,6 +3038,7 @@ function serveBlob(res: ServerResponse, hash: string): void {
 // The separate files go only after the pack has read back whole; /api/blobs still answers for them from the pack.
 const PACK_ORDERS = env("PACK_ORDERS", "0") === "1";
 const PACK_AFTER_MS = Number(env("PACK_AFTER_HOURS", "1")) * 3_600_000;
+const PACK_START_AFTER_S = Number(env("PACK_START_AFTER_S", "300")); // a start's own catch-up comes first: it held the mining thread 110 s on 11-02
 const CLEAR_BATCH = 200;
 const BOOK_BATCH = 1000;
 const membersRead = new Map<string, Map<string, Buffer>>();
@@ -3043,6 +3051,7 @@ function storedBlob(hash: string): Buffer | null {
   const key = `${at.pack}:${at.offset}`;
   let records = membersRead.get(key);
   if (!records) {
+    if (at.offset === null) membersRead.clear(); // never more than one of those in memory
     records = at.offset === null ? decodePack(readFileSync(blobPath(at.pack))) : readMember(blobPath(at.pack), at.offset, at.length!);
     membersRead.set(key, records);
     if (membersRead.size > 8) membersRead.delete(membersRead.keys().next().value as string);
@@ -3054,7 +3063,7 @@ let packing = false;
 const packFailed = new Set<string>(); // tried again after a restart, not every tick
 /** One order per tick at most, in a worker; deleting walks in small batches, as pruning does. */
 function packStep(): void {
-  if (packing) return;
+  if (packing || process.uptime() < PACK_START_AFTER_S) return;
   const unfinished = one<{ order_id: string; pack: string } | undefined>("select order_id, pack from order_packs where cleared = 0 and pack is not null limit 1");
   // packs from the first version go first (members = 0): reading them is what ran the research process out of memory
   const old = unfinished ? undefined : (db.prepare("select order_id as id, pack from order_packs where pack is not null and members = 0").all() as { id: string; pack: string }[]).find((o) => !packFailed.has(o.id));
@@ -3083,7 +3092,9 @@ async function packOrder(id: string, replacing: string | null): Promise<void> {
   }
   const now = Date.now();
   if (done.skip) {
-    db.prepare("insert into order_packs (order_id, note, cleared, created_at) values (?, ?, 1, ?)").run(id, done.skip, now);
+    // (a rewrite that found nothing keeps the pack it has, and stops trying)
+    if (replacing) db.prepare("update order_packs set members = 1, note = ? where order_id = ?").run(done.skip, id);
+    else db.prepare("insert into order_packs (order_id, note, cleared, created_at) values (?, ?, 1, ?)").run(id, done.skip, now);
     return;
   }
   const book = db.prepare("insert into blobs (hash, size, created_at, used_at, keep) values (?, ?, ?, ?, 1) on conflict (hash) do update set keep = 1, used_at = excluded.used_at");
@@ -3129,7 +3140,8 @@ async function clearPacked(id: string, pack: string): Promise<void> {
     const rows = page.filter(({ hash }) => !inUse.has(hash) && hash !== pack);
     const t0 = Date.now();
     transaction(() => { for (const { hash } of rows) drop.run(hash); });
-    for (const { hash } of rows) rmSync(blobPath(hash), { force: true });
+    // off the mining thread: 200 deletes in a row held it for seconds on a slow disk
+    for (let at = 0; at < rows.length; at += 16) await Promise.all(rows.slice(at, at + 16).map(({ hash }) => rmAsync(blobPath(hash), { force: true })));
     await new Promise((r) => setTimeout(r, Math.max(5, 2 * (Date.now() - t0))));
   }
   db.prepare("update order_packs set cleared = 1 where order_id = ?").run(id);

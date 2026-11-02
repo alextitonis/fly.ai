@@ -210,6 +210,10 @@
       "label": "Robot Dövüşleri",
       "desc": "Robot dövüşlerine USDG, FLYAI veya ETH ile bahis"
     },
+    "stake": {
+      "label": "Stake",
+      "desc": "Daha büyük haftalık ödeme için $FLYAI stake et"
+    },
     "referrals": {
       "label": "Davetler",
       "desc": "Arkadaşlarını davet et, ücretlerinden kazan"

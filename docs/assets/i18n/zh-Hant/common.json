@@ -210,6 +210,10 @@
       "label": "機器人格鬥",
       "desc": "用 USDG、FLYAI 或 ETH 押注機器人格鬥"
     },
+    "stake": {
+      "label": "質押",
+      "desc": "質押 $FLYAI，獲得更多每週分紅"
+    },
     "referrals": {
       "label": "邀請",
       "desc": "邀請好友，從他們的手續費中賺取收益"
