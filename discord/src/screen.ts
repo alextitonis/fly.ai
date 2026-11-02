@@ -22,6 +22,7 @@ const VERDICT_MS = 30 * 60_000, RETRY_MS = 3 * 60_000;
 const RPC = "https://rpc.mainnet.chain.robinhood.com";   // public: a few calls per token per VERDICT_MS
 const WINDOW = 9_900_000;                                   // the RPC allows 10M blocks a call (~11.5 days at 0.1 s)
 const MAX_WINDOWS = 4;                                      // ~46 days back; an older token's history isn't complete
+const ASKED_WINDOWS = 12;                                   // someone asked about this one token (research): the chain's whole life
 const MAX_LOGS = 60_000;                                    // the RPC returns at most 10k logs a call: windows are split
 const RPC_GAP_MS = 350;                                     // the public RPC answers 429 to bursts
 const TRANSFER = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
@@ -119,6 +120,12 @@ async function contract(v: Verdict): Promise<void> {
   const r = await goplus(v.chain, v.ca);
   if (!r || !Object.keys(r).length) { v.failed = true; v.why.push("contract not checked yet"); return; }
   const on = (k: string) => String(r[k] ?? "") === "1";
+  // other chains: no Transfer history to read for free, but GoPlus lists the top holders (a share, no bundle check)
+  const listed = Array.isArray(r.holders) ? (r.holders as { percent?: string; is_contract?: number }[]) : [];
+  if (v.chain !== "robinhood" && listed.length) {
+    v.top10 = listed.filter((h) => !h.is_contract).slice(0, 10).reduce((sum, h) => sum + Number(h.percent ?? 0), 0);
+    if (v.top10 > MAX_TOP10) v.why.push(`top 10 wallets hold ${pctOf(v.top10)}`);
+  }
   const owner = String(r.owner_address ?? "").toLowerCase();
   const owned = owner !== "" && owner !== ZERO && owner !== DEAD;   // an owner who can still use what the code allows
   if (on("is_honeypot")) v.why.push("honeypot");
@@ -169,7 +176,7 @@ async function call<T>(method: string, params: unknown[]): Promise<T> {
 const hex = (n: number) => "0x" + n.toString(16);
 const addr = (topic: string) => "0x" + topic.slice(26).toLowerCase();
 
-async function holders(v: Verdict, bornMs: number): Promise<void> {
+async function holders(v: Verdict, bornMs: number, windows = MAX_WINDOWS): Promise<void> {
   // every Transfer since the pool (or MAX_WINDOWS back), oldest window last
   const head = parseInt(await call<string>("eth_blockNumber", []), 16);
   const logs: Log[] = [];
@@ -187,7 +194,7 @@ async function holders(v: Verdict, bornMs: number): Promise<void> {
       return b && [...a, ...b];
     }
   };
-  for (let i = 0, to = head; i < MAX_WINDOWS && to > 0; i++, to -= WINDOW + 1) {
+  for (let i = 0, to = head; i < windows && to > 0; i++, to -= WINDOW + 1) {
     const from = Math.max(0, to - WINDOW);
     const got = await read(from, to);
     if (!got || logs.length + got.length > MAX_LOGS) { v.holdersSkipped = "too busy to read"; return; }
@@ -200,9 +207,13 @@ async function holders(v: Verdict, bornMs: number): Promise<void> {
   if (!complete) { v.holdersSkipped = "older than the scan"; return; }
 
   const bal = new Map<string, bigint>(), firstIn = new Map<string, number>(), fedBy = new Map<string, Set<string>>();
+  let nftLogs = false;
   for (const l of logs) {
     if (l.topics.length < 3) continue;   // ERC-721 style or odd logs
-    const from = addr(l.topics[1]!), to = addr(l.topics[2]!), amt = BigInt(l.data === "0x" ? 0 : l.data.slice(0, 66));
+    // an NFT's Transfer has the token id as a 4th topic and no data: one item, whatever the id
+    const nft = l.topics.length === 4;
+    if (nft) nftLogs = true;
+    const from = addr(l.topics[1]!), to = addr(l.topics[2]!), amt = nft ? 1n : BigInt(l.data === "0x" ? 0 : l.data.slice(0, 66));
     const block = parseInt(l.blockNumber, 16);
     bal.set(from, (bal.get(from) ?? 0n) - amt);
     bal.set(to, (bal.get(to) ?? 0n) + amt);
@@ -231,7 +242,8 @@ async function holders(v: Verdict, bornMs: number): Promise<void> {
   const grouped = new Set<string>();
   const byBlock = new Map<number, string[]>();
   for (const [a] of wallets) (byBlock.get(firstIn.get(a)!) ?? byBlock.set(firstIn.get(a)!, []).get(firstIn.get(a)!)!).push(a);
-  for (const g of byBlock.values()) if (g.length >= MIN_GROUP) g.forEach((a) => grouped.add(a));
+  // (minting in the same block is ordinary at an NFT mint: there, only one wallet funding several top holders counts)
+  if (!nftLogs) for (const g of byBlock.values()) if (g.length >= MIN_GROUP) g.forEach((a) => grouped.add(a));
   const topSet = new Set(wallets.map(([a]) => a));
   for (const [sender, to] of fedBy) {
     if (isContract.has(sender)) continue;   // a pool "sends" to every buyer
@@ -241,6 +253,20 @@ async function holders(v: Verdict, bornMs: number): Promise<void> {
   v.cluster = share(wallets.filter(([a]) => grouped.has(a)));
   if (v.top10 > MAX_TOP10) v.why.push(`top 10 wallets hold ${pctOf(v.top10)}`);
   if (v.cluster > MAX_CLUSTER) v.why.push(`grouped wallets hold ${pctOf(v.cluster)}`);
+}
+
+/** Top holders and wallet groups for one Robinhood token even when the feed's filter stopped earlier (a thin pool says nothing
+ *  about bundling). Its own findings go in `why`. */
+const checked = new Map<string, { at: number; v: Verdict }>();   // a token's whole history takes a minute: asked again, the same answer
+
+export async function holderCheck(ca: string, bornMs = Infinity): Promise<Verdict> {
+  const hit = checked.get(ca.toLowerCase());
+  if (hit && Date.now() - hit.at < VERDICT_MS) return hit.v;
+  if (checked.size > 200) checked.clear();
+  const v = empty(ca, "");
+  await holders(v, bornMs, ASKED_WINDOWS).catch((err) => { v.holdersSkipped = `couldn't read it (${(err as Error).message.slice(0, 40)})`; });
+  if (!v.holdersSkipped?.startsWith("couldn't")) checked.set(ca.toLowerCase(), { at: Date.now(), v });
+  return v;
 }
 
 const money = (n: number) => (n >= 1000 ? `$${(n / 1000).toFixed(1)}k` : `$${n.toFixed(0)}`);

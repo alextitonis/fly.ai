@@ -28,6 +28,7 @@ the same rule on new price paths and brain seeds (--path-seed 1777) so the check
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import random
@@ -73,10 +74,48 @@ def main() -> None:
     p.add_argument("--save-every", type=int, default=5, help="rounds between checkpoints")
     p.add_argument("--resume", action="store_true", help="continue from OUT.checkpoint.json")
     p.add_argument("--stop-after", type=int, default=0, help="pause as if Ctrl+C after this many rounds (tests resume)")
+    p.add_argument("--prices-json", help="optional chronological JSON export of recorded bars ({prices: {symbol: USD price}}); runs one real-price replay path")
+    p.add_argument("--max-bars", type=int, default=200, help="keep only the newest N bars in a recorded-price replay (default 200)")
+    p.add_argument("--cohorts", default="frozen,dopamine,memory,tubes,all",
+                   help="comma-separated cohorts to run; use frozen,all for the direct learning comparison")
     args = p.parse_args()
     rounds_this_run = 0
 
-    run_args = {k: getattr(args, k) for k in ("flies_json", "paths", "rounds", "flies", "path_seed")}
+    replay_rows = None
+    replay_start = None
+    replay_moves = None
+    replay_hash = None
+    if args.prices_json:
+        raw = Path(args.prices_json).read_bytes()
+        replay_hash = hashlib.sha256(raw).hexdigest()
+        payload = json.loads(raw)
+        replay_rows = payload.get("bars", payload) if isinstance(payload, dict) else payload
+        if not isinstance(replay_rows, list):
+            raise SystemExit("--prices-json must be a list of recorded bars or an object with a bars list")
+        replay_rows = sorted(replay_rows, key=lambda r: (str(r.get("at") or ""), int(r.get("bar_no") or 0)))
+        if len(replay_rows) < 4 or any(not isinstance(r.get("prices"), dict) for r in replay_rows):
+            raise SystemExit("--prices-json needs at least four bars, each with a prices object")
+        if args.max_bars > 0:
+            replay_rows = replay_rows[-args.max_bars:]
+        replay_start, _ = market.real_prices([], replay_rows[0]["prices"])
+        replay_moves = []
+        coins = replay_start
+        for row in replay_rows[1:]:
+            coins, events = market.real_prices(coins, row["prices"])
+            replay_moves.append((coins, events))
+        if not replay_moves or not replay_start:
+            raise SystemExit("--prices-json contains no usable prices")
+
+    cohorts = [c.strip() for c in args.cohorts.split(",") if c.strip()]
+    if not cohorts or len(set(cohorts)) != len(cohorts) or set(cohorts) - set(COHORTS):
+        raise SystemExit(f"--cohorts must be a comma list from: {', '.join(COHORTS)}")
+    selected = {c: COHORTS[c] for c in cohorts}
+    n_paths = 1 if replay_rows is not None else args.paths
+    n_rounds = len(replay_moves) if replay_moves is not None else args.rounds
+    run_args = {k: getattr(args, k) for k in ("flies_json", "paths", "rounds", "flies", "path_seed", "prices_json",
+                                               "max_bars", "cohorts")}
+    if replay_hash:
+        run_args["prices_sha256"] = replay_hash
     ckpt_path = Path(args.out).with_suffix(".checkpoint.json")
     ckpt = {"args": run_args, "done": {}, "running": None}
     if args.resume and ckpt_path.exists():
@@ -101,14 +140,17 @@ def main() -> None:
     print(f"{len(reader.own)} resting profiles in {time.perf_counter() - t0:.0f} s", flush=True)
 
     try:
-        for path in range(args.paths):
-            price_rng = np.random.default_rng([args.path_seed, path])
-            coins, moves = market.seed_coins(), []
-            for _ in range(args.rounds):
-                coins, events = market.move_prices(coins, price_rng)
-                moves.append(([dict(c) for c in coins], events))
+        for path in range(n_paths):
+            if replay_moves is not None:
+                coins, moves = replay_start, replay_moves
+            else:
+                price_rng = np.random.default_rng([args.path_seed, path])
+                coins, moves = market.seed_coins(), []
+                for _ in range(n_rounds):
+                    coins, events = market.move_prices(coins, price_rng)
+                    moves.append(([dict(c) for c in coins], events))
             born = {f["id"]: minds.born(f["id"], random.Random(f"{args.path_seed}-{path}-{f['id']}")) for f in flies}
-            for cohort, learning in COHORTS.items():
+            for cohort, learning in selected.items():
                 key = f"{path}-{cohort}"
                 if key in ckpt["done"]:
                     continue
@@ -120,11 +162,12 @@ def main() -> None:
                     rng.bit_generator.state = running["rng"]
                     start, counts = running["round"], running["counts"]
                 else:
-                    state = {"coins": market.seed_coins(), "history": [], "portfolios": {},
+                    state = {"coins": [dict(c) for c in (replay_start if replay_moves is not None else market.seed_coins())],
+                             "history": [], "portfolios": {},
                              "minds": {k: json.loads(json.dumps(v)) for k, v in born.items()}}
                     rng = np.random.default_rng([args.path_seed, path, 1])
                     start, counts = 0, {"trades": 0, "skipped": 0}
-                for r in range(start, args.rounds):
+                for r in range(start, n_rounds):
                     out = market.simulate_round(state, eps, reader, rng, flies, learning, moved=moves[r],
                                                 seed=args.path_seed * 1_000_000 + path * 100_000 + r * 97)
                     counts["trades"] += out["round"]["trades"]
@@ -146,22 +189,28 @@ def main() -> None:
         where = f"{ckpt['running']['key']} round {ckpt['running']['round']}" if ckpt["running"] else "between cohorts"
         raise SystemExit(f"paused at {where}; checkpoint {ckpt_path}. Continue with the same command plus --resume")
 
-    final = {c: [v for path in range(args.paths) for v in ckpt["done"][f"{path}-{c}"]["final"]] for c in COHORTS}
+    final = {c: [v for path in range(n_paths) for v in ckpt["done"][f"{path}-{c}"]["final"]] for c in selected}
     rng = np.random.default_rng(1)
     frozen = np.array(final["frozen"])
     report = {"criteria": __doc__.split("Pass criterion")[1].split("    python")[0].strip(),
-              "paths": args.paths, "rounds": args.rounds, "flies": len(flies), "path_seed": args.path_seed, "cohorts": {}}
-    for cohort in COHORTS:
+              "paths": n_paths, "rounds": n_rounds, "flies": len(flies), "path_seed": args.path_seed,
+              "price_replay": bool(replay_rows),
+              "execution_note": "Reference-price replay with simulated decisions and fixed fees; not actual fills, gas, slippage, or refusal replay." if replay_rows else "Synthetic price paths.",
+              "cohorts": {}}
+    for cohort in selected:
         values = np.array(final[cohort])
         entry = {"mean_final_eth": round(float(np.exp(values).mean()), 4), "median_final_eth": round(float(np.exp(np.median(values))), 4),
-                 "trades": sum(ckpt["done"][f"{p_}-{cohort}"]["trades"] for p_ in range(args.paths)),
-                 "skipped": sum(ckpt["done"][f"{p_}-{cohort}"]["skipped"] for p_ in range(args.paths))}
-        if cohort != "frozen":
+                 "trades": sum(ckpt["done"][f"{p_}-{cohort}"]["trades"] for p_ in range(n_paths)),
+                 "skipped": sum(ckpt["done"][f"{p_}-{cohort}"]["skipped"] for p_ in range(n_paths))}
+        if cohort != "frozen" and "frozen" in final:
             mean, lo, hi = ci(values - frozen, rng)
             entry.update({"paired_log_diff": round(mean, 4), "ci95": [round(lo, 4), round(hi, 4)], "better_pairs": int((values > frozen).sum())})
         report["cohorts"][cohort] = entry
-    a = report["cohorts"]["all"]
-    report["passed"] = bool(a["paired_log_diff"] > 0 and a["ci95"][0] > 0)
+    if "all" in report["cohorts"] and "frozen" in report["cohorts"]:
+        a = report["cohorts"]["all"]
+        report["passed"] = bool(a["paired_log_diff"] > 0 and a["ci95"][0] > 0)
+    else:
+        report["passed"] = None
     Path(args.out).write_text(json.dumps(report, indent=1))
     print(json.dumps(report, indent=1))
     print("PASSED" if report["passed"] else "NOT PASSED", flush=True)

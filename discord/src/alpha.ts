@@ -65,6 +65,18 @@ const card = (color: number) => new EmbedBuilder().setColor(color).setTimestamp(
   .setFooter({ text: "fly.ai alpha · DYOR", iconURL: LOGO });
 const links = (...items: [string, string][]) => [new ActionRowBuilder<ButtonBuilder>().addComponents(
   items.map(([label, url]) => new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(label).setURL(url)))];
+// each site's own name for a chain (2026-11-02). Defined: opened in a browser on all of these, $FLYAI on Robinhood included.
+// Padre: every link stops at its sign-in page, so only the chains it advertises; a chain left out just has no button.
+const DEFINED_CHAIN: Record<string, string> = { robinhood: "robinhood", solana: "sol", base: "base", bsc: "bsc", arbitrum: "arb", ethereum: "eth" };
+const PADRE_CHAIN: Record<string, string> = { solana: "solana", base: "base", bsc: "bsc", ethereum: "ethereum" };
+
+/** A token's buttons: its chart on DexScreener, Defined and Padre's terminal, for the chain (DexScreener's name for it) it's on. */
+export function tokenLinks(chain: string, ca: string, ...more: [string, string][]) {
+  const items: [string, string][] = [["📈 Dexscreener", `https://dexscreener.com/${chain}/${ca}`]];
+  if (DEFINED_CHAIN[chain]) items.push(["📊 Defined", `https://www.defined.fi/token/${DEFINED_CHAIN[chain]}/${ca}`]);
+  if (PADRE_CHAIN[chain]) items.push(["⚡ Terminal", `https://trade.padre.gg/trade/${PADRE_CHAIN[chain]}/${ca}`]);
+  return links(...items, ...more);
+}
 const quote = (why?: string | null) => (why ? `\n> ${why.replace(/\s+/g, " ").slice(0, 160)}` : "");
 
 type Call = { key: string; sym: string; ca: string; chain: string; at: number; head: string; color: number; why?: string | null };
@@ -80,7 +92,7 @@ export function callPost(c: Call, v: Verdict): Post {
   fields.push({ name: "Contract address", value: `\`${c.ca}\``, inline: false });
   const e = card(c.color).setTitle(`$${ticker(c.sym)} · ${CHAIN_NAME[c.chain] ?? c.chain}`).setURL(chart)
     .setDescription(`**${c.head}**${quote(c.why)}`).addFields(fields).setThumbnail(v.image ?? LOGO);
-  return { embeds: [e], components: links(["📈 Chart", chart], ["🪰 fly.ai", `${SITE}/traderflies`]), ping: true };
+  return { embeds: [e], components: tokenLinks(DEX[c.chain] ?? "robinhood", c.ca, ["🪰 fly.ai", `${SITE}/traderflies`]), ping: true };
 }
 
 /** An Azuro bet: the pick, who placed it, stake / odds / payout. */
@@ -101,7 +113,7 @@ export function launchPost(name: string, sym: string, token: string): Post {
   const chart = `https://dexscreener.com/robinhood/${token}`;
   const e = card(COLOR.launch).setTitle(`🚀 The flies launched ${name} ($${sym})`.slice(0, 256)).setURL(chart)
     .addFields({ name: "Contract address", value: `\`${token}\`` }).setThumbnail(LOGO);
-  return { embeds: [e], components: links(["📈 Chart", chart]), ping: true };
+  return { embeds: [e], components: tokenLinks("robinhood", token), ping: true };
 }
 
 /** "channel" or "channel:role", comma separated (ALPHA_CHANNEL_ID, ALPHA_PARTNERS). */
@@ -114,6 +126,59 @@ export function payloadFor(post: Post, t: Target, reply: boolean) {
   const role = post.ping && !reply ? t.role : undefined;
   return { embeds: post.embeds, components: post.components ?? [], ...(role ? { content: `<@&${role}>` } : {}),
     allowedMentions: { parse: [] as never[], roles: role ? [role] : [], repliedUser: false } };
+}
+
+// ---------------------------------------------------------------- asked for (!alpha, or tagging the bot)
+
+const RECENT: Call[] = [];                 // what the feed called, newest first (lost on a restart: the sources below still answer)
+const RECENT_KEEP = 20, ASK_WINDOW_MS = 24 * 3600_000, ASK_CHECKS = 10, ASK_BUDGET_MS = 40_000;
+const ms = (at: number) => (at < 1e12 ? at * 1000 : at);
+
+/** Up to `max` tokens worth a look right now, as call cards that ping nobody (2026-11-02, the user: "if you ask it for alpha,
+ *  suggestions, tokens it can send some"): what the feed called, then top traders' tokens, the desk's and the top wallets' buys of
+ *  the last day, then new pools. All of them through the same scam filter as the feed; a source that fails is skipped. */
+export async function alphaNow(max = 3, flies = 5): Promise<Post[]> {
+  const out: Call[] = [...RECENT];
+  const d = await desk().catch(() => null);
+  const since = Date.now() - ASK_WINDOW_MS;
+  for (const t of (d?.alpha?.fomo?.tokens ?? []).filter((t) => hot(t) || (t.buyers_6h ?? 0) >= FOMO_MIN_BUYERS)) {
+    out.push({ key: `:${t.token.toLowerCase()}`, sym: t.symbol ?? "?", ca: t.token, chain: "", at: Date.now(), color: COLOR.hot,
+      head: hot(t) ? `🔥 top traders buying: ${t.buyers_1h ?? 0} wallet${t.buyers_1h === 1 ? "" : "s"}, ${k(t.buy_usd_1h ?? 0)} in 1h`
+        : `🔥 top traders buying: ${t.buyers_6h ?? 0} wallets, ${k(t.buy_usd_6h ?? 0)} in 6h` });
+  }
+  const bought: { sym: string; head: string; why?: string | null; at: number }[] = [];
+  for (const t of d?.recent_trades ?? []) {
+    if (t.side !== "buy" || !t.book.startsWith("fly:") || t.symbol.startsWith("azuro:") || SKIP_TAGS.has(t.book.split("/")[1] ?? "")) continue;
+    if (Date.parse(t.at) >= since) bought.push({ sym: t.symbol, head: `🏦 Fly Desk bought ${usd(t.usd)}`, at: Date.parse(t.at) });
+  }
+  const top = (await board().catch(() => null))?.d7.filter((w) => w.active && w.profit_7d > 0).slice(0, flies).flatMap((w) => w.flies) ?? [];
+  for (const fly of top) {
+    for (const r of (await flyLog(fly).catch(() => null))?.rows ?? []) {
+      if (r.type !== "trade" || r.side !== "buy" || r.status !== "filled" || ms(r.at) < since) continue;
+      if (r.symbol.startsWith("azuro:") || r.tag === "poly" || SKIP_TAGS.has(r.tag)) continue;
+      bought.push({ sym: r.symbol, head: `🪰 Fly #${fly} bought${r.usd ? ` ${usd(r.usd)}` : ""}`, why: r.why, at: ms(r.at) });
+    }
+  }
+  for (const b of bought.sort((x, y) => y.at - x.at)) {
+    const ca = await contractOf(b.sym).catch(() => null);
+    const chain = chainOf(b.sym);
+    if (ca) out.push({ key: `${chain}:${ca.toLowerCase()}`, sym: b.sym, ca, chain, at: b.at, head: b.head, why: b.why ?? null, color: COLOR.buy });
+  }
+  for (const f of [...(d?.alpha?.found ?? [])].sort((x, y) => y.at - x.at)) {
+    const chain = chainOf(f.symbol);
+    out.push({ key: `${chain}:${f.token.toLowerCase()}`, sym: f.symbol, ca: f.token, chain, at: f.at * 1000, head: "🆕 new pool, passed the checks", color: COLOR.found });
+  }
+  const seen = new Set<string>(), posts: Post[] = [], end = Date.now() + ASK_BUDGET_MS;
+  let checks = 0;
+  for (const c of out) {
+    if (seen.has(c.key) || /^FLYAI\b/.test(ticker(c.sym))) continue;   // ($FLYAI has its own answers)
+    seen.add(c.key);
+    if (posts.length >= max || checks >= ASK_CHECKS || Date.now() > end) break;
+    checks++;
+    const v = await screen(c.ca, c.chain).catch(() => null);
+    if (v?.ok) posts.push({ ...callPost(c, v), ping: false });
+  }
+  return posts;
 }
 
 // ---------------------------------------------------------------- the loop
@@ -180,7 +245,11 @@ export function startAlpha(client: Client, targets: Target[], opts: { flies: num
       return !v.failed;
     }
     const msgs = await send(callPost(c, v));
-    if (msgs) called.set(c.key, { at: Date.now(), msgs });
+    if (msgs) {
+      called.set(c.key, { at: Date.now(), msgs });
+      RECENT.unshift(c);
+      RECENT.length = Math.min(RECENT.length, RECENT_KEEP);
+    }
     return true;
   }
 

@@ -96,6 +96,14 @@ export type Wallet = {
 };
 export type Board = { h24: Wallet[]; d7: Wallet[]; all: Wallet[] };
 
+// ---------------------------------------------------------------- partner NFT collections (mine /api/partners)
+export type Partner = {
+  id: string; name: string; fee_bps: number; hold_flyai: number; wallets: { on: boolean };
+  house_token: { symbol: string } | null;
+  collection: { chain: string; image: string | null; url: string | null; extra?: { name: string; url?: string | null }[] };
+};
+export const partners = () => getJSON<{ partners: Partner[] }>(`${MINE}/api/partners`).then((r) => r.partners);
+
 export const board = () => getJSON<Board>(`${MINE}/api/vaults/leaderboard?chain=robinhood`);
 
 /** One line of a Fly Wallet's terminal (mine /api/vaults/fly/:id/log; flytrade/web/src/vaults.ts LogRow), newest first. */

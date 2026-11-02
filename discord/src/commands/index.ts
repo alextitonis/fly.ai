@@ -1,11 +1,15 @@
 // Every ! command the bot knows. Add a file next to these and list it here; !help lists them on its own.
 import type { Message } from "discord.js";
+import { alpha } from "./alpha.ts";
+import { buy } from "./buy.ts";
 import { flydesk } from "./flydesk.ts";
 import { help } from "./help.ts";
 import { leaderboard } from "./leaderboard.ts";
 import { marketplace } from "./marketplace.ts";
+import { partners } from "./partners.ts";
 import { price } from "./price.ts";
 import { project } from "./project.ts";
+import { research } from "./research.ts";
 import { scan } from "./scan.ts";
 import { stats } from "./stats.ts";
 import { token } from "./token.ts";
@@ -20,4 +24,4 @@ export type Command = {
 };
 
 export const PREFIX = "!";
-export const commands: Command[] = [project, token, price, stats, flydesk, leaderboard, marketplace, scan, help];
+export const commands: Command[] = [project, token, price, stats, flydesk, buy, leaderboard, marketplace, partners, alpha, research, scan, help];

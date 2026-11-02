@@ -3565,8 +3565,9 @@ async function computeExperimentsNow(): Promise<void> {
   const ref = reference;
   if (!ref) return;
   const t0 = Date.now();
-  // (the atlas is 62 orders with no summary of its own: 62 cards with no control, and 18,600 file reads every pass)
-  const orders = houseOrders(null).orders.filter((o) => o.label && !o.label.startsWith("mining/") && !o.label.startsWith("atlas/"))
+  // (the atlas is 62 orders with no summary of its own: 62 cards with no control, and 18,600 file reads every pass;
+  // encoding/msit-* is 60 parts of one market test, read by flytrade/research/fleet/fit.py: conditions there are just s0, s6...)
+  const orders = houseOrders(null).orders.filter((o) => o.label && !o.label.startsWith("mining/") && !o.label.startsWith("atlas/") && !o.label.startsWith("encoding/msit-"))
     .sort((a, b) => a.created_at - b.created_at);
   const outputOf = (row: any): Buffer | null => (row.output?.hash ? storedBlob(row.output.hash) : null);
   const worldRuns = (id: string) => orderResults(id, 0, SAMPLE.world).rows.map(outputOf).filter(Boolean).map((b) => JSON.parse(b!.toString()) as WorldRun);

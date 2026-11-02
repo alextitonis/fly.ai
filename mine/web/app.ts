@@ -68,9 +68,11 @@ async function toggle(): Promise<void> {
     button.textContent = t("compute.index.startMining");
     return;
   }
-  const engine = $<HTMLSelectElement>("engine").value as "gpu" | "cpu";
+  const select = $<HTMLSelectElement>("engine");
+  const engine = select.value as "gpu" | "cpu";
   store.set(LABEL_KEY, $<HTMLInputElement>("label").value.trim());
-  store.set(ENGINE_KEY, engine);
+  // CPU as the only option isn't a choice: Chrome can drop WebGPU until it restarts, and GPU should come back after
+  if (select.options.length > 1) store.set(ENGINE_KEY, engine);
   button.textContent = t("compute.index.stop");
   refresh();
   void keepAwake(true);
@@ -255,11 +257,12 @@ $("phone-hint").hidden = !phone;
 // a phone GPU runs a batch far slower than a desktop one; a smaller batch reports back sooner
 if (phone) $<HTMLSelectElement>("batch").value = "8";
 $("cpu").textContent = t("compute.index.cpuThreads", { count: cores }) + (memoryGb ? t("compute.index.cpuMemory", { gb: memoryGb }) : "");
-probeGpu().then((probe) => {
+const gpuProbed = probeGpu().then((probe) => {
   $("gpu").textContent = probe.usable ? `${probe.name} (WebGPU)` : t("compute.index.gpuCant", { reason: probe.reason ?? "" });
   const engine = $<HTMLSelectElement>("engine");
   if (probe.usable) engine.add(new Option("GPU", "gpu"), 0);
-  engine.value = probe.usable && store.get(ENGINE_KEY) !== "cpu" ? "gpu" : "cpu";
+  // Start pressed before this answered: the select keeps saying what's actually running
+  if (!miner.running) engine.value = probe.usable && store.get(ENGINE_KEY) !== "cpu" ? "gpu" : "cpu";
   showEngine();
 });
 $("engine").addEventListener("change", showEngine);
@@ -347,7 +350,8 @@ async function checkBuild(): Promise<void> {
   } catch { /* offline, or no version file: try again later */ }
 }
 setInterval(() => { void checkBuild(); }, 15 * 60_000);
-(() => {
+// after the GPU check: until then the engine list holds only CPU, so a GPU miner would come back on CPU and stay there
+void gpuProbed.then(() => {
   let raw: string | null = null;
   try {
     raw = sessionStorage.getItem(RESUME_KEY);
@@ -361,7 +365,8 @@ setInterval(() => { void checkBuild(); }, 15 * 60_000);
       if ([...el.options].some((o) => o.value === String(r[id]))) el.value = String(r[id]);
     }
     $<HTMLInputElement>("programs").checked = !!r.programs;
+    showEngine();
     void toggle();                                       // the page reloaded itself while mining: carry on
   } catch { /* a bad saved value: leave it stopped */ }
-})();
+});
 document.addEventListener("visibilitychange", () => { if (!document.hidden) { refresh(); void refreshMining(); } });

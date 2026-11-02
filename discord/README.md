@@ -38,6 +38,13 @@ Tag the bot (or reply to it) and it answers like a fly: keywords pick a mood (sw
 banana → landing on it, gm → turns around, questions → washing its face), the mood picks a line (`src/fly.ts`, no AI).
 One reply per person every 5 s.
 
+**Tagging the bot** with a question (`src/intent.ts`, keyword checks, no model) answers like the command: "@fly.ai how's
+the price" = `!price`, also the leaderboard, stats, the contract, the desk, the market, what the project is, how to buy (`!buy`), partner collections (`!partners`), `scan 0x…`, "can you check this project Foo" / a contract / `@x` / a site
+(`!research`, `src/research.ts`: DexScreener, FxTwitter and the scam filter, fixed rules, sites through Fly Scan; `src/chatter.ts`: what people say on X and in the news, read by Haiku: needs the secrets APIFY_TOKEN and
+OPENROUTER_API_KEY, RESEARCH_X_PER_DAY reads a day, default 5, shared with the desk's Apify plan), and
+"any alpha?" / "suggest some tokens" = `!alpha` (up to 3 current tokens as cards, through the scam filter, once a minute per channel).
+Anything else gets a fly line back.
+
 **Alpha feed** (`src/alpha.ts`, on while `ALPHA_CHANNEL_ID` or `ALPHA_PARTNERS` is set in fly.toml): token calls as
 cards, like an alpha group chat. `ALPHA_PARTNERS` = `channel:role,...` sends the same feed to partners' channels and
 pings the role on new calls, bets and launches (not on sell replies); `DISCORD_GUILD_ID` is a comma list of the servers

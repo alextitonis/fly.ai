@@ -475,6 +475,20 @@ v2 result (2026-09-14): **NOT PASSED** again. Learning still made flies worse, j
 Memory now skips a third of trades instead of two thirds, but still costs money; dopamine still loses. Tubes are
 neutral in both checks (no harm, no measurable gain). On this evidence, learning is not an edge.
 
+**Replay on recorded market prices.** Synthetic paths are useful for controlled checks, but do not establish that a
+learner helps on the actual token universe. Export recent Fly Desk bars, then run the paired cohorts over that shared
+chronological price path:
+
+```powershell
+python flytrade/desk/score.py --days 30 --export-bars fly-learning-bars.json
+python flybook/worker/market_eval.py FLIES.json --prices-json fly-learning-bars.json --max-bars 200 --cohorts frozen,all --out fly-market-replay.json
+```
+
+This uses recorded prices but still simulates fills and a fixed fee; it does not replay wallet-specific fills, gas,
+slippage, refused orders, or cash opportunity costs. Treat it as a signal/behavior check, not proof of live
+profitability. A proper execution replay needs the trade ledger joined to these bars before changing any live learning
+setting.
+
 **Pause and resume training.**
 - Offline check: `market_eval.py` checkpoints to `OUT.checkpoint.json` every `--save-every` rounds and after each
   cohort; Ctrl+C saves and stops; rerun the same command with `--resume`. Checked: a run paused mid-cohort and resumed

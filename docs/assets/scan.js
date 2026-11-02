@@ -194,7 +194,7 @@ function factsGrid(j) {
   const f = j.report?.facts || {};
   const cells = [];
   const cell = (k, v) => v !== undefined && v !== null && v !== "" && cells.push(el("div", null, el("span", null, t(`scan.facts.${k}`)), el("b", null, String(v))));
-  if (j.kind === "contract") {
+  if (j.kind === "contract" || f.collection) {   // (f.collection: an OpenSea link, scanned as the NFT's contract)
     const px = f.proxy;
     const who = (o) => o ? `${o.kind}${o.address ? ` ${short(o.address)}` : ""}` : t("scan.facts.none");
     cell("owner", who(f.owner));

@@ -40,8 +40,8 @@ const RUNS = !process.argv.includes("--no-runs");
 const REPO = fileURLToPath(new URL("../../", import.meta.url));
 const CONNECTOME = join(REPO, "world/public/connectome");
 const HOUSE = arg("house", fileURLToPath(new URL("../data/house/", import.meta.url)));
-/** Local pulls that stay out of the dataset: the trading replays are ours, not brain research. */
-const PRIVATE_HOUSE = /^replay\//;
+/** Local pulls that stay out of the dataset: the trading replays and the market test are ours, not brain research. */
+const PRIVATE_HOUSE = /^(replay|encoding\/msit-)/;
 
 const errors: { what: string; error: string }[] = [];
 const fail = (what: string, err: unknown) => {

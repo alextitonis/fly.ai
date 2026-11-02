@@ -4,6 +4,7 @@
 import type { Message } from "discord.js";
 import { SITE } from "../data.ts";
 import { embed } from "../format.ts";
+import { exactTarget } from "../research.ts";
 import type { Command } from "./index.ts";
 
 const API = process.env.SCAN_API ?? "https://flyai-mine.fly.dev";
@@ -49,6 +50,12 @@ export const scan: Command = {
   usage: "<0x… [chain] | site>",
   description: "Fly Scan a token contract (owner powers, honeypot) or a site (drainer check)",
   async run(message: Message<true>, args) {
+    // an OpenSea link: the NFT behind it, not OpenSea's own site (commands/research.ts scans its contract)
+    if (/opensea\.io\//i.test(args[0] ?? "") && exactTarget(args[0]!)?.kind === "nft") {
+      const { research } = await import("./research.ts");
+      await research.run(message, [args[0]!]);
+      return;
+    }
     const req = parse(args);
     if (typeof req === "string") { await message.reply(req); return; }
     const now = Date.now();
@@ -74,7 +81,7 @@ export const scan: Command = {
       return;
     }
     const r = job.report?.report ?? {};
-    const top = (r.findings ?? []).filter((f) => !f.unproven && (f.severity === "high" || f.severity === "medium")).slice(0, 4);
+    const top = (r.findings ?? []).filter((f) => !f.unproven && (f.severity === "high" || f.severity === "medium" || /^(Clean|Some grouped)/.test(f.title ?? ""))).slice(0, 5);
     const e = embed()
       .setColor(COLORS[job.verdict ?? "unknown"] ?? COLORS.unknown)
       .setTitle(`${WORDS[job.verdict ?? "unknown"]}: ${job.title ?? job.target}`.slice(0, 250))

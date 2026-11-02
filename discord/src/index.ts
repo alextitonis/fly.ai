@@ -1,9 +1,10 @@
 // fly.ai Discord bot: logs in over the gateway, answers ! commands and talks back like a fly when tagged. No HTTP server, so no ports on fly.io.
 // Reading messages needs the Message Content intent: developer portal -> Bot -> Privileged Gateway Intents.
-import { Client, Events, GatewayIntentBits } from "discord.js";
+import { Client, Events, GatewayIntentBits, type Message } from "discord.js";
 import { commands, PREFIX } from "./commands/index.ts";
 import { need } from "./env.ts";
 import { flyReply } from "./fly.ts";
+import { intentOf } from "./intent.ts";
 import { parseTargets, startAlpha } from "./alpha.ts";
 
 const byName = new Map(commands.flatMap((c) => [c.name, ...(c.aliases ?? [])].map((n) => [n, c] as const)));
@@ -19,6 +20,18 @@ client.once(Events.ClientReady, (c) => {
   if (alpha.length) startAlpha(c, alpha, { flies: Number(process.env.ALPHA_FLIES ?? 5), pollMs: Number(process.env.ALPHA_POLL_MS ?? 120_000) });
 });
 
+/** "fly.ai is typing…" for as long as `work` runs (Discord's lasts 10 s, a command can take a minute): it isn't stuck. */
+async function whileTyping(message: Message<true>, work: () => Promise<void>): Promise<void> {
+  const type = () => { if ("sendTyping" in message.channel) void message.channel.sendTyping().catch(() => {}); };
+  type();
+  const timer = setInterval(type, 8_000);
+  try {
+    await work();
+  } finally {
+    clearInterval(timer);
+  }
+}
+
 // tagging the bot (or replying to it) gets a fly line back, at most one per person every TAG_COOLDOWN_MS
 const TAG_COOLDOWN_MS = 5_000;
 const lastTag = new Map<string, number>();
@@ -32,6 +45,18 @@ client.on(Events.MessageCreate, async (message) => {
     if (now - (lastTag.get(message.author.id) ?? 0) < TAG_COOLDOWN_MS) return;
     lastTag.set(message.author.id, now);
     const text = message.content.replace(/<@!?\d+>/g, " ");
+    // a question a command can answer ("how's the price") gets that command's answer; anything else, a fly line
+    const intent = intentOf(text);
+    const asked = intent && byName.get(intent.command);
+    if (asked) {
+      try {
+        await whileTyping(message, () => asked.run(message, intent.args));
+      } catch (err) {
+        console.error(`tag -> ${intent.command} failed`, err);
+        await message.reply("Couldn't get that right now, try again in a minute.").catch(() => {});
+      }
+      return;
+    }
     await message.reply({ content: flyReply(text, message.channelId), allowedMentions: { repliedUser: false } }).catch(() => {});
     return;
   }
@@ -39,8 +64,7 @@ client.on(Events.MessageCreate, async (message) => {
   const command = byName.get(name.toLowerCase());
   if (!command) return;
   try {
-    await message.channel.sendTyping().catch(() => {});   // "fly.ai is typing…" while live data loads
-    await command.run(message, args);
+    await whileTyping(message, () => command.run(message, args));
   } catch (err) {
     console.error(`${PREFIX}${name} failed`, err);
     await message.reply("Couldn't get that right now, try again in a minute.").catch(() => {});
