@@ -1291,6 +1291,7 @@
     "passNo": "Vazgeç",
     "countingText": "Yeni para geldi. Sinek bir sonraki turunda, 15 dakika içinde onunla işlem yapmaya başlar.",
     "gasTitle": "Gas için {sym} gerekiyor.",
+    "gasTextOwn": "Bu cüzdan gazını kendi öder, bu yüzden {sym} ekleyene kadar işlem yapmaz. Çekim yine de çalışır: o ücreti biz karşılarız.",
     "gasText": "Her işlem biraz {sym} harcar. Ev, bir sonraki turda (15 dakika içinde) sineğe başlangıç miktarı gönderir; ya da şimdi sen ekleyebilirsin.",
     "gasGo": "{amount} {sym} gönder",
     "gasSent": "Gönderildi: sinek işlemlerinin ücretini ödeyebilir.",

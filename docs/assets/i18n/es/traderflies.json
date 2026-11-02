@@ -1291,6 +1291,7 @@
     "passNo": "Cancelar",
     "countingText": "El dinero nuevo ya está. La mosca empieza a operarlo en su próxima ronda, en menos de 15 minutos.",
     "gasTitle": "Necesita {sym} para el gas.",
+    "gasTextOwn": "Esta billetera paga su propio gas, así que no operará hasta que añadas algo de {sym}. Retirar sigue funcionando: nosotros cubrimos esa comisión.",
     "gasText": "Cada operación cuesta un poco de {sym}. La casa envía a la mosca una cantidad inicial en su próxima ronda (en menos de 15 minutos), o puedes añadir algo ahora.",
     "gasGo": "Enviar {amount} {sym}",
     "gasSent": "Enviado: la mosca puede pagar sus operaciones.",

@@ -1291,6 +1291,7 @@
     "passNo": "Cancel",
     "countingText": "New money is in. The fly starts trading it at its next round, within 15 minutes.",
     "gasTitle": "Needs {sym} for gas.",
+    "gasTextOwn": "This wallet pays its own gas, so it won't trade until you add some {sym}. Withdrawing still works: we cover that fee.",
     "gasText": "Every trade costs a tiny bit of {sym}. The house sends the fly a starter amount at its next round (within 15 minutes), or you can add some now.",
     "gasGo": "Send {amount} {sym}",
     "gasSent": "Sent: the fly can pay for its trades.",
