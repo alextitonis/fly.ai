@@ -1,4 +1,4 @@
-# fly.ai Discord bot on fly.io: the cheapest machine (shared 1 vCPU, 256 MB). It only holds a gateway connection
+# fly.ai Discord bot on fly.io: a small machine (shared 1 vCPU, 512 MB: 256 ran out on 2026-11-02). It holds a gateway connection
 # to Discord, so there's no [http_service]: nothing listens, nothing to auto-stop, and the one machine stays up.
 # Secrets (never in this file): fly secrets set DISCORD_TOKEN=... -a flyai-discord
 app = "flyai-discord"
@@ -12,6 +12,12 @@ primary_region = "arn"
   ALPHA_PARTNERS = "1535067968105349130:1558766211574276186"
   ALPHA_FLIES = "5"          # follow the top 5 Fly Wallets of the week
   ALPHA_POLL_MS = "120000"
+  DATA_DIR = "/data"         # src/store.ts: the day's read count, saved reads, the verdict log
+
+# fly volumes create flyai_discord_data -r arn -n 1 -s 1 -a flyai-discord (once, before the first deploy with this)
+[mounts]
+  source = "flyai_discord_data"
+  destination = "/data"
 
 [build]
   dockerfile = "Dockerfile"
@@ -22,4 +28,4 @@ primary_region = "arn"
 [[vm]]
   cpu_kind = "shared"
   cpus = 1
-  memory = "256mb"
+  memory = "512mb"

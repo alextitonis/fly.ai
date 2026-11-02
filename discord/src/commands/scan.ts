@@ -31,6 +31,26 @@ async function api<T>(path: string, body?: unknown): Promise<T> {
   return j;
 }
 
+export type SiteRead = { url: string; verdict: string | null; title: string | null; text: string; summary: string | null; findings: string[]; link: string };
+
+/** A project's website read by the Fly Scan worker (never by the bot): for !research. Counts as one of the bot's daily scans unless it was
+ *  scanned in the last 24 h. null: not set up, out of scans, or not done in `waitMs`. */
+export async function siteRead(url: string, waitMs = 60_000): Promise<SiteRead | null> {
+  const started = await api<{ id: string }>("/api/scan/bot", { kind: "site", target: url }).catch(() => null);
+  if (!started) return null;
+  for (const until = Date.now() + waitMs; Date.now() < until;) {
+    const job = await api<Job & { report: { facts?: { text?: string; title?: string } } | null }>(`/api/scan/job/${started.id}`).catch(() => null);
+    if (job?.status === "failed") return null;
+    if (job?.status === "done") {
+      const r = job.report?.report ?? {};
+      return { url, verdict: job.verdict, title: job.report?.facts?.title ?? job.title, text: String(job.report?.facts?.text ?? "").slice(0, 2500), summary: r.summary ?? null,
+        findings: (r.findings ?? []).filter((f) => !f.unproven && (f.severity === "high" || f.severity === "medium")).map((f) => f.title ?? "").filter(Boolean).slice(0, 4), link: `${SITE}/scan?r=${started.id}` };
+    }
+    await new Promise((r) => setTimeout(r, 4000));
+  }
+  return null;
+}
+
 /** "!scan 0xabc base" / "!scan https://x.io" -> the scan request, or why not. */
 export function parse(args: string[]): { kind: "contract" | "site"; target: string; chain?: string } | string {
   const [what = "", where = ""] = args;

@@ -13,6 +13,7 @@ import { research } from "./research.ts";
 import { scan } from "./scan.ts";
 import { stats } from "./stats.ts";
 import { token } from "./token.ts";
+import { track } from "./track.ts";
 
 export type Command = {
   name: string;
@@ -24,4 +25,4 @@ export type Command = {
 };
 
 export const PREFIX = "!";
-export const commands: Command[] = [project, token, price, stats, flydesk, buy, leaderboard, marketplace, partners, alpha, research, scan, help];
+export const commands: Command[] = [project, token, price, stats, flydesk, buy, leaderboard, marketplace, partners, alpha, research, track, scan, help];

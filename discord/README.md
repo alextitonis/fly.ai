@@ -40,8 +40,8 @@ One reply per person every 5 s.
 
 **Tagging the bot** with a question (`src/intent.ts`, keyword checks, no model) answers like the command: "@fly.ai how's
 the price" = `!price`, also the leaderboard, stats, the contract, the desk, the market, what the project is, how to buy (`!buy`), partner collections (`!partners`), `scan 0x…`, "can you check this project Foo" / a contract / `@x` / a site
-(`!research`, `src/research.ts`: DexScreener, FxTwitter and the scam filter, fixed rules, sites through Fly Scan; `src/chatter.ts`: what people say on X and in the news, read by Haiku: needs the secrets APIFY_TOKEN and
-OPENROUTER_API_KEY, RESEARCH_X_PER_DAY reads a day, default 5, shared with the desk's Apify plan), and
+(`!research`, `src/research.ts`: DexScreener, FxTwitter and the scam filter, fixed rules; `src/sources.ts`: pools, price history, who's trading, the creator's other launches, paid promotion, site age, code, CoinGecko, what our desk and wallets did; sites through Fly Scan; `src/chatter.ts`: their posts now and months ago, replies, what others say, a search for trouble, the web and news, read by Haiku: needs the secrets APIFY_TOKEN and
+OPENROUTER_API_KEY, RESEARCH_X_PER_DAY reads a day, default 5, shared with the desk's Apify plan). `!track` shows how its verdicts held up (`src/track.ts`, the volume at DATA_DIR keeps the log), and
 "any alpha?" / "suggest some tokens" = `!alpha` (up to 3 current tokens as cards, through the scam filter, once a minute per channel).
 Anything else gets a fly line back.
 

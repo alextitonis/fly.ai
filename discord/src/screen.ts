@@ -27,8 +27,9 @@ const MAX_LOGS = 60_000;                                    // the RPC returns a
 const RPC_GAP_MS = 350;                                     // the public RPC answers 429 to bursts
 const TRANSFER = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
 const ZERO = "0x0000000000000000000000000000000000000000", DEAD = "0x000000000000000000000000000000000000dead";
-const DEX_CHAIN: Record<string, string> = { "": "robinhood", base: "base", bsc: "bsc", arbitrum: "arbitrum" };
-const GOPLUS_CHAIN: Record<string, number> = { robinhood: 4663, base: 8453, bsc: 56, arbitrum: 42161 };
+// (ethereum and solana: only !research asks for them, the feed follows wallets that trade the other four)
+const DEX_CHAIN: Record<string, string> = { "": "robinhood", base: "base", bsc: "bsc", arbitrum: "arbitrum", ethereum: "ethereum", solana: "solana" };
+const GOPLUS_CHAIN: Record<string, number> = { robinhood: 4663, base: 8453, bsc: 56, arbitrum: 42161, ethereum: 1 };
 const GOPLUS_GAP_MS = 2_500;                                // the free API: one token a call, and it goes quiet on bursts
 const MAX_TAX = 0.1;
 
@@ -49,7 +50,13 @@ export type Verdict = {
   holdersSkipped?: string;       // why the holder check didn't run (the token passed on its pool alone)
   tax?: number;                  // the higher of buy and sell tax (GoPlus), 0..1
   contractChecked?: boolean;     // GoPlus read it (the call says so)
+  contractClean?: boolean;       // ...and found nothing wrong
   image?: string;                // the token's picture on DexScreener, when it has one
+  lp?: { locked: number; holders: number | null };   // the share of its LP GoPlus (or RugCheck) shows as locked or burned, 0..1
+  creator?: string;              // who deployed it
+  creatorPct?: number;           // what they still hold, 0..1
+  creatorHoneypots?: number;     // honeypots GoPlus ties to the same creator
+  warnings?: string[];           // RugCheck's lesser risks: worth a look, not a red flag
 };
 
 const verdicts = new Map<string, { at: number; v: Verdict }>();
@@ -115,11 +122,35 @@ function goplus(chain: string, ca: string): Promise<Record<string, unknown> | nu
   return run;
 }
 
+/** Solana has its own risks (mint and freeze authority, LP burn): RugCheck's free summary, the way GoPlus is for the others. */
+async function rugcheck(v: Verdict): Promise<void> {
+  const res = await fetch(`https://api.rugcheck.xyz/v1/tokens/${v.ca}/report/summary`, { signal: AbortSignal.timeout(20_000) });
+  const r = res.ok ? ((await res.json()) as { risks?: { name?: string; level?: string }[]; lpLockedPct?: number }) : null;
+  if (!r) { v.failed = true; v.why.push("contract not checked yet"); return; }
+  const risks = r.risks ?? [];
+  for (const x of risks) if (x.level === "danger" && x.name) v.why.push(x.name);
+  v.warnings = risks.filter((x) => x.level === "warn" && x.name).map((x) => x.name!);
+  if (r.lpLockedPct != null) v.lp = { locked: r.lpLockedPct / 100, holders: null };
+  v.contractChecked = true;
+  v.contractClean = !v.why.length;
+}
+
 async function contract(v: Verdict): Promise<void> {
+  if (v.chain === "solana") return rugcheck(v);
   if (!GOPLUS_CHAIN[v.chain]) return;
   const r = await goplus(v.chain, v.ca);
   if (!r || !Object.keys(r).length) { v.failed = true; v.why.push("contract not checked yet"); return; }
+  const before = v.why.length;
   const on = (k: string) => String(r[k] ?? "") === "1";
+  // (read for !research's card; the feed's filter doesn't use them)
+  const lp = Array.isArray(r.lp_holders) ? (r.lp_holders as { address?: string; is_locked?: number; percent?: string }[]) : [];
+  if (lp.length) v.lp = { holders: Number(r.lp_holder_count ?? lp.length), locked: Math.min(1, lp.reduce((sum, h) => {
+    const a = String(h.address ?? "").toLowerCase();
+    return Number(h.is_locked) === 1 || a === ZERO || a === DEAD ? sum + Number(h.percent ?? 0) : sum;
+  }, 0)) };
+  if (r.creator_address) v.creator = String(r.creator_address).toLowerCase();
+  if (r.creator_percent != null) v.creatorPct = Number(r.creator_percent);
+  if (Number(r.honeypot_with_same_creator)) v.creatorHoneypots = Number(r.honeypot_with_same_creator);
   // other chains: no Transfer history to read for free, but GoPlus lists the top holders (a share, no bundle check)
   const listed = Array.isArray(r.holders) ? (r.holders as { percent?: string; is_contract?: number }[]) : [];
   if (v.chain !== "robinhood" && listed.length) {
@@ -144,6 +175,14 @@ async function contract(v: Verdict): Promise<void> {
   v.tax = Math.max(Number(r.buy_tax || 0), Number(r.sell_tax || 0));
   if (v.tax > MAX_TAX) v.why.push(`tax ${pctOf(v.tax)}`);
   v.contractChecked = true;
+  v.contractClean = v.why.length === before;
+}
+
+/** The contract alone, for !research: the filter stops at a thin pool, and a thin new pool is where owner powers matter most. */
+export async function contractCheck(ca: string, chainKey = ""): Promise<Verdict> {
+  const v = empty(ca, chainKey);
+  await contract(v).catch((err) => { v.failed = true; v.why.push(`contract check failed: ${(err as Error).message.slice(0, 40)}`); });
+  return v;
 }
 
 // ---------------------------------------------------------------- Robinhood Chain holders from Transfer logs
@@ -167,7 +206,7 @@ function rpc<T>(body: unknown): Promise<T> {
   return run;
 }
 
-async function call<T>(method: string, params: unknown[]): Promise<T> {
+export async function call<T>(method: string, params: unknown[]): Promise<T> {
   const r = await rpc<{ result?: T; error?: { message: string } }>({ jsonrpc: "2.0", id: 1, method, params });
   if (r.error) throw new Error(`${method}: ${r.error.message}`);
   return r.result as T;
