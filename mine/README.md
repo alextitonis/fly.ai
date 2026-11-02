@@ -346,6 +346,10 @@ their own beside the batch. Everything they upload or produce is kept for good (
     `POST /api/admin/house/:id/jobs {count|inputs}` adds jobs (programs); `POST /api/admin/house/:id/stop`
     stops one.
   - **Public:** `GET /api/house` lists house orders and progress.
+  - **Finished orders:** with `PACK_ORDERS=1`, `PACK_AFTER_HOURS` (1) after an order ends its outputs become one `pack`
+    file (`src/pack.ts`) and a probe order's a gzipped csv `table`, both linked from `/api/house`. The separate files go
+    once the pack has read back whole; `/api/blobs` keeps answering for them from the pack. Orders over `PACK_MAX_MB`
+    (256) and `mining/*` stay as they are.
 - **Seeding:** `node scripts/seed-house.ts [--dry-run] [--only prefix]` (needs `ADMIN_TOKEN`) starts the first
   orders and skips labels that already exist:
   - **tuning/threat, tuning/target, tuning/touch:** wider brain sweeps.

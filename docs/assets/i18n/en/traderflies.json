@@ -1840,6 +1840,7 @@
     "by": "by {part}",
     "tx": "tx",
     "move": {
+      "refund": "EARNED",
       "sol_deposit": "SOL IN",
       "sol_withdraw": "SOL OUT",
       "sol_home": "SOL HOME",
@@ -1855,6 +1856,7 @@
       "promo_return": "BONUS BACK"
     },
     "moveText": {
+      "refund": "earned, added to this wallet",
       "sol_deposit": "SOL added on Solana",
       "sol_withdraw": "SOL paid to the holder's address",
       "sol_home": "SOL bridged back as USDG",

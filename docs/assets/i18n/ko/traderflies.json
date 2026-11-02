@@ -1838,6 +1838,7 @@
     "by": "{part}",
     "tx": "tx",
     "move": {
+      "refund": "수익",
       "sol_deposit": "SOL 입금",
       "sol_withdraw": "SOL 출금",
       "sol_home": "SOL 복귀",
@@ -1853,6 +1854,7 @@
       "promo_return": "보너스 반환"
     },
     "moveText": {
+      "refund": "수익, 이 지갑에 추가됨",
       "sol_deposit": "Solana에 SOL 추가",
       "sol_withdraw": "보유자 주소로 SOL 지급",
       "sol_home": "SOL을 USDG로 브리지",

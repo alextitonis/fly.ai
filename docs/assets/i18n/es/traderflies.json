@@ -1840,6 +1840,7 @@
     "by": "por {part}",
     "tx": "tx",
     "move": {
+      "refund": "GANADO",
       "sol_deposit": "ENTRADA SOL",
       "sol_withdraw": "SALIDA SOL",
       "sol_home": "SOL DE VUELTA",
@@ -1855,6 +1856,7 @@
       "promo_return": "BONO DEVUELTO"
     },
     "moveText": {
+      "refund": "ganado, añadido a esta billetera",
       "sol_deposit": "SOL añadido en Solana",
       "sol_withdraw": "SOL pagado a la dirección del titular",
       "sol_home": "SOL devuelto como USDG",

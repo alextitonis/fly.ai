@@ -7,6 +7,7 @@
  *   order.json      the order: spec, status, progress
  *   results.jsonl   one settled row per line, in settle order (appended; `next` in cursor.json)
  *   outputs/        program outputs by seq: world runs as <seq>.json, probes as <seq>.u16 (+ layout.json), others .bin
+ *   table.csv.gz    a finished probe order's results table, once the server has folded it
  * Brain sweeps have no outputs: their rows hold the spike counts.
  *
  * Probe layout: a probe output is u16 counts, bins x neurons, over the record sets in order. layout.json lists each
@@ -15,6 +16,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { decodePack } from "../src/pack.ts";
 
 const arg = (name: string, fallback: string) => {
   const i = process.argv.indexOf(`--${name}`);
@@ -25,10 +27,15 @@ const OUT = arg("out", fileURLToPath(new URL("../data/house/", import.meta.url))
 const LABEL = arg("label", "");
 const CONNECTOME = fileURLToPath(new URL("../../world/public/connectome/", import.meta.url));
 
+// a deploy leaves the server dark for minutes: keep trying for 15 before giving up
 const get = async (path: string) => {
-  const res = await fetch(SERVER + path);
-  if (!res.ok) throw new Error(`${path}: HTTP ${res.status}`);
-  return res;
+  for (let tries = 0; ; tries++) {
+    const res = await fetch(SERVER + path, { signal: AbortSignal.timeout(60_000) }).catch((err: Error) => err);
+    if (res instanceof Response && res.ok) return res;
+    const why = res instanceof Response ? `HTTP ${res.status}` : res.message;
+    if (tries >= 30 || (res instanceof Response && res.status < 500)) throw new Error(`${path}: ${why}`);
+    await new Promise((r) => setTimeout(r, 30_000));
+  }
 };
 
 let layouts: Map<string, unknown> | null = null;
@@ -51,7 +58,7 @@ async function probeLayout(record: string[]): Promise<unknown> {
   return layouts.get(key);
 }
 
-const { orders } = await (await get("/api/house")).json() as { orders: { id: string; label: string; kind: string; status: string; settled: number }[] };
+const { orders } = await (await get("/api/house")).json() as { orders: { id: string; label: string; kind: string; status: string; settled: number; pack?: { url: string }; table?: { url: string } }[] };
 let total = 0;
 for (const summary of orders) {
   if (LABEL && !summary.label.startsWith(LABEL)) continue;
@@ -62,17 +69,25 @@ for (const summary of orders) {
   const cursorFile = join(dir, "cursor.json");
   let after = existsSync(cursorFile) ? JSON.parse(readFileSync(cursorFile, "utf8")).next : 0;
   let rows = 0;
+  // a finished order's outputs come as one file, not a download each
+  let packed: Map<string, Buffer> | null = null;
+  const output = async (row: { output: { url: string; hash: string } }) => {
+    if (summary.pack && !packed) packed = decodePack(Buffer.from(await (await get(summary.pack.url)).arrayBuffer()), true);
+    return packed?.get(row.output.hash) ?? Buffer.from(await (await get(row.output.url)).arrayBuffer());
+  };
+  if (summary.table && !existsSync(join(dir, "table.csv.gz"))) writeFileSync(join(dir, "table.csv.gz"), Buffer.from(await (await get(summary.table.url)).arrayBuffer()));
   for (;;) {
     const page = await (await get(`/api/orders/${summary.id}/results?after=${after}&limit=5000`)).json();
+    // rows go in only once the page's outputs are saved, so a pull that dies mid-page can't write a row twice
     for (const row of page.rows) {
-      appendFileSync(join(dir, "results.jsonl"), `${JSON.stringify(row)}\n`);
       if (row.output?.url) {
         const ext = order.kind === "world" ? "json" : order.kind === "probe" ? "u16" : "bin";
         const file = join(dir, "outputs", `${row.seq}.${ext}`);
-        if (!existsSync(file)) writeFileSync(file, Buffer.from(await (await get(row.output.url)).arrayBuffer()));
+        if (!existsSync(file)) writeFileSync(file, await output(row));
       }
       rows++;
     }
+    if (page.rows.length) appendFileSync(join(dir, "results.jsonl"), page.rows.map((row: unknown) => `${JSON.stringify(row)}\n`).join(""));
     after = page.next;
     writeFileSync(cursorFile, JSON.stringify({ next: after }));
     if (!page.more || !page.rows.length) break;

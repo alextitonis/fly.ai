@@ -36,8 +36,15 @@ Each order is safe to re-run: labels that exist are skipped.
 
 ## Pull
 
-Outputs don't expire. 39,490 small files don't belong in OneDrive, so pull outside it. A pull is sequential, about 1-2 h,
-and resumes if it dies:
+With `PACK_ORDERS=1` the server folds each finished order about an hour after it ends, and `/api/house` lists its `table`
+and `pack`. Once all 62 have a table, the export builds `atlas.csv.gz` from them with no pull:
+
+```sh
+npm run export:dataset
+```
+
+Before that, it folds a local pull instead. Outputs don't expire, but 39,490 small files don't belong in OneDrive, so pull
+outside it. A pull resumes if it dies, and takes minutes from packs or about 1-2 h file by file:
 
 ```sh
 npm run pull:house -- --label atlas/ --out C:/Users/artif/fly-data/house

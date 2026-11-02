@@ -1840,6 +1840,7 @@
     "by": "{part} ile",
     "tx": "tx",
     "move": {
+      "refund": "KAZANÇ",
       "sol_deposit": "SOL GİRİŞ",
       "sol_withdraw": "SOL ÇIKIŞ",
       "sol_home": "SOL DÖNÜŞ",
@@ -1855,6 +1856,7 @@
       "promo_return": "BONUS İADE"
     },
     "moveText": {
+      "refund": "kazanç, bu cüzdana eklendi",
       "sol_deposit": "Solana'da SOL eklendi",
       "sol_withdraw": "SOL sahibin adresine ödendi",
       "sol_home": "SOL, USDG olarak geri köprülendi",

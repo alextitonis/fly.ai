@@ -24,10 +24,10 @@ import { execFileSync } from "node:child_process";
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { gunzipSync } from "node:zlib";
+import { gunzipSync, gzipSync } from "node:zlib";
 import { cells, cellsWithPrefix, parseMeta } from "../../world/src/connectome.ts";
 import { CHANNELS } from "../src/model.ts";
-import { atlasInputs, foldAtlas } from "./atlas.ts";
+import { ATLAS_PREFIX, atlasInputs, foldAtlas } from "./atlas.ts";
 
 const arg = (name: string, fallback: string) => {
   const i = process.argv.indexOf(`--${name}`);
@@ -250,13 +250,32 @@ if (existsSync(HOUSE)) {
   console.log("  house: no local pulls (mine/data/house), skipped");
 }
 
-// ---- the atlas: a local pull folded into one table, only if pulled -----------------------------------------------
+// ---- the atlas: the server's folded tables if every order has one, else a local pull folded into one table ---------
+/** One table from the per-order tables at /api/house; null until all the atlas orders have theirs. */
+async function atlasFromServer(out: string): Promise<Record<string, unknown> | null> {
+  type Table = { url: string; rows: number; conditions: number; jobs: number; seeds_min: number; seeds_max: number };
+  const { orders } = await getJson<{ orders: { label: string; table?: Table }[] }>("/api/house");
+  const parts = orders.filter((o) => o.label?.startsWith(`${ATLAS_PREFIX}/`)).sort((a, b) => a.label.localeCompare(b.label));
+  if (!parts.length || parts.some((o) => !o.table)) return null;
+  const chunks: string[] = [];
+  for (const [i, o] of parts.entries()) {
+    const res = await fetch(SERVER + o.table!.url, { signal: AbortSignal.timeout(120_000) });
+    if (!res.ok) throw new Error(`${o.label} table: HTTP ${res.status}`);
+    const text = gunzipSync(Buffer.from(await res.arrayBuffer())).toString("utf8");
+    chunks.push(i ? text.slice(text.indexOf("\n") + 1) : text);
+  }
+  writeFileSync(out, gzipSync(chunks.join("")));
+  const t = parts.map((o) => o.table!);
+  return { source: "server tables", orders: t.length, conditions: t.reduce((a, x) => a + x.conditions, 0), rows: t.reduce((a, x) => a + x.rows, 0), jobs: t.reduce((a, x) => a + x.jobs, 0),
+    seeds_min: Math.min(...t.map((x) => x.seeds_min)), seeds_max: Math.max(...t.map((x) => x.seeds_max)) };
+}
+
 let atlas: Record<string, unknown> | null = null;
 try {
   const raw = readFileSync(join(CONNECTOME, "meta.bin"));
   const buf = raw[0] === 0x1f && raw[1] === 0x8b ? gunzipSync(raw) : raw;
   const inputs = atlasInputs(parseMeta(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer));
-  atlas = await foldAtlas(HOUSE, join(OUT, "atlas.csv.gz"), inputs);
+  atlas = await atlasFromServer(join(OUT, "atlas.csv.gz")) ?? await foldAtlas(HOUSE, join(OUT, "atlas.csv.gz"), inputs);
   if (atlas) {
     files["atlas.csv.gz"] = { bytes: statSync(join(OUT, "atlas.csv.gz")).size, rows: atlas.rows as number };
     console.log(`  atlas.csv.gz: ${atlas.conditions} conditions, ${atlas.rows} rows`);

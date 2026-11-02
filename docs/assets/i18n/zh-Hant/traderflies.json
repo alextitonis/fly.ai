@@ -1838,6 +1838,7 @@
     "by": "由 {part}",
     "tx": "交易",
     "move": {
+      "refund": "收益",
       "sol_deposit": "SOL 轉入",
       "sol_withdraw": "SOL 轉出",
       "sol_home": "SOL 轉回",
@@ -1853,6 +1854,7 @@
       "promo_return": "獎勵退回"
     },
     "moveText": {
+      "refund": "收益，已加入此錢包",
       "sol_deposit": "在 Solana 上添加了 SOL",
       "sol_withdraw": "SOL 已付到持有人地址",
       "sol_home": "SOL 已跨鏈轉回為 USDG",

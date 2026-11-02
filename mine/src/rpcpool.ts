@@ -22,18 +22,48 @@ const limited = (body: any): boolean => {
 };
 
 /** POST one JSON-RPC payload; the parsed body from the first RPC that answers properly. */
-// QuickNode first for Robinhood Chain; its URL holds its key, so it comes from the env (fly secrets set QUICKNODE_RPC=...),
-// never the code (review 2026-10-03). Unset: the public RPCs only. Errors name the RPC's host, never the URL.
+// QuickNode on Robinhood Chain; its URL holds its key, so it comes from the env (fly secrets set QUICKNODE_RPC=...), never
+// the code (review 2026-10-03). Unset: the public RPCs only. Errors name the RPC's host, never the URL.
+// 2026-11-02 (58.4M of 80M credits used): the backup for routine reads, the public RPC first; first only for transactions.
 const QUICKNODE = (process.env.QUICKNODE_RPC ?? "").trim();
-const FIRST: Record<string, string> = QUICKNODE ? { "https://rpc.mainnet.chain.robinhood.com": QUICKNODE } : {};
+const ROBINHOOD = "https://rpc.mainnet.chain.robinhood.com";
+const PAID_FIRST = new Set(["eth_sendRawTransaction", "eth_getTransactionCount", "eth_estimateGas", "eth_gasPrice", "eth_maxPriorityFeePerGas"]);
 const host = (u: string) => { try { return new URL(u).host; } catch { return "rpc"; } };
+
+// RPC meter (2026-11-02, as the desk's onchain.py): requests by RPC, method and caller, the top ones logged every 10 min
+const METER = new Map<string, number>();
+const METER_EVERY_MS = 600_000;
+let meterAt = Date.now();
+const callerOf = (): string => {
+  const line = (new Error().stack ?? "").split("\n").slice(1).find((l) => !/rpcpool\.ts|node:internal/.test(l)) ?? "";
+  const m = /([\w.-]+\.ts):(\d+)/.exec(line);
+  return m ? `${m[1]}:${m[2]}` : "?";
+};
+function meter(u: string, method: string, who: string): void {
+  const kind = QUICKNODE && u === QUICKNODE ? "quicknode" : host(u);
+  const key = `${kind} ${method} ${who}`;
+  METER.set(key, (METER.get(key) ?? 0) + 1);
+  const now = Date.now();
+  if (now - meterAt < METER_EVERY_MS) return;
+  let total = 0, paid = 0;
+  for (const [k, n] of METER) { total += n; if (k.startsWith("quicknode ")) paid += n; }
+  const top = [...METER].sort((a, b) => b[1] - a[1]).slice(0, 15).map(([k, n]) => `${k} ${n}`).join(" | ");
+  console.log(`rpc meter: ${total} requests in ${((now - meterAt) / 60_000).toFixed(1)} min (${paid} quicknode) | ${top}`);
+  METER.clear();
+  meterAt = now;
+}
 
 export async function postRpc(url: string, payload: unknown, timeoutMs = 10_000): Promise<any> {
   const key = url.replace(/\/$/, "");
-  const urls = [...(FIRST[key] ? [FIRST[key]] : []), url, ...(RPC_FALLBACKS[key] ?? [])];
+  const method = String((payload as { method?: unknown })?.method ?? "batch");
+  const paid = QUICKNODE && key === ROBINHOOD ? QUICKNODE : "";
+  const urls = paid && PAID_FIRST.has(method) ? [paid, url, ...(RPC_FALLBACKS[key] ?? [])]
+    : [url, ...(paid ? [paid] : []), ...(RPC_FALLBACKS[key] ?? [])];
+  const who = callerOf();
   let last: unknown = null;
   for (const u of urls) {
     try {
+      meter(u, method, who);
       const res = await fetch(u, {
         method: "POST",
         // QuickNode's referrer whitelist (2026-10-14): the endpoint only answers the site's domain

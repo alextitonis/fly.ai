@@ -24,7 +24,7 @@
  *        MAX_JOBS 64 · JOB_TTL_MIN 20 · TRUST_PROXY (set behind a proxy)
  */
 import { createHash, randomBytes, randomUUID, timingSafeEqual } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { createReadStream, existsSync, mkdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { stripTypeScriptTypes } from "node:module";
 import { Session as InspectorSession } from "node:inspector/promises";
@@ -62,6 +62,7 @@ import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
 import { createPassFights } from "./passfights.ts";
 import { connectPg, lockWallet, type Q } from "./pg.ts";
 import { copyLegacy } from "./legacy.ts";
+import { decodePack, readMember, type Placed } from "./pack.ts";
 import { allocate, claimCalldata, fromWei, hasClaimedCalldata, leafHash, merkleTree, monthCalldata, monthId, paidCalldata, toWei, vestCalldata, withReferrals } from "./payouts.ts";
 import { parseTiers, readStake, STAKE_SELECTORS, tierFor } from "./staking.ts";
 import {
@@ -225,7 +226,7 @@ function round(r: number): TaskParams[] {
 }
 
 // ---- storage -----------------------------------------------------------------------------------------
-const SCHEMA = 22; // 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables), 18 FlightPass withdrawals sent by the server (sending_at, error), 19 Fly Slots (slots_commits, slots_spins; 2026-09-29), 20 Fly Race (race_commits, race_games, race_events; 2026-09-29), 21 players and money moved to Postgres (src/pg.ts; their tables here are left as they were, unused) and pg_outbox, 22 screen_sums.spread (per-seed spread for the open dataset); created below for new and old databases alike
+const SCHEMA = 23; // 23 order_packs + blob_packed (finished house orders' outputs folded and packed), 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables), 18 FlightPass withdrawals sent by the server (sending_at, error), 19 Fly Slots (slots_commits, slots_spins; 2026-09-29), 20 Fly Race (race_commits, race_games, race_events; 2026-09-29), 21 players and money moved to Postgres (src/pg.ts; their tables here are left as they were, unused) and pg_outbox, 22 screen_sums.spread (per-seed spread for the open dataset); created below for new and old databases alike
 /** PROGRAM_BONUS before schema 15, and the factor stored program units are scaled by so credit keeps its value. */
 const OLD_PROGRAM_BONUS = 1.25;
 mkdirSync(dirname(DB_PATH), { recursive: true });
@@ -565,6 +566,24 @@ db.exec(`
     spread text                       -- 22: JSON Spread (src/screensum.ts) over the seeds folded in since; null before
   ) without rowid;
   create table if not exists counters (name text primary key, n integer not null) without rowid;
+  -- 23: a finished house order's outputs as one file, and a probe order's results table (src/pack.worker.ts)
+  create table if not exists order_packs (
+    order_id text primary key references orders(id),
+    pack text,                        -- blob sha256; null if the order had nothing to pack (note says why)
+    table_hash text,                  -- blob sha256 of the gzipped csv, probe orders only
+    totals text,                      -- JSON: conditions, jobs, seeds_min, seeds_max, rows
+    raw_bytes integer not null default 0,
+    pack_bytes integer not null default 0,
+    files integer not null default 0,
+    missing integer not null default 0,
+    note text,
+    cleared integer not null default 0, -- 1 once the separate files are gone
+    members integer not null default 0, -- gzip members in the pack; 0 is the first version, one gzip, rewritten by packStep
+    created_at integer not null
+  );
+  -- where an output lives once its own file is gone: old result rows' /api/blobs links keep working
+  create table if not exists blob_packed (hash text primary key, pack text not null, offset integer, length integer) without rowid;
+  create index if not exists blob_packed_by_pack on blob_packed (pack);
   create index if not exists order_tasks_by_task on order_tasks (task);
   -- 21: ledger and earnings rows the mining process books inside its own transactions (order charges and releases,
   -- program pay), waiting to be sent to Postgres (sendOutbox): claims and settles never wait on the network, and a
@@ -2992,13 +3011,128 @@ async function upload(req: IncomingMessage) {
 
 /** Anyone may fetch an upload by hash. Served as a download, never as a page, so an upload can't script this origin. */
 function serveBlob(res: ServerResponse, hash: string): void {
-  if (!existsSync(blobPath(hash))) throw new HttpError(404, "no such upload (uploads nobody uses are deleted after a while)");
+  const own = existsSync(blobPath(hash));
+  const bytes = own ? null : storedBlob(hash);
+  if (!own && !bytes) throw new HttpError(404, "no such upload (uploads nobody uses are deleted after a while)");
   res.writeHead(200, {
     "content-type": "application/octet-stream", "content-disposition": `attachment; filename="${hash}"`,
     "cache-control": "public, max-age=31536000, immutable", "x-content-type-options": "nosniff",
     "content-security-policy": "default-src 'none'; sandbox", ...CORS,
   });
-  res.end(readFileSync(blobPath(hash)));
+  if (bytes) return void res.end(bytes);
+  // streamed: a pack can be far bigger than any upload
+  createReadStream(blobPath(hash)).on("error", () => res.destroy()).pipe(res);
+}
+
+// ---- finished house orders: folded and packed --------------------------------------------------------------
+// House outputs are kept for good, one file each, and count against STORE_MAX_MB: at the cap every miner's program answer
+// fails with a 507 (2026-09-23), and the atlas alone added ~480 MB. Once an order has been finished for PACK_AFTER_HOURS
+// (late answers are in by then) its outputs become one pack, a probe order's also a results table, listed at /api/house.
+// The separate files go only after the pack has read back whole; /api/blobs still answers for them from the pack.
+const PACK_ORDERS = env("PACK_ORDERS", "0") === "1";
+const PACK_AFTER_MS = Number(env("PACK_AFTER_HOURS", "1")) * 3_600_000;
+const CLEAR_BATCH = 200;
+const BOOK_BATCH = 1000;
+const membersRead = new Map<string, Map<string, Buffer>>();
+/** An output or upload by hash, from its own file or a pack. A few members stay in memory: readers go through an order's outputs. */
+function storedBlob(hash: string): Buffer | null {
+  if (existsSync(blobPath(hash))) return readFileSync(blobPath(hash));
+  const at = db.prepare("select pack, offset, length from blob_packed where hash = ?").get(hash) as { pack: string; offset: number | null; length: number | null } | undefined;
+  if (!at || !existsSync(blobPath(at.pack))) return null;
+  // a pack from the first version (no offset) has to be read whole, until packStep has rewritten it
+  const key = `${at.pack}:${at.offset}`;
+  let records = membersRead.get(key);
+  if (!records) {
+    records = at.offset === null ? decodePack(readFileSync(blobPath(at.pack))) : readMember(blobPath(at.pack), at.offset, at.length!);
+    membersRead.set(key, records);
+    if (membersRead.size > 8) membersRead.delete(membersRead.keys().next().value as string);
+  }
+  return records.get(hash) ?? null;
+}
+
+let packing = false;
+const packFailed = new Set<string>(); // tried again after a restart, not every tick
+/** One order per tick at most, in a worker; deleting walks in small batches, as pruning does. */
+function packStep(): void {
+  if (packing) return;
+  const unfinished = one<{ order_id: string; pack: string } | undefined>("select order_id, pack from order_packs where cleared = 0 and pack is not null limit 1");
+  // packs from the first version go first (members = 0): reading them is what ran the research process out of memory
+  const old = unfinished ? undefined : (db.prepare("select order_id as id, pack from order_packs where pack is not null and members = 0").all() as { id: string; pack: string }[]).find((o) => !packFailed.has(o.id));
+  const next = unfinished || old ? undefined : (db.prepare(`select o.id from orders o where o.house = 1 and o.status in ('done', 'ended') and coalesce(o.closed_at, 0) < ?
+    and coalesce(o.label, '') not like 'mining/%' and not exists (select 1 from order_packs p where p.order_id = o.id) order by o.closed_at`)
+    .all(Date.now() - PACK_AFTER_MS) as { id: string }[]).find((o) => !packFailed.has(o.id));
+  if (!unfinished && !old && !next) return;
+  packing = true;
+  const run = unfinished ? clearPacked(unfinished.order_id, unfinished.pack) : packOrder((old ?? next)!.id, old?.pack ?? null);
+  void run.catch((err) => console.error(`pack: ${err instanceof Error ? err.message : err}`)).finally(() => { packing = false; });
+}
+
+async function packOrder(id: string, replacing: string | null): Promise<void> {
+  type Done = { skip?: string; pack?: { hash: string; size: number }; table?: { hash: string; size: number } | null; totals?: unknown; placed?: Placed[]; members?: number; rawBytes?: number; missing?: number };
+  let done: Done;
+  try {
+    done = await new Promise<Done>((resolve, reject) => {
+      const w = new Worker(new URL("./pack.worker.ts", import.meta.url), { workerData: { db: DB_PATH, blobsDir: BLOBS_DIR, connectome: CONNECTOME_DIR, order: id } });
+      w.once("message", resolve);
+      w.once("error", reject);
+      w.once("exit", (code) => { if (code) reject(new Error(`worker exited with ${code}`)); });
+    });
+  } catch (err) {
+    packFailed.add(id);
+    throw new Error(`order ${id}: ${err instanceof Error ? err.message : err}`);
+  }
+  const now = Date.now();
+  if (done.skip) {
+    db.prepare("insert into order_packs (order_id, note, cleared, created_at) values (?, ?, 1, ?)").run(id, done.skip, now);
+    return;
+  }
+  const book = db.prepare("insert into blobs (hash, size, created_at, used_at, keep) values (?, ?, ?, ?, 1) on conflict (hash) do update set keep = 1, used_at = excluded.used_at");
+  // on a rewrite, outputs move to the new pack; otherwise one another order already packed stays where it is
+  const packed = db.prepare(`insert into blob_packed (hash, pack, offset, length) values (?, ?, ?, ?) on conflict (hash) do ${replacing ? "update set pack = excluded.pack, offset = excluded.offset, length = excluded.length" : "nothing"}`);
+  const { pack, table, placed } = done as Required<Done>;
+  book.run(pack!.hash, pack!.size, now, now);
+  if (table) book.run(table.hash, table.size, now, now);
+  // in batches: a big order's rows in one transaction would hold the mining thread
+  for (let at = 0; at < placed!.length; at += BOOK_BATCH) {
+    transaction(() => { for (const p of placed!.slice(at, at + BOOK_BATCH)) packed.run(p.hash, pack!.hash, p.offset, p.length); });
+    await new Promise((r) => setTimeout(r, 5));
+  }
+  db.prepare(`insert into order_packs (order_id, pack, table_hash, totals, raw_bytes, pack_bytes, files, missing, members, created_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    on conflict (order_id) do update set pack = excluded.pack, table_hash = excluded.table_hash, totals = excluded.totals, raw_bytes = excluded.raw_bytes,
+      pack_bytes = excluded.pack_bytes, files = excluded.files, missing = excluded.missing, members = excluded.members, cleared = 0`)
+    .run(id, pack!.hash, table?.hash ?? null, done.totals ? JSON.stringify(done.totals) : null, done.rawBytes!, pack!.size, placed!.length, done.missing!, done.members!, now);
+  console.log(`packed order ${id}: ${placed!.length} outputs, ${Math.round(done.rawBytes! / 1000)} KB -> ${Math.round(pack!.size / 1000)} KB${table ? `, table ${Math.round(table.size / 1000)} KB` : ""}${done.missing ? `, ${done.missing} missing` : ""}`);
+  if (replacing && replacing !== pack!.hash) dropOldPack(replacing);
+  await clearPacked(id, pack!.hash);
+}
+
+/** A first-version pack, once no order lists it and no output points at it. */
+function dropOldPack(pack: string): void {
+  if (one("select 1 from order_packs where pack = ? limit 1", pack) || one("select 1 from blob_packed where pack = ? limit 1", pack)) return;
+  db.prepare("delete from blobs where hash = ?").run(pack);
+  rmSync(blobPath(pack), { force: true });
+}
+
+/** Delete the separate files of a booked pack, keeping any a live order still reads as its input. */
+async function clearPacked(id: string, pack: string): Promise<void> {
+  // 2026-11-02: this was a subquery per row, and order_inputs has no index on input, with every read restarting at the top
+  // and walking the rows already deleted: stalls of 74-200 s on the mining thread. Now one read per order, and a cursor.
+  const inputs = db.prepare("select i.input from orders o cross join order_inputs i on i.order_id = o.id where o.status in ('unpaid', 'live')").all() as { input: string }[];
+  const inUse = new Set(inputs.map((i) => i.input));
+  const list = db.prepare(`select bp.hash from blob_packed bp join blobs b on b.hash = bp.hash where bp.pack = ? and bp.hash > ? order by bp.hash limit ${CLEAR_BATCH}`);
+  const drop = db.prepare("delete from blobs where hash = ?");
+  let after = "";
+  for (;;) {
+    const page = list.all(pack, after) as { hash: string }[];
+    if (!page.length) break;
+    after = page[page.length - 1].hash;
+    const rows = page.filter(({ hash }) => !inUse.has(hash) && hash !== pack);
+    const t0 = Date.now();
+    transaction(() => { for (const { hash } of rows) drop.run(hash); });
+    for (const { hash } of rows) rmSync(blobPath(hash), { force: true });
+    await new Promise((r) => setTimeout(r, Math.max(5, 2 * (Date.now() - t0))));
+  }
+  db.prepare("update order_packs set cleared = 1 where order_id = ?").run(id);
 }
 
 let lastGc = Date.now();
@@ -3386,12 +3520,19 @@ function stopHouse(id: string) {
 }
 
 /** GET /api/house: our own work and how far it's got. Public: the results are research anyone may read. */
-const houseOrders = cached(10_000, (_: null) => ({
-  orders: (db.prepare("select id from orders where house = 1 order by created_at desc limit 500").all() as { id: string }[]).map((r) => {
-    const o = order(r.id);
-    return { id: o.id, label: o.label, kind: o.kind, status: o.status, end_reason: o.end_reason, jobs: o.jobs, settled: o.settled, out: o.out, created_at: o.created_at, closed_at: o.closed_at };
-  }),
-}));
+const houseOrders = cached(10_000, (_: null) => {
+  const packs = new Map((db.prepare("select order_id, pack, table_hash, totals, raw_bytes, pack_bytes, files, missing from order_packs where pack is not null").all() as any[]).map((p) => [p.order_id, p]));
+  return {
+    orders: (db.prepare("select id from orders where house = 1 order by created_at desc limit 500").all() as { id: string }[]).map((r) => {
+      const o = order(r.id);
+      const p = packs.get(r.id);
+      return { id: o.id, label: o.label, kind: o.kind, status: o.status, end_reason: o.end_reason, jobs: o.jobs, settled: o.settled, out: o.out, created_at: o.created_at, closed_at: o.closed_at,
+        // once finished: its outputs as one file (src/pack.ts) and, for a probe order, its results as one gzipped csv
+        ...(p ? { pack: { url: `/api/blobs/${p.pack}`, bytes: p.pack_bytes, raw_bytes: p.raw_bytes, files: p.files, missing: p.missing } } : {}),
+        ...(p?.table_hash ? { table: { url: `/api/blobs/${p.table_hash}`, format: "csv.gz", ...JSON.parse(p.totals ?? "{}") } } : {}) };
+    }),
+  };
+});
 function houseOrdersView() {
   return houseOrders(null);
 }
@@ -3415,7 +3556,7 @@ async function computeExperimentsNow(): Promise<void> {
   // (the atlas is 62 orders with no summary of its own: 62 cards with no control, and 18,600 file reads every pass)
   const orders = houseOrders(null).orders.filter((o) => o.label && !o.label.startsWith("mining/") && !o.label.startsWith("atlas/"))
     .sort((a, b) => a.created_at - b.created_at);
-  const outputOf = (row: any): Buffer | null => (row.output?.hash && existsSync(blobPath(row.output.hash)) ? readFileSync(blobPath(row.output.hash)) : null);
+  const outputOf = (row: any): Buffer | null => (row.output?.hash ? storedBlob(row.output.hash) : null);
   const worldRuns = (id: string) => orderResults(id, 0, SAMPLE.world).rows.map(outputOf).filter(Boolean).map((b) => JSON.parse(b!.toString()) as WorldRun);
   const summaries: Summary[] = [];
   const byLabel = new Map(orders.map((o) => [o.label, o]));
@@ -4062,6 +4203,7 @@ if (MINING) {
       for (const { id } of db.prepare("select id from orders where status = 'live'").all() as { id: string }[]) step(`refill ${id}`, () => transaction(() => refill(id)));
     });
     if (Date.now() - lastGc > 3_600_000) step("blobs", collectBlobs);
+    if (PACK_ORDERS) step("pack", packStep);
     if (Date.now() - lastPrune > 3_600_000) {
       void pruneScreen().then(() => pruneOld()).catch((err) => console.error(`housekeeping prune: ${err instanceof Error ? err.message : err}`));
     }
