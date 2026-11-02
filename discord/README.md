@@ -38,8 +38,11 @@ Tag the bot (or reply to it) and it answers like a fly: keywords pick a mood (sw
 banana → landing on it, gm → turns around, questions → washing its face), the mood picks a line (`src/fly.ts`, no AI).
 One reply per person every 5 s.
 
-**Alpha feed** (`src/alpha.ts`, on while `ALPHA_CHANNEL_ID` is set in fly.toml): short text token calls, like an
-alpha group chat: tokens the top 5 Fly Wallets of the week or the Fly Desk buy (or wanted to buy but couldn't for
+**Alpha feed** (`src/alpha.ts`, on while `ALPHA_CHANNEL_ID` or `ALPHA_PARTNERS` is set in fly.toml): token calls as
+cards, like an alpha group chat. `ALPHA_PARTNERS` = `channel:role,...` sends the same feed to partners' channels and
+pings the role on new calls, bets and launches (not on sell replies); `DISCORD_GUILD_ID` is a comma list of the servers
+whose `!` commands are answered. In a partner server the bot needs View Channel, Send Messages, Embed Links and Read
+Message History, and the role must allow being mentioned. Calls: tokens the top 5 Fly Wallets of the week or the Fly Desk buy (or wanted to buy but couldn't for
 the wallet's reasons: gas, cross-chain size or quote, no room, buys paused), tokens FOMO's top traders pile into
 (2+ wallets or $5k+ in an hour), new pools the desk finds once they trade, and Azuro bets (pick, stake, odds; the
 result replies under the bet). Each token call shows mc, liquidity, volume, age, holders, top-10 share, the CA and a

@@ -4,19 +4,19 @@ import { Client, Events, GatewayIntentBits } from "discord.js";
 import { commands, PREFIX } from "./commands/index.ts";
 import { need } from "./env.ts";
 import { flyReply } from "./fly.ts";
-import { startAlpha } from "./alpha.ts";
+import { parseTargets, startAlpha } from "./alpha.ts";
 
 const byName = new Map(commands.flatMap((c) => [c.name, ...(c.aliases ?? [])].map((n) => [n, c] as const)));
-const guildId = process.env.DISCORD_GUILD_ID; // only this server, when set
+const guildIds = new Set((process.env.DISCORD_GUILD_ID ?? "").split(",").map((x) => x.trim()).filter(Boolean)); // only these servers, when set
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
 });
 
 client.once(Events.ClientReady, (c) => {
   console.log(`logged in as ${c.user.tag} in ${c.guilds.cache.size} server(s)`);
-  // the alpha feed (src/alpha.ts): on while ALPHA_CHANNEL_ID is set
-  const alpha = process.env.ALPHA_CHANNEL_ID;
-  if (alpha) startAlpha(c, alpha, { flies: Number(process.env.ALPHA_FLIES ?? 5), pollMs: Number(process.env.ALPHA_POLL_MS ?? 120_000) });
+  // the alpha feed (src/alpha.ts): our channel (ALPHA_CHANNEL_ID) and partners' (ALPHA_PARTNERS, "channel:role,...")
+  const alpha = parseTargets(process.env.ALPHA_CHANNEL_ID, process.env.ALPHA_PARTNERS);
+  if (alpha.length) startAlpha(c, alpha, { flies: Number(process.env.ALPHA_FLIES ?? 5), pollMs: Number(process.env.ALPHA_POLL_MS ?? 120_000) });
 });
 
 // tagging the bot (or replying to it) gets a fly line back, at most one per person every TAG_COOLDOWN_MS
@@ -25,7 +25,7 @@ const lastTag = new Map<string, number>();
 
 client.on(Events.MessageCreate, async (message) => {
   if (message.author.bot || !message.inGuild()) return;
-  if (guildId && message.guildId !== guildId) return;
+  if (guildIds.size && !guildIds.has(message.guildId)) return;
   if (!message.content.startsWith(PREFIX)) {
     if (!message.mentions.users.has(client.user!.id)) return;
     const now = Date.now();

@@ -1,4 +1,4 @@
-// The alpha feed (a private test channel, ALPHA_CHANNEL_ID): token calls from what the flies do and find, written like
+// The alpha feed (ALPHA_CHANNEL_ID, ALPHA_PARTNERS): token calls from what the flies do and find, written like
 // an alpha group chat - short text, the CA, the numbers that matter - not a trade log (2026-10-16, the user: "too
 // spammy and doesn't look like an alpha group chat", "need a basic filter to avoid scams").
 //   calls     a token the top ALPHA_FLIES Fly Wallets of the week or the Fly Desk buy (or wanted to buy but couldn't for
@@ -11,9 +11,11 @@
 // At most MAX_PER_HOUR messages an hour (calls first come first). Passes on the token's merits, index buys (core) and
 // tokens that fail the filter are not posted. A restart never posts history: the first read of a source only
 // remembers what's there.
-import type { Client, Message, SendableChannels } from "discord.js";
-import { board, contractOf, desk, flyLog, type FomoToken, type Found, type LogTrade } from "./data.ts";
-import { pct, symbol, usd } from "./format.ts";
+// 2026-11-02 (the user: "more good looking, not so plain"; "add it in a partner server"): every message is a card, and the
+// feed goes to each target channel; a target with a role pings it on new calls, bets and launches, never on sell replies.
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, type Client, type Message, type SendableChannels } from "discord.js";
+import { board, contractOf, desk, flyLog, SITE, type FomoToken, type Found, type LogTrade } from "./data.ts";
+import { MINT, pct, symbol, usd } from "./format.ts";
 import { screen, type Verdict } from "./screen.ts";
 
 const CALL_AGAIN_MS = 12 * 3600_000;      // the same token is called again only after this
@@ -53,28 +55,74 @@ const betName = (sym: string, labels?: Record<string, string>) => symbol(sym, la
 const k = (n: number) => (n >= 1e6 ? `$${(n / 1e6).toFixed(1)}M` : n >= 1e3 ? `$${(n / 1e3).toFixed(0)}k` : `$${n.toFixed(0)}`);
 const age = (h: number) => (h < 1 ? `${Math.round(h * 60)}m` : h < 48 ? `${Math.round(h)}h` : `${Math.round(h / 24)}d`);
 
-/** The numbers line every call carries: mc, liquidity, volume, age, holders. */
-function stats(v: Verdict): string {
-  const parts = [v.mcap ? `mc ${k(v.mcap)}` : "", `liq ${k(v.liq)}`, `vol ${k(v.vol24)}`, v.ageH != null ? `age ${age(v.ageH)}` : ""];
-  if (v.holders) parts.push(`${v.holders.toLocaleString("en-US")} holders`, `top10 ${Math.round((v.top10 ?? 0) * 100)}%`);
-  if (v.contractChecked) parts.push(v.tax ? `contract ✓ · tax ${Math.round(v.tax * 1000) / 10}%` : "contract ✓");
-  return parts.filter(Boolean).join(" · ");
+// ---------------------------------------------------------------- the cards
+
+const LOGO = "https://www.flyaiworld.com/assets/logo.webp";   // (the bare domain answers with a redirect)
+const COLOR = { buy: MINT, hot: 0xff8a3d, found: 0x4da3ff, wanted: 0x8a8f98, bet: 0xb48cff, launch: 0xffd166, up: 0x3ddc84, down: 0xff5c5c, back: 0x8a8f98 };
+export type Post = { embeds: EmbedBuilder[]; components?: ActionRowBuilder<ButtonBuilder>[]; ping: boolean };
+
+const card = (color: number) => new EmbedBuilder().setColor(color).setTimestamp(new Date())
+  .setFooter({ text: "fly.ai alpha · DYOR", iconURL: LOGO });
+const links = (...items: [string, string][]) => [new ActionRowBuilder<ButtonBuilder>().addComponents(
+  items.map(([label, url]) => new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(label).setURL(url)))];
+const quote = (why?: string | null) => (why ? `\n> ${why.replace(/\s+/g, " ").slice(0, 160)}` : "");
+
+type Call = { key: string; sym: string; ca: string; chain: string; at: number; head: string; color: number; why?: string | null };
+
+/** A token call: who did what, the numbers that matter in tiles, the CA to copy, buttons to the chart and to fly.ai. */
+export function callPost(c: Call, v: Verdict): Post {
+  const chart = `https://dexscreener.com/${DEX[c.chain] ?? "robinhood"}/${c.ca}`;
+  const tile = (name: string, value: string) => ({ name, value, inline: true });
+  const fields = [tile("💰 Market cap", v.mcap ? k(v.mcap) : "—"), tile("💧 Liquidity", k(v.liq)), tile("📊 Volume 24h", k(v.vol24))];
+  if (v.ageH != null) fields.push(tile("⏳ Age", age(v.ageH)));
+  if (v.holders) fields.push(tile("👥 Holders", `${v.holders.toLocaleString("en-US")} · top 10 ${Math.round((v.top10 ?? 0) * 100)}%`));
+  if (v.contractChecked) fields.push(tile("🛡️ Contract", v.tax ? `checked ✓ · tax ${Math.round(v.tax * 1000) / 10}%` : "checked ✓"));
+  fields.push({ name: "Contract address", value: `\`${c.ca}\``, inline: false });
+  const e = card(c.color).setTitle(`$${ticker(c.sym)} · ${CHAIN_NAME[c.chain] ?? c.chain}`).setURL(chart)
+    .setDescription(`**${c.head}**${quote(c.why)}`).addFields(fields).setThumbnail(v.image ?? LOGO);
+  return { embeds: [e], components: links(["📈 Chart", chart], ["🪰 fly.ai", `${SITE}/traderflies`]), ping: true };
 }
 
-type Call = { key: string; sym: string; ca: string; chain: string; at: number; head: string; why?: string | null };
+/** An Azuro bet: the pick, who placed it, stake / odds / payout. */
+export function betPost(name: string, who: string, f: { stake?: number | null; odds?: number | null; pays?: number | null; ends?: number | null; why?: string | null }): Post {
+  const e = card(COLOR.bet).setTitle(`🎲 ${name}`.slice(0, 256)).setDescription(`**${who}**${quote(f.why)}`);
+  if (f.stake) e.addFields({ name: "Stake", value: usd(f.stake), inline: true });
+  if (f.odds) e.addFields({ name: "Odds", value: `${(1 / f.odds).toFixed(2)}x`, inline: true });
+  if (f.pays) e.addFields({ name: "Pays", value: usd(f.pays), inline: true });
+  if (f.ends) e.addFields({ name: "Ends", value: `<t:${Math.floor(f.ends)}:R>`, inline: true });
+  return { embeds: [e], ping: true };
+}
 
-function callText(c: Call, v: Verdict): string {
-  const lines = [`**$${ticker(c.sym)}** · ${CHAIN_NAME[c.chain] ?? c.chain} · ${c.head}`, stats(v)];
-  if (c.why) lines.push(`> ${c.why.replace(/\s+/g, " ").slice(0, 160)}`);
-  lines.push(`\`${c.ca}\``, `<https://dexscreener.com/${DEX[c.chain] ?? "robinhood"}/${c.ca}>`);
-  return lines.join("\n");
+/** A sell or a bet's result, as a small card under its call. No ping. */
+export const updatePost = (text: string, color: number): Post => ({ embeds: [new EmbedBuilder().setColor(color).setDescription(text)], ping: false });
+
+/** One of the desk's own launches. */
+export function launchPost(name: string, sym: string, token: string): Post {
+  const chart = `https://dexscreener.com/robinhood/${token}`;
+  const e = card(COLOR.launch).setTitle(`🚀 The flies launched ${name} ($${sym})`.slice(0, 256)).setURL(chart)
+    .addFields({ name: "Contract address", value: `\`${token}\`` }).setThumbnail(LOGO);
+  return { embeds: [e], components: links(["📈 Chart", chart]), ping: true };
+}
+
+/** "channel" or "channel:role", comma separated (ALPHA_CHANNEL_ID, ALPHA_PARTNERS). */
+export type Target = { channelId: string; role?: string };
+export const parseTargets = (...lists: (string | undefined)[]): Target[] => lists.flatMap((l) => (l ?? "").split(","))
+  .map((x) => x.trim()).filter(Boolean).map((x) => { const [channelId, role] = x.split(":"); return role ? { channelId: channelId!, role } : { channelId: channelId! }; });
+
+/** What goes to one channel: the card, plus the role's ping on a new post in a channel that has one. Nothing else can ping. */
+export function payloadFor(post: Post, t: Target, reply: boolean) {
+  const role = post.ping && !reply ? t.role : undefined;
+  return { embeds: post.embeds, components: post.components ?? [], ...(role ? { content: `<@&${role}>` } : {}),
+    allowedMentions: { parse: [] as never[], roles: role ? [role] : [], repliedUser: false } };
 }
 
 // ---------------------------------------------------------------- the loop
 
-export function startAlpha(client: Client, channelId: string, opts: { flies: number; pollMs: number }): void {
+type Sent = Map<string, Message>;   // channel id -> the message posted there
+
+export function startAlpha(client: Client, targets: Target[], opts: { flies: number; pollMs: number }): void {
   const seen = new Map<string, Set<string>>();             // source ("desk", "fly:849") -> keys already read
-  const called = new Map<string, { at: number; msg?: Message }>();   // chain:ca -> its last call (sells reply to it)
+  const called = new Map<string, { at: number; msgs?: Sent }>();   // chain:ca -> its last call in each channel (sells reply to it)
   const watching = new Map<string, Found>();                // found tokens waiting to pass the filter
   const sentAt: number[] = [];                              // the last hour's messages (MAX_PER_HOUR)
 
@@ -85,25 +133,40 @@ export function startAlpha(client: Client, channelId: string, opts: { flies: num
     return before ? items.filter((x) => !before.has(key(x))) : [];
   }
 
-  let channel: SendableChannels | null = null;
-  async function send(content: string, replyTo?: Message): Promise<Message | null> {
+  const channels = new Map<string, SendableChannels>();
+  async function channelOf(id: string): Promise<SendableChannels | null> {
+    const have = channels.get(id);
+    if (have) return have;
+    const ch = await client.channels.fetch(id).catch(() => null);
+    if (!ch?.isSendable()) {
+      console.error(`alpha: can't post in ${id} (missing, or the bot has no access to the channel)`);
+      return null;
+    }
+    channels.set(id, ch as SendableChannels);
+    return ch as SendableChannels;
+  }
+
+  /** The post in every target channel, one channel's failure leaving the others alone; the hourly cap counts it once.
+   *  `replyTo`: a reply under each channel's call, and nothing in a channel that didn't get the call. */
+  async function send(post: Post, replyTo?: Sent): Promise<Sent | null> {
     const now = Date.now();
     while (sentAt.length && now - sentAt[0]! > 3600_000) sentAt.shift();
     if (sentAt.length >= MAX_PER_HOUR) return null;
-    if (!channel) {
-      const ch = await client.channels.fetch(channelId).catch(() => null);
-      if (!ch?.isSendable()) {
-        console.error(`alpha: can't post in ${channelId} (missing, or the bot has no access to the private channel)`);
-        return null;
-      }
-      channel = ch as SendableChannels;
-    }
     sentAt.push(now);
-    const payload = { content, allowedMentions: { parse: [] } };
-    const msg = replyTo
-      ? await replyTo.reply({ ...payload, allowedMentions: { parse: [], repliedUser: false } }).catch(() => null)
-      : await channel.send(payload).catch((err) => (console.error("alpha: post failed", (err as Error).message), null));
-    return msg;
+    const sent: Sent = new Map();
+    for (const t of targets) {
+      const under = replyTo?.get(t.channelId);
+      if (replyTo && !under) continue;
+      const payload = payloadFor(post, t, !!replyTo);
+      try {
+        const ch = under ? null : await channelOf(t.channelId);
+        const msg: Message | null = under ? await under.reply(payload) : ch ? await ch.send(payload) : null;
+        if (msg) sent.set(t.channelId, msg);
+      } catch (err) {
+        console.error(`alpha: post failed in ${t.channelId}`, (err as Error).message);
+      }
+    }
+    return sent;
   }
 
   /** Post `c` as a call if its token passes the filter and wasn't called in CALL_AGAIN_MS. True when it was decided
@@ -116,24 +179,24 @@ export function startAlpha(client: Client, channelId: string, opts: { flies: num
       console.log(`alpha: skipped $${ticker(c.sym)} (${c.head}): ${v.why.join("; ")}`);
       return !v.failed;
     }
-    const msg = await send(callText(c, v));
-    if (msg) called.set(c.key, { at: Date.now(), msg });
+    const msgs = await send(callPost(c, v));
+    if (msgs) called.set(c.key, { at: Date.now(), msgs });
     return true;
   }
 
   /** An Azuro bet as a call (2026-10-16, the user: "it should suggest alpha azuro bets too"): no scam filter (no token),
    *  the same once-per-CALL_AGAIN_MS and hourly cap; the result replies under it. */
-  async function bet(key: string, text: string): Promise<void> {
+  async function bet(key: string, post: Post): Promise<void> {
     const last = called.get(key);
     if (last && Date.now() - last.at < CALL_AGAIN_MS) return;
-    const msg = await send(text);
-    if (msg) called.set(key, { at: Date.now(), msg });
+    const msgs = await send(post);
+    if (msgs) called.set(key, { at: Date.now(), msgs });
   }
 
   /** A sell of a token we called: a reply under the call with the P&L. Tokens never called are left out. */
-  async function update(key: string, text: string): Promise<void> {
+  async function update(key: string, text: string, color: number): Promise<void> {
     const last = called.get(key);
-    if (last?.msg) await send(text, last.msg);
+    if (last?.msgs) await send(updatePost(text, color), last.msgs);
   }
 
   async function deskSource(): Promise<void> {
@@ -144,25 +207,23 @@ export function startAlpha(client: Client, channelId: string, opts: { flies: num
       const ca = await contractOf(t.symbol);
       if (!ca) continue;
       const chain = chainOf(t.symbol), key = `${chain}:${ca.toLowerCase()}`;
-      if (t.side === "buy") await call({ key, sym: t.symbol, ca, chain, at: Date.parse(t.at), head: `🏦 Fly Desk bought ${usd(t.usd)}` });
+      if (t.side === "buy") await call({ key, sym: t.symbol, ca, chain, at: Date.parse(t.at), head: `🏦 Fly Desk bought ${usd(t.usd)}`, color: COLOR.buy });
       else {
         const held = d.positions[t.book]?.rows.find((r) => r.symbol === t.symbol);
-        await update(key, `🔴 Fly Desk sold $${ticker(t.symbol)} (${usd(t.usd)})${held ? `, still holds ${usd(held.value_usd)} (${pct(held.pnl_pct)})` : ""}`);
+        await update(key, `🔴 Fly Desk sold $${ticker(t.symbol)} (${usd(t.usd)})${held ? `, still holds ${usd(held.value_usd)} (${pct(held.pnl_pct)})` : ""}`, COLOR.down);
       }
     }
     // bets: the desk's open Azuro bets (stake, odds, end) as calls; settled ones reply under their call
     const az = d.chains?.azuro;
     for (const b of fresh("desk:bets", az?.bets ?? [], (b) => b.symbol)) {
-      const mult = b.odds ? ` at ${(1 / b.odds).toFixed(2)}x` : "";
-      const ends = b.ends ? ` · ends <t:${Math.floor(b.ends)}:R>` : "";
-      await bet(`bet:${b.symbol}`, `🎲 **${betName(b.symbol, d.labels)}**\nFly Desk bet ${usd(b.stake)}${mult}, pays ${usd(b.pays)}${ends}`);
+      await bet(`bet:${b.symbol}`, betPost(betName(b.symbol, d.labels), "🏦 Fly Desk placed a bet", { stake: b.stake, odds: b.odds, pays: b.pays, ends: b.ends }));
     }
     for (const s of fresh("desk:settled", az?.settled ?? [], (s) => s.symbol)) {
       const text = s.refund ? "↩️ refunded" : s.payout > 0 ? `✅ won: ${usd(s.cost_usd)} → ${usd(s.usd)}` : `❌ lost ${usd(s.cost_usd)}`;
-      await update(`bet:${s.symbol}`, text);
+      await update(`bet:${s.symbol}`, text, s.refund ? COLOR.back : s.payout > 0 ? COLOR.up : COLOR.down);
     }
     for (const l of fresh("desk:launch", d.launches?.items ?? [], (l) => l.token)) {
-      await send(`🚀 **The flies launched ${l.name} ($${symbol(l.symbol)})**\n\`${l.token}\`\n<https://dexscreener.com/robinhood/${l.token}>`);
+      await send(launchPost(l.name, symbol(l.symbol), l.token));
     }
     // FOMO: what's hot at the first read (a restart) counts as called, so a deploy doesn't repeat it
     const first = !seen.has("desk:fomo");
@@ -170,7 +231,7 @@ export function startAlpha(client: Client, channelId: string, opts: { flies: num
     for (const t of (d.alpha?.fomo?.tokens ?? []).filter(hot)) {
       if (first) { called.set(`:${t.token.toLowerCase()}`, { at: Date.now() }); continue; }
       await call({ key: `:${t.token.toLowerCase()}`, sym: t.symbol ?? "?", ca: t.token, chain: "", at: Date.now(),
-        head: `🔥 top traders aping: ${t.buyers_1h ?? 0} wallet${t.buyers_1h === 1 ? "" : "s"}, ${k(t.buy_usd_1h ?? 0)} in 1h` });
+        head: `🔥 top traders aping: ${t.buyers_1h ?? 0} wallet${t.buyers_1h === 1 ? "" : "s"}, ${k(t.buy_usd_1h ?? 0)} in 1h`, color: COLOR.hot });
     }
     // found tokens: watched until they pass (a pool an hour old rarely trades enough yet) or FOUND_WATCH_MS ends
     for (const f of fresh("desk:found", d.alpha?.found ?? [], (f) => f.token)) watching.set(f.token, f);
@@ -179,7 +240,7 @@ export function startAlpha(client: Client, channelId: string, opts: { flies: num
       const chain = chainOf(f.symbol), key = `${chain}:${token.toLowerCase()}`;
       if (!(await screen(token, chain)).ok) continue;
       watching.delete(token);
-      await call({ key, sym: f.symbol, ca: token, chain, at: Date.now(), head: "🆕 new pool, passed the checks" });
+      await call({ key, sym: f.symbol, ca: token, chain, at: Date.now(), head: "🆕 new pool, passed the checks", color: COLOR.found });
     }
   }
 
@@ -194,8 +255,7 @@ export function startAlpha(client: Client, channelId: string, opts: { flies: num
       for (const r of fresh(`fly:${fly}`, trades, (r) => `${r.first_at ?? r.at}|${r.symbol}|${r.side}|${r.status}`).reverse()) {
         if (r.symbol.startsWith("azuro:")) {
           if (r.status === "filled" && r.side === "buy") {
-            const mult = r.price ? ` at ${(1 / r.price).toFixed(2)}x` : "";
-            await bet(`bet:${r.symbol}`, `🎲 **${betName(r.symbol, labels)}**\nFly #${fly} bet${r.usd ? ` ${usd(r.usd)}` : ""}${mult}${r.why ? `\n> ${r.why.replace(/\s+/g, " ").slice(0, 160)}` : ""}`);
+            await bet(`bet:${r.symbol}`, betPost(betName(r.symbol, labels), `🪰 Fly #${fly} placed a bet`, { stake: r.usd ?? undefined, odds: r.price ?? undefined, why: r.why }));
           }
           continue;
         }
@@ -207,12 +267,12 @@ export function startAlpha(client: Client, channelId: string, opts: { flies: num
         const chain = chainOf(r.symbol), key = `${chain}:${ca.toLowerCase()}`;
         if (blocked) {
           await call({ key, sym: r.symbol, ca, chain, at: r.at,
-            head: `🪰 Fly #${fly} wanted in${r.usd ? ` (${usd(r.usd)})` : ""}${r.tag === "fomo" ? " (FOMO find)" : ""}, didn't fill: ${blocked}` });
+            head: `🪰 Fly #${fly} wanted in${r.usd ? ` (${usd(r.usd)})` : ""}${r.tag === "fomo" ? " (FOMO find)" : ""}, didn't fill: ${blocked}`, color: COLOR.wanted });
         } else if (r.side === "buy") {
           await call({ key, sym: r.symbol, ca, chain, at: r.at, why: r.why,
-            head: `🪰 Fly #${fly} bought${r.usd ? ` ${usd(r.usd)}` : ""}${r.tag === "fomo" ? " (FOMO find)" : ""}` });
+            head: `🪰 Fly #${fly} bought${r.usd ? ` ${usd(r.usd)}` : ""}${r.tag === "fomo" ? " (FOMO find)" : ""}`, color: COLOR.buy });
         } else if (r.side === "sell" || r.side === "panic_sell") {
-          await update(key, `${(r.pnl_pct ?? 0) >= 0 ? "🟢" : "🔴"} Fly #${fly} sold $${ticker(r.symbol)}${r.pnl_pct != null ? ` ${pct(r.pnl_pct)}` : ""}`);
+          await update(key, `${(r.pnl_pct ?? 0) >= 0 ? "🟢" : "🔴"} Fly #${fly} sold $${ticker(r.symbol)}${r.pnl_pct != null ? ` ${pct(r.pnl_pct)}` : ""}`, (r.pnl_pct ?? 0) >= 0 ? COLOR.up : COLOR.down);
         }
       }
     }
@@ -231,7 +291,7 @@ export function startAlpha(client: Client, channelId: string, opts: { flies: num
     }
   }
 
-  console.log(`alpha: posting to ${channelId}, top ${opts.flies} Fly Wallets + the Fly Desk, every ${opts.pollMs / 1000} s`);
+  console.log(`alpha: posting to ${targets.map((t) => t.channelId + (t.role ? " (pings)" : "")).join(", ")}, top ${opts.flies} Fly Wallets + the Fly Desk, every ${opts.pollMs / 1000} s`);
   void tick();
   setInterval(() => void tick(), opts.pollMs);
 }

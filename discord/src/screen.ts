@@ -48,6 +48,7 @@ export type Verdict = {
   holdersSkipped?: string;       // why the holder check didn't run (the token passed on its pool alone)
   tax?: number;                  // the higher of buy and sell tax (GoPlus), 0..1
   contractChecked?: boolean;     // GoPlus read it (the call says so)
+  image?: string;                // the token's picture on DexScreener, when it has one
 };
 
 const verdicts = new Map<string, { at: number; v: Verdict }>();
@@ -67,7 +68,7 @@ const empty = (ca: string, chainKey: string): Verdict =>
 
 async function judge(ca: string, chainKey: string): Promise<Verdict> {
   const v = empty(ca, chainKey);
-  type P = Pair & { pairCreatedAt?: number; liquidity?: { usd?: number; base?: number; quote?: number } };
+  type P = Pair & { pairCreatedAt?: number; liquidity?: { usd?: number; base?: number; quote?: number }; info?: { imageUrl?: string } };
   const res = await fetch(`https://api.dexscreener.com/tokens/v1/${v.chain}/${ca}`, { signal: AbortSignal.timeout(20_000) });
   if (!res.ok) throw new Error(`DexScreener HTTP ${res.status}`);
   const pairs = ((await res.json()) as P[] | null) ?? [];
@@ -81,6 +82,8 @@ async function judge(ca: string, chainKey: string): Promise<Verdict> {
   }
   const deepest = [...pairs].sort((a, b) => (b.liquidity?.usd ?? 0) - (a.liquidity?.usd ?? 0))[0]!;
   v.mcap = deepest.marketCap ?? null;
+  const image = pairs.find((p) => /^https:\/\//.test(p.info?.imageUrl ?? ""))?.info?.imageUrl;
+  if (image) v.image = image;
   const born = Math.min(...pairs.map((p) => p.pairCreatedAt ?? Infinity));
   v.ageH = Number.isFinite(born) ? (Date.now() - born) / 3_600_000 : null;
   if (v.realLiq < MIN_REAL_LIQ_USD) v.why.push(`pool has ${money(v.realLiq)} real money`);
