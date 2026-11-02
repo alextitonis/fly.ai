@@ -185,7 +185,7 @@ export type Coin = { ath: number | null; athChange: number | null; athDate: stri
 export async function coinOf(id: string): Promise<Coin> {
   const d = await json(`https://api.coingecko.com/api/v3/coins/${encodeURIComponent(id)}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`);
   return { ath: num(d.market_data?.ath?.usd), athChange: num(d.market_data?.ath_change_percentage?.usd), athDate: d.market_data?.ath_date?.usd ?? null,
-    categories: (d.categories ?? []).slice(0, 4), notice: d.public_notice ? String(d.public_notice).replace(/<[^>]+>/g, " ").slice(0, 200) : null, repo: d.links?.repos_url?.github?.[0] ?? null };
+    categories: (d.categories ?? []).slice(0, 4), notice: d.public_notice ? String(d.public_notice).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 200) : null, repo: d.links?.repos_url?.github?.[0] ?? null };
 }
 
 // ---------------------------------------------------------------- what our own flies did with it

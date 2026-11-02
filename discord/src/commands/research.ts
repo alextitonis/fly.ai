@@ -29,8 +29,8 @@ function poolLines(f: Facts): string {
 /** Its past, measured: price, creator, promotion, site, code, the last time we looked. */
 export function pastLines(f: Facts, last?: Row | null, now = Date.now()): string[] {
   const d = f.deep, out: string[] = [];
-  if (d?.history) out.push(`Price ${pct(d.history.fromPeak)} from its peak ${when(d.history.peakDaysAgo)}${d.history.change30d != null ? `, ${pct(d.history.change30d)} in 30 days` : ""}`);
-  if (d?.coin?.athChange != null && d.coin.athDate) out.push(`CoinGecko all-time high ${when((now - Date.parse(d.coin.athDate)) / 86_400_000)}`);
+  if (d?.history) out.push(`Price ${pct(d.history.fromPeak)} from its ${d.history.days}-day high${d.history.peakDaysAgo >= 1 ? ` (${when(d.history.peakDaysAgo)})` : ""}${d.history.change30d != null ? `, ${pct(d.history.change30d)} in 30 days` : ""}`);
+  if (d?.coin?.athChange != null && d.coin.athDate) out.push(`${Math.round(d.coin.athChange)}% from its all-time high ${when((now - Date.parse(d.coin.athDate)) / 86_400_000)} (CoinGecko)`);
   if (d?.info?.dev) out.push(`Developer \`${d.info.dev.slice(0, 10)}…\` holds ${d.info.devPct ?? "?"}%`);
   const l = d?.launches;
   if (l?.count) {
@@ -172,11 +172,11 @@ export function numbersOf(f: Facts): string {
 function deepNumbers(f: Facts): string {
   const d = f.deep, v = f.verdict, out: string[] = [];
   if (!d) return "";
-  if (v?.lp) out.push(`LP shown as locked or burned: ${Math.round(v.lp.locked * 100)}%.`);
+  if (v?.lp) out.push(`LP GoPlus or RugCheck can see as locked or burned: ${Math.round(v.lp.locked * 100)}% (often wrongly low: they don't know every locker, so never treat a low number alone as a risk).`);
   if (v?.creatorHoneypots) out.push(`GoPlus ties ${v.creatorHoneypots} honeypots to its creator.`);
   for (const p of d.pools?.slice(0, 4) ?? []) out.push(`Pool ${p.name}: ${Math.round(p.liq)} USD, ${Math.round(p.vol24)} USD volume 24h, ${p.buys} buys by ${p.buyers} wallets, ${p.sells} sells by ${p.sellers} wallets, price ${p.h24 ?? "?"}% in 24h, ${p.ageDays != null ? Math.round(p.ageDays) : "?"} days old.`);
   if (d.flow) out.push(`Last ${d.flow.trades} trades: ${d.flow.wallets} wallets, top three made ${Math.round(d.flow.top3 * 100)}% of the volume, ${Math.round(d.flow.buyUsd)} USD bought, ${Math.round(d.flow.sellUsd)} USD sold.`);
-  if (d.history) out.push(`Price history, ${d.history.days} days: ${Math.round(d.history.fromPeak * 100)}% from peak ${d.history.peakDaysAgo} days ago${d.history.change30d != null ? `, ${Math.round(d.history.change30d * 100)}% in 30 days` : ""}. Average daily volume ${Math.round(d.history.vol7)} USD last week${d.history.volBefore != null ? `, ${Math.round(d.history.volBefore)} USD the month before` : ""}.`);
+  if (d.history) out.push(`Price history of its busiest pool, the last ${d.history.days} days only: ${Math.round(d.history.fromPeak * 100)}% from that period's high ${d.history.peakDaysAgo} days ago${d.history.change30d != null ? `, ${Math.round(d.history.change30d * 100)}% in 30 days` : ""}. Average daily volume ${Math.round(d.history.vol7)} USD last week${d.history.volBefore != null ? `, ${Math.round(d.history.volBefore)} USD the month before` : ""}.`);
   if (d.info) out.push(`GeckoTerminal: score ${d.info.score != null ? Math.round(d.info.score) : "?"}/100, developer holds ${d.info.devPct ?? "?"}%, top 10 hold ${d.info.top10 ?? "?"}%, launchpad ${d.info.launchpad ? (d.info.graduated ? "graduated" : "still on the curve") : "no"}.`);
   if (d.launches) out.push(`Its creator's other launches on Pons: ${d.launches.count}, ${d.launches.last7d} in the last week, ${d.launches.dead} now under 1000 USD in pools${d.launches.others.length ? ` (${d.launches.others.map((o) => `${o.symbol}: ${Math.round(o.liq)} USD`).join(", ")})` : ""}.`);
   if (d.promo) out.push(`Paid DexScreener promotion: profile ${d.promo.profile ? "yes" : "no"}, ${d.promo.boosts} boosts.`);
@@ -214,7 +214,7 @@ export const research: Command = {
       return;
     }
     // reading a token's whole history can take a minute: say so at once, then the card takes its place
-    const note = await message.reply({ content: `🪰 Thinking… checking \`${target.value.replace(/`/g, "")}\` (up to a minute)`, allowedMentions: quiet });
+    const note = await message.reply({ content: `🪰 Thinking… checking \`${target.value.replace(/`/g, "")}\` (up to two minutes)`, allowedMentions: quiet });
     try {
       const f = await gather(target);
       const g = grade(f);

@@ -53,6 +53,7 @@ export type Nft = { slug: string; name: string; url: string; image?: string; cha
   floor: number | null; volume: number | null; sales7: number | null; sales30: number | null; volume30: number | null; symbol: string; created: number | null; verified: boolean; disabled: boolean; feePct: number; website: string | null; twitter: string | null };
 export type XProfile = { handle: string; name: string; followers: number; posts: number; joined: number | null; bio: string; website: string | null; protected: boolean };
 
+const DRIED_USD = 10_000;              // a day's volume: above this, a slower month is just a slower month
 const CHAIN_KEY: Record<string, string> = { robinhood: "", base: "base", bsc: "bsc", arbitrum: "arbitrum", ethereum: "ethereum", solana: "solana" };   // what screen() can check
 
 type DexPair = { chainId: string; url: string; priceUsd?: string; liquidity?: { usd?: number }; pairCreatedAt?: number;
@@ -84,7 +85,10 @@ export async function findToken(query: string): Promise<{ pair: DexPair; copies:
   const exact = pairs.filter((p) => [p.baseToken.address, p.baseToken.symbol, p.baseToken.name].some((x) => x.toLowerCase() === q));
   const pool = exact.length ? exact : ADDRESS.test(query) ? [] : [];
   if (!pool.length) return null;   // a loose search hit is some other project: better "not found" than the wrong token's numbers
-  const best = [...pool].sort((a, b) => (b.liquidity?.usd ?? 0) - (a.liquidity?.usd ?? 0))[0]!;
+  const deepest = [...pool].sort((a, b) => (b.liquidity?.usd ?? 0) - (a.liquidity?.usd ?? 0))[0]!;
+  // a ticker here usually means the Robinhood token, unless a copy elsewhere is a different league (asked for PEPE, that's Ethereum's)
+  const home = pool.filter((p) => p.chainId === "robinhood").sort((a, b) => (b.liquidity?.usd ?? 0) - (a.liquidity?.usd ?? 0))[0];
+  const best = home && (deepest.liquidity?.usd ?? 0) < Math.max(home.liquidity?.usd ?? 0, 1_000) * 100 ? home : deepest;
   const others = new Set(pool.map((p) => p.baseToken.address.toLowerCase()));
   others.delete(best.baseToken.address.toLowerCase());
   return { pair: best, copies: others.size };
@@ -225,8 +229,8 @@ function gradeDeep(f: Facts, bad: string[], careful: string[], good: string[]): 
     else if (l.last7d >= 3) careful.push(`Its creator launched ${l.last7d} other tokens in the last week`);
     else if (l.count) careful.push(`Its creator launched ${l.count} other token${l.count > 1 ? "s" : ""}: look at how they went`);
   }
-  if (d.history && d.history.fromPeak <= -0.9) careful.push(`Price is ${pct(-d.history.fromPeak * 100)} below its peak ${d.history.peakDaysAgo} days ago`);
-  if (d.history?.volBefore && d.history.vol7 < d.history.volBefore * 0.2) careful.push("Trading has dried up: this week's volume is under a fifth of the month before");
+  if (d.history && d.history.fromPeak <= -0.9) careful.push(`Price is ${pct(-d.history.fromPeak * 100)} below its ${d.history.days}-day high`);
+  if (d.history?.volBefore && d.history.vol7 < d.history.volBefore * 0.2 && d.history.vol7 < DRIED_USD) careful.push("Trading has dried up: this week's volume is under a fifth of the month before");
   if (d.flow && d.flow.trades >= 30 && d.flow.top3 >= 0.7) careful.push(`Three wallets made ${pct(d.flow.top3 * 100)} of its recent volume, which can mean wash trading`);
   const busy = [...(d.pools ?? [])].sort((a, b) => b.vol24 - a.vol24)[0];
   if (busy && busy.buys >= 20 && busy.sells === 0) bad.push(`${busy.buys} buys and no sells in 24h in its busiest pool, which is what a honeypot looks like`);
@@ -254,14 +258,14 @@ export function grade(f: Facts, now = Date.now()): Grade {
     if (v?.contractClean) good.push("No owner powers or sell blocks found in the contract");
     if (v?.contractChecked === false) careful.push("Its contract couldn't be read, so owner powers are unknown");
     if (v?.creatorHoneypots) bad.push(`GoPlus ties ${v.creatorHoneypots} honeypot${v.creatorHoneypots > 1 ? "s" : ""} to the same creator`);
-    if (v?.lp && v.lp.locked < 0.5) careful.push(`Only ${Math.round(v.lp.locked * 100)}% of its LP shows as locked or burned, so the rest could be pulled`);
-    else if (v?.lp) good.push(`${Math.round(v.lp.locked * 100)}% of its LP shows as locked or burned`);
+    // (a low share says nothing: on 11-02 GoPlus showed 0% on nearly every token, PEPE included, it doesn't know the lockers)
+    if (v?.lp && v.lp.locked >= 0.5) good.push(`${Math.round(v.lp.locked * 100)}% of its LP shows as locked or burned`);
     for (const w of v?.warnings ?? []) careful.push(w);
     gradeDeep(f, bad, careful, good);
     const b = bundle(f);
     if (b?.level === "some") careful.push("Some of the top wallets look grouped");
     if (b?.level === "clean") good.push("No wallet group found among the top holders");
-    if (b?.level === "unknown") careful.push("Whether it's bundled couldn't be checked");
+    if (b?.level === "unknown" && f.token.chain === "robinhood") careful.push("Whether it's bundled couldn't be checked");
     if (f.token.ageH != null && f.token.ageH < 7 * 24) careful.push(`The pool is only ${f.token.ageH < 48 ? `${Math.round(f.token.ageH)} hours` : `${Math.round(f.token.ageH / 24)} days`} old`);
     if ((f.copies ?? 0) >= 2) careful.push(`${f.copies} other tokens use this name. Match the contract before buying`);
     if (!f.links?.length) careful.push("It lists no website or socials");

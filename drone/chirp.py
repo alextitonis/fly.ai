@@ -35,6 +35,14 @@ hear.py found one command: a steady tone on JO-E, on one side, turns the fly tha
    The decoder's settings are picked on development seed 9100, before 9101.
    A plain microphone and a demodulator would read all 36 messages (5.2 bits) with no brain at all. So DATA asks what the brain lets through, and can't show that
    the brain is the better way to send data.
+
+3. Alert, on the bench, `python drone/chirp.py alert --seed 9411`. Codes passed with every pulse starting at the same moment, which a real listener doesn't get. Here each fly hears the pattern from its own random moment, with propeller noise on the ear neurons
+   (NOISE volts), all ear channels, and has to say whether it's the alert, 10 Hz, picked before running, against the other four patterns and silence. Two runs of each condition with different resets: trained on one, scored on the other, both ways. The decoder is ours, on the descending neurons:
+   each one's spike count plus how strongly they fire together at each rhythm, which doesn't depend on when the pattern began. Rules fixed before running, at 0.4 V, a pass only counts if it repeats on 9412:
+     HEARS     at least 75% of alerts called, at most 10% of everything else called alert
+     WIRING    (hits + correct rejections) / 2 at least 15 points over scrambled wiring
+     TIMING    the same at least 15 points over the same decoder given only spike counts
+   Reported, no rule: 0.2 and 0.8 V, and the rhythm of the microphone itself with no brain, which should do at least as well. That's the bar: the brain only earns its place in a real alert if it adds something a filter on the mic doesn't, such as acting on it through its own wiring.
 """
 from __future__ import annotations
 
@@ -267,9 +275,94 @@ def codes(a) -> None:
     print(json.dumps({k: v for k, v in res.items() if k != "conditions"}, indent=1))
 
 
+ALERT, ALERT_STEPS, ALERT_LOUD = "10 Hz", 75, (0.2, 0.4, 0.8)
+
+
+def alert_play(brain, cells: np.ndarray, dn: np.ndarray, pattern: str | None, loud: float, seed: int) -> tuple[np.ndarray, np.ndarray]:
+    """One condition: DN counts (flies, DNs), DN population per step (flies, steps), and the mic's own signal (flies, steps)."""
+    rng = np.random.default_rng(seed)
+    brain.reset(seed)
+    for _ in range(WARM):
+        brain.step(None, inject=[])
+    start = rng.integers(0, 50, FLIES)
+    place = np.full(brain.n, -1)
+    place[dn] = np.arange(len(dn))
+    counts, trace, mic = np.zeros((FLIES, len(dn)), np.int16), np.zeros((FLIES, ALERT_STEPS), np.int16), np.zeros((FLIES, ALERT_STEPS), np.float32)
+    for t in range(ALERT_STEPS):
+        on = np.array([pattern is not None and on_at(pattern, t + int(s)) for s in start])
+        volts = np.clip(loud * on + rng.normal(0, NOISE, FLIES), 0, CAP).astype(np.float32)
+        mic[:, t] = volts
+        brain.v[cells] += volts[None, :]
+        for b, f in enumerate(brain.step(None, inject=[])):
+            here = place[f]
+            here = here[here >= 0]
+            counts[b, here] += 1
+            trace[b, t] = len(here)
+    return counts, trace, mic
+
+
+def rhythm(x: np.ndarray) -> np.ndarray:
+    return np.abs(np.fft.rfft(x - x.mean(1, keepdims=True), axis=1))[:, 1:]
+
+
+def fold_score(A: np.ndarray, B: np.ndarray, y: np.ndarray, lam: float = 100.0) -> np.ndarray:
+    """Train on run A, class for every fly of run B, and the same swapped: (flies x 2,)."""
+    out = []
+    for tr, te in ((A, B), (B, A)):
+        mu, sd = tr.mean(0), tr.std(0) + 1e-3
+        P, Q = (tr - mu) / sd, (te - mu) / sd
+        T = np.eye(y.max() + 1)[y]
+        coef = np.linalg.solve(P @ P.T + lam * np.eye(len(P)), T - T.mean(0))
+        out.append((Q @ P.T @ coef).argmax(1))
+    return np.concatenate(out)
+
+
+def alert_score(pred: np.ndarray, y: np.ndarray, want: int) -> dict:
+    yy = np.r_[y, y]
+    hit, wrong = float((pred[yy == want] == want).mean()), float((pred[yy != want] == want).mean())
+    return {"hit": round(hit, 3), "false": round(wrong, 3), "balanced": round((hit + 1 - wrong) / 2, 3)}
+
+
+def alert_run(brain, seed: int) -> dict:
+    sc = brain.superclass.astype(str)
+    dn = np.flatnonzero(np.isin(sc, ["descending_neuron", "descending_neuron_tbc"]))
+    cells = np.concatenate([ear(brain, c, s) for c in SETS["all"] for s in "LR"])
+    names = list(PATTERNS) + [None]
+    want = names.index(ALERT)
+    y = np.repeat(np.arange(len(names)), FLIES)
+    out = {}
+    for loud in ALERT_LOUD:
+        runs = []
+        for r in range(2):
+            got = [alert_play(brain, cells, dn, p, loud, seed + 1000 * r + 100 * i + int(loud * 10)) for i, p in enumerate(names)]
+            runs.append([np.concatenate([g[k] for g in got]).astype(np.float32) for k in range(3)])
+            print(f"  {loud} V run {r}", flush=True)
+        full = lambda q: np.c_[q[0], 20 * rhythm(q[1])]     # noqa: E731
+        out[str(loud)] = {"brain": alert_score(fold_score(full(runs[0]), full(runs[1]), y), y, want), "counts_only": alert_score(fold_score(runs[0][0], runs[1][0], y), y, want),
+                          "mic_no_brain": alert_score(fold_score(rhythm(runs[0][2]), rhythm(runs[1][2]), y, 1.0), y, want)}
+        print(loud, out[str(loud)], flush=True)
+    return out
+
+
+def alert(a) -> None:
+    brain = FlyBrain(batch=FLIES, seed=a.seed, sensory_input=False)
+    print("real", flush=True)
+    real = alert_run(brain, a.seed)
+    print("scrambled", flush=True)
+    rewire(brain, seed=a.seed + 3)
+    scr = alert_run(brain, a.seed + 500)
+    r, s = real["0.4"], scr["0.4"]
+    res = {"seed": a.seed, "real": real, "scrambled": scr, "rules": {"HEARS": r["brain"]["hit"] >= 0.75 and r["brain"]["false"] <= 0.1, "WIRING": r["brain"]["balanced"] - s["brain"]["balanced"] >= 0.15, "TIMING": r["brain"]["balanced"] - r["counts_only"]["balanced"] >= 0.15}}
+    OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / f"alert{a.seed}.json").write_text(json.dumps(res, indent=1))
+    print(json.dumps(res["rules"]))
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="what", required=True)
+    al = sub.add_parser("alert")
+    al.add_argument("--seed", type=int, default=9411)
     f = sub.add_parser("fly")
     f.add_argument("--mode", choices=("sound", "silent", "mirror"), default="sound")
     f.add_argument("--seed", type=int, default=8951)
@@ -289,6 +382,8 @@ def main() -> None:
         print(json.dumps(fly(a)))
     elif a.what == "score":
         score(a)
+    elif a.what == "alert":
+        alert(a)
     else:
         codes(a)
 

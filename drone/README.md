@@ -42,6 +42,7 @@ the machine gets slow.
 | `python drone/chirp.py fly --mode sound --seed 8951` / `codes --seed 9101` / `score` | Sound in flight (`--mode sound\|silent\|mirror`, `--rewire`, `--noise`), pulsed chirps on the bench, score the flight test | flight run 1-3 min, bench about 20 min |
 | `python drone/fire.py clips --seed 9201` / `--dry` | Fire on real footage in `runs/clips/forest/`, with no colour step. Missed, see Results | about 10 min |
 | `python drone/flame.py clips --folder forest_fresh2` | Flames or only flame-coloured, on real footage, no connectome. 2 of 3 rules, see Results | about 5 min |
+| `python drone/smoke.py train` / `clips --folder smoke_test` | Smoke from the air on real footage, no connectome. 2 of 3 rules, see Results | about 5 min |
 | `python drone/forest.py picture --seed 9301` / `fly --seed 9301` / `score` | The 3D forest with a fire: stills, one patrol (`--out clip.mp4`, `--rewire`, `--no-fire`, `--decoys`, `--cameras`, and not yet flown `--big`, `--real-fire`), score a test (`--test first\|search\|fire`). First test passed, with limits, see Results | flight up to about 6 min, `--big --seconds 480` over 12 min |
 | `python drone/readout_checks.py` | World-Sim's readout checks (after `gestures.py measure`) | about 10 min |
 | `python drone/planner.py ...` | World-Sim's planner against the fly. Failed its rule, see Results | see below |
@@ -109,6 +110,7 @@ safety system: it can lose its target, or pick the wrong one, at any time.
 | `hear.py`, `chirp.py` | Sound on the bench; sound in flight and pulsed chirps. |
 | `fire.py` | Fire on real footage through the motion route. |
 | `flame.py` | Our own camera step: flames or only flame-coloured. |
+| `smoke.py` | Our own camera step from the air: is that a fire's smoke? |
 | `forest.py` | A 3D forest with a fire, and a patrol through it with no outside connection. |
 | `planner.py`, `readout_checks.py` | The ideas from [World-Sim](https://github.com/alextitonis/ai-model). |
 
@@ -303,6 +305,31 @@ The same readout with no neurons in between scored 0.54, so the motion model its
 So on a single look it is rarely fooled and finds about half of real fires. It misses big saturated fires, whose brightness hardly changes once blurred, and glowing coals; one fire clip shows smoke with no flames in view. No third set was run, since retuning until a set passes wouldn't mean much.
 
 It reads flames from close up only: in the simulated forest COARSE passes at about 3 m and falls away beyond it, so the patrol stops and looks from afar only to rule out still things (KEEP), then flies up for the look that decides. It doesn't handle smoke, and it finds nothing from the air: only 1 of 15 aerial fire clips even has flame colours. A real patrol would need a heat camera or a smoke step.
+
+### Smoke from the air: 2 of 3 rules (2026-11-02)
+
+`smoke.py`, our own camera step with nothing of the connectome in it, for a patrol above the forest. MobileNet V3 small with ImageNet weights, and a logistic regression on top trained on aerial footage. Test on 44 clips picked by title and not looked at, 16 fire and 28 not-fire, many of those fog, mist, cloud or snow. Rules are at the top of `smoke.py`.
+
+| Rule | Needed | Result, without overlapping shoots | |
+|---|---|---|---|
+| CATCH | at least 12 of 16 fires | 10 | **Miss** |
+| FALSE | at most 3 of 28 not-fire | 0 | Pass |
+| BEATS | area under the curve 0.10 over pale-and-soft | 0.91 against 0.45 | Pass |
+
+As first run it scored 13 of 16, 2 of 28, and passed all three, but 14 of the 16 test fires sat next to a shoot in training. The table is the same settings retrained without the 18 nearby clips. Those shoots are matched by id, so some overlap may remain. It takes about 12 ms a frame on this CPU. At the drone's 128 x 96 pictures, on the first model only, it called 10 of 16 and 0 of 28, area 0.92.
+
+Limits of that test: only 16 fire clips were left to train on, and it missed about a third of fires.
+
+**Second test, more footage: both rules passed.** `python drone/smoke.py heldout`, rules fixed before its clips were downloaded, settings unchanged. 140 new clips, 60 fire and 80 not-fire. Each shoot is held out in turn, with shoots matched across every folder, and the model trains on all the others.
+
+| Rule | Needed | Result (95% interval over shoots) | |
+|---|---|---|---|
+| CATCH | at least 75% of fire clips | 82% (61 to 94%) | Pass |
+| FALSE | at most 10% of not-fire clips | 6% (1 to 12%) | Pass |
+
+Area under the curve 0.96 (0.92 to 0.99). The fire clips come from only 16 shoots, and counting each shoot once the catch rate is 67%, so a new fire is closer to two in three than the headline suggests. A cutoff of 0.4 gives 90% caught and 10% false, but that was read off this same test.
+
+Limits: stock footage, mostly daylight, labelled by title and not checked frame by frame. Its fires are well framed, and it has never seen a real drone's camera. It doesn't read the simulator's smoke at all: 0 of 24 views with a fire called from patrol height.
 
 ### 3D forest patrol: all three rules passed, but barely any searching (2026-11-01)
 
