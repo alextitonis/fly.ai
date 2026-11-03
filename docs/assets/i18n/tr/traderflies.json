@@ -625,7 +625,11 @@
       "opens": "Yakında açılıyor",
       "note": "Her hafta açıldıktan sonra {hours} saat boyunca alınabilir. Zamanında alınmayan, alan holder'lara gider.",
       "missedTotal": "Şimdiye kadar kaçırılan: {amount} $FLYAI",
-      "none": "Bu cüzdanın henüz ödenen haftası yok."
+      "none": "Bu cüzdanın henüz ödenen haftası yok.",
+      "kind": "Tür",
+      "desk": "Fly Desk",
+      "parts": "{n} parça",
+      "notMining": "Madencilik ödemeleri ayrı alınır ve bu listede yer almaz."
     }
   },
   "odds": {

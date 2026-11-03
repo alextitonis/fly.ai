@@ -625,7 +625,11 @@
       "opens": "Opens soon",
       "note": "Each week stays claimable for {hours} h after it opens. What is not claimed in time goes to the holders who did claim.",
       "missedTotal": "Missed so far: {amount} $FLYAI",
-      "none": "No paid weeks for this wallet yet."
+      "none": "No paid weeks for this wallet yet.",
+      "kind": "Type",
+      "desk": "Fly Desk",
+      "parts": "{n} parts",
+      "notMining": "Mining payouts are claimed separately and are not in this list."
     }
   },
   "odds": {

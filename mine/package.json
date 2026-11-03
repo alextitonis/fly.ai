@@ -30,6 +30,7 @@
     "test:xlink": "node --disable-warning=ExperimentalWarning src/xlinktest.ts",
     "test:gta": "node --disable-warning=ExperimentalWarning src/gtatest.ts",
     "test:badges": "node --disable-warning=ExperimentalWarning src/badgestest.ts",
+    "test:xp": "node --disable-warning=ExperimentalWarning src/xptest.ts",
     "test:scan": "node --disable-warning=ExperimentalWarning src/scantest.ts",
     "test:deskchat": "node --disable-warning=ExperimentalWarning src/deskchattest.ts",
     "test:pet": "node --disable-warning=ExperimentalWarning src/pettest.ts",

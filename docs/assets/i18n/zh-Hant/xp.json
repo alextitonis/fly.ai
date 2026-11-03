@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "title": "XP 第一季：在 fly.ai 賺取 XP",
+    "description": "持有 $FLYAI、運行你的 Trader Flies、交易、繁殖和分享即可賺取 XP。XP 計入新年空投。"
+  },
+  "head": {
+    "eyebrow": "XP 第一季",
+    "title": "使用 fly.ai，賺取 XP",
+    "lede": "持有 $FLYAI、運行你的 Trader Flies、交易、繁殖和分享。XP 計入新年空投。"
+  },
+  "status": {
+    "loading": "載入中…",
+    "signIn": "登入",
+    "profile": "我的主頁",
+    "how": "如何賺取 XP",
+    "soon": "XP 即將開放。",
+    "over": "第一季已結束。XP 已計入新年空投。",
+    "ends": "第一季於 {date} 結束。XP 大約每 10 分鐘更新一次。",
+    "signedOut": "登入後查看你的 XP 和等級。",
+    "me": "你有 {xp} XP · 等級 {level} · 第 {rank} 名 / 共 {of}",
+    "none": "還沒有 XP。持有 $FLYAI 或運行一隻蒼蠅即可開始。"
+  },
+  "board": {
+    "title": "排行榜",
+    "total": "{n} 個錢包",
+    "empty": "還沒有 XP。首次讀取需要幾分鐘。",
+    "level": "Lv {n}"
+  }
+}

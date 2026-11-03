@@ -31,6 +31,8 @@
       ["GTA VI giveaway", "/gta", "Hold 100k $FLYAI, win a copy", false, true],
       // 2026-10-31: soulbound NFTs (badges.js, mine/src/badges.ts, FlyBadges.sol)
       ["Badges", "/badges", "Soulbound badges for holders", false, true],
+      // 2026-11-03: XP season 1 (xp.js, flyprofile.js, mine/src/xp.ts)
+      ["XP Season", "/xp", "Earn XP toward the New Year drop", false, true],
       ["Merch", "/shop", "Fly shirts and more", true],
     ]],
     ["traderflies", "Trader Flies", [
@@ -90,7 +92,7 @@
       signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
       save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out",
       search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", deskClaim: "Fly Desk payout to claim", claimBy: "claim by {t}", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
-      badgesBtn: "🏅 Badges", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
+      badgesBtn: "🏅 Badges", xpBtn: "⭐ XP & profile", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
       xLabel: "X account", connectX: "Connect X", unlinkX: "Unlink", x_linked: "X connected", x_denied: "Cancelled on X",
       x_expired: "That took too long, try again", x_taken: "That X account is linked to another wallet", x_failed: "X didn't answer, try again" };
   const LANGS = ["en", "zh-Hans", "zh-Hant", "ko", "tr", "es"];   // i18n.js LANGUAGES
@@ -100,11 +102,12 @@
   let hintCss = null;                                      // pageSignIns' style, rebuilt by relabel()
   let lockJs = null;                                       // flylock.js loading (wireLock); up here: wireAccount runs early
   let badgesJs = null;                                     // flybadges.js loading (wireBadges)
+  let profileJs = null;                                    // flyprofile.js loading (openProfile)
 
   // 2026-10-04: pages read the session, the mine server and nicknames from here instead of their own copies
   // (they keep a fallback: this loads at the end of <body> and may fail)
   const nickCache = new Map();                             // wallet -> Promise<nickname | null>, for names()
-  window.flyNav = { session, MINE_API, MINE_READ, short, names };
+  window.flyNav = { session, MINE_API, MINE_READ, short, names, profile: openProfile };
 
   keepRef();                                                // (on every page, before anything else can fail)
   welcome();
@@ -273,6 +276,7 @@
         el("button", { type: "button", class: "btn sm", "data-l": "save" }, L("save"))),
       el("small", { class: "acct-msg" }));
     menu.append(el("li", { class: "acct-badges", hidden: "" }), el("li", { class: "acct-lock", hidden: "" }),
+      el("li", null, el("button", { type: "button", class: "acct-xp", "data-l": "xpBtn" }, L("xpBtn"))),
       el("li", null, el("button", { type: "button", class: "acct-soulbound", "data-l": "badgesBtn" }, L("badgesBtn"))),
       item("myFlies", "/traderflies/traders?view=mine"), item("leaderboard", "/traderflies/traders?view=board"),
       form, el("li", { class: "acct-x", hidden: "" }), el("li", { class: "acct-ref", hidden: "" }), item("referrals", "/referrals"), item("Flybook", "/flybook/"),
@@ -322,6 +326,12 @@
     wireX(li, s);
     wireLock(li, s);
     wireBadges(li, s);
+    const xpBtn = li.querySelector(".acct-xp");
+    if (xpBtn) xpBtn.addEventListener("click", () => {
+      li.classList.remove("open");
+      li.querySelector(".ddbtn").setAttribute("aria-expanded", "false");
+      openProfile(s.wallet);
+    });
     li.querySelector(".acct-out").addEventListener("click", async () => {
       try { (await import(ACCOUNT_JS)).signOut(); } catch { /* the page had no wallet code: clear it here */ }
       try { localStorage.removeItem(SESSION_KEY); } catch {}
@@ -410,6 +420,26 @@
     }
     lockJs.then(() => { if (window.flyLock) window.flyLock.mount(box, s.wallet); });
   }
+
+  /** The profile card (flyprofile.js, 2026-11-03): loaded on the first open; anything with data-fly-profile="0x…" opens it. */
+  function openProfile(wallet) {
+    if (!profileJs) {
+      profileJs = new Promise((ok) => {
+        const tag = document.createElement("script");
+        tag.src = NAV_SRC ? new URL("flyprofile.js?v=20261103x", NAV_SRC).href : "/assets/flyprofile.js?v=20261103x";
+        tag.onload = ok;
+        tag.onerror = ok;
+        (document.body || document.head).append(tag);
+      });
+    }
+    return profileJs.then(() => { if (window.flyProfile) window.flyProfile.open(wallet); });
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target instanceof Element ? e.target.closest("[data-fly-profile]") : null;
+    if (!a) return;
+    e.preventDefault();
+    openProfile(a.getAttribute("data-fly-profile"));
+  });
 
   /** Soulbound badges (flybadges.js, 2026-10-31): the popup's code and its one read wait for the button. */
   function wireBadges(li, s) {

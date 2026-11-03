@@ -128,7 +128,7 @@ function row(r, me, apart) {
   const name = r.nickname || `${r.wallet.slice(0, 6)}…${r.wallet.slice(-4)}`;
   return el("li", { class: `badges-row${me ? " me" : ""}${apart ? " apart" : ""}` },
     el("span", { class: "badges-rank" }, `#${r.rank}`),
-    el("span", { class: "badges-who", title: r.wallet }, name),
+    el("a", { class: "badges-who", title: r.wallet, href: "#", "data-fly-profile": r.wallet }, name),   // nav.js opens the profile card
     el("span", { class: "badges-icons" }, r.ids.filter((id) => NAMES[id]).map((id) => {
       const label = t(`badges.list.${NAMES[id]}.name`);
       return el("img", { src: `assets/badges/${id}.svg`, alt: label, title: label, loading: "lazy", width: "24", height: "24" });

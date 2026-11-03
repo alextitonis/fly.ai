@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "title": "XP Sezon 1: fly.ai'da XP kazan",
+    "description": "$FLYAI tut, Trader Fly'larını çalıştır, işlem yap, çiftleştir ve paylaş; XP kazan. XP Yılbaşı dağıtımına sayılır."
+  },
+  "head": {
+    "eyebrow": "XP Sezon 1",
+    "title": "fly.ai'ı kullan, XP kazan",
+    "lede": "$FLYAI tut, Trader Fly'larını çalıştır, işlem yap, çiftleştir ve paylaş. XP Yılbaşı dağıtımına sayılır."
+  },
+  "status": {
+    "loading": "Yükleniyor…",
+    "signIn": "Giriş yap",
+    "profile": "Profilim",
+    "how": "XP nasıl kazanılır",
+    "soon": "XP yakında açılıyor.",
+    "over": "Sezon 1 bitti. XP Yılbaşı dağıtımına sayıldı.",
+    "ends": "Sezon 1 {date} tarihinde bitiyor. XP yaklaşık 10 dakikada bir güncellenir.",
+    "signedOut": "XP'ni ve seviyeni görmek için giriş yap.",
+    "me": "{xp} XP · seviye {level} · {of} cüzdan içinde #{rank}",
+    "none": "Henüz XP yok. Başlamak için $FLYAI tut ya da bir sinek çalıştır."
+  },
+  "board": {
+    "title": "Liderlik tablosu",
+    "total": "{n} cüzdan",
+    "empty": "Henüz XP yok. İlk okuma birkaç dakika sürer.",
+    "level": "Sv {n}"
+  }
+}

@@ -54,6 +54,7 @@ import { createFlyChat, openRouter } from "./flychat.ts";
 import { createPet, flyOwners } from "./pet.ts";
 import { createHunt } from "./hunt.ts";
 import { badgeConfig, createBadges } from "./badges.ts";
+import { createXp, xpConfig } from "./xp.ts";
 import { multicall } from "./multicall.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
@@ -3765,6 +3766,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p === "/api/badges" || p.startsWith("/api/badges/"))) {
     if (await badges.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && p.startsWith("/api/xp/")) {
+    if (await xp.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && p.startsWith("/api/pet/")) {
     if (await pet.route(req, res, url)) return;
   }
@@ -4183,6 +4187,12 @@ const badges = createBadges({
   HttpError, send, sessionWallet: sessionAddress,
 });
 if (USER) badges.start();
+// XP season 1 (src/xp.ts): holding, flies, deposits, feeding, trades, box buys, breeding, badges, referrals, X, Flybook
+const xp = createXp({
+  pg, chain: robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock), cfg: xpConfig(process.env),
+  HttpError, send, readJson, sessionWallet: sessionAddress,
+});
+if (USER) xp.start();
 // Fly Launchpad (src/launchpad.ts): indexes the FlyLaunchpad contract once LAUNCHPAD_ADDRESS is set
 const launchpad = /^0x[0-9a-fA-F]{40}$/.test(process.env.LAUNCHPAD_ADDRESS ?? "")
   ? createLaunchpad({

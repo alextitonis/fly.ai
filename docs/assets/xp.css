@@ -1,0 +1,24 @@
+/* docs/xp.html (2026-11-03): XP season 1 */
+.xp .wrap { display: grid; gap: 16px; }
+.xp-me { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.xp-me-main { flex: 1 1 280px; min-width: 0; }
+.xp-me-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.xp-msg { margin: 0; color: var(--muted); font-size: 15px; }
+.xp-msg b { color: var(--mint); font-weight: 700; }
+.xp-msg.err { color: var(--red-hi); }
+.xp-season { margin: 4px 0 0; color: var(--dim); font-size: 13px; }
+.xp-board-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+.xp-board-top h3 { margin: 0; }
+.xp-total { font: 12px var(--mono); color: var(--dim); }
+.xp-rows { list-style: none; margin: 0; padding: 0; }
+.xp-row { display: grid; grid-template-columns: 44px 28px minmax(0, 1fr) 64px 92px; align-items: center; gap: 10px; padding: 8px 6px; border-top: 1px solid var(--line); }
+.xp-row.me { background: var(--glow); border-radius: 8px; }
+.xp-row.apart { margin-top: 10px; }
+.xp-rank { font: 500 13px var(--mono); color: var(--dim); }
+.xp-av { width: 28px; height: 28px; border-radius: 50%; background: var(--line); display: block; }
+.xp-who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; color: inherit; text-decoration: none; }
+.xp-who:hover { color: var(--mint); }
+.xp-who small { color: var(--dim); font: 12px var(--mono); margin-left: 6px; }
+.xp-level { font: 500 13px var(--mono); color: var(--muted); text-align: right; }
+.xp-points { font: 600 15px var(--mono); color: var(--mint); text-align: right; }
+@media (max-width: 520px) { .xp-row { grid-template-columns: 34px 24px minmax(0, 1fr) 76px; } .xp-level { display: none; } .xp-av { width: 24px; height: 24px; } }

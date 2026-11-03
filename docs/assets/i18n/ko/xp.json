@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "title": "XP 시즌 1: fly.ai에서 XP 얻기",
+    "description": "$FLYAI 보유, Trader Fly 운영, 거래, 번식, 공유로 XP를 얻으세요. XP는 새해 드롭에 반영됩니다."
+  },
+  "head": {
+    "eyebrow": "XP 시즌 1",
+    "title": "fly.ai를 쓰고 XP를 얻으세요",
+    "lede": "$FLYAI를 보유하고, Trader Fly를 운영하고, 거래하고, 번식하고, 공유하세요. XP는 새해 드롭에 반영됩니다."
+  },
+  "status": {
+    "loading": "불러오는 중…",
+    "signIn": "로그인",
+    "profile": "내 프로필",
+    "how": "XP 얻는 방법",
+    "soon": "XP가 곧 열립니다.",
+    "over": "시즌 1이 끝났습니다. XP는 새해 드롭에 반영되었습니다.",
+    "ends": "시즌 1은 {date}에 끝납니다. XP는 약 10분마다 갱신됩니다.",
+    "signedOut": "로그인하면 내 XP와 레벨을 볼 수 있습니다.",
+    "me": "{xp} XP · 레벨 {level} · {of}명 중 {rank}위",
+    "none": "아직 XP가 없습니다. $FLYAI를 보유하거나 플라이를 운영해 시작하세요."
+  },
+  "board": {
+    "title": "리더보드",
+    "total": "지갑 {n}개",
+    "empty": "아직 XP가 없습니다. 첫 집계에 몇 분 걸립니다.",
+    "level": "Lv {n}"
+  }
+}

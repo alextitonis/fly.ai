@@ -105,6 +105,8 @@ export type Partner = {
 export const partners = () => getJSON<{ partners: Partner[] }>(`${MINE}/api/partners`).then((r) => r.partners);
 
 export const board = () => getJSON<Board>(`${MINE}/api/vaults/leaderboard?chain=robinhood`);
+/** A partner collection's NFT wallets (mine /api/partners/<id>/leaderboard), ranked with the Fly Wallets on the site. */
+export const partnerBoard = (id: string) => getJSON<Board>(`${MINE}/api/partners/${id}/leaderboard`);
 
 /** One line of a Fly Wallet's terminal (mine /api/vaults/fly/:id/log; flytrade/web/src/vaults.ts LogRow), newest first. */
 export type LogTrade = {

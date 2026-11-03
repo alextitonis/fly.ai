@@ -623,7 +623,11 @@
       "opens": "即将开放",
       "note": "每周派发开放后 {hours} 小时内可领取。未按时领取的部分归已领取的持有者。",
       "missedTotal": "累计错过：{amount} $FLYAI",
-      "none": "此钱包还没有已派发的周。"
+      "none": "此钱包还没有已派发的周。",
+      "kind": "类型",
+      "desk": "Fly Desk",
+      "parts": "分 {n} 次",
+      "notMining": "挖矿奖励单独领取，不在此列表中。"
     }
   },
   "odds": {

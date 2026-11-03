@@ -625,7 +625,11 @@
       "opens": "Abre pronto",
       "note": "Cada semana se puede reclamar durante {hours} h tras abrirse. Lo que no se reclama a tiempo va a los holders que sí reclamaron.",
       "missedTotal": "Perdido hasta ahora: {amount} $FLYAI",
-      "none": "Esta wallet aún no tiene semanas pagadas."
+      "none": "Esta wallet aún no tiene semanas pagadas.",
+      "kind": "Tipo",
+      "desk": "Fly Desk",
+      "parts": "{n} partes",
+      "notMining": "Los pagos de minería se reclaman aparte y no están en esta lista."
     }
   },
   "odds": {

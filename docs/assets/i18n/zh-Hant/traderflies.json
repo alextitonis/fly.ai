@@ -623,7 +623,11 @@
       "opens": "即將開放",
       "note": "每週派發開放後 {hours} 小時內可領取。未按時領取的部分歸已領取的持有者。",
       "missedTotal": "累計錯過：{amount} $FLYAI",
-      "none": "此錢包還沒有已派發的週。"
+      "none": "此錢包還沒有已派發的週。",
+      "kind": "類型",
+      "desk": "Fly Desk",
+      "parts": "分 {n} 次",
+      "notMining": "挖礦獎勵單獨領取，不在此列表中。"
     }
   },
   "odds": {

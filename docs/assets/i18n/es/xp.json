@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "title": "Temporada XP 1: gana XP en fly.ai",
+    "description": "Mantén $FLYAI, pon a trabajar tus Trader Flies, opera, cruza y comparte para ganar XP. La XP cuenta para el drop de Año Nuevo."
+  },
+  "head": {
+    "eyebrow": "Temporada XP 1",
+    "title": "Usa fly.ai, gana XP",
+    "lede": "Mantén $FLYAI, pon a trabajar tus Trader Flies, opera, cruza y comparte. La XP cuenta para el drop de Año Nuevo."
+  },
+  "status": {
+    "loading": "Cargando…",
+    "signIn": "Iniciar sesión",
+    "profile": "Mi perfil",
+    "how": "Cómo ganar XP",
+    "soon": "La XP abre pronto.",
+    "over": "La Temporada 1 terminó. La XP contó para el drop de Año Nuevo.",
+    "ends": "La Temporada 1 termina el {date}. La XP se actualiza cada 10 minutos aprox.",
+    "signedOut": "Inicia sesión para ver tu XP y tu nivel.",
+    "me": "Tienes {xp} XP · nivel {level} · #{rank} de {of}",
+    "none": "Aún no tienes XP. Mantén $FLYAI o pon a trabajar una mosca para empezar."
+  },
+  "board": {
+    "title": "Clasificación",
+    "total": "{n} wallets",
+    "empty": "Aún no hay XP. La primera lectura tarda unos minutos.",
+    "level": "Nv {n}"
+  }
+}

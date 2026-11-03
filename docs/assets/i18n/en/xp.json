@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "title": "XP Season 1: earn XP on fly.ai",
+    "description": "Hold $FLYAI, run your Trader Flies, trade, breed and share to earn XP. XP counts toward the New Year drop."
+  },
+  "head": {
+    "eyebrow": "XP Season 1",
+    "title": "Use fly.ai, earn XP",
+    "lede": "Hold $FLYAI, run your Trader Flies, trade, breed and share. XP counts toward the New Year drop."
+  },
+  "status": {
+    "loading": "Loading…",
+    "signIn": "Sign in",
+    "profile": "My profile",
+    "how": "How to earn XP",
+    "soon": "XP opens soon.",
+    "over": "Season 1 is over. XP counted toward the New Year drop.",
+    "ends": "Season 1 ends {date}. XP updates about every 10 minutes.",
+    "signedOut": "Sign in to see your XP and level.",
+    "me": "You have {xp} XP · level {level} · #{rank} of {of}",
+    "none": "No XP yet. Hold $FLYAI or run a fly to start."
+  },
+  "board": {
+    "title": "Leaderboard",
+    "total": "{n} wallets",
+    "empty": "No XP yet. The first read takes a few minutes.",
+    "level": "Lv {n}"
+  }
+}

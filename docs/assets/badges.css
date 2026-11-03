@@ -30,7 +30,8 @@
 .badges-row.me { background: var(--glow); border-radius: 8px; }
 .badges-row.apart { margin-top: 10px; }
 .badges-rank { font: 500 13px var(--mono); color: var(--dim); }
-.badges-who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
+.badges-who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; color: inherit; text-decoration: none; }
+a.badges-who:hover { color: var(--mint); }
 .badges-icons { display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
 .badges-icons img { width: 24px; height: 24px; border-radius: 5px; display: block; }
 .badges-count { font: 600 15px var(--mono); color: var(--mint); text-align: right; }

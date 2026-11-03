@@ -59,7 +59,7 @@ export function intentOf(text: string): Intent | null {
   for (const [re, command] of RULES) {
     if (!re.test(t)) continue;
     if (command !== "leaderboard") return { command, args: [] };
-    const span = /\b(24 ?h|today|day)\b/i.test(t) ? "24h" : /\b(all ?time|ever|all)\b/i.test(t) ? "all" : null;
+    const span = /\b(24 ?h|today|day)\b/i.test(t) ? "24h" : /\b(7 ?d|week|weekly)\b/i.test(t) ? "7d" : /\b(all ?time|ever|all)\b/i.test(t) ? "all" : null;
     return { command, args: span ? [span] : [] };
   }
   return null;
