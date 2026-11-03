@@ -176,6 +176,7 @@
       <button type="button" role="tab" data-pane="payout" aria-selected="false" data-i18n="desk.pay.title">This week's payout</button>
       <button type="button" role="tab" data-pane="launches" aria-selected="false" data-i18n="desk.fd.launches">Launches</button>
       <button type="button" role="tab" data-pane="books" aria-selected="false" data-i18n="desk.books.title">The books</button>
+      <button type="button" role="tab" data-pane="perps" aria-selected="false" data-i18n="desk.perps.title" hidden>Perps</button>
     </div>
 
   <section id="positions" class="fd-pane">
@@ -206,6 +207,16 @@
   <section id="launches" class="fd-pane fd-off">
     <p class="caption"><span data-i18n="desk.launch.lede">When enough of the flies want the same thing in the same moment, the swarm launches a meme token of its own on Pons. The desk holds the first bag, trades it, and earns the creator fees.</span> <small id="launch-next"></small></p>
     <ul class="launches lc-grid" id="launch-list"></ul>
+  </section>
+
+  <!-- the perps trial on Lighter (2026-11-03, engine.house_perps_step; publish "perps"): its own money, not in the pot.
+       desk.js shows the tab only while there is one -->
+  <section id="perps" class="fd-pane fd-off">
+    <p class="caption" id="perps-sum"></p>
+    <p class="caption" id="perps-note"></p>
+    <div class="scroll"><table class="tbl" id="perps-tbl"></table></div>
+    <h3 class="chain-h" data-i18n="desk.perps.recent">Recent perps trades</h3>
+    <div class="scroll"><table class="tbl" id="perps-tape"></table></div>
   </section>
 
   <section id="books" class="fd-pane fd-off">
@@ -345,7 +356,7 @@
 </script>
 <script type="module" src="assets/i18n/page.js"></script>
 <script src="assets/marketbar.js?v=20261006"></script>
-<script src="assets/desk.js?v=20261101g"></script>
+<script src="assets/desk.js?v=20261103p"></script>
 <script src="assets/deskvote.js?v=20261005b"></script>
 <script src="assets/deskchat.js?v=20261026a"></script>
 <script src="assets/staked.js?v=20261027a"></script>

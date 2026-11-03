@@ -21,4 +21,18 @@
 .xp-who small { color: var(--dim); font: 12px var(--mono); margin-left: 6px; }
 .xp-level { font: 500 13px var(--mono); color: var(--muted); text-align: right; }
 .xp-points { font: 600 15px var(--mono); color: var(--mint); text-align: right; }
+.xp-tabs { display: flex; gap: 6px; }
+.xp-tab { background: none; border: 1px solid var(--line); color: var(--muted); font: 600 15px var(--sans, inherit); padding: 8px 18px; border-radius: 999px; cursor: pointer; }
+.xp-tab.on { background: var(--mint); border-color: var(--mint); color: #000; }
+.xp-panel[hidden] { display: none; }
+#xp-panel-round:not([hidden]) { display: grid; gap: 16px; }
+.xp-note h3 { margin: 0 0 6px; }
+.xp-note p { margin: 0 0 6px; color: var(--muted); }
+.xp-round { border-top: 1px solid var(--line); padding: 12px 0; }
+.xp-round:first-child { border-top: 0; padding-top: 0; }
+.xp-round h4 { margin: 0 0 6px; font-size: 15px; }
+.xp-round h4 small { color: var(--dim); font: 12px var(--mono); margin-left: 8px; }
+.xp-round .xp-row { grid-template-columns: 44px 28px minmax(0, 1fr) auto; }
+.xp-reward { font: 600 14px var(--mono); color: var(--mint); text-align: right; }
+.xp-round p { margin: 0 0 6px; color: var(--muted); font-size: 14px; }
 @media (max-width: 520px) { .xp-row { grid-template-columns: 34px 24px minmax(0, 1fr) 76px; } .xp-level { display: none; } .xp-av { width: 24px; height: 24px; } }

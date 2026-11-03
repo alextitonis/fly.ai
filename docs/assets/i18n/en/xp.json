@@ -25,5 +25,22 @@
     "total": "{n} wallets",
     "empty": "No XP yet. The first read takes a few minutes.",
     "level": "Lv {n}"
+  },
+  "tabs": {
+    "season": "Season",
+    "round": "Giveaway"
+  },
+  "round": {
+    "title0": "Giveaway round",
+    "title": "Giveaway round {n}",
+    "board": "XP earned this round",
+    "empty": "No XP earned in this round yet.",
+    "ends": "This round ends {date}.",
+    "note": "Every 2 weeks the wallets that earn the most XP in the round win prizes. The team sets each round's rewards and they show below."
+  },
+  "history": {
+    "title": "Past winners",
+    "none": "No round has ended yet. The first one ends this Sunday.",
+    "pending": "Rewards coming soon. Top of the round:"
   }
 }

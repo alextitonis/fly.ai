@@ -424,5 +424,34 @@
     "stakeHow": "How staking works",
     "trades": "Trades",
     "launches": "Launches"
+  },
+  "perps": {
+    "title": "Perps",
+    "recent": "Recent perps trades",
+    "sum": "{value} in the trial · {profit} since it started with {principal}",
+    "markets": {
+      "crypto": "BTC / ETH",
+      "stocks": "Stocks",
+      "both": "BTC / ETH and stocks"
+    },
+    "regime": {
+      "on": "market mood: risk-on",
+      "off": "market mood: risk-off"
+    },
+    "note": "Its own money on Lighter, not part of the pot or the payouts. 1x, longs and shorts by each market's trend.",
+    "home": "{usd} on its way back to the house wallet.",
+    "off": "switched off",
+    "none": "No positions right now.",
+    "thMarket": "Market",
+    "thSide": "Side",
+    "thSize": "Size",
+    "thEntry": "Entry",
+    "thMark": "Now",
+    "thPnl": "P&L",
+    "thFunding": "Funding",
+    "long": "long",
+    "short": "short",
+    "thTime": "Time",
+    "thWhy": "Why"
   }
 }

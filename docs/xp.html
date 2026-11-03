@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
-<link rel="stylesheet" href="assets/xp.css">
+<link rel="stylesheet" href="assets/xp.css?v=20261103r">
 </head>
 <body>
 <nav aria-label="Main"></nav>
@@ -50,7 +50,32 @@
         <button class="btn ghost" type="button" id="xp-help" data-i18n="xp.status.how">How to earn XP</button>
       </div>
     </div>
-    <div class="card pad xp-board">
+    <!-- two tabs (2026-11-03): the season's board, and the giveaway round's (XP earned in the round, the team's rewards) -->
+    <div class="xp-tabs" role="tablist">
+      <button class="xp-tab on" type="button" role="tab" id="xp-tab-season" aria-selected="true" data-i18n="xp.tabs.season">Season</button>
+      <button class="xp-tab" type="button" role="tab" id="xp-tab-round" aria-selected="false" data-i18n="xp.tabs.round">Giveaway</button>
+    </div>
+    <div id="xp-panel-round" class="xp-panel" hidden>
+      <div class="card pad xp-note">
+        <h3 id="xp-round-title" data-i18n="xp.round.title0">Giveaway round</h3>
+        <p data-i18n="xp.round.note">Every 2 weeks the wallets that earn the most XP in the round win prizes. The team sets each round's rewards and they show below.</p>
+        <p class="xp-season" id="xp-round-ends"></p>
+      </div>
+      <div class="card pad xp-board">
+        <div class="xp-board-top">
+          <h3 data-i18n="xp.round.board">XP earned this round</h3>
+          <span class="xp-total" id="xp-round-total"></span>
+        </div>
+        <p class="xp-msg" id="xp-round-empty" hidden data-i18n="xp.round.empty">No XP earned in this round yet.</p>
+        <ol class="xp-rows" id="xp-round-rows"></ol>
+      </div>
+      <div class="card pad xp-board">
+        <div class="xp-board-top"><h3 data-i18n="xp.history.title">Past winners</h3></div>
+        <p class="xp-msg" id="xp-history-empty" hidden data-i18n="xp.history.none">No round has ended yet. The first one ends this Sunday.</p>
+        <div id="xp-history"></div>
+      </div>
+    </div>
+    <div class="card pad xp-board xp-panel" id="xp-panel-season">
       <div class="xp-board-top">
         <h3 data-i18n="xp.board.title">Leaderboard</h3>
         <span class="xp-total" id="xp-total"></span>
@@ -81,6 +106,6 @@
 <script src="assets/site.js"></script>
 <script src="assets/nav.js?v=20261103u"></script>
 <script type="module" src="assets/i18n/page.js"></script>
-<script type="module" src="assets/xp.js?v=20261103x"></script>
+<script type="module" src="assets/xp.js?v=20261103r"></script>
 </body>
 </html>

@@ -1665,7 +1665,50 @@
     },
     "chartTitle": "Value over the last 7 days",
     "brainTitle": "What each part of its brain holds",
-    "seeBoard": "See the full leaderboard"
+    "seeBoard": "See the full leaderboard",
+    "perps": {
+      "title": "Perps",
+      "offText": "Let this fly go long and short on BTC, ETH and US stocks with perpetual futures on Lighter, from its own wallet. It stays off until you turn it on.",
+      "risk": "1x, no leverage: each position is at most its share of what you put in. Shorts lose when prices rise. Money here is separate from the wallet's other trading.",
+      "turnOn": "Turn on Perps",
+      "turnOff": "Turn off and bring it home",
+      "turnedOn": "Perps is on. The fly moves money in when its rule finds a trade.",
+      "turnedOff": "Off. It closes its positions and sends the money home.",
+      "asked": "Asked. The fly does it within about 5 minutes…",
+      "failed": "That didn't go through.",
+      "status": {
+        "off": "off",
+        "waiting": "waiting for money",
+        "trading": "trading",
+        "closing": "closing",
+        "home": "on its way home"
+      },
+      "markets": {
+        "crypto": "BTC / ETH",
+        "stocks": "Stocks",
+        "both": "Both"
+      },
+      "marketsTitle": "Markets",
+      "regime": {
+        "on": "market mood: risk-on",
+        "off": "market mood: risk-off"
+      },
+      "homeText": "{usd} is on its way back to the wallet. Lighter pays it with its next batch, usually within a few hours.",
+      "market": "Market",
+      "side": "Side",
+      "size": "Size",
+      "entry": "Entry",
+      "mark": "Now",
+      "long": "long",
+      "short": "short",
+      "flat": "No positions right now: nothing met the rule at its last check.",
+      "howDaily": "Each day it checks every market's 30-day trend and goes long or short with it. Fear & Greed, funding and market mood can hold back a new position. A stop closes a position that moves 6% against it.",
+      "howWeekly": "Each week it checks every market's 20-day trend and goes long or short with it. Fear & Greed, VIX, funding, earnings dates and market mood can hold back a new position. A stop closes a position that moves 4–6% against it.",
+      "recent": "Recent trades",
+      "save": "Save markets",
+      "saved": "Saved. The next check uses them.",
+      "auto": "The fly moves the money itself: when its rule finds trades it puts up to a quarter of the wallet in, and after 2 days with nothing to trade it brings it all back to the wallet."
+    }
   },
   "profile": {
     "title": "Your profile",

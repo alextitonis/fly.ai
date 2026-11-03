@@ -3767,7 +3767,7 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p === "/api/badges" || p.startsWith("/api/badges/"))) {
     if (await badges.route(req, res, url)) return;
   }
-  if (req.method !== "OPTIONS" && p.startsWith("/api/xp/")) {
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/xp/") || p === "/api/admin/xp/round")) {
     if (await xp.route(req, res, url)) return;
   }
   if (req.method !== "OPTIONS" && (p === "/api/tg" || p.startsWith("/api/tg/"))) {
@@ -4194,7 +4194,7 @@ if (USER) badges.start();
 // XP season 1 (src/xp.ts): holding, flies, deposits, feeding, trades, box buys, breeding, badges, referrals, X, Flybook
 const xp = createXp({
   pg, chain: robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock), cfg: xpConfig(process.env),
-  HttpError, send, readJson, sessionWallet: sessionAddress,
+  HttpError, send, readJson, sessionWallet: sessionAddress, adminOnly,
 });
 if (USER) xp.start();
 // Connect Telegram (src/tglink.ts): the Login Widget's signed answer, and the bot's word on group membership (XP)

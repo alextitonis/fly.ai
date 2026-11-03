@@ -424,5 +424,34 @@
     "stakeHow": "Cómo funciona el stake",
     "trades": "Operaciones",
     "launches": "Lanzamientos"
+  },
+  "perps": {
+    "title": "Perpetuos",
+    "recent": "Operaciones recientes de perpetuos",
+    "sum": "{value} en la prueba · {profit} desde que empezó con {principal}",
+    "markets": {
+      "crypto": "BTC / ETH",
+      "stocks": "Acciones",
+      "both": "BTC / ETH y acciones"
+    },
+    "regime": {
+      "on": "ánimo del mercado: apetito de riesgo",
+      "off": "ánimo del mercado: aversión al riesgo"
+    },
+    "note": "Dinero propio en Lighter, fuera del bote y de los pagos. 1x, largos y cortos según la tendencia de cada mercado.",
+    "home": "{usd} vuelve a la billetera de la casa.",
+    "off": "apagado",
+    "none": "Sin posiciones ahora.",
+    "thMarket": "Mercado",
+    "thSide": "Lado",
+    "thSize": "Tamaño",
+    "thEntry": "Entrada",
+    "thMark": "Ahora",
+    "thPnl": "P&L",
+    "thFunding": "Financiación",
+    "long": "largo",
+    "short": "corto",
+    "thTime": "Hora",
+    "thWhy": "Motivo"
   }
 }

@@ -424,5 +424,34 @@
     "stakeHow": "质押如何运作",
     "trades": "交易",
     "launches": "发行"
+  },
+  "perps": {
+    "title": "永续合约",
+    "recent": "最近的永续合约交易",
+    "sum": "试运行中 {value} · 自 {principal} 起步以来 {profit}",
+    "markets": {
+      "crypto": "BTC / ETH",
+      "stocks": "股票",
+      "both": "BTC / ETH 和股票"
+    },
+    "regime": {
+      "on": "市场情绪：偏好风险",
+      "off": "市场情绪：规避风险"
+    },
+    "note": "Lighter 上的独立资金，不计入资金池和派发。1 倍，按每个市场的趋势做多和做空。",
+    "home": "{usd} 正在转回金库钱包。",
+    "off": "已关闭",
+    "none": "目前没有仓位。",
+    "thMarket": "市场",
+    "thSide": "方向",
+    "thSize": "规模",
+    "thEntry": "开仓价",
+    "thMark": "现价",
+    "thPnl": "盈亏",
+    "thFunding": "资金费",
+    "long": "做多",
+    "short": "做空",
+    "thTime": "时间",
+    "thWhy": "原因"
   }
 }

@@ -1665,7 +1665,50 @@
     },
     "chartTitle": "Son 7 gündeki değer",
     "brainTitle": "Beyninin her parçasının tuttukları",
-    "seeBoard": "Tüm sıralamayı gör"
+    "seeBoard": "Tüm sıralamayı gör",
+    "perps": {
+      "title": "Perp'ler",
+      "offText": "Bu sinek kendi cüzdanından Lighter'daki sürekli vadeli işlemlerle BTC, ETH ve ABD hisselerinde long ve short açabilsin. Sen açana kadar kapalı kalır.",
+      "risk": "1x, kaldıraç yok: her pozisyon en fazla koyduğun paranın kendi payı kadardır. Fiyatlar yükselirse short'lar kaybeder. Buradaki para cüzdanın diğer işlemlerinden ayrıdır.",
+      "turnOn": "Perp'leri aç",
+      "turnOff": "Kapat ve parayı geri getir",
+      "turnedOn": "Perp'ler açık. Kuralı bir işlem bulduğunda sinek para aktarır.",
+      "turnedOff": "Kapalı. Pozisyonlarını kapatır ve parayı geri gönderir.",
+      "asked": "İstendi. Sinek bunu yaklaşık 5 dakika içinde yapar…",
+      "failed": "Olmadı.",
+      "status": {
+        "off": "kapalı",
+        "waiting": "para bekliyor",
+        "trading": "işlemde",
+        "closing": "kapatılıyor",
+        "home": "cüzdana dönüyor"
+      },
+      "markets": {
+        "crypto": "BTC / ETH",
+        "stocks": "Hisseler",
+        "both": "İkisi de"
+      },
+      "marketsTitle": "Piyasalar",
+      "regime": {
+        "on": "piyasa havası: risk alımı",
+        "off": "piyasa havası: riskten kaçış"
+      },
+      "homeText": "{usd} cüzdana dönüyor. Lighter bunu bir sonraki partisinde öder, genelde birkaç saat içinde.",
+      "market": "Piyasa",
+      "side": "Yön",
+      "size": "Büyüklük",
+      "entry": "Giriş",
+      "mark": "Şimdi",
+      "long": "long",
+      "short": "short",
+      "flat": "Şu an pozisyon yok: son kontrolde kurala uyan bir şey çıkmadı.",
+      "howDaily": "Her gün her piyasanın 30 günlük trendine bakar ve onunla long ya da short açar. Korku ve Açgözlülük, fonlama oranı ve piyasa havası yeni bir pozisyonu durdurabilir. Aleyhine %6 giden pozisyonu stop kapatır.",
+      "howWeekly": "Her hafta her piyasanın 20 günlük trendine bakar ve onunla long ya da short açar. Korku ve Açgözlülük, VIX, fonlama oranı, bilanço tarihleri ve piyasa havası yeni bir pozisyonu durdurabilir. Aleyhine %4–6 giden pozisyonu stop kapatır.",
+      "recent": "Son işlemler",
+      "save": "Piyasaları kaydet",
+      "saved": "Kaydedildi. Bir sonraki kontrol bunları kullanır.",
+      "auto": "Parayı sinek kendisi taşır: kuralı işlem bulduğunda cüzdanın en fazla dörtte birini koyar, 2 gün işlem yapacak bir şey olmazsa hepsini cüzdana geri getirir."
+    }
   },
   "profile": {
     "title": "Profilin",

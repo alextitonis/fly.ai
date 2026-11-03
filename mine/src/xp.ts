@@ -25,6 +25,9 @@
  *   GET  /api/xp/leaderboard?wallet=0x..   top 100 and that wallet's row
  *   GET  /api/xp/profile?wallet=0x..       XP by source, level, rank, flies, badges, X, nickname, ref code
  *   GET  /api/xp/me                        the signed-in wallet's profile
+ *   GET  /api/xp/round?wallet=0x..         the giveaway round now: XP earned since it began, top 100 and that wallet
+ *   GET  /api/xp/rounds                    past rounds: the frozen standings, and the winners and rewards the team set
+ *   POST /api/admin/xp/round { id, winners: [{ wallet, reward }], note }   (admin) a past round's rewards, set by hand
  *   GET  /api/xp/log?wallet=0x..           what it earned and from where, newest first: one-off events one by one (with
  *                                          their tx), the rest (holding, flies, deposits, badges, referrals, X, Flybook) a day at a time
  *   (X posts are found by a nightly search, src: shares(): nothing to paste)
@@ -73,7 +76,7 @@ export const RATES = {
 } as const;
 
 export type XpConfig = {
-  on: boolean; end: number; start: number; fromBlock: number;
+  on: boolean; end: number; start: number; fromBlock: number; roundFirstEnd: number; roundDays: number;
   staking: string; lock: string; distributor: string; fly: string; market: string; breeder: string; pass: string; feeTo: string;
   exclude: string[];
 };
@@ -85,6 +88,8 @@ export function xpConfig(env: NodeJS.ProcessEnv): XpConfig {
     // the end is a secret (fly secrets XP_SEASON_END): the user doesn't say when the airdrop is, and this repo is public
     end: env.XP_SEASON_END ? Date.parse(env.XP_SEASON_END) : Infinity,
     fromBlock: Number(env.XP_FROM_BLOCK ?? FROM_BLOCK),
+    // giveaway rounds (the user, 11-03): the first ends this Sunday 20:00 TRT, then one every 2 weeks
+    roundFirstEnd: Date.parse(env.XP_ROUND1_END ?? "2026-11-08T17:00:00Z"), roundDays: Number(env.XP_ROUND_DAYS ?? 14),
     staking: a(env.STAKING_CONTRACT, "0x5279dafa0858d4a5b2dceb05e5b41f954cd692cc"),
     lock: a(env.FLYLOCK_CONTRACT, "0x87ded9d9788a1f6653a0261ef84c56658d0bf5e9"),
     distributor: a(env.DISTRIBUTOR_ADDRESS, "0xbb0b80de6a1f1298c0aa33d557c8f3540b5c8423"),
@@ -319,6 +324,7 @@ export function createXp(d: {
   send: (res: ServerResponse, status: number, body: unknown) => void;
   readJson: (req: IncomingMessage) => Promise<any>;
   sessionWallet: (req: IncomingMessage) => Promise<string>;
+  adminOnly?: (req: IncomingMessage) => void;
   now?: () => number;
   /** posts mentioning fly.ai since a UTC day (YYYY-MM-DD); off when null (no APIFY_TOKEN) */
   search?: ((since: string) => Promise<Post[]>) | null;
@@ -429,6 +435,7 @@ export function createXp(d: {
       await shares().catch((err) => console.error(`xp shares: ${err instanceof Error ? err.message : err}`));
       await classify();
       await snapshot();
+      await rounds();
       await notify();
     } catch (err) {
       console.error(`xp: ${err instanceof Error ? err.message : err}`);
@@ -574,6 +581,78 @@ export function createXp(d: {
     return { on: true, wallet, items };
   }
 
+  // ---- giveaway rounds: XP earned inside a round = XP now minus XP when it began ----
+  type RoundRow = { id: number; starts_at: Date; ends_at: Date; results: { rank: number; wallet: string; gain: number }[] | null;
+    winners: { wallet: string; reward: string }[] | null; note: string | null };
+  async function openRound(id: number, starts: number, ends: number, c: Awaited<ReturnType<typeof compute>>) {
+    await pg.run("insert into mine.xp_rounds (id, starts_at, ends_at) values (?, ?, ?) on conflict (id) do nothing", id, iso(starts), iso(ends));
+    const base = [...c.rows.values()].filter((r) => r.xp > 0).map((r) => ({ round_id: id, wallet: r.wallet, xp: r.xp }));
+    for (let i = 0; i < base.length; i += 500) {
+      await pg.run(`insert into mine.xp_round_base (round_id, wallet, xp) select round_id, wallet, xp from jsonb_to_recordset(?::text::jsonb)
+        as r(round_id int, wallet text, xp float8) on conflict do nothing`, JSON.stringify(base.slice(i, i + 500)));
+    }
+  }
+  /** The round's standings: ranked wallets by XP earned since its start (team, contracts and fly wallets already out). */
+  async function standings(id: number) {
+    const c = await compute();
+    const base = new Map((await pg.all<{ wallet: string; xp: number }>("select wallet, xp from mine.xp_round_base where round_id = ?", id)).map((b) => [b.wallet, b.xp]));
+    return c.ranked.map((r) => ({ wallet: r.wallet, level: r.level, gain: Math.round(r.xp - (base.get(r.wallet) ?? 0)) }))
+      .filter((r) => r.gain > 0).sort((a, b) => b.gain - a.gain || a.wallet.localeCompare(b.wallet))
+      .map((r, i) => ({ rank: i + 1, ...r }));
+  }
+  /** The first round opens on the first tick; an ended one is frozen and the next opens where it ended. */
+  async function rounds() {
+    const t = now();
+    const cur = await pg.one<RoundRow>("select id, starts_at, ends_at, results, winners, note from mine.xp_rounds order by id desc limit 1");
+    if (!cur) {
+      if (cfg.roundFirstEnd > t) await openRound(1, t, Math.min(cfg.roundFirstEnd, cfg.end), await compute());
+      return;
+    }
+    const ends = new Date(cur.ends_at).getTime();
+    if (t < ends || cur.results) return;
+    const final = (await standings(cur.id)).slice(0, 50).map(({ rank, wallet, gain }) => ({ rank, wallet, gain }));
+    await pg.run("update mine.xp_rounds set results = ?::text::jsonb where id = ?", JSON.stringify(final), cur.id);
+    if (ends < cfg.end) await openRound(cur.id + 1, ends, Math.min(ends + cfg.roundDays * DAY_MS, cfg.end), await compute());
+  }
+  async function round(wallet: string | null) {
+    if (!cfg.on) return { on: false };
+    const cur = await pg.one<RoundRow>("select id, starts_at, ends_at, results, winners, note from mine.xp_rounds where results is null order by id desc limit 1");
+    if (!cur) return { on: true, round: null, total: 0, rows: [], me: null };
+    const all = await standings(cur.id);
+    const top = all.slice(0, BOARD_SIZE);
+    const mine = wallet ? all.find((r) => r.wallet === wallet) ?? null : null;
+    const who = await names([...top.map((r) => r.wallet), ...(mine ? [mine.wallet] : [])]);
+    const view = (r: (typeof all)[number]) => ({ rank: r.rank, wallet: r.wallet, nickname: who.get(r.wallet)?.nickname ?? null, x: who.get(r.wallet)?.x ?? null,
+      avatar: who.get(r.wallet)?.avatar ?? null, gain: r.gain, level: r.level });
+    return { on: true, round: { id: cur.id, starts: iso(new Date(cur.starts_at).getTime()), ends: iso(new Date(cur.ends_at).getTime()) },
+      total: all.length, rows: top.map(view), me: mine ? view(mine) : null };
+  }
+  async function history() {
+    if (!cfg.on) return { on: false };
+    const past = await pg.all<RoundRow>("select id, starts_at, ends_at, results, winners, note from mine.xp_rounds where results is not null order by id desc limit 26");
+    const wallets = [...new Set(past.flatMap((r) => [...(r.winners ?? []).map((w) => w.wallet), ...(r.results ?? []).slice(0, 10).map((w) => w.wallet)]))];
+    const who = await names(wallets);
+    const person = (w: string) => ({ wallet: w, nickname: who.get(w)?.nickname ?? null, x: who.get(w)?.x ?? null, avatar: who.get(w)?.avatar ?? null });
+    return { on: true, rounds: past.map((r) => {
+      const gainOf = new Map((r.results ?? []).map((x) => [x.wallet, x]));
+      return { id: r.id, starts: iso(new Date(r.starts_at).getTime()), ends: iso(new Date(r.ends_at).getTime()), note: r.note,
+        winners: (r.winners ?? []).map((w) => ({ ...person(w.wallet), reward: w.reward, rank: gainOf.get(w.wallet)?.rank ?? null, gain: gainOf.get(w.wallet)?.gain ?? null })),
+        top: (r.results ?? []).slice(0, 10).map((x) => ({ ...person(x.wallet), rank: x.rank, gain: x.gain })) };
+    }) };
+  }
+  /** The team's rewards for an ended round: [{ wallet, reward }] in the order to show, and a note. */
+  async function setRewards(body: any) {
+    const id = Number(body?.id);
+    const winners = Array.isArray(body?.winners) ? body.winners : null;
+    if (!Number.isInteger(id) || !winners) throw new HttpError(400, "id and winners: [{ wallet, reward }]");
+    const clean = winners.map((w: any) => ({ wallet: String(w?.wallet ?? "").toLowerCase(), reward: String(w?.reward ?? "").slice(0, 120) }));
+    if (clean.some((w: { wallet: string; reward: string }) => !/^0x[0-9a-f]{40}$/.test(w.wallet) || !w.reward)) throw new HttpError(400, "each winner needs a wallet and a reward");
+    const n = await pg.run("update mine.xp_rounds set winners = ?::text::jsonb, note = ? where id = ? and results is not null",
+      JSON.stringify(clean), body?.note ? String(body.note).slice(0, 400) : null, id);
+    if (!n) throw new HttpError(404, "no ended round with that id");
+    return { ok: true, id, winners: clean.length };
+  }
+
   const season = () => ({ start: iso(cfg.start), over: now() >= cfg.end });   // no end date: it isn't public
   async function names(wallets: string[]) {
     if (!wallets.length) return new Map<string, { nickname: string | null; x: string | null; avatar: string | null }>();
@@ -650,6 +729,13 @@ export function createXp(d: {
     if (req.method === "GET" && p === "/api/xp/leaderboard") return d.send(res, 200, await leaderboard(/^0x[0-9a-f]{40}$/.test(w) ? w : null)), true;
     if (req.method === "GET" && p === "/api/xp/profile") return d.send(res, 200, await profile(w)), true;
     if (req.method === "GET" && p === "/api/xp/log") return d.send(res, 200, await log(w)), true;
+    if (req.method === "GET" && p === "/api/xp/round") return d.send(res, 200, await round(/^0x[0-9a-f]{40}$/.test(w) ? w : null)), true;
+    if (req.method === "GET" && p === "/api/xp/rounds") return d.send(res, 200, await history()), true;
+    if (req.method === "POST" && p === "/api/admin/xp/round") {
+      if (!d.adminOnly) throw new HttpError(403, "admin only");
+      d.adminOnly(req);
+      return d.send(res, 200, await setRewards(await d.readJson(req))), true;
+    }
     if (req.method === "GET" && p === "/api/xp/me") return d.send(res, 200, await profile((await d.sessionWallet(req)).toLowerCase())), true;
     return false;
   }
@@ -660,5 +746,5 @@ export function createXp(d: {
     setInterval(tick, everyMs).unref();
   }
 
-  return { route, start, tick, compute, leaderboard, profile, log, snapshot, notify, shares };
+  return { route, start, tick, compute, leaderboard, profile, log, snapshot, notify, shares, rounds, round, history, setRewards };
 }

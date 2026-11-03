@@ -424,5 +424,34 @@
     "stakeHow": "스테이킹 방식",
     "trades": "거래",
     "launches": "런칭"
+  },
+  "perps": {
+    "title": "무기한 선물",
+    "recent": "최근 무기한 선물 거래",
+    "sum": "시험 운용 중 {value} · {principal}로 시작한 뒤 {profit}",
+    "markets": {
+      "crypto": "BTC / ETH",
+      "stocks": "주식",
+      "both": "BTC / ETH와 주식"
+    },
+    "regime": {
+      "on": "시장 분위기: 위험 선호",
+      "off": "시장 분위기: 위험 회피"
+    },
+    "note": "Lighter에 있는 별도의 돈으로, 풀이나 지급에 포함되지 않습니다. 1배, 각 시장의 추세에 따라 롱과 숏.",
+    "home": "{usd}가 하우스 지갑으로 돌아오는 중입니다.",
+    "off": "꺼짐",
+    "none": "지금은 포지션이 없습니다.",
+    "thMarket": "시장",
+    "thSide": "방향",
+    "thSize": "규모",
+    "thEntry": "진입가",
+    "thMark": "현재가",
+    "thPnl": "손익",
+    "thFunding": "펀딩",
+    "long": "롱",
+    "short": "숏",
+    "thTime": "시간",
+    "thWhy": "이유"
   }
 }

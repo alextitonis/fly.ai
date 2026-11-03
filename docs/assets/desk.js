@@ -498,6 +498,7 @@
 
     // launches: live = {items, next_at, gap_days} with each launch's numbers (publish.launches_view); paper = a list
     renderLaunches(b.launches);
+    renderPerps(b.perps);
   }
 
 
@@ -979,6 +980,35 @@
       ? esc(t("fd.onTrack", { usd: usd(p.holders_usd, 0) })) : esc(t("fd.belowHigh"));
   }
 
+  /** The perps trial (2026-11-03, engine.house_perps_step): longs and shorts on Lighter from the house wallet, its own
+   * ring-fenced money (not in the pot): what's in it, the P&L, the positions and its trades. Hidden when there's none. */
+  function renderPerps(p) {
+    if (!p || !$("perps-tbl")) return;
+    // a cached desk.json from before 11-03 has no desk.perps strings: the English then, not the key
+    const EN = { sum: "{value} in the trial · {profit} since it started with {principal}", markets: { crypto: "BTC / ETH",
+      stocks: "Stocks", both: "BTC / ETH and stocks" }, regime: { on: "market mood: risk-on", off: "market mood: risk-off" },
+      note: "Its own money on Lighter, not part of the pot or the payouts. 1x, longs and shorts by each market's trend.",
+      home: "{usd} on its way back to the house wallet.", off: "switched off", none: "No positions right now.",
+      thMarket: "Market", thSide: "Side", thSize: "Size", thEntry: "Entry", thMark: "Now", thPnl: "P&L", thFunding: "Funding",
+      long: "long", short: "short", thTime: "Time", thWhy: "Why" };
+    const say = (k, vars) => { const v = t("perps." + k, vars); if (!/(^|\.)perps\./.test(v)) return v;
+      const e = pick(EN, k); return typeof e === "string" ? e.replace(/\{(\w+)\}/g, (_, x) => (vars && vars[x] != null ? vars[x] : "")) : k; };
+    $("perps-sum").innerHTML = esc(say("sum", { value: usd(p.value), profit: susd(p.profit), principal: usd(p.principal) })) +
+      ` · <b>${esc(say("markets." + p.markets))}</b>` + (p.regime ? ` · ${esc(say("regime." + (p.regime === "risk_off" ? "off" : "on")))}` : "") +
+      (p.on ? "" : ` · ${esc(say("off"))}`);
+    $("perps-note").textContent = p.out ? say("home", { usd: usd(p.out.usd) }) : say("note");
+    table("perps-tbl", [[say("thMarket")], [say("thSide")], [say("thSize"), 1], [say("thEntry"), 1], [say("thMark"), 1], [say("thPnl"), 1], [say("thFunding"), 1]],
+      (p.positions || []).map((r) => `<tr><td class="strong">${esc(r.symbol)}</td><td class="${r.side === "long" ? "up" : "down"}">${esc(say(r.side))}</td>
+        <td class="r">${usd(r.size_usd)}</td><td class="r">${price(r.entry)}</td><td class="r">${price(r.mark)}</td>
+        <td class="r"><span class="${cls(r.upnl)}">${susd(r.upnl)} (${pct(r.pnl_pct)})</span></td><td class="r">${susd(-(r.funding || 0))}</td></tr>`),
+      say("none"));
+    table("perps-tape", [[say("thTime")], [say("thSide")], [say("thMarket")], [say("thSize"), 1], [say("thPnl"), 1], [say("thWhy")]],
+      (p.recent || []).slice(0, 30).map((r) => `<tr><td>${esc(time(new Date(r.at * 1000).toISOString()))}</td>
+        <td class="${/^(long|close short)$/.test(r.side) ? "up" : "down"}">${esc(r.side)}</td><td class="strong">${esc(r.symbol)}</td>
+        <td class="r">${usd(r.usd)}</td><td class="r">${r.pnl_pct == null ? "" : `<span class="${cls(r.pnl_pct)}">${pct(r.pnl_pct)}</span>`}</td>
+        <td class="dim">${esc(r.why || "")}</td></tr>`), "—");
+  }
+
   // the tables, one at a time (desk.html #fd-tabs): a tab shows its pane with .fd-off; the payout tab goes with the
   // payout section (renderPayout hides it when there's nothing to show)
   let pane = "positions";
@@ -992,6 +1022,9 @@
     if (b) showPane(b.dataset.pane);
   });
   function syncTabs() {
+    const perpTab = document.querySelector('#fd-tabs [data-pane="perps"]');
+    if (perpTab) perpTab.hidden = !(board && board.perps);
+    if (perpTab && perpTab.hidden && pane === "perps") showPane("positions");
     const payTab = document.querySelector('#fd-tabs [data-pane="payout"]');
     if (payTab) payTab.hidden = !!($("payout") && $("payout").hidden);
     if (payTab && payTab.hidden && pane === "payout") showPane("positions");

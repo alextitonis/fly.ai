@@ -218,6 +218,25 @@ try {
   await xp.tick();
   check("nothing twice on the next tick", (await notes(A)).length === an.length);
 
+  // giveaway rounds: the first opened on the first tick; XP earned since then ranks it
+  const r1 = await xp.round(A) as any;
+  check("round 1 is open and ranks XP earned in it", r1.round?.id === 1 && r1.rows.length > 0 && r1.rows.every((r: any, i: number) => i === 0 || r1.rows[i - 1].gain >= r.gain), JSON.stringify(r1.round));
+  check("the team wallet isn't in the round", !r1.rows.some((r: any) => r.wallet === TEAM));
+  clock = Date.parse("2026-11-08T17:05:00Z");
+  await xp.rounds();
+  const h = await xp.history() as any;
+  check("Sunday: round 1 frozen with its standings", h.rounds.length === 1 && h.rounds[0].id === 1 && h.rounds[0].top.length > 0 && h.rounds[0].winners.length === 0);
+  const r2 = await xp.round(null) as any;
+  check("round 2 opens where round 1 ended, for 2 weeks", r2.round?.id === 2 && r2.round.starts === "2026-11-08T17:00:00.000Z" && r2.round.ends === "2026-11-22T17:00:00.000Z", JSON.stringify(r2.round));
+  await xp.setRewards({ id: 1, winners: [{ wallet: A, reward: "500,000 $FLYAI" }], note: "First round" });
+  const h2 = await xp.history() as any;
+  check("the team's rewards show in the history", h2.rounds[0].winners[0]?.wallet === A && h2.rounds[0].winners[0].reward === "500,000 $FLYAI" && h2.rounds[0].note === "First round");
+  let refused = 0;
+  try { await xp.setRewards({ id: 2, winners: [{ wallet: A, reward: "x" }] }); } catch (e) { refused = (e as HttpError).status; }
+  check("rewards only for an ended round", refused === 404);
+  await xp.rounds();
+  check("an open round isn't frozen twice", ((await xp.history()) as any).rounds.length === 1);
+
   // routes
   const res = {} as ServerResponse;
   sent.length = 0;

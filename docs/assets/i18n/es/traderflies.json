@@ -1665,7 +1665,50 @@
     },
     "chartTitle": "Valor en los últimos 7 días",
     "brainTitle": "Qué tiene cada parte de su cerebro",
-    "seeBoard": "Ver la clasificación completa"
+    "seeBoard": "Ver la clasificación completa",
+    "perps": {
+      "title": "Perpetuos",
+      "offText": "Deja que esta mosca abra largos y cortos en BTC, ETH y acciones de EE. UU. con futuros perpetuos en Lighter, desde su propia billetera. Queda apagado hasta que lo actives.",
+      "risk": "1x, sin apalancamiento: cada posición es como mucho su parte de lo que metes. Los cortos pierden cuando los precios suben. Este dinero va aparte del resto del trading de la billetera.",
+      "turnOn": "Activar perpetuos",
+      "turnOff": "Apagar y traer el dinero",
+      "turnedOn": "Perpetuos activado. La mosca mete dinero cuando su regla encuentra una operación.",
+      "turnedOff": "Apagado. Cierra sus posiciones y devuelve el dinero.",
+      "asked": "Pedido. La mosca lo hace en unos 5 minutos…",
+      "failed": "No se pudo hacer.",
+      "status": {
+        "off": "apagado",
+        "waiting": "esperando dinero",
+        "trading": "operando",
+        "closing": "cerrando",
+        "home": "volviendo a la billetera"
+      },
+      "markets": {
+        "crypto": "BTC / ETH",
+        "stocks": "Acciones",
+        "both": "Ambos"
+      },
+      "marketsTitle": "Mercados",
+      "regime": {
+        "on": "ánimo del mercado: apetito de riesgo",
+        "off": "ánimo del mercado: aversión al riesgo"
+      },
+      "homeText": "{usd} vuelve a la billetera. Lighter lo paga con su próximo lote, normalmente en pocas horas.",
+      "market": "Mercado",
+      "side": "Lado",
+      "size": "Tamaño",
+      "entry": "Entrada",
+      "mark": "Ahora",
+      "long": "largo",
+      "short": "corto",
+      "flat": "Sin posiciones ahora: nada cumplió la regla en su última revisión.",
+      "howDaily": "Cada día revisa la tendencia de 30 días de cada mercado y va largo o corto con ella. El índice de miedo y codicia, la financiación y el ánimo del mercado pueden frenar una posición nueva. Un stop cierra la posición si se mueve un 6 % en contra.",
+      "howWeekly": "Cada semana revisa la tendencia de 20 días de cada mercado y va largo o corto con ella. El índice de miedo y codicia, el VIX, la financiación, las fechas de resultados y el ánimo del mercado pueden frenar una posición nueva. Un stop la cierra si se mueve un 4–6 % en contra.",
+      "recent": "Operaciones recientes",
+      "save": "Guardar mercados",
+      "saved": "Guardado. La próxima revisión los usa.",
+      "auto": "La mosca mueve el dinero sola: cuando su regla encuentra operaciones mete hasta una cuarta parte de la billetera, y tras 2 días sin nada que operar lo devuelve todo a la billetera."
+    }
   },
   "profile": {
     "title": "Tu perfil",

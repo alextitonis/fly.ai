@@ -124,7 +124,7 @@ async function startServer(extra: Record<string, string> = {}): Promise<void> {
       ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0",
       AUDITS: "0", OPEN_TARGET: "50", ADMIN_TOKEN: ADMIN, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "none",
       CLAIM_RPC: "http://127.0.0.1:9", CLAIM_EXPLORER: "http://localhost", SEED_PAID: "0", ARENA_ON: "0",
-      TOKEN_ADDRESS: TOKEN, VAULT_ON: "1", VAULT_RPC: `http://127.0.0.1:${CHAIN_PORT}`, VAULT_CHAINS: "base,polygon",
+      TOKEN_ADDRESS: TOKEN, VAULT_ON: "1", VAULT_PERPS: "1", VAULT_RPC: `http://127.0.0.1:${CHAIN_PORT}`, VAULT_CHAINS: "base,polygon",
       VAULT_TICK_SEC: "1", VAULT_GRANTER_KEY: GRANTER_KEY, ARENA_TRADERFLY: TRADERFLY, VAULT_FLIGHTPASS: FLIGHTPASS,
       PROMO_ON: "1", PROMO_START_MS: String(PROMO_START), PROMO_SLOTS: "2", PROMO_RUYUI_SLOTS: "1", BOUNTY_ADMINS: alice.address, PROMO_AUTO: "0",
       ...extra,
@@ -218,6 +218,19 @@ try {
   const mv = await api(`/api/vaults/${W3}/move`, b, { to_chain: "polygon", usd: 20 });
   check("a move to Polymarket for the desk", mv.status === 200 && (await api(`/api/vaults/requests/${mv.json.id}`, null)).json.kind === "move");
 
+  // Perps (2026-11-03, flytrade/vaults/vperps.py): the wallet's holder asks, markets crypto | stocks | both
+  check("Perps: only the wallet's holder", (await api(`/api/vaults/${W3}/perps`, a, { action: "on", markets: "crypto" })).status === 403);
+  check("Perps: markets are crypto, stocks or both", (await api(`/api/vaults/${W3}/perps`, b, { action: "on", markets: "memes" })).status === 400);
+  check("Perps: no money asks, the fly moves it", (await api(`/api/vaults/${W3}/perps`, b, { action: "in", usd: 50 })).status === 400
+    && (await api(`/api/vaults/${W3}/perps`, b, { action: "out", bps: 5000 })).status === 400);
+  const pon = await api(`/api/vaults/${W3}/perps`, b, { action: "on", markets: "stocks" });
+  const pr = (await api(`/api/vaults/requests/${pon.json.id}`, null)).json;
+  check("Perps: a turn-on request for the desk", pon.status === 200 && pr.kind === "perp_on", JSON.stringify(pr));
+  check("Perps: one at a time", (await api(`/api/vaults/${W3}/perps`, b, { action: "set", markets: "both" })).status === 409);
+  await PG.pg.run("update mine.vault_requests set status = 'done' where id = ?", pon.json.id);
+  check("Perps: then the markets", (await api(`/api/vaults/${W3}/perps`, b, { action: "set", markets: "both" })).status === 200);
+  check("Perps: shown on the config", (await api("/api/vaults/config", null)).json.perps === true);
+
   // the desk's snapshots
   await PG.pg.run("insert into mine.vault_public (key, value) values ('leaderboard', ?::text::jsonb), (?, ?::text::jsonb), (?, ?::text::jsonb)",
     JSON.stringify({ all: [{ vault: W3, profit: 12.5 }], d7: [], h24: [] }), `vault:${W3}`, JSON.stringify({ vault: W3, value: 112.5 }),
@@ -263,7 +276,7 @@ try {
   check("never paid twice", sent.filter((x) => x.data.startsWith(transferSel)).length === 1);
   const adm = await api("/api/admin/vaults", null, undefined, true);
   check("admin sees wallets, funded, requests, grants", adm.status === 200 && adm.json.wallets === 2 && adm.json.funded.length === 1
-    && adm.json.requests.length === 3 && adm.json.grants.length === 1, JSON.stringify(adm.json).slice(0, 200));
+    && adm.json.requests.length === 5 && adm.json.grants.length === 1, JSON.stringify(adm.json).slice(0, 200));   // (5: + the two Perps)
   check("admin only", (await api("/api/admin/vaults", a)).status === 403);
 
   // the deposit competition (2026-10-04): 2 slots, $20 minimum, $20 bonus locked 14 days; alice is a BOUNTY_ADMINS wallet

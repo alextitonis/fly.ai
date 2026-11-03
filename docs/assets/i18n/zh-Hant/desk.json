@@ -424,5 +424,34 @@
     "stakeHow": "質押如何運作",
     "trades": "交易",
     "launches": "發行"
+  },
+  "perps": {
+    "title": "永續合約",
+    "recent": "最近的永續合約交易",
+    "sum": "試運行中 {value} · 自 {principal} 起步以來 {profit}",
+    "markets": {
+      "crypto": "BTC / ETH",
+      "stocks": "股票",
+      "both": "BTC / ETH 和股票"
+    },
+    "regime": {
+      "on": "市場情緒：偏好風險",
+      "off": "市場情緒：規避風險"
+    },
+    "note": "Lighter 上的獨立資金，不計入資金池和派發。1 倍，按每個市場的趨勢做多和做空。",
+    "home": "{usd} 正在轉回金庫錢包。",
+    "off": "已關閉",
+    "none": "目前沒有倉位。",
+    "thMarket": "市場",
+    "thSide": "方向",
+    "thSize": "規模",
+    "thEntry": "開倉價",
+    "thMark": "現價",
+    "thPnl": "盈虧",
+    "thFunding": "資金費",
+    "long": "做多",
+    "short": "做空",
+    "thTime": "時間",
+    "thWhy": "原因"
   }
 }

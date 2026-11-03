@@ -25,5 +25,22 @@
     "total": "{n} wallets",
     "empty": "Aún no hay XP. La primera lectura tarda unos minutos.",
     "level": "Nv {n}"
+  },
+  "tabs": {
+    "season": "Temporada",
+    "round": "Sorteo"
+  },
+  "round": {
+    "title0": "Ronda de premios",
+    "title": "Ronda de premios {n}",
+    "board": "XP ganada en esta ronda",
+    "empty": "Aún nadie ha ganado XP en esta ronda.",
+    "ends": "Esta ronda termina el {date}.",
+    "note": "Cada 2 semanas, las wallets que más XP ganan en la ronda reciben premios. El equipo fija los premios de cada ronda y aparecen abajo."
+  },
+  "history": {
+    "title": "Ganadores anteriores",
+    "none": "Aún no ha terminado ninguna ronda. La primera termina este domingo.",
+    "pending": "Premios próximamente. Los mejores de la ronda:"
   }
 }

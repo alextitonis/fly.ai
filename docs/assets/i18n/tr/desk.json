@@ -424,5 +424,34 @@
     "stakeHow": "Stake nasıl çalışır",
     "trades": "İşlemler",
     "launches": "Lansmanlar"
+  },
+  "perps": {
+    "title": "Perp'ler",
+    "recent": "Son perp işlemleri",
+    "sum": "Denemede {value} · {principal} ile başladığından beri {profit}",
+    "markets": {
+      "crypto": "BTC / ETH",
+      "stocks": "Hisseler",
+      "both": "BTC / ETH ve hisseler"
+    },
+    "regime": {
+      "on": "piyasa havası: risk alımı",
+      "off": "piyasa havası: riskten kaçış"
+    },
+    "note": "Lighter'da kendi parası; havuzun ve ödemelerin parçası değil. 1x, her piyasanın trendine göre long ve short.",
+    "home": "{usd} kasa cüzdanına dönüyor.",
+    "off": "kapalı",
+    "none": "Şu an pozisyon yok.",
+    "thMarket": "Piyasa",
+    "thSide": "Yön",
+    "thSize": "Büyüklük",
+    "thEntry": "Giriş",
+    "thMark": "Şimdi",
+    "thPnl": "K/Z",
+    "thFunding": "Fonlama",
+    "long": "long",
+    "short": "short",
+    "thTime": "Zaman",
+    "thWhy": "Neden"
   }
 }

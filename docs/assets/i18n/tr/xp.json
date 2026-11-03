@@ -25,5 +25,22 @@
     "total": "{n} cüzdan",
     "empty": "Henüz XP yok. İlk okuma birkaç dakika sürer.",
     "level": "Sv {n}"
+  },
+  "tabs": {
+    "season": "Sezon",
+    "round": "Çekiliş"
+  },
+  "round": {
+    "title0": "Ödül turu",
+    "title": "Ödül turu {n}",
+    "board": "Bu turda kazanılan XP",
+    "empty": "Bu turda henüz XP kazanılmadı.",
+    "ends": "Bu tur {date} tarihinde bitiyor.",
+    "note": "Her 2 haftada bir, turda en çok XP kazanan cüzdanlar ödül kazanır. Her turun ödüllerini ekip belirler ve aşağıda görünür."
+  },
+  "history": {
+    "title": "Geçmiş kazananlar",
+    "none": "Henüz biten tur yok. İlki bu pazar bitiyor.",
+    "pending": "Ödüller yakında. Turun en iyileri:"
   }
 }

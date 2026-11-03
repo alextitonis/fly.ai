@@ -32,7 +32,58 @@ const help = async () => {
   window.flyProfile?.help();
 };
 $("xp-help").addEventListener("click", () => { help(); });
+
+// the tabs: the season's board, or the giveaway round (#giveaway in the address keeps it)
+function tab(round) {
+  $("xp-tab-season").classList.toggle("on", !round); $("xp-tab-round").classList.toggle("on", round);
+  $("xp-tab-season").setAttribute("aria-selected", String(!round)); $("xp-tab-round").setAttribute("aria-selected", String(round));
+  $("xp-panel-season").hidden = round; $("xp-panel-round").hidden = !round;
+  history.replaceState(history.state, "", round ? "#giveaway" : location.pathname + location.search);
+  if (round) drawRound().catch((err) => msg(String(err?.message || err), "err"));
+}
+$("xp-tab-season").addEventListener("click", () => tab(false));
+$("xp-tab-round").addEventListener("click", () => tab(true));
 $("xp-profile").addEventListener("click", () => { const s = session(); if (s) profile(s.wallet.toLowerCase()); });
+
+const when = (iso) => new Date(iso).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+const day = (iso) => new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+const who = (r) => el("a", { class: "xp-who", href: "#", title: r.wallet, "data-fly-profile": r.wallet }, r.nickname || (r.x ? `@${r.x}` : short(r.wallet)),
+  r.nickname && r.x ? el("small", null, `@${r.x}`) : null);
+const avatar = (r) => (r.avatar ? el("img", { class: "xp-av", src: r.avatar, alt: "", width: "28", height: "28", loading: "lazy", referrerpolicy: "no-referrer" }) : el("span", { class: "xp-av" }));
+
+async function drawRound() {
+  const mine = session()?.wallet.toLowerCase();
+  const [cur, past] = await Promise.all([
+    fetch(`${READ}/api/xp/round${mine ? `?wallet=${mine}` : ""}`).then((r) => r.json()),
+    fetch(`${READ}/api/xp/rounds`).then((r) => r.json()),
+  ]);
+  if (cur.round) {
+    $("xp-round-title").textContent = t("xp.round.title", { n: cur.round.id });
+    $("xp-round-ends").textContent = t("xp.round.ends", { date: when(cur.round.ends) });
+  }
+  $("xp-round-total").textContent = t("xp.board.total", { n: cur.total ?? 0 });
+  $("xp-round-empty").hidden = (cur.rows || []).length > 0;
+  const line = (r, me, apart) => el("li", { class: `xp-row${me ? " me" : ""}${apart ? " apart" : ""}` },
+    el("span", { class: "xp-rank" }, `#${r.rank}`), avatar(r), who(r),
+    el("span", { class: "xp-level" }, t("xp.board.level", { n: r.level })), el("span", { class: "xp-points" }, `+${fmt(r.gain)}`));
+  const rows = (cur.rows || []).map((r) => line(r, r.wallet === mine));
+  if (cur.me && !(cur.rows || []).some((r) => r.wallet === mine)) rows.push(line(cur.me, true, true));
+  $("xp-round-rows").replaceChildren(...rows);
+  const rounds = past.rounds || [];
+  $("xp-history-empty").hidden = rounds.length > 0;
+  $("xp-history").replaceChildren(...rounds.map((r) => {
+    const list = r.winners.length
+      ? r.winners.map((w, i) => el("li", { class: "xp-row" }, el("span", { class: "xp-rank" }, w.rank ? `#${w.rank}` : `${i + 1}.`), avatar(w), who(w),
+        el("span", { class: "xp-reward" }, w.reward)))
+      : r.top.slice(0, 5).map((w) => el("li", { class: "xp-row" }, el("span", { class: "xp-rank" }, `#${w.rank}`), avatar(w), who(w),
+        el("span", { class: "xp-points" }, `+${fmt(w.gain)}`)));
+    return el("div", { class: "xp-round" },
+      el("h4", null, t("xp.round.title", { n: r.id }), el("small", null, `${day(r.starts)} – ${day(r.ends)}`)),
+      r.note ? el("p", null, r.note) : null,
+      r.winners.length ? null : el("p", null, t("xp.history.pending")),
+      el("ol", { class: "xp-rows" }, ...list));
+  }));
+}
 
 function row(r, me, apart) {
   const name = r.nickname || (r.x ? `@${r.x}` : short(r.wallet));
@@ -65,8 +116,12 @@ async function draw() {
 }
 
 try {
+  if (location.hash === "#giveaway") tab(true);
   await draw();
 } catch (err) {
   msg(String(err?.message || err), "err");
 }
-addEventListener("flyai-session", () => { draw().catch((err) => msg(String(err?.message || err), "err")); });
+addEventListener("flyai-session", () => {
+  draw().catch((err) => msg(String(err?.message || err), "err"));
+  if (!$("xp-panel-round").hidden) drawRound().catch(() => {});
+});
