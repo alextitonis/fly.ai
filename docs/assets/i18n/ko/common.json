@@ -191,6 +191,14 @@
       "refSet": "설정",
       "refLocked": "영구 설정됨",
       "refJoined": "{name}님의 링크로 가입했습니다",
+      "xLabel": "X 계정",
+      "connectX": "X 연결",
+      "unlinkX": "연결 해제",
+      "x_linked": "X 연결됨",
+      "x_denied": "X에서 취소됨",
+      "x_expired": "시간이 너무 걸렸어요, 다시 시도하세요",
+      "x_taken": "이 X 계정은 다른 지갑에 연결되어 있어요",
+      "x_failed": "X가 응답하지 않아요, 다시 시도하세요",
       "whatsNew": "새 소식"
     },
     "terminal": {

@@ -609,6 +609,21 @@
       "none": "아직 수익을 내는 파리가 없습니다. $FLYAI {hold}개와 Trader Fly를 보유하면 매주 데스크 수익의 일부를 받습니다.",
       "noneExample": "지금 일주일 내내 활성화된 Common 파리는 이번 주 약 {usd}를 받을 예정입니다.",
       "getFly": "Trader Fly 받기"
+    },
+    "hist": {
+      "title": "내 지급 주차",
+      "week": "주차",
+      "ended": "종료",
+      "earned": "획득",
+      "status": "상태",
+      "claimed": "청구함",
+      "missed": "놓침",
+      "partly": "{got} 청구, {miss} 놓침",
+      "open": "지금 청구 가능",
+      "opens": "곧 열림",
+      "note": "매주 지급은 열린 후 {hours}시간 동안 청구할 수 있습니다. 기간 내 청구하지 않은 금액은 청구한 홀더에게 갑니다.",
+      "missedTotal": "지금까지 놓친 금액: {amount} $FLYAI",
+      "none": "이 지갑에는 아직 지급된 주차가 없습니다."
     }
   },
   "odds": {

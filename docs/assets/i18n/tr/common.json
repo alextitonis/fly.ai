@@ -191,6 +191,14 @@
       "refSet": "Kaydet",
       "refLocked": "Kalıcı olarak ayarlandı",
       "refJoined": "{name} adlı kişinin bağlantısıyla katıldın",
+      "xLabel": "X hesabı",
+      "connectX": "X'i bağla",
+      "unlinkX": "Bağlantıyı kaldır",
+      "x_linked": "X bağlandı",
+      "x_denied": "X'te iptal edildi",
+      "x_expired": "Çok uzun sürdü, tekrar dene",
+      "x_taken": "Bu X hesabı başka bir cüzdana bağlı",
+      "x_failed": "X yanıt vermedi, tekrar dene",
       "whatsNew": "Yeni"
     },
     "terminal": {

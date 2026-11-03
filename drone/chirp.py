@@ -43,6 +43,7 @@ hear.py found one command: a steady tone on JO-E, on one side, turns the fly tha
      WIRING    (hits + correct rejections) / 2 at least 15 points over scrambled wiring
      TIMING    the same at least 15 points over the same decoder given only spike counts
    Reported, no rule: 0.2 and 0.8 V, and the rhythm of the microphone itself with no brain, which should do at least as well. That's the bar: the brain only earns its place in a real alert if it adds something a filter on the mic doesn't, such as acting on it through its own wiring.
+   Result 2026-11-02, the same on both seeds: HEARS passed (91%, 3%; 100%, 4%), WIRING passed (94 against 50; 98 against 53), TIMING missed (+12, +13). Mic with no brain 100% at every level.
 """
 from __future__ import annotations
 

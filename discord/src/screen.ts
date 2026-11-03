@@ -32,6 +32,10 @@ const DEX_CHAIN: Record<string, string> = { "": "robinhood", base: "base", bsc: 
 const GOPLUS_CHAIN: Record<string, number> = { robinhood: 4663, base: 8453, bsc: 56, arbitrum: 42161, ethereum: 1 };
 const GOPLUS_GAP_MS = 2_500;                                // the free API: one token a call, and it goes quiet on bursts
 const MAX_TAX = 0.1;
+// Doppler's launcher. It owns a token until it graduates, then hands it to the token's timelock. Read 2026-11-02: GoPlus says "pausable"
+// because of DopplerERC20V1's lockPool/unlockPool, which only stop sends into its own pool before graduating, and this contract can only
+// call those from create and migrate. Its 3-of-6 Safe can set modules and take fees, not touch a token. So no one can freeze holders here.
+const DOPPLER_AIRLOCK = "0xeb7c034704ef8dcd2d32324c1545f62fb4ad0862";
 
 export type Verdict = {
   ok: boolean;
@@ -168,7 +172,8 @@ async function contract(v: Verdict): Promise<void> {
   if (on("can_take_back_ownership")) v.why.push("ownership can be taken back");
   if (on("selfdestruct")) v.why.push("contract can self-destruct");
   if (owned && on("is_mintable")) v.why.push("owner can mint more");
-  if (owned && on("transfer_pausable")) v.why.push("owner can freeze transfers");
+  if (owner === DOPPLER_AIRLOCK) (v.warnings ??= []).push("Still owned by its launchpad (Doppler) until it graduates, then by its own timelock");
+  else if (owned && on("transfer_pausable")) v.why.push("owner can freeze transfers");
   if (owned && on("is_blacklisted")) v.why.push("owner can blacklist wallets");
   if (owned && (on("slippage_modifiable") || on("personal_slippage_modifiable"))) v.why.push("owner can change the tax");
   if (owned && on("is_proxy")) v.why.push("owner can swap the contract's code");

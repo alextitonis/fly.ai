@@ -123,12 +123,12 @@ nav .ddh { margin: 4px 10px 6px; font: 600 11px var(--mono, "JetBrains Mono", ui
 nav li.acct .acct-in { white-space: nowrap; }
 nav li.acct .acct-name { max-width: 12em; overflow: hidden; text-overflow: ellipsis; display: inline-block; vertical-align: bottom; }
 nav li.acct .ddmenu { min-width: 240px; }
-nav li.acct .acct-nick, nav li.acct .acct-ref:not([hidden]) { padding: 8px 12px; display: grid; gap: 6px; }
-nav li.acct .acct-nick label, nav li.acct .acct-ref label { font-size: 12px; color: var(--muted, #9ba5a1); }
-nav li.acct .acct-nick div, nav li.acct .acct-ref div { display: flex; gap: 6px; }
+nav li.acct .acct-nick, nav li.acct .acct-ref:not([hidden]), nav li.acct .acct-x:not([hidden]) { padding: 8px 12px; display: grid; gap: 6px; }
+nav li.acct .acct-nick label, nav li.acct .acct-ref label, nav li.acct .acct-x label { font-size: 12px; color: var(--muted, #9ba5a1); }
+nav li.acct .acct-nick div, nav li.acct .acct-ref div, nav li.acct .acct-x div { display: flex; gap: 6px; }
 nav li.acct .acct-nick input, nav li.acct .acct-ref input { flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 6px 8px; border-radius: 8px;
   border: 1px solid var(--line, #1a1d1c); background: var(--bg, #000000); color: var(--text, #f4f7f6); }
-nav li.acct .acct-nick small, nav li.acct .acct-ref small { font-size: 12px; color: var(--muted, #9ba5a1); min-height: 1em; }
+nav li.acct .acct-nick small, nav li.acct .acct-ref small, nav li.acct .acct-x small { font-size: 12px; color: var(--muted, #9ba5a1); min-height: 1em; }
 nav li.acct .acct-soulbound { background: none; border: 0; color: var(--text, #f4f7f6); font: inherit; padding: 8px 12px; cursor: pointer; width: 100%; text-align: left; }
 nav li.acct .acct-soulbound:hover { color: var(--mint, #5ef2cc); }
 nav li.acct .acct-out { background: none; border: 0; color: var(--muted, #9ba5a1); font: inherit; padding: 8px 12px; cursor: pointer; width: 100%; text-align: left; }
@@ -200,3 +200,6 @@ nav li.burger, .mnav { display: none; }
   nav li.langli { display: none !important; }
   .mnav-lang { margin: 16px 8px 0; }
 }
+nav li.acct .acct-x div { align-items: center; justify-content: space-between; }
+nav li.acct .acct-x-handle { display: inline-flex; align-items: center; gap: 6px; min-width: 0; overflow: hidden; text-overflow: ellipsis; color: inherit; }
+nav li.acct .acct-x-handle img { border-radius: 50%; flex: none; }

@@ -191,6 +191,14 @@
       "refSet": "设置",
       "refLocked": "已永久设置",
       "refJoined": "你通过 {name} 的链接加入",
+      "xLabel": "X 账号",
+      "connectX": "连接 X",
+      "unlinkX": "解除",
+      "x_linked": "X 已连接",
+      "x_denied": "已在 X 上取消",
+      "x_expired": "时间太久，请重试",
+      "x_taken": "这个 X 账号已连接到另一个钱包",
+      "x_failed": "X 没有响应，请重试",
       "whatsNew": "新功能"
     },
     "terminal": {

@@ -2,6 +2,7 @@ import { escapeMarkdown, type Message } from "discord.js";
 import { embed, usd } from "../format.ts";
 import { bundle, exactTarget, gather, grade, type Facts, type Grade, type Target } from "../research.ts";
 import { tokenLinks } from "../alpha.ts";
+import { deskLine, toDesk, type DeskView } from "../deskfeed.ts";
 import { canRead, chatter, readsBackAt, readsReady, readsSpent, type Chatter } from "../chatter.ts";
 import { before, log, type Row } from "../track.ts";
 import { scan, siteRead, type SiteRead } from "./scan.ts";
@@ -58,7 +59,7 @@ export function oursLine(f: Facts): string | null {
   return bits.length ? bits.map((b) => `• ${escapeMarkdown(b)}`).join("\n").slice(0, 1024) : null;
 }
 
-export function card(f: Facts, g: Grade, last?: Row | null, site?: SiteRead | null) {
+export function card(f: Facts, g: Grade, last?: Row | null, site?: SiteRead | null, desk?: DeskView | null) {
   const name = f.nft ? `${f.nft.name} (NFT)` : f.token ? `${f.token.name} ($${f.token.symbol})` : f.x ? `${f.x.name} (@${f.x.handle})` : f.query;
   const e = embed().setColor(COLORS[g.level]).setTitle(`🔎 ${escapeMarkdown(name)}`.slice(0, 256)).setDescription(`**${WORDS[g.level]}**`);
   if (f.token) e.setURL(f.token.url);
@@ -96,6 +97,8 @@ export function card(f: Facts, g: Grade, last?: Row | null, site?: SiteRead | nu
   if (past.length) e.addFields({ name: "🕰️ Past activity", value: past.map((x) => `• ${x}`).join("\n").slice(0, 1024) });
   const ours = oursLine(f);
   if (ours) e.addFields({ name: "🪰 Our flies", value: ours });
+  const screened = deskLine(desk ?? null);
+  if (screened) e.addFields({ name: "🛡️ Fly Desk's screen", value: escapeMarkdown(screened) });
   if (site) e.addFields({ name: "🌐 Its website (Fly Scan)", value: `${site.verdict === "danger" ? "🚨 Flagged. " : ""}${escapeMarkdown(site.summary ?? site.title ?? "Read, nothing to note.").slice(0, 400)}\n[Full report](${site.link})`.slice(0, 1024) });
   if (f.x) {
     const joined = f.x.joined ? new Date(f.x.joined).toLocaleDateString("en-US", { month: "short", year: "numeric" }) : "unknown";
@@ -177,7 +180,7 @@ function deepNumbers(f: Facts): string {
   for (const p of d.pools?.slice(0, 4) ?? []) out.push(`Pool ${p.name}: ${Math.round(p.liq)} USD, ${Math.round(p.vol24)} USD volume 24h, ${p.buys} buys by ${p.buyers} wallets, ${p.sells} sells by ${p.sellers} wallets, price ${p.h24 ?? "?"}% in 24h, ${p.ageDays != null ? Math.round(p.ageDays) : "?"} days old.`);
   if (d.flow) out.push(`Last ${d.flow.trades} trades: ${d.flow.wallets} wallets, top three made ${Math.round(d.flow.top3 * 100)}% of the volume, ${Math.round(d.flow.buyUsd)} USD bought, ${Math.round(d.flow.sellUsd)} USD sold.`);
   if (d.history) out.push(`Price history of its busiest pool, the last ${d.history.days} days only: ${Math.round(d.history.fromPeak * 100)}% from that period's high ${d.history.peakDaysAgo} days ago${d.history.change30d != null ? `, ${Math.round(d.history.change30d * 100)}% in 30 days` : ""}. Average daily volume ${Math.round(d.history.vol7)} USD last week${d.history.volBefore != null ? `, ${Math.round(d.history.volBefore)} USD the month before` : ""}.`);
-  if (d.info) out.push(`GeckoTerminal: score ${d.info.score != null ? Math.round(d.info.score) : "?"}/100, developer holds ${d.info.devPct ?? "?"}%, top 10 hold ${d.info.top10 ?? "?"}%, launchpad ${d.info.launchpad ? (d.info.graduated ? "graduated" : "still on the curve") : "no"}.`);
+  if (d.info) out.push(`GeckoTerminal: score ${d.info.score != null ? Math.round(d.info.score) : "?"}/100, developer holds ${d.info.devPct ?? "?"}%, top 10 hold ${d.info.top10 ?? "?"}% counting pools and lockers (the wallet figure above leaves those out, so the two differ by design), launchpad ${d.info.launchpad ? (d.info.graduated ? "graduated" : "still on the curve") : "no"}.`);
   if (d.launches) out.push(`Its creator's other launches on Pons: ${d.launches.count}, ${d.launches.last7d} in the last week, ${d.launches.dead} now under 1000 USD in pools${d.launches.others.length ? ` (${d.launches.others.map((o) => `${o.symbol}: ${Math.round(o.liq)} USD`).join(", ")})` : ""}.`);
   if (d.promo) out.push(`Paid DexScreener promotion: profile ${d.promo.profile ? "yes" : "no"}, ${d.promo.boosts} boosts.`);
   if (d.domainDays != null) out.push(`Website domain registered ${Math.round(d.domainDays)} days ago.`);
@@ -233,8 +236,10 @@ export const research: Command = {
       if (site) {
         // a site Fly Scan calls dangerous counts against the project on the facts card too
         if (site.verdict === "danger") { g.bad.push(`Fly Scan flags its website: ${site.findings[0] ?? "see the report"}`); g.level = "red"; }
-        e = card(f, g, last, site);
       }
+      // the final verdict to the desk (flytrade/desk/verdicts.py follows it), and what its own screen knows back on the card
+      const desk = f.token ? await toDesk("ask", f, g) : null;
+      if (site || desk) e = card(f, g, last, site, desk);
       await note.edit({ content: "", embeds: [e], components }).catch(() => message.reply({ embeds: [e], components, allowedMentions: quiet }));
       // its own message: the two cards together can be over Discord's limit for one message
       if (said) await message.reply({ embeds: [talkCard(said, f.x)], allowedMentions: quiet });

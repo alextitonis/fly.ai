@@ -42,7 +42,9 @@ the machine gets slow.
 | `python drone/chirp.py fly --mode sound --seed 8951` / `codes --seed 9101` / `score` | Sound in flight (`--mode sound\|silent\|mirror`, `--rewire`, `--noise`), pulsed chirps on the bench, score the flight test | flight run 1-3 min, bench about 20 min |
 | `python drone/fire.py clips --seed 9201` / `--dry` | Fire on real footage in `runs/clips/forest/`, with no colour step. Missed, see Results | about 10 min |
 | `python drone/flame.py clips --folder forest_fresh2` | Flames or only flame-coloured, on real footage, no connectome. 2 of 3 rules, see Results | about 5 min |
-| `python drone/smoke.py train` / `clips --folder smoke_test` | Smoke from the air on real footage, no connectome. 2 of 3 rules, see Results | about 5 min |
+| `python drone/smoke.py train` / `clips --folder smoke_test` / `heldout` | Smoke from the air on real footage, no connectome. See Results | about 5 min each |
+| `python drone/chirp.py alert --seed 9411` | Recognising an alert with no known start, on the bench. 2 of 3 rules, see Results | about 15 min |
+| `python drone/light.py --seed 9700 --dev` | How far a blinking light can be read by camera. **Not finished, no results yet** | slow |
 | `python drone/forest.py picture --seed 9301` / `fly --seed 9301` / `score` | The 3D forest with a fire: stills, one patrol (`--out clip.mp4`, `--rewire`, `--no-fire`, `--decoys`, `--cameras`, and not yet flown `--big`, `--real-fire`), score a test (`--test first\|search\|fire`). First test passed, with limits, see Results | flight up to about 6 min, `--big --seconds 480` over 12 min |
 | `python drone/readout_checks.py` | World-Sim's readout checks (after `gestures.py measure`) | about 10 min |
 | `python drone/planner.py ...` | World-Sim's planner against the fly. Failed its rule, see Results | see below |
@@ -111,6 +113,7 @@ safety system: it can lose its target, or pick the wrong one, at any time.
 | `fire.py` | Fire on real footage through the motion route. |
 | `flame.py` | Our own camera step: flames or only flame-coloured. |
 | `smoke.py` | Our own camera step from the air: is that a fire's smoke? |
+| `light.py` | Reading another drone's blinking light by camera. Not finished. |
 | `forest.py` | A 3D forest with a fire, and a patrol through it with no outside connection. |
 | `planner.py`, `readout_checks.py` | The ideas from [World-Sim](https://github.com/alextitonis/ai-model). |
 
@@ -279,6 +282,18 @@ Limits: 63% only just clears its rule. The microphone is ours and is a model, an
 
 This goes against `flytalk.py`, which found the listener ignores timing. Limits: pulses start at the same moment in every trial, which a real listener wouldn't get, so this is the easy case. Small samples push bits up on both sides, so the 1.6 extra matters more than the 3.2. A plain microphone reads all 36 messages with no brain, so this says what the brain lets through, not that it's a better way to send data. Scrambled wiring's silence already jumps and brakes, so it isn't a clean control for those two.
 
+### Recognising an alert with no known start: 2 of 3 rules, both seeds (2026-11-02)
+
+`python drone/chirp.py alert --seed 9411`, repeated on 9412, 16 flies per condition, two runs each. Pulses begin at a random moment for each fly, with propeller noise on the ear neurons. The alert is 10 Hz, picked before running, against four other patterns and silence. The decoder is ours, trained on one run and scored on the other. Rules at the top of `chirp.py`, at 0.4 V:
+
+| Rule | Needed | 9411 | 9412 | |
+|---|---|---|---|---|
+| HEARS | at least 75% of alerts, at most 10% false | 91%, 3% | 100%, 4% | Pass |
+| WIRING | balanced score 15 points over scrambled | 94 against 50 | 98 against 53 | Pass |
+| TIMING | 15 points over spike counts alone | +12 | +13 | **Miss** |
+
+So the real wiring carries a recognisable alert and scrambled wiring doesn't, at a random start. Limits: at 0.2 V it mostly fails (28-38% caught), so range is short: on this model's 1/distance loudness, 0.4 V is 2.5 m, while the speaker's real loudness is unmeasured. Counts alone already reach 82-85%, since this alert is on 40% of the time and the others about 50% or 100%, so much of this isn't timing. A plain filter on the microphone scores 100% at every level, so the brain doesn't make this signal easier to read: it only earns its place if the drone acts on the alert through its own wiring, and no such reflex has turned up (alarm and stop both missed).
+
 ### Fire on real footage, motion through the brain: missed (2026-11-01)
 
 `python drone/fire.py clips --seed 9201`: grey footage -> motion model -> T4/T5 -> connectome -> a ridge readout on the descending neurons, 49 clips, 34 shoots, leave one shoot out. Rules at the top of `fire.py`. The repeat on 9202 was stopped for low memory, and with these misses it can't change the result.
@@ -421,6 +436,17 @@ cameras without prediction do worst of the real-wiring setups and crash most, so
 The same seed repeats exactly at the same thread count and flies differently at another (one camera on seed 8001: 38% in view at 2 threads, 70% at 3), so a single flight says little. These flights
 have a leader and a distraction but only this one job: learned choice and obstacle avoidance haven't been tried on one or two cameras. Score with `python drone/runs/predict/cams/score.py`.
 
+**The bench's brain doesn't help following (2026-11-02).** Sound did far better on `sensory_input=False`, so the same one- and two-camera flights ran on both brains, nothing retuned, seeds 9501-9508, 60 s each (`runs/predict/sensory/`). Rules at the top of `predict.py`.
+
+| Setup | Within 1 m | In view | Distance | Stopped | Crashes per flight |
+|---|---|---|---|---|---|
+| One camera, default brain | 50% | 55% | 1.41 m | 16% | 1.5 |
+| One camera, bench's brain | 51% | 57% | 1.43 m | 21% | 1.1 |
+| Two cameras, default brain | 61% | 80% | 0.94 m | 22% | 0.1 |
+| Two cameras, bench's brain | 50% | 74% | 1.10 m | 25% | 0 |
+
+CLOSER misses (+0.6 points, -6.1 to +7.7), STOPS misses (5 points more stopping, not less), CRASHES passes (9 against 12). So following stays on the default brain. Two cameras on it reached 61% within 1 m here, reported only, on these fresh seeds.
+
 ### Avoiding obstacles: hits nearly gone, but it stalls (2026-11-01, 2 of 3 rules)
 
 `avoid.py`. Without this, nothing turns it from a pillar: a close one fires DNp01, which stops it. The screen (nothing trained, seeds 7401-7402) found DNg01, DNa07 and DNae004 fire
@@ -441,8 +467,19 @@ Rules are in `avoid.py`, seeds 7801-7804, 15 trials each, aimed at a pillar 1.5 
 | Beats stop | passes at least 20 points over stop | +7 points (-12 to +23) | Miss |
 | Wiring | passes at least 20 points over scrambled | +45 points (+33 to +58) | Pass |
 
-Turning almost ends the hits, but it doesn't get past the pillar more often than plain stopping: over half the trials hold still for the full 8 s, and blind still passes most because it just flies on.
+Turning almost ends the hits, but it doesn't get past the pillar more often than plain stopping. **Corrected 2026-11-02:** this originally said over half the trials hold still for the full 8 s. Logged on dev seeds, a "stalled" trial is stopped only about 12% of the time: it dodges, turns about 3.8 rad, and wanders near the pillar without crossing the line, since nothing gives it a reason to go on. Blind still passes most because it just flies on.
 So this is a safe drone, not yet one that goes around things. The wiring rule is a weak control: scrambled wiring never moves in these trials, so it can't hit or pass.
+
+**With a destination: 1 of 3 rules (2026-11-02).** A goal 2.5 m past the pillar, through LC10a, dropped while a pillar is within 0.8 m ahead, and 2 s after a jump before DNp01 can stop it again, all ours. Settings from dev seeds, where it passed 73% and hit 17%. On fresh seeds 9601-9604, 15 trials each (`runs/avoid/test2/`):
+
+| Mode, all with the goal | Hit | Passed | Neither |
+|---|---|---|---|
+| Turn | 37% | 48% | 15% |
+| Same, turning neurons not read | 62% | 37% | 2% |
+| Blind to pillars | 52% | 48% | 0% |
+| Turn, scrambled wiring | 3% | 3% | 93% |
+
+GETS_PAST misses (48%, rule 60; +12 points over not turning, -5 to +28). SAFE misses (37%, rule 25; 15 fewer than blind, -3 to +32). WIRING passes (+45). A goal does end the wandering, but on a head-on approach these neurons make at best a small difference. Hits in this test are head-on by design, and it's the same test as above, so forest flights with few trees dead ahead aren't contradicted.
 
 Free flights among pillars can't answer this: on development seeds it rarely hits one even blind, since it trails a leader who keeps clear. Those runs hint that the stop has a
 cost: with 16 pillars it's stopped 45-52% of the time when it sees them and 17-20% blind, and within 1 m 32-46% against 62-78%. That's two seeds, not a tested result. Pillars are found

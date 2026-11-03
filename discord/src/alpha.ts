@@ -47,6 +47,8 @@ const blockedWhy = (r: LogTrade) => {
 const DEX: Record<string, string> = { "": "robinhood", base: "base", bsc: "bsc", arbitrum: "arbitrum" };
 const CHAIN_NAME: Record<string, string> = { "": "Robinhood", base: "Base", bsc: "BNB", arbitrum: "Arbitrum" };
 const chainOf = (sym: string) => (sym.includes(":") ? sym.slice(0, sym.indexOf(":")) : "");
+/** A desk symbol's chain as DexScreener names it ("base:FOO" -> base, a bare one -> robinhood). */
+export const alphaChain = (sym: string) => DEX[chainOf(sym)] ?? chainOf(sym);
 const ticker = (sym: string) => symbol(sym).replace(/ \(.*\)$/, "");
 /** A bet for people: "Stella Jurina · Kryvoruchko vs Jurina (Match Winner)" = the pick · the match (market). */
 const betName = (sym: string, labels?: Record<string, string>) => symbol(sym, labels).replace(/^bet: /, "");

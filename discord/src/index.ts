@@ -6,6 +6,7 @@ import { need } from "./env.ts";
 import { flyReply } from "./fly.ts";
 import { intentOf } from "./intent.ts";
 import { parseTargets, startAlpha } from "./alpha.ts";
+import { startScout } from "./scout.ts";
 
 const byName = new Map(commands.flatMap((c) => [c.name, ...(c.aliases ?? [])].map((n) => [n, c] as const)));
 const guildIds = new Set((process.env.DISCORD_GUILD_ID ?? "").split(",").map((x) => x.trim()).filter(Boolean)); // only these servers, when set
@@ -18,6 +19,7 @@ client.once(Events.ClientReady, (c) => {
   // the alpha feed (src/alpha.ts): our channel (ALPHA_CHANNEL_ID) and partners' (ALPHA_PARTNERS, "channel:role,...")
   const alpha = parseTargets(process.env.ALPHA_CHANNEL_ID, process.env.ALPHA_PARTNERS);
   if (alpha.length) startAlpha(c, alpha, { flies: Number(process.env.ALPHA_FLIES ?? 5), pollMs: Number(process.env.ALPHA_POLL_MS ?? 120_000) });
+  startScout();   // the research scout (src/scout.ts): on with DESK_RESEARCH_TOKEN, sends verdicts to the desk, posts nothing
 });
 
 /** "fly.ai is typing…" for as long as `work` runs (Discord's lasts 10 s, a command can take a minute): it isn't stuck. */

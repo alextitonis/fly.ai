@@ -90,7 +90,9 @@
       signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
       save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out",
       search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", deskClaim: "Fly Desk payout to claim", claimBy: "claim by {t}", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
-      badgesBtn: "🏅 Badges", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link" };
+      badgesBtn: "🏅 Badges", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
+      xLabel: "X account", connectX: "Connect X", unlinkX: "Unlink", x_linked: "X connected", x_denied: "Cancelled on X",
+      x_expired: "That took too long, try again", x_taken: "That X account is linked to another wallet", x_failed: "X didn't answer, try again" };
   const LANGS = ["en", "zh-Hans", "zh-Hant", "ko", "tr", "es"];   // i18n.js LANGUAGES
   const NAV_SRC = document.currentScript && document.currentScript.src;   // welcome.js sits beside it
   let acctText = ACCT_EN;
@@ -273,7 +275,7 @@
     menu.append(el("li", { class: "acct-badges", hidden: "" }), el("li", { class: "acct-lock", hidden: "" }),
       el("li", null, el("button", { type: "button", class: "acct-soulbound", "data-l": "badgesBtn" }, L("badgesBtn"))),
       item("myFlies", "/traderflies/traders?view=mine"), item("leaderboard", "/traderflies/traders?view=board"),
-      form, el("li", { class: "acct-ref", hidden: "" }), item("referrals", "/referrals"), item("Flybook", "/flybook/"),
+      form, el("li", { class: "acct-x", hidden: "" }), el("li", { class: "acct-ref", hidden: "" }), item("referrals", "/referrals"), item("Flybook", "/flybook/"),
       el("li", null, el("button", { type: "button", class: "acct-out", "data-l": "signOut" }, L("signOut"))));
     li.append(btn, menu);
     return li;
@@ -317,6 +319,7 @@
     });
     li.querySelector(".acct-nick").addEventListener("click", (e) => e.stopPropagation());   // typing doesn't close it
     wireReferral(li, s);
+    wireX(li, s);
     wireLock(li, s);
     wireBadges(li, s);
     li.querySelector(".acct-out").addEventListener("click", async () => {
@@ -324,6 +327,71 @@
       try { localStorage.removeItem(SESSION_KEY); } catch {}
       sessionChanged();
     });
+  }
+
+  /**
+   * Connect X (2026-11-03, mine/src/xlink.ts): the wallet's X account by OAuth. "Connect X" goes to X and back to this
+   * page with ?x=linked|denied|expired|taken|failed, which the menu shows once and the address bar loses.
+   */
+  function wireX(li, s) {
+    const box = li.querySelector(".acct-x");
+    if (!box) return;
+    let came = null;
+    try {
+      const q = new URLSearchParams(location.search);
+      came = q.get("x");
+      if (came && /^(linked|denied|expired|taken|failed)$/.test(came)) {
+        q.delete("x");
+        history.replaceState(history.state, "", location.pathname + (q.size ? `?${q}` : "") + location.hash);
+      } else came = null;
+    } catch {}
+    const call = async (path, body) => {
+      const r = await fetch(`${MINE_API}/api/x${path}`, { method: body ? "POST" : "GET", body: body ? JSON.stringify(body) : undefined,
+        headers: { "content-type": "application/json", "x-flyai-session": s.token } });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+      return j;
+    };
+    const show = (info, note) => {
+      box.replaceChildren();
+      if (!info.enabled && !info.linked) { box.hidden = true; return; }
+      const msg = Object.assign(document.createElement("small"), { textContent: note || "" });
+      const row = document.createElement("div");
+      if (info.linked) {
+        const a = Object.assign(document.createElement("a"), { href: `https://x.com/${info.linked.username}`, target: "_blank", rel: "noopener",
+          className: "acct-x-handle", textContent: `@${info.linked.username}` });
+        if (info.linked.avatar) a.prepend(Object.assign(document.createElement("img"), { src: info.linked.avatar, alt: "", width: 20, height: 20 }));
+        const out = Object.assign(document.createElement("button"), { type: "button", className: "btn sm", textContent: L("unlinkX") });
+        out.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          msg.textContent = "…";
+          try { show(await call("/unlink", {}).then(() => call(""))); } catch (err) { msg.textContent = String(err.message || err); }
+        });
+        row.append(a, out);
+      } else {
+        const go = Object.assign(document.createElement("button"), { type: "button", className: "btn sm", textContent: `𝕏 ${L("connectX")}` });
+        go.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          msg.textContent = "…";
+          try { location.href = (await call("/start", { return_to: location.href })).url; } catch (err) { msg.textContent = String(err.message || err); }
+        });
+        row.append(go);
+      }
+      box.append(Object.assign(document.createElement("label"), { textContent: L("xLabel") }), row, msg);
+      box.addEventListener("click", (e) => e.stopPropagation());
+      box.hidden = false;
+    };
+    let loaded = false;
+    const load = () => {
+      if (loaded) return;
+      loaded = true;
+      call("").then((info) => show(info, came ? L(`x_${came}`) : "")).catch(() => { loaded = false; });
+    };
+    li.querySelector(".acct-btn").addEventListener("click", load);
+    if (came) {                                            // back from X: open the menu on the answer
+      load();
+      li.querySelector(".acct-btn").click();
+    }
   }
 
   /** Locked $FLYAI (flylock.js, 2026-10-27): the menu item shows only for a wallet with FLYAI waiting in FlyLock. */

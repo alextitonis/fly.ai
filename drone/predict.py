@@ -33,6 +33,14 @@ The simulation has four cameras, so it never loses anything for long. A real dro
      TWO_ADDS   two_predict in view at least 15 points more than one_predict, 95% interval above 0
      WIRING     one_predict in view at least 20 points over one_predict on scrambled wiring, 95% interval above 0. In view, not distance: on
                 seeds 7601-7608 scrambled wiring kept its distance by hovering
+
+4. The bench's brain. Those flights ran on sensory_input=True, FlyBrain's default, and come-here by sound did far better on False (92% against 63%). Does following too? Same constants, nothing retuned, one_predict and two_predict with and without --no-sensory-input.
+   Rules fixed before running, seeds 9501-9508, 60 s each, NUMBA_NUM_THREADS=2, paired by seed:
+     CLOSER    one_predict on False within 1 m at least 10 points over True, 95% interval above 0
+     STOPS     one_predict on False stopped at least 10 points less than True, 95% interval above 0. Stopping near things is the follower's known weakness
+     CRASHES   one_predict on False no more crashes than True over all 8
+   two_predict is reported, no rule.
+   Result 2026-11-02: CLOSER missed (+0.6 points), STOPS missed (5 points more, not less), CRASHES passed (9 against 12). Results in runs/predict/sensory/.
 """
 from __future__ import annotations
 
@@ -253,7 +261,7 @@ class Film:
 
 
 def fly(a) -> dict:
-    brain = FlyBrain(seed=a.seed)
+    brain = FlyBrain(seed=a.seed, sensory_input=a.sensory_input)
     if a.rewire:
         rewire(brain, seed=a.seed + 1000)
     pilot_module.TURN_GAIN = TURN_GAIN
@@ -337,7 +345,7 @@ def fly(a) -> dict:
         film.close()
     sim.close()
     found = [e[2]["error"] for e in log if e[1] == "target_found" and e[2]["error"] == e[2]["error"]]
-    return {"mode": a.mode, "rewired": a.rewire, "seed": a.seed, "seconds": a.seconds, "mean_distance": round(float(np.mean(dist)), 3),
+    return {"mode": a.mode, "rewired": a.rewire, "sensory_input": a.sensory_input, "seed": a.seed, "seconds": a.seconds, "mean_distance": round(float(np.mean(dist)), 3),
             "within_1m": round(float(np.mean(np.array(dist) < 1.0)), 3), "in_view": round(seen_steps / len(dist), 3), "crashes": crashes,
             "stopped": round(stops / len(dist), 3), "lost_steps": len(errs["both"]),
             "err_hold": round(float(np.median(errs["hold"])), 3) if errs["hold"] else None,
@@ -438,6 +446,7 @@ def main() -> None:
     f.add_argument("--rewire", action="store_true")
     f.add_argument("--out", help="also record a video to post")
     f.add_argument("--plain", action="store_true", help="with --out: no words or cards, and with sound")
+    f.add_argument("--no-sensory-input", dest="sensory_input", action="store_false", help="the bench's brain: no synapses onto sensory neurons")
     a = ap.parse_args()
     if a.what == "bench":
         bench(a)

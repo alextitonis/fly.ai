@@ -21,6 +21,16 @@ Gain from seeds 7751-7752. Rules fixed before running, seeds 7801-7804, 15 trial
   AVOIDS      turn hits at most 0.5x blind, interval on the difference above 0
   BEATS_STOP  turn passes at least 20 points over stop
   WIRING      turn passes at least 20 points over turn on scrambled wiring
+
+Stage 4, the stall: over half of those trials hold still for 8 s, since a close pillar keeps firing DNp01 and each burst stops it. `--cooldown` (ours) lets the drone keep going for that many seconds after a jump before DNp01 can stop it again. On dev seeds 7751-7752 cooldowns cut "stalls" (73% to 60%, and 77% to 37% on the bench's brain), but those trials are only stopped about 6% of the time: they've turned about 3.8 rad and wander near the pillar, since nothing gives them a reason to go on.
+`--goal` (ours) adds one: a destination 2.5 m past the pillar by dead reckoning, through LC10a, as forest.py passes its route. Alone it pulled the drone back into the pillar (hits 33-53%), so `--yield-near` (ours) drops that pull while a pillar is close ahead.
+Settings from dev seeds, 30 trials each: gain 0.7, cooldown 2, yield 0.8 m, default brain: 73% passed, 17% hit, 10% neither.
+
+Stage 5, the test. Those settings, seeds 9601-9604, 15 trials each, NUMBA_NUM_THREADS=2. All with the goal: turn; stop, the same with the connectome's turning neurons not read; blind, no pillars given to the brain; turn on scrambled wiring. Rules fixed before running, 95% bootstrap over trials, runs/avoid/test2/score.py:
+  GETS_PAST  turn passes at least 60%, at least 20 points over stop, interval above 0
+  SAFE       turn hits at most 25%, and at most 0.5x blind, interval on the difference above 0
+  WIRING     turn passes at least 20 points over scrambled, interval above 0
+Result 2026-11-02: 1 of 3. Passed 48% (stop 37%, +12, -5 to +28: MISS), hit 37% (blind 52%, 15 fewer, -3 to +32: MISS), over scrambled +45 (PASS). Dev's 73% didn't hold: blind gets past just as often. Seeds 9601-9604 are used up.
 """
 from __future__ import annotations
 
@@ -41,7 +51,8 @@ from flybrain.eyes import FeatureDetectors  # noqa: E402
 from flytalk import rewire  # noqa: E402
 from follow import TURN_GAIN, FollowPilot, FollowSenses  # noqa: E402
 import pilot as pilot_module  # noqa: E402
-from sim import ARENA, CRUISE, DroneSim  # noqa: E402
+from predict import Tracker  # noqa: E402
+from sim import ARENA, CRUISE, DroneSim, Thing  # noqa: E402
 from sim.world import BEACONS, PILLAR_RADIUS  # noqa: E402
 
 OUT = HERE / "runs" / "avoid"
@@ -177,12 +188,34 @@ def fly(a) -> dict:
             "closest_share_under_30cm": round(float(np.mean(np.array(near) < 0.3)), 3), "events": dict(bus.counts)}
 
 
+class CoolPilot(FollowPilot):
+    """After a jump DNp01 can't stop it again for cooldown seconds: ours, so it can move past what set the jump off."""
+    cooldown = 0.0
+    free_until = -1.0
+
+    def command(self, t: float, z: float) -> dict:
+        if self.jump_until <= t < self.free_until:
+            held, self.jump_until = self.jump_until, 1e9       # blocks a new jump inside Pilot.command; forward is put back below
+            cmd = super().command(t, z)
+            self.jump_until = held
+            cmd["forward"] = max(0.0, pilot_module.CRUISE_SPEED - pilot_module.BRAKE_GAIN * self.count("backward_L", "backward_R"))
+            cmd["forward"] = min(cmd["forward"], 0.55)
+            cmd["climb"] = 1.0 * (CRUISE - z)
+            return cmd
+        was = self.jump_until
+        cmd = super().command(t, z)
+        if self.jump_until != was:
+            self.free_until = self.jump_until + self.cooldown
+        return cmd
+
+
 def run(a) -> dict:
-    brain = FlyBrain(seed=a.seed)
+    brain = FlyBrain(seed=a.seed, sensory_input=a.sensory_input)
     if a.rewire:
         rewire(brain, seed=a.seed + 1000)
-    pilot_module.TURN_GAIN = 0.5                   # pilot.py's own gain: follow.py's 1.5 is for chasing, and with nothing to chase its noise spins the drone
-    senses, pilot = FollowSenses(brain), FollowPilot(brain)
+    pilot_module.TURN_GAIN = TURN_GAIN if a.goal else 0.5       # pilot.py's own gain: follow.py's 1.5 is for chasing, and with nothing to chase its noise spins the drone
+    senses, pilot = FollowSenses(brain), CoolPilot(brain)
+    pilot.cooldown = a.cooldown
     for _ in range(100):
         pilot.observe(brain.step())
     sim = DroneSim(seed=a.seed, n_fruit=0, gusts=False, leader=True, decoy=True, pillars=[(0.0, 0.0)])
@@ -200,19 +233,32 @@ def run(a) -> dict:
         mujoco.mj_forward(sim.model, sim.data)
         sim.control.reset(CRUISE)
         senses.leader_size, senses.pillars = None, []
-        pilot.jump_until = -1.0
+        pilot.jump_until = pilot.free_until = -1.0
         start, n, things, closest, yaw_total, result = sim.t, 0, [], 9.0, 0.0, "stall"
+        steps, stop_jump, stop_brake = 0, 0, 0
+        tracker = Tracker()
+        beyond = np.array([4.0, 0.0])              # in its own frame, from dead reckoning: 2.5 m past the pillar, straight on from where it starts
         while sim.t - start < 8.0:
             if n % 2 == 0:
                 things = [t for t in pixels.things(sim.eyes()) if t.kind == "pillar"] if a.mode != "blind" else []
             n += 1
-            fired = brain.step(None, senses.inject(things, match_pillars=True))
+            feed = things
+            close = any(t.kind == "pillar" and t.distance < a.yield_near and abs(t.bearing) < np.radians(60) for t in things)
+            if a.goal and not close:               # ours: where it's headed, passed to LC10a as forest.py passes its route. A pillar close ahead takes over from it
+                d = beyond - tracker.pose
+                feed = things + [Thing("leader", float((np.arctan2(d[1], d[0]) - tracker.h + np.pi) % (2 * np.pi) - np.pi), float(np.hypot(*d)), 0.1)]
+            fired = brain.step(None, senses.inject(feed, match_pillars=True))
             pilot.observe(fired)
             cmd = pilot.command(sim.t, sim.pos[2])
             if turner is not None:
                 turner.observe(fired)
                 cmd["yaw_rate"] += turner.yaw()
+            tracker.move(cmd, brain.dt)
             yaw_total += abs(cmd["yaw_rate"]) * brain.dt
+            steps += 1
+            if cmd["forward"] == 0.0:
+                stop_jump += sim.t < pilot.jump_until
+                stop_brake += sim.t >= pilot.jump_until
             for _ in range(ticks):
                 sim.step(**cmd)
             p = sim.pos
@@ -226,10 +272,10 @@ def run(a) -> dict:
             if np.hypot(p[0], p[1]) > 2.5:              # flew off sideways: it missed the pillar, and that's a pass
                 result = "pass"
                 break
-        out.append({"result": result, "closest": round(closest, 3), "turned": round(yaw_total, 2), "seconds": round(sim.t - start, 2)})
+        out.append({"result": result, "closest": round(closest, 3), "turned": round(yaw_total, 2), "seconds": round(sim.t - start, 2), "stopped_jump": round(stop_jump / max(steps, 1), 3), "stopped_brake": round(stop_brake / max(steps, 1), 3)})
     sim.close()
     results = [o["result"] for o in out]
-    return {"mode": a.mode, "rewired": a.rewire, "seed": a.seed, "gain": a.gain, "hit": results.count("hit"), "pass": results.count("pass"), "stall": results.count("stall"),
+    return {"mode": a.mode, "rewired": a.rewire, "seed": a.seed, "gain": a.gain, "cooldown": a.cooldown, "sensory_input": a.sensory_input, "hit": results.count("hit"), "pass": results.count("pass"), "stall": results.count("stall"),
             "other": results.count("other"), "closest": round(float(np.median([o["closest"] for o in out])), 3), "trials": out}
 
 
@@ -252,6 +298,10 @@ def main() -> None:
     r.add_argument("--trials", type=int, default=15)
     r.add_argument("--rewire", action="store_true")
     r.add_argument("--gain", type=float, default=None)
+    r.add_argument("--cooldown", type=float, default=0.0, help="seconds after a jump before DNp01 can stop it again")
+    r.add_argument("--no-sensory-input", dest="sensory_input", action="store_false", help="the bench's brain")
+    r.add_argument("--goal", action="store_true", help="a destination beyond the pillar, through LC10a")
+    r.add_argument("--yield-near", type=float, default=0.0, help="m: with --goal, no pull toward it while a pillar is this close ahead")
     a = ap.parse_args()
     if a.what == "screen":
         screen(a)

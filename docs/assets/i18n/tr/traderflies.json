@@ -611,6 +611,21 @@
       "none": "Henüz kazanan sineğin yok. {hold} $FLYAI ve bir Trader Fly tut; her hafta masanın kârından pay alır.",
       "noneExample": "Şu an tüm hafta aktif bir Common sinek bu hafta yaklaşık {usd} alacak.",
       "getFly": "Trader Fly al"
+    },
+    "hist": {
+      "title": "Ödeme haftaların",
+      "week": "Hafta",
+      "ended": "Bitiş",
+      "earned": "Kazanılan",
+      "status": "Durum",
+      "claimed": "Alındı",
+      "missed": "Kaçırıldı",
+      "partly": "{got} alındı, {miss} kaçırıldı",
+      "open": "Şimdi açık",
+      "opens": "Yakında açılıyor",
+      "note": "Her hafta açıldıktan sonra {hours} saat boyunca alınabilir. Zamanında alınmayan, alan holder'lara gider.",
+      "missedTotal": "Şimdiye kadar kaçırılan: {amount} $FLYAI",
+      "none": "Bu cüzdanın henüz ödenen haftası yok."
     }
   },
   "odds": {

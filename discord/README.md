@@ -57,6 +57,12 @@ chart link; a later sell replies under its call with the P&L. A token is called 
 an hour; passes on the token's merits (thin pool, round trip, stale price) and index buys aren't posted. A restart
 never reposts history.
 
+**Research → Fly Desk** (`src/deskfeed.ts`, `src/scout.ts`, on while the secret `DESK_RESEARCH_TOKEN` is set, the same value on
+flytrade-desk): every `!research` token verdict goes to the desk (`flytrade/desk/verdicts.py`, POST /research), which follows it at
++24 h / +72 h / +7 d and answers with what its own screen knows (meme gate, Fly Scan), shown on the card as "🛡️ Fly Desk's screen".
+The scout runs the same facts and rules (no X reads, no model) on the desk's new pools and FOMO tokens, 4 every `SCOUT_POLL_MS`
+(20 min; 0 = off), and sends those verdicts too. Nothing is posted or bought: `python flytrade/desk/verdictreport.py` says whether 🟢 beats 🔴.
+
 Every call passes the scam filter first (`src/screen.ts`): at least $10k of real money (the paired side) in the pool
 and $1k traded in 24 h; on Robinhood Chain the token's Transfer logs (public RPC) give every balance, and the ten
 biggest wallets (contracts left out) may hold at most 50%, wallets that look like one group at most 25% (3+ top

@@ -611,6 +611,21 @@
       "none": "Ninguna de tus moscas gana todavía. Ten {hold} $FLYAI y una Trader Fly, y ganará una parte del beneficio del desk cada semana.",
       "noneExample": "Ahora mismo una mosca Common activa toda la semana va camino de unos {usd} esta semana.",
       "getFly": "Consigue una Trader Fly"
+    },
+    "hist": {
+      "title": "Tus semanas de pago",
+      "week": "Semana",
+      "ended": "Terminó",
+      "earned": "Ganado",
+      "status": "Estado",
+      "claimed": "Reclamado",
+      "missed": "Perdido",
+      "partly": "Reclamado {got}, perdido {miss}",
+      "open": "Abierto ahora",
+      "opens": "Abre pronto",
+      "note": "Cada semana se puede reclamar durante {hours} h tras abrirse. Lo que no se reclama a tiempo va a los holders que sí reclamaron.",
+      "missedTotal": "Perdido hasta ahora: {amount} $FLYAI",
+      "none": "Esta wallet aún no tiene semanas pagadas."
     }
   },
   "odds": {

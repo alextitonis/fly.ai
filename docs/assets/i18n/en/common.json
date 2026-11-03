@@ -191,6 +191,14 @@
       "refSet": "Set",
       "refLocked": "Set for good",
       "refJoined": "You joined through {name}'s link",
+      "xLabel": "X account",
+      "connectX": "Connect X",
+      "unlinkX": "Unlink",
+      "x_linked": "X connected",
+      "x_denied": "Cancelled on X",
+      "x_expired": "That took too long, try again",
+      "x_taken": "That X account is linked to another wallet",
+      "x_failed": "X didn't answer, try again",
       "whatsNew": "New"
     },
     "terminal": {

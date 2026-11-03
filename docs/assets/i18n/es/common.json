@@ -191,6 +191,14 @@
       "refSet": "Guardar",
       "refLocked": "Fijado para siempre",
       "refJoined": "Te uniste con el enlace de {name}",
+      "xLabel": "Cuenta de X",
+      "connectX": "Conectar X",
+      "unlinkX": "Desvincular",
+      "x_linked": "X conectado",
+      "x_denied": "Cancelado en X",
+      "x_expired": "Tardó demasiado, inténtalo de nuevo",
+      "x_taken": "Esa cuenta de X está vinculada a otra billetera",
+      "x_failed": "X no respondió, inténtalo de nuevo",
       "whatsNew": "Novedad"
     },
     "terminal": {

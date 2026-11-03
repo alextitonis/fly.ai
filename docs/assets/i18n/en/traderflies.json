@@ -611,6 +611,21 @@
       "none": "None of your flies is earning yet. Hold {hold} $FLYAI and a Trader Fly, and it earns a share of the desk's profit every week.",
       "noneExample": "Right now a Common fly active all week is on track for about {usd} this week.",
       "getFly": "Get a Trader Fly"
+    },
+    "hist": {
+      "title": "Your payout weeks",
+      "week": "Week",
+      "ended": "Ended",
+      "earned": "Earned",
+      "status": "Status",
+      "claimed": "Claimed",
+      "missed": "Missed",
+      "partly": "Claimed {got}, missed {miss}",
+      "open": "Open now",
+      "opens": "Opens soon",
+      "note": "Each week stays claimable for {hours} h after it opens. What is not claimed in time goes to the holders who did claim.",
+      "missedTotal": "Missed so far: {amount} $FLYAI",
+      "none": "No paid weeks for this wallet yet."
     }
   },
   "odds": {

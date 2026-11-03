@@ -609,6 +609,21 @@
       "none": "你还没有在赚钱的苍蝇。持有 {hold} $FLYAI 和一只 Trader Fly，它每周都能分到交易台的利润。",
       "noneExample": "目前，一只整周激活的 Common 苍蝇本周预计约 {usd}。",
       "getFly": "获取 Trader Fly"
+    },
+    "hist": {
+      "title": "你的派发周",
+      "week": "周",
+      "ended": "结束",
+      "earned": "获得",
+      "status": "状态",
+      "claimed": "已领取",
+      "missed": "已错过",
+      "partly": "已领取 {got}，错过 {miss}",
+      "open": "现在可领取",
+      "opens": "即将开放",
+      "note": "每周派发开放后 {hours} 小时内可领取。未按时领取的部分归已领取的持有者。",
+      "missedTotal": "累计错过：{amount} $FLYAI",
+      "none": "此钱包还没有已派发的周。"
     }
   },
   "odds": {

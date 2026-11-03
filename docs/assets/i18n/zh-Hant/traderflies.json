@@ -609,6 +609,21 @@
       "none": "你還沒有在賺錢的蒼蠅。持有 {hold} $FLYAI 和一隻 Trader Fly，它每週都能分到交易台的利潤。",
       "noneExample": "目前，一隻整週啟用的 Common 蒼蠅本週預計約 {usd}。",
       "getFly": "取得 Trader Fly"
+    },
+    "hist": {
+      "title": "你的派發週",
+      "week": "週",
+      "ended": "結束",
+      "earned": "獲得",
+      "status": "狀態",
+      "claimed": "已領取",
+      "missed": "已錯過",
+      "partly": "已領取 {got}，錯過 {miss}",
+      "open": "現在可領取",
+      "opens": "即將開放",
+      "note": "每週派發開放後 {hours} 小時內可領取。未按時領取的部分歸已領取的持有者。",
+      "missedTotal": "累計錯過：{amount} $FLYAI",
+      "none": "此錢包還沒有已派發的週。"
     }
   },
   "odds": {

@@ -17,7 +17,7 @@ import { load, save } from "./store.ts";
 
 const ACTOR = "https://api.apify.com/v2/acts/xquik~x-tweet-scraper/run-sync-get-dataset-items";
 const LLM = "https://openrouter.ai/api/v1/chat/completions";
-const MODEL = "anthropic/claude-haiku-5.5";
+const MODEL = process.env.RESEARCH_MODEL ?? "anthropic/claude-haiku-5.5";   // Sonnet read AGEM more carefully on 11-02, at about ten times the price
 const OWN_POSTS = 12, PAST_POSTS = 8, REPLY_POSTS = 8, TROUBLE_POSTS = 8, TOP_POSTS = 10, LATEST_POSTS = 8;
 const NO_HANDLE_EXTRA = 8;              // nobody's own posts to read: those go on what others say
 const PAST_DAYS = 60;                   // "their past": what they posted before this many days ago
@@ -248,7 +248,7 @@ export async function chatter(name: string, also: string[] = [], profile: Profil
       { past, replies, sources: web.sources, siteRead: !!page }, now) : null;
     cache.set(key, { at: now, c });
     if (cache.size > 200) cache.delete(cache.keys().next().value as string);
-    void persist();
+    await persist();
     return c;
   } catch (err) {
     console.error("chatter failed", (err as Error).message);

@@ -7,7 +7,7 @@ const DAY = 86_400_000;
 const DEAD_LIQ_USD = 1_000;
 const DEX_BATCH = 30, MAX_ROWS = 300;
 
-export type Row = { at: number; symbol: string; chain: string; ca: string; level: string; price: number | null; liq: number | null };
+export type Row = { at: number; symbol: string; chain: string; ca: string; level: string; price: number | null; liq: number | null; source?: "scout" };   // scout: src/scout.ts, not a person's ask
 export type Tally = { level: string; n: number; medianChange: number | null; dead: number };
 
 let rows: Row[] | null = null;

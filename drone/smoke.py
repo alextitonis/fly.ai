@@ -26,6 +26,7 @@ A shoot is every clip whose id prefix is within 1 of another, across every folde
     CATCH     at least 75% of the new fire clips called
     FALSE     at most 10% of the new not-fire clips called
 Reported, no rule: the area under the curve, the catch rate counting each shoot once, 95% bootstrap over shoots, and other cutoffs.
+Result 2026-11-02, both passed: 82% of 60 fire clips (61 to 94%), 6% of 80 not-fire clips (1 to 12%), area 0.96. Counting each of the 16 fire shoots once, 67%. smoke_more is used up. model.joblib is still the 70-clip version, not trained on these.
 Limits: stock footage, mostly daylight, shot by few people, so different videographers may share a look across the two sets, and it has only ever seen well-framed fires. A real patrol would want a heat camera as well. Nothing here is the connectome's.
 """
 from __future__ import annotations
