@@ -6,7 +6,7 @@
  *   npm run test:xp
  */
 import type { ServerResponse } from "node:http";
-import { accrue, badgeXp, createXp, dailyGains, depositXp, levelOf, newHolder, saleXp, shareProblem, statusId, streakMult, xpConfig, type Chain, type Log } from "./xp.ts";
+import { accrue, badgeXp, createXp, dailyGains, depositXp, levelOf, newHolder, saleXp, sharesFrom, streakMult, xpConfig, type Chain, type Log } from "./xp.ts";
 import { FLYAI } from "./gta.ts";
 import { startPg } from "./pgtest.ts";
 
@@ -56,15 +56,20 @@ const POOL = "0x8366a39cc670b4001a1121b8f6a443a643e40951";
   check("badges by rarity: 25 + 100 + 250 + 500", badgeXp([1, 2, 3, 4], held, 100) === 875);
   check("deposits: capped by principal still in", depositXp(50, 30) === 300 && depositXp(50, 80) === 500 && depositXp(50, 0) === 0);
   check("levels: 49 -> 0, 50 -> 1, 200 -> 2, 5000 -> 10", levelOf(49) === 0 && levelOf(50) === 1 && levelOf(200) === 2 && levelOf(5000) === 10);
-  check("status ids from x.com and twitter.com links", statusId("https://x.com/abc/status/1234567890?s=20") === "1234567890"
-    && statusId("https://twitter.com/abc_1/status/987654321") === "987654321" && statusId("https://evil.com/x.com/a/status/123456") === null);
-  const tw = { author: "Abc", text: "my fly is trading on @flydotai", at: 0 };
-  check("share: right author and mention passes", shareProblem(tw, "abc", DAY) === null);
+  const links = [{ wallet: "0xa", username: "Alice", linked_at_ms: 10 * DAY }];
+  const ev = sharesFrom([
+    { id: "100001", author: "alice", at: 11 * DAY + 5, reply: false },          // counts (any case)
+    { id: "100002", author: "alice", at: 11 * DAY + 9, reply: false },          // same day: no
+    { id: "100003", author: "alice", at: 12 * DAY + 1, reply: true },           // a reply: no
+    { id: "100004", author: "alice", at: 9 * DAY, reply: false },               // before linking: no
+    { id: "100005", author: "bob", at: 12 * DAY, reply: false },                // not linked: no
+    { id: "100006", author: "alice", at: 12 * DAY + 2, reply: false },          // next day: counts
+  ], links, new Set(), Infinity);
+  check("shares: one a day per linked account, no replies, nothing before linking", ev.map((e) => e.ref).join() === "x:100001,x:100006" && ev.every((e) => e.xp === 20), ev.map((e) => e.ref).join());
+  check("shares: a day already paid stays paid", sharesFrom([{ id: "100007", author: "alice", at: 11 * DAY, reply: false }], links, new Set(["0xa:1970-01-12"]), Infinity).length === 0);
   const g = dailyGains([{ day: "2026-11-01", sources: { hold: 100, market: 20 } }, { day: "2026-11-02", sources: { hold: 130, market: 40, x: 50 } }, { day: "2026-11-03", sources: { hold: 130 } }]);
   check("daily gains: day minus the day before, events left out, quiet days dropped",
     g.length === 2 && g[0].first && g[0].sources.hold === 100 && !("market" in g[0].sources) && g[1].sources.hold === 30 && g[1].sources.x === 50, JSON.stringify(g));
-  check("share: other author, no mention, too old fail", !!shareProblem(tw, "zzz", DAY) && !!shareProblem({ ...tw, text: "hi" }, "abc", DAY)
-    && !!shareProblem(tw, "abc", 4 * DAY) && !!shareProblem(null, "abc", 0));
 }
 
 // the chain: one block an hour from T0
@@ -125,10 +130,11 @@ try {
   const sent: { status: number; body: any }[] = [];
   let clock = timeAt(blockAt(20));
   let session = A;
-  const tweets = new Map<string, { author: string; text: string; at: number }>();
+  let posts: { id: string; author: string; at: number; reply: boolean }[] = [];
+  let searches = 0;
   const xp = createXp({ pg, chain, cfg, HttpError, now: () => clock, readJson: async () => ({}),
     send: (_r, status, body) => { sent.push({ status, body }); }, sessionWallet: async () => session,
-    tweet: async (id) => tweets.get(id) ?? null });
+    search: async () => { searches++; return posts; } });
   await xp.tick();
   const prof = async (w: string) => xp.profile(w) as Promise<any>;
   let a = await prof(A), b = await prof(B), c = await prof(C), dd = await prof(D), e = await prof(E);
@@ -180,19 +186,15 @@ try {
   check("board is sorted by XP", board.rows.every((r: any, i: number) => i === 0 || board.rows[i - 1].xp >= r.xp));
   check("A shows its X handle", board.rows.find((r: any) => r.wallet === A)?.x === "alice");
 
-  // X shares
-  tweets.set("111111", { author: "alice", text: "my fly trades on flyaiworld.com", at: clock - HOUR });
-  tweets.set("222222", { author: "alice", text: "another one @flydotai", at: clock - HOUR });
-  tweets.set("333333", { author: "bob", text: "@flydotai", at: clock - HOUR });
-  const share = async (url: string) => { try { return await xp.shareX(session, { url }); } catch (err) { return { error: (err as HttpError).status }; } };
-  session = B;
-  check("no linked X: refused", ((await share("https://x.com/b/status/111111")) as any).error === 409);
-  session = A;
-  check("someone else's post: refused", ((await share("https://x.com/bob/status/333333")) as any).error === 400);
-  check("own post about fly.ai: +20", ((await share("https://x.com/alice/status/111111")) as any).xp === 20);
-  check("a second post the same day: refused", ((await share("https://x.com/alice/status/222222")) as any).error === 429);
+  // X shares: found by the nightly search, nothing pasted
+  posts = [{ id: "111111", author: "Alice", at: clock - HOUR, reply: false }, { id: "222222", author: "alice", at: clock - 30_000, reply: false },
+    { id: "333333", author: "bob", at: clock - HOUR, reply: false }];
+  clock = Math.floor(clock / DAY) * DAY + 3 * HOUR;   // after 02:00 UTC
+  await xp.shares();
+  await xp.shares();
+  check("the search runs once a day", searches === 1, String(searches));
   a = await prof(A);
-  check("the share shows in the profile", a.sources.share === 20 && a.shared_today === true);
+  check("the linked account's post counts once: +20", a.sources.share === 20, JSON.stringify(a.sources));
 
   // the log
   await xp.snapshot();

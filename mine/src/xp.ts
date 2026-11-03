@@ -14,7 +14,7 @@
  *   pass burn    100 XP a FlightPass sent to 0x0 or 0x…dEaD
  *   badges       claimed soulbound badges by rarity: common 25, uncommon 100, rare 250, legendary 500
  *   referrals    +10% of each real referral's XP (src/referrals.ts: $20+ in Fly Wallets for 7 days)
- *   X            50 once for a linked account (src/xlink.ts); 20 a day for a post from it about fly.ai (pasted link)
+ *   X            50 once for a linked account (src/xlink.ts); 20 a day for a post from it about fly.ai (found nightly)
  *   Telegram     50 while a linked account (src/tglink.ts) is in the fly.ai group; checked daily, leaving takes it back
  *   Flybook      5 XP a day with a like, comment, poke or caption, for wallets that hold or own a fly
  *
@@ -27,7 +27,7 @@
  *   GET  /api/xp/me                        the signed-in wallet's profile
  *   GET  /api/xp/log?wallet=0x..           what it earned and from where, newest first: one-off events one by one (with
  *                                          their tx), the rest (holding, flies, deposits, badges, referrals, X, Flybook) a day at a time
- *   POST /api/xp/share { url }             an X post from the linked account, checked through api.fxtwitter.com
+ *   (X posts are found by a nightly search, src: shares(): nothing to paste)
  *
  * The bell (mine.notices): a level-up, and one note a tick for the one-off XP a wallet earned (trades, buys, breeding...);
  * holding and fly XP grow all the time and stay quiet. Nothing is sent for the backfill: notes start after the first
@@ -258,26 +258,37 @@ export function bookLogs(cfg: XpConfig, logs: Log[], timeOf: (n: number) => numb
   return events;
 }
 
-/** The share check: an X status URL -> its id. */
-export function statusId(url: string): string | null {
-  const m = /^https?:\/\/(?:www\.|mobile\.)?(?:x|twitter)\.com\/[A-Za-z0-9_]{1,15}\/status(?:es)?\/(\d{5,25})/.exec(String(url ?? "").trim());
-  return m ? m[1] : null;
+/** A post on X, as the nightly search returns it. */
+export type Post = { id: string; author: string; at: number; reply: boolean };
+
+/**
+ * Posts that earn XP: from a linked X account, after it was linked, not a reply (giveaway threads fill with bare
+ * addresses), one a UTC day per wallet. `booked` holds "wallet:day" already paid and grows as posts count.
+ */
+export function sharesFrom(posts: Post[], links: { wallet: string; username: string; linked_at_ms: number }[], booked: Set<string>, end: number): Event[] {
+  const by = new Map(links.map((l) => [l.username.toLowerCase(), l]));
+  const out: Event[] = [];
+  for (const p of [...posts].sort((a, b) => a.at - b.at)) {
+    const l = by.get(p.author.toLowerCase());
+    if (!l || p.reply || !/^\d{5,25}$/.test(p.id) || p.at < Number(l.linked_at_ms) || p.at > end) continue;
+    const key = `${l.wallet}:${new Date(p.at).toISOString().slice(0, 10)}`;
+    if (booked.has(key)) continue;
+    booked.add(key);
+    out.push({ wallet: l.wallet, source: "share", ref: `x:${p.id}`, xp: RATES.share, at: p.at });
+  }
+  return out;
 }
-export type Tweet = { author: string; text: string; at: number };
-/** A post counts when the linked account wrote it, it mentions fly.ai, and it is at most 3 days old. */
-export function shareProblem(tw: Tweet | null, username: string, now: number): string | null {
-  if (!tw) return "post not found";
-  if (tw.author.toLowerCase() !== username.toLowerCase()) return "post is not from your linked X account";
-  if (!/flydotai|flyaiworld|fly\.ai|\$flyai/i.test(tw.text)) return "post doesn't mention fly.ai";
-  if (now - tw.at > 3 * DAY_MS) return "post is more than 3 days old";
-  return null;
-}
-async function fxTweet(id: string): Promise<Tweet | null> {
-  const r = await fetch(`https://api.fxtwitter.com/status/${id}`, { headers: { "User-Agent": "fly.ai xp check" }, signal: AbortSignal.timeout(10_000) });
-  if (!r.ok) return null;
-  const j = await r.json() as { tweet?: { author?: { screen_name?: string }; text?: string; created_timestamp?: number } };
-  if (!j.tweet?.author?.screen_name) return null;
-  return { author: j.tweet.author.screen_name, text: j.tweet.text ?? "", at: (j.tweet.created_timestamp ?? 0) * 1000 };
+
+/** Posts mentioning fly.ai since a day, through Apify's X search (the actor flytrade/marketing uses; ~cents a night). */
+export async function apifySearch(token: string, actor: string, since: string): Promise<Post[]> {
+  const r = await fetch(`https://api.apify.com/v2/acts/${actor}/run-sync-get-dataset-items?token=${token}`, {
+    method: "POST", headers: { "content-type": "application/json" }, signal: AbortSignal.timeout(280_000),
+    body: JSON.stringify({ searchTerms: [`(@flydotai OR flyaiworld.com) since:${since}`], maxItems: 400, queryType: "Latest" }),
+  });
+  if (!r.ok) throw new Error(`apify ${r.status}`);
+  const items = await r.json() as { id?: string | number; createdAt?: string; isReply?: boolean; author?: { userName?: string } }[];
+  return items.filter((t) => t.author?.userName && Number(t.id) > 0 && t.createdAt)
+    .map((t) => ({ id: String(t.id), author: t.author!.userName!, at: Date.parse(t.createdAt!), reply: !!t.isReply }));
 }
 
 export type Sources = Record<string, number>;
@@ -309,11 +320,14 @@ export function createXp(d: {
   readJson: (req: IncomingMessage) => Promise<any>;
   sessionWallet: (req: IncomingMessage) => Promise<string>;
   now?: () => number;
-  tweet?: (id: string) => Promise<Tweet | null>;
+  /** posts mentioning fly.ai since a UTC day (YYYY-MM-DD); off when null (no APIFY_TOKEN) */
+  search?: ((since: string) => Promise<Post[]>) | null;
 }) {
   const { pg, chain, cfg, HttpError } = d;
   const now = d.now ?? Date.now;
-  const tweet = d.tweet ?? fxTweet;
+  const token = process.env.APIFY_TOKEN ?? "";
+  const search = d.search !== undefined ? d.search
+    : token ? (since: string) => apifySearch(token, process.env.XP_SHARE_ACTOR ?? "kaitoeasyapi~twitter-x-data-tweet-scraper-pay-per-result-cheapest", since) : null;
   const iso = (ms: number | null) => (ms === null ? null : new Date(ms).toISOString());
   const dayStart = () => iso(Math.floor(now() / DAY_MS) * DAY_MS);   // UTC midnight: one share a UTC day
   const ms = (v: Date | string | null) => (v === null ? null : new Date(v).getTime());
@@ -412,6 +426,7 @@ export function createXp(d: {
     try {
       await scan(await chain.head());
       cache = null;
+      await shares().catch((err) => console.error(`xp shares: ${err instanceof Error ? err.message : err}`));
       await classify();
       await snapshot();
       await notify();
@@ -604,21 +619,29 @@ export function createXp(d: {
       team: cfg.exclude.includes(wallet) };
   }
 
-  async function shareX(wallet: string, body: any) {
-    if (!cfg.on || now() >= cfg.end) throw new HttpError(409, "the season is over");
-    const id = statusId(body?.url);
-    if (!id) throw new HttpError(400, "paste the link to your post on X");
-    const link = await pg.one<{ username: string }>("select username from mine.x_links where wallet = ?", wallet);
-    if (!link) throw new HttpError(409, "connect your X account first");
-    const today = await pg.one<{ n: number }>("select count(*)::int as n from mine.xp_events where wallet = ? and source = 'share' and at >= ?", wallet, dayStart());
-    if ((today?.n ?? 0) > 0) throw new HttpError(429, "one post a day counts: come back tomorrow");
-    const problem = shareProblem(await tweet(id).catch(() => null), link.username, now());
-    if (problem) throw new HttpError(400, problem);
-    const n = await pg.run(`insert into mine.xp_events (wallet, source, ref, xp, at) values (?, 'share', ?, ?, ?) on conflict (ref) do nothing`,
-      wallet, `x:${id}`, RATES.share, iso(now()));
-    if (!n) throw new HttpError(409, "that post already counted");
-    cache = null;
-    return { ok: true, xp: RATES.share };
+  /**
+   * Once a UTC day, from 02:00: the posts that mention fly.ai since yesterday, matched to linked X accounts (no pasting).
+   * Yesterday too, so a post from late the day before isn't missed; a post already booked is skipped by its ref.
+   */
+  async function shares() {
+    if (!search || now() >= cfg.end + DAY_MS) return;
+    const today = new Date(now()).toISOString().slice(0, 10);
+    if (new Date(now()).getUTCHours() < 2 || (await getState<string>(pg, "shares_day")) === today) return;
+    const since = new Date(now() - DAY_MS).toISOString().slice(0, 10);
+    const posts = await search(since);
+    const [links, paid] = await Promise.all([
+      pg.all<{ wallet: string; username: string; linked_at_ms: number }>("select wallet, username, linked_at_ms::float8 as linked_at_ms from mine.x_links"),
+      pg.all<{ wallet: string; day: string }>("select wallet, to_char(at at time zone 'UTC', 'YYYY-MM-DD') as day from mine.xp_events where source = 'share' and at >= ?", `${since}T00:00:00Z`),
+    ]);
+    const events = sharesFrom(posts, links, new Set(paid.map((p) => `${p.wallet}:${p.day}`)), cfg.end);
+    if (events.length) {
+      await pg.run(`insert into mine.xp_events (wallet, source, ref, xp, at)
+        select wallet, source, ref, xp, at from jsonb_to_recordset(?::text::jsonb) as r(wallet text, source text, ref text, xp float8, at timestamptz)
+        on conflict (ref) do nothing`, JSON.stringify(events.map((e) => ({ ...e, at: iso(e.at) }))));
+      cache = null;
+    }
+    await setState(pg, "shares_day", today);
+    console.log(`xp shares: ${posts.length} posts, ${events.length} counted`);
   }
 
   async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promise<boolean> {
@@ -628,9 +651,6 @@ export function createXp(d: {
     if (req.method === "GET" && p === "/api/xp/profile") return d.send(res, 200, await profile(w)), true;
     if (req.method === "GET" && p === "/api/xp/log") return d.send(res, 200, await log(w)), true;
     if (req.method === "GET" && p === "/api/xp/me") return d.send(res, 200, await profile((await d.sessionWallet(req)).toLowerCase())), true;
-    if (req.method === "POST" && p === "/api/xp/share") {
-      return d.send(res, 200, await shareX((await d.sessionWallet(req)).toLowerCase(), await d.readJson(req))), true;
-    }
     return false;
   }
 
@@ -640,5 +660,5 @@ export function createXp(d: {
     setInterval(tick, everyMs).unref();
   }
 
-  return { route, start, tick, compute, leaderboard, profile, shareX, log, snapshot, notify };
+  return { route, start, tick, compute, leaderboard, profile, log, snapshot, notify, shares };
 }

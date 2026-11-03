@@ -17,9 +17,9 @@
     team: "Team wallet: not ranked", flies: "Flies", active: "active", inactive: "not trading (hold 200k $FLYAI)",
     streak: "Streak", streakWeeks: "{n} weeks without selling · x{m}", streakNone: "Starts when you hold $FLYAI",
     badges: "Badges", noBadges: "No badges yet", sources: "Where the XP comes from", noXp: "No XP yet", refCode: "Referral code",
-    board: "XP leaderboard", share: "Share on X", shareHint: "Post about fly.ai from your linked X account, then paste the link: +20 XP, once a day.",
-    sharePh: "https://x.com/you/status/…", shareBtn: "Add", shareOk: "+{n} XP", shareDone: "Today's post is in. Come back tomorrow.",
-    connectX: "Connect your X account in the account menu to share for XP.", seasonEnds: "XP counts toward the airdrop.",
+    board: "XP leaderboard", share: "Share on X", shareHint: "Post about fly.ai from your linked X account: it counts by itself each night, +20 XP once a day.",
+    shareDone: "Today's post counted: +20 XP.",
+    connectX: "Connect your X account above to earn XP for your posts.", seasonEnds: "XP counts toward the airdrop.",
     seasonOver: "Season 1 is over. XP counted toward the airdrop.",
     s_hold: "Holding $FLYAI", s_flies: "Active flies", s_deposits: "Fly wallet deposits", s_feed: "Feeding the Fly Desk", s_market: "Marketplace trades",
     s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_badges: "Badges",
@@ -39,7 +39,7 @@
     h_passburn: "<b>Burn a FlightPass</b> (send it to 0x…dEaD): 100 XP.",
     h_badges: "<b>Badges</b> you claim: common 25, uncommon 100, rare 250, legendary 500.",
     h_referrals: "<b>Referrals</b>: +10% of the XP of everyone you bring who becomes a real referral.",
-    h_x: "<b>X</b>: 50 XP for connecting your account, 20 XP a day for a post about fly.ai.",
+    h_x: "<b>X</b>: 50 XP for connecting your account, 20 XP a day for a post about fly.ai (counted automatically each night).",
     h_telegram: "<b>Telegram</b>: 50 XP while your connected account is in the fly.ai group (checked daily).",
     h_flybook: "<b>Flybook</b>: 5 XP a day you like, comment, poke or caption (for holders and fly owners).",
     h_foot: "Team wallets and fly wallets aren't ranked. Levels: level 1 at 50 XP, 2 at 200, 3 at 450, 10 at 5,000.",
@@ -87,8 +87,6 @@
       .flyprof-kv span:last-child { font: 13px var(--mono, monospace); color: var(--text, #fff); text-align: right; }
       .flyprof-badges { display: flex; flex-wrap: wrap; gap: 6px; }
       .flyprof-badges img { width: 36px; height: 36px; border-radius: 8px; }
-      .flyprof-share { display: flex; gap: 6px; margin-top: 6px; }
-      .flyprof-share input { flex: 1; min-width: 0; padding: 7px 10px; border-radius: 10px; border: 1px solid var(--line, #2a2a2a); background: transparent; color: inherit; font: inherit; }
       .flyprof-msg { margin: 6px 0 0; font-size: 13px; color: var(--muted, #9ba5a1); }
       .flyprof-msg.ok { color: var(--mint, #5ef2cc); } .flyprof-msg.err { color: var(--red-hi, #ff6b6b); }
       .flyprof-help li { margin: 0 0 8px; color: var(--muted, #9ba5a1); } .flyprof-help li b { color: var(--text, #fff); }
@@ -150,33 +148,10 @@
     return q;
   };
 
+  /** X posts count by themselves: the server searches each night (mine/src/xp.ts shares). Nothing to paste. */
   function shareBox(p) {
-    const box = el("div", { className: "flyprof-sec" }, el("h4", { textContent: t("share") }));
-    if (!p.x) return box.append(el("p", { className: "flyprof-msg", textContent: t("connectX") })), box;
-    if (p.shared_today) return box.append(el("p", { className: "flyprof-msg ok", textContent: t("shareDone") })), box;
-    const input = el("input", { type: "url", placeholder: t("sharePh") });
-    const go = el("button", { type: "button", className: "btn sm", textContent: t("shareBtn") });
-    const msg = el("p", { className: "flyprof-msg", textContent: t("shareHint") });
-    go.addEventListener("click", async () => {
-      const s = session();
-      if (!s) return;
-      go.disabled = true;
-      try {
-        const r = await fetch(`${API}/api/xp/share`, { method: "POST", body: JSON.stringify({ url: input.value.trim() }),
-          headers: { "content-type": "application/json", "x-flyai-session": s.token } });
-        const j = await r.json().catch(() => ({}));
-        if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
-        msg.className = "flyprof-msg ok";
-        msg.textContent = t("shareOk", { n: j.xp });
-        input.disabled = true;
-      } catch (err) {
-        msg.className = "flyprof-msg err";
-        msg.textContent = String(err.message || err);
-        go.disabled = false;
-      }
-    });
-    box.append(el("div", { className: "flyprof-share" }, input, go), msg);
-    return box;
+    return el("div", { className: "flyprof-sec" }, el("h4", { textContent: t("share") }),
+      el("p", { className: `flyprof-msg${p.x && p.shared_today ? " ok" : ""}`, textContent: !p.x ? t("connectX") : p.shared_today ? t("shareDone") : t("shareHint") }));
   }
 
   /** The XP log: what came from where, newest first. */
