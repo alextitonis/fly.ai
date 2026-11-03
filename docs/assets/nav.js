@@ -387,7 +387,8 @@
       loaded = true;
       call("").then((info) => show(info, came ? L(`x_${came}`) : "")).catch(() => { loaded = false; });
     };
-    li.querySelector(".acct-btn").addEventListener("click", load);
+    // the menu opens on hover and keyboard focus too (CSS), not only on a click
+    for (const ev of ["click", "mouseenter", "focusin"]) li.addEventListener(ev, load);
     if (came) {                                            // back from X: open the menu on the answer
       load();
       li.querySelector(".acct-btn").click();

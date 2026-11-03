@@ -129,6 +129,7 @@
     "d1026b": "<b>Holder chat on the Fly Desk.</b> Anyone can read it; wallets holding 10k+ $FLYAI can post. Name a token and the desk runs its rug checks on it in the chat. Bigger bags held longer carry more weight, and tokens enough holders back that pass the checks join the flies' view. <a href=\"/desk#chat\">Fly Desk</a>",
     "d1030a": "<b>Mining pay now unlocks weekly.</b> From October's payout, your share unlocks in 4 weekly parts, the first when the payout opens. Parts you miss add up, and you have 30 days after the last one to claim. It's on the Compute claim page.",
     "d1030b": "<b>Buy $FLYAI from Solana.</b> The swap box on the home and token pages now takes SOL or USDC from a Solana wallet like Phantom, in one step. Your $FLYAI lands at your Robinhood Chain address.",
+    "d1103a": "<b>Connect your X account.</b> Link your X profile to your wallet from the account menu at the top right: click Connect X, approve on X, and your @handle shows in your profile. We only read your public profile and never post for you. Unlink any time.",
     "d1101g": "<b>Breeding pays now.</b> A bred fly keeps the desk payout share of every fly burned into it, plus 10%: Gen 1 earns ×2.2, Gen 2 ×3.3, Gen 3 and up ×4.4. Its wallet's profit fee also drops 2 points per generation. Flies already bred count too. <a href=\"/traderflies/breed\">Breed</a>"
   }
 }
