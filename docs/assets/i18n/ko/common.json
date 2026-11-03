@@ -200,7 +200,8 @@
       "x_taken": "이 X 계정은 다른 지갑에 연결되어 있어요",
       "x_failed": "X가 응답하지 않아요, 다시 시도하세요",
       "whatsNew": "새 소식",
-      "xpBtn": "⭐ XP & 프로필"
+      "xpBtn": "⭐ XP & 프로필",
+      "profileBtn": "👤 프로필"
     },
     "terminal": {
       "label": "Fly 터미널",
@@ -403,6 +404,9 @@
     "logBefore": "{date}까지의 전체",
     "noLog": "아직 기록이 없습니다.",
     "logTx": "tx",
-    "logPost": "게시물"
+    "logPost": "게시물",
+    "account": "내 계정",
+    "badgesBtn": "🏅 배지",
+    "referralsBtn": "추천"
   }
 }

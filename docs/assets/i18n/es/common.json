@@ -200,7 +200,8 @@
       "x_taken": "Esa cuenta de X está vinculada a otra billetera",
       "x_failed": "X no respondió, inténtalo de nuevo",
       "whatsNew": "Novedad",
-      "xpBtn": "⭐ XP y perfil"
+      "xpBtn": "⭐ XP y perfil",
+      "profileBtn": "👤 Perfil"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -403,6 +404,9 @@
     "logBefore": "todo hasta el {date}",
     "noLog": "Aún no hay registros.",
     "logTx": "tx",
-    "logPost": "post"
+    "logPost": "post",
+    "account": "Tu cuenta",
+    "badgesBtn": "🏅 Insignias",
+    "referralsBtn": "Referidos"
   }
 }

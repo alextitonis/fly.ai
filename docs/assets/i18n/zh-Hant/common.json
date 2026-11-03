@@ -200,7 +200,8 @@
       "x_taken": "這個 X 帳號已連接到另一個錢包",
       "x_failed": "X 沒有回應，請重試",
       "whatsNew": "新功能",
-      "xpBtn": "⭐ XP 與主頁"
+      "xpBtn": "⭐ XP 與主頁",
+      "profileBtn": "👤 個人主頁"
     },
     "terminal": {
       "label": "Fly 終端",
@@ -403,6 +404,9 @@
     "logBefore": "截至 {date} 的全部",
     "noLog": "還沒有紀錄。",
     "logTx": "交易",
-    "logPost": "貼文"
+    "logPost": "貼文",
+    "account": "你的帳戶",
+    "badgesBtn": "🏅 徽章",
+    "referralsBtn": "推薦"
   }
 }

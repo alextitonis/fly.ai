@@ -23,6 +23,7 @@
     seasonOver: "Season 1 is over. XP counted toward the New Year drop.",
     s_hold: "Holding $FLYAI", s_flies: "Active flies", s_deposits: "Fly wallet deposits", s_feed: "Feeding the Fly Desk", s_market: "Marketplace trades",
     s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_badges: "Badges",
+    account: "Your account", badgesBtn: "🏅 Badges", referralsBtn: "Referrals",
     log: "XP log", logBefore: "everything up to {date}", noLog: "Nothing logged yet.", logTx: "tx", logPost: "post",
     s_referrals: "Referrals", s_x: "X connected", s_share: "X posts", s_flybook: "Flybook days",
     h_title: "How to earn XP", h_intro: "XP adds up through Season 1 and counts toward the New Year drop. It updates about every 10 minutes.",
@@ -99,12 +100,25 @@
       .flyprof-log span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .flyprof-log a { color: var(--muted, #9ba5a1); font-size: 12px; margin-left: 6px; }
       .flyprof-log b { font: 600 13px var(--mono, monospace); color: var(--mint, #5ef2cc); text-align: right; }
+      .flyprof-settings > div:not([hidden]) { display: grid; gap: 6px; padding: 8px 0; border-top: 1px solid var(--line, #2a2a2a); }
+      .flyprof-settings > div:first-of-type { border-top: 0; }
+      .flyprof-settings label { font-size: 12px; color: var(--muted, #9ba5a1); }
+      .flyprof-settings .acct-nick > div, .flyprof-settings .acct-ref > div, .flyprof-settings .acct-x > div { display: flex; gap: 6px; align-items: center; }
+      .flyprof-settings .acct-x > div { justify-content: space-between; }
+      .flyprof-settings input { flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 6px 8px; border-radius: 8px;
+        border: 1px solid var(--line, #2a2a2a); background: var(--bg, #000); color: var(--text, #f4f7f6); }
+      .flyprof-settings small { font-size: 12px; color: var(--muted, #9ba5a1); min-height: 1em; }
+      .flyprof-settings .acct-x-handle { display: inline-flex; align-items: center; gap: 6px; min-width: 0; color: inherit; }
+      .flyprof-settings .acct-x-handle img { border-radius: 50%; flex: none; }
+      .flyprof-settings .acct-badges:not([hidden]) { display: flex; flex-wrap: wrap; gap: 4px; }
+      .flyprof-settings .acct-badges .badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(94,242,204,.12); color: var(--mint, #5ef2cc); }
       .flyprof-row { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; margin-top: 16px; }`;
     document.head.append(css);
   }
 
   /** A modal: Escape, the backdrop and Close shut it. */
-  function modal(...kids) {
+  function modal(...kids) { return modalWith(null, ...kids); }
+  function modalWith(onClose, ...kids) {
     style();
     const shut = el("button", { type: "button", className: "btn sm ghost", textContent: t("close") });
     const row = el("div", { className: "flyprof-row" }, shut);
@@ -112,7 +126,7 @@
     pop.setAttribute("role", "dialog");
     pop.setAttribute("aria-modal", "true");
     const back = el("div", { className: "flyprof-back" }, pop);
-    const close = () => { back.remove(); document.removeEventListener("keydown", esc); };
+    const close = () => { back.remove(); document.removeEventListener("keydown", esc); if (onClose) onClose(); };
     const esc = (e) => { if (e.key === "Escape") close(); };
     document.addEventListener("keydown", esc);
     back.addEventListener("click", (e) => { e.stopPropagation(); if (e.target === back) close(); });
@@ -178,7 +192,7 @@
     return box;
   }
 
-  function render(p, mine, log) {
+  function render(p, mine, log, account) {
     const name = p.nickname || (p.x ? `@${p.x}` : short(p.wallet));
     const head = el("div", { className: "flyprof-head" },
       p.avatar ? el("img", { className: "av", src: p.avatar, alt: "", width: 48, height: 48, referrerPolicy: "no-referrer" }) : el("img", { className: "av", alt: "" }),
@@ -208,15 +222,30 @@
       ...(rows.length ? rows.map(([k, v]) => kv(t("s_" + k), fmt(v))) : [el("p", { className: "flyprof-msg", textContent: t("noXp") })]));
     const season = p.season ? el("p", { className: "flyprof-sub", textContent: p.season.over ? t("seasonOver")
       : t("seasonEnds", { date: new Date(Date.parse(p.season.end) - 1000).toLocaleDateString(undefined, { month: "short", day: "numeric" }) }) }) : null;
-    return [head, ...level, stats, badges, sources, logList(log && log.items), mine ? shareBox(p) : null, season].filter(Boolean);
+    return [head, ...level, stats, account, badges, sources, logList(log && log.items), mine ? shareBox(p) : null, season].filter(Boolean);
   }
 
-  async function open(wallet) {
+  /**
+   * opts (nav.js, for the signed-in wallet's own card): settings = the account menu's hidden holder (nickname, X,
+   * referral, locked $FLYAI, the "Named" chips), shown here while the card is open and put back when it closes;
+   * badges() opens the badges popup; referrals = the referrals page.
+   */
+  async function open(wallet, opts) {
     wallet = String(wallet || "").toLowerCase();
     if (!/^0x[0-9a-f]{40}$/.test(wallet)) return;
-    const body = el("div", null, el("p", { className: "flyprof-sub", textContent: t("loading") }));
-    const m = modal(body);
-    if (!location.pathname.startsWith("/xp")) m.row.prepend(el("a", { className: "btn sm ghost", href: "/xp", textContent: t("board") }));
+    opts = opts || {};
+    const holder = opts.settings || null;
+    const moved = holder ? [...holder.children] : [];
+    const account = holder ? el("div", { className: "flyprof-sec flyprof-settings" }, el("h4", { textContent: t("account") }), ...moved) : null;
+    const body = el("div", null, el("p", { className: "flyprof-sub", textContent: t("loading") }), account);
+    const m = modalWith(holder ? () => holder.append(...moved) : null, body);
+    if (opts.referrals) m.row.prepend(el("a", { className: "btn sm ghost", href: opts.referrals, textContent: t("referralsBtn") }));
+    if (opts.badges) {
+      const b = el("button", { type: "button", className: "btn sm ghost", textContent: t("badgesBtn") });
+      b.addEventListener("click", () => { m.close(); opts.badges(); });
+      m.row.prepend(b);
+    }
+    m.row.prepend(el("a", { className: "btn sm", href: "/xp", textContent: t("board") }));   // the XP leaderboard, from every card
     try {
       const s = session();
       const mine = !!(s && s.wallet && s.wallet.toLowerCase() === wallet);
@@ -226,10 +255,11 @@
       ]);
       const p = await r.json();
       if (!r.ok || !p.on) throw new Error(p.error || "off");
-      body.replaceChildren(...render(p, mine, log));
+      if (!body.isConnected) return;   // closed while loading: the settings are back in the menu
+      body.replaceChildren(...render(p, mine, log, account));
     } catch (err) {
       console.warn("profile:", err);
-      body.replaceChildren(el("p", { className: "flyprof-msg err", textContent: t("failed") }));
+      if (body.isConnected) body.replaceChildren(el("p", { className: "flyprof-msg err", textContent: t("failed") }), ...(account ? [account] : []));
     }
   }
 
