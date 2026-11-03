@@ -87,6 +87,9 @@ export function createVaults(d: VaultsDeps) {
     // holders"): their wallets compete under the partner's book "p_<id>" (partners.ts)
     partnerSlots: Object.fromEntries((d.env.PROMO_PARTNER_SLOTS ?? "").split(",").map((x) => x.trim().split(":"))
       .filter(([id, n]) => /^[a-z0-9_]+$/.test(id ?? "") && Number(n) > 0).map(([id, n]) => [`p_${id}`, Number(n)])) as Record<string, number>,
+    // one cap over all of the above (2026-11-03, the user: "both for flys or bullas not both"): 0 = each its own;
+    // n > 0 = the round's first n across the Fly Wallets, Ruyui and partners, first come first served
+    sharedSlots: Number(d.env.PROMO_SHARED_SLOTS ?? "0"),
     minUsd: Number(d.env.PROMO_MIN_USD ?? "20"),
     bonusUsd: Number(d.env.PROMO_BONUS_USD ?? "20"),
     holdDays: Number(d.env.PROMO_HOLD_DAYS ?? "14"),
@@ -497,18 +500,24 @@ export function createVaults(d: VaultsDeps) {
   const promoPublic = () => cached("promo", BOARD_TTL_MS, async () => {
     const taken = PROMO.on ? await promoTaken(pg, "robinhood") : 0;
     const rtaken = PROMO.on && PROMO.ruyuiSlots ? await promoTaken(pg, "ruyui") : 0;
+    const stotal = PROMO.on && PROMO.sharedSlots ? await promoTaken(pg) : 0;
+    // with a shared cap, a chain's slots left are never more than the round's
+    const left = (slots: number, n: number) => Math.max(0, PROMO.sharedSlots ? Math.min(slots - n, PROMO.sharedSlots - stotal) : slots - n);
     const partners: Record<string, { slots: number; taken: number; left: number }> = {};
     for (const [book, slots] of Object.entries(PROMO.partnerSlots)) {
       const n = PROMO.on ? await promoTaken(pg, book) : 0;
-      partners[book.slice(2)] = { slots, taken: n, left: Math.max(0, slots - n) };
+      partners[book.slice(2)] = { slots, taken: n, left: left(slots, n) };
     }
-    return { on: PROMO.on, slots: PROMO.slots, taken, left: Math.max(0, PROMO.slots - taken), min_usd: PROMO.minUsd,
+    return { on: PROMO.on, slots: PROMO.slots, taken, left: left(PROMO.slots, taken), min_usd: PROMO.minUsd,
              bonus_usd: PROMO.bonusUsd, hold_days: PROMO.holdDays, start_ms: PROMO.startMs,
-             ruyui: { slots: PROMO.ruyuiSlots, taken: rtaken, left: Math.max(0, PROMO.ruyuiSlots - rtaken) }, partners };
+             ruyui: { slots: PROMO.ruyuiSlots, taken: rtaken, left: left(PROMO.ruyuiSlots, rtaken) }, partners,
+             ...(PROMO.sharedSlots ? { shared: { slots: PROMO.sharedSlots, taken: stotal, left: Math.max(0, PROMO.sharedSlots - stotal) } } : {}) };
   });
   const promoChanged = () => boards.delete("promo");
-  /** This round's rows not rejected, for the Fly Wallets ("robinhood"), the Ruyui wallets ("ruyui") or a partner's ("p_<id>"). */
-  async function promoTaken(q: { one: typeof pg.one }, chain: string): Promise<number> {
+  /** This round's rows not rejected, for the Fly Wallets ("robinhood"), the Ruyui wallets ("ruyui") or a partner's ("p_<id>"); no chain = all. */
+  async function promoTaken(q: { one: typeof pg.one }, chain?: string): Promise<number> {
+    if (!chain) return (await q.one<{ n: number }>("select count(*)::int as n from mine.vault_promos where status <> 'rejected' and round_ms = ?",
+      PROMO.startMs))?.n ?? 0;
     return (await q.one<{ n: number }>("select count(*)::int as n from mine.vault_promos where status <> 'rejected' and round_ms = ? and chain = ?",
       PROMO.startMs, chain))?.n ?? 0;
   }
@@ -524,6 +533,8 @@ export function createVaults(d: VaultsDeps) {
     if (!PROMO.startMs || Date.now() < PROMO.startMs) return;
     let added = 0;
     await pg.tx(async (q) => {
+      // each chain's queue up to its own slots, then all of them in time order under the shared cap (if any)
+      const picks: { chain: string; wallet: string; holder: string; at_ms: number; run: number; fly_id: number | null }[] = [];
       for (const [chain, slots] of [["robinhood", PROMO.slots], ["ruyui", PROMO.ruyuiSlots], ...Object.entries(PROMO.partnerSlots)] as [string, number][]) {
         let taken = await promoTaken(q, chain);
         if (taken >= slots) continue;
@@ -549,10 +560,16 @@ export function createVaults(d: VaultsDeps) {
           const w = r.wallet.toLowerCase(), h = r.holder.toLowerCase();
           if (seen.has(w) || (PROMO.onePerHolder && seen.has(h))) continue;   // a wallet two holders filled, or a holder's second fly
           seen.add(w); seen.add(h);
-          const n = await q.run(`insert into mine.vault_promos (wallet, fly_id, holder, deposit_usd, qualified_at, round_ms, chain)
-            values (?, ?, ?, ?, to_timestamp(?::double precision / 1000), ?, ?) on conflict do nothing`, r.wallet, r.fly_id, r.holder, r.run, r.at_ms, PROMO.startMs, chain);
-          if (n === 1) { taken++; added++; console.log(`promo: ${chain} candidate ${r.wallet} (fly #${r.fly_id}, ${r.holder}, $${r.run.toFixed(2)})`); }
+          picks.push({ chain, ...r }); taken++;
         }
+      }
+      picks.sort((a, b) => a.at_ms - b.at_ms);
+      let total = PROMO.sharedSlots ? await promoTaken(q) : 0;
+      for (const r of picks) {
+        if (PROMO.sharedSlots && total >= PROMO.sharedSlots) break;
+        const n = await q.run(`insert into mine.vault_promos (wallet, fly_id, holder, deposit_usd, qualified_at, round_ms, chain)
+          values (?, ?, ?, ?, to_timestamp(?::double precision / 1000), ?, ?) on conflict do nothing`, r.wallet, r.fly_id, r.holder, r.run, r.at_ms, PROMO.startMs, r.chain);
+        if (n === 1) { total++; added++; console.log(`promo: ${r.chain} candidate ${r.wallet} (fly #${r.fly_id}, ${r.holder}, $${r.run.toFixed(2)})`); }
       }
     }, "vault-promo");
     if (added) promoChanged();

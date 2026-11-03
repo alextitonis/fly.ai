@@ -1296,7 +1296,7 @@ function pickOrder(miner: string, k: string, orders: { id: string; weight: numbe
 }
 
 /** What miners know how to run; a client that doesn't say is an older one and gets only the brain. */
-const KINDS = ["connectome", "wasm", "wgsl", "world", "probe", "fight", "replay", "replayb", "embed"];
+const KINDS = ["connectome", "wasm", "wgsl", "world", "probe", "fight", "replay", "replayb", "replayp", "embed"];
 
 /** A claimed program job: where to fetch it and its limits. */
 function openJob(params: string, kind: string) {

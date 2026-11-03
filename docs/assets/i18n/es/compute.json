@@ -648,6 +648,7 @@
     "probeJob": "una sonda cerebral: {condition}",
     "fightJob": "un combate de Fly Colosseum",
     "replayJob": "una repetición de regla de trading: {name}",
-    "replaybJob": "una prueba de suerte de regla de trading: {name}, camino {seed}"
+    "replaybJob": "una prueba de suerte de regla de trading: {name}, camino {seed}",
+    "replaypJob": "una simulación de perpetuos (largos y cortos): {name}, camino {seed}"
   }
 }

@@ -648,6 +648,7 @@
     "probeJob": "一次大脑探针：{condition}",
     "fightJob": "一场 Fly Colosseum 对决",
     "replayJob": "一次交易规则回放：{name}",
-    "replaybJob": "一次交易规则运气检验：{name}，路径 {seed}"
+    "replaybJob": "一次交易规则运气检验：{name}，路径 {seed}",
+    "replaypJob": "一次永续合约回放（做多和做空）：{name}，路径 {seed}"
   }
 }

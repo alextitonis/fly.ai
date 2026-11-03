@@ -325,13 +325,16 @@ export function cosineAgree(a: Uint8Array, b: Uint8Array, dim: number, min: numb
 export const isProgramKind = (kind: unknown): boolean => isOpenKind(kind) || isHouseKind(kind);
 
 /** Our own job kinds: the miner already has the code, only the job's parameters travel. */
-export const isHouseKind = (kind: unknown): kind is "world" | "probe" | "fight" | "replay" | "replayb" =>
-  kind === "world" || kind === "probe" || kind === "fight" || kind === "replay" || kind === "replayb";
+export const isHouseKind = (kind: unknown): kind is "world" | "probe" | "fight" | "replay" | "replayb" | "replayp" =>
+  kind === "world" || kind === "probe" || kind === "fight" || isReplayKind(kind);
 
 /** Replay kinds: "replay" walks each setting over the recorded prices; "replayb" (2026-10-17, luck checks) walks each
  * setting over `seeds` reshuffled copies of them (src/replay.ts resample), seed 0 being the recorded path itself. A new
  * kind, not a flag, so a miner on an older page (which doesn't list it) never gets one it would answer unshuffled. */
-export const isReplayKind = (kind: unknown): kind is "replay" | "replayb" => kind === "replay" || kind === "replayb";
+export const isReplayKind = (kind: unknown): kind is "replay" | "replayb" | "replayp" => kind === "replay" || kind === "replayb" || kind === "replayp";
+/** "replayp" (2026-11-03, flytrade/PERPS-PLAN.md): perp settings (longs and shorts, funding), each on `seeds` paths like
+ * replayb (seeds 1 = the recorded path alone). Its own kind for the same reason: older pages don't know strategy "perp". */
+const BOOT_KINDS = new Set(["replayb", "replayp"]);
 export const REPLAYB_MAX_JOBS = 200_000;
 
 /** What a replay setting's rule must carry, by strategy (src/replay.ts reads these without defaults). */
@@ -340,6 +343,7 @@ const REPLAY_NEEDS: Record<string, string[]> = {
   core: ["top", "hold_bars", "band", "partial"],
   stockgap: ["categories", "entry_pct", "exit_pct", "max_hold_bars", "max_positions"],
   model: [],
+  perp: [],             // every key has a default (src/replay.ts PERP_DEFAULTS)
 };
 /** settings in one replay order: each one's rule travels in its task's params */
 export const REPLAY_MAX_SETTINGS = 5000;
@@ -464,7 +468,7 @@ const TYPE_NAME = /^[\w .,:+-]{1,48}$/;
  *     conditions: [{ name: "threat", stimuli: [{ sense: "threat", amount: 0.8, from: 25, to: 75 }] }, ...] }
  */
 export function houseSpec(spec: any, maxJobs: number): HouseSpec {
-  if (!spec || !isHouseKind(spec.kind)) throw new SpecError("house kinds are world, probe, fight, replay and replayb");
+  if (!spec || !isHouseKind(spec.kind)) throw new SpecError("house kinds are world, probe, fight, replay, replayb and replayp");
   if (isReplayKind(spec.kind)) {
     // trading-rule settings walked over recorded prices (src/replay.ts): one job a setting, the data one upload
     if (typeof spec.data !== "string" || !HASH.test(spec.data)) throw new SpecError("data is the sha256 of a replay data upload");
@@ -475,13 +479,16 @@ export function houseSpec(spec: any, maxJobs: number): HouseSpec {
     // live settings only in replayb orders: a "replay" job also goes to miners on older pages, which don't know "live"
     // and would answer differently from the new ones (one wrong answer zeroes a miner's day)
     if (spec.kind === "replay" && settings.some((s: { live?: boolean }) => s.live)) throw new SpecError("live settings go in replayb orders");
+    // perp settings only in replayp orders, and replayp orders only perp settings
+    const perps = settings.filter((s: { rule: { strategy: string } }) => s.rule.strategy === "perp").length;
+    if (spec.kind === "replayp" ? perps !== settings.length : perps > 0) throw new SpecError("perp settings go in replayp orders, and only there");
     // replayb: every setting on seeds seed_base .. seed_base + seeds - 1 (job index = seed number x settings + setting)
-    const boot = spec.kind === "replayb" ? {
+    const boot = BOOT_KINDS.has(spec.kind) ? {
       seeds: int(spec.seeds, "seeds", 1, 100_000), seed_base: spec.seed_base === undefined ? 0 : int(spec.seed_base, "seed_base", 0, 2 ** 31 - 200_000),
-      block: spec.block === undefined ? 96 : int(spec.block, "block", 1, 100_000),
+      block: spec.block === undefined ? (spec.kind === "replayp" ? 720 : 96) : int(spec.block, "block", 1, 100_000),
     } : null;
     if (boot && boot.seeds * settings.length > Math.min(maxJobs, REPLAYB_MAX_JOBS)) {
-      throw new SpecError(`one replayb order holds at most ${Math.min(maxJobs, REPLAYB_MAX_JOBS)} jobs (seeds x settings)`);
+      throw new SpecError(`one ${spec.kind} order holds at most ${Math.min(maxJobs, REPLAYB_MAX_JOBS)} jobs (seeds x settings)`);
     }
     const jobs = boot ? boot.seeds * settings.length : settings.length;
     return {
@@ -597,7 +604,7 @@ export function houseJob(spec: any, index: number): Record<string, unknown> {
   const p = spec.params;
   const seedNo = Math.floor(index / (spec.per_seed ?? 1));
   if (spec.kind === "replay") return { data: p.data, setting: p.settings[index] };
-  if (spec.kind === "replayb") {
+  if (BOOT_KINDS.has(spec.kind)) {
     return { data: p.data, setting: p.settings[index % spec.per_seed], boot: { seed: p.seed_base + seedNo, block: p.block } };
   }
   if (spec.kind === "world") {

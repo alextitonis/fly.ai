@@ -32,6 +32,9 @@ export interface ReplayData {
   depth: Float64Array[] | null;
   /** the desk's limits as they changed: [from unix time, min buy usd, max trade usd] */
   limits: [number, number, number][] | null;
+  /** perp data (2026-11-03, strategy "perp"): per-token arrays by name (funding, earn_next, earn_last) and market-wide
+   * series by name (fng, vix), NaN where unknown */
+  perp?: { arrays: Map<string, Float64Array[]>; series: Map<string, Float64Array> } | null;
 }
 
 export interface ReplaySetting {
@@ -48,7 +51,11 @@ export interface ReplaySetting {
   live?: boolean;
 }
 
-export interface ReplayResult { name: string; trades: number; turnover: number; equity: [number, number][] }
+export interface ReplayResult {
+  name: string; trades: number; turnover: number; equity: [number, number][];
+  /** strategy "perp" only */
+  perp?: { long_trips: number; short_trips: number; wins: number; funding: number; stops: number; liqs: number; open: number };
+}
 
 const MAGIC = "FLYRPLY1";
 
@@ -83,8 +90,16 @@ export async function decodeReplayData(gz: Uint8Array): Promise<ReplayData> {
     rt50 = tokens.map(() => f32());
   }
   const depth = header.depth ? tokens.map(() => f64()) : null;
+  let perp: ReplayData["perp"] = null;
+  if (header.perp) {
+    const arrays = new Map<string, Float64Array[]>();
+    for (const name of header.perp.arrays as string[]) arrays.set(name, tokens.map(() => f64()));
+    const series = new Map<string, Float64Array>();
+    for (const name of header.perp.series as string[]) series.set(name, f64());
+    perp = { arrays, series };
+  }
   if (off > raw.byteLength) throw new Error("replay data is cut short");
-  return { start: header.start, bar: header.bar, n, tokens, px, real, mu, rt50, depth, limits: header.limits ?? null };
+  return { start: header.start, bar: header.bar, n, tokens, px, real, mu, rt50, depth, limits: header.limits ?? null, perp };
 }
 
 // ---- helpers that keep Python's semantics ----------------------------------------------------------------------
@@ -420,6 +435,7 @@ export const STRATEGIES: Record<string, Strategy> = { reversal, core, stockgap, 
 
 /** Walk one setting over every bar of the data (research/rule_replay.py run; live: replay_net/livereplay.py run). */
 export function runReplay(d: ReplayData, setting: ReplaySetting): ReplayResult {
+  if (setting.rule.strategy === "perp") return runPerp(d, setting);
   const strategy = STRATEGIES[setting.rule.strategy];
   if (!strategy) throw new Error(`no strategy ${setting.rule.strategy}`);
   if (setting.rule.strategy === "model" && !d.mu) throw new Error("this data has no model scores");
@@ -537,6 +553,212 @@ export function runReplay(d: ReplayData, setting: ReplaySetting): ReplayResult {
 /** The live desk's constants a live replay trades by (replay_net/livereplay.py, executor.py, engine.py, config.py). */
 const LIVE = { poolFee: 0.003, gasUsd: 0.05, minSellUsd: 1.0, minPoolUsd: 10_000, staleBars: 8, majorDepth: 5_000_000, maxSlices: 50, drainPct: 50 };
 
+// ---- perps (2026-11-03, flytrade/PERPS-PLAN.md) ----------------------------------------------------------------
+
+/** A perp rule's defaults: every key a setting may leave out (src/orders.ts asks for none). Hours = bars on hourly data. */
+export const PERP_DEFAULTS: Record<string, any> = {
+  categories: ["major", "stock"],
+  lev: 1,               // notional per position = equity x lev / max_positions
+  fast_h: 480,          // direction: the sign of the move over this many bars (time-series momentum)
+  slow_h: 1200,         // and the price on the same side of its average over this many bars (0 = no average)
+  sides: "both",        // "both" | "long" | "short"
+  every_h: 24,          // decide every this many bars
+  max_positions: 4,     // strongest moves first (move / its volatility)
+  min_hold_h: 24,       // a position isn't closed by the rule before this (stops still fire)
+  stop_pct: 6,          // close when the price moved this much against a crypto position
+  stock_stop_pct: 4,    // ... a stock position
+  vol_h: 720,           // volatility window for the ranking and vol_target
+  vol_target: 0,        // annual %, 0 = equal sizes; else a position is scaled down to this volatility (never up)
+  slip_bps: 5,          // each open and each close, on top of the setting's fee
+  resize_band: 0.5,     // a held position more than this share off its size now is closed and opened again at it
+  mm: 0.05,             // maintenance share of the margin: a loss past margin x (1 - mm) is a liquidation (margin lost)
+  mood: false,          // risk-off: no new longs; risk-on: no new shorts (desk/mood.py's rule on these markets)
+  off_up_share: 0.35, off_median_pct: -1.5, on_up_share: 0.45, on_median_pct: 0, enter_bars: 2, exit_bars: 4,
+  crowd_apr: 0,         // > 0: no new position whose side pays more than this % a year in funding (last 24 bars)
+  fng_hi: 0,            // > 0: no new crypto long at Fear & Greed >= this
+  fng_lo: 0,            // > 0: no new crypto short at Fear & Greed <= this
+  vix_hi: 0,            // > 0: no new stock long at VIX >= this
+  earn_skip_h: 0,       // > 0: no new stock position this many bars before its earnings
+  pead_pct: 0,          // > 0: a stock that moved this % over its report (within a day after it) is entered that way ...
+  pead_hold_h: 240,     // ... and held this long whatever the trend says
+};
+
+interface PerpPos { q: number; entry: number; margin: number; since: number; until: number }
+
+/** A perp book over the data: longs and shorts with margin, hourly funding, stops and liquidation. The result adds
+ * `perp`: trips by side, how many won, funding paid (negative = received), stops and liquidations. */
+function runPerp(d: ReplayData, setting: ReplaySetting): ReplayResult {
+  if (!d.perp) throw new Error("this data has no perp arrays");
+  const r = { ...PERP_DEFAULTS, ...setting.rule };
+  const n = d.n, toks = d.tokens;
+  const cats = new Set<string>(r.categories);
+  const use = toks.map((t) => cats.has(t.category));
+  const fund = d.perp.arrays.get("funding")!, eNext = d.perp.arrays.get("earn_next"), eLast = d.perp.arrays.get("earn_last");
+  const fng = d.perp.series.get("fng"), vix = d.perp.series.get("vix");
+  // the last price up to each bar, and its running sums for the averages
+  const ff = d.px.map((a) => {
+    const o = new Float64Array(n);
+    let last = NaN;
+    for (let t = 0; t < n; t++) { if (a[t] === a[t] && a[t] > 0) last = a[t]; o[t] = last; }
+    return o;
+  });
+  const lr = ff.map((a) => {                              // hourly log moves (0 where no price yet)
+    const o = new Float64Array(n);
+    for (let t = 1; t < n; t++) o[t] = a[t] === a[t] && a[t - 1] === a[t - 1] ? Math.log(a[t] / a[t - 1]) : 0;
+    return o;
+  });
+  const cum = (xs: Float64Array, sq: boolean) => {
+    const o = new Float64Array(n + 1);
+    for (let t = 0; t < n; t++) { const x = xs[t] === xs[t] ? xs[t] : 0; o[t + 1] = o[t] + (sq ? x * x : x); }
+    return o;
+  };
+  const pxSum = ff.map((a) => cum(a, false)), lrSum = lr.map((a) => cum(a, false)), lrSq = lr.map((a) => cum(a, true));
+  const first = ff.map((a) => { for (let t = 0; t < n; t++) if (a[t] === a[t]) return t; return n; });
+  const fast = pyInt(r.fast_h), slow = pyInt(r.slow_h), every = Math.max(1, pyInt(r.every_h)), volH = Math.max(24, pyInt(r.vol_h));
+  const warm = Math.max(fast, slow, volH) + 1;
+  const k = Math.max(1, pyInt(r.max_positions)), lev = Math.min(Math.max(Number(r.lev), 0.1), 5);
+  const cost = setting.fee + Number(r.slip_bps) / 1e4, mm = Number(r.mm);
+  const volOf = (i: number, t: number) => {              // annualised, from the last volH hourly moves
+    const a = t - volH + 1, m = (lrSum[i][t + 1] - lrSum[i][a]) / volH;
+    return Math.sqrt(Math.max((lrSq[i][t + 1] - lrSq[i][a]) / volH - m * m, 0) * 8760);
+  };
+  let cash = setting.usd;
+  const pos = new Map<number, PerpPos>();
+  const stats = { long_trips: 0, short_trips: 0, wins: 0, funding: 0, stops: 0, liqs: 0 };
+  let traded = 0, trades = 0;
+  const equity: [number, number][] = [];
+  const recordEvery = Math.max(1, Math.trunc(setting.every || 24));
+  let regime = "risk_on", streak = 0, tNow = 0;
+  const stopped = new Map<number, { t: number; dir: number }>();   // no way back in the same way for min_hold_h
+  const upnl = (p: PerpPos, px: number) => p.q * (px - p.entry);
+  const close = (i: number, px: number, why: "rule" | "stop" | "liq" | "resize") => {
+    const p = pos.get(i)!;
+    const notional = Math.abs(p.q) * px;
+    let pnl = upnl(p, px);
+    if (why === "liq") pnl = -p.margin;                    // the margin is gone, nothing else
+    else cash -= notional * cost;
+    cash += pnl;
+    traded += why === "liq" ? 0 : notional;
+    trades += 1;
+    if (why !== "resize") {
+      if (p.q > 0) stats.long_trips++; else stats.short_trips++;
+      if (pnl - (why === "liq" ? 0 : notional * cost) > 0) stats.wins++;
+    }
+    if (why === "stop") stats.stops++;
+    if (why === "liq") stats.liqs++;
+    if (why === "stop" || why === "liq") stopped.set(i, { t: tNow, dir: Math.sign(p.q) });
+    pos.delete(i);
+  };
+  const value = (t: number) => { let v = cash; for (const [i, p] of pos) v += upnl(p, ff[i][t]); return v; };
+  for (let t = 0; t < n; t++) {
+    tNow = t;
+    // 1. funding for the hour, then stops and liquidations at this bar's close
+    for (const [i, p] of pos) {
+      const f = fund[i][t];
+      if (f === f) { const paid = p.q * ff[i][t] * f; cash -= paid; stats.funding += paid; }
+    }
+    for (const [i, p] of [...pos]) {
+      const px = ff[i][t], against = (p.q > 0 ? 1 : -1) * (px / p.entry - 1);
+      const stop = Number(toks[i].category === "stock" ? r.stock_stop_pct : r.stop_pct) / 100;
+      if (upnl(p, px) <= -p.margin * (1 - mm)) close(i, px, "liq");
+      else if (stop > 0 && against <= -stop) close(i, px, "stop");
+    }
+    // 2. the mood of these markets (breadth and median over 24 bars), with desk/mood.py's hysteresis
+    if (t >= 24) {
+      const moves: number[] = [];
+      for (let i = 0; i < toks.length; i++) if (use[i] && first[i] <= t - 24) moves.push(ff[i][t] / ff[i][t - 24] - 1);
+      if (moves.length) {
+        moves.sort((a, b) => a - b);
+        const h = moves.length >> 1, med = moves.length % 2 ? moves[h] : (moves[h - 1] + moves[h]) / 2;
+        let up = 0;
+        for (const m of moves) if (m > 0) up++;
+        const share = up / moves.length;
+        const weak = share < Number(r.off_up_share) && med * 100 < Number(r.off_median_pct);
+        const strong = share >= Number(r.on_up_share) || med * 100 >= Number(r.on_median_pct);
+        const flip = (regime === "risk_on" && weak) || (regime === "risk_off" && strong);
+        streak = flip ? streak + 1 : 0;
+        if (flip && streak >= pyInt(regime === "risk_on" ? r.enter_bars : r.exit_bars)) { regime = regime === "risk_on" ? "risk_off" : "risk_on"; streak = 0; }
+      }
+    }
+    // 3. the rule, every every_h bars
+    if (value(t) <= 0) { pos.clear(); cash = 0; }               // wiped out: the book stays at zero
+    if (t >= warm && t % every === 0 && cash > 0) {
+      const want = new Map<number, { dir: number; strength: number; pead: boolean }>();
+      for (let i = 0; i < toks.length; i++) {
+        if (!use[i] || first[i] > t - warm) continue;
+        const px = ff[i][t], stock = toks[i].category === "stock";
+        let dir = 0, strength = 0, pead = false;
+        const vol = Math.max(volOf(i, t), 1e-6);
+        const last = eLast?.[i][t];
+        if (stock && Number(r.pead_pct) > 0 && last === last && last! > 0 && last! <= 24) {
+          const before = ff[i][Math.max(0, t - Math.ceil(last!) - 1)], move = px / before - 1;
+          if (Math.abs(move) * 100 >= Number(r.pead_pct)) { dir = move > 0 ? 1 : -1; strength = 1e9 + Math.abs(move); pead = true; }
+        }
+        if (!pead) {
+          const m = Math.log(px / ff[i][t - fast]);
+          const avg = slow > 0 ? (pxSum[i][t + 1] - pxSum[i][t + 1 - slow]) / slow : px;
+          if (m > 0 && px >= avg) dir = 1;
+          else if (m < 0 && px <= avg) dir = -1;
+          strength = Math.abs(m) / vol;
+        }
+        if ((r.sides === "long" && dir < 0) || (r.sides === "short" && dir > 0)) dir = 0;
+        if (dir !== 0) want.set(i, { dir, strength, pead });
+      }
+      // filters stop NEW positions only: what's already held in that direction stays
+      const blocked = (i: number, dir: number) => {
+        if (pos.has(i) && Math.sign(pos.get(i)!.q) === dir) return false;
+        const stock = toks[i].category === "stock";
+        if (r.mood && ((dir > 0 && regime === "risk_off") || (dir < 0 && regime === "risk_on"))) return true;
+        if (Number(r.crowd_apr) > 0) {
+          let f = 0, c = 0;
+          for (let s = Math.max(0, t - 23); s <= t; s++) if (fund[i][s] === fund[i][s]) { f += fund[i][s]; c++; }
+          if (c && dir * (f / c) * 8760 * 100 > Number(r.crowd_apr)) return true;
+        }
+        const g = fng?.[t];
+        if (!stock && g === g && g !== undefined) {
+          if (Number(r.fng_hi) > 0 && dir > 0 && g >= Number(r.fng_hi)) return true;
+          if (Number(r.fng_lo) > 0 && dir < 0 && g <= Number(r.fng_lo)) return true;
+        }
+        const v = vix?.[t];
+        if (stock && Number(r.vix_hi) > 0 && dir > 0 && v === v && v !== undefined && v >= Number(r.vix_hi)) return true;
+        const nx = eNext?.[i][t];
+        if (stock && Number(r.earn_skip_h) > 0 && nx === nx && nx !== undefined && nx >= 0 && nx <= Number(r.earn_skip_h) && !want.get(i)?.pead) return true;
+        return false;
+      };
+      const ranked = [...want].filter(([i, w]) => !blocked(i, w.dir)).sort((a, b) => b[1].strength - a[1].strength || a[0] - b[0]);
+      const pick = new Map(ranked.slice(0, k));
+      // closes first: wrong side, or no longer wanted, once held min_hold_h and past a pead hold
+      const sizeOf = (i: number) => value(t) * lev / k
+        * (Number(r.vol_target) > 0 ? Math.min(1, Number(r.vol_target) / 100 / Math.max(volOf(i, t), 1e-6)) : 1);
+      for (const [i, p] of [...pos]) {
+        const w = pick.get(i);
+        if (w && Math.sign(p.q) === w.dir) {
+          const now = Math.abs(p.q) * ff[i][t], want = sizeOf(i);
+          if (Number(r.resize_band) > 0 && Math.abs(now - want) > Number(r.resize_band) * want) close(i, ff[i][t], "resize");
+          continue;
+        }
+        if (t - p.since < pyInt(r.min_hold_h) || t < p.until) continue;   // a flip too waits out the hold
+        close(i, ff[i][t], "rule");                               // a flip reopens the other way just below
+      }
+      for (const [i, w] of pick) {
+        if (pos.has(i) || pos.size >= k) continue;
+        const st = stopped.get(i);
+        if (st && st.dir === w.dir && t - st.t < pyInt(r.min_hold_h)) continue;
+        const px = ff[i][t], notional = sizeOf(i);
+        if (notional < 10) continue;                             // Lighter's smallest order
+        cash -= notional * cost;
+        traded += notional;
+        trades += 1;
+        pos.set(i, { q: w.dir * notional / px, entry: px, margin: notional / lev, since: t, until: w.pead ? t + pyInt(r.pead_hold_h) : 0 });
+      }
+    }
+    if (t % recordEvery === 0 || t === n - 1) equity.push([t, Math.round(value(t) * 1e6) / 1e6]);
+  }
+  const round6 = (x: number) => Math.round(x * 1e6) / 1e6;
+  return { name: setting.name, trades, turnover: round6(traded / setting.usd), equity,
+    perp: { ...stats, funding: round6(stats.funding), open: pos.size } };
+}
+
 /** mulberry32: a seeded generator every miner runs to the same numbers (the same as orders.ts's). */
 function mulberry32(seed: number): () => number {
   let a = seed >>> 0;
@@ -595,8 +817,11 @@ export function resample(d: ReplayData, boot: ReplayBoot): ReplayData {
   };
   const real = new Map<string, Float64Array>();
   for (const [s, a] of d.real) real.set(s, path(a));
+  // perp data goes with its bar too: the funding paid, the earnings clock and the index readings of that hour
+  const perp = d.perp ? { arrays: new Map([...d.perp.arrays].map(([k, v]) => [k, v.map(pick64)])),
+    series: new Map([...d.perp.series].map(([k, v]) => [k, pick64(v)])) } : null;
   return { ...d, px: d.px.map(path), real, mu: d.mu ? d.mu.map(pick) : null, rt50: d.rt50 ? d.rt50.map(pick) : null,
-    depth: d.depth ? d.depth.map(pick64) : null };
+    depth: d.depth ? d.depth.map(pick64) : null, perp };
 }
 
 /** Equal-weight hold of the rule's categories over its pool floor, no costs, first bar to last: the bar to beat on the

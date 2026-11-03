@@ -10,7 +10,7 @@ import { rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { decodeReplayData, holdReturn, pySum, resample, runReplay, runReplayJob, type ReplaySetting } from "./replay.ts";
+import { decodeReplayData, holdReturn, pySum, resample, runReplay, runReplayJob, type ReplayData, type ReplaySetting } from "./replay.ts";
 import { startPg } from "./pgtest.ts";
 
 const PORT = 8791;
@@ -78,6 +78,45 @@ async function syntheticData(): Promise<Uint8Array> {
   for (const p of parts) raw.set(p, (off += p.length) - p.length);
   return new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream("gzip"))).arrayBuffer());
 }
+
+/** Perp data (2026-11-03, flytrade replay_net/perp_data.py's format): BTC and SPY hourly, each a straight line of
+ * `drift` a bar with a little noise, `funding` a bar (positive = longs pay), a crash of `crash` at bar `crashAt`. */
+function perpData(o: { n?: number; drift?: number; funding?: number; crash?: number; crashAt?: number } = {}): ReplayData {
+  const n = o.n ?? 2000;
+  let seed = 11;
+  const rnd = () => ((seed = (seed * 1103515245 + 12345) >>> 0) / 4294967296);
+  const tokens = [{ s: "BTC", category: "major", liquidity: 60_000_000 }, { s: "SPY", category: "stock", liquidity: 130_000_000 }];
+  const px = tokens.map((_, i) => {
+    const a = new Float64Array(n);
+    let p = i ? 600 : 70_000;
+    for (let k = 0; k < n; k++) {
+      p *= Math.exp((o.drift ?? 0) + (rnd() - 0.5) * 0.004);
+      if (k === o.crashAt) p *= 1 - (o.crash ?? 0);
+      a[k] = p;
+    }
+    return a;
+  });
+  const flat = (v: number) => tokens.map(() => new Float64Array(n).fill(v));
+  return { start: 1_790_000_000, bar: 3600, n, tokens, px, real: new Map(), mu: null, rt50: null, depth: null, limits: null,
+    perp: { arrays: new Map([["funding", flat(o.funding ?? 0)], ["earn_next", flat(NaN)], ["earn_last", flat(NaN)]]),
+      series: new Map([["fng", new Float64Array(n).fill(50)], ["vix", new Float64Array(n).fill(15)]]) } };
+}
+
+/** The blob perp_data.py writes, from perpData's arrays. */
+async function perpBlob(d: ReplayData): Promise<Uint8Array> {
+  const header = new TextEncoder().encode(JSON.stringify({ start: d.start, bar: d.bar, n: d.n, tokens: d.tokens, real: [], model: false,
+    perp: { arrays: [...d.perp!.arrays.keys()], series: [...d.perp!.series.keys()] } }));
+  const pad = (-(12 + header.length) % 8 + 8) % 8;
+  const arrays = [...d.px, ...[...d.perp!.arrays.values()].flat(), ...d.perp!.series.values()];
+  const parts: Uint8Array[] = [new TextEncoder().encode("FLYRPLY1"), new Uint8Array(new Uint32Array([header.length]).buffer), header, new Uint8Array(pad),
+    ...arrays.map((a) => new Uint8Array(a.buffer))];
+  const raw = new Uint8Array(pySum(parts.map((p) => p.length)));
+  let off = 0;
+  for (const p of parts) raw.set(p, (off += p.length) - p.length);
+  return new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream("gzip"))).arrayBuffer());
+}
+const PERP: ReplaySetting = { name: "perp-trend", fee: 0, usd: 100, every: 24, rule: { strategy: "perp", fast_h: 120, slow_h: 240, vol_h: 240, max_positions: 2 } };
+const endOf = (r: { equity: [number, number][] }) => r.equity[r.equity.length - 1][1];
 
 const SETTINGS: ReplaySetting[] = [
   { name: "rev-meme", fee: 0.003, usd: 2500, every: 16,
@@ -223,6 +262,55 @@ try {
     && hold === holdReturn(d, two[0].rule), JSON.stringify({ hold }));
   const ends = outB.filter((o: any) => o.name === two[0].name).map((o: any) => o.equity.at(-1)[1]);
   check("reshuffled paths end somewhere else", new Set(ends).size === 3, JSON.stringify(ends));
+
+  // perps (2026-11-03): kind "replayp", strategy "perp" - longs and shorts with margin, funding, stops, liquidation
+  const fall = runReplay(perpData({ drift: -0.0004 }), PERP), rise = runReplay(perpData({ drift: 0.0004 }), PERP);
+  check("a falling market: the perp book goes short and makes money", endOf(fall) > 105 && fall.perp!.short_trips + fall.perp!.open > 0 && fall.perp!.long_trips === 0,
+    JSON.stringify({ end: endOf(fall), ...fall.perp }));
+  check("a rising market: long and up", endOf(rise) > 105 && rise.perp!.short_trips === 0, JSON.stringify({ end: endOf(rise), ...rise.perp }));
+  check("long-only sits out a falling market", endOf(runReplay(perpData({ drift: -0.0004 }), { ...PERP, rule: { ...PERP.rule, sides: "long" } })) === 100);
+  const paid = runReplay(perpData({ drift: 0.0004, funding: 0.0001 }), PERP);
+  check("longs pay positive funding", paid.perp!.funding > 0 && endOf(paid) < endOf(rise), JSON.stringify({ funding: paid.perp!.funding, end: endOf(paid) }));
+  const crowded = runReplay(perpData({ drift: 0.0004, funding: 0.0001 }), { ...PERP, rule: { ...PERP.rule, crowd_apr: 30 } });
+  check("crowd_apr: no long into funding over 30% a year", crowded.trades === 0, JSON.stringify(crowded.perp));
+  const crash = runReplay(perpData({ drift: 0.0004, crash: 0.1, crashAt: 1500 }), PERP);
+  check("a 10% crash stops the longs out", crash.perp!.stops >= 1 && crash.perp!.liqs === 0, JSON.stringify(crash.perp));
+  // right after the first entries (bar 264): no profit yet to cushion it
+  const liq = runReplay(perpData({ drift: 0.0004, crash: 0.3, crashAt: 270 }), { ...PERP, rule: { ...PERP.rule, lev: 5, stop_pct: 0, stock_stop_pct: 0 } });
+  check("5x and no stop: a 30% crash liquidates", liq.perp!.liqs >= 1, JSON.stringify(liq.perp));
+  check("a perp replay is the same bytes every time", JSON.stringify(runReplay(perpData({ drift: -0.0004 }), PERP)) === JSON.stringify(fall));
+  const pd = perpData({ drift: -0.0004, funding: 0.00002 });
+  const pgz = await perpBlob(pd), pdd = await decodeReplayData(pgz);
+  check("perp data round-trips: closes, funding, series", pdd.n === pd.n && pdd.perp?.arrays.get("funding")?.[1][7] === 0.00002
+    && Number.isNaN(pdd.perp!.arrays.get("earn_next")![0][3]) && pdd.perp!.series.get("vix")![5] === 15 && pdd.px[0][9] === pd.px[0][9]);
+  const rp = resample(pdd, { seed: 3, block: 100 });
+  check("a reshuffle carries the perp arrays along", rp.perp!.arrays.get("funding")![0].length === pd.n && rp.px[0][pd.n - 1] !== pdd.px[0][pd.n - 1]);
+  const pup = (await api("/api/blobs", pgz, ADMIN)).json;
+  const pOrder = async (kind: string, settings: unknown[]) => (await api("/api/admin/house",
+    { label: `replay/perp-test-${kind}-${settings.length}`, spec: { kind, data: pup.hash, settings, seeds: 2, block: 100 } }, ADMIN));
+  check("a perp setting is refused outside replayp orders", (await pOrder("replay", [PERP])).status === 400 && (await pOrder("replayb", [PERP])).status === 400);
+  check("a replayp order takes perp settings only", (await pOrder("replayp", [PERP, SETTINGS[0]])).status === 400);
+  const pO = (await pOrder("replayp", [PERP, { ...PERP, name: "perp-mood", rule: { ...PERP.rule, mood: true } }])).json;
+  check("a replayp order is settings x seeds jobs", pO?.jobs === 4, JSON.stringify(pO).slice(0, 200));
+  const oldP = (await api("/api/claim", { count: 8, kinds: ["replay", "replayb"], open_max: 8 }, old)).json?.jobs ?? [];
+  check("a miner that doesn't list replayp never gets one", !oldP.some((j: any) => j.kind === "replayp"));
+  const playP = async (t: string) => {
+    for (;;) {
+      const jobs = ((await api("/api/claim", { count: 16, kinds: ["replayp"], open_max: 16 }, t)).json?.jobs ?? []) as any[];
+      if (!jobs.length) break;
+      for (const j of jobs) {
+        const out = await runReplayJob({ ...j.params, data_url: BASE + j.params.data_url }, fetchBytes);
+        await api("/api/submit", { job: j.job, result: { output: Buffer.from(out).toString("base64") } }, t);
+      }
+    }
+  };
+  await playP(ta);
+  await playP(tb);
+  const resP = (await api(`/api/orders/${pO.id}/results`)).json;
+  check("two agreeing miners settle every perp job", resP.status === "done" && resP.rows.length === 4 && resP.rows.every((r: any) => r.checked_by === "agreement"));
+  const outP = await Promise.all(resP.rows.map(async (r: any) => JSON.parse(Buffer.from(await (await fetch(BASE + r.output.url)).arrayBuffer()).toString("utf8"))));
+  const { seed: _ps, hold: _ph, ...pPlain } = outP.find((o: any) => o.name === PERP.name && o.seed === 0) ?? {};
+  check("seed 0 of a perp job is the local replay", JSON.stringify(pPlain) === JSON.stringify(runReplay(pdd, PERP)));
 } catch (err) {
   console.log("test crashed:", err);
   failed++;

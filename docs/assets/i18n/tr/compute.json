@@ -648,6 +648,7 @@
     "probeJob": "bir beyin sondası: {condition}",
     "fightJob": "bir Fly Colosseum dövüşü",
     "replayJob": "bir alım satım kuralı tekrarı: {name}",
-    "replaybJob": "bir alım satım kuralı şans testi: {name}, yol {seed}"
+    "replaybJob": "bir alım satım kuralı şans testi: {name}, yol {seed}",
+    "replaypJob": "bir vadeli (perp) tekrar testi (long ve short): {name}, yol {seed}"
   }
 }

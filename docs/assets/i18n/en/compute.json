@@ -648,6 +648,7 @@
     "probeJob": "a brain probe: {condition}",
     "fightJob": "a Fly Colosseum fight",
     "replayJob": "a trading-rule replay: {name}",
-    "replaybJob": "a trading-rule luck check: {name}, path {seed}"
+    "replaybJob": "a trading-rule luck check: {name}, path {seed}",
+    "replaypJob": "a perps replay (longs and shorts): {name}, path {seed}"
   }
 }

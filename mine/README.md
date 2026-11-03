@@ -340,6 +340,12 @@ their own beside the batch. Everything they upload or produce is kept for good (
     every, rule}]}`, up to 5,000 settings, one job each; `data` is one upload of prices (and the model's
     predictions) that every job fetches once. The output is JSON: trades, turnover and the book's value every
     `every` bars. No summary on `/api/experiments`. Test: `npm run test:replay`.
+  - **`replayb`** (2026-10-17): the same settings on `seeds` reshuffled copies of the prices (luck checks), seed 0 =
+    the recorded path; each answer adds the hold of the same tokens.
+  - **`replayp`** (2026-11-03): perp settings (`rule.strategy: "perp"`): longs and shorts with margin, hourly
+    funding, stops and liquidation, on hourly data with funding, earnings clocks and Fear & Greed / VIX
+    (`src/replay.ts` runPerp, `PERP_DEFAULTS`). Seeded like `replayb` (default block 720 bars); perp settings go
+    only in `replayp` orders, so older pages never get one.
 - **Settling:** two agreeing miners settle a job; nobody is struck.
 - **API:**
   - **Admin:** `POST /api/admin/house {label, spec, max_parallel?, hours?, units?}` creates an order;

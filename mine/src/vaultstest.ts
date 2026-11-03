@@ -396,6 +396,25 @@ try {
   check("on deposit: fly #3 (holder, $100 in) gets one bonus of its own $1, paid; #4242 (no wallet) none",
     od2.length === 1 && od2[0].fly_id === 3 && od2[0].bonus_usd === 1 && od2[0].hold_days === 14 && od2[0].status === "paid",
     JSON.stringify(od2));
+
+  // one cap for flies and partners (2026-11-03, the user: "both for flys or bullas not both"): 2 slots each, 2 in all,
+  // first come first served across the books
+  { const s3 = server as unknown as ReturnType<typeof spawn>; const gone = new Promise((r) => s3.once("exit", r)); s3.kill("SIGKILL"); await gone; }
+  const START2 = Date.now() - 60_000, t2 = (s: number) => new Date(START2 + s * 1000).toISOString();
+  const WB = checksumAddress("0x" + "0b".repeat(20));
+  await PG.pg.run(`insert into mine.vault_moves (wallet, chain, kind, holder, usd, at, detail) values
+    (?, 'robinhood', 'deposit', ?, 25, ?::timestamptz, '{}'), (?, 'p_bullas', 'deposit', ?, 30, ?::timestamptz, '{}'),
+    (?, 'robinhood', 'deposit', ?, 40, ?::timestamptz, '{}')`, W6, alice.address, t2(1), WB, bob.address, t2(2), W7, X, t2(3));
+  await startServer({ PROMO_START_MS: String(START2), PROMO_RUYUI_SLOTS: "0", PROMO_PARTNER_SLOTS: "bullas:2", PROMO_SHARED_SLOTS: "2" });
+  let sh: any[] = [];
+  for (let i = 0; i < 20 && sh.length < 2; i++) { await sleep(500); sh = await PG.pg.all<any>("select * from mine.vault_promos where round_ms = ? order by qualified_at", START2); }
+  await sleep(1500);   // more ticks: still two
+  sh = await PG.pg.all<any>("select * from mine.vault_promos where round_ms = ? order by qualified_at", START2);
+  const pubS = (await api("/api/vaults/promo", null)).json;
+  check("shared cap: the first two across flies and Bullas, the third waits out", sh.length === 2 && sh[0].wallet === W6 && sh[0].chain === "robinhood"
+    && sh[1].wallet === WB && sh[1].chain === "p_bullas", JSON.stringify(sh.map((p) => [p.wallet, p.chain])));
+  check("shared cap: every book shows none left", pubS.shared?.slots === 2 && pubS.shared.left === 0 && pubS.left === 0
+    && pubS.taken === 1 && pubS.partners?.bullas?.left === 0, JSON.stringify(pubS));
 } catch (err) {
   console.error(err);
   failed++;
