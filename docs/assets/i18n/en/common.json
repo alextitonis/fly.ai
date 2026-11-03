@@ -201,7 +201,12 @@
       "x_failed": "X didn't answer, try again",
       "whatsNew": "New",
       "xpBtn": "⭐ XP & profile",
-      "profileBtn": "👤 Profile"
+      "profileBtn": "👤 Profile",
+      "tgLabel": "Telegram",
+      "tgIn": "In the fly.ai group · +50 XP",
+      "tgOut": "Not in the group yet",
+      "tgJoin": "Join the group",
+      "tgCheck": "Check again"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -277,7 +282,7 @@
     "start": "Start here",
     "xp": {
       "label": "XP Season",
-      "desc": "Earn XP toward the New Year drop"
+      "desc": "Earn XP toward the airdrop"
     }
   },
   "footer": {
@@ -367,8 +372,8 @@
     "shareOk": "+{n} XP",
     "shareDone": "Today's post is in. Come back tomorrow.",
     "connectX": "Connect your X account in the account menu to share for XP.",
-    "seasonEnds": "Season 1 ends {date}. XP counts toward the New Year drop.",
-    "seasonOver": "Season 1 is over. XP counted toward the New Year drop.",
+    "seasonEnds": "XP counts toward the airdrop.",
+    "seasonOver": "Season 1 is over. XP counted toward the airdrop.",
     "s_hold": "Holding $FLYAI",
     "s_flies": "Active flies",
     "s_deposits": "Fly wallet deposits",
@@ -384,7 +389,7 @@
     "s_share": "X posts",
     "s_flybook": "Flybook days",
     "h_title": "How to earn XP",
-    "h_intro": "XP adds up through Season 1 and counts toward the New Year drop. It updates about every 10 minutes.",
+    "h_intro": "XP adds up through Season 1 and counts toward the airdrop. It updates about every 10 minutes.",
     "h_hold": "<b>Hold $FLYAI</b>: 10 XP a day per 200k. Staked or locked: 12.5.",
     "h_flies": "<b>Active Trader Flies</b>: 10 XP a day each, while your wallet holds 200k $FLYAI.",
     "h_streak": "<b>Streak</b>: +10% on holding and fly XP for every week you don't sell, up to 2x. A sell starts it again.",
@@ -407,6 +412,8 @@
     "logPost": "post",
     "account": "Your account",
     "badgesBtn": "🏅 Badges",
-    "referralsBtn": "Referrals"
+    "referralsBtn": "Referrals",
+    "s_telegram": "In the Telegram group",
+    "h_telegram": "<b>Telegram</b>: 50 XP while your connected account is in the fly.ai group (checked daily)."
   }
 }

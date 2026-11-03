@@ -26,7 +26,7 @@
     "how": "Nasıl çalışır"
   },
   "e": {
-    "d1103b": "<b>XP Sezon 1.</b> $FLYAI tutarak, Trader Fly'larını çalıştırarak, sinek cüzdanı yatırımları, Fly Desk'i besleme, pazar işlemleri, çiftleştirme, rozetler, davetler ve X gönderileriyle XP kazan. Geçmişin ilk günden sayılır. Profil için bir isme, XP kuralları için ?'ye tıkla. XP Yılbaşı dağıtımına sayılır. <a href=\"/xp\">XP liderlik tablosu</a>",
+    "d1103b": "<b>XP Sezon 1.</b> $FLYAI tutarak, Trader Fly'larını çalıştırarak, sinek cüzdanı yatırımları, Fly Desk'i besleme, pazar işlemleri, çiftleştirme, rozetler, davetler ve X gönderileriyle XP kazan. Geçmişin ilk günden sayılır. Profil için bir isme, XP kuralları için ?'ye tıkla. XP airdrop'a sayılır. <a href=\"/xp\">XP liderlik tablosu</a>",
     "d1029a": "<b>Sineklerinin kazancını gör.</b> Claim sayfası artık Trader Fly'larının bu hafta ne kazanacağını, geçen hafta ne ödendiğini, şimdiye kadarki toplamı ve daha fazla stake'in ne kadar eklediğini gösteriyor. Fly Desk'te bir hesaplayıcı var: bir nadirlik ve stake seç, bir sineğin haftada yaklaşık ne kazandığını gör. <a href=\"/traderflies/claim\">Claim</a>",
     "d1028a": "<b>Trader Flies için daha akıllı trading.</b> Fly cüzdanları artık $FLYAI fiyatı düştüğünde güvenlik modunda takılı kalmıyor: güvenlik kontrolü artık trading'in kendisinin ne kazandırdığına bakıyor, böylece sineğin işlem yapmaya devam ediyor. <a href=\"/traderflies/\">Sineklerim</a>",
     "d1028b": "<b>Fly Desk yükseltmeleri.</b> Desk haftalık ödemenin $FLYAI'sini hafta boyunca piyasadan alıyor, boşta duran nakdini yeniden çalıştırıyor, hisse fiyatlarını günün her saati okuyor, bir hisse almadan önce haberleri kontrol ediyor ve yavaş bir ETH trend stratejisi ekliyor. <a href=\"/desk\">Fly Desk</a>",

@@ -32,7 +32,7 @@
       // 2026-10-31: soulbound NFTs (badges.js, mine/src/badges.ts, FlyBadges.sol)
       ["Badges", "/badges", "Soulbound badges for holders", false, true],
       // 2026-11-03: XP season 1 (xp.js, flyprofile.js, mine/src/xp.ts)
-      ["XP Season", "/xp", "Earn XP toward the New Year drop", false, true],
+      ["XP Season", "/xp", "Earn XP toward the airdrop", false, true],
       ["Merch", "/shop", "Fly shirts and more", true],
     ]],
     ["traderflies", "Trader Flies", [
@@ -94,6 +94,7 @@
       search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", deskClaim: "Fly Desk payout to claim", claimBy: "claim by {t}", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
       badgesBtn: "🏅 Badges", xpBtn: "⭐ XP & profile", profileBtn: "👤 Profile", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
       xLabel: "X account", connectX: "Connect X", unlinkX: "Unlink", x_linked: "X connected", x_denied: "Cancelled on X",
+      tgLabel: "Telegram", tgIn: "In the fly.ai group · +50 XP", tgOut: "Not in the group yet", tgJoin: "Join the group", tgCheck: "Check again",
       x_expired: "That took too long, try again", x_taken: "That X account is linked to another wallet", x_failed: "X didn't answer, try again" };
   const LANGS = ["en", "zh-Hans", "zh-Hant", "ko", "tr", "es"];   // i18n.js LANGUAGES
   const NAV_SRC = document.currentScript && document.currentScript.src;   // welcome.js sits beside it
@@ -280,7 +281,7 @@
     // profile card (flyprofile.js) shows them while it is open
     const settings = el("li", { class: "acct-settings", hidden: "" },
       el("div", { class: "acct-badges", hidden: "" }), el("div", { class: "acct-lock", hidden: "" }), form,
-      el("div", { class: "acct-x", hidden: "" }), el("div", { class: "acct-ref", hidden: "" }));
+      el("div", { class: "acct-x", hidden: "" }), el("div", { class: "acct-tg", hidden: "" }), el("div", { class: "acct-ref", hidden: "" }));
     settings.dataset.referrals = fileHref("/referrals");   // the profile card's Referrals button (fileHref lives here)
     menu.append(el("li", null, el("button", { type: "button", class: "acct-profile", "data-l": "profileBtn" }, L("profileBtn"))),
       item("myFlies", "/traderflies/traders?view=mine"), item("leaderboard", "/traderflies/traders?view=board"), item("Flybook", "/flybook/"),
@@ -328,6 +329,7 @@
     li.querySelector(".acct-nick").addEventListener("click", (e) => e.stopPropagation());   // typing doesn't close it
     wireReferral(li, s);
     wireX(li, s);
+    wireTg(li, s);
     wireLock(li, s);
     li.querySelector(".acct-profile").addEventListener("click", () => {
       li.classList.remove("open");
@@ -407,6 +409,75 @@
     }
   }
 
+  /**
+   * Connect Telegram (2026-11-03, mine/src/tglink.ts): Telegram's Login Widget (bot @flyai_tg_bot, domain flyaiworld.com)
+   * signs who the visitor is; the server asks the bot whether that account is in the fly.ai group (XP for members).
+   */
+  function wireTg(li, s) {
+    const box = li.querySelector(".acct-tg");
+    if (!box) return;
+    const call = async (path, body) => {
+      const r = await fetch(`${MINE_API}/api/tg${path}`, { method: body ? "POST" : "GET", body: body ? JSON.stringify(body) : undefined,
+        headers: { "content-type": "application/json", "x-flyai-session": s.token } });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+      return j;
+    };
+    const btn = (text, fn, cls = "btn sm") => {
+      const b = Object.assign(document.createElement("button"), { type: "button", className: cls, textContent: text });
+      b.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        msg.textContent = "…";
+        try { show(await fn()); } catch (err) { msg.textContent = String(err.message || err); }
+      });
+      return b;
+    };
+    let msg = document.createElement("small");
+    const show = (info) => {
+      box.replaceChildren();
+      if (!info.enabled) { box.hidden = true; return; }
+      msg = Object.assign(document.createElement("small"), { textContent: "" });
+      const row = document.createElement("div");
+      if (info.linked) {
+        const who = Object.assign(document.createElement("span"), { className: "acct-x-handle",
+          textContent: info.linked.username ? `@${info.linked.username}` : info.linked.name });
+        if (info.linked.photo) who.prepend(Object.assign(document.createElement("img"), { src: info.linked.photo, alt: "", width: 20, height: 20 }));
+        row.append(who, btn(L("unlinkX"), () => call("/unlink", {}).then(() => call(""))));
+        const state = document.createElement("div");
+        if (info.linked.member) state.append(Object.assign(document.createElement("small"), { className: "acct-tg-in", textContent: `✓ ${L("tgIn")}` }));
+        else state.append(Object.assign(document.createElement("small"), { textContent: L("tgOut") }),
+          Object.assign(document.createElement("a"), { className: "btn sm", href: info.invite, target: "_blank", rel: "noopener", textContent: L("tgJoin") }),
+          btn(L("tgCheck"), () => call("/check", {}), "btn sm ghost"));
+        box.append(Object.assign(document.createElement("label"), { textContent: L("tgLabel") }), row, state, msg);
+      } else {
+        // the widget: an iframe from telegram.org that calls window.flyTgAuth with the signed answer
+        window.flyTgAuth = async (user) => {
+          msg.textContent = "…";
+          try { show(await call("/link", user)); } catch (err) { msg.textContent = String(err.message || err); }
+        };
+        const tag = document.createElement("script");
+        tag.async = true;
+        tag.src = "https://telegram.org/js/telegram-widget.js?22";
+        tag.setAttribute("data-telegram-login", info.bot);
+        tag.setAttribute("data-size", "medium");
+        tag.setAttribute("data-radius", "10");
+        tag.setAttribute("data-userpic", "false");
+        tag.setAttribute("data-onauth", "flyTgAuth(user)");
+        row.append(tag);
+        box.append(Object.assign(document.createElement("label"), { textContent: L("tgLabel") }), row, msg);
+      }
+      box.addEventListener("click", (e) => e.stopPropagation());
+      box.hidden = false;
+    };
+    let loaded = false;
+    const load = () => {
+      if (loaded) return;
+      loaded = true;
+      call("").then(show).catch(() => { loaded = false; });
+    };
+    for (const ev of ["click", "mouseenter", "focusin"]) li.addEventListener(ev, load);
+  }
+
   /** Locked $FLYAI (flylock.js, 2026-10-27): the menu item shows only for a wallet with FLYAI waiting in FlyLock. */
   function wireLock(li, s) {
     const box = li.querySelector(".acct-lock");
@@ -428,7 +499,7 @@
     if (!profileJs) {
       profileJs = new Promise((ok) => {
         const tag = document.createElement("script");
-        tag.src = NAV_SRC ? new URL("flyprofile.js?v=20261103y", NAV_SRC).href : "/assets/flyprofile.js?v=20261103y";
+        tag.src = NAV_SRC ? new URL("flyprofile.js?v=20261103z", NAV_SRC).href : "/assets/flyprofile.js?v=20261103z";
         tag.onload = ok;
         tag.onerror = ok;
         (document.body || document.head).append(tag);

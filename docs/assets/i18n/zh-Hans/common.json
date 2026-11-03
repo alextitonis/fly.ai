@@ -201,7 +201,12 @@
       "x_failed": "X 没有响应，请重试",
       "whatsNew": "新功能",
       "xpBtn": "⭐ XP 与主页",
-      "profileBtn": "👤 个人主页"
+      "profileBtn": "👤 个人主页",
+      "tgLabel": "Telegram",
+      "tgIn": "已在 fly.ai 群组 · +50 XP",
+      "tgOut": "还没有加入群组",
+      "tgJoin": "加入群组",
+      "tgCheck": "重新检查"
     },
     "terminal": {
       "label": "Fly 终端",
@@ -277,7 +282,7 @@
     "start": "从这里开始",
     "xp": {
       "label": "XP 赛季",
-      "desc": "赚取 XP，计入新年空投"
+      "desc": "赚取 XP，计入空投"
     }
   },
   "footer": {
@@ -367,8 +372,8 @@
     "shareOk": "+{n} XP",
     "shareDone": "今天的帖子已计入。明天再来。",
     "connectX": "在账户菜单中绑定你的 X 账号，即可分享赚 XP。",
-    "seasonEnds": "第一季于 {date} 结束。XP 计入新年空投。",
-    "seasonOver": "第一季已结束。XP 已计入新年空投。",
+    "seasonEnds": "XP 计入空投。",
+    "seasonOver": "第一季已结束。XP 已计入空投。",
     "s_hold": "持有 $FLYAI",
     "s_flies": "活跃苍蝇",
     "s_deposits": "苍蝇钱包存款",
@@ -384,7 +389,7 @@
     "s_share": "X 帖子",
     "s_flybook": "Flybook 活跃天数",
     "h_title": "如何赚取 XP",
-    "h_intro": "XP 在第一季中累积，并计入新年空投。大约每 10 分钟更新一次。",
+    "h_intro": "XP 在第一季中累积，并计入空投。大约每 10 分钟更新一次。",
     "h_hold": "<b>持有 $FLYAI</b>：每 200k 每天 10 XP。质押或锁定：12.5。",
     "h_flies": "<b>活跃的 Trader Fly</b>：每只每天 10 XP，前提是钱包持有 200k $FLYAI。",
     "h_streak": "<b>连续持有</b>：每一周不卖出，持有和苍蝇 XP +10%，最高 2 倍。卖出后重新开始。",
@@ -407,6 +412,8 @@
     "logPost": "帖子",
     "account": "你的账户",
     "badgesBtn": "🏅 徽章",
-    "referralsBtn": "推荐"
+    "referralsBtn": "推荐",
+    "s_telegram": "在 Telegram 群组中",
+    "h_telegram": "<b>Telegram</b>：绑定的账号在 fly.ai 群组中时得 50 XP（每天检查）。"
   }
 }

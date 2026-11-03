@@ -19,14 +19,14 @@
     badges: "Badges", noBadges: "No badges yet", sources: "Where the XP comes from", noXp: "No XP yet", refCode: "Referral code",
     board: "XP leaderboard", share: "Share on X", shareHint: "Post about fly.ai from your linked X account, then paste the link: +20 XP, once a day.",
     sharePh: "https://x.com/you/status/…", shareBtn: "Add", shareOk: "+{n} XP", shareDone: "Today's post is in. Come back tomorrow.",
-    connectX: "Connect your X account in the account menu to share for XP.", seasonEnds: "Season 1 ends {date}. XP counts toward the New Year drop.",
-    seasonOver: "Season 1 is over. XP counted toward the New Year drop.",
+    connectX: "Connect your X account in the account menu to share for XP.", seasonEnds: "XP counts toward the airdrop.",
+    seasonOver: "Season 1 is over. XP counted toward the airdrop.",
     s_hold: "Holding $FLYAI", s_flies: "Active flies", s_deposits: "Fly wallet deposits", s_feed: "Feeding the Fly Desk", s_market: "Marketplace trades",
     s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_badges: "Badges",
     account: "Your account", badgesBtn: "🏅 Badges", referralsBtn: "Referrals",
     log: "XP log", logBefore: "everything up to {date}", noLog: "Nothing logged yet.", logTx: "tx", logPost: "post",
-    s_referrals: "Referrals", s_x: "X connected", s_share: "X posts", s_flybook: "Flybook days",
-    h_title: "How to earn XP", h_intro: "XP adds up through Season 1 and counts toward the New Year drop. It updates about every 10 minutes.",
+    s_referrals: "Referrals", s_x: "X connected", s_telegram: "In the Telegram group", s_share: "X posts", s_flybook: "Flybook days",
+    h_title: "How to earn XP", h_intro: "XP adds up through Season 1 and counts toward the airdrop. It updates about every 10 minutes.",
     h_hold: "<b>Hold $FLYAI</b>: 10 XP a day per 200k. Staked or locked: 12.5.",
     h_flies: "<b>Active Trader Flies</b>: 10 XP a day each, while your wallet holds 200k $FLYAI.",
     h_streak: "<b>Streak</b>: +10% on holding and fly XP for every week you don't sell, up to 2x. A sell starts it again.",
@@ -40,10 +40,11 @@
     h_badges: "<b>Badges</b> you claim: common 25, uncommon 100, rare 250, legendary 500.",
     h_referrals: "<b>Referrals</b>: +10% of the XP of everyone you bring who becomes a real referral.",
     h_x: "<b>X</b>: 50 XP for connecting your account, 20 XP a day for a post about fly.ai.",
+    h_telegram: "<b>Telegram</b>: 50 XP while your connected account is in the fly.ai group (checked daily).",
     h_flybook: "<b>Flybook</b>: 5 XP a day you like, comment, poke or caption (for holders and fly owners).",
     h_foot: "Team wallets and fly wallets aren't ranked. Levels: level 1 at 50 XP, 2 at 200, 3 at 450, 10 at 5,000.",
   };
-  const HELP = ["hold", "flies", "streak", "deposits", "feed", "market", "buy", "claimstake", "breed", "passburn", "badges", "referrals", "x", "flybook"];
+  const HELP = ["hold", "flies", "streak", "deposits", "feed", "market", "buy", "claimstake", "breed", "passburn", "badges", "referrals", "x", "telegram", "flybook"];
 
   function t(key, vars) {
     let v = window.flyI18n ? window.flyI18n.t("common.xp." + key, vars) : null;
@@ -103,8 +104,9 @@
       .flyprof-settings > div:not([hidden]) { display: grid; gap: 6px; padding: 8px 0; border-top: 1px solid var(--line, #2a2a2a); }
       .flyprof-settings > div:first-of-type { border-top: 0; }
       .flyprof-settings label { font-size: 12px; color: var(--muted, #9ba5a1); }
-      .flyprof-settings .acct-nick > div, .flyprof-settings .acct-ref > div, .flyprof-settings .acct-x > div { display: flex; gap: 6px; align-items: center; }
-      .flyprof-settings .acct-x > div { justify-content: space-between; }
+      .flyprof-settings .acct-nick > div, .flyprof-settings .acct-ref > div, .flyprof-settings .acct-x > div, .flyprof-settings .acct-tg > div { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+      .flyprof-settings .acct-x > div, .flyprof-settings .acct-tg > div:first-of-type { justify-content: space-between; }
+      .flyprof-settings .acct-tg-in { color: var(--mint, #5ef2cc); }
       .flyprof-settings input { flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 6px 8px; border-radius: 8px;
         border: 1px solid var(--line, #2a2a2a); background: var(--bg, #000); color: var(--text, #f4f7f6); }
       .flyprof-settings small { font-size: 12px; color: var(--muted, #9ba5a1); min-height: 1em; }
@@ -221,7 +223,7 @@
     const sources = el("div", { className: "flyprof-sec" }, el("h4", { textContent: t("sources") }),
       ...(rows.length ? rows.map(([k, v]) => kv(t("s_" + k), fmt(v))) : [el("p", { className: "flyprof-msg", textContent: t("noXp") })]));
     const season = p.season ? el("p", { className: "flyprof-sub", textContent: p.season.over ? t("seasonOver")
-      : t("seasonEnds", { date: new Date(Date.parse(p.season.end) - 1000).toLocaleDateString(undefined, { month: "short", day: "numeric" }) }) }) : null;
+      : t("seasonEnds") }) : null;
     return [head, ...level, stats, account, badges, sources, logList(log && log.items), mine ? shareBox(p) : null, season].filter(Boolean);
   }
 

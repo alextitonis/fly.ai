@@ -53,8 +53,7 @@ async function draw() {
   $("xp-signin").hidden = !!s;
   $("xp-profile").hidden = !s;
   if (!b.on) { msg(t("xp.status.soon")); return; }
-  const end = new Date(Date.parse(b.season.end) - 1000).toLocaleDateString(undefined, { month: "long", day: "numeric" });
-  $("xp-season").textContent = b.season.over ? t("xp.status.over") : t("xp.status.ends", { date: end });
+  $("xp-season").textContent = b.season.over ? t("xp.status.over") : t("xp.status.ends");   // no date: it isn't public
   $("xp-total").textContent = t("xp.board.total", { n: b.total });
   $("xp-empty").hidden = b.rows.length > 0;
   const rows = b.rows.map((x) => row(x, x.wallet === mine));

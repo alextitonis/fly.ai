@@ -1,5 +1,5 @@
 /**
- * XP, season 1 (2026-11-03, the user: "ok build it"): XP for using fly.ai, counted toward the New Year drop. The pool
+ * XP, season 1 (2026-11-03, the user: "ok build it"): XP for using fly.ai, counted toward the airdrop. The pool
  * is never announced. Everything since $FLYAI's first transfer counts, so existing holders start with their history.
  *
  *   holding      10 XP a day per 200k $FLYAI in the wallet, 12.5 staked or locked (FlyStaking, FlyLock beneficiary)
@@ -15,6 +15,7 @@
  *   badges       claimed soulbound badges by rarity: common 25, uncommon 100, rare 250, legendary 500
  *   referrals    +10% of each real referral's XP (src/referrals.ts: $20+ in Fly Wallets for 7 days)
  *   X            50 once for a linked account (src/xlink.ts); 20 a day for a post from it about fly.ai (pasted link)
+ *   Telegram     50 while a linked account (src/tglink.ts) is in the fly.ai group; checked daily, leaving takes it back
  *   Flybook      5 XP a day with a like, comment, poke or caption, for wallets that hold or own a fly
  *
  * Level = floor(sqrt(XP / 50)). The dev, pool, house and the user's own wallets, contracts and fly wallets are tracked
@@ -68,7 +69,7 @@ export const RATES = {
   per10kFlyai: 1, marketUsdg: 0.5, marketOther: 20,
   claimStake: 50, claimStakeMs: 3_600_000, breed: 500, passBurn: 100,
   badge: { common: 25, uncommon: 100, rare: 250, legendary: 500 } as Record<string, number>,
-  referral: 0.1, xConnect: 50, share: 20, flybookDay: 5, levelBase: 50,
+  referral: 0.1, xConnect: 50, tgMember: 50, share: 20, flybookDay: 5, levelBase: 50,
 } as const;
 
 export type XpConfig = {
@@ -81,7 +82,8 @@ export function xpConfig(env: NodeJS.ProcessEnv): XpConfig {
   return {
     on: env.XP_ON !== "0",
     start: Date.parse(env.XP_SEASON_START ?? "2026-11-04T09:00:00Z"),
-    end: Date.parse(env.XP_SEASON_END ?? "2026-12-31T21:00:00Z"),   // New Year, TRT
+    // the end is a secret (fly secrets XP_SEASON_END): the user doesn't say when the airdrop is, and this repo is public
+    end: env.XP_SEASON_END ? Date.parse(env.XP_SEASON_END) : Infinity,
     fromBlock: Number(env.XP_FROM_BLOCK ?? FROM_BLOCK),
     staking: a(env.STAKING_CONTRACT, "0x5279dafa0858d4a5b2dceb05e5b41f954cd692cc"),
     lock: a(env.FLYLOCK_CONTRACT, "0x87ded9d9788a1f6653a0261ef84c56658d0bf5e9"),
@@ -424,8 +426,8 @@ export function createXp(d: {
   let cache: { at: number; rows: Map<string, Row>; ranked: Row[] } | null = null;
   async function compute() {
     if (cache && now() - cache.at < CACHE_MS) return cache;
-    const t = Math.min(now(), cfg.end), endIso = iso(cfg.end);
-    const [holders, events, deposits, principal, links, refs, badges, flyWallets, flybook] = await Promise.all([
+    const t = Math.min(now(), cfg.end), endIso = Number.isFinite(cfg.end) ? iso(cfg.end) : "9999-12-31T00:00:00.000Z";   // postgres.js dates can't be "infinity"
+    const [holders, events, deposits, principal, links, tg, refs, badges, flyWallets, flybook] = await Promise.all([
       pg.all<HolderRow>("select wallet, liquid::text, staked::text, locked::text, flies, at, hold_xp, fly_xp, streak_since from mine.xp_holders"),
       pg.all<{ wallet: string; source: string; xp: number }>("select wallet, source, sum(xp)::float8 as xp from mine.xp_events where at <= ? group by 1, 2", endIso),
       pg.all<{ wallet: string; usd: number }>(`select lower(holder) as wallet, sum(usd)::float8 as usd from mine.vault_moves
@@ -433,6 +435,7 @@ export function createXp(d: {
       pg.all<{ wallet: string; usd: number }>(`select lower(holder) as wallet, sum(principal_usd)::float8 as usd from mine.vault_ledger
         where holder is not null group by 1`).catch(() => []),
       pg.all<{ wallet: string; linked_at_ms: string }>("select wallet, linked_at_ms::text from mine.x_links").catch(() => []),
+      pg.all<{ wallet: string }>("select wallet from mine.tg_links where member").catch(() => []),
       pg.all<{ wallet: string; referrer: string }>("select wallet, referrer from mine.referrals where qualified_at is not null and qualified_at <= ?", endIso).catch(() => []),
       pg.all<{ wallet: string; badge: number }>("select wallet, badge::int as badge from mine.badge_claims").catch(() => []),
       pg.all<{ address: string }>("select lower(address) as address from mine.vault_wallets").catch(() => []),
@@ -461,6 +464,7 @@ export function createXp(d: {
     const kept = new Map(principal.map((p) => [p.wallet, p.usd]));
     for (const dep of deposits) add(dep.wallet, "deposits", depositXp(dep.usd, kept.get(dep.wallet) ?? 0));
     for (const l of links) if (Number(l.linked_at_ms) <= cfg.end) add(l.wallet, "x", RATES.xConnect);
+    for (const g of tg) add(g.wallet, "telegram", RATES.tgMember);
     const held = new Map<number, number>(), mineBadges = new Map<string, number[]>();
     for (const b of badges) {
       held.set(b.badge, (held.get(b.badge) ?? 0) + 1);
@@ -555,7 +559,7 @@ export function createXp(d: {
     return { on: true, wallet, items };
   }
 
-  const season = () => ({ start: iso(cfg.start), end: iso(cfg.end), over: now() >= cfg.end });
+  const season = () => ({ start: iso(cfg.start), over: now() >= cfg.end });   // no end date: it isn't public
   async function names(wallets: string[]) {
     if (!wallets.length) return new Map<string, { nickname: string | null; x: string | null; avatar: string | null }>();
     const list = `{${wallets.join(",")}}`;

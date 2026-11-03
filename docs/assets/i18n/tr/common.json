@@ -201,7 +201,12 @@
       "x_failed": "X yanıt vermedi, tekrar dene",
       "whatsNew": "Yeni",
       "xpBtn": "⭐ XP ve profil",
-      "profileBtn": "👤 Profil"
+      "profileBtn": "👤 Profil",
+      "tgLabel": "Telegram",
+      "tgIn": "fly.ai grubundasın · +50 XP",
+      "tgOut": "Henüz grupta değilsin",
+      "tgJoin": "Gruba katıl",
+      "tgCheck": "Tekrar kontrol et"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -277,7 +282,7 @@
     "start": "Buradan başla",
     "xp": {
       "label": "XP Sezonu",
-      "desc": "Yılbaşı dağıtımı için XP kazan"
+      "desc": "Airdrop için XP kazan"
     }
   },
   "footer": {
@@ -367,8 +372,8 @@
     "shareOk": "+{n} XP",
     "shareDone": "Bugünkü gönderin sayıldı. Yarın tekrar gel.",
     "connectX": "Paylaşarak XP kazanmak için hesap menüsünden X hesabını bağla.",
-    "seasonEnds": "Sezon 1 {date} tarihinde bitiyor. XP Yılbaşı dağıtımına sayılır.",
-    "seasonOver": "Sezon 1 bitti. XP Yılbaşı dağıtımına sayıldı.",
+    "seasonEnds": "XP airdrop'a sayılır.",
+    "seasonOver": "Sezon 1 bitti. XP airdrop'a sayıldı.",
     "s_hold": "$FLYAI tutma",
     "s_flies": "Aktif sinekler",
     "s_deposits": "Sinek cüzdanı yatırımları",
@@ -384,7 +389,7 @@
     "s_share": "X gönderileri",
     "s_flybook": "Flybook günleri",
     "h_title": "XP nasıl kazanılır",
-    "h_intro": "XP Sezon 1 boyunca birikir ve Yılbaşı dağıtımına sayılır. Yaklaşık 10 dakikada bir güncellenir.",
+    "h_intro": "XP Sezon 1 boyunca birikir ve airdrop'a sayılır. Yaklaşık 10 dakikada bir güncellenir.",
     "h_hold": "<b>$FLYAI tut</b>: 200k başına günde 10 XP. Stake edilmiş ya da kilitli: 12,5.",
     "h_flies": "<b>Aktif Trader Fly'lar</b>: cüzdanın 200k $FLYAI tuttuğu sürece her biri günde 10 XP.",
     "h_streak": "<b>Seri</b>: satmadığın her hafta tutma ve sinek XP'sine +%10, en fazla 2 kat. Satış seriyi baştan başlatır.",
@@ -407,6 +412,8 @@
     "logPost": "gönderi",
     "account": "Hesabın",
     "badgesBtn": "🏅 Rozetler",
-    "referralsBtn": "Davetler"
+    "referralsBtn": "Davetler",
+    "s_telegram": "Telegram grubunda",
+    "h_telegram": "<b>Telegram</b>: bağlı hesabın fly.ai grubunda olduğu sürece 50 XP (her gün kontrol edilir)."
   }
 }

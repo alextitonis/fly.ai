@@ -201,7 +201,12 @@
       "x_failed": "X no respondió, inténtalo de nuevo",
       "whatsNew": "Novedad",
       "xpBtn": "⭐ XP y perfil",
-      "profileBtn": "👤 Perfil"
+      "profileBtn": "👤 Perfil",
+      "tgLabel": "Telegram",
+      "tgIn": "En el grupo de fly.ai · +50 XP",
+      "tgOut": "Aún no estás en el grupo",
+      "tgJoin": "Unirse al grupo",
+      "tgCheck": "Comprobar de nuevo"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -277,7 +282,7 @@
     "start": "Empieza aquí",
     "xp": {
       "label": "Temporada XP",
-      "desc": "Gana XP para el drop de Año Nuevo"
+      "desc": "Gana XP para el airdrop"
     }
   },
   "footer": {
@@ -367,8 +372,8 @@
     "shareOk": "+{n} XP",
     "shareDone": "La publicación de hoy ya cuenta. Vuelve mañana.",
     "connectX": "Vincula tu cuenta de X en el menú de cuenta para ganar XP compartiendo.",
-    "seasonEnds": "La Temporada 1 termina el {date}. La XP cuenta para el drop de Año Nuevo.",
-    "seasonOver": "La Temporada 1 terminó. La XP contó para el drop de Año Nuevo.",
+    "seasonEnds": "La XP cuenta para el airdrop.",
+    "seasonOver": "La Temporada 1 terminó. La XP contó para el airdrop.",
     "s_hold": "Mantener $FLYAI",
     "s_flies": "Moscas activas",
     "s_deposits": "Depósitos en wallets de moscas",
@@ -384,7 +389,7 @@
     "s_share": "Publicaciones en X",
     "s_flybook": "Días en Flybook",
     "h_title": "Cómo ganar XP",
-    "h_intro": "La XP se acumula durante la Temporada 1 y cuenta para el drop de Año Nuevo. Se actualiza cada 10 minutos aprox.",
+    "h_intro": "La XP se acumula durante la Temporada 1 y cuenta para el airdrop. Se actualiza cada 10 minutos aprox.",
     "h_hold": "<b>Mantén $FLYAI</b>: 10 XP al día por cada 200k. En stake o bloqueado: 12,5.",
     "h_flies": "<b>Trader Flies activas</b>: 10 XP al día cada una, mientras tu wallet tenga 200k $FLYAI.",
     "h_streak": "<b>Racha</b>: +10% en la XP de holding y de moscas por cada semana sin vender, hasta x2. Vender la reinicia.",
@@ -407,6 +412,8 @@
     "logPost": "post",
     "account": "Tu cuenta",
     "badgesBtn": "🏅 Insignias",
-    "referralsBtn": "Referidos"
+    "referralsBtn": "Referidos",
+    "s_telegram": "En el grupo de Telegram",
+    "h_telegram": "<b>Telegram</b>: 50 XP mientras tu cuenta vinculada esté en el grupo de fly.ai (se comprueba a diario)."
   }
 }

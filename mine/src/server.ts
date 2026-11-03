@@ -55,6 +55,7 @@ import { createPet, flyOwners } from "./pet.ts";
 import { createHunt } from "./hunt.ts";
 import { badgeConfig, createBadges } from "./badges.ts";
 import { createXp, xpConfig } from "./xp.ts";
+import { createTgLink } from "./tglink.ts";
 import { multicall } from "./multicall.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
@@ -3769,6 +3770,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && p.startsWith("/api/xp/")) {
     if (await xp.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p === "/api/tg" || p.startsWith("/api/tg/"))) {
+    if (await tgLink.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && p.startsWith("/api/pet/")) {
     if (await pet.route(req, res, url)) return;
   }
@@ -4193,6 +4197,9 @@ const xp = createXp({
   HttpError, send, readJson, sessionWallet: sessionAddress,
 });
 if (USER) xp.start();
+// Connect Telegram (src/tglink.ts): the Login Widget's signed answer, and the bot's word on group membership (XP)
+const tgLink = createTgLink({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, env: process.env });
+if (USER) tgLink.start();
 // Fly Launchpad (src/launchpad.ts): indexes the FlyLaunchpad contract once LAUNCHPAD_ADDRESS is set
 const launchpad = /^0x[0-9a-fA-F]{40}$/.test(process.env.LAUNCHPAD_ADDRESS ?? "")
   ? createLaunchpad({

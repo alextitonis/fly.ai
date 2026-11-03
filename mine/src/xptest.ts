@@ -174,6 +174,7 @@ try {
   // the board
   await xp.tick();
   const board = await xp.leaderboard(TEAM) as any;
+  check("the season's end stays off the API, and without the secret there is none", !("end" in board.season) && xpConfig({}).end === Infinity);
   check("a contract is left off the board", !board.rows.some((r: any) => r.wallet === E));
   check("the team wallet is off the board", !board.rows.some((r: any) => r.wallet === TEAM) && board.me === null);
   check("board is sorted by XP", board.rows.every((r: any, i: number) => i === 0 || board.rows[i - 1].xp >= r.xp));

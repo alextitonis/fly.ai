@@ -201,7 +201,12 @@
       "x_failed": "X가 응답하지 않아요, 다시 시도하세요",
       "whatsNew": "새 소식",
       "xpBtn": "⭐ XP & 프로필",
-      "profileBtn": "👤 프로필"
+      "profileBtn": "👤 프로필",
+      "tgLabel": "텔레그램",
+      "tgIn": "fly.ai 그룹 참여 중 · +50 XP",
+      "tgOut": "아직 그룹에 없습니다",
+      "tgJoin": "그룹 참여",
+      "tgCheck": "다시 확인"
     },
     "terminal": {
       "label": "Fly 터미널",
@@ -277,7 +282,7 @@
     "start": "여기서 시작",
     "xp": {
       "label": "XP 시즌",
-      "desc": "새해 드롭을 위한 XP 모으기"
+      "desc": "에어드롭을 위한 XP 모으기"
     }
   },
   "footer": {
@@ -367,8 +372,8 @@
     "shareOk": "+{n} XP",
     "shareDone": "오늘의 글이 반영되었습니다. 내일 다시 오세요.",
     "connectX": "계정 메뉴에서 X 계정을 연결하면 공유로 XP를 얻을 수 있습니다.",
-    "seasonEnds": "시즌 1은 {date}에 끝납니다. XP는 새해 드롭에 반영됩니다.",
-    "seasonOver": "시즌 1이 끝났습니다. XP는 새해 드롭에 반영되었습니다.",
+    "seasonEnds": "XP는 에어드롭에 반영됩니다.",
+    "seasonOver": "시즌 1이 끝났습니다. XP는 에어드롭에 반영되었습니다.",
     "s_hold": "$FLYAI 보유",
     "s_flies": "활성 플라이",
     "s_deposits": "플라이 지갑 입금",
@@ -384,7 +389,7 @@
     "s_share": "X 게시물",
     "s_flybook": "Flybook 활동일",
     "h_title": "XP 얻는 방법",
-    "h_intro": "XP는 시즌 1 동안 쌓이며 새해 드롭에 반영됩니다. 약 10분마다 갱신됩니다.",
+    "h_intro": "XP는 시즌 1 동안 쌓이며 에어드롭에 반영됩니다. 약 10분마다 갱신됩니다.",
     "h_hold": "<b>$FLYAI 보유</b>: 200k당 하루 10 XP. 스테이킹 또는 잠금: 12.5.",
     "h_flies": "<b>활성 Trader Fly</b>: 지갑에 200k $FLYAI가 있는 동안 마리당 하루 10 XP.",
     "h_streak": "<b>연속 보유</b>: 판매하지 않은 주마다 보유·플라이 XP +10%, 최대 2배. 판매하면 다시 시작됩니다.",
@@ -407,6 +412,8 @@
     "logPost": "게시물",
     "account": "내 계정",
     "badgesBtn": "🏅 배지",
-    "referralsBtn": "추천"
+    "referralsBtn": "추천",
+    "s_telegram": "텔레그램 그룹 참여",
+    "h_telegram": "<b>텔레그램</b>: 연결된 계정이 fly.ai 그룹에 있는 동안 50 XP (매일 확인)."
   }
 }
