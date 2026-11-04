@@ -1713,7 +1713,9 @@
       "save": "Guardar mercados",
       "saved": "Guardado. La próxima revisión los usa.",
       "auto": "La mosca mueve el dinero sola: cuando su regla encuentra operaciones mete hasta una cuarta parte de la billetera, y tras 2 días sin nada que operar lo devuelve todo a la billetera."
-    }
+    },
+    "agent": "Agente IA #{id}",
+    "agentHint": "El ID de agente de IA en cadena de esta mosca: se registró desde su propia billetera en el registro de agentes ERC-8004 de Robinhood Chain."
   },
   "profile": {
     "title": "Tu perfil",

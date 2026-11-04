@@ -1713,7 +1713,9 @@
       "save": "Piyasaları kaydet",
       "saved": "Kaydedildi. Bir sonraki kontrol bunları kullanır.",
       "auto": "Parayı sinek kendisi taşır: kuralı işlem bulduğunda cüzdanın en fazla dörtte birini koyar, 2 gün işlem yapacak bir şey olmazsa hepsini cüzdana geri getirir."
-    }
+    },
+    "agent": "AI ajanı #{id}",
+    "agentHint": "Bu sineğin zincir üstü AI ajan kimliği: Robinhood Chain'deki ERC-8004 ajan kaydına kendi cüzdanından kaydoldu."
   },
   "profile": {
     "title": "Profilin",

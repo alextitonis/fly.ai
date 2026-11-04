@@ -193,9 +193,10 @@ export function createVaults(d: VaultsDeps) {
       return { chain, ledger, stats, settings: settings?.doc ?? null };
     };
     const [home, ...away] = await Promise.all([one("robinhood"), ...AWAY.map(one)]);
-    const [solana, perps] = await Promise.all([SOLANA && wallet ? publicOf(`vault:solana:${wallet}`) : null,
-      PERPS && wallet ? publicOf(`vault:perps:${wallet}`) : null]);
-    return { fly, owner, wallet, ...home, pass: granted ?? null, away, solana, perps };
+    const [solana, perps, agent] = await Promise.all([SOLANA && wallet ? publicOf(`vault:solana:${wallet}`) : null,
+      PERPS && wallet ? publicOf(`vault:perps:${wallet}`) : null,
+      wallet ? publicOf(`vault:agent:${wallet}`) : null]);          // its ERC-8004 agent id (flytrade/vaults/vagents.py)
+    return { fly, owner, wallet, ...home, pass: granted ?? null, away, solana, perps, agent };
   }
 
   /**

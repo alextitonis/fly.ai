@@ -30,4 +30,7 @@ SHA="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || echo unknown)"
 git -C "$ROOT" diff --quiet HEAD -- mine world/src/connectome.ts world/src/rng.ts world/src/roulette world/src/slots world/src/race world/src/arena 2>/dev/null \
   && [ -z "$(git -C "$ROOT" ls-files --others --exclude-standard mine world/src/slots world/src/race world/src/arena)" ] || SHA="$SHA-dirty"
 echo "deploying $SHA from $STAGE"
-fly deploy "$STAGE" -c "$STAGE/mine/fly.toml" --remote-only --ha=false --build-arg GIT_SHA="$SHA" "$@"
+# some shells only have flyctl, or don't have ~/.fly/bin on PATH (bash started from PowerShell)
+FLY="$(command -v fly || command -v flyctl || ls "$HOME"/.fly/bin/flyctl* 2>/dev/null | head -1 || true)"
+[ -n "$FLY" ] || { echo "flyctl not found (looked on PATH and in ~/.fly/bin)" >&2; exit 1; }
+"$FLY" deploy "$STAGE" -c "$STAGE/mine/fly.toml" --remote-only --ha=false --build-arg GIT_SHA="$SHA" "$@"
