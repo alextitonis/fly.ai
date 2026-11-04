@@ -42,5 +42,11 @@
     "title": "Past winners",
     "none": "No round has ended yet. The first one ends this Sunday.",
     "pending": "Rewards coming soon. Top of the round:"
+  },
+  "boost": {
+    "live": "{mult} XP is on",
+    "next": "{mult} XP starts {when}",
+    "left": "ends in {left}",
+    "rules": "Swap-box buys, fly wallet deposits, feeding, marketplace trades, breeding and pass burns count {mult}. Sells and withdrawals cost {mult} too, and a sell within {days} days after takes the bonus back."
   }
 }

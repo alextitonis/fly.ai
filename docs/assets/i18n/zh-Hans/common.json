@@ -206,7 +206,8 @@
       "tgIn": "已在 fly.ai 群组 · +50 XP",
       "tgOut": "还没有加入群组",
       "tgJoin": "加入群组",
-      "tgCheck": "重新检查"
+      "tgCheck": "重新检查",
+      "chats": "聊天"
     },
     "terminal": {
       "label": "Fly 终端",
@@ -414,6 +415,60 @@
     "badgesBtn": "🏅 徽章",
     "referralsBtn": "推荐",
     "s_telegram": "在 Telegram 群组中",
-    "h_telegram": "<b>Telegram</b>：绑定的账号在 fly.ai 群组中时得 50 XP（每天检查）。"
+    "h_telegram": "<b>Telegram</b>：绑定的账号在 fly.ai 群组中时得 50 XP（每天检查）。",
+    "s_boost": "双倍经验奖励",
+    "s_penalty": "双倍经验：卖出和提取",
+    "logBoost": "{mult}x",
+    "h_boost": "<b>双倍经验时段</b>：有些日子团队会让买入、存入、喂养、交易、繁殖和销毁通行证的经验翻倍。此时卖出和提取也加倍扣除，结束后 3 天内卖出会收回奖励。"
+  },
+  "flychat": {
+    "title": "苍蝇 #{id}",
+    "close": "关闭",
+    "hello": "你好！可以问我为什么交易（或没交易），或告诉我要改什么。常用改动点下面的按钮。我只提建议：你批准之前什么都不会发生。",
+    "placeholder": "问问或告诉你的苍蝇…",
+    "resting": "今天休息：按钮仍可使用",
+    "send": "发送",
+    "doneToday": "今天到此为止：明天见",
+    "needHold": "在这只苍蝇的钱包里存入资金或持有 20 万 $FLYAI 才能聊天。",
+    "cantLoad": "无法加载聊天",
+    "quickAsk": "{what}？以下是改动：",
+    "approve": "批准",
+    "decline": "拒绝",
+    "desk": "Fly Desk：",
+    "deskPending": "已发送给 Fly Desk 做防跑路检查…",
+    "q": {
+      "earn": "只放贷",
+      "letItFly": "Let it fly",
+      "safe": "稳健",
+      "stocks": "股票",
+      "pause": "暂停",
+      "resume": "恢复",
+      "careful": "更谨慎",
+      "bolder": "更大胆"
+    },
+    "status": {
+      "approved": "已完成",
+      "declined": "已拒绝",
+      "failed": "未成功",
+      "pending": ""
+    },
+    "cardText": {
+      "withdraw": "在 {chain} 提取 {pct}%",
+      "move": "从 {from} 转 ${usd} 到 {to}",
+      "watch": "始终关注这个代币",
+      "watchNote": "你的苍蝇交易关注的代币时不经过防跑路筛选，风险由你承担。Fly Desk 也会检查，看起来不错的话可能为所有苍蝇加入。",
+      "moneyNote": "这会移动资金，按常规提现规则处理（收取利润费）。"
+    },
+    "chats": "聊天",
+    "chatsAria": "你的苍蝇聊天",
+    "back": "返回聊天列表",
+    "flyPage": "苍蝇页面",
+    "noFlies": "还没有可以聊天的苍蝇。获取一只 Trader Fly 并向它的钱包存钱，或持有 20 万 $FLYAI。",
+    "getFly": "Trader Flies",
+    "signIn": "在右上角登录，即可和你的苍蝇聊天。",
+    "noMsgs": "打个招呼",
+    "you": "你",
+    "card": "卡片",
+    "left": "今天还剩 {n}/{max} 条消息 · 每 {gap} 秒一条"
   }
 }

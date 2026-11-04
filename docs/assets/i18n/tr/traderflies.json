@@ -2374,5 +2374,34 @@
     "done": "Bağlandı! Sineğine dön.",
     "noCode": "Bu sayfayı Fly Pet uygulamasındaki Cüzdan bağla düğmesinden aç.",
     "failed": "Bağlanamadı. Tekrar dene."
+  },
+  "rate": {
+    "hint": "Sahipleri, eski sahipleri ve topluluk tarafından zincir üstünde puanlandı (ERC-8004)",
+    "new": "Yeni",
+    "pick": "Puanın",
+    "nStars": "{n} yıldız",
+    "who": {
+      "owner": "Sahibi",
+      "former": "Eski sahibi",
+      "community": "Topluluk",
+      "unverified": "Doğrulanmamış"
+    },
+    "minAgo": "{n} dk önce",
+    "hAgo": "{n} sa önce",
+    "dAgo": "{n} gün önce",
+    "sent": "Puan gönderildi. Birazdan burada görünür.",
+    "self": "Bir sineğin kendi cüzdanı kendini puanlayamaz.",
+    "none": "Henüz puan yok",
+    "change": "Puanını değiştir",
+    "button": "Bu sineği puanla",
+    "whoCan": "Kimler puanlayabilir?",
+    "whoCanHint": "Sahibi, cüzdanının eski sahipleri ve 200 bin+ $FLYAI ya da kendi Trader Fly'ı olanlar.",
+    "commentPh": "Kısa bir not (isteğe bağlı, herkese açık, bağlantı yok)",
+    "onChain": "Cüzdanından {who} olarak zincire kaydedilir. Robinhood Chain'de çok az ETH tutar.",
+    "cancel": "Vazgeç",
+    "submit": "Puanı gönder",
+    "more": "{n} puanın hepsini göster",
+    "less": "Daha az göster",
+    "unverified": "Bu sinekle bağı olmayan cüzdanlardan {n} puan daha: yıldızlara sayılmaz."
   }
 }

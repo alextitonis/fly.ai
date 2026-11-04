@@ -25,6 +25,7 @@
     s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_badges: "Badges",
     account: "Your account", badgesBtn: "🏅 Badges", referralsBtn: "Referrals",
     log: "XP log", logBefore: "everything up to {date}", noLog: "Nothing logged yet.", logTx: "tx", logPost: "post",
+    s_boost: "2x XP bonus", s_penalty: "2x XP: sells and withdrawals", logBoost: "{mult}x",
     s_referrals: "Referrals", s_x: "X connected", s_telegram: "In the Telegram group", s_share: "X posts", s_flybook: "Flybook days",
     h_title: "How to earn XP", h_intro: "XP adds up through Season 1 and counts toward the airdrop. It updates about every 10 minutes.",
     h_hold: "<b>Hold $FLYAI</b>: 10 XP a day per 200k. Staked or locked: 12.5.",
@@ -42,9 +43,10 @@
     h_x: "<b>X</b>: 50 XP for connecting your account, 20 XP a day for a post about fly.ai (counted automatically each night).",
     h_telegram: "<b>Telegram</b>: 50 XP while your connected account is in the fly.ai group (checked daily).",
     h_flybook: "<b>Flybook</b>: 5 XP a day you like, comment, poke or caption (for holders and fly owners).",
+    h_boost: "<b>2x XP windows</b>: some days the team doubles XP for buys, deposits, feeding, trades, breeding and pass burns. Sells and withdrawals cost double then too, and a sell within 3 days after takes the bonus back.",
     h_foot: "Team wallets and fly wallets aren't ranked. Levels: level 1 at 50 XP, 2 at 200, 3 at 450, 10 at 5,000.",
   };
-  const HELP = ["hold", "flies", "streak", "deposits", "feed", "market", "buy", "claimstake", "breed", "passburn", "badges", "referrals", "x", "telegram", "flybook"];
+  const HELP = ["hold", "flies", "streak", "deposits", "feed", "market", "buy", "claimstake", "breed", "passburn", "badges", "referrals", "x", "telegram", "flybook", "boost"];
 
   function t(key, vars) {
     let v = window.flyI18n ? window.flyI18n.t("common.xp." + key, vars) : null;
@@ -94,6 +96,7 @@
       .flyprof-log { list-style: none; margin: 0; padding: 0; max-height: 240px; overflow: auto; }
       .flyprof-log li { display: grid; grid-template-columns: 74px minmax(0, 1fr) auto; gap: 8px; padding: 4px 0; border-top: 1px solid var(--line, #2a2a2a); font-size: 13px; }
       .flyprof-log li:first-child { border-top: 0; }
+      .flyprof-x2 { margin-left: 6px; font: 700 10px/1 var(--mono, monospace); font-style: normal; color: #ffd166; border: 1px solid #ffd16666; border-radius: 6px; padding: 1px 4px; }
       @media (max-width: 520px) { .flyprof-log { max-height: none; overflow: visible; } }   /* one scroll on phones: the card's */
       .flyprof-log time { font: 12px var(--mono, monospace); color: var(--dim, #7a8480); }
       .flyprof-log span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -162,10 +165,10 @@
     box.append(el("ul", { className: "flyprof-log" }, ...items.map((i) => el("li", null,
       // a daily row is a UTC day: show that day, not the local date of its last second
       el("time", { textContent: date(i.day ? `${i.day}T12:00:00` : i.at), dateTime: i.day || i.at }),
-      el("span", null, t("s_" + i.source), i.before ? ` · ${t("logBefore", { date: date(`${i.day}T12:00:00`) })}` : "",
+      el("span", null, t("s_" + i.source), i.boost ? el("em", { className: "flyprof-x2", textContent: t("logBoost", { mult: i.boost }) }) : null, i.before ? ` · ${t("logBefore", { date: date(`${i.day}T12:00:00`) })}` : "",
         i.tx ? el("a", { href: `https://robinhoodchain.blockscout.com/tx/${i.tx}`, target: "_blank", rel: "noopener", textContent: t("logTx") }) : null,
         i.post ? el("a", { href: `https://x.com/i/status/${i.post}`, target: "_blank", rel: "noopener", textContent: t("logPost") }) : null),
-      el("b", { textContent: `+${fmt(i.xp)}` })))));
+      el("b", { textContent: `${i.xp < 0 ? "−" : "+"}${fmt(Math.abs(i.xp))}` })))));
     return box;
   }
 
@@ -194,7 +197,7 @@
     const badges = el("div", { className: "flyprof-sec" }, el("h4", { textContent: t("badges") }),
       p.badges.length ? el("div", { className: "flyprof-badges" }, ...p.badges.map((id) => el("img", { src: badgeSrc(id), alt: "", width: 36, height: 36 })))
         : el("p", { className: "flyprof-msg", textContent: t("noBadges") }));
-    const rows = Object.entries(p.sources || {}).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
+    const rows = Object.entries(p.sources || {}).filter(([, v]) => v !== 0).sort((a, b) => b[1] - a[1]);   // 2x losses show, negative
     const sources = el("div", { className: "flyprof-sec" }, el("h4", { textContent: t("sources") }),
       ...(rows.length ? rows.map(([k, v]) => kv(t("s_" + k), fmt(v))) : [el("p", { className: "flyprof-msg", textContent: t("noXp") })]));
     const season = p.season ? el("p", { className: "flyprof-sub", textContent: p.season.over ? t("seasonOver")

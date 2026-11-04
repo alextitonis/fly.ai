@@ -42,5 +42,11 @@
     "title": "Geçmiş kazananlar",
     "none": "Henüz biten tur yok. İlki bu pazar bitiyor.",
     "pending": "Ödüller yakında. Turun en iyileri:"
+  },
+  "boost": {
+    "live": "{mult} XP açık",
+    "next": "{mult} XP {when} başlıyor",
+    "left": "{left} kaldı",
+    "rules": "Takas kutusu alımları, sinek cüzdanı yatırımları, besleme, pazar işlemleri, üretme ve pass yakma {mult} sayılır. Satışlar ve çekimler de {mult} düşer; bittikten sonraki {days} gün içinde satış yaparsan bonus geri alınır."
   }
 }

@@ -36,3 +36,11 @@
 .xp-reward { font: 600 14px var(--mono); color: var(--mint); text-align: right; }
 .xp-round p { margin: 0 0 6px; color: var(--muted); font-size: 14px; }
 @media (max-width: 520px) { .xp-row { grid-template-columns: 34px 24px minmax(0, 1fr) 76px; } .xp-level { display: none; } .xp-av { width: 24px; height: 24px; } }
+
+/* 2x XP windows */
+.xp-boost { margin-bottom: 14px; border-color: #ffd16655; background: linear-gradient(90deg, #ffd16614, transparent); }
+.xp-boost.live { border-color: #ffd166; box-shadow: 0 0 0 1px #ffd16633, 0 0 24px #ffd16622; }
+.xp-boost p { margin: 0; }
+.xp-boost-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; color: #ffd166; font-size: 17px; }
+.xp-boost-left { color: var(--text); font: 600 13px/1 var(--mono, monospace); }
+.xp-boost-rules { margin-top: 6px !important; color: var(--muted); font-size: 14px; }

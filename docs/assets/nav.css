@@ -139,7 +139,8 @@ nav li.acct .acct-out:hover { color: var(--text, #f4f7f6); }
 nav li.acct .acct-btn { border: 1px solid var(--line, #1a1d1c); border-radius: 999px; padding: 6px 12px !important; font-size: 13px; }
 
 /* search, notifications, badges in the nav (nav.js searchBox / bell / account badges) */
-nav li.srch .srch-btn, nav li.bell .bell-btn { font-size: 15px; padding: 6px 9px !important; position: relative; }
+nav li.srch .srch-btn, nav li.bell .bell-btn, nav li.chat .chat-btn { font-size: 15px; padding: 6px 9px !important; position: relative; }
+nav li.chat[hidden] { display: none; }
 nav li.srch .ddmenu, nav li.bell .ddmenu { width: min(340px, calc(100vw - 24px)); }
 nav li.srch .srch-box { padding: 10px 12px 6px; }
 nav li.srch .srch-box input { width: 100%; font: inherit; font-size: 16px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line, #1a1d1c);
@@ -151,7 +152,7 @@ nav li.srch .srch-out a, nav li.bell .bell-list a { display: flex; justify-conte
 nav li.srch .srch-out a small, nav li.bell .bell-list a small { color: var(--muted, #9ba5a1); font-size: 12px; white-space: nowrap; }
 nav li.srch .srch-out a:hover, nav li.bell .bell-list a:hover { background: rgba(255,255,255,.05); }
 nav li.bell .bell-list a.new { border-left: 2px solid var(--mint, #5ef2cc); }
-nav li.bell .bell-n { position: absolute; top: 0; right: 0; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--mint, #5ef2cc);
+nav li.bell .bell-n, nav li.chat .chat-n { position: absolute; top: 0; right: 0; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--mint, #5ef2cc);
   color: #000; font: 700 10px/16px var(--sans, "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif); text-align: center; }
 nav li.acct .acct-badges { display: flex; flex-wrap: wrap; gap: 4px; padding: 10px 12px 4px; }
 nav li.acct .acct-badges .badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(94,242,204,.12);

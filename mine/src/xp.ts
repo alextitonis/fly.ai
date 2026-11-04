@@ -175,11 +175,38 @@ export type Event = { wallet: string; source: string; ref: string; xp: number; a
 type Pending = Record<string, { t: number; amount: string; ref: string }>;
 
 /**
+ * 2x XP windows (2026-11-04, the user: "as admin we can set double gain/lose for specific dates"). Set by an admin
+ * (POST /api/admin/xp/boost); nothing about them is public before they start except what /api/xp/boost shows.
+ *   gains     one-off actions inside the window (BOOST_SOURCES) and fly-wallet deposits made in it count x mult
+ *             (the extra is its own source, "boost"). Holding and fly XP are NOT boosted.
+ *   losses    a sell into a pool inside the window costs mult x the XP a buy of that size earns (per10kFlyai), and a
+ *             withdrawal from a fly wallet in it takes back (mult - 1) x more deposit XP (source "penalty", negative)
+ *   claw-back a sell inside the window or within CLAWBACK_MS after it loses that window's whole bonus
+ * Sells are only recorded while a window or its claw-back is open (xp_state "boost_sells"), not every sell ever.
+ */
+export type Boost = { id: number; from: number; to: number; mult: number; note?: string | null };
+export type Sell = { wallet: string; at: number; xp: number; ref: string };
+export const BOOST_SOURCES = ["market", "buy", "breed", "feed", "claimstake", "passburn"];
+export const CLAWBACK_MS = 3 * DAY_MS;
+export const BOOST_LIMITS = { minMult: 1.25, maxMult: 5, maxMs: 7 * DAY_MS };
+/** Is t inside a window, or its claw-back after? */
+export const watching = (boosts: Boost[], t: number) => boosts.some((b) => t >= b.from && t < b.to + CLAWBACK_MS);
+
+/** One wallet's result for one window. sold = the buy-equivalent XP of its sells in the window. */
+export function boostResult(b: Boost, p: { gained: number; deposited: number; sold: number; soldAfter: boolean; withdrawn: number; depositsAll: number }) {
+  const extra = b.mult - 1;
+  const raw = extra * (p.gained + RATES.depositPerUsd * p.deposited);
+  const forfeited = p.sold > 0 || p.soldAfter;
+  const penalty = b.mult * p.sold + extra * RATES.depositPerUsd * Math.min(p.withdrawn, p.depositsAll);
+  return { bonus: forfeited ? 0 : raw, penalty, forfeited: forfeited && raw > 0, raw };
+}
+
+/**
  * A chunk of logs, in chain order, against the holders it touches. Returns the one-off events. Pure apart from `of`.
  * `fee` is the swap box's fee leg: a buy whose tx also pays $FLYAI to it came through our box.
  */
 export function bookLogs(cfg: XpConfig, logs: Log[], timeOf: (n: number) => number, of: (w: string) => Holder,
-  owners: Map<number, string>, pending: Pending): Event[] {
+  owners: Map<number, string>, pending: Pending, sells?: { boosts: Boost[]; out: Sell[] }): Event[] {
   const events: Event[] = [];
   const order = (a: Log, b: Log) => parseInt(a.blockNumber, 16) - parseInt(b.blockNumber, 16) || parseInt(a.logIndex, 16) - parseInt(b.logIndex, 16);
   const sorted = [...logs].sort(order);
@@ -210,7 +237,12 @@ export function bookLogs(cfg: XpConfig, logs: Log[], timeOf: (n: number) => numb
         const flows = flowsOf(moves, POOLS);
         const viaBox = moves.some((m) => m.to === cfg.feeTo) && [...flows.values()].some((v) => v > 0n);
         for (const [w, v] of flows) {
-          if (v < 0n) move(w, t, (h) => { h.streak = t; });                 // a sell restarts the streak
+          if (v < 0n) {
+            move(w, t, (h) => { h.streak = t; });                           // a sell restarts the streak
+            if (sells && w !== ZERO && w !== DEAD && watching(sells.boosts, t)) {
+              sells.out.push({ wallet: w, at: t, xp: tokens(-v) / 10_000 * RATES.per10kFlyai, ref: `${l.transactionHash}:${w}` });
+            }
+          }
           else if (viaBox && w !== cfg.feeTo) ev(w, "buy", l, tokens(v) / 10_000 * RATES.per10kFlyai, t);
         }
       }
@@ -325,6 +357,8 @@ export function createXp(d: {
   readJson: (req: IncomingMessage) => Promise<any>;
   sessionWallet: (req: IncomingMessage) => Promise<string>;
   adminOnly?: (req: IncomingMessage) => void;
+  /** wallets that may set 2x windows when signed in (BOUNTY_ADMINS), besides the admin token */
+  admins?: string[];
   now?: () => number;
   /** posts mentioning fly.ai since a UTC day (YYYY-MM-DD); off when null (no APIFY_TOKEN) */
   search?: ((since: string) => Promise<Post[]>) | null;
@@ -369,7 +403,14 @@ export function createXp(d: {
     const of = (w: string) => held.get(w) ?? held.set(w, newHolder()).get(w)!;
     const owners = new Map<number, string>(ownerRows.map((r) => [r.id, r.owner]));
     const before = new Map(owners);
-    const events = bookLogs(cfg, all, timeOf, of, owners, pending);
+    const boosts = (await getState<Boost[]>(q, "boosts")) ?? [];
+    const sold: Sell[] = [];
+    const events = bookLogs(cfg, all, timeOf, of, owners, pending, { boosts, out: sold });
+    if (sold.length) {
+      const prev = (await getState<Sell[]>(q, "boost_sells")) ?? [];
+      const seen = new Set(prev.map((s) => s.ref));
+      await setState(q, "boost_sells", [...prev, ...sold.filter((s) => !seen.has(s.ref))]);
+    }
     if (held.size) {
       await q.run(`insert into mine.xp_holders (wallet, liquid, staked, locked, flies, at, hold_xp, fly_xp, streak_since)
         select wallet, liquid, staked, locked, flies, at, hold_xp, fly_xp, streak_since from jsonb_to_recordset(?::text::jsonb)
@@ -437,6 +478,7 @@ export function createXp(d: {
       await snapshot();
       await rounds();
       await notify();
+      await boostNotes();
     } catch (err) {
       console.error(`xp: ${err instanceof Error ? err.message : err}`);
     } finally {
@@ -445,7 +487,7 @@ export function createXp(d: {
   }
 
   /** Everyone's XP right now, by source. Read from the tables each minute. */
-  let cache: { at: number; rows: Map<string, Row>; ranked: Row[] } | null = null;
+  let cache: { at: number; rows: Map<string, Row>; ranked: Row[]; windows: Map<string, WindowResult[]> } | null = null;
   async function compute() {
     if (cache && now() - cache.at < CACHE_MS) return cache;
     const t = Math.min(now(), cfg.end), endIso = Number.isFinite(cfg.end) ? iso(cfg.end) : "9999-12-31T00:00:00.000Z";   // postgres.js dates can't be "infinity"
@@ -500,9 +542,16 @@ export function createXp(d: {
     const boost = new Map<string, number>();
     for (const r of refs) boost.set(r.referrer, (boost.get(r.referrer) ?? 0) + base(r.wallet) * RATES.referral);
     for (const [w, xp] of boost) add(w, "referrals", xp);
+    // 2x windows: the bonus (unless a sell took it back) and the doubled losses; after referrals, so neither moves them
+    const windows = await boostWindows(t, endIso ?? "9999-12-31T00:00:00.000Z", new Map(deposits.map((dep) => [dep.wallet, dep.usd])), kept);
+    for (const [w, list] of windows) {
+      add(w, "boost", list.reduce((s, x) => s + x.bonus, 0));
+      const pen = list.reduce((s, x) => s + x.penalty, 0);
+      if (pen > 0) { const r = row(w); r.sources.penalty = (r.sources.penalty ?? 0) - pen; }
+    }
     for (const r of rows.values()) {
       for (const k of Object.keys(r.sources)) r.sources[k] = Math.round(r.sources[k]);
-      r.xp = Object.values(r.sources).reduce((s, v) => s + v, 0);
+      r.xp = Math.max(0, Object.values(r.sources).reduce((s, v) => s + v, 0));
       r.level = levelOf(r.xp);
     }
     // re-read each time: the process that serves the board isn't always the one that ticks and classifies
@@ -510,8 +559,108 @@ export function createXp(d: {
     const off = new Set([...cfg.exclude, ...Object.keys(contracts).filter((w) => contracts![w]), ...flyWallets.map((f) => f.address), cfg.staking, cfg.lock, cfg.distributor, cfg.fly, cfg.market,
       cfg.breeder, cfg.pass, ...POOLS]);
     const ranked = [...rows.values()].filter((r) => r.xp > 0 && !off.has(r.wallet)).sort((a, b) => b.xp - a.xp || a.wallet.localeCompare(b.wallet));
-    cache = { at: now(), rows, ranked };
+    cache = { at: now(), rows, ranked, windows };
     return cache;
+  }
+
+  type WindowResult = ReturnType<typeof boostResult> & { id: number; from: number; to: number; mult: number };
+  /** Every started window's result for each wallet it touched. */
+  async function boostWindows(t: number, endIso: string, depositsAll: Map<string, number>, kept: Map<string, number>) {
+    const out = new Map<string, WindowResult[]>();
+    const boosts = ((await getState<Boost[]>(pg, "boosts")) ?? []).filter((b) => b.from <= t && b.from < cfg.end);
+    if (!boosts.length) return out;
+    const sells = (await getState<Sell[]>(pg, "boost_sells")) ?? [];
+    for (const b of boosts) {
+      const to = Math.min(b.to, t, cfg.end), fromIso = iso(b.from)!, toIso = iso(to)!;
+      const [gained, deps, wds] = await Promise.all([
+        pg.all<{ wallet: string; xp: number }>(`select wallet, sum(xp)::float8 as xp from mine.xp_events
+          where at >= ? and at < ? and at <= ? and xp > 0 and source = any(?::text[]) group by 1`, fromIso, toIso, endIso, `{${BOOST_SOURCES.join(",")}}`),
+        pg.all<{ wallet: string; usd: number }>(`select lower(holder) as wallet, sum(usd)::float8 as usd from mine.vault_moves
+          where kind = 'deposit' and holder is not null and usd >= ? and at >= ? and at < ? group by 1`, RATES.depositMinUsd, fromIso, toIso).catch(() => []),
+        pg.all<{ wallet: string; usd: number }>(`select lower(holder) as wallet, sum(usd)::float8 as usd from mine.vault_moves
+          where kind = 'withdraw' and holder is not null and at >= ? and at < ? group by 1`, fromIso, toIso).catch(() => []),
+      ]);
+      const per = new Map<string, { gained: number; deposited: number; sold: number; soldAfter: boolean; withdrawn: number }>();
+      const p = (w: string) => per.get(w) ?? per.set(w, { gained: 0, deposited: 0, sold: 0, soldAfter: false, withdrawn: 0 }).get(w)!;
+      for (const g of gained) p(g.wallet).gained += g.xp;
+      for (const dep of deps) p(dep.wallet).deposited += Math.min(dep.usd, kept.get(dep.wallet) ?? 0);
+      for (const w of wds) p(w.wallet).withdrawn += w.usd;
+      for (const s of sells) {
+        if (s.at >= b.from && s.at < to) p(s.wallet).sold += s.xp;
+        else if (s.at >= b.to && s.at < b.to + CLAWBACK_MS && s.at <= t && per.has(s.wallet)) p(s.wallet).soldAfter = true;
+      }
+      for (const [w, x] of per) {
+        const r = boostResult(b, { ...x, depositsAll: depositsAll.get(w) ?? 0 });
+        if (r.raw > 0 || r.penalty > 0) (out.get(w) ?? out.set(w, []).get(w)!).push({ ...r, id: b.id, from: b.from, to: b.to, mult: b.mult });
+      }
+    }
+    return out;
+  }
+
+  // ---- the windows themselves: the admin sets them, everyone sees the live and the next one ----
+  async function boostsNow() {
+    const all = ((await getState<Boost[]>(pg, "boosts")) ?? []).sort((a, b) => a.from - b.from);
+    const t = now();
+    const view = (b: Boost) => ({ id: b.id, from: iso(b.from), to: iso(b.to), mult: b.mult, note: b.note ?? null });
+    const live = all.find((b) => b.from <= t && t < b.to) ?? null;
+    const next = all.find((b) => b.from > t) ?? null;
+    return { on: cfg.on, live: live ? view(live) : null, next: next ? view(next) : null, clawback_days: CLAWBACK_MS / DAY_MS,
+      sources: BOOST_SOURCES, all: all.map(view) };
+  }
+  async function boostPublic() {
+    const { all: _all, ...pub } = await boostsNow();
+    return pub;
+  }
+  async function isAdmin(req: IncomingMessage) {
+    if (d.adminOnly) { try { d.adminOnly(req); return true; } catch { /* a wallet then */ } }
+    const admins = new Set((d.admins ?? []).map((w) => w.trim().toLowerCase()).filter(Boolean));
+    if (!admins.size) return false;
+    try { return admins.has((await d.sessionWallet(req)).toLowerCase()); } catch { return false; }
+  }
+  /** { from, to, mult, note } adds one; { id, delete: true } removes one not started; { id, end: true } ends a live one now. */
+  async function setBoost(body: any) {
+    const all = (await getState<Boost[]>(pg, "boosts")) ?? [];
+    const t = now();
+    const id = Number(body?.id);
+    if (Number.isInteger(id) && (body?.delete || body?.end)) {
+      const b = all.find((x) => x.id === id);
+      if (!b) throw new HttpError(404, "no window with that id");
+      if (body.delete) {
+        if (b.from <= t) throw new HttpError(400, "it has started: end it instead (its XP stays)");
+        await setState(pg, "boosts", all.filter((x) => x.id !== id));
+      } else {
+        if (!(b.from <= t && t < b.to)) throw new HttpError(400, "only a live window can be ended");
+        b.to = t;
+        await setState(pg, "boosts", all);
+      }
+      cache = null;
+      return boostsNow();
+    }
+    const from = Date.parse(String(body?.from ?? "")), to = Date.parse(String(body?.to ?? "")), mult = Number(body?.mult ?? 2);
+    if (!Number.isFinite(from) || !Number.isFinite(to) || to <= from) throw new HttpError(400, "from and to: ISO times, to after from");
+    if (from < t - 60_000) throw new HttpError(400, "a window can't start in the past");
+    if (to - from > BOOST_LIMITS.maxMs) throw new HttpError(400, "7 days at most");
+    if (!(mult >= BOOST_LIMITS.minMult && mult <= BOOST_LIMITS.maxMult)) throw new HttpError(400, `mult between ${BOOST_LIMITS.minMult} and ${BOOST_LIMITS.maxMult}`);
+    if (all.some((b) => from < b.to + CLAWBACK_MS && b.from < to + CLAWBACK_MS)) throw new HttpError(400, "too close to another window (each needs its 3 claw-back days clear)");
+    const b: Boost = { id: all.reduce((m, x) => Math.max(m, x.id), 0) + 1, from, to, mult, note: body?.note ? String(body.note).slice(0, 120) : null };
+    await setState(pg, "boosts", [...all, b]);
+    return boostsNow();
+  }
+  /** A bell note to everyone on the board when a window opens (once). */
+  async function boostNotes() {
+    const live = (await boostsNow()).live;
+    if (!live) return;
+    const noted = (await getState<number[]>(pg, "boost_noted")) ?? [];
+    if (noted.includes(live.id)) return;
+    await setState(pg, "boost_noted", [...noted, live.id]);
+    const c = await compute();
+    const hours = Math.round((Date.parse(live.to!) - now()) / 3_600_000);
+    const text = `${live.mult}x XP is on for the next ${hours} h: swap-box buys, fly wallet deposits, feeding, marketplace trades, breeding and pass burns count ${live.mult}x. Sells and withdrawals cost ${live.mult}x too, and a sell within 3 days after takes the bonus back.`;
+    for (let i = 0; i < c.ranked.length; i += 500) {
+      const part = c.ranked.slice(i, i + 500).map((r) => ({ wallet: r.wallet, text, href: "/xp" }));
+      await pg.run(`insert into mine.notices (wallet, text, href) select wallet, text, href from jsonb_to_recordset(?::text::jsonb)
+        as r(wallet text, text text, href text)`, JSON.stringify(part));
+    }
   }
 
   /** Which wallets on the board are contracts: the unknown ones with the most XP first, a few hundred a tick. */
@@ -572,8 +721,10 @@ export function createXp(d: {
       pg.all<{ source: string; ref: string; xp: number; at: Date }>("select source, ref, xp, at from mine.xp_events where wallet = ? order by at desc, id desc limit ?", wallet, limit),
       pg.all<{ day: string; sources: Sources }>("select to_char(day, 'YYYY-MM-DD') as day, sources from mine.xp_days where wallet = ? order by day", wallet),
     ]);
+    const boosts = (await getState<Boost[]>(pg, "boosts")) ?? [];
+    const multAt = (source: string, at: number) => (BOOST_SOURCES.includes(source) ? boosts.find((b) => at >= b.from && at < b.to)?.mult ?? null : null);
     const items = [
-      ...events.map((e) => ({ at: new Date(e.at).toISOString(), source: e.source, xp: Math.round(e.xp),
+      ...events.map((e) => ({ at: new Date(e.at).toISOString(), source: e.source, xp: Math.round(e.xp), boost: multAt(e.source, new Date(e.at).getTime()),
         tx: /^0x[0-9a-f]{64}:/.test(e.ref) ? e.ref.split(":")[0] : null, post: e.ref.startsWith("x:") ? e.ref.slice(2) : null })),
       ...dailyGains(days).flatMap((d) => Object.entries(d.sources).map(([source, xp]) => ({
         at: `${d.day}T23:59:59.000Z`, day: d.day, source, xp, before: d.first }))),
@@ -695,6 +846,8 @@ export function createXp(d: {
       sources: r.sources, flies: r.flies, active: r.active, streak_weeks: r.streakWeeks,
       multiplier: Math.min(RATES.streakCap, 1 + RATES.streakPerWeek * r.streakWeeks),
       badges: badges.map((b) => b.badge), ref_code: code?.code ?? null, shared_today: (share?.n ?? 0) > 0,
+      boosts: (c.windows.get(wallet) ?? []).map((x) => ({ id: x.id, from: iso(x.from), to: iso(x.to), mult: x.mult,
+        bonus: Math.round(x.bonus), penalty: Math.round(x.penalty), forfeited: x.forfeited })),
       team: cfg.exclude.includes(wallet) };
   }
 
@@ -736,6 +889,11 @@ export function createXp(d: {
       d.adminOnly(req);
       return d.send(res, 200, await setRewards(await d.readJson(req))), true;
     }
+    if (req.method === "GET" && p === "/api/xp/boost") return d.send(res, 200, await boostPublic()), true;
+    if (p === "/api/admin/xp/boost" && (req.method === "GET" || req.method === "POST")) {
+      if (!(await isAdmin(req))) throw new HttpError(403, "admins only");
+      return d.send(res, 200, req.method === "GET" ? await boostsNow() : await setBoost(await d.readJson(req))), true;
+    }
     if (req.method === "GET" && p === "/api/xp/me") return d.send(res, 200, await profile((await d.sessionWallet(req)).toLowerCase())), true;
     return false;
   }
@@ -746,5 +904,6 @@ export function createXp(d: {
     setInterval(tick, everyMs).unref();
   }
 
-  return { route, start, tick, compute, leaderboard, profile, log, snapshot, notify, shares, rounds, round, history, setRewards };
+  return { route, start, tick, compute, leaderboard, profile, log, snapshot, notify, shares, rounds, round, history, setRewards,
+    boostsNow, setBoost, boostNotes, isAdmin };
 }

@@ -11,6 +11,7 @@
  * also posted to the Fly Desk chat (public.desk_chat), whose desk runs its rug checks on it and may put it in the
  * flies' shared view; its verdict shows under the card.
  *
+ *   GET  /api/flychat/inbox                  (signed in) -> { flies: [{ fly, last }], ... } every chat this wallet has
  *   GET  /api/flychat/<fly>                  (signed in) -> { messages, me }
  *   POST /api/flychat/<fly> { text, lang }   (signed in) -> { messages: [the owner's, the fly's] }
  *   POST /api/flychat/<fly>/card/<id> { status: approved | declined | failed }
@@ -259,6 +260,8 @@ export function createFlyChat(d: {
   holdings: (wallet: string) => Promise<bigint>;
   /** the desk chat's weight of a wallet (src/deskchat.ts standing) */
   standing: (wallet: string) => Promise<{ weight: number; held: number; days: number }>;
+  /** the flies this wallet owns on chain (src/pet.ts ownedBy, a cached sweep), for the inbox */
+  ownedFlies?: (wallet: string) => Promise<number[]>;
   llm: Llm | null;
   holdFlyai?: number;
   dailyUsd?: number;
@@ -314,10 +317,44 @@ export function createFlyChat(d: {
     return rows.map((r) => out(r, checks));
   }
 
+  /**
+   * The messenger's inbox (2026-11-04, the user: "a chat ui in general everywhere that shows all the fly chats ... like
+   * messenger"): the flies this wallet can talk to - the ones its money is in, the ones it owns while nobody's money is
+   * in them, and the ones it already chatted with - each with its last message. Someone else's money in a fly hides it.
+   */
+  async function inbox(req: IncomingMessage) {
+    const me = (await d.sessionWallet(req)).toLowerCase();
+    const [held, owned, talked] = await Promise.all([
+      pg.all<{ fly_id: number }>(`select w.fly_id from mine.vault_ledger l join mine.vault_wallets w on w.address = l.wallet
+        where lower(l.holder) = ? and l.chain = 'robinhood' and not l.closing and w.fly_id is not null`, me),
+      d.ownedFlies ? d.ownedFlies(me).catch(() => [] as number[]) : Promise.resolve([] as number[]),
+      pg.all<{ fly_id: number }>("select distinct fly_id from mine.fly_chat where wallet = ?", me),
+    ]);
+    let ids = [...new Set([...held.map((r) => Number(r.fly_id)), ...owned.map(Number), ...talked.map((r) => Number(r.fly_id))])];
+    if (!ids.length) return { flies: [], max_len: MAX_LEN, gap_s: GAP_MS / 1000, per_day: PER_DAY };
+    const marks = ids.map(() => "?").join(", ");
+    const [wallets, others, last] = await Promise.all([
+      pg.all<{ fly_id: number }>(`select fly_id from mine.vault_wallets where fly_id in (${marks})`, ...ids),
+      pg.all<{ fly_id: number }>(`select w.fly_id from mine.vault_ledger l join mine.vault_wallets w on w.address = l.wallet
+        where w.fly_id in (${marks}) and l.chain = 'robinhood' and not l.closing and l.holder is not null and lower(l.holder) <> ?`, ...ids, me),
+      pg.all<Row>(`select distinct on (fly_id) * from mine.fly_chat where wallet = ? and fly_id in (${marks}) order by fly_id, id desc`, me, ...ids),
+    ]);
+    const hasWallet = new Set(wallets.map((r) => Number(r.fly_id))), notMine = new Set(others.map((r) => Number(r.fly_id)));
+    const lastOf = new Map(last.map((r) => [Number(r.fly_id), r]));
+    const heldSet = new Set(held.map((r) => Number(r.fly_id)));
+    ids = ids.filter((id) => hasWallet.has(id) && (heldSet.has(id) || !notMine.has(id)));
+    const flies = ids.map((fly) => {
+      const r = lastOf.get(fly);
+      return { fly, funded: heldSet.has(fly),
+        last: r ? { at: new Date(r.at).getTime(), role: r.role, text: r.text.slice(0, 140), card: r.card?.kind ?? null, status: r.status } : null };
+    }).sort((a, b) => (b.last?.at ?? 0) - (a.last?.at ?? 0) || Number(b.funded) - Number(a.funded) || a.fly - b.fly).slice(0, 100);
+    return { flies, max_len: MAX_LEN, gap_s: GAP_MS / 1000, per_day: PER_DAY };
+  }
+
   async function read(req: IncomingMessage, fly: number) {
     const me = (await d.sessionWallet(req)).toLowerCase();
     const { why } = await access(fly, me);
-    return { messages: await history(fly, me), me: { can_chat: !why, why, ...(await usage(fly, me)), max_len: MAX_LEN, gap_s: GAP_MS / 1000 } };
+    return { messages: await history(fly, me), me: { can_chat: !why, why, ...(await usage(fly, me)), max_len: MAX_LEN, gap_s: GAP_MS / 1000, per_day: PER_DAY } };
   }
 
   async function talk(req: IncomingMessage, fly: number, body: any) {
@@ -427,6 +464,7 @@ export function createFlyChat(d: {
   async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promise<boolean> {
     const p = url.pathname;
     let m: RegExpExecArray | null;
+    if (req.method === "GET" && p === "/api/flychat/inbox") return d.send(res, 200, await inbox(req)), true;
     if ((m = /^\/api\/flychat\/(\d{1,7})$/.exec(p))) {
       const fly = Number(m[1]);
       if (req.method === "GET") return d.send(res, 200, await read(req, fly)), true;
@@ -441,5 +479,5 @@ export function createFlyChat(d: {
     return false;
   }
 
-  return { route, start, prune, access };
+  return { route, start, prune, access, inbox };
 }

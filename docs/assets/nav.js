@@ -92,7 +92,7 @@
       signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
       save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out",
       search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", deskClaim: "Fly Desk payout to claim", claimBy: "claim by {t}", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
-      badgesBtn: "🏅 Badges", xpBtn: "⭐ XP & profile", profileBtn: "👤 Profile", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
+      chats: "Chats", badgesBtn: "🏅 Badges", xpBtn: "⭐ XP & profile", profileBtn: "👤 Profile", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
       xLabel: "X account", connectX: "Connect X", unlinkX: "Unlink", x_linked: "X connected", x_denied: "Cancelled on X",
       tgLabel: "Telegram", tgIn: "In the fly.ai group · +50 XP", tgOut: "Not in the group yet", tgJoin: "Join the group", tgCheck: "Check again",
       x_expired: "That took too long, try again", x_taken: "That X account is linked to another wallet", x_failed: "X didn't answer, try again" };
@@ -104,11 +104,12 @@
   let lockJs = null;                                       // flylock.js loading (wireLock); up here: wireAccount runs early
   let badgesJs = null;                                     // flybadges.js loading (openBadges, from the profile card)
   let profileJs = null;                                    // flyprofile.js loading (openProfile)
+  let chatJs = null;                                       // flychat.js loading (openChat)
 
   // 2026-10-04: pages read the session, the mine server and nicknames from here instead of their own copies
   // (they keep a fallback: this loads at the end of <body> and may fail)
   const nickCache = new Map();                             // wallet -> Promise<nickname | null>, for names()
-  window.flyNav = { session, MINE_API, MINE_READ, short, names, profile: openProfile };
+  window.flyNav = { session, MINE_API, MINE_READ, short, names, profile: openProfile, chat: openChat };
 
   keepRef();                                                // (on every page, before anything else can fail)
   welcome();
@@ -193,7 +194,7 @@
       social.append(a);
     }
     makeAccount = () => account(el, fileHref);
-    ul.append(social, searchBox(el), ...(session() || follows().length ? [bell(el)] : []), makeAccount(), el("li", { class: "burger" }, burger));
+    ul.append(social, searchBox(el), chatButton(el), ...(session() || follows().length ? [bell(el)] : []), makeAccount(), el("li", { class: "burger" }, burger));
 
     const brand = el("a", { class: "brand", href: fileHref("/") },
       el("img", { class: "logo", src: root ? `${root}assets/logo-t.webp` : "/assets/logo-t.webp", alt: "fly.ai", width: "988", height: "439" }));
@@ -219,6 +220,7 @@
   window.addEventListener("flyai-session", redrawAccount);
   wireSearch(nav, NAV);
   wireBell(nav, textReady);
+  wireChat(nav);
   const menus = [...nav.querySelectorAll("li.dd")];
   const close = (dd) => { dd.classList.remove("open"); dd.querySelector(".ddbtn").setAttribute("aria-expanded", "false"); };
   // one menu at a time (2026-10-03, the user: "open a dropdown and then another, the previous stays open"): a menu shows
@@ -499,7 +501,7 @@
     if (!profileJs) {
       profileJs = new Promise((ok) => {
         const tag = document.createElement("script");
-        tag.src = NAV_SRC ? new URL("flyprofile.js?v=20261103u", NAV_SRC).href : "/assets/flyprofile.js?v=20261103u";
+        tag.src = NAV_SRC ? new URL("flyprofile.js?v=20261104x", NAV_SRC).href : "/assets/flyprofile.js?v=20261104x";
         tag.onload = ok;
         tag.onerror = ok;
         (document.body || document.head).append(tag);
@@ -513,6 +515,50 @@
     e.preventDefault();
     openProfile(a.getAttribute("data-fly-profile"));
   });
+
+  /**
+   * The fly messenger (flychat.js, 2026-11-04): 💬 in the bar for a signed-in wallet, every chat with its flies. The
+   * code loads on the first open, or soon after the page for the unread dot (its inbox read is kept 2 minutes a tab).
+   */
+  function loadChat() {
+    if (!chatJs) {
+      chatJs = new Promise((ok) => {
+        const tag = document.createElement("script");
+        tag.src = NAV_SRC ? new URL("flychat.js?v=20261104c", NAV_SRC).href : "/assets/flychat.js?v=20261104c";
+        tag.onload = ok;
+        tag.onerror = ok;
+        (document.body || document.head).append(tag);
+      });
+    }
+    return chatJs;
+  }
+  /** window.flyNav.chat(fly?, { auto }): opens the messenger, on that fly's chat when given (FlyChat.tsx on a fly's page). */
+  function openChat(fly, opts) {
+    return loadChat().then(() => { if (window.flyChat) window.flyChat.open(fly, opts); });
+  }
+  function chatButton(el) {
+    return el("li", { class: "chat", ...(session() ? {} : { hidden: "" }) },
+      el("button", { class: "ddbtn ddlabel chat-btn", type: "button", "aria-label": L("chats"), title: L("chats"), "data-l-aria": "chats" },
+        "💬", el("b", { class: "chat-n", hidden: "" })));
+  }
+  function wireChat(nav) {
+    const li = nav.querySelector("li.chat");
+    if (!li) return;
+    li.querySelector(".chat-btn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      void loadChat().then(() => {
+        const c = window.flyChat;
+        if (!c) return;
+        if (c.isOpen()) c.close(); else c.open(null, { inbox: true });
+      });
+    });
+    const sync = () => {
+      li.hidden = !session();
+      if (session()) setTimeout(() => void loadChat().then(() => window.flyChat && window.flyChat.inbox()), 1500);
+    };
+    sync();
+    window.addEventListener("flyai-session", sync);
+  }
 
   /** Soulbound badges (flybadges.js, 2026-10-31): the popup's code and its one read wait for the profile card's button. */
   function openBadges(s) {

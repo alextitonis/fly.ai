@@ -206,7 +206,8 @@
       "tgIn": "fly.ai grubundasın · +50 XP",
       "tgOut": "Henüz grupta değilsin",
       "tgJoin": "Gruba katıl",
-      "tgCheck": "Tekrar kontrol et"
+      "tgCheck": "Tekrar kontrol et",
+      "chats": "Sohbetler"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -414,6 +415,60 @@
     "badgesBtn": "🏅 Rozetler",
     "referralsBtn": "Davetler",
     "s_telegram": "Telegram grubunda",
-    "h_telegram": "<b>Telegram</b>: bağlı hesabın fly.ai grubunda olduğu sürece 50 XP (her gün kontrol edilir)."
+    "h_telegram": "<b>Telegram</b>: bağlı hesabın fly.ai grubunda olduğu sürece 50 XP (her gün kontrol edilir).",
+    "s_boost": "2x XP bonusu",
+    "s_penalty": "2x XP: satışlar ve çekimler",
+    "logBoost": "{mult}x",
+    "h_boost": "<b>2x XP günleri</b>: bazı günler ekip alımlar, yatırımlar, besleme, işlemler, üretme ve pass yakma için XP'yi ikiye katlar. O sırada satışlar ve çekimler de iki kat düşer; bittikten sonraki 3 gün içinde satış yaparsan bonus geri alınır."
+  },
+  "flychat": {
+    "title": "Sinek #{id}",
+    "close": "Kapat",
+    "hello": "Merhaba! Neden işlem yaptığımı (ya da yapmadığımı) sor ya da neyi değiştireceğimi söyle. Sık değişiklikler için aşağıdaki düğmelere dokun. Ben sadece öneririm: sen onaylamadan hiçbir şey olmaz.",
+    "placeholder": "Sineğine sor ya da söyle…",
+    "resting": "Bugünlük dinleniyor: düğmeler çalışmaya devam ediyor",
+    "send": "Gönder",
+    "doneToday": "Bugünlük bu kadar: yarın görüşürüz",
+    "needHold": "Sohbet için bu sineğin cüzdanına para koy ya da 200k $FLYAI tut.",
+    "cantLoad": "Sohbet yüklenemedi",
+    "quickAsk": "{what}? Değişecekler:",
+    "approve": "Onayla",
+    "decline": "Reddet",
+    "desk": "Fly Desk:",
+    "deskPending": "Rug kontrolleri için Fly Desk'e gönderildi…",
+    "q": {
+      "earn": "Sadece borç verme",
+      "letItFly": "Let it fly",
+      "safe": "Güvenli oyna",
+      "stocks": "Hisseler",
+      "pause": "Duraklat",
+      "resume": "Devam et",
+      "careful": "Daha temkinli",
+      "bolder": "Daha cesur"
+    },
+    "status": {
+      "approved": "Tamam",
+      "declined": "Reddedildi",
+      "failed": "Gerçekleşmedi",
+      "pending": ""
+    },
+    "cardText": {
+      "withdraw": "{chain} üzerinde %{pct} çek",
+      "move": "{from} ağından {to} ağına ${usd} taşı",
+      "watch": "Bu tokeni hep izle",
+      "watchNote": "Sineğin izlenen tokenlerde rug filtrelerini kullanmaz, yani risk senin. Fly Desk de kontrol eder ve iyi görünürse tüm sinekler için ekleyebilir.",
+      "moneyNote": "Bu para taşır. Normal çekim kurallarından geçer (kâr ücreti uygulanır)."
+    },
+    "chats": "Sohbetler",
+    "chatsAria": "Sinek sohbetlerin",
+    "back": "Sohbetlere dön",
+    "flyPage": "Sinek sayfası",
+    "noFlies": "Henüz sohbet edecek sineğin yok. Bir Trader Fly al ve cüzdanına para koy ya da 200k $FLYAI tut.",
+    "getFly": "Trader Flies",
+    "signIn": "Sineklerinle sohbet etmek için sağ üstten giriş yap.",
+    "noMsgs": "Merhaba de",
+    "you": "Sen",
+    "card": "Kart",
+    "left": "Bugün {max} mesajdan {n} kaldı · {gap} sn'de bir"
   }
 }

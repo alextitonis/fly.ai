@@ -64,6 +64,9 @@ try {
     const sql = readFileSync(new URL(`../../flybook/supabase/migrations/${f}`, import.meta.url), "utf8").replace(/do \$\$[\s\S]*?end \$\$;/, "");
     for (const s of sql.split("\n").filter((l) => !l.trim().startsWith("--")).join("\n").split(";").map((x) => x.trim()).filter(Boolean)) await pg.run(s);
   }
+  // the inbox's reads of the vault tables (their real ones live in the vault migrations): just the columns it uses
+  await pg.run("create table if not exists mine.vault_wallets (id text primary key, fly_id int unique, address text not null unique)");
+  await pg.run("create table if not exists mine.vault_ledger (wallet text not null, chain text not null, holder text, closing boolean not null default false, primary key (wallet, chain))");
   const OWNER = addr(0xa1), HOLDER = addr(0xa2), POOR = addr(0xa3), RICH = addr(0xa4);
   // fly 1: OWNER's, empty; fly 2: HOLDER's money in it; fly 3: POOR's, empty, under 200k
   const views: Record<number, any> = {
@@ -80,7 +83,8 @@ try {
   let session = OWNER, body: any = null, now = NOW;
   const chat = createFlyChat({ pg, HttpError, send, readJson: async () => body, sessionWallet: async () => session,
     flyView: async (f) => views[f] ?? null, flyLog: async () => ({ rows: [] }), starters: async () => STARTERS,
-    holdings: async (w) => held.get(w) ?? 0n, standing: async () => ({ weight: 0.5, held: 300_000, days: 20 }),
+    holdings: async (w) => held.get(w) ?? 0n,
+    ownedFlies: async (w) => Object.values(views).filter((v) => v.owner === w).map((v) => v.fly), standing: async () => ({ weight: 0.5, held: 300_000, days: 20 }),
     llm, dailyUsd: 0.003, now: () => now });   // three answers at $0.001 use it up
   const call = async (method: string, path: string, b?: unknown) => {
     body = b ?? null;
@@ -165,6 +169,21 @@ try {
   r = await call("POST", "/api/flychat/1", { text: "pause" });
   check(`at most ${PER_DAY} a day a fly`, r.status === 429 && /a day/.test(r.body.error), JSON.stringify(r.body));
   check("too long refused", (await call("POST", "/api/flychat/1", { text: "x".repeat(301) })).status === 400);
+
+  // the messenger's inbox
+  for (const v of Object.values(views)) await pg.run("insert into mine.vault_wallets (id, address, fly_id, enc_key, nonce) values (?, ?, ?, 'x', 'x') on conflict do nothing", `fly:${v.fly}`, v.wallet, v.fly);
+  await pg.run("insert into mine.vault_ledger (wallet, chain, holder) values (?, 'robinhood', ?) on conflict do nothing", views[2].wallet, HOLDER);
+  session = OWNER;
+  r = await call("GET", "/api/flychat/inbox");
+  check("inbox: the owner's fly with its last message", r.status === 200 && r.body.flies.length === 1 && r.body.flies[0].fly === 1 &&
+    r.body.flies[0].last?.role === "fly" && r.body.per_day === PER_DAY, JSON.stringify(r.body));
+  session = RICH;
+  r = await call("GET", "/api/flychat/inbox");
+  check("inbox: someone else's money in an owned fly hides it", r.status === 200 && r.body.flies.length === 0, JSON.stringify(r.body));
+  session = HOLDER;
+  r = await call("GET", "/api/flychat/inbox");
+  check("inbox: the holder sees the fly its money is in", r.body.flies.length === 1 && r.body.flies[0].fly === 2 && r.body.flies[0].funded, JSON.stringify(r.body));
+  session = OWNER;
 
   now += 15 * 86_400_000;
   await chat.prune();

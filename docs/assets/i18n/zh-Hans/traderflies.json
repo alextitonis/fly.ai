@@ -2372,5 +2372,34 @@
     "done": "已连接！回去看看你的苍蝇吧。",
     "noCode": "请从 Fly Pet 应用中的“连接钱包”打开此页面。",
     "failed": "连接失败，请重试。"
+  },
+  "rate": {
+    "hint": "由持有者、前持有者和社区在链上评分（ERC-8004）",
+    "new": "新",
+    "pick": "你的评分",
+    "nStars": "{n} 星",
+    "who": {
+      "owner": "持有者",
+      "former": "前持有者",
+      "community": "社区",
+      "unverified": "未验证"
+    },
+    "minAgo": "{n} 分钟前",
+    "hAgo": "{n} 小时前",
+    "dAgo": "{n} 天前",
+    "sent": "评分已发送，稍后显示在这里。",
+    "self": "苍蝇自己的钱包不能给自己评分。",
+    "none": "暂无评分",
+    "change": "修改你的评分",
+    "button": "给这只苍蝇评分",
+    "whoCan": "谁可以评分？",
+    "whoCanHint": "它的持有者、它钱包的前持有者，以及持有 20 万+ $FLYAI 或自己拥有 Trader Fly 的人。",
+    "commentPh": "简短留言（可选，公开，不能带链接）",
+    "onChain": "以 {who} 身份从你的钱包保存到链上。需要少量 Robinhood Chain 上的 ETH。",
+    "cancel": "取消",
+    "submit": "发送评分",
+    "more": "显示全部 {n} 条",
+    "less": "收起",
+    "unverified": "另有 {n} 条来自与这只苍蝇无关的钱包：不计入星级。"
   }
 }

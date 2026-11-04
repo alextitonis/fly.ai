@@ -206,7 +206,8 @@
       "tgIn": "In the fly.ai group · +50 XP",
       "tgOut": "Not in the group yet",
       "tgJoin": "Join the group",
-      "tgCheck": "Check again"
+      "tgCheck": "Check again",
+      "chats": "Chats"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -414,6 +415,60 @@
     "badgesBtn": "🏅 Badges",
     "referralsBtn": "Referrals",
     "s_telegram": "In the Telegram group",
-    "h_telegram": "<b>Telegram</b>: 50 XP while your connected account is in the fly.ai group (checked daily)."
+    "h_telegram": "<b>Telegram</b>: 50 XP while your connected account is in the fly.ai group (checked daily).",
+    "s_boost": "2x XP bonus",
+    "s_penalty": "2x XP: sells and withdrawals",
+    "logBoost": "{mult}x",
+    "h_boost": "<b>2x XP windows</b>: some days the team doubles XP for buys, deposits, feeding, trades, breeding and pass burns. Sells and withdrawals cost double then too, and a sell within 3 days after takes the bonus back."
+  },
+  "flychat": {
+    "title": "Fly #{id}",
+    "close": "Close",
+    "hello": "Hi! Ask me why I traded (or didn't), or tell me what to change. Tap a button below for the usual changes. I only suggest: nothing happens until you approve it.",
+    "placeholder": "Ask or tell your fly…",
+    "resting": "Resting for today: the buttons still work",
+    "send": "Send",
+    "doneToday": "That's all for today: back tomorrow",
+    "needHold": "Put money in this fly's wallet or hold 200k $FLYAI to chat.",
+    "cantLoad": "Couldn't load the chat",
+    "quickAsk": "{what}? Here's what changes:",
+    "approve": "Approve",
+    "decline": "Decline",
+    "desk": "Fly Desk:",
+    "deskPending": "Sent to the Fly Desk for its rug checks…",
+    "q": {
+      "earn": "Only lending",
+      "letItFly": "Let it fly",
+      "safe": "Play safe",
+      "stocks": "Stocks",
+      "pause": "Pause",
+      "resume": "Resume",
+      "careful": "More careful",
+      "bolder": "Bolder"
+    },
+    "status": {
+      "approved": "Done",
+      "declined": "Declined",
+      "failed": "Didn't go through",
+      "pending": ""
+    },
+    "cardText": {
+      "withdraw": "Withdraw {pct}% on {chain}",
+      "move": "Move ${usd} from {from} to {to}",
+      "watch": "Always watch this token",
+      "watchNote": "Your fly trades watched tokens without its rug filters, so the risk is yours. The Fly Desk checks it too and may add it for every fly if it looks good.",
+      "moneyNote": "This moves money. It goes through the normal withdrawal rules (the profit fee applies)."
+    },
+    "chats": "Chats",
+    "chatsAria": "Your fly chats",
+    "back": "Back to chats",
+    "flyPage": "Fly page",
+    "noFlies": "No flies to chat with yet. Get a Trader Fly and put money in its wallet, or hold 200k $FLYAI.",
+    "getFly": "Trader Flies",
+    "signIn": "Sign in at the top right to chat with your flies.",
+    "noMsgs": "Say hi",
+    "you": "You",
+    "card": "Card",
+    "left": "{n} of {max} messages left today · one every {gap} s"
   }
 }

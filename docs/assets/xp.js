@@ -125,3 +125,27 @@ addEventListener("flyai-session", () => {
   draw().catch((err) => msg(String(err?.message || err), "err"));
   if (!$("xp-panel-round").hidden) drawRound().catch(() => {});
 });
+
+// 2x XP windows (mine/src/xp.ts, set by the team): the live one with its countdown, or the next one's start
+const left = (ms) => { const m = Math.max(1, Math.round(ms / 60_000)); return m < 60 ? `${m} min` : `${Math.floor(m / 60)} h ${m % 60} min`; };
+let boost = null;
+function drawBoost() {
+  const box = $("xp-boost");
+  const b = boost && (boost.live || boost.next);
+  if (!b) { box.hidden = true; return; }
+  const live = !!boost.live && Date.parse(b.to) > Date.now();
+  const mult = `${b.mult}x`;
+  box.hidden = false;
+  box.classList.toggle("live", live);
+  box.replaceChildren(
+    el("p", { class: "xp-boost-title" }, el("b", null, live ? t("xp.boost.live", { mult }) : t("xp.boost.next", { mult, when: when(b.from) })),
+      live ? el("span", { class: "xp-boost-left" }, t("xp.boost.left", { left: left(Date.parse(b.to) - Date.now()) })) : null),
+    el("p", { class: "xp-boost-rules" }, t("xp.boost.rules", { mult, days: boost.clawback_days ?? 3 })));
+}
+async function loadBoost() {
+  try { boost = await fetch(`${READ}/api/xp/boost`).then((r) => r.json()); } catch { boost = null; }
+  drawBoost();
+}
+loadBoost();
+setInterval(drawBoost, 30_000);
+setInterval(loadBoost, 300_000);

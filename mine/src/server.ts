@@ -3769,7 +3769,7 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p === "/api/badges" || p.startsWith("/api/badges/"))) {
     if (await badges.route(req, res, url)) return;
   }
-  if (req.method !== "OPTIONS" && (p.startsWith("/api/xp/") || p === "/api/admin/xp/round")) {
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/xp/") || p === "/api/admin/xp/round" || p === "/api/admin/xp/boost")) {
     if (await xp.route(req, res, url)) return;
   }
   if (req.method !== "OPTIONS" && (p === "/api/agents" || p.startsWith("/api/agents/"))) {
@@ -4180,6 +4180,7 @@ const flyChat = createFlyChat({
   starters: async () => ((await vaults.config()).starters as any[] | null) ?? [],
   holdings: async (w) => (await robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock).holdings([w]))[0] ?? 0n,
   standing: (w) => deskChat.standing(w),
+  ownedFlies: (w) => pet.ownedBy(w),
   llm: flyChatKey && process.env.FLYCHAT_OFF !== "1" ? openRouter(flyChatKey, process.env.FLYCHAT_MODEL ?? "anthropic/claude-haiku-5.5") : null,
   holdFlyai: Number(process.env.VAULT_HOLD_FLYAI ?? "200000"),
   dailyUsd: Number(process.env.FLYCHAT_DAILY_USD ?? "1"),
@@ -4203,14 +4204,15 @@ if (USER) badges.start();
 // XP season 1 (src/xp.ts): holding, flies, deposits, feeding, trades, box buys, breeding, badges, referrals, X, Flybook
 const xp = createXp({
   pg, chain: robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock), cfg: xpConfig(process.env),
-  HttpError, send, readJson, sessionWallet: sessionAddress, adminOnly,
+  HttpError, send, readJson, sessionWallet: sessionAddress, adminOnly, admins: (process.env.BOUNTY_ADMINS ?? "").split(","),
 });
 if (USER) xp.start();
 // Connect Telegram (src/tglink.ts): the Login Widget's signed answer, and the bot's word on group membership (XP)
 const tgLink = createTgLink({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, env: process.env });
 if (USER) tgLink.start();
 // Trader Flies as ERC-8004 agents (src/agents.ts): each fly's registration file, read live
-const agents = createAgents({ pg, send, rpc: CLAIMS.rpc });
+const agents = createAgents({ pg, send, rpc: CLAIMS.rpc, exclude: xpConfig(process.env).exclude });
+if (USER) agents.start();      // ratings from the ERC-8004 Reputation Registry, every 3 minutes
 // Fly Launchpad (src/launchpad.ts): indexes the FlyLaunchpad contract once LAUNCHPAD_ADDRESS is set
 const launchpad = /^0x[0-9a-fA-F]{40}$/.test(process.env.LAUNCHPAD_ADDRESS ?? "")
   ? createLaunchpad({

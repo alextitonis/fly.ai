@@ -206,7 +206,8 @@
       "tgIn": "已在 fly.ai 群組 · +50 XP",
       "tgOut": "還沒有加入群組",
       "tgJoin": "加入群組",
-      "tgCheck": "重新檢查"
+      "tgCheck": "重新檢查",
+      "chats": "聊天"
     },
     "terminal": {
       "label": "Fly 終端",
@@ -414,6 +415,60 @@
     "badgesBtn": "🏅 徽章",
     "referralsBtn": "推薦",
     "s_telegram": "在 Telegram 群組中",
-    "h_telegram": "<b>Telegram</b>：綁定的帳號在 fly.ai 群組中時得 50 XP（每天檢查）。"
+    "h_telegram": "<b>Telegram</b>：綁定的帳號在 fly.ai 群組中時得 50 XP（每天檢查）。",
+    "s_boost": "雙倍經驗獎勵",
+    "s_penalty": "雙倍經驗：賣出和提領",
+    "logBoost": "{mult}x",
+    "h_boost": "<b>雙倍經驗時段</b>：有些日子團隊會讓買入、存入、餵養、交易、繁殖和銷毀通行證的經驗翻倍。此時賣出和提領也加倍扣除，結束後 3 天內賣出會收回獎勵。"
+  },
+  "flychat": {
+    "title": "蒼蠅 #{id}",
+    "close": "關閉",
+    "hello": "你好！可以問我為什麼交易（或沒交易），或告訴我要改什麼。常用改動點下面的按鈕。我只提建議：你批准之前什麼都不會發生。",
+    "placeholder": "問問或告訴你的蒼蠅…",
+    "resting": "今天休息：按鈕仍可使用",
+    "send": "發送",
+    "doneToday": "今天到此為止：明天見",
+    "needHold": "在這隻蒼蠅的錢包裡存入資金或持有 20 萬 $FLYAI 才能聊天。",
+    "cantLoad": "無法載入聊天",
+    "quickAsk": "{what}？以下是改動：",
+    "approve": "批准",
+    "decline": "拒絕",
+    "desk": "Fly Desk：",
+    "deskPending": "已發送給 Fly Desk 做防跑路檢查…",
+    "q": {
+      "earn": "只放貸",
+      "letItFly": "Let it fly",
+      "safe": "穩健",
+      "stocks": "股票",
+      "pause": "暫停",
+      "resume": "恢復",
+      "careful": "更謹慎",
+      "bolder": "更大膽"
+    },
+    "status": {
+      "approved": "已完成",
+      "declined": "已拒絕",
+      "failed": "未成功",
+      "pending": ""
+    },
+    "cardText": {
+      "withdraw": "在 {chain} 提取 {pct}%",
+      "move": "從 {from} 轉 ${usd} 到 {to}",
+      "watch": "始終關注這個代幣",
+      "watchNote": "你的蒼蠅交易關注的代幣時不經過防跑路篩選，風險由你承擔。Fly Desk 也會檢查，看起來不錯的話可能為所有蒼蠅加入。",
+      "moneyNote": "這會移動資金，按一般提現規則處理（收取利潤費）。"
+    },
+    "chats": "聊天",
+    "chatsAria": "你的蒼蠅聊天",
+    "back": "返回聊天列表",
+    "flyPage": "蒼蠅頁面",
+    "noFlies": "還沒有可以聊天的蒼蠅。取得一隻 Trader Fly 並向它的錢包存錢，或持有 20 萬 $FLYAI。",
+    "getFly": "Trader Flies",
+    "signIn": "在右上角登入，即可和你的蒼蠅聊天。",
+    "noMsgs": "打個招呼",
+    "you": "你",
+    "card": "卡片",
+    "left": "今天還剩 {n}/{max} 則訊息 · 每 {gap} 秒一則"
   }
 }

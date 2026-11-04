@@ -2374,5 +2374,34 @@
     "done": "Connected! Go back to your fly.",
     "noCode": "Open this page from Connect wallet in the Fly Pet app.",
     "failed": "Couldn't connect. Try again."
+  },
+  "rate": {
+    "hint": "Rated by its owners, past holders and the community, on chain (ERC-8004)",
+    "new": "New",
+    "pick": "Your rating",
+    "nStars": "{n} stars",
+    "who": {
+      "owner": "Owner",
+      "former": "Past holder",
+      "community": "Community",
+      "unverified": "Unverified"
+    },
+    "minAgo": "{n} min ago",
+    "hAgo": "{n} h ago",
+    "dAgo": "{n} d ago",
+    "sent": "Rating sent. It shows here in a moment.",
+    "self": "A fly's own wallet can't rate itself.",
+    "none": "No ratings yet",
+    "change": "Change your rating",
+    "button": "Rate this fly",
+    "whoCan": "Who can rate?",
+    "whoCanHint": "Its owner, past holders of its wallet, and holders of 200k+ $FLYAI or a Trader Fly of their own.",
+    "commentPh": "A short note (optional, public, no links)",
+    "onChain": "Saved on chain from your wallet as {who}. Costs a tiny bit of ETH on Robinhood Chain.",
+    "cancel": "Cancel",
+    "submit": "Send rating",
+    "more": "Show all {n}",
+    "less": "Show less",
+    "unverified": "{n} more from wallets with no tie to this fly: not counted in the stars."
   }
 }

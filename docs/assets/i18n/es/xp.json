@@ -42,5 +42,11 @@
     "title": "Ganadores anteriores",
     "none": "Aún no ha terminado ninguna ronda. La primera termina este domingo.",
     "pending": "Premios próximamente. Los mejores de la ronda:"
+  },
+  "boost": {
+    "live": "{mult} XP activo",
+    "next": "{mult} XP empieza el {when}",
+    "left": "termina en {left}",
+    "rules": "Las compras en el swap, los depósitos en billeteras de moscas, alimentar, el mercado, la cría y quemar pases cuentan {mult}. Las ventas y retiros también cuestan {mult}, y vender en los {days} días siguientes quita el bono."
   }
 }

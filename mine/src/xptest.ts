@@ -6,7 +6,7 @@
  *   npm run test:xp
  */
 import type { ServerResponse } from "node:http";
-import { accrue, badgeXp, createXp, dailyGains, depositXp, levelOf, newHolder, saleXp, sharesFrom, streakMult, xpConfig, type Chain, type Log } from "./xp.ts";
+import { accrue, badgeXp, boostResult, createXp, dailyGains, depositXp, levelOf, newHolder, saleXp, sharesFrom, streakMult, xpConfig, type Chain, type Log } from "./xp.ts";
 import { FLYAI } from "./gta.ts";
 import { startPg } from "./pgtest.ts";
 
@@ -245,6 +245,69 @@ try {
   sent.length = 0;
   await xp.route({ method: "GET" } as any, res, new URL(`http://x/api/xp/profile?wallet=${C}`));
   check("GET /api/xp/profile answers", sent[0]?.status === 200 && sent[0].body.wallet === C && typeof sent[0].body.level === "number");
+
+  // ---- 2x windows: set by an admin, gains and losses doubled, a sell takes the bonus back ----
+  {
+    const pureB = { id: 1, from: 0, to: 1, mult: 2 };
+    const r = boostResult(pureB, { gained: 100, deposited: 30, sold: 0, soldAfter: false, withdrawn: 0, depositsAll: 30 });
+    check("pure: 2x doubles actions and deposits", r.bonus === 400 && r.penalty === 0 && !r.forfeited, JSON.stringify(r));
+    const s = boostResult(pureB, { gained: 100, deposited: 0, sold: 50, soldAfter: false, withdrawn: 20, depositsAll: 10 });
+    check("pure: a sell forfeits the bonus and costs 2x; a withdrawal costs 1x more deposit XP (capped at deposits)",
+      s.bonus === 0 && s.forfeited && s.penalty === 2 * 50 + 10 * 10, JSON.stringify(s));
+  }
+  let body: any = {};
+  const ADMIN = addr(0xad);
+  const xp2 = createXp({ pg, chain, cfg, HttpError, now: () => clock, readJson: async () => body, admins: [ADMIN],
+    adminOnly: () => { throw new HttpError(403, "no token"); }, send: (_r, status, b) => { sent.push({ status, body: b }); },
+    sessionWallet: async () => session, search: null });
+  const W0 = timeAt(blockAt(40)), W1 = timeAt(blockAt(41));
+  const post = async (b: any) => { body = b; sent.length = 0; try { await xp2.route({ method: "POST" } as any, res, new URL("http://x/api/admin/xp/boost")); } catch (e) { return (e as HttpError).status; } return sent[0]?.status; };
+  session = A;
+  check("only admins set windows", await post({ from: new Date(W0).toISOString(), to: new Date(W1).toISOString(), mult: 2 }) === 403);
+  session = ADMIN;
+  check("a window can't start in the past", await post({ from: new Date(clock - DAY).toISOString(), to: new Date(clock).toISOString() }) === 400);
+  check("mult is bounded", await post({ from: new Date(W0).toISOString(), to: new Date(W1).toISOString(), mult: 10 }) === 400);
+  check("an admin wallet sets one", await post({ from: new Date(W0).toISOString(), to: new Date(W1).toISOString(), mult: 2, note: "Sunday" }) === 200
+    && sent[0].body.next?.mult === 2);
+  check("windows can't crowd each other", await post({ from: new Date(W1 + HOUR).toISOString(), to: new Date(W1 + 2 * HOUR).toISOString() }) === 400);
+  sent.length = 0;
+  await xp2.route({ method: "GET" } as any, res, new URL("http://x/api/xp/boost"));
+  check("public: the next window, without the full list", sent[0]?.body.next?.from === new Date(W0).toISOString() && !("all" in sent[0].body));
+
+  const F = addr(0xf1), G = addr(0xf2), H = addr(0xf3), I = addr(0xf4);
+  const box = (n: number, w: string, amount: bigint) => { const tx = `0x${(++ix).toString(16).padStart(64, "0")}`; send(n, POOL, w, amount, tx); send(n, w, cfg.feeTo, amount / 400n, tx); };
+  box(blockAt(39), F, 1_000_000n * E18);                  // before the window: 1x
+  box(blockAt(40, 2), F, 1_000_000n * E18);               // in it: +100 bonus
+  box(blockAt(40, 3), G, 1_000_000n * E18);
+  send(blockAt(42), G, POOL, 500_000n * E18);             // G sells a day after: bonus gone, no extra cost
+  box(blockAt(40, 4), H, 1_000_000n * E18);
+  send(blockAt(40, 5), H, POOL, 500_000n * E18);          // H sells inside: bonus gone, and 2 x 50 XP
+  send(blockAt(44), F, POOL, 1n * E18);                   // F sells after the 3 days: keeps it
+  await pg.run(`insert into mine.vault_moves (wallet, chain, kind, holder, usd, at) values ('0xw2', 'robinhood', 'deposit', ?, 30, ?),
+    ('0xw', 'robinhood', 'withdraw', ?, 20, ?)`, I, new Date(W0 + HOUR).toISOString(), B, new Date(W0 + 2 * HOUR).toISOString());
+  await pg.run("insert into mine.vault_ledger (wallet, chain, holder, principal_usd) values ('0xw2', 'robinhood', ?, 30)", I);
+  const bBefore = (await prof(B)).sources;
+  head = blockAt(40, 6) + 100;
+  clock = timeAt(blockAt(40, 6));
+  await xp2.tick();
+  const live = (await xp2.boostsNow()).live;
+  check("live now", live?.mult === 2);
+  check("a bell note when it opens", (await notes(A)).some((t) => /2x XP is on/.test(t)));
+  head = blockAt(45) + 100;
+  clock = timeAt(blockAt(45));
+  await xp2.tick();
+  const f = await prof(F), g = await prof(G), hh = await prof(H), i = await prof(I), bb = await prof(B);
+  check("F: the buy in the window earned 2x (+100 bonus); a sell 3+ days later keeps it", f.sources.buy === 200 && f.sources.boost === 100, JSON.stringify(f.sources));
+  check("G: a sell within 3 days after takes the bonus back", g.sources.buy === 100 && !g.sources.boost && !g.sources.penalty, JSON.stringify(g.sources));
+  check("H: a sell inside loses the bonus and costs 2x (2 x 50)", !hh.sources.boost && hh.sources.penalty === -100, JSON.stringify(hh.sources));
+  check("I: a deposit in the window counts 2x", i.sources.deposits === 300 && i.sources.boost === 300, JSON.stringify(i.sources));
+  check("B: a withdrawal in the window costs 10 XP per $ more", bb.sources.penalty === -200 && (bb.sources.deposits ?? 0) <= (bBefore.deposits ?? 0), JSON.stringify(bb.sources));
+  check("the profile lists the window's result", f.boosts?.[0]?.bonus === 100 && hh.boosts?.[0]?.forfeited === true, JSON.stringify(hh.boosts));
+  const flog = await xp2.log(F) as any;
+  check("log: the buy inside is marked 2x, the one before isn't", flog.items.filter((x: any) => x.source === "buy").map((x: any) => x.boost).sort().join() === "2,", JSON.stringify(flog.items.filter((x: any) => x.source === "buy")));
+  check("XP never below zero", (await xp2.compute()).ranked.every((r) => r.xp >= 0));
+  session = ADMIN;
+  check("a started window can't be deleted", await post({ id: 1, delete: true }) === 400);
 } finally {
   await PG.stop();
 }

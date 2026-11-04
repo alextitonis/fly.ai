@@ -2374,5 +2374,34 @@
     "done": "¡Conectado! Vuelve con tu mosca.",
     "noCode": "Abre esta página desde Conectar cartera en la app Fly Pet.",
     "failed": "No se pudo conectar. Inténtalo de nuevo."
+  },
+  "rate": {
+    "hint": "Valorada en cadena por sus dueños, antiguos titulares y la comunidad (ERC-8004)",
+    "new": "Nueva",
+    "pick": "Tu valoración",
+    "nStars": "{n} estrellas",
+    "who": {
+      "owner": "Dueño",
+      "former": "Antiguo titular",
+      "community": "Comunidad",
+      "unverified": "Sin verificar"
+    },
+    "minAgo": "hace {n} min",
+    "hAgo": "hace {n} h",
+    "dAgo": "hace {n} d",
+    "sent": "Valoración enviada. Aparecerá aquí en un momento.",
+    "self": "La billetera de una mosca no puede valorarse a sí misma.",
+    "none": "Aún sin valoraciones",
+    "change": "Cambiar tu valoración",
+    "button": "Valorar esta mosca",
+    "whoCan": "¿Quién puede valorar?",
+    "whoCanHint": "Su dueño, los antiguos titulares de su billetera y quienes tienen 200k+ $FLYAI o una Trader Fly propia.",
+    "commentPh": "Una nota corta (opcional, pública, sin enlaces)",
+    "onChain": "Se guarda en cadena desde tu billetera como {who}. Cuesta muy poco ETH en Robinhood Chain.",
+    "cancel": "Cancelar",
+    "submit": "Enviar valoración",
+    "more": "Ver las {n}",
+    "less": "Ver menos",
+    "unverified": "{n} más de billeteras sin vínculo con esta mosca: no cuentan en las estrellas."
   }
 }

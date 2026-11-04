@@ -181,5 +181,5 @@ export function createPet(d: PetDeps) {
     return false;
   }
 
-  return { route };
+  return { route, ownedBy };
 }
