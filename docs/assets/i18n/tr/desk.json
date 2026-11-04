@@ -274,7 +274,7 @@
     "when": "{date} hesaplanır · {in} kaldı",
     "sum": "Hafta şimdi kapansa: zirvenin {profit} üstünde, %{share}'i sahiplere = {holders}, nadirliğe ve aktif süreye göre {n} aktif sineğe bölünür.",
     "none": "Masa zirvesinin {gap} altında, bu yüzden bu hafta henüz ödeme yok. {n} sinek aktif ve ödeme olduğunda paylarını biriktiriyor.",
-    "off": "Ödemeler henüz açılmadı: bunlar her sineğin alacağı tutarlar. Açıldığında bir haftanın ödemesi pazar 23:00 UTC'de hesaplanır ve iki gün sonra Claim sayfasından talep edilebilir.",
+    "off": "Bunlar her sineğin bu hafta alma yolunda olduğu tutarlar. Bir haftanın ödemesi pazar 23:00 UTC'de hesaplanır ve iki gün sonra Claim sayfasından talep edilebilir.",
     "thFly": "Sinek",
     "thWeight": "Nadirlik",
     "thActive": "Bu hafta aktif",

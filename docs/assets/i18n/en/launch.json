@@ -17,8 +17,8 @@
     "namePh": "Fruit Market",
     "symbol": "Symbol",
     "symbolPh": "FRUIT",
-    "logo": "Logo link (optional)",
-    "logoHelp": "A link to a square image. It's saved on chain and can't be changed later.",
+    "logo": "Logo (optional)",
+    "logoHelp": "It's saved on chain with the token and can't be changed later.",
     "tax": "Your creator tax",
     "taxHelp": "Taken on every trade on the curve and paid to you. It stops at graduation and can't be changed.",
     "dev": "Your first buy in USDG (optional)",
@@ -26,7 +26,11 @@
     "devGets": "You get about {tokens} tokens ({pct}% of the supply), held for you until graduation.",
     "connect": "Connect wallet",
     "go": "Launch for {fee} ETH",
-    "paused": "Launching is paused"
+    "paused": "Launching is paused",
+    "drop": "Drop a PNG here, or click to choose",
+    "dropHint": "PNG, JPEG, WebP or GIF, up to 1 MB. Square works best.",
+    "orLink": "Or paste a link",
+    "logoLink": "Logo link"
   },
   "preview": {
     "title": "Preview",
@@ -63,5 +67,15 @@
     "noWallet": "No wallet found in this browser.",
     "cancelled": "Cancelled.",
     "failed": "It failed: {why}"
+  },
+  "upload": {
+    "type": "That's not a PNG, JPEG, WebP or GIF.",
+    "size": "That image is over 1 MB.",
+    "signIn": "Sign in to upload…",
+    "needSignIn": "Sign in first to upload a logo.",
+    "sending": "Uploading to IPFS…",
+    "done": "Uploaded.",
+    "failed": "The upload failed: {why}",
+    "wait": "Wait for the logo to finish uploading."
   }
 }

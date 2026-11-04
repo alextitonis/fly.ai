@@ -74,10 +74,12 @@ function logo(m) {
   const hue = parseInt(m.token.slice(-4), 16) % 360;
   const box = el("span", { class: "dex-logo", style: `background:hsl(${hue} 70% 68%)`, "aria-hidden": "true" }, (m.symbol || "?").slice(0, 1).toUpperCase());
   const uri = String(m.uri || "");
-  const src = uri.startsWith("ipfs://") ? `https://ipfs.io/ipfs/${uri.slice(7)}` : uri.startsWith("https://") ? uri : "";
+  // our Pinata gateway first (the launch form pins there), the public one for an ipfs:// link pinned elsewhere
+  const src = uri.startsWith("ipfs://") ? `https://salmon-elaborate-eel-413.mypinata.cloud/ipfs/${uri.slice(7)}?img-width=128` : uri.startsWith("https://") ? uri : "";
   if (src) {
     const img = el("img", { src, alt: "", loading: "lazy", referrerpolicy: "no-referrer" });
     img.addEventListener("load", () => { box.replaceChildren(img); });
+    img.addEventListener("error", () => { if (uri.startsWith("ipfs://") && !img.dataset.tried) { img.dataset.tried = "1"; img.src = `https://ipfs.io/ipfs/${uri.slice(7)}`; } });
   }
   return box;
 }

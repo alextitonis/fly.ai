@@ -42,10 +42,19 @@
         <label class="lc-field"><span data-i18n="launch.form.symbol">Symbol</span>
           <input id="lc-symbol" maxlength="10" spellcheck="false" autocapitalize="characters" placeholder="FRUIT" data-i18n-attr="placeholder:launch.form.symbolPh">
         </label>
-        <label class="lc-field"><span data-i18n="launch.form.logo">Logo link (optional)</span>
-          <input id="lc-logo" maxlength="300" spellcheck="false" inputmode="url" placeholder="https://… or ipfs://…">
-          <small data-i18n="launch.form.logoHelp">A link to a square image. It's saved on chain and can't be changed later.</small>
-        </label>
+        <div class="lc-field"><span data-i18n="launch.form.logo">Logo (optional)</span>
+          <label class="lc-drop" id="lc-drop" tabindex="0">
+            <input type="file" id="lc-file" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+            <span class="lc-dropimg" id="lc-dropimg" aria-hidden="true"></span>
+            <span><b data-i18n="launch.form.drop">Drop a PNG here, or click to choose</b>
+              <small data-i18n="launch.form.dropHint">PNG, JPEG, WebP or GIF, up to 1 MB. Square works best.</small></span>
+          </label>
+          <small class="lc-upmsg" id="lc-upmsg" role="status"></small>
+          <details class="lc-link"><summary data-i18n="launch.form.orLink">Or paste a link</summary>
+            <input id="lc-logo" maxlength="300" spellcheck="false" inputmode="url" placeholder="https://… or ipfs://…" aria-label="Logo link" data-i18n-attr="aria-label:launch.form.logoLink">
+          </details>
+          <small data-i18n="launch.form.logoHelp">It's saved on chain with the token and can't be changed later.</small>
+        </div>
         <label class="lc-field"><span data-i18n="launch.form.tax">Your creator tax</span>
           <select id="lc-tax">
             <option value="0">0%</option><option value="50">0.5%</option><option value="100">1%</option><option value="150">1.5%</option><option value="200">2%</option>
@@ -94,6 +103,6 @@
 <script src="assets/site.js"></script>
 <script src="assets/nav.js?v=20261103u"></script>
 <script type="module" src="assets/i18n/page.js"></script>
-<script type="module" src="assets/launch.js?v=20261030a"></script>
+<script type="module" src="assets/launch.js?v=20261104a"></script>
 </body>
 </html>

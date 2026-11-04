@@ -17,8 +17,8 @@
     "namePh": "Fruit Market",
     "symbol": "Sembol",
     "symbolPh": "FRUIT",
-    "logo": "Logo bağlantısı (isteğe bağlı)",
-    "logoHelp": "Kare bir görselin bağlantısı. Zincire kaydedilir ve sonradan değiştirilemez.",
+    "logo": "Logo (isteğe bağlı)",
+    "logoHelp": "Tokenle birlikte zincire kaydedilir ve sonradan değiştirilemez.",
     "tax": "Yaratıcı vergin",
     "taxHelp": "Eğrideki her işlemden alınır ve sana ödenir. Mezuniyette biter ve değiştirilemez.",
     "dev": "USDG ile ilk alımın (isteğe bağlı)",
@@ -26,7 +26,11 @@
     "devGets": "Yaklaşık {tokens} token alırsın (arzın %{pct}'i), mezuniyete kadar senin için tutulur.",
     "connect": "Cüzdan bağla",
     "go": "{fee} ETH ile çıkar",
-    "paused": "Token çıkarma duraklatıldı"
+    "paused": "Token çıkarma duraklatıldı",
+    "drop": "Buraya bir PNG bırak veya seçmek için tıkla",
+    "dropHint": "PNG, JPEG, WebP veya GIF, en fazla 1 MB. Kare en iyisi.",
+    "orLink": "Ya da bir bağlantı yapıştır",
+    "logoLink": "Logo bağlantısı"
   },
   "preview": {
     "title": "Önizleme",
@@ -63,5 +67,15 @@
     "noWallet": "Bu tarayıcıda cüzdan bulunamadı.",
     "cancelled": "İptal edildi.",
     "failed": "Başarısız: {why}"
+  },
+  "upload": {
+    "type": "Bu bir PNG, JPEG, WebP veya GIF değil.",
+    "size": "Bu görsel 1 MB'tan büyük.",
+    "signIn": "Yüklemek için giriş yap…",
+    "needSignIn": "Logo yüklemek için önce giriş yap.",
+    "sending": "IPFS'e yükleniyor…",
+    "done": "Yüklendi.",
+    "failed": "Yükleme başarısız: {why}",
+    "wait": "Logonun yüklenmesinin bitmesini bekle."
   }
 }

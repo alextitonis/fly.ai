@@ -17,8 +17,8 @@
     "namePh": "Fruit Market",
     "symbol": "심볼",
     "symbolPh": "FRUIT",
-    "logo": "로고 링크 (선택)",
-    "logoHelp": "정사각형 이미지 링크입니다. 체인에 저장되며 나중에 바꿀 수 없습니다.",
+    "logo": "로고 (선택)",
+    "logoHelp": "토큰과 함께 체인에 저장되며 나중에 바꿀 수 없습니다.",
     "tax": "크리에이터 세금",
     "taxHelp": "커브의 모든 거래에서 받아 나에게 지급됩니다. 졸업 시 끝나며 변경할 수 없습니다.",
     "dev": "USDG 첫 매수 (선택)",
@@ -26,7 +26,11 @@
     "devGets": "약 {tokens}개 토큰 (공급량의 {pct}%)을 받으며 졸업까지 보관됩니다.",
     "connect": "지갑 연결",
     "go": "{fee} ETH로 출시",
-    "paused": "출시가 일시 중지되었습니다"
+    "paused": "출시가 일시 중지되었습니다",
+    "drop": "여기에 PNG를 놓거나 클릭해 선택하세요",
+    "dropHint": "PNG, JPEG, WebP, GIF, 최대 1MB. 정사각형이 가장 좋습니다.",
+    "orLink": "또는 링크 붙여넣기",
+    "logoLink": "로고 링크"
   },
   "preview": {
     "title": "미리보기",
@@ -63,5 +67,15 @@
     "noWallet": "이 브라우저에서 지갑을 찾을 수 없습니다.",
     "cancelled": "취소되었습니다.",
     "failed": "실패: {why}"
+  },
+  "upload": {
+    "type": "PNG, JPEG, WebP, GIF 파일이 아닙니다.",
+    "size": "이미지가 1MB를 넘습니다.",
+    "signIn": "업로드하려면 로그인하세요…",
+    "needSignIn": "로고를 올리려면 먼저 로그인하세요.",
+    "sending": "IPFS에 업로드 중…",
+    "done": "업로드 완료.",
+    "failed": "업로드 실패: {why}",
+    "wait": "로고 업로드가 끝날 때까지 기다려 주세요."
   }
 }

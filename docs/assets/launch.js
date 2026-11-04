@@ -1,6 +1,8 @@
 /** docs/launch.html (2026-10-30, flytrade/LAUNCHPAD-PLAN.md phase 3): the create form. The launch's rules and fee come
  *  from the mine (read on chain there), the calldata from assets/dexswap.js (the fork run sends the same bytes), and the
- *  visitor's own wallet sends it. Once the indexer has it, the visitor goes on to the token's page on the Fly DEX. */
+ *  visitor's own wallet sends it. Once the indexer has it, the visitor goes on to the token's page on the Fly DEX.
+ *  The logo (2026-11-04, the user: drag and drop to Pinata): the image goes to the mine (POST /api/launchpad/logo, signed
+ *  in), which pins it with its own Pinata key and answers an ipfs:// link; a pasted link still works. */
 import { t, locale } from "./i18n/i18n.js";
 import { USDG, LAUNCHED_TOPIC, createTxs, devQuote, maxDevBuy, launchProblem, units, word } from "./dexswap.js?v=20261030b";
 
@@ -8,6 +10,10 @@ const NAV = window.flyNav;
 const LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
 const PARAMS = new URLSearchParams(location.search);
 const API = (LOCAL && PARAMS.get("api")) || NAV?.MINE_READ || "https://flyai-mine.fly.dev";
+const WRITE_API = (LOCAL && PARAMS.get("api")) || NAV?.MINE_API || "https://flyai-mine.fly.dev";   // signed-in writes skip the read cache
+const GATEWAY = "https://salmon-elaborate-eel-413.mypinata.cloud/ipfs/";   // ours: the public gateways take seconds an image
+const LOGO_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+const LOGO_MAX = 1_048_576;
 const RPC = (LOCAL && PARAMS.get("rpc")) || "https://rpc.mainnet.chain.robinhood.com";
 const ACCOUNT_JS = "/compute/mine/web/account.js";
 const CHAIN = 4663;
@@ -32,7 +38,7 @@ const msg = (text, kind = "") => { $("lc-msg").textContent = text || ""; $("lc-m
 const carry = LOCAL && PARAMS.get("api") ? `&api=${encodeURIComponent(PARAMS.get("api"))}${PARAMS.get("rpc") ? `&rpc=${encodeURIComponent(PARAMS.get("rpc"))}` : ""}` : "";
 const tokenLink = (token) => `dex?t=${token}${carry}`;
 
-let settings = null, wallet = null, busy = false, acct = null;
+let settings = null, wallet = null, busy = false, acct = null, uploading = false, lastLocal = null;
 const loadAcct = () => (acct ? Promise.resolve(acct) : import(ACCOUNT_JS).then((m) => (acct = m)).catch(() => null));
 const taxBps = () => Number($("lc-tax").value);
 const devUsdg = () => { const v = $("lc-dev").value.trim(); return v ? units(v, 6) : 0n; };
@@ -54,10 +60,12 @@ function draw() {
   const f = fields();
   const letter = (f.symbol || f.name || "?").slice(0, 1).toUpperCase();
   const box = el("span", { class: "dex-logo", style: "background:hsl(165 70% 68%)", "aria-hidden": "true" }, letter);
-  const src = f.uri.startsWith("ipfs://") ? `https://ipfs.io/ipfs/${f.uri.slice(7)}` : f.uri.startsWith("https://") ? f.uri : "";
+  const src = logoSrc(f.uri);
   if (src) {
     const img = el("img", { src, alt: "", referrerpolicy: "no-referrer" });
     img.addEventListener("load", () => box.replaceChildren(img));
+    // our gateway serves what we pinned; a pasted ipfs:// link from elsewhere falls back to the public one
+    img.addEventListener("error", () => { if (f.uri.startsWith("ipfs://") && !img.dataset.tried) { img.dataset.tried = "1"; img.src = `https://ipfs.io/ipfs/${f.uri.slice(7)}`; } });
   }
   $("lc-preview").replaceChildren(box, el("div", {}, el("b", {}, f.name || t("launch.preview.name")), el("small", {}, f.symbol || t("launch.preview.symbol"))));
 
@@ -69,7 +77,56 @@ function draw() {
   $("lc-problem").className = "dex-msg err";
   const paused = !!settings.paused;
   $("lc-go").textContent = paused ? t("launch.form.paused") : wallet ? t("launch.form.go", { fee: num(Number(settings.create_fee_wei) / 1e18, 5) }) : t("launch.form.connect");
-  $("lc-go").disabled = paused || busy;
+  $("lc-go").disabled = paused || busy || uploading;
+}
+
+function logoSrc(uri) {
+  if (uri.startsWith("ipfs://")) return `${GATEWAY}${uri.slice(7)}?img-width=256`;
+  return uri.startsWith("https://") ? uri : "";
+}
+
+// ---- the logo upload -----------------------------------------------------------------------------------------------
+const upMsg = (text, kind = "") => { $("lc-upmsg").textContent = text || ""; $("lc-upmsg").className = `lc-upmsg${kind ? ` ${kind}` : ""}`; };
+function dropPreview(src) {
+  $("lc-dropimg").classList.toggle("has", !!src);
+  $("lc-dropimg").replaceChildren(...(src ? [el("img", { src, alt: "" })] : []));
+}
+
+/** The signed-in session token, signing in first when there's none. */
+async function sessionToken() {
+  const now = NAV?.session?.();
+  if (now?.token) return now.token;
+  const a = await loadAcct();
+  if (!a || !(await a.requireWallet())) return null;
+  return NAV?.session?.()?.token ?? null;
+}
+
+async function uploadLogo(file) {
+  if (!file || uploading) return;
+  if (!LOGO_TYPES.includes(file.type)) return upMsg(t("launch.upload.type"), "err");
+  if (file.size > LOGO_MAX) return upMsg(t("launch.upload.size"), "err");
+  if (lastLocal) URL.revokeObjectURL(lastLocal);
+  const local = (lastLocal = URL.createObjectURL(file));      // the dropped file itself stays the box's preview
+  dropPreview(local);
+  uploading = true;
+  draw();
+  try {
+    upMsg(t("launch.upload.signIn"));
+    const token = await sessionToken();
+    if (!token) { dropPreview(null); upMsg(t("launch.upload.needSignIn"), "err"); return; }
+    upMsg(t("launch.upload.sending"));
+    const r = await fetch(`${WRITE_API}/api/launchpad/logo`, { method: "POST", body: file, headers: { "content-type": file.type, "x-flyai-session": token } });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || !j.uri) throw new Error(j.error || `HTTP ${r.status}`);
+    $("lc-logo").value = j.uri;
+    upMsg(t("launch.upload.done"), "ok");
+  } catch (e) {
+    dropPreview(null);
+    upMsg(t("launch.upload.failed", { why: e.message }), "err");
+  } finally {
+    uploading = false;
+    draw();
+  }
 }
 
 function rulesList() {
@@ -125,6 +182,7 @@ async function goTo(token) {
 
 async function submit() {
   if (busy) return;
+  if (uploading) return msg(t("launch.upload.wait"), "err");
   const a = await loadAcct();
   if (!a) return msg(t("launch.msg.noWallet"), "err");
   if (!wallet) {
@@ -185,6 +243,15 @@ if (!d?.settings?.defaults) {
   $("lc-symbol").addEventListener("input", () => { $("lc-symbol").value = $("lc-symbol").value.toUpperCase().replace(/[^A-Z0-9]/g, ""); });
   for (const id of ["lc-name", "lc-symbol", "lc-logo", "lc-dev", "lc-tax"]) $(id).addEventListener("input", () => { msg(""); draw(); });
   $("lc-form").addEventListener("submit", (e) => { e.preventDefault(); submit(); });
+  const drop = $("lc-drop");
+  $("lc-file").addEventListener("change", () => uploadLogo($("lc-file").files[0]));
+  drop.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("lc-file").click(); } });
+  for (const ev of ["dragenter", "dragover"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); });
+  for (const ev of ["dragleave", "dragend"]) drop.addEventListener(ev, () => drop.classList.remove("over"));
+  drop.addEventListener("drop", (e) => { e.preventDefault(); drop.classList.remove("over"); uploadLogo(e.dataTransfer?.files?.[0]); });
+  // a dropped file that misses the box shouldn't open the image in place of the form
+  for (const ev of ["dragover", "drop"]) addEventListener(ev, (e) => e.preventDefault());
+  $("lc-logo").addEventListener("input", () => { upMsg(""); dropPreview(logoSrc($("lc-logo").value.trim())); });
   const s = NAV?.session?.();
   if (s?.wallet) wallet = s.wallet;
   loadAcct().then((a) => a?.onAccount((w) => { wallet = w; draw(); }));

@@ -112,3 +112,16 @@
 .lc-rules { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
 .lc-rules li { margin-bottom: 8px; }
 .dex-launchlink { margin-top: 18px; }
+.lc-drop { display: flex; align-items: center; gap: 14px; margin-top: 6px; padding: 16px; border: 1.5px dashed var(--line); border-radius: 14px; background: var(--bg-2); cursor: pointer; color: var(--muted); }
+.lc-drop:hover, .lc-drop:focus-visible, .lc-drop.over { border-color: var(--mint); outline: none; }
+.lc-drop b { display: block; color: var(--text); font-weight: 500; font-size: 14px; }
+.lc-drop small { margin-top: 3px; }
+.lc-dropimg { flex: 0 0 auto; width: 56px; height: 56px; border-radius: 50%; background: var(--panel); border: 1px solid var(--line); overflow: hidden; display: grid; place-items: center; }
+.lc-dropimg::before { content: "↑"; color: var(--muted); font-size: 20px; }
+.lc-dropimg.has::before { content: none; }
+.lc-dropimg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lc-upmsg:empty { display: none; }
+.lc-upmsg.err { color: var(--red-hi); }
+.lc-upmsg.ok { color: var(--mint); }
+.lc-link { margin-top: 8px; }
+.lc-link summary { cursor: pointer; color: var(--muted); font-size: 13px; }

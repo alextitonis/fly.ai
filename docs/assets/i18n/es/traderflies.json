@@ -1388,6 +1388,10 @@
         "title": "Francotirador de lanzamientos",
         "blurb": "Compra lanzamientos nuevos en uno o dos minutos (el listener compartido del Fly Desk los filtra: GoPlus, pool, tamaño), vende la mitad a 2x y sigue el resto. Riesgo alto: la mayoría llega a cero."
       },
+      "snipe": {
+        "title": "Sniper",
+        "blurb": "Compra lanzamientos nuevos en uno o dos minutos (el listener compartido del Fly Desk los filtra: GoPlus, pool, tamaño), vende la mitad a 2x y sigue el resto. Riesgo alto: la mayoría llega a cero."
+      },
       "copy": {
         "title": "Copiar a los ganadores",
         "blurb": "Compra lo que compran los Fly Wallets que están ganando (en positivo 7 días, con historial real) y vende cuando venden."

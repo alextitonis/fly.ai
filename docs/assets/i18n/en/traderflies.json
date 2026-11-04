@@ -1388,6 +1388,10 @@
         "title": "Launch sniper",
         "blurb": "Buys brand-new launches within a minute or two (the Fly Desk's shared listener screens them: GoPlus, pool, size), sells half at 2x and trails the rest. High risk: most launches go to zero."
       },
+      "snipe": {
+        "title": "Sniper",
+        "blurb": "Buys brand-new launches within a minute or two (the Fly Desk's shared listener screens them: GoPlus, pool, size), sells half at 2x and trails the rest. High risk: most launches go to zero."
+      },
       "copy": {
         "title": "Copy the winners",
         "blurb": "Buys what the Fly Wallets that are making money buy (up over 7 days, with a real track record) and sells when they sell."

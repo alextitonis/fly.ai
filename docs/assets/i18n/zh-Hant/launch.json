@@ -17,8 +17,8 @@
     "namePh": "Fruit Market",
     "symbol": "符號",
     "symbolPh": "FRUIT",
-    "logo": "Logo 連結(選填)",
-    "logoHelp": "一張方形圖片的連結。它會保存在鏈上,之後無法更改。",
+    "logo": "Logo(選填)",
+    "logoHelp": "它會隨代幣保存在鏈上,之後無法更改。",
     "tax": "你的創建者稅",
     "taxHelp": "在曲線上的每筆交易中收取並支付給你。畢業時停止,且無法更改。",
     "dev": "你用 USDG 的首次買入(選填)",
@@ -26,7 +26,11 @@
     "devGets": "你將獲得約 {tokens} 個代幣(供應量的 {pct}%),在畢業前為你保管。",
     "connect": "連接錢包",
     "go": "支付 {fee} ETH 發行",
-    "paused": "發行已暫停"
+    "paused": "發行已暫停",
+    "drop": "把 PNG 拖到這裡,或點擊選擇",
+    "dropHint": "PNG、JPEG、WebP 或 GIF,最大 1 MB。方形效果最好。",
+    "orLink": "或貼上連結",
+    "logoLink": "Logo 連結"
   },
   "preview": {
     "title": "預覽",
@@ -63,5 +67,15 @@
     "noWallet": "此瀏覽器中未找到錢包。",
     "cancelled": "已取消。",
     "failed": "失敗:{why}"
+  },
+  "upload": {
+    "type": "這不是 PNG、JPEG、WebP 或 GIF 檔案。",
+    "size": "圖片超過 1 MB。",
+    "signIn": "請登入以上傳…",
+    "needSignIn": "請先登入再上傳 Logo。",
+    "sending": "正在上傳到 IPFS…",
+    "done": "已上傳。",
+    "failed": "上傳失敗:{why}",
+    "wait": "請等待 Logo 上傳完成。"
   }
 }

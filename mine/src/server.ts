@@ -56,11 +56,13 @@ import { createHunt } from "./hunt.ts";
 import { badgeConfig, createBadges } from "./badges.ts";
 import { createXp, xpConfig } from "./xp.ts";
 import { createTgLink } from "./tglink.ts";
+import { createAgents } from "./agents.ts";
 import { multicall } from "./multicall.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
 import { createScan, scanConfig, FLYAI as SCAN_FLYAI } from "./scan.ts";
 import { createLaunchpad, launchpadChain } from "./launchpad.ts";
+import { createLaunchLogo, pinataPin } from "./launchlogo.ts";
 import { createRace } from "./race.ts";
 import { createFlightPass, MINING_BOOST } from "./flightpass.ts";
 import { createPassFights } from "./passfights.ts";
@@ -3770,6 +3772,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/xp/") || p === "/api/admin/xp/round")) {
     if (await xp.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p === "/api/agents" || p.startsWith("/api/agents/"))) {
+    if (await agents.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p === "/api/tg" || p.startsWith("/api/tg/"))) {
     if (await tgLink.route(req, res, url)) return;
   }
@@ -3787,6 +3792,10 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   }
   if (req.method !== "OPTIONS" && (p === "/api/scan" || p.startsWith("/api/scan/"))) {
     if (await scan.route(req, res, url)) return;
+  }
+  if (req.method === "POST" && p === "/api/launchpad/logo") {
+    if (!launchpad) return send(res, 404, { error: "the launchpad isn't live yet" });
+    if (await launchLogo.route(req, res, url)) return;
   }
   if (req.method === "GET" && p.startsWith("/api/launchpad")) {
     if (!launchpad) return send(res, 404, { error: "the launchpad isn't live yet" });
@@ -4200,6 +4209,8 @@ if (USER) xp.start();
 // Connect Telegram (src/tglink.ts): the Login Widget's signed answer, and the bot's word on group membership (XP)
 const tgLink = createTgLink({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, env: process.env });
 if (USER) tgLink.start();
+// Trader Flies as ERC-8004 agents (src/agents.ts): each fly's registration file, read live
+const agents = createAgents({ pg, send, rpc: CLAIMS.rpc });
 // Fly Launchpad (src/launchpad.ts): indexes the FlyLaunchpad contract once LAUNCHPAD_ADDRESS is set
 const launchpad = /^0x[0-9a-fA-F]{40}$/.test(process.env.LAUNCHPAD_ADDRESS ?? "")
   ? createLaunchpad({
@@ -4210,6 +4221,11 @@ const launchpad = /^0x[0-9a-fA-F]{40}$/.test(process.env.LAUNCHPAD_ADDRESS ?? ""
   })
   : null;
 if (USER && launchpad) launchpad.start();
+// launch logos (src/launchlogo.ts): the create form's drag and drop, pinned through Pinata with the server's key
+const launchLogo = createLaunchLogo({
+  pin: process.env.PINATA_JWT ? pinataPin(process.env.PINATA_JWT) : null,
+  sessionWallet: async (req) => (await sessionOf(req)).wallet, HttpError, send,
+});
 // $FLYAI total/circulating supply for CoinGecko and CoinMarketCap (src/supply.ts): read on chain, cached
 const supply = createSupply({ rpcUrl: CLAIMS.rpc, env: process.env, HttpError, send });
 // the mining side's timers: orders, card checkouts, webhooks, staking samples and the research summaries
