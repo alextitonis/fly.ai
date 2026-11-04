@@ -1300,6 +1300,7 @@
     "withdrawConfirmBonus": "{usd} yatırma bonusun kasaya geri döner.",
     "withdrawYes": "Evet, %{pct} çek",
     "withdrawn": "Cüzdanına gönderildi.",
+    "withdrawPending": "Çekim yolda: sinek bir sonraki barda öder (en fazla 15 dakika, para Earn'de borç verildiyse biraz daha uzun).",
     "passTitle": "Bu sineğe bir FlightPass yak",
     "passText": "Pass kalıcı olarak yakılır: içindeki her şey artı bizden {usd} bu sineğin cüzdanına kilitli olarak girer. Sinek bununla işlem yapar, üstüne kazandığını çekebilirsin. Sinek başına bir pass.",
     "noPass": "Satışa çıkarılmamış bir FlightPass'in yok.",

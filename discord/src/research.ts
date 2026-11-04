@@ -60,8 +60,8 @@ type DexPair = { chainId: string; url: string; priceUsd?: string; liquidity?: { 
   baseToken: { address: string; name: string; symbol: string };
   info?: { imageUrl?: string; websites?: { url: string }[]; socials?: { type: string; url: string }[] } };
 
-const json = async (url: string, timeout = 12_000): Promise<any> => {
-  const r = await fetch(url, { signal: AbortSignal.timeout(timeout), headers: { "user-agent": "Mozilla/5.0 (fly.ai discord bot)" } });
+const json = async (url: string, timeout = 12_000, headers: Record<string, string> = {}): Promise<any> => {
+  const r = await fetch(url, { signal: AbortSignal.timeout(timeout), headers: { "user-agent": "Mozilla/5.0 (fly.ai discord bot)", ...headers } });
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   return r.json();
 };
@@ -95,15 +95,27 @@ export async function findToken(query: string): Promise<{ pair: DexPair; copies:
 }
 
 /** A collection from OpenSea's API: by slug, or by "chain:0x…" (an item's link). null when it can't be read. */
+// OpenSea's v2 API answers 401 without a key (found 2026-11-04: every NFT check said "couldn't find it"); the same key as mine's partners
+const opensea = (path: string) => json(`https://api.opensea.io/api/v2${path}`, 12_000, process.env.OPENSEA_API_KEY ? { "x-api-key": process.env.OPENSEA_API_KEY } : {});
+const NFT_CHAINS = ["robinhood", "base", "ethereum", "arbitrum"];
+
+/** The collection a contract address belongs to, on the first chain OpenSea knows it on: a pasted NFT contract isn't a token. */
+export async function collectionOfContract(address: string): Promise<string | null> {
+  for (const chain of NFT_CHAINS) {
+    const hit = await opensea(`/chain/${chain}/contract/${address}`).catch(() => null);
+    if (hit?.collection) return `${chain}:${address}`;
+  }
+  return null;
+}
+
 export async function readCollection(value: string): Promise<Nft | null> {
-  const API = "https://api.opensea.io/api/v2";
   let slug: string | null = value;
   const m = /^([a-z_]+):(0x[0-9a-fA-F]{40})$/.exec(value);
-  if (m) slug = (await json(`${API}/chain/${m[1]}/contract/${m[2]}`).catch(() => null))?.collection ?? null;
+  if (m) slug = (await opensea(`/chain/${m[1]}/contract/${m[2]}`).catch(() => null))?.collection ?? null;
   if (!slug) return null;
-  const c = await json(`${API}/collections/${encodeURIComponent(slug)}`).catch(() => null);
+  const c = await opensea(`/collections/${encodeURIComponent(slug)}`).catch(() => null);
   if (!c?.collection) return null;
-  const s = await json(`${API}/collections/${encodeURIComponent(slug)}/stats`).catch(() => null);
+  const s = await opensea(`/collections/${encodeURIComponent(slug)}/stats`).catch(() => null);
   const on = c.contracts?.[0];
   const created = Date.parse(c.created_date ?? "");
   const num = (x: unknown) => (x == null || !Number.isFinite(Number(x)) ? null : Number(x));
@@ -137,6 +149,11 @@ export async function gather(t: Target): Promise<Facts> {
   const inBio = facts.x ? ADDRESS.exec(facts.x.bio)?.[0] : null;
   const query = t.kind === "token" ? t.value : inBio ?? null;
   const found = query ? await findToken(query) : null;
+  // a contract no DEX knows may be an NFT collection's
+  if (!found && t.kind === "token" && ADDRESS.test(t.value) && process.env.OPENSEA_API_KEY) {
+    const nft = await collectionOfContract(ADDRESS.exec(t.value)![0]);
+    if (nft) return gather({ kind: "nft", value: nft });
+  }
   if (found) {
     const p = found.pair;
     const key = CHAIN_KEY[p.chainId];
@@ -207,6 +224,9 @@ export function bundle(f: Facts): { level: "bad" | "some" | "clean" | "unknown";
   const pct = (x: number) => `${Math.round(x * 100)}%`;
   const top = v?.top10 != null ? `. Top 10 wallets hold ${pct(v.top10)}` : "";
   if (v?.cluster != null) {
+    // an NFT's groups are wallets one wallet sent items to (same-block mints don't count there): usually giveaways, payouts or a
+    // team's own wallets, sometimes one owner spreading a bag. Worth a look, not a red flag (2026-11-04: Trader Fly's prizes read "Bundled")
+    if (f.nft && v.cluster > 0.05) return { level: "some", line: `🟡 One wallet sent items to several top holders, who hold ${pct(v.cluster)}: often giveaways or a team's wallets, sometimes one owner${top}` };
     if (v.cluster > 0.25) return { level: "bad", line: `🔴 Bundled: wallets that look like one group hold ${pct(v.cluster)}${top}` };
     if (v.cluster > 0.05) return { level: "some", line: `🟡 Some grouped wallets, holding ${pct(v.cluster)}${top}` };
     return { level: "clean", line: `🟢 Clean: no real wallet group among the top 25${top}` };
@@ -273,9 +293,10 @@ export function grade(f: Facts, now = Date.now()): Grade {
   if (f.nft) {
     const n = f.nft, days = n.created ? (now - n.created) / 86_400_000 : null;
     if (n.disabled) bad.push("OpenSea has disabled this collection");
-    if (f.verdict?.why.length) bad.push(...f.verdict.why);
+    // (grouped wallets: see bundle(); a concentrated top 10 is common in a young collection)
+    for (const w of f.verdict?.why ?? []) (/^(grouped wallets|top 10 wallets)/.test(w) ? careful : bad).push(w.replace(/^grouped wallets hold (\S+)$/, "Wallets one wallet sent items to hold $1"));
     const b = bundle(f);
-    if (b?.level === "some") careful.push("Some of the top wallets look grouped");
+    if (b?.level === "some" && !careful.some((x) => x.startsWith("Wallets one wallet"))) careful.push("Some of the top wallets look grouped");
     if (b?.level === "clean") good.push("No wallet group found among the top holders");
     if (b?.level === "unknown") careful.push("Who holds it couldn't be checked");
     if (days != null && days < 7) careful.push(`The collection is only ${days < 2 ? "a day" : `${Math.round(days)} days`} old`);

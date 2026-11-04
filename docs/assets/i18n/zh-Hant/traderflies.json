@@ -1298,6 +1298,7 @@
     "withdrawConfirmBonus": "你的 {usd} 存款獎勵將退回平台。",
     "withdrawYes": "確認提領 {pct}%",
     "withdrawn": "已傳送到你的錢包。",
+    "withdrawPending": "提領進行中：蒼蠅會在下一根K線支付（最多 15 分鐘，資金在 Earn 中出借時會稍久一些）。",
     "passTitle": "將 FlightPass 銷毀並注入這隻蒼蠅",
     "passText": "通行證會被永久銷毀：它持有的一切，加上我們贈送的 {usd}，都會鎖定在這隻蒼蠅的錢包裡。蒼蠅會用它交易，你可以提領額外賺到的部分。每隻蒼蠅限一張通行證。",
     "noPass": "你沒有未掛單出售的 FlightPass。",

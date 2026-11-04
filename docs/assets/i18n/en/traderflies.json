@@ -1300,6 +1300,7 @@
     "withdrawConfirmBonus": "Your {usd} deposit bonus goes back to the house.",
     "withdrawYes": "Yes, withdraw {pct}%",
     "withdrawn": "Sent to your wallet.",
+    "withdrawPending": "Withdrawal on its way: the fly pays it out at its next bar (up to 15 minutes, a little longer if the money is lent out in Earn).",
     "passTitle": "Burn a FlightPass into this fly",
     "passText": "The pass is burned for good: everything it holds plus {usd} from us goes into this fly's wallet, locked. The fly trades it and you can withdraw what it earns on top. One pass per fly.",
     "noPass": "You have no FlightPass that isn't listed for sale.",

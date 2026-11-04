@@ -1298,6 +1298,7 @@
     "withdrawConfirmBonus": "{usd} 입금 보너스는 하우스로 돌아갑니다.",
     "withdrawYes": "네, {pct}% 출금",
     "withdrawn": "지갑으로 보냈어요.",
+    "withdrawPending": "출금 진행 중: 파리가 다음 봉에 지급합니다 (최대 15분, Earn에 빌려준 돈이면 조금 더 걸려요).",
     "passTitle": "이 파리에 FlightPass 소각하기",
     "passText": "패스는 영구히 소각돼요: 패스가 가진 모든 것과 저희가 주는 {usd}가 이 파리의 지갑에 잠긴 채로 들어가요. 파리가 이걸로 거래하고, 그 위로 번 돈은 출금할 수 있어요. 파리당 패스 하나.",
     "noPass": "판매 등록되지 않은 FlightPass가 없어요.",

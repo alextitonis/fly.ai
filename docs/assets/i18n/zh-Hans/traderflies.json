@@ -1298,6 +1298,7 @@
     "withdrawConfirmBonus": "你的 {usd} 充值奖励将退回平台。",
     "withdrawYes": "确认提取 {pct}%",
     "withdrawn": "已发送到你的钱包。",
+    "withdrawPending": "提现进行中：苍蝇会在下一根K线支付（最多 15 分钟，资金在 Earn 中出借时会稍久一些）。",
     "passTitle": "将 FlightPass 销毁注入这只苍蝇",
     "passText": "通行证将被永久销毁：里面的全部资产，加上我们赠送的 {usd}，都会锁定存入这只苍蝇的钱包。苍蝇用它交易，赚到的部分你可以提现。每只苍蝇限一张。",
     "noPass": "你没有未挂单出售的 FlightPass。",

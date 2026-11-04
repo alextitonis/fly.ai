@@ -1300,6 +1300,7 @@
     "withdrawConfirmBonus": "Tu bono de depósito de {usd} vuelve a la casa.",
     "withdrawYes": "Sí, retirar {pct}%",
     "withdrawn": "Enviado a tu billetera.",
+    "withdrawPending": "Retiro en camino: la mosca lo paga en su próxima barra (hasta 15 minutos, algo más si el dinero está prestado en Earn).",
     "passTitle": "Quema un FlightPass en esta mosca",
     "passText": "El pase se quema para siempre: todo lo que contiene más {usd} de nuestra parte va a la wallet de esta mosca, bloqueado. La mosca lo opera y puedes retirar lo que gane por encima. Un pase por mosca.",
     "noPass": "No tienes ningún FlightPass que no esté a la venta.",

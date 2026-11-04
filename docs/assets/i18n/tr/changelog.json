@@ -26,6 +26,7 @@
     "how": "Nasıl çalışır"
   },
   "e": {
+    "d1104a": "<b>Trader Flies için long ve short.</b> Bir sineğin cüzdanında Perp'leri aç ve BTC / ETH, hisseler ya da ikisini seç. Sinek piyasa havasına, fonlama oranına, Korku ve Açgözlülük endeksine, VIX'e ve bilanço tarihlerine baktıktan sonra her piyasanın trendine göre long ya da short açar. İşlem bulduğunda cüzdanının en fazla dörtte birini koyar, yapacak işlem kalmayınca geri getirir. 1x, kaldıraç yok. <a href=\"/traderflies/\">Sineklerim</a>",
     "d1103b": "<b>XP Sezon 1.</b> $FLYAI tutarak, Trader Fly'larını çalıştırarak, sinek cüzdanı yatırımları, Fly Desk'i besleme, pazar işlemleri, çiftleştirme, rozetler, davetler ve X gönderileriyle XP kazan. Geçmişin ilk günden sayılır. Profil için bir isme, XP kuralları için ?'ye tıkla. XP airdrop'a sayılır. <a href=\"/xp\">XP liderlik tablosu</a>",
     "d1029a": "<b>Sineklerinin kazancını gör.</b> Claim sayfası artık Trader Fly'larının bu hafta ne kazanacağını, geçen hafta ne ödendiğini, şimdiye kadarki toplamı ve daha fazla stake'in ne kadar eklediğini gösteriyor. Fly Desk'te bir hesaplayıcı var: bir nadirlik ve stake seç, bir sineğin haftada yaklaşık ne kazandığını gör. <a href=\"/traderflies/claim\">Claim</a>",
     "d1028a": "<b>Trader Flies için daha akıllı trading.</b> Fly cüzdanları artık $FLYAI fiyatı düştüğünde güvenlik modunda takılı kalmıyor: güvenlik kontrolü artık trading'in kendisinin ne kazandırdığına bakıyor, böylece sineğin işlem yapmaya devam ediyor. <a href=\"/traderflies/\">Sineklerim</a>",
