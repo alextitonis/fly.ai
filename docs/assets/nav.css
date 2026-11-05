@@ -199,6 +199,23 @@ nav li.burger, .mnav { display: none; }
   .mnav-h { margin: 2px 10px 6px; font: 600 11px var(--mono, "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace); letter-spacing: .1em; text-transform: uppercase; color: var(--mint, #5ef2cc); opacity: .8; }
   html.mnav-open body { overflow: hidden; }
 }
+/* a narrow phone (2026-11-05, the user: "Buy $FLYAI is on top of the logo"): Buy, search, chat, bell, account and ☰
+   were wider than the room right of the logo, and flex-end pushed the overflow left over it. Tighter pills here, and
+   the account name is the one item that gives way: it shrinks to an ellipsis before the row can reach the logo */
+@media (max-width: 760px) {
+  nav .wrap > ul > li { flex: none; }
+  nav .wrap > ul > li.acct { flex: 0 1 auto; min-width: 0; }
+  nav li.acct .acct-btn { display: inline-flex; align-items: center; gap: 3px; max-width: 100%; min-width: 0; }
+  nav li.acct .acct-name { min-width: 0; flex: 0 1 auto; }
+}
+@media (max-width: 480px) {
+  nav .wrap { gap: 8px !important; }
+  nav .wrap > ul { gap: 2px !important; }
+  nav li.buycta a { padding: 6px 10px !important; font-size: 12px; }
+  nav li.srch .srch-btn, nav li.bell .bell-btn, nav li.chat .chat-btn { padding: 6px 5px !important; font-size: 14px; }
+  nav li.acct .acct-btn { padding: 6px 9px !important; font-size: 12px; }
+  .burger-btn { width: 36px; height: 36px; }
+}
 @media (max-width: 760px) {
   nav li.langli { display: none !important; }
   .mnav-lang { margin: 16px 8px 0; }
