@@ -25,6 +25,12 @@ Result test 1 (11-05): 2 of 5. GPS runs all clean (8/8 two charges, 96% found, 0
 go home at sigma 4 m, faster-growing own-motion uncertainty, pad search climbs to 12 m first, 8 m fence buffer.
 Test 3, seeds 9931-9938, 10 min, plain, into runs/autonomy/test3/, tags g, n, l as test 1. The same five rules, plus
     FENCE      no run leaves the fence (part of SAFE: leaving it is a failure)
+Result test 3 (11-05), NOT COMPLETE: g9938 missing (stopped by the user), so `score --test 3` fails until it runs. The three batches were
+mistakenly run at the same time (plain sim has no brain and no timing dependence, so per-seed results shouldn't change; g9933 was rerun).
+Already decided by the 23 runs there: SAFE MISSED (no-GPS 4 of 8 failed: 2 emergency landings, 1 crash in an emergency landing, 1 empty
+battery; GPS-lost 1 of 8 empty battery). GPS runs, 7 of 8 done: 0 failures, two charges each, 1.06-1.41 m median error, 0 false finds.
+Cause of the failures: a no-GPS drone whose home estimate is off by more than the camera's view from 12 m searches for the pad until the
+battery is flat (n9932 searched 146 s from 65% to 3%). Nothing caps the search by battery. Test 2 (brain vs scrambled) not run.
     python -m autonomy.run_sim score --test 1      (or --test 2, --test 3)
 """
 from __future__ import annotations
