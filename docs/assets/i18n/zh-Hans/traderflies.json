@@ -1554,7 +1554,7 @@
       },
       "degen_sniper": {
         "title": "Degen 狙击手",
-        "blurb": "高风险：在 Robinhood Chain 和 Solana（需存入 SOL）上，新代币上线几分钟内买入，并在 Base、BNB 和 Arbitrum 上买入新代币。快速卖出：从最高点下跌 20% 全部卖出，2 倍时卖出一部分。大多数新代币会失败，少数会大涨。"
+        "blurb": "高风险：在 Robinhood Chain 和 Solana（需存入 SOL）上，新代币上线几分钟内买入，并在 Base、BNB 和 Arbitrum 上买入新代币。快速卖出：涨到 2 倍时全部卖出，或在此之前从最高点下跌 20% 时全部卖出。大多数新代币会失败，少数会大涨。"
       }
     },
     "best": "最佳 Fly Wallets",

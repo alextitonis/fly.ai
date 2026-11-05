@@ -32,6 +32,9 @@ check("merge: risk clamped, one market off, unknown chain dropped, a stop set", 
 m = mergeSettings(SETTINGS, { options: [{ id: "core", share_pct: 50 }, { id: "nope" }, { id: "trend", on: true }] });
 check("merge: options by id, params kept, unknown ids dropped", m.options.length === 2 && m.options[0].share_pct === 50 &&
   m.options[0].params.top === 6 && m.options[1].id === "trend", JSON.stringify(m.options));
+{ const sn = mergeSettings(SETTINGS, { options: [{ id: "snipe", on: true, share_pct: 30, params: { fall_pct: 15, tp_part: 100, sol: 1 } }] });
+  const o = sn.options.find((x: any) => x.id === "snipe");
+  check("merge: the chat can switch the sniper on and set its drop, take and Solana", !!o && o.params.fall_pct === 15 && o.params.tp_part === 100 && o.params.sol === 1, JSON.stringify(o)); }
 check("merge: a key the document lacks isn't added", mergeSettings(SETTINGS, { filters: { evil: 1 } }).filters.evil === undefined);
 check("shortcut: pause", shortcut("Pause!", SETTINGS)?.card.kind === "settings" && (shortcut("pause", SETTINGS)!.card as any).after.trading === false);
 check("shortcut: resume only when paused", shortcut("resume", SETTINGS) === null && shortcut("resume", { ...SETTINGS, trading: false }) !== null);

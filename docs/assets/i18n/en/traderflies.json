@@ -1556,7 +1556,7 @@
       },
       "degen_sniper": {
         "title": "Degen Sniper",
-        "blurb": "High risk: buys brand-new tokens minutes after launch on Robinhood Chain and Solana (with SOL added), and young tokens on Base, BNB and Arbitrum. Sells fast: everything on a 20% drop from the top, part at 2x. Most new tokens fail; a few run."
+        "blurb": "High risk: buys brand-new tokens minutes after launch on Robinhood Chain and Solana (with SOL added), and young tokens on Base, BNB and Arbitrum. Sells fast: all of it at 2x, or all of it on a 20% drop from the top before that. Most new tokens fail; a few run."
       }
     },
     "best": "Best Fly Wallets",

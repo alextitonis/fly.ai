@@ -139,6 +139,6 @@
     "d1030b": "<b>Buy $FLYAI from Solana.</b> The swap box on the home and token pages now takes SOL or USDC from a Solana wallet like Phantom, in one step. Your $FLYAI lands at your Robinhood Chain address.",
     "d1103a": "<b>Connect your X account.</b> Link your X profile to your wallet from the account menu at the top right: click Connect X, approve on X, and your @handle shows in your profile. We only read your public profile and never post for you. Unlink any time.",
     "d1101g": "<b>Breeding pays now.</b> A bred fly keeps the desk payout share of every fly burned into it, plus 10%: Gen 1 earns ×2.2, Gen 2 ×3.3, Gen 3 and up ×4.4. Its wallet's profit fee also drops 2 points per generation. Flies already bred count too. <a href=\"/traderflies/breed\">Breed</a>",
-    "d1105d": "<b>Degen Sniper preset.</b> High risk, for those who want it: your fly buys brand-new tokens minutes after launch on Robinhood Chain and Solana, plus young tokens on Base, BNB and Arbitrum, and gets out fast - everything on a 20% drop from the top, part at 2x. Pick it under Settings. Needs 200,000 $FLYAI held."
+    "d1105d": "<b>Degen Sniper preset.</b> High risk, for those who want it: your fly buys brand-new tokens minutes after launch on Robinhood Chain and Solana, plus young tokens on Base, BNB and Arbitrum, and gets out fast - all of it at 2x, or all of it on a 20% drop from the top before that. Pick it under Settings. Needs 200,000 $FLYAI held."
   }
 }

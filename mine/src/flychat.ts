@@ -50,7 +50,8 @@ export const WATCH_MAX = 5;
 const CHAINS = ["robinhood", "base", "bsc", "arbitrum"];
 const MARKETS = ["memes", "majors", "stocks", "polymarket"];
 const EARN_MODES = ["off", "idle", "share", "only"];
-const OPTION_IDS = ["core", "poly", "trend", "dip", "momentum", "flush", "fresh", "reversal", "house", "launch", "copy", "track", "fomo"];
+// "snipe" (2026-11-05): the sniper the owner can switch on - "launch" is the retired one, kept so an old one can be edited
+const OPTION_IDS = ["core", "poly", "trend", "dip", "momentum", "flush", "fresh", "reversal", "house", "launch", "snipe", "copy", "track", "fomo"];
 
 export type Card =
   | { kind: "settings"; summary: string; before: any; after: any }
@@ -98,7 +99,8 @@ You can explain what you did and why from the data below, and you can PROPOSE on
 You never act yourself: the owner approves or declines every proposal on the page. Never promise profits. If unsure, ask a short question instead of proposing.
 Settings shape: trading (bool, false = no trading), chains [robinhood, base, bsc, arbitrum], markets {memes, majors, stocks, polymarket} (bools), risk 1..5 (size of trades), max_positions 1..20,
 filters {min_liquidity, max_tax_pct, min_mcap, max_mcap, min_age_hours, max_age_hours, goplus_clean}, exits {stop_pct, take_profit_pct, trail_pct, max_hold_hours} (null = off),
-brain {on, share_pct}, earn {mode: off|idle|share|only, share_pct} (lending idle cash; only = all cash lent, no trading), options [{id, on, share_pct, params}] (parts: core basket, poly = sports bets, trend, house = $FLYAI dips, copy, track...).
+brain {on, share_pct}, earn {mode: off|idle|share|only, share_pct} (lending idle cash; only = all cash lent, no trading), options [{id, on, share_pct, params}] (parts: core basket, poly = sports bets, trend, house = $FLYAI dips, copy, track, snipe = new launches...).
+snipe params: usd_per_launch 5..100, max_open 1..20, tp_x (sell at this multiple), tp_part 1..100 (% sold there; 100 = all), fall_pct 0..90 (sell all this % under the top, 0 = off), stop_pct, drain_pct, max_hold_hours, sol 0|1 (also Solana launches, from the fly's SOL). It needs 200,000 $FLYAI held.
 Ready-made setups (starter ids): {starters}.`;
 
 /** Deep-merge a partial settings document over a whole one: objects key by key, arrays and values replaced. Only the
