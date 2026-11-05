@@ -1234,7 +1234,8 @@
       "justEarn": "Just earn: lending, no trading",
       "paused": "Paused by you",
       "closeOnly": "Closing only",
-      "hold": "Needs {need} $FLYAI held by its owner: closing trades only"
+      "hold": "Needs {need} $FLYAI held by its owner: closing trades only",
+      "solOnly": "Money on Solana"
     },
     "holder": "Holder",
     "value": "Value",
@@ -1276,6 +1277,7 @@
       "redeem": "back"
     },
     "empty": "This fly's wallet is empty. Fund it and it starts trading on the next 5-minute bar.",
+    "emptySol": "This fly trades its Solana money (above). Its Robinhood Chain wallet is empty: fund it to trade here too.",
     "potEmpty": "This pot is empty.",
     "fund": "Fund the fly",
     "fundText": "ETH, USDG or $FLYAI, $5 at least. ETH becomes trading cash (USDG); $FLYAI stays $FLYAI until the fly decides.",

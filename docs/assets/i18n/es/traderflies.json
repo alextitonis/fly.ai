@@ -1234,7 +1234,8 @@
       "justEarn": "Solo ganar: presta, sin operar",
       "paused": "Pausada por ti",
       "closeOnly": "Solo cierra",
-      "hold": "Su dueño necesita tener {need} $FLYAI: solo cierra operaciones"
+      "hold": "Su dueño necesita tener {need} $FLYAI: solo cierra operaciones",
+      "solOnly": "Dinero en Solana"
     },
     "holder": "Holder",
     "value": "Valor",
@@ -1276,6 +1277,7 @@
       "redeem": "recuperar"
     },
     "empty": "La wallet de esta mosca está vacía. Deposítale fondos y empieza a operar en la siguiente vela de 5 minutos.",
+    "emptySol": "Esta mosca opera su dinero en Solana (arriba). Su billetera en Robinhood Chain está vacía: añade fondos para operar aquí también.",
     "potEmpty": "Este pozo está vacío.",
     "fund": "Fondear la mosca",
     "fundText": "ETH, USDG o $FLYAI, mínimo $5. El ETH se convierte en efectivo para operar (USDG); el $FLYAI sigue siendo $FLYAI hasta que la mosca decida.",

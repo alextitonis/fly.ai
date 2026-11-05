@@ -1232,7 +1232,8 @@
       "justEarn": "只賺利息：出借中，不交易",
       "paused": "已由你暫停",
       "closeOnly": "僅平倉",
-      "hold": "擁有者需持有 {need} $FLYAI：目前只平倉"
+      "hold": "擁有者需持有 {need} $FLYAI：目前只平倉",
+      "solOnly": "資金在 Solana"
     },
     "holder": "持有者",
     "value": "價值",
@@ -1274,6 +1275,7 @@
       "redeem": "取回"
     },
     "empty": "這隻蒼蠅的錢包是空的。存入資金後，它會從下一根 5 分鐘 K 線開始交易。",
+    "emptySol": "這隻蒼蠅正在用牠在 Solana 上的資金交易（見上方）。牠的 Robinhood Chain 錢包是空的：入金後也會在這裡交易。",
     "potEmpty": "這個資金池是空的。",
     "fund": "為蒼蠅存入資金",
     "fundText": "ETH、USDG 或 $FLYAI，至少 $5。ETH 會轉成交易現金（USDG）；$FLYAI 維持 $FLYAI，直到蒼蠅決定如何操作。",

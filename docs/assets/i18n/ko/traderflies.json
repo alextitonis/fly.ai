@@ -1232,7 +1232,8 @@
       "justEarn": "수익만: 대출 중, 거래 없음",
       "paused": "직접 일시정지함",
       "closeOnly": "정리만 함",
-      "hold": "소유자가 {need} $FLYAI를 보유해야 합니다: 포지션 정리만 합니다"
+      "hold": "소유자가 {need} $FLYAI를 보유해야 합니다: 포지션 정리만 합니다",
+      "solOnly": "Solana에 자금 있음"
     },
     "holder": "홀더",
     "value": "가치",
@@ -1274,6 +1275,7 @@
       "redeem": "회수"
     },
     "empty": "이 파리의 지갑이 비어 있어요. 입금하면 다음 5분 봉부터 거래를 시작해요.",
+    "emptySol": "이 파리는 Solana 자금(위)으로 거래합니다. Robinhood Chain 지갑은 비어 있습니다. 여기서도 거래하려면 자금을 넣으세요.",
     "potEmpty": "이 팟은 비어 있어요.",
     "fund": "파리에 입금",
     "fundText": "ETH, USDG 또는 $FLYAI, 최소 $5. ETH는 거래용 현금(USDG)이 되고, $FLYAI는 파리가 정할 때까지 $FLYAI로 남아요.",

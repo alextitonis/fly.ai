@@ -1234,7 +1234,8 @@
       "justEarn": "Sadece kazan: borç veriyor, işlem yok",
       "paused": "Sen durdurdun",
       "closeOnly": "Yalnızca kapatma",
-      "hold": "Sahibinin {need} $FLYAI tutması gerekiyor: yalnızca işlem kapatıyor"
+      "hold": "Sahibinin {need} $FLYAI tutması gerekiyor: yalnızca işlem kapatıyor",
+      "solOnly": "Solana'da para var"
     },
     "holder": "Holder",
     "value": "Değer",
@@ -1276,6 +1277,7 @@
       "redeem": "geri"
     },
     "empty": "Bu sineğin cüzdanı boş. Yükleme yap, bir sonraki 5 dakikalık mumda işleme başlasın.",
+    "emptySol": "Bu sinek Solana'daki parasıyla işlem yapıyor (yukarıda). Robinhood Chain cüzdanı boş: burada da işlem yapması için para ekleyin.",
     "potEmpty": "Bu havuz boş.",
     "fund": "Sineğe yükleme yap",
     "fundText": "ETH, USDG veya $FLYAI, en az $5. ETH işlem nakdine (USDG) dönüşür; $FLYAI, sinek karar verene kadar $FLYAI olarak kalır.",
