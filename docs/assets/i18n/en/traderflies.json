@@ -1715,7 +1715,8 @@
       "auto": "The fly moves the money itself: when its rule finds trades it puts up to a quarter of the wallet in, and after 2 days with nothing to trade it brings it all back to the wallet."
     },
     "agent": "AI agent #{id}",
-    "agentHint": "This fly's on-chain AI agent ID: it registered itself from its own wallet in the ERC-8004 agent registry on Robinhood Chain."
+    "agentHint": "This fly's on-chain AI agent ID: it registered itself from its own wallet in the ERC-8004 agent registry on Robinhood Chain.",
+    "withdrawAck": "I understand: any withdrawal before {date}, even $1 of profit, sends my locked {usd} bonus back."
   },
   "profile": {
     "title": "Your profile",

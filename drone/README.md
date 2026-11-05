@@ -370,6 +370,32 @@ Development flights, seeds 9301-9304: an earlier setup found the fire on all 4 b
 
 What's ours: the route, stopping at the fire, and finding the fire, which for now is only flame-coloured pixels. Autumn-leaf decoys stay off until a real detection step exists, so this flight says nothing about telling fire from not-fire. The turns are the connectome's. Trunks are pale, glow slightly and are all one width, which real trees aren't.
 
+### Autonomous patrol with GPS, dock and charging: works end to end in the sim, dev seed only (2026-11-05)
+
+`autonomy/` is a package of modules behind interfaces (`autonomy/__init__.py` lists them). The mission takes off from the dock, flies a lawnmower route 6.5 m above the trees, reports what it finds, heads home when the battery says so, finds the pad, lands, charges, and picks the route up where it stopped. GPS is the main position source; the drone's own motion sensing (optical flow + IMU + magnetometer) fills the gaps and takes over when GPS is gone.
+
+    python -m autonomy.run_sim --seed 9900 --minutes 10                  # from drone/: plain steering, GPS on
+    python -m autonomy.run_sim --seed 9900 --minutes 5 --steer brain     # the connectome turns
+    python -m autonomy.run_sim --seed 9900 --minutes 10 --no-gps         # or --gps-lost-at 120
+
+Dev seed 9900 only, no rules fixed yet. 10 min, battery shortened to 4 min of flight and 2 min of charging so a run goes through two charges:
+
+| | GPS | no GPS |
+|---|---|---|
+| position error, median / max | 1.0 / 3.1 m | 2.2 / 4.9 m |
+| finds' position error | 1.3 m | 2.3 m |
+| found (fire, people, animals) | 1/1, 2/2, 4/4 | 1/1, 2/2, 3/4 |
+| charges, touchdowns retried | 2, 1 | 2, 3 |
+| lowest battery | 10% | 7% |
+
+Brain steering, 5 min with GPS: same route, everything found, 0.9 m median error, docked first time. Plain steering runs 13x real time, brain steering 3.6x (2 threads).
+
+What's ours and what's the connectome's: the brain turns toward the waypoint (bearing on LC10a, yaw from DNa02), as in forest.py. Everything else is ours: the route, the Kalman filter, the energy rule, the pad search and landing, the reporter. **Detection and pad-finding in the sim are stand-ins** that read the world's own lists (`SimTruthDetector`, `SimPadFinder`), so a run shows the behaviour around detection, not that detection works; `SmokeDetector` (smoke.py) and `ArucoPadFinder` are the real ones and haven't flown. Bugs found on the way: two people 5.9 m apart merged into one find (merge distance now per kind); with a white-noise-only motion sensor no-GPS looked as good as GPS (now an 8% wandering scale error and a wandering bias, as flow over uneven treetops has); without GPS it came down at the wrong spot and could never see the pad (now it searches from height and descends only with the pad in view); the battery could run below empty (now an emergency landing, and an empty battery counts as a failure).
+
+**Real hardware:** implement `core.py`'s classes for the drone (for PX4/ArduPilot over MAVLink: velocity setpoints in the body frame for `Vehicle`, `GPS_RAW_INT` through `geo.HomeFrame` for `GpsSensor`, `OPTICAL_FLOW` + `ATTITUDE` for `MotionSensor`, `SYS_STATUS` for `Battery`, the charger's contact signal for `Dock`) and hand them to `Mission` with the same localizer, route, steerer and detectors. A Crazyflie is too small and short-lived (about 7 min) for a forest; a 5-inch or larger frame with GPS is the realistic target.
+
+**Speed and Rust:** a brain step is 5.7 ms, 4 ms of it spreading spikes (about 7,500 neurons fire per step, about 150 synapses each). That loop is already compiled (numba), parallel and 32-bit, and it's limited by memory, so Rust would gain little here at the same thread count. Rust is worth it for running on the drone itself (no Python on a small onboard computer), porting the same interfaces.
+
 ### Noticing a colour it wasn't trained on: all rules passed (2026-10-31)
 
 `novel.py`. A second set of weights at the Kenyon-cell output stores each trained look with no reward attached, and a look that overlaps

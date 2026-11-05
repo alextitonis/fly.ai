@@ -33,6 +33,8 @@ class Controller:
         self.lo, self.hi = model.actuator_ctrlrange[:, 0].copy(), model.actuator_ctrlrange[:, 1].copy()
         self.reset(1.0)
 
+    z_max = 2.4                         # m: the target height's cap; the above-forest patrol raises it
+
     def reset(self, height: float) -> None:
         self.z_target = height
 
@@ -48,7 +50,7 @@ class Controller:
         c, s = np.cos(yaw), np.sin(yaw)
         v_head = np.array([c * v_world[0] + s * v_world[1], -s * v_world[0] + c * v_world[1]])  # in the heading frame
         a_head = self.kv * (np.array([forward, 0.0]) - v_head)
-        self.z_target = float(np.clip(self.z_target + climb * dt, 0.15, 2.4))
+        self.z_target = float(np.clip(self.z_target + climb * dt, 0.15, self.z_max))
         az = self.kz * (self.z_target - pos[2]) + self.kzv * (climb - v_world[2])
         pitch_want = float(np.clip(np.arctan2(a_head[0], G), -MAX_TILT, MAX_TILT))
         roll_want = float(np.clip(-np.arctan2(a_head[1], G), -MAX_TILT, MAX_TILT))
