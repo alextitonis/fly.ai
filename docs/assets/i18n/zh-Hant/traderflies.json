@@ -1254,7 +1254,8 @@
       "momentum_rider": "僅在代幣上漲時。可能數天沒有動靜。",
       "liquidation_flush": "罕見：可能數週沒有交易。",
       "just_earn": "不交易：現金用於出借。",
-      "fresh_launch_hunter": "僅在新代幣出現成交量時。"
+      "fresh_launch_hunter": "僅在新代幣出現成交量時。",
+      "degen_sniper": "活躍：每小時都有新上線代幣，快速退出。"
     },
     "fee": "利潤手續費",
     "feeNote": "只在提領時對利潤收取",
@@ -1472,7 +1473,9 @@
       "min_price": "最低價格",
       "max_price": "最高價格",
       "max_hours": "多久內收盤（小時）",
-      "min_stake_usd": "最小下注（$）"
+      "min_stake_usd": "最小下注（$）",
+      "fall_pct": "從最高點下跌即全部賣出 (%)",
+      "sol": "也買 Solana 新幣（1 = 是）"
     },
     "filters": "迷因幣篩選",
     "filtersText": "只篩選迷因幣：主流幣和股票代幣使用交易台自己的清單。留空 = 不限。",
@@ -1548,6 +1551,10 @@
       "just_earn": {
         "title": "只賺利息",
         "blurb": "不交易：錢包的現金在 Robinhood Chain 上出借，賺取借貸利息（浮動）。"
+      },
+      "degen_sniper": {
+        "title": "Degen 狙擊手",
+        "blurb": "高風險：在 Robinhood Chain 和 Solana（需存入 SOL）上，新代幣上線幾分鐘內買入，並在 Base、BNB 和 Arbitrum 上買入新代幣。快速賣出：從最高點下跌 20% 全部賣出，2 倍時賣出一部分。大多數新代幣會失敗，少數會大漲。"
       }
     },
     "best": "最佳 Fly Wallets",
@@ -2023,7 +2030,9 @@
       },
       "fomo": {
         "stop_pct": "即使交易者還拿著，跟單倉位跌這個 % 也會賣。"
-      }
+      },
+      "fall_pct": "價格從買入後的最高點下跌這個百分比時全部賣出，停利之前也一樣。0 = 關閉。",
+      "sol": "1 = 也用你蒼蠅的 SOL 餘額買 Solana 新代幣（在 Solana 卡片中存入 SOL），退出規則相同。"
     },
     "filter": {
       "min_mcap": "總價值（市值）低於這個的代幣跳過。",
@@ -2402,5 +2411,29 @@
     "more": "顯示全部 {n} 則",
     "less": "收起",
     "unverified": "另有 {n} 則來自與這隻蒼蠅無關的錢包：不計入星級。"
+  },
+  "tier": {
+    "needs": "需要持有 {need} $FLYAI（錢包、質押或鎖定）。你持有 {have}。",
+    "buy": "購買 $FLYAI"
+  },
+  "followPass": {
+    "title": "跟隨這隻蒼蠅",
+    "text": "你的一隻蒼蠅在 {days} 天內複製這隻蒼蠅的交易：{flyai} $FLYAI，其中 {owner} 給它的持有者，{burn} 銷毀。",
+    "followers": "目前跟隨者：{n}。",
+    "tier": "跟隨需要持有 {tier} $FLYAI。",
+    "on": "蒼蠅 #{mine} 跟隨它直到 {date}。",
+    "connect": "連接錢包來跟隨它。",
+    "noFly": "你需要自己的 Trader Fly 才能跟隨。",
+    "market": "去取得",
+    "pick": "你的蒼蠅",
+    "go": "跟隨 {days} 天",
+    "extend": "延長 {days} 天",
+    "confirm": "蒼蠅 #{mine} 將跟隨蒼蠅 #{fly} {days} 天。你會向它的持有者發送 {owner} $FLYAI 並銷毀 {burn} $FLYAI（錢包中確認兩次）。",
+    "step1": "第 1 步，共 2 步：在錢包中確認給持有者的部分…",
+    "step2": "第 2 步，共 2 步：在錢包中確認銷毀…",
+    "step3": "正在核對付款…",
+    "done": "蒼蠅 #{mine} 跟隨蒼蠅 #{fly} 直到 {date}。",
+    "slow": "已付款，但核對較慢。請保存這些交易後重試：{a} {b}",
+    "ownerText": "你的蒼蠅有 {n} 個跟隨者。每位跟隨者每週向你支付 {flyai} $FLYAI。"
   }
 }

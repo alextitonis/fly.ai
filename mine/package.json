@@ -33,6 +33,7 @@
     "test:xp": "node --disable-warning=ExperimentalWarning src/xptest.ts",
     "test:tg": "node --disable-warning=ExperimentalWarning src/tgtest.ts",
     "test:agents": "node --disable-warning=ExperimentalWarning src/agentstest.ts",
+    "test:follow": "node --disable-warning=ExperimentalWarning src/followtest.ts",
     "test:scan": "node --disable-warning=ExperimentalWarning src/scantest.ts",
     "test:deskchat": "node --disable-warning=ExperimentalWarning src/deskchattest.ts",
     "test:pet": "node --disable-warning=ExperimentalWarning src/pettest.ts",

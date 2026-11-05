@@ -1254,7 +1254,8 @@
       "momentum_rider": "仅在代币上涨时。可能数天没有动静。",
       "liquidation_flush": "罕见：可能数周没有交易。",
       "just_earn": "不交易：现金用于出借。",
-      "fresh_launch_hunter": "仅在新代币出现成交量时。"
+      "fresh_launch_hunter": "仅在新代币出现成交量时。",
+      "degen_sniper": "活跃：每小时都有新上线代币，快速退出。"
     },
     "fee": "利润手续费",
     "feeNote": "只在提现时对利润收取",
@@ -1472,7 +1473,9 @@
       "min_price": "最低价格",
       "max_price": "最高价格",
       "max_hours": "多久内收盘（小时）",
-      "min_stake_usd": "最小下注（$）"
+      "min_stake_usd": "最小下注（$）",
+      "fall_pct": "从最高点下跌即全部卖出 (%)",
+      "sol": "也买 Solana 新币（1 = 是）"
     },
     "filters": "Meme 币筛选",
     "filtersText": "只筛选 Meme 币：主流币和股票代币用的是交易台自己的列表。留空 = 不限。",
@@ -1548,6 +1551,10 @@
       "just_earn": {
         "title": "只赚利息",
         "blurb": "不交易：钱包的现金在 Robinhood Chain 上出借，赚取借贷利息（浮动）。"
+      },
+      "degen_sniper": {
+        "title": "Degen 狙击手",
+        "blurb": "高风险：在 Robinhood Chain 和 Solana（需存入 SOL）上，新代币上线几分钟内买入，并在 Base、BNB 和 Arbitrum 上买入新代币。快速卖出：从最高点下跌 20% 全部卖出，2 倍时卖出一部分。大多数新代币会失败，少数会大涨。"
       }
     },
     "best": "最佳 Fly Wallets",
@@ -2023,7 +2030,9 @@
       },
       "fomo": {
         "stop_pct": "即使交易者还拿着，跟单仓位跌这个 % 也会卖。"
-      }
+      },
+      "fall_pct": "价格从买入后的最高点下跌这个百分比时全部卖出，止盈之前也一样。0 = 关闭。",
+      "sol": "1 = 也用你苍蝇的 SOL 余额买 Solana 新代币（在 Solana 卡片中存入 SOL），退出规则相同。"
     },
     "filter": {
       "min_mcap": "总价值（市值）低于这个的代币跳过。",
@@ -2402,5 +2411,29 @@
     "more": "显示全部 {n} 条",
     "less": "收起",
     "unverified": "另有 {n} 条来自与这只苍蝇无关的钱包：不计入星级。"
+  },
+  "tier": {
+    "needs": "需要持有 {need} $FLYAI（钱包、质押或锁定）。你持有 {have}。",
+    "buy": "购买 $FLYAI"
+  },
+  "followPass": {
+    "title": "跟随这只苍蝇",
+    "text": "你的一只苍蝇在 {days} 天内复制这只苍蝇的交易：{flyai} $FLYAI，其中 {owner} 给它的持有者，{burn} 销毁。",
+    "followers": "当前跟随者：{n}。",
+    "tier": "跟随需要持有 {tier} $FLYAI。",
+    "on": "苍蝇 #{mine} 跟随它直到 {date}。",
+    "connect": "连接钱包来跟随它。",
+    "noFly": "你需要自己的 Trader Fly 才能跟随。",
+    "market": "去获取",
+    "pick": "你的苍蝇",
+    "go": "跟随 {days} 天",
+    "extend": "延长 {days} 天",
+    "confirm": "苍蝇 #{mine} 将跟随苍蝇 #{fly} {days} 天。你会向它的持有者发送 {owner} $FLYAI 并销毁 {burn} $FLYAI（钱包中确认两次）。",
+    "step1": "第 1 步，共 2 步：在钱包中确认给持有者的部分…",
+    "step2": "第 2 步，共 2 步：在钱包中确认销毁…",
+    "step3": "正在核对付款…",
+    "done": "苍蝇 #{mine} 跟随苍蝇 #{fly} 直到 {date}。",
+    "slow": "已付款，但核对较慢。请保存这些交易后重试：{a} {b}",
+    "ownerText": "你的苍蝇有 {n} 个跟随者。每位跟随者每周向你支付 {flyai} $FLYAI。"
   }
 }

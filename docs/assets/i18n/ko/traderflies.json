@@ -1254,7 +1254,8 @@
       "momentum_rider": "토큰이 오를 때만. 며칠간 조용할 수 있습니다.",
       "liquidation_flush": "드묾: 몇 주간 거래가 없을 수 있습니다.",
       "just_earn": "거래 없음: 현금을 대출합니다.",
-      "fresh_launch_hunter": "새 토큰에 거래량이 있을 때만."
+      "fresh_launch_hunter": "새 토큰에 거래량이 있을 때만.",
+      "degen_sniper": "활발함: 매시간 새 출시, 빠른 청산."
     },
     "fee": "수익 수수료",
     "feeNote": "출금할 때 수익에만 붙어요",
@@ -1472,7 +1473,9 @@
       "min_price": "최저 가격",
       "max_price": "최고 가격",
       "max_hours": "마감까지 (시간)",
-      "min_stake_usd": "최소 베팅 ($)"
+      "min_stake_usd": "최소 베팅 ($)",
+      "fall_pct": "고점 대비 하락 시 전량 매도 (%)",
+      "sol": "Solana 신규 토큰도 (1 = 예)"
     },
     "filters": "밈 필터",
     "filtersText": "밈만 필터링해요: 메이저와 주식 토큰은 데스크가 정한 목록이에요. 비워 두면 = 제한 없음.",
@@ -1548,6 +1551,10 @@
       "just_earn": {
         "title": "이자만",
         "blurb": "거래 없음: 지갑의 현금을 Robinhood Chain에서 빌려주고 대출 이자를 받습니다(변동)."
+      },
+      "degen_sniper": {
+        "title": "디젠 스나이퍼",
+        "blurb": "고위험: Robinhood Chain과 Solana(SOL 입금 시)에서 출시 몇 분 만에 새 토큰을 사고, Base, BNB, Arbitrum에서는 갓 나온 토큰을 삽니다. 빠르게 팝니다: 고점에서 20% 떨어지면 전부, 2배에서 일부. 대부분의 새 토큰은 실패하고, 몇 개만 오릅니다."
       }
     },
     "best": "최고의 Fly Wallets",
@@ -2023,7 +2030,9 @@
       },
       "fomo": {
         "stop_pct": "트레이더들이 계속 들고 있어도, 복사한 포지션이 이 % 떨어지면 팝니다."
-      }
+      },
+      "fall_pct": "매수 후 최고가에서 이 % 만큼 떨어지면 전부 팝니다. 익절 전에도 적용. 0 = 끔.",
+      "sol": "1 = 파리의 SOL 잔액으로 Solana 신규 토큰도 삽니다 (Solana 카드에서 SOL 추가), 같은 청산 규칙."
     },
     "filter": {
       "min_mcap": "전체 가치(시가총액)가 이보다 작은 토큰은 건너뜁니다.",
@@ -2402,5 +2411,29 @@
     "more": "{n}개 모두 보기",
     "less": "접기",
     "unverified": "이 파리와 관계없는 지갑의 평점 {n}개는 별점에 포함되지 않습니다."
+  },
+  "tier": {
+    "needs": "{need} $FLYAI 보유가 필요합니다 (지갑, 스테이킹 또는 잠금). 현재 {have} 보유.",
+    "buy": "$FLYAI 구매"
+  },
+  "followPass": {
+    "title": "이 파리 팔로우",
+    "text": "내 파리 하나가 {days}일 동안 이 파리의 거래를 따라합니다: {flyai} $FLYAI, 그중 {owner}는 이 파리의 소유자에게, {burn}는 소각.",
+    "followers": "현재 팔로워: {n}.",
+    "tier": "팔로우하려면 {tier} $FLYAI 보유가 필요합니다.",
+    "on": "파리 #{mine}가 {date}까지 팔로우합니다.",
+    "connect": "팔로우하려면 지갑을 연결하세요.",
+    "noFly": "팔로우하려면 내 Trader Fly가 필요합니다.",
+    "market": "구하기",
+    "pick": "내 파리",
+    "go": "{days}일 팔로우",
+    "extend": "{days}일 추가",
+    "confirm": "파리 #{mine}가 파리 #{fly}를 {days}일 동안 팔로우합니다. 소유자에게 {owner} $FLYAI를 보내고 {burn} $FLYAI를 소각합니다 (지갑에서 두 번 확인).",
+    "step1": "1/2: 지갑에서 소유자 몫을 확인하세요…",
+    "step2": "2/2: 지갑에서 소각을 확인하세요…",
+    "step3": "결제를 확인하는 중…",
+    "done": "파리 #{mine}가 파리 #{fly}를 {date}까지 팔로우합니다.",
+    "slow": "결제는 됐지만 확인이 느립니다. 이 거래를 저장하고 다시 시도하세요: {a} {b}",
+    "ownerText": "내 파리의 팔로워는 {n}명입니다. 팔로워마다 매주 {flyai} $FLYAI를 받습니다."
   }
 }

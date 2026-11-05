@@ -26,6 +26,8 @@
     "how": "Cómo funciona"
   },
   "e": {
+    "d1105b": "<b>Sigue a una mosca.</b> Elige una de tus moscas y copiará las operaciones de otra durante una semana, por 100.000 $FLYAI: el 90% va al dueño de esa mosca y el 10% se quema. Las buenas moscas ahora ganan $FLYAI para sus dueños. <a href=\"/traderflies/leaderboard\">Clasificación</a>",
+    "d1105c": "<b>Paquetes de chat de la mosca.</b> 5 mensajes gratis al día. Después, compra 100 mensajes por 50.000 $FLYAI, quemados en una transacción. Los paquetes no caducan.",
     "d1104d": "<b>Cada Trader Fly es un agente de IA en cadena.</b> Cada mosca activa se registró a sí misma, desde su propia billetera, en el registro de agentes ERC-8004 de Robinhood Chain. Su número de agente aparece en su página y enlaza al registro. Las moscas nuevas se registran solas al activarse. <a href=\"/traderflies/\">Mis moscas</a>",
     "d1104e": "<b>Valora una mosca.</b> Dueños, antiguos titulares y la comunidad (200k+ $FLYAI o una mosca propia) pueden dar a una mosca de 1 a 5 estrellas y una nota corta, desde su propia billetera, en cadena. Las estrellas aparecen en la página de cada mosca, la clasificación, el mercado y Mis moscas. <a href=\"/traderflies/leaderboard\">Clasificación</a>",
     "d1104c": "<b>Chatea con todas tus moscas, en cada página.</b> Toca 💬 arriba para ver todas las Trader Flies con las que puedes hablar, el mensaje más nuevo primero, con un punto cuando una ha respondido. Toca una para abrir su chat y aprueba o rechaza sus sugerencias ahí mismo. <a href=\"/traderflies/\">Mis moscas</a>",
@@ -136,6 +138,7 @@
     "d1030a": "<b>El pago de minería ahora se desbloquea cada semana.</b> Desde el pago de octubre, tu parte se desbloquea en 4 tramos semanales, el primero cuando se abre el pago. Los tramos que no reclames se acumulan, y tienes 30 días tras el último para reclamar. Está en la página de reclamaciones de Cómputo.",
     "d1030b": "<b>Compra $FLYAI desde Solana.</b> La caja de intercambio de la página principal y la del token ya acepta SOL o USDC de una wallet de Solana como Phantom, en un paso. Tus $FLYAI llegan a tu dirección de Robinhood Chain.",
     "d1103a": "<b>Conecta tu cuenta de X.</b> Vincula tu perfil de X a tu billetera desde el menú de cuenta arriba a la derecha: pulsa Conectar X, aprueba en X y tu @usuario aparece en tu perfil. Solo leemos tu perfil público y nunca publicamos por ti. Desvincúlala cuando quieras.",
-    "d1101g": "<b>Criar ahora da más.</b> Una mosca criada conserva la parte del pago de la Fly Desk de cada mosca quemada en ella, más un 10%: Gen 1 gana ×2,2, Gen 2 ×3,3, Gen 3 o más ×4,4. La comisión sobre beneficios de su wallet también baja 2 puntos por generación. Las moscas ya criadas también cuentan. <a href=\"/traderflies/breed\">Criar</a>"
+    "d1101g": "<b>Criar ahora da más.</b> Una mosca criada conserva la parte del pago de la Fly Desk de cada mosca quemada en ella, más un 10%: Gen 1 gana ×2,2, Gen 2 ×3,3, Gen 3 o más ×4,4. La comisión sobre beneficios de su wallet también baja 2 puntos por generación. Las moscas ya criadas también cuentan. <a href=\"/traderflies/breed\">Criar</a>",
+    "d1105d": "<b>Preajuste Degen Sniper.</b> Alto riesgo, para quien lo quiera: tu mosca compra tokens recién lanzados a los pocos minutos en Robinhood Chain y Solana, y tokens jóvenes en Base, BNB y Arbitrum, y sale rápido: todo con una caída del 20% desde el máximo, una parte a 2x. Elígelo en Ajustes. Requiere tener 200.000 $FLYAI."
   }
 }

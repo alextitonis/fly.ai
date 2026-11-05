@@ -20,6 +20,9 @@
   const SEEN_KEY = "flyai.chat.seen", CLOSED_KEY = "flychat:closed", LAST_KEY = "flychat:fly";
   const LANGS = ["en", "zh-Hans", "zh-Hant", "ko", "tr", "es"];
   const WATCH_MAX = 5;
+  // chat packs (2026-11-05, flytrade/UTILITY-PLAN.md): past the free messages, a pack is bought by burning $FLYAI
+  const ACCOUNT_JS = "/compute/mine/web/account.js";
+  const FLYAI = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C", CHAIN = 4663;
   const NETS = { robinhood: "Robinhood Chain", base: "Base", arbitrum: "Arbitrum", bsc: "BNB Chain", polygon: "Polymarket", solana: "Solana" };
   const EN = {
     chats: "Chats", chatsAria: "Your fly chats", title: "Fly #{id}", close: "Close", back: "Back to chats", flyPage: "Fly page",
@@ -28,6 +31,10 @@
     hello: "Hi! Ask me why I traded (or didn't), or tell me what to change. Tap a button below for the usual changes. I only suggest: nothing happens until you approve it.",
     placeholder: "Ask or tell your fly…", resting: "Resting for today: the buttons still work", send: "Send",
     left: "{n} of {max} messages left today · one every {gap} s", doneToday: "That's all for today: back tomorrow",
+    freeLeft: "{n} of {max} free messages left today", packLeft: "{n} from packs", gapNote: "one every {gap} s",
+    freeDone: "Today's {max} free messages are used.", buyPack: "Buy {n} messages · burns {flyai} $FLYAI",
+    buyConfirm: "Burn {flyai} $FLYAI (sent to 0x…dEaD) for {n} chat messages? The messages never expire.",
+    buyWallet: "Confirm the burn in your wallet…", buyWaiting: "Waiting for the chain…", buyDone: "+{n} messages",
     needHold: "Put money in this fly's wallet or hold 200k $FLYAI to chat.", cantLoad: "Couldn't load the chat",
     quickAsk: "{what}? Here's what changes:", approve: "Approve", decline: "Decline", desk: "Fly Desk:",
     deskPending: "Sent to the Fly Desk for its rug checks…",
@@ -151,6 +158,39 @@
     } catch (e) { if (my === S.loadSeq) S.err = e instanceof ApiError ? e.message : t("cantLoad"); }
     render();
     deskWatch();
+  }
+  /** a chat pack: burn the pack's $FLYAI from the signed-in wallet (one transaction), then the server credits it */
+  async function buyPack() {
+    const me = S.me, fly = S.fly;
+    if (!me || !me.pack || S.busy) return;
+    const n = me.pack.messages, flyai = me.pack.flyai;
+    if (!confirm(t("buyConfirm", { n, flyai: flyai.toLocaleString() }))) return;
+    S.busy = true;
+    let acct = null;
+    try {
+      acct = await import(ACCOUNT_JS);
+      const word = (x) => x.toString(16).padStart(64, "0");
+      const data = "0xa9059cbb" + word(BigInt(me.pack.burn_to)) + word(BigInt(flyai) * 10n ** 18n);
+      S.packMsg = t("buyWallet"); render();
+      const hash = await acct.transact(FLYAI, data, () => { S.packMsg = t("buyWallet"); render(); }, CHAIN);
+      S.packMsg = t("buyWaiting"); render();
+      await acct.mined(hash, CHAIN);
+      let r = null;
+      for (let i = 0; i < 6 && !r; i++) {                // the server reads the receipt: a moment after it's mined
+        try { r = await api("/api/flychat/pack", { tx: hash }); }
+        catch (e) { if (!(e instanceof ApiError && e.status === 409)) throw e; await new Promise((ok) => setTimeout(ok, 2500)); }
+      }
+      S.packMsg = "";
+      S.err = r ? "" : t("cantLoad");
+      if (r && fly === S.fly) S.me = { ...S.me, credits: r.credits, left_today: (S.me.free_left || 0) + r.credits };
+    } catch (e) {
+      S.packMsg = "";
+      S.err = acct && acct.errorText ? acct.errorText(e) : errText(e);
+    } finally {
+      S.busy = false;
+      render();
+      if (fly === S.fly) void loadChat(fly);
+    }
   }
   function deskWatch() {
     clearInterval(deskTimer);
@@ -314,6 +354,13 @@
     const hadFocus = live && document.activeElement === live;
     if (me && !me.can_chat) return box.replaceChildren(el("p", { class: "fcm-note" }, t("needHold")));
     const done = !!me && me.left_today === 0;
+    const packBtn = me && me.pack && me.free_left === 0
+      ? el("button", { class: "fcm-pack", type: "button", disabled: S.busy, onclick: () => { void buyPack(); } },
+        S.packMsg || t("buyPack", { n: me.pack.messages, flyai: me.pack.flyai.toLocaleString() })) : null;
+    const counter = !me ? null : me.free_per_day == null
+      ? (done ? t("doneToday") : t("left", { n: me.left_today, max: me.per_day || 20, gap: me.gap_s || 30 }))
+      : [me.free_left > 0 ? t("freeLeft", { n: me.free_left, max: me.free_per_day }) : t("freeDone", { max: me.free_per_day }),
+        me.credits > 0 ? t("packLeft", { n: me.credits }) : "", t("gapNote", { gap: me.gap_s || 30 })].filter(Boolean).join(" · ");
     const input = el("input", { class: "fcm-input", maxlength: String((me && me.max_len) || 300), value: S.draft, enterkeyhint: "send",
       placeholder: me && me.resting ? t("resting") : t("placeholder"), "aria-label": t("placeholder"), disabled: done });
     input.value = S.draft;
@@ -321,8 +368,7 @@
       S.busy ? "…" : S.wait > 0 ? `${S.wait}s` : t("send"));
     input.addEventListener("input", () => { S.draft = input.value; tickButton(); });
     const form = el("form", { class: "fcm-form", onsubmit: (e) => { e.preventDefault(); void send(input.value); } }, input, btn);
-    fill(box, form,
-      me ? el("p", { class: "fcm-fine" }, done ? t("doneToday") : t("left", { n: me.left_today, max: me.per_day || 20, gap: me.gap_s || 30 })) : null);
+    fill(box, form, me ? el("p", { class: "fcm-fine" }, counter) : null, packBtn);
     if (hadFocus || (S.focus && !phone())) { S.focus = false; input.focus(); input.setSelectionRange(input.value.length, input.value.length); }
   }
   /** the countdown: only the button changes, so typing (and the page's own focus) is left alone */
@@ -388,6 +434,9 @@ html.flychat-full body { overflow: hidden; }
 .fcm-list { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
 .fcm-hello, .fcm-note, .fcm-fine { color: var(--muted, #9ba5a1); font-size: 13px; margin: 0; }
 .fcm-fine { font-size: 11px; padding: 0 12px 10px; }
+.fcm-pack { margin: 0 12px 12px; width: calc(100% - 24px); padding: 9px 12px; border-radius: 999px; border: 1px solid var(--mint, #5ef2cc);
+  background: transparent; color: var(--mint, #5ef2cc); font: 600 13px/1.2 inherit; cursor: pointer; }
+.fcm-pack:hover { background: rgba(94,242,204,.08); } .fcm-pack[disabled] { opacity: .6; cursor: wait; }
 .fcm-note { padding: 10px 12px; }
 .fcm-err { color: var(--red, #ff5c6c); font-size: 12px; margin: 0; padding: 4px 12px; }
 .fcm-empty { display: grid; gap: 10px; justify-items: start; color: var(--muted, #9ba5a1); }

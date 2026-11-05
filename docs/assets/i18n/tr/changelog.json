@@ -26,6 +26,8 @@
     "how": "Nasıl çalışır"
   },
   "e": {
+    "d1105b": "<b>Bir sineği takip et.</b> Sineklerinden birini seç, bir hafta boyunca başka bir sineğin işlemlerini kopyalasın: 100.000 $FLYAI, %90'ı o sineğin sahibine, %10'u yakılır. İyi sinekler artık sahiplerine $FLYAI kazandırıyor. <a href=\"/traderflies/leaderboard\">Liderlik tablosu</a>",
+    "d1105c": "<b>Sinek sohbet paketleri.</b> Günde 5 ücretsiz mesaj. Sonrasında 50.000 $FLYAI'ye 100 mesaj al, tek işlemde yakılır. Paketlerin süresi dolmaz.",
     "d1104d": "<b>Her Trader Fly artık zincir üstü bir AI ajanı.</b> Her aktif sinek, kendi cüzdanından Robinhood Chain'deki ERC-8004 ajan kaydına kendini kaydetti. Ajan numarası sineğin sayfasında görünür ve kayda bağlanır. Yeni sinekler aktif olunca kendiliğinden kaydolur. <a href=\"/traderflies/\">Sineklerim</a>",
     "d1104e": "<b>Sinek puanla.</b> Sahipler, eski sahipler ve topluluk (200 bin+ $FLYAI ya da kendi sineği olanlar) kendi cüzdanından, zincir üstünde bir sineğe 1 ile 5 arası yıldız ve kısa bir not verebilir. Yıldızlar her sineğin sayfasında, liderlik tablosunda, pazarda ve Sineklerim'de görünür. <a href=\"/traderflies/leaderboard\">Liderlik tablosu</a>",
     "d1104c": "<b>Tüm sineklerinle her sayfada sohbet.</b> Üstteki 💬'ye dokun: konuşabileceğin tüm Trader Fly'lar en yeni mesaj önce listelenir, biri cevap verince nokta çıkar. Birine dokunup sohbetini aç, önerilerini orada onayla ya da reddet. <a href=\"/traderflies/\">Sineklerim</a>",
@@ -136,6 +138,7 @@
     "d1030a": "<b>Madencilik ödemesi artık haftalık açılıyor.</b> Ekim ödemesinden itibaren payın haftalık 4 parça halinde açılır, ilki ödeme açıldığında. Kaçırdığın parçalar birikir ve talep için son parçadan sonra 30 günün var. Hesaplama talep sayfasında.",
     "d1030b": "<b>Solana'dan $FLYAI al.</b> Ana sayfa ve token sayfasındaki takas kutusu artık Phantom gibi bir Solana cüzdanından SOL veya USDC ile tek adımda alım yapıyor. $FLYAI'ın Robinhood Chain adresine gelir.",
     "d1103a": "<b>X hesabını bağla.</b> Sağ üstteki hesap menüsünden X profilini cüzdanına bağla: X'i bağla'ya tıkla, X'te onayla, @kullanıcı adın profilinde görünsün. Sadece herkese açık profilini okuruz, senin adına asla paylaşım yapmayız. İstediğin zaman bağlantıyı kaldırabilirsin.",
-    "d1101g": "<b>Üretim artık kazandırıyor.</b> Üretilen bir sinek, kendisine yakılan her sineğin Fly Desk ödeme payını korur, üstüne %10 alır: 1. nesil ×2,2, 2. nesil ×3,3, 3. nesil ve üstü ×4,4 kazanır. Cüzdanının kâr ücreti de nesil başına 2 puan düşer. Daha önce üretilen sinekler de sayılır. <a href=\"/traderflies/breed\">Üret</a>"
+    "d1101g": "<b>Üretim artık kazandırıyor.</b> Üretilen bir sinek, kendisine yakılan her sineğin Fly Desk ödeme payını korur, üstüne %10 alır: 1. nesil ×2,2, 2. nesil ×3,3, 3. nesil ve üstü ×4,4 kazanır. Cüzdanının kâr ücreti de nesil başına 2 puan düşer. Daha önce üretilen sinekler de sayılır. <a href=\"/traderflies/breed\">Üret</a>",
+    "d1105d": "<b>Degen Sniper hazır ayarı.</b> İsteyenler için yüksek risk: sineğin Robinhood Chain ve Solana'da yeni tokenları çıkıştan dakikalar sonra, Base, BNB ve Arbitrum'da genç tokenları alır ve hızlı çıkar - zirveden %20 düşüşte hepsini, 2x'te bir kısmını satar. Ayarlar'dan seç. 200.000 $FLYAI tutmak gerekir."
   }
 }

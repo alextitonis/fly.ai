@@ -60,7 +60,7 @@ check("context: numbers and log lines", /profit \$1\.5/.test(context({ fly: 7, s
 const PG = await startPg(5552);
 try {
   const { pg } = PG;
-  for (const f of ["20261026120000_desk_chat.sql", "20261027130000_mine_fly_chat.sql"]) {
+  for (const f of ["20261026120000_desk_chat.sql", "20261027130000_mine_fly_chat.sql", "20261105140000_mine_chat_packs.sql"]) {
     const sql = readFileSync(new URL(`../../flybook/supabase/migrations/${f}`, import.meta.url), "utf8").replace(/do \$\$[\s\S]*?end \$\$;/, "");
     for (const s of sql.split("\n").filter((l) => !l.trim().startsWith("--")).join("\n").split(";").map((x) => x.trim()).filter(Boolean)) await pg.run(s);
   }
@@ -75,6 +75,9 @@ try {
     3: { fly: 3, wallet: addr(0x1003), owner: POOR, ledger: null, settings: null, stats: null },
   };
   const held = new Map([[OWNER, 300_000n * E18], [HOLDER, 0n], [POOR, 1_000n * E18], [RICH, 900_000n * E18]]);
+  // the older checks send more than the 5 free messages a day: they chat from a pack (the pack rules: below)
+  await pg.run("insert into mine.chat_credits (wallet, left_n) values (?, 500), (?, 500)", OWNER, HOLDER);
+  const receipts = new Map<string, any>();
   let reply: Awaited<ReturnType<Llm>> = { text: "All good.", tool: null, cost: 0.001 };
   let calls = 0, lastPrompt: any[] = [];
   const llm: Llm = async (msgs) => { calls++; lastPrompt = msgs; return reply; };
@@ -85,7 +88,7 @@ try {
     flyView: async (f) => views[f] ?? null, flyLog: async () => ({ rows: [] }), starters: async () => STARTERS,
     holdings: async (w) => held.get(w) ?? 0n,
     ownedFlies: async (w) => Object.values(views).filter((v) => v.owner === w).map((v) => v.fly), standing: async () => ({ weight: 0.5, held: 300_000, days: 20 }),
-    llm, dailyUsd: 0.003, now: () => now });   // three answers at $0.001 use it up
+    llm, dailyUsd: 0.003, now: () => now, receipt: async (tx) => receipts.get(tx) ?? null });   // three answers at $0.001 use it up
   const call = async (method: string, path: string, b?: unknown) => {
     body = b ?? null;
     try { await chat.route({ method, headers: {} } as any, {} as ServerResponse, new URL(`http://x${path}`)); }
@@ -164,10 +167,11 @@ try {
   r = await call("GET", "/api/flychat/1");
   check("me.resting says so", r.body.me.resting === true);
 
+  // past the free ones a wallet with a pack keeps going (the pack rules have their own checks below)
   for (let i = 0; i < PER_DAY; i++) { now += GAP_MS; await call("POST", "/api/flychat/1", { text: "pause" }); }
   now += GAP_MS;
   r = await call("POST", "/api/flychat/1", { text: "pause" });
-  check(`at most ${PER_DAY} a day a fly`, r.status === 429 && /a day/.test(r.body.error), JSON.stringify(r.body));
+  check(`past ${PER_DAY} free a day, a pack keeps the chat going`, r.status === 200, JSON.stringify(r.body).slice(0, 200));
   check("too long refused", (await call("POST", "/api/flychat/1", { text: "x".repeat(301) })).status === 400);
 
   // the messenger's inbox
@@ -188,6 +192,54 @@ try {
   now += 15 * 86_400_000;
   await chat.prune();
   check("rows older than 14 days are deleted", ((await pg.one<{ n: number }>("select count(*)::int as n from mine.fly_chat"))?.n ?? -1) === 0);
+
+  // ---- packs: 5 free a day (15 with 500k held), then burned $FLYAI packs ----
+  {
+    const ME = addr(0xb1), WHALE = addr(0xb2);
+    const pad = (a: string) => `0x${a.slice(2).padStart(64, "0")}`;
+    const burn = (from: string, flyai: bigint, to = "0x000000000000000000000000000000000000dead") => ({ status: "0x1", logs: [{
+      address: "0x0088ce7905025c4b5ea1d49ab6179b6aaadb3b9c", topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", pad(from), pad(to)],
+      data: `0x${(flyai * E18).toString(16)}` }] });
+    views[7] = { fly: 7, wallet: addr(0x1007), owner: ME, ledger: null, settings: SETTINGS, stats: null };
+    views[8] = { fly: 8, wallet: addr(0x1008), owner: WHALE, ledger: null, settings: SETTINGS, stats: null };
+    held.set(ME, 300_000n * E18); held.set(WHALE, 600_000n * E18);
+    now += 2 * 86_400_000;                                              // a new day, the spend cap fresh
+    reply = { text: "ok", tool: null, cost: 0 };
+    session = ME;
+    let g = await call("GET", "/api/flychat/7");
+    check("5 free a day", g.body.me.free_per_day === 5 && g.body.me.left_today === 5 && g.body.me.credits === 0 && g.body.me.pack.flyai === 50_000, JSON.stringify(g.body.me));
+    for (let i = 0; i < 5; i++) { now += 31_000; await call("POST", "/api/flychat/7", { text: `hi ${i}` }); }
+    now += 31_000;
+    let p = await call("POST", "/api/flychat/7", { text: "one more" });
+    check("the 6th needs a pack", p.status === 429 && /pack/.test(p.body.error), JSON.stringify(p.body));
+    const TX = (n: number) => `0x${n.toString(16).padStart(64, "0")}`;
+    receipts.set(TX(1), burn(ME, 50_000n));
+    p = await call("POST", "/api/flychat/pack", { tx: TX(1) });
+    check("a 50k burn = 100 messages", p.status === 200 && p.body.credited === 100 && p.body.credits === 100, JSON.stringify(p.body));
+    p = await call("POST", "/api/flychat/pack", { tx: TX(1) });
+    check("the same burn is credited once", p.body.credited === 0 && p.body.credits === 100, JSON.stringify(p.body));
+    receipts.set(TX(2), burn(ME, 40_000n));
+    p = await call("POST", "/api/flychat/pack", { tx: TX(2) });
+    check("under a pack's burn: refused", p.status === 400, JSON.stringify(p.body));
+    receipts.set(TX(3), burn(WHALE, 50_000n));
+    p = await call("POST", "/api/flychat/pack", { tx: TX(3) });
+    check("someone else's burn: refused", p.status === 400);
+    receipts.set(TX(4), burn(ME, 50_000n, addr(0xdd)));
+    p = await call("POST", "/api/flychat/pack", { tx: TX(4) });
+    check("sent elsewhere, not burned: refused", p.status === 400);
+    p = await call("POST", "/api/flychat/pack", { tx: TX(9) });
+    check("not mined yet: try again", p.status === 409);
+    receipts.set(TX(5), burn(ME, 120_000n));
+    p = await call("POST", "/api/flychat/pack", { tx: TX(5) });
+    check("120k = 2 packs (the rest isn't credited)", p.body.credited === 200 && p.body.credits === 300, JSON.stringify(p.body));
+    now += 31_000;
+    p = await call("POST", "/api/flychat/7", { text: "from the pack" });
+    g = await call("GET", "/api/flychat/7");
+    check("past the free ones a message takes one off the pack", p.status === 200 && g.body.me.credits === 299 && g.body.me.free_left === 0, JSON.stringify(g.body.me));
+    session = WHALE;
+    g = await call("GET", "/api/flychat/8");
+    check("a big holder gets the same 5 free a day (no 500k bonus)", g.body.me.free_per_day === 5 && g.body.me.left_today === 5, JSON.stringify(g.body.me));
+  }
 } finally {
   await PG.stop();
 }

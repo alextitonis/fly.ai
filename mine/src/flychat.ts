@@ -18,15 +18,28 @@
  *   POST /api/flychat/<fly>/watch { token, card? }  -> the desk chat row the token went out in
  *
  * Who: the wallet's holder (or the fly's owner while nobody's money is in it), and only with money in the wallet or
- * 200k $FLYAI held. Limits: 300 characters, one message every 30 s a wallet, 20 a day a fly, and a daily spend cap for
- * the whole chat (FLYCHAT_DAILY_USD) - past it the chat waits for tomorrow; the quick actions on the page need no model.
+ * 200k $FLYAI held. Limits: 300 characters, one message every 30 s a wallet, and a daily spend cap for the whole chat
+ * (FLYCHAT_DAILY_USD) - past it the chat waits for tomorrow; the quick actions on the page need no model.
+ *
+ * Packs (2026-11-05, flytrade/UTILITY-PLAN.md; the user: "5 messages free, more paid", "as burn"): a wallet has
+ * FREE_PER_DAY free messages a rolling day (FREE_PER_DAY_TIER with 500k $FLYAI held), across its flies. Past that it
+ * chats from packs: PACK_MESSAGES messages for every PACK_FLYAI $FLYAI it burned (sent to 0x...dEaD) in one transaction,
+ * credited once per transaction after the burn is checked on chain (mine.chat_packs, mine.chat_credits).
+ *   POST /api/flychat/pack { tx }   (signed in) -> { credited, credits }
  */
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Pg } from "./pg.ts";
 
 export const MAX_LEN = 300;
 export const GAP_MS = 30_000;
-export const PER_DAY = 20;
+export const PER_DAY = 5;                        // free messages a rolling day, a wallet (was 20 a fly until 11-05)
+export const FREE_PER_DAY = PER_DAY;
+export const FREE_PER_DAY_TIER = FREE_PER_DAY;   // no 500k bonus (the user dropped the tier, 11-05)
+export const TIER_FLYAI = 500_000;
+export const PACK_FLYAI = 50_000;                // burned for a pack
+export const PACK_MESSAGES = 100;
+const DEAD = "0x000000000000000000000000000000000000dead";
+const TRANSFER = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
 export const HISTORY = 6;
 const KEEP_DAYS = 14;
 const PAGE = 40;
@@ -266,6 +279,9 @@ export function createFlyChat(d: {
   holdFlyai?: number;
   dailyUsd?: number;
   now?: () => number;
+  /** a mined transaction's receipt (status, logs), for checking a pack's burn; tests pass their own */
+  receipt?: (tx: string) => Promise<{ status: string; logs: { address: string; topics: string[]; data: string }[] } | null>;
+  rpc?: string;
 }) {
   const { pg, HttpError } = d;
   const now = d.now ?? Date.now;
@@ -287,16 +303,66 @@ export function createFlyChat(d: {
     return { view, why };
   }
 
-  async function usage(fly: number, me: string) {
+  // the holding, for the free allowance: read at most every 5 minutes a wallet
+  const held = new Map<string, { at: number; wei: bigint }>();
+  async function holdingOf(me: string) {
+    const c = held.get(me);
+    if (c && now() - c.at < 300_000) return c.wei;
+    const wei = await d.holdings(me).catch(() => c?.wei ?? 0n);
+    held.set(me, { at: now(), wei });
+    return wei;
+  }
+  async function usage(_fly: number, me: string, q?: Pick<Pg, "one">) {
+    const db = q ?? pg;
     const since = new Date(now() - 86_400_000).toISOString();
-    const [last, today, spent] = await Promise.all([
-      pg.one<{ at: Date }>("select at from mine.fly_chat where wallet = ? and role = 'user' order by id desc limit 1", me),
-      pg.one<{ n: number }>("select count(*)::int as n from mine.fly_chat where fly_id = ? and role = 'user' and at > ?", fly, since),
-      pg.one<{ usd: number }>("select coalesce(sum(cost_usd), 0)::float8 as usd from mine.fly_chat where at > ?", since),
+    const [last, today, spent, credits, wei] = await Promise.all([
+      db.one<{ at: Date }>("select at from mine.fly_chat where wallet = ? and role = 'user' order by id desc limit 1", me),
+      db.one<{ n: number }>("select count(*)::int as n from mine.fly_chat where wallet = ? and role = 'user' and at > ?", me, since),
+      db.one<{ usd: number }>("select coalesce(sum(cost_usd), 0)::float8 as usd from mine.fly_chat where at > ?", since),
+      db.one<{ n: number }>("select left_n as n from mine.chat_credits where wallet = ?", me).catch(() => undefined),
+      holdingOf(me),
     ]);
+    const free = wei >= BigInt(TIER_FLYAI) * E18 ? FREE_PER_DAY_TIER : FREE_PER_DAY;
     const wait = last ? Math.max(0, GAP_MS - (now() - new Date(last.at).getTime())) : 0;
-    return { wait_s: Math.ceil(wait / 1000), left_today: Math.max(0, PER_DAY - (today?.n ?? 0)),
+    const freeLeft = Math.max(0, free - (today?.n ?? 0)), packLeft = credits?.n ?? 0;
+    return { wait_s: Math.ceil(wait / 1000), left_today: freeLeft + packLeft, free_left: freeLeft, free_per_day: free,
+             credits: packLeft, pack: { flyai: PACK_FLYAI, messages: PACK_MESSAGES, burn_to: DEAD, token: FLYAI },
              resting: !d.llm || (spent?.usd ?? 0) >= dailyUsd };
+  }
+
+  /** A burn of $FLYAI from this wallet to 0x...dEaD in `tx`: PACK_MESSAGES for every PACK_FLYAI, credited once per tx. */
+  const receipt = d.receipt ?? (async (tx: string) => {
+    const r = await fetch(d.rpc ?? "https://rpc.mainnet.chain.robinhood.com", { method: "POST", signal: AbortSignal.timeout(15_000),
+      headers: { "content-type": "application/json", "user-agent": "fly.ai chat" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_getTransactionReceipt", params: [tx] }) });
+    return ((await r.json()) as { result?: any }).result ?? null;
+  });
+  async function buyPack(req: IncomingMessage, body: any) {
+    const me = (await d.sessionWallet(req)).toLowerCase();
+    const tx = String(body?.tx ?? "").toLowerCase();
+    if (!/^0x[0-9a-f]{64}$/.test(tx)) throw new HttpError(400, "the burn transaction, please");
+    const rec = await receipt(tx);
+    if (!rec) throw new HttpError(409, "that transaction isn't mined yet: try again in a moment");
+    if (rec.status !== "0x1") throw new HttpError(400, "that transaction failed on chain");
+    const pad = (a: string) => `0x${a.slice(2).padStart(64, "0")}`;
+    let wei = 0n;
+    for (const l of rec.logs ?? []) {
+      if (l.address?.toLowerCase() === FLYAI && l.topics?.[0] === TRANSFER && l.topics[1]?.toLowerCase() === pad(me)
+          && l.topics[2]?.toLowerCase() === pad(DEAD)) wei += BigInt(l.data);
+    }
+    const packs = wei / (BigInt(PACK_FLYAI) * E18);
+    if (packs <= 0n) throw new HttpError(400, `no burn of ${PACK_FLYAI.toLocaleString("en-US")} $FLYAI from your wallet in that transaction`);
+    const messages = Number(packs) * PACK_MESSAGES;
+    const credited = await pg.tx(async (q) => {
+      const n = await q.run("insert into mine.chat_packs (tx, wallet, flyai, messages) values (?, ?, ?, ?) on conflict (tx) do nothing",
+        tx, me, (wei / E18).toString(), messages);
+      if (!n) return 0;
+      await q.run(`insert into mine.chat_credits (wallet, left_n) values (?, ?) on conflict (wallet) do update
+        set left_n = mine.chat_credits.left_n + excluded.left_n, updated_at = now()`, me, messages);
+      return messages;
+    }, `chatpack:${me}`);
+    const left = await pg.one<{ n: number }>("select left_n as n from mine.chat_credits where wallet = ?", me);
+    return { credited, credits: left?.n ?? 0 };
   }
 
   const out = (r: Row, checks: Map<string, any>) => ({
@@ -367,9 +433,13 @@ export function createFlyChat(d: {
     if (why === "hold") throw new HttpError(403, "put money in the wallet or hold 200k $FLYAI to chat");
     // the limits and the owner's row in one transaction, per wallet: two quick sends can't both pass the 30 s gap
     const mine = await pg.tx(async (q) => {
-      const u = await usage(fly, me);
+      const u = await usage(fly, me, q);
       if (u.wait_s > 0) throw new HttpError(429, `wait ${u.wait_s}s`);
-      if (u.left_today <= 0) throw new HttpError(429, `at most ${PER_DAY} messages a day`);
+      if (u.left_today <= 0) throw new HttpError(429, `today's ${u.free_per_day} free messages are used: buy a pack to keep chatting`);
+      if (u.free_left <= 0) {                          // past the free ones: one message off the packs
+        const n = await q.run("update mine.chat_credits set left_n = left_n - 1, updated_at = now() where wallet = ? and left_n > 0", me);
+        if (!n) throw new HttpError(429, "buy a pack to keep chatting");
+      }
       return q.one<Row>("insert into mine.fly_chat (at, fly_id, wallet, role, text) values (?, ?, ?, 'user', ?) returning *",
         new Date(now()).toISOString(), fly, me, text);
     }, `flychat:${me}`);
@@ -465,6 +535,7 @@ export function createFlyChat(d: {
     const p = url.pathname;
     let m: RegExpExecArray | null;
     if (req.method === "GET" && p === "/api/flychat/inbox") return d.send(res, 200, await inbox(req)), true;
+    if (req.method === "POST" && p === "/api/flychat/pack") return d.send(res, 200, await buyPack(req, await d.readJson(req))), true;
     if ((m = /^\/api\/flychat\/(\d{1,7})$/.exec(p))) {
       const fly = Number(m[1]);
       if (req.method === "GET") return d.send(res, 200, await read(req, fly)), true;

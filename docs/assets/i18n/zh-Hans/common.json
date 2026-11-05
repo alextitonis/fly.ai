@@ -469,6 +469,15 @@
     "noMsgs": "打个招呼",
     "you": "你",
     "card": "卡片",
-    "left": "今天还剩 {n}/{max} 条消息 · 每 {gap} 秒一条"
+    "left": "今天还剩 {n}/{max} 条消息 · 每 {gap} 秒一条",
+    "freeLeft": "今天还剩 {n}/{max} 条免费消息",
+    "packLeft": "消息包剩 {n} 条",
+    "gapNote": "每 {gap} 秒一条",
+    "freeDone": "今天的 {max} 条免费消息已用完。",
+    "buyPack": "购买 {n} 条消息 · 销毁 {flyai} $FLYAI",
+    "buyConfirm": "销毁 {flyai} $FLYAI（发送到 0x…dEaD）换取 {n} 条聊天消息？消息永不过期。",
+    "buyWallet": "在钱包中确认销毁…",
+    "buyWaiting": "等待链上确认…",
+    "buyDone": "+{n} 条消息"
   }
 }

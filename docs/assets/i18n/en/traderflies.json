@@ -1256,7 +1256,8 @@
       "momentum_rider": "Only when a token is running. Can be quiet for days.",
       "liquidation_flush": "Rare: can go weeks with no trade.",
       "just_earn": "No trades: the cash is lent.",
-      "fresh_launch_hunter": "Only when new tokens show volume."
+      "fresh_launch_hunter": "Only when new tokens show volume.",
+      "degen_sniper": "Busy: new launches every hour, quick exits."
     },
     "fee": "Profit fee",
     "feeNote": "only on profit, when you withdraw",
@@ -1474,7 +1475,9 @@
       "min_price": "Lowest price",
       "max_price": "Highest price",
       "max_hours": "Closes within (hours)",
-      "min_stake_usd": "Smallest bet ($)"
+      "min_stake_usd": "Smallest bet ($)",
+      "fall_pct": "Sell all on a drop from the top (%)",
+      "sol": "Solana launches too (1 = yes)"
     },
     "filters": "Meme filters",
     "filtersText": "Only memes are filtered: majors and stock tokens are the desk's own list. Empty = no limit.",
@@ -1550,6 +1553,10 @@
       "just_earn": {
         "title": "Just earn",
         "blurb": "No trading: the wallet's cash is lent on Robinhood Chain and earns lending interest (variable)."
+      },
+      "degen_sniper": {
+        "title": "Degen Sniper",
+        "blurb": "High risk: buys brand-new tokens minutes after launch on Robinhood Chain and Solana (with SOL added), and young tokens on Base, BNB and Arbitrum. Sells fast: everything on a 20% drop from the top, part at 2x. Most new tokens fail; a few run."
       }
     },
     "best": "Best Fly Wallets",
@@ -2025,7 +2032,9 @@
       },
       "fomo": {
         "stop_pct": "Sells a copied position if it falls this % below the buy, even if the traders hold on."
-      }
+      },
+      "fall_pct": "Sells everything once the price falls this % under the highest it reached since the buy - before the take-profit too. 0 = off.",
+      "sol": "1 = also buys Solana's new tokens from your fly's SOL balance (add SOL on the Solana card), same exits."
     },
     "filter": {
       "min_mcap": "Skips tokens worth less than this in total (market cap).",
@@ -2404,5 +2413,29 @@
     "more": "Show all {n}",
     "less": "Show less",
     "unverified": "{n} more from wallets with no tie to this fly: not counted in the stars."
+  },
+  "tier": {
+    "needs": "This needs {need} $FLYAI held (wallet, staked or locked). You hold {have}.",
+    "buy": "Buy $FLYAI"
+  },
+  "followPass": {
+    "title": "Follow this fly",
+    "text": "One of your flies copies this fly's trades for {days} days: {flyai} $FLYAI, {owner} to this fly's owner and {burn} burned.",
+    "followers": "Followers now: {n}.",
+    "tier": "Following needs {tier} $FLYAI held.",
+    "on": "Fly #{mine} follows it until {date}.",
+    "connect": "Connect your wallet to follow it.",
+    "noFly": "You need a Trader Fly of your own to follow it.",
+    "market": "Get one",
+    "pick": "Your fly",
+    "go": "Follow for {days} days",
+    "extend": "Add {days} days",
+    "confirm": "Fly #{mine} follows fly #{fly} for {days} days. You send {owner} $FLYAI to its owner and burn {burn} $FLYAI (two confirmations in your wallet).",
+    "step1": "1 of 2: confirm the owner's part in your wallet…",
+    "step2": "2 of 2: confirm the burn in your wallet…",
+    "step3": "Checking the payments…",
+    "done": "Fly #{mine} follows fly #{fly} until {date}.",
+    "slow": "Paid, but the check is slow. Keep these and try again: {a} {b}",
+    "ownerText": "Your fly has {n} followers. Each week a follower pays you {flyai} $FLYAI."
   }
 }

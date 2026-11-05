@@ -469,6 +469,15 @@
     "noMsgs": "Saluda",
     "you": "Tú",
     "card": "Tarjeta",
-    "left": "Te quedan {n} de {max} mensajes hoy · uno cada {gap} s"
+    "left": "Te quedan {n} de {max} mensajes hoy · uno cada {gap} s",
+    "freeLeft": "Te quedan {n} de {max} mensajes gratis hoy",
+    "packLeft": "{n} de paquetes",
+    "gapNote": "uno cada {gap} s",
+    "freeDone": "Ya usaste los {max} mensajes gratis de hoy.",
+    "buyPack": "Comprar {n} mensajes · quema {flyai} $FLYAI",
+    "buyConfirm": "¿Quemar {flyai} $FLYAI (enviados a 0x…dEaD) por {n} mensajes de chat? Los mensajes no caducan.",
+    "buyWallet": "Confirma la quema en tu billetera…",
+    "buyWaiting": "Esperando a la cadena…",
+    "buyDone": "+{n} mensajes"
   }
 }

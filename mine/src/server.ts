@@ -57,6 +57,7 @@ import { badgeConfig, createBadges } from "./badges.ts";
 import { createXp, xpConfig } from "./xp.ts";
 import { createTgLink } from "./tglink.ts";
 import { createAgents } from "./agents.ts";
+import { createFollow } from "./follow.ts";
 import { multicall } from "./multicall.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
@@ -3772,6 +3773,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/xp/") || p === "/api/admin/xp/round" || p === "/api/admin/xp/boost")) {
     if (await xp.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && p.startsWith("/api/follow/")) {
+    if (await follow.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p === "/api/agents" || p.startsWith("/api/agents/"))) {
     if (await agents.route(req, res, url)) return;
   }
@@ -4184,8 +4188,15 @@ const flyChat = createFlyChat({
   llm: flyChatKey && process.env.FLYCHAT_OFF !== "1" ? openRouter(flyChatKey, process.env.FLYCHAT_MODEL ?? "anthropic/claude-haiku-5.5") : null,
   holdFlyai: Number(process.env.VAULT_HOLD_FLYAI ?? "200000"),
   dailyUsd: Number(process.env.FLYCHAT_DAILY_USD ?? "1"),
+  rpc: CLAIMS.rpc,                                   // checking a chat pack's burn
 });
 if (USER) flyChat.start();
+// Follow a fly (src/follow.ts, flytrade/UTILITY-PLAN.md): a week's pass to copy another fly, paid in $FLYAI to its owner
+const follow = createFollow({
+  pg, HttpError, send, readJson, sessionWallet: sessionAddress, rpc: CLAIMS.rpc,
+  holdings: async (w) => (await robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock).holdings([w]))[0] ?? 0n,
+  starterSettings: async () => (((await vaults.config()).starters as any[] | null) ?? []).find((s) => s?.id === "let_it_fly")?.settings ?? null,
+});
 // the buy flow (src/buyweek.ts): Buy Week standing for the "You're in" card, and where swap-box visitors drop off
 const buyWeek = createBuyWeek({
   pg, chain: robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock), prices: marketPrices(), cfg: buyWeekConfig(process.env),

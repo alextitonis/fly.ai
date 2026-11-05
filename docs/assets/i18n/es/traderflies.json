@@ -1256,7 +1256,8 @@
       "momentum_rider": "Solo cuando un token está subiendo. Puede pasar días sin operar.",
       "liquidation_flush": "Raro: puede pasar semanas sin operar.",
       "just_earn": "Sin operaciones: el efectivo se presta.",
-      "fresh_launch_hunter": "Solo cuando tokens nuevos muestran volumen."
+      "fresh_launch_hunter": "Solo cuando tokens nuevos muestran volumen.",
+      "degen_sniper": "Activo: lanzamientos nuevos cada hora, salidas rápidas."
     },
     "fee": "Comisión sobre ganancia",
     "feeNote": "solo sobre la ganancia, al retirar",
@@ -1474,7 +1475,9 @@
       "min_price": "Precio mínimo",
       "max_price": "Precio máximo",
       "max_hours": "Cierra en (horas)",
-      "min_stake_usd": "Apuesta mínima ($)"
+      "min_stake_usd": "Apuesta mínima ($)",
+      "fall_pct": "Vender todo al caer desde el máximo (%)",
+      "sol": "Lanzamientos de Solana también (1 = sí)"
     },
     "filters": "Filtros de memes",
     "filtersText": "Solo se filtran los memes: los majors y los tokens de acciones son la lista propia de la mesa. Vacío = sin límite.",
@@ -1550,6 +1553,10 @@
       "just_earn": {
         "title": "Solo ganar",
         "blurb": "Sin operar: el efectivo de la billetera se presta en Robinhood Chain y gana intereses (variables)."
+      },
+      "degen_sniper": {
+        "title": "Degen Sniper",
+        "blurb": "Alto riesgo: compra tokens recién lanzados a los pocos minutos en Robinhood Chain y Solana (con SOL añadido), y tokens jóvenes en Base, BNB y Arbitrum. Vende rápido: todo con una caída del 20% desde el máximo, una parte a 2x. La mayoría de tokens nuevos fracasan; unos pocos suben."
       }
     },
     "best": "Mejores Fly Wallets",
@@ -2025,7 +2032,9 @@
       },
       "fomo": {
         "stop_pct": "Vende una posición copiada si cae este % bajo la compra, aunque los traders la mantengan."
-      }
+      },
+      "fall_pct": "Vende todo cuando el precio cae este % por debajo del máximo alcanzado desde la compra, también antes de la toma de ganancias. 0 = apagado.",
+      "sol": "1 = también compra los tokens nuevos de Solana con el saldo de SOL de tu mosca (añade SOL en la tarjeta de Solana), mismas salidas."
     },
     "filter": {
       "min_mcap": "Salta tokens que valen menos que esto en total (market cap).",
@@ -2404,5 +2413,29 @@
     "more": "Ver las {n}",
     "less": "Ver menos",
     "unverified": "{n} más de billeteras sin vínculo con esta mosca: no cuentan en las estrellas."
+  },
+  "tier": {
+    "needs": "Necesitas tener {need} $FLYAI (billetera, stake o bloqueado). Tienes {have}.",
+    "buy": "Comprar $FLYAI"
+  },
+  "followPass": {
+    "title": "Seguir esta mosca",
+    "text": "Una de tus moscas copia las operaciones de esta mosca durante {days} días: {flyai} $FLYAI, {owner} para su dueño y {burn} quemados.",
+    "followers": "Seguidores ahora: {n}.",
+    "tier": "Seguir requiere tener {tier} $FLYAI.",
+    "on": "La mosca #{mine} la sigue hasta el {date}.",
+    "connect": "Conecta tu billetera para seguirla.",
+    "noFly": "Necesitas una Trader Fly propia para seguirla.",
+    "market": "Consigue una",
+    "pick": "Tu mosca",
+    "go": "Seguir {days} días",
+    "extend": "Añadir {days} días",
+    "confirm": "La mosca #{mine} seguirá a la mosca #{fly} durante {days} días. Envías {owner} $FLYAI a su dueño y quemas {burn} $FLYAI (dos confirmaciones en tu billetera).",
+    "step1": "1 de 2: confirma la parte del dueño en tu billetera…",
+    "step2": "2 de 2: confirma la quema en tu billetera…",
+    "step3": "Comprobando los pagos…",
+    "done": "La mosca #{mine} sigue a la mosca #{fly} hasta el {date}.",
+    "slow": "Pagado, pero la comprobación tarda. Guarda esto y reintenta: {a} {b}",
+    "ownerText": "Tu mosca tiene {n} seguidores. Cada seguidor te paga {flyai} $FLYAI por semana."
   }
 }

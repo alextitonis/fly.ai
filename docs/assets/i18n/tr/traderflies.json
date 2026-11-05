@@ -1256,7 +1256,8 @@
       "momentum_rider": "Yalnızca bir token yükselirken. Günlerce sessiz kalabilir.",
       "liquidation_flush": "Nadir: haftalarca işlem yapmayabilir.",
       "just_earn": "İşlem yok: nakit borç verilir.",
-      "fresh_launch_hunter": "Yalnızca yeni tokenlarda hacim olduğunda."
+      "fresh_launch_hunter": "Yalnızca yeni tokenlarda hacim olduğunda.",
+      "degen_sniper": "Hareketli: her saat yeni çıkışlar, hızlı çıkışlar."
     },
     "fee": "Kâr ücreti",
     "feeNote": "yalnızca kârdan, çekim yaptığında",
@@ -1474,7 +1475,9 @@
       "min_price": "En düşük fiyat",
       "max_price": "En yüksek fiyat",
       "max_hours": "Kapanışa kadar (saat)",
-      "min_stake_usd": "En küçük bahis ($)"
+      "min_stake_usd": "En küçük bahis ($)",
+      "fall_pct": "Zirveden düşüşte hepsini sat (%)",
+      "sol": "Solana çıkışları da (1 = evet)"
     },
     "filters": "Meme filtreleri",
     "filtersText": "Yalnızca memeler filtrelenir: büyükler ve hisse token'ları masanın kendi listesidir. Boş = sınır yok.",
@@ -1550,6 +1553,10 @@
       "just_earn": {
         "title": "Sadece kazan",
         "blurb": "İşlem yok: cüzdandaki nakit Robinhood Chain'de ödünç verilir ve faiz kazanır (değişken)."
+      },
+      "degen_sniper": {
+        "title": "Degen Sniper",
+        "blurb": "Yüksek risk: Robinhood Chain ve Solana'da (SOL eklenince) yeni tokenları çıkıştan dakikalar sonra alır, Base, BNB ve Arbitrum'da genç tokenları alır. Hızlı satar: zirveden %20 düşüşte hepsini, 2x'te bir kısmını. Yeni tokenların çoğu batar; birkaçı uçar."
       }
     },
     "best": "En iyi Fly Wallets",
@@ -2025,7 +2032,9 @@
       },
       "fomo": {
         "stop_pct": "Traderlar tutsa bile, kopyalanan pozisyon bu % düşerse satar."
-      }
+      },
+      "fall_pct": "Fiyat alımdan beri gördüğü en yüksekten bu % kadar düşünce hepsini satar - kâr almadan önce de. 0 = kapalı.",
+      "sol": "1 = sineğinin SOL bakiyesiyle Solana'nın yeni tokenlarını da alır (Solana kartından SOL ekle), aynı çıkışlar."
     },
     "filter": {
       "min_mcap": "Toplam değeri (piyasa değeri) bundan az olan tokenleri atlar.",
@@ -2404,5 +2413,29 @@
     "more": "{n} puanın hepsini göster",
     "less": "Daha az göster",
     "unverified": "Bu sinekle bağı olmayan cüzdanlardan {n} puan daha: yıldızlara sayılmaz."
+  },
+  "tier": {
+    "needs": "Bunun için {need} $FLYAI tutmak gerekir (cüzdan, stake ya da kilitli). Sende {have} var.",
+    "buy": "$FLYAI al"
+  },
+  "followPass": {
+    "title": "Bu sineği takip et",
+    "text": "Sineklerinden biri {days} gün boyunca bu sineğin işlemlerini kopyalar: {flyai} $FLYAI, {owner} bu sineğin sahibine, {burn} yakılır.",
+    "followers": "Şu anki takipçi: {n}.",
+    "tier": "Takip için {tier} $FLYAI tutmak gerekir.",
+    "on": "Sinek #{mine} onu {date} tarihine kadar takip ediyor.",
+    "connect": "Takip etmek için cüzdanını bağla.",
+    "noFly": "Takip için kendi Trader Fly'ın olmalı.",
+    "market": "Bir tane al",
+    "pick": "Sineğin",
+    "go": "{days} gün takip et",
+    "extend": "{days} gün ekle",
+    "confirm": "Sinek #{mine}, sinek #{fly}'ı {days} gün takip edecek. Sahibine {owner} $FLYAI gönderip {burn} $FLYAI yakacaksın (cüzdanda iki onay).",
+    "step1": "1/2: sahibin payını cüzdanında onayla…",
+    "step2": "2/2: yakmayı cüzdanında onayla…",
+    "step3": "Ödemeler kontrol ediliyor…",
+    "done": "Sinek #{mine}, sinek #{fly}'ı {date} tarihine kadar takip ediyor.",
+    "slow": "Ödendi ama kontrol yavaş. Bunları sakla ve tekrar dene: {a} {b}",
+    "ownerText": "Sineğinin {n} takipçisi var. Her takipçi sana her hafta {flyai} $FLYAI öder."
   }
 }

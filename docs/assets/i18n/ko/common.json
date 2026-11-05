@@ -469,6 +469,15 @@
     "noMsgs": "인사해 보세요",
     "you": "나",
     "card": "카드",
-    "left": "오늘 {max}개 중 {n}개 남음 · {gap}초에 하나"
+    "left": "오늘 {max}개 중 {n}개 남음 · {gap}초에 하나",
+    "freeLeft": "오늘 무료 메시지 {n}/{max}개 남음",
+    "packLeft": "팩 {n}개",
+    "gapNote": "{gap}초에 한 번",
+    "freeDone": "오늘의 무료 메시지 {max}개를 다 썼습니다.",
+    "buyPack": "메시지 {n}개 구매 · {flyai} $FLYAI 소각",
+    "buyConfirm": "채팅 메시지 {n}개를 위해 {flyai} $FLYAI를 소각할까요 (0x…dEaD로 전송)? 메시지는 만료되지 않습니다.",
+    "buyWallet": "지갑에서 소각을 확인하세요…",
+    "buyWaiting": "체인을 기다리는 중…",
+    "buyDone": "+{n}개 메시지"
   }
 }

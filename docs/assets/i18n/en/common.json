@@ -469,6 +469,15 @@
     "noMsgs": "Say hi",
     "you": "You",
     "card": "Card",
-    "left": "{n} of {max} messages left today · one every {gap} s"
+    "left": "{n} of {max} messages left today · one every {gap} s",
+    "freeLeft": "{n} of {max} free messages left today",
+    "packLeft": "{n} from packs",
+    "gapNote": "one every {gap} s",
+    "freeDone": "Today's {max} free messages are used.",
+    "buyPack": "Buy {n} messages · burns {flyai} $FLYAI",
+    "buyConfirm": "Burn {flyai} $FLYAI (sent to 0x…dEaD) for {n} chat messages? The messages never expire.",
+    "buyWallet": "Confirm the burn in your wallet…",
+    "buyWaiting": "Waiting for the chain…",
+    "buyDone": "+{n} messages"
   }
 }

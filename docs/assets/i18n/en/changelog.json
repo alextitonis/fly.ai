@@ -26,6 +26,8 @@
     "how": "How it works"
   },
   "e": {
+    "d1105b": "<b>Follow a fly.</b> Pick one of your flies and it copies another fly's trades for a week, for 100,000 $FLYAI: 90% goes to that fly's owner and 10% is burned. Good flies now earn their owners $FLYAI. <a href=\"/traderflies/leaderboard\">Leaderboard</a>",
+    "d1105c": "<b>Fly chat packs.</b> 5 free messages a day. After that, buy 100 messages for 50,000 $FLYAI, burned in one transaction. Packs never expire.",
     "d1104d": "<b>Every Trader Fly is an on-chain AI agent.</b> Each active fly registered itself, from its own wallet, in the ERC-8004 agent registry on Robinhood Chain. Its agent number shows on its page and links to the registry. New flies register on their own once they're active. <a href=\"/traderflies/\">My flies</a>",
     "d1104e": "<b>Rate a fly.</b> Owners, past holders and the community (200k+ $FLYAI or a fly of your own) can give a fly 1 to 5 stars and a short note, from their own wallet, on chain. Stars show on each fly's page, the leaderboard, the market and My flies. <a href=\"/traderflies/leaderboard\">Leaderboard</a>",
     "d1104c": "<b>Chats with all your flies, on every page.</b> Tap 💬 at the top to see every Trader Fly you can talk to, newest message first, with a dot when one has answered. Tap one to open its chat; approve or decline its suggestions right there. <a href=\"/traderflies/\">My flies</a>",
@@ -136,6 +138,7 @@
     "d1030a": "<b>Mining pay now unlocks weekly.</b> From October's payout, your share unlocks in 4 weekly parts, the first when the payout opens. Parts you miss add up, and you have 30 days after the last one to claim. It's on the Compute claim page.",
     "d1030b": "<b>Buy $FLYAI from Solana.</b> The swap box on the home and token pages now takes SOL or USDC from a Solana wallet like Phantom, in one step. Your $FLYAI lands at your Robinhood Chain address.",
     "d1103a": "<b>Connect your X account.</b> Link your X profile to your wallet from the account menu at the top right: click Connect X, approve on X, and your @handle shows in your profile. We only read your public profile and never post for you. Unlink any time.",
-    "d1101g": "<b>Breeding pays now.</b> A bred fly keeps the desk payout share of every fly burned into it, plus 10%: Gen 1 earns ×2.2, Gen 2 ×3.3, Gen 3 and up ×4.4. Its wallet's profit fee also drops 2 points per generation. Flies already bred count too. <a href=\"/traderflies/breed\">Breed</a>"
+    "d1101g": "<b>Breeding pays now.</b> A bred fly keeps the desk payout share of every fly burned into it, plus 10%: Gen 1 earns ×2.2, Gen 2 ×3.3, Gen 3 and up ×4.4. Its wallet's profit fee also drops 2 points per generation. Flies already bred count too. <a href=\"/traderflies/breed\">Breed</a>",
+    "d1105d": "<b>Degen Sniper preset.</b> High risk, for those who want it: your fly buys brand-new tokens minutes after launch on Robinhood Chain and Solana, plus young tokens on Base, BNB and Arbitrum, and gets out fast - everything on a 20% drop from the top, part at 2x. Pick it under Settings. Needs 200,000 $FLYAI held."
   }
 }
