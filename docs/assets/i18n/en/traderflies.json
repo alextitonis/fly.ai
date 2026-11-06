@@ -1725,7 +1725,17 @@
     },
     "agent": "AI agent #{id}",
     "agentHint": "This fly's on-chain AI agent ID: it registered itself from its own wallet in the ERC-8004 agent registry on Robinhood Chain.",
-    "withdrawAck": "I understand: any withdrawal before {date}, even $1 of profit, sends my locked {usd} bonus back."
+    "withdrawAck": "I understand: any withdrawal before {date}, even $1 of profit, sends my locked {usd} bonus back.",
+    "elysium": {
+      "titleSoon": "Elysium (launching November 9)",
+      "title": "Elysium",
+      "text": "Elysium is Hyperliquid's new fast chain, going live on November 9. Set your fly up now and it's ready on launch day.",
+      "on": "Set my fly up for Elysium",
+      "doesSnipe": "With the sniper on, your fly buys Elysium's brand-new tokens in their first minutes and sells them fast, the same way it does here.",
+      "doesTrade": "Your fly trades Elysium's main tokens in the style you picked. Pick Degen Sniper (or turn on the sniper) to buy its brand-new tokens instead.",
+      "next": "It starts once Elysium is live and you add HYPE, Elysium's coin for gas and trading. How to add it shows here on launch day; nothing moves before that.",
+      "risk": "A new chain is high risk: most new tokens fail, and money leaving Elysium may take longer than from other chains at first."
+    }
   },
   "profile": {
     "title": "Your profile",
@@ -2062,7 +2072,8 @@
     "trading": "Off = the fly opens no new trades. What it already holds is still looked after.",
     "earn": "Idle cash lent to the Steakhouse or Spark USDG vault on Robinhood Chain. The rate shown is the base rate now; it moves every day.",
     "crossChains": "Tokens on these chains are bought with the wallet's USDG through Relay (bridge + swap in one go) and sold back to USDG here. The first buy on a chain also sends $0.50 of gas there. Buys under $5 are skipped.",
-    "maker": "Fly Maker's Steady band from this fly's own wallet: it only acts while the price is within 3% of its 5-minute average, swaps at most a quarter of the maker's money at a time, and takes the liquidity out before any withdrawal."
+    "maker": "Fly Maker's Steady band from this fly's own wallet: it only acts while the price is within 3% of its 5-minute average, swaps at most a quarter of the maker's money at a time, and takes the liquidity out before any withdrawal.",
+    "elysium": "Elysium is Kinetiq's Layer 2 for Hyperliquid, paid in HYPE. Your fly uses the same wallet address there. Turning this on now is a set-up only: no money moves until launch, and you can turn it off any time."
   },
   "label": {
     "add": "Add a private label",
@@ -2439,5 +2450,30 @@
     "done": "Fly #{mine} follows fly #{fly} until {date}.",
     "slow": "Paid, but the check is slow. Keep these and try again: {a} {b}",
     "ownerText": "Your fly has {n} followers. Each week a follower pays you {flyai} $FLYAI."
+  },
+  "feedrop": {
+    "title": "Fee drop",
+    "sub": "This month's $FLYAI trading fees from Pons, less {keep}%, split between holders by their average holding.",
+    "pot": "Pot so far",
+    "holders": "Holders in",
+    "pays": "Pays after",
+    "top10": "Top 10 wallets: {pct}% of the pot.",
+    "excluded": "This wallet isn't in the drop (team, pool or fly wallet).",
+    "avg": "Your average",
+    "share": "Your share",
+    "est": "≈ {usd} at today's pot",
+    "need": "Hold {min} $FLYAI on average this month to take part. Your average so far: {avg}.",
+    "lastPaid": "Drop {n}: {flyai} $FLYAI sent to you, locked 7 days in FlyLock.",
+    "how": {
+      "title": "How it works",
+      "fees": "Every $FLYAI trade on Pons pays a creator fee. This month's fees, less {keep}% for the team, go into the pot.",
+      "avg": "Your $FLYAI is counted every hour: in your wallet, staked or locked. Your share is your average over the month, so holding longer and holding more both count.",
+      "min": "Take part with an average of {min} $FLYAI or more.",
+      "pay": "After the month ends the pot is converted to $FLYAI and sent to you through FlyLock: it shows here and unlocks after 7 days.",
+      "test": "A two-month test: November and December."
+    },
+    "past": "Past drops",
+    "pastRow": "Drop {n}: {flyai} $FLYAI to {holders} holders (fees {pot})",
+    "pastOpen": "Drop {n}: {pot}, paying soon"
   }
 }

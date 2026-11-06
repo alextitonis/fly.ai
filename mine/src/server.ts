@@ -61,6 +61,7 @@ import { createFollow } from "./follow.ts";
 import { multicall } from "./multicall.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
+import { createFeedrop, feedropConfig } from "./feedrop.ts";
 import { createScan, scanConfig, FLYAI as SCAN_FLYAI } from "./scan.ts";
 import { createLaunchpad, launchpadChain } from "./launchpad.ts";
 import { createLaunchLogo, pinataPin } from "./launchlogo.ts";
@@ -3794,6 +3795,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/gta") || p === "/api/admin/gta")) {
     if (await gta.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p === "/api/feedrop" || p.startsWith("/api/admin/feedrop"))) {
+    if (await feedrop.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p === "/api/scan" || p.startsWith("/api/scan/"))) {
     if (await scan.route(req, res, url)) return;
   }
@@ -4148,6 +4152,13 @@ const gta = createGta({
   admins: (process.env.BOUNTY_ADMINS ?? "").split(","), explorer: "https://robinhoodchain.blockscout.com",
 });
 if (USER && process.env.GTA_OFF !== "1") gta.start();
+// the fee drop (src/feedrop.ts, 2026-11-06): the month's Pons fees less 10% split by average holding, paid via FlyLock
+const feedrop = createFeedrop({
+  pg, chain: robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock), cfg: feedropConfig(process.env),
+  HttpError, send, readJson, sessionWallet: sessionAddress, isAdminToken: isAdmin,
+  admins: (process.env.BOUNTY_ADMINS ?? "").split(","),
+});
+if (USER && process.env.FEEDROP_OFF !== "1") feedrop.start();
 // Fly Scan (src/scan.ts): paid contract / website scans; the scanning runs in the scan worker (flytrade/scan)
 const scanCfg = scanConfig(process.env);
 const scanChain = robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock);

@@ -85,6 +85,11 @@ export type Launch = { at: number; name: string; symbol: string; token: string; 
 
 export const desk = () => getJSON<Desk>(`${DESK}/public/site.json`);
 
+/** The sniper's picks (desk publish.snipes_view, /public/snipes.json, fresh every 30 s): launches it holds and its exits. */
+export type Snipe = { chain: string; token: string; symbol: string; at: number; fdv?: number | null; liq?: number | null; age_s?: number | null };
+export type SnipeExit = { chain: string; token: string; symbol: string; why: string; cost: number; got: number; at: number; held_min: number };
+export const snipes = () => getJSON<{ at: number; open: Snipe[]; closed: SnipeExit[] }>(`${DESK}/public/snipes.json`);
+
 // ---------------------------------------------------------------- Fly Wallets leaderboard (mine /api/vaults/leaderboard)
 export type Wallet = {
   flies: number[];

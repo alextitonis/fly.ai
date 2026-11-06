@@ -34,6 +34,7 @@
     "test:tg": "node --disable-warning=ExperimentalWarning src/tgtest.ts",
     "test:agents": "node --disable-warning=ExperimentalWarning src/agentstest.ts",
     "test:follow": "node --disable-warning=ExperimentalWarning src/followtest.ts",
+    "test:feedrop": "node --disable-warning=ExperimentalWarning src/feedroptest.ts",
     "test:scan": "node --disable-warning=ExperimentalWarning src/scantest.ts",
     "test:deskchat": "node --disable-warning=ExperimentalWarning src/deskchattest.ts",
     "test:pet": "node --disable-warning=ExperimentalWarning src/pettest.ts",
@@ -63,6 +64,7 @@
     "seed:house": "node --disable-warning=ExperimentalWarning scripts/seed-house.ts",
     "export:dataset": "node --disable-warning=ExperimentalWarning scripts/export-dataset.ts",
     "pay:withdrawals": "node --disable-warning=ExperimentalWarning scripts/pay-withdrawals.ts",
+    "pay:feedrop": "node --disable-warning=ExperimentalWarning scripts/pay-feedrop.ts",
     "test:passfights": "node --disable-warning=ExperimentalWarning src/passfightstest.ts"
   },
   "devDependencies": {

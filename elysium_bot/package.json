@@ -1,0 +1,34 @@
+{
+  "name": "elysium-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Launch sniper for Kinetiq's Elysium L2: finds new HYPE pools, simulates buy+sell, buys small, sells fast.",
+  "type": "module",
+  "scripts": {
+    "setup": "tsx src/setup.ts setup",
+    "wallet": "tsx src/setup.ts wallet",
+    "paper": "tsx src/cli.ts run",
+    "live": "tsx src/cli.ts run --live",
+    "scan": "tsx src/cli.ts scan",
+    "status": "tsx src/cli.ts status",
+    "deploy-helper": "tsx src/cli.ts deploy",
+    "sell-all": "tsx src/cli.ts sell-all",
+    "withdraw": "tsx src/cli.ts withdraw",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts",
+    "build:contract": "cd contracts && forge build && node ../scripts/artifact.mjs",
+    "test:contract": "cd contracts && forge test --fork-url https://testnet-rpc.elysium.kinetiq.xyz -vv"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

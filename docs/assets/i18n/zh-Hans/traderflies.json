@@ -1723,7 +1723,17 @@
     },
     "agent": "AI 代理 #{id}",
     "agentHint": "这只苍蝇的链上 AI 代理编号：它用自己的钱包在 Robinhood Chain 的 ERC-8004 代理注册表中完成了注册。",
-    "withdrawAck": "我明白：在 {date} 之前提取任何金额（哪怕只是 1 美元利润），都会退回我锁定的 {usd} 奖励。"
+    "withdrawAck": "我明白：在 {date} 之前提取任何金额（哪怕只是 1 美元利润），都会退回我锁定的 {usd} 奖励。",
+    "elysium": {
+      "titleSoon": "Elysium（11 月 9 日上线）",
+      "title": "Elysium",
+      "text": "Elysium 是 Hyperliquid 的新高速链，将于 11 月 9 日上线。现在设置好你的苍蝇，上线当天就能开始。",
+      "on": "为 Elysium 设置我的苍蝇",
+      "doesSnipe": "开启狙击后，你的苍蝇会在 Elysium 新代币上线的头几分钟买入，并像在这里一样快速卖出。",
+      "doesTrade": "你的苍蝇会按你选的风格交易 Elysium 的主要代币。想买新上线的代币，请选 Degen Sniper（或开启狙击）。",
+      "next": "Elysium 上线并且你存入 HYPE（Elysium 用于 gas 和交易的币）后开始。存入方法会在上线当天显示在这里；在此之前不会动用任何资金。",
+      "risk": "新链风险很高：大多数新代币会失败，而且初期从 Elysium 转出资金可能比其他链更慢。"
+    }
   },
   "profile": {
     "title": "你的资料",
@@ -2060,7 +2070,8 @@
     "trading": "关闭 = 苍蝇不再开新仓。已持有的仍会照管。",
     "earn": "闲置现金出借给 Robinhood Chain 上的 Steakhouse 或 Spark USDG 金库。显示的是当前基础利率，每天都会变动。",
     "crossChains": "这些链上的代币用钱包的 USDG 通过 Relay 买入（跨链 + 兑换一步完成），卖出后回到这里的 USDG。每条链的首次买入还会发送 $0.50 的 gas。低于 $5 的买入会跳过。",
-    "maker": "在这只苍蝇自己的钱包里运行 Fly Maker 的稳定区间：只在价格距 5 分钟均价 3% 以内时操作，每次最多兑换做市资金的四分之一，任何提现前先取出流动性。"
+    "maker": "在这只苍蝇自己的钱包里运行 Fly Maker 的稳定区间：只在价格距 5 分钟均价 3% 以内时操作，每次最多兑换做市资金的四分之一，任何提现前先取出流动性。",
+    "elysium": "Elysium 是 Kinetiq 为 Hyperliquid 打造的二层网络，用 HYPE 支付。你的苍蝇在那里使用同一个钱包地址。现在开启只是预先设置：上线前不会动用资金，随时可以关闭。"
   },
   "label": {
     "add": "添加私人标签",
@@ -2437,5 +2448,30 @@
     "done": "苍蝇 #{mine} 跟随苍蝇 #{fly} 直到 {date}。",
     "slow": "已付款，但核对较慢。请保存这些交易后重试：{a} {b}",
     "ownerText": "你的苍蝇有 {n} 个跟随者。每位跟随者每周向你支付 {flyai} $FLYAI。"
+  },
+  "feedrop": {
+    "title": "手续费空投",
+    "sub": "本月 Pons 上的 $FLYAI 交易手续费，扣除 {keep}% 后，按持有者的平均持仓分配。",
+    "pot": "目前奖池",
+    "holders": "参与持有者",
+    "pays": "发放时间",
+    "top10": "前 10 名钱包：奖池的 {pct}%。",
+    "excluded": "此钱包不参与空投（团队、资金池或苍蝇钱包）。",
+    "avg": "你的平均持仓",
+    "share": "你的份额",
+    "est": "按当前奖池约 {usd}",
+    "need": "本月平均持有 {min} $FLYAI 即可参与。你目前的平均持仓：{avg}。",
+    "lastPaid": "第 {n} 期：{flyai} $FLYAI 已发给你，在 FlyLock 中锁定 7 天。",
+    "how": {
+      "title": "规则说明",
+      "fees": "Pons 上每笔 $FLYAI 交易都会支付创建者手续费。本月手续费扣除团队 {keep}% 后进入奖池。",
+      "avg": "你的 $FLYAI 每小时统计一次：钱包中、质押中或锁定中都算。你的份额按本月平均持仓计算，持有越久、越多都更有利。",
+      "min": "平均持有 {min} $FLYAI 或以上即可参与。",
+      "pay": "月末奖池兑换成 $FLYAI，通过 FlyLock 发给你：在此处显示，7 天后解锁。",
+      "test": "为期两个月的测试：11 月和 12 月。"
+    },
+    "past": "往期空投",
+    "pastRow": "第 {n} 期：{flyai} $FLYAI 发给 {holders} 位持有者（手续费 {pot}）",
+    "pastOpen": "第 {n} 期：{pot}，即将发放"
   }
 }

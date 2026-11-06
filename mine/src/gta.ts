@@ -67,6 +67,7 @@ export type Prices = { usd(token: string): Promise<number | null> };   // token 
 export type GtaConfig = {
   start: number; end: number;                      // ms
   ponsStart: number;                               // ms, the Pons fees' own start
+  ponsEnd: number;                                 // ms: Pons fees from here go to the fee drop (feedrop.ts), not the pot
   priceUsd: number; share: number; minHold: bigint; // minHold in wei
   seedDelay: number; exclude: string[];
 };
@@ -75,6 +76,9 @@ export function gtaConfig(env: NodeJS.ProcessEnv): GtaConfig {
     start: Date.parse(env.GTA_START ?? "2026-10-22T00:00:00Z"),
     end: Date.parse(env.GTA_END ?? "2026-11-19T00:00:00Z"),
     ponsStart: Date.parse(env.GTA_PONS_START ?? "2026-10-17T21:00:00Z"),   // the dev wallet's last claim: 10-17 20:53 UTC
+    // 2026-11-06 (the user, the fee drop: "either way only some days left for the gta6"): the Pons fees from the fee
+    // drop's start are the drop's; the raffle keeps the desk's and the wallets' fees until it ends. Still booked here.
+    ponsEnd: Date.parse(env.GTA_PONS_END ?? env.FEEDROP_START ?? "2026-11-06T00:00:00Z"),
     priceUsd: Number(env.GTA_PRICE_USD ?? 70),
     share: Number(env.GTA_SHARE ?? 0.5),
     minHold: BigInt(env.GTA_MIN_HOLD ?? 100_000) * E18,
@@ -254,7 +258,8 @@ export function createGta(d: {
   }
 
   async function potUsd(): Promise<{ total: number; by: Record<string, number> }> {
-    const rows = await pg.all<{ source: string; usd: number }>("select source, sum(usd)::float8 as usd from mine.gta_fees group by source");
+    const rows = await pg.all<{ source: string; usd: number }>(`select source, sum(usd)::float8 as usd from mine.gta_fees
+      where not (source = 'pons' and at >= ?) group by source`, new Date(cfg.ponsEnd).toISOString());
     const by: Record<string, number> = { pons: 0, desk: 0, wallet: 0 };
     for (const r of rows) by[r.source] = Number(r.usd);
     return { total: Object.values(by).reduce((a, b) => a + b, 0), by };

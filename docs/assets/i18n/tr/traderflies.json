@@ -1725,7 +1725,17 @@
     },
     "agent": "AI ajanı #{id}",
     "agentHint": "Bu sineğin zincir üstü AI ajan kimliği: Robinhood Chain'deki ERC-8004 ajan kaydına kendi cüzdanından kaydoldu.",
-    "withdrawAck": "Anladım: {date} tarihinden önce yapacağım her çekim, 1 $ kâr bile olsa, kilitli {usd} bonusumu geri gönderir."
+    "withdrawAck": "Anladım: {date} tarihinden önce yapacağım her çekim, 1 $ kâr bile olsa, kilitli {usd} bonusumu geri gönderir.",
+    "elysium": {
+      "titleSoon": "Elysium (9 Kasım'da açılıyor)",
+      "title": "Elysium",
+      "text": "Elysium, Hyperliquid'in yeni hızlı ağı ve 9 Kasım'da açılıyor. Sineğini şimdi hazırla, açılış günü hazır olsun.",
+      "on": "Sineğimi Elysium için hazırla",
+      "doesSnipe": "Sniper açıkken sineğin, Elysium'un yeni çıkan tokenlarını ilk dakikalarında alır ve burada olduğu gibi hızlı satar.",
+      "doesTrade": "Sineğin, seçtiğin tarzla Elysium'un ana tokenlarında işlem yapar. Yeni çıkan tokenları alması için Degen Sniper'ı seç (veya sniper'ı aç).",
+      "next": "Elysium açılınca ve Elysium'un gaz ve işlem coini HYPE'ı eklediğinde başlar. Nasıl ekleneceği açılış günü burada görünecek; öncesinde hiçbir para hareket etmez.",
+      "risk": "Yeni bir ağ yüksek risklidir: yeni tokenların çoğu batar ve başta Elysium'dan para çıkarmak diğer ağlardan daha uzun sürebilir."
+    }
   },
   "profile": {
     "title": "Profilin",
@@ -2062,7 +2072,8 @@
     "trading": "Kapalı = sinek yeni işlem açmaz. Elindekiler yine yönetilir.",
     "earn": "Boştaki nakit Robinhood Chain'deki Steakhouse ya da Spark USDG kasasına ödünç verilir. Gösterilen, şu anki temel faizdir; her gün değişir.",
     "crossChains": "Bu zincirlerdeki tokenlar cüzdanın USDG'si ile Relay üzerinden alınır (köprü + takas tek seferde) ve burada tekrar USDG'ye satılır. Bir zincirdeki ilk alım oraya $0.50 gaz da gönderir. $5 altı alımlar atlanır.",
-    "maker": "Fly Maker'ın Sabit bandı bu sineğin kendi cüzdanından: yalnızca fiyat 5 dakikalık ortalamasının %3 yakınındayken işlem yapar, bir seferde maker parasının en fazla dörtte birini takas eder ve her çekimden önce likiditeyi çıkarır."
+    "maker": "Fly Maker'ın Sabit bandı bu sineğin kendi cüzdanından: yalnızca fiyat 5 dakikalık ortalamasının %3 yakınındayken işlem yapar, bir seferde maker parasının en fazla dörtte birini takas eder ve her çekimden önce likiditeyi çıkarır.",
+    "elysium": "Elysium, Kinetiq'in Hyperliquid için Layer 2'si, ücretler HYPE ile ödenir. Sineğin orada da aynı cüzdan adresini kullanır. Şimdi açmak sadece hazırlıktır: açılışa kadar para hareket etmez, istediğin zaman kapatabilirsin."
   },
   "label": {
     "add": "Gizli etiket ekle",
@@ -2439,5 +2450,30 @@
     "done": "Sinek #{mine}, sinek #{fly}'ı {date} tarihine kadar takip ediyor.",
     "slow": "Ödendi ama kontrol yavaş. Bunları sakla ve tekrar dene: {a} {b}",
     "ownerText": "Sineğinin {n} takipçisi var. Her takipçi sana her hafta {flyai} $FLYAI öder."
+  },
+  "feedrop": {
+    "title": "Ücret dağıtımı",
+    "sub": "Bu ayın Pons'taki $FLYAI işlem ücretleri, %{keep} düşüldükten sonra, sahiplere ortalama varlıklarına göre bölünür.",
+    "pot": "Şu ana kadar havuz",
+    "holders": "Katılan sahipler",
+    "pays": "Ödeme",
+    "top10": "İlk 10 cüzdan: havuzun %{pct}'i.",
+    "excluded": "Bu cüzdan dağıtıma dahil değil (ekip, havuz ya da sinek cüzdanı).",
+    "avg": "Ortalaman",
+    "share": "Payın",
+    "est": "Bugünkü havuzla ≈ {usd}",
+    "need": "Katılmak için bu ay ortalama {min} $FLYAI tut. Şu ana kadarki ortalaman: {avg}.",
+    "lastPaid": "Dağıtım {n}: {flyai} $FLYAI sana gönderildi, FlyLock'ta 7 gün kilitli.",
+    "how": {
+      "title": "Nasıl çalışır",
+      "fees": "Pons'taki her $FLYAI işlemi bir yaratıcı ücreti öder. Bu ayın ücretleri, ekibin %{keep}'u düşüldükten sonra havuza girer.",
+      "avg": "$FLYAI'n saatte bir sayılır: cüzdanda, stake'te ya da kilitli. Payın ay boyunca ortalamana göre: daha uzun ve daha çok tutmak ikisi de sayılır.",
+      "min": "Ortalama {min} $FLYAI ya da üstüyle katıl.",
+      "pay": "Ay bitince havuz $FLYAI'ye çevrilir ve FlyLock üzerinden sana gönderilir: burada görünür, 7 gün sonra açılır.",
+      "test": "İki aylık bir deneme: Kasım ve Aralık."
+    },
+    "past": "Geçmiş dağıtımlar",
+    "pastRow": "Dağıtım {n}: {holders} sahibe {flyai} $FLYAI (ücretler {pot})",
+    "pastOpen": "Dağıtım {n}: {pot}, yakında ödenecek"
   }
 }

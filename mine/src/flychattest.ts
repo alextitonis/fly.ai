@@ -35,6 +35,10 @@ check("merge: options by id, params kept, unknown ids dropped", m.options.length
 { const sn = mergeSettings(SETTINGS, { options: [{ id: "snipe", on: true, share_pct: 30, params: { fall_pct: 15, tp_part: 100, sol: 1 } }] });
   const o = sn.options.find((x: any) => x.id === "snipe");
   check("merge: the chat can switch the sniper on and set its drop, take and Solana", !!o && o.params.fall_pct === 15 && o.params.tp_part === 100 && o.params.sol === 1, JSON.stringify(o)); }
+{ const e = mergeSettings(SETTINGS, { elysium: { on: true } });
+  check("merge: the chat sets the fly up for Elysium and the style stays", e.elysium?.on === true && e.starter === "let_it_fly", JSON.stringify(e));
+  const k = cardOf({ name: "change_settings", args: { summary: "Just earn", starter: "just_earn" } }, { ...SETTINGS, elysium: { on: true } }, STARTERS);
+  check("card: picking a setup keeps the Elysium set-up", typeof k !== "string" && k.after.elysium?.on === true, JSON.stringify(k)); }
 check("merge: a key the document lacks isn't added", mergeSettings(SETTINGS, { filters: { evil: 1 } }).filters.evil === undefined);
 check("shortcut: pause", shortcut("Pause!", SETTINGS)?.card.kind === "settings" && (shortcut("pause", SETTINGS)!.card as any).after.trading === false);
 check("shortcut: resume only when paused", shortcut("resume", SETTINGS) === null && shortcut("resume", { ...SETTINGS, trading: false }) !== null);

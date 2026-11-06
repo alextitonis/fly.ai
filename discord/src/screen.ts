@@ -17,6 +17,9 @@
 import { type Pair } from "./data.ts";
 
 const MIN_REAL_LIQ_USD = 10_000, MIN_VOL_24H_USD = 1_000;   // $FLYAI itself: ~$19k paired, ~$1.1k/day
+// the sniper's picks (2026-11-05, the user: "$5k for snipes ... for sol and rh and rest chains"): a launch minutes old
+// starts with ~$5-8k on the paired side, so $10k let almost none through; every other call keeps MIN_REAL_LIQ_USD
+export const SNIPE_MIN_REAL_LIQ_USD = 5_000;
 const MAX_TOP10 = 0.5, MAX_CLUSTER = 0.25, MIN_GROUP = 3, TOP_CHECKED = 25;
 const VERDICT_MS = 30 * 60_000, RETRY_MS = 3 * 60_000;
 const RPC = "https://rpc.mainnet.chain.robinhood.com";   // public: a few calls per token per VERDICT_MS
@@ -66,11 +69,11 @@ export type Verdict = {
 const verdicts = new Map<string, { at: number; v: Verdict }>();
 
 /** Whether `ca` on `chainKey` ("" = Robinhood, "base", "bsc", "arbitrum") is clean enough to post, cached VERDICT_MS. */
-export async function screen(ca: string, chainKey = ""): Promise<Verdict> {
-  const key = `${chainKey}:${ca.toLowerCase()}`;
+export async function screen(ca: string, chainKey = "", minReal = MIN_REAL_LIQ_USD): Promise<Verdict> {
+  const key = `${chainKey}:${ca.toLowerCase()}:${minReal}`;   // (a pass at the snipe minimum is not a pass for other calls)
   const hit = verdicts.get(key);
   if (hit && Date.now() - hit.at < (hit.v.failed ? RETRY_MS : VERDICT_MS)) return hit.v;
-  const v = await judge(ca, chainKey).catch((err): Verdict => ({ ...empty(ca, chainKey), failed: true, why: [`check failed: ${(err as Error).message}`] }));
+  const v = await judge(ca, chainKey, minReal).catch((err): Verdict => ({ ...empty(ca, chainKey), failed: true, why: [`check failed: ${(err as Error).message}`] }));
   verdicts.set(key, { at: Date.now(), v });
   return v;
 }
@@ -78,7 +81,7 @@ export async function screen(ca: string, chainKey = ""): Promise<Verdict> {
 const empty = (ca: string, chainKey: string): Verdict =>
   ({ ok: false, why: [], chain: DEX_CHAIN[chainKey] ?? chainKey, ca, liq: 0, realLiq: 0, mcap: null, vol24: 0, ageH: null });
 
-async function judge(ca: string, chainKey: string): Promise<Verdict> {
+async function judge(ca: string, chainKey: string, minReal = MIN_REAL_LIQ_USD): Promise<Verdict> {
   const v = empty(ca, chainKey);
   type P = Pair & { pairCreatedAt?: number; liquidity?: { usd?: number; base?: number; quote?: number }; info?: { imageUrl?: string } };
   const res = await fetch(`https://api.dexscreener.com/tokens/v1/${v.chain}/${ca}`, { signal: AbortSignal.timeout(20_000) });
@@ -98,7 +101,10 @@ async function judge(ca: string, chainKey: string): Promise<Verdict> {
   if (image) v.image = image;
   const born = Math.min(...pairs.map((p) => p.pairCreatedAt ?? Infinity));
   v.ageH = Number.isFinite(born) ? (Date.now() - born) / 3_600_000 : null;
-  if (v.realLiq < MIN_REAL_LIQ_USD) v.why.push(`pool has ${money(v.realLiq)} real money`);
+  // a pool DexScreener lists with no money and no trades yet is one it hasn't indexed (a launch a minute or two old,
+  // 2026-11-05: every sniper pick read "$0 real money" and was dropped for good): a failed read, asked again after RETRY_MS
+  if (v.realLiq === 0 && v.vol24 === 0) return { ...v, failed: true, why: ["not indexed yet"] };
+  if (v.realLiq < minReal) v.why.push(`pool has ${money(v.realLiq)} real money`);
   if (v.vol24 < MIN_VOL_24H_USD) v.why.push(`${money(v.vol24)} traded in 24h`);
   if (!v.why.length) await contract(v);
   if (!v.why.length && v.chain === "robinhood") await holders(v, born);

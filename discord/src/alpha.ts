@@ -14,12 +14,16 @@
 // 2026-11-02 (the user: "more good looking, not so plain"; "add it in a partner server"): every message is a card, and the
 // feed goes to each target channel; a target with a role pings it on new calls, bets and launches, never on sell replies.
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, type Client, type Message, type SendableChannels } from "discord.js";
-import { board, contractOf, desk, flyLog, SITE, type FomoToken, type Found, type LogTrade } from "./data.ts";
+import { board, contractOf, desk, flyLog, SITE, snipes, type FomoToken, type Found, type LogTrade, type Snipe } from "./data.ts";
 import { MINT, pct, symbol, usd } from "./format.ts";
-import { screen, type Verdict } from "./screen.ts";
+import { screen, SNIPE_MIN_REAL_LIQ_USD, type Verdict } from "./screen.ts";
 
 const CALL_AGAIN_MS = 12 * 3600_000;      // the same token is called again only after this
 const MAX_PER_HOUR = 8;
+// the sniper's picks (2026-11-05, the user: "discord should be pulling these buys and posting them"): at most this many an
+// hour inside MAX_PER_HOUR, so ~30 Solana launches an hour can't crowd out the other calls; they ping nobody
+const SNIPES_PER_HOUR = 4;
+const SNIPE_WAIT_MS = 15 * 60_000;       // a pick the filter couldn't read yet (not indexed) is asked again this long
 const FOUND_WATCH_MS = 24 * 3600_000;     // a found token that fails at first (no trading yet) is re-checked this long
 // a FOMO token is a call when top traders pile in: 2+ of them buying in the last hour, or $5k+ (one trader's $1k, the
 // desk's FOMO_VIEW_USD, was too chatty for the channel)
@@ -44,8 +48,8 @@ const blockedWhy = (r: LogTrade) => {
   return BLOCKED.find(([re]) => re.test(why))?.[1] ?? null;
 };
 
-const DEX: Record<string, string> = { "": "robinhood", base: "base", bsc: "bsc", arbitrum: "arbitrum" };
-const CHAIN_NAME: Record<string, string> = { "": "Robinhood", base: "Base", bsc: "BNB", arbitrum: "Arbitrum" };
+const DEX: Record<string, string> = { "": "robinhood", base: "base", bsc: "bsc", arbitrum: "arbitrum", solana: "solana" };
+const CHAIN_NAME: Record<string, string> = { "": "Robinhood", base: "Base", bsc: "BNB", arbitrum: "Arbitrum", solana: "Solana" };
 const chainOf = (sym: string) => (sym.includes(":") ? sym.slice(0, sym.indexOf(":")) : "");
 /** A desk symbol's chain as DexScreener names it ("base:FOO" -> base, a bare one -> robinhood). */
 export const alphaChain = (sym: string) => DEX[chainOf(sym)] ?? chainOf(sym);
@@ -60,7 +64,7 @@ const age = (h: number) => (h < 1 ? `${Math.round(h * 60)}m` : h < 48 ? `${Math.
 // ---------------------------------------------------------------- the cards
 
 const LOGO = "https://www.flyaiworld.com/assets/logo.webp";   // (the bare domain answers with a redirect)
-const COLOR = { buy: MINT, hot: 0xff8a3d, found: 0x4da3ff, wanted: 0x8a8f98, bet: 0xb48cff, launch: 0xffd166, up: 0x3ddc84, down: 0xff5c5c, back: 0x8a8f98 };
+const COLOR = { snipe: 0xff4fd8, buy: MINT, hot: 0xff8a3d, found: 0x4da3ff, wanted: 0x8a8f98, bet: 0xb48cff, launch: 0xffd166, up: 0x3ddc84, down: 0xff5c5c, back: 0x8a8f98 };
 export type Post = { embeds: EmbedBuilder[]; components?: ActionRowBuilder<ButtonBuilder>[]; ping: boolean };
 
 const card = (color: number) => new EmbedBuilder().setColor(color).setTimestamp(new Date())
@@ -81,7 +85,7 @@ export function tokenLinks(chain: string, ca: string, ...more: [string, string][
 }
 const quote = (why?: string | null) => (why ? `\n> ${why.replace(/\s+/g, " ").slice(0, 160)}` : "");
 
-type Call = { key: string; sym: string; ca: string; chain: string; at: number; head: string; color: number; why?: string | null };
+type Call = { key: string; sym: string; ca: string; chain: string; at: number; head: string; color: number; why?: string | null; ping?: boolean; minReal?: number };
 
 /** A token call: who did what, the numbers that matter in tiles, the CA to copy, buttons to the chart and to fly.ai. */
 export function callPost(c: Call, v: Verdict): Post {
@@ -94,7 +98,7 @@ export function callPost(c: Call, v: Verdict): Post {
   fields.push({ name: "Contract address", value: `\`${c.ca}\``, inline: false });
   const e = card(c.color).setTitle(`$${ticker(c.sym)} · ${CHAIN_NAME[c.chain] ?? c.chain}`).setURL(chart)
     .setDescription(`**${c.head}**${quote(c.why)}`).addFields(fields).setThumbnail(v.image ?? LOGO);
-  return { embeds: [e], components: tokenLinks(DEX[c.chain] ?? "robinhood", c.ca, ["🪰 fly.ai", `${SITE}/traderflies`]), ping: true };
+  return { embeds: [e], components: tokenLinks(DEX[c.chain] ?? "robinhood", c.ca, ["🪰 fly.ai", `${SITE}/traderflies`]), ping: c.ping ?? true };
 }
 
 /** An Azuro bet: the pick, who placed it, stake / odds / payout. */
@@ -192,6 +196,8 @@ export function startAlpha(client: Client, targets: Target[], opts: { flies: num
   const called = new Map<string, { at: number; msgs?: Sent }>();   // chain:ca -> its last call in each channel (sells reply to it)
   const watching = new Map<string, Found>();                // found tokens waiting to pass the filter
   const sentAt: number[] = [];                              // the last hour's messages (MAX_PER_HOUR)
+  const snipeAt: number[] = [];                             // the last hour's sniper picks (SNIPES_PER_HOUR)
+  const snipeWait = new Map<string, Snipe>();               // picks waiting for the filter to read them (SNIPE_WAIT_MS)
 
   /** The keys of `items` not seen before in `source`; the first read of a source only remembers them. */
   function fresh<T>(source: string, items: T[], key: (x: T) => string): T[] {
@@ -241,7 +247,7 @@ export function startAlpha(client: Client, targets: Target[], opts: { flies: num
   async function call(c: Call): Promise<boolean> {
     const last = called.get(c.key);
     if (last && Date.now() - last.at < CALL_AGAIN_MS) return true;
-    const v = await screen(c.ca, c.chain);
+    const v = await screen(c.ca, c.chain, c.minReal);
     if (!v.ok) {
       console.log(`alpha: skipped $${ticker(c.sym)} (${c.head}): ${v.why.join("; ")}`);
       return !v.failed;
@@ -349,12 +355,39 @@ export function startAlpha(client: Client, targets: Target[], opts: { flies: num
     }
   }
 
+  /** The sniper's picks: each new launch it bought as a call (scam-filtered like every call), each exit as a reply under
+   *  it. These are the paper sniper's book: the launches every fly's snipe option buys from, on the sniper's own exits. */
+  async function snipeSource(): Promise<void> {
+    const s = await snipes();
+    const chainKey = (c: string) => (c === "robinhood" ? "" : c);
+    for (const o of fresh("snipes:open", s.open, (o) => `${o.chain}:${o.token}`)) snipeWait.set(`${o.chain}:${o.token}`, o);
+    for (const [wk, o] of snipeWait) {
+      const now = Date.now();
+      if (now - o.at * 1000 > SNIPE_WAIT_MS) { snipeWait.delete(wk); continue; }
+      while (snipeAt.length && now - snipeAt[0]! > 3600_000) snipeAt.shift();
+      if (snipeAt.length >= SNIPES_PER_HOUR) break;
+      const chain = chainKey(o.chain), key = `${chain}:${o.token.toLowerCase()}`;
+      const before = called.get(key)?.at;
+      const old = Math.max(1, Math.round(((o.age_s ?? 0) + (now / 1000 - o.at)) / 60));
+      const done = await call({ key, sym: o.symbol, ca: o.token, chain, at: o.at * 1000, color: COLOR.snipe, ping: false,
+        minReal: SNIPE_MIN_REAL_LIQ_USD, head: `🎯 Fly sniper pick: ${old} min old${o.fdv ? `, ${k(o.fdv)} value at the buy` : ""}` });
+      if (called.get(key)?.at !== before) snipeAt.push(now);
+      if (done) snipeWait.delete(wk);                       // posted, or a real "no"; a read that failed waits for the next poll
+    }
+    for (const c of fresh("snipes:closed", s.closed, (c) => `${c.chain}:${c.token}:${c.at}`)) {
+      const key = `${chainKey(c.chain)}:${c.token.toLowerCase()}`;
+      const r = c.cost ? (c.got / c.cost - 1) * 100 : 0;
+      await update(key, `${r >= 0 ? "🟢" : "🔴"} Sniper out of $${ticker(c.symbol)}: ${pct(r)} in ${c.held_min} min (${c.why})`,
+        r >= 0 ? COLOR.up : COLOR.down);
+    }
+  }
+
   let busy = false;
   async function tick() {
     if (busy) return;   // a slow filter (RPC) can outlast ALPHA_POLL_MS
     busy = true;
     try {
-      for (const [name, source] of [["desk", deskSource], ["wallets", walletSource]] as const) {
+      for (const [name, source] of [["desk", deskSource], ["snipes", snipeSource], ["wallets", walletSource]] as const) {
         await source().catch((err) => console.error(`alpha: ${name} read failed`, (err as Error).message));
       }
     } finally {

@@ -1725,7 +1725,17 @@
     },
     "agent": "Agente IA #{id}",
     "agentHint": "El ID de agente de IA en cadena de esta mosca: se registró desde su propia billetera en el registro de agentes ERC-8004 de Robinhood Chain.",
-    "withdrawAck": "Entiendo: cualquier retiro antes del {date}, aunque sea $1 de ganancia, devuelve mi bono bloqueado de {usd}."
+    "withdrawAck": "Entiendo: cualquier retiro antes del {date}, aunque sea $1 de ganancia, devuelve mi bono bloqueado de {usd}.",
+    "elysium": {
+      "titleSoon": "Elysium (llega el 9 de noviembre)",
+      "title": "Elysium",
+      "text": "Elysium es la nueva cadena rápida de Hyperliquid y se lanza el 9 de noviembre. Prepara tu mosca ahora y estará lista el día del lanzamiento.",
+      "on": "Preparar mi mosca para Elysium",
+      "doesSnipe": "Con el sniper activado, tu mosca compra los tokens nuevos de Elysium en sus primeros minutos y los vende rápido, igual que aquí.",
+      "doesTrade": "Tu mosca opera los tokens principales de Elysium con el estilo que elegiste. Elige Degen Sniper (o activa el sniper) para comprar sus tokens recién lanzados.",
+      "next": "Empieza cuando Elysium esté activa y añadas HYPE, la moneda de Elysium para el gas y para operar. Cómo añadirla aparecerá aquí el día del lanzamiento; nada se mueve antes.",
+      "risk": "Una cadena nueva es de alto riesgo: la mayoría de los tokens nuevos fracasan, y sacar dinero de Elysium puede tardar más que en otras cadenas al principio."
+    }
   },
   "profile": {
     "title": "Tu perfil",
@@ -2062,7 +2072,8 @@
     "trading": "Apagado = la mosca no abre operaciones nuevas. Lo que ya tiene se sigue gestionando.",
     "earn": "El efectivo inactivo se presta a la bóveda USDG de Steakhouse o Spark en Robinhood Chain. La tasa mostrada es la tasa base actual; cambia cada día.",
     "crossChains": "Los tokens de estas cadenas se compran con el USDG de la billetera vía Relay (puente + swap de una vez) y se venden de vuelta a USDG aquí. La primera compra en una cadena también envía $0.50 de gas. Las compras de menos de $5 se omiten.",
-    "maker": "La Banda estable de Fly Maker desde la billetera de esta mosca: solo actúa con el precio a menos de 3% de su media de 5 minutos, intercambia como mucho un cuarto del dinero del maker a la vez y retira la liquidez antes de cualquier retiro."
+    "maker": "La Banda estable de Fly Maker desde la billetera de esta mosca: solo actúa con el precio a menos de 3% de su media de 5 minutos, intercambia como mucho un cuarto del dinero del maker a la vez y retira la liquidez antes de cualquier retiro.",
+    "elysium": "Elysium es la Layer 2 de Kinetiq para Hyperliquid, se paga en HYPE. Tu mosca usa la misma dirección de wallet allí. Activarlo ahora solo la prepara: no se mueve dinero hasta el lanzamiento y puedes desactivarlo cuando quieras."
   },
   "label": {
     "add": "Añadir etiqueta privada",
@@ -2439,5 +2450,30 @@
     "done": "La mosca #{mine} sigue a la mosca #{fly} hasta el {date}.",
     "slow": "Pagado, pero la comprobación tarda. Guarda esto y reintenta: {a} {b}",
     "ownerText": "Tu mosca tiene {n} seguidores. Cada seguidor te paga {flyai} $FLYAI por semana."
+  },
+  "feedrop": {
+    "title": "Reparto de comisiones",
+    "sub": "Las comisiones de trading de $FLYAI en Pons de este mes, menos un {keep}%, se reparten entre los holders según su tenencia media.",
+    "pot": "Bote hasta ahora",
+    "holders": "Holders dentro",
+    "pays": "Se paga tras",
+    "top10": "Top 10 wallets: {pct}% del bote.",
+    "excluded": "Esta wallet no entra en el reparto (equipo, pool o wallet de mosca).",
+    "avg": "Tu media",
+    "share": "Tu parte",
+    "est": "≈ {usd} con el bote de hoy",
+    "need": "Mantén {min} $FLYAI de media este mes para participar. Tu media hasta ahora: {avg}.",
+    "lastPaid": "Reparto {n}: {flyai} $FLYAI enviados a ti, bloqueados 7 días en FlyLock.",
+    "how": {
+      "title": "Cómo funciona",
+      "fees": "Cada trade de $FLYAI en Pons paga una comisión al creador. Las comisiones del mes, menos un {keep}% para el equipo, van al bote.",
+      "avg": "Tus $FLYAI se cuentan cada hora: en tu wallet, en staking o bloqueados. Tu parte es tu media del mes: mantener más tiempo y más cantidad cuentan.",
+      "min": "Participa con una media de {min} $FLYAI o más.",
+      "pay": "Al acabar el mes el bote se convierte en $FLYAI y se te envía con FlyLock: aparece aquí y se desbloquea a los 7 días.",
+      "test": "Una prueba de dos meses: noviembre y diciembre."
+    },
+    "past": "Repartos anteriores",
+    "pastRow": "Reparto {n}: {flyai} $FLYAI a {holders} holders (comisiones {pot})",
+    "pastOpen": "Reparto {n}: {pot}, pago pronto"
   }
 }
