@@ -241,7 +241,10 @@
       "q_topup": "Bir sineğe $10 veya fazlası yükle",
       "q_swap": "Swap kutusundan $FLYAI al",
       "q_claimstake": "Ödemeni al ve stake et",
-      "q_market": "Fly Market'te al veya sat"
+      "q_market": "Fly Market'te al veya sat",
+      "todaySwap": "Değiştir",
+      "todaySwapAsk": "\"{q}\" başka bir görevle değişsin mi? Günde bir değiştirme hakkın var.",
+      "todayLag": "Yaptıktan birkaç dakika sonra işaretlenir"
     },
     "terminal": {
       "label": "Fly Terminal",

@@ -241,7 +241,10 @@
       "q_topup": "파리에 $10 이상 입금",
       "q_swap": "스왑 박스에서 $FLYAI 사기",
       "q_claimstake": "보상 클레임 후 스테이킹",
-      "q_market": "Fly Market에서 사거나 팔기"
+      "q_market": "Fly Market에서 사거나 팔기",
+      "todaySwap": "바꾸기",
+      "todaySwapAsk": "\"{q}\" 퀘스트를 다른 것으로 바꿀까요? 하루 1번만 바꿀 수 있어요.",
+      "todayLag": "완료 후 몇 분 뒤에 체크돼요"
     },
     "terminal": {
       "label": "Fly 터미널",

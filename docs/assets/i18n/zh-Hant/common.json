@@ -241,7 +241,10 @@
       "q_topup": "為蒼蠅儲值 $10 或以上",
       "q_swap": "在兌換框購買 $FLYAI",
       "q_claimstake": "領取並質押你的收益",
-      "q_market": "在 Fly Market 買或賣"
+      "q_market": "在 Fly Market 買或賣",
+      "todaySwap": "更換",
+      "todaySwapAsk": "把「{q}」換成別的任務嗎？每天只能換一次。",
+      "todayLag": "完成後幾分鐘內打勾"
     },
     "terminal": {
       "label": "Fly 終端",

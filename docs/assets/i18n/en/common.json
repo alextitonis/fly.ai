@@ -241,7 +241,10 @@
       "q_topup": "Top up a fly with $10 or more",
       "q_swap": "Buy $FLYAI in the swap box",
       "q_claimstake": "Claim and stake your payout",
-      "q_market": "Buy or sell on the Fly Market"
+      "q_market": "Buy or sell on the Fly Market",
+      "todaySwap": "Swap",
+      "todaySwapAsk": "Swap \"{q}\" for another quest? You get one swap a day.",
+      "todayLag": "Ticks a few minutes after you do it"
     },
     "terminal": {
       "label": "Fly Terminal",

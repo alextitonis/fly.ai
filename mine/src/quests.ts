@@ -7,6 +7,8 @@
  *                breaking the streak; with none left the streak starts again.
  *   quests       3 a day, one from each group, the same on every device (wallet + day are the seed); 2 XP each,
  *                +4 when all 3 are done. One reroll a day swaps one not-yet-done quest for the next in its group.
+ *                A quest swapped away still counts if it gets done that day (2026-11-06: a player topped up, the deposit
+ *                wasn't booked yet, and the ↻ looked like "refresh"): it comes back done; one quest per group pays.
  *                visit:  fly (a fly's popup), squads (the Squads board), xp (the XP page): reported by the page
  *                social: flybook (a like, comment, poke or caption), flychat (a message to your fly), rate (an ERC-8004 rating)
  *                move:   topup (a $10+ fly-wallet deposit), swap (a swap-box buy), claimstake, market (a market trade)
@@ -146,30 +148,46 @@ export function createQuests(d: {
     pg.one<{ id: number }>(`insert into mine.xp_events (wallet, source, ref, xp, at) values (?, ?, ?, ?, ?)
       on conflict (ref) do nothing returning id`, wallet, source, ref, xp, new Date(now()).toISOString()).then((r) => !!r);
 
-  /** books every quest of today that is done and not booked yet, then the all-3 bonus */
-  async function settle(wallet: string, day: string, quests: string[]) {
+  /** each group's quests for the day: the one shown, and after a swap the one it replaced (still counts if done) */
+  const choicesOf = (wallet: string, day: string, reroll: Group | null) => {
+    const base = pick(wallet, day), cur = pick(wallet, day, reroll);
+    return GROUPS.map((g, i) => (reroll === g && base[i] !== cur[i] ? [cur[i], base[i]] : [cur[i]]));
+  };
+  const bookedRefs = async (wallet: string, day: string) => new Set((await pg.all<{ ref: string }>(
+    "select ref from mine.xp_events where wallet = ? and source = 'quest' and ref like ?", wallet, `quest:${wallet}:${day}:%`)).map((r) => r.ref));
+  const refOf = (wallet: string, day: string, q: string) => `quest:${wallet}:${day}:${q}`;
+
+  /** books each group's quest once it is done (one per group), then the all-3 bonus */
+  async function settle(wallet: string, day: string, reroll: Group | null) {
     if (ended() || !(await eligible(wallet))) return;
-    const booked = new Set((await pg.all<{ ref: string }>("select ref from mine.xp_events where wallet = ? and source = 'quest' and ref like ?",
-      wallet, `quest:${wallet}:${day}:%`)).map((r) => r.ref));
-    for (const q of quests) {
-      const ref = `quest:${wallet}:${day}:${q}`;
-      if (!booked.has(ref) && groupOf(q) !== "visit" && await doneToday(wallet, q, day) && await book(wallet, "quest", ref, QUEST_RATES.quest)) booked.add(ref);
+    const booked = await bookedRefs(wallet, day);
+    const groups = choicesOf(wallet, day, reroll);
+    for (const choices of groups) {
+      if (choices.some((q) => booked.has(refOf(wallet, day, q)))) continue;   // this group already paid
+      for (const q of choices) {
+        if (groupOf(q) === "visit" || !(await doneToday(wallet, q, day))) continue;
+        if (await book(wallet, "quest", refOf(wallet, day, q), QUEST_RATES.quest)) booked.add(refOf(wallet, day, q));
+        break;
+      }
     }
-    if (quests.every((q) => booked.has(`quest:${wallet}:${day}:${q}`))) await book(wallet, "quest", `quest:${wallet}:${day}:all`, QUEST_RATES.allDone);
+    if (groups.every((choices) => choices.some((q) => booked.has(refOf(wallet, day, q))))) {
+      await book(wallet, "quest", `quest:${wallet}:${day}:all`, QUEST_RATES.allDone);
+    }
   }
 
   async function today(wallet: string): Promise<Today> {
     const day = dayOf(now());
     const r = await rowOf(wallet);
     const reroll = r.reroll_day === day ? (r.reroll as Group | null) : null;
-    const quests = pick(wallet, day, reroll);
     const ok = on && await eligible(wallet);
     if (ok) {
-      await settle(wallet, day, quests);
+      await settle(wallet, day, reroll);
       await pg.run(`insert into mine.xp_checkins (wallet, seen_day) values (?, ?) on conflict (wallet) do update set seen_day = excluded.seen_day`, wallet, day);
     }
     const refs = new Set((await pg.all<{ ref: string }>("select ref from mine.xp_events where wallet = ? and ref like ?",
       wallet, `%:${wallet}:${day}%`)).map((x) => x.ref));
+    // each group shows the quest that paid, or else the one in play
+    const quests = choicesOf(wallet, day, reroll).map((choices) => choices.find((q) => refs.has(refOf(wallet, day, q))) ?? choices[0]);
     const s = standing(streakOf(r), day);
     return {
       on, day, resets_at: new Date(dayMs(day) + DAY_MS).toISOString(), eligible: ok, need_flyai: 10_000, ended: ended(),
@@ -210,9 +228,13 @@ export function createQuests(d: {
     if (groupOf(quest) !== "visit") throw new HttpError(400, "not a visit quest");
     const t = await today(wallet);
     if (!t.eligible || t.ended) return { gained: 0, today: t };
-    if (!t.quests.some((q) => q.id === quest)) return { gained: 0, today: t };   // not one of today's: nothing, no error
     const day = t.day;
-    const got = await book(wallet, "quest", `quest:${wallet}:${day}:${quest}`, QUEST_RATES.quest);
+    const r = await rowOf(wallet);
+    const choices = choicesOf(wallet, day, r.reroll_day === day ? (r.reroll as Group | null) : null)[GROUPS.indexOf("visit")];
+    if (!choices.includes(quest)) return { gained: 0, today: t };   // not one of today's: nothing, no error
+    const booked = await bookedRefs(wallet, day);
+    if (choices.some((q) => booked.has(refOf(wallet, day, q)))) return { gained: 0, today: t };   // the visit group already paid
+    const got = await book(wallet, "quest", refOf(wallet, day, quest), QUEST_RATES.quest);
     const after = await today(wallet);   // settles the all-3 bonus too
     return { gained: (got ? QUEST_RATES.quest : 0) + (after.all_done && !t.all_done ? QUEST_RATES.allDone : 0), today: after };
   }
@@ -235,7 +257,7 @@ export function createQuests(d: {
     const rows = await pg.all<Row>(`select wallet, to_char(reroll_day, 'YYYY-MM-DD') as reroll_day, reroll from mine.xp_checkins
       where seen_day = ?`, day);
     for (const r of rows) {
-      try { await settle(r.wallet, day, pick(r.wallet, day, r.reroll_day === day ? (r.reroll as Group | null) : null)); }
+      try { await settle(r.wallet, day, r.reroll_day === day ? (r.reroll as Group | null) : null); }
       catch (err) { console.error(`quests ${r.wallet}: ${err instanceof Error ? err.message : err}`); }
     }
   }

@@ -322,8 +322,9 @@ nav li.acct .xpc-dot[hidden] { display: none; }
 .td-q { flex: 1; min-width: 0; color: var(--text, #f4f7f6); text-decoration: none; font-size: 14px; }
 a.td-q:hover { color: var(--mint, #5ef2cc); }
 .td-xp { flex: none; font: 700 12px var(--mono, monospace); color: var(--mint, #5ef2cc); }
-.td-reroll { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line-2, #2a302e); background: none;
-  color: var(--muted, #9ba5a1); cursor: pointer; font-size: 14px; }
+.td-reroll { flex: none; height: 26px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line-2, #2a302e); background: none;
+  color: var(--muted, #9ba5a1); cursor: pointer; font: 600 11px/1 var(--sans, inherit); }
+.td-lag { display: block; margin-top: 2px; font-size: 11px; color: var(--dim, #6c7471); }
 .td-reroll:hover { color: var(--text, #f4f7f6); border-color: var(--mint, #5ef2cc); }
 .td-all { border-style: dashed !important; }
 .td-foot { display: flex; justify-content: space-between; gap: 10px; margin-top: 12px; }

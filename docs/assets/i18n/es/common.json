@@ -241,7 +241,10 @@
       "q_topup": "Recarga una mosca con $10 o más",
       "q_swap": "Compra $FLYAI en el swap",
       "q_claimstake": "Reclama y haz stake de tu pago",
-      "q_market": "Compra o vende en el Fly Market"
+      "q_market": "Compra o vende en el Fly Market",
+      "todaySwap": "Cambiar",
+      "todaySwapAsk": "¿Cambiar \"{q}\" por otra misión? Tienes un cambio al día.",
+      "todayLag": "Se marca unos minutos después de hacerla"
     },
     "terminal": {
       "label": "Fly Terminal",

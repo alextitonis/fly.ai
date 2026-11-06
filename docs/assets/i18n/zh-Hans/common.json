@@ -241,7 +241,10 @@
       "q_topup": "给苍蝇充值 $10 或以上",
       "q_swap": "在兑换框购买 $FLYAI",
       "q_claimstake": "领取并质押你的收益",
-      "q_market": "在 Fly Market 买或卖"
+      "q_market": "在 Fly Market 买或卖",
+      "todaySwap": "更换",
+      "todaySwapAsk": "把“{q}”换成别的任务吗？每天只能换一次。",
+      "todayLag": "完成后几分钟内打勾"
     },
     "terminal": {
       "label": "Fly 终端",

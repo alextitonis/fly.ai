@@ -92,7 +92,7 @@
       signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
       save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out",
       search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", deskClaim: "Fly Desk payout to claim", claimBy: "claim by {t}", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
-      chats: "Chats", badgesBtn: "🏅 Badges", xpBtn: "⭐ XP & profile", xpChip: "Your XP level, streak and profile", xpLevel: "Lv {n}", levelUp: "Level {n}!", levelUpText: "You reached XP level {n}. It counts toward the airdrop.", levelUpSee: "See your profile", xpSoon: "+{n} XP soon", close: "Close", todayTitle: "Today", todayResets: "New day in {h} h {m} min", todayEnded: "The season is over: no more check-ins or quests.", todayGate: "Hold {n} $FLYAI or a Trader Fly to check in and do quests.", todayBuy: "Buy $FLYAI", todayStreak: "days in a row · best {best}", todayFreezeTip: "Streak freezes: one for every 7 days in a row, up to 2. A missed day uses one instead of breaking your streak.", todayNext: "Next bonus: day {n}, +{xp} XP", todayChecked: "Checked in ✓", todayCheckin: "Check in · +{xp} XP", todayMilestone: "{n} days in a row! +{xp} XP", todayFreezeUsed: "A streak freeze covered {n} missed day(s).", todayQuests: "Today's quests", todayReroll: "Swap this quest (once a day)", todayAll: "All 3 done", todayProfile: "Your profile", todayRules: "How quests work", q_fly: "Open one of your flies", q_squads: "Look at the Squads board", q_xp: "Visit the XP page", q_flybook: "Like, comment or poke on Flybook", q_flychat: "Send your fly a message in Fly chat", q_rate: "Rate a fly", q_topup: "Top up a fly with $10 or more", q_swap: "Buy $FLYAI in the swap box", q_claimstake: "Claim and stake your payout", q_market: "Buy or sell on the Fly Market", profileBtn: "👤 Profile", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
+      chats: "Chats", badgesBtn: "🏅 Badges", xpBtn: "⭐ XP & profile", xpChip: "Your XP level, streak and profile", xpLevel: "Lv {n}", levelUp: "Level {n}!", levelUpText: "You reached XP level {n}. It counts toward the airdrop.", levelUpSee: "See your profile", xpSoon: "+{n} XP soon", close: "Close", todayTitle: "Today", todayResets: "New day in {h} h {m} min", todayEnded: "The season is over: no more check-ins or quests.", todayGate: "Hold {n} $FLYAI or a Trader Fly to check in and do quests.", todayBuy: "Buy $FLYAI", todayStreak: "days in a row · best {best}", todayFreezeTip: "Streak freezes: one for every 7 days in a row, up to 2. A missed day uses one instead of breaking your streak.", todayNext: "Next bonus: day {n}, +{xp} XP", todayChecked: "Checked in ✓", todayCheckin: "Check in · +{xp} XP", todayMilestone: "{n} days in a row! +{xp} XP", todayFreezeUsed: "A streak freeze covered {n} missed day(s).", todayQuests: "Today's quests", todayReroll: "Swap this quest (once a day)", todaySwap: "Swap", todaySwapAsk: "Swap \"{q}\" for another quest? You get one swap a day.", todayLag: "Ticks a few minutes after you do it", todayAll: "All 3 done", todayProfile: "Your profile", todayRules: "How quests work", q_fly: "Open one of your flies", q_squads: "Look at the Squads board", q_xp: "Visit the XP page", q_flybook: "Like, comment or poke on Flybook", q_flychat: "Send your fly a message in Fly chat", q_rate: "Rate a fly", q_topup: "Top up a fly with $10 or more", q_swap: "Buy $FLYAI in the swap box", q_claimstake: "Claim and stake your payout", q_market: "Buy or sell on the Fly Market", profileBtn: "👤 Profile", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
       xLabel: "X account", connectX: "Connect X", unlinkX: "Unlink", x_linked: "X connected", x_denied: "Cancelled on X",
       tgLabel: "Telegram", tgIn: "In the fly.ai group · +50 XP", tgOut: "Not in the group yet", tgJoin: "Join the group", tgCheck: "Check again",
       x_expired: "That took too long, try again", x_taken: "That X account is linked to another wallet", x_failed: "X didn't answer, try again" };
@@ -753,7 +753,8 @@
     pop.className = "td-pop"; box.className = "td-box";
     pop.setAttribute("role", "dialog"); pop.setAttribute("aria-modal", "true"); pop.setAttribute("aria-label", L("todayTitle"));
     pop.append(box);
-    const close = () => { pop.remove(); document.removeEventListener("keydown", esc); };
+    let poll = 0;
+    const close = () => { pop.remove(); document.removeEventListener("keydown", esc); clearInterval(poll); };
     const esc = (e) => { if (e.key === "Escape") close(); };
     document.addEventListener("keydown", esc);
     pop.addEventListener("click", (e) => { if (e.target === pop) close(); });
@@ -808,10 +809,12 @@
         const tick = h("i", "td-tick", q.done ? "✓" : QUEST_ICON[q.id] || "•");
         const a = h("a", "td-q", qText(q.id)); a.href = QUEST_HREF[q.id] || "/";
         const xp = h("span", "td-xp", `+${q.xp}`);
+        if (q.group === "move" && !q.done) a.append(h("small", "td-lag", L("todayLag")));
         li.append(tick, a, xp);
         if (!q.done && !t.reroll_used && t.eligible && !t.ended) {
-          const r = h("button", "td-reroll", "↻"); r.type = "button"; r.title = L("todayReroll"); r.setAttribute("aria-label", L("todayReroll"));
+          const r = h("button", "td-reroll", L("todaySwap")); r.type = "button"; r.title = L("todayReroll");
           r.addEventListener("click", async () => {
+            if (!confirm(L("todaySwapAsk").replace("{q}", qText(q.id)))) return;
             r.disabled = true;
             try { const v = await todayCall("/api/xp/quest/reroll", { group: q.group }); keepToday(v.today); draw(v.today); }
             catch (err) { draw(todayCopy, String(err.message || err)); }
@@ -838,6 +841,11 @@
     draw(todayCopy);
     document.body.append(pop);
     loadToday().then((t) => { if (pop.isConnected) draw(t || todayCopy); });
+    poll = setInterval(() => {
+      if (!pop.isConnected) { clearInterval(poll); return; }
+      if (document.hidden) return;
+      loadToday().then((t) => { if (t && pop.isConnected) draw(t); });
+    }, 20_000);
   }
   /** the level-up banner's look for a streak milestone */
   function levelUpLike(text) {

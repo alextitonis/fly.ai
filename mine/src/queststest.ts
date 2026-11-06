@@ -127,6 +127,27 @@ for (const want of ["topup", "swap", "claimstake"]) {
   check(`the ${want} quest is read from the data${want === "topup" ? " ($5 doesn't count, $25 does)" : ""}`, !no.quests[2].done && !small.quests[2].done && yes.quests[2].done);
 }
 
+// a swap right after doing the quest (the deposit not booked yet): the swapped-away quest still counts, once
+{
+  const w = Array.from({ length: 400 }, (_, i) => addr(0xc000 + i)).find((x) => pick(x, dayOf(clock))[2] === "topup")!;
+  await pg.run("insert into mine.xp_holders (wallet, liquid, staked, locked, flies) values (?, 0, 0, 0, 1)", w);
+  const sw = await Q.reroll(w, "move");
+  const swapped = sw.today.quests[2].id;
+  check("the top-up quest was swapped away", swapped !== "topup" && !sw.today.quests[2].done, swapped);
+  await pg.run(`insert into mine.vault_moves (wallet, chain, kind, holder, token, amount, usd, at) values (?, 'robinhood', 'deposit', ?, 'USDG', '20', 20, ?)`,
+    addr(0xf4), w, new Date(clock).toISOString());
+  const back = await Q.today(w);
+  check("the deposit still counts: the top-up quest comes back done", back.quests[2].id === "topup" && back.quests[2].done, JSON.stringify(back.quests[2]));
+  // doing the replacement too pays nothing more for that group
+  if (swapped === "topup") throw new Error("unreachable");
+  if (swapped === "swap" || swapped === "claimstake" || swapped === "market") {
+    await pg.run("insert into mine.xp_events (wallet, source, ref, xp, at) values (?, ?, ?, 1, ?)", w, swapped === "swap" ? "buy" : swapped, `test:dup:${w}`, new Date(clock).toISOString());
+  }
+  await Q.today(w); await Q.tick();
+  const paid = Number((await pg.one<{ n: number }>("select count(*)::int as n from mine.xp_events where wallet = ? and source = 'quest' and ref not like '%:all'", w))!.n);
+  check("one quest per group pays", paid === 1, `${paid}`);
+}
+
 // the next days: streak, a freeze, a milestone note
 for (let i = 1; i <= 6; i++) { clock += DAY; await Q.checkin(big); }
 const t7 = await Q.today(big);
