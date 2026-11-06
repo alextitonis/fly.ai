@@ -216,6 +216,7 @@
 
   const textReady = loadText(nav);
   wireAccount(nav);
+  shortLangs(nav);
   pageSignIns(nav);
   // a page that follows the session itself (the Trader Flies app sets window.flyaiLiveSession) gets "flyai-session"
   // instead of a reload; either side may sign in, and the account menu is redrawn in place (2026-10-24)
@@ -602,38 +603,61 @@
     } catch { return null; }
   }
   function wireXp(nav, fresh) {
-    for (const e of nav.querySelectorAll("li.xpc")) e.remove();
+    for (const e of nav.querySelectorAll(".xpc-btn")) e.remove();
     const s = session(), acct = nav.querySelector("li.acct");
-    if (!s || !acct) return;
-    const bar = document.createElement("i"), fill = document.createElement("i"), lv = document.createElement("b"), fire = document.createElement("span");
-    bar.className = "xpc-bar"; bar.append(fill); fire.className = "xpc-fire"; fire.hidden = true; lv.textContent = "Lv …";
+    const menuBtn = acct && acct.querySelector(".acct-btn");
+    if (!s || !menuBtn) return;
+    // 2026-11-06 (the user: "this is ugly"): no separate chip any more; a level ring at the left of the account pill,
+    // its progress around it. The ring opens Today; the name opens the menu as before.
+    const lv = document.createElement("b"), dot = document.createElement("i");
+    lv.textContent = "…";
+    dot.className = "xpc-dot"; dot.hidden = true;
     const btn = document.createElement("button");
     Object.assign(btn, { type: "button", className: "xpc-btn", title: L("xpChip") });
     btn.setAttribute("aria-label", L("xpChip"));
-    const dot = document.createElement("i");
-    dot.className = "xpc-dot"; dot.hidden = true;
-    btn.append(lv, bar, fire, dot);
-    const li = document.createElement("li");
-    li.className = "xpc";
-    li.append(btn);
-    acct.before(li);
+    btn.style.setProperty("--p", "0");
+    btn.append(lv, dot);
+    menuBtn.before(btn);
+    acct.classList.add("has-xp");
     btn.addEventListener("click", (e) => { e.stopPropagation(); openToday(); });
     loadToday().then((t) => markDot(t));
     if (/^\/xp(\.html)?\/?$/.test(location.pathname)) visitQuest("xp");   // the XP page is a visit quest
     loadXp(s.wallet, fresh).then((v) => {
-      if (!v || !li.isConnected) { if (!v) li.remove(); return; }
+      if (!v || !btn.isConnected) { if (!v) { btn.remove(); acct.classList.remove("has-xp"); } return; }
       const at = 50 * v.level * v.level, next = v.next || 50 * (v.level + 1) * (v.level + 1);   // xp.ts levelXp
       const pct = Math.max(0, Math.min(1, (v.xp - at) / Math.max(1, next - at)));
-      lv.textContent = L("xpLevel").replace("{n}", v.level);
-      lv.dataset.n = String(v.level);   // the phone's level circle (nav.css)
-      fill.style.width = `${(pct * 100).toFixed(1)}%`;
-      btn.title = `${L("xpChip")} · ${Math.round(v.xp).toLocaleString()} / ${next.toLocaleString()} XP`;
-      if (v.streak_weeks > 0) { fire.hidden = false; fire.textContent = `🔥${v.streak_weeks}`; }
+      lv.textContent = String(v.level);
+      btn.style.setProperty("--p", pct.toFixed(3));
+      const streak = v.streak_weeks > 0 ? ` · 🔥 ${v.streak_weeks}` : "";
+      btn.title = `${L("xpLevel").replace("{n}", v.level)} · ${Math.round(v.xp).toLocaleString()} / ${next.toLocaleString()} XP${streak}`;
+      btn.setAttribute("aria-label", `${btn.title}. ${L("xpChip")}`);
       const key = `flyai.xp.level.${s.wallet.toLowerCase()}`;
       let seen = null;
       try { seen = localStorage.getItem(key); localStorage.setItem(key, String(v.level)); } catch {}
       if (seen != null && v.level > Number(seen)) levelUp(v.level, () => btn.click());
     });
+  }
+  /**
+   * The language menu in the bar shows codes (EN, ES...) while the bar is tight (2026-11-06: under 1180 px it pushed the
+   * nav onto a second row). The full names come back on wider screens; the ☰ panel's menu always has them.
+   */
+  function shortLangs(nav) {
+    const tight = matchMedia("(max-width: 1180px)");
+    const apply = () => {
+      for (const o of nav.querySelectorAll(".wrap > ul .langpick option")) {
+        if (!o.dataset.name) o.dataset.name = o.textContent;
+        const want = tight.matches ? o.value.replace(/^zh-Hans$/, "简").replace(/^zh-Hant$/, "繁").toUpperCase() : o.dataset.name;
+        if (o.textContent !== want) o.textContent = want;   // only on a change: the watcher below would loop on its own writes
+      }
+    };
+    tight.addEventListener("change", apply);
+    // the menu is added later by i18n.js: watch the bar's own list only, and stop once it is there
+    const ul = nav.querySelector(".wrap > ul");
+    if (ul && !ul.querySelector(".langpick")) {
+      const watch = new MutationObserver(() => { if (ul.querySelector(".langpick")) { watch.disconnect(); apply(); } });
+      watch.observe(ul, { childList: true });
+    }
+    apply();
   }
   /** "Level 8!" across the top, once, with a little confetti; gone after a few seconds or a click */
   function levelUp(level, see) {

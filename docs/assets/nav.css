@@ -224,33 +224,38 @@ nav li.acct .acct-x div { align-items: center; justify-content: space-between; }
 nav li.acct .acct-x-handle { display: inline-flex; align-items: center; gap: 6px; min-width: 0; overflow: hidden; text-overflow: ellipsis; color: inherit; }
 nav li.acct .acct-x-handle img { border-radius: 50%; flex: none; }
 
-/* XP chip beside the account (nav.js wireXp, 2026-11-06, flytrade/GAMIFY-PLAN.md): level, bar to the next, streak */
-nav li.xpc { display: flex; align-items: center; }
-nav li.xpc .xpc-btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(94,242,204,.35); border-radius: 999px;
-  background: rgba(94,242,204,.06); color: var(--text, #f4f7f6); font: 600 12px var(--mono, ui-monospace, monospace); padding: 5px 10px;
-  cursor: pointer; white-space: nowrap; transition: border-color .15s, background .15s; }
-nav li.xpc .xpc-btn:hover { border-color: var(--mint, #5ef2cc); background: rgba(94,242,204,.12); }
-nav li.xpc .xpc-btn b { color: var(--mint, #5ef2cc); font-weight: 700; }
-nav li.xpc .xpc-bar { display: block; width: 46px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.1); overflow: hidden; }
-nav li.xpc .xpc-bar i { display: block; height: 100%; width: 0; border-radius: 3px; background: linear-gradient(90deg, #19c99a, #5ef2cc);
-  box-shadow: 0 0 8px rgba(94,242,204,.6); transition: width .8s cubic-bezier(.2,.8,.2,1); }
-nav li.xpc .xpc-fire { font-size: 12px; }
-nav li.xpc .xpc-btn.xpc-pulse { animation: xpc-pulse .9s ease-out; }
+/* the XP level ring at the left of the account pill (nav.js wireXp, 2026-11-06, flytrade/GAMIFY-PLAN.md): the level in
+   the middle, the way to the next level around it, a dot while today's check-in or a quest is open; it opens Today */
+nav li.acct.has-xp { gap: 0; }
+nav li.acct .xpc-btn { all: unset; box-sizing: border-box; position: relative; flex: none; width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer; margin-right: -26px; z-index: 1;
+  background: conic-gradient(var(--mint, #5ef2cc) calc(var(--p, 0) * 360deg), rgba(255,255,255,.12) 0); }
+nav li.acct .xpc-btn::before { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--bg, #000); }
+nav li.acct .xpc-btn b { position: relative; font: 700 11px/1 var(--mono, ui-monospace, monospace); color: var(--mint, #5ef2cc); }
+nav li.acct .xpc-btn:hover::before { background: rgba(94,242,204,.14); }
+nav li.acct .xpc-btn:focus-visible { outline: 2px solid var(--mint, #5ef2cc); outline-offset: 2px; }
+nav li.acct.has-xp .acct-btn { padding-left: 34px !important; }
+nav li.acct .xpc-btn.xpc-pulse { animation: xpc-pulse .9s ease-out; }
 @keyframes xpc-pulse { 0% { box-shadow: 0 0 0 0 rgba(94,242,204,.7); } 100% { box-shadow: 0 0 0 12px rgba(94,242,204,0); } }
-@media (max-width: 760px) { nav li.xpc .xpc-bar { width: 30px; } }
-/* narrow phones: the chip is a small level circle and the account a 👤, so neither squeezes the other (the chip opens
-   the profile, the 👤 the menu). Under 361px there is no room for it at all: hidden, the profile is in the menu */
-@media (max-width: 360px) { nav li.xpc { display: none; } }
-@media (min-width: 361px) and (max-width: 480px) {
-  nav li.xpc .xpc-btn { padding: 0; gap: 0; width: 28px; height: 28px; justify-content: center; font-size: 11px; }
-  nav li.xpc .xpc-btn b { font-size: 0; }
-  nav li.xpc .xpc-btn b::after { content: attr(data-n); font-size: 12px; }
-  nav li.xpc .xpc-bar, nav li.xpc .xpc-fire { display: none; }
-  nav ul:has(> li.xpc) li.acct .acct-name { display: none; }
-  nav ul:has(> li.xpc) li.acct .acct-btn::before { content: "👤"; font-size: 14px; }
-  nav ul:has(> li.xpc) li.acct { flex: none; }
-  nav ul:has(> li.xpc) li.acct .acct-btn { padding: 0 !important; width: 28px; height: 28px; justify-content: center; }
-  nav ul:has(> li.xpc) li.acct .acct-btn > span[aria-hidden] { display: none; }
+nav li.acct .xpc-dot { position: absolute; top: -1px; right: -1px; width: 8px; height: 8px; border-radius: 50%; background: var(--mint, #5ef2cc);
+  box-shadow: 0 0 0 2px var(--bg, #000), 0 0 8px rgba(94,242,204,.9); animation: td-blink 1.6s ease-in-out infinite; }
+nav li.acct .xpc-dot[hidden] { display: none; }
+@keyframes td-blink { 50% { opacity: .45; } }
+/* narrow phones: the ring and a 👤 side by side, the name gone (it squeezed the logo); under 361 px the 👤 alone */
+@media (max-width: 480px) {
+  nav li.acct.has-xp .xpc-btn { width: 28px; height: 28px; margin-right: 4px; }
+  nav li.acct.has-xp { flex: none; }
+  nav li.acct.has-xp .acct-name, nav li.acct.has-xp .acct-btn > span[aria-hidden] { display: none; }
+  nav li.acct.has-xp .acct-btn { padding: 0 !important; width: 28px; height: 28px; justify-content: center; }
+  nav li.acct.has-xp .acct-btn::before { content: "👤"; font-size: 14px; }
+}
+/* under 361 px: the 👤 alone (Today is on My flies and /xp), and the icon buttons tighter so it fits beside ☰ */
+@media (max-width: 360px) {
+  nav li.acct .xpc-btn { display: none; }
+  nav .wrap > ul { gap: 0 !important; }
+  nav li.srch .srch-btn, nav li.bell .bell-btn, nav li.chat .chat-btn { padding: 6px 3px !important; }
+  nav li.acct.has-xp { flex: none; min-width: 28px; }
+  nav li.acct.has-xp .acct-btn { max-width: none; }
 }
 
 /* the level-up banner, once per new level (nav.js levelUp) */
@@ -274,14 +279,8 @@ nav li.xpc .xpc-btn.xpc-pulse { animation: xpc-pulse .9s ease-out; }
   font: 800 15px var(--mono, ui-monospace, monospace); color: var(--mint, #5ef2cc); text-shadow: 0 0 12px rgba(94,242,204,.8), 0 2px 4px #000;
   animation: xpc-rise 1.8s ease-out forwards; }
 @keyframes xpc-rise { 0% { opacity: 0; margin-top: 0; } 15% { opacity: 1; } 100% { opacity: 0; margin-top: -48px; } }
-@media (prefers-reduced-motion: reduce) { .xpc-up, .xpc-gain, nav li.xpc .xpc-btn.xpc-pulse { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .xpc-up, .xpc-gain, nav li.acct .xpc-btn.xpc-pulse { animation: none; } }
 
-/* the chip's dot while today's check-in or a quest is open (nav.js markDot) */
-nav li.xpc .xpc-btn { position: relative; }
-nav li.xpc .xpc-dot { position: absolute; top: -2px; right: -2px; width: 9px; height: 9px; border-radius: 50%; background: var(--mint, #5ef2cc);
-  box-shadow: 0 0 0 2px var(--bg, #000), 0 0 8px rgba(94,242,204,.9); animation: td-blink 1.6s ease-in-out infinite; }
-nav li.xpc .xpc-dot[hidden] { display: none; }
-@keyframes td-blink { 50% { opacity: .45; } }
 
 /* Today: check-in, streak, freezes and the 3 quests (nav.js openToday); a bottom sheet on phones */
 .td-pop { position: fixed; inset: 0; z-index: 990; background: rgba(0,0,0,.55); backdrop-filter: blur(3px);
@@ -335,4 +334,4 @@ a.td-q:hover { color: var(--mint, #5ef2cc); }
   .td-box { width: 100%; max-height: 88vh; border-radius: 18px 18px 0 0; border-bottom: 0; padding-bottom: 26px; animation: td-up .22s ease-out; }
   @keyframes td-up { from { transform: translateY(30px); opacity: 0; } }
 }
-@media (prefers-reduced-motion: reduce) { nav li.xpc .xpc-dot, .td-box { animation: none; } }
+@media (prefers-reduced-motion: reduce) { nav li.acct .xpc-dot, .td-box { animation: none; } }
