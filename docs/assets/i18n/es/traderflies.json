@@ -1737,7 +1737,14 @@
       "doesTrade": "Tu mosca opera los tokens principales de Elysium con el estilo que elegiste. Elige Degen Sniper (o activa el sniper) para comprar sus tokens recién lanzados.",
       "next": "Empieza cuando Elysium esté activa y añadas HYPE, la moneda de Elysium para el gas y para operar. Cómo añadirla aparecerá aquí el día del lanzamiento; nada se mueve antes.",
       "risk": "Una cadena nueva es de alto riesgo: la mayoría de los tokens nuevos fracasan, y sacar dinero de Elysium puede tardar más que en otras cadenas al principio."
-    }
+    },
+    "toFlyTitle": "Mover a otra de tus moscas",
+    "toFlyText": "Hasta {usd} directo a la billetera de otra mosca, normalmente en minutos. Solo se venden posiciones si no alcanza el efectivo. La comisión se cobra sobre la parte de ganancia, como en un retiro; los $FLYAI y el dinero de FlightPass se quedan en esta mosca.",
+    "toFlyPick": "Qué mosca",
+    "toFlyAll": "Todo",
+    "toFlyGo": "Mover",
+    "toFlyAsked": "En camino: la mosca lo mueve en su próximo paso (unos minutos).",
+    "toFlyDone": "Movido a la mosca {fly}."
   },
   "profile": {
     "title": "Tu perfil",
@@ -2524,6 +2531,16 @@
     "checkIn": "Haz check-in",
     "checkedIn": "Check-in hecho",
     "questsN": "{n}/3 misiones",
-    "today": "Hoy"
+    "today": "Hoy",
+    "rebal": {
+      "open": "Rebalancear",
+      "title": "Rebalancea tus moscas",
+      "even": "Igualar",
+      "text": "Elige qué parte de tu dinero tiene cada mosca, o iguálalo. Las moscas lo mueven entre sí en minutos; solo se venden posiciones donde no alcanza el efectivo. La comisión se cobra sobre la parte de ganancia de lo que se mueve; los $FLYAI y el dinero de FlightPass se quedan.",
+      "none": "Nada que mover: cada mosca está a menos de $5 de su parte.",
+      "go": "Hacer {n} movimiento(s)",
+      "asked": "{n} mosca(s) están moviendo dinero: la lista se actualiza en unos minutos.",
+      "done": "Listo: tus moscas están rebalanceadas."
+    }
   }
 }

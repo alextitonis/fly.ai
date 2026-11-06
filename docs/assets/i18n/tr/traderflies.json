@@ -1737,7 +1737,14 @@
       "doesTrade": "Sineğin, seçtiğin tarzla Elysium'un ana tokenlarında işlem yapar. Yeni çıkan tokenları alması için Degen Sniper'ı seç (veya sniper'ı aç).",
       "next": "Elysium açılınca ve Elysium'un gaz ve işlem coini HYPE'ı eklediğinde başlar. Nasıl ekleneceği açılış günü burada görünecek; öncesinde hiçbir para hareket etmez.",
       "risk": "Yeni bir ağ yüksek risklidir: yeni tokenların çoğu batar ve başta Elysium'dan para çıkarmak diğer ağlardan daha uzun sürebilir."
-    }
+    },
+    "toFlyTitle": "Başka bir sineğine taşı",
+    "toFlyText": "{usd} tutarına kadar doğrudan başka bir sineğin cüzdanına, genelde dakikalar içinde. Nakit yetmezse pozisyonlar satılır. Kâr ücreti, çekimde olduğu gibi kâr kısmından alınır; $FLYAI ve FlightPass parası bu sinekte kalır.",
+    "toFlyPick": "Hangi sinek",
+    "toFlyAll": "Tümü",
+    "toFlyGo": "Taşı",
+    "toFlyAsked": "Yolda: sinek bir sonraki adımında taşır (birkaç dakika).",
+    "toFlyDone": "{fly} sineğine taşındı."
   },
   "profile": {
     "title": "Profilin",
@@ -2524,6 +2531,16 @@
     "checkIn": "Check-in yap",
     "checkedIn": "Check-in yapıldı",
     "questsN": "{n}/3 görev",
-    "today": "Bugün"
+    "today": "Bugün",
+    "rebal": {
+      "open": "Dengele",
+      "title": "Sineklerini dengele",
+      "even": "Eşitle",
+      "text": "Paranın ne kadarının hangi sinekte olacağını seç ya da eşitle. Sinekler dakikalar içinde birbirine taşır; yalnızca nakit yetmeyen yerde pozisyon satılır. Kâr ücreti, taşınan tutarın kâr kısmından alınır; $FLYAI ve FlightPass parası yerinde kalır.",
+      "none": "Taşınacak bir şey yok: her sinek payının $5 yakınında.",
+      "go": "{n} taşıma yap",
+      "asked": "{n} sinek para taşıyor: liste birkaç dakika içinde güncellenir.",
+      "done": "Tamam: sineklerin dengelendi."
+    }
   }
 }

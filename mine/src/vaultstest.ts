@@ -218,6 +218,26 @@ try {
   const mv = await api(`/api/vaults/${W3}/move`, b, { to_chain: "polygon", usd: 20 });
   check("a move to Polymarket for the desk", mv.status === 200 && (await api(`/api/vaults/requests/${mv.json.id}`, null)).json.kind === "move");
 
+  // money to another fly (2026-11-06, walletdesk.py transfer): only between flies the holder holds or owns
+  check("transfer: one withdrawal or move at a time", (await api(`/api/vaults/${W3}/transfer`, b, { to: [{ fly: 4, usd: 20 }] })).status === 409);
+  await PG.pg.run("update mine.vault_requests set status = 'done' where id = ?", mv.json.id);
+  check("transfer: only the holder", (await api(`/api/vaults/${W3}/transfer`, a, { to: [{ fly: 4, usd: 20 }] })).status === 403);
+  check("transfer: not to a fly that isn't yours (alice owns 4, bob holds 3)",
+    (await api(`/api/vaults/${W3}/transfer`, b, { to: [{ fly: 4, usd: 20 }] })).status === 403);
+  await PG.pg.run("insert into mine.vault_ledger (wallet, chain, holder, principal_usd) values (?, 'robinhood', ?, 10)", W4, bob.address);
+  check("transfer: $5 each at least, a fly once, not itself", (await api(`/api/vaults/${W3}/transfer`, b, { to: [{ fly: 4, usd: 2 }] })).status === 400
+    && (await api(`/api/vaults/${W3}/transfer`, b, { to: [{ fly: 4, usd: 10 }, { fly: 4, usd: 10 }] })).status === 400
+    && (await api(`/api/vaults/${W3}/transfer`, b, { to: [{ fly: 3, usd: 10 }] })).status === 400
+    && (await api(`/api/vaults/${W3}/transfer`, b, { to: [] })).status === 400);
+  check("transfer: Robinhood Chain only", (await api(`/api/vaults/${W3}/transfer`, b, { chain: "base", to: [{ fly: 4, usd: 20 }] })).status === 400);
+  const tr = await api(`/api/vaults/${W3}/transfer`, b, { to: [{ fly: 4, usd: 20.456 }] });
+  const trq = (await PG.pg.one<{ kind: string; params: any; requester: string }>("select kind, params, requester from mine.vault_requests where id = ?", tr.json.id))!;
+  check("transfer: a request for the desk with the other fly's wallet", tr.status === 200 && trq.kind === "transfer"
+    && trq.params.to[0].wallet === W4 && trq.params.to[0].usd === 20.46 && trq.requester === bob.address.toLowerCase(), JSON.stringify(trq));
+  check("transfer: one at a time", (await api(`/api/vaults/${W3}/transfer`, b, { to: [{ fly: 4, usd: 20 }] })).status === 409);
+  await PG.pg.run("update mine.vault_requests set status = 'done' where id = ?", tr.json.id);
+  await PG.pg.run("delete from mine.vault_ledger where wallet = ?", W4);
+
   // Perps (2026-11-03, flytrade/vaults/vperps.py): the wallet's holder asks, markets crypto | stocks | both
   check("Perps: only the wallet's holder", (await api(`/api/vaults/${W3}/perps`, a, { action: "on", markets: "crypto" })).status === 403);
   check("Perps: markets are crypto, stocks or both", (await api(`/api/vaults/${W3}/perps`, b, { action: "on", markets: "memes" })).status === 400);
@@ -279,7 +299,7 @@ try {
   check("never paid twice", sent.filter((x) => x.data.startsWith(transferSel)).length === 1);
   const adm = await api("/api/admin/vaults", null, undefined, true);
   check("admin sees wallets, funded, requests, grants", adm.status === 200 && adm.json.wallets === 2 && adm.json.funded.length === 1
-    && adm.json.requests.length === 5 && adm.json.grants.length === 1, JSON.stringify(adm.json).slice(0, 200));   // (5: + the two Perps)
+    && adm.json.requests.length === 6 && adm.json.grants.length === 1, JSON.stringify(adm.json).slice(0, 200));   // (6: + the two Perps, the transfer)
   check("admin only", (await api("/api/admin/vaults", a)).status === 403);
 
   // the deposit competition (2026-10-04): 2 slots, $20 minimum, $20 bonus locked 14 days; alice is a BOUNTY_ADMINS wallet

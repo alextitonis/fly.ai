@@ -326,9 +326,9 @@ export function createVaults(d: VaultsDeps) {
     // a sold fly is paid out to its old holder by itself (the desk's release); a withdrawal meanwhile could take the new
     // owner's deposits (review 2026-10-03)
     if (led.closing) throw new HttpError(409, "this fly was sold: its money is on its way to you");
-    const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = ? and kind = 'withdraw'
+    const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = ? and kind in ('withdraw', 'transfer')
       and status in ('new', 'doing')`, wallet, chain);
-    if (open) throw new HttpError(409, "a withdrawal is already on its way");
+    if (open) throw new HttpError(409, "a withdrawal or a move to another fly is already on its way");
     const row = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
       values (?, ?, 'withdraw', ?, ?::text::jsonb) returning id`, wallet, chain, me, JSON.stringify({ bps }));
     return { id: row!.id, status: "new" };
@@ -344,11 +344,52 @@ export function createVaults(d: VaultsDeps) {
     if (!Number.isFinite(usd) || usd < 5 || usd > 1_000_000) throw new HttpError(400, "usd is at least 5");
     const led = await ledgerOf(wallet, chain);
     if (!led?.holder || led.holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can move its money");
-    const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = ? and kind in ('withdraw', 'move')
+    const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = ? and kind in ('withdraw', 'move', 'transfer')
       and status in ('new', 'doing')`, wallet, chain);
     if (open) throw new HttpError(409, "a withdrawal or move is already on its way");
     const row = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
       values (?, ?, 'move', ?, ?::text::jsonb) returning id`, wallet, chain, me, JSON.stringify({ to_chain: to, usd }));
+    return { id: row!.id, status: "new" };
+  }
+
+  /**
+   * Move money to other flies (2026-11-06, a holder: "move funds quickly from one fly to another", "redistribution of
+   * funds"): from this fly's wallet straight to the others', in dollars, on Robinhood Chain. Only between flies the
+   * signed-in wallet holds (or owns, for an empty one). The desk (walletdesk.py transfer) raises the cash, takes the
+   * profit fee on the profit part as a withdrawal would, and books it at the other end as a transfer, not a deposit
+   * (no deposit XP, top-up quest or promo for moving your own money). Locked FlightPass money and $FLYAI stay.
+   * body: { to: [{ fly, usd }] } (1-20 flies, $5+ each)
+   */
+  async function transfer(req: IncomingMessage, wallet: string, body: any) {
+    isOn();
+    const me = (await d.sessionWallet(req)).toLowerCase();
+    const chain = chainOf(body?.chain);
+    if (chain !== "robinhood") throw new HttpError(400, "moving between flies is on Robinhood Chain only");
+    const list = Array.isArray(body?.to) ? body.to : [];
+    if (!list.length || list.length > 20) throw new HttpError(400, "to is 1-20 flies");
+    const led = await ledgerOf(wallet, chain);
+    if (!led?.holder || led.holder.toLowerCase() !== me) throw new HttpError(403, "only the wallet's holder can move its money");
+    if (led.closing) throw new HttpError(409, "this fly was sold: its money is on its way to you");
+    const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = ? and kind in ('withdraw', 'move', 'transfer')
+      and status in ('new', 'doing')`, wallet, chain);
+    if (open) throw new HttpError(409, "a withdrawal or move from this fly is already on its way");
+    const from = await flyOfWallet(wallet);
+    const to: { fly: number; wallet: string; usd: number }[] = [];
+    for (const x of list) {
+      const fly = Number(x?.fly), usd = Math.round(Number(x?.usd) * 100) / 100;
+      if (!Number.isInteger(fly) || fly < 1) throw new HttpError(400, "fly is a Trader Fly number");
+      if (!Number.isFinite(usd) || usd < 5 || usd > 1_000_000) throw new HttpError(400, "each move is at least $5");
+      if (fly === from || to.some((t) => t.fly === fly)) throw new HttpError(400, "each fly once, and not this one");
+      const dest = await walletOf(fly);
+      if (!dest) throw new HttpError(409, `fly #${fly}'s wallet is still being made`);
+      const dl = await ledgerOf(dest, chain);
+      if (dl?.closing) throw new HttpError(409, `fly #${fly} was sold`);
+      const mine = dl?.holder ? dl.holder.toLowerCase() === me : (await ownerOfFly(fly))?.toLowerCase() === me;
+      if (!mine) throw new HttpError(403, `fly #${fly} isn't yours`);
+      to.push({ fly, wallet: dest, usd });
+    }
+    const row = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
+      values (?, ?, 'transfer', ?, ?::text::jsonb) returning id`, wallet, chain, me, JSON.stringify({ to }));
     return { id: row!.id, status: "new" };
   }
 
@@ -866,11 +907,12 @@ export function createVaults(d: VaultsDeps) {
     }
     if (req.method === "POST") {
       if (p === "/api/vaults/labels") return d.send(res, 200, await saveLabel(req, await d.readJson(req))), true;
-      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move|solana|perps)$/.exec(p))) {
+      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move|transfer|solana|perps)$/.exec(p))) {
         if (!ADDRESS.test(m[1])) throw new HttpError(400, "bad wallet address");
         const wallet = checksumAddress(m[1]);
         const body = await d.readJson(req);
-        const go = m[2] === "settings" ? saveSettings : m[2] === "withdraw" ? withdraw : m[2] === "solana" ? solana : m[2] === "perps" ? perps : move;
+        const go = m[2] === "settings" ? saveSettings : m[2] === "withdraw" ? withdraw : m[2] === "transfer" ? transfer : m[2] === "solana" ? solana
+          : m[2] === "perps" ? perps : move;
         return d.send(res, 200, await go(req, wallet, body)), true;
       }
       if (p === "/api/admin/promo/manual") return d.send(res, 200, await manualPromo(req, await d.readJson(req))), true;
