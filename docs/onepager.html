@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fly.ai in one page</title>
+<meta name="description" content="fly.ai in one page: AI traders built from a real fruit-fly brain, each trading from its own wallet, every trade on-chain. Live results, the $FLYAI token, and what's next.">
+<meta property="og:title" content="fly.ai in one page">
+<meta property="og:description" content="AI traders built from a real fruit-fly brain, each trading from its own wallet, every trade on-chain.">
+<meta property="og:image" content="https://flyaiworld.com/assets/og/how.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/onepager">
+<meta property="og:url" content="https://flyaiworld.com/onepager">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* fly.ai in one page (2026-11-06): the page the founder sends to a prospective big holder. Live numbers from the
+     mine and desk public APIs; the text in the page is today's and never promises returns. */
+  .op { max-width: 960px; margin: 0 auto; padding: 0 16px 64px; }
+  .op section { padding-block: 40px; }
+  .op h2 { font: 700 28px/1.2 var(--display, "Outfit", sans-serif); margin: 0 0 14px; }
+  .op p { color: var(--muted); max-width: 70ch; }
+  .op-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
+  .op-stat { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+  .op-stat b { display: block; font: 700 34px/1.1 "Outfit", sans-serif; color: var(--mint); }
+  .op-stat span { font: 500 11px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+  .op-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .op-card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+  .op-card h3 { margin: 0 0 6px; font: 600 19px/1.3 "Outfit", sans-serif; color: var(--text); }
+  .op-card p { margin: 0; font-size: 15px; }
+  .op-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .op-list li { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; color: var(--muted); }
+  .op-list b { color: var(--text); }
+  .op-addr { font: 500 13px/1.4 var(--mono); color: var(--text); word-break: break-all; }
+  .op-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .op-fine { font-size: 13px; color: var(--dim); }
+  @media (max-width: 720px) {
+    .op-stats { grid-template-columns: 1fr 1fr; }
+    .op-grid { grid-template-columns: 1fr; }
+    .op-stat b { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow">fly.ai in one page</p>
+    <h1>AI traders built from a real fruit-fly brain</h1>
+    <p class="lede">Each Trader Fly is a simulated fruit-fly brain that trades from its own wallet. Owners fund it, pick a style, and withdraw any time. Every trade is on-chain, and every number below is live.</p>
+  </div>
+</header>
+
+<main class="op">
+  <div class="op-stats" aria-live="polite">
+    <div class="op-stat"><b id="s-traders">122</b><span>trader wallets</span></div>
+    <div class="op-stat"><b id="s-profit">+29.5%</b><span>profit on deposits, all traders</span></div>
+    <div class="op-stat"><b id="s-paid">$599</b><span>paid to fly holders by the Fly Desk</span></div>
+    <div class="op-stat"><b id="s-holders">328</b><span>wallets holding 200k+ $FLYAI</span></div>
+  </div>
+  <p class="op-fine" id="s-note">Past results, not a promise. Refunds count as profit, as on the leaderboard.</p>
+
+  <section>
+    <h2>What it is</h2>
+    <div class="op-grid">
+      <div class="op-card"><h3>A real brain, not a chatbot</h3>
+        <p>The trading decisions come from a full fruit-fly connectome: 166,700 neurons and 25.6 million connections, mapped by FlyEM at HHMI Janelia. The code is open source (MIT).</p></div>
+      <div class="op-card"><h3>Trader Flies</h3>
+        <p>An NFT with its own wallet. The owner deposits, picks a style (steady baskets, stock tokens, or high-risk sniping) and the fly trades on Robinhood Chain, Base, BNB, Arbitrum and Solana.</p></div>
+      <div class="op-card"><h3>The Fly Desk</h3>
+        <p>The house trading desk. Each week it pays fly holders a share of its results, in $FLYAI bought on the market.</p></div>
+      <div class="op-card"><h3>On-chain agents</h3>
+        <p>Every active fly is registered as an ERC-8004 agent with its own on-chain identity, and owners rate them on-chain. Good flies stand out; others can follow them.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>$FLYAI</h2>
+    <p>The token on Robinhood Chain, launched on Pons. What uses it:</p>
+    <ul class="op-list">
+      <li><b>Activating a fly</b> needs 200,000 $FLYAI held (in a wallet, staked or locked); that unlocks every feature.</li>
+      <li><b>Every withdrawal is paid in $FLYAI.</b> A fly's positions are sold and the proceeds buy $FLYAI on the market.</li>
+      <li><b>Desk payouts</b> are bought on the market every week: <span id="s-bought">3.1M</span> $FLYAI so far.</li>
+      <li><b>Burns:</b> fly chat packs and part of every follow pass are burned.</li>
+      <li><b>Fee drop</b> (a 2-month test): the month's Pons trading fees go to holders, split by average holding.</li>
+    </ul>
+    <p style="margin-top:18px">Supply: <b id="s-supply">949,974,320</b> after <b id="s-burned">50,025,679</b> burned; <b>81.6M</b> permanently locked in the Pons launch locker.</p>
+    <p class="op-addr">Contract: 0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C</p>
+  </section>
+
+  <section>
+    <h2>What's next</h2>
+    <ul class="op-list">
+      <li><b>Elysium:</b> owners can switch it on now; flies trade it from launch day.</li>
+      <li><b>Shared memory:</b> every token any fly finds is researched once and followed for three days, so the flies learn from each other's results.</li>
+      <li><b>Sharper exits:</b> the sniper's settings are being tuned on real recorded launches, rugs included.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Check it yourself</h2>
+    <p>Every wallet, trade and payout is public.</p>
+    <ul class="op-list">
+      <li><b>Team wallets:</b> dev (payouts, fees) <span class="op-addr">0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea</span>, POOL (the desk's pot) <span class="op-addr">0xCCa1ad591f6FE7E40e382639Ad2551044Fae6d36</span></li>
+    </ul>
+    <div class="op-links">
+      <a class="btn red" href="/traderflies/leaderboard">Live leaderboard</a>
+      <a class="btn" href="/desk">The Fly Desk</a>
+      <a class="btn" href="/token">Token terms</a>
+      <a class="btn" href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">Source code</a>
+    </div>
+    <div class="op-links">
+      <a class="btn" href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a class="btn" href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a class="btn" href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </section>
+</main>
+
+<script>
+// live numbers (2026-11-06): the same sources as the leaderboard, the desk page and the token page; on any failure the
+// numbers baked into the page stay
+(async () => {
+  const get = (u) => fetch(u, { signal: AbortSignal.timeout(15000) }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const MINE = "https://flyai-mine.fly.dev";
+  const set = (id, v) => { const el = document.getElementById(id); if (el && v) el.textContent = v; };
+  const n0 = (v) => Math.round(v).toLocaleString("en-US");
+  const [flies, bullas, desk, drop, supply] = await Promise.all([
+    get(`${MINE}/api/vaults/leaderboard?chain=robinhood`), get(`${MINE}/api/partners/bullas/leaderboard`),
+    get("https://flytrade-desk.fly.dev/public/site.json"), get(`${MINE}/api/feedrop`), get(`${MINE}/api/supply`)]);
+  if (flies && bullas) {
+    const rows = [...flies.all, ...bullas.all].filter((r) => !r.pot);
+    const profit = rows.reduce((s, r) => s + (r.profit || 0), 0), principal = rows.reduce((s, r) => s + (r.principal || 0), 0);
+    set("s-traders", n0(rows.length));
+    if (principal > 0) set("s-profit", `${profit >= 0 ? "+" : ""}${(profit / principal * 100).toFixed(1)}%`);
+  }
+  if (desk) {
+    const paid = (desk.epochs || []).filter((e) => (e.holders_usd || 0) > 0);
+    set("s-paid", `$${n0(paid.reduce((s, e) => s + e.holders_usd, 0))}`);
+    const bought = paid.reduce((s, e) => s + (e.flyai_bought || 0), 0);
+    if (bought) set("s-bought", `${(bought / 1e6).toFixed(1)}M`);
+  }
+  if (drop && drop.holders) set("s-holders", n0(drop.holders));
+  if (supply) { set("s-supply", n0(Number(supply.total))); set("s-burned", n0(Number(supply.burned))); }
+})();
+</script>
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261106h"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+</body>
+</html>

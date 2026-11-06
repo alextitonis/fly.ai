@@ -33,16 +33,33 @@ const help = async () => {
 };
 $("xp-help").addEventListener("click", () => { help(); });
 
-// the tabs: the season's board, or the giveaway round (#giveaway in the address keeps it)
-function tab(round) {
-  $("xp-tab-season").classList.toggle("on", !round); $("xp-tab-round").classList.toggle("on", round);
-  $("xp-tab-season").setAttribute("aria-selected", String(!round)); $("xp-tab-round").setAttribute("aria-selected", String(round));
-  $("xp-panel-season").hidden = round; $("xp-panel-round").hidden = !round;
-  history.replaceState(history.state, "", round ? "#giveaway" : location.pathname + location.search);
-  if (round) drawRound().catch((err) => msg(String(err?.message || err), "err"));
+// the tabs: the season's board, the giveaway round (#giveaway) or the daily quests (#quests, 2026-11-06)
+function tab(name) {
+  for (const n of ["season", "round", "quests"]) {
+    $(`xp-tab-${n}`).classList.toggle("on", n === name);
+    $(`xp-tab-${n}`).setAttribute("aria-selected", String(n === name));
+    $(`xp-panel-${n}`).hidden = n !== name;
+  }
+  history.replaceState(history.state, "", name === "round" ? "#giveaway" : name === "quests" ? "#quests" : location.pathname + location.search);
+  if (name === "round") drawRound().catch((err) => msg(String(err?.message || err), "err"));
+  if (name === "quests") drawStreaks().catch(() => {});
 }
-$("xp-tab-season").addEventListener("click", () => tab(false));
-$("xp-tab-round").addEventListener("click", () => tab(true));
+$("xp-tab-season").addEventListener("click", () => tab("season"));
+$("xp-tab-round").addEventListener("click", () => tab("round"));
+$("xp-tab-quests").addEventListener("click", () => tab("quests"));
+// the Today panel is nav.js's (check-in, streak, the 3 quests); signed out, the sign-in instead
+$("xp-today").addEventListener("click", () => { if (session() && NAV?.xp?.openToday) NAV.xp.openToday(); else document.querySelector("[data-nav-signin], nav .acct-in")?.click(); });
+async function drawStreaks() {
+  const b = await fetch(`${READ}/api/xp/streaks`).then((r) => r.json());
+  const rows = b.rows || [];
+  $("xp-streaks-empty").hidden = rows.length > 0;
+  const names = rows.length && NAV?.names ? await NAV.names(rows.map((r) => r.wallet)).catch(() => ({})) : {};
+  const mine = session()?.wallet.toLowerCase();
+  $("xp-streaks").replaceChildren(...rows.map((r) => el("li", { class: `xp-row xp-srow${r.wallet === mine ? " me" : ""}` },
+    el("span", { class: "xp-rank" }, r.rank <= 3 ? ["🥇", "🥈", "🥉"][r.rank - 1] : `#${r.rank}`),
+    el("a", { class: "xp-who", href: "#", title: r.wallet, "data-fly-profile": r.wallet }, names[r.wallet] || short(r.wallet)),
+    el("span", { class: "xp-xp" }, `📅 ${t("xp.quests.days", { n: r.days })}`))));
+}
 $("xp-profile").addEventListener("click", () => { const s = session(); if (s) profile(s.wallet.toLowerCase()); });
 
 const when = (iso) => new Date(iso).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
@@ -116,7 +133,8 @@ async function draw() {
 }
 
 try {
-  if (location.hash === "#giveaway") tab(true);
+  if (location.hash === "#giveaway") tab("round");
+  else if (location.hash === "#quests") tab("quests");
   await draw();
 } catch (err) {
   msg(String(err?.message || err), "err");

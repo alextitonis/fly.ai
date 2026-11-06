@@ -44,3 +44,10 @@
 .xp-boost-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; color: #ffd166; font-size: 17px; }
 .xp-boost-left { color: var(--text); font: 600 13px/1 var(--mono, monospace); }
 .xp-boost-rules { margin-top: 6px !important; color: var(--muted); font-size: 14px; }
+
+/* daily quests tab (2026-11-06, mine/src/quests.ts) */
+.xp-quest-rules { margin: 8px 0 14px; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.xp-quest-rules b { color: var(--text); }
+.xp-row.xp-srow { grid-template-columns: 44px minmax(0, 1fr) auto; }
+.xp-srow .xp-xp { font: 600 13px var(--mono); }
+@media (max-width: 520px) { .xp-row.xp-srow { grid-template-columns: 34px minmax(0, 1fr) auto; } }

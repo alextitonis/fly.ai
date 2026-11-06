@@ -81,6 +81,15 @@
         "cd /d C:\\Users\\artif\\OneDrive\\Desktop\\fly\\flypet && npx vite preview --port 1421 --strictPort"
       ],
       "port": 1421
+    },
+    {
+      "name": "traderflies-alt",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "set DOCS_URL=http://127.0.0.1:8090&& set VITE_BASE=/traderflies/&& cd flytrade\\web && npx vite --port 5174 --strictPort"
+      ],
+      "port": 5174
     }
   ]
 }

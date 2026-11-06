@@ -28,7 +28,8 @@
   },
   "tabs": {
     "season": "Sezon",
-    "round": "Çekiliş"
+    "round": "Çekiliş",
+    "quests": "Günlük görevler"
   },
   "round": {
     "title0": "Ödül turu",
@@ -48,5 +49,16 @@
     "next": "{mult} XP {when} başlıyor",
     "left": "{left} kaldı",
     "rules": "Takas kutusu alımları, sinek cüzdanı yatırımları, besleme, pazar işlemleri, üretme ve pass yakma {mult} sayılır. Satışlar ve çekimler de {mult} düşer; bittikten sonraki {days} gün içinde satış yaparsan bonus geri alınır."
+  },
+  "quests": {
+    "title": "Günlük check-in ve görevler",
+    "r1": "Günde bir kez <b>check-in yap</b>: +2 XP. Üst üste günler serini oluşturur: 7 günde <b>+10</b>, 14'te <b>+20</b>, 30'da ve sonraki her 30 günde <b>+50</b>.",
+    "r2": "<b>Seri kalkanı</b>: üst üste her 7 günde bir, en fazla 2. Kaçırılan bir gün serini bozmak yerine birini kullanır.",
+    "r3": "<b>Günde 3 görev</b>: bir ziyaret, bir sosyal, bir hamle. Her biri +2 XP, 3'ü bitince <b>+4</b>. Günde bir ücretsiz değiştirme.",
+    "r4": "<b>10.000 $FLYAI</b> (cüzdan, stake veya kilitli) ya da bir Trader Fly olan cüzdanlar için. Yeni gün 00:00 UTC'de başlar. Airdrop'a sayılır.",
+    "open": "Bugünün görevlerini aç",
+    "board": "En uzun check-in serileri",
+    "empty": "Henüz seri yok. Başlamak için check-in yap.",
+    "days": "{n} gün"
   }
 }

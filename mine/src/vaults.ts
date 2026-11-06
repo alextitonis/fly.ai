@@ -31,6 +31,7 @@ import type { Pg, Q } from "./pg.ts";
 import { rpc } from "./orders.ts";
 import { selector } from "./staking.ts";
 import { checksumAddress } from "./wallet.ts";
+import { TEAM, flyLevels, type FlyStats, type Moves } from "./flylevels.ts";
 
 export interface VaultsDeps {
   pg: Pg;
@@ -59,7 +60,6 @@ const word = (v: bigint | number | string) =>
 const ADDRESS = /^0x[0-9a-fA-F]{40}$/;
 const MAX_DOC = 16_000;
 const DEAD = "0x000000000000000000000000000000000000dEaD";
-const SOL_ADDRESS = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
 
 /** The chains a fly's wallet trades on besides Robinhood Chain (switched on with VAULT_CHAINS=base,arbitrum,...). */
 const NETS: Record<string, { chainId: number; native: string; stable: string; stableDec: number; stableSym: string; poly?: boolean }> = {
@@ -375,10 +375,10 @@ export function createVaults(d: VaultsDeps) {
     } else if (action === "out") {
       const bps = Number(body?.bps);
       if (!Number.isInteger(bps) || bps < 1 || bps > 10_000) throw new HttpError(400, "bps is 1..10000");
-      const to = body?.mode === "withdraw" ? String(body?.to ?? "").trim() : null;
-      if (body?.mode === "withdraw" && !SOL_ADDRESS.test(to ?? "")) throw new HttpError(400, "that isn't a Solana address");
+      // 2026-11-06 (the user: every withdrawal in $FLYAI): "withdraw" pays the holder $FLYAI on Robinhood Chain
+      // (flytrade/vaults/vsolana.py out_request); no Solana address any more. "home" moves it to the fly's own wallet.
       kind = "sol_out";
-      params = { bps, mode: to ? "withdraw" : "home", ...(to ? { to } : {}) };
+      params = { bps, mode: body?.mode === "withdraw" ? "withdraw" : "home" };
     } else {
       throw new HttpError(400, "action is on, off, in or out");
     }
@@ -433,6 +433,23 @@ export function createVaults(d: VaultsDeps) {
     const flies: Record<number, unknown> = {};
     for (const r of rows) if (r.value) flies[r.fly_id] = r.value;
     return { updated: Date.now() / 1000, chain, flies };
+  }
+
+  /**
+   * Fly levels, titles and squads (src/flylevels.ts, 2026-11-06, flytrade/GAMIFY-PLAN.md): from the Robinhood feed and
+   * each current holder's first deposit / last withdrawal on its fly's wallet. Team wallets (XP_EXCLUDE, as xp.ts) keep
+   * their levels but stay off the squad board.
+   */
+  async function levels() {
+    const f = await cached("feed:robinhood", FEED_TTL_MS, () => feed("robinhood"));
+    const rows = await pg.all<{ fly_id: number; holder: string; first_ms: number | null; last_ms: number | null }>(`select w.fly_id, lower(m.holder) as holder,
+        (extract(epoch from min(m.at) filter (where m.kind = 'deposit')) * 1000)::float8 as first_ms,
+        (extract(epoch from max(m.at) filter (where m.kind = 'withdraw')) * 1000)::float8 as last_ms
+      from mine.vault_moves m join mine.vault_wallets w on lower(w.address) = lower(m.wallet)
+      where m.chain = 'robinhood' and m.holder is not null and w.fly_id is not null group by w.fly_id, lower(m.holder)`);
+    const moves = new Map<string, Moves>(rows.map((r) => [`${r.fly_id}:${r.holder}`, { firstDeposit: r.first_ms, lastWithdraw: r.last_ms }]));
+    const exclude = (process.env.XP_EXCLUDE ?? TEAM).toLowerCase().split(",").map((x) => x.trim()).filter(Boolean);
+    return { updated: Date.now() / 1000, ...flyLevels(f.flies as Record<string, FlyStats>, moves, Date.now(), exclude) };
   }
 
   /** Flies whose wallet holds someone's money on any chain (the Breed page refuses to merge them, user 2026-10-02). */
@@ -835,6 +852,7 @@ export function createVaults(d: VaultsDeps) {
         const chain = chainOf(url.searchParams.get("chain"));
         return d.send(res, 200, await cached(`feed:${chain}`, FEED_TTL_MS, () => feed(chain))), true;
       }
+      if (p === "/api/vaults/levels") { isOn(); return d.send(res, 200, await cached("levels", 300_000, levels)), true; }
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})$/.exec(p))) return d.send(res, 200, await flyView(Number(m[1]))), true;
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})\/log$/.exec(p))) {
         const fly = Number(m[1]);

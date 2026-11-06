@@ -31,6 +31,8 @@
     "test:gta": "node --disable-warning=ExperimentalWarning src/gtatest.ts",
     "test:badges": "node --disable-warning=ExperimentalWarning src/badgestest.ts",
     "test:xp": "node --disable-warning=ExperimentalWarning src/xptest.ts",
+    "test:quests": "node --disable-warning=ExperimentalWarning src/queststest.ts",
+    "test:flylevels": "node --disable-warning=ExperimentalWarning src/flylevelstest.ts",
     "test:tg": "node --disable-warning=ExperimentalWarning src/tgtest.ts",
     "test:agents": "node --disable-warning=ExperimentalWarning src/agentstest.ts",
     "test:follow": "node --disable-warning=ExperimentalWarning src/followtest.ts",

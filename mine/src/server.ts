@@ -55,6 +55,7 @@ import { createPet, flyOwners } from "./pet.ts";
 import { createHunt } from "./hunt.ts";
 import { badgeConfig, createBadges } from "./badges.ts";
 import { createXp, xpConfig } from "./xp.ts";
+import { createQuests } from "./quests.ts";
 import { createTgLink } from "./tglink.ts";
 import { createAgents } from "./agents.ts";
 import { createFollow } from "./follow.ts";
@@ -3772,6 +3773,7 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
     if (await badges.route(req, res, url)) return;
   }
   if (req.method !== "OPTIONS" && (p.startsWith("/api/xp/") || p === "/api/admin/xp/round" || p === "/api/admin/xp/boost")) {
+    if (await quests.route(req, res, url)) return;
     if (await xp.route(req, res, url)) return;
   }
   if (req.method !== "OPTIONS" && p.startsWith("/api/follow/")) {
@@ -4229,6 +4231,10 @@ const xp = createXp({
   HttpError, send, readJson, sessionWallet: sessionAddress, adminOnly, admins: (process.env.BOUNTY_ADMINS ?? "").split(","),
 });
 if (USER) xp.start();
+// daily check-in and quests (src/quests.ts): XP into the same xp_events; season end and team list from the XP config
+const xpCfg = xpConfig(process.env);
+const quests = createQuests({ pg, end: xpCfg.end, exclude: xpCfg.exclude, on: xpCfg.on, HttpError, send, readJson, sessionWallet: sessionAddress });
+if (USER) quests.start();
 // Connect Telegram (src/tglink.ts): the Login Widget's signed answer, and the bot's word on group membership (XP)
 const tgLink = createTgLink({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, env: process.env });
 if (USER) tgLink.start();

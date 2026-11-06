@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
-<link rel="stylesheet" href="assets/xp.css?v=20261104x">
+<link rel="stylesheet" href="assets/xp.css?v=20261106q">
 </head>
 <body>
 <nav aria-label="Main"></nav>
@@ -55,6 +55,25 @@
     <div class="xp-tabs" role="tablist">
       <button class="xp-tab on" type="button" role="tab" id="xp-tab-season" aria-selected="true" data-i18n="xp.tabs.season">Season</button>
       <button class="xp-tab" type="button" role="tab" id="xp-tab-round" aria-selected="false" data-i18n="xp.tabs.round">Giveaway</button>
+      <button class="xp-tab" type="button" role="tab" id="xp-tab-quests" aria-selected="false" data-i18n="xp.tabs.quests">Daily quests</button>
+    </div>
+    <!-- daily check-in and quests (2026-11-06, mine/src/quests.ts): the rules, the Today panel, the longest streaks -->
+    <div id="xp-panel-quests" class="xp-panel" hidden>
+      <div class="card pad xp-note">
+        <h3 data-i18n="xp.quests.title">Daily check-in and quests</h3>
+        <ul class="xp-quest-rules">
+          <li data-i18n-html="xp.quests.r1"><b>Check in</b> once a day: +2 XP. Days in a row build your streak: <b>+10</b> at 7 days, <b>+20</b> at 14, <b>+50</b> at 30 and every 30 after.</li>
+          <li data-i18n-html="xp.quests.r2"><b>Streak freezes</b>: one for every 7 days in a row, up to 2. A missed day uses one instead of breaking your streak.</li>
+          <li data-i18n-html="xp.quests.r3"><b>3 quests a day</b>: one to visit, one social, one move. +2 XP each, <b>+4</b> when all 3 are done. One free swap a day.</li>
+          <li data-i18n-html="xp.quests.r4">For wallets with <b>10,000 $FLYAI</b> (wallet, staked or locked) or a Trader Fly. A new day starts at 00:00 UTC. It counts toward the airdrop.</li>
+        </ul>
+        <button class="btn red" type="button" id="xp-today" data-i18n="xp.quests.open">Open today's quests</button>
+      </div>
+      <div class="card pad xp-board">
+        <div class="xp-board-top"><h3 data-i18n="xp.quests.board">Longest check-in streaks</h3></div>
+        <p class="xp-msg" id="xp-streaks-empty" hidden data-i18n="xp.quests.empty">No streaks yet. Check in to start one.</p>
+        <ol class="xp-rows" id="xp-streaks"></ol>
+      </div>
     </div>
     <div id="xp-panel-round" class="xp-panel" hidden>
       <div class="card pad xp-note">
@@ -105,8 +124,8 @@
 <!-- /@footer -->
 
 <script src="assets/site.js"></script>
-<script src="assets/nav.js?v=20261105p"></script>
+<script src="assets/nav.js?v=20261106q"></script>
 <script type="module" src="assets/i18n/page.js"></script>
-<script type="module" src="assets/xp.js?v=20261104x"></script>
+<script type="module" src="assets/xp.js?v=20261106q"></script>
 </body>
 </html>

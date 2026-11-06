@@ -26,6 +26,10 @@
     "how": "How it works"
   },
   "e": {
+    "d1106f": "<b>Daily check-in and quests.</b> Tap the XP chip in the menu: check in each day for XP and build a streak (bonuses at 7, 14 and 30 days, with streak freezes for a missed day), and do 3 quick quests a day for more. For wallets with 10,000 $FLYAI or a Trader Fly. <a href=\"/xp#quests\">Daily quests</a>",
+    "d1106e": "<b>Your XP in the menu.</b> Your level, the bar to the next one and your streak now sit next to your account on every page; tap it for your profile. Level up and you get a little celebration. Fund a fly, claim and stake, breed or burn a FlightPass and you see the XP coming. <a href=\"/xp\">XP Season</a>",
+    "d1106d": "<b>Fly levels and squads.</b> Each funded fly now has a level from its days funded, trades and profit, and can earn titles: Hot streak, Diamond wings, Sniper, Grinder. Your flies' levels add up to your squad score, ranked on the new Squads board. Empty flies show as asleep, one tap wakes them. <a href=\"/traderflies/leaderboard?board=squads\">Squads board</a>",
+    "d1106c": "<b>New My flies.</b> One chart with every fly in its own colour, all your flies listed under it, and each fly's wallet and settings in a popup instead of a new page. Works on phones too. <a href=\"/traderflies/\">My flies</a>",
     "d1105b": "<b>Follow a fly.</b> Pick one of your flies and it copies another fly's trades for a week, for 100,000 $FLYAI: 90% goes to that fly's owner and 10% is burned. Good flies now earn their owners $FLYAI. <a href=\"/traderflies/leaderboard\">Leaderboard</a>",
     "d1105c": "<b>Fly chat packs.</b> 5 free messages a day. After that, buy 100 messages for 50,000 $FLYAI, burned in one transaction. Packs never expire.",
     "d1104d": "<b>Every Trader Fly is an on-chain AI agent.</b> Each active fly registered itself, from its own wallet, in the ERC-8004 agent registry on Robinhood Chain. Its agent number shows on its page and links to the registry. New flies register on their own once they're active. <a href=\"/traderflies/\">My flies</a>",
@@ -140,6 +144,7 @@
     "d1103a": "<b>Connect your X account.</b> Link your X profile to your wallet from the account menu at the top right: click Connect X, approve on X, and your @handle shows in your profile. We only read your public profile and never post for you. Unlink any time.",
     "d1101g": "<b>Breeding pays now.</b> A bred fly keeps the desk payout share of every fly burned into it, plus 10%: Gen 1 earns ×2.2, Gen 2 ×3.3, Gen 3 and up ×4.4. Its wallet's profit fee also drops 2 points per generation. Flies already bred count too. <a href=\"/traderflies/breed\">Breed</a>",
     "d1105d": "<b>Degen Sniper preset.</b> High risk, for those who want it: your fly buys brand-new tokens minutes after launch on Robinhood Chain and Solana, plus young tokens on Base, BNB and Arbitrum, and gets out fast - all of it at 2x, or all of it on a 20% drop from the top before that. Pick it under Settings. Needs 200,000 $FLYAI held.",
-    "d1106a": "<b>Fee drop.</b> This month's $FLYAI trading fees on Pons, less 10%, go to holders, split by average holding (wallet, staked or locked; 200k average to take part). Paid in $FLYAI through FlyLock after the month ends. A two-month test: November and December. See it on the Claim page."
+    "d1106a": "<b>Fee drop.</b> This month's $FLYAI trading fees on Pons, less 10%, go to holders, split by average holding (wallet, staked or locked; 200k average to take part). Paid in $FLYAI through FlyLock after the month ends. A two-month test: November and December. See it on the Claim page.",
+    "d1106b": "<b>Every withdrawal in $FLYAI.</b> Taking money out of a fly now pays $FLYAI, Solana included: it arrives as $FLYAI in your wallet on Robinhood Chain. When the market is too thin for a big withdrawal, the rest comes from the house at the market price, with no slippage."
   }
 }

@@ -92,7 +92,7 @@
       signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
       save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out",
       search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", deskClaim: "Fly Desk payout to claim", claimBy: "claim by {t}", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
-      chats: "Chats", badgesBtn: "🏅 Badges", xpBtn: "⭐ XP & profile", profileBtn: "👤 Profile", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
+      chats: "Chats", badgesBtn: "🏅 Badges", xpBtn: "⭐ XP & profile", xpChip: "Your XP level, streak and profile", xpLevel: "Lv {n}", levelUp: "Level {n}!", levelUpText: "You reached XP level {n}. It counts toward the airdrop.", levelUpSee: "See your profile", xpSoon: "+{n} XP soon", close: "Close", todayTitle: "Today", todayResets: "New day in {h} h {m} min", todayEnded: "The season is over: no more check-ins or quests.", todayGate: "Hold {n} $FLYAI or a Trader Fly to check in and do quests.", todayBuy: "Buy $FLYAI", todayStreak: "days in a row · best {best}", todayFreezeTip: "Streak freezes: one for every 7 days in a row, up to 2. A missed day uses one instead of breaking your streak.", todayNext: "Next bonus: day {n}, +{xp} XP", todayChecked: "Checked in ✓", todayCheckin: "Check in · +{xp} XP", todayMilestone: "{n} days in a row! +{xp} XP", todayFreezeUsed: "A streak freeze covered {n} missed day(s).", todayQuests: "Today's quests", todayReroll: "Swap this quest (once a day)", todayAll: "All 3 done", todayProfile: "Your profile", todayRules: "How quests work", q_fly: "Open one of your flies", q_squads: "Look at the Squads board", q_xp: "Visit the XP page", q_flybook: "Like, comment or poke on Flybook", q_flychat: "Send your fly a message in Fly chat", q_rate: "Rate a fly", q_topup: "Top up a fly with $10 or more", q_swap: "Buy $FLYAI in the swap box", q_claimstake: "Claim and stake your payout", q_market: "Buy or sell on the Fly Market", profileBtn: "👤 Profile", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
       xLabel: "X account", connectX: "Connect X", unlinkX: "Unlink", x_linked: "X connected", x_denied: "Cancelled on X",
       tgLabel: "Telegram", tgIn: "In the fly.ai group · +50 XP", tgOut: "Not in the group yet", tgJoin: "Join the group", tgCheck: "Check again",
       x_expired: "That took too long, try again", x_taken: "That X account is linked to another wallet", x_failed: "X didn't answer, try again" };
@@ -109,7 +109,9 @@
   // 2026-10-04: pages read the session, the mine server and nicknames from here instead of their own copies
   // (they keep a fallback: this loads at the end of <body> and may fail)
   const nickCache = new Map();                             // wallet -> Promise<nickname | null>, for names()
-  window.flyNav = { session, MINE_API, MINE_READ, short, names, profile: openProfile, chat: openChat };
+  window.flyNav = { session, MINE_API, MINE_READ, short, names, profile: openProfile, chat: openChat,
+    xp: { gain: (n, el) => xpGain(n, el), refresh: () => { if (nav) wireXp(nav, true); }, visit: (q) => visitQuest(q), openToday: () => openToday(),
+      today: () => todayCopy } };
 
   keepRef();                                                // (on every page, before anything else can fail)
   welcome();
@@ -293,6 +295,7 @@
   }
 
   function wireAccount(nav) {
+    wireXp(nav);
     const li = nav.querySelector("li.acct");
     if (!li) return;
     if (li.dataset.signin) {
@@ -574,6 +577,256 @@
     badgesJs.then(() => { if (window.flyBadges) window.flyBadges.open(s); });
   }
 
+  /**
+   * The XP chip beside the account (2026-11-06, flytrade/GAMIFY-PLAN.md phase 1): "Lv 7 ▰▰▰▱▱ 🔥3" - the level, the bar
+   * to the next one and the streak in weeks, from /api/xp/profile (kept a minute in this tab). A click opens the profile
+   * card. A higher level than this browser last saw shows the level-up banner once. Pages call window.flyNav.xp.gain(n,
+   * el) after an action that earns XP ("+n XP soon": the server books it on its next read) and .refresh() to re-read.
+   */
+  const XP_KEY = "flyai.xp";
+  async function loadXp(wallet, fresh) {
+    const w = wallet.toLowerCase();
+    if (!fresh) {
+      try {
+        const hit = JSON.parse(sessionStorage.getItem(XP_KEY) || "null");
+        if (hit && hit.wallet === w && Date.now() - hit.t < 60_000) return hit.v;
+      } catch {}
+    }
+    try {
+      const r = await fetch(`${MINE_READ}/api/xp/profile?wallet=${w}`);
+      if (!r.ok) return null;
+      const v = await r.json();
+      if (!v || v.on === false) return null;
+      try { sessionStorage.setItem(XP_KEY, JSON.stringify({ wallet: w, t: Date.now(), v })); } catch {}
+      return v;
+    } catch { return null; }
+  }
+  function wireXp(nav, fresh) {
+    for (const e of nav.querySelectorAll("li.xpc")) e.remove();
+    const s = session(), acct = nav.querySelector("li.acct");
+    if (!s || !acct) return;
+    const bar = document.createElement("i"), fill = document.createElement("i"), lv = document.createElement("b"), fire = document.createElement("span");
+    bar.className = "xpc-bar"; bar.append(fill); fire.className = "xpc-fire"; fire.hidden = true; lv.textContent = "Lv …";
+    const btn = document.createElement("button");
+    Object.assign(btn, { type: "button", className: "xpc-btn", title: L("xpChip") });
+    btn.setAttribute("aria-label", L("xpChip"));
+    const dot = document.createElement("i");
+    dot.className = "xpc-dot"; dot.hidden = true;
+    btn.append(lv, bar, fire, dot);
+    const li = document.createElement("li");
+    li.className = "xpc";
+    li.append(btn);
+    acct.before(li);
+    btn.addEventListener("click", (e) => { e.stopPropagation(); openToday(); });
+    loadToday().then((t) => markDot(t));
+    if (/^\/xp(\.html)?\/?$/.test(location.pathname)) visitQuest("xp");   // the XP page is a visit quest
+    loadXp(s.wallet, fresh).then((v) => {
+      if (!v || !li.isConnected) { if (!v) li.remove(); return; }
+      const at = 50 * v.level * v.level, next = v.next || 50 * (v.level + 1) * (v.level + 1);   // xp.ts levelXp
+      const pct = Math.max(0, Math.min(1, (v.xp - at) / Math.max(1, next - at)));
+      lv.textContent = L("xpLevel").replace("{n}", v.level);
+      lv.dataset.n = String(v.level);   // the phone's level circle (nav.css)
+      fill.style.width = `${(pct * 100).toFixed(1)}%`;
+      btn.title = `${L("xpChip")} · ${Math.round(v.xp).toLocaleString()} / ${next.toLocaleString()} XP`;
+      if (v.streak_weeks > 0) { fire.hidden = false; fire.textContent = `🔥${v.streak_weeks}`; }
+      const key = `flyai.xp.level.${s.wallet.toLowerCase()}`;
+      let seen = null;
+      try { seen = localStorage.getItem(key); localStorage.setItem(key, String(v.level)); } catch {}
+      if (seen != null && v.level > Number(seen)) levelUp(v.level, () => btn.click());
+    });
+  }
+  /** "Level 8!" across the top, once, with a little confetti; gone after a few seconds or a click */
+  function levelUp(level, see) {
+    if (document.querySelector(".xpc-up")) return;
+    const box = document.createElement("div");
+    box.className = "xpc-up";
+    box.setAttribute("role", "status");
+    const b = document.createElement("b"), p = document.createElement("span"), go = document.createElement("button");
+    b.textContent = L("levelUp").replace("{n}", level);
+    p.textContent = L("levelUpText").replace("{n}", level);
+    go.type = "button"; go.textContent = L("levelUpSee");
+    go.addEventListener("click", (e) => { e.stopPropagation(); box.remove(); see(); });
+    box.append(b, p, go);
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce) for (let i = 0; i < 28; i++) {
+      const c = document.createElement("i");
+      c.className = "xpc-bit";
+      c.style.left = `${Math.random() * 100}%`;
+      c.style.background = ["#5ef2cc", "#ffb347", "#a78bfa", "#ff6b9d", "#f5e663"][i % 5];
+      c.style.animationDelay = `${(Math.random() * 0.5).toFixed(2)}s`;
+      c.style.setProperty("--dx", `${Math.round(Math.random() * 80 - 40)}px`);
+      box.append(c);
+    }
+    box.addEventListener("click", () => box.remove());
+    document.body.append(box);
+    setTimeout(() => box.remove(), 7000);
+  }
+  /** "+n XP soon" floating up from what was pressed (or the chip), then the chip re-reads a little later */
+  function xpGain(n, from) {
+    const chip = nav && nav.querySelector(".xpc-btn");
+    const at = (from && from.getBoundingClientRect && from.getBoundingClientRect()) || (chip && chip.getBoundingClientRect());
+    const t = document.createElement("div");
+    t.className = "xpc-gain";
+    t.textContent = L("xpSoon").replace("{n}", Math.round(n).toLocaleString());
+    if (at && at.width) { t.style.left = `${at.left + at.width / 2}px`; t.style.top = `${at.top}px`; }
+    else { t.style.left = "50%"; t.style.top = "70px"; }
+    document.body.append(t);
+    setTimeout(() => t.remove(), 1800);
+    if (chip) { chip.classList.remove("xpc-pulse"); void chip.offsetWidth; chip.classList.add("xpc-pulse"); }
+  }
+
+  /**
+   * Today (2026-11-06, flytrade/GAMIFY-PLAN.md "Quests plan"; mine src/quests.ts): the daily check-in with its streak
+   * and freezes, and the 3 daily quests, in a panel the XP chip opens (a bottom sheet on phones). The page reports the
+   * visit quests (xp here; the Trader Flies app reports fly and squads through window.flyNav.xp.visit); the server finds
+   * the rest. "fly:today" goes out with each fresh copy, for the app's strip on My flies.
+   */
+  const QUEST_HREF = { fly: "/traderflies/", squads: "/traderflies/leaderboard?board=squads", xp: "/xp", flybook: "/flybook/",
+    flychat: "/traderflies/", rate: "/traderflies/leaderboard", topup: "/traderflies/", swap: "/token#buy", claimstake: "/traderflies/claim",
+    market: "/traderflies/market" };
+  const QUEST_ICON = { fly: "🪰", squads: "🛡️", xp: "⭐", flybook: "💬", flychat: "🗨️", rate: "⭐", topup: "💵", swap: "🔁", claimstake: "🏦", market: "🏷️" };
+  let todayCopy = null;
+  async function todayCall(path, body) {
+    const s = session();
+    if (!s) return null;
+    try {
+      const r = await fetch(`${MINE_API}${path}`, body === undefined ? { headers: { "x-flyai-session": s.token } }
+        : { method: "POST", headers: { "content-type": "application/json", "x-flyai-session": s.token }, body: JSON.stringify(body) });
+      const v = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(v.error || `HTTP ${r.status}`);
+      return v;
+    } catch (err) { if (body !== undefined) throw err; return null; }
+  }
+  function keepToday(t) {
+    if (!t || t.on === false) return null;
+    todayCopy = t;
+    window.dispatchEvent(new CustomEvent("fly:today", { detail: t }));
+    markDot(t);
+    return t;
+  }
+  async function loadToday() { return keepToday(await todayCall("/api/xp/today")); }
+  function markDot(t) {
+    const d = document.querySelector("nav .xpc-dot");
+    if (d) d.hidden = !(t && t.eligible && !t.ended && (!t.checked_in || !t.all_done));
+  }
+  /** a visit quest done on this page: told to the server once a day per quest (it ignores ones that aren't today's) */
+  async function visitQuest(quest) {
+    const s = session();
+    if (!s) return;
+    const key = `flyai.visit.${s.wallet.toLowerCase()}.${new Date().toISOString().slice(0, 10)}.${quest}`;
+    try { if (sessionStorage.getItem(key)) return; sessionStorage.setItem(key, "1"); } catch {}
+    try {
+      const v = await todayCall("/api/xp/quest/visit", { quest });
+      if (v) { keepToday(v.today); if (v.gained > 0) xpGain(v.gained); }
+    } catch { /* not today's, or signed out */ }
+  }
+  const qText = (id) => L(`q_${id}`);
+  function openToday() {
+    if (document.querySelector(".td-pop")) return;
+    const s = session();
+    if (!s) return;
+    const pop = document.createElement("div"), box = document.createElement("div");
+    pop.className = "td-pop"; box.className = "td-box";
+    pop.setAttribute("role", "dialog"); pop.setAttribute("aria-modal", "true"); pop.setAttribute("aria-label", L("todayTitle"));
+    pop.append(box);
+    const close = () => { pop.remove(); document.removeEventListener("keydown", esc); };
+    const esc = (e) => { if (e.key === "Escape") close(); };
+    document.addEventListener("keydown", esc);
+    pop.addEventListener("click", (e) => { if (e.target === pop) close(); });
+    const h = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+    const draw = (t, msg) => {
+      box.replaceChildren();
+      const head = h("div", "td-head");
+      const title = h("b", null, L("todayTitle"));
+      const x = h("button", "td-x", "✕"); x.type = "button"; x.setAttribute("aria-label", L("close")); x.addEventListener("click", close);
+      head.append(title, x);
+      box.append(head);
+      if (!t) { box.append(h("p", "td-note", "…")); return; }
+      const left = Math.max(0, Date.parse(t.resets_at) - Date.now()), hrs = Math.floor(left / 3_600_000), mins = Math.floor(left / 60_000) % 60;
+      box.append(h("small", "td-reset", L("todayResets").replace("{h}", hrs).replace("{m}", mins)));
+      if (t.ended) box.append(h("p", "td-note", L("todayEnded")));
+      else if (!t.eligible) {
+        const p = h("p", "td-note", L("todayGate").replace("{n}", Number(t.need_flyai).toLocaleString()));
+        const a = h("a", "td-buy", L("todayBuy")); a.href = "/token#buy";
+        box.append(p, a);
+      }
+      // the check-in and the streak
+      const card = h("div", "td-check");
+      const st = h("div", "td-streak");
+      st.append(h("b", null, `📅 ${t.streak.days}`), h("span", null, L("todayStreak").replace("{best}", t.streak.best)));
+      const fz = h("span", "td-freeze", `🧊 ${t.streak.freezes}/2`); fz.title = L("todayFreezeTip");
+      st.append(fz);
+      const marks = Object.keys(t.rates.milestones).map(Number).sort((a, b) => a - b);
+      const next = marks.find((m) => m > t.streak.days) ?? Math.ceil((t.streak.days + 1) / 30) * 30;
+      const nextXp = t.rates.milestones[next] ?? 50;
+      card.append(st, h("small", "td-next", L("todayNext").replace("{n}", next).replace("{xp}", nextXp)));
+      const go = h("button", `td-go${t.checked_in ? " done" : ""}`, t.checked_in ? L("todayChecked") : L("todayCheckin").replace("{xp}", t.rates.checkin));
+      go.type = "button";
+      go.disabled = t.checked_in || !t.eligible || t.ended;
+      go.addEventListener("click", async () => {
+        go.disabled = true; go.textContent = "…";
+        try {
+          const v = await todayCall("/api/xp/checkin", {});
+          keepToday(v.today);
+          if (v.gained > 0) xpGain(v.gained, go.isConnected ? go : null);
+          if (v.bonus > 0) levelUpLike(L("todayMilestone").replace("{n}", v.today.streak.days).replace("{xp}", v.bonus));
+          draw(v.today, v.freezes_used ? L("todayFreezeUsed").replace("{n}", v.freezes_used) : null);
+        } catch (err) { draw(todayCopy, String(err.message || err)); }
+      });
+      card.append(go);
+      box.append(card);
+      if (msg) box.append(h("p", "td-msg", msg));
+      // the 3 quests
+      box.append(h("h4", null, L("todayQuests")));
+      const ul = h("ul", "td-quests");
+      for (const q of t.quests) {
+        const li = h("li", q.done ? "done" : "");
+        const tick = h("i", "td-tick", q.done ? "✓" : QUEST_ICON[q.id] || "•");
+        const a = h("a", "td-q", qText(q.id)); a.href = QUEST_HREF[q.id] || "/";
+        const xp = h("span", "td-xp", `+${q.xp}`);
+        li.append(tick, a, xp);
+        if (!q.done && !t.reroll_used && t.eligible && !t.ended) {
+          const r = h("button", "td-reroll", "↻"); r.type = "button"; r.title = L("todayReroll"); r.setAttribute("aria-label", L("todayReroll"));
+          r.addEventListener("click", async () => {
+            r.disabled = true;
+            try { const v = await todayCall("/api/xp/quest/reroll", { group: q.group }); keepToday(v.today); draw(v.today); }
+            catch (err) { draw(todayCopy, String(err.message || err)); }
+          });
+          li.append(r);
+        }
+        ul.append(li);
+      }
+      const all = h("li", `td-all${t.all_done ? " done" : ""}`);
+      all.append(h("i", "td-tick", t.all_done ? "✓" : "🎁"), h("span", "td-q", L("todayAll")), h("span", "td-xp", `+${t.rates.all}`));
+      ul.append(all);
+      box.append(ul);
+      const foot = h("div", "td-foot");
+      const prof = h("button", "td-link", L("todayProfile")); prof.type = "button";
+      prof.addEventListener("click", () => {
+        close();
+        const acct = document.querySelector("nav li.acct"), p = acct && acct.querySelector(".acct-profile");
+        if (p) p.click(); else openProfile(s.wallet);
+      });
+      const xpa = h("a", "td-link", L("todayRules")); xpa.href = "/xp#quests";
+      foot.append(prof, xpa);
+      box.append(foot);
+    };
+    draw(todayCopy);
+    document.body.append(pop);
+    loadToday().then((t) => { if (pop.isConnected) draw(t || todayCopy); });
+  }
+  /** the level-up banner's look for a streak milestone */
+  function levelUpLike(text) {
+    if (document.querySelector(".xpc-up")) return;
+    const box = document.createElement("div");
+    box.className = "xpc-up"; box.setAttribute("role", "status");
+    const b = document.createElement("b"); b.textContent = text;
+    box.append(b);
+    box.addEventListener("click", () => box.remove());
+    document.body.append(box);
+    setTimeout(() => box.remove(), 5000);
+  }
+
   /** After a sign-in or sign-out: the live page hears it, every other page reloads as before. */
   function sessionChanged() {
     if (window.flyaiLiveSession) window.dispatchEvent(new Event("flyai-session"));
@@ -604,7 +857,7 @@
   function welcome() {
     let force = false, seen = false;
     try { force = new URLSearchParams(location.search).has("welcome"); seen = !!localStorage.getItem("flyai.welcome.seen"); } catch { return; }
-    if (!force && (seen || session() || window.top !== window || navigator.webdriver || /^\/start(\.html)?\/?$/.test(location.pathname))) return;
+    if (!force && (seen || session() || window.top !== window || navigator.webdriver || /^\/(start|onepager)(\.html)?\/?$/.test(location.pathname))) return;   // (the one-pager: a link sent to people, 2026-11-06)
     const s = document.createElement("script");
     s.src = NAV_SRC ? new URL("welcome.js?v=20261027a", NAV_SRC).href : "/assets/welcome.js?v=20261027a";
     (document.body || document.head).append(s);

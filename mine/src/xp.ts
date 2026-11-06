@@ -17,6 +17,7 @@
  *   X            50 once for a linked account (src/xlink.ts); 20 a day for a post from it about fly.ai (found nightly)
  *   Telegram     50 while a linked account (src/tglink.ts) is in the fly.ai group; checked daily, leaving takes it back
  *   Flybook      5 XP a day with a like, comment, poke or caption, for wallets that hold or own a fly
+ *   check-in     2 XP a day + streak milestones, and daily quests 2 each (+4 for all 3): src/quests.ts books them here
  *
  * Level = floor(sqrt(XP / 50)). The dev, pool, house and the user's own wallets, contracts and fly wallets are tracked
  * but left off the board. Contracts are found by their code (the Pons token contract held 81.6M from launch), up to
@@ -330,7 +331,7 @@ export async function apifySearch(token: string, actor: string, since: string): 
 
 export type Sources = Record<string, number>;
 /** sources booked one by one in mine.xp_events; the rest accrue and are logged by the day */
-export const EVENT_SOURCES = ["market", "buy", "breed", "feed", "claimstake", "passburn", "share"];
+export const EVENT_SOURCES = ["market", "buy", "breed", "feed", "claimstake", "passburn", "share", "checkin", "quest"];
 
 /** The day-by-day gains from end-of-day totals (oldest first): each day minus the day before, events left out. */
 export function dailyGains(days: { day: string; sources: Sources }[]) {
@@ -678,7 +679,9 @@ export function createXp(d: {
   }
 
   const LABELS: Record<string, string> = { market: "a marketplace trade", buy: "a swap-box buy", breed: "breeding", feed: "feeding the Fly Desk",
-    claimstake: "claim and stake", passburn: "a FlightPass burn", share: "your X post" };
+    claimstake: "claim and stake", passburn: "a FlightPass burn", share: "your X post", checkin: "your daily check-in", quest: "daily quests" };
+  /** small daily XP that the bell doesn't announce one by one (src/quests.ts sends its own note on streak milestones) */
+  const QUIET = ["checkin", "quest"];
   /** Level-ups and new one-off XP into the bell. The first run only remembers where everyone is. */
   async function notify() {
     const c = await compute();
@@ -690,7 +693,7 @@ export function createXp(d: {
       const notes: [string, string][] = [];
       for (const r of c.ranked) if (r.level > (levels[r.wallet] ?? 0) && r.level > 0) notes.push([r.wallet, `You reached XP level ${r.level} (${Math.round(r.xp).toLocaleString("en-US")} XP).`]);
       const fresh = await pg.all<{ wallet: string; xp: number; sources: string[] }>(`select wallet, sum(xp)::float8 as xp, array_agg(distinct source) as sources
-        from mine.xp_events where id > ? and id <= ? group by wallet`, lastEvent, top?.id ?? 0);
+        from mine.xp_events where id > ? and id <= ? and source <> all(?::text[]) group by wallet`, lastEvent, top?.id ?? 0, `{${QUIET.join(",")}}`);
       const ranked = new Set(c.ranked.map((r) => r.wallet));
       for (const f of fresh) {
         if (!ranked.has(f.wallet) || f.xp < 1) continue;

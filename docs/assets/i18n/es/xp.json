@@ -28,7 +28,8 @@
   },
   "tabs": {
     "season": "Temporada",
-    "round": "Sorteo"
+    "round": "Sorteo",
+    "quests": "Misiones diarias"
   },
   "round": {
     "title0": "Ronda de premios",
@@ -48,5 +49,16 @@
     "next": "{mult} XP empieza el {when}",
     "left": "termina en {left}",
     "rules": "Las compras en el swap, los depósitos en billeteras de moscas, alimentar, el mercado, la cría y quemar pases cuentan {mult}. Las ventas y retiros también cuestan {mult}, y vender en los {days} días siguientes quita el bono."
+  },
+  "quests": {
+    "title": "Check-in y misiones diarias",
+    "r1": "<b>Haz check-in</b> una vez al día: +2 XP. Los días seguidos forman tu racha: <b>+10</b> a los 7 días, <b>+20</b> a los 14, <b>+50</b> a los 30 y cada 30 después.",
+    "r2": "<b>Protectores de racha</b>: uno por cada 7 días seguidos, hasta 2. Un día perdido usa uno en vez de romper tu racha.",
+    "r3": "<b>3 misiones al día</b>: una de visita, una social, una de movimiento. +2 XP cada una, <b>+4</b> al completar las 3. Un cambio gratis al día.",
+    "r4": "Para billeteras con <b>10,000 $FLYAI</b> (billetera, stake o bloqueados) o una Trader Fly. Cada día empieza a las 00:00 UTC. Cuenta para el airdrop.",
+    "open": "Abrir las misiones de hoy",
+    "board": "Rachas de check-in más largas",
+    "empty": "Aún no hay rachas. Haz check-in para empezar una.",
+    "days": "{n} días"
   }
 }

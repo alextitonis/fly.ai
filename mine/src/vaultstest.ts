@@ -241,6 +241,9 @@ try {
   // the terminal's feed: every funded fly's stats in one read (fly 3 holds bob's money; fly 4 nobody's)
   const fd = (await api("/api/vaults/feed", null)).json;
   check("the terminal feed", fd.flies?.["3"]?.value === 112.5 && !fd.flies?.["4"] && Object.keys(fd.flies).length === 1, JSON.stringify(fd).slice(0, 120));
+  // fly levels and squads (src/flylevels.ts): the same flies, with the moves read from the database
+  const lv = await api("/api/vaults/levels", null);
+  check("fly levels read", lv.status === 200 && lv.json.flies?.["3"]?.level != null && Array.isArray(lv.json.squads), JSON.stringify(lv.json).slice(0, 160));
 
   // FlightPass #9 (balance 50,000 FLYAI) burnt into fly 4
   await PG.pg.run("insert into mine.ledger (wallet, kind, amount_wei, tx, at) values ('pass:9', 'deposit', ?, 'test', ?)", (50_000n * WEI).toString(), Date.now());

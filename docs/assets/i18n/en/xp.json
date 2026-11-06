@@ -28,7 +28,8 @@
   },
   "tabs": {
     "season": "Season",
-    "round": "Giveaway"
+    "round": "Giveaway",
+    "quests": "Daily quests"
   },
   "round": {
     "title0": "Giveaway round",
@@ -48,5 +49,16 @@
     "next": "{mult} XP starts {when}",
     "left": "ends in {left}",
     "rules": "Swap-box buys, fly wallet deposits, feeding, marketplace trades, breeding and pass burns count {mult}. Sells and withdrawals cost {mult} too, and a sell within {days} days after takes the bonus back."
+  },
+  "quests": {
+    "title": "Daily check-in and quests",
+    "r1": "<b>Check in</b> once a day: +2 XP. Days in a row build your streak: <b>+10</b> at 7 days, <b>+20</b> at 14, <b>+50</b> at 30 and every 30 after.",
+    "r2": "<b>Streak freezes</b>: one for every 7 days in a row, up to 2. A missed day uses one instead of breaking your streak.",
+    "r3": "<b>3 quests a day</b>: one to visit, one social, one move. +2 XP each, <b>+4</b> when all 3 are done. One free swap a day.",
+    "r4": "For wallets with <b>10,000 $FLYAI</b> (wallet, staked or locked) or a Trader Fly. A new day starts at 00:00 UTC. It counts toward the airdrop.",
+    "open": "Open today's quests",
+    "board": "Longest check-in streaks",
+    "empty": "No streaks yet. Check in to start one.",
+    "days": "{n} days"
   }
 }
