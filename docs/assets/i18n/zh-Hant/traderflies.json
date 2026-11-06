@@ -1204,7 +1204,9 @@
         "closing": "這隻蒼蠅已售出：其 Solana 資金正在轉給原持有人"
       },
       "withdrawHint": "以 $FLYAI 支付到你在 Robinhood Chain 上的錢包。",
-      "homeHint": "以 USDG 轉入蒼蠅的主錢包，在那裡繼續交易。"
+      "homeHint": "以 USDG 轉入蒼蠅的主錢包，在那裡繼續交易。",
+      "more": "持倉與交易",
+      "inValue": "Solana 上 {usd}"
     },
     "moveTitle": "把錢轉到另一條鏈",
     "moveText": "最多 {usd} 的蒼蠅現金（鎖定的 FlightPass 資金保留）。幾分鐘內以現金到達另一條鏈上的同一個錢包。",

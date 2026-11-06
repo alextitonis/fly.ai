@@ -1204,7 +1204,9 @@
         "closing": "이 플라이는 판매되었습니다: Solana 자금이 이전 보유자에게 가는 중입니다"
       },
       "withdrawHint": "Robinhood Chain의 내 지갑으로 $FLYAI로 지급됩니다.",
-      "homeHint": "USDG로 파리의 메인 지갑으로 옮겨 계속 거래합니다."
+      "homeHint": "USDG로 파리의 메인 지갑으로 옮겨 계속 거래합니다.",
+      "more": "포지션 및 거래",
+      "inValue": "Solana에 {usd}"
     },
     "moveTitle": "다른 체인으로 돈 옮기기",
     "moveText": "파리 현금 중 최대 {usd}(잠긴 FlightPass 돈은 남습니다). 몇 분 안에 다른 체인의 같은 지갑에 현금으로 도착합니다.",

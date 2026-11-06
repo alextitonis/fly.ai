@@ -4,7 +4,8 @@
  * buy), the all-3 bonus, no double booking, the season end, and the XP showing up in xp_events.
  *   npm run test:quests
  */
-import { checkIn, createQuests, dayOf, GROUPS, pick, QUESTS, standing, type Streak } from "./quests.ts";
+import { checkIn, createQuests, dayOf, GROUPS, listsOf, pick, postIdOf, QUESTS, questAt, standing, type Streak } from "./quests.ts";
+import { FLYAI } from "./burns.ts";
 import { startPg } from "./pgtest.ts";
 
 let failed = 0;
@@ -148,6 +149,18 @@ for (const want of ["topup", "swap", "claimstake"]) {
   check("one quest per group pays", paid === 1, `${paid}`);
 }
 
+// the swap quest also reads the box's own success log (its Relay and GIGA routes have no fee leg for the XP scan)
+{
+  const w = Array.from({ length: 400 }, (_, i) => addr(0xd000 + i)).find((x) => pick(x, dayOf(clock))[2] === "swap")!;
+  await pg.run("insert into mine.xp_holders (wallet, liquid, staked, locked, flies) values (?, 0, 0, 0, 1)", w);
+  const before = await Q.today(w);
+  await pg.run(`insert into mine.swap_events (session, step, wallet, route, at) values ('questswap01', 'quote', ?, 'relay', ?)`, w, new Date(clock).toISOString());
+  const quoted = await Q.today(w);
+  await pg.run(`insert into mine.swap_events (session, step, wallet, route, at) values ('questswap01', 'success', ?, 'relay', ?)`, w, new Date(clock).toISOString());
+  const after = await Q.today(w);
+  check("swap quest: a quote isn't a buy; the box's success is", !before.quests[2].done && !quoted.quests[2].done && after.quests[2].done, JSON.stringify(after.quests[2]));
+}
+
 // the next days: streak, a freeze, a milestone note
 for (let i = 1; i <= 6; i++) { clock += DAY; await Q.checkin(big); }
 const t7 = await Q.today(big);
@@ -176,6 +189,81 @@ const ended = createQuests({ pg, end: clock - 1, exclude: [], HttpError, send: (
 err = null;
 await ended.checkin(flyOwner).catch((e) => { err = e; });
 check("nothing after the season ends", (err as HttpError)?.status === 409 && (await ended.today(flyOwner)).ended);
+
+// ---- 2026-11-07: paid rerolls (burn()), the new quests, the X post ----
+{
+  const ZERO = "0x0000000000000000000000000000000000000000", DEAD = "0x000000000000000000000000000000000000dead";
+  const TRANSFER = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
+  const pad = (a: string) => `0x${a.slice(2).padStart(64, "0")}`;
+  const burnRec = (from: string, flyai: bigint, to = ZERO) => ({ status: "0x1", logs: [{ address: FLYAI, topics: [TRANSFER, pad(from), pad(to)],
+    data: `0x${(flyai * E18).toString(16)}` }] });
+  const receipts = new Map<string, any>(), posts = new Map<string, any>();
+  const TX = (n: number) => `0x${n.toString(16).padStart(64, "0")}`;
+  let qclock = Date.UTC(2026, 10, 8, 10);
+  const D = dayOf(qclock);
+  check("new lists from 11-07, the old ones before", listsOf("2026-11-06").move.length === 4 && listsOf(D).move.includes("feed")
+    && listsOf(D).social.includes("xpost") && listsOf(D).visit.includes("desk"));
+  // a wallet whose first paid move slot is the top-up quest
+  const w = Array.from({ length: 2000 }, (_, i) => addr(0xe000 + i)).find((x) => questAt(x, D, "move", null, 1) === "topup")!;
+  await pg.run("insert into mine.xp_holders (wallet, liquid, staked, locked, flies) values (?, 0, 0, 0, 1)", w);
+  const Q3 = createQuests({ pg, end: Infinity, exclude: [], HttpError, send: () => {}, readJson: async () => ({}), sessionWallet: async () => w,
+    now: () => qclock, receipt: async (tx) => receipts.get(tx) ?? null, fetchJson: async (u) => posts.get(u.split("/").pop()!) ?? null });
+  let e: any = null;
+  const tryIt = async (f: () => Promise<unknown>) => { e = null; try { await f(); } catch (x) { e = x; } return e; };
+  const t0 = await Q3.today(w);
+  check("today carries the paid reroll terms", t0.paid.burn_flyai === 20_000 && t0.paid.max === 5 && t0.paid.used === 0 && t0.quests.every((q) => q.slot === 0));
+  // a deposit before the burn: it must not count for the paid slot
+  await pg.run(`insert into mine.vault_moves (wallet, chain, kind, holder, token, amount, usd, at) values (?, 'robinhood', 'deposit', ?, 'USDG', '30', 30, ?)`,
+    addr(0xfa), w, new Date(qclock - 60_000).toISOString());
+  receipts.set(TX(1), burnRec(w, 19_999n));
+  check("burn too small: refused", (await tryIt(() => Q3.buyReroll(w, "move", TX(1))))?.status === 400);
+  receipts.set(TX(2), burnRec(addr(0xbad), 20_000n));
+  check("someone else's burn: refused", (await tryIt(() => Q3.buyReroll(w, "move", TX(2))))?.status === 400);
+  check("not mined yet: try again", (await tryIt(() => Q3.buyReroll(w, "move", TX(99))))?.status === 409);
+  receipts.set(TX(3), burnRec(w, 20_000n));
+  const r1 = await Q3.buyReroll(w, "move", TX(3));
+  const mv = r1.today.quests[2];
+  check("a paid reroll moves the group to its next quest, even a done one", mv.slot === 1 && mv.id === "topup" && !mv.done, JSON.stringify(mv));
+  check("the same burn counts once", (await tryIt(() => Q3.buyReroll(w, "move", TX(3))))?.status === 409);
+  check("the earlier deposit doesn't count for the paid slot", !(await Q3.today(w)).quests[2].done);
+  qclock += 60_000;
+  await pg.run(`insert into mine.vault_moves (wallet, chain, kind, holder, token, amount, usd, at) values (?, 'robinhood', 'deposit', ?, 'USDG', '12', 12, ?)`,
+    addr(0xfb), w, new Date(qclock).toISOString());
+  const t1 = await Q3.today(w);
+  check("a deposit after the burn completes it and pays", t1.quests[2].done && !!(await pg.one("select 1 from mine.xp_events where ref = ?", `quest:${w}:${D}:topup:p1`)));
+  receipts.set(TX(4), burnRec(w, 25_000n, DEAD));
+  const r2 = await Q3.buyReroll(w, "move", TX(4));
+  check("the old dead-address burn still counts; slot 2", r2.today.quests[2].slot === 2 && r2.today.paid.used === 2);
+  for (const n of [5, 6, 7]) { receipts.set(TX(n), burnRec(w, 20_000n)); await Q3.buyReroll(w, n === 7 ? "visit" : "social", TX(n)); }
+  receipts.set(TX(8), burnRec(w, 20_000n));
+  check("5 paid rerolls a day at most", (await tryIt(() => Q3.buyReroll(w, "move", TX(8))))?.status === 409 && (await Q3.today(w)).paid.used === 5);
+  // a paid visit slot: its quest pays when the page reports it
+  const vis = (await Q3.today(w)).quests[0];
+  const v = await Q3.visit(w, vis.id);
+  check("a paid visit slot pays on the page's report", v.gained === 2 && v.today.quests[0].done, JSON.stringify(v.today.quests[0]));
+
+  // the X post quest
+  const xw = addr(0xe9001);
+  await pg.run("insert into mine.xp_holders (wallet, liquid, staked, locked, flies) values (?, 0, 0, 0, 1)", xw);
+  const Q4 = createQuests({ pg, end: Infinity, exclude: [], HttpError, send: () => {}, readJson: async () => ({}), sessionWallet: async () => xw,
+    now: () => qclock, fetchJson: async (u) => posts.get(u.split("/").pop()!) ?? null });
+  const link = (id: string) => `https://x.com/flyfan/status/${id}`;
+  check("no X connected: refused", (await tryIt(() => Q4.xpost(xw, link("1111111"))))?.status === 409);
+  await pg.run("insert into mine.x_links (wallet, x_id, username, name, linked_at_ms) values (?, '9', 'FlyFan', 'Fly Fan', 1)", xw);
+  check("not a post link: refused", (await tryIt(() => Q4.xpost(xw, "https://example.com/x")))?.status === 400);
+  posts.set("2222222", { tweet: { author: { screen_name: "someoneelse" }, created_timestamp: qclock / 1000, text: "$FLYAI meme" } });
+  check("someone else's post: refused", (await tryIt(() => Q4.xpost(xw, link("2222222"))))?.status === 403);
+  posts.set("3333333", { tweet: { author: { screen_name: "flyfan" }, created_timestamp: qclock / 1000 - 86_400, text: "$FLYAI" } });
+  check("yesterday's post: refused", (await tryIt(() => Q4.xpost(xw, link("3333333"))))?.status === 409);
+  posts.set("4444444", { tweet: { author: { screen_name: "flyfan" }, created_timestamp: qclock / 1000, text: "a cat meme" } });
+  check("a post not about fly.ai: refused", (await tryIt(() => Q4.xpost(xw, link("4444444"))))?.status === 400);
+  posts.set("5555555", { tweet: { author: { screen_name: "FLYFAN" }, created_timestamp: qclock / 1000, text: "when the fly sells at 2x 😂 @flydotai" } });
+  await Q4.xpost(xw, `https://twitter.com/FLYFAN/status/5555555?s=20`);
+  check("a meme from your X, today, about fly.ai: counted", !!(await pg.one("select 1 from mine.xp_quest_posts where post_id = '5555555' and wallet = ?", xw)));
+  check("the same post counts once", (await tryIt(() => Q4.xpost(xw, link("5555555"))))?.status === 409);
+  check("postIdOf reads x.com and twitter.com links", postIdOf("https://x.com/a_b/status/123456789") === "123456789"
+    && postIdOf("https://mobile.twitter.com/a/status/987654321?x=1") === "987654321" && postIdOf("https://x.com/a") === null);
+}
 
 await PG.stop();
 if (failed) { console.log(`\n${failed} failed`); process.exit(1); }

@@ -14,6 +14,7 @@
  */
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Pg } from "./pg.ts";
+import { burnedBy } from "./burns.ts";
 
 export const PRICE_FLYAI = 100_000;
 export const OWNER_SHARE = 0.9;
@@ -92,7 +93,7 @@ export function createFollow(d: {
         .map((r) => ({ follower_fly: r.follower_fly, ends_at: new Date(r.ends_at).toISOString() }));
     }
     return { fly, wallet, owner, followers: count?.n ?? 0, mine,
-      price: { flyai: PRICE_FLYAI, owner_flyai: OWNER_FLYAI, burn_flyai: BURN_FLYAI, days: 7, token: FLYAI, burn_to: DEAD, tier_flyai: TIER_FLYAI } };
+      price: { flyai: PRICE_FLYAI, owner_flyai: OWNER_FLYAI, burn_flyai: BURN_FLYAI, days: 7, token: FLYAI, burn_to: DEAD, burn_fn: "burn", tier_flyai: TIER_FLYAI } };
   }
 
   /** The followed fly's wallet into the follower's "track" option (on; added to its list), its settings otherwise kept. */
@@ -138,7 +139,7 @@ export function createFollow(d: {
     const [recOwner, recBurn] = await Promise.all([receipt(ownerTx), receipt(burnTx)]);
     if (!recOwner || !recBurn) throw new HttpError(409, "a payment isn't mined yet: try again in a moment");
     if (recOwner.status !== "0x1" || recBurn.status !== "0x1") throw new HttpError(400, "a payment failed on chain");
-    const paid = sentIn(recOwner, me, owner), burned = sentIn(recBurn, me, DEAD);
+    const paid = sentIn(recOwner, me, owner), burned = burnedBy(recBurn as any, me);   // burn() or the old dead-address send
     if (paid < BigInt(OWNER_FLYAI) * E18) throw new HttpError(400, `the owner's part: ${OWNER_FLYAI.toLocaleString("en-US")} $FLYAI from your wallet to ${owner}`);
     if (burned < BigInt(BURN_FLYAI) * E18) throw new HttpError(400, `the burn: ${BURN_FLYAI.toLocaleString("en-US")} $FLYAI from your wallet to 0x…dEaD`);
     const pass = await pg.tx(async (q) => {

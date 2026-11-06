@@ -92,6 +92,11 @@ send(0, addr(7), TEAM, 10n * K200);                                         // t
 // C buys through the box at day 1: the pool pays C, C's buy pays our fee leg
 const BOX = `0x${"b0".repeat(32)}`;
 send(blockAt(1), POOL, C, 1_000_000n * E18, BOX); send(blockAt(1), C, cfg.feeTo, 2_500n * E18, BOX);
+// RB buys 300k through the box's Relay route (no fee leg in the tx; the box logged a success): counts. NB buys 300k
+// elsewhere (no log): not a box buy (2026-11-06, xp.ts boxBuys)
+const RB = addr(0xf8), NB = addr(0xf9);
+send(blockAt(9), POOL, RB, 300_000n * E18);
+send(blockAt(9), POOL, NB, 300_000n * E18);
 // C sells half into the pool at day 10: the streak restarts
 send(blockAt(10), C, POOL, 500_000n * E18);
 // D locks 400k for E
@@ -135,6 +140,8 @@ try {
   const xp = createXp({ pg, chain, cfg, HttpError, now: () => clock, readJson: async () => ({}),
     send: (_r, status, body) => { sent.push({ status, body }); }, sessionWallet: async () => session,
     search: async () => { searches++; return posts; } });
+  await pg.run(`insert into mine.swap_events (session, step, wallet, route, at) values ('testsession1', 'success', ?, 'relay', ?)`,
+    RB, new Date(timeAt(blockAt(9)) + 20 * 60_000).toISOString());
   await xp.tick();
   const prof = async (w: string) => xp.profile(w) as Promise<any>;
   let a = await prof(A), b = await prof(B), c = await prof(C), dd = await prof(D), e = await prof(E);
@@ -145,6 +152,9 @@ try {
   check("A: claim staked within the hour = 50", a.sources.claimstake === 50, String(a.sources.claimstake));
   check("B: staked at 1.25x and no claim-stake bonus (3 h late)", !b.sources.claimstake && b.sources.hold > 300, JSON.stringify(b.sources));
   check("C: box buy of 1M = 100", c.sources.buy === 100, String(c.sources.buy));
+  const pf = await prof(RB), pgx = await prof(NB);
+  check("F: a Relay-route box buy (no fee leg, the box logged it) = 30", pf.sources.buy === 30, JSON.stringify(pf.sources));
+  check("G: the same buy without the box's log isn't a box buy", !pgx.sources.buy, JSON.stringify(pgx.sources));
   check("C: the sell restarted the streak", c.streak_weeks === 1, String(c.streak_weeks));
   check("C and D: the market sale earns both sides 20", c.sources.market === 20 && dd.sources.market === 20);
   check("D: breeding = 500", dd.sources.breed === 500);

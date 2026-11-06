@@ -1206,7 +1206,9 @@
         "closing": "Esta mosca se vendió: su dinero en Solana va al antiguo titular"
       },
       "withdrawHint": "Se paga en $FLYAI a tu wallet en Robinhood Chain.",
-      "homeHint": "Lo pasa a la wallet principal de la mosca en USDG, donde sigue operando."
+      "homeHint": "Lo pasa a la wallet principal de la mosca en USDG, donde sigue operando.",
+      "more": "Posiciones y operaciones",
+      "inValue": "{usd} en Solana"
     },
     "moveTitle": "Mover dinero a otra red",
     "moveText": "Hasta {usd} del efectivo de la mosca (el dinero bloqueado del FlightPass se queda). Llega como efectivo a la misma wallet en la otra red, en minutos.",

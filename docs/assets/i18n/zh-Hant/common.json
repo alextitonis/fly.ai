@@ -244,7 +244,20 @@
       "q_market": "在 Fly Market 買或賣",
       "todaySwap": "更換",
       "todaySwapAsk": "把「{q}」換成別的任務嗎？每天只能換一次。",
-      "todayLag": "完成後幾分鐘內打勾"
+      "todayLag": "完成後幾分鐘內打勾",
+      "q_leaderboard": "查看排行榜",
+      "q_desk": "看看 Fly Desk",
+      "q_feed": "為 Fly Desk 投餵",
+      "q_xpost": "在 X 上發一個關於 fly.ai 的迷因或任何內容",
+      "todayBurnTip": "銷毀 {n} $FLYAI 換一個新任務，已完成的也可以",
+      "todayBurnAsk": "銷毀 {n} $FLYAI，把「{q}」換成新任務？已完成的也可以換，新任務會再次獲得 XP。",
+      "todayBurnWallet": "請在錢包中確認銷毀…",
+      "todayBurnWait": "等待銷毀完成…",
+      "todayBurnDone": "🔥 已銷毀。這是你的新任務。",
+      "todayBurnLeft": "🔥 銷毀換新任務：今天還剩 {n}/{max} 次",
+      "todayPostPh": "貼上你的貼文連結",
+      "todayPostGo": "檢查",
+      "todayPostDone": "貼文已計入 ✓"
     },
     "terminal": {
       "label": "Fly 終端",

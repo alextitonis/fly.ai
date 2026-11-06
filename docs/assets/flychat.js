@@ -170,7 +170,9 @@
     try {
       acct = await import(ACCOUNT_JS);
       const word = (x) => x.toString(16).padStart(64, "0");
-      const data = "0xa9059cbb" + word(BigInt(me.pack.burn_to)) + word(BigInt(flyai) * 10n ** 18n);
+      // the token's own burn(amount) (2026-11-06, the user: "use the normal pons burn function"): it lowers the supply
+      const data = me.pack.burn_fn === "burn" ? "0x42966c68" + word(BigInt(flyai) * 10n ** 18n)
+        : "0xa9059cbb" + word(BigInt(me.pack.burn_to)) + word(BigInt(flyai) * 10n ** 18n);
       S.packMsg = t("buyWallet"); render();
       const hash = await acct.transact(FLYAI, data, () => { S.packMsg = t("buyWallet"); render(); }, CHAIN);
       S.packMsg = t("buyWaiting"); render();

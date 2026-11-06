@@ -244,7 +244,20 @@
       "q_market": "Fly Market에서 사거나 팔기",
       "todaySwap": "바꾸기",
       "todaySwapAsk": "\"{q}\" 퀘스트를 다른 것으로 바꿀까요? 하루 1번만 바꿀 수 있어요.",
-      "todayLag": "완료 후 몇 분 뒤에 체크돼요"
+      "todayLag": "완료 후 몇 분 뒤에 체크돼요",
+      "q_leaderboard": "리더보드 확인하기",
+      "q_desk": "Fly Desk 보기",
+      "q_feed": "Fly Desk에 먹이 주기",
+      "q_xpost": "X에 fly.ai 밈이나 아무 글이나 올리기",
+      "todayBurnTip": "{n} $FLYAI를 소각하고 이 자리에 새 퀘스트 받기 (완료한 것도 가능)",
+      "todayBurnAsk": "{n} $FLYAI를 소각하고 \"{q}\" 대신 새 퀘스트를 받을까요? 완료한 퀘스트도 가능하고, 새 퀘스트도 XP를 줍니다.",
+      "todayBurnWallet": "지갑에서 소각을 확인하세요…",
+      "todayBurnWait": "소각이 처리되기를 기다리는 중…",
+      "todayBurnDone": "🔥 소각 완료. 새 퀘스트입니다.",
+      "todayBurnLeft": "🔥 소각으로 새 퀘스트: 오늘 {max}회 중 {n}회 남음",
+      "todayPostPh": "게시물 링크를 붙여넣기",
+      "todayPostGo": "확인",
+      "todayPostDone": "게시물 반영됨 ✓"
     },
     "terminal": {
       "label": "Fly 터미널",

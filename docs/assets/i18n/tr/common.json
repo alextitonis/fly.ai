@@ -244,7 +244,20 @@
       "q_market": "Fly Market'te al veya sat",
       "todaySwap": "Değiştir",
       "todaySwapAsk": "\"{q}\" başka bir görevle değişsin mi? Günde bir değiştirme hakkın var.",
-      "todayLag": "Yaptıktan birkaç dakika sonra işaretlenir"
+      "todayLag": "Yaptıktan birkaç dakika sonra işaretlenir",
+      "q_leaderboard": "Lider tablosuna bak",
+      "q_desk": "Fly Desk'e göz at",
+      "q_feed": "Fly Desk'i besle",
+      "q_xpost": "X'te fly.ai hakkında bir meme ya da herhangi bir şey paylaş",
+      "todayBurnTip": "{n} $FLYAI yak, bu yere yeni bir görev al (tamamlanmış olsa bile)",
+      "todayBurnAsk": "\"{q}\" yerine yeni bir görev için {n} $FLYAI yakılsın mı? Tamamlanmış görevde de çalışır ve yeni görev yine XP verir.",
+      "todayBurnWallet": "Yakımı cüzdanında onayla…",
+      "todayBurnWait": "Yakımın geçmesi bekleniyor…",
+      "todayBurnDone": "🔥 Yakıldı. İşte yeni görevin.",
+      "todayBurnLeft": "🔥 Yakımla yeni görev: bugün {max} hakkın {n} tanesi kaldı",
+      "todayPostPh": "Gönderinin linkini yapıştır",
+      "todayPostGo": "Kontrol et",
+      "todayPostDone": "Gönderi sayıldı ✓"
     },
     "terminal": {
       "label": "Fly Terminal",

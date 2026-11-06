@@ -1206,7 +1206,9 @@
         "closing": "This fly was sold: its Solana money is on its way to the old holder"
       },
       "withdrawHint": "Paid in $FLYAI to your wallet on Robinhood Chain.",
-      "homeHint": "Moves it to the fly's main wallet as USDG, where it keeps trading."
+      "homeHint": "Moves it to the fly's main wallet as USDG, where it keeps trading.",
+      "more": "Positions & trades",
+      "inValue": "{usd} on Solana"
     },
     "moveTitle": "Move money to another chain",
     "moveText": "Up to {usd} of the fly's cash (the locked FlightPass money stays). It lands as cash in the same wallet on the other chain, within minutes.",

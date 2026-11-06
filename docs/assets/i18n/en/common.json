@@ -244,7 +244,20 @@
       "q_market": "Buy or sell on the Fly Market",
       "todaySwap": "Swap",
       "todaySwapAsk": "Swap \"{q}\" for another quest? You get one swap a day.",
-      "todayLag": "Ticks a few minutes after you do it"
+      "todayLag": "Ticks a few minutes after you do it",
+      "q_leaderboard": "Check the leaderboard",
+      "q_desk": "Look at the Fly Desk",
+      "q_feed": "Feed the Fly Desk",
+      "q_xpost": "Post a meme or anything about fly.ai on X",
+      "todayBurnTip": "Burn {n} $FLYAI for a new quest in this slot, even if it's done",
+      "todayBurnAsk": "Burn {n} $FLYAI for a new quest instead of \"{q}\"? It works even if that one is done, and the new one pays XP again.",
+      "todayBurnWallet": "Confirm the burn in your wallet…",
+      "todayBurnWait": "Waiting for the burn to go through…",
+      "todayBurnDone": "🔥 Burned. Here's your new quest.",
+      "todayBurnLeft": "🔥 New quests for a burn: {n} of {max} left today",
+      "todayPostPh": "Paste the link to your post",
+      "todayPostGo": "Check",
+      "todayPostDone": "Post counted ✓"
     },
     "terminal": {
       "label": "Fly Terminal",

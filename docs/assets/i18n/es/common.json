@@ -244,7 +244,20 @@
       "q_market": "Compra o vende en el Fly Market",
       "todaySwap": "Cambiar",
       "todaySwapAsk": "¿Cambiar \"{q}\" por otra misión? Tienes un cambio al día.",
-      "todayLag": "Se marca unos minutos después de hacerla"
+      "todayLag": "Se marca unos minutos después de hacerla",
+      "q_leaderboard": "Mira la clasificación",
+      "q_desk": "Echa un vistazo al Fly Desk",
+      "q_feed": "Alimenta al Fly Desk",
+      "q_xpost": "Publica un meme o lo que sea sobre fly.ai en X",
+      "todayBurnTip": "Quema {n} $FLYAI por una misión nueva en este hueco, aunque ya esté hecha",
+      "todayBurnAsk": "¿Quemar {n} $FLYAI por una misión nueva en lugar de \"{q}\"? Funciona aunque esté hecha, y la nueva vuelve a dar XP.",
+      "todayBurnWallet": "Confirma la quema en tu wallet…",
+      "todayBurnWait": "Esperando a que pase la quema…",
+      "todayBurnDone": "🔥 Quemado. Aquí tienes tu nueva misión.",
+      "todayBurnLeft": "🔥 Misiones nuevas por quema: te quedan {n} de {max} hoy",
+      "todayPostPh": "Pega el enlace de tu post",
+      "todayPostGo": "Comprobar",
+      "todayPostDone": "Post contado ✓"
     },
     "terminal": {
       "label": "Fly Terminal",

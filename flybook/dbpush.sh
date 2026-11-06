@@ -6,4 +6,4 @@ cd "$(dirname "$0")"
 set -a
 . ./.env
 set +a
-supabase db push --db-url "$SUPABASE_POOLER_URL" --yes
+npx -y supabase@2 db push --db-url "$SUPABASE_POOLER_URL" --yes

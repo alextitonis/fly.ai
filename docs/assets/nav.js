@@ -92,7 +92,7 @@
       signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
       save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out",
       search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", deskClaim: "Fly Desk payout to claim", claimBy: "claim by {t}", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
-      chats: "Chats", badgesBtn: "🏅 Badges", xpBtn: "⭐ XP & profile", xpChip: "Your XP level, streak and profile", xpLevel: "Lv {n}", levelUp: "Level {n}!", levelUpText: "You reached XP level {n}. It counts toward the airdrop.", levelUpSee: "See your profile", xpSoon: "+{n} XP soon", close: "Close", todayTitle: "Today", todayResets: "New day in {h} h {m} min", todayEnded: "The season is over: no more check-ins or quests.", todayGate: "Hold {n} $FLYAI or a Trader Fly to check in and do quests.", todayBuy: "Buy $FLYAI", todayStreak: "days in a row · best {best}", todayFreezeTip: "Streak freezes: one for every 7 days in a row, up to 2. A missed day uses one instead of breaking your streak.", todayNext: "Next bonus: day {n}, +{xp} XP", todayChecked: "Checked in ✓", todayCheckin: "Check in · +{xp} XP", todayMilestone: "{n} days in a row! +{xp} XP", todayFreezeUsed: "A streak freeze covered {n} missed day(s).", todayQuests: "Today's quests", todayReroll: "Swap this quest (once a day)", todaySwap: "Swap", todaySwapAsk: "Swap \"{q}\" for another quest? You get one swap a day.", todayLag: "Ticks a few minutes after you do it", todayAll: "All 3 done", todayProfile: "Your profile", todayRules: "How quests work", q_fly: "Open one of your flies", q_squads: "Look at the Squads board", q_xp: "Visit the XP page", q_flybook: "Like, comment or poke on Flybook", q_flychat: "Send your fly a message in Fly chat", q_rate: "Rate a fly", q_topup: "Top up a fly with $10 or more", q_swap: "Buy $FLYAI in the swap box", q_claimstake: "Claim and stake your payout", q_market: "Buy or sell on the Fly Market", profileBtn: "👤 Profile", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
+      chats: "Chats", badgesBtn: "🏅 Badges", xpBtn: "⭐ XP & profile", xpChip: "Your XP level, streak and profile", xpLevel: "Lv {n}", levelUp: "Level {n}!", levelUpText: "You reached XP level {n}. It counts toward the airdrop.", levelUpSee: "See your profile", xpSoon: "+{n} XP soon", close: "Close", todayTitle: "Today", todayResets: "New day in {h} h {m} min", todayEnded: "The season is over: no more check-ins or quests.", todayGate: "Hold {n} $FLYAI or a Trader Fly to check in and do quests.", todayBuy: "Buy $FLYAI", todayStreak: "days in a row · best {best}", todayFreezeTip: "Streak freezes: one for every 7 days in a row, up to 2. A missed day uses one instead of breaking your streak.", todayNext: "Next bonus: day {n}, +{xp} XP", todayChecked: "Checked in ✓", todayCheckin: "Check in · +{xp} XP", todayMilestone: "{n} days in a row! +{xp} XP", todayFreezeUsed: "A streak freeze covered {n} missed day(s).", todayQuests: "Today's quests", todayReroll: "Swap this quest (once a day)", todaySwap: "Swap", todaySwapAsk: "Swap \"{q}\" for another quest? You get one swap a day.", todayLag: "Ticks a few minutes after you do it", todayAll: "All 3 done", todayProfile: "Your profile", todayRules: "How quests work", q_fly: "Open one of your flies", q_squads: "Look at the Squads board", q_xp: "Visit the XP page", q_flybook: "Like, comment or poke on Flybook", q_flychat: "Send your fly a message in Fly chat", q_rate: "Rate a fly", q_topup: "Top up a fly with $10 or more", q_swap: "Buy $FLYAI in the swap box", q_claimstake: "Claim and stake your payout", q_market: "Buy or sell on the Fly Market", q_leaderboard: "Check the leaderboard", q_desk: "Look at the Fly Desk", q_feed: "Feed the Fly Desk", q_xpost: "Post a meme or anything about fly.ai on X", todayBurnTip: "Burn {n} $FLYAI for a new quest in this slot, even if it's done", todayBurnAsk: "Burn {n} $FLYAI for a new quest instead of \"{q}\"? It works even if that one is done, and the new one pays XP again.", todayBurnWallet: "Confirm the burn in your wallet…", todayBurnWait: "Waiting for the burn to go through…", todayBurnDone: "🔥 Burned. Here's your new quest.", todayBurnLeft: "🔥 New quests for a burn: {n} of {max} left today", todayPostPh: "Paste the link to your post", todayPostGo: "Check", todayPostDone: "Post counted ✓", profileBtn: "👤 Profile", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
       xLabel: "X account", connectX: "Connect X", unlinkX: "Unlink", x_linked: "X connected", x_denied: "Cancelled on X",
       tgLabel: "Telegram", tgIn: "In the fly.ai group · +50 XP", tgOut: "Not in the group yet", tgJoin: "Join the group", tgCheck: "Check again",
       x_expired: "That took too long, try again", x_taken: "That X account is linked to another wallet", x_failed: "X didn't answer, try again" };
@@ -622,6 +622,7 @@
     btn.addEventListener("click", (e) => { e.stopPropagation(); openToday(); });
     loadToday().then((t) => markDot(t));
     if (/^\/xp(\.html)?\/?$/.test(location.pathname)) visitQuest("xp");   // the XP page is a visit quest
+    if (/^\/desk(\.html)?\/?$/.test(location.pathname)) visitQuest("desk");   // and the Fly Desk page (2026-11-07)
     loadXp(s.wallet, fresh).then((v) => {
       if (!v || !btn.isConnected) { if (!v) { btn.remove(); acct.classList.remove("has-xp"); } return; }
       const at = 50 * v.level * v.level, next = v.next || 50 * (v.level + 1) * (v.level + 1);   // xp.ts levelXp
@@ -707,8 +708,10 @@
    */
   const QUEST_HREF = { fly: "/traderflies/", squads: "/traderflies/leaderboard?board=squads", xp: "/xp", flybook: "/flybook/",
     flychat: "/traderflies/", rate: "/traderflies/leaderboard", topup: "/traderflies/", swap: "/token#buy", claimstake: "/traderflies/claim",
-    market: "/traderflies/market" };
-  const QUEST_ICON = { fly: "🪰", squads: "🛡️", xp: "⭐", flybook: "💬", flychat: "🗨️", rate: "⭐", topup: "💵", swap: "🔁", claimstake: "🏦", market: "🏷️" };
+    market: "/traderflies/market", leaderboard: "/traderflies/leaderboard", desk: "/desk", feed: "/traderflies/claim",
+    xpost: "https://x.com/intent/post?text=" + encodeURIComponent("@flydotai $FLYAI ") };
+  const QUEST_ICON = { fly: "🪰", squads: "🛡️", xp: "⭐", flybook: "💬", flychat: "🗨️", rate: "⭐", topup: "💵", swap: "🔁", claimstake: "🏦", market: "🏷️",
+    leaderboard: "🏆", desk: "📈", feed: "🍯", xpost: "😂" };
   let todayCopy = null;
   async function todayCall(path, body) {
     const s = session();
@@ -810,7 +813,47 @@
         const a = h("a", "td-q", qText(q.id)); a.href = QUEST_HREF[q.id] || "/";
         const xp = h("span", "td-xp", `+${q.xp}`);
         if (q.group === "move" && !q.done) a.append(h("small", "td-lag", L("todayLag")));
+        if (q.id === "xpost") { a.target = "_blank"; a.rel = "noopener"; }
         li.append(tick, a, xp);
+        // 2026-11-07: a new quest for a $FLYAI burn (burn()), done or not, up to the day's limit
+        const paid = t.paid;
+        if (paid && paid.used < paid.max && t.eligible && !t.ended) {
+          const b = h("button", "td-reroll td-burn", `🔥 ${Math.round(paid.burn_flyai / 1000)}k`); b.type = "button";
+          b.title = L("todayBurnTip").replace("{n}", Number(paid.burn_flyai).toLocaleString());
+          b.addEventListener("click", async () => {
+            if (!confirm(L("todayBurnAsk").replace("{q}", qText(q.id)).replace("{n}", Number(paid.burn_flyai).toLocaleString()))) return;
+            b.disabled = true;
+            try {
+              const acct = await import(ACCOUNT_JS);
+              const word = (x) => x.toString(16).padStart(64, "0");
+              const data = "0x42966c68" + word(BigInt(paid.burn_flyai) * 10n ** 18n);   // burn(amount)
+              draw(todayCopy, L("todayBurnWallet"));
+              const hash = await acct.transact(paid.token, data, () => draw(todayCopy, L("todayBurnWallet")), 4663);
+              draw(todayCopy, L("todayBurnWait"));
+              await acct.mined(hash, 4663);
+              let v = null, last = null;
+              for (let i = 0; i < 5 && !v; i++) {
+                try { v = await todayCall("/api/xp/quest/buy-reroll", { group: q.group, tx: hash }); }
+                catch (err) { last = err; if (!/mined/.test(String(err.message))) break; await new Promise((r) => setTimeout(r, 3000)); }
+              }
+              if (!v) throw last || new Error("try again");
+              keepToday(v.today); draw(v.today, L("todayBurnDone"));
+            } catch (err) { draw(todayCopy, String(err.message || err)); }
+          });
+          li.append(b);
+        }
+        if (q.id === "xpost" && !q.done && t.eligible && !t.ended) {
+          const f = h("div", "td-post");
+          const inp = h("input", "td-post-in"); inp.type = "url"; inp.placeholder = L("todayPostPh"); inp.setAttribute("aria-label", L("todayPostPh"));
+          const go = h("button", "td-reroll", L("todayPostGo")); go.type = "button";
+          go.addEventListener("click", async () => {
+            go.disabled = true;
+            try { const v = await todayCall("/api/xp/quest/xpost", { url: inp.value }); keepToday(v.today); draw(v.today, L("todayPostDone")); }
+            catch (err) { draw(todayCopy, String(err.message || err)); }
+          });
+          f.append(inp, go);
+          li.append(f);
+        }
         if (!q.done && !t.reroll_used && t.eligible && !t.ended) {
           const r = h("button", "td-reroll", L("todaySwap")); r.type = "button"; r.title = L("todayReroll");
           r.addEventListener("click", async () => {
@@ -827,6 +870,7 @@
       all.append(h("i", "td-tick", t.all_done ? "✓" : "🎁"), h("span", "td-q", L("todayAll")), h("span", "td-xp", `+${t.rates.all}`));
       ul.append(all);
       box.append(ul);
+      if (t.paid && t.eligible && !t.ended) box.append(h("small", "td-reset", L("todayBurnLeft").replace("{n}", Math.max(0, t.paid.max - t.paid.used)).replace("{max}", t.paid.max)));
       const foot = h("div", "td-foot");
       const prof = h("button", "td-link", L("todayProfile")); prof.type = "button";
       prof.addEventListener("click", () => {

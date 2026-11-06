@@ -4233,7 +4233,7 @@ const xp = createXp({
 if (USER) xp.start();
 // daily check-in and quests (src/quests.ts): XP into the same xp_events; season end and team list from the XP config
 const xpCfg = xpConfig(process.env);
-const quests = createQuests({ pg, end: xpCfg.end, exclude: xpCfg.exclude, on: xpCfg.on, HttpError, send, readJson, sessionWallet: sessionAddress });
+const quests = createQuests({ pg, end: xpCfg.end, exclude: xpCfg.exclude, on: xpCfg.on, HttpError, send, readJson, sessionWallet: sessionAddress, rpc: CLAIMS.rpc });
 if (USER) quests.start();
 // Connect Telegram (src/tglink.ts): the Login Widget's signed answer, and the bot's word on group membership (XP)
 const tgLink = createTgLink({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, env: process.env });

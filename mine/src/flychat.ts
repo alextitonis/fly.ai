@@ -29,6 +29,7 @@
  */
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Pg } from "./pg.ts";
+import { burnedBy } from "./burns.ts";
 
 export const MAX_LEN = 300;
 export const GAP_MS = 30_000;
@@ -39,7 +40,6 @@ export const TIER_FLYAI = 500_000;
 export const PACK_FLYAI = 50_000;                // burned for a pack
 export const PACK_MESSAGES = 100;
 const DEAD = "0x000000000000000000000000000000000000dead";
-const TRANSFER = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
 export const HISTORY = 6;
 const KEEP_DAYS = 14;
 const PAGE = 40;
@@ -333,7 +333,7 @@ export function createFlyChat(d: {
     const wait = last ? Math.max(0, GAP_MS - (now() - new Date(last.at).getTime())) : 0;
     const freeLeft = Math.max(0, free - (today?.n ?? 0)), packLeft = credits?.n ?? 0;
     return { wait_s: Math.ceil(wait / 1000), left_today: freeLeft + packLeft, free_left: freeLeft, free_per_day: free,
-             credits: packLeft, pack: { flyai: PACK_FLYAI, messages: PACK_MESSAGES, burn_to: DEAD, token: FLYAI },
+             credits: packLeft, pack: { flyai: PACK_FLYAI, messages: PACK_MESSAGES, burn_to: DEAD, burn_fn: "burn", token: FLYAI },
              resting: !d.llm || (spent?.usd ?? 0) >= dailyUsd };
   }
 
@@ -351,12 +351,7 @@ export function createFlyChat(d: {
     const rec = await receipt(tx);
     if (!rec) throw new HttpError(409, "that transaction isn't mined yet: try again in a moment");
     if (rec.status !== "0x1") throw new HttpError(400, "that transaction failed on chain");
-    const pad = (a: string) => `0x${a.slice(2).padStart(64, "0")}`;
-    let wei = 0n;
-    for (const l of rec.logs ?? []) {
-      if (l.address?.toLowerCase() === FLYAI && l.topics?.[0] === TRANSFER && l.topics[1]?.toLowerCase() === pad(me)
-          && l.topics[2]?.toLowerCase() === pad(DEAD)) wei += BigInt(l.data);
-    }
+    const wei = burnedBy(rec, me);                   // burn() (2026-11-06) or the old send to the dead address
     const packs = wei / (BigInt(PACK_FLYAI) * E18);
     if (packs <= 0n) throw new HttpError(400, `no burn of ${PACK_FLYAI.toLocaleString("en-US")} $FLYAI from your wallet in that transaction`);
     const messages = Number(packs) * PACK_MESSAGES;

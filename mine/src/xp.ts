@@ -204,10 +204,12 @@ export function boostResult(b: Boost, p: { gained: number; deposited: number; so
 
 /**
  * A chunk of logs, in chain order, against the holders it touches. Returns the one-off events. Pure apart from `of`.
- * `fee` is the swap box's fee leg: a buy whose tx also pays $FLYAI to it came through our box.
+ * `fee` is the swap box's fee leg: a buy whose tx also pays $FLYAI to it came through our box. Other buys from a pool go
+ * to `plain` when given (2026-11-06: the box's Relay route pays our fee at Relay, its GIGA route has none, so neither
+ * showed a fee leg; book() counts them when the box logged a success for that wallet, mine.swap_events).
  */
 export function bookLogs(cfg: XpConfig, logs: Log[], timeOf: (n: number) => number, of: (w: string) => Holder,
-  owners: Map<number, string>, pending: Pending, sells?: { boosts: Boost[]; out: Sell[] }): Event[] {
+  owners: Map<number, string>, pending: Pending, sells?: { boosts: Boost[]; out: Sell[] }, plain?: Event[]): Event[] {
   const events: Event[] = [];
   const order = (a: Log, b: Log) => parseInt(a.blockNumber, 16) - parseInt(b.blockNumber, 16) || parseInt(a.logIndex, 16) - parseInt(b.logIndex, 16);
   const sorted = [...logs].sort(order);
@@ -245,6 +247,9 @@ export function bookLogs(cfg: XpConfig, logs: Log[], timeOf: (n: number) => numb
             }
           }
           else if (viaBox && w !== cfg.feeTo) ev(w, "buy", l, tokens(v) / 10_000 * RATES.per10kFlyai, t);
+          else if (plain && w !== cfg.feeTo && w !== ZERO && w !== DEAD && t <= cfg.end) {
+            plain.push({ wallet: w, source: "buy", ref: `${l.transactionHash}:${parseInt(l.logIndex, 16)}`, xp: tokens(v) / 10_000 * RATES.per10kFlyai, at: t });
+          }
         }
       }
       const a = addressOf(l.topics[1]), b = addressOf(l.topics[2]), v = wordAt(l.data, 0);
@@ -406,7 +411,9 @@ export function createXp(d: {
     const before = new Map(owners);
     const boosts = (await getState<Boost[]>(q, "boosts")) ?? [];
     const sold: Sell[] = [];
-    const events = bookLogs(cfg, all, timeOf, of, owners, pending, { boosts, out: sold });
+    const plain: Event[] = [];
+    const events = bookLogs(cfg, all, timeOf, of, owners, pending, { boosts, out: sold }, plain);
+    if (plain.length) events.push(...await boxBuys(q, plain));
     if (sold.length) {
       const prev = (await getState<Sell[]>(q, "boost_sells")) ?? [];
       const seen = new Set(prev.map((s) => s.ref));
@@ -435,6 +442,17 @@ export function createXp(d: {
     }
     await setState(q, "pending", pending);
     await setState(q, "cursor", to + 1);
+  }
+
+  /** Buys with no fee leg that the swap box logged as a success for that wallet within 2 hours: the box's Relay and GIGA
+   *  routes (mine.swap_events, src/buyweek.ts). A log row alone counts nothing; it has to match a real buy here. */
+  async function boxBuys(q: Q, plain: Event[]): Promise<Event[]> {
+    const W = 2 * 3_600_000;
+    const from = Math.min(...plain.map((e) => e.at)) - W, to = Math.max(...plain.map((e) => e.at)) + W;
+    const rows = await q.all<{ wallet: string; at_ms: number }>(`select wallet, (extract(epoch from at) * 1000)::float8 as at_ms from mine.swap_events
+      where step = 'success' and wallet = any(?::text[]) and at between ? and ?`,
+      `{${[...new Set(plain.map((e) => e.wallet))].join(",")}}`, new Date(from).toISOString(), new Date(to).toISOString()).catch(() => []);
+    return plain.filter((e) => rows.some((r) => r.wallet === e.wallet && Math.abs(r.at_ms - e.at) <= W));
   }
 
   /** The chain from the cursor up to the safe head, a chunk at a time; a chunk and its cursor are one transaction. */

@@ -1206,7 +1206,9 @@
         "closing": "Bu sinek satıldı: Solana parası eski sahibine gidiyor"
       },
       "withdrawHint": "Robinhood Chain'deki cüzdanına $FLYAI olarak ödenir.",
-      "homeHint": "USDG olarak sineğin ana cüzdanına taşınır ve orada işlem yapmaya devam eder."
+      "homeHint": "USDG olarak sineğin ana cüzdanına taşınır ve orada işlem yapmaya devam eder.",
+      "more": "Pozisyonlar ve işlemler",
+      "inValue": "{usd} Solana'da"
     },
     "moveTitle": "Parayı başka bir ağa taşı",
     "moveText": "Sineğin nakdinden en fazla {usd} (kilitli FlightPass parası kalır). Diğer ağda aynı cüzdana dakikalar içinde nakit olarak gelir.",
