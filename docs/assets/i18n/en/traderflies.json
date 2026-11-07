@@ -1130,14 +1130,21 @@
       "Listed": "One of these flies is listed on the market: cancel the listing to breed.",
       "Incubating": "Not yet: the child is still incubating.",
       "ERC20InsufficientBalance": "Not enough $FLYAI in this wallet.",
-      "ERC20InsufficientAllowance": "The $FLYAI approval is too small; try again."
+      "ERC20InsufficientAllowance": "The $FLYAI approval is too small; try again.",
+      "SpeedOff": "Speeding up is off right now.",
+      "Hatched": "Nothing left to skip: it's ready to hatch."
     },
     "step": {
       "approve": "Approving…",
       "merge": "Merging…",
       "roll": "Fixing the child…",
-      "hatch": "Hatching…"
-    }
+      "hatch": "Hatching…",
+      "speed": "Burning…"
+    },
+    "speedUp": "⚡ Skip the wait · {amount} $FLYAI",
+    "speedUpText": "Burns {amount} $FLYAI ({usd}) and hatches it now. All of it is burned.",
+    "speedConfirm": "Confirm in your wallet: burn {amount} $FLYAI and hatch now.",
+    "oddsSpeed": "In a hurry? Skip the incubation by burning $FLYAI: {usd} per hour left, all of it burned."
   },
   "wallet": {
     "watch": {

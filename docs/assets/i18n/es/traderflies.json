@@ -1130,14 +1130,21 @@
       "Listed": "Una de estas moscas está en venta en el mercado: quítala de la venta para criar.",
       "Incubating": "Todavía no: la cría sigue incubando.",
       "ERC20InsufficientBalance": "No hay suficiente $FLYAI en esta billetera.",
-      "ERC20InsufficientAllowance": "La aprobación de $FLYAI es insuficiente; inténtalo de nuevo."
+      "ERC20InsufficientAllowance": "La aprobación de $FLYAI es insuficiente; inténtalo de nuevo.",
+      "SpeedOff": "Acelerar está desactivado ahora mismo.",
+      "Hatched": "No queda nada que saltar: ya puede nacer."
     },
     "step": {
       "approve": "Aprobando…",
       "merge": "Fusionando…",
       "roll": "Fijando la cría…",
-      "hatch": "Naciendo…"
-    }
+      "hatch": "Naciendo…",
+      "speed": "Quemando…"
+    },
+    "speedUp": "⚡ Saltar la espera · {amount} $FLYAI",
+    "speedUpText": "Quema {amount} $FLYAI ({usd}) y nace ahora. Se quema todo.",
+    "speedConfirm": "Confirma en tu billetera: quemar {amount} $FLYAI y hacerla nacer ahora.",
+    "oddsSpeed": "¿Con prisa? Salta la incubación quemando $FLYAI: {usd} por hora restante, se quema todo."
   },
   "wallet": {
     "watch": {

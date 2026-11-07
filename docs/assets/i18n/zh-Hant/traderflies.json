@@ -1128,14 +1128,21 @@
       "Listed": "其中一隻蒼蠅正在市場掛單：取消掛單後才能繁殖。",
       "Incubating": "還不行：後代仍在孵化中。",
       "ERC20InsufficientBalance": "此錢包的 $FLYAI 不足。",
-      "ERC20InsufficientAllowance": "$FLYAI 授權額度不足，請重試。"
+      "ERC20InsufficientAllowance": "$FLYAI 授權額度不足，請重試。",
+      "SpeedOff": "目前無法加速。",
+      "Hatched": "沒有可跳過的時間了：已經可以孵化。"
     },
     "step": {
       "approve": "授權中…",
       "merge": "合併中…",
       "roll": "確定後代中…",
-      "hatch": "孵化中…"
-    }
+      "hatch": "孵化中…",
+      "speed": "銷毀中…"
+    },
+    "speedUp": "⚡ 跳過等待 · {amount} $FLYAI",
+    "speedUpText": "銷毀 {amount} $FLYAI（{usd}），立即孵化。全部銷毀。",
+    "speedConfirm": "請在錢包中確認：銷毀 {amount} $FLYAI 並立即孵化。",
+    "oddsSpeed": "趕時間？銷毀 $FLYAI 跳過孵化：剩餘每小時 {usd}，全部銷毀。"
   },
   "wallet": {
     "watch": {

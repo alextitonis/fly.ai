@@ -1128,14 +1128,21 @@
       "Listed": "이 중 한 마리가 마켓에 판매 중입니다. 교배하려면 판매를 취소하세요.",
       "Incubating": "아직입니다: 새끼가 부화 중입니다.",
       "ERC20InsufficientBalance": "이 지갑에 $FLYAI가 부족합니다.",
-      "ERC20InsufficientAllowance": "$FLYAI 승인 금액이 부족합니다. 다시 시도하세요."
+      "ERC20InsufficientAllowance": "$FLYAI 승인 금액이 부족합니다. 다시 시도하세요.",
+      "SpeedOff": "지금은 가속을 사용할 수 없습니다.",
+      "Hatched": "건너뛸 시간이 없습니다: 이미 부화할 수 있습니다."
     },
     "step": {
       "approve": "승인 중…",
       "merge": "합치는 중…",
       "roll": "새끼 확정 중…",
-      "hatch": "부화 중…"
-    }
+      "hatch": "부화 중…",
+      "speed": "소각 중…"
+    },
+    "speedUp": "⚡ 기다림 건너뛰기 · {amount} $FLYAI",
+    "speedUpText": "{amount} $FLYAI({usd})를 소각하고 지금 부화합니다. 전부 소각됩니다.",
+    "speedConfirm": "지갑에서 확인하세요: {amount} $FLYAI를 소각하고 지금 부화합니다.",
+    "oddsSpeed": "급하신가요? $FLYAI를 소각해 부화를 건너뛸 수 있습니다: 남은 시간 1시간당 {usd}, 전부 소각됩니다."
   },
   "wallet": {
     "watch": {

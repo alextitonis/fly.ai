@@ -1130,14 +1130,21 @@
       "Listed": "Bu sineklerden biri pazarda satışta: çiftleştirmek için ilanı kaldır.",
       "Incubating": "Henüz değil: yavru hâlâ kuluçkada.",
       "ERC20InsufficientBalance": "Bu cüzdanda yeterli $FLYAI yok.",
-      "ERC20InsufficientAllowance": "$FLYAI onayı yetersiz; tekrar dene."
+      "ERC20InsufficientAllowance": "$FLYAI onayı yetersiz; tekrar dene.",
+      "SpeedOff": "Hızlandırma şu an kapalı.",
+      "Hatched": "Atlanacak bir şey kalmadı: çıkmaya hazır."
     },
     "step": {
       "approve": "Onaylanıyor…",
       "merge": "Birleştiriliyor…",
       "roll": "Yavru belirleniyor…",
-      "hatch": "Çıkıyor…"
-    }
+      "hatch": "Çıkıyor…",
+      "speed": "Yakılıyor…"
+    },
+    "speedUp": "⚡ Beklemeyi atla · {amount} $FLYAI",
+    "speedUpText": "{amount} $FLYAI ({usd}) yakar ve şimdi çıkarır. Hepsi yakılır.",
+    "speedConfirm": "Cüzdanında onayla: {amount} $FLYAI yak ve şimdi çıkar.",
+    "oddsSpeed": "Acelen mi var? $FLYAI yakarak kuluçkayı atla: kalan saat başına {usd}, hepsi yakılır."
   },
   "wallet": {
     "watch": {
