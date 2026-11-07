@@ -34,7 +34,8 @@
   .bars .head, .bar { display: grid; grid-template-columns: minmax(110px, 180px) 1fr; align-items: center; gap: 14px; }
   .bar { margin: 0 0 10px; }
   .bars .head { font: 12px var(--mono); color: var(--dim); margin-bottom: 8px; }
-  .bars .head .track { height: auto; }
+  .bars .head .track { height: 20px; }
+  .bars .head .l, .bars .head .r { top: 0; line-height: 20px; }
   .bars .head .l { position: absolute; right: calc(25% + 8px); white-space: nowrap; }
   .bars .head .r { position: absolute; left: calc(75% + 8px); color: var(--mint); white-space: nowrap; }
   .bar .who { font-size: 15px; color: var(--text); }

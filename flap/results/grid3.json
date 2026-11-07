@@ -1,0 +1,80 @@
+[
+ {
+  "settings": {
+   "threshold": 6,
+   "rate_tau": 0.03
+  },
+  "mean_pipes": 4.17,
+  "max_pipes": 15,
+  "passed_1+": 5,
+  "mean_seconds": 13.56,
+  "flaps_per_s": 1.79,
+  "runs": 6,
+  "wall": 272
+ },
+ {
+  "settings": {
+   "threshold": 6,
+   "rate_tau": 0.05
+  },
+  "mean_pipes": 7.33,
+  "max_pipes": 11,
+  "passed_1+": 6,
+  "mean_seconds": 17.85,
+  "flaps_per_s": 1.8,
+  "runs": 6,
+  "wall": 369
+ },
+ {
+  "settings": {
+   "threshold": 10,
+   "rate_tau": 0.03
+  },
+  "mean_pipes": 6,
+  "max_pipes": 10,
+  "passed_1+": 6,
+  "mean_seconds": 16.08,
+  "flaps_per_s": 1.77,
+  "runs": 6,
+  "wall": 301
+ },
+ {
+  "settings": {
+   "threshold": 10,
+   "rate_tau": 0.05
+  },
+  "mean_pipes": 3.33,
+  "max_pipes": 7,
+  "passed_1+": 6,
+  "mean_seconds": 12.32,
+  "flaps_per_s": 1.75,
+  "runs": 6,
+  "wall": 292
+ },
+ {
+  "settings": {
+   "threshold": 14,
+   "rate_tau": 0.03
+  },
+  "mean_pipes": 6,
+  "max_pipes": 11,
+  "passed_1+": 6,
+  "mean_seconds": 15.97,
+  "flaps_per_s": 1.79,
+  "runs": 6,
+  "wall": 749
+ },
+ {
+  "settings": {
+   "threshold": 14,
+   "rate_tau": 0.05
+  },
+  "mean_pipes": 4.83,
+  "max_pipes": 18,
+  "passed_1+": 6,
+  "mean_seconds": 14.28,
+  "flaps_per_s": 1.76,
+  "runs": 6,
+  "wall": 647
+ }
+]

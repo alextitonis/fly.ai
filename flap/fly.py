@@ -33,7 +33,7 @@ DEFAULT = {
     "volts": 1.0,       # LC10a drive per brain step while the target is in view
     "spread": 0.35,     # radians off dead ahead at which one eye gets all of it
     "rate_tau": 0.05,   # s, smoothing of the steering spikes
-    "threshold": 10.0,  # Hz of left-minus-right steering that makes a flap
+    "threshold": 6.0,   # Hz of left-minus-right steering that makes a flap
     "refractory": 0.25, # s, shortest time between two flaps (a wingbeat burst)
     "escape": 0.0,      # looming volts per unit of angular growth; 0 = escape route off
     "pitch": 0.0,       # px: the fly's head is pitched down this much, so "dead ahead" sits above the gap middle

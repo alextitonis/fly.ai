@@ -44,7 +44,7 @@ def settings(pairs) -> dict:
 
 
 def play(browser, brain, seed: int, p: dict, mode: str = "brain", recorder=None, random_rate: float = 2.0,
-         easy: bool = False) -> dict:
+         easy: bool = False, max_seconds: float = MAX_SECONDS) -> dict:
     """One game. Returns pipes passed, seconds alive, flaps."""
     brain.reset(seed)
     for _ in range(int(round(0.5 / brain.dt))):   # let the network settle before the game starts
@@ -58,7 +58,7 @@ def play(browser, brain, seed: int, p: dict, mode: str = "brain", recorder=None,
     n = 0
     flaps, t, s = 0, 0.0, game.step(0)
     try:
-        while t < MAX_SECONDS:
+        while t < max_seconds:
             s = game.step(ms)
             t += brain.dt
             alive = s["state"] == 1
@@ -95,8 +95,8 @@ def open_browser(pw):
 
 def add_common(ap):
     ap.add_argument("--easy", action="store_true", help="the game's own easy mode (?easy, 200 px gap)")
-    ap.add_argument("--flies", type=int, default=1, help="flies voting (brain batch)")
-    ap.add_argument("--dt", type=float, default=0.02, help="brain step, seconds")
+    ap.add_argument("--flies", type=int, default=8, help="flies voting (brain batch)")
+    ap.add_argument("--dt", type=float, default=0.01, help="brain step, seconds")
     ap.add_argument("--device", default="auto")
 
 
@@ -115,6 +115,7 @@ def main():
     ap.add_argument("--set", nargs="*")
     ap.add_argument("--out")
     ap.add_argument("--keep", type=int, default=3)
+    ap.add_argument("--max", type=float, default=20.0, help="clip length cap, seconds (clip/clips only)")
     a = ap.parse_args()
 
     from playwright.sync_api import sync_playwright
@@ -132,26 +133,36 @@ def main():
             from video import Recorder
             out = Path(a.out or HERE / "videos" / f"seed{a.seed}.mp4")
             rec = Recorder(out)
-            r = play(browser, brain, a.seed, p, a.mode, recorder=rec, easy=a.easy)
+            r = play(browser, brain, a.seed, p, a.mode, recorder=rec, easy=a.easy, max_seconds=a.max)
             rec.close(r)
             print(json.dumps(r), "->", out)
         else:
+            # Every game is filmed as it is played (the GPU brain doesn't replay a seed exactly), then only the
+            # best few and the fastest death are kept.
             from video import Recorder
+            tmp = HERE / "videos" / "_tmp"
             results = []
             for sd in seeds(a.seeds):
-                r = play(browser, brain, sd, p, a.mode, easy=a.easy)
-                print(json.dumps(r), flush=True)
+                rec = Recorder(tmp / f"seed{sd}.mp4")
+                r = play(browser, brain, sd, p, a.mode, recorder=rec, easy=a.easy, max_seconds=a.max)
+                rec.close(r)
+                r["file"] = rec.out
+                print(json.dumps({k: v for k, v in r.items() if k != "file"}), flush=True)
                 results.append(r)
             best = sorted(results, key=lambda r: (-r["pipes"], -r["seconds"]))[: a.keep]
             early = min(results, key=lambda r: (r["pipes"], r["seconds"]))
-            picks = [(r, f"best-{i + 1}") for i, r in enumerate(best)] + [(early, "fastest-death")]
-            for r, tag in picks:
-                out = HERE / "videos" / f"{tag}-seed{r['seed']}-{r['pipes']}pipes.mp4"
-                rec = Recorder(out)
-                again = play(browser, brain, r["seed"], p, a.mode, recorder=rec, easy=a.easy)
-                rec.close(again)
-                note = "" if again["pipes"] == r["pipes"] else f" (replay scored {again['pipes']})"
-                print(f"{tag}: {out.name}{note}")
+            tag = "easy-" if a.easy else ""
+            picks = [(r, f"{tag}best-{i + 1}") for i, r in enumerate(best)] + [(early, f"{tag}fastest-death")]
+            for r, name in picks:
+                if not r["file"].exists():        # same game picked twice
+                    continue
+                out = HERE / "videos" / f"{name}-seed{r['seed']}-{r['pipes']}pipes.mp4"
+                out.unlink(missing_ok=True)
+                r["file"].replace(out)
+                print(f"{name}: {out.name}")
+            for f in tmp.glob("*.mp4"):
+                f.unlink()
+            tmp.rmdir()
         browser.close()
 
 
