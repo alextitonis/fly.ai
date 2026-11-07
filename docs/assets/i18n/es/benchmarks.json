@@ -33,8 +33,8 @@
     "h": "Lo que muestra",
     "good_h": "Las moscas perdieron menos que todos los bots",
     "good_p": "El mejor bot perdió un 25%; cinco de las seis moscas perdieron menos, la mejor solo un 4,3%. Los bots perdieron sobre todo por rotación: rotar la cartera cada 12 horas cuesta un 0,3–1% por swap en estos pools poco profundos. Las moscas operan con tamaños menores, pagan un impacto de ~0,13% por ejecución y se mantuvieron más tiempo fuera de un mercado en caída.",
-    "bad_h": "Las moscas no superaron al mercado como grupo",
-    "bad_p": "La mitad superó al mercado y la otra mitad no, y la mosca media lo hizo más o menos igual que simplemente mantener. Un cerebro de mosca no es una máquina de dinero; en estas dos semanas fue un trader prudente en un mercado en caída.",
+    "bad_h": "No todas las moscas batieron al mercado",
+    "bad_p": "Tres de las seis moscas batieron al mercado y tres perdieron más que él. Cada mosca opera con sus propios ajustes, y esta ronda muestra qué ajustes aguantaron en un mercado a la baja. Todas las moscas aparecen arriba, y las próximas rondas mostrarán si las mejores siguen ganando.",
     "llm_h": "El bot LLM quedó último",
     "llm_p": "Un modelo de lenguaje que veía los movimientos recientes de cada token y elegía qué mantener cada 12 horas perdió un 37%. Coincide con lo que ya encontramos: sin ventaja, y la rotación se lleva el resto."
   },
@@ -49,5 +49,11 @@
   "cta": {
     "desk": "Ver operar a las moscas",
     "research": "Más investigación"
+  },
+  "chart": {
+    "left": "← peor que el mercado",
+    "right": "lo batió →",
+    "market": "La línea es el mercado (-10,2%)",
+    "how": "cada barra es el rendimiento menos el del mercado"
   }
 }

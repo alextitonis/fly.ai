@@ -33,8 +33,8 @@
     "h": "Ne gösteriyor",
     "good_h": "Sinekler her bottan daha az kaybetti",
     "good_p": "En iyi bot %25 kaybetti; altı sineğin beşi bundan daha az kaybetti, en iyisi yalnızca %4,3. Botlar çoğunlukla sık al-satla kaybetti: cüzdanı 12 saatte bir döndürmek bu sığ havuzlarda swap başına %0,3–1'e mal oluyor. Sinekler daha küçük işlem yapıyor, işlem başına yaklaşık %0,13 etki ödüyor ve düşen piyasanın daha büyük kısmını dışarıda geçirdi.",
-    "bad_h": "Sinekler grup olarak piyasayı geçemedi",
-    "bad_p": "Yarısı piyasayı geçti, yarısı geçemedi; ortalama sinek kabaca sadece tutmak kadar iyi yaptı. Bir sinek beyni para makinesi değil; bu iki haftada düşen bir piyasada temkinli bir traderdı.",
+    "bad_h": "Her sinek piyasayı geçemedi",
+    "bad_p": "Altı sinekten üçü piyasayı geçti, üçü piyasadan fazla kaybetti. Her sinek kendi ayarlarıyla işlem yapıyor ve bu tur, düşen bir piyasada hangi ayarların dayandığını gösteriyor. Tüm sinekler yukarıda listeleniyor; sonraki turlar en iyilerin kazanmaya devam edip etmediğini gösterecek.",
     "llm_h": "LLM botu sonuncu oldu",
     "llm_p": "Her tokenın son hareketlerini görüp 12 saatte bir ne tutacağını seçen bir dil modeli %37 kaybetti. Daha önce bulduğumuzla uyumlu: avantaj yok, gerisini sık al-sat maliyeti götürüyor."
   },
@@ -49,5 +49,11 @@
   "cta": {
     "desk": "Sineklerin işlemlerini izle",
     "research": "Daha fazla araştırma"
+  },
+  "chart": {
+    "left": "← piyasadan kötü",
+    "right": "piyasayı geçti →",
+    "market": "Çizgi piyasadır (-%10,2)",
+    "how": "her çubuk getiri eksi piyasanın getirisi"
   }
 }

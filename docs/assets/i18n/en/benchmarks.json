@@ -33,8 +33,8 @@
     "h": "What it shows",
     "good_h": "The flies lost less than every bot",
     "good_p": "The best bot lost 25%; five of the six flies lost less than that, the best only 4.3%. The bots lost mostly to churn: rotating the wallet every 12 hours costs 0.3–1% a swap on these thin pools. The flies trade smaller, pay about 0.13% impact a fill, and sat out more of a falling market.",
-    "bad_h": "The flies did not beat the market as a group",
-    "bad_p": "Half of them beat the market and half didn't, and the average fly did about as well as simply holding. A fly brain is not a money machine; on these two weeks it was a careful trader in a falling market.",
+    "bad_h": "Not every fly beat the market",
+    "bad_p": "Three of the six flies beat the market and three lost more than it. Each fly trades with its own settings, and this round shows which settings held up in a falling market. Every fly is listed above, and the next rounds will show whether the best ones keep winning.",
     "llm_h": "The LLM bot came last",
     "llm_p": "A language model shown each token's recent moves and asked what to hold, every 12 hours, lost 37%. It matches what we found before: no edge, and the churn costs the rest."
   },
@@ -49,5 +49,11 @@
   "cta": {
     "desk": "Watch the flies trade",
     "research": "More research"
+  },
+  "chart": {
+    "left": "← did worse than the market",
+    "right": "beat it →",
+    "market": "The line is the market (-10.2%)",
+    "how": "each bar is a return minus the market's"
   }
 }

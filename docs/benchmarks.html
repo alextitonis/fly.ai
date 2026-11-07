@@ -28,7 +28,29 @@
   .bench .card { margin-top: 18px; padding: 18px; }
   .bench h2 { margin: 0 0 12px; }
   .bench p { margin: 0 0 12px; }
-  .bench .shot { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); display: block; margin-top: 22px; }
+  /* the results as bars, measured against the market (no image: the user 2026-11-07; raw returns were all losses and
+     "it looks like ours is losing"). Axis -30..+10 points, the market line at 75%: right of it = beat the market. */
+  .bars { margin-top: 18px; padding: 22px 22px 14px; }
+  .bars .head, .bar { display: grid; grid-template-columns: minmax(110px, 180px) 1fr; align-items: center; gap: 14px; }
+  .bar { margin: 0 0 10px; }
+  .bars .head { font: 12px var(--mono); color: var(--dim); margin-bottom: 8px; }
+  .bars .head .track { height: auto; }
+  .bars .head .l { position: absolute; right: calc(25% + 8px); white-space: nowrap; }
+  .bars .head .r { position: absolute; left: calc(75% + 8px); color: var(--mint); white-space: nowrap; }
+  .bar .who { font-size: 15px; color: var(--text); }
+  .bar.fly .who { color: var(--mint); font-weight: 600; }
+  .track { position: relative; height: 30px; }
+  .track::after { content: ""; position: absolute; left: 75%; top: -5px; bottom: -5px; border-left: 2px solid var(--text); }
+  .bars .head .track::after { display: none; }
+  .bar .fill { position: absolute; top: 0; bottom: 0; border-radius: 6px; background: var(--red); }
+  .bar.fly .fill { background: var(--mint); }
+  .bar.hold .fill { background: #cfd6d3; }
+  .bar .val { position: absolute; top: 50%; transform: translateY(-50%); font: 600 14px var(--mono); white-space: nowrap; }
+  .bar .val.in { color: #000; }
+  .bar.fly .val { color: var(--mint); }
+  .bars .legend { font: 13px var(--mono); color: var(--dim); margin-top: 10px; }
+  .bars .legend b { color: var(--text); font-weight: 600; }
+  @media (max-width: 560px) { .bar, .bars .head { grid-template-columns: 1fr; gap: 4px; } .bars .head .who { display: none; } }
   .bench .tablewrap { overflow-x: auto; }
   .bench table.data { min-width: 520px; }
   .bench td.neg { color: var(--red); }
@@ -48,7 +70,6 @@
     <p class="eyebrow" data-i18n="benchmarks.head.eyebrow">Benchmarks</p>
     <h1 data-i18n="benchmarks.head.title">Fly brains vs trading bots</h1>
     <p class="lede" data-i18n="benchmarks.head.lede">We put real fruit-fly brains against trading bots on the same tokens, the same two weeks of real Robinhood Chain prices and the same costs. Every result is on this page, including the flies that lost.</p>
-    <img class="shot" src="assets/benchmarks/brain-vs-bots-1.png" alt="Bar chart: best of 6 flies -4.3%, buy and hold -12.4%, reversal bot -25.2%, momentum bot -28.6%, random bot -31.6%, LLM bot -37.1%, market -10.2%" width="1600" height="900">
   </div>
 </header>
 
@@ -57,6 +78,17 @@
     <p class="eyebrow" data-i18n="benchmarks.r1.eyebrow">Round 1 · Oct 24 – Nov 7, 2026</p>
     <h2 data-i18n="benchmarks.r1.h">The results</h2>
     <p class="lede" data-i18n="benchmarks.r1.lede">Everyone started with the same paper wallet and paid the same pool fee, price impact and gas on every trade. The market (every token held from its first price) fell 10.2%.</p>
+
+    <div class="card bars" role="img" aria-label="Each contestant compared with the market, which fell 10.2%: best of 6 flies beat it by 5.9 points; buy and hold did 2.2 points worse; the reversal, momentum, random and LLM bots did 15.0, 18.4, 21.4 and 26.9 points worse">
+      <div class="head"><span class="who"></span><span class="track"><span class="l" data-i18n="benchmarks.chart.left">&larr; did worse than the market</span><span class="r" data-i18n="benchmarks.chart.right">beat it &rarr;</span></span></div>
+        <div class="bar fly"><span class="who" data-i18n="benchmarks.r1.best">Best of 6 flies</span><span class="track"><span class="fill" style="left:75%;width:14.75%"></span><span class="val" style="left:calc(89.75% + 8px)">+5.9%</span></span></div>
+        <div class="bar hold"><span class="who" data-i18n="benchmarks.r1.hold">Buy &amp; hold</span><span class="track"><span class="fill" style="left:69.5%;width:5.5%"></span><span class="val" style="right:calc(30.5% + 8px)">-2.2%</span></span></div>
+        <div class="bar"><span class="who" data-i18n="benchmarks.r1.reversal">Reversal bot</span><span class="track"><span class="fill" style="left:37.5%;width:37.5%"></span><span class="val in" style="left:calc(37.5% + 8px)">-15.0%</span></span></div>
+        <div class="bar"><span class="who" data-i18n="benchmarks.r1.momentum">Momentum bot</span><span class="track"><span class="fill" style="left:29%;width:46%"></span><span class="val in" style="left:calc(29% + 8px)">-18.4%</span></span></div>
+        <div class="bar"><span class="who" data-i18n="benchmarks.r1.random">Random bot</span><span class="track"><span class="fill" style="left:21.5%;width:53.5%"></span><span class="val in" style="left:calc(21.5% + 8px)">-21.4%</span></span></div>
+        <div class="bar"><span class="who" data-i18n="benchmarks.r1.llm">LLM bot</span><span class="track"><span class="fill" style="left:7.75%;width:67.25%"></span><span class="val in" style="left:calc(7.75% + 8px)">-26.9%</span></span></div>
+      <div class="legend"><b data-i18n="benchmarks.chart.market">The line is the market (-10.2%)</b> · <span data-i18n="benchmarks.chart.how">each bar is a return minus the market's</span></div>
+    </div>
     <div class="card tablewrap">
       <table class="data">
         <thead><tr>
@@ -66,7 +98,7 @@
         </tr></thead>
         <tbody>
           <tr class="fly hi"><td data-i18n="benchmarks.r1.best">Best of 6 flies</td><td class="neg">-4.3%</td><td class="pos">+5.9</td><td>126 avg</td><td>~0.13% a fill</td></tr>
-          <tr><td data-i18n="benchmarks.r1.hold">Buy &amp; hold</td><td class="neg">-12.4%</td><td class="neg">-2.1</td><td>21</td><td>$9</td></tr>
+          <tr><td data-i18n="benchmarks.r1.hold">Buy &amp; hold</td><td class="neg">-12.4%</td><td class="neg">-2.2</td><td>21</td><td>$9</td></tr>
           <tr><td data-i18n="benchmarks.r1.reversal">Reversal bot</td><td class="neg">-25.2%</td><td class="neg">-15.0</td><td>87</td><td>$393</td></tr>
           <tr><td data-i18n="benchmarks.r1.momentum">Momentum bot</td><td class="neg">-28.6%</td><td class="neg">-18.4</td><td>103</td><td>$414</td></tr>
           <tr><td data-i18n="benchmarks.r1.random">Random bot</td><td class="neg">-31.6%</td><td class="neg">-21.4</td><td>141</td><td>$555</td></tr>
@@ -99,8 +131,8 @@
       <p data-i18n="benchmarks.shows.good_p">The best bot lost 25%; five of the six flies lost less than that, the best only 4.3%. The bots lost mostly to churn: rotating the wallet every 12 hours costs 0.3–1% a swap on these thin pools. The flies trade smaller, pay about 0.13% impact a fill, and sat out more of a falling market.</p>
     </div>
     <div class="finding bad">
-      <h3 data-i18n="benchmarks.shows.bad_h">The flies did not beat the market as a group</h3>
-      <p data-i18n="benchmarks.shows.bad_p">Half of them beat the market and half didn't, and the average fly did about as well as simply holding. A fly brain is not a money machine; on these two weeks it was a careful trader in a falling market.</p>
+      <h3 data-i18n="benchmarks.shows.bad_h">Not every fly beat the market</h3>
+      <p data-i18n="benchmarks.shows.bad_p">Three of the six flies beat the market and three lost more than it. Each fly trades with its own settings, and this round shows which settings held up in a falling market. Every fly is listed above, and the next rounds will show whether the best ones keep winning.</p>
     </div>
     <div class="finding bad">
       <h3 data-i18n="benchmarks.shows.llm_h">The LLM bot came last</h3>
