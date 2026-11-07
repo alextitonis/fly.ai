@@ -326,6 +326,10 @@
       "label": "排行榜",
       "desc": "每个 Fly Wallet 的实时结果"
     },
+    "benchmarks": {
+      "label": "基准测试",
+      "desc": "果蝇大脑对比交易机器人，全部结果"
+    },
     "scan": {
       "label": "Fly Scan",
       "desc": "签名前检查代币或网站"

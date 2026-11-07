@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "Benchmarks — fly brains vs trading bots",
+    "description": "Real fruit-fly brains against trading bots, an LLM bot and buy-and-hold, on the same two weeks of Robinhood Chain prices at the same costs. Every result, the method and the caveats."
+  },
+  "head": {
+    "eyebrow": "Benchmarks",
+    "title": "Fly brains vs trading bots",
+    "lede": "We put real fruit-fly brains against trading bots on the same tokens, the same two weeks of real Robinhood Chain prices and the same costs. Every result is on this page, including the flies that lost."
+  },
+  "r1": {
+    "eyebrow": "Round 1 · Oct 24 – Nov 7, 2026",
+    "h": "The results",
+    "lede": "Everyone started with the same paper wallet and paid the same pool fee, price impact and gas on every trade. The market (every token held from its first price) fell 10.2%.",
+    "th_who": "Contestant",
+    "th_ret": "Return",
+    "th_mkt": "vs market",
+    "th_trades": "Trades",
+    "th_cost": "Costs paid",
+    "best": "Best of 6 flies",
+    "hold": "Buy & hold",
+    "reversal": "Reversal bot",
+    "momentum": "Momentum bot",
+    "random": "Random bot",
+    "llm": "LLM bot",
+    "market": "The market"
+  },
+  "flies": {
+    "h": "Every fly",
+    "lede": "Six flies, each its own brain with its own settings, traded the same two weeks. Three beat the market and three didn't, and five of the six lost less than every trading bot."
+  },
+  "shows": {
+    "h": "What it shows",
+    "good_h": "The flies lost less than every bot",
+    "good_p": "The best bot lost 25%; five of the six flies lost less than that, the best only 4.3%. The bots lost mostly to churn: rotating the wallet every 12 hours costs 0.3–1% a swap on these thin pools. The flies trade smaller, pay about 0.13% impact a fill, and sat out more of a falling market.",
+    "bad_h": "The flies did not beat the market as a group",
+    "bad_p": "Half of them beat the market and half didn't, and the average fly did about as well as simply holding. A fly brain is not a money machine; on these two weeks it was a careful trader in a falling market.",
+    "llm_h": "The LLM bot came last",
+    "llm_p": "A language model shown each token's recent moves and asked what to hold, every 12 hours, lost 37%. It matches what we found before: no edge, and the churn costs the rest."
+  },
+  "rules": {
+    "h": "The rules",
+    "p1": "Prices: 15-minute candles of every token on fly.ai's list, from GeckoTerminal, used every 45 minutes (the live flies' pace).",
+    "p2": "Costs, on every trade, for everyone: the pool fee, price impact from each pool's real depth (constant product), and $0.05 gas.",
+    "p3": "Flies: the live fly brain (the full connectome, all learning on), six flies with their own settings.",
+    "p4": "Bots: buy-and-hold (every token, equal weight, bought once); momentum and reversal (every 12 h, hold the 3 tokens that rose or fell most over 24 h); random (3 random tokens every 12 h, averaged over 20 runs); the LLM bot (every 12 h, a language model picks up to 3 tokens from their 2 h, 6 h and 24 h moves). Bots only trade pools deep enough for their size.",
+    "caveat": "One two-week window in a falling market. A ranking here is what happened on these prices, not proof of an edge. We will run it again on new windows and publish the result either way."
+  },
+  "cta": {
+    "desk": "Watch the flies trade",
+    "research": "More research"
+  }
+}

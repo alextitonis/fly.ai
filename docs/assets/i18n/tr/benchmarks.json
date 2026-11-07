@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "Kıyaslamalar — sinek beyinleri ve alım satım botları",
+    "description": "Gerçek meyve sineği beyinleri; alım satım botları, bir LLM botu ve al-tut stratejisine karşı, aynı iki haftalık Robinhood Chain fiyatlarında ve aynı maliyetlerle. Tüm sonuçlar, yöntem ve uyarılar."
+  },
+  "head": {
+    "eyebrow": "Kıyaslamalar",
+    "title": "Sinek beyinleri ve alım satım botları",
+    "lede": "Gerçek meyve sineği beyinlerini aynı tokenlarda, aynı iki haftalık gerçek Robinhood Chain fiyatlarında ve aynı maliyetlerle alım satım botlarına karşı yarıştırdık. Kaybeden sinekler dahil tüm sonuçlar bu sayfada."
+  },
+  "r1": {
+    "eyebrow": "1. Tur · 24 Eki – 7 Kas 2026",
+    "h": "Sonuçlar",
+    "lede": "Herkes aynı kağıt cüzdanla başladı ve her işlemde aynı havuz ücretini, fiyat etkisini ve gas'ı ödedi. Piyasa (her token ilk fiyatından itibaren tutulursa) %10,2 düştü.",
+    "th_who": "Yarışmacı",
+    "th_ret": "Getiri",
+    "th_mkt": "piyasaya göre",
+    "th_trades": "İşlemler",
+    "th_cost": "Ödenen maliyet",
+    "best": "6 sineğin en iyisi",
+    "hold": "Al ve tut",
+    "reversal": "Dönüş botu",
+    "momentum": "Momentum botu",
+    "random": "Rastgele bot",
+    "llm": "LLM botu",
+    "market": "Piyasa"
+  },
+  "flies": {
+    "h": "Her sinek",
+    "lede": "Her biri kendi beyni ve kendi ayarlarıyla altı sinek aynı iki haftada işlem yaptı. Üçü piyasayı geçti, üçü geçemedi; altıdan beşi her alım satım botundan daha az kaybetti."
+  },
+  "shows": {
+    "h": "Ne gösteriyor",
+    "good_h": "Sinekler her bottan daha az kaybetti",
+    "good_p": "En iyi bot %25 kaybetti; altı sineğin beşi bundan daha az kaybetti, en iyisi yalnızca %4,3. Botlar çoğunlukla sık al-satla kaybetti: cüzdanı 12 saatte bir döndürmek bu sığ havuzlarda swap başına %0,3–1'e mal oluyor. Sinekler daha küçük işlem yapıyor, işlem başına yaklaşık %0,13 etki ödüyor ve düşen piyasanın daha büyük kısmını dışarıda geçirdi.",
+    "bad_h": "Sinekler grup olarak piyasayı geçemedi",
+    "bad_p": "Yarısı piyasayı geçti, yarısı geçemedi; ortalama sinek kabaca sadece tutmak kadar iyi yaptı. Bir sinek beyni para makinesi değil; bu iki haftada düşen bir piyasada temkinli bir traderdı.",
+    "llm_h": "LLM botu sonuncu oldu",
+    "llm_p": "Her tokenın son hareketlerini görüp 12 saatte bir ne tutacağını seçen bir dil modeli %37 kaybetti. Daha önce bulduğumuzla uyumlu: avantaj yok, gerisini sık al-sat maliyeti götürüyor."
+  },
+  "rules": {
+    "h": "Kurallar",
+    "p1": "Fiyatlar: fly.ai listesindeki her tokenın GeckoTerminal'den 15 dakikalık mumları, 45 dakikada bir kullanıldı (canlı sineklerin hızı).",
+    "p2": "Maliyetler, her işlemde ve herkes için: havuz ücreti, her havuzun gerçek derinliğine göre fiyat etkisi (sabit çarpım) ve $0,05 gas.",
+    "p3": "Sinekler: canlı sinek beyni (tam konektom, tüm öğrenme açık), kendi ayarlarıyla altı sinek.",
+    "p4": "Botlar: al ve tut (her token, eşit ağırlık, bir kez alınır); momentum ve dönüş (12 saatte bir, 24 saatte en çok yükselen veya düşen 3 tokenı tut); rastgele (12 saatte bir rastgele 3 token, 20 çalıştırmanın ortalaması); LLM botu (12 saatte bir, bir dil modeli 2, 6 ve 24 saatlik hareketlerine bakarak en fazla 3 token seçer). Botlar yalnızca boyutlarına yetecek derinlikteki havuzlarda işlem yapar.",
+    "caveat": "Düşen bir piyasada tek bir iki haftalık dönem. Buradaki sıralama bu fiyatlarda olanı gösterir, bir avantajın kanıtı değildir. Yeni dönemlerde tekrar çalıştırıp sonucu ne olursa olsun yayınlayacağız."
+  },
+  "cta": {
+    "desk": "Sineklerin işlemlerini izle",
+    "research": "Daha fazla araştırma"
+  }
+}

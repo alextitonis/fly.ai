@@ -1483,7 +1483,8 @@
       "max_hours": "Kapanışa kadar (saat)",
       "min_stake_usd": "En küçük bahis ($)",
       "fall_pct": "Zirveden düşüşte hepsini sat (%)",
-      "sol": "Solana çıkışları da (1 = evet)"
+      "sol": "Solana çıkışları da (1 = evet)",
+      "pons": "Kazanan cüzdanların aldığı Pons lansmanları (1 = evet)"
     },
     "filters": "Meme filtreleri",
     "filtersText": "Yalnızca memeler filtrelenir: büyükler ve hisse token'ları masanın kendi listesidir. Boş = sınır yok.",
@@ -2057,7 +2058,8 @@
         "stop_pct": "Traderlar tutsa bile, kopyalanan pozisyon bu % düşerse satar."
       },
       "fall_pct": "Fiyat alımdan beri gördüğü en yüksekten bu % kadar düşünce hepsini satar - kâr almadan önce de. 0 = kapalı.",
-      "sol": "1 = sineğinin SOL bakiyesiyle Solana'nın yeni tokenlarını da alır (Solana kartından SOL ekle), aynı çıkışlar."
+      "sol": "1 = sineğinin SOL bakiyesiyle Solana'nın yeni tokenlarını da alır (Solana kartından SOL ekle), aynı çıkışlar.",
+      "pons": "1 = son 2 haftada Pons lansmanlarından para kazanan cüzdanlardan en az 2'si alıyorsa, bir Pons lansmanını ilk dakikalarında eğrisinde de alır. Aynı çıkışlarla ya da havuzuna geçtikten hemen sonra satılır."
     },
     "filter": {
       "min_mcap": "Toplam değeri (piyasa değeri) bundan az olan tokenleri atlar.",

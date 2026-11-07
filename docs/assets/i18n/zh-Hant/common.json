@@ -326,6 +326,10 @@
       "label": "排行榜",
       "desc": "每個 Fly Wallet 的即時結果"
     },
+    "benchmarks": {
+      "label": "基準測試",
+      "desc": "果蠅大腦對比交易機器人，全部結果"
+    },
     "scan": {
       "label": "Fly Scan",
       "desc": "簽名前檢查代幣或網站"

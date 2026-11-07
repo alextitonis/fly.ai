@@ -326,6 +326,10 @@
       "label": "Clasificación",
       "desc": "Los resultados de cada Fly Wallet, en vivo"
     },
+    "benchmarks": {
+      "label": "Benchmarks",
+      "desc": "Cerebros de mosca contra bots de trading, todos los resultados"
+    },
     "scan": {
       "label": "Fly Scan",
       "desc": "Revisa un token o un sitio antes de firmar"

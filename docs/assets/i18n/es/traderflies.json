@@ -1483,7 +1483,8 @@
       "max_hours": "Cierra en (horas)",
       "min_stake_usd": "Apuesta mínima ($)",
       "fall_pct": "Vender todo al caer desde el máximo (%)",
-      "sol": "Lanzamientos de Solana también (1 = sí)"
+      "sol": "Lanzamientos de Solana también (1 = sí)",
+      "pons": "Lanzamientos de Pons que compran las carteras ganadoras (1 = sí)"
     },
     "filters": "Filtros de memes",
     "filtersText": "Solo se filtran los memes: los majors y los tokens de acciones son la lista propia de la mesa. Vacío = sin límite.",
@@ -2057,7 +2058,8 @@
         "stop_pct": "Vende una posición copiada si cae este % bajo la compra, aunque los traders la mantengan."
       },
       "fall_pct": "Vende todo cuando el precio cae este % por debajo del máximo alcanzado desde la compra, también antes de la toma de ganancias. 0 = apagado.",
-      "sol": "1 = también compra los tokens nuevos de Solana con el saldo de SOL de tu mosca (añade SOL en la tarjeta de Solana), mismas salidas."
+      "sol": "1 = también compra los tokens nuevos de Solana con el saldo de SOL de tu mosca (añade SOL en la tarjeta de Solana), mismas salidas.",
+      "pons": "1 = también compra un lanzamiento de Pons en su curva, en sus primeros minutos, cuando al menos 2 de las carteras que han ganado dinero con lanzamientos de Pons en las últimas 2 semanas lo están comprando. Se vende con las mismas salidas, o justo después de graduarse a su pool."
     },
     "filter": {
       "min_mcap": "Salta tokens que valen menos que esto en total (market cap).",

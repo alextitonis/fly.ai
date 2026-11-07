@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="benchmarks">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="benchmarks.meta.title">Benchmarks — fly brains vs trading bots</title>
+<meta name="description" content="Real fruit-fly brains against trading bots, an LLM bot and buy-and-hold, on the same two weeks of Robinhood Chain prices at the same costs. Every result, the method and the caveats." data-i18n-attr="content:benchmarks.meta.description">
+<meta property="og:title" content="Benchmarks — fly brains vs trading bots">
+<meta property="og:description" content="Real fruit-fly brains against trading bots, an LLM bot and buy-and-hold, on the same two weeks of Robinhood Chain prices at the same costs.">
+<meta property="og:image" content="https://flyaiworld.com/assets/og/benchmarks.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/benchmarks">
+<meta property="og:url" content="https://flyaiworld.com/benchmarks">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/og/benchmarks.jpg">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .bench .card { margin-top: 18px; padding: 18px; }
+  .bench h2 { margin: 0 0 12px; }
+  .bench p { margin: 0 0 12px; }
+  .bench .shot { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); display: block; margin-top: 22px; }
+  .bench .tablewrap { overflow-x: auto; }
+  .bench table.data { min-width: 520px; }
+  .bench td.neg { color: var(--red); }
+  .bench td.pos { color: var(--green); }
+  .bench tr.fly td:first-child { color: var(--mint); font-weight: 600; }
+  .bench tr.mkt td { border-top: 1px dashed var(--line); color: var(--dim); }
+  .bench ul { padding-left: 20px; margin: 8px 0; }
+  .bench li { margin: 8px 0; color: var(--muted); }
+  .bench .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+</style>
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="benchmarks.head.eyebrow">Benchmarks</p>
+    <h1 data-i18n="benchmarks.head.title">Fly brains vs trading bots</h1>
+    <p class="lede" data-i18n="benchmarks.head.lede">We put real fruit-fly brains against trading bots on the same tokens, the same two weeks of real Robinhood Chain prices and the same costs. Every result is on this page, including the flies that lost.</p>
+    <img class="shot" src="assets/benchmarks/brain-vs-bots-1.png" alt="Bar chart: best of 6 flies -4.3%, buy and hold -12.4%, reversal bot -25.2%, momentum bot -28.6%, random bot -31.6%, LLM bot -37.1%, market -10.2%" width="1600" height="900">
+  </div>
+</header>
+
+<section class="firstsec bench">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="benchmarks.r1.eyebrow">Round 1 · Oct 24 – Nov 7, 2026</p>
+    <h2 data-i18n="benchmarks.r1.h">The results</h2>
+    <p class="lede" data-i18n="benchmarks.r1.lede">Everyone started with the same paper wallet and paid the same pool fee, price impact and gas on every trade. The market (every token held from its first price) fell 10.2%.</p>
+    <div class="card tablewrap">
+      <table class="data">
+        <thead><tr>
+          <th data-i18n="benchmarks.r1.th_who">Contestant</th><th data-i18n="benchmarks.r1.th_ret">Return</th>
+          <th data-i18n="benchmarks.r1.th_mkt">vs market</th><th data-i18n="benchmarks.r1.th_trades">Trades</th>
+          <th data-i18n="benchmarks.r1.th_cost">Costs paid</th>
+        </tr></thead>
+        <tbody>
+          <tr class="fly hi"><td data-i18n="benchmarks.r1.best">Best of 6 flies</td><td class="neg">-4.3%</td><td class="pos">+5.9</td><td>126 avg</td><td>~0.13% a fill</td></tr>
+          <tr><td data-i18n="benchmarks.r1.hold">Buy &amp; hold</td><td class="neg">-12.4%</td><td class="neg">-2.1</td><td>21</td><td>$9</td></tr>
+          <tr><td data-i18n="benchmarks.r1.reversal">Reversal bot</td><td class="neg">-25.2%</td><td class="neg">-15.0</td><td>87</td><td>$393</td></tr>
+          <tr><td data-i18n="benchmarks.r1.momentum">Momentum bot</td><td class="neg">-28.6%</td><td class="neg">-18.4</td><td>103</td><td>$414</td></tr>
+          <tr><td data-i18n="benchmarks.r1.random">Random bot</td><td class="neg">-31.6%</td><td class="neg">-21.4</td><td>141</td><td>$555</td></tr>
+          <tr><td data-i18n="benchmarks.r1.llm">LLM bot</td><td class="neg">-37.1%</td><td class="neg">-26.9</td><td>77</td><td>$245</td></tr>
+          <tr class="mkt"><td data-i18n="benchmarks.r1.market">The market</td><td>-10.2%</td><td>0</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:10px;font-size:13px;color:var(--dim)">Start: $2,500 of paper dollars each. "vs market" is in percentage points. Bots' costs are dollars paid in fees, impact and gas over the two weeks.</p>
+    </div>
+
+    <h2 style="margin-top:42px" data-i18n="benchmarks.flies.h">Every fly</h2>
+    <p data-i18n="benchmarks.flies.lede">Six flies, each its own brain with its own settings, traded the same two weeks. Three beat the market and three didn't, and five of the six lost less than every trading bot.</p>
+    <div class="card tablewrap">
+      <table class="data">
+        <thead><tr><th>Fly</th><th data-i18n="benchmarks.r1.th_ret">Return</th><th data-i18n="benchmarks.r1.th_mkt">vs market</th></tr></thead>
+        <tbody>
+          <tr class="fly hi"><td>Fly 1</td><td class="neg">-4.3%</td><td class="pos">+5.9</td></tr>
+          <tr class="fly"><td>Fly 2</td><td class="neg">-5.0%</td><td class="pos">+5.2</td></tr>
+          <tr class="fly"><td>Fly 3</td><td class="neg">-6.4%</td><td class="pos">+3.8</td></tr>
+          <tr class="fly"><td>Fly 4</td><td class="neg">-11.7%</td><td class="neg">-1.5</td></tr>
+          <tr class="fly"><td>Fly 5</td><td class="neg">-17.9%</td><td class="neg">-7.7</td></tr>
+          <tr class="fly"><td>Fly 6</td><td class="neg">-28.0%</td><td class="neg">-17.8</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 style="margin-top:42px" data-i18n="benchmarks.shows.h">What it shows</h2>
+    <div class="finding good">
+      <h3 data-i18n="benchmarks.shows.good_h">The flies lost less than every bot</h3>
+      <p data-i18n="benchmarks.shows.good_p">The best bot lost 25%; five of the six flies lost less than that, the best only 4.3%. The bots lost mostly to churn: rotating the wallet every 12 hours costs 0.3–1% a swap on these thin pools. The flies trade smaller, pay about 0.13% impact a fill, and sat out more of a falling market.</p>
+    </div>
+    <div class="finding bad">
+      <h3 data-i18n="benchmarks.shows.bad_h">The flies did not beat the market as a group</h3>
+      <p data-i18n="benchmarks.shows.bad_p">Half of them beat the market and half didn't, and the average fly did about as well as simply holding. A fly brain is not a money machine; on these two weeks it was a careful trader in a falling market.</p>
+    </div>
+    <div class="finding bad">
+      <h3 data-i18n="benchmarks.shows.llm_h">The LLM bot came last</h3>
+      <p data-i18n="benchmarks.shows.llm_p">A language model shown each token's recent moves and asked what to hold, every 12 hours, lost 37%. It matches what we found before: no edge, and the churn costs the rest.</p>
+    </div>
+
+    <h2 style="margin-top:42px" data-i18n="benchmarks.rules.h">The rules</h2>
+    <ul>
+      <li data-i18n="benchmarks.rules.p1">Prices: 15-minute candles of every token on fly.ai's list, from GeckoTerminal, used every 45 minutes (the live flies' pace).</li>
+      <li data-i18n="benchmarks.rules.p2">Costs, on every trade, for everyone: the pool fee, price impact from each pool's real depth (constant product), and $0.05 gas.</li>
+      <li data-i18n="benchmarks.rules.p3">Flies: the live fly brain (the full connectome, all learning on), six flies with their own settings.</li>
+      <li data-i18n="benchmarks.rules.p4">Bots: buy-and-hold (every token, equal weight, bought once); momentum and reversal (every 12 h, hold the 3 tokens that rose or fell most over 24 h); random (3 random tokens every 12 h, averaged over 20 runs); the LLM bot (every 12 h, a language model picks up to 3 tokens from their 2 h, 6 h and 24 h moves). Bots only trade pools deep enough for their size.</li>
+    </ul>
+    <p class="lede" data-i18n="benchmarks.rules.caveat">One two-week window in a falling market. A ranking here is what happened on these prices, not proof of an edge. We will run it again on new windows and publish the result either way.</p>
+
+    <div class="cta">
+      <a class="btn red" href="desk.html" data-i18n="benchmarks.cta.desk">Watch the flies trade</a>
+      <a class="btn" href="research.html" data-i18n="benchmarks.cta.research">More research</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261107b"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "Benchmarks — cerebros de mosca contra bots de trading",
+    "description": "Cerebros reales de mosca de la fruta contra bots de trading, un bot LLM y comprar y mantener, con las mismas dos semanas de precios de Robinhood Chain y los mismos costes. Todos los resultados, el método y las advertencias."
+  },
+  "head": {
+    "eyebrow": "Benchmarks",
+    "title": "Cerebros de mosca contra bots de trading",
+    "lede": "Enfrentamos cerebros reales de mosca de la fruta a bots de trading con los mismos tokens, las mismas dos semanas de precios reales de Robinhood Chain y los mismos costes. Todos los resultados están en esta página, incluidas las moscas que perdieron."
+  },
+  "r1": {
+    "eyebrow": "Ronda 1 · 24 oct – 7 nov 2026",
+    "h": "Los resultados",
+    "lede": "Todos empezaron con la misma cartera de papel y pagaron la misma comisión del pool, impacto de precio y gas en cada operación. El mercado (cada token mantenido desde su primer precio) cayó un 10,2%.",
+    "th_who": "Participante",
+    "th_ret": "Rendimiento",
+    "th_mkt": "vs mercado",
+    "th_trades": "Operaciones",
+    "th_cost": "Costes pagados",
+    "best": "La mejor de 6 moscas",
+    "hold": "Comprar y mantener",
+    "reversal": "Bot de reversión",
+    "momentum": "Bot de momentum",
+    "random": "Bot aleatorio",
+    "llm": "Bot LLM",
+    "market": "El mercado"
+  },
+  "flies": {
+    "h": "Cada mosca",
+    "lede": "Seis moscas, cada una con su propio cerebro y su propia configuración, operaron las mismas dos semanas. Tres superaron al mercado y tres no, y cinco de las seis perdieron menos que todos los bots de trading."
+  },
+  "shows": {
+    "h": "Lo que muestra",
+    "good_h": "Las moscas perdieron menos que todos los bots",
+    "good_p": "El mejor bot perdió un 25%; cinco de las seis moscas perdieron menos, la mejor solo un 4,3%. Los bots perdieron sobre todo por rotación: rotar la cartera cada 12 horas cuesta un 0,3–1% por swap en estos pools poco profundos. Las moscas operan con tamaños menores, pagan un impacto de ~0,13% por ejecución y se mantuvieron más tiempo fuera de un mercado en caída.",
+    "bad_h": "Las moscas no superaron al mercado como grupo",
+    "bad_p": "La mitad superó al mercado y la otra mitad no, y la mosca media lo hizo más o menos igual que simplemente mantener. Un cerebro de mosca no es una máquina de dinero; en estas dos semanas fue un trader prudente en un mercado en caída.",
+    "llm_h": "El bot LLM quedó último",
+    "llm_p": "Un modelo de lenguaje que veía los movimientos recientes de cada token y elegía qué mantener cada 12 horas perdió un 37%. Coincide con lo que ya encontramos: sin ventaja, y la rotación se lleva el resto."
+  },
+  "rules": {
+    "h": "Las reglas",
+    "p1": "Precios: velas de 15 minutos de cada token de la lista de fly.ai, de GeckoTerminal, usadas cada 45 minutos (el ritmo de las moscas en vivo).",
+    "p2": "Costes, en cada operación y para todos: la comisión del pool, el impacto de precio según la profundidad real de cada pool (producto constante) y $0,05 de gas.",
+    "p3": "Moscas: el cerebro de mosca en vivo (el conectoma completo, todo el aprendizaje activado), seis moscas con su propia configuración.",
+    "p4": "Bots: comprar y mantener (cada token, mismo peso, comprado una vez); momentum y reversión (cada 12 h, mantener los 3 tokens que más subieron o bajaron en 24 h); aleatorio (3 tokens al azar cada 12 h, media de 20 ejecuciones); el bot LLM (cada 12 h, un modelo de lenguaje elige hasta 3 tokens según sus movimientos de 2 h, 6 h y 24 h). Los bots solo operan pools con profundidad suficiente para su tamaño.",
+    "caveat": "Una ventana de dos semanas en un mercado en caída. Esta clasificación es lo que pasó con estos precios, no la prueba de una ventaja. Lo repetiremos en nuevas ventanas y publicaremos el resultado sea cual sea."
+  },
+  "cta": {
+    "desk": "Ver operar a las moscas",
+    "research": "Más investigación"
+  }
+}

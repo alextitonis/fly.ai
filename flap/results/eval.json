@@ -1,0 +1,256 @@
+{
+ "settings": {
+  "volts": 1.0,
+  "spread": 0.35,
+  "rate_tau": 0.05,
+  "threshold": 10.0,
+  "refractory": 0.25,
+  "escape": 0.0,
+  "pitch": 0.0
+ },
+ "seeds": "101-130",
+ "brain": {
+  "mean_pipes": 1.27,
+  "max_pipes": 5,
+  "passed_1+": 18,
+  "mean_seconds": 9.42,
+  "flaps_per_s": 1.8,
+  "runs": 30
+ },
+ "swapped": {
+  "mean_pipes": 0,
+  "max_pipes": 0,
+  "passed_1+": 0,
+  "mean_seconds": 7.45,
+  "flaps_per_s": 3.8,
+  "runs": 30
+ },
+ "random": {
+  "mean_pipes": 0,
+  "max_pipes": 0,
+  "passed_1+": 0,
+  "mean_seconds": 2.68,
+  "flaps_per_s": 1.23,
+  "runs": 30
+ },
+ "still": {
+  "mean_pipes": 0,
+  "max_pipes": 0,
+  "passed_1+": 0,
+  "mean_seconds": 1.06,
+  "flaps_per_s": 0.0,
+  "runs": 30
+ },
+ "per_seed": [
+  {
+   "seed": 101,
+   "mode": "brain",
+   "pipes": 2,
+   "seconds": 10.38,
+   "flaps": 18
+  },
+  {
+   "seed": 102,
+   "mode": "brain",
+   "pipes": 1,
+   "seconds": 9.16,
+   "flaps": 16
+  },
+  {
+   "seed": 103,
+   "mode": "brain",
+   "pipes": 1,
+   "seconds": 9.24,
+   "flaps": 18
+  },
+  {
+   "seed": 104,
+   "mode": "brain",
+   "pipes": 0,
+   "seconds": 7.92,
+   "flaps": 14
+  },
+  {
+   "seed": 105,
+   "mode": "brain",
+   "pipes": 0,
+   "seconds": 7.64,
+   "flaps": 13
+  },
+  {
+   "seed": 106,
+   "mode": "brain",
+   "pipes": 0,
+   "seconds": 7.58,
+   "flaps": 13
+  },
+  {
+   "seed": 107,
+   "mode": "brain",
+   "pipes": 2,
+   "seconds": 10.72,
+   "flaps": 20
+  },
+  {
+   "seed": 108,
+   "mode": "brain",
+   "pipes": 0,
+   "seconds": 7.44,
+   "flaps": 14
+  },
+  {
+   "seed": 109,
+   "mode": "brain",
+   "pipes": 0,
+   "seconds": 7.46,
+   "flaps": 13
+  },
+  {
+   "seed": 110,
+   "mode": "brain",
+   "pipes": 3,
+   "seconds": 11.82,
+   "flaps": 22
+  },
+  {
+   "seed": 111,
+   "mode": "brain",
+   "pipes": 0,
+   "seconds": 7.66,
+   "flaps": 14
+  },
+  {
+   "seed": 112,
+   "mode": "brain",
+   "pipes": 4,
+   "seconds": 13.2,
+   "flaps": 24
+  },
+  {
+   "seed": 113,
+   "mode": "brain",
+   "pipes": 0,
+   "seconds": 7.5,
+   "flaps": 13
+  },
+  {
+   "seed": 114,
+   "mode": "brain",
+   "pipes": 0,
+   "seconds": 7.56,
+   "flaps": 13
+  },
+  {
+   "seed": 115,
+   "mode": "brain",
+   "pipes": 2,
+   "seconds": 10.44,
+   "flaps": 21
+  },
+  {
+   "seed": 116,
+   "mode": "brain",
+   "pipes": 0,
+   "seconds": 7.78,
+   "flaps": 13
+  },
+  {
+   "seed": 117,
+   "mode": "brain",
+   "pipes": 0,
+   "seconds": 7.44,
+   "flaps": 13
+  },
+  {
+   "seed": 118,
+   "mode": "brain",
+   "pipes": 2,
+   "seconds": 10.24,
+   "flaps": 18
+  },
+  {
+   "seed": 119,
+   "mode": "brain",
+   "pipes": 0,
+   "seconds": 7.84,
+   "flaps": 14
+  },
+  {
+   "seed": 120,
+   "mode": "brain",
+   "pipes": 0,
+   "seconds": 7.62,
+   "flaps": 14
+  },
+  {
+   "seed": 121,
+   "mode": "brain",
+   "pipes": 1,
+   "seconds": 8.84,
+   "flaps": 16
+  },
+  {
+   "seed": 122,
+   "mode": "brain",
+   "pipes": 3,
+   "seconds": 12.0,
+   "flaps": 22
+  },
+  {
+   "seed": 123,
+   "mode": "brain",
+   "pipes": 1,
+   "seconds": 9.32,
+   "flaps": 16
+  },
+  {
+   "seed": 124,
+   "mode": "brain",
+   "pipes": 5,
+   "seconds": 14.44,
+   "flaps": 26
+  },
+  {
+   "seed": 125,
+   "mode": "brain",
+   "pipes": 3,
+   "seconds": 11.66,
+   "flaps": 20
+  },
+  {
+   "seed": 126,
+   "mode": "brain",
+   "pipes": 4,
+   "seconds": 13.1,
+   "flaps": 24
+  },
+  {
+   "seed": 127,
+   "mode": "brain",
+   "pipes": 1,
+   "seconds": 9.42,
+   "flaps": 17
+  },
+  {
+   "seed": 128,
+   "mode": "brain",
+   "pipes": 1,
+   "seconds": 8.96,
+   "flaps": 15
+  },
+  {
+   "seed": 129,
+   "mode": "brain",
+   "pipes": 1,
+   "seconds": 9.3,
+   "flaps": 18
+  },
+  {
+   "seed": 130,
+   "mode": "brain",
+   "pipes": 1,
+   "seconds": 8.92,
+   "flaps": 18
+  }
+ ]
+}

@@ -326,6 +326,10 @@
       "label": "Sıralama",
       "desc": "Her Fly Wallet'ın sonuçları, canlı"
     },
+    "benchmarks": {
+      "label": "Kıyaslamalar",
+      "desc": "Sinek beyinleri ve alım satım botları, tüm sonuçlar"
+    },
     "scan": {
       "label": "Fly Scan",
       "desc": "İmzalamadan önce token ya da siteyi kontrol et"

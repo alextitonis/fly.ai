@@ -1483,7 +1483,8 @@
       "max_hours": "Closes within (hours)",
       "min_stake_usd": "Smallest bet ($)",
       "fall_pct": "Sell all on a drop from the top (%)",
-      "sol": "Solana launches too (1 = yes)"
+      "sol": "Solana launches too (1 = yes)",
+      "pons": "Pons launches the winning wallets buy (1 = yes)"
     },
     "filters": "Meme filters",
     "filtersText": "Only memes are filtered: majors and stock tokens are the desk's own list. Empty = no limit.",
@@ -2057,7 +2058,8 @@
         "stop_pct": "Sells a copied position if it falls this % below the buy, even if the traders hold on."
       },
       "fall_pct": "Sells everything once the price falls this % under the highest it reached since the buy - before the take-profit too. 0 = off.",
-      "sol": "1 = also buys Solana's new tokens from your fly's SOL balance (add SOL on the Solana card), same exits."
+      "sol": "1 = also buys Solana's new tokens from your fly's SOL balance (add SOL on the Solana card), same exits.",
+      "pons": "1 = also buys a Pons launch on its curve, in its first minutes, when at least 2 of the wallets that have made money on Pons launches over the last 2 weeks are buying it. Sold on the same exits, or right after it graduates to its pool."
     },
     "filter": {
       "min_mcap": "Skips tokens worth less than this in total (market cap).",

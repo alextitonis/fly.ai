@@ -40,6 +40,8 @@
       ["Market", "/traderflies/market", "Buy and sell Trader Flies", false, false, "flyMarket"],
       ["Breed", "/traderflies/breed", "Merge two flies into one"],
       ["Leaderboard", "/traderflies/leaderboard", "Every Fly Wallet's results, live", false, false, "leaderboard"],
+      // 2026-11-07: Brain vs Bots (flytrade/research/brain_vs_bots.py), the user: "put it in the FlyTraders in nav"
+      ["Benchmarks", "/benchmarks", "Fly brains vs trading bots, every result", false, true, "benchmarks"],
       ["Claim", "/traderflies/claim", "Collect your flies' $FLYAI"],
       ["FlightPass", "/traderflies/pass", "Put your flies on autopilot"],
       ["OpenSea", "https://opensea.io/collection/trader-fly-294099831"],

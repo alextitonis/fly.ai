@@ -326,6 +326,10 @@
       "label": "Leaderboard",
       "desc": "Every Fly Wallet's results, live"
     },
+    "benchmarks": {
+      "label": "Benchmarks",
+      "desc": "Fly brains vs trading bots, every result"
+    },
     "scan": {
       "label": "Fly Scan",
       "desc": "Check a token or a site before you sign"
