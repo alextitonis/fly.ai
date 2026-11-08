@@ -610,6 +610,7 @@
       "boostMax": "Es el bonus más alto.",
       "none": "Ninguna de tus moscas gana todavía. Ten {hold} $FLYAI y una Trader Fly, y ganará una parte del beneficio del desk cada semana.",
       "noneExample": "Ahora mismo una mosca Common activa toda la semana va camino de unos {usd} esta semana.",
+      "feeding": "La autoalimentación está activada en {n} de tus moscas: su parte hace crecer la mosca en vez de llegar aquí para reclamar. Desactívala abajo para cobrarla.",
       "getFly": "Consigue una Trader Fly"
     },
     "hist": {

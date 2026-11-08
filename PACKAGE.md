@@ -34,6 +34,10 @@ for step in range(50):                   # one second at 20 ms per step
 * `Trace`, `run`, `Readout`: reservoir computing. Collect a spike trace of any neuron population
   over your task, then fit a cross-validated linear or logistic PCA readout to your labels.
 * `Eyes`, `FeatureDetectors`: a visual encoder that drives the fly's visual projection neurons.
+* `Sleeper`, `RidgeHeads` (`flybrain.sleep`): continual learning without forgetting, for any model. `wake()` keeps
+  the day's examples; `sleep()` adds new parameters on top of the old ones, rehearses a small memory that keeps every
+  context (season, task) in the mix, and refuses a night that would forget. `experts=True` keeps one model per
+  context. `sleep_example.py` in the repo: a connectome fly learns which smells mean food as the seasons change.
 
 ## Data
 

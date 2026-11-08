@@ -493,14 +493,38 @@ export function createVaults(d: VaultsDeps) {
     return { updated: Date.now() / 1000, ...flyLevels(f.flies as Record<string, FlyStats>, moves, Date.now(), exclude) };
   }
 
+  /**
+   * A holder's wallet with real money left in it. A full withdrawal leaves the holder on the ledger (only a sale or a
+   * burn clears it) plus gas and dust the withdraw can't sell, so the Breed page refused emptied flies for good (fly
+   * #179, 2026-11-08: ~$3 of ETH gas, POL gas and dust, 14 flies like it). Gas rows don't count; the rest must reach
+   * FUNDED_MIN_USD. No published stats yet, locked money, a closing fly, a maker pool or an unpriced token: funded.
+   * Breeding burns the parents, and a burned fly's leftovers still go to its holder (walletdesk release).
+   */
+  const FUNDED_MIN_USD = Number(d.env.VAULT_FUNDED_MIN_USD ?? 1);
+  function holdsMoney(r: { wallet: any; locked: any; closing: any; maker: any }): boolean {
+    if (!Array.isArray(r.wallet)) return true;
+    if (Number(r.locked) > 0 || r.closing === true || Number(r.maker) > 0) return true;
+    let own = 0;
+    for (const w of r.wallet) {
+      if (w?.kind === "gas" || /gas/i.test(String(w?.label ?? ""))) continue;   // (ETH for gas, "Polygon gas (POL)")
+      if (w?.value == null) { if (Number(w?.qty) > 0) return true; continue; }
+      own += Number(w.value) || 0;
+    }
+    return own >= FUNDED_MIN_USD;
+  }
+
   /** Flies whose wallet holds someone's money on any chain (the Breed page refuses to merge them, user 2026-10-02). */
   async function funded() {
     if (!on) return { flies: [] };
-    const rows = await pg.all<{ fly_id: number }>(`select distinct w.fly_id from mine.vault_ledger l
-      join mine.vault_wallets w on lower(w.address) = lower(l.wallet) where l.holder is not null and w.fly_id is not null`);
+    // only the published bits we need (not the curve): the wallet rows, locked money, a closing fly, the maker's pool
+    const rows = await pg.all<{ fly_id: number; wallet: any; locked: any; closing: any; maker: any }>(`select w.fly_id,
+        p.value->'wallet' as wallet, p.value->'locked' as locked, p.value->'closing' as closing, p.value->'maker'->'value' as maker
+      from mine.vault_ledger l join mine.vault_wallets w on lower(w.address) = lower(l.wallet)
+      left join mine.vault_public p on p.key = case when l.chain = 'robinhood' then 'vault:' else 'vault:' || l.chain || ':' end || w.address
+      where l.holder is not null and w.fly_id is not null`);
     const sol: number[] = (SOLANA ? (await publicOf("solana_funded"))?.flies : null) ?? [];   // (their Solana money counts too)
     const per: number[] = (PERPS ? (await publicOf("perps_funded"))?.flies : null) ?? [];      // (and their Perps money)
-    return { flies: [...new Set([...rows.map((r) => r.fly_id), ...sol, ...per])] };
+    return { flies: [...new Set([...rows.filter(holdsMoney).map((r) => r.fly_id), ...sol, ...per])] };
   }
 
   async function requestView(id: number) {

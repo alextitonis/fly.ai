@@ -44,7 +44,8 @@ def settings(pairs) -> dict:
 
 
 def play(browser, brain, seed: int, p: dict, mode: str = "brain", recorder=None, random_rate: float = 2.0,
-         easy: bool = False, max_seconds: float = MAX_SECONDS) -> dict:
+         easy: bool = False, max_seconds: float = MAX_SECONDS, until: int = 0,
+         gap: int = 0) -> dict:
     """One game. Returns pipes passed, seconds alive, flaps."""
     brain.reset(seed)
     for _ in range(int(round(0.5 / brain.dt))):   # let the network settle before the game starts
@@ -52,11 +53,12 @@ def play(browser, brain, seed: int, p: dict, mode: str = "brain", recorder=None,
     fly = Fly(brain, dict(p), mode)
     fly.rng = __import__("numpy").random.default_rng(seed)
     fly.random_rate = random_rate
-    game = Game(browser, seed, easy)
+    game = Game(browser, seed, easy, gap)
     ms = brain.dt * 1000
     every = max(1, int(round(0.02 / brain.dt)))   # video stays at 50 fps whatever the brain step
     n = 0
     flaps, t, s = 0, 0.0, game.step(0)
+    stop_at = None                            # with `until`: end the clip shortly after that many pipes
     try:
         while t < max_seconds:
             s = game.step(ms)
@@ -74,7 +76,11 @@ def play(browser, brain, seed: int, p: dict, mode: str = "brain", recorder=None,
                     recorder.add(game.frame(), fly, v, t)
             if not alive:
                 break
-        if recorder:                          # a second of the death animation
+            if until and s["score"] >= until and stop_at is None:
+                stop_at = t + 0.8
+            if stop_at is not None and t >= stop_at:
+                break
+        if recorder and not alive:            # a second of the death animation
             for _ in range(60):
                 game.step(20)
                 t += 0.02
@@ -95,6 +101,7 @@ def open_browser(pw):
 
 def add_common(ap):
     ap.add_argument("--easy", action="store_true", help="the game's own easy mode (?easy, 200 px gap)")
+    ap.add_argument("--gap", type=int, default=0, help="pipe gap in px (game default 90, easy 200)")
     ap.add_argument("--flies", type=int, default=8, help="flies voting (brain batch)")
     ap.add_argument("--dt", type=float, default=0.01, help="brain step, seconds")
     ap.add_argument("--device", default="auto")
@@ -116,6 +123,7 @@ def main():
     ap.add_argument("--out")
     ap.add_argument("--keep", type=int, default=3)
     ap.add_argument("--max", type=float, default=20.0, help="clip length cap, seconds (clip/clips only)")
+    ap.add_argument("--until", type=int, default=0, help="end the clip just after this many pipes")
     a = ap.parse_args()
 
     from playwright.sync_api import sync_playwright
@@ -126,14 +134,14 @@ def main():
         if a.cmd == "run":
             for sd in seeds(a.seeds):
                 t0 = time.time()
-                r = play(browser, brain, sd, p, a.mode, easy=a.easy)
+                r = play(browser, brain, sd, p, a.mode, easy=a.easy, gap=a.gap)
                 r["wall"] = round(time.time() - t0, 1)
                 print(json.dumps(r), flush=True)
         elif a.cmd == "clip":
             from video import Recorder
             out = Path(a.out or HERE / "videos" / f"seed{a.seed}.mp4")
             rec = Recorder(out)
-            r = play(browser, brain, a.seed, p, a.mode, recorder=rec, easy=a.easy, max_seconds=a.max)
+            r = play(browser, brain, a.seed, p, a.mode, recorder=rec, easy=a.easy, max_seconds=a.max, until=a.until, gap=a.gap)
             rec.close(r)
             print(json.dumps(r), "->", out)
         else:
@@ -144,7 +152,7 @@ def main():
             results = []
             for sd in seeds(a.seeds):
                 rec = Recorder(tmp / f"seed{sd}.mp4")
-                r = play(browser, brain, sd, p, a.mode, recorder=rec, easy=a.easy, max_seconds=a.max)
+                r = play(browser, brain, sd, p, a.mode, recorder=rec, easy=a.easy, max_seconds=a.max, until=a.until, gap=a.gap)
                 rec.close(r)
                 r["file"] = rec.out
                 print(json.dumps({k: v for k, v in r.items() if k != "file"}), flush=True)

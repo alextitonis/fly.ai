@@ -610,6 +610,7 @@
       "boostMax": "Bu en yüksek bonus.",
       "none": "Henüz kazanan sineğin yok. {hold} $FLYAI ve bir Trader Fly tut; her hafta masanın kârından pay alır.",
       "noneExample": "Şu an tüm hafta aktif bir Common sinek bu hafta yaklaşık {usd} alacak.",
+      "feeding": "{n} sineğinde otomatik besleme açık: payları burada talep edilmek yerine sineği büyütür. Ödeme almak için aşağıdan kapatın.",
       "getFly": "Trader Fly al"
     },
     "hist": {

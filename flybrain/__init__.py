@@ -10,9 +10,11 @@ from .brain import FlyBrain, cuda_available
 from .data import DATA, download, ensure_data, has_data
 from .eyes import ENCODER, Blob, Eyes, FeatureDetectors, blob_for
 from .reservoir import Readout, Trace, auc, bases_for, fit_logistic, fit_ridge, folds, project, run
+from .sleep import RidgeHeads, Sleeper
 
 __version__ = "0.1.0"
 
 __all__ = ["FlyBrain", "cuda_available", "DATA", "download", "ensure_data", "has_data",
            "ENCODER", "Blob", "Eyes", "FeatureDetectors", "blob_for",
-           "Readout", "Trace", "auc", "bases_for", "fit_logistic", "fit_ridge", "folds", "project", "run"]
+           "Readout", "Trace", "auc", "bases_for", "fit_logistic", "fit_ridge", "folds", "project", "run",
+           "RidgeHeads", "Sleeper"]

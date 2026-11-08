@@ -54,7 +54,7 @@ STEP_JS = """
 
 
 class Game:
-    def __init__(self, browser, seed: int, easy: bool = False):
+    def __init__(self, browser, seed: int, easy: bool = False, gap: int = 0):
         self.ctx = browser.new_context(viewport=VIEW)
         self.ctx.route("**/*", self._route)
         self.page = self.ctx.new_page()
@@ -63,6 +63,8 @@ class Game:
         self.page.clock.pause_at(1)            # the fake clock only stands still once paused
         self.page.goto(URL + ("?easy" if easy else ""), wait_until="networkidle")
         self.page.clock.run_for(1500)          # splash settles
+        if gap:                                # the game's own gap setting (90 normal, 200 in ?easy)
+            self.page.evaluate("g => { pipeheight = g; }", gap)
         self.step(0)
         self.page.keyboard.press("Space")      # start (the game gives one jump at start)
 

@@ -608,6 +608,7 @@
       "boostMax": "已是最高加成。",
       "none": "你還沒有在賺錢的蒼蠅。持有 {hold} $FLYAI 和一隻 Trader Fly，它每週都能分到交易台的利潤。",
       "noneExample": "目前，一隻整週啟用的 Common 蒼蠅本週預計約 {usd}。",
+      "feeding": "你有 {n} 隻蒼蠅開啟了自動餵養：牠們的份額用於讓蒼蠅成長，不會出現在這裡領取。在下方關閉即可改為發放。",
       "getFly": "取得 Trader Fly"
     },
     "hist": {

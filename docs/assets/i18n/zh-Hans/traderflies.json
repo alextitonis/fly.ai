@@ -608,6 +608,7 @@
       "boostMax": "已是最高加成。",
       "none": "你还没有在赚钱的苍蝇。持有 {hold} $FLYAI 和一只 Trader Fly，它每周都能分到交易台的利润。",
       "noneExample": "目前，一只整周激活的 Common 苍蝇本周预计约 {usd}。",
+      "feeding": "你有 {n} 只苍蝇开启了自动喂养：它们的份额用于让苍蝇成长，不会出现在这里领取。在下方关闭即可改为发放。",
       "getFly": "获取 Trader Fly"
     },
     "hist": {

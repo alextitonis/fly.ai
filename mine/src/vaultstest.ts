@@ -197,6 +197,21 @@ try {
   check("the holder may", (await api(`/api/vaults/${W3}/settings`, b, { settings: { ...doc, risk: 4 } })).status === 200);
   check("the ledger shows on the fly", (await api("/api/vaults/fly/3", null)).json.ledger?.holder === bob.address);
   check("funded flies listed (the Breed page won't merge them)", JSON.stringify((await api("/api/vaults/funded", null)).json.flies) === "[3]");
+  // emptied by a withdrawal: holder kept, only gas + dust left -> breedable again (fly #179, 2026-11-08)
+  const fundedWith = async (stats: object) => {
+    await PG.pg.run("insert into mine.vault_public (key, value) values (?, ?::text::jsonb) on conflict (key) do update set value = excluded.value",
+      `vault:${W3}`, JSON.stringify(stats));
+    return JSON.stringify((await api("/api/vaults/funded", null)).json.flies);
+  };
+  const gasDust = [{ symbol: "ETH", kind: "gas", value: 1.43, qty: 0.0006 }, { symbol: "polygon:POL", kind: "cash", label: "Polygon gas (POL)", value: 0.84, qty: 9.3 },
+    { symbol: "MOO", kind: "token", value: 0.15, qty: 204 }, { symbol: "NET.ca9c", kind: "token", value: 0.57, qty: 0.0038 }];
+  check("gas + dust only: not funded", (await fundedWith({ wallet: gasDust, locked: 0, closing: false })) === "[]");
+  check("a dollar of USDG: funded", (await fundedWith({ wallet: [...gasDust, { symbol: "USDG", kind: "cash", value: 1, qty: 1 }], locked: 0 })) === "[3]");
+  check("locked money: funded", (await fundedWith({ wallet: gasDust, locked: 5 })) === "[3]");
+  check("closing: funded", (await fundedWith({ wallet: gasDust, locked: 0, closing: true })) === "[3]");
+  check("a maker pool: funded", (await fundedWith({ wallet: gasDust, locked: 0, maker: { value: 3 } })) === "[3]");
+  check("an unpriced token: funded", (await fundedWith({ wallet: [...gasDust, { symbol: "X", kind: "token", value: null, qty: 5 }], locked: 0 })) === "[3]");
+  await PG.pg.run("delete from mine.vault_public where key = ?", `vault:${W3}`);
   check("only the holder withdraws", (await api(`/api/vaults/${W3}/withdraw`, a, { bps: 5000 })).status === 403);
   check("bps 1..10000", (await api(`/api/vaults/${W3}/withdraw`, b, { bps: 0 })).status === 400);
   await PG.pg.run("update mine.vault_ledger set closing = true where wallet = ?", W3);

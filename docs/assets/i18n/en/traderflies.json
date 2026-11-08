@@ -610,6 +610,7 @@
       "boostMax": "That's the top boost.",
       "none": "None of your flies is earning yet. Hold {hold} $FLYAI and a Trader Fly, and it earns a share of the desk's profit every week.",
       "noneExample": "Right now a Common fly active all week is on track for about {usd} this week.",
+      "feeding": "Auto-feed is on for {n} of your flies: their share grows the fly instead of coming here to claim. Turn it off below to get it paid.",
       "getFly": "Get a Trader Fly"
     },
     "hist": {
