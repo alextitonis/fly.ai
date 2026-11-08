@@ -22,7 +22,7 @@
     connectX: "Connect your X account above to earn XP for your posts.", seasonEnds: "XP counts toward the airdrop.",
     seasonOver: "Season 1 is over. XP counted toward the airdrop.",
     s_hold: "Holding $FLYAI", s_flies: "Active flies", s_deposits: "Fly wallet deposits", s_feed: "Feeding the Fly Desk", s_market: "Marketplace trades",
-    s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_badges: "Badges",
+    s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_bug: "Bugs found", s_badges: "Badges",
     account: "Your account", badgesBtn: "🏅 Badges", referralsBtn: "Referrals",
     log: "XP log", logBefore: "everything up to {date}", noLog: "Nothing logged yet.", logTx: "tx", logPost: "post",
     s_boost: "2x XP bonus", s_penalty: "2x XP: sells and withdrawals", logBoost: "{mult}x",
@@ -38,6 +38,7 @@
     h_claimstake: "<b>Claim and stake</b> a Fly Desk payout within the hour: 50 XP.",
     h_breed: "<b>Breed</b> two flies: 500 XP.",
     h_passburn: "<b>Burn a FlightPass</b> (send it to 0x…dEaD): 100 XP.",
+    h_bug: "<b>Find a bug</b> and report it to the team: XP by how serious it is, given by hand.",
     h_badges: "<b>Badges</b> you claim: common 25, uncommon 100, rare 250, legendary 500.",
     h_referrals: "<b>Referrals</b>: +10% of the XP of everyone you bring who becomes a real referral.",
     h_x: "<b>X</b>: 50 XP for connecting your account, 20 XP a day for a post about fly.ai (counted automatically each night).",
@@ -46,7 +47,7 @@
     h_boost: "<b>2x XP windows</b>: some days the team doubles XP for buys, deposits, feeding, trades, breeding and pass burns. Sells and withdrawals cost double then too, and a sell within 3 days after takes the bonus back.",
     h_foot: "Team wallets and fly wallets aren't ranked. Levels: level 1 at 50 XP, 2 at 200, 3 at 450, 10 at 5,000.",
   };
-  const HELP = ["hold", "flies", "streak", "deposits", "feed", "market", "buy", "claimstake", "breed", "passburn", "badges", "referrals", "x", "telegram", "flybook", "boost"];
+  const HELP = ["hold", "flies", "streak", "deposits", "feed", "market", "buy", "claimstake", "breed", "passburn", "bug", "badges", "referrals", "x", "telegram", "flybook", "boost"];
 
   function t(key, vars) {
     let v = window.flyI18n ? window.flyI18n.t("common.xp." + key, vars) : null;

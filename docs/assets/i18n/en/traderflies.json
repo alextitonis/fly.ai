@@ -1270,7 +1270,8 @@
       "liquidation_flush": "Rare: can go weeks with no trade.",
       "just_earn": "No trades: the cash is lent.",
       "fresh_launch_hunter": "Only when new tokens show volume.",
-      "degen_sniper": "Busy: new launches every hour, quick exits."
+      "degen_sniper": "Busy: new launches every hour, quick exits.",
+      "longs_shorts": "Few perps trades: the fly decides once a day."
     },
     "fee": "Profit fee",
     "feeNote": "only on profit, when you withdraw",
@@ -1325,6 +1326,8 @@
     "passYes": "Yes, burn it",
     "passNo": "Cancel",
     "countingText": "New money is in. The fly starts trading it at its next round, within 15 minutes.",
+    "handoverText": "This fly just came to your wallet. If it was sent to you, its wallet, money and settings switch to you within a few minutes.",
+    "soldToYouText": "This fly was sold: its money is being paid out to the previous holder. Once that's done (usually within 2 hours) you can set it up and fund it.",
     "gasTitle": "Needs {sym} for gas.",
     "gasTextOwn": "This wallet pays its own gas, so it won't trade until you add some {sym}. Withdrawing still works: we cover that fee.",
     "gasText": "Every trade costs a tiny bit of {sym}. The house sends the fly a starter amount at its next round (within 15 minutes), or you can add some now.",
@@ -1572,6 +1575,10 @@
       "degen_sniper": {
         "title": "Degen Sniper",
         "blurb": "High risk: buys brand-new tokens minutes after launch on Robinhood Chain and Solana (with SOL added), and young tokens on Base, BNB and Arbitrum. Sells fast: all of it at 2x, or all of it on a 20% drop from the top before that. Most new tokens fail; a few run."
+      },
+      "longs_shorts": {
+        "title": "Longs & Shorts",
+        "blurb": "High risk: the fly also trades BTC and ETH perps on Lighter, long in uptrends and short in downtrends, with up to a quarter of the wallet, only when its rule finds a trade. The rest runs like Let it fly."
       }
     },
     "best": "Best Fly Wallets",
@@ -1609,6 +1616,8 @@
     },
     "pickSaves": "Tap a style and it's saved at once. Fine-tune it under Every setting.",
     "picked": "{name} picked. It applies from the next bar.",
+    "perpsStyleOn": "{name} picked: Perps is on.",
+    "perpsStyleTier": "{name} picked, but Perps needs 200,000 $FLYAI held: the rest runs like Let it fly until then.",
     "unsaved": "Unsaved changes",
     "minFund": "This setup trades every part from {min}.",
     "partsText": "This setup splits the money into {n} parts. A trade needs $1, so put in {min} or more.",

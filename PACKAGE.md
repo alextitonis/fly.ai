@@ -50,8 +50,25 @@ flybrain build                    # or build them from the MaleCNS release (~1.1
 flybrain info                     # data folder and GPU status
 ```
 
-The first step on CPU is slow while numba compiles; later steps take about 12–15 ms on 24 threads.
-On an RTX 4060 a step takes 1.4 ms.
+The first step on CPU is slow while numba compiles (about 1.5 s); later steps take about 10–15 ms
+on 24 threads. On an RTX 4060 laptop GPU a step takes about 2 ms.
+
+## Benchmarks
+
+`python scripts/bench_flybrain.py` (in the repository) measures your machine and prints a row for
+this table. *Low* load is the brain at rest (noise only, ~11,400 spikes per step); *high* load
+injects +1.5 V into a fixed random 10% of neurons every step (~35,400 spikes per step). Batch
+columns are ms per step for that many flies at low load. Medians over 50 steps (fewer for big CPU
+batches); load time is with the brain files already downloaded and in the OS file cache.
+
+| hardware | device | threads | load (s) | first step (s) | ms/step low | ms/step high | batch 1 | batch 8 | batch 32 | peak memory | versions |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| AMD Ryzen AI 9 HX 370, Windows 11 | cpu | 24 | 0.4 | 1.43 | 10.4 | 13.1 | 9.3 | 112 | 344 | 774 MB RAM | numpy 2.2.6, numba 0.66.0 |
+| same laptop: RTX 4060 Laptop GPU | cuda | - | 1.0 | 0.21 | 1.97 | 1.91 | 1.70 | 14.4 | 87.0 | 361 MB GPU pool | cupy 14.2.0 |
+
+Batching runs flies side by side but does not make them cheaper here: per fly, a batch of 8 or 32
+costs 1.2–1.5× one fly on CPU and 1.1–1.6× one fly on this GPU. Measured with flybrain
+0.1.0 on Python 3.13. Rows from other machines are welcome.
 
 ## Credits and license
 

@@ -3772,7 +3772,7 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p === "/api/badges" || p.startsWith("/api/badges/"))) {
     if (await badges.route(req, res, url)) return;
   }
-  if (req.method !== "OPTIONS" && (p.startsWith("/api/xp/") || p === "/api/admin/xp/round" || p === "/api/admin/xp/boost")) {
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/xp/") || p === "/api/admin/xp/round" || p === "/api/admin/xp/boost" || p === "/api/admin/xp/bug")) {
     if (await quests.route(req, res, url)) return;
     if (await xp.route(req, res, url)) return;
   }

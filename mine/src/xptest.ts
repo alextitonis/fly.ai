@@ -318,6 +318,27 @@ try {
   check("XP never below zero", (await xp2.compute()).ranked.every((r) => r.xp >= 0));
   session = ADMIN;
   check("a started window can't be deleted", await post({ id: 1, delete: true }) === 400);
+
+  // ---- XP for bug finds (2026-11-08): an admin gives it by hand; not daily, not boosted ----
+  const bug = async (b: any, method = "POST") => { body = b; sent.length = 0;
+    try { await xp2.route({ method } as any, res, new URL("http://x/api/admin/xp/bug")); } catch (e) { return (e as HttpError).status; } return sent[0]?.status; };
+  const J = addr(0xb7);
+  session = A;
+  check("bug XP: admins only", await bug({ wallet: J, xp: 500 }) === 403);
+  session = ADMIN;
+  check("bug XP: a bad wallet or amount is refused", await bug({ wallet: "0x12", xp: 500 }) === 400 && await bug({ wallet: J, xp: 0 }) === 400
+    && await bug({ wallet: J, xp: 1_000_000 }) === 400);
+  check("bug XP: given", await bug({ wallet: J, xp: 500, note: "sold-fly perps holder" }) === 200
+    && sent[0].body.grants[0].wallet === J && sent[0].body.grants[0].note === "sold-fly perps holder" && sent[0].body.grants[0].by_wallet === ADMIN);
+  const bugId = sent[0].body.grants[0].id;
+  await bug({ wallet: J, xp: 250 });
+  const jp = async () => (await xp2.profile(J) as any).sources;
+  check("bug XP: counts as its own source", (await jp()).bug === 750, JSON.stringify(await jp()));
+  const jlog = await xp2.log(J) as any;
+  check("bug XP: one line per find in the log, no note there", jlog.items.filter((x: any) => x.source === "bug").length === 2
+    && !JSON.stringify(jlog).includes("sold-fly"), JSON.stringify(jlog.items));
+  check("bug XP: removable", await bug({ remove: bugId }) === 200 && (await jp()).bug === 250);
+  check("bug XP: the list", await bug(null, "GET") === 200 && sent[0].body.grants.length === 1);
 } finally {
   await PG.stop();
 }

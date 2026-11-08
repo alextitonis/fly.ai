@@ -1268,7 +1268,8 @@
       "liquidation_flush": "罕见：可能数周没有交易。",
       "just_earn": "不交易：现金用于出借。",
       "fresh_launch_hunter": "仅在新代币出现成交量时。",
-      "degen_sniper": "活跃：每小时都有新上线代币，快速退出。"
+      "degen_sniper": "活跃：每小时都有新上线代币，快速退出。",
+      "longs_shorts": "永续合约交易很少：每天决定一次。"
     },
     "fee": "利润手续费",
     "feeNote": "只在提现时对利润收取",
@@ -1323,6 +1324,8 @@
     "passYes": "确定销毁",
     "passNo": "取消",
     "countingText": "新资金已到账。苍蝇会在下一轮（15 分钟内）开始用它交易。",
+    "handoverText": "这只苍蝇刚到你的钱包。如果是转给你的，它的钱包、资金和设置会在几分钟内转到你名下。",
+    "soldToYouText": "这只苍蝇已售出：它的资金正在支付给原持有人。完成后（通常 2 小时内）你就可以设置并注资。",
     "gasTitle": "需要 {sym} 作为 gas。",
     "gasTextOwn": "此钱包自付 Gas，在你添加 {sym} 之前不会交易。提取仍可进行：该费用由我们承担。",
     "gasText": "每笔交易都要花一点 {sym}。平台会在下一轮（15 分钟内）给苍蝇发一笔起始金额，你也可以现在自己充一点。",
@@ -1570,6 +1573,10 @@
       "degen_sniper": {
         "title": "Degen 狙击手",
         "blurb": "高风险：在 Robinhood Chain 和 Solana（需存入 SOL）上，新代币上线几分钟内买入，并在 Base、BNB 和 Arbitrum 上买入新代币。快速卖出：涨到 2 倍时全部卖出，或在此之前从最高点下跌 20% 时全部卖出。大多数新代币会失败，少数会大涨。"
+      },
+      "longs_shorts": {
+        "title": "多空双向",
+        "blurb": "高风险：苍蝇还会在 Lighter 上交易 BTC 和 ETH 永续合约，上涨趋势做多、下跌趋势做空，最多用钱包的四分之一，且只在其规则找到交易时。其余部分按 Let it fly 运行。"
       }
     },
     "best": "最佳 Fly Wallets",
@@ -1607,6 +1614,8 @@
     },
     "pickSaves": "点一个风格即刻保存。在“全部设置”里微调。",
     "picked": "已选 {name}。从下一根 K 线起生效。",
+    "perpsStyleOn": "已选择{name}：Perps 已开启。",
+    "perpsStyleTier": "已选择{name}，但 Perps 需要持有 200,000 $FLYAI：在此之前其余部分按 Let it fly 运行。",
     "unsaved": "有未保存的更改",
     "minFund": "此设置从 {min} 起每一部分都能交易。",
     "partsText": "此设置把资金分成 {n} 部分。每笔交易需要 $1，请存入 {min} 或更多。",

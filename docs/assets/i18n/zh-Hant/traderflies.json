@@ -1268,7 +1268,8 @@
       "liquidation_flush": "罕見：可能數週沒有交易。",
       "just_earn": "不交易：現金用於出借。",
       "fresh_launch_hunter": "僅在新代幣出現成交量時。",
-      "degen_sniper": "活躍：每小時都有新上線代幣，快速退出。"
+      "degen_sniper": "活躍：每小時都有新上線代幣，快速退出。",
+      "longs_shorts": "永續合約交易很少：每天決定一次。"
     },
     "fee": "利潤手續費",
     "feeNote": "只在提領時對利潤收取",
@@ -1323,6 +1324,8 @@
     "passYes": "確定銷毀",
     "passNo": "取消",
     "countingText": "新資金已到帳。蒼蠅會在下一輪（15 分鐘內）開始用它交易。",
+    "handoverText": "這隻蒼蠅剛到你的錢包。如果是轉給你的，它的錢包、資金和設定會在幾分鐘內轉到你名下。",
+    "soldToYouText": "這隻蒼蠅已售出：它的資金正在支付給原持有人。完成後（通常 2 小時內）你就可以設定並注資。",
     "gasTitle": "需要 {sym} 作為 gas。",
     "gasTextOwn": "此錢包自付 Gas，在你新增 {sym} 之前不會交易。提領仍可進行：該費用由我們承擔。",
     "gasText": "每筆交易都要花一點 {sym}。平台會在下一輪（15 分鐘內）給蒼蠅發一筆起始金額，你也可以現在自己充一點。",
@@ -1570,6 +1573,10 @@
       "degen_sniper": {
         "title": "Degen 狙擊手",
         "blurb": "高風險：在 Robinhood Chain 和 Solana（需存入 SOL）上，新代幣上線幾分鐘內買入，並在 Base、BNB 和 Arbitrum 上買入新代幣。快速賣出：漲到 2 倍時全部賣出，或在此之前從最高點下跌 20% 時全部賣出。大多數新代幣會失敗，少數會大漲。"
+      },
+      "longs_shorts": {
+        "title": "多空雙向",
+        "blurb": "高風險：蒼蠅還會在 Lighter 上交易 BTC 和 ETH 永續合約，上漲趨勢做多、下跌趨勢做空，最多用錢包的四分之一，且只在其規則找到交易時。其餘部分按 Let it fly 運行。"
       }
     },
     "best": "最佳 Fly Wallets",
@@ -1607,6 +1614,8 @@
     },
     "pickSaves": "點一個風格即刻儲存。在「全部設定」裡微調。",
     "picked": "已選 {name}。從下一根 K 線起生效。",
+    "perpsStyleOn": "已選擇{name}：Perps 已開啟。",
+    "perpsStyleTier": "已選擇{name}，但 Perps 需要持有 200,000 $FLYAI：在此之前其餘部分按 Let it fly 運行。",
     "unsaved": "有未儲存的變更",
     "minFund": "此設定從 {min} 起每一部分都能交易。",
     "partsText": "此設定把資金分成 {n} 部分。每筆交易需要 $1，請存入 {min} 或更多。",

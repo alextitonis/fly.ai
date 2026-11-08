@@ -1270,7 +1270,8 @@
       "liquidation_flush": "Raro: puede pasar semanas sin operar.",
       "just_earn": "Sin operaciones: el efectivo se presta.",
       "fresh_launch_hunter": "Solo cuando tokens nuevos muestran volumen.",
-      "degen_sniper": "Activo: lanzamientos nuevos cada hora, salidas rápidas."
+      "degen_sniper": "Activo: lanzamientos nuevos cada hora, salidas rápidas.",
+      "longs_shorts": "Pocas operaciones de perpetuos: la mosca decide una vez al día."
     },
     "fee": "Comisión sobre ganancia",
     "feeNote": "solo sobre la ganancia, al retirar",
@@ -1325,6 +1326,8 @@
     "passYes": "Sí, quemarlo",
     "passNo": "Cancelar",
     "countingText": "El dinero nuevo ya está. La mosca empieza a operarlo en su próxima ronda, en menos de 15 minutos.",
+    "handoverText": "Esta mosca acaba de llegar a tu wallet. Si te la enviaron, su wallet, dinero y ajustes pasan a ti en unos minutos.",
+    "soldToYouText": "Esta mosca se vendió: su dinero se está pagando al titular anterior. Cuando termine (normalmente en 2 horas) podrás configurarla y financiarla.",
     "gasTitle": "Necesita {sym} para el gas.",
     "gasTextOwn": "Esta billetera paga su propio gas, así que no operará hasta que añadas algo de {sym}. Retirar sigue funcionando: nosotros cubrimos esa comisión.",
     "gasText": "Cada operación cuesta un poco de {sym}. La casa envía a la mosca una cantidad inicial en su próxima ronda (en menos de 15 minutos), o puedes añadir algo ahora.",
@@ -1572,6 +1575,10 @@
       "degen_sniper": {
         "title": "Degen Sniper",
         "blurb": "Alto riesgo: compra tokens recién lanzados a los pocos minutos en Robinhood Chain y Solana (con SOL añadido), y tokens jóvenes en Base, BNB y Arbitrum. Vende rápido: todo a 2x, o todo con una caída del 20% desde el máximo antes de eso. La mayoría de tokens nuevos fracasan; unos pocos suben."
+      },
+      "longs_shorts": {
+        "title": "Largos y cortos",
+        "blurb": "Riesgo alto: la mosca también opera perpetuos de BTC y ETH en Lighter, en largo en tendencias alcistas y en corto en bajistas, con hasta una cuarta parte de la billetera, solo cuando su regla encuentra una operación. El resto funciona como Let it fly."
       }
     },
     "best": "Mejores Fly Wallets",
@@ -1609,6 +1616,8 @@
     },
     "pickSaves": "Toca un estilo y se guarda al instante. Ajústalo en Todos los ajustes.",
     "picked": "{name} elegido. Se aplica desde la próxima barra.",
+    "perpsStyleOn": "{name} elegido: Perps está activado.",
+    "perpsStyleTier": "{name} elegido, pero Perps necesita 200.000 $FLYAI: hasta entonces el resto funciona como Let it fly.",
     "unsaved": "Cambios sin guardar",
     "minFund": "Con {min} esta configuración opera todas sus partes.",
     "partsText": "Esta configuración reparte el dinero en {n} partes. Una operación necesita $1: deposita {min} o más.",

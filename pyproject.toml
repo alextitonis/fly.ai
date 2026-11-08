@@ -28,6 +28,7 @@ dependencies = [
 [project.optional-dependencies]
 gpu = ["cupy-cuda12x[ctk]>=13"]
 build = ["pandas>=2.2", "pyarrow>=15"]
+test = ["pytest>=8"]
 
 [project.scripts]
 flybrain = "flybrain.__main__:main"

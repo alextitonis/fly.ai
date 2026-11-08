@@ -1270,7 +1270,8 @@
       "liquidation_flush": "Nadir: haftalarca işlem yapmayabilir.",
       "just_earn": "İşlem yok: nakit borç verilir.",
       "fresh_launch_hunter": "Yalnızca yeni tokenlarda hacim olduğunda.",
-      "degen_sniper": "Hareketli: her saat yeni çıkışlar, hızlı çıkışlar."
+      "degen_sniper": "Hareketli: her saat yeni çıkışlar, hızlı çıkışlar.",
+      "longs_shorts": "Az perp işlemi: sinek günde bir kez karar verir."
     },
     "fee": "Kâr ücreti",
     "feeNote": "yalnızca kârdan, çekim yaptığında",
@@ -1325,6 +1326,8 @@
     "passYes": "Evet, yak",
     "passNo": "Vazgeç",
     "countingText": "Yeni para geldi. Sinek bir sonraki turunda, 15 dakika içinde onunla işlem yapmaya başlar.",
+    "handoverText": "Bu sinek az önce cüzdanına geldi. Sana gönderildiyse cüzdanı, parası ve ayarları birkaç dakika içinde sana geçer.",
+    "soldToYouText": "Bu sinek satıldı: parası önceki sahibine ödeniyor. Bu bitince (genelde 2 saat içinde) kurup para ekleyebilirsin.",
     "gasTitle": "Gas için {sym} gerekiyor.",
     "gasTextOwn": "Bu cüzdan gazını kendi öder, bu yüzden {sym} ekleyene kadar işlem yapmaz. Çekim yine de çalışır: o ücreti biz karşılarız.",
     "gasText": "Her işlem biraz {sym} harcar. Ev, bir sonraki turda (15 dakika içinde) sineğe başlangıç miktarı gönderir; ya da şimdi sen ekleyebilirsin.",
@@ -1572,6 +1575,10 @@
       "degen_sniper": {
         "title": "Degen Sniper",
         "blurb": "Yüksek risk: Robinhood Chain ve Solana'da (SOL eklenince) yeni tokenları çıkıştan dakikalar sonra alır, Base, BNB ve Arbitrum'da genç tokenları alır. Hızlı satar: 2x'te hepsini, ya da öncesinde zirveden %20 düşüşte hepsini. Yeni tokenların çoğu batar; birkaçı uçar."
+      },
+      "longs_shorts": {
+        "title": "Long ve Short",
+        "blurb": "Yüksek risk: sinek ayrıca Lighter'da BTC ve ETH perp işlemi yapar; yükselişte long, düşüşte short, cüzdanın en fazla dörtte biriyle ve yalnızca kuralı bir işlem bulduğunda. Gerisi Let it fly gibi çalışır."
       }
     },
     "best": "En iyi Fly Wallets",
@@ -1609,6 +1616,8 @@
     },
     "pickSaves": "Bir stile dokun, hemen kaydedilir. İnce ayarı Tüm ayarlar altında yap.",
     "picked": "{name} seçildi. Bir sonraki bardan itibaren geçerli.",
+    "perpsStyleOn": "{name} seçildi: Perps açık.",
+    "perpsStyleTier": "{name} seçildi, ama Perps için 200.000 $FLYAI tutmak gerekiyor: o zamana kadar gerisi Let it fly gibi çalışır.",
     "unsaved": "Kaydedilmemiş değişiklikler",
     "minFund": "Bu kurulum {min} ile tüm parçalarında işlem yapar.",
     "partsText": "Bu kurulum parayı {n} parçaya böler. Bir işlem $1 ister: {min} veya daha fazla yatır.",

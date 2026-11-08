@@ -29,6 +29,10 @@
  *   GET  /api/xp/round?wallet=0x..         the giveaway round now: XP earned since it began, top 100 and that wallet
  *   GET  /api/xp/rounds                    past rounds: the frozen standings, and the winners and rewards the team set
  *   POST /api/admin/xp/round { id, winners: [{ wallet, reward }], note }   (admin) a past round's rewards, set by hand
+ *   GET  /api/admin/xp/bug                 (admin) the bug-find grants, newest first
+ *   POST /api/admin/xp/bug { wallet, xp, note } | { remove: id }   (admin) XP for a bug someone found, given by hand
+ *                                          (2026-11-08): source 'bug', a one-off like a breed - never a daily quest or
+ *                                          check-in, never boosted by a 2x window; the note stays with the admins
  *   GET  /api/xp/log?wallet=0x..           what it earned and from where, newest first: one-off events one by one (with
  *                                          their tx), the rest (holding, flies, deposits, badges, referrals, X, Flybook) a day at a time
  *   (X posts are found by a nightly search, src: shares(): nothing to paste)
@@ -187,6 +191,8 @@ type Pending = Record<string, { t: number; amount: string; ref: string }>;
  */
 export type Boost = { id: number; from: number; to: number; mult: number; note?: string | null };
 export type Sell = { wallet: string; at: number; xp: number; ref: string };
+/** the most XP one bug grant may give (a typo guard: 5,000 is level 10 on its own) */
+export const BUG_MAX_XP = 10_000;
 export const BOOST_SOURCES = ["market", "buy", "breed", "feed", "claimstake", "passburn"];
 export const CLAWBACK_MS = 3 * DAY_MS;
 export const BOOST_LIMITS = { minMult: 1.25, maxMult: 5, maxMs: 7 * DAY_MS };
@@ -696,7 +702,7 @@ export function createXp(d: {
     cache = null;
   }
 
-  const LABELS: Record<string, string> = { market: "a marketplace trade", buy: "a swap-box buy", breed: "breeding", feed: "feeding the Fly Desk",
+  const LABELS: Record<string, string> = { bug: "a bug you found", market: "a marketplace trade", buy: "a swap-box buy", breed: "breeding", feed: "feeding the Fly Desk",
     claimstake: "claim and stake", passburn: "a FlightPass burn", share: "your X post", checkin: "your daily check-in", quest: "daily quests" };
   /** small daily XP that the bell doesn't announce one by one (src/quests.ts sends its own note on streak milestones) */
   const QUIET = ["checkin", "quest"];
@@ -897,6 +903,32 @@ export function createXp(d: {
     console.log(`xp shares: ${posts.length} posts, ${events.length} counted`);
   }
 
+  // ---- XP for bug finds: an admin gives it by hand (2026-11-08) ----
+  async function bugGrants() {
+    const rows = await pg.all<{ id: number; wallet: string; xp: number; note: string | null; by_wallet: string | null; at: Date }>(
+      "select id::int as id, wallet, xp, note, by_wallet, at from mine.xp_events where source = 'bug' order by id desc limit 200");
+    return { grants: rows.map((r) => ({ ...r, at: new Date(r.at).toISOString() })), max: BUG_MAX_XP };
+  }
+  async function grantBug(req: IncomingMessage, body: any) {
+    let by: string | null = null;
+    try { by = (await d.sessionWallet(req)).toLowerCase(); } catch { /* the admin token */ }
+    const id = Number(body?.remove);
+    if (Number.isInteger(id) && id > 0) {                 // a grant given by mistake (its bell note, if sent, stays)
+      const gone = await pg.one<{ id: number }>("delete from mine.xp_events where id = ? and source = 'bug' returning id::int as id", id);
+      if (!gone) throw new HttpError(404, "no bug grant with that id");
+      cache = null;
+      return bugGrants();
+    }
+    const wallet = String(body?.wallet ?? "").trim().toLowerCase(), xp = Number(body?.xp);
+    if (!/^0x[0-9a-f]{40}$/.test(wallet)) throw new HttpError(400, "wallet: a 0x address");
+    if (!Number.isInteger(xp) || xp < 1 || xp > BUG_MAX_XP) throw new HttpError(400, `xp: a whole number from 1 to ${BUG_MAX_XP}`);
+    const note = body?.note ? String(body.note).slice(0, 300) : null;
+    await pg.run("insert into mine.xp_events (wallet, source, ref, xp, at, note, by_wallet) values (?, 'bug', ?, ?, ?, ?, ?)",
+      wallet, `bug:${(await import("node:crypto")).randomUUID()}`, xp, iso(now()), note, by);
+    cache = null;
+    return bugGrants();
+  }
+
   async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promise<boolean> {
     const p = url.pathname;
     const w = (url.searchParams.get("wallet") ?? "").toLowerCase();
@@ -915,6 +947,10 @@ export function createXp(d: {
       if (!(await isAdmin(req))) throw new HttpError(403, "admins only");
       return d.send(res, 200, req.method === "GET" ? await boostsNow() : await setBoost(await d.readJson(req))), true;
     }
+    if (p === "/api/admin/xp/bug" && (req.method === "GET" || req.method === "POST")) {
+      if (!(await isAdmin(req))) throw new HttpError(403, "admins only");
+      return d.send(res, 200, req.method === "GET" ? await bugGrants() : await grantBug(req, await d.readJson(req))), true;
+    }
     if (req.method === "GET" && p === "/api/xp/me") return d.send(res, 200, await profile((await d.sessionWallet(req)).toLowerCase())), true;
     return false;
   }
@@ -926,5 +962,5 @@ export function createXp(d: {
   }
 
   return { route, start, tick, compute, leaderboard, profile, log, snapshot, notify, shares, rounds, round, history, setRewards,
-    boostsNow, setBoost, boostNotes, isAdmin };
+    boostsNow, setBoost, boostNotes, isAdmin, bugGrants, grantBug };
 }
