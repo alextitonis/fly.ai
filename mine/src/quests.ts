@@ -177,7 +177,7 @@ export function createQuests(d: {
         return yes(`select 1 from mine.vault_public v, jsonb_array_elements(v.value->'ratings') r where v.key = 'agent_ratings'
           and lower(r->>'client') = ? and (r->>'at')::float8 >= ? and (r->>'at')::float8 < ? limit 1`, wallet, dayMs(day), dayMs(day) + DAY_MS);
       case "topup":
-        return yes(`select 1 from mine.vault_moves where kind = 'deposit' and lower(holder) = ? and usd >= ? and at >= ? and at < ? limit 1`,
+        return yes(`select 1 from mine.vault_moves where kind in ('deposit', 'sol_deposit') and lower(holder) = ? and usd >= ? and at >= ? and at < ? limit 1`,
           wallet, QUEST_RATES.topupUsd, from, to);
       case "swap":   // a box buy the XP scan booked, or the box's own success log for this wallet today (its Relay and GIGA
         // routes carry no fee leg the scan can see; xp.ts boxBuys books those from now on, this covers the scan's lag)

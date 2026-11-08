@@ -520,9 +520,13 @@ export function createXp(d: {
       pg.all<HolderRow>("select wallet, liquid::text, staked::text, locked::text, flies, at, hold_xp, fly_xp, streak_since from mine.xp_holders"),
       pg.all<{ wallet: string; source: string; xp: number }>("select wallet, source, sum(xp)::float8 as xp from mine.xp_events where at <= ? group by 1, 2", endIso),
       pg.all<{ wallet: string; usd: number }>(`select lower(holder) as wallet, sum(usd)::float8 as usd from mine.vault_moves
-        where kind = 'deposit' and holder is not null and usd >= ? and at <= ? group by 1`, RATES.depositMinUsd, endIso).catch(() => []),
-      pg.all<{ wallet: string; usd: number }>(`select lower(holder) as wallet, sum(principal_usd)::float8 as usd from mine.vault_ledger
-        where holder is not null group by 1`).catch(() => []),
+        where kind in ('deposit', 'sol_deposit') and holder is not null and usd >= ? and at <= ? group by 1`, RATES.depositMinUsd, endIso).catch(() => []),
+      // what is still in: the fly wallets' principal, plus a fly's Solana principal (2026-11-08, the user: flies trading
+      // only on Solana didn't count - their deposits are 'sol_deposit' and their principal isn't on the ledger)
+      pg.all<{ wallet: string; usd: number }>(`select wallet, sum(usd)::float8 as usd from (
+          select lower(holder) as wallet, principal_usd as usd from mine.vault_ledger where holder is not null
+          union all select lower(value->>'holder'), coalesce((value->>'principal')::float8, 0) from mine.vault_public
+            where key like 'vault:solana:%' and value->>'holder' is not null) x group by 1`).catch(() => []),
       pg.all<{ wallet: string; linked_at_ms: string }>("select wallet, linked_at_ms::text from mine.x_links").catch(() => []),
       pg.all<{ wallet: string }>("select wallet from mine.tg_links where member").catch(() => []),
       pg.all<{ wallet: string; referrer: string }>("select wallet, referrer from mine.referrals where qualified_at is not null and qualified_at <= ?", endIso).catch(() => []),
@@ -601,9 +605,9 @@ export function createXp(d: {
         pg.all<{ wallet: string; xp: number }>(`select wallet, sum(xp)::float8 as xp from mine.xp_events
           where at >= ? and at < ? and at <= ? and xp > 0 and source = any(?::text[]) group by 1`, fromIso, toIso, endIso, `{${BOOST_SOURCES.join(",")}}`),
         pg.all<{ wallet: string; usd: number }>(`select lower(holder) as wallet, sum(usd)::float8 as usd from mine.vault_moves
-          where kind = 'deposit' and holder is not null and usd >= ? and at >= ? and at < ? group by 1`, RATES.depositMinUsd, fromIso, toIso).catch(() => []),
+          where kind in ('deposit', 'sol_deposit') and holder is not null and usd >= ? and at >= ? and at < ? group by 1`, RATES.depositMinUsd, fromIso, toIso).catch(() => []),
         pg.all<{ wallet: string; usd: number }>(`select lower(holder) as wallet, sum(usd)::float8 as usd from mine.vault_moves
-          where kind = 'withdraw' and holder is not null and at >= ? and at < ? group by 1`, fromIso, toIso).catch(() => []),
+          where kind in ('withdraw', 'sol_withdraw') and holder is not null and at >= ? and at < ? group by 1`, fromIso, toIso).catch(() => []),
       ]);
       const per = new Map<string, { gained: number; deposited: number; sold: number; soldAfter: boolean; withdrawn: number }>();
       const p = (w: string) => per.get(w) ?? per.set(w, { gained: 0, deposited: 0, sold: 0, soldAfter: false, withdrawn: 0 }).get(w)!;

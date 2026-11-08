@@ -473,6 +473,17 @@ export function createVaults(d: VaultsDeps) {
       where l.chain = ? and l.holder is not null and w.fly_id is not null`, prefix, chain);
     const flies: Record<number, unknown> = {};
     for (const r of rows) if (r.value) flies[r.fly_id] = r.value;
+    // flies whose money is only on Solana (no holder on the Robinhood ledger): the leaderboard's Solana entry and the
+    // Solana side's trades and wallet (2026-11-08, the user: My flies, levels and squads didn't count them)
+    if (chain === "robinhood" && SOLANA) {
+      const board = await boardOf("leaderboard");
+      for (const e of (board?.all ?? []) as any[]) {
+        const fly = Number(e?.flies?.[0]);
+        if (e?.starter !== "solana" || !Number.isInteger(fly) || flies[fly]) continue;
+        const sol = await publicOf(`vault:solana:${e.vault}`);
+        flies[fly] = { ...e, curve: [], recent: sol?.recent ?? [], wallet: sol?.wallet ?? [], solana_only: true };
+      }
+    }
     return { updated: Date.now() / 1000, chain, flies };
   }
 
@@ -484,10 +495,10 @@ export function createVaults(d: VaultsDeps) {
   async function levels() {
     const f = await cached("feed:robinhood", FEED_TTL_MS, () => feed("robinhood"));
     const rows = await pg.all<{ fly_id: number; holder: string; first_ms: number | null; last_ms: number | null }>(`select w.fly_id, lower(m.holder) as holder,
-        (extract(epoch from min(m.at) filter (where m.kind = 'deposit')) * 1000)::float8 as first_ms,
-        (extract(epoch from max(m.at) filter (where m.kind = 'withdraw')) * 1000)::float8 as last_ms
+        (extract(epoch from min(m.at) filter (where m.kind in ('deposit', 'sol_deposit'))) * 1000)::float8 as first_ms,
+        (extract(epoch from max(m.at) filter (where m.kind in ('withdraw', 'sol_withdraw'))) * 1000)::float8 as last_ms
       from mine.vault_moves m join mine.vault_wallets w on lower(w.address) = lower(m.wallet)
-      where m.chain = 'robinhood' and m.holder is not null and w.fly_id is not null group by w.fly_id, lower(m.holder)`);
+      where m.chain in ('robinhood', 'solana') and m.holder is not null and w.fly_id is not null group by w.fly_id, lower(m.holder)`);
     const moves = new Map<string, Moves>(rows.map((r) => [`${r.fly_id}:${r.holder}`, { firstDeposit: r.first_ms, lastWithdraw: r.last_ms }]));
     const exclude = (process.env.XP_EXCLUDE ?? TEAM).toLowerCase().split(",").map((x) => x.trim()).filter(Boolean);
     return { updated: Date.now() / 1000, ...flyLevels(f.flies as Record<string, FlyStats>, moves, Date.now(), exclude) };

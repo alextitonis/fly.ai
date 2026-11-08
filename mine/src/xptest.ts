@@ -339,6 +339,14 @@ try {
     && !JSON.stringify(jlog).includes("sold-fly"), JSON.stringify(jlog.items));
   check("bug XP: removable", await bug({ remove: bugId }) === 200 && (await jp()).bug === 250);
   check("bug XP: the list", await bug(null, "GET") === 200 && sent[0].body.grants.length === 1);
+
+  // ---- a fly funded only on Solana (2026-11-08): its 'sol_deposit' counts, kept by its Solana principal ----
+  const K = addr(0xb8);
+  await pg.run(`insert into mine.vault_moves (wallet, chain, kind, holder, usd, at) values ('0xw9', 'solana', 'sol_deposit', ?, 50, ?)`, K, new Date(clock - HOUR).toISOString());
+  await pg.run(`insert into mine.vault_public (key, value) values ('vault:solana:0xw9', ?::text::jsonb)`, JSON.stringify({ holder: K, principal: 50 }));
+  clock += 120_000;                                       // (past the 60 s board cache)
+  const kp = await xp2.profile(K) as any;
+  check("Solana-only fly: its deposit earns deposit XP", kp.sources?.deposits === 500, JSON.stringify(kp.sources));
 } finally {
   await PG.stop();
 }
