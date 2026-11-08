@@ -925,8 +925,9 @@
     const by = {};
     p.flies.forEach((f) => {
       const h = holderOf[String(f.fly)] || (f.holder ? String(f.holder).toLowerCase() : "?");
-      const o = (by[h] = by[h] || { holder: h, flies: [], usd: 0, share: 0, boost: 1 });
+      const o = (by[h] = by[h] || { holder: h, flies: [], usd: 0, share: 0, boost: 1, weight: 0 });
       o.flies.push(f.fly);
+      o.weight += Number(f.weight) || 0;                  // rarity x generation (a Gen 2 Uncommon is 4.95), summed
       o.usd += f.usd || 0;
       o.share += f.share_pct || 0;
       o.boost = Math.max(o.boost, f.stake_boost || 1);     // one wallet, one stake: the same on each of its flies
@@ -936,11 +937,11 @@
     const who = (h) => (h === "?" ? "—" : `<span title="${esc(h)}">${esc(names[h] || shortAddr(h))}</span>`);
     // the stake boost (2026-10-14, the user: "show these % in the flydesk dashboard"): x1 = no stake counted this week
     const boostCell = (b) => (b > 1 ? `<b class="up">×${nf(2).format(b)}</b>` : `<span class="dim">×1</span>`);
-    $("pay-holders").innerHTML = `<thead><tr><th>#</th><th>${esc(t("pay.thHolder"))}</th><th class="r">${esc(t("pay.thFlies"))}</th><th class="r">${esc(t("pay.thStake"))}</th><th class="r">${esc(t("pay.thShare"))}</th><th class="r">${esc(t("pay.thUsd"))}</th></tr></thead><tbody>` +
+    $("pay-holders").innerHTML = `<thead><tr><th>#</th><th>${esc(t("pay.thHolder"))}</th><th class="r">${esc(t("pay.thFlies"))}</th><th class="r">${esc(t("pay.thWeightSum"))}</th><th class="r">${esc(t("pay.thStake"))}</th><th class="r">${esc(t("pay.thShare"))}</th><th class="r">${esc(t("pay.thUsd"))}</th></tr></thead><tbody>` +
       (holders.length ? holders.map((o, i) => `<tr><td>${i + 1}</td><td>${who(o.holder)}</td>` +
-        `<td class="r">${o.flies.length}</td><td class="r">${boostCell(o.boost)}</td><td class="r">${nf(2).format(o.share)}%</td>` +
+        `<td class="r">${o.flies.length}</td><td class="r">×${nf(2).format(o.weight)}</td><td class="r">${boostCell(o.boost)}</td><td class="r">${nf(2).format(o.share)}%</td>` +
         `<td class="r"><b class="${o.usd > 0 ? "up" : ""}">${esc(usd(o.usd))}</b></td></tr>`).join("")
-        : `<tr class="empty"><td colspan="6">${esc(t("pay.empty"))}</td></tr>`) + "</tbody>";
+        : `<tr class="empty"><td colspan="7">${esc(t("pay.empty"))}</td></tr>`) + "</tbody>";
     const when = new Date(p.settles_at * 1000);
     const left = Math.max(0, p.settles_at * 1000 - Date.now()), d = Math.floor(left / 86_400_000), h = Math.floor(left / 3_600_000) % 24;
     $("pay-when").textContent = t("pay.when", { date: when.toLocaleString(lang(), { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }), in: d ? `${d}d ${h}h` : `${h}h` });

@@ -284,6 +284,7 @@
     "thFlies": "Flies",
     "byFly": "Each fly",
     "empty": "No activated flies yet: a fly (or a Bullas / RUYUI) is activated while its holder holds 200,000 $FLYAI.",
+    "thWeightSum": "Weight",
     "thStake": "Stake boost",
     "partners": "Activated partner NFTs share it too, like a Common fly: {list} this week. We'll be adding USDC to the pool accordingly.",
     "partnerItem": "{n} {name}",
