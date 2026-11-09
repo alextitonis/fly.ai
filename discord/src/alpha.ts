@@ -14,7 +14,7 @@
 // 2026-11-02 (the user: "more good looking, not so plain"; "add it in a partner server"): every message is a card, and the
 // feed goes to each target channel; a target with a role pings it on new calls, bets and launches, never on sell replies.
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, type Client, type Message, type SendableChannels } from "discord.js";
-import { board, contractOf, desk, flyLog, SITE, snipes, type FomoToken, type Found, type LogTrade, type Snipe } from "./data.ts";
+import { board, contractOf, desk, elysiumSnipes, flyLog, SITE, snipes, type FomoToken, type Found, type LogTrade, type Snipe } from "./data.ts";
 import { MINT, pct, symbol, usd } from "./format.ts";
 import { screen, SNIPE_MIN_REAL_LIQ_USD, type Verdict } from "./screen.ts";
 
@@ -115,6 +115,14 @@ export function betPost(name: string, who: string, f: { stake?: number | null; o
 export const updatePost = (text: string, color: number): Post => ({ embeds: [new EmbedBuilder().setColor(color).setDescription(text)], ping: false });
 
 /** One of the desk's own launches. */
+/** A fly's Elysium snipe (2026-11-09): no DexScreener / GoPlus read of Elysium yet, so not the scam filter's call card - the
+ *  desk tested the pool itself (a simulated buy and sell back, its depth) before buying. No ping. */
+export function elysiumPost(head: string, sym: string, token: string, why: string | null | undefined, color: number): Post {
+  const e = card(color).setTitle(`$${ticker(sym)} · Elysium`.slice(0, 256)).setDescription(`**${head}**${quote(why ?? undefined)}`)
+    .addFields({ name: "Contract address", value: `\`${token}\`` }).setThumbnail(LOGO);
+  return { embeds: [e], components: links(["🪰 fly.ai", `${SITE}/traderflies`]), ping: false };
+}
+
 export function launchPost(name: string, sym: string, token: string): Post {
   const chart = `https://dexscreener.com/robinhood/${token}`;
   const e = card(COLOR.launch).setTitle(`🚀 The flies launched ${name} ($${sym})`.slice(0, 256)).setURL(chart)
@@ -382,12 +390,32 @@ export function startAlpha(client: Client, targets: Target[], opts: { flies: num
     }
   }
 
+  /** The Fly Wallets' Elysium snipes (velysium.py): each buy a post (SNIPES_PER_HOUR shared with the sniper's picks),
+   *  each exit a reply under it. */
+  async function elysiumSource(): Promise<void> {
+    const s = await elysiumSnipes();
+    for (const o of fresh("ely:open", s.open, (o) => `${o.fly}:${o.token}:${o.at}`).reverse()) {
+      const now = Date.now();
+      while (snipeAt.length && now - snipeAt[0]! > 3600_000) snipeAt.shift();
+      if (snipeAt.length >= SNIPES_PER_HOUR) break;
+      const key = `elysium:${o.token.toLowerCase()}`;
+      if (called.get(key) && now - called.get(key)!.at < CALL_AGAIN_MS) continue;
+      const msgs = await send(elysiumPost(`🎯 Fly #${o.fly} sniped a new Elysium launch (${usd(o.usd)})`, o.symbol, o.token, o.why, COLOR.snipe));
+      if (msgs) { called.set(key, { at: now, msgs }); snipeAt.push(now); }
+    }
+    for (const c of fresh("ely:closed", s.closed, (c) => `${c.fly}:${c.token}:${c.at}`).reverse()) {
+      const r = c.pnl_pct ?? 0;
+      await update(`elysium:${c.token.toLowerCase()}`, `${r >= 0 ? "🟢" : "🔴"} Fly #${c.fly} out of $${ticker(c.symbol)} on Elysium: ${pct(r)} (${c.why ?? "sold"})`,
+        r >= 0 ? COLOR.up : COLOR.down);
+    }
+  }
+
   let busy = false;
   async function tick() {
     if (busy) return;   // a slow filter (RPC) can outlast ALPHA_POLL_MS
     busy = true;
     try {
-      for (const [name, source] of [["desk", deskSource], ["snipes", snipeSource], ["wallets", walletSource]] as const) {
+      for (const [name, source] of [["desk", deskSource], ["snipes", snipeSource], ["elysium", elysiumSource], ["wallets", walletSource]] as const) {
         await source().catch((err) => console.error(`alpha: ${name} read failed`, (err as Error).message));
       }
     } finally {

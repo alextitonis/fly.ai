@@ -90,6 +90,12 @@ export type Snipe = { chain: string; token: string; symbol: string; at: number; 
 export type SnipeExit = { chain: string; token: string; symbol: string; why: string; cost: number; got: number; at: number; held_min: number };
 export const snipes = () => getJSON<{ at: number; open: Snipe[]; closed: SnipeExit[] }>(`${DESK}/public/snipes.json`);
 
+/** The Fly Wallets' Elysium snipes (flytrade/vaults/velysium.py "elysium_snipes", mine /api/vaults/elysium/snipes, 2026-11-09):
+ *  each buy a fly made of a new launch there, and each exit. Empty until the desk's ELYSIUM_LIVE switch is on. */
+export type ElySnipe = { chain: "elysium"; token: string; symbol: string; fly: number; at: number; usd: number; liq?: number; why?: string | null };
+export type ElyExit = { chain: "elysium"; token: string; symbol: string; fly: number; at: number; usd: number; why?: string | null; pnl_pct: number | null };
+export const elysiumSnipes = () => getJSON<{ at: number; open: ElySnipe[]; closed: ElyExit[] }>(`${MINE}/api/vaults/elysium/snipes`);
+
 // ---------------------------------------------------------------- Fly Wallets leaderboard (mine /api/vaults/leaderboard)
 export type Wallet = {
   flies: number[];
