@@ -1756,7 +1756,27 @@
       "doesSnipe": "Con el sniper activado, tu mosca compra los tokens nuevos de Elysium en sus primeros minutos y los vende rápido, igual que aquí.",
       "doesTrade": "Tu mosca opera los tokens principales de Elysium con el estilo que elegiste. Elige Degen Sniper (o activa el sniper) para comprar sus tokens recién lanzados.",
       "next": "Empieza cuando Elysium esté activa y añadas HYPE, la moneda de Elysium para el gas y para operar. Cómo añadirla aparecerá aquí el día del lanzamiento; nada se mueve antes.",
-      "risk": "Una cadena nueva es de alto riesgo: la mayoría de los tokens nuevos fracasan, y sacar dinero de Elysium puede tardar más que en otras cadenas al principio."
+      "risk": "Una cadena nueva es de alto riesgo: la mayoría de los tokens nuevos fracasan, y sacar dinero de Elysium puede tardar más que en otras cadenas al principio.",
+      "doesHold": "Con tu estilo actual, la mosca guarda el HYPE que añadas en Elysium; por ahora allí solo opera el sniper. Elige Degen Sniper (o activa el sniper) para comprar sus tokens recién creados.",
+      "addTitle": "Añade HYPE en Elysium",
+      "addText": "Envía HYPE en Elysium a la dirección de tu mosca de abajo. Empieza a hacer sniping cuando tenga al menos {min}. Cada compra es de $5 como máximo (o el 10% de su dinero en Elysium), 3 a la vez, y vende rápido.",
+      "reading": "Leyendo su HYPE…",
+      "balance": "{hype} HYPE en Elysium",
+      "sameKey": "Es la misma dirección que la billetera de tu mosca aquí: una clave en todas las cadenas.",
+      "official": "Usa solo el puente oficial de Kinetiq desde elysium.kinetiq.xyz. Circulan puentes falsos.",
+      "notYet": "Tu mosca aún no opera en Elysium: el desk la activa tras su propia prueba. El HYPE que envíes ahora se guarda y se cuenta cuando empiece.",
+      "status": {
+        "closing": "mosca vendida: su dinero en Elysium va al titular anterior",
+        "waiting": "esperando HYPE",
+        "hold": "necesita el mínimo de $FLYAI",
+        "sniping": "haciendo sniping",
+        "holding": "guardando HYPE"
+      },
+      "outSlow": "Sacar dinero de Elysium es lento: aún no hay una ruta rápida de vuelta. Un retiro envía tu HYPE (menos la comisión sobre beneficios) a tu propia dirección en Elysium; sacarlo de Elysium por el puente oficial puede tardar días.",
+      "outGo": "Envíame todo mi dinero de Elysium",
+      "outConfirm": "¿Vender todo en Elysium y enviar el HYPE a {to} en Elysium?",
+      "outAsked": "Pedido: tu mosca vende y envía tu HYPE en Elysium en un minuto o dos.",
+      "outDone": "Enviado: el HYPE está en tu dirección en Elysium."
     },
     "toFlyTitle": "Mover a otra de tus moscas",
     "toFlyText": "Hasta {usd} directo a la billetera de otra mosca, normalmente en minutos. Solo se venden posiciones si no alcanza el efectivo. La comisión se cobra sobre la parte de ganancia, como en un retiro; los $FLYAI y el dinero de FlightPass se quedan en esta mosca.",
@@ -2103,7 +2123,7 @@
     "earn": "El efectivo inactivo se presta a la bóveda USDG de Steakhouse o Spark en Robinhood Chain. La tasa mostrada es la tasa base actual; cambia cada día.",
     "crossChains": "Los tokens de estas cadenas se compran con el USDG de la billetera vía Relay (puente + swap de una vez) y se venden de vuelta a USDG aquí. La primera compra en una cadena también envía $0.50 de gas. Las compras de menos de $5 se omiten.",
     "maker": "La Banda estable de Fly Maker desde la billetera de esta mosca: solo actúa con el precio a menos de 3% de su media de 5 minutos, intercambia como mucho un cuarto del dinero del maker a la vez y retira la liquidez antes de cualquier retiro.",
-    "elysium": "Elysium es la Layer 2 de Kinetiq para Hyperliquid, se paga en HYPE. Tu mosca usa la misma dirección de wallet allí. Activarlo ahora solo la prepara: no se mueve dinero hasta el lanzamiento y puedes desactivarlo cuando quieras."
+    "elysium": "Elysium es la Layer 2 de Kinetiq para Hyperliquid, con gas en HYPE. Tu mosca usa allí la misma dirección de billetera. Actívalo y guarda, luego envía HYPE en Elysium a esa dirección. Puedes desactivarlo cuando quieras; sacar dinero de Elysium es lento."
   },
   "label": {
     "add": "Añadir etiqueta privada",

@@ -722,7 +722,8 @@ function EventCard({ item, flies, patches, now, onFly, coins }: {
         <p className="event-line"><span className="event-icon">{icon}</span> {body} <span className="when">{ago(item.at, now)}</span></p>
         <ul className="round">
           {item.duels.map((d) => (
-            <li key={d.id}>{result(d)} <span className="fine">{t("flybook.event.vs", { a: ms(d.a_step), b: ms(d.b_step) })}{d.requested_by ? t("flybook.event.challenge") : ""}</span></li>
+            <li key={d.id}>{result(d)} <span className="fine">{t("flybook.event.vs", d.winner === d.b_fly
+              ? { a: ms(d.b_step), b: ms(d.a_step) } : { a: ms(d.a_step), b: ms(d.b_step) })}{d.requested_by ? t("flybook.event.challenge") : ""}</span></li>
           ))}
         </ul>
       </article>

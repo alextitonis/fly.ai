@@ -101,8 +101,8 @@ export default function Arena({ flies, viewer, liveDuel }: {
               const a = byId.get(d.a_fly);
               const b = byId.get(d.b_fly);
               const won = d.winner ? byId.get(d.winner) : null;
-              return (
-                <li key={d.id} className={`duel${open === d.id ? " on" : ""}`} onClick={() => d.replay && setOpen(open === d.id ? null : d.id)}>
+              const body = (
+                <>
                   <span className="kind">{KIND(d.kind).label}</span>
                   <span className="pair">
                     <span className="dot" style={{ background: a?.color ?? "#888" }} /> {a?.name ?? "?"}
@@ -120,6 +120,20 @@ export default function Arena({ flies, viewer, liveDuel }: {
                         {d.replay ? t("flybook.arena.tapReplay") : ""}
                       </span>
                     </>
+                  )}
+                </>
+              );
+              const cls = `duel${open === d.id ? " on" : ""}`;
+              return (
+                <li key={d.id}>
+                  {d.replay ? (
+                    <button type="button" className={`${cls} duel-btn`} aria-expanded={open === d.id}
+                            aria-label={`${KIND(d.kind).label} #${d.id}: ${a?.name ?? "?"} ${t("flybook.arena.vs")} ${b?.name ?? "?"}. ${t("flybook.arena.tapReplay").replace(/^[\s·]+/, "")}`}
+                            onClick={() => setOpen(open === d.id ? null : d.id)}>
+                      {body}
+                    </button>
+                  ) : (
+                    <div className={cls}>{body}</div>
                   )}
                 </li>
               );

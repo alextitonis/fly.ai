@@ -193,10 +193,12 @@ export function createVaults(d: VaultsDeps) {
       return { chain, ledger, stats, settings: settings?.doc ?? null };
     };
     const [home, ...away] = await Promise.all([one("robinhood"), ...AWAY.map(one)]);
-    const [solana, perps, agent] = await Promise.all([SOLANA && wallet ? publicOf(`vault:solana:${wallet}`) : null,
+    const [solana, perps, agent, elysium] = await Promise.all([SOLANA && wallet ? publicOf(`vault:solana:${wallet}`) : null,
       PERPS && wallet ? publicOf(`vault:perps:${wallet}`) : null,
-      wallet ? publicOf(`vault:agent:${wallet}`) : null]);          // its ERC-8004 agent id (flytrade/vaults/vagents.py)
-    return { fly, owner, wallet, ...home, pass: granted ?? null, away, solana, perps, agent };
+      wallet ? publicOf(`vault:agent:${wallet}`) : null,            // its ERC-8004 agent id (flytrade/vaults/vagents.py)
+      // its Elysium balance (flytrade/vaults/velysium.py, 2026-11-09): only once the desk serves it (ELYSIUM_LIVE), else null
+      wallet ? publicOf(`vault:elysium:${wallet}`) : null]);
+    return { fly, owner, wallet, ...home, pass: granted ?? null, away, solana, perps, agent, elysium };
   }
 
   /**
@@ -431,14 +433,39 @@ export function createVaults(d: VaultsDeps) {
     return { id: row!.id, status: "new" };
   }
 
+  // ---- Elysium: the holder of the fly's Elysium money asks for it, the desk sends it (velysium.py, 2026-11-09) ------
+  // On/off is the settings' elysium.on; the only ask is "out": its HYPE (less the profit fee) to the holder's own address
+  // ON ELYSIUM (no route home exists yet). Only once the desk serves the wallet (its public row exists).
+  async function elysium(req: IncomingMessage, wallet: string, body: any) {
+    isOn();
+    const me = await d.sessionWallet(req);
+    if ((await flyOfWallet(wallet)) == null) throw new HttpError(404, "no such fly wallet");
+    const row = await publicOf(`vault:elysium:${wallet}`);
+    if (!row?.live) throw new HttpError(503, "Elysium isn't open for this fly yet");
+    if (!row.holder || String(row.holder).toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the holder of this fly's Elysium money can do this");
+    if (String(body?.action ?? "") !== "out") throw new HttpError(400, "action is out");
+    const bps = Number(body?.bps);
+    if (!Number.isInteger(bps) || bps < 1 || bps > 10_000) throw new HttpError(400, "bps is 1..10000");
+    const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = 'robinhood'
+      and kind like 'ely\\_%' and status in ('new', 'doing')`, wallet);
+    if (open) throw new HttpError(409, "an Elysium request is already on its way");
+    const r = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
+      values (?, 'robinhood', 'ely_out', ?, ?::text::jsonb) returning id`, wallet, me, JSON.stringify({ bps }));
+    return { id: r!.id, status: "new" };
+  }
+
   // ---- Perps: the wallet's holder asks, the desk does it (vperps.py) --------------------------------------------
   async function perps(req: IncomingMessage, wallet: string, body: any) {
     isOn();
     if (!PERPS) throw new HttpError(503, "Perps isn't open yet");
     const me = await d.sessionWallet(req);
-    if ((await flyOfWallet(wallet)) == null) throw new HttpError(404, "no such fly wallet");
+    const fly = await flyOfWallet(wallet);
+    if (fly == null) throw new HttpError(404, "no such fly wallet");
     const led = await ledgerOf(wallet, "robinhood");
-    if (!led?.holder || led.holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can do this");
+    // no holder yet (a new fly, or one just sold and paid out): its owner, as for settings (2026-11-09, fly #85: the new
+    // owner picked Longs & Shorts before the first deposit - the style saved, Perps was refused)
+    const who = led?.holder ?? (led?.closing ? null : await ownerOfFly(fly));
+    if (!who || who.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can do this");
     const action = String(body?.action ?? "");
     const markets = body?.markets === undefined ? undefined : String(body.markets);
     if (markets !== undefined && !PERP_MARKETS.has(markets)) throw new HttpError(400, "markets is crypto, stocks or both");
@@ -535,7 +562,8 @@ export function createVaults(d: VaultsDeps) {
       where l.holder is not null and w.fly_id is not null`);
     const sol: number[] = (SOLANA ? (await publicOf("solana_funded"))?.flies : null) ?? [];   // (their Solana money counts too)
     const per: number[] = (PERPS ? (await publicOf("perps_funded"))?.flies : null) ?? [];      // (and their Perps money)
-    return { flies: [...new Set([...rows.filter(holdsMoney).map((r) => r.fly_id), ...sol, ...per])] };
+    const ely: number[] = (await publicOf("elysium_funded"))?.flies ?? [];                     // (and their Elysium money)
+    return { flies: [...new Set([...rows.filter(holdsMoney).map((r) => r.fly_id), ...sol, ...per, ...ely])] };
   }
 
   async function requestView(id: number) {
@@ -929,6 +957,8 @@ export function createVaults(d: VaultsDeps) {
         return d.send(res, 200, await cached(`feed:${chain}`, FEED_TTL_MS, () => feed(chain))), true;
       }
       if (p === "/api/vaults/levels") { isOn(); return d.send(res, 200, await cached("levels", 300_000, levels)), true; }
+      // the fly wallets' Elysium snipes, buys and exits (velysium.py "elysium_snipes"): Discord's alpha feed reads it
+      if (p === "/api/vaults/elysium/snipes") return d.send(res, 200, (await publicOf("elysium_snipes")) ?? { at: 0, open: [], closed: [] }), true;
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})$/.exec(p))) return d.send(res, 200, await flyView(Number(m[1]))), true;
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})\/log$/.exec(p))) {
         const fly = Number(m[1]);
@@ -942,12 +972,12 @@ export function createVaults(d: VaultsDeps) {
     }
     if (req.method === "POST") {
       if (p === "/api/vaults/labels") return d.send(res, 200, await saveLabel(req, await d.readJson(req))), true;
-      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move|transfer|solana|perps)$/.exec(p))) {
+      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move|transfer|solana|perps|elysium)$/.exec(p))) {
         if (!ADDRESS.test(m[1])) throw new HttpError(400, "bad wallet address");
         const wallet = checksumAddress(m[1]);
         const body = await d.readJson(req);
         const go = m[2] === "settings" ? saveSettings : m[2] === "withdraw" ? withdraw : m[2] === "transfer" ? transfer : m[2] === "solana" ? solana
-          : m[2] === "perps" ? perps : move;
+          : m[2] === "perps" ? perps : m[2] === "elysium" ? elysium : move;
         return d.send(res, 200, await go(req, wallet, body)), true;
       }
       if (p === "/api/admin/promo/manual") return d.send(res, 200, await manualPromo(req, await d.readJson(req))), true;

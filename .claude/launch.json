@@ -83,6 +83,15 @@
       "port": 1421
     },
     {
+      "name": "flybook",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "cd flybook\\web && npx vite --port 5177 --strictPort"
+      ],
+      "port": 5177
+    },
+    {
       "name": "traderflies-alt",
       "runtimeExecutable": "cmd",
       "runtimeArgs": [

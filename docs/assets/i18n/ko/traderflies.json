@@ -1754,7 +1754,27 @@
       "doesSnipe": "스나이퍼가 켜져 있으면 플라이가 Elysium의 신규 토큰을 출시 직후 몇 분 안에 사서, 여기서처럼 빠르게 팝니다.",
       "doesTrade": "플라이가 고른 스타일대로 Elysium의 주요 토큰을 거래합니다. 신규 토큰을 사려면 Degen Sniper를 고르세요(또는 스나이퍼를 켜세요).",
       "next": "Elysium이 출시되고 가스와 거래에 쓰는 Elysium의 코인 HYPE를 넣으면 시작합니다. 넣는 방법은 출시일에 여기 표시되며, 그 전에는 돈이 움직이지 않습니다.",
-      "risk": "새 체인은 위험이 큽니다. 신규 토큰 대부분은 실패하고, 초기에는 Elysium에서 돈을 빼는 데 다른 체인보다 오래 걸릴 수 있습니다."
+      "risk": "새 체인은 위험이 큽니다. 신규 토큰 대부분은 실패하고, 초기에는 Elysium에서 돈을 빼는 데 다른 체인보다 오래 걸릴 수 있습니다.",
+      "doesHold": "지금 스타일에서는 Elysium에 넣은 HYPE를 플라이가 그대로 보관해요. 지금은 스나이퍼만 그곳에서 거래해요. 새로 나온 토큰을 사려면 Degen Sniper를 고르거나 스나이퍼를 켜세요.",
+      "addTitle": "Elysium에 HYPE 넣기",
+      "addText": "아래 플라이 주소로 Elysium의 HYPE를 보내세요. {min} 이상이 들어오면 스나이핑을 시작해요. 한 번에 최대 $5(또는 Elysium 자금의 10%), 동시에 3개까지, 빠르게 팔아요.",
+      "reading": "HYPE 확인 중…",
+      "balance": "Elysium에 {hype} HYPE",
+      "sameKey": "여기 플라이 지갑과 같은 주소예요: 모든 체인에 키 하나.",
+      "official": "elysium.kinetiq.xyz의 Kinetiq 공식 브리지만 쓰세요. 가짜 브리지가 돌고 있어요.",
+      "notYet": "플라이는 아직 Elysium에서 거래하지 않아요: 데스크가 자체 테스트 후에 켜요. 지금 보낸 HYPE는 보관되고 시작할 때 반영돼요.",
+      "status": {
+        "closing": "플라이 판매됨: Elysium 자금은 이전 보유자에게 가요",
+        "waiting": "HYPE 기다리는 중",
+        "hold": "$FLYAI 보유가 필요해요",
+        "sniping": "스나이핑 중",
+        "holding": "HYPE 보관 중"
+      },
+      "outSlow": "Elysium에서 돈을 빼는 건 느려요: 아직 빠른 경로가 없어요. 출금하면 HYPE(수익 수수료 제외)가 Elysium의 내 주소로 가요. 공식 브리지로 Elysium 밖으로 옮기는 데는 며칠 걸릴 수 있어요.",
+      "outGo": "Elysium 자금 전부 나에게 보내기",
+      "outConfirm": "Elysium에 있는 걸 모두 팔고 HYPE를 Elysium의 {to}(으)로 보낼까요?",
+      "outAsked": "요청됨: 플라이가 1~2분 안에 팔고 Elysium에서 HYPE를 보내요.",
+      "outDone": "보냄: HYPE가 Elysium의 내 주소에 있어요."
     },
     "toFlyTitle": "내 다른 파리로 옮기기",
     "toFlyText": "최대 {usd}를 다른 파리 지갑으로 바로 보내요. 보통 몇 분이면 돼요. 현금이 부족할 때만 포지션을 팔아요. 수익 수수료는 출금처럼 수익 부분에만 붙고, $FLYAI와 FlightPass 금액은 이 파리에 남아요.",
@@ -2101,7 +2121,7 @@
     "earn": "유휴 현금을 Robinhood Chain의 Steakhouse 또는 Spark USDG 볼트에 빌려줍니다. 표시된 금리는 현재 기본 금리이며 매일 바뀝니다.",
     "crossChains": "이 체인의 토큰은 지갑의 USDG로 Relay를 통해 구매되며(브리지 + 스왑 한 번에), 이곳의 USDG로 다시 판매됩니다. 체인별 첫 구매 시 $0.50의 가스도 함께 보냅니다. $5 미만 구매는 건너뜁니다.",
     "maker": "이 파리 자신의 지갑에서 실행되는 Fly Maker의 스테디 밴드: 가격이 5분 평균의 3% 이내일 때만 움직이고, 한 번에 메이커 자금의 최대 4분의 1만 스왑하며, 출금 전에 유동성을 먼저 뺍니다.",
-    "elysium": "Elysium은 Kinetiq이 만든 Hyperliquid용 레이어 2로, 수수료는 HYPE로 냅니다. 플라이는 그곳에서도 같은 지갑 주소를 씁니다. 지금 켜는 것은 준비일 뿐이며, 출시 전에는 돈이 움직이지 않고 언제든 끌 수 있습니다."
+    "elysium": "Elysium은 Hyperliquid를 위한 Kinetiq의 레이어 2로, 가스는 HYPE예요. 플라이는 그곳에서도 같은 지갑 주소를 써요. 켜고 저장한 다음 그 주소로 Elysium의 HYPE를 보내세요. 언제든 끌 수 있고, Elysium에서 돈을 빼는 건 느려요."
   },
   "label": {
     "add": "비공개 라벨 추가",
