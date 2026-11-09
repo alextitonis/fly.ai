@@ -1751,11 +1751,11 @@
     "elysium": {
       "titleSoon": "Elysium (9 Kasım'da açılıyor)",
       "title": "Elysium",
-      "text": "Elysium, Hyperliquid'in yeni hızlı ağı ve 9 Kasım'da açılıyor. Sineğini şimdi hazırla, açılış günü hazır olsun.",
+      "text": "Elysium, Hyperliquid'in 9 Kasım'dan beri canlı olan yeni hızlı zinciri. Açarsan sineğin eklediğin HYPE ile yeni tokenlerini snipe eder.",
       "on": "Sineğimi Elysium için hazırla",
       "doesSnipe": "Sniper açıkken sineğin, Elysium'un yeni çıkan tokenlarını ilk dakikalarında alır ve burada olduğu gibi hızlı satar.",
       "doesTrade": "Sineğin, seçtiğin tarzla Elysium'un ana tokenlarında işlem yapar. Yeni çıkan tokenları alması için Degen Sniper'ı seç (veya sniper'ı aç).",
-      "next": "Elysium açılınca ve Elysium'un gaz ve işlem coini HYPE'ı eklediğinde başlar. Nasıl ekleneceği açılış günü burada görünecek; öncesinde hiçbir para hareket etmez.",
+      "next": "HYPE ekleme adımı için kaydet: sineğinin Elysium adresi ve nasıl fonlanacağı.",
       "risk": "Yeni bir ağ yüksek risklidir: yeni tokenların çoğu batar ve başta Elysium'dan para çıkarmak diğer ağlardan daha uzun sürebilir.",
       "doesHold": "Şu anki stilinle sinek, Elysium'a eklediğin HYPE'ı tutar; orada şimdilik sadece sniper işlem yapar. Yepyeni tokenlerini almak için Degen Sniper'ı seç (ya da sniper'ı aç).",
       "addTitle": "Elysium'da HYPE ekle",

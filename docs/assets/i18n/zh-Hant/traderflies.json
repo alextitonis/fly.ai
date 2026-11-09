@@ -1749,11 +1749,11 @@
     "elysium": {
       "titleSoon": "Elysium（11 月 9 日上線）",
       "title": "Elysium",
-      "text": "Elysium 是 Hyperliquid 的新高速鏈，將於 11 月 9 日上線。現在設定好你的蒼蠅，上線當天就能開始。",
+      "text": "Elysium 是 Hyperliquid 的新高速鏈，11 月 9 日已上線。打開後，你的蒼蠅會用你加入的 HYPE 狙擊它的新代幣。",
       "on": "為 Elysium 設定我的蒼蠅",
       "doesSnipe": "開啟狙擊後，你的蒼蠅會在 Elysium 新代幣上線的頭幾分鐘買入，並像在這裡一樣快速賣出。",
       "doesTrade": "你的蒼蠅會按你選的風格交易 Elysium 的主要代幣。想買新上線的代幣，請選 Degen Sniper（或開啟狙擊）。",
-      "next": "Elysium 上線並且你存入 HYPE（Elysium 用於 gas 和交易的幣）後開始。存入方法會在上線當天顯示在這裡；在此之前不會動用任何資金。",
+      "next": "儲存後顯示加入 HYPE 的步驟：你蒼蠅在 Elysium 上的地址和充值方式。",
       "risk": "新鏈風險很高：大多數新代幣會失敗，而且初期從 Elysium 轉出資金可能比其他鏈更慢。",
       "doesHold": "按你現在的風格，蒼蠅會保管你在 Elysium 上加入的 HYPE；目前那裡只有狙擊會交易。選擇 Degen Sniper（或打開狙擊）來買入它的全新代幣。",
       "addTitle": "在 Elysium 上加入 HYPE",

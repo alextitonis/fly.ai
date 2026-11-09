@@ -14,6 +14,8 @@ primary_region = "iad"
   TP_PART = "0.5"
   TRAIL_ARM_X = "1.15"
   TRAIL_PCT = "15"
+  MAX_OPEN = "8"                             # user 11-09: hold more tokens at once (was 4)
+  MAX_SPEND_HYPE = "15"                     # user 11-09 "let it buy again": 5 was reached; counts every buy since the start
 
 # fly volumes create elysium_bot_data -r iad -n 1 -s 1 -a elysium-bot   (once, before the first deploy)
 [mounts]

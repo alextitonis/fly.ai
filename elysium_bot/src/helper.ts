@@ -135,7 +135,9 @@ export class Chain {
   }
 
   private async quote(r: Route, amount: bigint, spent: bigint, helper?: Address): Promise<bigint | null> {
-    const t = this.simTarget(helper, spent);
+    // live bags: ask the real helper that holds them (some launchpad hooks refuse a sell quote from an address that
+    // never bought, so a quote from the fake simulation address fails and looked like an unsellable token)
+    const t = helper && spent === 0n ? { from: SIM_FROM, to: helper, override: undefined } : this.simTarget(helper, spent);
     const data = spent > 0n
       ? encodeFunctionData({ abi: HELPER_ABI, functionName: "quoteAfterBuy", args: [r, amount] })
       : encodeFunctionData({ abi: HELPER_ABI, functionName: "quoteSell", args: [r, amount] });

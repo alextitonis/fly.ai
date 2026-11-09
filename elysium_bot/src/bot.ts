@@ -51,6 +51,7 @@ export class Bot {
   v2Fee = new Map<string, number>(); // factory -> fee bps
   lastBlock = 0n;
   lastRecheck = new Map<string, number>();
+  checkFails = new Map<string, number>();
   stopping = false;
   keepOld = false; // scan: look at every pool in the lookback, however old
 
@@ -262,16 +263,21 @@ export class Bot {
         // live: our buy is on chain, a plain quote is right. paper: put our net HYPE in first (see quoteAfterBuy)
         const net = h.spentHype - h.receivedHype;
         const q = this.live || net <= 0
-          ? await this.chain.quoteSell(h.route, tokens)
+          ? await this.chain.quoteSell(h.route, tokens, this.helper)
           : await this.chain.quoteAfterBuy(h.route, tokens, parseEther(net.toFixed(18)));
-        let sellable = q !== null;
+        let ok = q !== null;
         // every RECHECK_SEC: a fresh small round trip catches a sell switched off after we bought
-        if (sellable && now - (this.lastRecheck.get(h.id) ?? 0) > this.cfg.recheckSec * 1000) {
+        if (ok && now - (this.lastRecheck.get(h.id) ?? 0) > this.cfg.recheckSec * 1000) {
           this.lastRecheck.set(h.id, now);
           const t = await this.chain.roundTrip(h.route, parseEther(String(Math.min(this.cfg.buyHype, 0.01))));
-          if (!t.ok) sellable = false;
+          if (!t.ok) ok = false;
         }
-        const value = q === null ? 0 : toNum(q) * h.taxRatio;
+        // one failed check can be a busy RPC: only 3 in a row count as "can no longer sell"
+        const fails = ok ? 0 : (this.checkFails.get(h.id) ?? 0) + 1;
+        this.checkFails.set(h.id, fails);
+        if (!ok && fails < 3) continue;
+        const sellable = ok;
+        const value = q === null ? h.lastValue : toNum(q) * h.taxRatio;
         h.lastValue = value;
         if (value > h.peakValue) h.peakValue = value;
         const ex = exitRule(this.cfg, h, value, now, sellable);
