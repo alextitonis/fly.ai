@@ -54,6 +54,7 @@ export class Bot {
   lastBlock = 0n;
   lastRecheck = new Map<string, number>();
   checkFails = new Map<string, number>();
+  retryAt = new Map<string, number>();
   stopping = false;
   keepOld = false; // scan: look at every pool in the lookback, however old
 
@@ -278,6 +279,8 @@ export class Bot {
   async manage() {
     const now = Date.now();
     for (const h of [...this.state.open]) {
+      // a bag that keeps refusing to sell (hook blocks it) is retried every 5 min, not every loop
+      if ((this.retryAt.get(h.id) ?? 0) > now) continue;
       try {
         const tokens = BigInt(h.tokens);
         if (tokens === 0n) { this.close(h, "empty"); continue; }
@@ -325,6 +328,7 @@ export class Bot {
         tx = res.hash;
       } catch (e: any) {
         h.sellFails++;
+        if (h.sellFails >= 5) this.retryAt.set(h.id, Date.now() + 5 * 60_000);
         log(`SELL FAIL ${h.symbol} try ${h.sellFails} (${why}): ${String(e?.shortMessage ?? e?.message ?? e).slice(0, 100)}`);
         return;
       }
