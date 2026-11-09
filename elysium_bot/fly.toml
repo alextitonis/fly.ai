@@ -9,13 +9,17 @@ primary_region = "iad"
   RPC_URL = "https://rpc.elysium.kinetiq.xyz"
   WHYPE = "0xbA876237B0f021A6C6D852d6C26e107997cC5E81"
   # sizing and exit rules: defaults except these (same names as .env.example); change and redeploy
-  # quicker profits (user 11-09: sell when it is up good): half at +30%, then a 15% trail once up 15%
-  TP_X = "1.3"
+  # fast in, fast out (user 11-09 "quick to buying and selling"; best of 48 exit sets replayed on ~1,500 launches, -2.0%/trade
+  # vs -4.2% for the 30-min rules): 2-min hold, half at 2x, 15% trail once up 10%, stop -20%
+  MAX_HOLD_MIN = "2"
+  TP_X = "2"
   TP_PART = "0.5"
-  TRAIL_ARM_X = "1.15"
+  TRAIL_ARM_X = "1.1"
   TRAIL_PCT = "15"
+  STOP_PCT = "20"
   MAX_OPEN = "8"                             # user 11-09: hold more tokens at once (was 4)
-  MAX_SPEND_HYPE = "15"                     # user 11-09 "let it buy again": 5 was reached; counts every buy since the start
+  MAX_SPEND_HYPE = "20"                     # user 11-09: raised 5 -> 15 -> 20; counts every buy since the start
+  MAX_BUYS_PER_HOUR = "1000"                # user 11-09: remove the 12-an-hour limit (MAX_SPEND_HYPE still caps the total)
 
 # fly volumes create elysium_bot_data -r iad -n 1 -s 1 -a elysium-bot   (once, before the first deploy)
 [mounts]

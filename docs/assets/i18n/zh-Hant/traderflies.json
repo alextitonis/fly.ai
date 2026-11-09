@@ -1781,7 +1781,8 @@
       "bridgeText": "你的蒼蠅把這裡的一部分 USDG 換成 Elysium 上的 HYPE（透過 Relay，約一分鐘）。",
       "bridged": "已跨鏈：HYPE 一兩分鐘內會出現在 Elysium。",
       "withdrawHint": "以 Robinhood Chain 上的 $FLYAI 付給你（透過 Relay），扣除盈利費。",
-      "homeHint": "以 USDG 回到你蒼蠅在這裡的錢包（透過 Relay），扣除盈利費。"
+      "homeHint": "以 USDG 回到你蒼蠅在這裡的錢包（透過 Relay），扣除盈利費。",
+      "noSwitch": "你的錢包沒有切換到 Elysium。斷開並重新連接錢包（讓它允許 Elysium，鏈 99901），或在錢包裡加入 Elysium（RPC rpc.elysium.kinetiq.xyz），然後再試。或者從錢包應用把 Elysium 上的 HYPE 發送到上面的地址。"
     },
     "toFlyTitle": "轉到你的另一隻蒼蠅",
     "toFlyText": "最多 {usd} 直接轉入另一隻蒼蠅的錢包，通常幾分鐘內完成。現金不夠時才會賣出持倉。和提款一樣只對盈利部分收取利潤費；$FLYAI 和 FlightPass 資金留在這隻蒼蠅。",
