@@ -1,11 +1,13 @@
 /** The sniper loop: watch new pools -> gate with simulated round trips -> buy small -> sell on the exit rules. */
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { formatEther, getAddress, parseEther, type Address } from "viem";
+import { formatEther, getAddress, parseAbi, parseEther, type Address } from "viem";
 import { KNOWN, type Config } from "./config.js";
 import { parseLog, TOPICS, V2_FEES, type Found } from "./discover.js";
 import { Chain, HELPER_ABI, type Route } from "./helper.js";
 import { entryGate, exitRule, PROBE_DIV, type Position } from "./strategy.js";
+
+const SUPPLY_ABI = parseAbi(["function totalSupply() view returns (uint256)", "function balanceOf(address) view returns (uint256)"]);
 
 interface Held extends Position {
   route: Route;
@@ -186,6 +188,18 @@ export class Bot {
     return { ok: true, why: "" };
   }
 
+  /** % of the token's supply NOT held by the pool (PoolManager / pair / v3 pool), its hook, or a burn address. */
+  async supplyOutside(r: Route): Promise<number> {
+    const read = (fn: "totalSupply" | "balanceOf", args: unknown[] = []) =>
+      this.chain.pub.readContract({ address: r.token, abi: SUPPLY_ABI, functionName: fn, args } as any) as Promise<bigint>;
+    const holders = [r.pool, r.key.hooks, "0x000000000000000000000000000000000000dEaD", "0x0000000000000000000000000000000000000000"]
+      .filter((a, i, all) => a && all.indexOf(a) === i) as Address[];
+    const [total, ...bals] = await Promise.all([read("totalSupply"), ...holders.map((h) => read("balanceOf", [h]))]);
+    if (total === 0n) return 100;
+    const inside = bals.reduce((a, b) => a + b, 0n);
+    return Number(((total - inside) * 10_000n) / total) / 100;
+  }
+
   async checkCandidates() {
     const buy = parseEther(String(this.cfg.buyHype));
     for (const [id, c] of this.cands) {
@@ -207,7 +221,14 @@ export class Bot {
           const [trip, probe] = await Promise.all([this.chain.roundTrip(r, buy), this.chain.roundTrip(r, buy / PROBE_DIV)]);
           const g = entryGate(this.cfg, buy, trip, probe);
           c.lastWhy = g.why;
-          return g.ok ? { c, trip, g } : null;
+          if (!g.ok) return null;
+          // sniper bait (ORPHEUS 11-09): supply kept outside the pool gets dumped into our buy seconds later
+          const outside = await this.supplyOutside(r);
+          if (outside > this.cfg.maxOutsidePct) {
+            c.lastWhy = `${outside.toFixed(0)}% of supply outside the pool`;
+            return null;
+          }
+          return { c, trip, g };
         } catch (e: any) {
           c.lastWhy = String(e?.shortMessage ?? e?.message ?? e).slice(0, 80);
           return null;

@@ -58,6 +58,8 @@ export function exitRule(cfg: Config, p: Position, value: number, now: number, s
   if (armed && value <= p.peakValue * (1 - cfg.trailPct / 100))
     return { part: 1, why: `trailing stop ${cfg.trailPct}% under the top` };
   if (!p.tookProfit && totalNow <= entry * (1 - cfg.stopPct / 100)) return { part: 1, why: `stop -${cfg.stopPct}%` };
+  if (cfg.staleMin > 0 && !armed && now - p.openedAt >= cfg.staleMin * 60_000)
+    return { part: 1, why: `not moving after ${cfg.staleMin} min` };
   if (now - p.openedAt >= cfg.maxHoldMin * 60_000) return { part: 1, why: `max hold ${cfg.maxHoldMin} min` };
   return null;
 }

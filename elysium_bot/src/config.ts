@@ -49,6 +49,8 @@ export function loadConfig() {
     /** Price impact of our buy, measured against a probe 1/20 our size: a thin pool moves a lot. */
     maxImpactPct: num("MAX_IMPACT_PCT", 8),
     minTaxRatio: num("MIN_TAX_RATIO", 0.9),
+    /** Skip a token when more than this % of its supply sits outside the pool, its hook and burn addresses. */
+    maxOutsidePct: num("MAX_OUTSIDE_PCT", 10),
 
     // exits
     tpX: num("TP_X", 2),
@@ -57,6 +59,9 @@ export function loadConfig() {
     trailArmX: num("TRAIL_ARM_X", 1.3),
     stopPct: num("STOP_PCT", 40),
     maxHoldMin: num("MAX_HOLD_MIN", 30),
+    /** Adaptive hold: after this many minutes a token that never got up TRAIL_ARM_X is sold (0 = off). Movers stay,
+     * protected by the trailing stop, until MAX_HOLD_MIN. */
+    staleMin: num("STALE_MIN", 0),
     slippagePct: num("SLIPPAGE_PCT", 8),
     recheckSec: num("RECHECK_SEC", 15),
 

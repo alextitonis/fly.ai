@@ -56,3 +56,10 @@ test("discovery parses a v4 native-HYPE pool and ignores non-HYPE pairs", () => 
   }, "0xCD57F65c2B0e5881CFC2E609F7CD53b746E1F234");
   assert.equal(v2, null);
 });
+
+test("adaptive hold: a dead token goes at STALE_MIN, a mover stays", () => {
+  const c = { ...cfg, staleMin: 2, maxHoldMin: 30, trailArmX: 1.1 };
+  assert.match(exitRule(c, pos(), 1.0, 2 * 60_000)?.why ?? "", /not moving/);
+  assert.equal(exitRule(c, pos({ peakValue: 1.2 }), 1.18, 2 * 60_000), null);
+  assert.match(exitRule(c, pos({ peakValue: 1.2 }), 1.18, 30 * 60_000)?.why ?? "", /max hold/);
+});

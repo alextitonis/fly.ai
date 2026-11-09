@@ -8,17 +8,20 @@ primary_region = "iad"
   DATA_DIR = "/data"                         # positions, trades and the helper address survive restarts
   RPC_URL = "https://rpc.elysium.kinetiq.xyz"
   WHYPE = "0xbA876237B0f021A6C6D852d6C26e107997cC5E81"
+  # only Elysium Pump launches (Dexscreener "elyspump"): its own v4 PoolManager. User 11-09: no random tokens.
+  ALLOW_FACTORIES = "0x5fb015a49f5b35073f9ce01c2adb287a75f89600"
   # sizing and exit rules: defaults except these (same names as .env.example); change and redeploy
   # fast in, fast out (user 11-09 "quick to buying and selling"; best of 48 exit sets replayed on ~1,500 launches, -2.0%/trade
   # vs -4.2% for the 30-min rules): 2-min hold, half at 2x, 15% trail once up 10%, stop -20%
-  MAX_HOLD_MIN = "2"
+  MAX_HOLD_MIN = "30"                        # adaptive (user 11-09 "according to how it goes"): movers ride up to 30 min
+  STALE_MIN = "2"                            # ...a token that never got up 10% (TRAIL_ARM_X) is sold after 2 min
   TP_X = "2"
   TP_PART = "0.5"
   TRAIL_ARM_X = "1.1"
   TRAIL_PCT = "15"
   STOP_PCT = "20"
   MAX_OPEN = "8"                             # user 11-09: hold more tokens at once (was 4)
-  MAX_SPEND_HYPE = "20"                     # user 11-09: raised 5 -> 15 -> 20; counts every buy since the start
+  MAX_SPEND_HYPE = "40"                     # user 11-09: raised 5 -> 15 -> 20 -> 40; counts every buy since the start
   MAX_BUYS_PER_HOUR = "1000"                # user 11-09: remove the 12-an-hour limit (MAX_SPEND_HYPE still caps the total)
 
 # fly volumes create elysium_bot_data -r iad -n 1 -s 1 -a elysium-bot   (once, before the first deploy)

@@ -283,6 +283,8 @@ export function createPartners(d: PartnersDeps) {
     return {
       on: p.wallets.on, grant_usd: 0, starters: await publicOf("starters"), hold_flyai: p.hold_flyai, chains: [],
       partner: summary(p),
+      // Perps and Elysium on partner NFT wallets too (2026-11-09, the user: "open to partners"): the desk serves them
+      perps: d.env.VAULT_PERPS === "1",
       wallets: {
         chain: ROBINHOOD.chain, chain_id: ROBINHOOD.chainId, explorer: ROBINHOOD.explorer,
         deposit: [{ symbol: "ETH", native: true, decimals: 18 }, { symbol: "USDG", address: USDG, decimals: 6 }],
@@ -295,6 +297,8 @@ export function createPartners(d: PartnersDeps) {
 
   async function tokenView(p: Partner, n: number) {
     const [wallet, owner] = await Promise.all([walletOf(p, n), ownerOf(p, n)]);
+    const [elysium, perps] = await Promise.all([wallet ? publicOf(`vault:elysium:${wallet}`) : null,
+      wallet && d.env.VAULT_PERPS === "1" ? publicOf(`vault:perps:${wallet}`) : null]);
     const [ledger, stats, settings, setup, flyai, pool, gasWei] = await Promise.all([
       wallet ? ledgerOf(p, wallet) : null, wallet ? publicOf(`vault:${p.book}:${wallet}`) : null, wallet ? settingsOf(p, wallet) : null,
       wallet ? null : openSetup(p, n), owner && p.hold_flyai > 0 ? flyaiOf(owner).catch(() => null) : null,
@@ -305,7 +309,7 @@ export function createPartners(d: PartnersDeps) {
     const holdOk = p.hold_flyai <= 0 ? true : flyai == null ? null : flyai >= p.hold_flyai;
     return {
       // the Fly Wallets' fly view (src/vaults.ts flyView): the site's wallet panel reads these
-      fly: n, owner, wallet, chain: p.book, ledger, stats, settings, pass: null, away: [],
+      fly: n, owner, wallet, chain: p.book, ledger, stats, settings, pass: null, away: [], elysium, perps,
       partner: p.id, token: n, setup: setup ?? null,
       hold: { flyai, needed: p.hold_flyai, ok: holdOk },
       gas: wallet ? { eth: gasWei == null ? null : Number(gasWei) / 1e18, needs_gas: needsGas, suggested_eth: SUGGESTED_GAS_ETH } : null,
@@ -392,6 +396,46 @@ export function createPartners(d: PartnersDeps) {
     const row = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
       values (?, ?, 'withdraw', ?, ?::text::jsonb) returning id`, wallet, p.book, me, JSON.stringify({ bps }));
     return { token: n, wallet, id: row!.id, status: "new" };
+  }
+
+  // ---- Elysium and Perps on a partner NFT wallet (2026-11-09): as /api/vaults/<wallet>/elysium | perps, under p.book ----
+  async function money(req: IncomingMessage, p: Partner, raw: string, body: any, what: "elysium" | "perps") {
+    const me = await d.sessionWallet(req);
+    const { wallet, n } = await partnerWallet(p, raw);
+    const led = await ledgerOf(p, wallet);
+    const action = String(body?.action ?? "");
+    let kind: string, params: Record<string, unknown> = {};
+    let who: string | null = led?.holder ?? (led?.closing ? null : await ownerOf(p, n, true));
+    if (what === "elysium") {
+      const row = await publicOf(`vault:elysium:${wallet}`);
+      if (!row?.live) throw new HttpError(503, "Elysium isn't open for this wallet yet");
+      if (action === "in") {
+        const usd = Number(body?.usd);
+        if (!Number.isFinite(usd) || usd < 5 || usd > 1_000_000) throw new HttpError(400, "usd is at least 5");
+        if (!led?.holder) throw new HttpError(403, "only the wallet's holder can move its money");
+        kind = "ely_in"; params = { usd };
+      } else if (action === "out") {
+        const bps = Number(body?.bps);
+        if (!Number.isInteger(bps) || bps < 1 || bps > 10_000) throw new HttpError(400, "bps is 1..10000");
+        who = row.holder ?? null;
+        kind = "ely_out"; params = { bps, mode: body?.mode === "home" ? "home" : "withdraw" };
+      } else throw new HttpError(400, "action is in or out");
+    } else {
+      if (d.env.VAULT_PERPS !== "1") throw new HttpError(503, "Perps isn't open yet");
+      const markets = body?.markets === undefined ? undefined : String(body.markets);
+      if (markets !== undefined && !["crypto", "stocks", "both"].includes(markets)) throw new HttpError(400, "markets is crypto, stocks or both");
+      if (action === "on" || action === "set") { kind = `perp_${action}`; params = markets ? { markets } : {}; }
+      else if (action === "off") kind = "perp_off";
+      else throw new HttpError(400, "action is on, set or off");
+    }
+    if (!who || who.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can do this");
+    const like = what === "elysium" ? "ely\\_%" : "perp\\_%";
+    const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = ? and kind like ?
+      and status in ('new', 'doing')`, wallet, p.book, like);
+    if (open) throw new HttpError(409, "a request is already on its way");
+    const r = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
+      values (?, ?, ?, ?, ?::text::jsonb) returning id`, wallet, p.book, kind, me, JSON.stringify(params));
+    return { token: n, wallet, id: r!.id, status: "new" };
   }
 
   // ---- admin: add or change a partner (no deploy: both processes re-read the table) ------------------------------
@@ -532,9 +576,10 @@ export function createPartners(d: PartnersDeps) {
         const pa = await partnerOf(m[1]);
         return d.send(res, 200, await setup(req, pa, tokenOf(pa, m[2]))), true;
       }
-      if ((m = /^\/api\/partners\/([a-z][a-z0-9]{1,19})\/wallet\/(0x[0-9a-fA-F]{40})\/(settings|withdraw)$/.exec(p))) {
+      if ((m = /^\/api\/partners\/([a-z][a-z0-9]{1,19})\/wallet\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|elysium|perps)$/.exec(p))) {
         const pa = await partnerOf(m[1]);
         const body = await d.readJson(req);
+        if (m[3] === "elysium" || m[3] === "perps") return d.send(res, 200, await money(req, pa, m[2], body, m[3])), true;
         return d.send(res, 200, await (m[3] === "settings" ? saveSettings : withdraw)(req, pa, m[2], body)), true;
       }
     }
