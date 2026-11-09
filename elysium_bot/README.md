@@ -66,6 +66,36 @@ npm run live
 
 The first time, it sets itself up with one small transaction. Then it trades on its own. Press **Ctrl + C** to stop.
 
+## Run it on a server (fly.io)
+
+So it keeps trading when your computer is off. One small machine, about $3–4 a month.
+
+You need the `fly` command installed and logged in (`fly auth login`). Then, in this folder (Git Bash):
+
+```bash
+fly apps create elysium-bot --org personal
+fly volumes create elysium_bot_data -r iad -n 1 -s 1 -a elysium-bot
+grep ^PRIVATE_KEY= .env | fly secrets import -a elysium-bot
+fly deploy
+```
+
+- The third line copies **only your wallet key** to the server as a secret. Nothing else from `.env` leaves your computer.
+- If the name `elysium-bot` is taken, pick another and change `app = ...` in `fly.toml` to match.
+
+Watch it trade:
+
+```bash
+fly logs -a elysium-bot
+```
+
+Stop it: `fly scale count 0 -a elysium-bot`. Start again: `fly scale count 1 -a elysium-bot`.
+
+> Run the bot in **one place only**. Don't run `npm run live` on your computer while the server runs: two bots on one
+> wallet would trade over each other.
+
+To change the buy size on the server, add a line like `BUY_HYPE = "0.3"` under `[env]` in `fly.toml`, then run
+`fly deploy` again.
+
 ## Handy commands
 
 | Command | What it does |

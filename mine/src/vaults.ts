@@ -433,24 +433,39 @@ export function createVaults(d: VaultsDeps) {
     return { id: row!.id, status: "new" };
   }
 
-  // ---- Elysium: the holder of the fly's Elysium money asks for it, the desk sends it (velysium.py, 2026-11-09) ------
-  // On/off is the settings' elysium.on; the only ask is "out": its HYPE (less the profit fee) to the holder's own address
-  // ON ELYSIUM (no route home exists yet). Only once the desk serves the wallet (its public row exists).
+  // ---- Elysium: the fly's owner asks, the desk does it (velysium.py, 2026-11-09) ------------------------------------
+  // On/off is the settings' elysium.on. "in" {usd}: the wallet's USDG to HYPE at the same address on Elysium (Relay), asked
+  // by the Robinhood wallet's holder. "out" {bps, mode}: withdraw = $FLYAI on Robinhood to the holder (as Solana's), home =
+  // USDG back to the fly's Robinhood wallet; asked by the holder of the Elysium money. Only once the desk serves the wallet.
   async function elysium(req: IncomingMessage, wallet: string, body: any) {
     isOn();
     const me = await d.sessionWallet(req);
     if ((await flyOfWallet(wallet)) == null) throw new HttpError(404, "no such fly wallet");
     const row = await publicOf(`vault:elysium:${wallet}`);
     if (!row?.live) throw new HttpError(503, "Elysium isn't open for this fly yet");
-    if (!row.holder || String(row.holder).toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the holder of this fly's Elysium money can do this");
-    if (String(body?.action ?? "") !== "out") throw new HttpError(400, "action is out");
-    const bps = Number(body?.bps);
-    if (!Number.isInteger(bps) || bps < 1 || bps > 10_000) throw new HttpError(400, "bps is 1..10000");
+    const action = String(body?.action ?? "");
+    let kind: string, params: Record<string, unknown>;
+    if (action === "in") {
+      const usd = Number(body?.usd);
+      if (!Number.isFinite(usd) || usd < 5 || usd > 1_000_000) throw new HttpError(400, "usd is at least 5");
+      const led = await ledgerOf(wallet, "robinhood");
+      if (!led?.holder || led.holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can move its money");
+      kind = "ely_in";
+      params = { usd };
+    } else if (action === "out") {
+      if (!row.holder || String(row.holder).toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the holder of this fly's Elysium money can do this");
+      const bps = Number(body?.bps);
+      if (!Number.isInteger(bps) || bps < 1 || bps > 10_000) throw new HttpError(400, "bps is 1..10000");
+      kind = "ely_out";
+      params = { bps, mode: body?.mode === "home" ? "home" : "withdraw" };
+    } else {
+      throw new HttpError(400, "action is in or out");
+    }
     const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = 'robinhood'
       and kind like 'ely\\_%' and status in ('new', 'doing')`, wallet);
     if (open) throw new HttpError(409, "an Elysium request is already on its way");
     const r = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
-      values (?, 'robinhood', 'ely_out', ?, ?::text::jsonb) returning id`, wallet, me, JSON.stringify({ bps }));
+      values (?, 'robinhood', ?, ?, ?::text::jsonb) returning id`, wallet, kind, me, JSON.stringify(params));
     return { id: r!.id, status: "new" };
   }
 

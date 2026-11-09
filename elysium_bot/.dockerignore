@@ -1,0 +1,7 @@
+.env
+data
+node_modules
+contracts
+test
+scripts
+*.md

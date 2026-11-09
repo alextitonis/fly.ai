@@ -1764,7 +1764,7 @@
       "balance": "Elysium'da {hype} HYPE",
       "sameKey": "Buradaki sinek cüzdanınla aynı adres: her zincirde tek anahtar.",
       "official": "Sadece elysium.kinetiq.xyz'deki resmi Kinetiq köprüsünü kullan. Sahte köprüler dolaşıyor.",
-      "notYet": "Sineğin henüz Elysium'da işlem yapmıyor: masa kendi testinden sonra açar. Şimdi gönderdiğin HYPE saklanır ve başladığında sayılır.",
+      "notYet": "Sineğinin Elysium bakiyesi kaydettikten bir dakika sonra burada görünür.",
       "status": {
         "closing": "sinek satıldı: Elysium parası eski sahibine gider",
         "waiting": "HYPE bekleniyor",
@@ -1772,11 +1772,18 @@
         "sniping": "snipe ediyor",
         "holding": "HYPE tutuyor"
       },
-      "outSlow": "Elysium'dan para çıkarmak yavaş: henüz hızlı bir dönüş yolu yok. Çekim, HYPE'ını (kâr ücreti düşülerek) Elysium'daki kendi adresine gönderir; resmi köprüyle Elysium'dan çıkarmak günler sürebilir.",
+      "outSlow": "Para Relay ile bir iki dakikada çıkar: sana $FLYAI olarak ya da sineğinin cüzdanına. Relay yapamazsa HYPE Elysium'daki kendi adresine gider.",
       "outGo": "Elysium paramın hepsini bana gönder",
       "outConfirm": "Elysium'daki her şey satılıp HYPE Elysium'da {to} adresine gönderilsin mi?",
       "outAsked": "İstendi: sineğin bir iki dakika içinde satıp HYPE'ını Elysium'da gönderir.",
-      "outDone": "Gönderildi: HYPE Elysium'daki adresinde."
+      "outDone": "Tamam: Elysium paran yolda.",
+      "sendGo": "Cüzdanımdan HYPE gönder",
+      "sent": "Gönderildi: sineğin bir dakika içinde HYPE'ı görür.",
+      "bridgeTitle": "Ya da sineğinin nakdinden ekle",
+      "bridgeText": "Sineğin buradaki USDG'sinin bir kısmını Elysium'da HYPE'a çevirir (Relay ile, yaklaşık bir dakika).",
+      "bridged": "Köprülendi: HYPE bir iki dakika içinde Elysium'da görünür.",
+      "withdrawHint": "Sana Robinhood Chain'de $FLYAI olarak ödenir (Relay ile), kâr ücreti düşülerek.",
+      "homeHint": "Buradaki sinek cüzdanına USDG olarak döner (Relay ile), kâr ücreti düşülerek."
     },
     "toFlyTitle": "Başka bir sineğine taşı",
     "toFlyText": "{usd} tutarına kadar doğrudan başka bir sineğin cüzdanına, genelde dakikalar içinde. Nakit yetmezse pozisyonlar satılır. Kâr ücreti, çekimde olduğu gibi kâr kısmından alınır; $FLYAI ve FlightPass parası bu sinekte kalır.",
@@ -2123,7 +2130,7 @@
     "earn": "Boştaki nakit Robinhood Chain'deki Steakhouse ya da Spark USDG kasasına ödünç verilir. Gösterilen, şu anki temel faizdir; her gün değişir.",
     "crossChains": "Bu zincirlerdeki tokenlar cüzdanın USDG'si ile Relay üzerinden alınır (köprü + takas tek seferde) ve burada tekrar USDG'ye satılır. Bir zincirdeki ilk alım oraya $0.50 gaz da gönderir. $5 altı alımlar atlanır.",
     "maker": "Fly Maker'ın Sabit bandı bu sineğin kendi cüzdanından: yalnızca fiyat 5 dakikalık ortalamasının %3 yakınındayken işlem yapar, bir seferde maker parasının en fazla dörtte birini takas eder ve her çekimden önce likiditeyi çıkarır.",
-    "elysium": "Elysium, Kinetiq'in Hyperliquid için Layer 2'si; gas HYPE ile ödenir. Sineğin orada da aynı cüzdan adresini kullanır. Bunu açıp kaydet, sonra o adrese Elysium'da HYPE gönder. İstediğin zaman kapatabilirsin; Elysium'dan para çıkarmak yavaş."
+    "elysium": "Elysium, Kinetiq'in Hyperliquid için Layer 2'si; gas HYPE ile ödenir. Sineğin orada da aynı cüzdan adresini kullanır. Aç ve kaydet (Degen Sniper'da varsayılan açık), sonra Elysium'da HYPE gönder ya da sineğinin nakdinden ekle. Para Relay ile geri döner."
   },
   "label": {
     "add": "Gizli etiket ekle",

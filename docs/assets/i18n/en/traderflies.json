@@ -1764,7 +1764,7 @@
       "balance": "{hype} HYPE on Elysium",
       "sameKey": "It's the same address as your fly's wallet here: one key on every chain.",
       "official": "Only use Kinetiq's official bridge from elysium.kinetiq.xyz. Fake bridges are going around.",
-      "notYet": "Your fly isn't trading on Elysium yet: the desk switches it on after its own test. HYPE you send now is kept and counted when it starts.",
+      "notYet": "Your fly's Elysium balance shows here within a minute of saving.",
       "status": {
         "closing": "fly sold: its Elysium money goes to the old holder",
         "waiting": "waiting for HYPE",
@@ -1772,11 +1772,18 @@
         "sniping": "sniping",
         "holding": "holding HYPE"
       },
-      "outSlow": "Money out of Elysium is slow: there's no quick route home yet. A withdrawal sends your HYPE (less the profit fee) to your own address on Elysium; moving it off Elysium through the official bridge can take days.",
+      "outSlow": "Money comes out through Relay in a minute or two: as $FLYAI to you, or home to your fly's wallet. If Relay can't, the HYPE goes to your own address on Elysium.",
       "outGo": "Send all my Elysium money to me",
       "outConfirm": "Sell everything on Elysium and send the HYPE to {to} on Elysium?",
       "outAsked": "Asked: your fly sells and sends your HYPE on Elysium within a minute or two.",
-      "outDone": "Sent: the HYPE is at your address on Elysium."
+      "outDone": "Done: your Elysium money is on its way.",
+      "sendGo": "Send HYPE from my wallet",
+      "sent": "Sent: your fly sees the HYPE within a minute.",
+      "bridgeTitle": "Or add from your fly's cash",
+      "bridgeText": "Your fly turns some of its USDG here into HYPE on Elysium (through Relay, about a minute).",
+      "bridged": "Bridged: the HYPE shows on Elysium within a minute or two.",
+      "withdrawHint": "Paid to you as $FLYAI on Robinhood Chain (through Relay), less the profit fee.",
+      "homeHint": "Brought back to your fly's wallet here as USDG (through Relay), less the profit fee."
     },
     "toFlyTitle": "Move to another of your flies",
     "toFlyText": "Up to {usd} straight to another fly's wallet, usually within minutes. Positions are sold only if the cash isn't enough. The profit fee is taken on the profit part, as on a withdrawal; $FLYAI and FlightPass money stay with this fly.",
@@ -2123,7 +2130,7 @@
     "earn": "Idle cash lent to the Steakhouse or Spark USDG vault on Robinhood Chain. The rate shown is the base rate now; it moves every day.",
     "crossChains": "Tokens on these chains are bought with the wallet's USDG through Relay (bridge + swap in one go) and sold back to USDG here. The first buy on a chain also sends $0.50 of gas there. Buys under $5 are skipped.",
     "maker": "Fly Maker's Steady band from this fly's own wallet: it only acts while the price is within 3% of its 5-minute average, swaps at most a quarter of the maker's money at a time, and takes the liquidity out before any withdrawal.",
-    "elysium": "Elysium is Kinetiq's Layer 2 for Hyperliquid, paid in HYPE. Your fly uses the same wallet address there. Turn this on and save, then send HYPE on Elysium to that address. You can turn it off any time; money out of Elysium is slow."
+    "elysium": "Elysium is Kinetiq's Layer 2 for Hyperliquid, paid in HYPE. Your fly uses the same wallet address there. Turn it on and save (Degen Sniper is on by default), then send HYPE on Elysium or add it from your fly's cash. Money comes back through Relay."
   },
   "label": {
     "add": "Add a private label",

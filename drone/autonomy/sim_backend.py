@@ -39,9 +39,10 @@ TRUNK = 0.18        # m: trunk radius + the drone
 class PatrolWorld(forest.ForestSim):
     """forest.py's big forest, without its trunk-only crash test (wrong above the trees), plus people and animals."""
 
-    def __init__(self, seed: int, people: int = 2, animals: int = 4, wind: bool = False, fire: bool = True):
+    def __init__(self, seed: int, people: int = 2, animals: int = 4, wind: bool = False, fire: bool = True, film: bool = False):
         forest.big_world()
-        super().__init__(seed, decoys=False, fire=fire)
+        self.n_people, self.n_animals = people, animals     # film.py's looks need the counts while the model is built
+        super().__init__(seed, decoys=False, fire=fire, film=film)
         self.trees = [(x, y, float(h)) for (x, y), h in zip(self.plan["trees"], self.plan["heights"])]
         self.pillars = []                                   # DroneSim's own test is trunks at any height
         self.gusts = wind
@@ -71,6 +72,9 @@ class PatrolWorld(forest.ForestSim):
         hx, hy = forest.START
         w.add_geom(name="pad", type=mujoco.mjtGeom.mjGEOM_BOX, size=[0.3, 0.3, 0.01], pos=[hx, hy, 0.01], rgba=[0.95, 0.95, 0.95, 1], contype=0, conaffinity=0)
         w.add_geom(name="pad_mark", type=mujoco.mjtGeom.mjGEOM_BOX, size=[0.12, 0.12, 0.012], pos=[hx, hy, 0.012], rgba=[0.05, 0.05, 0.05, 1], contype=0, conaffinity=0)
+        if self.plan["film"]:                               # looks for film.py's camera only (group FILM_ONLY), nothing the drone measures
+            from .film import film_props
+            film_props(spec, self.n_people, self.n_animals, forest.START)
         return spec
 
     def move_targets(self, dt: float) -> None:
@@ -295,8 +299,8 @@ class SimPadFinder(PadFinder):
 
 
 def sim_hardware(seed: int, flight_time: float, charge_time: float, gps: bool = True, gps_lost_at: float | None = None,
-                 camera_frames: bool = False, wind: bool = False) -> tuple[Hardware, PatrolWorld, SimVehicle]:
-    world = PatrolWorld(seed, wind=wind)
+                 camera_frames: bool = False, wind: bool = False, film: bool = False) -> tuple[Hardware, PatrolWorld, SimVehicle]:
+    world = PatrolWorld(seed, wind=wind, film=film)
     v = SimVehicle(world)
     cam = SimDownCamera(v)
     hw = Hardware(vehicle=v, motion=SimMotion(v, seed), battery=SimBattery(v, flight_time, charge_time),

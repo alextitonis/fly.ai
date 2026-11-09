@@ -76,8 +76,9 @@ class ScoredReporter(Reporter):
 MATCH = {"fire": 6.0, "person": 6.0, "animal": 12.0}    # m: a find this close to a real one of its kind counts
 
 
-def run(a) -> dict:
-    hw, world, v = sim_hardware(a.seed, a.flight_time, a.charge_time, gps=not a.no_gps, gps_lost_at=a.gps_lost_at, wind=a.wind)
+def run(a, on_tick=None) -> dict:
+    """on_tick(mission, hw, world, vehicle, reporter, route) after every tick (film.py's camera); returning True ends the run."""
+    hw, world, v = sim_hardware(a.seed, a.flight_time, a.charge_time, gps=not a.no_gps, gps_lost_at=a.gps_lost_at, wind=a.wind, film=getattr(a, "film", False))
     cfg = MissionConfig(height=a.height, fence=(-a.fence, -a.fence, a.size + a.fence, a.size + a.fence))
     swath = 2 * _footprint(np.array([0, 0, a.height]), hw.down_camera) * 0.8
     route = Lawnmower(0.0, 0.0, a.size, a.size, swath)
@@ -109,6 +110,8 @@ def run(a) -> dict:
                 r = _footprint(world.pos, hw.down_camera)
                 gx, gy = np.meshgrid(np.arange(cells.shape[0]), np.arange(cells.shape[1]), indexing="ij")
                 cells |= np.hypot(gx + 0.5 - true[0], gy + 0.5 - true[1]) < r
+        if on_tick is not None and on_tick(m, hw, world, v, rep, route):
+            break
         if v.t >= next_print:
             next_print += 60
             print(f"  t {v.t:5.0f} s  {m.state:7s} battery {hw.battery.level():.2f}  route {route.progress:.2f}  finds {len(rep.confirmed())}  "

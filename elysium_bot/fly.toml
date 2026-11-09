@@ -1,0 +1,32 @@
+# Elysium sniper bot on fly.io: one small always-on machine, no web port (it only polls the chain).
+# The wallet key is the only secret, never in this file:  grep ^PRIVATE_KEY= .env | fly secrets import -a elysium-bot
+app = "elysium-bot"
+primary_region = "iad"
+
+[env]
+  BOT_MODE = "live"                          # "paper" to practice on the server instead
+  DATA_DIR = "/data"                         # positions, trades and the helper address survive restarts
+  RPC_URL = "https://rpc.elysium.kinetiq.xyz"
+  WHYPE = "0xbA876237B0f021A6C6D852d6C26e107997cC5E81"
+  # sizing and exit rules: defaults except these (same names as .env.example); change and redeploy
+  # quicker profits (user 11-09: sell when it is up good): half at +30%, then a 15% trail once up 15%
+  TP_X = "1.3"
+  TP_PART = "0.5"
+  TRAIL_ARM_X = "1.15"
+  TRAIL_PCT = "15"
+
+# fly volumes create elysium_bot_data -r iad -n 1 -s 1 -a elysium-bot   (once, before the first deploy)
+[mounts]
+  source = "elysium_bot_data"
+  destination = "/data"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[[restart]]
+  policy = "always"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "512mb"

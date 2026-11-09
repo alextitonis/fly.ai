@@ -18,9 +18,10 @@ const addrList = (k: string): Address[] =>
 
 export const TESTNET_RPC = "https://testnet-rpc.elysium.kinetiq.xyz";
 export const TESTNET_CHAIN_ID = 99801;
-/** Known testnet addresses (checked 2026-11-06). Mainnet ones are published by Kinetiq at launch. */
+/** Known WHYPE per chain: testnet checked 2026-11-06, mainnet 2026-11-09 against Kinetiq's published docs. */
 export const KNOWN: Record<number, { whype?: Address; name: string }> = {
   99801: { whype: "0xCD57F65c2B0e5881CFC2E609F7CD53b746E1F234", name: "Elysium testnet" },
+  99901: { whype: "0xbA876237B0f021A6C6D852d6C26e107997cC5E81", name: "Elysium mainnet" },
 };
 
 export function loadConfig() {

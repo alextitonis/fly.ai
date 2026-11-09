@@ -100,7 +100,7 @@ You never act yourself: the owner approves or declines every proposal on the pag
 Settings shape: trading (bool, false = no trading), chains [robinhood, base, bsc, arbitrum], markets {memes, majors, stocks, polymarket} (bools), risk 1..5 (size of trades), max_positions 1..20,
 filters {min_liquidity, max_tax_pct, min_mcap, max_mcap, min_age_hours, max_age_hours, goplus_clean}, exits {stop_pct, take_profit_pct, trail_pct, max_hold_hours} (null = off),
 brain {on, share_pct}, earn {mode: off|idle|share|only, share_pct} (lending idle cash; only = all cash lent, no trading), options [{id, on, share_pct, params}] (parts: core basket, poly = sports bets, trend, house = $FLYAI dips, copy, track, snipe = new launches...).
-elysium {on} (bool): set the fly up for Elysium, Hyperliquid's new chain (HYPE for gas), launching November 9 - nothing trades or moves there before launch and the owner adding HYPE; then with snipe on it snipes Elysium's new tokens, else it trades Elysium's main tokens in its style. New chain, high risk.
+elysium {on} (bool): Elysium, Hyperliquid's new chain (HYPE for gas), live since November 9. On by default for Degen Sniper. Trades only once the owner sends HYPE on Elysium to the fly's own address; with snipe on it snipes Elysium's new launches ($5 max each, 3 open, sold fast), else it just holds the HYPE. Money out is slow (HYPE to the owner's address on Elysium, the official bridge takes days). New chain, high risk.
 snipe params: usd_per_launch 5..100, max_open 1..20, tp_x (sell at this multiple), tp_part 1..100 (% sold there; 100 = all), fall_pct 0..90 (sell all this % under the top, 0 = off), stop_pct, drain_pct, max_hold_hours, sol 0|1 (also Solana launches, from the fly's SOL). It needs 200,000 $FLYAI held.
 Ready-made setups (starter ids): {starters}.`;
 
@@ -159,7 +159,8 @@ export function mergeSettings(base: any, changes: any): any {
   }
   // Elysium (2026-11-06, flytrade/ELYSIUM-PLAN.md): the set-up before its 11-09 launch; it isn't a style, so switching it
   // alone keeps the starter
-  if (ch.elysium && typeof ch.elysium === "object" && typeof ch.elysium.on === "boolean") out.elysium = { on: ch.elysium.on };
+  // off is explicit (2026-11-09): a Degen Sniper wallet is on Elysium unless its owner turned it off (velysium.is_on)
+  if (ch.elysium && typeof ch.elysium === "object" && typeof ch.elysium.on === "boolean") out.elysium = ch.elysium.on ? { on: true } : { on: false, off: true };
   if (Object.keys(ch).some((k) => k !== "elysium")) out.starter = "custom";
   return out;
 }

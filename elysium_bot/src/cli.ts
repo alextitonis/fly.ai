@@ -5,7 +5,8 @@ import { HELPER_ABI } from "./helper.js";
 import { entryGate, PROBE_DIV } from "./strategy.js";
 
 const cmd = process.argv[2] ?? "run";
-const live = process.argv.includes("--live");
+// BOT_MODE=live (set on the server) does the same as --live
+const live = process.argv.includes("--live") || process.env.BOT_MODE === "live";
 const cfg = loadConfig();
 
 async function main() {

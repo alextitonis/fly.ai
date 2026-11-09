@@ -78,6 +78,14 @@ export class Bot {
       this.helper = loadHelper(this.cfg, id);
       if (!this.helper) {
         // first live run on this chain: deploy this wallet's own helper contract (one small transaction)
+        // an empty new wallet: wait for HYPE instead of failing (on a server it would restart over and over)
+        const me = this.chain.account.address;
+        let waited = false;
+        while (toNum(await this.chain.pub.getBalance({ address: me })) < this.cfg.gasReserveHype) {
+          if (!waited) log(`waiting for HYPE: send HYPE on Elysium to ${me} (checking every 30 s)`);
+          waited = true;
+          await new Promise((r) => setTimeout(r, 30_000));
+        }
         log("first live run on this chain: deploying your helper contract…");
         this.helper = await this.chain.deployHelper();
         saveHelper(this.cfg, id, this.helper);
@@ -122,19 +130,31 @@ export class Bot {
       params: [{ fromBlock: `0x${from.toString(16)}`, toBlock: `0x${head.toString(16)}`, topics: [[TOPICS.v2, TOPICS.v3, TOPICS.v4]] }],
     } as any) as any[];
     this.lastBlock = head;
+    const fresh: Found[] = [];
     for (const l of logs) {
       const found = parseLog({ ...l, blockNumber: BigInt(l.blockNumber) }, this.whype);
       if (!found || this.seen.has(found.id)) continue;
       this.seen.add(found.id);
       if (this.cfg.allowFactories.length && !this.cfg.allowFactories.includes(getAddress(found.factory))) continue;
-      // a pool's age counts from its block, so pools found in the start-up lookback are not "new"
-      const blk = await this.chain.pub.getBlock({ blockNumber: found.block });
-      const bornAt = Number(blk.timestamp) * 1000;
-      if (!this.keepOld && Date.now() - bornAt > this.cfg.maxPoolAgeSec * 1000) continue;
-      const symbol = await this.chain.symbol(found.route.token);
-      this.cands.set(found.id, { found, symbol, seenAt: bornAt, checks: 0, lastWhy: "new" });
-      log(`new pool  ${symbol.padEnd(10)} v${found.route.kind} ${found.id.slice(0, 20)}… token ${found.route.token}`);
+      fresh.push(found);
     }
+    // Elysium launches several pools a second: read block times and symbols in parallel, not one by one
+    const times = new Map<bigint, number>();
+    const blocks = [...new Set(fresh.map((f) => f.block))];
+    for (let i = 0; i < blocks.length; i += 25)
+      await Promise.all(blocks.slice(i, i + 25).map(async (b) => {
+        const blk = await this.chain.pub.getBlock({ blockNumber: b });
+        times.set(b, Number(blk.timestamp) * 1000);
+      }));
+    // a pool's age counts from its block, so pools found in the start-up lookback are not "new"
+    const young = fresh.filter((f) => this.keepOld || Date.now() - (times.get(f.block) ?? 0) <= this.cfg.maxPoolAgeSec * 1000);
+    for (let i = 0; i < young.length; i += 25)
+      await Promise.all(young.slice(i, i + 25).map(async (found) => {
+        const symbol = await this.chain.symbol(found.route.token);
+        const bornAt = times.get(found.block) ?? Date.now();
+        this.cands.set(found.id, { found, symbol, seenAt: bornAt, checks: 0, lastWhy: "new" });
+        log(`new pool  ${symbol.padEnd(10)} v${found.route.kind} ${found.id.slice(0, 20)}… token ${found.route.token}`);
+      }));
   }
 
   /** v2 forks: find the pair's real fee once per factory. */
@@ -171,23 +191,35 @@ export class Bot {
       if (Date.now() - c.seenAt > this.cfg.maxPoolAgeSec * 1000) {
         this.cands.delete(id);
         log(`skip      ${c.symbol.padEnd(10)} never passed: ${c.lastWhy}`);
-        continue;
       }
-      const room = this.budgetLeft();
-      if (!room.ok) return;
-      c.checks++;
-      try {
-        await this.fixV2Fee(c, buy);
-        const r = c.found.route;
-        const trip = await this.chain.roundTrip(r, buy);
-        const probe = trip.ok ? await this.chain.roundTrip(r, buy / PROBE_DIV) : null;
-        const g = entryGate(this.cfg, buy, trip, probe);
-        c.lastWhy = g.why;
-        if (!g.ok) continue;
-        this.cands.delete(id);
-        await this.enter(c, buy, trip.got, g.taxRatio ?? 1, g.why);
-      } catch (e: any) {
-        c.lastWhy = String(e?.shortMessage ?? e?.message ?? e).slice(0, 80);
+    }
+    if (!this.budgetLeft().ok) return;
+    // newest first (being first is the point), simulated in parallel batches; buys stay one at a time
+    const queue = [...this.cands.values()].sort((a, b) => b.seenAt - a.seenAt);
+    for (let i = 0; i < queue.length; i += 10) {
+      if (!this.budgetLeft().ok) return;
+      const results = await Promise.all(queue.slice(i, i + 10).map(async (c) => {
+        c.checks++;
+        try {
+          await this.fixV2Fee(c, buy);
+          const r = c.found.route;
+          const [trip, probe] = await Promise.all([this.chain.roundTrip(r, buy), this.chain.roundTrip(r, buy / PROBE_DIV)]);
+          const g = entryGate(this.cfg, buy, trip, probe);
+          c.lastWhy = g.why;
+          return g.ok ? { c, trip, g } : null;
+        } catch (e: any) {
+          c.lastWhy = String(e?.shortMessage ?? e?.message ?? e).slice(0, 80);
+          return null;
+        }
+      }));
+      for (const x of results) {
+        if (!x || !this.budgetLeft().ok) continue;
+        this.cands.delete(x.c.found.id);
+        try {
+          await this.enter(x.c, buy, x.trip.got, x.g.taxRatio ?? 1, x.g.why);
+        } catch (e: any) {
+          log(`BUY FAIL  ${x.c.symbol}: ${String(e?.shortMessage ?? e?.message ?? e).slice(0, 100)}`);
+        }
       }
     }
   }
@@ -303,7 +335,9 @@ export class Bot {
   }
 
   async run() {
-    process.on("SIGINT", () => { this.stopping = true; log("stopping after this loop (positions stay open; run again to keep managing)"); });
+    const stop = () => { this.stopping = true; log("stopping after this loop (positions stay open; run again to keep managing)"); };
+    process.on("SIGINT", stop);
+    process.on("SIGTERM", stop);
     let lastReport = Date.now();
     while (!this.stopping) {
       const t0 = Date.now();

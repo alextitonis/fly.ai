@@ -1762,7 +1762,7 @@
       "balance": "Elysium 上有 {hype} HYPE",
       "sameKey": "這和你蒼蠅在這裡的錢包是同一個地址：所有鏈一把金鑰。",
       "official": "只使用 elysium.kinetiq.xyz 上 Kinetiq 的官方跨鏈橋。現在有假的跨鏈橋在流傳。",
-      "notYet": "你的蒼蠅還沒有在 Elysium 上交易：交易台會在自己的測試之後開啟。你現在發送的 HYPE 會被保留，開始時計入。",
+      "notYet": "儲存後一分鐘內，你蒼蠅在 Elysium 的餘額會顯示在這裡。",
       "status": {
         "closing": "蒼蠅已售出：它在 Elysium 的錢歸前持有人",
         "waiting": "等待 HYPE",
@@ -1770,11 +1770,18 @@
         "sniping": "狙擊中",
         "holding": "持有 HYPE"
       },
-      "outSlow": "從 Elysium 取錢很慢：目前還沒有快速返回的路線。提現會把你的 HYPE（扣除盈利費）發送到你自己在 Elysium 上的地址；透過官方跨鏈橋轉出 Elysium 可能需要幾天。",
+      "outSlow": "錢透過 Relay 一兩分鐘內轉出：以 $FLYAI 給你，或回到蒼蠅的錢包。Relay 不行時，HYPE 會發到你自己在 Elysium 上的地址。",
       "outGo": "把我在 Elysium 的錢全部發給我",
       "outConfirm": "賣出 Elysium 上的全部，並把 HYPE 發送到 Elysium 上的 {to}？",
       "outAsked": "已請求：你的蒼蠅會在一兩分鐘內賣出並在 Elysium 上發送你的 HYPE。",
-      "outDone": "已發送：HYPE 已在你 Elysium 上的地址。"
+      "outDone": "完成：你在 Elysium 的錢正在路上。",
+      "sendGo": "從我的錢包發送 HYPE",
+      "sent": "已發送：你的蒼蠅一分鐘內會看到 HYPE。",
+      "bridgeTitle": "或從蒼蠅的現金加入",
+      "bridgeText": "你的蒼蠅把這裡的一部分 USDG 換成 Elysium 上的 HYPE（透過 Relay，約一分鐘）。",
+      "bridged": "已跨鏈：HYPE 一兩分鐘內會出現在 Elysium。",
+      "withdrawHint": "以 Robinhood Chain 上的 $FLYAI 付給你（透過 Relay），扣除盈利費。",
+      "homeHint": "以 USDG 回到你蒼蠅在這裡的錢包（透過 Relay），扣除盈利費。"
     },
     "toFlyTitle": "轉到你的另一隻蒼蠅",
     "toFlyText": "最多 {usd} 直接轉入另一隻蒼蠅的錢包，通常幾分鐘內完成。現金不夠時才會賣出持倉。和提款一樣只對盈利部分收取利潤費；$FLYAI 和 FlightPass 資金留在這隻蒼蠅。",
@@ -2121,7 +2128,7 @@
     "earn": "閒置現金出借給 Robinhood Chain 上的 Steakhouse 或 Spark USDG 金庫。顯示的是目前基礎利率，每天都會變動。",
     "crossChains": "這些鏈上的代幣用錢包的 USDG 透過 Relay 買入（跨鏈 + 兌換一步完成），賣出後回到這裡的 USDG。每條鏈的首次買入還會發送 $0.50 的 gas。低於 $5 的買入會略過。",
     "maker": "在這隻蒼蠅自己的錢包裡執行 Fly Maker 的穩定區間：只在價格距 5 分鐘均價 3% 以內時操作，每次最多兌換做市資金的四分之一，任何提領前先取出流動性。",
-    "elysium": "Elysium 是 Kinetiq 為 Hyperliquid 推出的二層網路，用 HYPE 支付 gas。你的蒼蠅在那裡使用同一個錢包地址。打開並儲存，然後把 Elysium 上的 HYPE 發送到那個地址。隨時可以關閉；從 Elysium 取錢很慢。"
+    "elysium": "Elysium 是 Kinetiq 為 Hyperliquid 推出的二層網路，用 HYPE 支付 gas。你的蒼蠅在那裡使用同一個錢包地址。打開並儲存（Degen Sniper 預設開啟），然後在 Elysium 上發送 HYPE，或從蒼蠅的現金加入。錢透過 Relay 返回。"
   },
   "label": {
     "add": "新增私人標籤",
