@@ -1,0 +1,7 @@
+{
+  "name": "Ambassador",
+  "description": "An official fly.ai ambassador, invited by the team. Soulbound: stays with the wallet it was given to.",
+  "image": "https://flyaiworld.com/assets/badges/12.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [{ "trait_type": "Type", "value": "Community" }, { "trait_type": "Soulbound", "value": "Yes" }]
+}

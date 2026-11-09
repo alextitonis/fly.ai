@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "title": "fly.ai elçileri: fly.ai'yi kendi dilinde temsil et",
+    "description": "Her dil için bir tane, az sayıda fly.ai elçisi. Mavi tik, ruha bağlı rozet, ilk günden en üst davet seviyesi, günde 50 XP ve erken erişim. Yalnızca gerçek sonuçlarla kazanç."
+  },
+  "head": {
+    "eyebrow": "Elçiler",
+    "title": "fly.ai'yi kendi dilinde temsil et",
+    "lede": "Her dil için bir kişi olmak üzere birkaç elçi seçiyoruz: Çince, Korece, Türkçe, İspanyolca ve diğerleri. Topluluğundaki insanların Trader Flies ile başlamasına yardım edersin ve getirdiğin gerçek kullanıcılardan kazanırsın."
+  },
+  "get": {
+    "title": "Elçiler ne kazanır",
+    "check": "fly.ai'nin her yerinde adının yanında <b>mavi tik</b> ve zincir üstünde ruha bağlı <b>Elçi rozeti</b>.",
+    "tier": "<b>İlk günden en üst davet seviyesi</b>: davet ettiklerinin Fly Cüzdanı kârlarının ve Fly Desk ödemelerinin %1,25'i, kendi ücretinde yarı indirim; 50 davete gerek yok.",
+    "xp": "Rozeti tuttuğun sürece <b>günde 50 XP</b>, diğer her şeyin üstüne. XP Yılbaşı dağıtımına sayılır.",
+    "discord": "Discord'da <b>Elçi rolü</b> ve ekiple özel bir kanal.",
+    "early": "Yeni özelliklere, ön ayarlara ve zincirlere herkesten önce <b>erken erişim</b>; launchpad açıldığında ilk yaratıcı yerleri."
+  },
+  "rules": {
+    "title": "Nasıl işler",
+    "few": "<b>Az ve elle seçilmiş.</b> 3 ila 5 kişi, tercihen her dil için bir. Başvurmak yer garantisi vermez.",
+    "results": "<b>Yalnızca sonuçla kazanç.</b> Maaş yok, yeni token yok: para yatırıp kalan gerçek kullanıcılardan fly.ai'nin aldığı ücretlerden, davetler üzerinden kazanırsın. Kimseyi getirmezsen maliyeti yok.",
+    "new": "<b>Yalnızca yeni kişiler.</b> Bağlantın her davet bağlantısı gibi yeni hesaplar için çalışır.",
+    "fair": "<b>Adil oyun.</b> Fiyat vaadi yok, soğuk DM yok, hesap çiftçiliği yok. 60 gün etkin değilsen rozet ve rol geri alınır.",
+    "review": "<b>Ekiple aylık görüşme</b>: kimi getirdin, ne işe yarıyor, neye ihtiyacın var."
+  },
+  "list": {
+    "title": "Mevcut elçiler",
+    "none": "Henüz elçi yok. İlklerden biri ol.",
+    "since": "{date} tarihinden beri"
+  },
+  "apply": {
+    "title": "Başvur",
+    "signedOut": "Başvurmak için cüzdanınla giriş yap.",
+    "signIn": "Giriş yap",
+    "name": "Adın veya takma adın",
+    "x": "X kullanıcı adı",
+    "telegram": "Telegram kullanıcı adı",
+    "lang": "Dilin",
+    "community": "İnsanları nereden getirirsin? (gruplar, kanallar, kaç kişi)",
+    "why": "Neden sen? Elçi olarak ne yaparsın?",
+    "send": "Başvuruyu gönder",
+    "sent": "Başvurun alındı. X veya Telegram üzerinden ulaşacağız.",
+    "update": "{date} tarihinde başvurdun. Yeniden göndermek onu değiştirir.",
+    "already": "Sen bir elçisin. Teşekkürler!",
+    "failed": "Gönderilemedi: {error}",
+    "langs": {
+      "en": "İngilizce",
+      "zh": "Çince",
+      "ko": "Korece",
+      "tr": "Türkçe",
+      "es": "İspanyolca",
+      "other": "Diğer"
+    }
+  }
+}

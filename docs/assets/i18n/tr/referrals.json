@@ -33,10 +33,17 @@
   },
   "tiers": {
     "title": "Kilometre taşları",
-    "th": { "at": "Gerçek davetler", "cut": "Payın", "fee": "Kendi ücretinden indirim" },
+    "th": {
+      "at": "Gerçek davetler",
+      "cut": "Payın",
+      "fee": "Kendi ücretinden indirim"
+    },
     "none": "–",
     "you": "sen",
-    "next": { "one": "%{cut} pay ve ücretinde %{fee} indirim için {count} gerçek davet daha.", "other": "%{cut} pay ve ücretinde %{fee} indirim için {count} gerçek davet daha." },
+    "next": {
+      "one": "%{cut} pay ve ücretinde %{fee} indirim için {count} gerçek davet daha.",
+      "other": "%{cut} pay ve ücretinde %{fee} indirim için {count} gerçek davet daha."
+    },
     "top": "En üst seviyedesin."
   },
   "by": {
@@ -50,7 +57,12 @@
   "list": {
     "title": "Davet ettiklerin",
     "empty": "Henüz kimse yok. Bağlantını paylaş.",
-    "th": { "who": "Arkadaş", "since": "Katıldı", "status": "Durum", "earned": "Sana kazandırdı" },
+    "th": {
+      "who": "Arkadaş",
+      "since": "Katıldı",
+      "status": "Durum",
+      "earned": "Sana kazandırdı"
+    },
     "real": "Gerçek",
     "counting": "Fonlandı, sayılıyor",
     "waiting": "Henüz fonlanmadı"
@@ -70,5 +82,10 @@
     "real": "<b>Gerçek davetler.</b> Bir arkadaş, Fly Wallets'ta 7 gün boyunca en az $20 tuttuğunda ya da bir Fly Desk ödemesi aldığında kilometre taşına sayılır.",
     "new": "<b>Yalnızca yeni hesaplar.</b> Bağlantı, arkadaşın ilk kez giriş yaptığında kullanılır. Yeni bir hesap ilk 14 gününde profiline bir kod veya takma ad da yazabilir. Bir kez ayarlandığında değiştirilemez.",
     "fair": "<b>Adil oyun.</b> Kendini davet etmek veya hesap çiftliği yapmak sayılmaz ve bu davetler kaldırılabilir."
+  },
+  "amb": {
+    "title": "Elçi ol",
+    "text": "Kendi dilinde insan getirebilir misin? Elçiler ilk günden en üst seviye, mavi tik ve günde 50 XP alır.",
+    "btn": "Elçi programına bak"
   }
 }

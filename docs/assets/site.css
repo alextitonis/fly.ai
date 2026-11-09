@@ -1,4 +1,4 @@
-@import url("nav.css");   /* the nav's rules (2026-10-04): must stay the first line */
+@import url("nav.css?v=20261109c");   /* the nav's rules (2026-10-04): must stay the first line */
   :root {
     /* the logo's palette (2026-09-23): pure black, white, and the fly's mint glow. Red is kept for losses and
        warnings only, never as the brand colour. */

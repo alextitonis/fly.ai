@@ -64,8 +64,9 @@ $("xp-profile").addEventListener("click", () => { const s = session(); if (s) pr
 
 const when = (iso) => new Date(iso).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
 const day = (iso) => new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+const tick = (r) => (r.verified ? el("span", { class: "fly-verified", title: "fly.ai ambassador", "aria-label": "fly.ai ambassador" }, "✓") : null);
 const who = (r) => el("a", { class: "xp-who", href: "#", title: r.wallet, "data-fly-profile": r.wallet }, r.nickname || (r.x ? `@${r.x}` : short(r.wallet)),
-  r.nickname && r.x ? el("small", null, `@${r.x}`) : null);
+  tick(r), r.nickname && r.x ? el("small", null, `@${r.x}`) : null);
 const avatar = (r) => (r.avatar ? el("img", { class: "xp-av", src: r.avatar, alt: "", width: "28", height: "28", loading: "lazy", referrerpolicy: "no-referrer" }) : el("span", { class: "xp-av" }));
 
 async function drawRound() {
@@ -107,7 +108,7 @@ function row(r, me, apart) {
   return el("li", { class: `xp-row${me ? " me" : ""}${apart ? " apart" : ""}` },
     el("span", { class: "xp-rank" }, `#${r.rank}`),
     r.avatar ? el("img", { class: "xp-av", src: r.avatar, alt: "", width: "28", height: "28", loading: "lazy", referrerpolicy: "no-referrer" }) : el("span", { class: "xp-av" }),
-    el("a", { class: "xp-who", href: "#", title: r.wallet, "data-fly-profile": r.wallet }, name, r.nickname && r.x ? el("small", null, `@${r.x}`) : null),
+    el("a", { class: "xp-who", href: "#", title: r.wallet, "data-fly-profile": r.wallet }, name, tick(r), r.nickname && r.x ? el("small", null, `@${r.x}`) : null),
     el("span", { class: "xp-level" }, t("xp.board.level", { n: r.level })),
     el("span", { class: "xp-points" }, fmt(r.xp)));
 }

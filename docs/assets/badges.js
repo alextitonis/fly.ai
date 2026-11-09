@@ -7,7 +7,7 @@ const API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearc
 const ACCOUNT_JS = "/compute/mine/web/account.js";
 const EXPLORER = "https://robinhoodchain.blockscout.com/token/";
 const SESSION_KEY = "flyai.compute.session";
-const IDS = { larva: 1, lord: 2, diamond: 3, og: 4, flyowner: 5, swarm: 6, queen: 7, payday: 8, payroll: 9, recruiter: 10, piedpiper: 11 };
+const IDS = { larva: 1, lord: 2, diamond: 3, og: 4, flyowner: 5, swarm: 6, queen: 7, payday: 8, payroll: 9, recruiter: 10, piedpiper: 11, ambassador: 12 };
 const KEYS = Object.keys(IDS);
 if (!window.flyI18n) await new Promise((r) => { addEventListener("i18n:ready", r, { once: true }); setTimeout(r, 3000); });
 
@@ -42,6 +42,7 @@ const SHARE = {
   flyowner: ["Fly Owner", "Held a Trader Fly for 30 days."], swarm: ["Swarm", "Held 10+ Trader Flies for 30 days straight."],
   queen: ["Queen of the Hive", "Held 50+ Trader Flies for 30 days straight."], payday: ["Payday", "Claimed 4 Fly Desk payouts."], payroll: ["On Payroll", "Claimed 8 Fly Desk payouts."],
   recruiter: ["Recruiter", "Brought 1 real referral to fly.ai."], piedpiper: ["Pied Piper", "Brought 10 real referrals to fly.ai."],
+  ambassador: ["Ambassador", "An official fly.ai ambassador."],
 };
 const shareUrl = (key) => `https://x.com/intent/post?text=${encodeURIComponent(
   `I earned the ${SHARE[key][0]} badge on @flydotai.\n\n${SHARE[key][1]} Soulbound, so it stays with my wallet.\n\nhttps://flyaiworld.com/badges`)}`;

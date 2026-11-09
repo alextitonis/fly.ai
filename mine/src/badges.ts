@@ -15,6 +15,8 @@
  *   payroll   claimed 8 Fly Desk payouts            nobody yet
  *   recruiter 1 real referral (src/referrals.ts: $20+ in Fly Wallets for 7 days, or a desk payout)     1 wallet on 11-01
  *   piedpiper 10 real referrals, the first referral tier     nobody yet
+ *   ambassador invited only (2026-11-09, flytrade/AMBASSADOR-PLAN.md): never claimable, the dev wallet grants it with
+ *             FlyBadges.grant and revokes it when an ambassador stops
  *
  * Staked and FlyLock-locked FLYAI counts as held: a move into staking or out of either is no change, and a lock counts
  * for its beneficiary. Dropping below a level restarts its clock, so one bag can't count for two wallets at once.
@@ -64,7 +66,7 @@ const VOUCHER_S = 3600;
 export const BADGES = [
   { id: 1, key: "larva" }, { id: 2, key: "lord" }, { id: 3, key: "diamond" }, { id: 4, key: "og" }, { id: 5, key: "flyowner" },
   { id: 6, key: "swarm" }, { id: 7, key: "queen" }, { id: 8, key: "payday" }, { id: 9, key: "payroll" },
-  { id: 10, key: "recruiter" }, { id: 11, key: "piedpiper" },
+  { id: 10, key: "recruiter" }, { id: 11, key: "piedpiper" }, { id: 12, key: "ambassador" },
 ] as const;
 /** how many flies a wallet has to keep for cfg.flyDays, the badge, and its clock's field and column */
 const FLY_LEVELS = [
@@ -393,12 +395,14 @@ export function createBadges(d: {
       queen: { days: daysSince(row?.since_fly50), need: cfg.flyDays },
       payday: { payouts: paid?.n ?? 0, need: 4 }, payroll: { payouts: paid?.n ?? 0, need: 8 },
       recruiter: { referrals: referred?.n ?? 0, need: 1 }, piedpiper: { referrals: referred?.n ?? 0, need: 10 },
+      ambassador: null,
     };
     const out = cfg.exclude.includes(wallet);
     const badges = BADGES.map((b, i) => {
       const held = truthy(reads[i * 2]), revoked = truthy(reads[i * 2 + 1]);
       const earnedIt = b.key === "og" ? ogHeld(balance, og, cfg) : has.has(b.key);
-      const state = held ? "held" : revoked ? "revoked" : out ? "team" : earnedIt ? "claimable" : b.key === "og" ? "closed" : "working";
+      const state = held ? "held" : revoked ? "revoked" : b.key === "ambassador" ? "invite" // granted by hand, never claimed
+        : out ? "team" : earnedIt ? "claimable" : b.key === "og" ? "closed" : "working";
       return { ...b, state, progress: clocks[b.key] };
     });
     return { on: true, contract: cfg.contract, chain_id: cfg.chainId, wallet, balance: (balance / E18).toString(),

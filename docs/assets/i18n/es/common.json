@@ -255,9 +255,10 @@
       "todayBurnWait": "Esperando a que pase la quema…",
       "todayBurnDone": "🔥 Quemado. Aquí tienes tu nueva misión.",
       "todayBurnLeft": "🔥 Misiones nuevas por quema: te quedan {n} de {max} hoy",
-      "todayPostPh": "Pega el enlace de tu post",
-      "todayPostGo": "Comprobar",
-      "todayPostDone": "Post contado ✓"
+      "todayPostNight": "Se cuenta por la noche: cada post de tu X conectada (no respuestas) da +20 XP, hasta 5 al día, y marca esta misión a la mañana siguiente",
+      "todayRefTitle": "Misiones de referidos",
+      "todayRefQuest": "Trae {n} referido(s) real(es)",
+      "todayRefHint": "Una vez cada una. Un amigo cuenta cuando mantiene $20+ en Fly Wallets durante 7 días."
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -338,6 +339,10 @@
     "xp": {
       "label": "Temporada XP",
       "desc": "Gana XP para el airdrop"
+    },
+    "ambassadors": {
+      "label": "Embajadores",
+      "desc": "Representa a fly.ai en tu idioma"
     }
   },
   "footer": {
@@ -381,7 +386,8 @@
     "progressPayouts": "{n} de {need} pagos",
     "revoked": "Retirada",
     "team": "No para wallets del equipo",
-    "closed": "No ganada"
+    "closed": "No ganada",
+    "invite": "Solo por invitación"
   },
   "lock": {
     "button": "🔒 {amount} FLYAI bloqueados",
@@ -421,11 +427,11 @@
     "refCode": "Código de referido",
     "board": "Clasificación XP",
     "share": "Compartir en X",
-    "shareHint": "Publica sobre fly.ai desde tu cuenta de X vinculada: cuenta sola cada noche, +20 XP una vez al día.",
+    "shareHint": "Publica sobre fly.ai (@flydotai, $FLYAI o fly.ai) desde tu cuenta de X vinculada: los posts se cuentan por la noche, +20 XP por cada uno (no respuestas), hasta 5 al día.",
     "sharePh": "https://x.com/tu/status/…",
     "shareBtn": "Añadir",
     "shareOk": "+{n} XP",
-    "shareDone": "La publicación de hoy ya contó: +20 XP.",
+    "shareDone": "Contado en los últimos 2 días: {n} posts, +{xp} XP.",
     "connectX": "Vincula tu cuenta de X arriba para ganar XP con tus publicaciones.",
     "seasonEnds": "La XP cuenta para el airdrop.",
     "seasonOver": "La Temporada 1 terminó. La XP contó para el airdrop.",
@@ -459,7 +465,7 @@
     "h_bug": "<b>Encuentra un error</b> y avisa al equipo: XP según su gravedad, asignado a mano.",
     "h_badges": "<b>Insignias</b> que reclamas: común 25, poco común 100, rara 250, legendaria 500.",
     "h_referrals": "<b>Referidos</b>: +10% de la XP de cada referido real que traigas.",
-    "h_x": "<b>X</b>: 50 XP por vincular tu cuenta, 20 XP al día por una publicación sobre fly.ai (se cuenta sola cada noche).",
+    "h_x": "<b>X</b>: 50 XP por vincular tu cuenta, 20 XP por cada post sobre fly.ai, hasta 5 al día (se cuenta solo por la noche).",
     "h_flybook": "<b>Flybook</b>: 5 XP cada día que des like, comentes, toques o pongas un pie de foto (holders y dueños de moscas).",
     "h_foot": "Las wallets del equipo y las de moscas no clasifican. Niveles: nivel 1 con 50 XP, 2 con 200, 3 con 450, 10 con 5.000.",
     "log": "Registro de XP",
@@ -475,7 +481,11 @@
     "s_boost": "Bono de 2x XP",
     "s_penalty": "2x XP: ventas y retiros",
     "logBoost": "{mult}x",
-    "h_boost": "<b>Ventanas de 2x XP</b>: algunos días el equipo duplica la XP de compras, depósitos, alimentar, trades, cría y quema de pases. Entonces las ventas y retiros también cuestan el doble, y vender en los 3 días siguientes quita el bono."
+    "h_boost": "<b>Ventanas de 2x XP</b>: algunos días el equipo duplica la XP de compras, depósitos, alimentar, trades, cría y quema de pases. Entonces las ventas y retiros también cuestan el doble, y vender en los 3 días siguientes quita el bono.",
+    "s_ambassador": "Embajador",
+    "s_refquest": "Misiones de referidos",
+    "h_refquest": "<b>Misiones de referidos</b>: XP única al llegar a 1, 3, 5, 10 y 25 referidos reales: 25, 50, 100, 250 y 500.",
+    "h_ambassador": "<b>Embajadores</b>: 50 XP al día mientras tengas la insignia de Embajador."
   },
   "flychat": {
     "title": "Mosca #{id}",

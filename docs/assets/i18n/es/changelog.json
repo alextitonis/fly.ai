@@ -26,6 +26,7 @@
     "how": "Cómo funciona"
   },
   "e": {
+    "d1109a": "<b>Cada post en X cuenta.</b> Cada post sobre fly.ai desde tu cuenta de X vinculada (con @flydotai, $FLYAI o fly.ai, no una respuesta) ahora da +20 XP, hasta 5 al día. Los posts se cuentan por la noche y la misión diaria \"publica en X\" se marca sola a la mañana siguiente: sin pegar enlaces. <a href=\"/xp\">XP</a>",
     "d1108a": "<b>Enviar una mosca a otra wallet conserva su wallet.</b> Una mosca que envías a otra dirección se lleva su dinero, posiciones, ajustes, Perps y Solana, y la nueva dirección la gestiona al instante. Solo una venta (una compra en el marketplace o una oferta aceptada) sigue pagando al antiguo titular, y el comprador ahora empieza con una configuración limpia. <a href=\"/traderflies/\">Mis moscas</a>",
     "d1108b": "<b>Una mosca vendida paga todo en $FLYAI.</b> Si los dólares de una mosca vendida no se pueden comprar en $FLYAI en el mercado, el resto ahora sale del pool al precio de mercado, así que el antiguo titular recibe $FLYAI y no USDG sobrante. <a href=\"/traderflies/\">Mis moscas</a>",
     "d1108c": "<b>XP por encontrar errores.</b> ¿Encontraste un error? Avísale al equipo: recibes XP según su gravedad. Aparece como \"Errores encontrados\" en tu XP y recibes una nota 🔔. <a href=\"/xp\">XP</a>",

@@ -1,0 +1,21 @@
+/* docs/ambassadors.html (2026-11-09) */
+.amb-get { position: relative; }
+.amb-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; max-width: 720px; }
+.amb-list li { display: flex; gap: 12px; align-items: flex-start; }
+.amb-list p { margin: 0; color: var(--muted); }
+.amb-list b { color: var(--text); }
+.amb-list .fly-verified { width: 22px; height: 22px; font-size: 13px; margin: 1px 0 0; }
+.amb-ic { width: 22px; text-align: center; flex: none; }
+.amb-badge { position: absolute; right: 22px; top: 22px; width: 120px; height: 120px; border-radius: 18px; }
+.amb-people { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.amb-people li { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 12px; }
+.amb-people small { color: var(--dim); margin-left: auto; font: 500 12px var(--mono); }
+.amb-form { display: grid; gap: 12px; max-width: 640px; }
+.amb-form label { display: grid; gap: 6px; font-size: 14px; color: var(--muted); }
+.amb-form input, .amb-form select, .amb-form textarea { font: inherit; color: var(--text); background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 12px; padding: 10px 12px; box-sizing: border-box; width: 100%; }
+.amb-form textarea { min-height: 90px; resize: vertical; }
+.amb-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.amb-msg { margin: 0; font-size: 14px; color: var(--mint); }
+.amb-msg.err { color: var(--red, #ff6b6b); }
+@media (max-width: 720px) { .amb-badge { display: none; } .amb-row { grid-template-columns: 1fr; } }

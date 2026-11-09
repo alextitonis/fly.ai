@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Ambassador badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#120b1c" stroke="#b98cff" stroke-width="10"/>
+  <circle cx="256" cy="282" r="112" fill="#1d1230" stroke="#b98cff" stroke-width="10"/>
+  <g fill="none" stroke="#b98cff" stroke-width="7" stroke-opacity=".75">
+    <ellipse cx="256" cy="282" rx="48" ry="112"/>
+    <path d="M144 282h224M160 226h192M160 338h192"/>
+  </g>
+  <g transform="translate(256 150)">
+    <ellipse cx="-30" cy="0" rx="34" ry="14" transform="rotate(-22 -30 0)" fill="#fff" fill-opacity=".85"/>
+    <ellipse cx="30" cy="0" rx="34" ry="14" transform="rotate(22 30 0)" fill="#fff" fill-opacity=".85"/>
+    <ellipse cx="0" cy="10" rx="13" ry="24" fill="#b98cff"/>
+    <circle cx="0" cy="-18" r="11" fill="#b98cff"/>
+    <circle cx="-5" cy="-20" r="3.5" fill="#000"/><circle cx="5" cy="-20" r="3.5" fill="#000"/>
+  </g>
+  <g fill="#fff">
+    <circle cx="118" cy="168" r="7"/><circle cx="398" cy="176" r="8"/><circle cx="388" cy="398" r="6"/><circle cx="126" cy="392" r="7"/>
+  </g>
+</svg>

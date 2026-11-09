@@ -33,10 +33,17 @@
   },
   "tiers": {
     "title": "Milestones",
-    "th": { "at": "Real referrals", "cut": "Your cut", "fee": "Off your own fee" },
+    "th": {
+      "at": "Real referrals",
+      "cut": "Your cut",
+      "fee": "Off your own fee"
+    },
     "none": "–",
     "you": "you",
-    "next": { "one": "{count} more real referral to {cut}% and {fee}% off your fee.", "other": "{count} more real referrals to {cut}% and {fee}% off your fee." },
+    "next": {
+      "one": "{count} more real referral to {cut}% and {fee}% off your fee.",
+      "other": "{count} more real referrals to {cut}% and {fee}% off your fee."
+    },
     "top": "You're at the top tier."
   },
   "by": {
@@ -50,7 +57,12 @@
   "list": {
     "title": "Your referrals",
     "empty": "Nobody yet. Share your link.",
-    "th": { "who": "Friend", "since": "Joined", "status": "Status", "earned": "Earned you" },
+    "th": {
+      "who": "Friend",
+      "since": "Joined",
+      "status": "Status",
+      "earned": "Earned you"
+    },
     "real": "Real",
     "counting": "Funded, counting",
     "waiting": "Not funded yet"
@@ -70,5 +82,10 @@
     "real": "<b>Real referrals.</b> A friend counts toward a milestone once they keep at least $20 in Fly Wallets for 7 days, or get a Fly Desk payout.",
     "new": "<b>New accounts only.</b> A link is used when your friend first signs in. A new account can also type a code or nickname in its profile, in its first 14 days. Once set, it can't be changed.",
     "fair": "<b>Fair play.</b> Referring yourself or farming accounts doesn't count, and such referrals may be removed."
+  },
+  "amb": {
+    "title": "Become an ambassador",
+    "text": "Bring people in your language? Ambassadors get the top tier from day one, a blue check and 50 XP a day.",
+    "btn": "See the ambassador program"
   }
 }

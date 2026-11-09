@@ -30,7 +30,8 @@
     "progressReferrals": "{n} de {need} referidos",
     "revoked": "Retirada",
     "team": "No para wallets del equipo",
-    "closed": "No ganada"
+    "closed": "No ganada",
+    "invite": "Solo por invitación"
   },
   "holders": "Poseedores: {n}",
   "rarity": {
@@ -40,17 +41,54 @@
     "legendary": "Legendaria"
   },
   "list": {
-    "larva": { "name": "Larva", "need": "Ten 100.000+ $FLYAI durante 7 días seguidos." },
-    "lord": { "name": "Lord of the Flies", "need": "Ten 10.000.000+ $FLYAI durante 30 días seguidos." },
-    "diamond": { "name": "Diamond Wings", "need": "Ten 100.000+ $FLYAI durante 90 días sin bajar de esa cantidad." },
-    "og": { "name": "OG", "need": "Tenías 10.000+ $FLYAI al terminar los primeros 14 días del token y aún tienes al menos esa cantidad." },
-    "flyowner": { "name": "Fly Owner", "need": "Ten una Trader Fly durante 30 días." },
-    "swarm": { "name": "Swarm", "need": "Ten 10+ Trader Flies durante 30 días seguidos." },
-    "queen": { "name": "Queen of the Hive", "need": "Ten 50+ Trader Flies durante 30 días seguidos." },
-    "payday": { "name": "Payday", "need": "Reclama 4 pagos de Fly Desk." },
-    "payroll": { "name": "On Payroll", "need": "Reclama 8 pagos de Fly Desk." },
-    "recruiter": { "name": "Recruiter", "need": "Trae 1 referido real: $20+ en Fly Wallets durante 7 días, o un pago de Fly Desk." },
-    "piedpiper": { "name": "Pied Piper", "need": "Trae 10 referidos reales." }
+    "larva": {
+      "name": "Larva",
+      "need": "Ten 100.000+ $FLYAI durante 7 días seguidos."
+    },
+    "lord": {
+      "name": "Lord of the Flies",
+      "need": "Ten 10.000.000+ $FLYAI durante 30 días seguidos."
+    },
+    "diamond": {
+      "name": "Diamond Wings",
+      "need": "Ten 100.000+ $FLYAI durante 90 días sin bajar de esa cantidad."
+    },
+    "og": {
+      "name": "OG",
+      "need": "Tenías 10.000+ $FLYAI al terminar los primeros 14 días del token y aún tienes al menos esa cantidad."
+    },
+    "flyowner": {
+      "name": "Fly Owner",
+      "need": "Ten una Trader Fly durante 30 días."
+    },
+    "swarm": {
+      "name": "Swarm",
+      "need": "Ten 10+ Trader Flies durante 30 días seguidos."
+    },
+    "queen": {
+      "name": "Queen of the Hive",
+      "need": "Ten 50+ Trader Flies durante 30 días seguidos."
+    },
+    "payday": {
+      "name": "Payday",
+      "need": "Reclama 4 pagos de Fly Desk."
+    },
+    "payroll": {
+      "name": "On Payroll",
+      "need": "Reclama 8 pagos de Fly Desk."
+    },
+    "recruiter": {
+      "name": "Recruiter",
+      "need": "Trae 1 referido real: $20+ en Fly Wallets durante 7 días, o un pago de Fly Desk."
+    },
+    "piedpiper": {
+      "name": "Pied Piper",
+      "need": "Trae 10 referidos reales."
+    },
+    "ambassador": {
+      "name": "Embajador",
+      "need": "Solo por invitación: para los embajadores de fly.ai."
+    }
   },
   "share": {
     "x": "Compartir en X",

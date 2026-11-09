@@ -4,7 +4,8 @@
  * buy), the all-3 bonus, no double booking, the season end, and the XP showing up in xp_events.
  *   npm run test:quests
  */
-import { checkIn, createQuests, dayOf, GROUPS, listsOf, pick, postIdOf, QUESTS, questAt, standing, type Streak } from "./quests.ts";
+import { checkIn, createQuests, dayOf, GROUPS, listsOf, pick, QUESTS, questAt, REF_QUESTS, standing, type Streak } from "./quests.ts";
+import { createAmbassadors } from "./ambassadors.ts";
 import { FLYAI } from "./burns.ts";
 import { startPg } from "./pgtest.ts";
 
@@ -197,7 +198,7 @@ check("nothing after the season ends", (err as HttpError)?.status === 409 && (aw
   const pad = (a: string) => `0x${a.slice(2).padStart(64, "0")}`;
   const burnRec = (from: string, flyai: bigint, to = ZERO) => ({ status: "0x1", logs: [{ address: FLYAI, topics: [TRANSFER, pad(from), pad(to)],
     data: `0x${(flyai * E18).toString(16)}` }] });
-  const receipts = new Map<string, any>(), posts = new Map<string, any>();
+  const receipts = new Map<string, any>();
   const TX = (n: number) => `0x${n.toString(16).padStart(64, "0")}`;
   let qclock = Date.UTC(2026, 10, 8, 10);
   const D = dayOf(qclock);
@@ -207,7 +208,7 @@ check("nothing after the season ends", (err as HttpError)?.status === 409 && (aw
   const w = Array.from({ length: 2000 }, (_, i) => addr(0xe000 + i)).find((x) => questAt(x, D, "move", null, 1) === "topup")!;
   await pg.run("insert into mine.xp_holders (wallet, liquid, staked, locked, flies) values (?, 0, 0, 0, 1)", w);
   const Q3 = createQuests({ pg, end: Infinity, exclude: [], HttpError, send: () => {}, readJson: async () => ({}), sessionWallet: async () => w,
-    now: () => qclock, receipt: async (tx) => receipts.get(tx) ?? null, fetchJson: async (u) => posts.get(u.split("/").pop()!) ?? null });
+    now: () => qclock, receipt: async (tx) => receipts.get(tx) ?? null });
   let e: any = null;
   const tryIt = async (f: () => Promise<unknown>) => { e = null; try { await f(); } catch (x) { e = x; } return e; };
   const t0 = await Q3.today(w);
@@ -242,27 +243,66 @@ check("nothing after the season ends", (err as HttpError)?.status === 409 && (aw
   const v = await Q3.visit(w, vis.id);
   check("a paid visit slot pays on the page's report", v.gained === 2 && v.today.quests[0].done, JSON.stringify(v.today.quests[0]));
 
-  // the X post quest
-  const xw = addr(0xe9001);
-  await pg.run("insert into mine.xp_holders (wallet, liquid, staked, locked, flies) values (?, 0, 0, 0, 1)", xw);
+  // the X post quest: posts come in overnight (xp.ts shares() fills mine.xp_quest_posts), the tick settles their day
+  const xw = Array.from({ length: 2000 }, (_, i) => addr(0xe9000 + i)).find((x) => pick(x, D)[1] === "xpost")!;
+  const ow = Array.from({ length: 2000 }, (_, i) => addr(0xea000 + i)).find((x) => pick(x, D)[1] !== "xpost")!;
+  for (const x of [xw, ow]) await pg.run("insert into mine.xp_holders (wallet, liquid, staked, locked, flies) values (?, 0, 0, 0, 1)", x);
   const Q4 = createQuests({ pg, end: Infinity, exclude: [], HttpError, send: () => {}, readJson: async () => ({}), sessionWallet: async () => xw,
-    now: () => qclock, fetchJson: async (u) => posts.get(u.split("/").pop()!) ?? null });
-  const link = (id: string) => `https://x.com/flyfan/status/${id}`;
-  check("no X connected: refused", (await tryIt(() => Q4.xpost(xw, link("1111111"))))?.status === 409);
-  await pg.run("insert into mine.x_links (wallet, x_id, username, name, linked_at_ms) values (?, '9', 'FlyFan', 'Fly Fan', 1)", xw);
-  check("not a post link: refused", (await tryIt(() => Q4.xpost(xw, "https://example.com/x")))?.status === 400);
-  posts.set("2222222", { tweet: { author: { screen_name: "someoneelse" }, created_timestamp: qclock / 1000, text: "$FLYAI meme" } });
-  check("someone else's post: refused", (await tryIt(() => Q4.xpost(xw, link("2222222"))))?.status === 403);
-  posts.set("3333333", { tweet: { author: { screen_name: "flyfan" }, created_timestamp: qclock / 1000 - 86_400, text: "$FLYAI" } });
-  check("yesterday's post: refused", (await tryIt(() => Q4.xpost(xw, link("3333333"))))?.status === 409);
-  posts.set("4444444", { tweet: { author: { screen_name: "flyfan" }, created_timestamp: qclock / 1000, text: "a cat meme" } });
-  check("a post not about fly.ai: refused", (await tryIt(() => Q4.xpost(xw, link("4444444"))))?.status === 400);
-  posts.set("5555555", { tweet: { author: { screen_name: "FLYFAN" }, created_timestamp: qclock / 1000, text: "when the fly sells at 2x 😂 @flydotai" } });
-  await Q4.xpost(xw, `https://twitter.com/FLYFAN/status/5555555?s=20`);
-  check("a meme from your X, today, about fly.ai: counted", !!(await pg.one("select 1 from mine.xp_quest_posts where post_id = '5555555' and wallet = ?", xw)));
-  check("the same post counts once", (await tryIt(() => Q4.xpost(xw, link("5555555"))))?.status === 409);
-  check("postIdOf reads x.com and twitter.com links", postIdOf("https://x.com/a_b/status/123456789") === "123456789"
-    && postIdOf("https://mobile.twitter.com/a/status/987654321?x=1") === "987654321" && postIdOf("https://x.com/a") === null);
+    now: () => qclock });
+  const posted = new Date(qclock - 3_600_000).toISOString();
+  await pg.run(`insert into mine.xp_quest_posts (post_id, wallet, day, posted_at) values ('5555555', ?, ?, ?), ('6666666', ?, ?, ?)`,
+    xw, D, posted, ow, D, posted);
+  qclock = Date.parse(`${D}T00:00:00Z`) + 86_400_000 + 3 * 3_600_000;   // next morning, after the nightly search
+  await Q4.tick();
+  await Q4.tick();
+  const paidPost = await pg.all<{ ref: string }>("select ref from mine.xp_events where source = 'quest' and ref like ?", `quest:${xw}:${D}:%`);
+  check("an overnight post settles that day's X quest, once", paidPost.filter((r) => r.ref === `quest:${xw}:${D}:xpost`).length === 1, JSON.stringify(paidPost));
+  check("a post doesn't pay a quest the wallet didn't have", !(await pg.one("select 1 from mine.xp_events where ref = ?", `quest:${ow}:${D}:xpost`)));
+  check("the paste endpoint is gone", !("xpost" in Q4));
+}
+
+// ---- 2026-11-09: referral quests (one-off, not in the daily three) and the ambassador form ----
+{
+  const rw = addr(0xb100);
+  await pg.run("insert into mine.xp_holders (wallet, liquid, staked, locked, flies) values (?, 0, 0, 0, 1)", rw);
+  const Q5 = createQuests({ pg, end: Infinity, exclude: [team], HttpError, send: () => {}, readJson: async () => ({}), sessionWallet: async () => rw, now: () => clock });
+  const t0 = await Q5.today(rw);
+  check("referral quests listed, none done with no referrals", t0.referrals.real === 0 && t0.referrals.quests.length === REF_QUESTS.length && t0.referrals.quests.every((q) => !q.done));
+  for (let i = 0; i < 3; i++) {
+    await pg.run("insert into mine.referrals (wallet, referrer, via, qualified_at) values (?, ?, 'link', now())", addr(0xb200 + i), rw);
+  }
+  await pg.run("insert into mine.referrals (wallet, referrer, via) values (?, ?, 'link')", addr(0xb2ff), rw);   // not real yet
+  const t1 = await Q5.today(rw);
+  const done = t1.referrals.quests.filter((q) => q.done).map((q) => q.need);
+  check("3 real referrals: the 1 and 3 quests pay, 5 doesn't", t1.referrals.real === 3 && done.join(",") === "1,3", JSON.stringify(t1.referrals));
+  const xp = await pg.one<{ n: number }>("select coalesce(sum(xp), 0)::int as n from mine.xp_events where wallet = ? and source = 'refquest'", rw);
+  check("their XP is booked once", xp?.n === 75);
+  await Q5.today(rw);
+  check("asking again books nothing more", (await pg.one<{ n: number }>("select count(*)::int as n from mine.xp_events where wallet = ? and source = 'refquest'", rw))?.n === 2);
+  check("they aren't part of the daily three", t1.quests.length === 3);
+
+  // the ambassador form
+  let body: any = {};
+  const sent: any[] = [];
+  const A = createAmbassadors({ pg, HttpError, send: (_r, status, b) => { sent.push({ status, b }); }, readJson: async () => body,
+    sessionWallet: async () => rw, isAdmin: (req: any) => req.headers.authorization === "Bearer ok", now: () => clock });
+  const fail = async (b: any) => { body = b; try { await A.apply({ headers: {} } as any); return null; } catch (e: any) { return e.status; } };
+  check("no name: refused", (await fail({ x: "a", why: "x".repeat(30) })) === 400);
+  check("no X or Telegram: refused", (await fail({ name: "Ann", why: "x".repeat(30) })) === 400);
+  check("a one-line why: refused", (await fail({ name: "Ann", x: "ann", why: "short" })) === 400);
+  body = { name: "Ann", x: "https://x.com/Ann_1", telegram: "@ann", lang: "ko", community: "KR group, 2k", why: "I run a Korean trading group of 2,000 people." };
+  const r1 = await A.apply({ headers: {} } as any);
+  check("an application is stored, handles cleaned", r1.application.x === "Ann_1" && r1.application.telegram === "ann" && r1.application.lang === "ko");
+  body = { ...body, lang: "xx" };
+  await A.apply({ headers: {} } as any);
+  const apps = await A.applications();
+  check("sending again replaces it; unknown language is 'other'", apps.applications.length === 1 && apps.applications[0].lang === "other");
+  let denied = 0;
+  try { await A.route({ method: "GET", headers: {} } as any, {} as any, new URL("http://x/api/ambassadors/applications")); } catch (e: any) { denied = e.status; }
+  check("the list of applications is admin only", denied === 403);
+  check("not an ambassador before the badge", !(await A.isAmbassador(rw)));
+  await pg.run("insert into mine.badge_claims (wallet, badge, at) values (?, 12, now())", rw);
+  check("badge #12 makes an ambassador", await A.isAmbassador(rw) && (await A.list()).ambassadors.some((x: any) => x.wallet === rw && x.lang === "other"));
 }
 
 await PG.stop();

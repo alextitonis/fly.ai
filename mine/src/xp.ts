@@ -13,8 +13,10 @@
  *   breeding     500 XP a merge
  *   pass burn    100 XP a FlightPass sent to 0x0 or 0x…dEaD
  *   badges       claimed soulbound badges by rarity: common 25, uncommon 100, rare 250, legendary 500
+ *   ambassador   50 a day while the wallet holds the Ambassador badge (#12, 2026-11-09: "also EXP from that badge")
  *   referrals    +10% of each real referral's XP (src/referrals.ts: $20+ in Fly Wallets for 7 days)
- *   X            50 once for a linked account (src/xlink.ts); 20 a day for a post from it about fly.ai (found nightly)
+ *   X            50 once for a linked account (src/xlink.ts); 20 for each post from it about fly.ai, up to 5 a UTC day
+ *                (found nightly; 2026-11-09 the user: "count more than 1 post if the user made that day")
  *   Telegram     50 while a linked account (src/tglink.ts) is in the fly.ai group; checked daily, leaving takes it back
  *   Flybook      5 XP a day with a like, comment, poke or caption, for wallets that hold or own a fly
  *   check-in     2 XP a day + streak milestones, and daily quests 2 each (+4 for all 3): src/quests.ts books them here
@@ -77,7 +79,8 @@ export const RATES = {
   per10kFlyai: 1, marketUsdg: 0.5, marketOther: 20,
   claimStake: 50, claimStakeMs: 3_600_000, breed: 500, passBurn: 100,
   badge: { common: 25, uncommon: 100, rare: 250, legendary: 500 } as Record<string, number>,
-  referral: 0.1, xConnect: 50, tgMember: 50, share: 20, flybookDay: 5, levelBase: 50,
+  ambassadorDay: 50,
+  referral: 0.1, xConnect: 50, tgMember: 50, share: 20, shareMax: 5, flybookDay: 5, levelBase: 50,
 } as const;
 
 export type XpConfig = {
@@ -310,29 +313,45 @@ export function bookLogs(cfg: XpConfig, logs: Log[], timeOf: (n: number) => numb
 /** A post on X, as the nightly search returns it. */
 export type Post = { id: string; author: string; at: number; reply: boolean };
 
+type XLink = { wallet: string; username: string; linked_at_ms: number };
 /**
- * Posts that earn XP: from a linked X account, after it was linked, not a reply (giveaway threads fill with bare
- * addresses), one a UTC day per wallet. `booked` holds "wallet:day" already paid and grows as posts count.
+ * The posts that count: from a linked X account, after it was linked, not a reply (giveaway threads fill with bare
+ * addresses), before the season's end; each with its wallet, oldest first, each post once.
  */
-export function sharesFrom(posts: Post[], links: { wallet: string; username: string; linked_at_ms: number }[], booked: Set<string>, end: number): Event[] {
+export function linkedPosts(posts: Post[], links: XLink[], end: number) {
   const by = new Map(links.map((l) => [l.username.toLowerCase(), l]));
-  const out: Event[] = [];
+  const seen = new Set<string>();
+  const out: { wallet: string; post: Post; day: string }[] = [];
   for (const p of [...posts].sort((a, b) => a.at - b.at)) {
     const l = by.get(p.author.toLowerCase());
-    if (!l || p.reply || !/^\d{5,25}$/.test(p.id) || p.at < Number(l.linked_at_ms) || p.at > end) continue;
-    const key = `${l.wallet}:${new Date(p.at).toISOString().slice(0, 10)}`;
-    if (booked.has(key)) continue;
-    booked.add(key);
-    out.push({ wallet: l.wallet, source: "share", ref: `x:${p.id}`, xp: RATES.share, at: p.at });
+    if (!l || p.reply || !/^\d{5,25}$/.test(p.id) || seen.has(p.id) || p.at < Number(l.linked_at_ms) || p.at > end) continue;
+    seen.add(p.id);
+    out.push({ wallet: l.wallet, post: p, day: new Date(p.at).toISOString().slice(0, 10) });
+  }
+  return out;
+}
+/**
+ * Posts that earn XP: each linked post, up to RATES.shareMax a UTC day per wallet. `booked` holds the posts already
+ * paid ("x:<id>") and how many each "wallet:day" has; both grow as posts count.
+ */
+export function sharesFrom(posts: Post[], links: XLink[], booked: { refs: Set<string>; perDay: Map<string, number> }, end: number): Event[] {
+  const out: Event[] = [];
+  for (const { wallet, post, day } of linkedPosts(posts, links, end)) {
+    const ref = `x:${post.id}`, key = `${wallet}:${day}`, n = booked.perDay.get(key) ?? 0;
+    if (booked.refs.has(ref) || n >= RATES.shareMax) continue;
+    booked.refs.add(ref); booked.perDay.set(key, n + 1);
+    out.push({ wallet, source: "share", ref, xp: RATES.share, at: post.at });
   }
   return out;
 }
 
+/** The X search: @flydotai, the site, the cashtag or the name (2026-11-09 the user: add "$FLYAI" and "fly.ai"). */
+export const SHARE_QUERY = `(@flydotai OR flyaiworld.com OR $FLYAI OR "fly.ai")`;
 /** Posts mentioning fly.ai since a day, through Apify's X search (the actor flytrade/marketing uses; ~cents a night). */
 export async function apifySearch(token: string, actor: string, since: string): Promise<Post[]> {
   const r = await fetch(`https://api.apify.com/v2/acts/${actor}/run-sync-get-dataset-items?token=${token}`, {
     method: "POST", headers: { "content-type": "application/json" }, signal: AbortSignal.timeout(280_000),
-    body: JSON.stringify({ searchTerms: [`(@flydotai OR flyaiworld.com) since:${since}`], maxItems: 400, queryType: "Latest" }),
+    body: JSON.stringify({ searchTerms: [`${SHARE_QUERY} since:${since}`], maxItems: 400, queryType: "Latest" }),
   });
   if (!r.ok) throw new Error(`apify ${r.status}`);
   const items = await r.json() as { id?: string | number; createdAt?: string; isReply?: boolean; author?: { userName?: string } }[];
@@ -381,7 +400,6 @@ export function createXp(d: {
   const search = d.search !== undefined ? d.search
     : token ? (since: string) => apifySearch(token, process.env.XP_SHARE_ACTOR ?? "kaitoeasyapi~twitter-x-data-tweet-scraper-pay-per-result-cheapest", since) : null;
   const iso = (ms: number | null) => (ms === null ? null : new Date(ms).toISOString());
-  const dayStart = () => iso(Math.floor(now() / DAY_MS) * DAY_MS);   // UTC midnight: one share a UTC day
   const ms = (v: Date | string | null) => (v === null ? null : new Date(v).getTime());
   const getState = async <T>(q: Q, key: string) => (await q.one<{ value: T }>("select value from mine.xp_state where key = ?", key))?.value;
   const setState = (q: Q, key: string, value: unknown) => q.run(`insert into mine.xp_state (key, value) values (?, ?::text::jsonb)
@@ -530,7 +548,7 @@ export function createXp(d: {
       pg.all<{ wallet: string; linked_at_ms: string }>("select wallet, linked_at_ms::text from mine.x_links").catch(() => []),
       pg.all<{ wallet: string }>("select wallet from mine.tg_links where member").catch(() => []),
       pg.all<{ wallet: string; referrer: string }>("select wallet, referrer from mine.referrals where qualified_at is not null and qualified_at <= ?", endIso).catch(() => []),
-      pg.all<{ wallet: string; badge: number }>("select wallet, badge::int as badge from mine.badge_claims").catch(() => []),
+      pg.all<{ wallet: string; badge: number; at: Date }>("select wallet, badge::int as badge, at from mine.badge_claims").catch(() => []),
       pg.all<{ address: string }>("select lower(address) as address from mine.vault_wallets").catch(() => []),
       pg.all<{ wallet: string; days: number }>(`select lower(p.wallet) as wallet, count(distinct a.d)::int as days from (
           select user_id, created_at::date as d from public.likes where not auto
@@ -565,6 +583,8 @@ export function createXp(d: {
     }
     const badgeWallets = mineBadges.size;
     for (const [w, ids] of mineBadges) add(w, "badges", badgeXp(ids, held, badgeWallets));
+    // the Ambassador badge (#12): a day's XP for each day held, counting the day it was granted
+    for (const b of badges) if (b.badge === 12) add(b.wallet, "ambassador", Math.max(0, Math.floor((t - new Date(b.at).getTime()) / 86_400_000) + 1) * RATES.ambassadorDay);
     // Flybook days only for wallets that hold or own a fly: the free part can't earn on its own
     for (const f of flybook) if (rows.get(f.wallet)?.sources.hold || rows.get(f.wallet)?.flies) add(f.wallet, "flybook", f.days * RATES.flybookDay);
     const base = (w: string) => Object.entries(rows.get(w)?.sources ?? {}).reduce((s, [k, v]) => (k === "referrals" ? s : s + v), 0);
@@ -837,17 +857,20 @@ export function createXp(d: {
 
   const season = () => ({ start: iso(cfg.start), over: now() >= cfg.end });   // no end date: it isn't public
   async function names(wallets: string[]) {
-    if (!wallets.length) return new Map<string, { nickname: string | null; x: string | null; avatar: string | null }>();
+    if (!wallets.length) return new Map<string, { nickname: string | null; x: string | null; avatar: string | null; verified: boolean }>();
     const list = `{${wallets.join(",")}}`;
-    const [nicks, xs] = await Promise.all([
+    const [nicks, xs, amb] = await Promise.all([
       pg.all<{ wallet: string; nickname: string }>("select wallet, nickname from mine.profiles where wallet = any(?::text[])", list).catch(() => []),
       pg.all<{ wallet: string; username: string; avatar: string | null }>("select wallet, username, avatar from mine.x_links where wallet = any(?::text[])", list).catch(() => []),
+      // the blue check (2026-11-09): ambassadors, i.e. holders of badge #12
+      pg.all<{ wallet: string }>("select wallet from mine.badge_claims where badge = 12 and wallet = any(?::text[])", list).catch(() => []),
     ]);
     const n = new Map(nicks.map((r) => [r.wallet, r.nickname])), x = new Map(xs.map((r) => [r.wallet, r]));
-    return new Map(wallets.map((w) => [w, { nickname: n.get(w) ?? null, x: x.get(w)?.username ?? null, avatar: x.get(w)?.avatar ?? null }]));
+    const v = new Set(amb.map((r) => r.wallet));
+    return new Map(wallets.map((w) => [w, { nickname: n.get(w) ?? null, x: x.get(w)?.username ?? null, avatar: x.get(w)?.avatar ?? null, verified: v.has(w) }]));
   }
-  const brief = (r: Row, rank: number, who: { nickname: string | null; x: string | null; avatar: string | null } | undefined) =>
-    ({ rank, wallet: r.wallet, nickname: who?.nickname ?? null, x: who?.x ?? null, avatar: who?.avatar ?? null, xp: r.xp, level: r.level });
+  const brief = (r: Row, rank: number, who: { nickname: string | null; x: string | null; avatar: string | null; verified?: boolean } | undefined) =>
+    ({ rank, wallet: r.wallet, nickname: who?.nickname ?? null, x: who?.x ?? null, avatar: who?.avatar ?? null, verified: !!who?.verified, xp: r.xp, level: r.level });
 
   async function leaderboard(wallet: string | null) {
     if (!cfg.on) return { on: false };
@@ -869,14 +892,16 @@ export function createXp(d: {
       names([wallet]),
       pg.all<{ badge: number }>("select badge::int as badge from mine.badge_claims where wallet = ? order by badge", wallet).catch(() => []),
       pg.one<{ code: string }>("select code from mine.ref_codes where wallet = ?", wallet).catch(() => undefined),
-      pg.one<{ n: number }>("select count(*)::int as n from mine.xp_events where wallet = ? and source = 'share' and at >= ?", wallet, dayStart()),
+      // posts are counted overnight, so "lately" = posted since yesterday's UTC midnight
+      pg.one<{ n: number }>("select count(*)::int as n from mine.xp_events where wallet = ? and source = 'share' and at >= ?", wallet,
+        iso((Math.floor(now() / DAY_MS) - 1) * DAY_MS)),
     ]);
     const w = who.get(wallet);
     return { on: true, season: season(), wallet, nickname: w?.nickname ?? null, x: w?.x ?? null, avatar: w?.avatar ?? null,
       xp: r.xp, level: r.level, next: levelXp(r.level + 1), rank: rank >= 0 ? rank + 1 : null, of: c.ranked.length,
       sources: r.sources, flies: r.flies, active: r.active, streak_weeks: r.streakWeeks,
       multiplier: Math.min(RATES.streakCap, 1 + RATES.streakPerWeek * r.streakWeeks),
-      badges: badges.map((b) => b.badge), ref_code: code?.code ?? null, shared_today: (share?.n ?? 0) > 0,
+      badges: badges.map((b) => b.badge), ref_code: code?.code ?? null, shared_today: (share?.n ?? 0) > 0, shares_recent: share?.n ?? 0, share_xp: RATES.share, share_max: RATES.shareMax,
       boosts: (c.windows.get(wallet) ?? []).map((x) => ({ id: x.id, from: iso(x.from), to: iso(x.to), mult: x.mult,
         bonus: Math.round(x.bonus), penalty: Math.round(x.penalty), forfeited: x.forfeited })),
       team: cfg.exclude.includes(wallet) };
@@ -885,6 +910,7 @@ export function createXp(d: {
   /**
    * Once a UTC day, from 02:00: the posts that mention fly.ai since yesterday, matched to linked X accounts (no pasting).
    * Yesterday too, so a post from late the day before isn't missed; a post already booked is skipped by its ref.
+   * Each post also goes into mine.xp_quest_posts for the "post on X" daily quest (quests.ts settles it on its tick).
    */
   async function shares() {
     if (!search || now() >= cfg.end + DAY_MS) return;
@@ -893,10 +919,20 @@ export function createXp(d: {
     const since = new Date(now() - DAY_MS).toISOString().slice(0, 10);
     const posts = await search(since);
     const [links, paid] = await Promise.all([
-      pg.all<{ wallet: string; username: string; linked_at_ms: number }>("select wallet, username, linked_at_ms::float8 as linked_at_ms from mine.x_links"),
-      pg.all<{ wallet: string; day: string }>("select wallet, to_char(at at time zone 'UTC', 'YYYY-MM-DD') as day from mine.xp_events where source = 'share' and at >= ?", `${since}T00:00:00Z`),
+      pg.all<XLink>("select wallet, username, linked_at_ms::float8 as linked_at_ms from mine.x_links"),
+      pg.all<{ wallet: string; day: string; ref: string }>(`select wallet, to_char(at at time zone 'UTC', 'YYYY-MM-DD') as day, ref
+        from mine.xp_events where source = 'share' and at >= ?`, `${since}T00:00:00Z`),
     ]);
-    const events = sharesFrom(posts, links, new Set(paid.map((p) => `${p.wallet}:${p.day}`)), cfg.end);
+    const perDay = new Map<string, number>();
+    for (const p of paid) perDay.set(`${p.wallet}:${p.day}`, (perDay.get(`${p.wallet}:${p.day}`) ?? 0) + 1);
+    const events = sharesFrom(posts, links, { refs: new Set(paid.map((p) => p.ref)), perDay }, cfg.end);
+    const forQuest = linkedPosts(posts, links, cfg.end);
+    if (forQuest.length) {
+      await pg.run(`insert into mine.xp_quest_posts (post_id, wallet, day, posted_at)
+        select post_id, wallet, day::date, posted_at from jsonb_to_recordset(?::text::jsonb) as r(post_id text, wallet text, day text, posted_at timestamptz)
+        on conflict (post_id) do nothing`, JSON.stringify(forQuest.map((q) => ({ post_id: q.post.id, wallet: q.wallet, day: q.day, posted_at: iso(q.post.at) }))))
+        .catch((err) => console.error(`xp shares -> quests: ${err instanceof Error ? err.message : err}`));
+    }
     if (events.length) {
       await pg.run(`insert into mine.xp_events (wallet, source, ref, xp, at)
         select wallet, source, ref, xp, at from jsonb_to_recordset(?::text::jsonb) as r(wallet text, source text, ref text, xp float8, at timestamptz)

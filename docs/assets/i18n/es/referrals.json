@@ -33,10 +33,17 @@
   },
   "tiers": {
     "title": "Metas",
-    "th": { "at": "Referidos reales", "cut": "Tu parte", "fee": "Menos en tu comisión" },
+    "th": {
+      "at": "Referidos reales",
+      "cut": "Tu parte",
+      "fee": "Menos en tu comisión"
+    },
     "none": "–",
     "you": "tú",
-    "next": { "one": "{count} referido real más para {cut}% y {fee}% menos en tu comisión.", "other": "{count} referidos reales más para {cut}% y {fee}% menos en tu comisión." },
+    "next": {
+      "one": "{count} referido real más para {cut}% y {fee}% menos en tu comisión.",
+      "other": "{count} referidos reales más para {cut}% y {fee}% menos en tu comisión."
+    },
     "top": "Estás en el nivel más alto."
   },
   "by": {
@@ -50,7 +57,12 @@
   "list": {
     "title": "Tus referidos",
     "empty": "Nadie todavía. Comparte tu enlace.",
-    "th": { "who": "Amigo", "since": "Se unió", "status": "Estado", "earned": "Te ha dado" },
+    "th": {
+      "who": "Amigo",
+      "since": "Se unió",
+      "status": "Estado",
+      "earned": "Te ha dado"
+    },
     "real": "Real",
     "counting": "Con fondos, contando",
     "waiting": "Sin fondos aún"
@@ -70,5 +82,10 @@
     "real": "<b>Referidos reales.</b> Un amigo cuenta para una meta cuando mantiene al menos $20 en Fly Wallets durante 7 días, o recibe un pago del Fly Desk.",
     "new": "<b>Solo cuentas nuevas.</b> El enlace se usa cuando tu amigo inicia sesión por primera vez. Una cuenta nueva también puede escribir un código o apodo en su perfil, en sus primeros 14 días. Una vez fijado, no se puede cambiar.",
     "fair": "<b>Juego limpio.</b> Referirte a ti mismo o cultivar cuentas no cuenta, y esos referidos pueden eliminarse."
+  },
+  "amb": {
+    "title": "Hazte embajador",
+    "text": "¿Traes gente en tu idioma? Los embajadores tienen el nivel más alto desde el primer día, check azul y 50 XP al día.",
+    "btn": "Ver el programa de embajadores"
   }
 }

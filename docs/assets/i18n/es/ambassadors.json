@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "title": "Embajadores de fly.ai: representa a fly.ai en tu idioma",
+    "description": "Unos pocos embajadores de fly.ai, uno por idioma. Check azul, insignia soulbound, el nivel de referidos más alto desde el primer día, 50 XP al día y acceso anticipado. Solo se paga por resultados reales."
+  },
+  "head": {
+    "eyebrow": "Embajadores",
+    "title": "Representa a fly.ai en tu idioma",
+    "lede": "Estamos eligiendo unos pocos embajadores, uno por idioma: chino, coreano, turco, español y más. Ayudas a la gente de tu comunidad a empezar con Trader Flies y ganas con los usuarios reales que traes."
+  },
+  "get": {
+    "title": "Qué reciben los embajadores",
+    "check": "<b>Check azul</b> junto a tu nombre en todo fly.ai, y la <b>insignia de Embajador</b> soulbound en cadena.",
+    "tier": "<b>El nivel de referidos más alto desde el primer día</b>: 1,25% de las ganancias de Fly Wallets y pagos de Fly Desk de tus referidos, y la mitad de tu propia comisión, sin necesitar 50 referidos.",
+    "xp": "<b>50 XP al día</b> mientras tengas la insignia, además de todo lo demás. La XP cuenta para el drop de Año Nuevo.",
+    "discord": "<b>Rol de Embajador</b> y un canal privado con el equipo en Discord.",
+    "early": "<b>Acceso anticipado</b> a nuevas funciones, presets y cadenas antes que nadie, y los primeros puestos de creador cuando abra el launchpad."
+  },
+  "rules": {
+    "title": "Cómo funciona",
+    "few": "<b>Pocos y elegidos a mano.</b> De 3 a 5 personas, idealmente una por idioma. Postularse no garantiza un puesto.",
+    "results": "<b>Solo se paga por resultados.</b> Sin sueldo ni tokens nuevos: ganas por referidos, de las comisiones que fly.ai cobra a usuarios reales que depositan y se quedan. Si no traes a nadie, no cuesta nada.",
+    "new": "<b>Solo gente nueva.</b> Tu enlace funciona para cuentas nuevas, como cualquier enlace de referido.",
+    "fair": "<b>Juego limpio.</b> Sin promesas de precio, sin DMs en frío, sin farmear cuentas. Tras 60 días inactivo, la insignia y el rol se retiran.",
+    "review": "<b>Reunión mensual</b> con el equipo: a quién trajiste, qué funciona y qué necesitas."
+  },
+  "list": {
+    "title": "Embajadores actuales",
+    "none": "Aún no hay embajadores. Sé de los primeros.",
+    "since": "desde {date}"
+  },
+  "apply": {
+    "title": "Postúlate",
+    "signedOut": "Inicia sesión con tu wallet para postularte.",
+    "signIn": "Iniciar sesión",
+    "name": "Tu nombre o apodo",
+    "x": "Usuario de X",
+    "telegram": "Usuario de Telegram",
+    "lang": "Tu idioma",
+    "community": "¿De dónde traerías gente? (grupos, canales, cuántas personas)",
+    "why": "¿Por qué tú? ¿Qué harías como embajador?",
+    "send": "Enviar postulación",
+    "sent": "Postulación recibida. Te contactaremos por X o Telegram.",
+    "update": "Te postulaste el {date}. Enviarla de nuevo la reemplaza.",
+    "already": "Ya eres embajador. ¡Gracias!",
+    "failed": "No se pudo enviar: {error}",
+    "langs": {
+      "en": "Inglés",
+      "zh": "Chino",
+      "ko": "Coreano",
+      "tr": "Turco",
+      "es": "Español",
+      "other": "Otro"
+    }
+  }
+}

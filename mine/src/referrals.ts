@@ -18,6 +18,7 @@
  * A REAL referral (counts toward a tier): >= REAL_MIN_USD put into Fly Wallets and kept REAL_DAYS days running, or a
  * Fly Desk payout. Checked hourly (qualify).
  */
+import { AMBASSADOR_BADGE, AMBASSADOR_REAL } from "./ambassadors.ts";
 import { randomBytes } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Pg } from "./pg.ts";
@@ -108,6 +109,8 @@ export function createReferrals(d: ReferralsDeps) {
         `select at, source, usd, wallet, tx_hash, epoch, detail->>'month' as month from mine.ref_earnings where referrer = ? order by at desc limit 20`, me),
     ]);
     const real = refs.filter((r) => r.qualified_at).length;
+    // 2026-11-09 ambassadors (badge #12, ambassadors.ts) are on the top tier whatever their count
+    const ambassador = !!(await pg.one("select 1 from mine.badge_claims where badge = ? and wallet = ?", AMBASSADOR_BADGE, me).catch(() => null));
     const by = Object.fromEntries(earned.map((e) => [e.source, Number(e.usd) || 0]));
     const name = (w: string, nick: string | null) => nick ?? short(w);
     const nickOf = new Map(refs.map((r) => [r.wallet, r.nickname]));
@@ -115,7 +118,7 @@ export function createReferrals(d: ReferralsDeps) {
       wallet: me, code, link: `/?ref=${code}`,
       referrer: ref ? { name: name(ref.referrer, ref.nickname), via: ref.via, since: ref.set_at } : null,
       can_set: why === null, why_not: why, new_for_days: NEW_FOR_DAYS,
-      total: refs.length, real, ...tierOf(real),
+      total: refs.length, real, ambassador, ...tierOf(ambassador ? Math.max(real, AMBASSADOR_REAL) : real),
       earned: { wallet_usd: by.wallet ?? 0, desk_usd: by.desk ?? 0, mining_usd: by.mining ?? 0,
         total_usd: (by.wallet ?? 0) + (by.desk ?? 0) + (by.mining ?? 0) },
       referred: refs.map((r) => ({ name: name(r.wallet, r.nickname), since: r.set_at, real: !!r.qualified_at,

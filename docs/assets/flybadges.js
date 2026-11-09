@@ -10,12 +10,12 @@
   const LOCAL_API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get("api");
   const API = LOCAL_API || (window.flyNav && window.flyNav.MINE_API) || "https://flyai-mine.fly.dev";
   const NAMES = { larva: "Larva", lord: "Lord of the Flies", diamond: "Diamond Wings", og: "OG", flyowner: "Fly Owner",
-    swarm: "Swarm", queen: "Queen of the Hive", payday: "Payday", payroll: "On Payroll", recruiter: "Recruiter", piedpiper: "Pied Piper" };
+    swarm: "Swarm", queen: "Queen of the Hive", payday: "Payday", payroll: "On Payroll", recruiter: "Recruiter", piedpiper: "Pied Piper", ambassador: "Ambassador" };
   const EN = {
     title: "Your badges", count: "{n} of {of} in your wallet", loading: "Loading…", soon: "Badges open soon.",
     ready: "{n} ready to claim", open: "See all badges", close: "Close", failed: "Couldn't load your badges.",
     held: "In your wallet", claimable: "Ready to claim", progress: "{days} of {need} days", progressPayouts: "{n} of {need} payouts", progressReferrals: "{n} of {need} referrals",
-    revoked: "Removed", team: "Not for team wallets", closed: "Not earned", holders: "Holders: {n}",
+    revoked: "Removed", team: "Not for team wallets", closed: "Not earned", invite: "Invite only", holders: "Holders: {n}",
     common: "Common", uncommon: "Uncommon", rare: "Rare", legendary: "Legendary",
   };
 

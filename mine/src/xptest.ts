@@ -6,7 +6,7 @@
  *   npm run test:xp
  */
 import type { ServerResponse } from "node:http";
-import { accrue, badgeXp, boostResult, createXp, dailyGains, depositXp, levelOf, newHolder, saleXp, sharesFrom, streakMult, xpConfig, type Chain, type Log } from "./xp.ts";
+import { accrue, badgeXp, boostResult, createXp, dailyGains, depositXp, levelOf, newHolder, saleXp, SHARE_QUERY, sharesFrom, streakMult, xpConfig, type Chain, type Log } from "./xp.ts";
 import { FLYAI } from "./gta.ts";
 import { startPg } from "./pgtest.ts";
 
@@ -57,16 +57,23 @@ const POOL = "0x8366a39cc670b4001a1121b8f6a443a643e40951";
   check("deposits: capped by principal still in", depositXp(50, 30) === 300 && depositXp(50, 80) === 500 && depositXp(50, 0) === 0);
   check("levels: 49 -> 0, 50 -> 1, 200 -> 2, 5000 -> 10", levelOf(49) === 0 && levelOf(50) === 1 && levelOf(200) === 2 && levelOf(5000) === 10);
   const links = [{ wallet: "0xa", username: "Alice", linked_at_ms: 10 * DAY }];
+  const fresh = () => ({ refs: new Set<string>(), perDay: new Map<string, number>() });
   const ev = sharesFrom([
     { id: "100001", author: "alice", at: 11 * DAY + 5, reply: false },          // counts (any case)
-    { id: "100002", author: "alice", at: 11 * DAY + 9, reply: false },          // same day: no
+    { id: "100002", author: "alice", at: 11 * DAY + 9, reply: false },          // same day: counts too (up to 5)
     { id: "100003", author: "alice", at: 12 * DAY + 1, reply: true },           // a reply: no
     { id: "100004", author: "alice", at: 9 * DAY, reply: false },               // before linking: no
     { id: "100005", author: "bob", at: 12 * DAY, reply: false },                // not linked: no
     { id: "100006", author: "alice", at: 12 * DAY + 2, reply: false },          // next day: counts
-  ], links, new Set(), Infinity);
-  check("shares: one a day per linked account, no replies, nothing before linking", ev.map((e) => e.ref).join() === "x:100001,x:100006" && ev.every((e) => e.xp === 20), ev.map((e) => e.ref).join());
-  check("shares: a day already paid stays paid", sharesFrom([{ id: "100007", author: "alice", at: 11 * DAY, reply: false }], links, new Set(["0xa:1970-01-12"]), Infinity).length === 0);
+    { id: "100006", author: "alice", at: 12 * DAY + 2, reply: false },          // the same post twice: once
+  ], links, fresh(), Infinity);
+  check("shares: every post a day, no replies, nothing before linking, each post once", ev.map((e) => e.ref).join() === "x:100001,x:100002,x:100006" && ev.every((e) => e.xp === 20), ev.map((e) => e.ref).join());
+  const many = sharesFrom(Array.from({ length: 8 }, (_, i) => ({ id: String(200000 + i), author: "alice", at: 11 * DAY + i, reply: false })), links, fresh(), Infinity);
+  check("shares: at most 5 a day", many.length === 5);
+  check("shares: a day's earlier posts count toward the 5, a paid post stays paid",
+    sharesFrom([{ id: "100007", author: "alice", at: 11 * DAY, reply: false }, { id: "100008", author: "alice", at: 11 * DAY + 1, reply: false }], links,
+      { refs: new Set(["x:100007"]), perDay: new Map([["0xa:1970-01-12", 4]]) }, Infinity).map((e) => e.ref).join() === "x:100008");
+  check("the search asks for the cashtag and the name too", SHARE_QUERY.includes("$FLYAI") && SHARE_QUERY.includes('"fly.ai"') && SHARE_QUERY.includes("@flydotai"));
   const g = dailyGains([{ day: "2026-11-01", sources: { hold: 100, market: 20 } }, { day: "2026-11-02", sources: { hold: 130, market: 40, x: 50 } }, { day: "2026-11-03", sources: { hold: 130 } }]);
   check("daily gains: day minus the day before, events left out, quiet days dropped",
     g.length === 2 && g[0].first && g[0].sources.hold === 100 && !("market" in g[0].sources) && g[1].sources.hold === 30 && g[1].sources.x === 50, JSON.stringify(g));
@@ -204,7 +211,9 @@ try {
   await xp.shares();
   check("the search runs once a day", searches === 1, String(searches));
   a = await prof(A);
-  check("the linked account's post counts once: +20", a.sources.share === 20, JSON.stringify(a.sources));
+  check("each of the linked account's posts counts once: +20 each", a.sources.share === 40, JSON.stringify(a.sources));
+  check("the posts go to the X quest too", (await pg.all("select post_id from mine.xp_quest_posts where post_id in ('111111', '222222')")).length === 2);
+  check("the profile shows the posts counted lately", (await xp.profile(A) as any).shares_recent === 2);
 
   // the log
   await xp.snapshot();

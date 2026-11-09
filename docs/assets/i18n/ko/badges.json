@@ -30,7 +30,8 @@
     "progressReferrals": "추천 {n} / {need}명",
     "revoked": "제거됨",
     "team": "팀 지갑 제외",
-    "closed": "획득하지 못함"
+    "closed": "획득하지 못함",
+    "invite": "초대 전용"
   },
   "holders": "보유자 {n}명",
   "rarity": {
@@ -40,17 +41,54 @@
     "legendary": "전설"
   },
   "list": {
-    "larva": { "name": "Larva", "need": "100,000개 이상의 $FLYAI를 7일 연속 보유하세요." },
-    "lord": { "name": "Lord of the Flies", "need": "10,000,000개 이상의 $FLYAI를 30일 연속 보유하세요." },
-    "diamond": { "name": "Diamond Wings", "need": "100,000개 이상의 $FLYAI를 그 아래로 떨어지지 않고 90일 동안 보유하세요." },
-    "og": { "name": "OG", "need": "토큰의 첫 14일이 끝날 때 10,000개 이상의 $FLYAI를 보유했고 지금도 그 이상 보유 중입니다." },
-    "flyowner": { "name": "Fly Owner", "need": "Trader Fly를 30일 동안 보유하세요." },
-    "swarm": { "name": "Swarm", "need": "Trader Fly 10마리 이상을 30일 연속 보유하세요." },
-    "queen": { "name": "Queen of the Hive", "need": "Trader Fly 50마리 이상을 30일 연속 보유하세요." },
-    "payday": { "name": "Payday", "need": "Fly Desk 지급금을 4번 받으세요." },
-    "payroll": { "name": "On Payroll", "need": "Fly Desk 지급금을 8번 받으세요." },
-    "recruiter": { "name": "Recruiter", "need": "실제 추천 1명을 데려오세요: Fly Wallets에 $20 이상을 7일 동안 유지하거나 Fly Desk 지급금 수령." },
-    "piedpiper": { "name": "Pied Piper", "need": "실제 추천 10명을 데려오세요." }
+    "larva": {
+      "name": "Larva",
+      "need": "100,000개 이상의 $FLYAI를 7일 연속 보유하세요."
+    },
+    "lord": {
+      "name": "Lord of the Flies",
+      "need": "10,000,000개 이상의 $FLYAI를 30일 연속 보유하세요."
+    },
+    "diamond": {
+      "name": "Diamond Wings",
+      "need": "100,000개 이상의 $FLYAI를 그 아래로 떨어지지 않고 90일 동안 보유하세요."
+    },
+    "og": {
+      "name": "OG",
+      "need": "토큰의 첫 14일이 끝날 때 10,000개 이상의 $FLYAI를 보유했고 지금도 그 이상 보유 중입니다."
+    },
+    "flyowner": {
+      "name": "Fly Owner",
+      "need": "Trader Fly를 30일 동안 보유하세요."
+    },
+    "swarm": {
+      "name": "Swarm",
+      "need": "Trader Fly 10마리 이상을 30일 연속 보유하세요."
+    },
+    "queen": {
+      "name": "Queen of the Hive",
+      "need": "Trader Fly 50마리 이상을 30일 연속 보유하세요."
+    },
+    "payday": {
+      "name": "Payday",
+      "need": "Fly Desk 지급금을 4번 받으세요."
+    },
+    "payroll": {
+      "name": "On Payroll",
+      "need": "Fly Desk 지급금을 8번 받으세요."
+    },
+    "recruiter": {
+      "name": "Recruiter",
+      "need": "실제 추천 1명을 데려오세요: Fly Wallets에 $20 이상을 7일 동안 유지하거나 Fly Desk 지급금 수령."
+    },
+    "piedpiper": {
+      "name": "Pied Piper",
+      "need": "실제 추천 10명을 데려오세요."
+    },
+    "ambassador": {
+      "name": "앰배서더",
+      "need": "초대 전용: fly.ai 앰배서더에게 주어집니다."
+    }
   },
   "share": {
     "x": "X에 공유",

@@ -30,7 +30,8 @@
     "progressReferrals": "{n} / {need} 位推薦",
     "revoked": "已移除",
     "team": "不適用於團隊錢包",
-    "closed": "未獲得"
+    "closed": "未獲得",
+    "invite": "僅限邀請"
   },
   "holders": "{n} 位持有者",
   "rarity": {
@@ -40,17 +41,54 @@
     "legendary": "傳奇"
   },
   "list": {
-    "larva": { "name": "Larva", "need": "連續 7 天持有 100,000 以上 $FLYAI。" },
-    "lord": { "name": "Lord of the Flies", "need": "連續 30 天持有 10,000,000 以上 $FLYAI。" },
-    "diamond": { "name": "Diamond Wings", "need": "持有 100,000 以上 $FLYAI 達 90 天,期間不低於該數量。" },
-    "og": { "name": "OG", "need": "代幣前 14 天結束時持有 10,000 以上 $FLYAI,且現在仍持有至少同等數量。" },
-    "flyowner": { "name": "Fly Owner", "need": "持有一隻 Trader Fly 達 30 天。" },
-    "swarm": { "name": "Swarm", "need": "連續 30 天持有 10 隻以上 Trader Fly。" },
-    "queen": { "name": "Queen of the Hive", "need": "連續 30 天持有 50 隻以上 Trader Fly。" },
-    "payday": { "name": "Payday", "need": "領取 4 次 Fly Desk 分紅。" },
-    "payroll": { "name": "On Payroll", "need": "領取 8 次 Fly Desk 分紅。" },
-    "recruiter": { "name": "Recruiter", "need": "帶來 1 位真實推薦:在 Fly Wallets 持有 $20 以上達 7 天,或獲得一次 Fly Desk 分紅。" },
-    "piedpiper": { "name": "Pied Piper", "need": "帶來 10 位真實推薦。" }
+    "larva": {
+      "name": "Larva",
+      "need": "連續 7 天持有 100,000 以上 $FLYAI。"
+    },
+    "lord": {
+      "name": "Lord of the Flies",
+      "need": "連續 30 天持有 10,000,000 以上 $FLYAI。"
+    },
+    "diamond": {
+      "name": "Diamond Wings",
+      "need": "持有 100,000 以上 $FLYAI 達 90 天,期間不低於該數量。"
+    },
+    "og": {
+      "name": "OG",
+      "need": "代幣前 14 天結束時持有 10,000 以上 $FLYAI,且現在仍持有至少同等數量。"
+    },
+    "flyowner": {
+      "name": "Fly Owner",
+      "need": "持有一隻 Trader Fly 達 30 天。"
+    },
+    "swarm": {
+      "name": "Swarm",
+      "need": "連續 30 天持有 10 隻以上 Trader Fly。"
+    },
+    "queen": {
+      "name": "Queen of the Hive",
+      "need": "連續 30 天持有 50 隻以上 Trader Fly。"
+    },
+    "payday": {
+      "name": "Payday",
+      "need": "領取 4 次 Fly Desk 分紅。"
+    },
+    "payroll": {
+      "name": "On Payroll",
+      "need": "領取 8 次 Fly Desk 分紅。"
+    },
+    "recruiter": {
+      "name": "Recruiter",
+      "need": "帶來 1 位真實推薦:在 Fly Wallets 持有 $20 以上達 7 天,或獲得一次 Fly Desk 分紅。"
+    },
+    "piedpiper": {
+      "name": "Pied Piper",
+      "need": "帶來 10 位真實推薦。"
+    },
+    "ambassador": {
+      "name": "大使",
+      "need": "僅限邀請：授予 fly.ai 大使。"
+    }
   },
   "share": {
     "x": "分享到 X",

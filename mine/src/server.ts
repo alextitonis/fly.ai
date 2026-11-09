@@ -47,6 +47,7 @@ import { createPartners } from "./partners.ts";
 import { createProfiles } from "./profiles.ts";
 import { createXLink } from "./xlink.ts";
 import { createReferrals } from "./referrals.ts";
+import { createAmbassadors } from "./ambassadors.ts";
 import { createBounties } from "./bounties.ts";
 import { blockscoutTransfers, createDeskChat, TEAM as CHAT_TEAM_WALLETS } from "./deskchat.ts";
 import { buyWeekConfig, createBuyWeek } from "./buyweek.ts";
@@ -3760,6 +3761,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p === "/api/referral" || p.startsWith("/api/referral/"))) {
     if (await referrals.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p === "/api/ambassadors" || p.startsWith("/api/ambassadors/"))) {
+    if (await ambassadors.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p.startsWith("/api/bounties") || p.startsWith("/api/admin/bounties"))) {
     if (await bounties.route(req, res, url)) return;
   }
@@ -4142,6 +4146,8 @@ const xLink = createXLink({ pg, HttpError, send, readJson, sessionWallet: sessio
 // referrals (src/referrals.ts): links, the set-once referrer, real referrals (hourly), the page's numbers
 const referrals = createReferrals({ pg, HttpError, send, readJson, sessionWallet: sessionAddress });
 if (USER) referrals.start();
+// ambassadors (src/ambassadors.ts, 2026-11-09): badge #12 holders, the application form, the admin list
+const ambassadors = createAmbassadors({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, isAdmin });
 // bounties (src/bounties.ts): the team posts them on /bounties, signed-in wallets enter; admins = BOUNTY_ADMINS wallets
 const bounties = createBounties({
   pg, HttpError, send, readJson, sessionWallet: sessionAddress, isAdminToken: isAdmin,

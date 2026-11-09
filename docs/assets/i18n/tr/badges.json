@@ -30,7 +30,8 @@
     "progressReferrals": "{n} / {need} referans",
     "revoked": "Kaldırıldı",
     "team": "Ekip cüzdanları için değil",
-    "closed": "Kazanılmadı"
+    "closed": "Kazanılmadı",
+    "invite": "Yalnızca davetle"
   },
   "holders": "Sahip: {n}",
   "rarity": {
@@ -40,17 +41,54 @@
     "legendary": "Efsanevi"
   },
   "list": {
-    "larva": { "name": "Larva", "need": "7 gün boyunca kesintisiz 100.000+ $FLYAI tut." },
-    "lord": { "name": "Lord of the Flies", "need": "30 gün boyunca kesintisiz 10.000.000+ $FLYAI tut." },
-    "diamond": { "name": "Diamond Wings", "need": "90 gün boyunca altına düşmeden 100.000+ $FLYAI tut." },
-    "og": { "name": "OG", "need": "Token'ın ilk 14 günü bittiğinde 10.000+ $FLYAI tutuyordun ve hâlâ en az o kadar tutuyorsun." },
-    "flyowner": { "name": "Fly Owner", "need": "30 gün boyunca bir Trader Fly tut." },
-    "swarm": { "name": "Swarm", "need": "30 gün boyunca kesintisiz 10+ Trader Fly tut." },
-    "queen": { "name": "Queen of the Hive", "need": "30 gün boyunca kesintisiz 50+ Trader Fly tut." },
-    "payday": { "name": "Payday", "need": "4 Fly Desk ödemesi al." },
-    "payroll": { "name": "On Payroll", "need": "8 Fly Desk ödemesi al." },
-    "recruiter": { "name": "Recruiter", "need": "1 gerçek referans getir: 7 gün boyunca Fly Wallets'ta $20+ veya bir Fly Desk ödemesi." },
-    "piedpiper": { "name": "Pied Piper", "need": "10 gerçek referans getir." }
+    "larva": {
+      "name": "Larva",
+      "need": "7 gün boyunca kesintisiz 100.000+ $FLYAI tut."
+    },
+    "lord": {
+      "name": "Lord of the Flies",
+      "need": "30 gün boyunca kesintisiz 10.000.000+ $FLYAI tut."
+    },
+    "diamond": {
+      "name": "Diamond Wings",
+      "need": "90 gün boyunca altına düşmeden 100.000+ $FLYAI tut."
+    },
+    "og": {
+      "name": "OG",
+      "need": "Token'ın ilk 14 günü bittiğinde 10.000+ $FLYAI tutuyordun ve hâlâ en az o kadar tutuyorsun."
+    },
+    "flyowner": {
+      "name": "Fly Owner",
+      "need": "30 gün boyunca bir Trader Fly tut."
+    },
+    "swarm": {
+      "name": "Swarm",
+      "need": "30 gün boyunca kesintisiz 10+ Trader Fly tut."
+    },
+    "queen": {
+      "name": "Queen of the Hive",
+      "need": "30 gün boyunca kesintisiz 50+ Trader Fly tut."
+    },
+    "payday": {
+      "name": "Payday",
+      "need": "4 Fly Desk ödemesi al."
+    },
+    "payroll": {
+      "name": "On Payroll",
+      "need": "8 Fly Desk ödemesi al."
+    },
+    "recruiter": {
+      "name": "Recruiter",
+      "need": "1 gerçek referans getir: 7 gün boyunca Fly Wallets'ta $20+ veya bir Fly Desk ödemesi."
+    },
+    "piedpiper": {
+      "name": "Pied Piper",
+      "need": "10 gerçek referans getir."
+    },
+    "ambassador": {
+      "name": "Elçi",
+      "need": "Yalnızca davetle: fly.ai elçilerine verilir."
+    }
   },
   "share": {
     "x": "X'te paylaş",

@@ -255,9 +255,10 @@
       "todayBurnWait": "Yakımın geçmesi bekleniyor…",
       "todayBurnDone": "🔥 Yakıldı. İşte yeni görevin.",
       "todayBurnLeft": "🔥 Yakımla yeni görev: bugün {max} hakkın {n} tanesi kaldı",
-      "todayPostPh": "Gönderinin linkini yapıştır",
-      "todayPostGo": "Kontrol et",
-      "todayPostDone": "Gönderi sayıldı ✓"
+      "todayPostNight": "Gece sayılır: bağlı X hesabından her gönderi (yanıtlar hariç) +20 XP, günde en fazla 5, bu görev ertesi sabah tamamlanır",
+      "todayRefTitle": "Davet görevleri",
+      "todayRefQuest": "{n} gerçek davet getir",
+      "todayRefHint": "Her biri bir kez. Bir arkadaş Fly Cüzdanlarında 7 gün $20+ tuttuğunda sayılır."
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -338,6 +339,10 @@
     "xp": {
       "label": "XP Sezonu",
       "desc": "Airdrop için XP kazan"
+    },
+    "ambassadors": {
+      "label": "Elçiler",
+      "desc": "fly.ai'yi kendi dilinde temsil et"
     }
   },
   "footer": {
@@ -381,7 +386,8 @@
     "progressPayouts": "{n} / {need} ödeme",
     "revoked": "Kaldırıldı",
     "team": "Ekip cüzdanları için değil",
-    "closed": "Kazanılmadı"
+    "closed": "Kazanılmadı",
+    "invite": "Yalnızca davetle"
   },
   "lock": {
     "button": "🔒 {amount} FLYAI kilitli",
@@ -421,11 +427,11 @@
     "refCode": "Davet kodu",
     "board": "XP liderlik tablosu",
     "share": "X'te paylaş",
-    "shareHint": "Bağlı X hesabından fly.ai hakkında paylaş: her gece kendiliğinden sayılır, günde bir kez +20 XP.",
+    "shareHint": "Bağlı X hesabından fly.ai hakkında (@flydotai, $FLYAI veya fly.ai) paylaş: gönderiler gece sayılır, her biri +20 XP (yanıtlar hariç), günde en fazla 5.",
     "sharePh": "https://x.com/sen/status/…",
     "shareBtn": "Ekle",
     "shareOk": "+{n} XP",
-    "shareDone": "Bugünkü gönderin sayıldı: +20 XP.",
+    "shareDone": "Son 2 günde sayılan: {n} gönderi, +{xp} XP.",
     "connectX": "Gönderilerinden XP kazanmak için yukarıdan X hesabını bağla.",
     "seasonEnds": "XP airdrop'a sayılır.",
     "seasonOver": "Sezon 1 bitti. XP airdrop'a sayıldı.",
@@ -459,7 +465,7 @@
     "h_bug": "<b>Bir hata bul</b> ve ekibe bildir: ciddiyetine göre XP, elle verilir.",
     "h_badges": "Aldığın <b>rozetler</b>: yaygın 25, nadir olmayan 100, nadir 250, efsanevi 500.",
     "h_referrals": "<b>Davetler</b>: getirdiğin her gerçek davetlinin XP'sinin +%10'u.",
-    "h_x": "<b>X</b>: hesabını bağlamak 50 XP, fly.ai hakkında günde bir gönderi 20 XP (her gece otomatik sayılır).",
+    "h_x": "<b>X</b>: hesabını bağlamak 50 XP, fly.ai hakkındaki her gönderi 20 XP, günde en fazla 5 (gece otomatik sayılır).",
     "h_flybook": "<b>Flybook</b>: beğeni, yorum, dürtme ya da altyazı yaptığın her gün 5 XP (tutanlar ve sinek sahipleri için).",
     "h_foot": "Ekip cüzdanları ve sinek cüzdanları sıralanmaz. Seviyeler: 50 XP'de 1, 200'de 2, 450'de 3, 5.000'de 10.",
     "log": "XP kaydı",
@@ -475,7 +481,11 @@
     "s_boost": "2x XP bonusu",
     "s_penalty": "2x XP: satışlar ve çekimler",
     "logBoost": "{mult}x",
-    "h_boost": "<b>2x XP günleri</b>: bazı günler ekip alımlar, yatırımlar, besleme, işlemler, üretme ve pass yakma için XP'yi ikiye katlar. O sırada satışlar ve çekimler de iki kat düşer; bittikten sonraki 3 gün içinde satış yaparsan bonus geri alınır."
+    "h_boost": "<b>2x XP günleri</b>: bazı günler ekip alımlar, yatırımlar, besleme, işlemler, üretme ve pass yakma için XP'yi ikiye katlar. O sırada satışlar ve çekimler de iki kat düşer; bittikten sonraki 3 gün içinde satış yaparsan bonus geri alınır.",
+    "s_ambassador": "Elçi",
+    "s_refquest": "Davet görevleri",
+    "h_refquest": "<b>Davet görevleri</b>: 1, 3, 5, 10 ve 25 gerçek davette bir kerelik 25, 50, 100, 250 ve 500 XP.",
+    "h_ambassador": "<b>Elçiler</b>: Elçi rozetini tuttuğun her gün 50 XP."
   },
   "flychat": {
     "title": "Sinek #{id}",

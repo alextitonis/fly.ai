@@ -35,8 +35,13 @@
  *                quest even if its quest is done, and it pays again. At most QUEST_RATES.paidMax a day per wallet (the XP
  *                drop stays a game, not a price list). A paid slot only counts what is done after its burn (paying
  *                for a quest done earlier that day is not a quest); each burn transaction counts once.
- *   POST /api/xp/quest/buy-reroll { group, tx }   POST /api/xp/quest/xpost { url }
+ *   POST /api/xp/quest/buy-reroll { group, tx }
  *   Tables mine.xp_quest_buys, mine.xp_quest_posts (20261107120000_mine_xp_quest_buys.sql).
+ *
+ * 2026-11-09 (the user: "add in daily quests to post about the project ... just note it'll be counted at night"):
+ *   xpost        no pasting any more: the nightly X search in xp.ts (shares()) puts each post from a linked X account
+ *                into mine.xp_quest_posts, and the tick settles that day's quests for those wallets, so the quest shows
+ *                done the morning after (yesterday's day). The page says so.
  */
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Arg, Pg } from "./pg.ts";
@@ -46,6 +51,9 @@ const DAY_MS = 86_400_000;
 export const QUEST_RATES = { checkin: 2, quest: 2, allDone: 4, milestones: { 7: 10, 14: 20, 30: 50 } as Record<number, number>,
   every30: 50, freezeEvery: 7, freezeMax: 2, minHold: 10_000n * 10n ** 18n, topupUsd: 10,
   rerollBurn: 20_000, paidMax: 5 };
+/** Referral quests (2026-11-09, the user: "add referral quests, just not in the daily"): one-off XP the first time a
+ *  wallet reaches each count of REAL referrals (referrals.ts: $20+ in Fly Wallets for 7 days, or a desk payout). */
+export const REF_QUESTS: [number, number][] = [[1, 25], [3, 50], [5, 100], [10, 250], [25, 500]];
 export const GROUPS = ["visit", "social", "move"] as const;
 export type Group = (typeof GROUPS)[number];
 /** the lists before QUESTS_FROM (each day's picks stay as they were) */
@@ -83,10 +91,6 @@ export function questAt(wallet: string, day: string, g: Group, reroll: Group | n
   const n = (hash(`${wallet.toLowerCase()}:${day}:${GROUPS.indexOf(g)}`) + (reroll === g ? 1 : 0) + slot) % list.length;
   return list[n];
 }
-/** an X post's id from its link (x.com or twitter.com, any user path) */
-export const postIdOf = (url: string) => /^https?:\/\/(?:www\.|mobile\.)?(?:x|twitter)\.com\/[A-Za-z0-9_]+\/status\/(\d{5,25})/.exec(url.trim())?.[1] ?? null;
-/** does the post's text talk about fly.ai? */
-export const aboutFly = (text: string) => /@flydotai|\$flyai|fly\.ai|flyaiworld/i.test(text);
 
 export type Streak = { days: number; best: number; freezes: number; last: string | null };
 /**
@@ -118,6 +122,7 @@ export type Today = {
   quests: { id: string; group: Group; done: boolean; xp: number; slot: number }[]; all_done: boolean; reroll_used: boolean;
   paid: { burn_flyai: number; max: number; used: number; token: string; burn_fn: "burn" };
   rates: { checkin: number; quest: number; all: number; milestones: Record<number, number> };
+  referrals: { real: number; quests: { need: number; xp: number; done: boolean }[] };
 };
 
 export function createQuests(d: {
@@ -130,18 +135,12 @@ export function createQuests(d: {
   on?: boolean;
   rpc?: string;
   receipt?: (tx: string) => Promise<Receipt>;
-  fetchJson?: (url: string) => Promise<any>;
 }) {
   const { pg, HttpError } = d;
   const receipt = d.receipt ?? (async (tx: string) => {
     const r = await fetch(d.rpc ?? "https://rpc.mainnet.chain.robinhood.com", { method: "POST", signal: AbortSignal.timeout(15_000),
       headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_getTransactionReceipt", params: [tx] }) });
     return ((await r.json()) as { result?: Receipt }).result ?? null;
-  });
-  const fetchJson = d.fetchJson ?? (async (url: string) => {
-    const r = await fetch(url, { signal: AbortSignal.timeout(15_000), headers: { "user-agent": "fly.ai quests" } });
-    if (!r.ok) throw new HttpError(r.status === 404 ? 404 : 502, r.status === 404 ? "that post wasn't found (deleted or private?)" : "X can't be read right now: try again in a minute");
-    return r.json();
   });
   const now = d.now ?? Date.now;
   const on = d.on !== false;
@@ -249,6 +248,16 @@ export function createQuests(d: {
       await settle(wallet, day, reroll);
       await pg.run(`insert into mine.xp_checkins (wallet, seen_day) values (?, ?) on conflict (wallet) do update set seen_day = excluded.seen_day`, wallet, day);
     }
+    // referral quests: booked once per count reached, while the season runs (team wallets earn no XP)
+    const real = (await pg.one<{ n: number }>("select count(*)::int as n from mine.referrals where referrer = ? and qualified_at is not null", wallet)
+      .catch(() => null))?.n ?? 0;
+    if (on && !ended() && !d.exclude.includes(wallet)) {
+      for (const [need, xp] of REF_QUESTS) if (real >= need) {
+        await pg.run("insert into mine.xp_events (wallet, source, ref, xp, at) values (?, 'refquest', ?, ?, ?) on conflict (ref) do nothing",
+          wallet, `refquest:${wallet}:${need}`, xp, new Date(now()).toISOString()).catch(() => null);   // before its migration: no XP yet, the panel still works
+      }
+    }
+    const refDone = new Set((await pg.all<{ ref: string }>("select ref from mine.xp_events where wallet = ? and source = 'refquest'", wallet)).map((x) => x.ref));
     const refs = new Set((await pg.all<{ ref: string }>("select ref from mine.xp_events where wallet = ? and ref like ?",
       wallet, `%:${wallet}:${day}%`)).map((x) => x.ref));
     // each group shows the quest that paid, or else the one in play; after a paid reroll, that slot's quest
@@ -265,6 +274,7 @@ export function createQuests(d: {
       all_done: refs.has(`quest:${wallet}:${day}:all`), reroll_used: !!reroll,
       paid: { burn_flyai: QUEST_RATES.rerollBurn, max: QUEST_RATES.paidMax, used: buys.length, token: FLYAI, burn_fn: "burn" },
       rates: { checkin: QUEST_RATES.checkin, quest: QUEST_RATES.quest, all: QUEST_RATES.allDone, milestones: QUEST_RATES.milestones },
+      referrals: { real, quests: REF_QUESTS.map(([need, xp]) => ({ need, xp, done: refDone.has(`refquest:${wallet}:${need}`) })) },
     };
   }
 
@@ -347,30 +357,6 @@ export function createQuests(d: {
     return { today: await today(wallet) };
   }
 
-  /** the "post about fly.ai on X" quest: the pasted post, read on fxtwitter - from the wallet's connected X, about fly.ai,
-   *  posted today (UTC); each post counts once */
-  async function xpost(wallet: string, url: string) {
-    const id = postIdOf(url);
-    if (!id) throw new HttpError(400, "paste the link to your post on X");
-    if (!(await eligible(wallet))) throw new HttpError(403, "hold 10,000 $FLYAI or a Trader Fly to do quests");
-    const link = await pg.one<{ username: string }>("select username from mine.x_links where wallet = ?", wallet).catch(() => null);
-    if (!link?.username) throw new HttpError(409, "connect your X account first (profile page), so we know the post is yours");
-    if (await pg.one("select 1 from mine.xp_quest_posts where post_id = ?", id)) throw new HttpError(409, "that post was counted already");
-    const got = await fetchJson(`https://api.fxtwitter.com/status/${id}`);
-    const tw = got?.tweet;
-    if (!tw) throw new HttpError(404, "that post wasn't found (deleted or private?)");
-    if (String(tw.author?.screen_name ?? "").toLowerCase() !== link.username.toLowerCase()) {
-      throw new HttpError(403, `that post is by @${tw.author?.screen_name}, not your connected X (@${link.username})`);
-    }
-    const postedMs = Number(tw.created_timestamp ?? 0) * 1000;
-    const day = dayOf(now());
-    if (dayOf(postedMs) !== day) throw new HttpError(409, "the post has to be from today (UTC)");
-    if (!aboutFly(String(tw.text ?? ""))) throw new HttpError(400, "the post has to mention @flydotai or $FLYAI");
-    await pg.run(`insert into mine.xp_quest_posts (post_id, wallet, day, posted_at) values (?, ?, ?, ?) on conflict (post_id) do nothing`,
-      id, wallet, day, new Date(postedMs).toISOString());
-    return { today: await today(wallet) };
-  }
-
   /** each tick: today's quests for the wallets that looked at them today, so a quest done later still books */
   async function tick() {
     if (!on || ended()) return;
@@ -380,6 +366,16 @@ export function createQuests(d: {
     for (const r of rows) {
       try { await settle(r.wallet, day, r.reroll_day === day ? (r.reroll as Group | null) : null); }
       catch (err) { console.error(`quests ${r.wallet}: ${err instanceof Error ? err.message : err}`); }
+    }
+    // X posts come in overnight (xp.ts shares()): settle the day of each post from yesterday on, for its wallet. A day's
+    // swap is only kept while it is the wallet's latest one; an older day without it takes its own picks.
+    const posted = await pg.all<{ wallet: string; day: string; reroll_day: string | null; reroll: string | null }>(
+      `select distinct p.wallet, to_char(p.day, 'YYYY-MM-DD') as day, to_char(c.reroll_day, 'YYYY-MM-DD') as reroll_day, c.reroll
+       from mine.xp_quest_posts p left join mine.xp_checkins c on c.wallet = p.wallet where p.day >= ?`, dayOf(dayMs(day) - DAY_MS))
+      .catch(() => [] as { wallet: string; day: string; reroll_day: string | null; reroll: string | null }[]);
+    for (const r of posted) {
+      try { await settle(r.wallet, r.day, r.reroll_day === r.day ? (r.reroll as Group | null) : null); }
+      catch (err) { console.error(`quests ${r.wallet} (post): ${err instanceof Error ? err.message : err}`); }
     }
   }
 
@@ -410,7 +406,6 @@ export function createQuests(d: {
       const b = await d.readJson(req);
       return d.send(res, 200, await buyReroll(wallet, String(b?.group ?? ""), String(b?.tx ?? "").toLowerCase())), true;
     }
-    if (req.method === "POST" && p === "/api/xp/quest/xpost") return d.send(res, 200, await xpost(wallet, String((await d.readJson(req))?.url ?? ""))), true;
     return false;
   }
 
@@ -419,5 +414,5 @@ export function createQuests(d: {
     setInterval(() => void tick().catch((err) => console.error(`quests: ${err instanceof Error ? err.message : err}`)), everyMs).unref();
   }
 
-  return { route, start, tick, today, checkin, visit, reroll, settle, streaks, buyReroll, xpost };
+  return { route, start, tick, today, checkin, visit, reroll, settle, streaks, buyReroll };
 }

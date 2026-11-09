@@ -255,9 +255,10 @@
       "todayBurnWait": "等待銷毀完成…",
       "todayBurnDone": "🔥 已銷毀。這是你的新任務。",
       "todayBurnLeft": "🔥 銷毀換新任務：今天還剩 {n}/{max} 次",
-      "todayPostPh": "貼上你的貼文連結",
-      "todayPostGo": "檢查",
-      "todayPostDone": "貼文已計入 ✓"
+      "todayPostNight": "夜間統計：已綁定 X 帳號的每則貼文（回覆除外）+20 XP，每天最多 5 則，隔天早上此任務打勾",
+      "todayRefTitle": "推薦任務",
+      "todayRefQuest": "帶來 {n} 個有效推薦",
+      "todayRefHint": "每項只獎勵一次。朋友在 Fly 錢包中保持 $20+ 達 7 天即算有效。"
     },
     "terminal": {
       "label": "Fly 終端",
@@ -338,6 +339,10 @@
     "xp": {
       "label": "XP 賽季",
       "desc": "賺取 XP，計入空投"
+    },
+    "ambassadors": {
+      "label": "大使",
+      "desc": "用你的語言代表 fly.ai"
     }
   },
   "footer": {
@@ -381,7 +386,8 @@
     "progressPayouts": "{n} / {need} 次分紅",
     "revoked": "已移除",
     "team": "不適用於團隊錢包",
-    "closed": "未獲得"
+    "closed": "未獲得",
+    "invite": "僅限邀請"
   },
   "lock": {
     "button": "🔒 已鎖定 {amount} FLYAI",
@@ -421,11 +427,11 @@
     "refCode": "推薦碼",
     "board": "XP 排行榜",
     "share": "分享到 X",
-    "shareHint": "用綁定的 X 帳號發布關於 fly.ai 的貼文：每晚自動計入，每天 +20 XP。",
+    "shareHint": "用綁定的 X 帳號發布關於 fly.ai 的內容（@flydotai、$FLYAI 或 fly.ai）：夜間統計，每則 +20 XP（回覆除外），每天最多 5 則。",
     "sharePh": "https://x.com/you/status/…",
     "shareBtn": "新增",
     "shareOk": "+{n} XP",
-    "shareDone": "今天的貼文已計入：+20 XP。",
+    "shareDone": "最近 2 天已計入：{n} 則貼文，+{xp} XP。",
     "connectX": "在上方綁定你的 X 帳號，發文即可賺 XP。",
     "seasonEnds": "XP 計入空投。",
     "seasonOver": "第一季已結束。XP 已計入空投。",
@@ -459,7 +465,7 @@
     "h_bug": "<b>發現漏洞</b>並回報給團隊：依嚴重程度手動發放 XP。",
     "h_badges": "<b>領取的徽章</b>：普通 25，罕見 100，稀有 250，傳奇 500。",
     "h_referrals": "<b>推薦</b>：你帶來的每位真實推薦用戶 XP 的 +10%。",
-    "h_x": "<b>X</b>：綁定帳號得 50 XP，每天一則關於 fly.ai 的貼文得 20 XP（每晚自動統計）。",
+    "h_x": "<b>X</b>：綁定帳號得 50 XP，每則關於 fly.ai 的貼文 20 XP，每天最多 5 則（夜間自動統計）。",
     "h_flybook": "<b>Flybook</b>：每天按讚、留言、戳一戳或配文得 5 XP（限持有者和蒼蠅擁有者）。",
     "h_foot": "團隊錢包和蒼蠅錢包不參與排名。等級：50 XP 為 1 級，200 為 2 級，450 為 3 級，5,000 為 10 級。",
     "log": "XP 紀錄",
@@ -475,7 +481,11 @@
     "s_boost": "雙倍經驗獎勵",
     "s_penalty": "雙倍經驗：賣出和提領",
     "logBoost": "{mult}x",
-    "h_boost": "<b>雙倍經驗時段</b>：有些日子團隊會讓買入、存入、餵養、交易、繁殖和銷毀通行證的經驗翻倍。此時賣出和提領也加倍扣除，結束後 3 天內賣出會收回獎勵。"
+    "h_boost": "<b>雙倍經驗時段</b>：有些日子團隊會讓買入、存入、餵養、交易、繁殖和銷毀通行證的經驗翻倍。此時賣出和提領也加倍扣除，結束後 3 天內賣出會收回獎勵。",
+    "s_ambassador": "大使",
+    "s_refquest": "推薦任務",
+    "h_refquest": "<b>推薦任務</b>：有效推薦達到 1、3、5、10、25 個時一次性獲得 25、50、100、250、500 XP。",
+    "h_ambassador": "<b>大使</b>：持有大使徽章期間每天 50 XP。"
   },
   "flychat": {
     "title": "蒼蠅 #{id}",

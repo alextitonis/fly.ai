@@ -17,12 +17,12 @@
     team: "Team wallet: not ranked", flies: "Flies", active: "active", inactive: "not trading (hold 200k $FLYAI)",
     streak: "Streak", streakWeeks: "{n} weeks without selling · x{m}", streakNone: "Starts when you hold $FLYAI",
     badges: "Badges", noBadges: "No badges yet", sources: "Where the XP comes from", noXp: "No XP yet", refCode: "Referral code",
-    board: "XP leaderboard", share: "Share on X", shareHint: "Post about fly.ai from your linked X account: it counts by itself each night, +20 XP once a day.",
-    shareDone: "Today's post counted: +20 XP.",
+    board: "XP leaderboard", share: "Share on X", shareHint: "Post about fly.ai (@flydotai, $FLYAI or fly.ai) from your linked X account: posts are counted overnight, +20 XP for each one (not replies), up to 5 a day.",
+    shareDone: "Counted in the last 2 days: {n} posts, +{xp} XP.",
     connectX: "Connect your X account above to earn XP for your posts.", seasonEnds: "XP counts toward the airdrop.",
     seasonOver: "Season 1 is over. XP counted toward the airdrop.",
     s_hold: "Holding $FLYAI", s_flies: "Active flies", s_deposits: "Fly wallet deposits", s_feed: "Feeding the Fly Desk", s_market: "Marketplace trades",
-    s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_bug: "Bugs found", s_badges: "Badges",
+    s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_bug: "Bugs found", s_badges: "Badges", s_ambassador: "Ambassador", s_refquest: "Referral quests",
     account: "Your account", badgesBtn: "🏅 Badges", referralsBtn: "Referrals",
     log: "XP log", logBefore: "everything up to {date}", noLog: "Nothing logged yet.", logTx: "tx", logPost: "post",
     s_boost: "2x XP bonus", s_penalty: "2x XP: sells and withdrawals", logBoost: "{mult}x",
@@ -41,13 +41,15 @@
     h_bug: "<b>Find a bug</b> and report it to the team: XP by how serious it is, given by hand.",
     h_badges: "<b>Badges</b> you claim: common 25, uncommon 100, rare 250, legendary 500.",
     h_referrals: "<b>Referrals</b>: +10% of the XP of everyone you bring who becomes a real referral.",
-    h_x: "<b>X</b>: 50 XP for connecting your account, 20 XP a day for a post about fly.ai (counted automatically each night).",
+    h_refquest: "<b>Referral quests</b>: one-off XP at 1, 3, 5, 10 and 25 real referrals: 25, 50, 100, 250 and 500.",
+    h_ambassador: "<b>Ambassadors</b>: 50 XP a day while you hold the Ambassador badge.",
+    h_x: "<b>X</b>: 50 XP for connecting your account, 20 XP for each post about fly.ai, up to 5 a day (counted automatically overnight).",
     h_telegram: "<b>Telegram</b>: 50 XP while your connected account is in the fly.ai group (checked daily).",
     h_flybook: "<b>Flybook</b>: 5 XP a day you like, comment, poke or caption (for holders and fly owners).",
     h_boost: "<b>2x XP windows</b>: some days the team doubles XP for buys, deposits, feeding, trades, breeding and pass burns. Sells and withdrawals cost double then too, and a sell within 3 days after takes the bonus back.",
     h_foot: "Team wallets and fly wallets aren't ranked. Levels: level 1 at 50 XP, 2 at 200, 3 at 450, 10 at 5,000.",
   };
-  const HELP = ["hold", "flies", "streak", "deposits", "feed", "market", "buy", "claimstake", "breed", "passburn", "bug", "badges", "referrals", "x", "telegram", "flybook", "boost"];
+  const HELP = ["hold", "flies", "streak", "deposits", "feed", "market", "buy", "claimstake", "breed", "passburn", "bug", "badges", "referrals", "refquest", "ambassador", "x", "telegram", "flybook", "boost"];
 
   function t(key, vars) {
     let v = window.flyI18n ? window.flyI18n.t("common.xp." + key, vars) : null;
@@ -154,8 +156,10 @@
 
   /** X posts count by themselves: the server searches each night (mine/src/xp.ts shares). Nothing to paste. */
   function shareBox(p) {
+    const n = Number(p.shares_recent ?? (p.shared_today ? 1 : 0));
     return el("div", { className: "flyprof-sec" }, el("h4", { textContent: t("share") }),
-      el("p", { className: `flyprof-msg${p.x && p.shared_today ? " ok" : ""}`, textContent: !p.x ? t("connectX") : p.shared_today ? t("shareDone") : t("shareHint") }));
+      el("p", { className: "flyprof-msg", textContent: !p.x ? t("connectX") : t("shareHint") }),
+      p.x && n > 0 ? el("p", { className: "flyprof-msg ok", textContent: t("shareDone", { n, xp: n * Number(p.share_xp ?? 20) }) }) : null);
   }
 
   /** The XP log: what came from where, newest first. */
@@ -177,7 +181,8 @@
     const name = p.nickname || (p.x ? `@${p.x}` : short(p.wallet));
     const head = el("div", { className: "flyprof-head" },
       p.avatar ? el("img", { className: "av", src: p.avatar, alt: "", width: 48, height: 48, referrerPolicy: "no-referrer" }) : el("img", { className: "av", alt: "" }),
-      el("div", { className: "who" }, el("h3", { textContent: name }),
+      el("div", { className: "who" }, el("h3", { textContent: name },
+        (p.badges || []).includes(12) ? el("span", { className: "fly-verified", title: "fly.ai ambassador", textContent: "✓" }) : null),
         p.x ? el("a", { className: "x", href: `https://x.com/${p.x}`, target: "_blank", rel: "noopener", textContent: `@${p.x}` }) : null,
         p.x ? el("span", { className: "w", textContent: " · " }) : null,
         el("a", { className: "w", href: `https://robinhoodchain.blockscout.com/address/${p.wallet}`, target: "_blank", rel: "noopener", textContent: short(p.wallet) })),
