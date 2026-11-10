@@ -340,6 +340,32 @@ export function createPartners(d: PartnersDeps) {
     };
   }
 
+  /**
+   * The holder's funded NFT wallets, each with its published numbers and hourly curve, in one read (2026-11-10, the
+   * user: "see graphs for bulla trading and for enjoyoors as well ... for now i only see my flies on the graph"): My
+   * flies draws them next to the Trader Flies. Only wallets whose money is this holder's (a bought NFT's old wallet
+   * is the seller's until it's emptied); the board leaves the curves out, a token view each would be a read per NFT.
+   */
+  async function holderStats(p: Partner, raw: string) {
+    const address = addressOf(raw);
+    const tokens = (await tokensOf(p, address)).tokens.slice(0, 200);
+    const out: Record<number, unknown> = {};
+    if (!tokens.length) return { address, partner: p.id, tokens: out };
+    const rows = await pg.all<{ id: string; value: any }>(`select w.id, pub.value from mine.vault_wallets w
+      join mine.vault_public pub on pub.key = ?::text || w.address
+      where w.id = any(?::text[])`, `vault:${p.book}:`, `{${tokens.map((t) => `${p.book}:${t}`).join(",")}}`);
+    for (const r of rows) {
+      const s = r.value;
+      if (!s || String(s.holder ?? "").toLowerCase() !== address.toLowerCase()) continue;
+      out[Number(r.id.slice(r.id.lastIndexOf(":") + 1))] = {
+        vault: s.vault, holder: s.holder, flies: s.flies ?? [], value: s.value ?? 0, principal: s.principal ?? 0, profit: s.profit ?? 0,
+        profit_pct: s.profit_pct ?? 0, profit_24h: s.profit_24h ?? 0, profit_7d: s.profit_7d ?? 0, trades: s.trades ?? 0,
+        win_rate: s.win_rate ?? null, active: s.active ?? false, closing: s.closing ?? false, curve: s.curve ?? [],
+      };
+    }
+    return { address, partner: p.id, tokens: out };
+  }
+
   // ---- the owner's actions (signed in) -----------------------------------------------------------------------
   async function setup(req: IncomingMessage, p: Partner, n: number) {
     if (!p.wallets.on) throw new HttpError(503, `${p.name} wallets aren't open yet`);
@@ -552,6 +578,7 @@ export function createPartners(d: PartnersDeps) {
         if ((r = /^\/token\/(\d{1,7})$/.exec(rest))) return d.send(res, 200, await tokenView(pa, tokenOf(pa, r[1]))), true;
         if ((r = /^\/wallet\/(0x[0-9a-fA-F]{40})$/.exec(rest))) return d.send(res, 200, await tokenView(pa, (await partnerWallet(pa, r[1])).n)), true;
         if ((r = /^\/holder\/(0x[0-9a-fA-F]{40})$/.exec(rest))) return d.send(res, 200, await holderView(pa, r[1])), true;
+        if ((r = /^\/holder\/(0x[0-9a-fA-F]{40})\/stats$/.exec(rest))) return d.send(res, 200, await holderStats(pa, r[1])), true;
         if (rest === "/art") {                        // ?ids=1,2,3 -> {art: {id: image url | null}}
           const ids = [...new Set((url.searchParams.get("ids") ?? "").split(",").filter((x) => /^\d{1,7}$/.test(x)).map(Number))]
             .filter((n) => locate(pa, n)).slice(0, 60);

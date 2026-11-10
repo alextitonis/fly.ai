@@ -495,7 +495,7 @@
     if (!lockJs) {
       lockJs = new Promise((ok) => {
         const tag = document.createElement("script");
-        tag.src = NAV_SRC ? new URL("flylock.js?v=20261028a", NAV_SRC).href : "/assets/flylock.js?v=20261028a";
+        tag.src = NAV_SRC ? new URL("flylock.js?v=20261110a", NAV_SRC).href : "/assets/flylock.js?v=20261110a";
         tag.onload = ok;
         tag.onerror = ok;
         (document.body || document.head).append(tag);

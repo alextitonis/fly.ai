@@ -180,7 +180,14 @@ try {
   const h = (await api(`/api/partners/testers/holder/${alice.address}`, null)).json;
   check("a holder: their NFTs, wallets, the pot", JSON.stringify(h.tokens) === "[0,7]" && h.wallets.length === 1 && h.wallets[0].wallet === W7
     && h.wallets[0].token === 7 && h.hold.ok === true && h.pool.epoch_est_usd === 4.2 && h.holding_money_in.length === 1, JSON.stringify(h));
-  check("bob has #9", JSON.stringify((await api(`/api/partners/testers/holder/${bob.address}`, null)).json.tokens) === "[9]");
+  // the holder's funded wallets with their curves (My flies' chart): theirs only
+  await PG.pg.run("insert into mine.vault_public (key, value) select 'vault:p_testers:' || address, ?::text::jsonb from mine.vault_wallets where id = 'p_testers:7'",
+    JSON.stringify({ vault: W7, holder: alice.address, value: 12, profit: 2, profit_7d: 2, trades: 3, curve: [{ t: 1, value: 10, profit: 0 }, { t: 2, value: 12, profit: 2 }], recent: [{ at: 1 }] }));
+  const hs = (await api(`/api/partners/testers/holder/${alice.address}/stats`, null)).json;
+  check("a holder's wallets with their curves", Object.keys(hs.tokens).join() === "7" && hs.tokens[7].curve.length === 2 && hs.tokens[7].value === 12
+    && hs.tokens[7].recent === undefined, JSON.stringify(hs));
+  check("nobody else's curves", Object.keys((await api(`/api/partners/testers/holder/${bob.address}/stats`, null)).json.tokens).length === 0);
+  check("bob has #9",JSON.stringify((await api(`/api/partners/testers/holder/${bob.address}`, null)).json.tokens) === "[9]");
   check("leaderboard", (await api("/api/partners/testers/leaderboard", null)).json.all[0].vault === W7);
   check("the pot", (await api("/api/partners/testers/pool", null)).json.excess === 12.5);
   check("an epoch", (await api("/api/partners/testers/pool/epochs/1", null)).json.payable === 10

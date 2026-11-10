@@ -155,10 +155,12 @@
         li.append(b);
         li.hidden = false;
       }).catch((err) => {
-        // a phone on a flaky connection: try again a few times before giving up (it stays hidden meanwhile)
+        // a phone on a flaky connection, or the public RPC refusing a burst ("Too Many Requests" while a page's own
+        // reads run, 2026-11-10): try again for ~2 minutes, waiting longer each time, before giving up (it stays
+        // hidden meanwhile)
         console.warn("flylock:", err);
         li.hidden = true;
-        if (tries++ < 3) setTimeout(draw, 3000 * tries);
+        if (tries++ < 8) setTimeout(draw, Math.min(3000 * tries, 20000));
       });
       let tries = 0;
       draw();
