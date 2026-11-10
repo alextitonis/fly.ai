@@ -272,6 +272,10 @@
       "label": "Bullas",
       "desc": "Bullas NFT'leri: kendi işlem cüzdanları ve ortak havuz"
     },
+    "enjoyoors": {
+      "label": "Enjoyoors",
+      "desc": "Enjoyoors NFT'leri: kendi işlem cüzdanları"
+    },
     "newTag": "Yeni",
     "fights": {
       "label": "Robot Dövüşleri",

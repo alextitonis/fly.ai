@@ -951,12 +951,12 @@
     // activated Bullas / RUYUIs share it as Common flies (flytrade/desk/partnerflies.py, 2026-10-26)
     const pc = p.partners || {};
     // only the partners with activated NFTs this week are named
-    const active = [["bullas", "Bullas"], ["ruyui", "RUYUI"]].filter(([k]) => pc[k] > 0)
+    const active = [["bullas", "Bullas"], ["ruyui", "RUYUI"]]   /* Enjoyoors not named here yet (the user 2026-11-10) */.filter(([k]) => pc[k] > 0)
       .map(([k, name]) => t("pay.partnerItem", { n: pc[k], name }));
     if (active.length) $("pay-sum").innerHTML += " " + esc(t("pay.partners", { list: new Intl.ListFormat(lang(), { type: "conjunction" }).format(active) }));
-    const nftName = (f) => (f.partner === "ruyui" ? `RUYUI #${f.token}` : f.partner === "bullas"
+    const nftName = (f) => (f.partner === "ruyui" ? `RUYUI #${f.token}` : f.partner === "enjoyoors" ? `Enjoyoors #${f.token}` : f.partner === "bullas"
       ? (f.token >= 1_000_000 ? `Booga Bullas #${f.token - 1_000_000}` : `Bullas #${f.token}`) : `Trader Fly #${f.fly}`);
-    const nftHref = (f) => (f.partner === "ruyui" ? "" : f.partner === "bullas" ? "/traderflies/partner?p=bullas" : `/traderflies/fly?id=${encodeURIComponent(f.fly)}`);
+    const nftHref = (f) => (f.partner === "ruyui" ? "" : f.partner === "bullas" || f.partner === "enjoyoors" ? `/traderflies/partner?p=${f.partner}` : `/traderflies/fly?id=${encodeURIComponent(f.fly)}`);
     const nftCell = (f) => (nftHref(f) ? `<a href="${nftHref(f)}">${esc(nftName(f))}</a>` : esc(nftName(f)));
     const rows = p.flies;
     $("pay-tbl").innerHTML = `<thead><tr><th>${esc(t("pay.thFly"))}</th><th>${esc(t("pay.thHolder"))}</th><th class="r">${esc(t("pay.thWeight"))}</th><th class="r">${esc(t("pay.thActive"))}</th><th class="r">${esc(t("pay.thStake"))}</th><th class="r">${esc(t("pay.thShare"))}</th><th class="r">${esc(t("pay.thUsd"))}</th></tr></thead><tbody>` +

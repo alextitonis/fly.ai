@@ -76,7 +76,9 @@ export function createAmbassadors(d: {
       community: clean(b?.community, MAX.community), why: clean(b?.why, MAX.why), at: now(),
     };
     if (!app.name) throw new d.HttpError(400, "add your name");
-    if (!app.x && !app.telegram) throw new d.HttpError(400, "add your X or Telegram so we can reach you");
+    // 2026-11-10 (the user: "the blue check i meant in x they need to have"): a verified X account is required; the
+    // team checks the blue check by hand when picking (no reliable free lookup)
+    if (!app.x) throw new d.HttpError(400, "add your X handle (it needs a blue check)");
     if (app.why.length < 20) throw new d.HttpError(400, "tell us a bit more about why (20+ characters)");
     await pg.run(`insert into mine.badge_state (key, value) values (?, ?::text::jsonb)
       on conflict (key) do update set value = excluded.value`, APP_KEY + wallet, JSON.stringify(app));

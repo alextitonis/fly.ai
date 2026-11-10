@@ -272,6 +272,10 @@
       "label": "Bullas",
       "desc": "Bullas NFT：各自的交易钱包和共享奖池"
     },
+    "enjoyoors": {
+      "label": "Enjoyoors",
+      "desc": "Enjoyoors NFT：各自的交易钱包"
+    },
     "newTag": "新",
     "fights": {
       "label": "机器人格斗",

@@ -1423,8 +1423,8 @@
       "house": {
         "title": "逢低买入 FLYAI",
         "blurb": "当平台代币 FLYAI 明显跌破平时价格时买入一些，价格回升后卖出。",
-        "titleTok": "逢低买入 {sym}",
-        "blurbTok": "当 {sym}（这个系列的主场代币）跌到明显低于平时的价格时买入一些，价格回升后卖出。"
+        "titleTok": "逢低买入 {sym} 和 $FLYAI",
+        "blurbTok": "当 {sym}（这个系列的主场代币）或 $FLYAI 跌到明显低于平时的价格时买入一些，价格回升后卖出。这部分资金两者各占一半。"
       },
       "earn": {
         "title": "Earn",

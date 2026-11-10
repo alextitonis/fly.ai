@@ -1425,8 +1425,8 @@
       "house": {
         "title": "Comprar caídas de FLYAI",
         "blurb": "Cuando FLYAI, el token de la casa, cae bastante por debajo de su precio habitual, compra un poco y vende cuando el precio vuelve.",
-        "titleTok": "Comprar caídas de {sym}",
-        "blurbTok": "Cuando {sym}, el token de casa de esta colección, cae bastante por debajo de su precio habitual compra un poco, y vende cuando el precio vuelve."
+        "titleTok": "Comprar caídas de {sym} y $FLYAI",
+        "blurbTok": "Cuando {sym}, el token de casa de esta colección, o $FLYAI cae bastante por debajo de su precio habitual compra un poco, y vende cuando el precio vuelve. La mitad del efectivo de esta parte va a cada uno."
       },
       "earn": {
         "title": "Earn",

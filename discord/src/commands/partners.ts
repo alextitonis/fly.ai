@@ -8,7 +8,7 @@ const money = (n: number) => n.toLocaleString("en-US");
 
 export const partners: Command = {
   name: "partners",
-  aliases: ["partner", "bullas"],
+  aliases: ["partner", "bullas", "enjoyoors"],
   description: "NFT collections with their own Fly Wallets",
   async run(message) {
     const list = (await readPartners()).filter((p) => p.wallets.on);

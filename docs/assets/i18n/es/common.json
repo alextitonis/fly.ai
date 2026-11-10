@@ -272,6 +272,10 @@
       "label": "Bullas",
       "desc": "NFT de Bullas: sus propias billeteras de trading y un bote compartido"
     },
+    "enjoyoors": {
+      "label": "Enjoyoors",
+      "desc": "NFT de Enjoyoors: sus propias billeteras de trading"
+    },
     "newTag": "Nuevo",
     "fights": {
       "label": "Peleas de robots",

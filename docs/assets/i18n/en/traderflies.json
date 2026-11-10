@@ -1425,8 +1425,8 @@
       "house": {
         "title": "Buy FLYAI dips",
         "blurb": "When FLYAI, the house token, drops well under its usual price it buys some, and sells once the price is back.",
-        "titleTok": "Buy {sym} dips",
-        "blurbTok": "When {sym}, this collection's house token, drops well under its usual price it buys some, and sells once the price is back."
+        "titleTok": "Buy {sym} and $FLYAI dips",
+        "blurbTok": "When {sym}, this collection's house token, or $FLYAI drops well under its usual price it buys some, and sells once the price is back. Half of this part's cash goes to each."
       },
       "earn": {
         "title": "Earn",

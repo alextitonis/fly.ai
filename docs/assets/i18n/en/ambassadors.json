@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "fly.ai ambassadors: represent fly.ai in your language",
-    "description": "A few fly.ai ambassadors, one per language. A blue check, a soulbound badge, the top referral tier from day one, 50 XP a day and early access. Paid only on real results."
+    "description": "A few fly.ai ambassadors, one per language. A soulbound badge, the top referral tier from day one, 50 XP a day and early access. Paid only on real results."
   },
   "head": {
     "eyebrow": "Ambassadors",
@@ -10,7 +10,7 @@
   },
   "get": {
     "title": "What ambassadors get",
-    "check": "<b>Blue check</b> next to your name across fly.ai, and the soulbound <b>Ambassador badge</b> on chain.",
+    "check": "<b>Soulbound Ambassador badge</b> on chain, shown on your fly.ai profile.",
     "tier": "<b>Top referral tier from day one</b>: 1.25% of your referrals' Fly Wallet profits and Fly Desk payouts, and half off your own fee, without needing 50 referrals.",
     "xp": "<b>50 XP a day</b> while you hold the badge, on top of everything else. XP counts toward the New Year drop.",
     "discord": "<b>Ambassador role</b> and a private channel with the team on Discord.",
@@ -22,7 +22,8 @@
     "results": "<b>Paid only on results.</b> No salary and no new tokens: you earn through referrals, from fly.ai's fees on real users who deposit and stay. Bring no one and it costs nothing.",
     "new": "<b>New people only.</b> Your link works for new accounts, like every referral link.",
     "fair": "<b>Fair play.</b> No price promises, no cold DMs, no farming accounts. Inactive for 60 days, and the badge and role go back.",
-    "review": "<b>Monthly check-in</b> with the team: who you brought, what's working, what you need."
+    "review": "<b>Monthly check-in</b> with the team: who you brought, what's working, what you need.",
+    "req": "<b>What you need.</b> A verified X account (blue check), a community you can reach in your language, and a wallet that holds $FLYAI or a Trader Fly."
   },
   "list": {
     "title": "Current ambassadors",
@@ -34,7 +35,7 @@
     "signedOut": "Sign in with your wallet to apply.",
     "signIn": "Sign in",
     "name": "Your name or nickname",
-    "x": "X handle",
+    "x": "X handle (needs a blue check)",
     "telegram": "Telegram handle",
     "lang": "Your language",
     "community": "Where would you bring people from? (groups, channels, how many people)",

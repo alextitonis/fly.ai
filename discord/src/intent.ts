@@ -28,7 +28,7 @@ export function researchOf(text: string): string | null {
 }
 
 const RULES: [RegExp, string][] = [
-  [/\bpartners?(hips?)?\b|\bbullas?\b|\bbooga\b|\bcollabs?\b/i, "partners"],
+  [/\bpartners?(hips?)?\b|\bbullas?\b|\bbooga\b|\benjoyo+rs?\b|\bcollabs?\b/i, "partners"],
   [/\bbuy (a |an |one |some )?(trader )?fl(y|ies)\b(?!\.ai)|\bbuy (an? )?nft\b/i, "marketplace"],
   [/\bhow (can|do|to|should|could)\b.*\b(buy|get|purchase)\b|\bwhere\b.*\b(buy|get|purchase)\b|\bbuy (the |some )?\$?(fly\.?ai|token)\b|\bhow to (start|buy)\b|\bget started\b|\bwant to buy\b/i, "buy"],
   [/\bleader ?board\b|\blb\b|\btop (flies|fly|wallets?|traders?)\b|\bbest (flies|fly|wallets?|traders?)\b|\branking\b/i, "leaderboard"],

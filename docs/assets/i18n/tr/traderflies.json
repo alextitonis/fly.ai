@@ -1425,8 +1425,8 @@
       "house": {
         "title": "FLYAI düşüşlerini al",
         "blurb": "Ev tokeni FLYAI normal fiyatının belirgin şekilde altına düştüğünde biraz alır, fiyat geri gelince satar.",
-        "titleTok": "{sym} düşüşlerini al",
-        "blurbTok": "Bu koleksiyonun ev tokeni {sym} olağan fiyatının epey altına düştüğünde biraz alır, fiyat dönünce satar."
+        "titleTok": "{sym} ve $FLYAI düşüşlerini al",
+        "blurbTok": "Bu koleksiyonun ev tokeni {sym} veya $FLYAI olağan fiyatının epey altına düştüğünde biraz alır, fiyat dönünce satar. Bu bölümün nakdi ikisine yarı yarıya gider."
       },
       "earn": {
         "title": "Earn",

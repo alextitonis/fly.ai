@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "fly.ai elçileri: fly.ai'yi kendi dilinde temsil et",
-    "description": "Her dil için bir tane, az sayıda fly.ai elçisi. Mavi tik, ruha bağlı rozet, ilk günden en üst davet seviyesi, günde 50 XP ve erken erişim. Yalnızca gerçek sonuçlarla kazanç."
+    "description": "Her dil için bir tane, az sayıda fly.ai elçisi. Ruha bağlı rozet, ilk günden en üst davet seviyesi, günde 50 XP ve erken erişim. Yalnızca gerçek sonuçlarla kazanç."
   },
   "head": {
     "eyebrow": "Elçiler",
@@ -10,7 +10,7 @@
   },
   "get": {
     "title": "Elçiler ne kazanır",
-    "check": "fly.ai'nin her yerinde adının yanında <b>mavi tik</b> ve zincir üstünde ruha bağlı <b>Elçi rozeti</b>.",
+    "check": "Zincir üstünde ruha bağlı <b>Elçi rozeti</b>, fly.ai profilinde görünür.",
     "tier": "<b>İlk günden en üst davet seviyesi</b>: davet ettiklerinin Fly Cüzdanı kârlarının ve Fly Desk ödemelerinin %1,25'i, kendi ücretinde yarı indirim; 50 davete gerek yok.",
     "xp": "Rozeti tuttuğun sürece <b>günde 50 XP</b>, diğer her şeyin üstüne. XP Yılbaşı dağıtımına sayılır.",
     "discord": "Discord'da <b>Elçi rolü</b> ve ekiple özel bir kanal.",
@@ -22,7 +22,8 @@
     "results": "<b>Yalnızca sonuçla kazanç.</b> Maaş yok, yeni token yok: para yatırıp kalan gerçek kullanıcılardan fly.ai'nin aldığı ücretlerden, davetler üzerinden kazanırsın. Kimseyi getirmezsen maliyeti yok.",
     "new": "<b>Yalnızca yeni kişiler.</b> Bağlantın her davet bağlantısı gibi yeni hesaplar için çalışır.",
     "fair": "<b>Adil oyun.</b> Fiyat vaadi yok, soğuk DM yok, hesap çiftçiliği yok. 60 gün etkin değilsen rozet ve rol geri alınır.",
-    "review": "<b>Ekiple aylık görüşme</b>: kimi getirdin, ne işe yarıyor, neye ihtiyacın var."
+    "review": "<b>Ekiple aylık görüşme</b>: kimi getirdin, ne işe yarıyor, neye ihtiyacın var.",
+    "req": "<b>Gerekenler:</b> doğrulanmış bir X hesabı (mavi tik), kendi dilinde ulaşabildiğin bir topluluk ve $FLYAI ya da Trader Fly tutan bir cüzdan."
   },
   "list": {
     "title": "Mevcut elçiler",
@@ -34,7 +35,7 @@
     "signedOut": "Başvurmak için cüzdanınla giriş yap.",
     "signIn": "Giriş yap",
     "name": "Adın veya takma adın",
-    "x": "X kullanıcı adı",
+    "x": "X kullanıcı adı (mavi tik gerekli)",
     "telegram": "Telegram kullanıcı adı",
     "lang": "Dilin",
     "community": "İnsanları nereden getirirsin? (gruplar, kanallar, kaç kişi)",

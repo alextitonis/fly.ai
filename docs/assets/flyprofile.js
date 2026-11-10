@@ -181,8 +181,7 @@
     const name = p.nickname || (p.x ? `@${p.x}` : short(p.wallet));
     const head = el("div", { className: "flyprof-head" },
       p.avatar ? el("img", { className: "av", src: p.avatar, alt: "", width: 48, height: 48, referrerPolicy: "no-referrer" }) : el("img", { className: "av", alt: "" }),
-      el("div", { className: "who" }, el("h3", { textContent: name },
-        (p.badges || []).includes(12) ? el("span", { className: "fly-verified", title: "fly.ai ambassador", textContent: "✓" }) : null),
+      el("div", { className: "who" }, el("h3", { textContent: name }),
         p.x ? el("a", { className: "x", href: `https://x.com/${p.x}`, target: "_blank", rel: "noopener", textContent: `@${p.x}` }) : null,
         p.x ? el("span", { className: "w", textContent: " · " }) : null,
         el("a", { className: "w", href: `https://robinhoodchain.blockscout.com/address/${p.wallet}`, target: "_blank", rel: "noopener", textContent: short(p.wallet) })),

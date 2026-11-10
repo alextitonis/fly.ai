@@ -65,7 +65,8 @@
       ["Roadmap", "/roadmap"],
       ["Changelog", "/changelog"],
       ["GitHub", "https://github.com/alextitonis/fly.ai", undefined, true, false, "github"],
-      ["Bullas", "/traderflies/partner"],   // partner collections (2026-10-07), each its own page (Partner.tsx)
+      ["Bullas", "/traderflies/partner?p=bullas", undefined, false, false, "traderflies_partner"],   // partner collections (2026-10-07), each its own page (Partner.tsx)
+      ["Enjoyoors", "/traderflies/partner?p=enjoyoors", undefined, false, false, "enjoyoors"],        // 2026-11-10, MegaETH
     ], true],
   ];
   // the one action on every page (the brief: "a persistent Buy $FLYAI action"; the wallet is asked for only there)
@@ -508,7 +509,7 @@
     if (!profileJs) {
       profileJs = new Promise((ok) => {
         const tag = document.createElement("script");
-        tag.src = NAV_SRC ? new URL("flyprofile.js?v=20261109c", NAV_SRC).href : "/assets/flyprofile.js?v=20261109c";
+        tag.src = NAV_SRC ? new URL("flyprofile.js?v=20261110a", NAV_SRC).href : "/assets/flyprofile.js?v=20261110a";
         tag.onload = ok;
         tag.onerror = ok;
         (document.body || document.head).append(tag);

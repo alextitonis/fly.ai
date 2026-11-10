@@ -38,7 +38,6 @@ async function people() {
     if (!d.ambassadors?.length) return;
     $("amb-list").replaceChildren(el("ul", { class: "amb-people" }, ...d.ambassadors.map((a) => el("li", null,
       el("a", { href: "#", "data-fly-profile": a.wallet, title: a.wallet }, a.name || (a.x ? `@${a.x}` : short(a.wallet))),
-      el("span", { class: "fly-verified", title: "fly.ai ambassador" }, "✓"),
       a.lang ? el("span", { class: "tag" }, t(`ambassadors.apply.langs.${a.lang}`)) : null,
       el("small", null, t("ambassadors.list.since", { date: day(a.since) }))))));
   } catch { /* the "none yet" line stays */ }

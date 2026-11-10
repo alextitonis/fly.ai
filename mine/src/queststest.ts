@@ -288,7 +288,7 @@ check("nothing after the season ends", (err as HttpError)?.status === 409 && (aw
     sessionWallet: async () => rw, isAdmin: (req: any) => req.headers.authorization === "Bearer ok", now: () => clock });
   const fail = async (b: any) => { body = b; try { await A.apply({ headers: {} } as any); return null; } catch (e: any) { return e.status; } };
   check("no name: refused", (await fail({ x: "a", why: "x".repeat(30) })) === 400);
-  check("no X or Telegram: refused", (await fail({ name: "Ann", why: "x".repeat(30) })) === 400);
+  check("no X handle: refused (Telegram alone isn't enough)", (await fail({ name: "Ann", telegram: "ann", why: "x".repeat(30) })) === 400);
   check("a one-line why: refused", (await fail({ name: "Ann", x: "ann", why: "short" })) === 400);
   body = { name: "Ann", x: "https://x.com/Ann_1", telegram: "@ann", lang: "ko", community: "KR group, 2k", why: "I run a Korean trading group of 2,000 people." };
   const r1 = await A.apply({ headers: {} } as any);
