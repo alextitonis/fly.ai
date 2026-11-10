@@ -1786,6 +1786,17 @@
       "homeHint": "以 USDG 回到你苍蝇在这里的钱包（通过 Relay），扣除盈利费。",
       "noSwitch": "你的钱包没有切换到 Elysium。断开并重新连接钱包（让它允许 Elysium，链 99901），或在钱包里添加 Elysium（RPC rpc.elysium.kinetiq.xyz），然后再试。或者从钱包应用把 Elysium 上的 HYPE 发送到上面的地址。"
     },
+    "zero": {
+      "titleSoon": "Zero（11 月 30 日上线）",
+      "title": "Zero",
+      "text": "Zero 是 LayerZero 自己的新链，11 月 30 日上线。现在就为它设置好你的苍蝇，上线后它会用你加入的 ZRO 狙击 Zero 的新代币。",
+      "on": "为 Zero 设置我的苍蝇",
+      "doesSnipe": "开启狙击后，你的苍蝇会在 Zero 新代币上线的头几分钟买入，并像在这里一样快速卖出。",
+      "doesHold": "按你现在的风格，苍蝇会保管你在 Zero 上加入的 ZRO；那里只有狙击会交易。选择 Degen Sniper（或打开狙击）来买入它的全新代币。",
+      "next": "保存以保留这项设置。上线前不会动任何资金；上线后你把 Zero 上的 ZRO 发送到苍蝇的地址。",
+      "ready": "你的苍蝇已为 Zero 设置好。上线前不会动任何资金；上线后你把 Zero 上的 ZRO 发送到苍蝇的地址。",
+      "risk": "新链风险很高：大多数新代币会失败，而且初期从 Zero 转出资金可能比其他链更慢。"
+    },
     "toFlyTitle": "转到你的另一只苍蝇",
     "toFlyText": "最多 {usd} 直接转入另一只苍蝇的钱包，通常几分钟内完成。现金不够时才会卖出持仓。和提款一样只对盈利部分收取利润费；$FLYAI 和 FlightPass 资金留在这只苍蝇。",
     "toFlyPick": "转给哪只",
@@ -2131,7 +2142,8 @@
     "earn": "闲置现金出借给 Robinhood Chain 上的 Steakhouse 或 Spark USDG 金库。显示的是当前基础利率，每天都会变动。",
     "crossChains": "这些链上的代币用钱包的 USDG 通过 Relay 买入（跨链 + 兑换一步完成），卖出后回到这里的 USDG。每条链的首次买入还会发送 $0.50 的 gas。低于 $5 的买入会跳过。",
     "maker": "在这只苍蝇自己的钱包里运行 Fly Maker 的稳定区间：只在价格距 5 分钟均价 3% 以内时操作，每次最多兑换做市资金的四分之一，任何提现前先取出流动性。",
-    "elysium": "Elysium 是 Kinetiq 为 Hyperliquid 推出的二层网络，用 HYPE 支付 gas。你的苍蝇在那里使用同一个钱包地址。打开并保存（Degen Sniper 默认开启），然后在 Elysium 上发送 HYPE，或从苍蝇的现金加入。钱通过 Relay 返回。"
+    "elysium": "Elysium 是 Kinetiq 为 Hyperliquid 推出的二层网络，用 HYPE 支付 gas。你的苍蝇在那里使用同一个钱包地址。打开并保存（Degen Sniper 默认开启），然后在 Elysium 上发送 HYPE，或从苍蝇的现金加入。钱通过 Relay 返回。",
+    "zero": "Zero 是 LayerZero 自己的一层网络，用 ZRO 支付 gas，11 月 30 日上线。你的苍蝇在那里使用同一个钱包地址。打开并保存即可准备好：上线前不会交易，也不会动任何资金。"
   },
   "label": {
     "add": "添加私人标签",

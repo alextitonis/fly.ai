@@ -101,6 +101,7 @@ Settings shape: trading (bool, false = no trading), chains [robinhood, base, bsc
 filters {min_liquidity, max_tax_pct, min_mcap, max_mcap, min_age_hours, max_age_hours, goplus_clean}, exits {stop_pct, take_profit_pct, trail_pct, max_hold_hours} (null = off),
 brain {on, share_pct}, earn {mode: off|idle|share|only, share_pct} (lending idle cash; only = all cash lent, no trading), options [{id, on, share_pct, params}] (parts: core basket, poly = sports bets, trend, house = $FLYAI dips, copy, track, snipe = new launches...).
 elysium {on} (bool): Elysium, Hyperliquid's new chain (HYPE for gas), live since November 9. On by default for Degen Sniper. Trades only once the owner sends HYPE on Elysium to the fly's own address; with snipe on it snipes Elysium's new launches ($5 max each, 3 open, sold fast), else it just holds the HYPE. Money out is slow (HYPE to the owner's address on Elysium, the official bridge takes days). New chain, high risk.
+zero {on} (bool): Zero, LayerZero's own new chain (ZRO for gas), launching November 30. Off unless the owner turns it on; it is only a set-up for now: nothing trades or moves there before the launch. After it the owner adds ZRO on Zero to the fly's own address; with snipe on it snipes Zero's new launches (small, sold fast), else it holds the ZRO. New chain, high risk.
 snipe params: usd_per_launch 5..100, max_open 1..20, tp_x (sell at this multiple), tp_part 1..100 (% sold there; 100 = all), fall_pct 0..90 (sell all this % under the top, 0 = off), stop_pct, drain_pct, max_hold_hours, sol 0|1 (also Solana launches, from the fly's SOL). It needs 200,000 $FLYAI held.
 Ready-made setups (starter ids): {starters}.`;
 
@@ -161,7 +162,9 @@ export function mergeSettings(base: any, changes: any): any {
   // alone keeps the starter
   // off is explicit (2026-11-09): a Degen Sniper wallet is on Elysium unless its owner turned it off (velysium.is_on)
   if (ch.elysium && typeof ch.elysium === "object" && typeof ch.elysium.on === "boolean") out.elysium = ch.elysium.on ? { on: true } : { on: false, off: true };
-  if (Object.keys(ch).some((k) => k !== "elysium")) out.starter = "custom";
+  // Zero (2026-11-10, flytrade/ZERO-PLAN.md): the same set-up before its 11-30 launch; opt-in only, no style default
+  if (ch.zero && typeof ch.zero === "object" && typeof ch.zero.on === "boolean") out.zero = { on: ch.zero.on };
+  if (Object.keys(ch).some((k) => k !== "elysium" && k !== "zero")) out.starter = "custom";
   return out;
 }
 
@@ -186,7 +189,8 @@ export function cardOf(tool: { name: string; args: any }, settings: any, starter
     const st = a.starter ? starters.find((x) => x?.id === a.starter) : null;
     if (a.starter && !st) return `there is no setup called ${a.starter}`;
     const base = st ? { ...(settings ?? {}), ...st.settings, watch: settings?.watch ?? [], maker: settings?.maker,
-                        ...(settings?.elysium ? { elysium: settings.elysium } : {}) } : settings;
+                        ...(settings?.elysium ? { elysium: settings.elysium } : {}),
+                        ...(settings?.zero ? { zero: settings.zero } : {}) } : settings;
     const after = mergeSettings(base, a.changes);
     if (st && !a.changes) after.starter = st.id;
     if (JSON.stringify(after) === JSON.stringify({ ...settings, starter: after.starter })) return "nothing would change";

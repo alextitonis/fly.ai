@@ -1788,6 +1788,17 @@
       "homeHint": "Brought back to your fly's wallet here as USDG (through Relay), less the profit fee.",
       "noSwitch": "Your wallet didn't switch to Elysium. Disconnect and reconnect your wallet (so it allows Elysium, chain 99901), or add Elysium in the wallet (RPC rpc.elysium.kinetiq.xyz), then try again. Or send HYPE on Elysium to the address above from your wallet app."
     },
+    "zero": {
+      "titleSoon": "Zero (launching November 30)",
+      "title": "Zero",
+      "text": "Zero is LayerZero's own new chain, launching November 30. Set your fly up now and it snipes Zero's new tokens with the ZRO you add after the launch.",
+      "on": "Set my fly up for Zero",
+      "doesSnipe": "With the sniper on, your fly buys Zero's brand-new tokens in their first minutes and sells them fast, the same way it does here.",
+      "doesHold": "With your current style the fly keeps the ZRO you add on Zero; trading there is the sniper only. Pick Degen Sniper (or turn on the sniper) to buy its brand-new tokens.",
+      "next": "Save to keep this set-up. Nothing moves before the launch; after it you add ZRO on Zero to your fly's address.",
+      "ready": "Your fly is set up for Zero. Nothing moves before the launch; after it you add ZRO on Zero to your fly's address.",
+      "risk": "A new chain is high risk: most new tokens fail, and money leaving Zero may take longer than from other chains at first."
+    },
     "toFlyTitle": "Move to another of your flies",
     "toFlyText": "Up to {usd} straight to another fly's wallet, usually within minutes. Positions are sold only if the cash isn't enough. The profit fee is taken on the profit part, as on a withdrawal; $FLYAI and FlightPass money stay with this fly.",
     "toFlyPick": "Which fly",
@@ -2133,7 +2144,8 @@
     "earn": "Idle cash lent to the Steakhouse or Spark USDG vault on Robinhood Chain. The rate shown is the base rate now; it moves every day.",
     "crossChains": "Tokens on these chains are bought with the wallet's USDG through Relay (bridge + swap in one go) and sold back to USDG here. The first buy on a chain also sends $0.50 of gas there. Buys under $5 are skipped.",
     "maker": "Fly Maker's Steady band from this fly's own wallet: it only acts while the price is within 3% of its 5-minute average, swaps at most a quarter of the maker's money at a time, and takes the liquidity out before any withdrawal.",
-    "elysium": "Elysium is Kinetiq's Layer 2 for Hyperliquid, paid in HYPE. Your fly uses the same wallet address there. Turn it on and save (Degen Sniper is on by default), then send HYPE on Elysium or add it from your fly's cash. Money comes back through Relay."
+    "elysium": "Elysium is Kinetiq's Layer 2 for Hyperliquid, paid in HYPE. Your fly uses the same wallet address there. Turn it on and save (Degen Sniper is on by default), then send HYPE on Elysium or add it from your fly's cash. Money comes back through Relay.",
+    "zero": "Zero is LayerZero's own Layer 1, paid in ZRO, launching November 30. Your fly uses the same wallet address there. Turn it on and save to be ready: nothing trades or moves before the launch."
   },
   "label": {
     "add": "Add a private label",

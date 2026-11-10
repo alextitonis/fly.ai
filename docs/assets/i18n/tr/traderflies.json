@@ -1788,6 +1788,17 @@
       "homeHint": "Buradaki sinek cüzdanına USDG olarak döner (Relay ile), kâr ücreti düşülerek.",
       "noSwitch": "Cüzdanın Elysium'a geçmedi. Cüzdanının bağlantısını kesip yeniden bağla (Elysium'a, zincir 99901'e izin versin) ya da cüzdana Elysium'u ekle (RPC rpc.elysium.kinetiq.xyz), sonra tekrar dene. Ya da cüzdan uygulamandan yukarıdaki adrese Elysium'da HYPE gönder."
     },
+    "zero": {
+      "titleSoon": "Zero (30 Kasım'da açılıyor)",
+      "title": "Zero",
+      "text": "Zero, LayerZero'nun 30 Kasım'da açılacak kendi yeni zinciri. Sineğini şimdi hazırla; açılıştan sonra eklediğin ZRO ile Zero'nun yeni tokenlerini snipe eder.",
+      "on": "Sineğimi Zero için hazırla",
+      "doesSnipe": "Sniper açıkken sineğin, Zero'nun yeni çıkan tokenlarını ilk dakikalarında alır ve burada olduğu gibi hızlı satar.",
+      "doesHold": "Şu anki stilinle sinek, Zero'ya eklediğin ZRO'yu tutar; orada sadece sniper işlem yapar. Yepyeni tokenlerini almak için Degen Sniper'ı seç (ya da sniper'ı aç).",
+      "next": "Bu hazırlığı korumak için kaydet. Açılıştan önce hiçbir şey hareket etmez; sonra Zero'da sineğinin adresine ZRO eklersin.",
+      "ready": "Sineğin Zero için hazır. Açılıştan önce hiçbir şey hareket etmez; sonra Zero'da sineğinin adresine ZRO eklersin.",
+      "risk": "Yeni bir ağ yüksek risklidir: yeni tokenların çoğu batar ve başta Zero'dan para çıkarmak diğer ağlardan daha uzun sürebilir."
+    },
     "toFlyTitle": "Başka bir sineğine taşı",
     "toFlyText": "{usd} tutarına kadar doğrudan başka bir sineğin cüzdanına, genelde dakikalar içinde. Nakit yetmezse pozisyonlar satılır. Kâr ücreti, çekimde olduğu gibi kâr kısmından alınır; $FLYAI ve FlightPass parası bu sinekte kalır.",
     "toFlyPick": "Hangi sinek",
@@ -2133,7 +2144,8 @@
     "earn": "Boştaki nakit Robinhood Chain'deki Steakhouse ya da Spark USDG kasasına ödünç verilir. Gösterilen, şu anki temel faizdir; her gün değişir.",
     "crossChains": "Bu zincirlerdeki tokenlar cüzdanın USDG'si ile Relay üzerinden alınır (köprü + takas tek seferde) ve burada tekrar USDG'ye satılır. Bir zincirdeki ilk alım oraya $0.50 gaz da gönderir. $5 altı alımlar atlanır.",
     "maker": "Fly Maker'ın Sabit bandı bu sineğin kendi cüzdanından: yalnızca fiyat 5 dakikalık ortalamasının %3 yakınındayken işlem yapar, bir seferde maker parasının en fazla dörtte birini takas eder ve her çekimden önce likiditeyi çıkarır.",
-    "elysium": "Elysium, Kinetiq'in Hyperliquid için Layer 2'si; gas HYPE ile ödenir. Sineğin orada da aynı cüzdan adresini kullanır. Aç ve kaydet (Degen Sniper'da varsayılan açık), sonra Elysium'da HYPE gönder ya da sineğinin nakdinden ekle. Para Relay ile geri döner."
+    "elysium": "Elysium, Kinetiq'in Hyperliquid için Layer 2'si; gas HYPE ile ödenir. Sineğin orada da aynı cüzdan adresini kullanır. Aç ve kaydet (Degen Sniper'da varsayılan açık), sonra Elysium'da HYPE gönder ya da sineğinin nakdinden ekle. Para Relay ile geri döner.",
+    "zero": "Zero, LayerZero'nun kendi Layer 1'i; gas ZRO ile ödenir ve 30 Kasım'da açılıyor. Sineğin orada da aynı cüzdan adresini kullanır. Hazır olmak için aç ve kaydet: açılıştan önce işlem yapılmaz, para hareket etmez."
   },
   "label": {
     "add": "Gizli etiket ekle",

@@ -1788,6 +1788,17 @@
       "homeHint": "Vuelve a la billetera de tu mosca aquí en USDG (por Relay), menos la comisión sobre beneficios.",
       "noSwitch": "Tu billetera no cambió a Elysium. Desconecta y vuelve a conectar tu billetera (para que permita Elysium, cadena 99901), o añade Elysium en la billetera (RPC rpc.elysium.kinetiq.xyz), y vuelve a intentarlo. O envía HYPE en Elysium a la dirección de arriba desde tu app de billetera."
     },
+    "zero": {
+      "titleSoon": "Zero (llega el 30 de noviembre)",
+      "title": "Zero",
+      "text": "Zero es la nueva cadena propia de LayerZero y llega el 30 de noviembre. Prepara tu mosca ahora y hará sniping de los nuevos tokens de Zero con el ZRO que añadas tras el lanzamiento.",
+      "on": "Preparar mi mosca para Zero",
+      "doesSnipe": "Con el sniper activado, tu mosca compra los tokens nuevos de Zero en sus primeros minutos y los vende rápido, igual que aquí.",
+      "doesHold": "Con tu estilo actual, la mosca guarda el ZRO que añadas en Zero; allí solo opera el sniper. Elige Degen Sniper (o activa el sniper) para comprar sus tokens recién creados.",
+      "next": "Guarda para conservar esta preparación. Nada se mueve antes del lanzamiento; después añades ZRO en Zero a la dirección de tu mosca.",
+      "ready": "Tu mosca está preparada para Zero. Nada se mueve antes del lanzamiento; después añades ZRO en Zero a la dirección de tu mosca.",
+      "risk": "Una cadena nueva es de alto riesgo: la mayoría de los tokens nuevos fracasan, y sacar dinero de Zero puede tardar más que en otras cadenas al principio."
+    },
     "toFlyTitle": "Mover a otra de tus moscas",
     "toFlyText": "Hasta {usd} directo a la billetera de otra mosca, normalmente en minutos. Solo se venden posiciones si no alcanza el efectivo. La comisión se cobra sobre la parte de ganancia, como en un retiro; los $FLYAI y el dinero de FlightPass se quedan en esta mosca.",
     "toFlyPick": "Qué mosca",
@@ -2133,7 +2144,8 @@
     "earn": "El efectivo inactivo se presta a la bóveda USDG de Steakhouse o Spark en Robinhood Chain. La tasa mostrada es la tasa base actual; cambia cada día.",
     "crossChains": "Los tokens de estas cadenas se compran con el USDG de la billetera vía Relay (puente + swap de una vez) y se venden de vuelta a USDG aquí. La primera compra en una cadena también envía $0.50 de gas. Las compras de menos de $5 se omiten.",
     "maker": "La Banda estable de Fly Maker desde la billetera de esta mosca: solo actúa con el precio a menos de 3% de su media de 5 minutos, intercambia como mucho un cuarto del dinero del maker a la vez y retira la liquidez antes de cualquier retiro.",
-    "elysium": "Elysium es la Layer 2 de Kinetiq para Hyperliquid, con gas en HYPE. Tu mosca usa allí la misma dirección de billetera. Actívalo y guarda (Degen Sniper viene activado), luego envía HYPE en Elysium o añádelo desde el efectivo de tu mosca. El dinero vuelve por Relay."
+    "elysium": "Elysium es la Layer 2 de Kinetiq para Hyperliquid, con gas en HYPE. Tu mosca usa allí la misma dirección de billetera. Actívalo y guarda (Degen Sniper viene activado), luego envía HYPE en Elysium o añádelo desde el efectivo de tu mosca. El dinero vuelve por Relay.",
+    "zero": "Zero es la Layer 1 propia de LayerZero, con gas en ZRO, y llega el 30 de noviembre. Tu mosca usa allí la misma dirección de billetera. Actívalo y guarda para estar listo: nada opera ni se mueve antes del lanzamiento."
   },
   "label": {
     "add": "Añadir etiqueta privada",

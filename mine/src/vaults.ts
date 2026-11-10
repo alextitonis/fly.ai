@@ -193,12 +193,14 @@ export function createVaults(d: VaultsDeps) {
       return { chain, ledger, stats, settings: settings?.doc ?? null };
     };
     const [home, ...away] = await Promise.all([one("robinhood"), ...AWAY.map(one)]);
-    const [solana, perps, agent, elysium] = await Promise.all([SOLANA && wallet ? publicOf(`vault:solana:${wallet}`) : null,
+    const [solana, perps, agent, elysium, zero] = await Promise.all([SOLANA && wallet ? publicOf(`vault:solana:${wallet}`) : null,
       PERPS && wallet ? publicOf(`vault:perps:${wallet}`) : null,
       wallet ? publicOf(`vault:agent:${wallet}`) : null,            // its ERC-8004 agent id (flytrade/vaults/vagents.py)
       // its Elysium balance (flytrade/vaults/velysium.py, 2026-11-09): only once the desk serves it (ELYSIUM_LIVE), else null
-      wallet ? publicOf(`vault:elysium:${wallet}`) : null]);
-    return { fly, owner, wallet, ...home, pass: granted ?? null, away, solana, perps, agent, elysium };
+      wallet ? publicOf(`vault:elysium:${wallet}`) : null,
+      // its Zero balance (flytrade/vaults/vzero.py, 2026-11-10): the same, null until the desk's ZERO_LIVE
+      wallet ? publicOf(`vault:zero:${wallet}`) : null]);
+    return { fly, owner, wallet, ...home, pass: granted ?? null, away, solana, perps, agent, elysium, zero };
   }
 
   /**
@@ -437,12 +439,17 @@ export function createVaults(d: VaultsDeps) {
   // On/off is the settings' elysium.on. "in" {usd}: the wallet's USDG to HYPE at the same address on Elysium (Relay), asked
   // by the Robinhood wallet's holder. "out" {bps, mode}: withdraw = $FLYAI on Robinhood to the holder (as Solana's), home =
   // USDG back to the fly's Robinhood wallet; asked by the holder of the Elysium money. Only once the desk serves the wallet.
-  async function elysium(req: IncomingMessage, wallet: string, body: any) {
+  // Zero (vzero.py, 2026-11-10) is the same book on another chain: the same asks, its own kinds (zero_in / zero_out)
+  const BOOKS = { elysium: { pre: "ely", title: "Elysium" }, zero: { pre: "zero", title: "Zero" } } as const;
+  const elysium = (req: IncomingMessage, wallet: string, body: any) => chainBook("elysium", req, wallet, body);
+  const zero = (req: IncomingMessage, wallet: string, body: any) => chainBook("zero", req, wallet, body);
+  async function chainBook(which: keyof typeof BOOKS, req: IncomingMessage, wallet: string, body: any) {
     isOn();
+    const { pre, title } = BOOKS[which];
     const me = await d.sessionWallet(req);
     if ((await flyOfWallet(wallet)) == null) throw new HttpError(404, "no such fly wallet");
-    const row = await publicOf(`vault:elysium:${wallet}`);
-    if (!row?.live) throw new HttpError(503, "Elysium isn't open for this fly yet");
+    const row = await publicOf(`vault:${which}:${wallet}`);
+    if (!row?.live) throw new HttpError(503, `${title} isn't open for this fly yet`);
     const action = String(body?.action ?? "");
     let kind: string, params: Record<string, unknown>;
     if (action === "in") {
@@ -450,20 +457,20 @@ export function createVaults(d: VaultsDeps) {
       if (!Number.isFinite(usd) || usd < 5 || usd > 1_000_000) throw new HttpError(400, "usd is at least 5");
       const led = await ledgerOf(wallet, "robinhood");
       if (!led?.holder || led.holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can move its money");
-      kind = "ely_in";
+      kind = `${pre}_in`;
       params = { usd };
     } else if (action === "out") {
-      if (!row.holder || String(row.holder).toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the holder of this fly's Elysium money can do this");
+      if (!row.holder || String(row.holder).toLowerCase() !== me.toLowerCase()) throw new HttpError(403, `only the holder of this fly's ${title} money can do this`);
       const bps = Number(body?.bps);
       if (!Number.isInteger(bps) || bps < 1 || bps > 10_000) throw new HttpError(400, "bps is 1..10000");
-      kind = "ely_out";
+      kind = `${pre}_out`;
       params = { bps, mode: body?.mode === "home" ? "home" : "withdraw" };
     } else {
       throw new HttpError(400, "action is in or out");
     }
     const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = 'robinhood'
-      and kind like 'ely\\_%' and status in ('new', 'doing')`, wallet);
-    if (open) throw new HttpError(409, "an Elysium request is already on its way");
+      and kind like ? and status in ('new', 'doing')`, wallet, `${pre}\\_%`);
+    if (open) throw new HttpError(409, `${title === "Elysium" ? "an" : "a"} ${title} request is already on its way`);
     const r = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
       values (?, 'robinhood', ?, ?, ?::text::jsonb) returning id`, wallet, kind, me, JSON.stringify(params));
     return { id: r!.id, status: "new" };
@@ -578,7 +585,8 @@ export function createVaults(d: VaultsDeps) {
     const sol: number[] = (SOLANA ? (await publicOf("solana_funded"))?.flies : null) ?? [];   // (their Solana money counts too)
     const per: number[] = (PERPS ? (await publicOf("perps_funded"))?.flies : null) ?? [];      // (and their Perps money)
     const ely: number[] = (await publicOf("elysium_funded"))?.flies ?? [];                     // (and their Elysium money)
-    return { flies: [...new Set([...rows.filter(holdsMoney).map((r) => r.fly_id), ...sol, ...per, ...ely])] };
+    const zro: number[] = (await publicOf("zero_funded"))?.flies ?? [];                        // (and their Zero money)
+    return { flies: [...new Set([...rows.filter(holdsMoney).map((r) => r.fly_id), ...sol, ...per, ...ely, ...zro])] };
   }
 
   async function requestView(id: number) {
@@ -974,6 +982,7 @@ export function createVaults(d: VaultsDeps) {
       if (p === "/api/vaults/levels") { isOn(); return d.send(res, 200, await cached("levels", 300_000, levels)), true; }
       // the fly wallets' Elysium snipes, buys and exits (velysium.py "elysium_snipes"): Discord's alpha feed reads it
       if (p === "/api/vaults/elysium/snipes") return d.send(res, 200, (await publicOf("elysium_snipes")) ?? { at: 0, open: [], closed: [] }), true;
+      if (p === "/api/vaults/zero/snipes") return d.send(res, 200, (await publicOf("zero_snipes")) ?? { at: 0, open: [], closed: [] }), true;
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})$/.exec(p))) return d.send(res, 200, await flyView(Number(m[1]))), true;
       if ((m = /^\/api\/vaults\/fly\/(\d{1,6})\/log$/.exec(p))) {
         const fly = Number(m[1]);
@@ -987,12 +996,12 @@ export function createVaults(d: VaultsDeps) {
     }
     if (req.method === "POST") {
       if (p === "/api/vaults/labels") return d.send(res, 200, await saveLabel(req, await d.readJson(req))), true;
-      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move|transfer|solana|perps|elysium)$/.exec(p))) {
+      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move|transfer|solana|perps|elysium|zero)$/.exec(p))) {
         if (!ADDRESS.test(m[1])) throw new HttpError(400, "bad wallet address");
         const wallet = checksumAddress(m[1]);
         const body = await d.readJson(req);
         const go = m[2] === "settings" ? saveSettings : m[2] === "withdraw" ? withdraw : m[2] === "transfer" ? transfer : m[2] === "solana" ? solana
-          : m[2] === "perps" ? perps : m[2] === "elysium" ? elysium : move;
+          : m[2] === "perps" ? perps : m[2] === "elysium" ? elysium : m[2] === "zero" ? zero : move;
         return d.send(res, 200, await go(req, wallet, body)), true;
       }
       if (p === "/api/admin/promo/manual") return d.send(res, 200, await manualPromo(req, await d.readJson(req))), true;
