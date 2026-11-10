@@ -66,11 +66,11 @@
   const DIRECT_EDGE_BPS = 30n;                          // a USDG buy needing new approvals goes direct only this much better
   const MINE = (window.flyNav && window.flyNav.MINE_API) || "https://flyai-mine.fly.dev";
   // gas on the chain paid from (wei): under this a USDC payment there needs Relay's gasless permit, or coin first
-  const GAS_MIN = { 8453: 3n * 10n ** 13n, 42161: 3n * 10n ** 13n, 1: 6n * 10n ** 14n, 80094: 10n ** 16n };
+  const GAS_MIN = { 8453: 3n * 10n ** 13n, 42161: 3n * 10n ** 13n, 1: 6n * 10n ** 14n, 80094: 10n ** 16n, 4326: 3n * 10n ** 13n };
   const SOLANA = 792703809;                             // Relay's id for it
   const SOL_PREVIEW = "HHTEVaETWsabcpHK7zcS7xzqqGhWKKTcfLd93boP4HjN";   // Solana quotes before a wallet is connected
   const SOL_KEEP = 10n ** 7n;                           // Max on SOL leaves 0.01 SOL for fees
-  const CHAIN_NAMES = { 8453: "Base", 42161: "Arbitrum", 1: "Ethereum", 80094: "Berachain", [SOLANA]: "Solana" };
+  const CHAIN_NAMES = { 8453: "Base", 42161: "Arbitrum", 1: "Ethereum", 80094: "Berachain", 4326: "MegaETH", [SOLANA]: "Solana" };
   // the chains a visitor can pay from: their coin and their USDC (public RPCs for the balance line)
   const ORIGINS = {
     4663: { rpc: RPC, explorer: EXPLORER, pay: PAY },
@@ -86,6 +86,12 @@
                     USDC: { address: "0x549943e04f40284185054145c6e4e9568c1d3241", decimals: 6 } },
              add: { chainName: "Berachain", rpcUrls: ["https://rpc.berachain.com"], blockExplorerUrls: ["https://berascan.com"],
                     nativeCurrency: { name: "BERA", symbol: "BERA", decimals: 18 } } },
+    // 2026-11-10 (the user: Enjoyoors, the MegaETH partner): ETH, USDT or USDm on MegaETH; Relay quotes all three
+    4326: { rpc: "https://mainnet.megaeth.com/rpc", explorer: "https://megaeth.blockscout.com",
+            pay: { ETH: PAY.ETH, USDT: { address: "0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb", decimals: 6 },
+                   USDm: { address: "0xfafddbb3fc7688494971a79cc65dca3ef82079e7", decimals: 18 } },
+            add: { chainName: "MegaETH", rpcUrls: ["https://mainnet.megaeth.com/rpc"], blockExplorerUrls: ["https://megaeth.blockscout.com"],
+                   nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 } } },
     [SOLANA]: { explorer: "https://solscan.io",
                 pay: { SOL: { address: "11111111111111111111111111111111", decimals: 9 },
                        USDC: { address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", decimals: 6 } } },
