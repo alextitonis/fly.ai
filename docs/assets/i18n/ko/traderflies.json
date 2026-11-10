@@ -232,6 +232,7 @@
     "season": "시즌 {n}",
     "left": "{d}일 {h}시간 남음",
     "ended": "종료",
+    "prizeFly": "시즌 4부터 상금은 우승자의 Trader Fly 지갑에 거래 자금으로 지급되며 {days}일 동안 잠깁니다.",
     "place1": "1위",
     "place2": "2위",
     "place3": "3위",

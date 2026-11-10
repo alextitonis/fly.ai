@@ -234,6 +234,7 @@
     "season": "Season {n}",
     "left": "{d} d {h} h left",
     "ended": "Ended",
+    "prizeFly": "From Season 4, each prize is paid into one of the winner's Trader Flies as trading money in its wallet, locked for {days} days.",
     "place1": "1st",
     "place2": "2nd",
     "place3": "3rd",

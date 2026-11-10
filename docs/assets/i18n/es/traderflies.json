@@ -234,6 +234,7 @@
     "season": "Temporada {n}",
     "left": "quedan {d} d {h} h",
     "ended": "Terminada",
+    "prizeFly": "Desde la Temporada 4, cada premio se paga a una de las Trader Flies del ganador como dinero para operar en su wallet, bloqueado durante {days} días.",
     "place1": "1.º",
     "place2": "2.º",
     "place3": "3.º",

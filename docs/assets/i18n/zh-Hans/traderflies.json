@@ -232,6 +232,7 @@
     "season": "第 {n} 季",
     "left": "剩余 {d} 天 {h} 小时",
     "ended": "已结束",
+    "prizeFly": "从第 4 季起，奖金会发到获奖者的一只 Trader Fly 的钱包里作为交易资金，锁定 {days} 天。",
     "place1": "第 1 名",
     "place2": "第 2 名",
     "place3": "第 3 名",

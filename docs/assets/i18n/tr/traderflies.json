@@ -234,6 +234,7 @@
     "season": "Sezon {n}",
     "left": "{d} g {h} sa kaldı",
     "ended": "Bitti",
+    "prizeFly": "4. Sezondan itibaren her ödül, kazananın Trader Fly'larından birinin cüzdanına işlem parası olarak ödenir ve {days} gün kilitli kalır.",
     "place1": "1.",
     "place2": "2.",
     "place3": "3.",
