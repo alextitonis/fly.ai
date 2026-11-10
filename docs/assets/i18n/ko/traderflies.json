@@ -1780,6 +1780,7 @@
       "bridgeTitle": "또는 플라이의 현금에서 넣기",
       "bridgeText": "플라이가 여기 있는 USDG 일부를 Elysium의 HYPE로 바꿔요 (Relay, 약 1분).",
       "bridged": "브리지됨: 1~2분 안에 Elysium에 HYPE가 보여요.",
+      "recent": "최근 Elysium 거래",
       "withdrawHint": "Robinhood Chain의 $FLYAI로 받아요 (Relay), 수익 수수료 제외.",
       "homeHint": "여기 플라이 지갑으로 USDG로 돌아와요 (Relay), 수익 수수료 제외.",
       "noSwitch": "지갑이 Elysium으로 전환되지 않았어요. 지갑 연결을 끊고 다시 연결하거나(Elysium, 체인 99901 허용), 지갑에 Elysium을 추가한 뒤(RPC rpc.elysium.kinetiq.xyz) 다시 시도하세요. 또는 지갑 앱에서 위 주소로 Elysium의 HYPE를 보내세요."

@@ -1782,6 +1782,7 @@
       "bridgeTitle": "Ya da sineğinin nakdinden ekle",
       "bridgeText": "Sineğin buradaki USDG'sinin bir kısmını Elysium'da HYPE'a çevirir (Relay ile, yaklaşık bir dakika).",
       "bridged": "Köprülendi: HYPE bir iki dakika içinde Elysium'da görünür.",
+      "recent": "Son Elysium işlemleri",
       "withdrawHint": "Sana Robinhood Chain'de $FLYAI olarak ödenir (Relay ile), kâr ücreti düşülerek.",
       "homeHint": "Buradaki sinek cüzdanına USDG olarak döner (Relay ile), kâr ücreti düşülerek.",
       "noSwitch": "Cüzdanın Elysium'a geçmedi. Cüzdanının bağlantısını kesip yeniden bağla (Elysium'a, zincir 99901'e izin versin) ya da cüzdana Elysium'u ekle (RPC rpc.elysium.kinetiq.xyz), sonra tekrar dene. Ya da cüzdan uygulamandan yukarıdaki adrese Elysium'da HYPE gönder."

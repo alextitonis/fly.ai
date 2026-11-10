@@ -1780,6 +1780,7 @@
       "bridgeTitle": "或从苍蝇的现金加入",
       "bridgeText": "你的苍蝇把这里的一部分 USDG 换成 Elysium 上的 HYPE（通过 Relay，约一分钟）。",
       "bridged": "已跨链：HYPE 一两分钟内会出现在 Elysium。",
+      "recent": "最近的 Elysium 交易",
       "withdrawHint": "以 Robinhood Chain 上的 $FLYAI 付给你（通过 Relay），扣除盈利费。",
       "homeHint": "以 USDG 回到你苍蝇在这里的钱包（通过 Relay），扣除盈利费。",
       "noSwitch": "你的钱包没有切换到 Elysium。断开并重新连接钱包（让它允许 Elysium，链 99901），或在钱包里添加 Elysium（RPC rpc.elysium.kinetiq.xyz），然后再试。或者从钱包应用把 Elysium 上的 HYPE 发送到上面的地址。"

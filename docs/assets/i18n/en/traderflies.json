@@ -1782,6 +1782,7 @@
       "bridgeTitle": "Or add from your fly's cash",
       "bridgeText": "Your fly turns some of its USDG here into HYPE on Elysium (through Relay, about a minute).",
       "bridged": "Bridged: the HYPE shows on Elysium within a minute or two.",
+      "recent": "Recent Elysium trades",
       "withdrawHint": "Paid to you as $FLYAI on Robinhood Chain (through Relay), less the profit fee.",
       "homeHint": "Brought back to your fly's wallet here as USDG (through Relay), less the profit fee.",
       "noSwitch": "Your wallet didn't switch to Elysium. Disconnect and reconnect your wallet (so it allows Elysium, chain 99901), or add Elysium in the wallet (RPC rpc.elysium.kinetiq.xyz), then try again. Or send HYPE on Elysium to the address above from your wallet app."

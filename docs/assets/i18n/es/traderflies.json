@@ -1782,6 +1782,7 @@
       "bridgeTitle": "O añádelo desde el efectivo de tu mosca",
       "bridgeText": "Tu mosca convierte parte de su USDG de aquí en HYPE en Elysium (por Relay, cerca de un minuto).",
       "bridged": "Enviado por el puente: el HYPE aparece en Elysium en un minuto o dos.",
+      "recent": "Operaciones recientes en Elysium",
       "withdrawHint": "Se te paga en $FLYAI en Robinhood Chain (por Relay), menos la comisión sobre beneficios.",
       "homeHint": "Vuelve a la billetera de tu mosca aquí en USDG (por Relay), menos la comisión sobre beneficios.",
       "noSwitch": "Tu billetera no cambió a Elysium. Desconecta y vuelve a conectar tu billetera (para que permita Elysium, cadena 99901), o añade Elysium en la billetera (RPC rpc.elysium.kinetiq.xyz), y vuelve a intentarlo. O envía HYPE en Elysium a la dirección de arriba desde tu app de billetera."
