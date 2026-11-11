@@ -38,9 +38,11 @@ const SCRIPTS = [
   "mine/src/fightjob.ts", "mine/src/replay.ts", "world/src/arena/game.ts", "world/src/arena/readout.ts", "world/src/roulette/game.ts",
   "mine/web/i18n.ts", "mine/web/mine-core.ts", "mine/web/format.ts", "mine/web/download.ts", "mine/web/wallet.ts", "mine/web/account.ts", "mine/web/gpu.ts",
   "mine/web/gpu.worker.ts", "mine/web/miner.worker.ts", "mine/web/openjob.ts", "mine/web/open.worker.ts", "mine/web/embed.worker.ts", "mine/web/worldjob.ts",
-  "mine/web/app.ts", "mine/web/jobs.ts", "mine/web/stake.ts", "mine/web/claim.ts", "mine/web/leaderboard.ts", "mine/web/results.ts", "mine/web/connect.ts", "mine/web/bench.ts",
+  // training runs (mine/src/train.ts): evolve and train jobs, and text completion on WebGPU
+  "mine/src/train.ts", "mine/web/trainjob.ts", "mine/web/llm.worker.ts",
+  "mine/web/app.ts", "mine/web/jobs.ts", "mine/web/stake.ts", "mine/web/claim.ts", "mine/web/leaderboard.ts", "mine/web/results.ts", "mine/web/connect.ts", "mine/web/bench.ts", "mine/web/runs.ts",
 ];
-const PAGES = ["index", "jobs", "stake", "claim", "leaderboard", "results", "connect", "bench"];
+const PAGES = ["index", "jobs", "stake", "claim", "leaderboard", "results", "connect", "bench", "runs"];
 const RELATIVE_TS = /(["'])(\.{1,2}\/[^"'\n]*?)\.ts\1/g;
 
 const write = (to, data) => {
@@ -62,6 +64,9 @@ execFileSync(process.execPath, [join(REPO, "mine/wallet/build.mjs"), join(OUT, "
 for (const page of PAGES) copyFileSync(join(REPO, "mine/web", `${page}.html`), join(OUT, `${page}.html`));
 copyFileSync(join(REPO, "mine/web/compute.css"), join(OUT, "mine/web/compute.css"));
 copyFileSync(join(REPO, "mine/web/compute-api.md"), join(OUT, "compute-api.md")); // the API guide, downloadable from /compute/jobs
+// the training page's cart-pole template, fetched by the page and uploaded as the run's fitness
+mkdirSync(join(OUT, "examples"), { recursive: true });
+copyFileSync(join(REPO, "mine/examples/es-cartpole/es_cartpole.wasm"), join(OUT, "examples/es_cartpole.wasm"));
 
 // every relative import must resolve, and every page's script must exist
 const missing = [];

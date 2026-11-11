@@ -379,6 +379,153 @@ doesn't. There's no error answer: a miner that can't run the model gives the job
 
 **Anyone who takes a job can read its texts**, so don't send secrets.
 
+## Text completion: prompts in, text out
+
+Batch text generation with small open models, for synthetic data, labels and evals. Nobody waits on these, so it
+fits a fleet of browsers. Miners run the model with MLC WebLLM on WebGPU, greedily (temperature 0). Only miners
+with a GPU take these jobs.
+
+| model | about |
+|---|---|
+| `qwen2.5-0.5b` | Qwen2.5 0.5B Instruct: small and fast, labels and short answers |
+| `qwen2.5-1.5b` | Qwen2.5 1.5B Instruct: better writing, still laptop-sized |
+| `llama3.2-1b` | Llama 3.2 1B Instruct: general short completions |
+
+```sh
+# one job = one upload: a JSON array of 1 to 32 prompts, each a string or {"system": "...", "prompt": "..."}
+H=$(curl -s -X POST $API/api/blobs --data-binary '["Name three flies.", {"system": "One word.", "prompt": "Sky colour?"}]' | jq -r .hash)
+curl -s -X POST $API/api/orders/quote -H 'content-type: application/json' \
+  -d "{\"spec\":{\"kind\":\"complete\",\"model\":\"qwen2.5-0.5b\",\"inputs\":[\"$H\"],\"max_tokens\":128}}"
+```
+
+| field | | |
+|---|---|---|
+| `kind` | `"complete"` | |
+| `model` | one of the models above | |
+| `inputs` | uploads, each a JSON array of 1 to 32 prompts (8,000 characters each) | checked when you order |
+| `max_tokens` | 1 to 1024, default 256 | per prompt |
+| `compare` | default `{"prefix": 0.9, "share": 0.75}` | see below |
+| `redundancy` | 1 to 5, default 2 | |
+| `timeout_s` | 10 to 600, default 180 | the first job on a miner also loads the model (~1 GB, cached after) |
+
+**Results:** each settled row's `output` is JSON, `{"texts": [...]}`, one text per prompt in order.
+
+**How answers are checked, and how far to trust it:** the same GPU writes the same text every time. Different GPUs
+round floats differently, and a text can take another word late on. We measured Qwen2.5 0.5B on 8 prompts: an RTX 4060
+gave 8 of 8 identical texts twice, and the 4060 against a Radeon 890M gave 6 of 8. The other two split at 78% and 71%
+of the way through. So two answers agree when at least `share` of their texts match on their first `prefix` of characters.
+That's weaker than exact agreement: a dishonest miner could change a quarter of a batch's texts and still match.
+Raise `share` to 1 (and `redundancy` to 3) if every text must be checked. Speed varies a lot, from about 37 tokens a
+second on the 4060 to about 2 on a laptop's integrated GPU.
+
+## Training runs: evolve and train
+
+A **run** trains something over many steps. Each step (a *generation* or a *round*) is a batch of ordinary jobs that
+two miners must agree on. Between steps the server reads the answers, takes the step and stores the new parameters
+as an upload. The run's order is like any other: you pay per settled job, miners are paid from the charges, and
+whatever's unspent comes back. A run ends after its last step, or when its order runs out of budget or time, or when
+you stop it. `POST /api/orders/quote` prices the whole run.
+
+There are two kinds:
+
+- **`evolve`: evolution strategies** (OpenAI ES with mirrored pairs, centered ranks and Adam). You give a fitness
+  and the number of parameters. Each job scores a few perturbed copies of the parameters, `θ ± σε`, and returns only
+  the scores, 16 bytes a pair. The server rebuilds every `ε` from its seed. Every generation also scores `θ` itself
+  (the *center*), which is the curve you watch. It works with any fitness you can compute and needs no gradients.
+- **`train`: small neural nets on your data**, DiLoCo style. Each job takes `local_steps` Adam steps from the
+  round's weights on one data shard and returns the change in the weights. The server averages the changes (the
+  outer step, with Nesterov momentum) and starts the next round. It uses the built-in MLP, or your own model as a
+  WebAssembly train step.
+
+### Evolve spec
+
+```json
+{"kind": "evolve", "dim": 5, "generations": 100, "pairs": 64, "pairs_per_job": 8, "sigma": 0.1, "lr": 0.05,
+ "episodes": 1, "fitness": {"wasm": "<sha256 of your module>"}}
+```
+
+| field | | |
+|---|---|---|
+| `dim` | 1 to 100,000 | parameters; `dim × pairs` is at most 20,000,000 |
+| `fitness` | `{"wasm": hash}`, `{"builtin": "sphere" \| "rastrigin", "target"?}`, `{"builtin": "brain", ...}`, `{"builtin": "replay", ...}` | what a parameter vector scores; higher is better |
+| `generations` | 1 to 10,000, default 100 | |
+| `pairs` | 2 to 2,000, default 64 | mirrored pairs per generation |
+| `pairs_per_job` | 1 to 64, default 8 | one job = this many pairs (plus job 0, the center) |
+| `sigma`, `lr` | defaults 0.1 and 0.05 | the noise scale, and Adam's step size |
+| `episodes` | 1 to 16, default 1 | fitness seeds per score, shared by the whole generation |
+| `theta0` | an upload of `dim` float64 values | the start; zeros by default |
+| `weight_decay` | 0 to 1 | |
+| `timeout_s`, `redundancy` | as for programs | |
+
+**A WebAssembly fitness** gets `u32 episode seed | u32 dim | f64 params[dim]` (little-endian) as its input, through
+the `flyai` imports or stdin. It outputs one `f64`, the score. It must be deterministic: the same input must give the same 8
+bytes. WebAssembly float math is the same on every engine, but `sin`, `exp` and friends must come from your own code
+(Rust's libm, or a series), not from the host. The template is
+[`es-cartpole`](https://github.com/alextitonis/fly.ai/tree/main/mine/examples/es-cartpole): a cart-pole policy
+that learns to balance in a few dozen generations.
+
+**The fly brain** as the fitness: `{"builtin": "brain", "inputs": [{"types": ["LC4"]}, ...], "targets": [{"types":
+["DNp01"], "weight": 1}], "steps": 150, "cost": 0.5}`. There is one parameter per input group: its drive in volts per step,
+clamped to −2..2. The score adds `weight × spikes` of each target's cells (descending or wing motor neurons), less
+`cost × Σ|drive|`. It runs on the integer connectome, so every miner returns the same scores. These jobs go to
+miners' CPU threads, which hold the connectome.
+
+**A trading rule** as the fitness: `{"builtin": "replay", "data": "<replay data upload>", "setting": {"rule": {...}},
+"keys": [{"path": "hold_bars", "lo": 4, "hi": 96, "int": true}, ...], "block": 96}`. Each parameter is squashed into its
+key's range. The score is the log growth of the book on reshuffled price paths, one path per episode.
+
+### Train spec
+
+```json
+{"kind": "train", "model": {"mlp": {"layers": [784, 128, 10]}}, "shards": ["<sha256>", "..."],
+ "eval_shard": "<sha256>", "rounds": 50, "shards_per_round": 16, "local_steps": 50, "batch": 32, "lr": 0.001}
+```
+
+| field | | |
+|---|---|---|
+| `model` | `{"mlp": {"layers": [in, ..., out], "activation"?: "relu" \| "tanh", "loss"?: "xent" \| "mse"}}` or `{"wasm": hash, "params": n}` | up to 1,000,000 parameters |
+| `shards` | 1 to 10,000 uploads | each a data shard (format below); round r takes the next `shards_per_round` of them, wrapping |
+| `eval_shard` | an upload | built-in MLP only: the server scores the new weights on it every round |
+| `rounds` | 1 to 5,000, default 50 | |
+| `shards_per_round` | 1 to 256, default 16 | jobs per round |
+| `local_steps`, `batch`, `lr`, `weight_decay` | defaults 50, 32, 0.001, 0 | each job's local AdamW |
+| `outer_lr`, `outer_momentum` | defaults 0.7, 0.9 | the server's Nesterov step on the mean change |
+| `theta0` | an upload of float32 weights | needed for a wasm model; the MLP starts from a seeded He init |
+| `cosine` | 0.9 to 1, default 0.999 | two miners' weight changes agree at this cosine (and within 0.1% in length) |
+
+**A data shard:** `"FLYDATA1" | u32 rows | u32 x_dim | u32 y_kind | u32 y_dim | f32 x[rows × x_dim] | y`, all
+little-endian. `y_kind` 0 is class labels (`y` is `u32[rows]`, `y_dim` is the number of classes), and 1 is float
+targets (`y` is `f32[rows × y_dim]`). The Python client writes these from numpy arrays.
+
+**A WebAssembly train step** gets `u32 header length | header JSON {"steps", "batch", "lr", "weight_decay", "seed",
+"params"} | zero padding to 4 bytes | f32 theta[params] | the shard`. It outputs `f32 delta[params]` (new − old),
+then optionally `f32 mean loss` and `f32 accuracy`. The template is
+[`train-logreg`](https://github.com/alextitonis/fly.ai/tree/main/mine/examples/train-logreg), softmax regression
+written the way any model would be.
+
+### Following a run
+
+| | |
+|---|---|
+| `GET /api/runs/:id?points=500` | status, step, the last points, `theta` (the current parameters' upload), `best`, the order's money |
+| `GET /api/runs/:id/points?after=step` | the whole curve, 5,000 steps at a time |
+| `GET /api/runs` | the project's own runs (public research) |
+| `GET /api/blobs/:hash` | parameters: raw float64 (evolve) or float32 (train), little-endian |
+
+An evolve point has `center` (the score of the current θ), `mean`, `max` and `min` over the pairs, `grad_norm`, and how many
+pairs were `missing` (a disputed or failed job just drops out). A train point has `train_loss`, `train_acc` (the
+miners' own numbers), `eval_loss` and `eval_acc` (the server's, on `eval_shard`), and `delta_norm`. A run's order
+links back to it as `run` in `GET /api/orders/:id`. You can't add jobs to a run's order by hand.
+
+**From Python:** `pip install "git+https://github.com/alextitonis/fly.ai#subdirectory=mine/python"`, then
+`Fleet().evolve(...)`, `.train(...)` or `.complete(...)`. See `mine/python/README.md`. **Try it free first:**
+`node scripts/local-fleet.ts` in `mine/` starts a local server with practice miners. Point the client at it with
+`FLYAI_SERVER=http://localhost:8790 FLYAI_ADMIN_TOKEN=local`.
+
+**What fits:** small models only. Each miner downloads the round's weights (4 MB per million parameters), and a tab
+has one thread. The fleet won't pretrain or fine-tune LLMs. **Miners can see your data and your fitness**, so don't
+send anything private.
+
 ## Your own programs: run anything
 
 The brain experiments above are one kind of job. You can also send the network your own code:

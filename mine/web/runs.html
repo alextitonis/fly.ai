@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="compute.runs.metaTitle">Training runs &mdash; fly.ai compute</title>
+<meta name="description" content="Train small models on the fly.ai browser fleet: evolution strategies, small neural nets on your data, and batch text generation. Live curves and checkpoints." data-i18n-attr="content:compute.runs.metaDescription">
+<meta property="og:title" content="Training runs &mdash; fly.ai compute">
+<meta property="og:description" content="Train small models on the fly.ai browser fleet: evolution strategies, small neural nets on your data, and batch text generation. Live curves and checkpoints.">
+<meta property="og:image" content="https://flyaiworld.com/assets/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/compute/runs">
+<script src="/assets/i18n/boot.js"></script>
+<link rel="icon" href="/assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/compute/mine/web/compute.css">
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+
+<section class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="compute.runs.eyebrow">fly.ai compute · training</p>
+    <h1 data-i18n="compute.runs.title">Train on the fleet</h1>
+    <p class="lede" data-i18n="compute.runs.lede">Miners' browsers train small models together. Each generation or round is a batch of jobs that two miners must agree on; the server takes the step in between and keeps every checkpoint. You pay only for jobs that settle.</p>
+    <!-- @tabs:runs -->
+    <div class="tabs">
+      <a href="/compute/" data-i18n="compute.common.tab.mine">Mine</a>
+      <a href="/compute/jobs" data-i18n="compute.common.tab.jobs">Buy compute</a>
+      <a class="on" href="/compute/runs" data-i18n="compute.common.tab.runs">Train</a>
+      <a href="/compute/stake" data-i18n="compute.common.tab.stake">Stake</a>
+      <a href="/compute/claim" data-i18n="compute.common.tab.claims">Claims</a>
+      <a href="/compute/leaderboard" data-i18n="compute.common.tab.leaderboard">Leaderboard</a>
+      <a href="/compute/results" data-i18n="compute.common.tab.results">Results</a>
+    </div>
+    <!-- /@tabs -->
+  </div>
+</section>
+
+<section class="firstsec">
+  <div class="wrap stack">
+    <div class="card pad" id="run-card" hidden>
+      <span class="num" id="run-label">RUN</span>
+      <h3 id="run-title"></h3>
+      <div class="band">
+        <div><b id="run-status">—</b><span data-i18n="compute.runs.status">status</span></div>
+        <div><b id="run-step">—</b><span data-i18n="compute.runs.step">step</span></div>
+        <div><b id="run-params">—</b><span data-i18n="compute.runs.params">parameters</span></div>
+        <div><b id="run-spent">—</b><span data-i18n="compute.runs.spent">spent</span></div>
+      </div>
+      <div id="run-chart" style="margin-top:16px"></div>
+      <p id="run-legend" class="caption"></p>
+      <div class="cta" style="margin-top:14px">
+        <a id="run-theta" class="btn sm" href="#" data-i18n="compute.runs.downloadTheta">Download the parameters</a>
+        <a id="run-best" class="btn sm" href="#" hidden data-i18n="compute.runs.downloadBest">Download the best</a>
+        <a id="run-pay" class="btn sm red" href="#" hidden data-i18n="compute.runs.payForRun">Pay for this run</a>
+      </div>
+      <p id="run-note" class="codeline" style="margin-top:14px"></p>
+    </div>
+
+    <div class="card pad">
+      <span class="num" data-i18n="compute.runs.startNum">START A RUN</span>
+      <h3 data-i18n="compute.runs.startTitle">What to train</h3>
+      <div id="templates" class="choices"></div>
+      <div class="controls" id="wasm-field" hidden>
+        <label class="grow"><span data-i18n="compute.runs.wasmFile">Your fitness: a .wasm module (u32 episode, u32 dim, f64 params in; one f64 score out)</span> <input id="wasm-file" type="file" accept=".wasm"></label>
+        <label><span data-i18n="compute.runs.dim">Parameters</span> <input id="dim" type="number" min="1" max="100000" value="5"></label>
+      </div>
+      <div class="controls" id="csv-field" hidden>
+        <label class="grow"><span data-i18n="compute.runs.csvFile">Your data: a .csv of numbers, the last column the class (0, 1, 2…)</span> <input id="csv-file" type="file" accept=".csv,.txt"></label>
+        <label><span data-i18n="compute.runs.hidden">Hidden units</span> <input id="hidden" type="number" min="1" max="4096" value="64"></label>
+      </div>
+      <div class="controls">
+        <label><span id="steps-label" data-i18n="compute.runs.generations">Generations</span> <input id="steps" type="number" min="1" max="10000" value="100"></label>
+        <label class="grow"><span data-i18n="compute.runs.wallet">Paying wallet (yours)</span> <input id="wallet" type="text" placeholder="0x…" autocomplete="off" spellcheck="false"></label>
+        <label><span data-i18n="compute.runs.bid">Bid per job ($FLYAI)</span> <input id="bid" type="text" placeholder="min"></label>
+      </div>
+      <p id="quote" class="summary"></p>
+      <div class="cta"><button id="quote-btn" class="btn" type="button" data-i18n="compute.runs.quoteBtn">Price it</button><button id="create-btn" class="btn red" type="button" hidden data-i18n="compute.runs.createBtn">Create and pay</button></div>
+      <p id="form-status" class="codeline" style="margin-top:14px"></p>
+    </div>
+
+    <div class="card pad">
+      <span class="num" data-i18n="compute.runs.ourNum">OUR RUNS</span>
+      <h3 data-i18n="compute.runs.ourTitle">What the project trains on the fleet</h3>
+      <div id="runs" class="list"></div>
+      <p id="runs-empty" class="caption" hidden data-i18n="compute.runs.noRuns">No runs yet.</p>
+    </div>
+
+    <div class="card pad">
+      <span class="num" data-i18n="compute.runs.codeNum">FROM CODE</span>
+      <h3 data-i18n="compute.runs.codeTitle">Python, and a free practice fleet</h3>
+      <pre class="codeline" style="white-space:pre-wrap">pip install "git+https://github.com/alextitonis/fly.ai#subdirectory=mine/python"
+
+from flyai_compute import Fleet, mlp
+fleet = Fleet()
+run = fleet.train(mlp([784, 128, 10]), x, y, classes=10, eval=(xt, yt), rounds=50, wallet="0xYOU")
+print(run.pay_link)
+for p in run.watch(): print(p["step"], p["eval_acc"])</pre>
+      <p class="caption" data-i18n-html="compute.runs.codeCaption">Try any run for free first: <code>node scripts/local-fleet.ts</code> in <code>mine/</code> starts a local server with practice miners. The templates are in <a href="https://github.com/alextitonis/fly.ai/tree/main/mine/examples" target="_blank" rel="noopener">the examples</a> (es-cartpole, train-logreg), and <a href="/compute/compute-api.md" download="flyai-compute-api.md">the guide</a> has every field.</p>
+      <p class="caption" data-i18n="compute.runs.fits">What fits: up to 100,000 evolved parameters, nets up to 1,000,000 weights, and text from 0.5B to 1.5B models. Miners can see the data you send, so don't send anything private.</p>
+    </div>
+  </div>
+</section>
+
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="/start">Start here: buy $FLYAI</a>
+      <a href="/press">Press kit</a>
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script type="module" src="/compute/mine/web/runs.js"></script>
+<script src="/assets/nav.js?v=20261016b"></script>
+</body>
+</html>

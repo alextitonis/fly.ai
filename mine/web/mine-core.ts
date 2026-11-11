@@ -121,15 +121,24 @@ interface ProgramParams {
   timeout_s: number; max_output: number; dispatch: [number, number, number] | null; output_bytes: number | null;
 }
 interface Claimed { job: string; kind?: string; params: TaskParams; units?: number }
-interface ProgramClaim { job: string; kind: "wasm" | "wgsl" | "world"; params: ProgramParams; units?: number }
-interface ProbeClaim { job: string; kind: "probe" | "fight" | "replay" | "replayb" | "replayp"; params: Record<string, unknown> & { timeout_s: number; condition: string }; units?: number }
+interface ProgramClaim { job: string; kind: "wasm" | "wgsl" | "world" | "es" | "sgd"; params: ProgramParams; units?: number }
+interface ProbeClaim { job: string; kind: "probe" | "fight" | "replay" | "replayb" | "replayp" | "esb"; params: Record<string, unknown> & { timeout_s: number; condition: string }; units?: number }
 interface EmbedParams {
   model: string; repo: string; revision: string; pooling: string; dim: number; mb: number;
   index: number; input: string; input_url: string; timeout_s: number; output_bytes: number;
 }
 interface EmbedClaim { job: string; kind: "embed"; params: EmbedParams; units?: number }
+interface CompleteParams {
+  model: string; webllm: string; webllm_version: string; mb: number; max_tokens: number;
+  index: number; input: string; input_url: string; timeout_s: number;
+}
+interface CompleteClaim { job: string; kind: "complete"; params: CompleteParams; units?: number }
 
-const describeClaim = (j: Claimed | ProgramClaim | ProbeClaim | EmbedClaim) => j.kind === "embed"
+const describeClaim = (j: Claimed | ProgramClaim | ProbeClaim | EmbedClaim | CompleteClaim) => j.kind === "complete"
+  ? say("completeJob", "writing text with {model}, job #{index}", { model: (j.params as CompleteParams).model, index: (j.params as CompleteParams).index })
+  : j.kind === "es" || j.kind === "esb" ? say("evolveJob", "a training run: scoring evolved settings, job #{index}", { index: (j.params as { index: number }).index })
+  : j.kind === "sgd" ? say("trainJob", "a training run: training a model on one data shard, job #{index}", { index: (j.params as { index: number }).index })
+  : j.kind === "embed"
   ? say("embedding", "embedding {count} texts with {model}, job #{index}", {
     count: (j.params as EmbedParams).output_bytes / 4 / (j.params as EmbedParams).dim, model: (j.params as EmbedParams).model, index: (j.params as EmbedParams).index,
   })
@@ -205,6 +214,64 @@ class Embedder {
 }
 
 /**
+ * The text model (MLC WebLLM on WebGPU), kept loaded between jobs like the embedder. A job that can't run here (no
+ * WebGPU, not enough GPU memory, an overrun) resolves to null and goes back out: a complete answer is only ever texts.
+ */
+class Completer {
+  private worker: Worker | null = null;
+  private model = "";
+  private seq = 0;
+
+  stop(): void {
+    this.worker?.terminate();
+    this.worker = null;
+    this.model = "";
+  }
+
+  private call(msg: Record<string, unknown>, ms: number): Promise<any> {
+    const worker = this.worker!;
+    return new Promise((resolve) => {
+      const id = String(++this.seq);
+      const done = (v: any) => {
+        clearTimeout(timer);
+        resolve(v);
+      };
+      const timer = setTimeout(() => {
+        this.stop();
+        done(null);
+      }, ms);
+      worker.onerror = () => {
+        this.stop();
+        done(null);
+      };
+      worker.onmessage = (e) => {
+        const m = e.data;
+        if (m.type === "progress") return void this.progress?.(m.text);
+        if (m.job !== undefined && m.job !== id) return;
+        done(m.type === "ready" || m.type === "done" ? m : null);
+      };
+      worker.postMessage({ ...msg, job: msg.type === "run" ? id : undefined });
+    });
+  }
+  private progress: ((text: string) => void) | null = null;
+
+  async run(server: string, p: CompleteParams, say: (text: string) => void): Promise<{ output: string } | null> {
+    this.progress = say;
+    if (this.model !== `${p.webllm}@${p.webllm_version}`) {
+      this.stop();
+      this.worker = new Worker(new URL("./llm.worker.ts", import.meta.url), { type: "module" });
+      say(sayText("loadingModel", "loading {model} ({mb} MB, once)", { model: p.model, mb: p.mb }));
+      const ready = await this.call({ type: "load", model: p.webllm, version: p.webllm_version }, 20 * 60_000);
+      if (!ready) return null;
+      this.model = `${p.webllm}@${p.webllm_version}`;
+    }
+    const origin = server || location.origin;
+    const m = await this.call({ type: "run", input: p.input, input_url: origin + p.input_url, max_tokens: p.max_tokens }, p.timeout_s * 1000);
+    return m ? { output: m.output } : null;
+  }
+}
+
+/**
  * One program job in a throwaway worker. Resolves to the answer to submit, or null when this machine couldn't run it
  * (then nothing is submitted and the job goes back out).
  */
@@ -241,13 +308,14 @@ interface Lane {
   openMax: number;
   run(jobs: Claimed[]): Promise<TaskResult[]>;
   /** CPU lanes: a probe or a Colosseum fight on this thread's loaded connectome */
-  probe?(kind: "probe" | "fight" | "replay" | "replayb" | "replayp", params: Record<string, unknown>): Promise<{ output: string } | { error: string }>;
+  probe?(kind: "probe" | "fight" | "replay" | "replayb" | "replayp" | "esb", params: Record<string, unknown>): Promise<{ output: string } | { error: string }>;
 }
 
 export class Miner {
   private hooks: MinerHooks;
   private lanes: Lane[] = [];
   private embedder = new Embedder();
+  private completer = new Completer();
   /** bumped by every start and stop, so a stale loop notices it's been replaced */
   private generation = 0;
   private session = { jobs: 0, units: 0, since: 0 };
@@ -299,7 +367,8 @@ export class Miner {
         if (s.programs !== false) {
           // shaders share the GPU with the batch; CPU programs run beside it instead of after it
           Object.assign(this.lanes[0], { kinds: ["connectome", "wgsl"], openMax: 1 });
-          this.lanes.push({ size: 1, index: 1, kinds: ["wasm", "world", ...(s.embed !== false ? ["embed"] : [])], openMax: 1, run: async () => [] });
+          // training jobs run beside it on the CPU; text completion wants the GPU, so only GPU miners take it
+          this.lanes.push({ size: 1, index: 1, kinds: ["wasm", "world", "es", "sgd", ...(s.embed !== false ? ["embed", "complete"] : [])], openMax: 1, run: async () => [] });
         }
       } else {
         const n = Math.max(1, s.threads);
@@ -310,11 +379,12 @@ export class Miner {
         this.lanes = [first];
         const rest = await Promise.all(Array.from({ length: n - 1 }, (_, i) => this.spawn("cpu", i + 1, fixed, 1, gen)));
         this.lanes.push(...rest);
-        if (s.programs !== false) for (const lane of this.lanes) Object.assign(lane, { kinds: ["connectome", "wasm", "world", "probe", "fight", "replay", "replayb", "replayp"], openMax: 1 });
+        if (s.programs !== false) for (const lane of this.lanes) Object.assign(lane, { kinds: ["connectome", "wasm", "world", "probe", "fight", "replay", "replayb", "replayp", "es", "esb", "sgd"], openMax: 1 });
         // one model in memory is plenty: only the first thread takes embedding jobs
         if (s.programs !== false && s.embed !== false) this.lanes[0].kinds.push("embed");
       }
-      if (s.buyerPrograms === false) for (const lane of this.lanes) lane.kinds = lane.kinds.filter((k) => k !== "wasm" && k !== "wgsl");
+      // es and sgd may run a buyer's WebAssembly too (their fitness or train step); esb is only ever our own brain
+      if (s.buyerPrograms === false) for (const lane of this.lanes) lane.kinds = lane.kinds.filter((k) => k !== "wasm" && k !== "wgsl" && k !== "es" && k !== "sgd");
       if (gen !== this.generation) return;
       this.starting = false;
       h.status(say("mining", "mining"));
@@ -333,6 +403,7 @@ export class Miner {
     this.starting = false;
     for (const lane of this.lanes) lane.worker?.terminate();
     this.embedder.stop();
+    this.completer.stop();
     this.lanes = [];
     this.hooks.lanes([]);
     this.hooks.job("—");
@@ -354,7 +425,7 @@ export class Miner {
       : new Worker(new URL("./miner.worker.ts", import.meta.url), { type: "module" });
     if (gen !== this.generation) worker.terminate();
     let seq = 0;
-    const callProbe = (kind: "probe" | "fight" | "replay" | "replayb" | "replayp", params: Record<string, unknown>): Promise<any> => new Promise((resolve, reject) => {
+    const callProbe = (kind: "probe" | "fight" | "replay" | "replayb" | "replayp" | "esb", params: Record<string, unknown>): Promise<any> => new Promise((resolve, reject) => {
       const id = String(++seq);
       worker.onerror = (e) => reject(new Error(e.message || "mining thread crashed"));
       worker.onmessage = (e) => {
@@ -381,7 +452,7 @@ export class Miner {
       run: kind === "gpu"
         ? (jobs) => call({ tasks: jobs.map((j) => j.params) }, "batch")
         : async (jobs) => [await call({ params: jobs[0].params }, "job")],
-      ...(kind === "cpu" ? { probe: (k: "probe" | "fight" | "replay" | "replayb" | "replayp", params: Record<string, unknown>) => callProbe(k, params) } : {}),
+      ...(kind === "cpu" ? { probe: (k: "probe" | "fight" | "replay" | "replayb" | "replayp" | "esb", params: Record<string, unknown>) => callProbe(k, params) } : {}),
     };
     return new Promise((resolve, reject) => {
       // a worker script that fails to load or parse only reports here, never through onmessage
@@ -432,13 +503,14 @@ export class Miner {
           await sleep(30_000);
           continue;
         }
-        const all: (Claimed | ProgramClaim | ProbeClaim | EmbedClaim)[] = claim.jobs;
+        const all: (Claimed | ProgramClaim | ProbeClaim | EmbedClaim | CompleteClaim)[] = claim.jobs;
         for (const j of all) this.held.add(j.job);
         mine = all.map((j) => j.job);
         const jobs = all.filter((j): j is Claimed => j.kind === undefined || j.kind === "connectome");
-        const programs = all.filter((j): j is ProgramClaim => j.kind === "wasm" || j.kind === "wgsl" || j.kind === "world");
-        const probes = all.filter((j): j is ProbeClaim => j.kind === "probe" || j.kind === "fight" || j.kind === "replay" || j.kind === "replayb" || j.kind === "replayp");
+        const programs = all.filter((j): j is ProgramClaim => j.kind === "wasm" || j.kind === "wgsl" || j.kind === "world" || j.kind === "es" || j.kind === "sgd");
+        const probes = all.filter((j): j is ProbeClaim => j.kind === "probe" || j.kind === "fight" || j.kind === "replay" || j.kind === "replayb" || j.kind === "replayp" || j.kind === "esb");
         const embeds = all.filter((j): j is EmbedClaim => j.kind === "embed");
+        const completes = all.filter((j): j is CompleteClaim => j.kind === "complete");
         h.job(all.length === 1 ? describeClaim(all[0]) : say("manyJobs", "{count} jobs at once, e.g. {job}", { count: all.length, job: describeClaim(all[0]) }));
         if (jobs.length) {
           const results = await lane.run(jobs);
@@ -453,7 +525,8 @@ export class Miner {
           if (!lane.probe) continue; // (only CPU lanes ask for probes)
           h.lane(lane.index, say("running", "running {job}", { job: describeClaim(job) }));
           // a replay's data link is relative to the server it came from
-          const params = job.kind === "replay" || job.kind === "replayb" || job.kind === "replayp" ? { ...job.params, data_url: (h.server || location.origin) + String(job.params.data_url) } : job.params;
+          const params = job.kind === "replay" || job.kind === "replayb" || job.kind === "replayp" ? { ...job.params, data_url: (h.server || location.origin) + String(job.params.data_url) }
+            : job.kind === "esb" ? { ...job.params, input_url: (h.server || location.origin) + String(job.params.input_url) } : job.params;
           const answer = await lane.probe(job.kind, params);
           if (gen !== this.generation) return;
           await this.submit(job, answer);
@@ -463,6 +536,18 @@ export class Miner {
         for (const job of embeds) {
           h.lane(lane.index, say("running", "running {job}", { job: describeClaim(job) }));
           const answer = await this.embedder.run(h.server, job.params, (text) => h.lane(lane.index, text));
+          if (gen !== this.generation) return;
+          if (!answer) {
+            await this.release([job.job]);
+            continue;
+          }
+          await this.submit(job, answer);
+          this.session.jobs++;
+          this.session.units += job.units ?? 0;
+        }
+        for (const job of completes) {
+          h.lane(lane.index, say("running", "running {job}", { job: describeClaim(job) }));
+          const answer = await this.completer.run(h.server, job.params, (text) => h.lane(lane.index, text));
           if (gen !== this.generation) return;
           if (!answer) {
             await this.release([job.job]);

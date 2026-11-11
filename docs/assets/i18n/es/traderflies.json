@@ -2589,7 +2589,11 @@
       "sniper": "Francotiradora",
       "sniperTip": "Una venta a +50% o más",
       "grinder": "Incansable",
-      "grinderTip": "100+ operaciones"
+      "grinderTip": "100+ operaciones",
+      "hotHow": "Las últimas 3 o más ventas cerradas de la mosca dieron ganancia. Una venta con pérdida lo quita.",
+      "diamondHow": "Mantén dinero en la billetera de esta mosca 30 días o más sin retirar nada. Un retiro lo quita.",
+      "sniperHow": "Una de las ventas recientes de la mosca cerró a +50% o más.",
+      "grinderHow": "La mosca hace 100 operaciones o más."
     },
     "checkIn": "Haz check-in",
     "checkedIn": "Check-in hecho",
@@ -2604,6 +2608,9 @@
       "go": "Hacer {n} movimiento(s)",
       "asked": "{n} mosca(s) están moviendo dinero: la lista se actualiza en unos minutos.",
       "done": "Listo: tus moscas están rebalanceadas."
-    }
+    },
+    "lvHow": "Una mosca con fondos gana 10 XP al día, 5 por operación y 20 por cada $1 de ganancia. Las pérdidas nunca quitan XP. Los niveles son de muestra y suman a la puntuación de tu escuadrón.",
+    "howGet": "Cómo conseguirlo",
+    "titlesNote": "Los títulos son de muestra: no cambian los pagos."
   }
 }

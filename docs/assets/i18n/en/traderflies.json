@@ -2589,7 +2589,11 @@
       "sniper": "Sniper",
       "sniperTip": "A sell at +50% or more",
       "grinder": "Grinder",
-      "grinderTip": "100+ trades"
+      "grinderTip": "100+ trades",
+      "hotHow": "The fly's last 3 or more closed sells all made a profit. A losing sell takes it away.",
+      "diamondHow": "Keep money in this fly's wallet for 30 days or more without taking any out. A withdrawal takes it away.",
+      "sniperHow": "One of the fly's recent sells closed at +50% or more.",
+      "grinderHow": "The fly makes 100 or more trades."
     },
     "checkIn": "Check in",
     "checkedIn": "Checked in",
@@ -2604,6 +2608,9 @@
       "go": "Make {n} move(s)",
       "asked": "{n} fly(s) are moving money: the list updates within a few minutes.",
       "done": "Done: your flies are rebalanced."
-    }
+    },
+    "lvHow": "A funded fly earns 10 XP a day, 5 per trade and 20 per $1 of profit. Losses never take XP away. Levels are for show and add up to your squad score.",
+    "howGet": "How to get it",
+    "titlesNote": "Titles are for show: they don't change payouts."
   }
 }

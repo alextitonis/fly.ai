@@ -2589,7 +2589,11 @@
       "sniper": "Keskin nişancı",
       "sniperTip": "+%50 veya üstü bir satış",
       "grinder": "Çalışkan",
-      "grinderTip": "100+ işlem"
+      "grinderTip": "100+ işlem",
+      "hotHow": "Sineğin son 3 veya daha fazla kapanan satışının hepsi kârla kapandı. Zararlı bir satış bunu kaldırır.",
+      "diamondHow": "Bu sineğin cüzdanında 30 gün veya daha uzun süre para tut ve hiç çekme. Bir çekim bunu kaldırır.",
+      "sniperHow": "Sineğin son satışlarından biri +%50 veya üstünde kapandı.",
+      "grinderHow": "Sinek 100 veya daha fazla işlem yapar."
     },
     "checkIn": "Check-in yap",
     "checkedIn": "Check-in yapıldı",
@@ -2604,6 +2608,9 @@
       "go": "{n} taşıma yap",
       "asked": "{n} sinek para taşıyor: liste birkaç dakika içinde güncellenir.",
       "done": "Tamam: sineklerin dengelendi."
-    }
+    },
+    "lvHow": "Fonlu bir sinek günde 10 XP, işlem başına 5 ve her $1 kâr için 20 XP kazanır. Zarar asla XP düşürmez. Seviyeler gösterim içindir ve takım puanına eklenir.",
+    "howGet": "Nasıl alınır",
+    "titlesNote": "Unvanlar gösterim içindir: ödemeleri değiştirmez."
   }
 }

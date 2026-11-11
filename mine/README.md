@@ -304,6 +304,25 @@ back one float32 vector per text. The models are listed in `EMBED_MODELS` (`src/
 - **Tested:** `npm run test:programs` (11 embed checks), and end to end in headless Chrome: a WebGPU miner and a
   CPU-only miner settled three batches (1, 4 and 64 texts) by agreement.
 
+## Training runs and text completion
+
+Built 2026-11-11, not deployed yet. See `TRAIN-PLAN.md` for the plan and the measurements, and the guide's
+*Training runs* and *Text completion* sections (`web/compute-api.md`) for every field.
+
+- **Runs** (`src/train.ts`): `evolve` (evolution strategies: a WebAssembly fitness, the integer fly brain, a
+  trading-rule replay, or sphere/rastrigin) and `train` (the built-in MLP or a WebAssembly train step on data
+  shards, DiLoCo outer steps). A run drives one keep-open order, one generation or round of jobs at a time. The server
+  steps it as soon as the last job settles (`stepRun`), stores the parameters as uploads (`runs`, `run_points`,
+  schema 24) and closes the order after the last step. Paid runs go through `POST /api/orders`; ours through
+  `POST /api/admin/house` with a run spec.
+- **Job kinds:** `es` (fitness, in the program worker), `esb` (brain fitness, on CPU threads with the connectome),
+  `sgd` (train), `complete` (MLC WebLLM on WebGPU, GPU miners only). es scores agree within 1e-9 relative. sgd
+  weight changes agree at cosine 0.999 and within 0.1% in length. A completion agrees when 3 in 4 of its texts match
+  on their first 90%.
+- **Try it locally:** `node scripts/local-fleet.ts` starts a server and practice miners (admin token `local`).
+  `mine/python` is the Python client, and `/compute/runs` is the page.
+- **Test:** `npm run test:train`.
+
 ## Research results
 
 `GET /api/experiments` summarizes every house order except `mining/*` (`src/experiments.ts`): the

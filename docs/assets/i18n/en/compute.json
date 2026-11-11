@@ -6,7 +6,8 @@
       "stake": "Stake",
       "claims": "Claims",
       "leaderboard": "Leaderboard",
-      "results": "Results"
+      "results": "Results",
+      "runs": "Train"
     },
     "notSignedIn": "not signed in",
     "signIn": "Sign in",
@@ -398,7 +399,10 @@
       "normal": "Normal",
       "faster": "Faster",
       "fastest": "Fastest"
-    }
+    },
+    "describeComplete": "text completion with {model}",
+    "describeEvolve": "an evolve run (evolution strategies)",
+    "describeTrain": "a train run (a neural net on your data)"
   },
   "stake": {
     "flyAiComputeStaking": "fly.ai compute · staking",
@@ -649,6 +653,96 @@
     "fightJob": "a Fly Colosseum fight",
     "replayJob": "a trading-rule replay: {name}",
     "replaybJob": "a trading-rule luck check: {name}, path {seed}",
-    "replaypJob": "a perps replay (longs and shorts): {name}, path {seed}"
+    "replaypJob": "a perps replay (longs and shorts): {name}, path {seed}",
+    "completeJob": "writing text with {model}, job #{index}",
+    "evolveJob": "a training run: scoring evolved settings, job #{index}",
+    "trainJob": "a training run: training a model on one data shard, job #{index}"
+  },
+  "runs": {
+    "metaTitle": "Training runs — fly.ai compute",
+    "metaDescription": "Train small models on the fly.ai browser fleet: evolution strategies, small neural nets on your data, and batch text generation. Live curves and checkpoints.",
+    "eyebrow": "fly.ai compute · training",
+    "title": "Train on the fleet",
+    "lede": "Miners' browsers train small models together. Each generation or round is a batch of jobs that two miners must agree on; the server takes the step in between and keeps every checkpoint. You pay only for jobs that settle.",
+    "status": "status",
+    "step": "step",
+    "params": "parameters",
+    "spent": "spent",
+    "downloadTheta": "Download the parameters",
+    "downloadBest": "Download the best",
+    "payForRun": "Pay for this run",
+    "startNum": "START A RUN",
+    "startTitle": "What to train",
+    "wasmFile": "Your fitness: a .wasm module (u32 episode, u32 dim, f64 params in; one f64 score out)",
+    "dim": "Parameters",
+    "csvFile": "Your data: a .csv of numbers, the last column the class (0, 1, 2…)",
+    "hidden": "Hidden units",
+    "generations": "Generations",
+    "rounds": "Rounds",
+    "wallet": "Paying wallet (yours)",
+    "bid": "Bid per job ($FLYAI)",
+    "quoteBtn": "Price it",
+    "createBtn": "Create and pay",
+    "ourNum": "OUR RUNS",
+    "ourTitle": "What the project trains on the fleet",
+    "noRuns": "No runs yet.",
+    "codeNum": "FROM CODE",
+    "codeTitle": "Python, and a free practice fleet",
+    "codeCaption": "Try any run for free first: <code>node scripts/local-fleet.ts</code> in <code>mine/</code> starts a local server with practice miners. The templates are in <a href=\"https://github.com/alextitonis/fly.ai/tree/main/mine/examples\" target=\"_blank\" rel=\"noopener\">the examples</a> (es-cartpole, train-logreg), and <a href=\"/compute/compute-api.md\" download=\"flyai-compute-api.md\">the guide</a> has every field.",
+    "fits": "What fits: up to 100,000 evolved parameters, nets up to 1,000,000 weights, and text from 0.5B to 1.5B models. Miners can see the data you send, so don't send anything private.",
+    "tpl": {
+      "cartpole": {
+        "title": "Balance a cart-pole",
+        "about": "Evolve a 5-number policy with a WebAssembly fitness, the hello world of evolution strategies.",
+        "tag": "evolve · wasm · ~30 s a generation"
+      },
+      "brain": {
+        "title": "Make the fly escape",
+        "about": "Evolve how hard three visual inputs drive the real connectome so the giant fiber (DNp01) fires.",
+        "tag": "evolve · fly brain · CPU miners"
+      },
+      "wasm": {
+        "title": "Your own fitness",
+        "about": "Upload a .wasm that scores a parameter vector; the fleet evolves the vector.",
+        "tag": "evolve · your wasm"
+      },
+      "csv": {
+        "title": "A neural net on your CSV",
+        "about": "An MLP classifier trained on your rows, a tenth held out and scored every round.",
+        "tag": "train · MLP · your data"
+      }
+    },
+    "csvTooSmall": "The CSV needs at least 20 rows of numbers.",
+    "csvRagged": "Every row needs the same number of columns, at least two.",
+    "csvLabels": "The last column must be a whole-number class: 0, 1, 2…",
+    "uploading": "uploading shard {done} of {total}…",
+    "needWasm": "Choose your .wasm fitness first.",
+    "needCsv": "Choose your CSV first.",
+    "needWallet": "Enter the wallet that will pay (0x…), or sign in.",
+    "pricing": "uploading and pricing…",
+    "quoteLine": "{steps} steps × {per} jobs = {jobs} jobs at {bid} $FLYAI: at most {full} $FLYAI, and unused budget comes back.",
+    "created": "Created.",
+    "payNow": "Pay for it",
+    "watchIt": "Watch the run",
+    "kind": {
+      "evolve": "evolve run",
+      "train": "train run"
+    },
+    "about": {
+      "evolve": "Evolution strategies over {steps} generations ({job} jobs)",
+      "train": "A neural net trained over {steps} rounds ({job} jobs)"
+    },
+    "st": {
+      "waiting": "waiting for payment",
+      "running": "running",
+      "done": "done",
+      "ended": "ended",
+      "failed": "failed"
+    },
+    "legendEvolve": "Solid: the score of the current parameters each generation. Dashed: the best member of the generation.",
+    "legendEval": "Accuracy on the held-out data after each round.",
+    "legendLoss": "Mean training loss of each round.",
+    "failedNote": "The run stopped: {error}",
+    "format": "Parameters download as raw {format} little-endian, {n} values (numpy.fromfile(path, \"<f8\") or \"<f4\")."
   }
 }

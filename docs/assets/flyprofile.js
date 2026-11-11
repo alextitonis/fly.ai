@@ -16,13 +16,26 @@
     level: "Level {n}", xp: "{xp} XP", toNext: "{n} XP to level {level}", rank: "#{rank} of {of}", unranked: "Not ranked yet",
     team: "Team wallet: not ranked", flies: "Flies", active: "active", inactive: "not trading (hold 200k $FLYAI)",
     streak: "Streak", streakWeeks: "{n} weeks without selling · x{m}", streakNone: "Starts when you hold $FLYAI",
+    badgeTap: "Tap a badge to see what it is and how to get it.",
+    b_larva: "Larva", bn_larva: "Hold 100,000+ $FLYAI for 7 days straight.",
+    b_lord: "Lord of the Flies", bn_lord: "Hold 10,000,000+ $FLYAI for 30 days straight.",
+    b_diamond: "Diamond Wings", bn_diamond: "Hold 100,000+ $FLYAI for 90 days without dropping below it.",
+    b_og: "OG", bn_og: "Held 10,000+ $FLYAI when the token's first 14 days ended, and still hold at least that much.",
+    b_flyowner: "Fly Owner", bn_flyowner: "Hold a Trader Fly for 30 days.",
+    b_swarm: "Swarm", bn_swarm: "Hold 10+ Trader Flies for 30 days straight.",
+    b_queen: "Queen of the Hive", bn_queen: "Hold 50+ Trader Flies for 30 days straight.",
+    b_payday: "Payday", bn_payday: "Claim 4 Fly Desk payouts.",
+    b_payroll: "On Payroll", bn_payroll: "Claim 8 Fly Desk payouts.",
+    b_recruiter: "Recruiter", bn_recruiter: "Bring 1 real referral: $20+ in Fly Wallets for 7 days, or a Fly Desk payout.",
+    b_piedpiper: "Pied Piper", bn_piedpiper: "Bring 10 real referrals.",
+    b_ambassador: "Ambassador", bn_ambassador: "Invited only: given to fly.ai's ambassadors.",
     badges: "Badges", noBadges: "No badges yet", sources: "Where the XP comes from", noXp: "No XP yet", refCode: "Referral code",
     board: "XP leaderboard", share: "Share on X", shareHint: "Post about fly.ai (@flydotai, $FLYAI or fly.ai) from your linked X account: posts are counted overnight, +20 XP for each one (not replies), up to 5 a day.",
     shareDone: "Counted in the last 2 days: {n} posts, +{xp} XP.",
     connectX: "Connect your X account above to earn XP for your posts.", seasonEnds: "XP counts toward the airdrop.",
     seasonOver: "Season 1 is over. XP counted toward the airdrop.",
     s_hold: "Holding $FLYAI", s_flies: "Active flies", s_deposits: "Fly wallet deposits", s_feed: "Feeding the Fly Desk", s_market: "Marketplace trades",
-    s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_bug: "Bugs found", s_badges: "Badges", s_ambassador: "Ambassador", s_refquest: "Referral quests",
+    s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_bug: "Bugs found", s_badges: "Badges", s_ambassador: "Ambassador", s_refquest: "Referral quests", s_quest: "Daily quests",
     account: "Your account", badgesBtn: "🏅 Badges", referralsBtn: "Referrals",
     log: "XP log", logBefore: "everything up to {date}", noLog: "Nothing logged yet.", logTx: "tx", logPost: "post",
     s_boost: "2x XP bonus", s_penalty: "2x XP: sells and withdrawals", logBoost: "{mult}x",
@@ -63,6 +76,30 @@
   const badgeSrc = (id) => (SRC ? new URL(`badges/${id}.svg`, SRC).href : `/assets/badges/${id}.svg`);
   const session = () => (NAV.session ? NAV.session() : null);
 
+  /** 2026-11-11 (a holder asked what the icons mean): each badge is a button; a tap (or hover) shows its name and how
+   * to get it under the row, the same words as the Badges page. */
+  const BADGE_KEY = { 1: "larva", 2: "lord", 3: "diamond", 4: "og", 5: "flyowner", 6: "swarm", 7: "queen", 8: "payday", 9: "payroll",
+    10: "recruiter", 11: "piedpiper", 12: "ambassador" };   // the token ids (mine src/badges.ts)
+  function badgeRow(ids) {
+    const info = el("p", { className: "flyprof-msg flyprof-binfo", textContent: t("badgeTap") });
+    let on = null;
+    const key = (id) => BADGE_KEY[id] || String(id);
+    const pick = (btn, id, keep) => {
+      if (on) on.classList.remove("on");
+      if (on === btn && !keep) { on = null; info.textContent = t("badgeTap"); return; }
+      on = btn; btn.classList.add("on");
+      info.replaceChildren(el("b", { textContent: t("b_" + key(id)) }), " · ", t("bn_" + key(id)));
+    };
+    const row = el("div", { className: "flyprof-badges" }, ...ids.map((id) => {
+      const btn = el("button", { type: "button", className: "flyprof-badge", title: t("b_" + key(id)), ariaLabel: t("b_" + key(id)) },
+        el("img", { src: badgeSrc(id), alt: "", width: 36, height: 36 }));
+      btn.addEventListener("click", () => pick(btn, id, false));
+      btn.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") pick(btn, id, true); });
+      return btn;
+    }));
+    return [row, info];
+  }
+
   let css = null;
   function style() {
     if (css) return;
@@ -91,7 +128,10 @@
       .flyprof-kv:first-of-type { border-top: 0; }
       .flyprof-kv span:last-child { font: 13px var(--mono, monospace); color: var(--text, #fff); text-align: right; }
       .flyprof-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+      .flyprof-badge { padding: 0; border: 2px solid transparent; border-radius: 10px; background: none; cursor: pointer; line-height: 0; }
+      .flyprof-badge.on, .flyprof-badge:focus-visible { border-color: var(--mint, #5ef2cc); outline: none; }
       .flyprof-badges img { width: 36px; height: 36px; border-radius: 8px; }
+      .flyprof-binfo b { color: var(--text, #fff); }
       .flyprof-msg { margin: 6px 0 0; font-size: 13px; color: var(--muted, #9ba5a1); }
       .flyprof-msg.ok { color: var(--mint, #5ef2cc); } .flyprof-msg.err { color: var(--red-hi, #ff6b6b); }
       .flyprof-help li { margin: 0 0 8px; color: var(--muted, #9ba5a1); } .flyprof-help li b { color: var(--text, #fff); }
@@ -200,8 +240,7 @@
       kv(t("streak"), p.streak_weeks || p.multiplier > 1 ? t("streakWeeks", { n: p.streak_weeks, m: p.multiplier.toFixed(1) }) : t("streakNone")),
       p.ref_code ? kv(t("refCode"), p.ref_code) : null);
     const badges = el("div", { className: "flyprof-sec" }, el("h4", { textContent: t("badges") }),
-      p.badges.length ? el("div", { className: "flyprof-badges" }, ...p.badges.map((id) => el("img", { src: badgeSrc(id), alt: "", width: 36, height: 36 })))
-        : el("p", { className: "flyprof-msg", textContent: t("noBadges") }));
+      ...(p.badges.length ? badgeRow(p.badges) : [el("p", { className: "flyprof-msg", textContent: t("noBadges") })]));
     const rows = Object.entries(p.sources || {}).filter(([, v]) => v !== 0).sort((a, b) => b[1] - a[1]);   // 2x losses show, negative
     const sources = el("div", { className: "flyprof-sec" }, el("h4", { textContent: t("sources") }),
       ...(rows.length ? rows.map(([k, v]) => kv(t("s_" + k), fmt(v))) : [el("p", { className: "flyprof-msg", textContent: t("noXp") })]));

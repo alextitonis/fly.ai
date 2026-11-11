@@ -99,6 +99,17 @@
         "set DOCS_URL=http://127.0.0.1:8090&& set VITE_BASE=/traderflies/&& cd flytrade\\web && npx vite --port 5174 --strictPort"
       ],
       "port": 5174
+    },
+    {
+      "name": "mine-local-fleet",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--disable-warning=ExperimentalWarning",
+        "mine/scripts/local-fleet.ts",
+        "--port",
+        "8790"
+      ],
+      "port": 8790
     }
   ]
 }

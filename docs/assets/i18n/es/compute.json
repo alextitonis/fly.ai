@@ -6,7 +6,8 @@
       "stake": "Staking",
       "claims": "Reclamos",
       "leaderboard": "Clasificación",
-      "results": "Resultados"
+      "results": "Resultados",
+      "runs": "Entrenar"
     },
     "notSignedIn": "sin iniciar sesión",
     "signIn": "Iniciar sesión",
@@ -398,7 +399,10 @@
       "normal": "Normal",
       "faster": "Más rápido",
       "fastest": "Lo más rápido"
-    }
+    },
+    "describeComplete": "generación de texto con {model}",
+    "describeEvolve": "una ejecución de evolución (estrategias evolutivas)",
+    "describeTrain": "una ejecución de entrenamiento (una red neuronal con tus datos)"
   },
   "stake": {
     "flyAiComputeStaking": "fly.ai compute · staking",
@@ -649,6 +653,96 @@
     "fightJob": "un combate de Fly Colosseum",
     "replayJob": "una repetición de regla de trading: {name}",
     "replaybJob": "una prueba de suerte de regla de trading: {name}, camino {seed}",
-    "replaypJob": "una simulación de perpetuos (largos y cortos): {name}, camino {seed}"
+    "replaypJob": "una simulación de perpetuos (largos y cortos): {name}, camino {seed}",
+    "completeJob": "escribiendo texto con {model}, trabajo #{index}",
+    "evolveJob": "una ejecución de entrenamiento: puntuando ajustes evolucionados, trabajo #{index}",
+    "trainJob": "una ejecución de entrenamiento: entrenando un modelo con un fragmento de datos, trabajo #{index}"
+  },
+  "runs": {
+    "metaTitle": "Ejecuciones de entrenamiento — fly.ai compute",
+    "metaDescription": "Entrena modelos pequeños en la red de navegadores de fly.ai: estrategias evolutivas, redes neuronales pequeñas con tus datos y generación de texto por lotes. Curvas en vivo y puntos de control.",
+    "eyebrow": "fly.ai compute · entrenamiento",
+    "title": "Entrena en la red",
+    "lede": "Los navegadores de los mineros entrenan modelos pequeños juntos. Cada generación o ronda es un lote de trabajos en el que dos mineros deben coincidir; el servidor da el paso entre medias y guarda cada punto de control. Solo pagas los trabajos que se liquidan.",
+    "status": "estado",
+    "step": "paso",
+    "params": "parámetros",
+    "spent": "gastado",
+    "downloadTheta": "Descargar los parámetros",
+    "downloadBest": "Descargar el mejor",
+    "payForRun": "Pagar esta ejecución",
+    "startNum": "EMPEZAR UNA EJECUCIÓN",
+    "startTitle": "Qué entrenar",
+    "wasmFile": "Tu función de aptitud: un módulo .wasm (entra u32 episodio, u32 dimensión, f64 parámetros; sale una puntuación f64)",
+    "dim": "Parámetros",
+    "csvFile": "Tus datos: un .csv de números, la última columna es la clase (0, 1, 2…)",
+    "hidden": "Unidades ocultas",
+    "generations": "Generaciones",
+    "rounds": "Rondas",
+    "wallet": "Wallet que paga (la tuya)",
+    "bid": "Oferta por trabajo ($FLYAI)",
+    "quoteBtn": "Calcular precio",
+    "createBtn": "Crear y pagar",
+    "ourNum": "NUESTRAS EJECUCIONES",
+    "ourTitle": "Lo que el proyecto entrena en la red",
+    "noRuns": "Aún no hay ejecuciones.",
+    "codeNum": "DESDE CÓDIGO",
+    "codeTitle": "Python y una red de práctica gratis",
+    "codeCaption": "Prueba cualquier ejecución gratis primero: <code>node scripts/local-fleet.ts</code> en <code>mine/</code> inicia un servidor local con mineros de práctica. Las plantillas están en <a href=\"https://github.com/alextitonis/fly.ai/tree/main/mine/examples\" target=\"_blank\" rel=\"noopener\">los ejemplos</a> (es-cartpole, train-logreg), y <a href=\"/compute/compute-api.md\" download=\"flyai-compute-api.md\">la guía</a> tiene cada campo.",
+    "fits": "Qué cabe: hasta 100.000 parámetros evolucionados, redes de hasta 1.000.000 de pesos y texto con modelos de 0,5B a 1,5B. Los mineros pueden ver los datos que envías, así que no envíes nada privado.",
+    "tpl": {
+      "cartpole": {
+        "title": "Equilibrar un péndulo invertido",
+        "about": "Evoluciona una política de 5 números con una función de aptitud WebAssembly: el hola mundo de las estrategias evolutivas.",
+        "tag": "evolución · wasm · ~30 s por generación"
+      },
+      "brain": {
+        "title": "Hacer que la mosca escape",
+        "about": "Evoluciona cuánto activan tres entradas visuales el conectoma real para que dispare la fibra gigante (DNp01).",
+        "tag": "evolución · cerebro de mosca · mineros de CPU"
+      },
+      "wasm": {
+        "title": "Tu propia función de aptitud",
+        "about": "Sube un .wasm que puntúe un vector de parámetros; la red evoluciona el vector.",
+        "tag": "evolución · tu wasm"
+      },
+      "csv": {
+        "title": "Una red neuronal con tu CSV",
+        "about": "Un clasificador MLP entrenado con tus filas, con una décima parte reservada y evaluada en cada ronda.",
+        "tag": "entrenamiento · MLP · tus datos"
+      }
+    },
+    "csvTooSmall": "El CSV necesita al menos 20 filas de números.",
+    "csvRagged": "Todas las filas necesitan el mismo número de columnas, al menos dos.",
+    "csvLabels": "La última columna debe ser una clase entera: 0, 1, 2…",
+    "uploading": "subiendo fragmento {done} de {total}…",
+    "needWasm": "Elige primero tu función de aptitud .wasm.",
+    "needCsv": "Elige primero tu CSV.",
+    "needWallet": "Escribe la wallet que pagará (0x…), o inicia sesión.",
+    "pricing": "subiendo y calculando el precio…",
+    "quoteLine": "{steps} pasos × {per} trabajos = {jobs} trabajos a {bid} $FLYAI: como mucho {full} $FLYAI, y el presupuesto sin usar vuelve.",
+    "created": "Creada.",
+    "payNow": "Pagarla",
+    "watchIt": "Ver la ejecución",
+    "kind": {
+      "evolve": "ejecución de evolución",
+      "train": "ejecución de entrenamiento"
+    },
+    "about": {
+      "evolve": "Estrategias evolutivas durante {steps} generaciones (trabajos {job})",
+      "train": "Una red neuronal entrenada durante {steps} rondas (trabajos {job})"
+    },
+    "st": {
+      "waiting": "esperando el pago",
+      "running": "en marcha",
+      "done": "terminada",
+      "ended": "finalizada",
+      "failed": "fallida"
+    },
+    "legendEvolve": "Continua: la puntuación de los parámetros actuales en cada generación. Discontinua: el mejor miembro de la generación.",
+    "legendEval": "Precisión en los datos reservados tras cada ronda.",
+    "legendLoss": "Pérdida media de entrenamiento de cada ronda.",
+    "failedNote": "La ejecución se detuvo: {error}",
+    "format": "Los parámetros se descargan como {format} little-endian sin formato, {n} valores (numpy.fromfile(path, \"<f8\") o \"<f4\")."
   }
 }

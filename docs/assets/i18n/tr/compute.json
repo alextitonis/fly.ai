@@ -6,7 +6,8 @@
       "stake": "Stake",
       "claims": "Talepler",
       "leaderboard": "Sıralama",
-      "results": "Sonuçlar"
+      "results": "Sonuçlar",
+      "runs": "Eğit"
     },
     "notSignedIn": "giriş yapılmadı",
     "signIn": "Giriş yap",
@@ -398,7 +399,10 @@
       "normal": "Normal",
       "faster": "Daha hızlı",
       "fastest": "En hızlı"
-    }
+    },
+    "describeComplete": "{model} ile metin üretimi",
+    "describeEvolve": "bir evrim çalıştırması (evrim stratejileri)",
+    "describeTrain": "bir eğitim çalıştırması (verinle bir sinir ağı)"
   },
   "stake": {
     "flyAiComputeStaking": "fly.ai compute · stake",
@@ -649,6 +653,96 @@
     "fightJob": "bir Fly Colosseum dövüşü",
     "replayJob": "bir alım satım kuralı tekrarı: {name}",
     "replaybJob": "bir alım satım kuralı şans testi: {name}, yol {seed}",
-    "replaypJob": "bir vadeli (perp) tekrar testi (long ve short): {name}, yol {seed}"
+    "replaypJob": "bir vadeli (perp) tekrar testi (long ve short): {name}, yol {seed}",
+    "completeJob": "{model} ile metin yazılıyor, iş #{index}",
+    "evolveJob": "bir eğitim çalıştırması: evrilen ayarlar puanlanıyor, iş #{index}",
+    "trainJob": "bir eğitim çalıştırması: tek veri parçasında model eğitiliyor, iş #{index}"
+  },
+  "runs": {
+    "metaTitle": "Eğitim çalıştırmaları — fly.ai compute",
+    "metaDescription": "fly.ai tarayıcı ağında küçük modeller eğit: evrim stratejileri, verinle küçük sinir ağları ve toplu metin üretimi. Canlı eğriler ve kontrol noktaları.",
+    "eyebrow": "fly.ai compute · eğitim",
+    "title": "Ağda eğit",
+    "lede": "Madencilerin tarayıcıları küçük modelleri birlikte eğitir. Her nesil ya da tur, iki madencinin sonuçta anlaşması gereken bir iş grubudur; sunucu aradaki adımı atar ve her kontrol noktasını saklar. Yalnızca sonuçlanan işler için ödersin.",
+    "status": "durum",
+    "step": "adım",
+    "params": "parametre",
+    "spent": "harcanan",
+    "downloadTheta": "Parametreleri indir",
+    "downloadBest": "En iyisini indir",
+    "payForRun": "Bu çalıştırmayı öde",
+    "startNum": "ÇALIŞTIRMA BAŞLAT",
+    "startTitle": "Ne eğitilecek",
+    "wasmFile": "Uygunluk fonksiyonun: bir .wasm modülü (girdi u32 bölüm, u32 boyut, f64 parametreler; çıktı tek f64 puan)",
+    "dim": "Parametre sayısı",
+    "csvFile": "Verin: sayılardan oluşan bir .csv, son sütun sınıf (0, 1, 2…)",
+    "hidden": "Gizli birim",
+    "generations": "Nesil",
+    "rounds": "Tur",
+    "wallet": "Ödeyen cüzdan (senin)",
+    "bid": "İş başına teklif ($FLYAI)",
+    "quoteBtn": "Fiyatla",
+    "createBtn": "Oluştur ve öde",
+    "ourNum": "BİZİM ÇALIŞTIRMALARIMIZ",
+    "ourTitle": "Projenin ağda eğittikleri",
+    "noRuns": "Henüz çalıştırma yok.",
+    "codeNum": "KODDAN",
+    "codeTitle": "Python ve ücretsiz bir deneme ağı",
+    "codeCaption": "Önce ücretsiz dene: <code>mine/</code> içinde <code>node scripts/local-fleet.ts</code> deneme madencileri olan yerel bir sunucu başlatır. Şablonlar <a href=\"https://github.com/alextitonis/fly.ai/tree/main/mine/examples\" target=\"_blank\" rel=\"noopener\">örneklerde</a> (es-cartpole, train-logreg), her alan da <a href=\"/compute/compute-api.md\" download=\"flyai-compute-api.md\">rehberde</a>.",
+    "fits": "Sığanlar: en fazla 100.000 evrilen parametre, en fazla 1.000.000 ağırlıklı ağlar ve 0,5B ile 1,5B arası metin modelleri. Madenciler gönderdiğin veriyi görebilir, özel bir şey gönderme.",
+    "tpl": {
+      "cartpole": {
+        "title": "Bir ters sarkacı dengele",
+        "about": "5 sayılık bir politikayı WebAssembly uygunluk fonksiyonuyla evrilt: evrim stratejilerinin merhaba dünyası.",
+        "tag": "evrim · wasm · nesil başına ~30 sn"
+      },
+      "brain": {
+        "title": "Sineği kaçır",
+        "about": "Üç görsel girdinin gerçek konnektomu ne kadar sürdüğünü evrilt ki dev lif (DNp01) ateşlensin.",
+        "tag": "evrim · sinek beyni · CPU madencileri"
+      },
+      "wasm": {
+        "title": "Kendi uygunluk fonksiyonun",
+        "about": "Bir parametre vektörünü puanlayan bir .wasm yükle; ağ vektörü evriltir.",
+        "tag": "evrim · senin wasm'ın"
+      },
+      "csv": {
+        "title": "CSV'nde bir sinir ağı",
+        "about": "Satırlarınla eğitilen bir MLP sınıflandırıcı; onda biri ayrılır ve her turda puanlanır.",
+        "tag": "eğitim · MLP · senin verin"
+      }
+    },
+    "csvTooSmall": "CSV'de en az 20 sayı satırı olmalı.",
+    "csvRagged": "Her satırda aynı sayıda, en az iki sütun olmalı.",
+    "csvLabels": "Son sütun tam sayı bir sınıf olmalı: 0, 1, 2…",
+    "uploading": "parça {done}/{total} yükleniyor…",
+    "needWasm": "Önce .wasm uygunluk fonksiyonunu seç.",
+    "needCsv": "Önce CSV'ni seç.",
+    "needWallet": "Ödeyecek cüzdanı (0x…) gir ya da giriş yap.",
+    "pricing": "yükleniyor ve fiyatlanıyor…",
+    "quoteLine": "{steps} adım × {per} iş = {bid} $FLYAI'dan {jobs} iş: en fazla {full} $FLYAI, kullanılmayan bütçe geri döner.",
+    "created": "Oluşturuldu.",
+    "payNow": "Öde",
+    "watchIt": "Çalıştırmayı izle",
+    "kind": {
+      "evolve": "evrim çalıştırması",
+      "train": "eğitim çalıştırması"
+    },
+    "about": {
+      "evolve": "{steps} nesil boyunca evrim stratejileri ({job} işleri)",
+      "train": "{steps} tur boyunca eğitilen bir sinir ağı ({job} işleri)"
+    },
+    "st": {
+      "waiting": "ödeme bekleniyor",
+      "running": "çalışıyor",
+      "done": "bitti",
+      "ended": "sona erdi",
+      "failed": "başarısız"
+    },
+    "legendEvolve": "Düz çizgi: her nesilde mevcut parametrelerin puanı. Kesikli: neslin en iyi üyesi.",
+    "legendEval": "Her turdan sonra ayrılan veride doğruluk.",
+    "legendLoss": "Her turun ortalama eğitim kaybı.",
+    "failedNote": "Çalıştırma durdu: {error}",
+    "format": "Parametreler ham {format} little-endian olarak iner, {n} değer (numpy.fromfile(path, \"<f8\") ya da \"<f4\")."
   }
 }

@@ -4,6 +4,7 @@
  * The program and input are checked against their SHA-256 hashes before anything runs.
  *
  * in:  {type: "run", kind: "wasm" | "wgsl", program, program_url, input, input_url, max_output, dispatch?, output_bytes?, index}
+ *      {type: "run", kind: "es" | "sgd", input, input_url, ...}   (a training run's job: web/trainjob.ts)
  * out: {type: "done", output (base64)} · {type: "failed", error}   (both are answers the miner submits)
  *      {type: "error", text}                                         (this machine's problem: nothing is submitted)
  */
@@ -37,6 +38,20 @@ ctx.onmessage = (e: MessageEvent) => {
         ctx.postMessage({ type: "done", output: base64(runWorld(m)) });
       } catch (err) {
         ctx.postMessage({ type: "failed", error: err instanceof Error ? err.message.slice(0, 200) : String(err) });
+      }
+    }, (err) => ctx.postMessage({ type: "error", text: String(err) }));
+    return;
+  }
+  if (m.kind === "es" || m.kind === "sgd") {
+    // a training run's job (src/train.ts): its input is its own JSON, naming the uploads it needs on the same server
+    void import("./trainjob.ts").then(async ({ runEs, runSgd }) => {
+      try {
+        const origin = new URL(m.input_url).origin;
+        const output = m.kind === "es" ? await runEs(origin, m.input) : await runSgd(origin, m.input);
+        ctx.postMessage({ type: "done", output: base64(output) });
+      } catch (err) {
+        if (err instanceof JobError) ctx.postMessage({ type: "failed", error: err.message.slice(0, 200) });
+        else ctx.postMessage({ type: "error", text: String(err) });
       }
     }, (err) => ctx.postMessage({ type: "error", text: String(err) }));
     return;

@@ -243,7 +243,7 @@ export const MAX_TIMEOUT_S = 600;
 export const MAX_OUTPUT_BYTES = 4 * 1024 * 1024;
 
 export interface OpenSpec {
-  kind: "wasm" | "wgsl" | "embed";
+  kind: "wasm" | "wgsl" | "embed" | "complete" | RunJobKind;
   /** sha256 of the uploaded module or shader; for embed, the model's id in EMBED_MODELS */
   program: string;
   /** sha256 of each job's input, one job per entry in order; or INDEX_INPUT, where the job's input is its index */
@@ -253,7 +253,9 @@ export interface OpenSpec {
   redundancy: number;
   /** "exact", or for shaders a tolerance: outputs read as f32 that differ by at most this still agree; for
    *  embeddings the lowest cosine similarity at which two answers' vectors (row by row) still agree */
-  compare: "exact" | { f32_tolerance: number } | { cosine: number };
+  compare: "exact" | { f32_tolerance: number } | { cosine: number } | { prefix: number; share: number }
+    /** training jobs (src/train.ts): es scores within a relative tolerance, sgd weight changes by cosine and norm */
+    | { f64_rel: number } | { delta_cosine: number; params: number };
   dispatch: [number, number, number] | null;
   output_bytes: number | null;
   /** the order stays live when its jobs are all done, waiting for more (POST /api/orders/:id/jobs) */
@@ -263,7 +265,78 @@ export interface OpenSpec {
 /** An input that is just the job's index, 4 bytes little-endian: `count` jobs need no uploads. */
 export const INDEX_INPUT = "#index";
 
-export const isOpenKind = (kind: unknown): kind is "wasm" | "wgsl" | "embed" => kind === "wasm" || kind === "wgsl" || kind === "embed";
+export const isOpenKind = (kind: unknown): kind is "wasm" | "wgsl" | "embed" | "complete" => kind === "wasm" || kind === "wgsl" || kind === "embed" || kind === "complete";
+
+/**
+ * The jobs of a training run (src/train.ts, mine/TRAIN-PLAN.md): never ordered directly, only made by a run, one
+ * generation or round at a time. Each job's input is an upload holding its own JSON (theta, seeds, shard, ...).
+ */
+export type RunJobKind = "es" | "esb" | "sgd";
+export const isRunJobKind = (kind: unknown): kind is RunJobKind => kind === "es" || kind === "esb" || kind === "sgd";
+
+// ---- text completion: prompts in, greedy text out, on the miner's GPU ------------------------------------------------
+/**
+ * The models a complete order may ask for, run by MLC WebLLM on WebGPU (q4f16 weights, so about a GB, cached by the
+ * browser after the first job). Greedy decoding: the same GPU gives the same text every time, but float sums differ
+ * between GPUs and a text can take another word late on. Measured 2026-11-11 (Qwen2.5 0.5B, 8 prompts, 96 tokens): an
+ * RTX 4060 twice gave 8/8 identical texts; the 4060 against a Radeon 890M 6/8, the other two splitting at 78% and 71%
+ * of the text. So two answers agree when at least `share` of their texts (default 3 in 4) match to `prefix` of their
+ * characters (prefixAgree). That's weaker than exact agreement, and the order page says so.
+ */
+export const WEBLLM_VERSION = "0.2.88";
+export const COMPLETE_MODELS: Record<string, { id: string; mb: number; context: number; about: string }> = {
+  "qwen2.5-0.5b": { id: "Qwen2.5-0.5B-Instruct-q4f16_1-MLC", mb: 945, context: 4096, about: "Qwen2.5 0.5B Instruct: small and fast, labels and short answers" },
+  "qwen2.5-1.5b": { id: "Qwen2.5-1.5B-Instruct-q4f16_1-MLC", mb: 1630, context: 4096, about: "Qwen2.5 1.5B Instruct: better writing, still laptop-sized" },
+  "llama3.2-1b": { id: "Llama-3.2-1B-Instruct-q4f16_1-MLC", mb: 880, context: 4096, about: "Llama 3.2 1B Instruct: general short completions" },
+};
+export const COMPLETE_LIMITS = { prompts: 32, chars: 8_000, bytes: 400_000, maxTokens: 1024 };
+export const COMPLETE_PREFIX = 0.9;
+export const COMPLETE_SHARE = 0.75;
+
+/** A complete job's input: a JSON array of 1..32 prompts, each a string or {system?, prompt}. */
+export function completePrompts(bytes: Uint8Array): { system?: string; prompt: string }[] {
+  if (bytes.length > COMPLETE_LIMITS.bytes) throw new SpecError(`a complete input is at most ${COMPLETE_LIMITS.bytes.toLocaleString("en-US")} bytes`);
+  let xs: unknown;
+  try {
+    xs = JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes));
+  } catch {
+    throw new SpecError("a complete input is a UTF-8 JSON array of prompts");
+  }
+  if (!Array.isArray(xs) || !xs.length || xs.length > COMPLETE_LIMITS.prompts) throw new SpecError(`a complete input is a JSON array of 1 to ${COMPLETE_LIMITS.prompts} prompts`);
+  return xs.map((x) => {
+    const p = typeof x === "string" ? { prompt: x } : x && typeof x === "object" ? x as { system?: unknown; prompt?: unknown } : null;
+    if (!p || typeof p.prompt !== "string" || !p.prompt.trim()) throw new SpecError("every prompt is a non-empty string, or {system?, prompt}");
+    if (p.system !== undefined && typeof p.system !== "string") throw new SpecError("a prompt's system is a string");
+    if (p.prompt.length + String(p.system ?? "").length > COMPLETE_LIMITS.chars) throw new SpecError(`prompts are at most ${COMPLETE_LIMITS.chars.toLocaleString("en-US")} characters`);
+    return { ...(p.system ? { system: p.system as string } : {}), prompt: p.prompt };
+  });
+}
+
+/**
+ * Whether two complete answers agree: the same number of texts, and at least `share` of the pairs sharing at least
+ * `min` of the longer one's characters as a common start.
+ */
+export function prefixAgree(a: Uint8Array, b: Uint8Array, min: number, share = 1): boolean {
+  let x: unknown;
+  let y: unknown;
+  try {
+    x = JSON.parse(new TextDecoder().decode(a)).texts;
+    y = JSON.parse(new TextDecoder().decode(b)).texts;
+  } catch {
+    return false;
+  }
+  if (!Array.isArray(x) || !Array.isArray(y) || x.length !== y.length || !x.length) return false;
+  let matched = 0;
+  for (let i = 0; i < x.length; i++) {
+    const s = String(x[i]);
+    const t = String(y[i]);
+    const longer = Math.max(s.length, t.length);
+    let k = 0;
+    while (k < s.length && k < t.length && s.charCodeAt(k) === t.charCodeAt(k)) k++;
+    if (!longer || k / longer >= min) matched++;
+  }
+  return matched >= Math.ceil(share * x.length - 1e-9);
+}
 
 // ---- embeddings: text in, vectors out, on the miner's GPU (or CPU) -------------------------------------------------
 /**
@@ -322,7 +395,7 @@ export function cosineAgree(a: Uint8Array, b: Uint8Array, dim: number, min: numb
   return true;
 }
 /** Every kind settled by miners agreeing, with outputs stored as uploads: buyers' programs and our own house kinds. */
-export const isProgramKind = (kind: unknown): boolean => isOpenKind(kind) || isHouseKind(kind);
+export const isProgramKind = (kind: unknown): boolean => isOpenKind(kind) || isHouseKind(kind) || isRunJobKind(kind);
 
 /** Our own job kinds: the miner already has the code, only the job's parameters travel. */
 export const isHouseKind = (kind: unknown): kind is "world" | "probe" | "fight" | "replay" | "replayb" | "replayp" =>
@@ -380,8 +453,9 @@ const liveRule = (name: string, strategy: string): true => {
  *   { kind: "wgsl", program, inputs, dispatch: [64, 1, 1], output_bytes: 4096, compare: { f32_tolerance: 1e-5 }, ... }
  */
 export function openSpec(spec: any, maxJobs: number): OpenSpec {
-  if (!spec || typeof spec !== "object" || !isOpenKind(spec.kind)) throw new SpecError("kind is connectome-sweep, wasm, wgsl or embed");
+  if (!spec || typeof spec !== "object" || !isOpenKind(spec.kind)) throw new SpecError("kind is connectome-sweep, wasm, wgsl, embed, complete, evolve or train");
   if (spec.kind === "embed") return embedSpec(spec, maxJobs);
+  if (spec.kind === "complete") return completeSpec(spec, maxJobs);
   if (typeof spec.program !== "string" || !HASH.test(spec.program)) throw new SpecError("program is the sha256 of an upload (POST /api/blobs)");
   if (spec.count !== undefined && spec.inputs !== undefined) throw new SpecError("give inputs or count, not both");
   const inputs = spec.count !== undefined ? Array.from({ length: int(spec.count, "count", 1, maxJobs) }, () => INDEX_INPUT) : spec.inputs ?? [];
@@ -435,6 +509,40 @@ function embedSpec(spec: any, maxJobs: number): OpenSpec {
     timeout_s: spec.timeout_s === undefined ? 60 : int(spec.timeout_s, "timeout_s", 5, MAX_TIMEOUT_S),
     redundancy: spec.redundancy === undefined ? 2 : int(spec.redundancy, "redundancy", 1, 5),
     compare: { cosine }, dispatch: null, output_bytes: null, keep_open: keepOpen,
+  };
+}
+
+/**
+ * A complete spec, normalized: { kind: "complete", model: "qwen2.5-0.5b", inputs: ["<sha256 of a JSON array of
+ * prompts>", ...], max_tokens?: 256, timeout_s?, redundancy?, compare?: { prefix: 0.9, share: 0.75 }, keep_open? }.
+ * `program` holds the model id; max_tokens rides in `dispatch` ([max_tokens, 0, 0]) so no new column is needed.
+ */
+function completeSpec(spec: any, maxJobs: number): OpenSpec {
+  const model = spec.model;
+  if (typeof model !== "string" || !Object.hasOwn(COMPLETE_MODELS, model)) throw new SpecError(`model is one of ${Object.keys(COMPLETE_MODELS).join(", ")}`);
+  if (spec.count !== undefined) throw new SpecError("complete jobs need inputs: upload JSON arrays of prompts");
+  const inputs = spec.inputs ?? [];
+  if (!Array.isArray(inputs) || inputs.some((h) => typeof h !== "string" || !HASH.test(h))) throw new SpecError("inputs is a list of upload sha256s (each a JSON array of prompts)");
+  if (inputs.length > maxJobs) throw new SpecError(`one order holds at most ${maxJobs.toLocaleString("en-US")} jobs at a time`);
+  const keepOpen = spec.keep_open === true;
+  if (!inputs.length && !keepOpen) throw new SpecError("inputs is empty; give inputs, or keep_open to add jobs later");
+  let prefix = COMPLETE_PREFIX;
+  let share = COMPLETE_SHARE;
+  if (spec.compare !== undefined) {
+    const c = spec.compare?.prefix ?? COMPLETE_PREFIX;
+    const sh = spec.compare?.share ?? COMPLETE_SHARE;
+    if (typeof c !== "number" || !(c >= 0.5 && c <= 1) || typeof sh !== "number" || !(sh >= 0.5 && sh <= 1)) {
+      throw new SpecError('compare for complete is {"prefix": 0.5 to 1, "share": 0.5 to 1}');
+    }
+    prefix = c;
+    share = sh;
+  }
+  const maxTokens = spec.max_tokens === undefined ? 256 : int(spec.max_tokens, "max_tokens", 1, COMPLETE_LIMITS.maxTokens);
+  return {
+    kind: "complete", program: model, inputs,
+    timeout_s: spec.timeout_s === undefined ? 180 : int(spec.timeout_s, "timeout_s", 10, MAX_TIMEOUT_S),
+    redundancy: spec.redundancy === undefined ? 2 : int(spec.redundancy, "redundancy", 1, 5),
+    compare: { prefix, share }, dispatch: [maxTokens, 0, 0], output_bytes: null, keep_open: keepOpen,
   };
 }
 

@@ -6,7 +6,8 @@
       "stake": "质押",
       "claims": "领取",
       "leaderboard": "排行榜",
-      "results": "成果"
+      "results": "成果",
+      "runs": "训练"
     },
     "notSignedIn": "未登录",
     "signIn": "登录",
@@ -398,7 +399,10 @@
       "normal": "普通",
       "faster": "较快",
       "fastest": "最快"
-    }
+    },
+    "describeComplete": "使用 {model} 生成文本",
+    "describeEvolve": "进化运行（进化策略）",
+    "describeTrain": "训练运行（用你的数据训练神经网络）"
   },
   "stake": {
     "flyAiComputeStaking": "fly.ai 算力 · 质押",
@@ -649,6 +653,96 @@
     "fightJob": "一场 Fly Colosseum 对决",
     "replayJob": "一次交易规则回放：{name}",
     "replaybJob": "一次交易规则运气检验：{name}，路径 {seed}",
-    "replaypJob": "一次永续合约回放（做多和做空）：{name}，路径 {seed}"
+    "replaypJob": "一次永续合约回放（做多和做空）：{name}，路径 {seed}",
+    "completeJob": "正在用 {model} 写文本，任务 #{index}",
+    "evolveJob": "训练运行：为进化的参数打分，任务 #{index}",
+    "trainJob": "训练运行：在一个数据分片上训练模型，任务 #{index}"
+  },
+  "runs": {
+    "metaTitle": "训练运行 — fly.ai 算力",
+    "metaDescription": "在 fly.ai 浏览器算力网络上训练小模型：进化策略、用你的数据训练小型神经网络，以及批量文本生成。实时曲线和检查点。",
+    "eyebrow": "fly.ai 算力 · 训练",
+    "title": "在网络上训练",
+    "lede": "矿工的浏览器一起训练小模型。每一代或每一轮是一批任务，需要两位矿工的结果一致；服务器在中间更新一步并保存每个检查点。你只为完成结算的任务付费。",
+    "status": "状态",
+    "step": "步数",
+    "params": "参数",
+    "spent": "已花费",
+    "downloadTheta": "下载参数",
+    "downloadBest": "下载最佳参数",
+    "payForRun": "为此运行付款",
+    "startNum": "开始运行",
+    "startTitle": "训练什么",
+    "wasmFile": "你的适应度函数：一个 .wasm 模块（输入 u32 回合、u32 维度、f64 参数；输出一个 f64 分数）",
+    "dim": "参数个数",
+    "csvFile": "你的数据：一个数字 .csv，最后一列是类别（0、1、2…）",
+    "hidden": "隐藏单元",
+    "generations": "代数",
+    "rounds": "轮数",
+    "wallet": "付款钱包（你的）",
+    "bid": "每个任务出价（$FLYAI）",
+    "quoteBtn": "报价",
+    "createBtn": "创建并付款",
+    "ourNum": "我们的运行",
+    "ourTitle": "项目在网络上训练的内容",
+    "noRuns": "还没有运行。",
+    "codeNum": "用代码",
+    "codeTitle": "Python，以及免费的练习网络",
+    "codeCaption": "先免费试跑：在 <code>mine/</code> 里运行 <code>node scripts/local-fleet.ts</code>，会启动一个带练习矿工的本地服务器。模板在<a href=\"https://github.com/alextitonis/fly.ai/tree/main/mine/examples\" target=\"_blank\" rel=\"noopener\">示例</a>里（es-cartpole、train-logreg），<a href=\"/compute/compute-api.md\" download=\"flyai-compute-api.md\">指南</a>列出了每个字段。",
+    "fits": "适合的规模：最多 100,000 个进化参数、最多 1,000,000 个权重的网络，以及 0.5B 到 1.5B 的文本模型。矿工能看到你发送的数据，请不要发送隐私内容。",
+    "tpl": {
+      "cartpole": {
+        "title": "让倒立摆保持平衡",
+        "about": "用 WebAssembly 适应度函数进化一个 5 个数的策略，进化策略的入门示例。",
+        "tag": "进化 · wasm · 每代约 30 秒"
+      },
+      "brain": {
+        "title": "让果蝇逃跑",
+        "about": "进化三个视觉输入驱动真实连接组的强度，让巨纤维（DNp01）放电。",
+        "tag": "进化 · 果蝇大脑 · CPU 矿工"
+      },
+      "wasm": {
+        "title": "你自己的适应度函数",
+        "about": "上传一个给参数向量打分的 .wasm，网络来进化这个向量。",
+        "tag": "进化 · 你的 wasm"
+      },
+      "csv": {
+        "title": "用你的 CSV 训练神经网络",
+        "about": "用你的数据行训练一个 MLP 分类器，留出十分之一，每轮评分。",
+        "tag": "训练 · MLP · 你的数据"
+      }
+    },
+    "csvTooSmall": "CSV 至少需要 20 行数字。",
+    "csvRagged": "每行的列数必须相同，且至少两列。",
+    "csvLabels": "最后一列必须是整数类别：0、1、2…",
+    "uploading": "正在上传分片 {done}/{total}…",
+    "needWasm": "请先选择你的 .wasm 适应度函数。",
+    "needCsv": "请先选择你的 CSV。",
+    "needWallet": "请输入付款钱包（0x…），或登录。",
+    "pricing": "正在上传并报价…",
+    "quoteLine": "{steps} 步 × {per} 个任务 = {jobs} 个任务，每个 {bid} $FLYAI：最多 {full} $FLYAI，未用完的预算会退回。",
+    "created": "已创建。",
+    "payNow": "去付款",
+    "watchIt": "查看运行",
+    "kind": {
+      "evolve": "进化运行",
+      "train": "训练运行"
+    },
+    "about": {
+      "evolve": "进化策略，共 {steps} 代（{job} 任务）",
+      "train": "神经网络训练，共 {steps} 轮（{job} 任务）"
+    },
+    "st": {
+      "waiting": "等待付款",
+      "running": "运行中",
+      "done": "已完成",
+      "ended": "已结束",
+      "failed": "失败"
+    },
+    "legendEvolve": "实线：每代当前参数的分数。虚线：该代最好的成员。",
+    "legendEval": "每轮后在留出数据上的准确率。",
+    "legendLoss": "每轮的平均训练损失。",
+    "failedNote": "运行已停止：{error}",
+    "format": "参数以原始 {format} 小端格式下载，共 {n} 个值（numpy.fromfile(path, \"<f8\") 或 \"<f4\"）。"
   }
 }

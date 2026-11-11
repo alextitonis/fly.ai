@@ -1,6 +1,6 @@
 ---
 name: flyai-compute
-description: Run jobs on the fly.ai compute network and pay for them - fly connectome experiments, or the user's own WebAssembly programs and WGSL GPU shaders, run by browser miners. Prices the job, creates the order, hands the user a pay link to pay in $FLYAI with their own wallet, then downloads the results. Use when the user says "run this on fly.ai compute", "submit a job to flyai", "order compute", "run a connectome sweep", "/flyai-compute", or wants to check, top up, stop or collect a fly.ai compute order.
+description: Run jobs on the fly.ai compute network and pay for them - fly connectome experiments, the user's own WebAssembly programs and WGSL GPU shaders, embeddings, batch text completion, and training runs (evolution strategies, small neural nets on their data), run by browser miners. Prices the job, creates the order, hands the user a pay link to pay in $FLYAI with their own wallet, then downloads the results. Use when the user says "run this on fly.ai compute", "submit a job to flyai", "order compute", "run a connectome sweep", "/flyai-compute", or wants to check, top up, stop or collect a fly.ai compute order.
 ---
 
 # fly.ai compute 🪰
@@ -11,6 +11,12 @@ Browser miners run jobs for $FLYAI. There are two kinds of job:
 - **The user's own programs**: WebAssembly (CPU) or WGSL (GPU) programs, one job per input.
 - **Embeddings**: text in, one vector per text out (`minilm-l6` or `bge-small-en`, 384 numbers each), run on miners'
   GPUs. Use them for search, clustering, deduplication or RAG. Each job is a batch of up to 256 texts.
+- **Text completion**: prompts in, greedy text out from a small open model (`qwen2.5-0.5b`, `qwen2.5-1.5b`,
+  `llama3.2-1b`) on miners' GPUs. Use it for labels, synthetic data and evals. It is not for chat: nobody waits on a job.
+- **Training runs**: `evolve` (evolution strategies: the user's WebAssembly fitness, or the fly brain, scored by
+  miners generation by generation) and `train` (a small MLP, or their own WebAssembly train step, on their data
+  shards, DiLoCo style). The server takes the step between generations and keeps the parameters. Small models only:
+  up to 100,000 evolved parameters, nets up to 1,000,000 weights.
 
 A job is charged only when it settles, which means two miners returned the same answer (or `redundancy` of them did). 80% of every charge goes to the miners.
 
@@ -56,6 +62,10 @@ https://www.flyaiworld.com/compute/compute-api.md. Fetch it when you need a fiel
    node scripts/flyai.mjs quote --program job.wasm --count 1000 [--timeout 60] [--redundancy 2]
    node scripts/flyai.mjs quote --program job.wgsl --count 64 --dispatch 256,1,1 --output-bytes 4096 [--tolerance 0.0001]
    node scripts/flyai.mjs quote --embed docs.txt [--model minilm-l6|bge-small-en] [--batch 128]
+   node scripts/flyai.mjs quote --complete prompts.txt [--model qwen2.5-0.5b] [--batch 16] [--max-tokens 256]
+   node scripts/flyai.mjs quote --fitness f.wasm --dim 5 [--generations 100] [--pairs 64] [--sigma 0.1] [--lr 0.05]
+   node scripts/flyai.mjs quote --train-csv data.csv [--hidden 64] [--rounds 40]
+   node scripts/flyai.mjs quote --spec run.json        # any evolve/train spec (see the guide's "Training runs")
    ```
    Show the user the number of jobs, the price per job and the most it can cost. Mention that jobs already done
    cost less. The lowest bid depends on `timeout_s` (it grows with every started 30 s), and `config` shows the
@@ -93,6 +103,21 @@ https://www.flyaiworld.com/compute/compute-api.md. Fetch it when you need a fiel
 
 6. **Later:** `add --order ID --count N` (keep-open orders) and `stop --order ID`. Both read the key from the
    `order-*.json` file in the current folder, or take `--key`.
+
+7. **Training runs** print `run` and `run_link` when created. Follow them with:
+   ```bash
+   node scripts/flyai.mjs run --run RUN_ID                  # status, step, the last point
+   node scripts/flyai.mjs curve --run RUN_ID --out curve.csv
+   node scripts/flyai.mjs theta --run RUN_ID [--best]       # the parameters: float64 (evolve) or float32 (train)
+   ```
+   For an evolve run, `center` is the score of the current parameters, the number to watch. For a train run, watch
+   `eval_acc`, or `train_loss` when there's no eval shard. A fitness module gets `u32 episode, u32 dim, f64 params`
+   and outputs one f64 score. It must be deterministic, so no host `Math.sin`; the template is
+   `mine/examples/es-cartpole`. To try a run free before paying, `node scripts/local-fleet.ts` in the fly.ai repo's
+   `mine/` starts a local server with practice miners (`FLYAI_SERVER=http://localhost:8790`). Orders there need the
+   admin token `local` (the Python client's `Fleet(admin_token="local")`).
+   Completion results: each `N.out` is JSON `{"texts": [...]}`. Two miners agree when 3 in 4 of their texts match on
+   their first 90%, which is weaker than exact. Tell the user that.
 
 ## Good to know
 

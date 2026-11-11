@@ -20,6 +20,8 @@ read outputs where it needs one.
 | [`tsp-search`](tsp-search) | travelling salesman by random restarts: keep the best tour | `count: N`: each job is a restart | tour length + city order |
 | [`wordcount-wasi`](wordcount-wasi) | an ordinary program: stdin in, stdout out (WASI) | one input per text file | lines of "count word" |
 | [`matmul-wgsl`](matmul-wgsl) | GPU matrix multiply in a WGSL compute shader, compared within a float tolerance | one input per matrix pair | the product |
+| [`es-cartpole`](es-cartpole) | a fitness for an `evolve` training run: how long a linear policy balances a cart-pole | made by the run, one per batch of perturbations | one f64 score per member |
+| [`train-logreg`](train-logreg) | a train step for a `train` run (softmax regression): the template for bringing your own model | made by the run, one per data shard | the weight change, then the loss |
 
 ## Try one in five minutes
 

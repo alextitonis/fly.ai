@@ -6,7 +6,8 @@
       "stake": "質押",
       "claims": "領取",
       "leaderboard": "排行榜",
-      "results": "成果"
+      "results": "成果",
+      "runs": "訓練"
     },
     "notSignedIn": "尚未登入",
     "signIn": "登入",
@@ -398,7 +399,10 @@
       "normal": "一般",
       "faster": "較快",
       "fastest": "最快"
-    }
+    },
+    "describeComplete": "使用 {model} 生成文字",
+    "describeEvolve": "演化運行（演化策略）",
+    "describeTrain": "訓練運行（用你的資料訓練神經網路）"
   },
   "stake": {
     "flyAiComputeStaking": "fly.ai 算力 · 質押",
@@ -649,6 +653,96 @@
     "fightJob": "一場 Fly Colosseum 對決",
     "replayJob": "一次交易規則回放：{name}",
     "replaybJob": "一次交易規則運氣檢驗：{name}，路徑 {seed}",
-    "replaypJob": "一次永續合約回放（做多和做空）：{name}，路徑 {seed}"
+    "replaypJob": "一次永續合約回放（做多和做空）：{name}，路徑 {seed}",
+    "completeJob": "正在用 {model} 寫文字，任務 #{index}",
+    "evolveJob": "訓練運行：為演化的參數評分，任務 #{index}",
+    "trainJob": "訓練運行：在一個資料分片上訓練模型，任務 #{index}"
+  },
+  "runs": {
+    "metaTitle": "訓練運行 — fly.ai 算力",
+    "metaDescription": "在 fly.ai 瀏覽器算力網路上訓練小模型：演化策略、用你的資料訓練小型神經網路，以及批次文字生成。即時曲線與檢查點。",
+    "eyebrow": "fly.ai 算力 · 訓練",
+    "title": "在網路上訓練",
+    "lede": "礦工的瀏覽器一起訓練小模型。每一代或每一輪是一批任務，需要兩位礦工的結果一致；伺服器在中間更新一步並保存每個檢查點。你只為完成結算的任務付費。",
+    "status": "狀態",
+    "step": "步數",
+    "params": "參數",
+    "spent": "已花費",
+    "downloadTheta": "下載參數",
+    "downloadBest": "下載最佳參數",
+    "payForRun": "為此運行付款",
+    "startNum": "開始運行",
+    "startTitle": "訓練什麼",
+    "wasmFile": "你的適應度函數：一個 .wasm 模組（輸入 u32 回合、u32 維度、f64 參數；輸出一個 f64 分數）",
+    "dim": "參數個數",
+    "csvFile": "你的資料：一個數字 .csv，最後一欄是類別（0、1、2…）",
+    "hidden": "隱藏單元",
+    "generations": "代數",
+    "rounds": "輪數",
+    "wallet": "付款錢包（你的）",
+    "bid": "每個任務出價（$FLYAI）",
+    "quoteBtn": "報價",
+    "createBtn": "建立並付款",
+    "ourNum": "我們的運行",
+    "ourTitle": "專案在網路上訓練的內容",
+    "noRuns": "還沒有運行。",
+    "codeNum": "用程式",
+    "codeTitle": "Python，以及免費的練習網路",
+    "codeCaption": "先免費試跑：在 <code>mine/</code> 裡執行 <code>node scripts/local-fleet.ts</code>，會啟動一個帶練習礦工的本機伺服器。範本在<a href=\"https://github.com/alextitonis/fly.ai/tree/main/mine/examples\" target=\"_blank\" rel=\"noopener\">範例</a>裡（es-cartpole、train-logreg），<a href=\"/compute/compute-api.md\" download=\"flyai-compute-api.md\">指南</a>列出了每個欄位。",
+    "fits": "適合的規模：最多 100,000 個演化參數、最多 1,000,000 個權重的網路，以及 0.5B 到 1.5B 的文字模型。礦工能看到你送出的資料，請不要送出隱私內容。",
+    "tpl": {
+      "cartpole": {
+        "title": "讓倒立擺保持平衡",
+        "about": "用 WebAssembly 適應度函數演化一個 5 個數的策略，演化策略的入門範例。",
+        "tag": "演化 · wasm · 每代約 30 秒"
+      },
+      "brain": {
+        "title": "讓果蠅逃跑",
+        "about": "演化三個視覺輸入驅動真實連接組的強度，讓巨纖維（DNp01）放電。",
+        "tag": "演化 · 果蠅大腦 · CPU 礦工"
+      },
+      "wasm": {
+        "title": "你自己的適應度函數",
+        "about": "上傳一個為參數向量評分的 .wasm，網路來演化這個向量。",
+        "tag": "演化 · 你的 wasm"
+      },
+      "csv": {
+        "title": "用你的 CSV 訓練神經網路",
+        "about": "用你的資料列訓練一個 MLP 分類器，保留十分之一，每輪評分。",
+        "tag": "訓練 · MLP · 你的資料"
+      }
+    },
+    "csvTooSmall": "CSV 至少需要 20 列數字。",
+    "csvRagged": "每列的欄數必須相同，且至少兩欄。",
+    "csvLabels": "最後一欄必須是整數類別：0、1、2…",
+    "uploading": "正在上傳分片 {done}/{total}…",
+    "needWasm": "請先選擇你的 .wasm 適應度函數。",
+    "needCsv": "請先選擇你的 CSV。",
+    "needWallet": "請輸入付款錢包（0x…），或登入。",
+    "pricing": "正在上傳並報價…",
+    "quoteLine": "{steps} 步 × {per} 個任務 = {jobs} 個任務，每個 {bid} $FLYAI：最多 {full} $FLYAI，未用完的預算會退回。",
+    "created": "已建立。",
+    "payNow": "去付款",
+    "watchIt": "查看運行",
+    "kind": {
+      "evolve": "演化運行",
+      "train": "訓練運行"
+    },
+    "about": {
+      "evolve": "演化策略，共 {steps} 代（{job} 任務）",
+      "train": "神經網路訓練，共 {steps} 輪（{job} 任務）"
+    },
+    "st": {
+      "waiting": "等待付款",
+      "running": "運行中",
+      "done": "已完成",
+      "ended": "已結束",
+      "failed": "失敗"
+    },
+    "legendEvolve": "實線：每代目前參數的分數。虛線：該代最好的成員。",
+    "legendEval": "每輪後在保留資料上的準確率。",
+    "legendLoss": "每輪的平均訓練損失。",
+    "failedNote": "運行已停止：{error}",
+    "format": "參數以原始 {format} 小端格式下載，共 {n} 個值（numpy.fromfile(path, \"<f8\") 或 \"<f4\"）。"
   }
 }

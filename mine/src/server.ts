@@ -82,7 +82,9 @@ import {
 import { backoffMs, checkWebhook, sign, WEBHOOK_BATCH, WEBHOOK_MAX_FAILS } from "./webhooks.ts";
 import {
   cosineAgree, EMBED_LIMITS, EMBED_MODELS, embedTexts, f32Agree, HASH as BLOB_HASH, houseJob, houseSpec, houseUnits, INDEX_INPUT, isHouseKind, isOpenKind, isProgramKind, isReplayKind, MAX_OUTPUT_BYTES, openMinBid, openSpec, type OpenSpec,
+  COMPLETE_LIMITS, COMPLETE_MODELS, completePrompts, isRunJobKind, prefixAgree, WEBLLM_VERSION,
 } from "./orders.ts";
+import * as T from "./train.ts";
 import { inspectWasm, inspectWgsl, WasmError } from "./wasmcheck.ts";
 import {
   balanceSummary, encodingSummary, learningSummary, piSummary, replaySummary, tilesSummary, tspSummary, tuningSummary, worldSummary,
@@ -237,7 +239,7 @@ function round(r: number): TaskParams[] {
 }
 
 // ---- storage -----------------------------------------------------------------------------------------
-const SCHEMA = 23; // 23 order_packs + blob_packed (finished house orders' outputs folded and packed), 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables), 18 FlightPass withdrawals sent by the server (sending_at, error), 19 Fly Slots (slots_commits, slots_spins; 2026-09-29), 20 Fly Race (race_commits, race_games, race_events; 2026-09-29), 21 players and money moved to Postgres (src/pg.ts; their tables here are left as they were, unused) and pg_outbox, 22 screen_sums.spread (per-seed spread for the open dataset); created below for new and old databases alike
+const SCHEMA = 24; // 24 runs + run_points (training runs, src/train.ts), 23 order_packs + blob_packed (finished house orders' outputs folded and packed), 4 adds snapshots and snapshot_claims, 5 stake_samples, 6 orders, 7 result delivery, 8 buyers' programs, 9 house orders, 10 wallet sessions, 11 USDC payments, 12 guest card orders, 13 day_credit, 14 Fly Roulette bets (ledger kinds bet/payout, roulette_* tables, withdraw requests), 15 program units re-priced for PROGRAM_BONUS 1.25 -> 1.01, 16 screen_sums + counters (finished screen jobs pruned), 17 FlightPass (ledger kinds prefund/fee, flightpass* tables), 18 FlightPass withdrawals sent by the server (sending_at, error), 19 Fly Slots (slots_commits, slots_spins; 2026-09-29), 20 Fly Race (race_commits, race_games, race_events; 2026-09-29), 21 players and money moved to Postgres (src/pg.ts; their tables here are left as they were, unused) and pg_outbox, 22 screen_sums.spread (per-seed spread for the open dataset); created below for new and old databases alike
 /** PROGRAM_BONUS before schema 15, and the factor stored program units are scaled by so credit keeps its value. */
 const OLD_PROGRAM_BONUS = 1.25;
 mkdirSync(dirname(DB_PATH), { recursive: true });
@@ -605,6 +607,37 @@ db.exec(`
     kind text not null check (kind in ('ledger', 'earning')),
     row text not null                 -- JSON: the Postgres row
   );
+`);
+// 24: training runs (src/train.ts, mine/TRAIN-PLAN.md). A run drives one order (keep_open): each generation or round
+// is a batch of the order's jobs; when they have all settled the server takes the step and adds the next batch.
+db.exec(`
+  create table if not exists runs (
+    id text primary key,
+    order_id text not null,
+    kind text not null,                -- evolve | train
+    spec text not null,                -- the checked run spec (src/train.ts RunSpec)
+    step integer not null default 0,   -- the generation or round now out
+    theta text not null,               -- blob: this step's parameters (f64 for evolve, f32 for train)
+    state text,                        -- blob: the optimizer's state (Adam for evolve, outer momentum for train)
+    status text not null default 'waiting', -- waiting (unpaid) | running | done | ended | failed
+    end_reason text,
+    error text,
+    best text,                         -- JSON {step, score, theta}: evolve's best center so far
+    house integer not null default 0,
+    label text,
+    created_at integer not null,
+    updated_at integer not null
+  );
+  create index if not exists runs_by_order on runs (order_id);
+  create index if not exists runs_active on runs (status) where status in ('waiting', 'running');
+  create table if not exists run_points (
+    run text not null,
+    step integer not null,
+    at integer not null,
+    point text not null,               -- JSON: the step's numbers (scores, losses, norms)
+    theta text,                        -- the step's parameters, while kept
+    primary key (run, step)
+  ) without rowid;
 `);
 // 23 first shipped without these (v167, one day's packs). By what's there, not user_version: the rollback to v166 set that back
 for (const [table, column, type] of [["blob_packed", "offset", "integer"], ["blob_packed", "length", "integer"], ["order_packs", "members", "integer not null default 0"]]) {
@@ -1303,7 +1336,7 @@ function pickOrder(miner: string, k: string, orders: { id: string; weight: numbe
 }
 
 /** What miners know how to run; a client that doesn't say is an older one and gets only the brain. */
-const KINDS = ["connectome", "wasm", "wgsl", "world", "probe", "fight", "replay", "replayb", "replayp", "embed"];
+const KINDS = ["connectome", "wasm", "wgsl", "world", "probe", "fight", "replay", "replayb", "replayp", "embed", "complete", "es", "esb", "sgd"];
 
 /** A claimed program job: where to fetch it and its limits. */
 function openJob(params: string, kind: string) {
@@ -1315,6 +1348,17 @@ function openJob(params: string, kind: string) {
       ...(isReplayKind(kind) ? { data_url: `/api/blobs/${p.job.data}` } : {}) };
   }
   const blob = (h: string) => `/api/blobs/${h}`;
+  if (isRunJobKind(kind)) {
+    // a training job: its input is its own JSON (src/train.ts EsJob / SgdJob), which names the uploads it needs
+    return { kind, index: p.index, input: p.input, input_url: blob(p.input), timeout_s: p.timeout_s, max_output: MAX_OUTPUT_BYTES };
+  }
+  if (kind === "complete") {
+    const m = COMPLETE_MODELS[p.program];
+    return {
+      kind, model: p.program, webllm: m.id, webllm_version: WEBLLM_VERSION, mb: m.mb, max_tokens: p.dispatch?.[0] ?? 256,
+      index: p.index, input: p.input, input_url: blob(p.input), timeout_s: p.timeout_s,
+    };
+  }
   if (kind === "embed") {
     // the model comes from its own hub at a pinned revision; only the texts travel through us
     const m = EMBED_MODELS[p.program];
@@ -1938,7 +1982,7 @@ function asked<T>(fn: () => T): T {
   try {
     return fn();
   } catch (err) {
-    if (err instanceof SpecError) throw new HttpError(400, err.message);
+    if (err instanceof SpecError || err instanceof T.RunSpecError) throw new HttpError(400, err.message);
     throw err;
   }
 }
@@ -1968,6 +2012,17 @@ function sweepOf(o: OrderRow): TaskParams[] {
 
 /** How much of a sweep is settled already, and what all of it would cost at a bid. */
 function quote(body: any) {
+  if (T.isRunKind(body.spec?.kind)) {
+    const r = asked(() => T.runSpec(body.spec));
+    const minBid = openMinBid(ORDERS, { timeout_s: r.timeout_s } as OpenSpec);
+    const bid = asked(() => orderTerms(ORDERS, { bid: body.bid, budget: body.bid ?? minBid }, minBid)).bid;
+    const jobs = T.totalJobs(r);
+    const full = bid * BigInt(jobs);
+    return {
+      spec: r, run: { kind: r.kind, steps: T.steps(r), jobs_per_step: T.jobsPerStep(r), params: T.runParams(r), job_kind: T.jobKindOf(r) },
+      jobs, cached: 0, fresh: jobs, min_bid: minBid, bid: fromWei(bid), full_cost: fromWei(full), full_cost_wei: full.toString(), full_to_pool: fromWei(poolPart(ORDERS, full)),
+    };
+  }
   if (isOpenKind(body.spec?.kind)) {
     const spec = asked(() => openSpec(body.spec, ORDERS.maxJobs));
     const minBid = openMinBid(ORDERS, spec);
@@ -2002,7 +2057,13 @@ function orderConfigView() {
     // what a new order competes with for miners
     market: { live_orders: bids.length, top_bid: bids.length ? fromWei(bids[0]) : null, median_bid: bids.length ? fromWei(bids[bids.length >> 1]) : null },
     channels: [...CHANNELS, "none"], steps: STEPS, dt: reference?.dt ?? null, outputs: reference?.outputs ?? null,
-    kinds: ["connectome-sweep", "wasm", "wgsl", "embed"],
+    kinds: ["connectome-sweep", "wasm", "wgsl", "embed", "complete", "evolve", "train"],
+    complete: {
+      models: Object.fromEntries(Object.entries(COMPLETE_MODELS).map(([id, m]) => [id, { webllm: m.id, gpu_mb: m.mb, context: m.context, about: m.about }])),
+      webllm_version: WEBLLM_VERSION, max_prompts: COMPLETE_LIMITS.prompts, max_prompt_chars: COMPLETE_LIMITS.chars, max_input_bytes: COMPLETE_LIMITS.bytes,
+      max_tokens: COMPLETE_LIMITS.maxTokens, default_prefix: 0.9, default_share: 0.75,
+    },
+    runs: { limits: T.RUN_LIMITS, shard_magic: T.SHARD_MAGIC },
     embed: {
       models: Object.fromEntries(Object.entries(EMBED_MODELS).map(([id, m]) => [id, { dim: m.dim, pooling: m.pooling, repo: m.repo, revision: m.revision, about: m.about }])),
       max_texts: EMBED_LIMITS.texts, max_text_chars: EMBED_LIMITS.chars, max_input_bytes: EMBED_LIMITS.bytes, default_cosine: 0.9999,
@@ -2037,7 +2098,14 @@ async function createOrder(req: IncomingMessage, body: any) {
   let spec: object;
   let jobCount: number;
   let terms;
-  if (isOpenKind(body.spec?.kind)) {
+  let run: PreparedRun | null = null;
+  if (T.isRunKind(body.spec?.kind)) {
+    run = prepareRun(body.spec);
+    open = run.open;
+    terms = asked(() => orderTerms(ORDERS, body, openMinBid(ORDERS, open!)));
+    spec = run.orderSpec;
+    jobCount = open.inputs.length;
+  } else if (isOpenKind(body.spec?.kind)) {
     open = asked(() => openSpec(body.spec, ORDERS.maxJobs));
     open.program = checkProgram(open);
     checkInputs(open.kind, open.inputs);
@@ -2068,6 +2136,7 @@ async function createOrder(req: IncomingMessage, body: any) {
           .run(id, guest ? ORDERS.payTo! : checksumAddress(body.wallet), JSON.stringify(spec), jobCount, terms.bid.toString(), (terms.budget + BigInt(tag)).toString(),
             tag, terms.maxParallel, terms.hours, now, now + ORDERS.ttlMin * 60_000, webhook, webhookSecret, orderKey ? sha256(orderKey) : null, guest ? 1 : 0);
         if (open) addInputs(id, 0, open.inputs);
+        if (run) insertRun(run, id, false, null);
       });
       break;
     } catch (err) {
@@ -2246,8 +2315,12 @@ function onSettled(task: number): void {
     db.prepare("update order_tasks set state = 2, charged_wei = ?, seq = ? where order_id = ? and task = ?").run(o.bid_wei, ++lastSeq, id, task);
     touched(id);
     charge(o, BigInt(o.bid_wei));
-    if (!o.house && JSON.parse(o.spec).kind !== "connectome-sweep") payMiners(o, task, poolPart(ORDERS, BigInt(o.bid_wei)));
+    const kind = JSON.parse(o.spec).kind;
+    if (!o.house && kind !== "connectome-sweep") payMiners(o, task, poolPart(ORDERS, BigInt(o.bid_wei)));
     refill(id);
+    // a training run whose step just finished settling moves on at once, not at the next housekeeping tick (fast
+    // generations would otherwise wait up to 15 s each); after this transaction, never inside a miner's submit
+    if (isRunJobKind(kind)) queueRunStep(id);
   }
 }
 
@@ -2310,6 +2383,10 @@ function order(id: string) {
     last_seq: one<{ s: number | null }>("select max(seq) as s from order_tasks where order_id = ? and state = 2", id).s ?? 0,
     kind: JSON.parse(o.spec).kind as string,
     house: !!o.house, label: o.label, guest: !!o.guest,
+    run: (() => {
+      const r = one<{ id: string; status: string; step: number } | undefined>("select id, status, step from runs where order_id = ?", id);
+      return r ? { id: r.id, status: r.status, step: r.step, url: `/api/runs/${r.id}` } : null;
+    })(),
     card: one<{ state: string; usdc: string; reason: string | null } | undefined>("select state, usdc, reason from card_checkouts where order_id = ?", id) ?? null,
     webhook: o.webhook ? { url: o.webhook, delivered_seq: o.webhook_seq, done: !!o.webhook_final, failures: o.webhook_fails, error: o.webhook_error } : null,
   };
@@ -2959,7 +3036,7 @@ function needBlob(hash: string): Uint8Array {
  * capped (src/wasmcheck.ts), stored as its own upload; for WGSL the shader as given.
  */
 function checkProgram(spec: OpenSpec): string {
-  if (spec.kind === "embed") return spec.program; // a model id, checked against EMBED_MODELS by openSpec
+  if (spec.kind === "embed" || spec.kind === "complete") return spec.program; // a model id, checked against the model list by openSpec
   const bytes = needBlob(spec.program);
   try {
     if (spec.kind === "wgsl") {
@@ -2979,6 +3056,7 @@ function checkInputs(kind: string, inputs: string[]): void {
     if (h === INDEX_INPUT) continue;
     const bytes = needBlob(h);
     if (kind === "embed") asked(() => embedTexts(bytes));
+    if (kind === "complete") asked(() => completePrompts(bytes));
   }
 }
 
@@ -3360,7 +3438,8 @@ function appendJobs(req: IncomingMessage, id: string, body: any) {
   const count = body.count === undefined ? null : Number(body.count);
   if (count !== null && !(Number.isInteger(count) && count >= 1 && count <= 50_000)) throw new HttpError(400, "count is 1..50000");
   const kind = JSON.parse(o.spec).kind;
-  if (kind === "embed" && count !== null) throw new HttpError(400, "embed jobs need inputs: upload JSON arrays of texts");
+  if (isRunJobKind(kind)) throw new HttpError(409, "a training run adds its own jobs, one generation or round at a time");
+  if ((kind === "embed" || kind === "complete") && count !== null) throw new HttpError(400, `${kind} jobs need inputs: upload JSON arrays of ${kind === "embed" ? "texts" : "prompts"}`);
   const inputs: string[] = count !== null ? Array.from({ length: count }, () => INDEX_INPUT) : body.inputs;
   if (count === null && (!Array.isArray(inputs) || !inputs.length || inputs.length > 50_000 || inputs.some((h) => typeof h !== "string" || !BLOB_HASH.test(h)))) {
     throw new HttpError(400, "send inputs (1..50000 upload sha256s) or count (jobs given their index)");
@@ -3380,6 +3459,8 @@ function appendJobs(req: IncomingMessage, id: string, body: any) {
 function programAnswer(raw: any, params: any): string {
   // an embed input was checked when it was ordered, so a model can't fail on it: an error there is a miner's problem
   if (params.kind === "embed" && raw && typeof raw.error === "string") throw new HttpError(400, "embed jobs answer with vectors; release the job if this machine can't run it");
+  // the same for text: a model that won't load or runs out of GPU memory is this machine's trouble
+  if (params.kind === "complete" && raw && typeof raw.error === "string") throw new HttpError(400, "complete jobs answer with texts; release the job if this machine can't run it");
   if (raw && typeof raw.error === "string") {
     return JSON.stringify({ error: raw.error.replace(/[^\x20-\x7e]/g, "?").slice(0, 200) });
   }
@@ -3397,7 +3478,11 @@ function answersAgree(a: string, b: string, compare: OpenSpec["compare"] | { cos
   if (compare === "exact") return false;
   const x = JSON.parse(a);
   const y = JSON.parse(b);
-  if (!x.output || !y.output || x.size !== y.size) return false;
+  if (!x.output || !y.output) return false;
+  if ("prefix" in compare) return prefixAgree(readFileSync(blobPath(x.output)), readFileSync(blobPath(y.output)), compare.prefix, compare.share ?? 1);
+  if (x.size !== y.size) return false;
+  if ("f64_rel" in compare) return T.scoresAgree(readFileSync(blobPath(x.output)), readFileSync(blobPath(y.output)), compare.f64_rel);
+  if ("delta_cosine" in compare) return T.deltaAgree(readFileSync(blobPath(x.output)), readFileSync(blobPath(y.output)), compare.params, compare.delta_cosine);
   if ("cosine" in compare) return cosineAgree(readFileSync(blobPath(x.output)), readFileSync(blobPath(y.output)), (compare as { dim: number }).dim, compare.cosine);
   return f32Agree(readFileSync(blobPath(x.output)), readFileSync(blobPath(y.output)), compare.f32_tolerance);
 }
@@ -3453,6 +3538,335 @@ function submitOpen(job: string, task: number, params: any, body: any) {
   return { status: "received" };
 }
 
+// ---- training runs (src/train.ts, mine/TRAIN-PLAN.md) -----------------------------------------------------------
+// A run is an order with keep_open whose jobs come one step at a time: an evolve run's generation (a center job and
+// the pairs' jobs) or a train run's round (one job per shard). Every 15 s stepRuns looks at each running run: once
+// the step's jobs have all settled, it reads their answers, takes the step (ES with Adam, or the outer DiLoCo step),
+// stores the new parameters as an upload and adds the next step's jobs. Payment, agreement, miners' pay and the
+// budget are the order's, unchanged; a run ends with its order (budget, time, stopped) or after its last step.
+
+interface PreparedRun { id: string; spec: T.RunSpec; open: OpenSpec; orderSpec: object; theta: string; blobs: string[]; units: number }
+type RunRow = {
+  id: string; order_id: string; kind: string; spec: string; step: number; theta: string; state: string | null; status: string;
+  end_reason: string | null; error: string | null; best: string | null; house: number; label: string | null; created_at: number; updated_at: number;
+};
+
+/** es scores agree within this relative difference: exact fitness functions give equal bytes anyway. */
+const RUN_REL = 1e-9;
+const utf8Bytes = (s: string) => new TextEncoder().encode(s);
+
+/** An upload's bytes, from its own file or the pack it went into. */
+function blobOf(hash: string): Uint8Array {
+  if (existsSync(blobPath(hash))) return readFileSync(blobPath(hash));
+  const b = storedBlob(hash);
+  if (!b) throw new Error(`upload ${hash.slice(0, 12)} is gone`);
+  return b;
+}
+const keepBlob = (hash: string, keep: boolean) => db.prepare("update blobs set keep = ? where hash = ?").run(keep ? 1 : 0, hash);
+
+const stepJobs = (id: string, r: T.RunSpec, step: number, theta: string) =>
+  r.kind === "evolve" ? T.evolveJobs(id, r, step, theta) : T.trainJobs(id, r, step, theta);
+
+/**
+ * Points per settled job of a house run, in brain-job units (a 750-step brain job, ~6 s on a core, is 7.5). Measured
+ * 2026-11-11: the MLP does ~1.2 GFLOP/s in a browser thread; a probe step costs what a screen step does.
+ */
+function runUnits(r: T.RunSpec): number {
+  const clamp = (x: number) => Math.round(Math.max(0.05, Math.min(300, x)) * 100) / 100;
+  if (r.kind === "train") return clamp(((r.local_steps * r.batch * T.runParams(r) * 6) / 1.2e9) * 1.25);
+  const evals = 2 * r.pairs_per_job * r.episodes;
+  const f = r.fitness;
+  if ("wasm" in f) return clamp(evals * 0.05);
+  if (f.builtin === "brain") return clamp((evals * f.steps) / 100);
+  if (f.builtin === "replay") return clamp(evals * 0.5);
+  return clamp((evals * r.dim) / 1e6);
+}
+
+/** Check a run spec and its uploads, make its starting parameters and its first step's jobs. Nothing is stored in the db yet. */
+function prepareRun(raw: any): PreparedRun {
+  const r = asked(() => T.runSpec(raw));
+  const id = randomUUID();
+  const blobs: string[] = [];
+  const P = T.runParams(r);
+  let theta: string;
+  if (r.kind === "evolve") {
+    if (r.theta0) {
+      const b = needBlob(r.theta0);
+      if (b.length !== P * 8) throw new HttpError(400, `theta0 is ${P} float64 values (${P * 8} bytes); the upload is ${b.length} bytes`);
+      theta = r.theta0;
+    } else {
+      theta = putBlob(T.f64Bytes(new Float64Array(P)));
+    }
+    const f = r.fitness;
+    if ("wasm" in f) {
+      const w = checkProgram({ kind: "wasm", program: f.wasm } as OpenSpec);
+      r.fitness = { wasm: w };
+      blobs.push(w);
+    } else if (f.builtin === "replay") {
+      needBlob(f.data);
+      blobs.push(f.data);
+    }
+  } else {
+    if (r.theta0) {
+      const b = needBlob(r.theta0);
+      if (b.length !== P * 4) throw new HttpError(400, `theta0 is ${P} float32 values (${P * 4} bytes); the upload is ${b.length} bytes`);
+      theta = r.theta0;
+    } else if ("mlp" in r.model) {
+      theta = putBlob(T.f32Bytes(T.mlpInit(r.model.mlp, T.runSeedOf(id))));
+    } else {
+      throw new HttpError(400, "a wasm model needs theta0");
+    }
+    if ("wasm" in r.model) {
+      const w = checkProgram({ kind: "wasm", program: r.model.wasm } as OpenSpec);
+      r.model = { wasm: w, params: r.model.params };
+      blobs.push(w);
+    }
+    for (const h of new Set([...r.shards, ...(r.eval_shard ? [r.eval_shard] : [])])) {
+      const head = asked(() => T.shardHeader(needBlob(h)));
+      if ("mlp" in r.model) {
+        const m = r.model.mlp;
+        const out = m.layers[m.layers.length - 1];
+        if (head.xDim !== m.layers[0]) throw new HttpError(400, `shard ${h.slice(0, 12)}: rows have ${head.xDim} inputs; the model takes ${m.layers[0]}`);
+        if (m.loss === "xent" && (head.yKind !== 0 || head.yDim !== out)) throw new HttpError(400, `shard ${h.slice(0, 12)}: cross-entropy needs class labels for ${out} classes`);
+        if (m.loss === "mse" && (head.yKind !== 1 || head.yDim !== out)) throw new HttpError(400, `shard ${h.slice(0, 12)}: mse needs ${out} float targets a row`);
+      }
+      blobs.push(h);
+    }
+  }
+  blobs.push(theta);
+  const inputs = stepJobs(id, r, 0, theta).map((j) => putBlob(utf8Bytes(JSON.stringify(j))));
+  const compare: OpenSpec["compare"] = r.kind === "evolve" ? { f64_rel: RUN_REL } : { delta_cosine: r.cosine, params: P };
+  const open: OpenSpec = { kind: T.jobKindOf(r), program: "", inputs, timeout_s: r.timeout_s, redundancy: r.redundancy, compare, dispatch: null, output_bytes: null, keep_open: true };
+  return { id, spec: r, open, orderSpec: { ...open, inputs: undefined, run: id, run_spec: r }, theta, blobs, units: runUnits(r) };
+}
+
+/** In the order's transaction. The run's current parameters are always kept, whoever ordered it. */
+function insertRun(run: PreparedRun, orderId: string, house: boolean, label: string | null): void {
+  const now = Date.now();
+  db.prepare(`insert into runs (id, order_id, kind, spec, step, theta, state, status, house, label, created_at, updated_at)
+    values (?, ?, ?, ?, 0, ?, null, 'waiting', ?, ?, ?, ?)`).run(run.id, orderId, run.spec.kind, JSON.stringify(run.spec), run.theta, house ? 1 : 0, label, now, now);
+  keepBlob(run.theta, true);
+}
+
+/** Runs to look at right after the current request: their order just settled a job. */
+const runsDue = new Set<string>();
+function queueRunStep(orderId: string): void {
+  if (runsDue.has(orderId)) return;
+  runsDue.add(orderId);
+  setImmediate(() => {
+    runsDue.delete(orderId);
+    const run = one<RunRow | undefined>("select * from runs where order_id = ? and status in ('waiting', 'running')", orderId);
+    if (!run) return;
+    try {
+      stepRun(run);
+    } catch (err) {
+      console.error(`run ${run.id.slice(0, 8)}: ${err instanceof Error ? err.message : err}`);
+    }
+  });
+}
+
+/** The housekeeping step: every running run whose step has settled moves on. */
+function stepRuns(): void {
+  const rows = db.prepare("select * from runs where status in ('waiting', 'running')").all() as RunRow[];
+  for (const run of rows) {
+    try {
+      stepRun(run);
+    } catch (err) {
+      console.error(`run ${run.id.slice(0, 8)}: ${err instanceof Error ? err.message : err}`);
+    }
+  }
+}
+
+const evalShards = new Map<string, T.Shard>();
+function evalShard(hash: string): T.Shard {
+  let s = evalShards.get(hash);
+  if (!s) {
+    s = T.decodeShard(blobOf(hash));
+    if (evalShards.size >= 4) evalShards.delete(evalShards.keys().next().value!);
+    evalShards.set(hash, s);
+  }
+  return s;
+}
+
+function endRun(run: RunRow, status: "done" | "ended" | "failed", reason: string, error: string | null = null): void {
+  db.prepare("update runs set status = ?, end_reason = ?, error = ?, updated_at = ? where id = ?").run(status, reason, error, Date.now(), run.id);
+  console.log(`run ${run.id.slice(0, 8)} ${status} (${reason}) at step ${run.step}${error ? `: ${error}` : ""}`);
+}
+
+function stepRun(run: RunRow): void {
+  const o = orderRow(run.order_id);
+  if (!o || o.status === "unpaid") return;
+  if (o.status === "expired") return endRun(run, "ended", "unpaid");
+  if (o.status === "done" || o.status === "ended") return endRun(run, "ended", o.end_reason ?? o.status);
+  if (run.status === "waiting") db.prepare("update runs set status = 'running', updated_at = ? where id = ?").run(Date.now(), run.id);
+  const r = JSON.parse(run.spec) as T.RunSpec;
+  const per = T.jobsPerStep(r);
+  const base = run.step * per;
+  // all of the step taken on (a small max_parallel feeds it in pieces), and none of it out
+  if (o.jobs < base + per || o.cursor < o.jobs) return;
+  if (count("select count(*) as n from order_tasks where order_id = ? and state = 1", o.id) > 0) return;
+  // the step's answers have the order's highest seqs: every earlier step settled before this one was added
+  const rows = db.prepare(`select t.params, t.truth from order_tasks ot join tasks t on t.id = ot.task
+    where ot.order_id = ? and ot.state = 2 order by ot.seq desc limit ?`).all(o.id, per) as { params: string; truth: string | null }[];
+  const answers = new Map<number, any>();
+  for (const row of rows) {
+    const index = JSON.parse(row.params).index as number;
+    if (index >= base && index < base + per && row.truth) answers.set(index - base, JSON.parse(row.truth));
+  }
+  if (answers.size < per) return; // not all settled yet (a straggler, or a refill still to come)
+  const errors: string[] = [];
+  const outputOf = (k: number): Uint8Array | null => {
+    const a = answers.get(k);
+    if (a?.error) errors.push(String(a.error));
+    if (!a?.output) return null; // an error, or disputed: that part of the step is missing
+    try {
+      return blobOf(a.output);
+    } catch {
+      return null;
+    }
+  };
+
+  let theta: Uint8Array;
+  let state: Uint8Array;
+  let point: Record<string, unknown>;
+  let best = run.best ? JSON.parse(run.best) as { step: number; score: number; theta: string } : null;
+  const prevBest = best?.theta ?? null;
+  if (r.kind === "evolve") {
+    const jobs = T.evolveJobs(run.id, r, run.step, run.theta);
+    const pairs: { seed: number; plus: number; minus: number }[] = [];
+    let center: number | null = null;
+    jobs.forEach((job, k) => {
+      const out = outputOf(k);
+      if (!out || out.length !== job.seeds.length * 16) return;
+      const x = T.readF64(out);
+      job.seeds.forEach((seed, i) => {
+        if (seed === 0) center = x[2 * i];
+        else if (Number.isFinite(x[2 * i]) && Number.isFinite(x[2 * i + 1])) pairs.push({ seed, plus: x[2 * i], minus: x[2 * i + 1] });
+      });
+    });
+    if (!pairs.length && center === null) return endRun(run, "failed", "fitness", errors[0] ?? "no job of the generation gave scores");
+    const now = T.readF64(blobOf(run.theta));
+    const st = run.state ? T.unpackEsState(blobOf(run.state), r.dim) : T.esState(r.dim);
+    const stepped = T.esStep(r, now, st, pairs);
+    const scores = pairs.flatMap((p) => [p.plus, p.minus]);
+    point = {
+      center, pairs: pairs.length, missing: r.pairs - pairs.length, errors: errors.length,
+      mean: scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null,
+      max: scores.length ? Math.max(...scores) : null, min: scores.length ? Math.min(...scores) : null, grad_norm: stepped.gradNorm,
+    };
+    if (center !== null && (!best || center > best.score)) best = { step: run.step, score: center, theta: run.theta };
+    theta = T.f64Bytes(stepped.theta);
+    state = T.packState(st);
+  } else {
+    const P = T.runParams(r);
+    const deltas: Float32Array[] = [];
+    let loss = 0;
+    let acc = 0;
+    let metrics = 0;
+    for (let k = 0; k < per; k++) {
+      const out = outputOf(k);
+      if (!out || out.length < P * 4) continue;
+      const a = T.readSgdAnswer(out, P);
+      if (!a.delta.every(Number.isFinite)) continue;
+      deltas.push(a.delta);
+      if (a.loss !== null && Number.isFinite(a.loss)) {
+        loss += a.loss;
+        acc += a.acc ?? 0;
+        metrics++;
+      }
+    }
+    if (!deltas.length) return endRun(run, "failed", "train step", errors[0] ?? "no job of the round gave a weight change");
+    const now = T.readF32(blobOf(run.theta));
+    const momentum = run.state ? T.readF32(blobOf(run.state)) : new Float32Array(P);
+    const stepped = T.outerStep(r, now, momentum, deltas);
+    point = { shards: deltas.length, missing: per - deltas.length, errors: errors.length, train_loss: metrics ? loss / metrics : null,
+      train_acc: metrics && "mlp" in r.model && r.model.mlp.loss === "xent" ? acc / metrics : null, delta_norm: stepped.norm };
+    if (r.eval_shard && "mlp" in r.model) {
+      // the new weights on the held-out shard, as many rows as the server can spare
+      const ev = T.mlpEval(r.model.mlp, stepped.theta, evalShard(r.eval_shard), Math.max(50, Math.floor(T.RUN_LIMITS.evalCost / P)));
+      Object.assign(point, { eval_loss: ev.loss, eval_acc: r.model.mlp.loss === "xent" ? ev.acc : null, eval_rows: ev.rows });
+      if (!best || ev.loss < -best.score) best = { step: run.step + 1, score: -ev.loss, theta: "" }; // filled in below: the new weights
+    }
+    theta = T.f32Bytes(stepped.theta);
+    state = T.packState(momentum);
+  }
+
+  const next = run.step + 1;
+  const newTheta = putBlob(theta);
+  const newState = putBlob(state);
+  if (best && best.theta === "") best.theta = newTheta;
+  transaction(() => {
+    db.prepare("insert into run_points (run, step, at, point, theta) values (?, ?, ?, ?, ?) on conflict (run, step) do nothing")
+      .run(run.id, run.step, Date.now(), JSON.stringify(point), run.theta);
+    keepBlob(newTheta, true);
+    keepBlob(newState, true);
+    if (run.state && run.state !== newState) keepBlob(run.state, false);
+    // the history: a house run keeps every step's parameters; a buyer's run its current and best ones
+    const keepOld = !!run.house || run.theta === best?.theta || run.theta === r.theta0;
+    if (!keepOld && run.theta !== newTheta) keepBlob(run.theta, false);
+    if (prevBest && prevBest !== best?.theta && prevBest !== newTheta && !run.house) keepBlob(prevBest, false);
+    db.prepare("update runs set step = ?, theta = ?, state = ?, best = ?, updated_at = ? where id = ?")
+      .run(next, newTheta, newState, best ? JSON.stringify(best) : null, Date.now(), run.id);
+    if (next >= T.steps(r)) {
+      close(orderRow(o.id)!, "done", "run");
+      db.prepare("update runs set status = 'done', end_reason = 'steps', updated_at = ? where id = ?").run(Date.now(), run.id);
+      return;
+    }
+    const inputs = stepJobs(run.id, r, next, newTheta).map((j) => putBlob(utf8Bytes(JSON.stringify(j))));
+    if (o.house) for (const h of inputs) keepBlob(h, true);
+    const fresh = orderRow(o.id)!;
+    addInputs(o.id, fresh.jobs, inputs);
+    db.prepare("update orders set jobs = jobs + ? where id = ?").run(inputs.length, o.id);
+    refill(o.id);
+  });
+  if (next >= T.steps(r)) console.log(`run ${run.id.slice(0, 8)} done after ${next} steps`);
+}
+
+function runRow(id: string): RunRow {
+  const run = one<RunRow | undefined>("select * from runs where id = ?", id);
+  if (!run) throw new HttpError(404, "no such run");
+  return run;
+}
+
+/** GET /api/runs/:id: where a run stands, its last points and its parameters (an upload anyone with the id can fetch). */
+function runView(id: string, points = 500) {
+  const run = runRow(id);
+  const r = JSON.parse(run.spec) as T.RunSpec;
+  const o = order(run.order_id);
+  const n = Number.isSafeInteger(points) && points >= 0 ? Math.min(points, 5000) : 500;
+  const rows = (db.prepare("select step, at, point, theta from run_points where run = ? order by step desc limit ?").all(id, n) as { step: number; at: number; point: string; theta: string | null }[]).reverse();
+  const best = run.best ? JSON.parse(run.best) : null;
+  return {
+    id: run.id, kind: run.kind, status: run.status, end_reason: run.end_reason, error: run.error, label: run.label, house: !!run.house,
+    step: run.step, steps: T.steps(r), jobs_per_step: T.jobsPerStep(r), params: T.runParams(r), job_kind: T.jobKindOf(r),
+    format: r.kind === "evolve" ? "float64 little-endian" : "float32 little-endian",
+    theta: { hash: run.theta, url: `/api/blobs/${run.theta}` },
+    best: best ? { ...best, url: best.theta ? `/api/blobs/${best.theta}` : null } : null,
+    order: { id: o.id, status: o.status, end_reason: o.end_reason, jobs: o.jobs, settled: o.settled, out: o.out, bid: o.bid, budget: o.budget, spent: o.spent, wallet: o.house ? null : o.wallet },
+    spec: r, created_at: run.created_at, updated_at: run.updated_at,
+    points: rows.map((p) => ({ step: p.step, at: p.at, ...JSON.parse(p.point), theta: p.theta })),
+  };
+}
+
+/** GET /api/runs/:id/points?after=step: the whole curve, 5,000 steps at a time. */
+function runPoints(id: string, after: number) {
+  runRow(id);
+  if (!Number.isSafeInteger(after)) throw new HttpError(400, "after is a step");
+  const rows = db.prepare("select step, at, point, theta from run_points where run = ? and step > ? order by step limit 5000").all(id, after) as { step: number; at: number; point: string; theta: string | null }[];
+  return { points: rows.map((p) => ({ step: p.step, at: p.at, ...JSON.parse(p.point), theta: p.theta })) };
+}
+
+/** GET /api/runs: our own runs (public research, like /api/house); a buyer's runs are found from their orders. */
+const runsList = cached(10_000, (_: null = null) => ({
+  runs: (db.prepare("select * from runs where house = 1 order by created_at desc limit 200").all() as RunRow[]).map((run) => {
+    const r = JSON.parse(run.spec) as T.RunSpec;
+    const last = one<{ point: string; step: number } | undefined>("select point, step from run_points where run = ? order by step desc limit 1", run.id);
+    return { id: run.id, label: run.label, kind: run.kind, status: run.status, end_reason: run.end_reason, step: run.step, steps: T.steps(r),
+      params: T.runParams(r), job_kind: T.jobKindOf(r), best: run.best ? JSON.parse(run.best) : null,
+      last: last ? { step: last.step, ...JSON.parse(last.point) } : null, created_at: run.created_at, updated_at: run.updated_at };
+  }),
+}));
+
 // ---- house orders: our own work --------------------------------------------------------------------------------
 // Created by the operator with the admin token: no payment, no charges, nothing added to the pool. They run after
 // every paid order and before the free screen. Brain sweeps earn their usual points; programs earn `units` points
@@ -3465,7 +3879,14 @@ function createHouse(body: any) {
   let spec: object;
   let jobCount: number;
   const replayData: string[] = []; // a replay order's price data: kept like the order's other uploads
-  if (isHouseKind(body.spec?.kind)) {
+  let run: PreparedRun | null = null;
+  if (T.isRunKind(body.spec?.kind)) {
+    run = prepareRun(body.spec);
+    open = run.open;
+    spec = run.orderSpec;
+    jobCount = open.inputs.length;
+    if (body.units === undefined) body.units = run.units;
+  } else if (isHouseKind(body.spec?.kind)) {
     const h = asked(() => houseSpec(body.spec, 1_000_000));
     if (isReplayKind(body.spec.kind)) {
       needBlob(h.params.data as string); // 400 if the data was never uploaded
@@ -3502,8 +3923,9 @@ function createHouse(body: any) {
         maxParallel, hours, now, now, body.label, units);
     if (open) {
       addInputs(id, 0, open.inputs);
-      for (const h of [open.program, ...new Set(open.inputs), ...replayData]) if (h && h !== INDEX_INPUT) db.prepare("update blobs set keep = 1 where hash = ?").run(h);
+      for (const h of [open.program, ...new Set(open.inputs), ...replayData, ...(run?.blobs ?? [])]) if (h && h !== INDEX_INPUT && BLOB_HASH.test(h)) db.prepare("update blobs set keep = 1 where hash = ?").run(h);
     }
+    if (run) insertRun(run, id, true, body.label);
     start(orderRow(id)!, null);
   });
   console.log(`house order ${body.label}: ${jobCount} jobs`);
@@ -3699,6 +4121,13 @@ const stripped = new Map<string, { mtime: number; code: string }>();
 const RELATIVE_TS = /(["'])(\.{1,2}\/[^"'\n]*?)\.ts\1/g;
 
 /** Browsers get .ts sources as .js: types removed by Node's own stripper, relative imports renamed, no build step. */
+/** A binary file from the repo as it is (the local server only: Vercel serves its copy). */
+function serveBlobFile(res: ServerResponse, path: string): void {
+  if (!existsSync(path)) throw new HttpError(404, "not found");
+  res.writeHead(200, { "content-type": path.endsWith(".wasm") ? "application/wasm" : "application/octet-stream", ...CORS });
+  res.end(readFileSync(path));
+}
+
 function serveFile(res: ServerResponse, path: string, maxAge = 0): void {
   let mtime: number;
   try {
@@ -3833,13 +4262,15 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
       return void res.end();
     }
     if (p === "/compute/") return serveFile(res, join(ROOT, "web", "index.html"));
-    if ((m = /^\/compute\/(stake|claim|leaderboard|results|connect|bench|jobs)$/.exec(p))) return serveFile(res, join(ROOT, "web", `${m[1]}.html`));
+    if ((m = /^\/compute\/(stake|claim|leaderboard|results|connect|bench|jobs|runs)$/.exec(p))) return serveFile(res, join(ROOT, "web", `${m[1]}.html`));
+    // the training page's cart-pole template (Vercel copies it to /compute/examples/)
+    if (p === "/compute/examples/es_cartpole.wasm") return serveBlobFile(res, join(ROOT, "examples", "es-cartpole", "es_cartpole.wasm"));
     if (p === "/compute/mine/web/compute.css") return serveFile(res, join(ROOT, "web", "compute.css"));
     if (p === "/compute/compute-api.md") return serveFile(res, join(ROOT, "web", "compute-api.md"));
     if ((m = /^\/compute\/mine\/web\/([\w-]+(?:\.worker)?)\.js$/.exec(p))) return serveFile(res, join(ROOT, "web", `${m[1]}.ts`));
     // the wagmi bundle, when built locally (cd wallet && npm ci && npm run build); Vercel builds its own
     if ((m = /^\/compute\/mine\/web\/wallet\/((?:chunks\/)?[\w.-]+\.js)$/.exec(p))) return serveFile(res, join(ROOT, "wallet", "dist", m[1]));
-    if ((m = /^\/compute\/mine\/src\/(model|runner|fixed|wasmcheck|probe)\.js$/.exec(p))) return serveFile(res, join(ROOT, "src", `${m[1]}.ts`));
+    if ((m = /^\/compute\/mine\/src\/(model|runner|fixed|wasmcheck|probe|train|replay|fightjob)\.js$/.exec(p))) return serveFile(res, join(ROOT, "src", `${m[1]}.ts`));
     if ((m = /^\/compute\/world\/src\/(connectome|rng|sim|brain|eyes|senses|wiring|genome|social|datalog)\.js$/.exec(p))) return serveFile(res, join(WORLD_SRC, `${m[1]}.ts`));
     if ((m = /^\/assets\/(site\.css|site\.js|nav\.js|logo\.webp)$/.exec(p))) return serveFile(res, join(DOCS_ASSETS, m[1]), 3600);
     // the site's languages (docs/assets/i18n/): the runtime and its strings, and the runtime again where the
@@ -3882,6 +4313,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
       return send(res, 200, relayer ? { address: relayer.address, chain: USDC.chain_name, gas_wei: (await relayer.balance()).toString() } : { address: null });
     }
     if (p === "/api/house") return send(res, 200, houseOrdersView());
+    if (p === "/api/runs") return send(res, 200, runsList(null));
+    if ((m = /^\/api\/runs\/([0-9a-f-]{36})$/.exec(p))) return send(res, 200, runView(m[1], Number(url.searchParams.get("points") ?? 500)));
+    if ((m = /^\/api\/runs\/([0-9a-f-]{36})\/points$/.exec(p))) return send(res, 200, runPoints(m[1], Number(url.searchParams.get("after") ?? -1)));
     if (p === "/api/mining") return send(res, 200, await miningView());
     if (p === "/api/experiments") return send(res, 200, experimentsView());
     if ((m = /^\/connectome\/(brain\.json|meta\.bin|weights\.\d+\.bin)$/.exec(p))) return serveFile(res, join(CONNECTOME_DIR, m[1]), 3600);
@@ -4306,7 +4740,8 @@ if (MINING) {
       void pruneScreen().then(() => pruneOld()).catch((err) => console.error(`housekeeping prune: ${err instanceof Error ? err.message : err}`));
     }
     step("pump", pump); // paid jobs waiting on a second answer get the idle verifiers
-  }, 15_000).unref();
+    step("runs", stepRuns); // training runs whose generation (or round) has settled take their step
+  }, Number(env("HOUSEKEEPING_MS", "15000"))).unref();
   setInterval(() => void deliverWebhooks().catch((err) => console.error("webhooks:", err)), 5_000).unref();
   // queued charges, releases and program pay to Postgres; while it's unreachable they wait here (logged once a minute)
   let outboxLogged = 0;

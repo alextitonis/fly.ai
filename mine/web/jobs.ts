@@ -546,6 +546,10 @@ function describe(o: Order): string {
   const s = o.spec;
   if (o.kind === "wasm" || o.kind === "wgsl") return t(o.kind === "wasm" ? "compute.jobs.describeWasm" : "compute.jobs.describeShader");
   if (o.kind === "embed") return t("compute.jobs.describeEmbed", { model: (s as unknown as { program: string }).program });
+  if (o.kind === "complete") return t("compute.jobs.describeComplete", { model: (s as unknown as { program: string }).program });
+  // a training run's order (src/train.ts): its run has the curve
+  if (o.kind === "es" || o.kind === "esb") return t("compute.jobs.describeEvolve");
+  if (o.kind === "sgd") return t("compute.jobs.describeTrain");
   const senses = s.channels.map((c) => SENSES[c] ?? c).join(", ");
   return t("compute.jobs.describeBrain", { senses, count: s.seeds.length });
 }

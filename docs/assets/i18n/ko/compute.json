@@ -6,7 +6,8 @@
       "stake": "스테이킹",
       "claims": "청구",
       "leaderboard": "리더보드",
-      "results": "결과"
+      "results": "결과",
+      "runs": "학습"
     },
     "notSignedIn": "로그인하지 않음",
     "signIn": "로그인",
@@ -398,7 +399,10 @@
       "normal": "보통",
       "faster": "빠르게",
       "fastest": "가장 빠르게"
-    }
+    },
+    "describeComplete": "{model}로 텍스트 생성",
+    "describeEvolve": "진화 실행 (진화 전략)",
+    "describeTrain": "학습 실행 (내 데이터로 신경망 학습)"
   },
   "stake": {
     "flyAiComputeStaking": "fly.ai 컴퓨트 · 스테이킹",
@@ -649,6 +653,96 @@
     "fightJob": "Fly Colosseum 대결",
     "replayJob": "트레이딩 규칙 리플레이: {name}",
     "replaybJob": "트레이딩 규칙 운 검사: {name}, 경로 {seed}",
-    "replaypJob": "무기한 선물 리플레이(롱과 숏): {name}, 경로 {seed}"
+    "replaypJob": "무기한 선물 리플레이(롱과 숏): {name}, 경로 {seed}",
+    "completeJob": "{model}로 텍스트 작성 중, 작업 #{index}",
+    "evolveJob": "학습 실행: 진화된 설정 채점 중, 작업 #{index}",
+    "trainJob": "학습 실행: 데이터 샤드 하나로 모델 학습 중, 작업 #{index}"
+  },
+  "runs": {
+    "metaTitle": "학습 실행 — fly.ai 컴퓨트",
+    "metaDescription": "fly.ai 브라우저 네트워크에서 작은 모델을 학습하세요: 진화 전략, 내 데이터로 학습하는 작은 신경망, 대량 텍스트 생성. 실시간 곡선과 체크포인트.",
+    "eyebrow": "fly.ai 컴퓨트 · 학습",
+    "title": "네트워크에서 학습하기",
+    "lede": "채굴자들의 브라우저가 함께 작은 모델을 학습합니다. 각 세대나 라운드는 두 채굴자의 결과가 일치해야 하는 작업 묶음이고, 서버가 그 사이에 한 단계를 진행하며 모든 체크포인트를 보관합니다. 정산된 작업에만 비용을 냅니다.",
+    "status": "상태",
+    "step": "단계",
+    "params": "파라미터",
+    "spent": "사용액",
+    "downloadTheta": "파라미터 다운로드",
+    "downloadBest": "최고 결과 다운로드",
+    "payForRun": "이 실행 결제",
+    "startNum": "실행 시작",
+    "startTitle": "무엇을 학습할까요",
+    "wasmFile": "내 적합도 함수: .wasm 모듈 (입력 u32 에피소드, u32 차원, f64 파라미터; 출력 f64 점수 하나)",
+    "dim": "파라미터 수",
+    "csvFile": "내 데이터: 숫자 .csv, 마지막 열은 클래스 (0, 1, 2…)",
+    "hidden": "은닉 유닛",
+    "generations": "세대",
+    "rounds": "라운드",
+    "wallet": "결제 지갑 (내 지갑)",
+    "bid": "작업당 입찰가 ($FLYAI)",
+    "quoteBtn": "가격 보기",
+    "createBtn": "만들고 결제",
+    "ourNum": "우리의 실행",
+    "ourTitle": "프로젝트가 네트워크에서 학습하는 것",
+    "noRuns": "아직 실행이 없습니다.",
+    "codeNum": "코드로",
+    "codeTitle": "Python, 그리고 무료 연습 네트워크",
+    "codeCaption": "먼저 무료로 시험해 보세요: <code>mine/</code>에서 <code>node scripts/local-fleet.ts</code>를 실행하면 연습용 채굴자가 있는 로컬 서버가 시작됩니다. 템플릿은 <a href=\"https://github.com/alextitonis/fly.ai/tree/main/mine/examples\" target=\"_blank\" rel=\"noopener\">예제</a>(es-cartpole, train-logreg)에 있고, <a href=\"/compute/compute-api.md\" download=\"flyai-compute-api.md\">가이드</a>에 모든 필드가 있습니다.",
+    "fits": "가능한 규모: 진화 파라미터 최대 100,000개, 가중치 최대 1,000,000개의 신경망, 0.5B~1.5B 텍스트 모델. 채굴자는 보내는 데이터를 볼 수 있으니 비공개 데이터는 보내지 마세요.",
+    "tpl": {
+      "cartpole": {
+        "title": "카트폴 균형 잡기",
+        "about": "WebAssembly 적합도 함수로 숫자 5개짜리 정책을 진화시킵니다. 진화 전략의 기본 예제입니다.",
+        "tag": "진화 · wasm · 세대당 약 30초"
+      },
+      "brain": {
+        "title": "초파리 도망치게 하기",
+        "about": "세 가지 시각 입력이 실제 커넥톰을 얼마나 세게 자극할지 진화시켜 거대 섬유(DNp01)가 발화하게 합니다.",
+        "tag": "진화 · 초파리 뇌 · CPU 채굴자"
+      },
+      "wasm": {
+        "title": "내 적합도 함수",
+        "about": "파라미터 벡터를 채점하는 .wasm을 올리면 네트워크가 그 벡터를 진화시킵니다.",
+        "tag": "진화 · 내 wasm"
+      },
+      "csv": {
+        "title": "내 CSV로 신경망 학습",
+        "about": "내 데이터 행으로 MLP 분류기를 학습하고, 10분의 1을 떼어 두고 매 라운드 채점합니다.",
+        "tag": "학습 · MLP · 내 데이터"
+      }
+    },
+    "csvTooSmall": "CSV에 숫자 행이 20개 이상 필요합니다.",
+    "csvRagged": "모든 행의 열 수가 같아야 하고, 2열 이상이어야 합니다.",
+    "csvLabels": "마지막 열은 정수 클래스여야 합니다: 0, 1, 2…",
+    "uploading": "샤드 {done}/{total} 업로드 중…",
+    "needWasm": "먼저 .wasm 적합도 함수를 선택하세요.",
+    "needCsv": "먼저 CSV를 선택하세요.",
+    "needWallet": "결제할 지갑(0x…)을 입력하거나 로그인하세요.",
+    "pricing": "업로드하고 가격 계산 중…",
+    "quoteLine": "{steps}단계 × {per}개 작업 = {jobs}개 작업, 개당 {bid} $FLYAI: 최대 {full} $FLYAI이며 남은 예산은 돌려받습니다.",
+    "created": "만들었습니다.",
+    "payNow": "결제하기",
+    "watchIt": "실행 보기",
+    "kind": {
+      "evolve": "진화 실행",
+      "train": "학습 실행"
+    },
+    "about": {
+      "evolve": "{steps}세대 진화 전략 ({job} 작업)",
+      "train": "{steps}라운드 신경망 학습 ({job} 작업)"
+    },
+    "st": {
+      "waiting": "결제 대기",
+      "running": "실행 중",
+      "done": "완료",
+      "ended": "종료",
+      "failed": "실패"
+    },
+    "legendEvolve": "실선: 세대마다 현재 파라미터의 점수. 점선: 그 세대의 최고 개체.",
+    "legendEval": "라운드마다 떼어 둔 데이터에서의 정확도.",
+    "legendLoss": "라운드별 평균 학습 손실.",
+    "failedNote": "실행이 멈췄습니다: {error}",
+    "format": "파라미터는 원시 {format} 리틀 엔디언, {n}개 값으로 내려받습니다 (numpy.fromfile(path, \"<f8\") 또는 \"<f4\")."
   }
 }

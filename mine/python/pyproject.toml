@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flyai-compute"
+version = "0.1.0"
+description = "Train small models and run batch jobs on the fly.ai browser compute network"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "alextitonis" }]
+dependencies = []
+optional-dependencies = { numpy = ["numpy>=1.22"] }
+keywords = ["distributed", "evolution-strategies", "federated", "webgpu", "compute"]
+
+[project.urls]
+Homepage = "https://www.flyaiworld.com/compute/jobs"
+Source = "https://github.com/alextitonis/fly.ai/tree/main/mine/python"
+
+[tool.setuptools]
+packages = ["flyai_compute"]

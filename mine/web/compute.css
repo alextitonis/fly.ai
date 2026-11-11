@@ -15,7 +15,8 @@
 .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin: 4px 0 18px; }
 .controls label { display: flex; flex-direction: column; gap: 6px; font: 500 12px var(--mono); letter-spacing: .08em;
                   text-transform: uppercase; color: var(--dim); }
-.controls label.grow { flex: 1 1 200px; }
+.controls label.grow { flex: 1 1 200px; min-width: 0; }
+.controls input[type="file"] { max-width: 100%; min-width: 0; }
 .controls label[hidden] { display: none; }
 input, select { font: 15px var(--sans); color: var(--text); background: var(--bg-2); border: 1px solid var(--line);
                 border-radius: 10px; padding: 11px 12px; min-width: 0; }
