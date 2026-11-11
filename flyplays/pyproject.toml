@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flyplays"
+version = "0.1.0"
+description = "A real fruit fly brain (the complete 166,700-neuron connectome) plays games: Flappy Bird, Doom, any web game, or your own. Nothing trained."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "alextitonis" }]
+keywords = ["connectome", "drosophila", "fruit fly", "games", "spiking neural network", "flappy bird", "doom", "neuroscience"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Games/Entertainment",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "flybrain>=0.1.0",
+    "numpy>=2.0",
+    "scipy>=1.13",
+    "pillow>=10.1",
+    "imageio-ffmpeg>=0.5",
+]
+
+[project.optional-dependencies]
+web = ["playwright>=1.45"]
+doom = ["vizdoom>=1.2"]
+gpu = ["flybrain[gpu]"]
+all = ["playwright>=1.45", "vizdoom>=1.2"]
+
+[project.scripts]
+flyplays = "flyplays.__main__:main"
+
+[project.urls]
+Homepage = "https://flyaiworld.com"
+Source = "https://github.com/alextitonis/fly.ai/tree/main/flyplays"
+
+[tool.setuptools.packages.find]
+where = ["src"]

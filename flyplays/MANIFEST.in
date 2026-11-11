@@ -1,0 +1,4 @@
+include GUIDE.md
+recursive-include examples *.py
+recursive-include tests *.py
+prune media

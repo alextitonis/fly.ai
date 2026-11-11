@@ -1,0 +1,6 @@
+media/*.mp4
+dist/
+build/
+*.egg-info/
+__pycache__/
+.pytest_cache/

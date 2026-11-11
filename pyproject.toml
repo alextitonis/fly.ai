@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "flybrain"
-version = "0.1.0"
+version = "0.1.1"
 description = "The complete fruit fly nervous system (MaleCNS connectome, 166,700 neurons) as a spiking network, on CPU or GPU."
 readme = "PACKAGE.md"
 license = "MIT"
