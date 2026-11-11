@@ -26,6 +26,7 @@
     "test:fight": "node --disable-warning=ExperimentalWarning src/fighttest.ts",
     "test:replay": "node --disable-warning=ExperimentalWarning src/replaytest.ts",
     "test:bounties": "node --disable-warning=ExperimentalWarning src/bountiestest.ts",
+    "test:team": "node --disable-warning=ExperimentalWarning src/teamtest.ts",
     "test:referrals": "node --disable-warning=ExperimentalWarning src/referralstest.ts",
     "test:xlink": "node --disable-warning=ExperimentalWarning src/xlinktest.ts",
     "test:gta": "node --disable-warning=ExperimentalWarning src/gtatest.ts",

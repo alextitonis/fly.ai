@@ -1,0 +1,47 @@
+/* docs/team.html (2026-11-11): the hidden team reports page */
+.tm .wrap { display: grid; gap: 22px; }
+.tm h2 { margin: 0; font-size: 20px; }
+.tm-gate { padding: 22px; }
+.tm-gate p { margin: 0 0 12px; }
+.tm-form, .tm-add { padding: 20px 22px; display: grid; gap: 12px; }
+.tm-form label { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+.tm-form label small { color: var(--dim); }
+.tm textarea, .tm input, .tm select { font: 14px var(--sans, inherit); color: var(--text); background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 12px; padding: 10px 12px; width: 100%; box-sizing: border-box; }
+.tm textarea { min-height: 110px; resize: vertical; }
+.tm textarea.short { min-height: 70px; font-family: var(--mono); font-size: 13px; }
+.tm select { width: auto; }
+.tm-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.tm-add { grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr) auto; align-items: center; }
+.tm-add .msg { grid-column: 1 / -1; }
+.tm-add input { font-family: var(--mono); font-size: 13px; }
+.tm-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
+.tm-filters { display: flex; gap: 8px; }
+#admin { display: grid; gap: 14px; }
+#admin[hidden], #app[hidden] { display: none; }
+.tm-table-wrap { overflow-x: auto; }
+.tm-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tm-table th { text-align: left; font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--dim); padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.tm-table td { padding: 11px 16px; border-bottom: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.tm-table tr:last-child td { border-bottom: 0; }
+.tm-table td.who b { color: var(--text); font-weight: 500; }
+.tm-table td.who code { display: block; font: 12px var(--mono); color: var(--dim); }
+.tm-table .quiet { color: #ffb86b; }
+.tm-table .tm-n { font-family: var(--mono); }
+.tm-table button, .tm-rep button { font: 12px var(--mono); background: none; border: 0; color: var(--dim); cursor: pointer; padding: 2px 4px; }
+.tm-table button:hover, .tm-rep button:hover { color: var(--red, #ff6b6b); }
+.tm-table tr.pick { cursor: pointer; }
+.tm-table tr.pick:hover td { background: var(--bg-2); }
+.tm-list { display: grid; gap: 12px; }
+.tm-day { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--dim); margin: 10px 0 0; }
+.tm-rep { padding: 16px 20px; display: grid; gap: 8px; }
+.tm-rep .top { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: baseline; font-size: 13px; color: var(--dim); }
+.tm-rep .top b { color: var(--mint); font-weight: 500; font-size: 14px; }
+.tm-rep .top .sp { flex: 1; }
+.tm-rep p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.tm-rep ul { margin: 0; padding-left: 18px; font-size: 14px; display: grid; gap: 2px; }
+.tm-rep a, .tm a.mint { color: var(--mint); overflow-wrap: anywhere; }
+.tm .empty { color: var(--muted); padding: 20px 22px; }
+@media (max-width: 640px) {
+  .tm-add { grid-template-columns: 1fr; }
+}

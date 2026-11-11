@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 2026-11-11 team reports: hidden on purpose (not in the nav, sitemap or llms.txt), only allowlisted wallets get in -->
+<meta name="robots" content="noindex, nofollow">
+<title>Team reports</title>
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/team.css?v=20261111a">
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow">Team</p>
+    <h1>Reports</h1>
+    <p class="lede">Post what you did, with links. The team lead reads them here, no need to ask.</p>
+  </div>
+</header>
+
+<section class="tm">
+  <div class="wrap">
+    <div id="gate" class="card tm-gate"><p class="msg">Loading…</p></div>
+
+    <div id="app" hidden>
+      <form id="form" class="card tm-form">
+        <h2>New report</h2>
+        <label>What did you do?
+          <textarea id="what" maxlength="3000" required placeholder="e.g. Posted a thread about the Fly Desk payout in Turkish, answered 12 questions in Discord, ran the Spanish Telegram AMA"></textarea>
+        </label>
+        <label>Links <small>(one per line: posts, videos, threads, screenshots)</small>
+          <textarea id="links" class="short" placeholder="https://x.com/…/status/…"></textarea>
+        </label>
+        <div class="tm-row"><button class="btn red" type="submit">Send report</button><span id="formmsg" class="msg"></span></div>
+      </form>
+
+      <div id="admin" hidden>
+        <div class="tm-head"><h2>Team</h2><span class="msg">quiet ones first</span></div>
+        <div class="card tm-table-wrap"><table class="tm-table"><thead><tr><th>Who</th><th>Last report</th><th>7 days</th><th>All</th><th></th></tr></thead>
+          <tbody id="members"></tbody></table></div>
+        <form id="addform" class="card tm-add">
+          <input id="addwallet" placeholder="0x… wallet" autocomplete="off" spellcheck="false" required>
+          <input id="addname" placeholder="Name (e.g. Ayşe, TR ambassador)" maxlength="60" required>
+          <button class="btn" type="submit">Add / rename</button>
+          <span id="addmsg" class="msg"></span>
+        </form>
+      </div>
+
+      <div class="tm-head">
+        <h2 id="listtitle">Reports</h2>
+        <div class="tm-filters">
+          <select id="who" hidden><option value="">Everyone</option></select>
+          <select id="days"><option value="7">7 days</option><option value="30" selected>30 days</option><option value="90">90 days</option><option value="365">1 year</option></select>
+        </div>
+      </div>
+      <div id="list" class="tm-list"></div>
+    </div>
+  </div>
+</section>
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261110a"></script>
+<script type="module" src="assets/team.js?v=20261111a"></script>
+</body>
+</html>

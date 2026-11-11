@@ -49,6 +49,7 @@ import { createXLink } from "./xlink.ts";
 import { createReferrals } from "./referrals.ts";
 import { createAmbassadors } from "./ambassadors.ts";
 import { createBounties } from "./bounties.ts";
+import { createTeam } from "./team.ts";
 import { blockscoutTransfers, createDeskChat, TEAM as CHAT_TEAM_WALLETS } from "./deskchat.ts";
 import { buyWeekConfig, createBuyWeek } from "./buyweek.ts";
 import { createFlyChat, openRouter } from "./flychat.ts";
@@ -3764,6 +3765,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p === "/api/ambassadors" || p.startsWith("/api/ambassadors/"))) {
     if (await ambassadors.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p === "/api/team" || p.startsWith("/api/team/"))) {
+    if (await team.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p.startsWith("/api/bounties") || p.startsWith("/api/admin/bounties"))) {
     if (await bounties.route(req, res, url)) return;
   }
@@ -4148,6 +4152,11 @@ const referrals = createReferrals({ pg, HttpError, send, readJson, sessionWallet
 if (USER) referrals.start();
 // ambassadors (src/ambassadors.ts, 2026-11-09): badge #12 holders, the application form, the admin list
 const ambassadors = createAmbassadors({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, isAdmin });
+// team reports (src/team.ts, 2026-11-11): allowlisted wallets post what they did on the hidden /team page
+const team = createTeam({
+  pg, HttpError, send, readJson, sessionWallet: sessionAddress, isAdminToken: isAdmin,
+  admins: (process.env.BOUNTY_ADMINS ?? "").split(","),
+});
 // bounties (src/bounties.ts): the team posts them on /bounties, signed-in wallets enter; admins = BOUNTY_ADMINS wallets
 const bounties = createBounties({
   pg, HttpError, send, readJson, sessionWallet: sessionAddress, isAdminToken: isAdmin,
