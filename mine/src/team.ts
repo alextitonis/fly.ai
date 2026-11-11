@@ -4,7 +4,7 @@
  * website, only the wallets i allow to auth will be able to do"; fields: what I did + links).
  *
  * The page is docs/team.html (noindex, not in the nav or sitemap). Members are an allowlist the admins keep; admins are
- * the BOUNTY_ADMINS wallets (signed in) or the ADMIN_TOKEN. Everything lives in mine.badge_state (no migration):
+ * the TEAM_ADMINS wallets (default: the dev wallet only) or the ADMIN_TOKEN. Everything lives in mine.badge_state (no migration):
  *   team_members                   { [wallet]: { name, added_at } }
  *   team_report:<at>:<rand>        one report
  *

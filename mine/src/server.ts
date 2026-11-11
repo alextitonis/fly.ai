@@ -4153,9 +4153,10 @@ if (USER) referrals.start();
 // ambassadors (src/ambassadors.ts, 2026-11-09): badge #12 holders, the application form, the admin list
 const ambassadors = createAmbassadors({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, isAdmin });
 // team reports (src/team.ts, 2026-11-11): allowlisted wallets post what they did on the hidden /team page
+// admin = the dev wallet only (the user, 11-11: "visible only to the dev wallet no other"); TEAM_ADMINS overrides
 const team = createTeam({
   pg, HttpError, send, readJson, sessionWallet: sessionAddress, isAdminToken: isAdmin,
-  admins: (process.env.BOUNTY_ADMINS ?? "").split(","),
+  admins: (process.env.TEAM_ADMINS ?? "0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea").split(","),
 });
 // bounties (src/bounties.ts): the team posts them on /bounties, signed-in wallets enter; admins = BOUNTY_ADMINS wallets
 const bounties = createBounties({

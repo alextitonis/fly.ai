@@ -52,7 +52,7 @@ try {
       ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0",
       AUDITS: "0", OPEN_TARGET: "50", ADMIN_TOKEN: ADMIN, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "none",
       CLAIM_RPC: "http://127.0.0.1:9", CLAIM_EXPLORER: "http://localhost", SEED_PAID: "0", ARENA_ON: "0",
-      BOUNTY_ADMINS: team.address,
+      BOUNTY_ADMINS: alice.address, TEAM_ADMINS: team.address,
     },
     stdio: ["ignore", "ignore", "inherit"],
   });
@@ -71,7 +71,8 @@ try {
   check("no session: 401", (await api("/api/team/me", null)).status === 401);
   const meA = (await api("/api/team/me", a)).json;
   check("alice isn't on the list yet", meA?.member === false && meA.admin === false, JSON.stringify(meA));
-  check("the BOUNTY_ADMINS wallet is admin", (await api("/api/team/me", t)).json?.admin === true);
+  check("a BOUNTY_ADMINS wallet is NOT a team admin", (await api("/api/team/me", a)).json?.admin === false);
+  check("the TEAM_ADMINS wallet is admin", (await api("/api/team/me", t)).json?.admin === true);
   check("non-member can't report", (await api("/api/team/report", a, { what: "did stuff" })).status === 403);
   check("non-member can't read", (await api("/api/team/reports", a)).status === 403);
   check("non-admin can't add", (await api("/api/team/members", a, { wallet: A, name: "Alice" })).status === 403);
