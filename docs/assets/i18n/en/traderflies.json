@@ -1805,7 +1805,15 @@
     "toFlyAll": "All",
     "toFlyGo": "Move",
     "toFlyAsked": "On its way: the fly moves it at its next step (a few minutes).",
-    "toFlyDone": "Moved to fly {fly}."
+    "toFlyDone": "Moved to fly {fly}.",
+    "hip4": {
+      "title": "Hyperliquid bets",
+      "text": "Your fly can also bet on Hyperliquid's prediction markets: football, NBA and NFL results, plus price markets like \"BTC above X tomorrow\". The same rule as the sports bets: no bet without a researched edge.",
+      "on": "Let my fly bet on Hyperliquid",
+      "how": "Your fly uses its own address on Hyperliquid: no sign-up, no KYC, no shared account. It moves over only what a bet needs and brings the rest home. A bet that reaches 97¢ is sold early to lock in the win.",
+      "cost": "The first move pays Hyperliquid's one-time account activation (about $1.20). Buying is free; selling costs about 0.13%.",
+      "risk": "A bet can lose its whole stake. Hyperliquid isn't available in some countries, including the US."
+    }
   },
   "profile": {
     "title": "Your profile",
@@ -2151,7 +2159,8 @@
     "crossChains": "Tokens on these chains are bought with the wallet's USDG through Relay (bridge + swap in one go) and sold back to USDG here. The first buy on a chain also sends $0.50 of gas there. Buys under $5 are skipped.",
     "maker": "Fly Maker's Steady band from this fly's own wallet: it only acts while the price is within 3% of its 5-minute average, swaps at most a quarter of the maker's money at a time, and takes the liquidity out before any withdrawal.",
     "elysium": "Elysium is Kinetiq's Layer 2 for Hyperliquid, paid in HYPE. Your fly uses the same wallet address there. Turn it on and save (Degen Sniper is on by default), then send HYPE on Elysium or add it from your fly's cash. Money comes back through Relay.",
-    "zero": "Zero is LayerZero's own Layer 1, paid in ZRO, launching November 30. Your fly uses the same wallet address there. Turn it on and save to be ready: nothing trades or moves before the launch."
+    "zero": "Zero is LayerZero's own Layer 1, paid in ZRO, launching November 30. Your fly uses the same wallet address there. Turn it on and save to be ready: nothing trades or moves before the launch.",
+    "hip4": "Bets on Hyperliquid's prediction markets (sports results and price markets) next to the sports bets, from your fly's own address. Off until you switch it on."
   },
   "label": {
     "add": "Add a private label",

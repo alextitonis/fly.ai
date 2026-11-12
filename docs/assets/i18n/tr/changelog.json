@@ -26,6 +26,7 @@
     "how": "Nasıl çalışır"
   },
   "e": {
+    "d1112a": "<b>Sineğin için Hyperliquid bahisleri.</b> Sineğinin cüzdan ayarlarındaki yeni bir anahtarla Hyperliquid'in tahmin piyasalarında da bahis yapabilir: futbol, NBA ve NFL sonuçları ile fiyat piyasaları. Oradaki kendi adresinden işlem yapar (kayıt yok, KYC yok) ve spor bahisleriyle aynı kurala uyar: araştırılmış bir avantaj olmadan bahis yok. Sen açana kadar kapalı. <a href=\"/traderflies/\">My flies</a>",
     "d1109a": "<b>Her X gönderisi sayılır.</b> Bağlı X hesabından fly.ai hakkındaki her gönderi (@flydotai, $FLYAI veya fly.ai etiketli, yanıt değil) artık +20 XP, günde en fazla 5. Gönderiler gece sayılır ve \"X'te paylaş\" günlük görevi ertesi sabah kendiliğinden tamamlanır: link yapıştırmak yok. <a href=\"/xp\">XP</a>",
     "d1108a": "<b>Bir sineği başka cüzdana göndermek cüzdanını korur.</b> Başka bir adrese gönderdiğin sinek parasını, pozisyonlarını, ayarlarını, Perps ve Solana'sını yanında götürür; yeni adres onu hemen yönetir. Yalnızca bir satış (pazar yeri alımı ya da kabul edilen teklif) eski sahibine ödeme yapar ve alıcı artık temiz bir kurulumla başlar. <a href=\"/traderflies/\">Sineklerim</a>",
     "d1108b": "<b>Satılan sinek her şeyi $FLYAI olarak öder.</b> Satılan bir sineğin dolarları piyasada $FLYAI'ye çevrilemezse, kalanı artık havuzdan piyasa fiyatından gelir; eski sahibi artan USDG yerine $FLYAI alır. <a href=\"/traderflies/\">Sineklerim</a>",

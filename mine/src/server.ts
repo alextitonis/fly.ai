@@ -1161,22 +1161,15 @@ function sessionNonce(req: IncomingMessage, body: any) {
 async function startSession(body: any) {
   const pending = typeof body.nonce === "string" ? sessionNonces.get(body.nonce) : undefined;
   if (!pending || pending.expires < Date.now()) throw new HttpError(410, "this sign-in has expired; try again");
+  // (2026-10-06 to 11-12 a RUYUI-linked Abstract Global Wallet could sign in with ERC-1271; RUYUI is on Ethereum now and
+  // its holders sign in as plain wallets)
   let signer: string;
   try {
     signer = recoverAddress(pending.message, String(body.signature ?? ""));
   } catch (err) {
-    // an Abstract Global Wallet that linked a RUYUI's Robinhood Chain wallet signs as a contract (ERC-1271), 2026-10-06
-    if (!(await ruyui.linkedContractSigned(pending.address, pending.message, String(body.signature ?? "")))) {
-      throw new HttpError(400, `bad signature: ${err instanceof Error ? err.message : String(err)}`);
-    }
-    signer = pending.address;
+    throw new HttpError(400, `bad signature: ${err instanceof Error ? err.message : String(err)}`);
   }
-  if (signer !== pending.address) {
-    if (!(await ruyui.linkedContractSigned(pending.address, pending.message, String(body.signature ?? "")))) {
-      throw new HttpError(401, "the signature is from a different wallet");
-    }
-    signer = pending.address;
-  }
+  if (signer !== pending.address) throw new HttpError(401, "the signature is from a different wallet");
   sessionNonces.delete(body.nonce);
   const token = randomBytes(32).toString("hex");
   const now = Date.now();

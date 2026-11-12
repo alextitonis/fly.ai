@@ -235,7 +235,9 @@ export function bundle(f: Facts): { level: "bad" | "some" | "clean" | "unknown";
   return { level: "unknown", line: `⚪ Bundling can only be read on Robinhood Chain for now${top}` };
 }
 
-export type Grade = { level: "red" | "careful" | "clear" | "unknown"; bad: string[]; careful: string[]; good: string[] };
+/** notes: shown on the card but don't lower the level (11-12, the user chose to loosen the pool-age rule so more tokens can
+ *  grade green and be measured; the 30-day data before it had young-pool-only tokens 5 of 5 dead by 72 h). */
+export type Grade = { level: "red" | "careful" | "clear" | "unknown"; bad: string[]; careful: string[]; good: string[]; notes: string[] };
 
 /** The token's pools, past and people, measured. The limits are where a number stops being ordinary, not proof of anything. */
 function gradeDeep(f: Facts, bad: string[], careful: string[], good: string[]): void {
@@ -269,7 +271,7 @@ function gradeSite(d: Deep, careful: string[], good: string[]): void {
 
 /** The rules. They can only say what they saw: nothing here calls a project safe. */
 export function grade(f: Facts, now = Date.now()): Grade {
-  const bad: string[] = [], careful: string[] = [], good: string[] = [];
+  const bad: string[] = [], careful: string[] = [], good: string[] = [], notes: string[] = [];
   const v = f.verdict;
   if (f.token) {
     if (v && !v.ok && !v.failed) bad.push(...v.why);
@@ -286,7 +288,7 @@ export function grade(f: Facts, now = Date.now()): Grade {
     if (b?.level === "some") careful.push("Some of the top wallets look grouped");
     if (b?.level === "clean") good.push("No wallet group found among the top holders");
     if (b?.level === "unknown" && f.token.chain === "robinhood") careful.push("Whether it's bundled couldn't be checked");
-    if (f.token.ageH != null && f.token.ageH < 7 * 24) careful.push(`The pool is only ${f.token.ageH < 48 ? `${Math.round(f.token.ageH)} hours` : `${Math.round(f.token.ageH / 24)} days`} old`);
+    if (f.token.ageH != null && f.token.ageH < 7 * 24) notes.push(`The pool is only ${f.token.ageH < 48 ? `${Math.round(f.token.ageH)} hours` : `${Math.round(f.token.ageH / 24)} days`} old`);
     if ((f.copies ?? 0) >= 2) careful.push(`${f.copies} other tokens use this name. Match the contract before buying`);
     if (!f.links?.length) careful.push("It lists no website or socials");
   }
@@ -319,5 +321,5 @@ export function grade(f: Facts, now = Date.now()): Grade {
     careful.push("Couldn't read that X account: it may not exist");
   }
   const seen = !!f.token || !!f.x || !!f.nft;
-  return { level: bad.length ? "red" : !seen ? "unknown" : careful.length ? "careful" : "clear", bad, careful, good };
+  return { level: bad.length ? "red" : !seen ? "unknown" : careful.length ? "careful" : "clear", bad, careful, good, notes };
 }

@@ -19,7 +19,7 @@ export async function toDesk(source: "ask" | "scout", f: Facts, g: Grade, waitMs
   const token = process.env.DESK_RESEARCH_TOKEN, t = f.token;
   if (!token || !t) return null;
   const body = { source, level: g.level, chain: t.chain, ca: t.ca, symbol: t.symbol, price: t.price ? Number(t.price) : null,
-    liq: f.verdict?.liq ?? null, bad: g.bad, careful: g.careful };
+    liq: f.verdict?.liq ?? null, bad: g.bad, careful: g.careful, notes: g.notes };
   const res = await fetch(`${DESK}/research`, { method: "POST", body: JSON.stringify(body), signal: AbortSignal.timeout(waitMs),
     headers: { "content-type": "application/json", "x-research-token": token } }).catch(() => null);
   if (!res?.ok) return null;

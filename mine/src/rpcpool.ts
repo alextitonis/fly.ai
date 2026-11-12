@@ -11,8 +11,10 @@ export const RPC_FALLBACKS: Record<string, string[]> = {
   "https://arb1.arbitrum.io/rpc": ["https://arbitrum-one-rpc.publicnode.com", "https://arbitrum.drpc.org"],
   "https://bsc-dataseed.binance.org": ["https://bsc-rpc.publicnode.com", "https://bsc.drpc.org"],
   "https://polygon.drpc.org": ["https://polygon-bor-rpc.publicnode.com", "https://polygon-rpc.com"],
-  // Abstract: read only, RUYUI's owners (src/ruyui.ts)
+  // Abstract: read only (RUYUI lived here until its move to Ethereum, 2026-11-12)
   "https://api.mainnet.abs.xyz": ["https://abstract.drpc.org", "https://abstract.api.onfinality.io/public"],
+  // Ethereum: read only, RUYUI's owners since 2026-11-12 (src/ruyui.ts)
+  "https://ethereum-rpc.publicnode.com": ["https://eth.drpc.org", "https://eth.llamarpc.com"],
 };
 
 /** A rate-limit reply (QuickNode -32007 "15/second request limit reached", -32005 "limit exceeded"): try the next RPC. */

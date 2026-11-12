@@ -107,6 +107,7 @@ export function card(f: Facts, g: Grade, last?: Row | null, site?: SiteRead | nu
   }
   if (g.bad.length) e.addFields({ name: "Red flags", value: list(g.bad) });
   if (g.careful.length) e.addFields({ name: "Worth checking", value: list(g.careful) });
+  if (g.notes?.length) e.addFields({ name: "Worth knowing", value: list(g.notes) });
   if (g.good.length) e.addFields({ name: "Looks fine", value: list(g.good) });
   if (f.links?.length) e.addFields({ name: "Links it lists (unverified)", value: f.links.join("\n").slice(0, 1024) });
   if (g.level === "unknown") e.addFields({ name: "Try", value: "The exact ticker, the contract address (0x… or a Solana address), its X (@handle), its OpenSea link or its website." });

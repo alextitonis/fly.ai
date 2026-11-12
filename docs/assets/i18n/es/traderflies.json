@@ -1805,7 +1805,15 @@
     "toFlyAll": "Todo",
     "toFlyGo": "Mover",
     "toFlyAsked": "En camino: la mosca lo mueve en su próximo paso (unos minutos).",
-    "toFlyDone": "Movido a la mosca {fly}."
+    "toFlyDone": "Movido a la mosca {fly}.",
+    "hip4": {
+      "title": "Apuestas en Hyperliquid",
+      "text": "Tu mosca también puede apostar en los mercados de predicción de Hyperliquid: resultados de fútbol, NBA y NFL, y mercados de precio como \"BTC por encima de X mañana\". La misma regla que las apuestas deportivas: ninguna apuesta sin una ventaja investigada.",
+      "on": "Dejar que mi mosca apueste en Hyperliquid",
+      "how": "Tu mosca usa su propia dirección en Hyperliquid: sin registro, sin KYC, sin cuenta compartida. Solo mueve lo que necesita una apuesta y trae el resto de vuelta. Una apuesta que llega a 97¢ se vende antes para asegurar la ganancia.",
+      "cost": "El primer envío paga la activación única de la cuenta de Hyperliquid (unos $1,20). Comprar es gratis; vender cuesta alrededor del 0,13%.",
+      "risk": "Una apuesta puede perder todo lo apostado. Hyperliquid no está disponible en algunos países, incluido EE. UU."
+    }
   },
   "profile": {
     "title": "Tu perfil",
@@ -2151,7 +2159,8 @@
     "crossChains": "Los tokens de estas cadenas se compran con el USDG de la billetera vía Relay (puente + swap de una vez) y se venden de vuelta a USDG aquí. La primera compra en una cadena también envía $0.50 de gas. Las compras de menos de $5 se omiten.",
     "maker": "La Banda estable de Fly Maker desde la billetera de esta mosca: solo actúa con el precio a menos de 3% de su media de 5 minutos, intercambia como mucho un cuarto del dinero del maker a la vez y retira la liquidez antes de cualquier retiro.",
     "elysium": "Elysium es la Layer 2 de Kinetiq para Hyperliquid, con gas en HYPE. Tu mosca usa allí la misma dirección de billetera. Actívalo y guarda (Degen Sniper viene activado), luego envía HYPE en Elysium o añádelo desde el efectivo de tu mosca. El dinero vuelve por Relay.",
-    "zero": "Zero es la Layer 1 propia de LayerZero, con gas en ZRO, y llega el 30 de noviembre. Tu mosca usa allí la misma dirección de billetera. Actívalo y guarda para estar listo: nada opera ni se mueve antes del lanzamiento."
+    "zero": "Zero es la Layer 1 propia de LayerZero, con gas en ZRO, y llega el 30 de noviembre. Tu mosca usa allí la misma dirección de billetera. Actívalo y guarda para estar listo: nada opera ni se mueve antes del lanzamiento.",
+    "hip4": "Apuestas en los mercados de predicción de Hyperliquid (resultados deportivos y mercados de precio) junto a las apuestas deportivas, desde la propia dirección de tu mosca. Desactivado hasta que lo actives."
   },
   "label": {
     "add": "Añadir etiqueta privada",
