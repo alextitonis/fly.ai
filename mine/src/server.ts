@@ -27,6 +27,7 @@ import { createHash, randomBytes, randomUUID, timingSafeEqual } from "node:crypt
 import { rm as rmAsync } from "node:fs/promises";
 import { createReadStream, existsSync, mkdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
+import { lighterRelay } from "./lighterrelay.ts";
 import { stripTypeScriptTypes } from "node:module";
 import { Session as InspectorSession } from "node:inspector/promises";
 import { availableParallelism } from "node:os";
@@ -4843,6 +4844,7 @@ async function profileMainThread(ms: number): Promise<void> {
 const server = createServer(async (req, res) => {
   try {
     const url = new URL(req.url ?? "/", "http://local");
+    if (await lighterRelay(req, res, url)) return;      // the wallets' signed Perps calls (src/lighterrelay.ts)
     markEdge(req, res, url.pathname);
     await route(req, res, url);
   } catch (err) {

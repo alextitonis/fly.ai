@@ -529,6 +529,77 @@
     throw new Error("no receipt yet");
   }
 
+  // ---- a swap in flight survives a reload (2026-11-12): once the wallet has sent the last transaction, its hash (and
+  // Relay's request id for a payment from another chain) is kept in this browser until the receipt / delivery is known.
+  // The box picks it up again on load, and a wait that runs out says "still pending", never "failed" - so nobody buys
+  // twice for a swap that was only slow. ----
+  const PENDING_KEY = "flyai-buy-pending";
+  const PENDING_MAX = 24 * 3600 * 1000;                 // older than a day: long settled one way or the other
+  function pendingGet() {
+    try {
+      const p = JSON.parse(localStorage.getItem(PENDING_KEY) || "null");
+      return p && Date.now() - p.at < PENDING_MAX ? p : null;
+    } catch (e) { return null; }
+  }
+  function pendingSet(p) {
+    if (p) warned = false;                              // a new swap in flight warns again
+    try { p ? localStorage.setItem(PENDING_KEY, JSON.stringify({ at: Date.now(), ...p })) : localStorage.removeItem(PENDING_KEY); }
+    catch (e) { /* private mode: only this page's own wait then */ }
+  }
+  // forget a swap only if it is still the one kept (a newer swap may have replaced it meanwhile)
+  const clearIf = (p) => { const now = pendingGet(); if (now && now.at === p.at) pendingSet(null); };
+  const relayId = (q) => (q && q.steps && q.steps[0] && q.steps[0].requestId) || null;
+  async function rpcReceipt(chainId, hash) {
+    const r = await fetch(ORIGINS[chainId].rpc, { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_getTransactionReceipt", params: [hash] }) });
+    return (await r.json()).result || null;
+  }
+  const say = (...a) => { if (!busy) msg(...a); };    // a resumed check never talks over a new swap
+
+  // a swap from an earlier visit (or one whose wait ran out): follow it to the end, then forget it
+  let watching = false;
+  async function watchPending() {
+    const p = pendingGet();
+    if (!p || watching) return;
+    watching = true;
+    try {
+      say(t("resuming"), "", p.link);
+      if (p.hash && ORIGINS[p.chain]) {
+        let r = null;
+        for (let i = 0; i < 360 && !r; i++) {           // up to 30 min, then the next visit asks again
+          r = await rpcReceipt(p.chain, p.hash).catch(() => null);
+          if (!r) await sleep(5000);
+        }
+        if (!r) { say(t("stillPending"), "", p.link); return; }
+        if (r.status !== "0x1") { clearIf(p); say(t("failed", { why: "the transaction failed" }), "err", p.link); return; }
+      }
+      if (p.id && p.chain !== CHAIN) {
+        say(t("arriving"), "", p.link);
+        const s = await delivered({ steps: [{ requestId: p.id }] });
+        if (s === "pending") { say(t("arrivingSoon"), "ok", p.link); return; }
+        clearIf(p);
+        if (s === "failure" || s === "refund") { say(t("notDelivered"), "err", p.link); return; }
+      } else {
+        clearIf(p);
+      }
+      say(t("done"), "ok", p.link);
+      if (!p.sell) window.dispatchEvent(new CustomEvent("flyai:bought", { detail: { wallet: p.wallet } }));
+      loadBalance();
+    } finally {
+      watching = false;
+    }
+  }
+
+  // Buy while an earlier swap is still unconfirmed: the first click warns, a second click buys anyway
+  let warned = false;
+  function pendingBlocks() {
+    const p = pendingGet();
+    if (!p || warned) return false;
+    warned = true;
+    msg(t("pendingWarn"), "err", p.link);
+    return true;
+  }
+
   // a payment from another chain: Relay delivers on Robinhood a few seconds after the wallet's transaction
   async function delivered(q) {
     const id = q.steps && q.steps[0] && q.steps[0].requestId;
@@ -667,9 +738,10 @@
     const pay = $("buy-pay").value, amount = units($("buy-amount").value, sides(pay)[0].decimals), to = toAddr();
     if (!amount || amount <= 0n) { msg(t("enterAmount"), "err"); return; }
     if (!to) { msg(t("solToNeeded"), "err"); $("buy-to").focus(); return; }
+    if (pendingBlocks()) return;
     busy = true;
     $("buy-go").disabled = true;
-    let q = null;
+    let q = null, inFlight = null;                       // inFlight: the link to a sent transaction not yet settled
     try {
       const [tin] = sides(pay), user = solAddr();
       msg(t("quoting"));
@@ -691,17 +763,26 @@
       const tx = await sol.prepare(q, { user, recipient: to, tokenIn: tin.address, tokenOut: FLYAI, chainOut: CHAIN, amount });
       msg(t("confirm", { n: 1, of: 1 }));
       const sig = await sol.send(solWallet, solAcct, tx);
+      inFlight = ORIGINS[SOLANA].explorer + "/tx/" + sig;
+      pendingSet({ chain: SOLANA, id: relayId(q), link: inFlight, wallet: to });
       track("sent", q, pay, amount);
       msg(t("waiting"));
       await sol.landed(sig);
       msg(t("arriving"));
       const s = await delivered(q);
-      if (s === "failure" || s === "refund") throw new Error(t("notDelivered"));
+      if (s === "failure" || s === "refund") { inFlight = null; pendingSet(null); throw new Error(t("notDelivered")); }
+      if (s === "success") pendingSet(null);           // still on its way: kept, the next visit checks it again
+      inFlight = null;
       msg(s === "success" ? t("done") : t("arrivingSoon"), "ok", ORIGINS[SOLANA].explorer + "/tx/" + sig);
       track("success", q, pay, amount);
       window.dispatchEvent(new CustomEvent("flyai:bought", { detail: { wallet: to } }));
       loadBalance();
     } catch (e) {
+      if (inFlight) {                                    // sent, only the wait broke: it can still land
+        msg(t("stillPending"), "", inFlight);
+        setTimeout(watchPending, 0);
+        return;
+      }
       const why = (e && e.message) || String(e);
       const cancelled = (e && e.code === 4001) || /rejected|denied|cancel/i.test(why);
       track(cancelled ? "cancelled" : "failed", q, pay, amount, why);
@@ -756,9 +837,10 @@
     if (!wallet && !(await connect())) return;
     const pay = $("buy-pay").value, amount = units($("buy-amount").value, sides(pay)[0].decimals);
     if (!amount || amount <= 0n) { msg(t("enterAmount"), "err"); return; }
+    if (pendingBlocks()) return;
     busy = true;
     $("buy-go").disabled = true;
-    let q = null;
+    let q = null, inFlight = null;                       // inFlight: the link to a sent transaction not yet settled
     try {
       const from = origin();
       if (!acct) await ensureChain(from);              // the shared wallet kit switches chains itself
@@ -784,31 +866,55 @@
           const r = await fetch(API + p.endpoint + (p.endpoint.includes("?") ? "&" : "?") + "signature=" + sig, {
             method: p.method || "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(p.body || {}) });
           if (!r.ok) throw new Error(((await r.json().catch(() => ({}))).message) || "Relay refused the signature");
+          if (i === txs.length - 1 && relayId(q)) {      // the permit was the payment: Relay's id is what to follow
+            inFlight = ORIGINS[from].explorer;
+            pendingSet({ chain: from, id: relayId(q), link: null, wallet, sell: selling() });
+          }
           track("sent", q, pay, amount);
           continue;
         }
         last = await sendStep(txs[i], from);
+        if (i === txs.length - 1) {                      // the swap itself is out: keep it until it settles
+          inFlight = ORIGINS[from].explorer + "/tx/" + last;
+          pendingSet({ chain: from, hash: last, id: from !== CHAIN ? relayId(q) : null, link: inFlight, wallet, sell: selling() });
+        }
         track(i < txs.length - 1 ? "approved" : "sent", q, pay, amount);
         msg(t("waiting"));
+        let ok = true;
         if (acct) {
-          await acct.mined(last, from);                 // throws if it reverted
+          await acct.mined(last, from).catch((e) => {    // throws if it reverted (or the wait ran out)
+            if (/revert|failed on-chain/i.test(String((e && (e.shortMessage || e.message)) || e))) ok = false;
+            else throw e;
+          });
         } else {
-          const r = await receipt(last);
-          if (r.status !== "0x1") throw new Error("the transaction failed");
+          ok = (await receipt(last)).status === "0x1";
+        }
+        if (!ok) {
+          if (i === txs.length - 1) { inFlight = null; pendingSet(null); }
+          throw new Error("the transaction failed");
         }
       }
       if (from !== CHAIN) {                            // Relay brings it over to Robinhood Chain
         msg(t("arriving"));
         const s = await delivered(q);
-        if (s === "failure" || s === "refund") throw new Error(t("notDelivered"));
+        if (s === "failure" || s === "refund") { inFlight = null; pendingSet(null); throw new Error(t("notDelivered")); }
+        if (s === "success") pendingSet(null);         // still on its way: kept, the next visit checks it again
+        inFlight = null;
         msg(s === "success" ? t("done") : t("arrivingSoon"), "ok", last ? ORIGINS[from].explorer + "/tx/" + last : null);
       } else {
+        inFlight = null;
+        pendingSet(null);
         msg(t("done"), "ok", EXPLORER + "/tx/" + last);
       }
       track("success", q, pay, amount);
       if (!selling()) window.dispatchEvent(new CustomEvent("flyai:bought", { detail: { wallet } }));
       loadBalance();
     } catch (e) {
+      if (inFlight) {                                    // sent, only the wait broke: it can still land
+        msg(t("stillPending"), "", inFlight.includes("/tx/") ? inFlight : null);
+        setTimeout(watchPending, 0);
+        return;
+      }
       const why = acct ? acct.errorText(e) : (e && e.message) || String(e);
       const cancelled = (e && (e.code === 4001 || (e.cause && e.cause.code === 4001))) || /rejected|denied|cancel/i.test(why);
       track(cancelled ? "cancelled" : "failed", q, pay, amount, why);
@@ -878,6 +984,7 @@
     loadBalance();
     showRoute();
     refresh();
+    watchPending();                                     // a swap left mid-way on an earlier visit
   }
 
   if (window.flyI18n) start();
