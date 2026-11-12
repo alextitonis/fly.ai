@@ -1939,8 +1939,10 @@
     "copyFail": "Bu tarayıcı görsel kopyalayamıyor: İndir'i kullan.",
     "pasteHint": "Görsel kopyalandı: gönderiye yapıştır (Ctrl/Cmd+V).",
     "attachHint": "Görsel indirildi: gönderiye ekle.",
-    "post": "{name} kendi gerçek sinek beyniyle işlem yaparak {profit} {pct} ({span}) kârda 🪰🧠",
-    "postTrade": "{name} az önce {what} işlemini {pct} ile kapattı 🪰🧠"
+    "post": "{name} kendi gerçek sinek beyniyle işlem yaparak {pct} ({span}) kârda 🪰🧠",
+    "postTrade": "{name} az önce {what} işlemini {pct} ile kapattı 🪰🧠",
+    "inProfit": "Kârda",
+    "inLoss": "Zararda"
   },
   "follow": {
     "on": "Takip ediliyor",

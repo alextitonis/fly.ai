@@ -1939,8 +1939,10 @@
     "copyFail": "Este navegador no copia imágenes: usa Descargar.",
     "pasteHint": "Imagen copiada: pégala en el post (Ctrl/Cmd+V).",
     "attachHint": "Imagen descargada: adjúntala al post.",
-    "post": "{name} va {profit} {pct} ({span}) operando con su propio cerebro de mosca real 🪰🧠",
-    "postTrade": "{name} acaba de cerrar {what} en {pct} 🪰🧠"
+    "post": "{name} va {pct} ({span}) operando con su propio cerebro de mosca real 🪰🧠",
+    "postTrade": "{name} acaba de cerrar {what} en {pct} 🪰🧠",
+    "inProfit": "En ganancia",
+    "inLoss": "En pérdida"
   },
   "follow": {
     "on": "Siguiendo",

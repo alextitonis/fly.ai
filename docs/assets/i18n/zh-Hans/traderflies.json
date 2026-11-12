@@ -1937,8 +1937,10 @@
     "copyFail": "此浏览器无法复制图片：请用下载。",
     "pasteHint": "图片已复制：粘贴到帖子里 (Ctrl/Cmd+V)。",
     "attachHint": "图片已下载：请附加到帖子。",
-    "post": "{name} 用自己真实的苍蝇大脑交易，{span}收益 {profit} {pct} 🪰🧠",
-    "postTrade": "{name} 刚以 {pct} 平仓 {what} 🪰🧠"
+    "post": "{name} 用自己真实的苍蝇大脑交易，{span}收益 {pct} 🪰🧠",
+    "postTrade": "{name} 刚以 {pct} 平仓 {what} 🪰🧠",
+    "inProfit": "盈利中",
+    "inLoss": "亏损中"
   },
   "follow": {
     "on": "已关注",

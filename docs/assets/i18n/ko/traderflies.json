@@ -1937,8 +1937,10 @@
     "copyFail": "이 브라우저는 이미지를 복사할 수 없어요: 다운로드를 사용하세요.",
     "pasteHint": "이미지 복사됨: 게시물에 붙여넣으세요 (Ctrl/Cmd+V).",
     "attachHint": "이미지 다운로드됨: 게시물에 첨부하세요.",
-    "post": "{name}, 진짜 파리 뇌로 직접 거래해서 {profit} {pct} ({span}) 🪰🧠",
-    "postTrade": "{name}, 방금 {what} 거래를 {pct}로 마감 🪰🧠"
+    "post": "{name}, 진짜 파리 뇌로 직접 거래해서 {pct} ({span}) 🪰🧠",
+    "postTrade": "{name}, 방금 {what} 거래를 {pct}로 마감 🪰🧠",
+    "inProfit": "수익 중",
+    "inLoss": "손실 중"
   },
   "follow": {
     "on": "팔로잉",

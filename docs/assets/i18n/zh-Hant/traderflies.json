@@ -1937,8 +1937,10 @@
     "copyFail": "此瀏覽器無法複製圖片：請用下載。",
     "pasteHint": "圖片已複製：貼到貼文裡 (Ctrl/Cmd+V)。",
     "attachHint": "圖片已下載：請附加到貼文。",
-    "post": "{name} 用自己真實的蒼蠅大腦交易，{span}收益 {profit} {pct} 🪰🧠",
-    "postTrade": "{name} 剛以 {pct} 平倉 {what} 🪰🧠"
+    "post": "{name} 用自己真實的蒼蠅大腦交易，{span}收益 {pct} 🪰🧠",
+    "postTrade": "{name} 剛以 {pct} 平倉 {what} 🪰🧠",
+    "inProfit": "獲利中",
+    "inLoss": "虧損中"
   },
   "follow": {
     "on": "已關注",

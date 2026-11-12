@@ -1939,8 +1939,10 @@
     "copyFail": "This browser can't copy images: use Download.",
     "pasteHint": "Image copied: paste it into the post (Ctrl/Cmd+V).",
     "attachHint": "Image downloaded: attach it to the post.",
-    "post": "{name} is up {profit} {pct} ({span}) trading on its own real fly brain 🪰🧠",
-    "postTrade": "{name} just closed {what} at {pct} 🪰🧠"
+    "post": "{name} is up {pct} ({span}) trading on its own real fly brain 🪰🧠",
+    "postTrade": "{name} just closed {what} at {pct} 🪰🧠",
+    "inProfit": "In profit",
+    "inLoss": "In the red"
   },
   "follow": {
     "on": "Following",
