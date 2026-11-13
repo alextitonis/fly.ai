@@ -54,7 +54,7 @@ import { createTeam } from "./team.ts";
 import { blockscoutTransfers, createDeskChat, TEAM as CHAT_TEAM_WALLETS } from "./deskchat.ts";
 import { buyWeekConfig, createBuyWeek } from "./buyweek.ts";
 import { createFlyChat, openRouter } from "./flychat.ts";
-import { createPet, flyOwners } from "./pet.ts";
+import { createPet, flyOwners, petWalletOf } from "./pet.ts";
 import { createHunt } from "./hunt.ts";
 import { badgeConfig, createBadges } from "./badges.ts";
 import { createXp, xpConfig } from "./xp.ts";
@@ -947,7 +947,7 @@ function cached<K, T>(ms: number, compute: (key: K) => T): ((key: K) => T) & { f
  * Any origin may call the API (the browser extension runs on its own). Safe because miners authenticate
  * with a bearer token, never cookies, so another site gains nothing a script calling the API directly wouldn't.
  */
-const CORS = { "access-control-allow-origin": "*", "access-control-allow-headers": "authorization, content-type, x-flyai-session", "access-control-max-age": "86400" };
+const CORS = { "access-control-allow-origin": "*", "access-control-allow-headers": "authorization, content-type, x-flyai-session, x-flyai-pet", "access-control-max-age": "86400" };
 
 /**
  * Public reads served from Vercel's edge (2026-10-07, the user OK'd "serve public reads from Vercel's cache"): the
@@ -4472,6 +4472,23 @@ if (MINING) {
 if (MINING) await copyLegacy(db, pg);
 // Fly Roulette bets (src/roulette.ts): the same ledger, sign-in and chain as compute orders
 const sessionAddress = async (req: IncomingMessage) => (await sessionOf(req)).wallet;
+// Fly Pet's token (src/pet.ts, 2026-11-13): the desktop pet signs in for its chat. Taken ONLY on these routes - the fly chat
+// and saving a fly wallet's settings - and never on withdrawals, moves, sales or transfers (those stay on the site).
+const PET_SECRET = ADMIN_TOKEN ? createHash("sha256").update(`flypet-token:${ADMIN_TOKEN}`).digest() : null;
+const PET_ROUTES = [/^\/api\/flychat\//, /^\/api\/vaults\/0x[0-9a-fA-F]{40}\/settings$/,
+  /^\/api\/partners\/[a-z][a-z0-9]{1,19}\/wallet\/0x[0-9a-fA-F]{40}\/settings$/];
+const sessionOrPet = async (req: IncomingMessage) => {
+  const token = req.headers["x-flyai-pet"];
+  if (token && PET_SECRET && !req.headers["x-flyai-session"]) {
+    const path = new URL(req.url ?? "/", "http://x").pathname;
+    if (PET_ROUTES.some((r) => r.test(path))) {
+      const w = petWalletOf(String(token), PET_SECRET, Date.now());
+      if (!w) throw new HttpError(401, "the pet's sign-in has expired: connect your wallet in the pet again");
+      return w;
+    }
+  }
+  return sessionAddress(req);
+};
 const roulette = createRoulette({
   pg, book, balanceOf, adminOnly, HttpError, toWei, fromWei, send, readJson,
   sessionWallet: sessionAddress,
@@ -4537,7 +4554,7 @@ if (USER) flightpass.start();
 // factory's granter (VAULT_GRANTER_KEY, or the FlightPass payout wallet that already holds the FLYAI float)
 const vaults = createVaults({
   pg, book, balanceOf, adminOnly, HttpError, fromWei, send, readJson,
-  sessionWallet: sessionAddress,
+  sessionWallet: sessionOrPet,                      // (the pet's token: settings saves only, PET_ROUTES)
   rpcUrl: env("VAULT_RPC", CLAIMS.rpc),
   env: process.env,
   token: ORDERS.token,
@@ -4557,7 +4574,7 @@ const ruyui = createRuyui({
 // row each, no deploy to add one
 const partners = createPartners({
   pg, adminOnly, HttpError, send, readJson,
-  sessionWallet: sessionAddress,
+  sessionWallet: sessionOrPet,                      // (the pet's token: settings saves only, PET_ROUTES)
   rpcUrl: env("VAULT_RPC", CLAIMS.rpc),
   env: process.env,
   walletLog: (w) => vaults.walletLog(w),
@@ -4636,9 +4653,12 @@ const pet = createPet({
   price: async () => (await flyaiPrice()).usd,
   sweepOwners: flyOwners(env("VAULT_RPC", CLAIMS.rpc), vaults.CFG.traderFly),
   site: env("SITE_ORIGIN", "https://www.flyaiworld.com"),
+  // 2026-11-13: the pet signs in (PET_SECRET), follows one fly or partner NFT with its log, and shows the alpha calls
+  petSecret: PET_SECRET, partnerView: (id) => partners.chatView(id),
+  flyLog: (fly) => vaults.flyLog(fly), walletLog: (w) => vaults.walletLog(w), isAdmin,
 });
 const flyChat = createFlyChat({
-  pg, HttpError, send, readJson, sessionWallet: sessionAddress,
+  pg, HttpError, send, readJson, sessionWallet: sessionOrPet,   // the site's session or Fly Pet's token
   flyView: (fly) => vaults.flyView(fly), flyLog: (fly) => vaults.flyLog(fly),
   starters: async () => ((await vaults.config()).starters as any[] | null) ?? [],
   holdings: async (w) => (await robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock).holdings([w]))[0] ?? 0n,

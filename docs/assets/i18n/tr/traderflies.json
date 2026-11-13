@@ -2225,7 +2225,8 @@
     "boardLink": "{name} cüzdanlarının sıralamasını liderlik tablosunda gör →",
     "chat": "Onunla sohbet et",
     "potShare": "Aktif {name} NFT'leri (sahibi {hold} $FLYAI tutar) Ortaklar havuzundan kazanır: tüm ortak koleksiyonlar için tek bir havuz, kârını her hafta $FLYAI olarak doğrudan cüzdanına öder.",
-    "potLink": "Ortaklar havuzunu gör"
+    "potLink": "Ortaklar havuzunu gör",
+    "activatedN": "{name} NFT şu anda aktif"
   },
   "fights": {
     "title": "Robot Dövüşleri",

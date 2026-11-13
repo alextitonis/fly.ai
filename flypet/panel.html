@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:* http://localhost:* http://127.0.0.1:* https://www.flyaiworld.com https://flyai-mine.fly.dev" />
+    <title>Fly Pet</title>
+    <style>
+      :root { color-scheme: dark; --bg: #0b0b0b; --panel: #121212; --line: #2a2a2a; --mute: #9a9a9a; --mint: #7cf5c4; --red: #ff8d8d; }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body { margin: 0; background: var(--bg); color: #fff; font: 14px/1.45 "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; display: flex; flex-direction: column; }
+      [hidden] { display: none !important; }
+      .step { padding: 22px; display: grid; gap: 12px; align-content: start; }
+      h1 { margin: 0; font-size: 20px; } h2 { margin: 0; font-size: 15px; }
+      p { margin: 0; }
+      .mute { color: var(--mute); font-size: 12px; }
+      .error { color: var(--red); }
+      button { padding: 8px 16px; border: 0; border-radius: 999px; background: var(--mint); color: #06140e; font: 600 13px inherit; cursor: pointer; }
+      button.plain { background: #1c1c1c; color: #fff; border: 1px solid var(--line); }
+      button.small { padding: 5px 11px; font-size: 12px; }
+      button:disabled { opacity: .5; cursor: default; }
+      .list { display: grid; gap: 6px; }
+      .pick { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; color: #fff; text-align: left; font: inherit; }
+      .pick:hover { border-color: var(--mint); }
+      .av { flex: none; width: 36px; height: 36px; border-radius: 50%; background: #1c1c1c; display: grid; place-items: center; overflow: hidden; font-size: 18px; }
+      .av img { width: 100%; height: 100%; object-fit: cover; }
+      .grow { flex: 1; min-width: 0; }
+      .up { color: var(--mint); } .down { color: var(--red); }
+      header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+      header .grow b { display: block; }
+      nav { display: flex; gap: 4px; padding: 8px 14px 0; }
+      nav button { background: none; color: var(--mute); border-radius: 8px 8px 0 0; padding: 7px 14px; }
+      nav button.on { background: var(--panel); color: #fff; }
+      main { flex: 1; min-height: 0; display: flex; flex-direction: column; background: var(--panel); }
+      .pane { flex: 1; min-height: 0; overflow-y: auto; padding: 12px 14px; }
+      .row { display: flex; gap: 8px; align-items: baseline; padding: 6px 0; border-bottom: 1px solid #1d1d1d; font-size: 13px; }
+      .row .when { flex: none; width: 82px; color: var(--mute); font-size: 11px; }
+      .row .why { color: var(--mute); font-size: 12px; }
+      #chat { display: flex; flex-direction: column; gap: 8px; }
+      .msg { max-width: 88%; }
+      .msg p { padding: 8px 11px; border-radius: 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+      .msg.user { align-self: flex-end; } .msg.user p { background: var(--mint); color: #000; border-bottom-right-radius: 4px; }
+      .msg.fly p { background: #1c1c1c; border-bottom-left-radius: 4px; }
+      .card { margin-top: 6px; padding: 10px; border: 1px solid var(--line); border-radius: 12px; display: grid; gap: 6px; font-size: 13px; background: var(--bg); }
+      .card.money { border-color: var(--red); }
+      .card ul { margin: 0; padding-left: 16px; color: var(--mute); font: 12px/1.4 ui-monospace, monospace; }
+      .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+      .chips { display: flex; gap: 6px; overflow-x: auto; padding: 8px 14px 0; background: var(--panel); }
+      .chips button { flex: none; }
+      form { display: flex; gap: 8px; padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--line); }
+      input[type=text] { flex: 1; min-width: 0; padding: 8px 12px; background: var(--bg); color: #fff; border: 1px solid var(--line); border-radius: 999px; font: inherit; }
+      input[type=text]:focus { outline: none; border-color: var(--mint); }
+      .fine { padding: 0 14px 10px; background: var(--panel); }
+      .call { padding: 10px 0; border-bottom: 1px solid #1d1d1d; display: grid; gap: 6px; }
+      .call .top { display: flex; gap: 10px; align-items: center; }
+      .call .ca { font: 11px ui-monospace, monospace; color: var(--mute); overflow-wrap: anywhere; }
+      .stats { display: flex; gap: 12px; font-size: 12px; color: var(--mute); }
+      .watchbox { display: flex; gap: 8px; padding: 8px 14px 0; background: var(--panel); }
+    </style>
+  </head>
+  <body>
+    <!-- 1. connect: always first while the pet isn't signed in -->
+    <section class="step" id="stepConnect" hidden>
+      <h1 data-t="p.connectTitle"></h1>
+      <p data-t="p.connectText"></p>
+      <p><button id="connect" data-t="set.connect"></button></p>
+      <p class="mute" id="connectNote"></p>
+    </section>
+
+    <!-- 2. pick the fly that lives on the desktop -->
+    <section class="step" id="stepPick" hidden>
+      <h1 data-t="p.pick"></h1>
+      <p class="mute" data-t="p.pickText"></p>
+      <div class="list" id="pickList"></div>
+      <p class="mute" id="pickNote"></p>
+      <p><button class="plain small" id="signOut1" data-t="p.signOut"></button></p>
+    </section>
+
+    <!-- 3. the fly: what it does, a chat, the alpha calls -->
+    <div id="stepFly" hidden style="display:flex;flex-direction:column;height:100%">
+      <header>
+        <span class="av" id="flyAv">🪰</span>
+        <span class="grow"><b id="flyName"></b><span class="mute" id="flyStats"></span></span>
+        <button class="plain small" id="change" data-t="p.change"></button>
+      </header>
+      <nav>
+        <button data-tab="log" class="on" data-t="p.tabLog"></button>
+        <button data-tab="chat" data-t="p.tabChat"></button>
+        <button data-tab="alpha" data-t="p.tabAlpha"></button>
+      </nav>
+      <main>
+        <div class="pane" id="paneLog"></div>
+        <div id="paneChatBox" hidden style="flex:1;min-height:0;display:flex;flex-direction:column">
+          <div class="pane"><div id="chat"></div></div>
+          <div class="chips" id="chips"></div>
+          <div class="watchbox" id="watchBox" hidden>
+            <input type="text" id="watchInput" maxlength="42" />
+            <button class="small" id="watchGo" data-t="p.watch"></button>
+          </div>
+          <form id="chatForm"><input type="text" id="chatInput" maxlength="300" /><button id="chatSend" data-t="p.send"></button></form>
+          <p class="mute fine" id="chatNote"></p>
+        </div>
+        <div class="pane" id="paneAlpha" hidden></div>
+      </main>
+    </div>
+    <script type="module" src="/src/panel.ts"></script>
+  </body>
+</html>

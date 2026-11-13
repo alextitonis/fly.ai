@@ -2225,7 +2225,8 @@
     "boardLink": "Mira cómo se clasifican las carteras de {name} en la tabla →",
     "chat": "Chatear con él",
     "potShare": "Los NFT {name} activados (su dueño tiene {hold} $FLYAI) ganan del fondo de Socios: un fondo para todas las colecciones socias que reparte sus ganancias cada semana en $FLYAI, directo a tu wallet.",
-    "potLink": "Ver el fondo de Socios"
+    "potLink": "Ver el fondo de Socios",
+    "activatedN": "NFT de {name} activados ahora mismo"
   },
   "fights": {
     "title": "Peleas de robots",

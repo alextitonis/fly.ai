@@ -3,7 +3,7 @@
  *   npm run test:pet
  */
 import type { ServerResponse } from "node:http";
-import { createPet, LINK_TTL_MS } from "./pet.ts";
+import { createPet, LINK_TTL_MS, makePetToken, petWalletOf, PET_TOKEN_TTL_MS } from "./pet.ts";
 import { startPg } from "./pgtest.ts";
 
 let failed = 0;
@@ -103,6 +103,16 @@ try {
   check("a failed sweep keeps the last owners", (await call("GET", `/api/pet/wallet/${HOLDER}`)).body.flies.length === 1);
 } finally {
   await PG.stop();
+}
+// the pet's token (2026-11-13): the wallet back while it's fresh and untouched, nothing otherwise
+{
+  const key = Buffer.alloc(32, 7), other = Buffer.alloc(32, 8), t0 = 1_800_000_000_000;
+  const { token } = makePetToken(HOLDER, key, t0);
+  check("a pet token gives its wallet back", petWalletOf(token, key, t0 + 1000) === HOLDER);
+  check("not with another key", petWalletOf(token, other, t0) === null);
+  check("not once expired", petWalletOf(token, key, t0 + PET_TOKEN_TTL_MS + 1) === null);
+  check("not with another wallet put in", petWalletOf(token.replace(HOLDER.slice(2, 10).toLowerCase(), "deadbeef"), key, t0) === null);
+  check("not a session token", petWalletOf("ab".repeat(32), key, t0) === null);
 }
 console.log(failed ? `${failed} FAILED` : "all passed");
 process.exit(failed ? 1 : 0);

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:* http://localhost:* http://127.0.0.1:* https://www.flyaiworld.com https://flyai-mine.fly.dev" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:* http://localhost:* http://127.0.0.1:* https://www.flyaiworld.com https://flyai-mine.fly.dev" />
     <title>Fly Pet</title>
     <style>
       html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; user-select: none; -webkit-user-select: none; }
@@ -10,18 +10,68 @@
       #fly { position: absolute; left: 50%; bottom: 0; width: 160px; height: 160px; margin-left: -80px; image-rendering: pixelated; -webkit-user-drag: none; cursor: grab; }
       #fly.left { transform: scaleX(-1); }
       #fly:active { cursor: grabbing; }
+      /* its alerts and lines, as a chat message from it (2026-11-13): a click opens its chat */
       #bubble {
-        position: absolute; left: 50%; bottom: 158px; transform: translateX(-50%); box-sizing: border-box; width: max-content; max-width: 280px;
-        padding: 8px 12px; background: #fff; color: #111; border: 2px solid #111; border-radius: 14px;
-        font: 600 13px/1.3 "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; text-align: center;
-        opacity: 0; transition: opacity .15s; pointer-events: none;
+        position: absolute; left: 50%; bottom: 158px; transform: translateX(-50%) translateY(6px); box-sizing: border-box; width: max-content; max-width: 280px;
+        padding: 8px 12px; background: #1a1a1a; color: #fff; border: 1px solid #2f2f2f; border-radius: 14px; border-bottom-left-radius: 4px;
+        box-shadow: 0 8px 22px rgba(0,0,0,.45);
+        font: 500 13px/1.35 "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; text-align: left;
+        opacity: 0; transition: opacity .18s, transform .18s; pointer-events: none; cursor: pointer;
       }
-      #bubble.on { opacity: 1; }
-      #bubble::after { content: ""; position: absolute; left: 50%; bottom: -8px; width: 12px; height: 12px; margin-left: -6px; background: #fff; border: solid #111; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+      #bubble.on { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+      body.talking #bubble { display: none; }
+      /* the fly's own chat (src/talk.ts): a panel just above the fly while the window is grown for it */
+      #talk { position: absolute; left: 50%; bottom: 166px; transform: translateX(-50%); width: 360px; height: 440px; display: flex; flex-direction: column;
+        background: #0b0b0b; color: #fff; border: 1px solid #2a2a2a; border-radius: 16px; box-shadow: 0 14px 40px rgba(0,0,0,.55); overflow: hidden;
+        font: 13px/1.4 "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; user-select: text; -webkit-user-select: text; }
+      #talk[hidden], #talk [hidden] { display: none !important; }
+      #talk::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 12px; height: 12px; margin-left: -6px; background: #0b0b0b; border: solid #2a2a2a; border-width: 0 1px 1px 0; transform: rotate(45deg); }
+      .tk-head { display: flex; align-items: center; gap: 9px; padding: 10px 12px; border-bottom: 1px solid #1f1f1f; }
+      .tk-grow { flex: 1; min-width: 0; }
+      .tk-av { flex: none; width: 32px; height: 32px; border-radius: 50%; background: #1c1c1c; display: grid; place-items: center; overflow: hidden; font-size: 16px; }
+      .tk-av.sm { width: 26px; height: 26px; font-size: 13px; }
+      .tk-av img { width: 100%; height: 100%; object-fit: cover; }
+      .tk-x { background: none; border: 0; color: #9a9a9a; font-size: 20px; line-height: 1; cursor: pointer; padding: 2px 6px; border-radius: 8px; }
+      .tk-x:hover { background: #1c1c1c; color: #fff; }
+      .tk-mute { color: #9a9a9a; font-size: 12px; }
+      .tk-up { color: #7cf5c4; } .tk-down { color: #ff8d8d; }
+      .tk-stream { flex: 1; min-height: 0; overflow-y: auto; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px; }
+      .tk-hello { margin: 0; }
+      .tk-msg { max-width: 90%; display: grid; gap: 2px; }
+      .tk-msg p { margin: 0; padding: 7px 10px; border-radius: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
+      .tk-msg.user { align-self: flex-end; } .tk-msg.user p { background: #7cf5c4; color: #000; border-bottom-right-radius: 4px; }
+      .tk-msg.fly p { background: #1a1a1a; border-bottom-left-radius: 4px; }
+      .tk-trade p { background: #121a16 !important; font-size: 12px; }
+      .tk-why { color: #9a9a9a; }
+      .tk-time { color: #6f6f6f; font-size: 10px; padding: 0 4px; }
+      .tk-card { padding: 9px; border: 1px solid #2a2a2a; border-radius: 12px; display: grid; gap: 6px; background: #101010; }
+      .tk-card.money { border-color: #ff8d8d; }
+      .tk-card ul { margin: 0; padding-left: 16px; color: #9a9a9a; font: 11px/1.4 ui-monospace, monospace; }
+      .tk-row { display: flex; gap: 8px; align-items: center; }
+      .tk-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+      .tk-btn { padding: 7px 14px; border: 0; border-radius: 999px; background: #7cf5c4; color: #06140e; font: 600 12px inherit; cursor: pointer; }
+      .tk-btn.sm { padding: 5px 10px; font-size: 11px; }
+      .tk-btn.plain { background: #1c1c1c; color: #fff; border: 1px solid #2a2a2a; }
+      .tk-btn:disabled { opacity: .5; cursor: default; }
+      .tk-chips { display: flex; gap: 6px; overflow-x: auto; padding: 8px 12px 0; scrollbar-width: none; }
+      .tk-chip { flex: none; padding: 5px 10px; border-radius: 999px; border: 1px solid #2a2a2a; background: none; color: #ddd; font: 500 11px inherit; cursor: pointer; }
+      .tk-chip:hover { border-color: #7cf5c4; }
+      .tk-watch, .tk-form { display: flex; gap: 6px; padding: 8px 12px 0; }
+      .tk-form { padding-bottom: 4px; }
+      .tk-input { flex: 1; min-width: 0; padding: 7px 11px; background: #000; color: #fff; border: 1px solid #2a2a2a; border-radius: 999px; font: inherit; }
+      .tk-input:focus { outline: none; border-color: #7cf5c4; }
+      .tk-note { margin: 0; padding: 2px 14px 9px; color: #9a9a9a; font-size: 11px; min-height: 14px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+      .tk-link { background: none; border: 0; padding: 0; color: #7cf5c4; font: inherit; cursor: pointer; text-decoration: underline; }
+      .tk-typing p { display: flex; gap: 4px; padding: 10px 12px; }
+      .tk-typing i { width: 6px; height: 6px; border-radius: 50%; background: #9a9a9a; animation: tk-dot 1s infinite ease-in-out; }
+      .tk-typing i:nth-child(2) { animation-delay: .15s; } .tk-typing i:nth-child(3) { animation-delay: .3s; }
+      @keyframes tk-dot { 0%, 80%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+      #bubble::after { content: ""; position: absolute; left: 18px; bottom: -6px; width: 10px; height: 10px; background: #1a1a1a; border: solid #2f2f2f; border-width: 0 1px 1px 0; transform: rotate(45deg); }
     </style>
   </head>
   <body>
     <div id="stage">
+      <div id="talk" hidden></div>
       <div id="bubble"></div>
       <img id="fly" alt="" draggable="false" />
     </div>

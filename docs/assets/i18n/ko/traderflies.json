@@ -2223,7 +2223,8 @@
     "boardLink": "리더보드에서 {name} 지갑 순위 보기 →",
     "chat": "대화하기",
     "potShare": "활성화된 {name} NFT(소유자가 {hold} $FLYAI 보유)는 파트너 풀에서 수익을 받습니다: 모든 파트너 컬렉션을 위한 하나의 풀로, 매주 수익을 $FLYAI로 지갑에 바로 지급합니다.",
-    "potLink": "파트너 풀 보기"
+    "potLink": "파트너 풀 보기",
+    "activatedN": "개의 {name} NFT가 현재 활성화됨"
   },
   "fights": {
     "title": "로봇 격투",

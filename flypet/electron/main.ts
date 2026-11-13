@@ -6,12 +6,12 @@ import { pathToFileURL } from "node:url";
 import { setLang, t, type Lang } from "../src/i18n.ts";
 import { BrowserWindow, Menu, Notification, Tray, app, dialog, ipcMain, nativeImage, net, powerMonitor, protocol, screen, shell } from "electron";
 
-const PET_SIZE = 300, CURSOR_MS = 50, ON_TOP_MS = 10_000;
+const PET_SIZE = 300, CURSOR_MS = 50, ON_TOP_MS = 2_000;
 const DIST = join(app.getAppPath(), "dist");
-const LINKS = /^https:\/\/(www\.flyaiworld\.com|flyai-mine\.fly\.dev)\/|^https:\/\/x\.com\/intent\//;
+const LINKS = /^https:\/\/(www\.flyaiworld\.com|flyai-mine\.fly\.dev)\/|^https:\/\/x\.com\/intent\/|^https:\/\/dexscreener\.com\//;
 const IDLE_S = 120, COMPUTE_MS = 5000;
 
-let pet: BrowserWindow, settings: BrowserWindow | null = null, tray: Tray;   // kept here so they aren't garbage collected
+let pet: BrowserWindow, settings: BrowserWindow | null = null, panel: BrowserWindow | null = null, tray: Tray;   // kept here so they aren't garbage collected
 let hidden = false, quiet = false;
 interface ComputeState { phase: "off" | "waiting" | "loading" | "running" | "error"; jobs: number; perMinute: number; engine: string }
 
@@ -38,11 +38,21 @@ function createPet() {
     width: PET_SIZE, height: PET_SIZE, title: "Fly Pet", transparent: true, frame: false, hasShadow: false, resizable: false, maximizable: false,
     fullscreenable: false, alwaysOnTop: true, skipTaskbar: true, focusable: false, show: false, webPreferences,
   });
-  pet.setAlwaysOnTop(true, "floating");
+  // always on top (2026-11-13, the user: Alt+Tab dropped it behind other windows): the highest level, put back whenever it
+  // loses the focus (its chat takes the keyboard) and every ON_TOP_MS
+  keepOnTop();
+  pet.on("blur", () => setTimeout(keepOnTop, 50));
+  pet.on("hide", () => setTimeout(keepOnTop, 50));
   pet.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
   lockDown(pet);
   pet.once("ready-to-show", () => pet.showInactive());
   void pet.loadURL("app://fly/index.html");
+}
+
+function keepOnTop() {
+  if (!pet || pet.isDestroyed() || !pet.isVisible()) return;
+  pet.setAlwaysOnTop(true, "screen-saver");
+  pet.moveTop();
 }
 
 // made when asked for and gone when closed: a second page held open all day costs about 70 MB. The pet keeps running.
@@ -60,9 +70,29 @@ function showSettings(section = "") {
   void settings.loadURL(`app://fly/settings.html${section ? `#${section}` : ""}`);
 }
 
+// the pet's own window (2026-11-13): sign in, pick the fly, then its log, a chat and the alpha calls (src/panel.ts). Made when
+// asked for, gone when closed, like settings
+function showPanel(what = "") {
+  if (panel) {
+    panel.show();
+    panel.focus();
+    panel.webContents.send("panel", what);
+    return;
+  }
+  panel = new BrowserWindow({ width: 440, height: 680, minWidth: 360, minHeight: 480, title: "Fly Pet", icon: join(DIST, "tray.png"), autoHideMenuBar: true, backgroundColor: "#0b0b0b", webPreferences });
+  panel.setMenu(null);
+  lockDown(panel);
+  panel.on("closed", () => { panel = null; });
+  if (!app.isPackaged) panel.webContents.openDevTools({ mode: "detach" });   // npm start: the console, for testing
+  void panel.loadURL(`app://fly/panel.html${what ? `#${what}` : ""}`);
+}
+
 // the same menu from the tray and from right-clicking the fly: Windows 11 tucks a new tray icon away under its ^ arrow
 function menu() {
   return Menu.buildFromTemplate([
+    { label: t("menu.open"), click: () => pet.webContents.send("open", "") },
+    { label: t("menu.alpha"), click: () => pet.webContents.send("open", "alpha") },
+    { type: "separator" },
     { label: t("menu.feed"), click: () => pet.webContents.send("feed") },
     { label: t("menu.hide"), type: "checkbox", checked: hidden, click: (item) => setHidden(item.checked) },
     { label: t("menu.quiet"), type: "checkbox", checked: quiet, click: (item) => setQuiet(item.checked) },
@@ -86,7 +116,7 @@ function createTray() {
   tray = new Tray(join(DIST, "tray.png"));
   tray.setToolTip("Fly Pet");
   tray.setContextMenu(menu());
-  tray.on("click", () => showSettings());
+  tray.on("click", () => pet.webContents.send("open", ""));
 }
 
 /**
@@ -100,7 +130,7 @@ function watchCursor() {
     const x = c.x - b.x, y = c.y - b.y;
     pet.webContents.send("cursor", { x, y, inside: x >= 0 && y >= 0 && x < b.width && y < b.height });
   }, CURSOR_MS);
-  setInterval(() => { if (!pet.isDestroyed()) pet.setAlwaysOnTop(true, "floating"); }, ON_TOP_MS);   // Windows can drop it
+  setInterval(keepOnTop, ON_TOP_MS);                 // Windows can drop it
 }
 
 /**
@@ -150,7 +180,19 @@ function handleCalls() {
     // bounds, not position: setPosition can grow a window that crosses screens with different scaling
     pet.setBounds({ x: Math.round(x), y: Math.round(y), width: PET_SIZE, height: PET_SIZE });
   });
+  // the fly's own chat (2026-11-13, the user: "the chat etc to be on itself not a separate thing/tab"): the window grows
+  // around the fly for the chat panel, and takes the keyboard while it's open
+  ipcMain.on("frame", (_e, x: number, y: number, w: number, h: number) => {
+    pet.setBounds({ x: Math.round(x), y: Math.round(y), width: Math.round(Math.max(PET_SIZE, Math.min(w, 600))), height: Math.round(Math.max(PET_SIZE, Math.min(h, 1000))) });
+  });
+  ipcMain.on("pet-focus", (_e, on: boolean) => {
+    pet.setFocusable(!!on);
+    if (on) pet.focus(); else pet.blur();
+    keepOnTop();
+  });
   ipcMain.on("menu", () => menu().popup({ window: pet }));
+  ipcMain.on("panel", (_e, what: string) => showPanel(typeof what === "string" ? what : ""));
+  ipcMain.on("panel-close", () => { panel?.close(); pet.webContents.send("open", ""); });   // picked: the chat opens on the fly
   ipcMain.on("quit", () => app.quit());
   ipcMain.on("lang", (_e, lang: Lang) => {
     setLang(lang);
@@ -174,7 +216,7 @@ if (!app.requestSingleInstanceLock()) app.quit();
 else {
   app.on("second-instance", () => {            // opening it again brings it back, and shows the way to close it
     if (hidden) setHidden(false);
-    showSettings();
+    pet.webContents.send("open", "");
   });
   app.on("window-all-closed", () => {});     // it lives in the tray
   app.dock?.hide();                          // and on macOS not in the Dock

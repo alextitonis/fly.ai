@@ -2223,7 +2223,8 @@
     "boardLink": "在排行榜上查看 {name} 錢包排名 →",
     "chat": "和它聊天",
     "potShare": "已啟用的 {name} NFT（持有人持有 {hold} $FLYAI）從合作夥伴資金池獲得收益：一個面向所有合作夥伴系列的資金池，每週以 $FLYAI 發放其利潤，直接到你的錢包。",
-    "potLink": "查看合作夥伴資金池"
+    "potLink": "查看合作夥伴資金池",
+    "activatedN": "個 {name} NFT 目前已啟用"
   },
   "fights": {
     "title": "機器人格鬥",

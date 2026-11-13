@@ -276,6 +276,10 @@
       "label": "Enjoyoors",
       "desc": "Enjoyoors NFTs: their own trading wallets"
     },
+    "waifus": {
+      "label": "Waifus",
+      "desc": "Waifus NFTs: their own trading wallets"
+    },
     "newTag": "New",
     "fights": {
       "label": "Robot Fights",

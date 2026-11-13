@@ -6,5 +6,5 @@ export default defineConfig({
   clearScreen: false,
   server: { port: 1420, strictPort: true, fs: { allow: [".."] } },
   worker: { format: "es" },
-  build: { rollupOptions: { input: { index: resolve(__dirname, "index.html"), settings: resolve(__dirname, "settings.html"), miner: resolve(__dirname, "miner.html") } } },
+  build: { rollupOptions: { input: { index: resolve(__dirname, "index.html"), settings: resolve(__dirname, "settings.html"), panel: resolve(__dirname, "panel.html"), miner: resolve(__dirname, "miner.html") } } },
 });

@@ -195,6 +195,24 @@ export async function alphaNow(max = 3, flies = 5): Promise<Post[]> {
   return posts;
 }
 
+/** Each call also goes to the mine server for Fly Pet's Alpha tab (2026-11-13, the user: the pet "will be showing the alpha
+ *  calls that the discord does"): POST /api/pet/alpha with the admin token (PET_ALPHA_TOKEN). Off without the token; a
+ *  failure only costs the pet that one call. */
+const PET_ALPHA_URL = process.env.PET_ALPHA_URL ?? "https://flyai-mine.fly.dev/api/pet/alpha";
+async function shareCall(c: Call, v: Verdict): Promise<void> {
+  const token = process.env.PET_ALPHA_TOKEN;
+  if (!token) return;
+  try {
+    const r = await fetch(PET_ALPHA_URL, { method: "POST", signal: AbortSignal.timeout(10_000),
+      headers: { "content-type": "application/json", authorization: `Bearer ${token}` },
+      body: JSON.stringify({ kind: "call", symbol: ticker(c.sym), chain: alphaChain(c.sym), ca: c.ca, head: c.head, why: c.why ?? null,
+        mcap: v.mcap ?? null, liq: v.liq ?? null, vol24: v.vol24 ?? null, image: v.image ?? null }) });
+    if (!r.ok) console.error(`alpha: pet share ${r.status}`);
+  } catch (err) {
+    console.error("alpha: pet share failed", (err as Error).message);
+  }
+}
+
 // ---------------------------------------------------------------- the loop
 
 type Sent = Map<string, Message>;   // channel id -> the message posted there
@@ -265,6 +283,7 @@ export function startAlpha(client: Client, targets: Target[], opts: { flies: num
       called.set(c.key, { at: Date.now(), msgs });
       RECENT.unshift(c);
       RECENT.length = Math.min(RECENT.length, RECENT_KEEP);
+      void shareCall(c, v);
     }
     return true;
   }

@@ -9,7 +9,7 @@
  *   come from one sweep of the collection per OWNERS_TTL_MS (about 10 chain reads), only while someone asks, and a short
  *   memory cache and the site's edge cache sit in front, so many pets cost little.
  */
-import { randomBytes } from "node:crypto";
+import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Pg } from "./pg.ts";
 import { multicall, word } from "./multicall.ts";
@@ -27,7 +27,41 @@ export interface PetDeps {
   sweepOwners: () => Promise<{ id: number; owner: string }[]>;
   site: string;
   now?: () => number;
+  /** the pet token's key (2026-11-13; server.ts derives it from ADMIN_TOKEN); null: the link gives the address only */
+  petSecret?: Buffer | null;
+  /** a partner NFT by its chat id (partners.ts chatView: the fly view's shape + who), null: not one */
+  partnerView?: (id: number) => Promise<any | null>;
+  /** a fly's log / any wallet's log (vaults.ts flyLog, walletLog) */
+  flyLog?: (fly: number) => Promise<any>;
+  walletLog?: (wallet: string) => Promise<any>;
+  /** the admin token, for the Discord bot's alpha calls */
+  isAdmin?: (req: IncomingMessage) => boolean;
 }
+
+/**
+ * The pet's sign-in (2026-11-13, the user: "when opening always ask to auth ... select a fly ... logs ... ask if it wants
+ * something ... alpha calls ... chat can make it like watch these"): the link now also gives the app a PET TOKEN - the
+ * wallet and an expiry, signed by the server. server.ts takes it only on the fly chat and on saving a fly wallet's
+ * settings (watch lists, pause...): never on a withdrawal, a move, a sale or a transfer - those stay on the site.
+ */
+export const PET_TOKEN_TTL_MS = 30 * 86_400_000;
+const sig = (secret: Buffer, body: string) => createHmac("sha256", secret).update(body).digest("hex");
+export function makePetToken(wallet: string, secret: Buffer, now: number): { token: string; expires_at: number } {
+  const exp = now + PET_TOKEN_TTL_MS, body = `pt1.${wallet.toLowerCase()}.${exp}`;
+  return { token: `${body}.${sig(secret, body)}`, expires_at: exp };
+}
+/** The token's wallet, or null (wrong form, bad signature, expired). */
+export function petWalletOf(token: string, secret: Buffer, now: number): string | null {
+  const m = /^(pt1\.(0x[0-9a-f]{40})\.(\d{13}))\.([0-9a-f]{64})$/.exec(String(token));
+  if (!m) return null;
+  const want = Buffer.from(sig(secret, m[1]!), "hex"), got = Buffer.from(m[4]!, "hex");
+  if (want.length !== got.length || !timingSafeEqual(want, got) || Number(m[3]) < now) return null;
+  return checksumAddress(m[2]!);
+}
+
+export const ALPHA_KEEP = 40;
+export type AlphaCall = { at: number; kind: string; symbol: string; chain: string; ca: string; head: string; why?: string | null;
+  mcap?: number | null; liq?: number | null; vol24?: number | null; image?: string | null };
 
 export const LINK_TTL_MS = 10 * 60_000;
 const OWNERS_TTL_MS = 10 * 60_000;
@@ -106,7 +140,45 @@ export function createPet(d: PetDeps) {
     if (body?.secret !== link.secret) throw new d.HttpError(403, "wrong secret");
     if (!link.wallet) return { status: "pending" };
     links.delete(body.code);
-    return { status: "linked", wallet: link.wallet };
+    const pet = d.petSecret ? makePetToken(link.wallet, d.petSecret, now()) : null;
+    return { status: "linked", wallet: link.wallet, ...(pet ? { token: pet.token, token_expires_at: pet.expires_at } : {}) };
+  }
+
+  /** One fly (or partner NFT, by its chat id) for the pet: the Fly the moods read, who it is, and its log. Public data. */
+  async function flyFeed(id: number) {
+    if (id >= 1_000_000_000) {
+      const v = d.partnerView ? await d.partnerView(id) : null;
+      if (!v) throw new d.HttpError(404, "no such NFT");
+      const s = v.stats ?? {};
+      const trades = v.wallet ? ((await tradesOf([v.wallet])).get(v.wallet) ?? []) : [];
+      const log = v.wallet && d.walletLog ? await d.walletLog(v.wallet).catch(() => ({ rows: [] })) : { rows: [] };
+      return { fly: { id, funded: (s.value ?? 0) > 0 || (s.principal ?? 0) > 0, value: s.value ?? 0, profit: s.profit ?? 0, profit_pct: s.profit_pct ?? 0,
+        profit_24h: s.profit_24h ?? 0, profit_7d: s.profit_7d ?? 0, active: !!s.active, trades }, who: v.who, wallet: v.wallet ?? null,
+        settings: v.settings ?? null, log: (log.rows ?? []).slice(0, 60) };
+    }
+    const rows = await d.pg.all<{ fly_id: number; address: string }>("select fly_id, address from mine.vault_wallets where fly_id = ?", id);
+    const [fly] = await fliesOf(rows);
+    const log = d.flyLog ? await d.flyLog(id).catch(() => ({ rows: [] })) : { rows: [] };
+    const settings = rows[0] ? (await d.pg.one<{ doc: any }>("select doc from mine.vault_settings where vault = ?", rows[0].address)
+      .catch(() => null))?.doc ?? null : null;
+    return { fly: fly ?? null, who: null, wallet: rows[0]?.address ?? null, settings, log: (log.rows ?? []).slice(0, 60) };
+  }
+
+  // the Discord bot's alpha calls (discord/src/alpha.ts posts each call here too), newest first, for the pet's Alpha tab
+  async function alphaList(): Promise<AlphaCall[]> {
+    return ((await d.pg.one<{ value: any }>("select value from mine.vault_public where key = 'pet:alpha'"))?.value?.calls ?? []) as AlphaCall[];
+  }
+  async function addAlpha(body: any) {
+    const s = (v: unknown, n: number) => String(v ?? "").slice(0, n);
+    const num = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? v : null);
+    const c: AlphaCall = { at: now(), kind: s(body?.kind || "call", 16), symbol: s(body?.symbol, 40), chain: s(body?.chain, 16), ca: s(body?.ca, 64),
+      head: s(body?.head, 160), why: body?.why ? s(body.why, 200) : null, mcap: num(body?.mcap), liq: num(body?.liq), vol24: num(body?.vol24),
+      image: /^https:\/\//.test(String(body?.image ?? "")) ? s(body.image, 300) : null };
+    if (!c.symbol || !/^(0x[0-9a-fA-F]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$/.test(c.ca)) throw new d.HttpError(400, "symbol and ca");
+    const calls = [c, ...(await alphaList()).filter((x) => !(x.ca.toLowerCase() === c.ca.toLowerCase() && x.chain === c.chain))].slice(0, ALPHA_KEEP);
+    await d.pg.run(`insert into mine.vault_public (key, value, updated_at) values ('pet:alpha', ?::text::jsonb, now())
+      on conflict (key) do update set value = excluded.value, updated_at = now()`, JSON.stringify({ calls }));
+    return { ok: true, n: calls.length };
   }
 
   /** the filled trades of these fly wallets, newest first; lending, gas top-ups and cash swaps are upkeep, not trades */
@@ -167,6 +239,9 @@ export function createPet(d: PetDeps) {
     const p = url.pathname;
     if (req.method === "GET") {
       if (p === "/api/pet/public") return d.send(res, 200, await publicFeed()), true;
+      if (p === "/api/pet/alpha") return d.send(res, 200, { calls: await alphaList() }), true;
+      const f = /^\/api\/pet\/fly\/(\d{1,10})$/.exec(p);
+      if (f) return d.send(res, 200, await cached(`fly:${f[1]}`, () => flyFeed(Number(f[1])))), true;
       const m = /^\/api\/pet\/wallet\/(0x[0-9a-fA-F]+)$/.exec(p);
       if (m) {
         if (!ADDRESS.test(m[1])) throw new d.HttpError(400, "bad wallet address");
@@ -177,6 +252,10 @@ export function createPet(d: PetDeps) {
       if (p === "/api/pet/link") return d.send(res, 200, createLink()), true;
       if (p === "/api/pet/link/approve") return d.send(res, 200, await approve(req, await d.readJson(req))), true;
       if (p === "/api/pet/link/claim") return d.send(res, 200, claim(await d.readJson(req))), true;
+      if (p === "/api/pet/alpha") {
+        if (!d.isAdmin?.(req)) throw new d.HttpError(403, "admin only");
+        return d.send(res, 200, await addAlpha(await d.readJson(req))), true;
+      }
     }
     return false;
   }

@@ -276,6 +276,10 @@
       "label": "Enjoyoors",
       "desc": "NFT de Enjoyoors: sus propias billeteras de trading"
     },
+    "waifus": {
+      "label": "Waifus",
+      "desc": "NFT de Waifus: sus propias billeteras de trading"
+    },
     "newTag": "Nuevo",
     "fights": {
       "label": "Peleas de robots",

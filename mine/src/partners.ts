@@ -127,7 +127,7 @@ export function parsePartner(row: { id: string; name: string; on: boolean; confi
 
 /** A partner NFT's chat id = its desk id (flytrade/desk/partnerflies.py BASES), far above any Trader Fly id. */
 export const CHAT_SPAN = 1_000_000_000;
-export const CHAT_BASES: Record<string, number> = { bullas: 1_000_000_000, ruyui: 2_000_000_000, enjoyoors: 3_000_000_000 };
+export const CHAT_BASES: Record<string, number> = { bullas: 1_000_000_000, ruyui: 2_000_000_000, enjoyoors: 3_000_000_000, waifus: 4_000_000_000 };
 
 const word = (v: bigint | number | string) =>
   typeof v === "string" ? v.replace(/^0x/, "").toLowerCase().padStart(64, "0") : BigInt(v).toString(16).padStart(64, "0");

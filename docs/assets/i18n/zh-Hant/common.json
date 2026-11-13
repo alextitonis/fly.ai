@@ -276,6 +276,10 @@
       "label": "Enjoyoors",
       "desc": "Enjoyoors NFT：各自的交易錢包"
     },
+    "waifus": {
+      "label": "Waifus",
+      "desc": "Waifus NFT：各自的交易錢包"
+    },
     "newTag": "新",
     "fights": {
       "label": "機器人格鬥",

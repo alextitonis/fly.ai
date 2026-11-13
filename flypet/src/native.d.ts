@@ -22,5 +22,11 @@ interface Window {
     onCursor(fn: (c: { x: number; y: number; inside: boolean }) => void): void;
     onQuiet(fn: (on: boolean) => void): void;
     onFeed(fn: () => void): void;
+    openPanel(what?: string): void;
+    frame(x: number, y: number, w: number, h: number): void;
+    petFocus(on: boolean): void;
+    onOpen(fn: (what: string) => void): void;
+    closePanel(): void;
+    onPanel?(fn: (what: string) => void): void;
   };
 }

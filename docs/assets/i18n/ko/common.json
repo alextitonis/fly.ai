@@ -276,6 +276,10 @@
       "label": "Enjoyoors",
       "desc": "Enjoyoors NFT: 각자의 트레이딩 지갑"
     },
+    "waifus": {
+      "label": "Waifus",
+      "desc": "Waifus NFT: 각자의 트레이딩 지갑"
+    },
     "newTag": "신규",
     "fights": {
       "label": "로봇 격투",

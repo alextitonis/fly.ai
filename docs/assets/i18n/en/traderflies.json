@@ -2225,7 +2225,8 @@
     "boardLink": "See how {name} wallets rank on the leaderboard →",
     "chat": "Chat with it",
     "potShare": "Activated {name} NFTs (owner holds {hold} $FLYAI) earn from the Partners pot: one pot for every partner collection, paying out its profits each week in $FLYAI, straight to your wallet.",
-    "potLink": "See the Partners pot"
+    "potLink": "See the Partners pot",
+    "activatedN": "{name} NFTs activated right now"
   },
   "fights": {
     "title": "Robot Fights",

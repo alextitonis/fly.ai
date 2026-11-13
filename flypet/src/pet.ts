@@ -1,8 +1,9 @@
 // The pet's window: plays the avatar's GIFs, walks along the bottom of the screen, can be grabbed and tossed, and acts out
 // what the feeds say (gains, losses, buys and sells). See mood.ts for what makes it react.
 import { t } from "./i18n.ts";
-import { FEED_LINES, PET_LINES, asleepAt, daysTogether, paceTarget, readFlies, readPrice, type Fly, type Mood, type Reaction } from "./mood.ts";
-import { applyLang, prefs, priceSamples, publicFeed, seenOf, setPrefs, setPriceSamples, setSeen, walletFeed } from "./store.ts";
+import { FEED_LINES, asleepAt, daysTogether, paceTarget, readFlies, readPrice, type Fly, type Mood, type Reaction } from "./mood.ts";
+import { addNote, applyLang, flyFeed, prefs, priceSamples, publicFeed, seenOf, setPrefs, setPriceSamples, setSeen, signedIn, walletFeed } from "./store.ts";
+import { setupTalk } from "./talk.ts";
 
 const native = window.flyNative;                    // vite in a plain browser has no window to move
 const fly = document.getElementById("fly") as HTMLImageElement;
@@ -43,6 +44,9 @@ let busyUntil = 0;
 function react(r: Reaction) {
   if (queue.length < QUEUE_MAX) queue.push(r);
   if (r.notify) notify(r.text);
+  // in the chat on the fly too (2026-11-13): its money and price alerts as its messages (trades come from its log there)
+  if (r.kind && r.kind !== "trade") addNote({ at: Date.now(), text: r.text, mood: r.mood, fly: prefs().fly });
+  talk.refresh();
 }
 function nextReaction(now: number) {
   if (now < busyUntil || !queue.length || state === "held" || state === "falling") return;
@@ -57,6 +61,14 @@ function nextReaction(now: number) {
 async function pollFlies() {
   const p = prefs();
   try {
+    // the fly picked in the pet's window (2026-11-13): a Trader Fly or a partner NFT, its trades and its money
+    if (p.wallet && p.fly != null) {
+      const f = await flyFeed(p.fly);
+      if (f.fly) {
+        const name = f.who ? `${f.who.name} #${f.who.token}` : null;
+        return follow(`fly:${p.fly}`, [f.fly], true, name ? () => name : undefined);
+      }
+    }
     if (p.wallet) {
       const flies = (await walletFeed(p.wallet)).flies.filter((f) => f.funded);
       if (flies.length) return follow(`wallet:${p.wallet}`, flies.filter((f) => !p.flies || p.flies.includes(f.id)), true);
@@ -103,6 +115,7 @@ function setHome(at: number) {
 function tick() {
   const now = Date.now();
   nextReaction(now);
+  if (talking) return;                                 // it stays put under its chat
   if (state === "falling") {
     vy += GRAVITY; x = clampX(x + vx); y += vy;
     if (y >= groundY()) {
@@ -144,7 +157,7 @@ fly.addEventListener("pointerdown", (e) => {
 fly.addEventListener("pointermove", (e) => {
   if (!grab) return;
   if (!grab.moved && Math.hypot(e.screenX - grab.startX, e.screenY - grab.startY) < 4) return;
-  if (!grab.moved) { grab.moved = true; state = "held"; play("held"); }
+  if (!grab.moved) { if (talking) closeTalk(); grab.moved = true; state = "held"; play("held"); }
   const at = Date.now(), dt = Math.max(1, at - grab.lastAt);
   vx = ((e.screenX - grab.lastX) / dt) * FRAME_MS;
   vy = ((e.screenY - grab.lastY) / dt) * FRAME_MS;
@@ -161,10 +174,9 @@ fly.addEventListener("pointerup", () => {
     void measure();
     return;
   }
-  if (state === "acting") return;
-  state = "acting"; busyUntil = Date.now() + 2500;
-  play("happy");
-  say(t(PET_LINES[Math.floor(Math.random() * PET_LINES.length)]), 2500);
+  // a click opens its chat (2026-11-13, the user: "the chat etc to be on itself"), or closes it
+  if (talking) { closeTalk(); return; }
+  openTalk();
 });
 function feed() {
   state = "acting"; busyUntil = Date.now() + 3000;
@@ -202,6 +214,41 @@ function pass(through: boolean) {
   native?.setIgnore(through);
 }
 
+// ---- its chat, on the fly (src/talk.ts) ---------------------------------------------------------------------------
+// The window grows around the fly for the panel (the fly stays where it is on the screen) and takes the keyboard.
+const TALK_W = 380, TALK_H = 630;
+const talkBox = document.getElementById("talk") as HTMLDivElement;
+let talking = false;
+const talk = setupTalk(talkBox, { onClose: () => closeTalk(), onSignedOut: () => { closeTalk(); native?.openPanel(); } });
+const inside = (e: HTMLElement, cx: number, cy: number) => {
+  if (e.hidden) return false;
+  const r = e.getBoundingClientRect();
+  return cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom;
+};
+function openTalk() {
+  if (!signedIn() || prefs().fly == null) { native?.openPanel(); return; }
+  if (talking) { talk.open(); return; }
+  talking = true;
+  if (state === "walking" || state === "falling" || state === "held") { vx = vy = 0; y = groundY(); }
+  state = "acting"; busyUntil = Date.now() + 1500;
+  play("wave");
+  bubble.classList.remove("on");
+  document.body.classList.add("talking");
+  native?.frame(x + W / 2 - TALK_W / 2, y + H - TALK_H, TALK_W, TALK_H);
+  native?.petFocus(true);
+  talk.open();
+}
+function closeTalk() {
+  if (!talking) return;
+  talking = false;
+  talk.close();
+  document.body.classList.remove("talking");
+  native?.petFocus(false);
+  place();                                             // back to its own small window
+  state = "idle"; restUntil = Date.now() + 3000;
+  play("idle");
+}
+
 // ---- start -----------------------------------------------------------------------------------------------------
 async function start() {
   // the native side starts with mining off and hears the owner's choice from here, at start and when settings change it
@@ -230,14 +277,21 @@ async function start() {
   setInterval(tick, FRAME_MS);
   setInterval(() => { drawHit = null; }, 500);        // GIFs move on; the mask follows
   setTimeout(() => { void pollFlies(); void pollPrice(); }, 2000);
+  // always asks to sign in, then for the fly (2026-11-13): the pet's window opens until both are done
+  if (!signedIn() || prefs().fly == null) setTimeout(() => native?.openPanel(), 1500);
+  window.addEventListener("storage", () => talk.refresh());
+  let followed = prefs().fly;
+  window.addEventListener("storage", () => { if (prefs().fly !== followed) { followed = prefs().fly; void pollFlies(); } });
   setInterval(() => { void pollFlies(); }, POLL_MS);
   setInterval(() => { void pollPrice(); }, PRICE_MS);
   setInterval(() => { void measure(); }, 60_000);
 
   native?.onCursor((c) => {
     if (grab) return pass(false);
-    pass(!(c.inside && overFly(c.x, c.y)));
+    pass(!(c.inside && (overFly(c.x, c.y) || inside(talkBox, c.x, c.y) || (bubble.classList.contains("on") && inside(bubble, c.x, c.y)))));
   });
+  native?.onOpen(() => openTalk());
+  bubble.addEventListener("click", () => openTalk());
   native?.onQuiet((on) => { setPrefs({ quiet: on }); });
   native?.onFeed(feed);
 

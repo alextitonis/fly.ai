@@ -954,9 +954,9 @@
     const active = [["bullas", "Bullas"], ["ruyui", "RUYUI"]]   /* Enjoyoors not named here yet (the user 2026-11-10) */.filter(([k]) => pc[k] > 0)
       .map(([k, name]) => t("pay.partnerItem", { n: pc[k], name }));
     if (active.length) $("pay-sum").innerHTML += " " + esc(t("pay.partners", { list: new Intl.ListFormat(lang(), { type: "conjunction" }).format(active) }));
-    const nftName = (f) => (f.partner === "ruyui" ? `RUYUI #${f.token}` : f.partner === "enjoyoors" ? `Enjoyoors #${f.token}` : f.partner === "bullas"
+    const nftName = (f) => (f.partner === "ruyui" ? `RUYUI #${f.token}` : f.partner === "enjoyoors" ? `Enjoyoors #${f.token}` : f.partner === "waifus" ? `Waifus #${f.token}` : f.partner === "bullas"
       ? (f.token >= 1_000_000 ? `Booga Bullas #${f.token - 1_000_000}` : `Bullas #${f.token}`) : `Trader Fly #${f.fly}`);
-    const nftHref = (f) => (f.partner === "ruyui" ? "" : f.partner === "bullas" || f.partner === "enjoyoors" ? `/traderflies/partner?p=${f.partner}` : `/traderflies/fly?id=${encodeURIComponent(f.fly)}`);
+    const nftHref = (f) => (f.partner === "ruyui" ? "" : f.partner === "bullas" || f.partner === "enjoyoors" || f.partner === "waifus" ? `/traderflies/partner?p=${f.partner}` : `/traderflies/fly?id=${encodeURIComponent(f.fly)}`);
     const nftCell = (f) => (nftHref(f) ? `<a href="${nftHref(f)}">${esc(nftName(f))}</a>` : esc(nftName(f)));
     const rows = p.flies;
     $("pay-tbl").innerHTML = `<thead><tr><th>${esc(t("pay.thFly"))}</th><th>${esc(t("pay.thHolder"))}</th><th class="r">${esc(t("pay.thWeight"))}</th><th class="r">${esc(t("pay.thActive"))}</th><th class="r">${esc(t("pay.thStake"))}</th><th class="r">${esc(t("pay.thShare"))}</th><th class="r">${esc(t("pay.thUsd"))}</th></tr></thead><tbody>` +
@@ -1045,7 +1045,10 @@
     set("pp-excess-sub", esc(potSay("holdersPart", { usd: usd(e.holders_part_now || 0) })));
     set("pp-paid", eps.length ? esc(usd(paid)) : "—"); set("pp-paid-sub", eps.length ? esc(potSay("weeks", { n: eps.length })) : "");
     set("pp-next", d ? `${d}d ${h}h` : `${h}h`); set("pp-next-sub", esc(when));
-    set("pp-nfts", nf(0).format(e.qualified_tokens || 0)); set("pp-nfts-sub", esc(potSay("holdersN", { n: e.qualified_owners || 0 })));
+    set("pp-nfts", nf(0).format(e.qualified_tokens || 0));
+    // each collection's activated count (allpool.py "activated", 2026-11-13, the user: "show how many activated")
+    const byCol = Object.entries(p.activated || {}).map(([k, n]) => `${(p.partners || {})[k] || k} ${nf(0).format(n)}`).join(" · ");
+    set("pp-nfts-sub", esc(potSay("holdersN", { n: e.qualified_owners || 0 }) + (byCol ? " · " + byCol : "")));
     $("pot-sum").innerHTML = potSay("sum", { funded: esc(funded), holders: `<b class="up">${esc(usd(e.holders_part_now || 0))}</b>`,
       n: e.qualified_tokens || 0, owners: e.qualified_owners || 0, date: esc(when) });
     set("pp-wallet", p.wallet ? `<a href="https://robinhoodchain.blockscout.com/address/${esc(p.wallet)}" target="_blank" rel="noopener">${esc(shortAddr(p.wallet))}</a>` : "");

@@ -8,7 +8,8 @@ export type Mood = "idle" | "walk" | "held" | "fall" | "happy" | "moon" | "sad" 
 export interface Trade { at: number; symbol: string; side: string; usd: number | null; tx: string | null; pnl_pct: number | null }
 export interface Fly { id: number; funded: boolean; value: number; profit: number; profit_pct: number; profit_24h: number; profit_7d: number; active: boolean; trades: Trade[] }
 
-export interface Reaction { mood: Mood; text: string; notify: boolean }
+/** kind (2026-11-13): what it's about - the chat on the fly shows trades from the log, and keeps the others as the fly's messages */
+export interface Reaction { mood: Mood; text: string; notify: boolean; kind?: "trade" | "money" | "price" }
 
 /** where a watcher got to: each fly's newest trade seen, and the profit last reacted to */
 export interface Seen { lastAt: Record<string, number>; profit: number | null }
@@ -31,9 +32,9 @@ function sellMood(pnl: number | null): Mood {
 
 export function tradeReaction(fly: number, tr: Trade, notify: boolean, who = `#${fly}`): Reaction {
   const vars = { who, sym: ticker(tr.symbol), usd: tr.usd == null ? "" : money(tr.usd) };
-  if (tr.side === "buy") return { mood: "buy", text: t(tr.usd == null ? "bought" : "boughtFor", vars), notify };
+  if (tr.side === "buy") return { mood: "buy", text: t(tr.usd == null ? "bought" : "boughtFor", vars), notify, kind: "trade" };
   const pnl = tr.pnl_pct == null ? "" : ` (${signedPct(tr.pnl_pct)})`;
-  return { mood: sellMood(tr.pnl_pct), text: t(tr.usd == null ? "sold" : "soldFor", vars) + pnl, notify };
+  return { mood: sellMood(tr.pnl_pct), text: t(tr.usd == null ? "sold" : "soldFor", vars) + pnl, notify, kind: "trade" };
 }
 
 /**
@@ -58,7 +59,7 @@ export function readFlies(seen: Seen, flies: Fly[], opts: { notify: boolean; min
   if (fresh.length > MAX_ONE_BY_ONE) {
     const sells = fresh.filter((x) => x.t.side !== "buy" && x.t.pnl_pct != null).map((x) => x.t.pnl_pct as number);
     const best = sells.length ? sells.reduce((a, b) => (Math.abs(b) > Math.abs(a) ? b : a)) : null;
-    reactions.push({ mood: best == null ? "buy" : sellMood(best), text: t("trades", { n: fresh.length }), notify: opts.notify });
+    reactions.push({ mood: best == null ? "buy" : sellMood(best), text: t("trades", { n: fresh.length }), notify: opts.notify, kind: "trade" });
   } else {
     for (const x of fresh) reactions.push(tradeReaction(x.fly, x.t, opts.notify, opts.who?.(x.fly)));
   }
@@ -69,8 +70,8 @@ export function readFlies(seen: Seen, flies: Fly[], opts: { notify: boolean; min
   if (Math.abs(move) < enough) return { seen: { lastAt, profit: seen.profit }, reactions };
   const big = Math.abs(move) >= Math.max(MIN_MOVE_USD, value * BIG_MOVE_SHARE);
   reactions.push(move > 0
-    ? { mood: big ? "moon" : "happy", text: t("up", { usd: money(move) }), notify: false }
-    : { mood: big ? "rugged" : "sad", text: t("down", { usd: money(move) }), notify: false });
+    ? { mood: big ? "moon" : "happy", text: t("up", { usd: money(move) }), notify: false, kind: "money" as const }
+    : { mood: big ? "rugged" : "sad", text: t("down", { usd: money(move) }), notify: false, kind: "money" as const });
   return { seen: { lastAt, profit }, reactions };
 }
 
@@ -85,7 +86,7 @@ export function readPrice(samples: PriceSample[], usd: number, now: number): { s
   if (Math.abs(pct) < PRICE_MOVE_PCT) return { samples: kept, reaction: null };
   const big = Math.abs(pct) >= PRICE_BIG_PCT;
   const mood: Mood = pct > 0 ? (big ? "moon" : "happy") : big ? "rugged" : "sad";
-  return { samples: [{ at: now, usd }], reaction: { mood, text: t("price", { pct: signedPct(pct) }), notify: big } };
+  return { samples: [{ at: now, usd }], reaction: { mood, text: t("price", { pct: signedPct(pct) }), notify: big, kind: "price" } };
 }
 
 export const PET_LINES: Key[] = ["pet1", "pet2", "pet3", "pet4", "pet5", "pet6", "pet7"];

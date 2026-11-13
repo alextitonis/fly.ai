@@ -1,6 +1,7 @@
 // What the pet remembers, in the app's own localStorage (both windows see it, and a change in one fires "storage" in the
-// other), and the server's few reads. No wallet key or sign-in is ever kept here: a linked wallet is only its public address,
-// and the miner's token can only submit research jobs.
+// other), and the server's few reads. No wallet key is ever kept here: a linked wallet is its public address plus the PET
+// TOKEN (2026-11-13), which the server takes only for the fly chat and a fly's settings - never to move money - and the
+// miner's token can only submit research jobs.
 import type { Fly, PriceSample, Seen } from "./mood.ts";
 import { NO_SEEN } from "./mood.ts";
 import { detectLang, setLang, type Lang } from "./i18n.ts";
@@ -19,8 +20,11 @@ export interface Prefs {
   mineOn: boolean;             // off until the owner turns it on
   mineAnyTime: boolean;        // also while the computer is in use
   minerToken: string | null;
+  petToken: string | null;     // the pet's sign-in (mine src/pet.ts): chat + a fly's settings only, 30 days
+  petTokenUntil: number;
+  fly: number | null;          // the fly (or partner NFT, by its chat id) that lives on the desktop
 }
-const DEFAULTS = (): Prefs => ({ name: "Fly", born: Date.now(), wallet: null, flies: null, bubbles: true, notifications: true, minUsd: 0, quiet: false, homeX: null, lang: null, mineOn: false, mineAnyTime: false, minerToken: null });
+const DEFAULTS = (): Prefs => ({ name: "Fly", born: Date.now(), wallet: null, flies: null, bubbles: true, notifications: true, minUsd: 0, quiet: false, homeX: null, lang: null, mineOn: false, mineAnyTime: false, minerToken: null, petToken: null, petTokenUntil: 0, fly: null });
 
 function load<T>(key: string, fallback: T): T {
   try {
@@ -93,4 +97,53 @@ export async function minerLinkUrl(): Promise<string> {
 export const publicFeed = () => call<{ flyai_usd: number; top: Fly | null }>("/api/pet/public");
 export const walletFeed = (wallet: string) => call<{ wallet: string; flies: Fly[] }>(`/api/pet/wallet/${wallet}`);
 export const newLink = () => call<{ code: string; secret: string; url: string; expires_at: number }>("/api/pet/link", {});
-export const claimLink = (code: string, secret: string) => call<{ status: string; wallet?: string }>("/api/pet/link/claim", { code, secret });
+export const claimLink = (code: string, secret: string) =>
+  call<{ status: string; wallet?: string; token?: string; token_expires_at?: number }>("/api/pet/link/claim", { code, secret });
+
+// ---- signed in (2026-11-13): the pet's token, straight to the mine server (the site's proxy may drop the header) ----------
+/** signed in with a token that still has a day left */
+export const signedIn = (p = prefs()) => !!p.wallet && !!p.petToken && p.petTokenUntil > Date.now() + 86_400_000;
+export class SignedOut extends Error {}
+async function authed<T>(path: string, body?: unknown): Promise<T> {
+  const token = prefs().petToken;
+  if (!token) throw new SignedOut("signed out");
+  const res = await fetch(MINER_SERVER + path, {
+    method: body === undefined ? "GET" : "POST",
+    headers: { ...(body === undefined ? {} : { "content-type": "application/json" }), "x-flyai-pet": token },
+    body: body === undefined ? undefined : JSON.stringify(body),
+    signal: AbortSignal.timeout(body === undefined ? 40_000 : 60_000),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (res.status === 401) { setPrefs({ petToken: null, petTokenUntil: 0 }); throw new SignedOut(json.error ?? "signed out"); }
+  if (!res.ok) throw new Error(json.error ?? `the server said ${res.status}`);
+  return json as T;
+}
+export interface Who { partner: string; name: string; token: number; n: number; chat: number; image: string | null; page: string }
+export interface InboxRow { fly: number; funded: boolean; who?: Who; last: { at: number; role: string; text: string } | null }
+export interface LogRow { at: number; type: string; side?: string; symbol?: string; usd?: number | null; status?: string; why?: string | null; kind?: string; pnl_pct?: number | null }
+export interface FlyFeed { fly: Fly | null; who: Who | null; wallet: string | null; settings: any; log: LogRow[] }
+export type Card = { kind: "settings"; summary: string; before: any; after: any } | { kind: "withdraw"; pct: number; chain: string }
+  | { kind: "move"; usd: number; chain: string; to_chain: string } | { kind: "watch"; token: string };
+export interface ChatMsg { id: number; at: number; role: "user" | "fly"; text: string; card: Card | null; status: string | null;
+  desk: { pending?: boolean; verdict?: string; text?: string } | null; local?: boolean }
+export interface ChatMe { can_chat: boolean; why: string | null; wait_s: number; left_today: number; free_left?: number; credits?: number; resting: boolean; max_len: number;
+  pack?: { flyai: number; messages: number } }
+export interface AlphaCall { at: number; kind: string; symbol: string; chain: string; ca: string; head: string; why?: string | null;
+  mcap?: number | null; liq?: number | null; vol24?: number | null; image?: string | null }
+
+// what the fly told you (2026-11-13, the user: "notifications should be in the chat window too"): its money and price
+// alerts, kept for the chat on the fly (trades show there from its log, with the reasons)
+export interface Note { at: number; text: string; mood: string; fly: number | null }
+const NOTES_MAX = 40;
+export const notes = (): Note[] => load("notes", { list: [] as Note[] }).list;
+export function addNote(n: Note) { save("notes", { list: [...notes(), n].slice(-NOTES_MAX) }); }
+export const inbox = () => authed<{ flies: InboxRow[] }>("/api/flychat/inbox");
+export const flyFeed = (id: number) => call<FlyFeed>(`/api/pet/fly/${id}`);
+export const alphaCalls = () => call<{ calls: AlphaCall[] }>("/api/pet/alpha");
+export const chatRead = (id: number) => authed<{ messages: ChatMsg[]; me: ChatMe }>(`/api/flychat/${id}`);
+export const chatSend = (id: number, text: string, lang: string) => authed<{ messages: ChatMsg[] }>(`/api/flychat/${id}`, { text, lang });
+export const chatAnswer = (id: number, msg: number, status: string) => authed(`/api/flychat/${id}/card/${msg}`, { status });
+export const chatWatch = (id: number, token: string, card?: number) => authed(`/api/flychat/${id}/watch`, { token, ...(card ? { card } : {}) });
+/** a fly wallet's settings: the Trader Fly's, or the partner NFT's under its partner (who) */
+export const saveSettings = (wallet: string, settings: unknown, who: Who | null) =>
+  authed(who ? `/api/partners/${who.partner}/wallet/${wallet}/settings` : `/api/vaults/${wallet}/settings`, who ? { settings } : { settings, chain: "robinhood" });

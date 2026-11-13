@@ -2,11 +2,10 @@
 import { drawCard } from "./card.ts";
 import { LANGS, t, type Key, type Lang } from "./i18n.ts";
 import { daysTogether, type Fly } from "./mood.ts";
-import { applyLang, claimLink, minerLinkUrl, minerWallet, newLink, prefs, setPrefs, walletFeed } from "./store.ts";
+import { applyLang, minerLinkUrl, minerWallet, prefs, setPrefs, walletFeed } from "./store.ts";
 
 const native = window.flyNative;
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
-const LINK_POLL_MS = 3000;
 
 const nameBox = $<HTMLInputElement>("name"), minUsd = $<HTMLInputElement>("minUsd");
 const bubbles = $<HTMLInputElement>("bubbles"), notifications = $<HTMLInputElement>("notifications"), autostart = $<HTMLInputElement>("autostart");
@@ -81,38 +80,11 @@ async function fillWallet() {
   }
 }
 
-// the app asks for a code, the site signs the holder in and approves it, and the app picks up the address
-let linking = false;
-connect.addEventListener("click", async () => {
-  if (linking) return;
-  linking = true;
-  connect.disabled = true;
-  note.classList.remove("error");
-  try {
-    const link = await newLink();
-    if (native) await native.openUrl(link.url); else window.open(link.url);
-    note.textContent = t("set.waiting");
-    while (Date.now() < link.expires_at) {
-      await new Promise((r) => setTimeout(r, LINK_POLL_MS));
-      const got = await claimLink(link.code, link.secret);
-      if (got.status === "linked" && got.wallet) {
-        setPrefs({ wallet: got.wallet, flies: null });
-        note.textContent = t("set.connectNote");
-        await fillWallet();
-        return;
-      }
-    }
-    throw new Error(t("set.expired"));
-  } catch (err) {
-    note.textContent = err instanceof Error ? err.message : t("set.failed");
-    note.classList.add("error");
-  } finally {
-    linking = false;
-    connect.disabled = false;
-  }
-});
+// connecting is the pet's window now (src/panel.ts, 2026-11-13): it signs in with the pet token and picks the fly
+connect.addEventListener("click", () => { if (native) native.openPanel(); });
+window.addEventListener("focus", () => { void fillWallet(); });
 $("disconnect").addEventListener("click", () => {
-  setPrefs({ wallet: null, flies: null });
+  setPrefs({ wallet: null, flies: null, petToken: null, petTokenUntil: 0, fly: null });
   cardFlies = [];
   void fillCard();
   void fillWallet();
