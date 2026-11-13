@@ -1813,7 +1813,11 @@
       "how": "Sineğin Hyperliquid'de kendi adresini kullanır: kayıt yok, KYC yok, ortak hesap yok. Yalnızca bir bahsin ihtiyacı kadarını taşır, kalanını geri getirir. 97¢'e ulaşan bir bahis kazancı kilitlemek için erken satılır.",
       "cost": "İlk aktarım Hyperliquid'in tek seferlik hesap aktivasyonunu öder (yaklaşık $1,20). Almak ücretsiz; satmak yaklaşık %0,13.",
       "risk": "Bir bahis yatırılan tutarın tamamını kaybedebilir. Hyperliquid, ABD dahil bazı ülkelerde kullanılamaz."
-    }
+    },
+    "sell": "Sat",
+    "sellPct": "{sym} tutarının %{pct} kadarını sat",
+    "sellNote": "Sat: fly'ın bunu bir sonraki turunda (en fazla 15 dakika) dolara satar. Beyni token'ı hâlâ beğenirse daha sonra yeniden alabilir. $FLYAI maliyetinin altında asla satılmaz.",
+    "sellAsked": "{sym} tutarının %{pct} kadarı bir sonraki turda (en fazla 15 dakika) satılıyor."
   },
   "profile": {
     "title": "Profilin",
@@ -2219,7 +2223,9 @@
     "deskLink": "Fly Desk'e bak",
     "claimLink": "Talep et",
     "boardLink": "{name} cüzdanlarının sıralamasını liderlik tablosunda gör →",
-    "chat": "Onunla sohbet et"
+    "chat": "Onunla sohbet et",
+    "potShare": "Aktif {name} NFT'leri (sahibi {hold} $FLYAI tutar) Ortaklar havuzundan kazanır: tüm ortak koleksiyonlar için tek bir havuz, kârını her hafta $FLYAI olarak doğrudan cüzdanına öder.",
+    "potLink": "Ortaklar havuzunu gör"
   },
   "fights": {
     "title": "Robot Dövüşleri",

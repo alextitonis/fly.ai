@@ -454,5 +454,24 @@
     "short": "做空",
     "thTime": "时间",
     "thWhy": "原因"
+  },
+  "ppot": {
+    "tabDesk": "Fly Desk",
+    "tabPartners": "合作伙伴",
+    "note": "一个独立于 Fly Desk 的资金池，供所有合作伙伴系列中已激活的 NFT 使用。只发放超出初始资金的收益：95% 按 NFT 激活时长以 $FLYAI 直接发送到持有人钱包。",
+    "past": "往期",
+    "sum": "初始资金 {funded}。当前价值 {value} · 本周超出部分 {excess} · 预计向 {n} 个已激活的合作伙伴 NFT（{owners} 位持有人）发放 {holders}。结算时间 {date}（{in}）。",
+    "starting": "合作伙伴资金池正在启动：注资并开始交易后，首批数据会显示在这里。",
+    "thHolder": "持有人",
+    "thNfts": "NFT",
+    "thHours": "本周时长",
+    "thUsd": "预计",
+    "thWeek": "周",
+    "thEnded": "结束",
+    "thProfit": "超出部分",
+    "thPaid": "已发给持有人",
+    "thNftsPaid": "NFT",
+    "empty": "本周还没有已激活的合作伙伴 NFT。",
+    "none": "还没有往期记录。"
   }
 }

@@ -454,5 +454,24 @@
     "short": "corto",
     "thTime": "Hora",
     "thWhy": "Motivo"
+  },
+  "ppot": {
+    "tabDesk": "Fly Desk",
+    "tabPartners": "Socios",
+    "note": "Un fondo para los NFT activados de todas las colecciones socias, aparte del Fly Desk. Solo se paga lo que gana por encima de lo que tenía al empezar: el 95% a los holders según las horas que sus NFT estuvieron activados, en $FLYAI, enviado directo a sus wallets.",
+    "past": "Semanas anteriores",
+    "sum": "Empezó con {funded}. Vale {value} ahora · {excess} por encima esta semana · va camino de pagar {holders} a {n} NFT socios activados ({owners} holders). Se liquida el {date} ({in}).",
+    "starting": "El fondo de Socios está empezando: sus primeras cifras aparecerán aquí cuando tenga fondos y haya operado.",
+    "thHolder": "Holder",
+    "thNfts": "NFT",
+    "thHours": "Horas esta semana",
+    "thUsd": "En camino",
+    "thWeek": "Semana",
+    "thEnded": "Terminó",
+    "thProfit": "Por encima",
+    "thPaid": "Pagado a holders",
+    "thNftsPaid": "NFT",
+    "empty": "Aún no hay NFT socios activados esta semana.",
+    "none": "Aún no hay semanas anteriores."
   }
 }

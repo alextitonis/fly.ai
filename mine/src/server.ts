@@ -4173,7 +4173,8 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p.startsWith("/api/ruyui/") || p === "/api/admin/ruyui")) {
     if (await ruyui.route(req, res, url)) return;
   }
-  if (req.method !== "OPTIONS" && (p === "/api/partners" || p.startsWith("/api/partners/") || p.startsWith("/api/admin/partners"))) {
+  if (req.method !== "OPTIONS" && (p === "/api/partners" || p.startsWith("/api/partners/") || p.startsWith("/api/partners-pool")
+      || p.startsWith("/api/admin/partners"))) {
     if (await partners.route(req, res, url)) return;
   }
   if (req.method !== "OPTIONS" && (p === "/api/profiles" || p === "/api/profile" || p.startsWith("/api/profile/") || p.startsWith("/api/profiles/"))) {

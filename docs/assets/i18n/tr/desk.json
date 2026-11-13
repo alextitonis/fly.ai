@@ -454,5 +454,24 @@
     "short": "short",
     "thTime": "Zaman",
     "thWhy": "Neden"
+  },
+  "ppot": {
+    "tabDesk": "Fly Desk",
+    "tabPartners": "Ortaklar",
+    "note": "Fly Desk'ten ayrı, tüm ortak koleksiyonların aktif NFT'leri için tek bir havuz. Yalnızca başlangıçtaki tutarın üzerinde kazandığı ödenir: %95'i NFT'lerin aktif olduğu saatlere göre sahiplerine $FLYAI olarak doğrudan cüzdanlarına gönderilir.",
+    "past": "Geçmiş haftalar",
+    "sum": "{funded} ile başladı. Şu an değeri {value} · bu hafta bunun üzerine {excess} · {n} aktif ortak NFT'ye ({owners} sahip) {holders} ödemeye gidiyor. Hesaplaşma {date} ({in}).",
+    "starting": "Ortaklar havuzu başlıyor: fonlanıp işlem yaptığında ilk rakamları burada görünecek.",
+    "thHolder": "Sahip",
+    "thNfts": "NFT",
+    "thHours": "Bu haftaki saat",
+    "thUsd": "Beklenen",
+    "thWeek": "Hafta",
+    "thEnded": "Bitti",
+    "thProfit": "Üzerine",
+    "thPaid": "Sahiplere ödenen",
+    "thNftsPaid": "NFT",
+    "empty": "Bu hafta henüz aktif ortak NFT yok.",
+    "none": "Henüz geçmiş hafta yok."
   }
 }

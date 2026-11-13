@@ -342,6 +342,30 @@ export function createVaults(d: VaultsDeps) {
     return { id: row!.id, status: "new" };
   }
 
+  /**
+   * Sell one of the fly's positions by hand (2026-11-13, the user: "option to close trades manually for flies via the
+   * ui, if you want to make it sell something"): the holder names the token and how much (1-100%); the desk sells it
+   * into the chain's dollar at its next bar, from every book holding it (walletdesk.manual_sell).
+   */
+  async function sell(req: IncomingMessage, wallet: string, body: any) {
+    isOn();
+    const me = await d.sessionWallet(req);
+    const chain = chainOf(body?.chain);
+    const symbol = String(body?.symbol ?? "").trim();
+    const pct = Number(body?.pct ?? 100);
+    if (!/^[A-Za-z0-9$._-]{1,24}$/.test(symbol)) throw new HttpError(400, "which token?");
+    if (!Number.isInteger(pct) || pct < 1 || pct > 100) throw new HttpError(400, "pct is 1..100");
+    const led = await ledgerOf(wallet, chain);
+    if (!led?.holder || led.holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can sell its positions");
+    if (led.closing) throw new HttpError(409, "this fly was sold: its positions are being closed already");
+    const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = ? and kind = 'sell'
+      and status in ('new', 'doing') and params->>'symbol' = ?`, wallet, chain, symbol);
+    if (open) throw new HttpError(409, `a sale of ${symbol} is already on its way`);
+    const row = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
+      values (?, ?, 'sell', ?, ?::text::jsonb) returning id`, wallet, chain, me, JSON.stringify({ symbol, pct }));
+    return { id: row!.id, status: "new" };
+  }
+
   async function move(req: IncomingMessage, wallet: string, body: any) {
     isOn();
     const me = await d.sessionWallet(req);
@@ -1000,11 +1024,11 @@ export function createVaults(d: VaultsDeps) {
     }
     if (req.method === "POST") {
       if (p === "/api/vaults/labels") return d.send(res, 200, await saveLabel(req, await d.readJson(req))), true;
-      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move|transfer|solana|perps|elysium|zero)$/.exec(p))) {
+      if ((m = /^\/api\/vaults\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|move|transfer|solana|perps|elysium|zero|sell)$/.exec(p))) {
         if (!ADDRESS.test(m[1])) throw new HttpError(400, "bad wallet address");
         const wallet = checksumAddress(m[1]);
         const body = await d.readJson(req);
-        const go = m[2] === "settings" ? saveSettings : m[2] === "withdraw" ? withdraw : m[2] === "transfer" ? transfer : m[2] === "solana" ? solana
+        const go = m[2] === "settings" ? saveSettings : m[2] === "withdraw" ? withdraw : m[2] === "sell" ? sell : m[2] === "transfer" ? transfer : m[2] === "solana" ? solana
           : m[2] === "perps" ? perps : m[2] === "elysium" ? elysium : m[2] === "zero" ? zero : move;
         return d.send(res, 200, await go(req, wallet, body)), true;
       }

@@ -438,6 +438,25 @@ export function createPartners(d: PartnersDeps) {
     return { token: n, wallet, id: row!.id, status: "new" };
   }
 
+  /** Sell one position by hand (2026-11-13, as /api/vaults/<wallet>/sell): the holder, under the partner's book. */
+  async function sell(req: IncomingMessage, p: Partner, raw: string, body: any) {
+    const me = await d.sessionWallet(req);
+    const symbol = String(body?.symbol ?? "").trim();
+    const pct = Number(body?.pct ?? 100);
+    if (!/^[A-Za-z0-9$._-]{1,24}$/.test(symbol)) throw new HttpError(400, "which token?");
+    if (!Number.isInteger(pct) || pct < 1 || pct > 100) throw new HttpError(400, "pct is 1..100");
+    const { wallet, n } = await partnerWallet(p, raw);
+    const led = await ledgerOf(p, wallet);
+    if (!led?.holder || led.holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can sell its positions");
+    if (led.closing) throw new HttpError(409, `this ${p.name} was sold: its positions are being closed already`);
+    const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = ? and kind = 'sell'
+      and status in ('new', 'doing') and params->>'symbol' = ?`, wallet, p.book, symbol);
+    if (open) throw new HttpError(409, `a sale of ${symbol} is already on its way`);
+    const row = await pg.one<{ id: number }>(`insert into mine.vault_requests (wallet, chain, kind, requester, params)
+      values (?, ?, 'sell', ?, ?::text::jsonb) returning id`, wallet, p.book, me, JSON.stringify({ symbol, pct }));
+    return { token: n, wallet, id: row!.id, status: "new" };
+  }
+
   // ---- Elysium and Perps on a partner NFT wallet (2026-11-09): as /api/vaults/<wallet>/elysium | perps, under p.book ----
   async function money(req: IncomingMessage, p: Partner, raw: string, body: any, what: "elysium" | "zero" | "perps") {
     const me = await d.sessionWallet(req);
@@ -647,6 +666,23 @@ export function createPartners(d: PartnersDeps) {
         return d.send(res, 200, { partners: [...(await partners()).values()].filter((x) => x.on).map(summary) }), true;
       }
       if (p === "/api/admin/partners") { d.adminOnly(req); return d.send(res, 200, await adminList()), true; }
+      // the Partners pot (flytrade/vaults/allpool.py, 2026-11-13): one pot for every collection's activated NFTs
+      if (p === "/api/partners-pool") {
+        return d.send(res, 200, (await publicOf("p_partners:pool")) ?? { partner: "partners", starting: true, epochs: [], curve: [] }), true;
+      }
+      if (p === "/api/partners-pool/holders") {
+        return d.send(res, 200, (await publicOf("p_partners:pool:holders")) ?? { holders: {} }), true;
+      }
+      if ((m = /^\/api\/partners-pool\/holder\/(0x[0-9a-fA-F]{40})$/.exec(p))) {
+        const h = await pg.one<{ h: any }>("select value->'holders'->? as h from mine.vault_public where key = 'p_partners:pool:holders'",
+          m[1].toLowerCase());
+        return d.send(res, 200, { address: addressOf(m[1]), pool: poolPart(h?.h ?? null) }), true;
+      }
+      if ((m = /^\/api\/partners-pool\/epochs\/(\d{1,5})$/.exec(p))) {
+        const e = await publicOf(`p_partners:pool:epoch:${Number(m[1])}`);
+        if (!e) throw new HttpError(404, "no such epoch");
+        return d.send(res, 200, e), true;
+      }
       if ((m = /^\/api\/partners\/([a-z][a-z0-9]{1,19})(\/.*)?$/.exec(p))) {
         const pa = await partnerOf(m[1]);
         const rest = m[2] ?? "";
@@ -680,9 +716,10 @@ export function createPartners(d: PartnersDeps) {
         const pa = await partnerOf(m[1]);
         return d.send(res, 200, await setup(req, pa, tokenOf(pa, m[2]))), true;
       }
-      if ((m = /^\/api\/partners\/([a-z][a-z0-9]{1,19})\/wallet\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|elysium|zero|perps)$/.exec(p))) {
+      if ((m = /^\/api\/partners\/([a-z][a-z0-9]{1,19})\/wallet\/(0x[0-9a-fA-F]{40})\/(settings|withdraw|elysium|zero|perps|sell)$/.exec(p))) {
         const pa = await partnerOf(m[1]);
         const body = await d.readJson(req);
+        if (m[3] === "sell") return d.send(res, 200, await sell(req, pa, m[2], body)), true;
         if (m[3] === "elysium" || m[3] === "zero" || m[3] === "perps") return d.send(res, 200, await money(req, pa, m[2], body, m[3])), true;
         return d.send(res, 200, await (m[3] === "settings" ? saveSettings : withdraw)(req, pa, m[2], body)), true;
       }

@@ -454,5 +454,24 @@
     "short": "short",
     "thTime": "Time",
     "thWhy": "Why"
+  },
+  "ppot": {
+    "tabDesk": "Fly Desk",
+    "tabPartners": "Partners",
+    "note": "One pot for every partner collection's activated NFTs, apart from the Fly Desk. Only what it makes on top of what it started with is paid: 95% to the holders by the hours their NFTs were activated, in $FLYAI, sent straight to their wallets.",
+    "past": "Past weeks",
+    "sum": "Started with {funded}. Worth {value} now · {excess} on top of that this week · on track to pay {holders} to {n} activated partner NFTs ({owners} holders). Settles {date} ({in}).",
+    "starting": "The Partners pot is starting: its first numbers show here once it's funded and has traded.",
+    "thHolder": "Holder",
+    "thNfts": "NFTs",
+    "thHours": "Hours this week",
+    "thUsd": "On track",
+    "thWeek": "Week",
+    "thEnded": "Ended",
+    "thProfit": "On top",
+    "thPaid": "Paid to holders",
+    "thNftsPaid": "NFTs",
+    "empty": "No activated partner NFTs yet this week.",
+    "none": "No past weeks yet."
   }
 }

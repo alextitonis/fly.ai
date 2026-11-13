@@ -454,5 +454,24 @@
     "short": "숏",
     "thTime": "시간",
     "thWhy": "이유"
+  },
+  "ppot": {
+    "tabDesk": "Fly Desk",
+    "tabPartners": "파트너",
+    "note": "Fly Desk와 별개로, 모든 파트너 컬렉션의 활성화된 NFT를 위한 하나의 풀입니다. 시작 금액을 넘어 번 수익만 지급됩니다: 95%가 NFT 활성화 시간에 따라 홀더에게 $FLYAI로 지갑에 바로 전송됩니다.",
+    "past": "지난 주",
+    "sum": "{funded}(으)로 시작. 현재 가치 {value} · 이번 주 초과 수익 {excess} · 활성화된 파트너 NFT {n}개({owners}명 홀더)에게 {holders} 지급 예정. 정산 {date} ({in}).",
+    "starting": "파트너 풀이 시작 중입니다: 자금이 들어오고 거래가 시작되면 여기에 첫 수치가 표시됩니다.",
+    "thHolder": "홀더",
+    "thNfts": "NFT",
+    "thHours": "이번 주 시간",
+    "thUsd": "예상",
+    "thWeek": "주",
+    "thEnded": "종료",
+    "thProfit": "초과 수익",
+    "thPaid": "홀더 지급",
+    "thNftsPaid": "NFT",
+    "empty": "이번 주 활성화된 파트너 NFT가 아직 없습니다.",
+    "none": "지난 주 기록이 아직 없습니다."
   }
 }

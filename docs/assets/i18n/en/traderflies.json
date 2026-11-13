@@ -1813,7 +1813,11 @@
       "how": "Your fly uses its own address on Hyperliquid: no sign-up, no KYC, no shared account. It moves over only what a bet needs and brings the rest home. A bet that reaches 97¢ is sold early to lock in the win.",
       "cost": "The first move pays Hyperliquid's one-time account activation (about $1.20). Buying is free; selling costs about 0.13%.",
       "risk": "A bet can lose its whole stake. Hyperliquid isn't available in some countries, including the US."
-    }
+    },
+    "sell": "Sell",
+    "sellPct": "Sell {pct}% of {sym}",
+    "sellNote": "Sell: your fly sells it into dollars at its next bar (up to 15 minutes). Its brain may buy back in later if it still likes the token. $FLYAI is never sold under what it cost.",
+    "sellAsked": "Selling {pct}% of {sym} at the next bar (up to 15 minutes)."
   },
   "profile": {
     "title": "Your profile",
@@ -2219,7 +2223,9 @@
     "deskLink": "See the Fly Desk",
     "claimLink": "Claim",
     "boardLink": "See how {name} wallets rank on the leaderboard →",
-    "chat": "Chat with it"
+    "chat": "Chat with it",
+    "potShare": "Activated {name} NFTs (owner holds {hold} $FLYAI) earn from the Partners pot: one pot for every partner collection, paying out its profits each week in $FLYAI, straight to your wallet.",
+    "potLink": "See the Partners pot"
   },
   "fights": {
     "title": "Robot Fights",

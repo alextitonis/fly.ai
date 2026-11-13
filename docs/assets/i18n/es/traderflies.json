@@ -1813,7 +1813,11 @@
       "how": "Tu mosca usa su propia dirección en Hyperliquid: sin registro, sin KYC, sin cuenta compartida. Solo mueve lo que necesita una apuesta y trae el resto de vuelta. Una apuesta que llega a 97¢ se vende antes para asegurar la ganancia.",
       "cost": "El primer envío paga la activación única de la cuenta de Hyperliquid (unos $1,20). Comprar es gratis; vender cuesta alrededor del 0,13%.",
       "risk": "Una apuesta puede perder todo lo apostado. Hyperliquid no está disponible en algunos países, incluido EE. UU."
-    }
+    },
+    "sell": "Vender",
+    "sellPct": "Vender el {pct}% de {sym}",
+    "sellNote": "Vender: tu fly lo vende a dólares en su próximo ciclo (hasta 15 minutos). Su cerebro puede volver a comprar más tarde si el token le sigue gustando. $FLYAI nunca se vende por debajo de lo que costó.",
+    "sellAsked": "Vendiendo el {pct}% de {sym} en el próximo ciclo (hasta 15 minutos)."
   },
   "profile": {
     "title": "Tu perfil",
@@ -2219,7 +2223,9 @@
     "deskLink": "Ver Fly Desk",
     "claimLink": "Reclamar",
     "boardLink": "Mira cómo se clasifican las carteras de {name} en la tabla →",
-    "chat": "Chatear con él"
+    "chat": "Chatear con él",
+    "potShare": "Los NFT {name} activados (su dueño tiene {hold} $FLYAI) ganan del fondo de Socios: un fondo para todas las colecciones socias que reparte sus ganancias cada semana en $FLYAI, directo a tu wallet.",
+    "potLink": "Ver el fondo de Socios"
   },
   "fights": {
     "title": "Peleas de robots",

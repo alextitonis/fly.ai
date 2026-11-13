@@ -192,6 +192,21 @@
   <!-- the week's payout per activated Trader Fly, if the week closed now (2026-10-05; publish.payout_preview). desk.js
        sets its hidden attribute; the tabs use .fd-off, so the two never fight -->
   <section id="payout" class="fd-pane fd-off" hidden>
+    <!-- two weekly pools (2026-11-13): the Fly Desk's (Trader Flies) and the Partners pot (flytrade/vaults/allpool.py) -->
+    <div class="stk-tabs pay-pools" id="pay-pools" role="tablist">
+      <button type="button" role="tab" data-pool="desk" class="on" aria-selected="true" data-i18n="desk.ppot.tabDesk">Fly Desk</button>
+      <button type="button" role="tab" data-pool="partners" aria-selected="false" data-i18n="desk.ppot.tabPartners">Partners</button>
+    </div>
+    <div id="pay-pot" hidden>
+      <p class="caption" id="pot-sum"></p>
+      <p class="caption fd-pay-note" id="pot-note" data-i18n="desk.ppot.note">One pot for every partner collection's activated NFTs, apart from the Fly Desk. Only what it makes on top of what it started with is paid: 95% to the holders by the hours their NFTs were activated, in $FLYAI, sent straight to their wallets.</p>
+      <div class="scroll"><table class="tbl" id="pot-holders"></table></div>
+      <details class="tbl-details">
+        <summary data-i18n="desk.ppot.past">Past weeks</summary>
+        <div class="scroll"><table class="tbl" id="pot-epochs"></table></div>
+      </details>
+    </div>
+    <div id="pay-desk">
     <p class="caption fd-pay-when" id="pay-when"></p>
     <p class="caption" id="pay-sum"></p>
     <p class="caption fd-pay-note" id="pay-note" data-i18n="desk.pay.off">These are the amounts each fly is on track to get this week. A week's payout settles on Sunday at 23:00 UTC and can be claimed on the Claim page two days later.</p>
@@ -200,6 +215,7 @@
       <summary data-i18n="desk.pay.byFly">Each fly</summary>
       <div class="scroll"><table class="tbl" id="pay-tbl"></table></div>
     </details>
+    </div>
   </section>
 
   <!-- the flies' own Pons tokens (2026-10-08, flylaunch.py: the house wallet launches, holds the starting bag and
@@ -356,7 +372,7 @@
 </script>
 <script type="module" src="assets/i18n/page.js"></script>
 <script src="assets/marketbar.js?v=20261006"></script>
-<script src="assets/desk.js?v=20261110a"></script>
+<script src="assets/desk.js?v=20261113a"></script>
 <script src="assets/deskvote.js?v=20261005b"></script>
 <script src="assets/deskchat.js?v=20261026a"></script>
 <script src="assets/staked.js?v=20261027a"></script>
