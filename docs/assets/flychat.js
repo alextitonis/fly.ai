@@ -25,8 +25,8 @@
   const FLYAI = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C", CHAIN = 4663;
   const NETS = { robinhood: "Robinhood Chain", base: "Base", arbitrum: "Arbitrum", bsc: "BNB Chain", polygon: "Polymarket", solana: "Solana" };
   const EN = {
-    chats: "Chats", chatsAria: "Your fly chats", title: "Fly #{id}", close: "Close", back: "Back to chats", flyPage: "Fly page",
-    noFlies: "No flies to chat with yet. Get a Trader Fly and put money in its wallet, or hold 200k $FLYAI.", getFly: "Trader Flies",
+    chats: "Chats", chatsAria: "Your fly chats", title: "Fly #{id}", close: "Close", back: "Back to chats", flyPage: "Fly page", nftPage: "NFT page",
+    noFlies: "No flies to chat with yet. Get a Trader Fly (or set up a partner NFT's wallet) and put money in it, or hold 200k $FLYAI.", getFly: "Trader Flies",
     signIn: "Sign in at the top right to chat with your flies.", noMsgs: "Say hi", you: "You", card: "Card",
     hello: "Hi! Ask me why I traded (or didn't), or tell me what to change. Tap a button below for the usual changes. I only suggest: nothing happens until you approve it.",
     placeholder: "Ask or tell your fly…", resting: "Resting for today: the buttons still work", send: "Send",
@@ -119,8 +119,33 @@
     return out.slice(0, 8);
   }
 
+  // ---- partner NFTs (2026-11-13): a Bulla, an Enjoyoor... chats like a fly. Its chat id is its desk id (from 1e9, mine
+  // src/partners.ts chatView); the server says who it is (inbox rows and the chat's `who`), its wallet is read and changed
+  // through /api/partners/<id>/... instead of /api/vaults/...
+  const PARTNER_IDS = 1e9;
+  const isPartner = (fly) => Number(fly) >= PARTNER_IDS;
+  function whoOf(fly) {
+    if (S.who && S.who.chat === fly) return S.who;
+    const row = (S.inbox || []).find((f) => f.fly === fly);
+    return (row && row.who) || null;
+  }
+  const label = (fly) => { const w = whoOf(fly); return w ? `${w.name} #${w.token}` : isPartner(fly) ? "…" : t("title", { id: fly }); };
+  const pageOf = (fly) => { const w = whoOf(fly); return w ? w.page : isPartner(fly) ? null : `/traderflies/fly?id=${fly}`; };
+  function viewPath(fly) {
+    if (!isPartner(fly)) return `/api/vaults/fly/${fly}`;
+    const w = whoOf(fly);
+    return w ? `/api/partners/${w.partner}/token/${w.n}` : null;
+  }
+  const readView = (fly) => { const p = viewPath(fly); return p ? api(p) : Promise.resolve(null); };
+  /** where a card's change goes: the Fly Wallets' endpoints, or the partner's for its NFTs (no chain moves there) */
+  function walletPath(fly, w, what) {
+    const who = isPartner(fly) ? whoOf(fly) : null;
+    if (isPartner(fly) && !who) throw new Error(t("cantLoad"));
+    return who ? `/api/partners/${who.partner}/wallet/${w}/${what}` : `/api/vaults/${w}/${what}`;
+  }
+
   // ---- state ----
-  const S = { open: false, fly: null, inbox: null, inboxErr: "", msgs: [], me: null, view: null, starters: [], err: "", busy: false,
+  const S = { open: false, fly: null, inbox: null, inboxErr: "", msgs: [], me: null, view: null, who: null, starters: [], err: "", busy: false,
     wait: 0, doing: null, draft: "", localId: -1, loadSeq: 0 };
   let root = null, timer = null, deskTimer = null, inboxAt = 0;
 
@@ -150,7 +175,12 @@
   async function loadChat(fly) {
     const my = ++S.loadSeq;
     try {
-      const [r, view] = await Promise.all([api(`/api/flychat/${fly}`), api(`/api/vaults/fly/${fly}`).catch(() => null)]);
+      // a partner NFT's view path needs who it is: from the inbox, else after the chat's own read
+      const early = viewPath(fly);
+      const [r, first] = await Promise.all([api(`/api/flychat/${fly}`), early ? api(early).catch(() => null) : null]);
+      if (my !== S.loadSeq || S.fly !== fly) return;
+      if (r.who) S.who = r.who;
+      const view = first || (early ? null : await readView(fly).catch(() => null));
       if (my !== S.loadSeq || S.fly !== fly) return;
       S.msgs = [...r.messages, ...S.msgs.filter((m) => m.local)].sort((a, b) => a.at - b.at || a.id - b.id);
       S.me = r.me; S.wait = r.me.wait_s; S.err = "";
@@ -266,19 +296,21 @@
     try {
       if (!ok) { await tell("declined"); mark("declined"); return; }
       const c = m.card, w = view.wallet;
-      if (c.kind === "settings") await api(`/api/vaults/${w}/settings`, { settings: c.after, chain: "robinhood" });
-      else if (c.kind === "withdraw") await api(`/api/vaults/${w}/withdraw`, { bps: Math.round(c.pct * 100), chain: c.chain });
-      else if (c.kind === "move") await api(`/api/vaults/${w}/move`, { usd: c.usd, to_chain: c.to_chain, chain: c.chain });
-      else if (c.kind === "watch") {
-        const now = (await api(`/api/vaults/fly/${fly}`).catch(() => null)) || view;   // the latest settings: add to them, not to an old copy
+      if (c.kind === "settings") await api(walletPath(fly, w, "settings"), { settings: c.after, chain: "robinhood" });
+      else if (c.kind === "withdraw") await api(walletPath(fly, w, "withdraw"), { bps: Math.round(c.pct * 100), chain: c.chain });
+      else if (c.kind === "move") {
+        if (isPartner(fly)) throw new Error("Robinhood Chain only");
+        await api(`/api/vaults/${w}/move`, { usd: c.usd, to_chain: c.to_chain, chain: c.chain });
+      } else if (c.kind === "watch") {
+        const now = (await readView(fly).catch(() => null)) || view;   // the latest settings: add to them, not to an old copy
         const base = now.settings || settingsNow();
         const watch = [...new Set([...((base && base.watch) || []), c.token])].slice(0, WATCH_MAX);
-        await api(`/api/vaults/${w}/settings`, { settings: { ...base, watch }, chain: "robinhood" });
+        await api(walletPath(fly, w, "settings"), { settings: { ...base, watch }, chain: "robinhood" });
         await api(`/api/flychat/${fly}/watch`, { token: c.token, card: m.id }).catch(() => {});
       }
       await tell("approved"); mark("approved");
       window.dispatchEvent(new CustomEvent("fly:changed", { detail: { fly } }));
-      api(`/api/vaults/fly/${fly}`).then((v) => { if (S.fly === fly) { S.view = v; render(); } }).catch(() => {});
+      readView(fly).then((v) => { if (v && S.fly === fly) { S.view = v; render(); } }).catch(() => {});
     } catch (e) {
       await tell("failed"); mark("failed");
       S.err = errText(e);
@@ -303,7 +335,7 @@
     document.documentElement.classList.remove("flychat-full");
   }
   function enter(fly) {
-    if (S.fly !== fly) { S.msgs = []; S.me = null; S.view = null; S.err = ""; S.draft = ""; S.wait = 0; }
+    if (S.fly !== fly) { S.msgs = []; S.me = null; S.view = null; S.who = null; S.err = ""; S.draft = ""; S.wait = 0; }
     S.fly = fly; S.focus = true; tab.set(LAST_KEY, String(fly));
     markSeen(fly);
     render();
@@ -327,7 +359,7 @@
     return el("header", { class: "fcm-head" },
       withBack ? el("button", { class: "fcm-icon", type: "button", "aria-label": t("back"), title: t("back"), onclick: leave }, "←") : null,
       el("b", null, title),
-      withBack ? el("a", { class: "fcm-page", href: `/traderflies/fly?id=${S.fly}` }, t("flyPage"), " ↗") : null,
+      withBack && pageOf(S.fly) ? el("a", { class: "fcm-page", href: pageOf(S.fly) }, isPartner(S.fly) ? t("nftPage") : t("flyPage"), " ↗") : null,
       el("button", { class: "fcm-icon", type: "button", "aria-label": t("close"), title: t("close"), onclick: close }, "×"));
   }
   function render(scroll) {
@@ -342,7 +374,7 @@
       S.msgs.map((m) => el("div", { class: `fcm-msg ${m.role}${m.sending ? " sending" : ""}` }, el("p", null, m.text), m.card ? cardView(m) : null)),
       S.msgs.some((m) => m.sending) ? el("div", { class: "fcm-msg fly fcm-typing", "aria-label": "…" }, el("p", null, el("i"), el("i"), el("i"))) : null);
     const chips = el("div", { class: "fcm-quick" }, quicks().map(([label, s]) => el("button", { type: "button", class: "fcm-chip", onclick: () => quick(label, s) }, label)));
-    fill(root, head(t("title", { id: S.fly }), true), msgs, chips,
+    fill(root, head(label(S.fly), true), msgs, chips,
       S.err ? el("p", { class: "fcm-err" }, S.err) : null, el("div", { class: "fcm-formbox" }));
     renderForm();
     msgs.scrollTop = keepBottom ? msgs.scrollHeight : prevTop;
@@ -392,9 +424,10 @@
         const last = f.last, unreadNow = isUnread(f, s);
         const preview = !last ? t("noMsgs") : `${last.role === "user" ? `${t("you")}: ` : ""}${last.text || (last.card ? t("card") : "")}`;
         return el("li", null, el("button", { type: "button", class: `fcm-row${unreadNow ? " unread" : ""}`, onclick: () => enter(f.fly) },
-          el("span", { class: `fcm-av${f.funded ? " funded" : ""}`, "aria-hidden": "true" }, "🪰"),
+          el("span", { class: `fcm-av${f.funded ? " funded" : ""}`, "aria-hidden": "true" },
+            f.who && f.who.image ? el("img", { src: f.who.image, alt: "", loading: "lazy" }) : "🪰"),
           el("span", { class: "fcm-row-main" },
-            el("span", { class: "fcm-row-top" }, el("b", null, t("title", { id: f.fly })), last ? el("small", null, ago(last.at)) : null),
+            el("span", { class: "fcm-row-top" }, el("b", null, f.who ? `${f.who.name} #${f.who.token}` : t("title", { id: f.fly })), last ? el("small", null, ago(last.at)) : null),
             el("span", { class: "fcm-row-last" }, preview)),
           unreadNow ? el("i", { class: "fcm-dot", "aria-hidden": "true" }) : null));
       }));
@@ -450,6 +483,7 @@ html.flychat-full body { overflow: hidden; }
 .fcm-av { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 20px; background: var(--panel-2, #121514);
   border: 1px solid var(--line, #1a1d1c); }
 .fcm-av.funded { border-color: var(--mint, #5ef2cc); }
+.fcm-av img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 .fcm-row-main { flex: 1; min-width: 0; display: grid; gap: 2px; }
 .fcm-row-top { display: flex; justify-content: space-between; gap: 8px; }
 .fcm-row-top small { color: var(--muted, #9ba5a1); font-size: 11px; }

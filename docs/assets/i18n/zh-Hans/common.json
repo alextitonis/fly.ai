@@ -574,6 +574,7 @@
     "buyConfirm": "销毁 {flyai} $FLYAI（发送到 0x…dEaD）换取 {n} 条聊天消息？消息永不过期。",
     "buyWallet": "在钱包中确认销毁…",
     "buyWaiting": "等待链上确认…",
-    "buyDone": "+{n} 条消息"
+    "buyDone": "+{n} 条消息",
+    "nftPage": "NFT 页面"
   }
 }

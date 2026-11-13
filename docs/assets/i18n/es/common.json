@@ -574,6 +574,7 @@
     "buyConfirm": "¿Quemar {flyai} $FLYAI (enviados a 0x…dEaD) por {n} mensajes de chat? Los mensajes no caducan.",
     "buyWallet": "Confirma la quema en tu billetera…",
     "buyWaiting": "Esperando a la cadena…",
-    "buyDone": "+{n} mensajes"
+    "buyDone": "+{n} mensajes",
+    "nftPage": "Página del NFT"
   }
 }

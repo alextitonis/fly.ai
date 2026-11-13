@@ -2218,7 +2218,8 @@
     "deskShare": "Fly Desk ödemesi: {hold} $FLYAI tuttuğun sürece (stake edilen de sayılır) her {name} NFT'in, Common bir Trader Fly gibi Fly Desk kârından haftalık pay alır. Her hafta $FLYAI olarak talep et.",
     "deskLink": "Fly Desk'e bak",
     "claimLink": "Talep et",
-    "boardLink": "{name} cüzdanlarının sıralamasını liderlik tablosunda gör →"
+    "boardLink": "{name} cüzdanlarının sıralamasını liderlik tablosunda gör →",
+    "chat": "Onunla sohbet et"
   },
   "fights": {
     "title": "Robot Dövüşleri",

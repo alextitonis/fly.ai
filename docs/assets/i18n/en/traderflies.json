@@ -2218,7 +2218,8 @@
     "deskShare": "Fly Desk payout: while you hold {hold} $FLYAI (staked counts), each of your {name} earns a weekly share of the Fly Desk's profit, the same as a Common Trader Fly. Claim it in $FLYAI every week.",
     "deskLink": "See the Fly Desk",
     "claimLink": "Claim",
-    "boardLink": "See how {name} wallets rank on the leaderboard →"
+    "boardLink": "See how {name} wallets rank on the leaderboard →",
+    "chat": "Chat with it"
   },
   "fights": {
     "title": "Robot Fights",
@@ -2520,12 +2521,12 @@
   },
   "followPass": {
     "title": "Follow this fly",
-    "text": "One of your flies copies this fly's trades for {days} days: {flyai} $FLYAI, {owner} to this fly's owner and {burn} burned.",
+    "text": "One of your wallet NFTs copies this fly's trades for {days} days: {flyai} $FLYAI, {owner} to this fly's owner and {burn} burned.",
     "followers": "Followers now: {n}.",
     "tier": "Following needs {tier} $FLYAI held.",
     "on": "Fly #{mine} follows it until {date}.",
     "connect": "Connect your wallet to follow it.",
-    "noFly": "You need a Trader Fly of your own to follow it.",
+    "noFly": "Set up a Trader Fly or partner NFT wallet to follow it.",
     "market": "Get one",
     "pick": "Your fly",
     "go": "Follow for {days} days",

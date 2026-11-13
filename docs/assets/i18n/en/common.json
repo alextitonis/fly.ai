@@ -574,6 +574,7 @@
     "buyConfirm": "Burn {flyai} $FLYAI (sent to 0x…dEaD) for {n} chat messages? The messages never expire.",
     "buyWallet": "Confirm the burn in your wallet…",
     "buyWaiting": "Waiting for the chain…",
-    "buyDone": "+{n} messages"
+    "buyDone": "+{n} messages",
+    "nftPage": "NFT page"
   }
 }

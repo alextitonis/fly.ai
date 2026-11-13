@@ -2216,7 +2216,8 @@
     "deskShare": "Fly Desk 지급: {hold} $FLYAI를 보유하는 동안(스테이킹 포함) 보유한 {name} 하나하나가 Common 트레이더 플라이와 똑같이 Fly Desk 수익의 주간 몫을 받습니다. 매주 $FLYAI로 클레임하세요.",
     "deskLink": "Fly Desk 보기",
     "claimLink": "클레임",
-    "boardLink": "리더보드에서 {name} 지갑 순위 보기 →"
+    "boardLink": "리더보드에서 {name} 지갑 순위 보기 →",
+    "chat": "대화하기"
   },
   "fights": {
     "title": "로봇 격투",

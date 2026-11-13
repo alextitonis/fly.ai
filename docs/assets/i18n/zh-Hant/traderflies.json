@@ -2216,7 +2216,8 @@
     "deskShare": "Fly Desk 分紅：只要你持有 {hold} $FLYAI（質押也算），你的每個 {name} 都能像一隻普通 Trader Fly 一樣，每週分得 Fly Desk 利潤的一份。每週以 $FLYAI 領取。",
     "deskLink": "查看 Fly Desk",
     "claimLink": "領取",
-    "boardLink": "在排行榜上查看 {name} 錢包排名 →"
+    "boardLink": "在排行榜上查看 {name} 錢包排名 →",
+    "chat": "和它聊天"
   },
   "fights": {
     "title": "機器人格鬥",

@@ -574,6 +574,7 @@
     "buyConfirm": "{n} sohbet mesajı için {flyai} $FLYAI yakılsın mı (0x…dEaD adresine)? Mesajların süresi dolmaz.",
     "buyWallet": "Yakmayı cüzdanında onayla…",
     "buyWaiting": "Zincir bekleniyor…",
-    "buyDone": "+{n} mesaj"
+    "buyDone": "+{n} mesaj",
+    "nftPage": "NFT sayfası"
   }
 }

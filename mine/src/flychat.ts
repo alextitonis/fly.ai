@@ -47,6 +47,8 @@ const E18 = 10n ** 18n;
 const ADDRESS = /^0x[0-9a-f]{40}$/;
 const FLYAI = "0x0088ce7905025c4b5ea1d49ab6179b6aaadb3b9c";
 export const WATCH_MAX = 5;
+/** chat ids from here up are partner NFTs (partners.ts CHAT_SPAN): Trader Flies stay far below */
+export const PARTNER_IDS = 1_000_000_000;
 const CHAINS = ["robinhood", "base", "bsc", "arbitrum"];
 const MARKETS = ["memes", "majors", "stocks", "polymarket"];
 const EARN_MODES = ["off", "idle", "share", "only"];
@@ -90,7 +92,14 @@ export const TOOLS = [
     parameters: { type: "object", properties: { address: { type: "string" } }, required: ["address"] } } },
 ];
 
-const SYSTEM = `You are a Trader Fly: a fly whose real brain (a fruit-fly connectome) trades the owner's wallet on Robinhood Chain (also Base, BNB, Arbitrum and sports bets).
+const FLY_WHO = "You are a Trader Fly: a fly whose real brain (a fruit-fly connectome) trades the owner's wallet on Robinhood Chain (also Base, BNB, Arbitrum and sports bets).";
+/** A partner NFT (2026-11-13): it speaks as itself, the fly brain trading inside it; persona = the partner's own line. */
+export function partnerWho(who: { name: string; token: number; chain: string; persona?: string }): string {
+  return `You are ${who.name} #${who.token}, an NFT from the ${who.name} collection (on ${who.chain || "its own chain"}). A Trader Fly's real brain (a fruit-fly connectome) lives in you and trades your owner's wallet on Robinhood Chain. `
+    + (who.persona ? `Your own voice: ${who.persona} Mix it with the fly's buzz.` : `Speak as a ${who.name}, with the fly brain buzzing inside you.`)
+    + " Your wallet trades on Robinhood Chain only: there is no moving money to other chains.";
+}
+const SYSTEM = `{who}
 You talk like a fly (2026-10-27, the user: "jokes, parts etc ... more like in tone of fly"): short (2-4 sentences, no markdown tables), funny and buzzy, with fly jokes and your
 fly body - wings, compound eyes, six sticky legs, proboscis, halteres, ~140,000 neurons - windows, fruit bowls, swatters, sugar, now and then a "bzz" (don't open every
 reply with it). At most 60 words. One or two jokes a reply, never more;
@@ -183,8 +192,10 @@ export function shortcut(text: string, settings: any): { text: string; card: Car
 }
 
 /** A tool call as a card for this wallet, or a reason it can't be one. */
-export function cardOf(tool: { name: string; args: any }, settings: any, starters: any[]): Card | string {
+export function cardOf(tool: { name: string; args: any }, settings: any, starters: any[], partner = false): Card | string {
   const a = tool.args ?? {};
+  if (partner && tool.name === "move_money") return "this wallet trades on Robinhood Chain only";
+  if (partner && tool.name === "withdraw") a.chain = "robinhood";
   if (tool.name === "change_settings") {
     const st = a.starter ? starters.find((x) => x?.id === a.starter) : null;
     if (a.starter && !st) return `there is no setup called ${a.starter}`;
@@ -224,7 +235,7 @@ export function context(view: any, log: any): string {
   const s = view?.stats ?? null;
   const r2 = (x: any) => (typeof x === "number" ? Math.round(x * 100) / 100 : x);
   const lines: string[] = [];
-  lines.push(`Fly #${view?.fly}. Settings: ${JSON.stringify(view?.settings ?? null)}`);
+  lines.push(`${view?.who ? `${view.who.name} #${view.who.token}` : `Fly #${view?.fly}`}. Settings: ${JSON.stringify(view?.settings ?? null)}`);
   if (s) {
     lines.push(`Wallet: value $${r2(s.value)}, put in $${r2(s.principal)}, profit $${r2(s.profit)} (${r2(s.profit_pct)}%), 24h $${r2(s.profit_24h)}, 7d $${r2(s.profit_7d)}, trades ${s.trades}, win rate ${s.win_rate ?? "-"}, ${s.active ? "trading" : `not trading${s.why_inactive === "hold" ? " (holder holds under the $FLYAI needed)" : ""}`}.`);
     const held = (s.wallet ?? []).filter((w: any) => (w.value ?? 0) >= 0.5).slice(0, 10)
@@ -287,6 +298,14 @@ export function createFlyChat(d: {
   standing: (wallet: string) => Promise<{ weight: number; held: number; days: number }>;
   /** the flies this wallet owns on chain (src/pet.ts ownedBy, a cached sweep), for the inbox */
   ownedFlies?: (wallet: string) => Promise<number[]>;
+  /** partner NFTs (src/partners.ts, 2026-11-13): chat id = the desk's id, partnerflies.BASES + our id. view: the fly
+   *  view's shape + who (null: not a partner NFT); log: its wallet's log; mine: the ones this wallet can talk to */
+  partners?: {
+    view: (chat: number) => Promise<any | null>;
+    log: (wallet: string) => Promise<any>;
+    who: (chats: number[]) => Promise<Map<number, any>>;
+    mine: (wallet: string) => Promise<{ chat: number; funded: boolean }[]>;
+  };
   llm: Llm | null;
   holdFlyai?: number;
   dailyUsd?: number;
@@ -301,19 +320,28 @@ export function createFlyChat(d: {
   const dailyUsd = d.dailyUsd ?? 1;   // ~$0.00025 a message with Haiku (tried 10-27): ~4,000 messages
 
   /** The fly's wallet and whether this signed-in wallet may chat with it (and why not). */
+  const isPartner = (chat: number) => chat >= PARTNER_IDS;
+  async function viewOf(chat: number) {
+    if (!isPartner(chat)) return d.flyView(chat);
+    const v = d.partners ? await d.partners.view(chat) : null;
+    if (!v) throw new HttpError(404, "no such NFT");
+    return v;
+  }
   async function access(fly: number, me: string) {
-    const view = await d.flyView(fly);
-    if (!view?.wallet) throw new HttpError(404, "this fly has no wallet yet");
+    const view = await viewOf(fly);
+    if (!view?.wallet) throw new HttpError(404, view?.who ? `this ${view.who.name} has no wallet yet` : "this fly has no wallet yet");
     const holder = view.ledger?.holder?.toLowerCase() ?? null;
     const mine = holder ? holder === me : view.owner?.toLowerCase() === me;
-    if (!mine) throw new HttpError(403, "only the fly's owner can chat with it");
+    if (!mine) throw new HttpError(403, view.who ? `only the ${view.who.name}'s owner can chat with it` : "only the fly's owner can chat with it");
     let why: string | null = null;
     if (!(holder === me && Number(view.ledger?.principal_usd ?? 0) > 0)) {
       const held = await d.holdings(me).catch(() => 0n);
-      if (held < holdWei) why = "hold";
+      const need = view.who ? BigInt(Math.round(Number(view.who.hold_flyai ?? 0))) * E18 : holdWei;   // the partner's own hold
+      if (held < need) why = "hold";
     }
     return { view, why };
   }
+  const logOf = (fly: number, view: any) => (isPartner(fly) ? d.partners!.log(view.wallet) : d.flyLog(fly));
 
   // the holding, for the free allowance: read at most every 5 minutes a wallet
   const held = new Map<string, { at: number; wei: bigint }>();
@@ -403,8 +431,13 @@ export function createFlyChat(d: {
       d.ownedFlies ? d.ownedFlies(me).catch(() => [] as number[]) : Promise.resolve([] as number[]),
       pg.all<{ fly_id: number }>("select distinct fly_id from mine.fly_chat where wallet = ?", me),
     ]);
-    let ids = [...new Set([...held.map((r) => Number(r.fly_id)), ...owned.map(Number), ...talked.map((r) => Number(r.fly_id))])];
-    if (!ids.length) return { flies: [], max_len: MAX_LEN, gap_s: GAP_MS / 1000, per_day: PER_DAY };
+    const partnerRows = d.partners ? await partnerInbox(me, talked.map((r) => Number(r.fly_id)).filter(isPartner)).catch((e) => {
+      console.error("fly chat: partner inbox", e instanceof Error ? e.message : e);
+      return [];
+    }) : [];
+    let ids = [...new Set([...held.map((r) => Number(r.fly_id)), ...owned.map(Number), ...talked.map((r) => Number(r.fly_id))])]
+      .filter((id) => !isPartner(id));
+    if (!ids.length) return { flies: sortRows(partnerRows).slice(0, 100), max_len: MAX_LEN, gap_s: GAP_MS / 1000, per_day: PER_DAY };
     const marks = ids.map(() => "?").join(", ");
     const [wallets, others, last] = await Promise.all([
       pg.all<{ fly_id: number }>(`select fly_id from mine.vault_wallets where fly_id in (${marks})`, ...ids),
@@ -416,18 +449,29 @@ export function createFlyChat(d: {
     const lastOf = new Map(last.map((r) => [Number(r.fly_id), r]));
     const heldSet = new Set(held.map((r) => Number(r.fly_id)));
     ids = ids.filter((id) => hasWallet.has(id) && (heldSet.has(id) || !notMine.has(id)));
-    const flies = ids.map((fly) => {
-      const r = lastOf.get(fly);
-      return { fly, funded: heldSet.has(fly),
-        last: r ? { at: new Date(r.at).getTime(), role: r.role, text: r.text.slice(0, 140), card: r.card?.kind ?? null, status: r.status } : null };
-    }).sort((a, b) => (b.last?.at ?? 0) - (a.last?.at ?? 0) || Number(b.funded) - Number(a.funded) || a.fly - b.fly).slice(0, 100);
+    const flies = sortRows([...ids.map((fly) => ({ fly, funded: heldSet.has(fly), last: lastRow(lastOf.get(fly)) })), ...partnerRows]).slice(0, 100);
     return { flies, max_len: MAX_LEN, gap_s: GAP_MS / 1000, per_day: PER_DAY };
+  }
+  const lastRow = (r: Row | undefined) =>
+    r ? { at: new Date(r.at).getTime(), role: r.role, text: r.text.slice(0, 140), card: r.card?.kind ?? null, status: r.status } : null;
+  const sortRows = <T extends { fly: number; funded: boolean; last: { at: number } | null }>(rows: T[]) =>
+    rows.sort((a, b) => (b.last?.at ?? 0) - (a.last?.at ?? 0) || Number(b.funded) - Number(a.funded) || a.fly - b.fly);
+  /** The partner NFTs in the inbox: the ones this wallet can talk to now (the chats with one it sold drop out). */
+  async function partnerInbox(me: string, _talked: number[]) {
+    const mine = await d.partners!.mine(me);
+    if (!mine.length) return [];
+    const ids = mine.map((m) => m.chat);
+    const marks = ids.map(() => "?").join(", ");
+    const [who, last] = await Promise.all([d.partners!.who(ids),
+      pg.all<Row>(`select distinct on (fly_id) * from mine.fly_chat where wallet = ? and fly_id in (${marks}) order by fly_id, id desc`, me, ...ids)]);
+    const lastOf = new Map(last.map((r) => [Number(r.fly_id), r]));
+    return mine.filter((m) => who.has(m.chat)).map((m) => ({ fly: m.chat, funded: m.funded, who: who.get(m.chat), last: lastRow(lastOf.get(m.chat)) }));
   }
 
   async function read(req: IncomingMessage, fly: number) {
     const me = (await d.sessionWallet(req)).toLowerCase();
-    const { why } = await access(fly, me);
-    return { messages: await history(fly, me), me: { can_chat: !why, why, ...(await usage(fly, me)), max_len: MAX_LEN, gap_s: GAP_MS / 1000, per_day: PER_DAY } };
+    const { view, why } = await access(fly, me);
+    return { messages: await history(fly, me), who: view.who ?? null, me: { can_chat: !why, why, ...(await usage(fly, me)), max_len: MAX_LEN, gap_s: GAP_MS / 1000, per_day: PER_DAY } };
   }
 
   async function talk(req: IncomingMessage, fly: number, body: any) {
@@ -461,8 +505,8 @@ export function createFlyChat(d: {
       const starters = await d.starters();
       const past = (await pg.all<Row>(`select role, text from mine.fly_chat where fly_id = ? and wallet = ? and id < ? order by id desc limit ${HISTORY}`,
         fly, me, mine!.id)).reverse();
-      const log = await d.flyLog(fly).catch(() => null);
-      const system = SYSTEM.replace("{lang}", lang).replace("{starters}",
+      const log = await logOf(fly, view).catch(() => null);
+      const system = SYSTEM.replace("{who}", view.who ? partnerWho(view.who) : FLY_WHO).replace("{lang}", lang).replace("{starters}",
         starters.map((s) => `${s.id} (${s.title}: ${s.blurb})`).join("; ") || "none");
       try {
         const r = await d.llm!([
@@ -473,7 +517,7 @@ export function createFlyChat(d: {
         cost = r.cost;
         reply = r.text;
         if (r.tool) {
-          const c = cardOf(r.tool, settings, starters);
+          const c = cardOf(r.tool, settings, starters, !!view.who);
           if (typeof c === "string") reply = reply || `I can't do that: ${c}.`;
           else card = c;
         }
@@ -506,7 +550,8 @@ export function createFlyChat(d: {
     const me = (await d.sessionWallet(req)).toLowerCase();
     const token = String(body?.token ?? "").trim().toLowerCase();
     if (!ADDRESS.test(token) || token === FLYAI) throw new HttpError(400, "bad token address");
-    await access(fly, me);
+    const { view } = await access(fly, me);
+    const label = view.who ? `${view.who.name} #${view.who.token}` : `Fly #${fly}`;
     const cardId = Number(body?.card) || null;
     if (cardId) {
       const c = await pg.one<Row>("select * from mine.fly_chat where id = ? and fly_id = ? and wallet = ?", cardId, fly, me);
@@ -520,7 +565,7 @@ export function createFlyChat(d: {
       const st = await d.standing(me).catch(() => ({ weight: 0, held: 0, days: 0 }));
       id = (await pg.one<{ id: string }>(`insert into public.desk_chat (at, kind, wallet, text, weight, held, days, tokens)
         values (?, 'msg', ?, ?, ?, ?, ?, ?::text[]) returning id`, new Date(now()).toISOString(), me,
-        `Fly #${fly} now watches ${token} - desk, check it?`, st.weight, st.held, st.days, `{${token}}`))!.id;
+        `${label} now watches ${token} - desk, check it?`, st.weight, st.held, st.days, `{${token}}`))!.id;
     }
     if (cardId) await pg.run("update mine.fly_chat set desk_msg = ? where id = ?", id, cardId);
     return { desk_msg: Number(id) };
@@ -543,15 +588,15 @@ export function createFlyChat(d: {
     let m: RegExpExecArray | null;
     if (req.method === "GET" && p === "/api/flychat/inbox") return d.send(res, 200, await inbox(req)), true;
     if (req.method === "POST" && p === "/api/flychat/pack") return d.send(res, 200, await buyPack(req, await d.readJson(req))), true;
-    if ((m = /^\/api\/flychat\/(\d{1,7})$/.exec(p))) {
+    if ((m = /^\/api\/flychat\/(\d{1,10})$/.exec(p))) {
       const fly = Number(m[1]);
       if (req.method === "GET") return d.send(res, 200, await read(req, fly)), true;
       if (req.method === "POST") return d.send(res, 200, await talk(req, fly, await d.readJson(req))), true;
     }
-    if (req.method === "POST" && (m = /^\/api\/flychat\/(\d{1,7})\/card\/(\d{1,12})$/.exec(p))) {
+    if (req.method === "POST" && (m = /^\/api\/flychat\/(\d{1,10})\/card\/(\d{1,12})$/.exec(p))) {
       return d.send(res, 200, await decide(req, Number(m[1]), Number(m[2]), await d.readJson(req))), true;
     }
-    if (req.method === "POST" && (m = /^\/api\/flychat\/(\d{1,7})\/watch$/.exec(p))) {
+    if (req.method === "POST" && (m = /^\/api\/flychat\/(\d{1,10})\/watch$/.exec(p))) {
       return d.send(res, 200, await watch(req, Number(m[1]), await d.readJson(req))), true;
     }
     return false;

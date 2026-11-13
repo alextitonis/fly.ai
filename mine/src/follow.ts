@@ -57,6 +57,8 @@ export function createFollow(d: {
   /** tests */
   receipt?: (tx: string) => Promise<Receipt>;
   ownerOf?: (fly: number) => Promise<string | null>;
+  partnerWallet?: (partner: string, token: number) => Promise<{ wallet: string; vault: string; owner: string | null; holder: string | null } | null>;
+  partnerCandidates?: (req: IncomingMessage) => Promise<{ partner: string; name: string; token: number; wallet: string }[]>;
   now?: () => number;
 }) {
   const { pg, HttpError } = d;
@@ -81,24 +83,30 @@ export function createFollow(d: {
     if (!wallet) throw new HttpError(404, "this fly has no wallet yet");
     const at = new Date(now()).toISOString();
     const [count, owner] = await Promise.all([
-      pg.one<{ n: number }>("select count(distinct follower_fly)::int as n from mine.follow_passes where target_fly = ? and ends_at > ?", fly, at),
+      pg.one<{ n: number }>("select count(distinct follower_wallet)::int as n from mine.follow_passes where target_fly = ? and ends_at > ?", fly, at),
       ownerOf(fly).catch(() => null),
     ]);
-    let mine: { follower_fly: number; ends_at: string }[] = [];
+    let mine: { follower_fly: number | null; follower_partner?: string; follower_token?: number; ends_at: string }[] = [];
     let me: string | null = null;
     try { me = (await d.sessionWallet(req)).toLowerCase(); } catch { /* not signed in */ }
     if (me) {
-      mine = (await pg.all<{ follower_fly: number; ends_at: Date }>(`select follower_fly, max(ends_at) as ends_at from mine.follow_passes
-        where target_fly = ? and payer = ? and ends_at > ? group by follower_fly`, fly, me, at))
-        .map((r) => ({ follower_fly: r.follower_fly, ends_at: new Date(r.ends_at).toISOString() }));
+      mine = (await pg.all<{ follower_fly: number | null; follower_partner: string | null; follower_token: number | null; ends_at: Date }>(`select follower_fly, follower_partner, follower_token, max(ends_at) as ends_at from mine.follow_passes
+        where target_fly = ? and payer = ? and ends_at > ? and follower_partner is null group by follower_fly, follower_partner, follower_token`, fly, me, at))
+        .map((r) => ({ follower_fly: r.follower_fly, ...(r.follower_partner ? { follower_partner: r.follower_partner, follower_token: r.follower_token! } : {}), ends_at: new Date(r.ends_at).toISOString() }));
     }
+    let partner_mine: { partner: string; token: number; ends_at: string }[] = [];
+    if (me) partner_mine = await pg.all<{ partner: string; token: number; ends_at: string }>(`select follower_partner as partner, follower_token as token,
+      max(ends_at)::text as ends_at from mine.follow_passes where target_fly = ? and payer = ? and ends_at > ? and follower_partner is not null
+      group by follower_partner, follower_token`, fly, me, at);
+    const partner_candidates = me && d.partnerCandidates ? await d.partnerCandidates(req) : [];
     return { fly, wallet, owner, followers: count?.n ?? 0, mine,
+      partner_mine, partner_candidates,
       price: { flyai: PRICE_FLYAI, owner_flyai: OWNER_FLYAI, burn_flyai: BURN_FLYAI, days: 7, token: FLYAI, burn_to: DEAD, burn_fn: "burn", tier_flyai: TIER_FLYAI } };
   }
 
   /** The followed fly's wallet into the follower's "track" option (on; added to its list), its settings otherwise kept. */
-  async function track(followerWallet: string, targetWallet: string, by: string) {
-    const row = await pg.one<{ vault: string; doc: any }>("select vault, doc from mine.vault_settings where lower(vault) = ?", followerWallet);
+  async function track(followerWallet: string, targetWallet: string, by: string, vaultKey?: string) {
+    const row = await pg.one<{ vault: string; doc: any }>("select vault, doc from mine.vault_settings where lower(vault) = ? or lower(vault) like ? limit 1", followerWallet, `%:${followerWallet}`);
     const doc = structuredClone(row?.doc ?? (await d.starterSettings()) ?? {});
     doc.options = Array.isArray(doc.options) ? doc.options : [];
     let o = doc.options.find((x: any) => x?.id === "track");
@@ -114,21 +122,31 @@ export function createFollow(d: {
     const version = (await import("node:crypto")).createHash("sha1").update(text).digest("hex").slice(0, 12);
     await pg.run(`insert into mine.vault_settings (vault, doc, version, updated_by, updated_at_ms) values (?, ?::text::jsonb, ?, ?, ?)
       on conflict (vault) do update set doc = excluded.doc, version = excluded.version, updated_by = excluded.updated_by,
-      updated_at_ms = excluded.updated_at_ms`, row?.vault ?? followerWallet, text, version, by, now());
+      updated_at_ms = excluded.updated_at_ms`, row?.vault ?? vaultKey ?? followerWallet, text, version, by, now());
   }
 
   async function buy(req: IncomingMessage, fly: number, body: any) {
     const me = (await d.sessionWallet(req)).toLowerCase();
-    const followerFly = Number(body?.follower_fly);
+    const followerFly = body?.follower_partner ? null : Number(body?.follower_fly);
+    const followerPartner = body?.follower_partner ? String(body.follower_partner) : null;
+    const followerToken = body?.follower_token == null ? null : Number(body.follower_token);
     const ownerTx = String(body?.owner_tx ?? "").toLowerCase(), burnTx = String(body?.burn_tx ?? "").toLowerCase();
-    if (!Number.isInteger(followerFly) || followerFly < 0) throw new HttpError(400, "which of your flies follows?");
-    if (followerFly === fly) throw new HttpError(400, "a fly can't follow itself");
+    if (followerPartner) {
+      if (!/^[a-z][a-z0-9]{1,19}$/.test(followerPartner) || !Number.isInteger(followerToken) || followerToken! < 0 || !d.partnerWallet)
+        throw new HttpError(400, "which partner NFT follows?");
+    } else {
+      if (!Number.isInteger(followerFly) || followerFly! < 0) throw new HttpError(400, "which of your flies follows?");
+      if (followerFly === fly) throw new HttpError(400, "a fly can't follow itself");
+    }
     if (!TX.test(ownerTx) || !TX.test(burnTx)) throw new HttpError(400, "the two payment transactions, please");
-    const [target, follower] = await Promise.all([walletOf(fly), walletOf(followerFly)]);
+    const [target, followerInfo] = await Promise.all([walletOf(fly), followerPartner ? d.partnerWallet!(followerPartner, followerToken!) : null]);
+    const follower = followerPartner ? followerInfo?.wallet ?? null : await walletOf(followerFly!);
     if (!target) throw new HttpError(404, "this fly has no wallet yet");
     if (!follower) throw new HttpError(404, "your fly has no wallet yet: set it up first");
-    const holder = await holderOf(follower);
-    const mayFollow = holder ? holder === me : (await ownerOf(followerFly))?.toLowerCase() === me;
+    const holder = followerPartner ? followerInfo?.holder : await holderOf(follower);
+    const mayFollow = followerPartner
+      ? (holder ? holder === me : followerInfo?.owner?.toLowerCase() === me)
+      : (holder ? holder === me : (await ownerOf(followerFly!))?.toLowerCase() === me);
     if (!mayFollow) throw new HttpError(403, "only your fly's holder can buy its pass");
     if ((await d.holdings(me).catch(() => 0n)) < BigInt(TIER_FLYAI) * E18) {
       throw new HttpError(403, `following needs ${TIER_FLYAI.toLocaleString("en-US")} $FLYAI held (wallet, staked or locked)`);
@@ -148,13 +166,13 @@ export function createFollow(d: {
       if (used?.n) throw new HttpError(409, "these payments already bought a pass");
       const last = await q.one<{ ends_at: Date }>("select max(ends_at) as ends_at from mine.follow_passes where follower_wallet = ? and target_wallet = ?", follower, target);
       const from = Math.max(now(), last?.ends_at ? new Date(last.ends_at).getTime() : 0);
-      return q.one<{ id: number; starts_at: Date; ends_at: Date }>(`insert into mine.follow_passes (follower_fly, follower_wallet, target_fly, target_wallet,
-        payer, owner, paid_flyai, burned_flyai, owner_tx, burn_tx, starts_at, ends_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        returning id, starts_at, ends_at`, followerFly, follower, fly, target, me, owner, (paid / E18).toString(), (burned / E18).toString(),
+      return q.one<{ id: number; starts_at: Date; ends_at: Date }>(`insert into mine.follow_passes (follower_fly, follower_partner, follower_token, follower_wallet, target_fly, target_wallet,
+        payer, owner, paid_flyai, burned_flyai, owner_tx, burn_tx, starts_at, ends_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        returning id, starts_at, ends_at`, followerFly, followerPartner, followerToken, follower, fly, target, me, owner, (paid / E18).toString(), (burned / E18).toString(),
         ownerTx, burnTx, new Date(from).toISOString(), new Date(from + WEEK_MS).toISOString());
     }, `follow:${follower}`);
-    await track(follower, target, me);
-    return { id: pass!.id, follower_fly: followerFly, target_fly: fly, starts_at: new Date(pass!.starts_at).toISOString(),
+    await track(follower, target, me, followerInfo?.vault);
+    return { id: pass!.id, follower_fly: followerFly, ...(followerPartner ? { follower_partner: followerPartner, follower_token: followerToken } : {}), target_fly: fly, starts_at: new Date(pass!.starts_at).toISOString(),
       ends_at: new Date(pass!.ends_at).toISOString() };
   }
 

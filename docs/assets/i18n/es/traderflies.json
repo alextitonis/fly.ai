@@ -2218,7 +2218,8 @@
     "deskShare": "Pago de Fly Desk: mientras tengas {hold} $FLYAI (el staking cuenta), cada uno de tus {name} gana una parte semanal del beneficio de Fly Desk, igual que una Trader Fly Común. Recíbela en $FLYAI cada semana.",
     "deskLink": "Ver Fly Desk",
     "claimLink": "Reclamar",
-    "boardLink": "Mira cómo se clasifican las carteras de {name} en la tabla →"
+    "boardLink": "Mira cómo se clasifican las carteras de {name} en la tabla →",
+    "chat": "Chatear con él"
   },
   "fights": {
     "title": "Peleas de robots",

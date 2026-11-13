@@ -574,6 +574,7 @@
     "buyConfirm": "채팅 메시지 {n}개를 위해 {flyai} $FLYAI를 소각할까요 (0x…dEaD로 전송)? 메시지는 만료되지 않습니다.",
     "buyWallet": "지갑에서 소각을 확인하세요…",
     "buyWaiting": "체인을 기다리는 중…",
-    "buyDone": "+{n}개 메시지"
+    "buyDone": "+{n}개 메시지",
+    "nftPage": "NFT 페이지"
   }
 }

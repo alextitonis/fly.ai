@@ -227,6 +227,10 @@ export function createVaults(d: VaultsDeps) {
     isOn();
     const wallet = await walletOf(fly);
     if (!wallet) return { fly, wallet: null, rows: [] };
+    return { fly, ...(await walletLog(wallet)) };
+  }
+  /** Any wallet's log, by address (2026-11-13: a partner NFT's wallet for the fly chat). */
+  async function walletLog(wallet: string) {
     const [trades, moves, events] = await Promise.all([
       pg.all<any>(`select (extract(epoch from at) * 1000)::float8 as at, tag, symbol, side, qty, usd, price, status, tx_hash, reason
         from mine.vault_trades where vault = ? order by at desc limit 150`, wallet),
@@ -261,7 +265,7 @@ export function createVaults(d: VaultsDeps) {
       ...events.map((r) => ({ at: r.at, type: "event", kind: r.kind,
         usd: typeof r.detail?.usd === "number" ? r.detail.usd : null })),
     ].sort((a, b) => b.at - a.at).slice(0, 200);
-    return { fly, wallet, rows };
+    return { wallet, rows };
   }
 
   /**
@@ -1016,5 +1020,5 @@ export function createVaults(d: VaultsDeps) {
   }
 
   // the fly chat's reads (src/flychat.ts, 2026-10-27)
-  return { route, start, on, CFG, flyView, flyLog, config };
+  return { route, start, on, CFG, flyView, flyLog, walletLog, config };
 }

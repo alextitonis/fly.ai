@@ -60,6 +60,9 @@ export type Partner = {
   /** the partner's own house token on Robinhood Chain (the house option buys its dips instead of FLYAI); null: FLYAI */
   house_token: { address: string; symbol: string } | null;
   wallets: { on: boolean };
+  /** the fly chat (2026-11-13): its NFTs' chat id is id_base + our id, the desk's partnerflies.BASES (null: no chat);
+   *  persona: one line of the NFT's own voice for the model */
+  chat: { id_base: number | null; persona: string };
   pool: { on: boolean; mode: string; asset: string; paper_usd: number; brains: number; rule: string; fee_bps: number;
           house_pct: number; house_dip_pct: number; launch_pct: number; epoch_days: number };
 };
@@ -102,6 +105,10 @@ export function parsePartner(row: { id: string; name: string; on: boolean; confi
   if (htAddress != null && !ADDRESS.test(String(htAddress))) throw new Error("house_token.address must be an address or null");
   const hold = Number(c.hold_flyai ?? 200_000);
   if (!(hold >= 0)) throw new Error("hold_flyai must be >= 0");
+  const base = c.chat?.id_base ?? CHAT_BASES[id] ?? null;
+  if (base !== null && !(Number.isInteger(base) && base >= CHAT_SPAN && base % CHAT_SPAN === 0)) {
+    throw new Error(`chat.id_base must be a multiple of ${CHAT_SPAN} (the desk's partnerflies.BASES)`);
+  }
   return {
     id, name: String(row.name || id), on: !!row.on, book: `p_${id}`,
     collection: { chain: String(col.chain ?? ""), chain_id: Number(col.chain_id ?? 0), rpc: String(col.rpc),
@@ -111,9 +118,14 @@ export function parsePartner(row: { id: string; name: string; on: boolean; confi
                   ...(col.url ? { url: String(col.url) } : {}), ...(col.x ? { x: String(col.x) } : {}), extra },
     fee_bps: fee, partner_fee_to: feeTo ? checksumAddress(String(feeTo)) : null, partner_share: share, hold_flyai: hold,
     house_token: htAddress ? { address: checksumAddress(String(htAddress)), symbol: String((typeof ht === "object" && ht?.symbol) || "TOKEN") } : null,
-    wallets: { on: (c.wallets?.on ?? true) !== false }, pool,
+    wallets: { on: (c.wallets?.on ?? true) !== false },
+    chat: { id_base: base, persona: String(c.chat?.persona ?? "").replace(/\s+/g, " ").trim().slice(0, 300) }, pool,
   };
 }
+
+/** A partner NFT's chat id = its desk id (flytrade/desk/partnerflies.py BASES), far above any Trader Fly id. */
+export const CHAT_SPAN = 1_000_000_000;
+export const CHAT_BASES: Record<string, number> = { bullas: 1_000_000_000, ruyui: 2_000_000_000, enjoyoors: 3_000_000_000 };
 
 const word = (v: bigint | number | string) =>
   typeof v === "string" ? v.replace(/^0x/, "").toLowerCase().padStart(64, "0") : BigInt(v).toString(16).padStart(64, "0");
@@ -274,6 +286,7 @@ export function createPartners(d: PartnersDeps) {
                     extra: p.collection.extra.map((e) => ({ name: e.name, contract: e.contract, first_id: e.first_id, last_id: e.last_id,
                       offset: e.offset, image: e.image ?? null, url: e.url ?? null, x: e.x ?? null })) },
       fee_bps: p.fee_bps, hold_flyai: p.hold_flyai, house_token: p.house_token, wallets: { on: p.wallets.on },
+      chat: { id_base: p.chat.id_base },                // the fly chat: an NFT's chat id is id_base + our id
       pool: { on: p.pool.on, mode: p.pool.mode, asset: p.pool.asset, fee_bps: p.pool.fee_bps, epoch_days: p.pool.epoch_days },
     };
   }
@@ -563,6 +576,68 @@ export function createPartners(d: PartnersDeps) {
     return Object.fromEntries(ids.map((n) => [n, a.urls.get(n) ?? null]));
   }
 
+  // ---- the fly chat (src/flychat.ts, 2026-11-13, the user: "add it" - partner NFTs chat like flies) ------------------
+  // A partner NFT's chat id is its desk id: chat.id_base + our id. The chat reads the token view (the fly view's shape),
+  // its log, and the holder's NFTs for the inbox; cards go to /api/partners/<id>/wallet/<w>/settings|withdraw.
+  async function chatPartner(chat: number): Promise<{ p: Partner; n: number } | null> {
+    if (!Number.isInteger(chat) || chat < CHAT_SPAN) return null;
+    for (const p of (await partners()).values()) {
+      const b = p.chat.id_base;
+      if (b == null || !p.on || !p.wallets.on || chat < b || chat >= b + CHAT_SPAN) continue;
+      return locate(p, chat - b) ? { p, n: chat - b } : null;
+    }
+    return null;
+  }
+  const whoOf = (p: Partner, n: number, image: string | null) => {
+    const at = locate(p, n);
+    return { partner: p.id, book: p.book, name: at && at.part.offset ? at.part.name : p.name, token: at?.token ?? n, n,
+             chat: p.chat.id_base! + n, chain: p.collection.chain, persona: p.chat.persona, hold_flyai: p.hold_flyai,
+             image: image ?? at?.part.image ?? p.collection.image ?? null, page: `/traderflies/partner?p=${p.id}&n=${n}` };
+  };
+  const artFor = async (p: Partner, ids: number[]) => (ids.length ? await artOf(p, ids).catch(() => ({} as Record<number, string | null>)) : {});
+  /** The token view for a chat id (null: not a partner NFT), with who it is. */
+  async function chatView(chat: number) {
+    const at = await chatPartner(chat);
+    if (!at) return null;
+    const [view, art] = await Promise.all([tokenView(at.p, at.n), artFor(at.p, [at.n])]);
+    return { ...view, fly: chat, who: whoOf(at.p, at.n, art[at.n] ?? null) };
+  }
+  /** Who the chat ids are (the inbox's names and pictures). */
+  async function chatWho(chats: number[]) {
+    const out = new Map<number, ReturnType<typeof whoOf>>();
+    const by = new Map<Partner, number[]>();
+    for (const c of chats) {
+      const at = await chatPartner(c);
+      if (at) by.set(at.p, [...(by.get(at.p) ?? []), at.n]);
+    }
+    for (const [p, ns] of by) {
+      const art = await artFor(p, ns.slice(0, 60));
+      for (const n of ns) out.set(p.chat.id_base! + n, whoOf(p, n, art[n] ?? null));
+    }
+    return out;
+  }
+  /** The partner NFTs this wallet can talk to: its money is in them, or it owns them while nobody's money is. */
+  async function chatMine(me: string): Promise<{ chat: number; funded: boolean }[]> {
+    const out = new Map<number, boolean>();
+    for (const p of (await partners()).values()) {
+      if (p.chat.id_base == null || !p.on || !p.wallets.on) continue;
+      const funded = await pg.all<{ id: string }>(`select w.id from mine.vault_ledger l join mine.vault_wallets w on w.address = l.wallet
+        where l.chain = ? and lower(l.holder) = lower(?) and not l.closing and w.id like ?`, p.book, me, `${p.book}:%`);
+      for (const r of funded) out.set(p.chat.id_base + Number(r.id.slice(r.id.lastIndexOf(":") + 1)), true);
+      const owned = await tokensOf(p, me).catch(() => ({ tokens: [] as number[] }));
+      if (!owned.tokens.length) continue;
+      const rows = await pg.all<{ id: string; holder: string | null }>(`select w.id, l.holder from mine.vault_wallets w
+        left join mine.vault_ledger l on l.wallet = w.address and l.chain = ? and not l.closing where w.id = any(?::text[])`,
+        p.book, `{${owned.tokens.map((t) => `${p.book}:${t}`).join(",")}}`);
+      for (const r of rows) {
+        if (r.holder && r.holder.toLowerCase() !== me.toLowerCase()) continue;     // someone else's money is in it
+        const c = p.chat.id_base + Number(r.id.slice(r.id.lastIndexOf(":") + 1));
+        if (!out.has(c)) out.set(c, false);
+      }
+    }
+    return [...out].map(([chat, funded]) => ({ chat, funded }));
+  }
+
   // ---- routes ----------------------------------------------------------------------------------------------------
   async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promise<boolean> {
     const p = url.pathname;
@@ -615,5 +690,27 @@ export function createPartners(d: PartnersDeps) {
     return false;
   }
 
-  return { route, partners };
+  async function followWallet(id: string, token: number): Promise<{ wallet: string; vault: string; owner: string | null; holder: string | null } | null> {
+    const p = await partnerOf(id);
+    if (!locate(p, token)) return null;
+    const [wallet, owner] = await Promise.all([walletOf(p, token), ownerOf(p, token, true)]);
+    if (!wallet) return null;
+    const holder = (await ledgerOf(p, wallet))?.holder?.toLowerCase() ?? null;
+    return { wallet: wallet.toLowerCase(), vault: `${p.book}:${wallet.toLowerCase()}`, owner: owner?.toLowerCase() ?? null, holder };
+  }
+  async function followCandidates(req: IncomingMessage) {
+    const me = (await d.sessionWallet(req)).toLowerCase();
+    const ps = [...(await partners()).values()].filter((p) => p.on && p.wallets.on);
+    const out: { partner: string; name: string; token: number; wallet: string }[] = [];
+    for (const p of ps) {
+      const owned = await tokensOf(p, me);
+      for (const token of owned.tokens) {
+        const wallet = await walletOf(p, token);
+        if (wallet) out.push({ partner: p.id, name: p.name, token, wallet: wallet.toLowerCase() });
+      }
+    }
+    return out;
+  }
+
+  return { route, partners, followWallet, followCandidates, chatView, chatWho, chatMine };
 }

@@ -4642,6 +4642,8 @@ const flyChat = createFlyChat({
   holdings: async (w) => (await robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock).holdings([w]))[0] ?? 0n,
   standing: (w) => deskChat.standing(w),
   ownedFlies: (w) => pet.ownedBy(w),
+  // partner NFTs chat too (2026-11-13): Bullas, Enjoyoors... by their desk id (partners.ts chatView)
+  partners: { view: (c) => partners.chatView(c), log: (w) => vaults.walletLog(w), who: (c) => partners.chatWho(c), mine: (w) => partners.chatMine(w) },
   llm: flyChatKey && process.env.FLYCHAT_OFF !== "1" ? openRouter(flyChatKey, process.env.FLYCHAT_MODEL ?? "anthropic/claude-haiku-5.5") : null,
   holdFlyai: Number(process.env.VAULT_HOLD_FLYAI ?? "200000"),
   dailyUsd: Number(process.env.FLYCHAT_DAILY_USD ?? "1"),
@@ -4653,6 +4655,8 @@ const follow = createFollow({
   pg, HttpError, send, readJson, sessionWallet: sessionAddress, rpc: CLAIMS.rpc,
   holdings: async (w) => (await robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock).holdings([w]))[0] ?? 0n,
   starterSettings: async () => (((await vaults.config()).starters as any[] | null) ?? []).find((s) => s?.id === "let_it_fly")?.settings ?? null,
+  partnerWallet: (partner, token) => partners.followWallet(partner, token),
+  partnerCandidates: (req) => partners.followCandidates(req),
 });
 // the buy flow (src/buyweek.ts): Buy Week standing for the "You're in" card, and where swap-box visitors drop off
 const buyWeek = createBuyWeek({
