@@ -433,13 +433,6 @@
     renderPaid(b);
     renderPayout(b.payout, b.nft);
     syncTabs();
-    // /desk#partners (the partner pages' link, 2026-11-13): the payout tab on the Partners pot, once
-    if (location.hash === "#partners" && !$("payout").hidden && !render.potOpened) {
-      render.potOpened = true;
-      showPane("payout");
-      showPool("partners");
-      $("payout").scrollIntoView({ block: "start" });
-    }
     renderCalc(b);
     renderStats(s, start);
     renderRecords(b.records);
@@ -974,72 +967,119 @@
   }
 
   // ------------------------------------------------------------------ the Partners pot (2026-11-13)
-  /** The payout tab's second pool (flytrade/vaults/allpool.py, the user: "separate the partners and flydesk weekly pools
-   *  ... front-end shows both with tabs, main is fly desk"): one pot for every partner collection's activated NFTs,
-   *  paying only what it makes on top of what it started with. Read from the mine server when its tab is opened. */
+  /** The page's second view (flytrade/vaults/allpool.py; the user: "separate the partners and flydesk weekly pools",
+   *  then "the whole tab should be separate, as it's different trading stuff etc and pot"): one pot for every partner
+   *  collection's activated NFTs, paying only what it makes on top of what it started with. #fd-view switches the
+   *  page between it and the Fly Desk; /desk#partners opens on it. Read from the mine server while it's shown. */
   const POT_API = "https://flyai-mine.fly.dev/api/partners-pool";
   const POT_EN = { tabDesk: "Fly Desk", tabPartners: "Partners",
-    sum: "Started with {funded}. Worth {value} now · {excess} on top of that this week · on track to pay {holders} to {n} activated partner NFTs ({owners} holders). Settles {date} ({in}).",
-    starting: "The Partners pot is starting: its first numbers show here once it's funded and has traded.",
+    sum: "Started with {funded}. On track to pay {holders} to the holders of {n} activated partner NFTs ({owners} holders) at the end of this week, {date}.",
+    starting: "The Partners pot is starting: its numbers show here once it's funded and has run its first bar.",
     thHolder: "Holder", thNfts: "NFTs", thHours: "Hours this week", thUsd: "On track",
     thWeek: "Week", thEnded: "Ended", thProfit: "On top", thPaid: "Paid to holders", thNftsPaid: "NFTs",
-    empty: "No activated partner NFTs yet this week.", none: "No past weeks yet." };
+    empty: "No activated partner NFTs right now.", none: "No past weeks yet.",
+    kValue: "Pot", kExcess: "On top this week", kPaid: "Paid to holders", kNext: "Next payout", kNfts: "Activated NFTs",
+    started: "started with {usd}", weeks: "{n} weeks", holdersN: "{n} holders", holdersPart: "{usd} to holders now",
+    chart: "The Partners pot", holdings: "What it holds", trades: "Its trades", holders: "This week's holders",
+    thToken: "Token", thAmount: "Amount", thPrice: "Price", thValue: "Value", thPnl: "P&L",
+    thTime: "Time", thSide: "Side", thWhy: "Why", noHoldings: "Nothing yet.", noTrades: "No trades yet.",
+    seriesValue: "Pot", seriesBase: "What it started with" };
   const potSay = (k, vars) => {
     const v = t("ppot." + k, vars);
     if (!/(^|\.)ppot\./.test(v)) return v;
     return String(POT_EN[k] || k).replace(/\{(\w+)\}/g, (_, x) => (vars && vars[x] != null ? vars[x] : ""));
   };
-  let potPool = "desk", potAt = 0;
-  function showPool(name) {
-    potPool = name;
-    document.querySelectorAll("#pay-pools [data-pool]").forEach((b) => {
-      b.classList.toggle("on", b.dataset.pool === name); b.setAttribute("aria-selected", String(b.dataset.pool === name)); });
-    if ($("pay-desk")) $("pay-desk").hidden = name !== "desk";
-    if ($("pay-pot")) $("pay-pot").hidden = name !== "partners";
-    if (name === "partners" && Date.now() - potAt > 60_000) loadPot();
+  let potTimer = 0;
+  function showView(name) {
+    document.querySelectorAll("#fd-view [data-view]").forEach((b) => {
+      b.classList.toggle("on", b.dataset.view === name); b.setAttribute("aria-selected", String(b.dataset.view === name)); });
+    if ($("view-desk")) $("view-desk").hidden = name !== "desk";
+    if ($("view-partners")) $("view-partners").hidden = name !== "partners";
+    try { history.replaceState(null, "", name === "partners" ? "#partners" : location.pathname + location.search); } catch {}
+    clearInterval(potTimer);
+    if (name === "partners") { loadPot(); potTimer = setInterval(loadPot, 60_000); }
   }
   document.addEventListener("click", (e) => {
-    const b = e.target.closest("#pay-pools [data-pool]");
-    if (b) showPool(b.dataset.pool);
+    const b = e.target.closest("#fd-view [data-view]");
+    if (b) showView(b.dataset.view);
   });
+  const getJson = (u) => fetch(u).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   async function loadPot() {
-    potAt = Date.now();
-    try {
-      const [pot, hold] = await Promise.all([fetch(POT_API).then((r) => r.json()),
-        fetch(POT_API + "/holders").then((r) => (r.ok ? r.json() : null)).catch(() => null)]);
-      renderPot(pot, hold);
-    } catch { renderPot(null, null); }
+    const [pot, hold, stats, log] = await Promise.all([getJson(POT_API), getJson(POT_API + "/holders"),
+      getJson(POT_API + "/stats"), getJson(POT_API + "/log")]);
+    renderPot(pot, hold, stats, log);
   }
-  function renderPot(p, hold) {
+  const potPrice = (n) => (n == null ? "—" : n >= 1 ? usd(n) : "$" + Number(n).toPrecision(3));
+  const potPct = (x) => (x > 0 ? "+" : "") + nf(2).format(x) + "%";
+  function potChart(curve) {
+    const pts = (curve || []).filter((p) => p && p.value > 0);
+    if (pts.length < 2) return "";
+    const W = 600, H = 160, xs = pts.map((p) => p.t), ys = pts.flatMap((p) => [p.value, p.baseline]);
+    const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys), dy = y1 - y0 || 1;
+    const X = (t_) => ((t_ - x0) / (x1 - x0 || 1)) * W, Y = (v) => H - 6 - ((v - y0) / dy) * (H - 12);
+    const line = (k) => pts.map((p, i) => `${i ? "L" : "M"}${X(p.t).toFixed(1)},${Y(p[k]).toFixed(1)}`).join(" ");
+    return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${esc(potSay("chart"))}">` +
+      `<path d="${line("baseline")}" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="4 4" stroke-width="1.5"/>` +
+      `<path d="${line("value")}" fill="none" stroke="var(--accent)" stroke-width="2"/></svg>`;
+  }
+  function renderPot(p, hold, stats, log) {
     if (!$("pot-sum")) return;
-    if (!p || p.starting || !p.epoch) {
+    const ready = p && !p.starting && p.epoch && (p.funded || {}).usdg > 0;
+    const set = (id, v) => { if ($(id)) $(id).innerHTML = v; };
+    if (!ready) {
       $("pot-sum").textContent = potSay("starting");
-      $("pot-holders").innerHTML = ""; $("pot-epochs").innerHTML = "";
+      ["pp-value", "pp-excess", "pp-paid", "pp-next", "pp-nfts"].forEach((id) => set(id, "—"));
+      ["pp-value-sub", "pp-excess-sub", "pp-paid-sub", "pp-next-sub", "pp-nfts-sub"].forEach((id) => set(id, ""));
+      ["pp-chart", "pp-holdings", "pp-trades", "pot-holders", "pot-epochs"].forEach((id) => set(id, ""));
+      if (p && p.wallet) set("pp-wallet", esc(shortAddr(p.wallet)));
       return;
     }
     const e = p.epoch, fund = p.funded || {};
-    const funded = [fund.usdg ? usd(fund.usdg) + " USDG" : "", fund.flyai ? nf(0).format(fund.flyai) + " $FLYAI" : ""].filter(Boolean).join(" + ") || usd(p.baseline);
-    const when = new Date(e.ends * 1000), left = Math.max(0, e.ends * 1000 - Date.now());
-    const d = Math.floor(left / 86_400_000), h = Math.floor(left / 3_600_000) % 24;
-    $("pot-sum").innerHTML = potSay("sum", { funded: esc(funded), value: `<b>${esc(usd(p.value))}</b>`,
-      excess: `<b class="${p.excess > 0 ? "up" : ""}">${esc(susd(Math.max(0, p.excess)))}</b>`,
-      holders: `<b class="up">${esc(usd(e.holders_part_now || 0))}</b>`, n: e.qualified_tokens || 0, owners: e.qualified_owners || 0,
-      date: esc(when.toLocaleString(lang(), { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })),
-      in: d ? `${d}d ${h}h` : `${h}h` });
-    const rows = Object.entries((hold && hold.holders) || {}).map(([w, x]) => ({ w, n: (x.tokens || []).length, hours: x.epoch_hours || 0, usd: x.epoch_est_usd || 0 }))
-      .filter((r) => r.hours > 0 || r.usd > 0).sort((a, b) => b.usd - a.usd || b.hours - a.hours).slice(0, 100);
+    const funded = [fund.usdg ? usd(fund.usdg) + " USDG" : "", fund.flyai ? nf(0).format(fund.flyai) + " $FLYAI" : ""].filter(Boolean).join(" + ");
+    const left = Math.max(0, e.ends * 1000 - Date.now()), d = Math.floor(left / 86_400_000), h = Math.floor(left / 3_600_000) % 24;
+    const when = new Date(e.ends * 1000).toLocaleString(lang(), { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+    const eps = p.epochs || [];
+    const paid = eps.reduce((a, x) => a + (x.holders_usd || 0), 0);
+    set("pp-value", esc(usd(p.value))); set("pp-value-sub", esc(potSay("started", { usd: usd(p.baseline) })));
+    set("pp-excess", `<span class="${p.excess > 0 ? "up" : ""}">${esc(susd(Math.max(0, p.excess)))}</span>`);
+    set("pp-excess-sub", esc(potSay("holdersPart", { usd: usd(e.holders_part_now || 0) })));
+    set("pp-paid", eps.length ? esc(usd(paid)) : "—"); set("pp-paid-sub", eps.length ? esc(potSay("weeks", { n: eps.length })) : "");
+    set("pp-next", d ? `${d}d ${h}h` : `${h}h`); set("pp-next-sub", esc(when));
+    set("pp-nfts", nf(0).format(e.qualified_tokens || 0)); set("pp-nfts-sub", esc(potSay("holdersN", { n: e.qualified_owners || 0 })));
+    $("pot-sum").innerHTML = potSay("sum", { funded: esc(funded), holders: `<b class="up">${esc(usd(e.holders_part_now || 0))}</b>`,
+      n: e.qualified_tokens || 0, owners: e.qualified_owners || 0, date: esc(when) });
+    set("pp-wallet", p.wallet ? `<a href="https://robinhoodchain.blockscout.com/address/${esc(p.wallet)}" target="_blank" rel="noopener">${esc(shortAddr(p.wallet))}</a>` : "");
+    set("pp-chart", potChart(p.curve));
+    // what it holds (vpublish's wallet rows: symbol, qty, price, value, pnl_pct)
+    const rowsH = ((stats && stats.wallet) || []).filter((r) => (r.value || 0) >= 0.01).sort((a, c) => (c.value || 0) - (a.value || 0));
+    set("pp-holdings", `<thead><tr><th>${esc(potSay("thToken"))}</th><th class="r">${esc(potSay("thAmount"))}</th><th class="r">${esc(potSay("thPrice"))}</th><th class="r">${esc(potSay("thValue"))}</th><th class="r">${esc(potSay("thPnl"))}</th></tr></thead><tbody>` +
+      (rowsH.length ? rowsH.map((r) => `<tr><td class="strong">${esc(r.label || r.symbol)}</td><td class="r mono">${esc(nf(r.qty >= 1000 ? 0 : 4).format(r.qty || 0))}</td>` +
+        `<td class="r">${esc(potPrice(r.price))}</td><td class="r">${esc(usd(r.value))}</td>` +
+        `<td class="r">${r.pnl_pct == null ? "—" : `<span class="${r.pnl_pct >= 0 ? "up" : "down"}">${esc(potPct(r.pnl_pct))}</span>`}</td></tr>`).join("")
+        : `<tr class="empty"><td colspan="5">${esc(potSay("noHoldings"))}</td></tr>`) + "</tbody>");
+    // its trades (vaults.walletLog): filled ones, newest first
+    const tr = ((log && log.rows) || []).filter((r) => r.type === "trade" && r.status === "filled").slice(0, 40);
+    const tm = (ms) => new Date(ms).toLocaleString(lang(), { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+    set("pp-trades", `<thead><tr><th>${esc(potSay("thTime"))}</th><th>${esc(potSay("thSide"))}</th><th>${esc(potSay("thToken"))}</th><th class="r">${esc(potSay("thValue"))}</th><th>${esc(potSay("thWhy"))}</th></tr></thead><tbody>` +
+      (tr.length ? tr.map((r) => `<tr><td>${esc(tm(r.at))}</td><td class="${r.side === "buy" ? "up" : "down"}">${esc(r.side)}</td>` +
+        `<td class="strong">${esc(r.symbol)}</td><td class="r">${esc(usd(r.usd))}</td><td class="dim">${esc(r.why || "")}</td></tr>`).join("")
+        : `<tr class="empty"><td colspan="5">${esc(potSay("noTrades"))}</td></tr>`) + "</tbody>");
+    // this week's holders: everyone qualifying now (hours are added once an hour), with what they're on track for
+    const rows = Object.entries((hold && hold.holders) || {}).map(([w, x]) => ({ w, n: (x.tokens || []).length, hours: x.epoch_hours || 0,
+      usd: x.epoch_est_usd || 0, ok: !!x.qualifies }))
+      .filter((r) => r.ok || r.hours > 0 || r.usd > 0).sort((a, c) => c.usd - a.usd || c.hours - a.hours || c.n - a.n).slice(0, 200);
     loadNames(rows.map((r) => r.w));
     const who = (h_) => `<span title="${esc(h_)}">${esc(names[h_] || shortAddr(h_))}</span>`;
-    $("pot-holders").innerHTML = `<thead><tr><th>#</th><th>${esc(potSay("thHolder"))}</th><th class="r">${esc(potSay("thNfts"))}</th><th class="r">${esc(potSay("thHours"))}</th><th class="r">${esc(potSay("thUsd"))}</th></tr></thead><tbody>` +
+    set("pot-holders", `<thead><tr><th>#</th><th>${esc(potSay("thHolder"))}</th><th class="r">${esc(potSay("thNfts"))}</th><th class="r">${esc(potSay("thHours"))}</th><th class="r">${esc(potSay("thUsd"))}</th></tr></thead><tbody>` +
       (rows.length ? rows.map((r, i) => `<tr><td>${i + 1}</td><td>${who(r.w)}</td><td class="r">${r.n}</td><td class="r">${nf(0).format(r.hours)}</td>` +
         `<td class="r"><b class="${r.usd > 0 ? "up" : ""}">${esc(usd(r.usd))}</b></td></tr>`).join("")
-        : `<tr class="empty"><td colspan="5">${esc(potSay("empty"))}</td></tr>`) + "</tbody>";
-    const eps = p.epochs || [];
-    $("pot-epochs").innerHTML = `<thead><tr><th>${esc(potSay("thWeek"))}</th><th>${esc(potSay("thEnded"))}</th><th class="r">${esc(potSay("thProfit"))}</th><th class="r">${esc(potSay("thPaid"))}</th><th class="r">${esc(potSay("thNftsPaid"))}</th></tr></thead><tbody>` +
+        : `<tr class="empty"><td colspan="5">${esc(potSay("empty"))}</td></tr>`) + "</tbody>");
+    set("pot-epochs", `<thead><tr><th>${esc(potSay("thWeek"))}</th><th>${esc(potSay("thEnded"))}</th><th class="r">${esc(potSay("thProfit"))}</th><th class="r">${esc(potSay("thPaid"))}</th><th class="r">${esc(potSay("thNftsPaid"))}</th></tr></thead><tbody>` +
       (eps.length ? eps.map((x) => `<tr><td>${x.epoch}</td><td>${esc(new Date(x.end * 1000).toLocaleDateString(lang()))}</td>` +
         `<td class="r">${esc(usd(Math.max(0, x.excess || 0)))}</td><td class="r"><b class="${x.holders_usd > 0 ? "up" : ""}">${esc(usd(x.holders_usd || 0))}</b></td><td class="r">${x.tokens || 0}</td></tr>`).join("")
-        : `<tr class="empty"><td colspan="5">${esc(potSay("none"))}</td></tr>`) + "</tbody>";
+        : `<tr class="empty"><td colspan="5">${esc(potSay("none"))}</td></tr>`) + "</tbody>");
   }
+  if (location.hash === "#partners") showView("partners");
 
   // ------------------------------------------------------------------ paid so far + the next payout (2026-10-29)
   /** The header's last two numbers: every paid week's holders' dollars (publish.site_view epochs) and how long until

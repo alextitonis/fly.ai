@@ -531,3 +531,11 @@ body.desk.term { background-color: var(--t-bg); background-image: none; color: v
 .dkt-intro .dki-num { font: 700 11px/1 var(--t-mono); letter-spacing: .14em; color: var(--t-mint); text-transform: uppercase; }
 @media (max-width: 760px) { .dkt-intro { grid-template-columns: 1fr; } }
 .dkt-intro > [hidden] { display: none; }
+
+/* the page's two views (2026-11-13): Fly Desk | Partners pot (desk.js showView) */
+.desk .fd-view { margin: 4px 0 14px; }
+.desk .fd-view button { font-size: 14px; padding: 8px 18px; }
+#view-desk[hidden], #view-partners[hidden] { display: none; }
+#view-partners { display: grid; gap: 14px; }
+#view-partners .fd-pp-lede { margin: 0; }
+#view-partners .pp-chart svg { width: 100%; height: 160px; display: block; color: var(--ink-dim); }

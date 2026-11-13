@@ -4560,6 +4560,7 @@ const partners = createPartners({
   sessionWallet: sessionAddress,
   rpcUrl: env("VAULT_RPC", CLAIMS.rpc),
   env: process.env,
+  walletLog: (w) => vaults.walletLog(w),
 });
 // nicknames for the leaderboards (src/profiles.ts): set by the signed-in wallet, read by anyone
 // the desk's payout tree for the bell's Sunday claim reminder (profiles.claimRow): one read per 10 minutes, shared

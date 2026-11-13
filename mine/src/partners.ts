@@ -31,6 +31,8 @@ export interface PartnersDeps {
   /** Robinhood Chain (the holders' $FLYAI, the wallets' gas) */
   rpcUrl: string;
   env: NodeJS.ProcessEnv;
+  /** a wallet's log by address (src/vaults.ts walletLog): the Partners pot's trades */
+  walletLog?: (wallet: string) => Promise<any>;
 }
 
 const FLYAI = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C";
@@ -669,6 +671,13 @@ export function createPartners(d: PartnersDeps) {
       // the Partners pot (flytrade/vaults/allpool.py, 2026-11-13): one pot for every collection's activated NFTs
       if (p === "/api/partners-pool") {
         return d.send(res, 200, (await publicOf("p_partners:pool")) ?? { partner: "partners", starting: true, epochs: [], curve: [] }), true;
+      }
+      // its wallet's published numbers (holdings) and its log (trades), for the Fly Desk page's Partners view
+      if (p === "/api/partners-pool/stats" || p === "/api/partners-pool/log") {
+        const w = String((await publicOf("p_partners:pool"))?.wallet ?? "");
+        if (!ADDRESS.test(w)) return d.send(res, 200, p.endsWith("/log") ? { rows: [] } : {}), true;
+        if (p.endsWith("/stats")) return d.send(res, 200, (await publicOf(`vault:p_partners_pool:${w}`)) ?? {}), true;
+        return d.send(res, 200, d.walletLog ? await d.walletLog(w) : { rows: [] }), true;
       }
       if (p === "/api/partners-pool/holders") {
         return d.send(res, 200, (await publicOf("p_partners:pool:holders")) ?? { holders: {} }), true;
