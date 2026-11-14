@@ -7,8 +7,8 @@
   },
   "dl": {
     "win": "下载 Windows 版",
-    "mac": "macOS",
-    "linux": "Linux",
+    "mac": "macOS：即将推出",
+    "linux": "Linux：即将推出",
     "note": "Windows 可能会提示应用还没有签名：点击\"更多信息\"，再点击\"仍要运行\"。代码在 GitHub 上开源。"
   },
   "f": {

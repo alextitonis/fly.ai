@@ -7,8 +7,8 @@
   },
   "dl": {
     "win": "Windows için indir",
-    "mac": "macOS",
-    "linux": "Linux",
+    "mac": "macOS: yakında",
+    "linux": "Linux: yakında",
     "note": "Windows uygulamanın henüz imzalı olmadığını söyleyebilir: \"Ek bilgi\"ye, sonra \"Yine de çalıştır\"a tıkla. Kod GitHub'da açık kaynak."
   },
   "f": {

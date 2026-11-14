@@ -7,8 +7,8 @@
   },
   "dl": {
     "win": "下載 Windows 版",
-    "mac": "macOS",
-    "linux": "Linux",
+    "mac": "macOS：即將推出",
+    "linux": "Linux：即將推出",
     "note": "Windows 可能會提示應用程式還沒有簽名：點擊「其他資訊」，再點擊「仍要執行」。程式碼在 GitHub 上開源。"
   },
   "f": {

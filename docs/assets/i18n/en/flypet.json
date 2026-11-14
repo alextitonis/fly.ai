@@ -7,8 +7,8 @@
   },
   "dl": {
     "win": "Download for Windows",
-    "mac": "macOS",
-    "linux": "Linux",
+    "mac": "macOS: soon",
+    "linux": "Linux: soon",
     "note": "Windows may warn that the app isn't signed yet: click \"More info\", then \"Run anyway\". The code is open source on GitHub."
   },
   "f": {

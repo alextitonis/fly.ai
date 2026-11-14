@@ -7,8 +7,8 @@
   },
   "dl": {
     "win": "Descargar para Windows",
-    "mac": "macOS",
-    "linux": "Linux",
+    "mac": "macOS: pronto",
+    "linux": "Linux: pronto",
     "note": "Windows puede avisar que la app aún no está firmada: haz clic en \"Más información\" y luego en \"Ejecutar de todas formas\". El código es abierto en GitHub."
   },
   "f": {

@@ -7,8 +7,8 @@
   },
   "dl": {
     "win": "Windows용 다운로드",
-    "mac": "macOS",
-    "linux": "Linux",
+    "mac": "macOS: 곧",
+    "linux": "Linux: 곧",
     "note": "Windows가 아직 서명되지 않은 앱이라고 경고할 수 있어요: \"추가 정보\"를 누른 다음 \"실행\"을 누르세요. 코드는 GitHub에 공개돼 있어요."
   },
   "f": {
