@@ -9,7 +9,8 @@
     "start": "npm run build && electron .",
     "dist": "npm run build && electron-builder --publish never",
     "test": "node --disable-warning=ExperimentalWarning src/mood.test.ts",
-    "preview": "vite preview --port 1421 --strictPort"
+    "preview": "vite preview --port 1421 --strictPort",
+    "store": "npm run build && node build/store.cjs"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
@@ -71,6 +72,22 @@
       ],
       "category": "Game",
       "artifactName": "FlyPet.${ext}"
+    },
+    "appx": {
+      "displayName": "Fly Pet",
+      "publisherDisplayName": "Fly.ai",
+      "applicationId": "FlyPet",
+      "backgroundColor": "#000000",
+      "languages": [
+        "en-US",
+        "es-ES",
+        "ko-KR",
+        "tr-TR",
+        "zh-CN",
+        "zh-TW"
+      ],
+      "artifactName": "FlyPet-Store-${version}.${ext}",
+      "addAutoLaunchExtension": true
     }
   }
 }

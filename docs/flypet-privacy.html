@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fly Pet privacy policy &mdash; fly.ai</title>
+<meta name="description" content="What the Fly Pet desktop app stores, what it sends to our servers, and what it never collects.">
+<link rel="canonical" href="https://flyaiworld.com/flypet-privacy">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<nav aria-label="Main"></nav>
+<!-- Fly Pet's privacy policy (2026-11-14, for the Microsoft Store listing). It describes the app as built (flypet/, mine
+     src/pet.ts + flychat.ts, flytrade/coach): keep it in step when what the app sends changes. English only: binding. -->
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow">Fly Pet</p>
+    <h1>Fly Pet privacy policy</h1>
+    <p class="lede">For the Fly Pet desktop app (Microsoft Store, GitHub or built from source). Last updated 14 November 2026.</p>
+  </div>
+</header>
+
+<section class="firstsec">
+  <div class="wrap" style="display: grid; gap: 16px;">
+    <div class="card pad">
+      <h3>In short</h3>
+      <p>Fly Pet is a desktop companion for your fly.ai account. It knows your public wallet address, the fly you picked and what you tell it in its chat. The optional game coach looks at the one game window you pick, only while you use it, and those pictures are never stored. We don't sell data, show ads or run analytics. The app never asks for a seed phrase or private key and can't move money.</p>
+    </div>
+
+    <div class="card pad">
+      <h3>What the app keeps on your computer</h3>
+      <ul class="plainlist">
+        <li><b>Your settings:</b> language, notifications, bubbles, where the fly sits, the fly you picked, the game window the coach looks at and an optional note about your game.</li>
+        <li><b>Your sign-in:</b> your public wallet address and a "pet key" our server signed for it. The key lasts 30 days and can only chat with your fly and change its settings, never withdraw or move money.</li>
+        <li><b>Recent alerts</b> the fly showed you, so they appear in its chat.</li>
+      </ul>
+      <p>These stay in the app's own storage and are removed when you uninstall it.</p>
+    </div>
+
+    <div class="card pad">
+      <h3>What it sends to our servers</h3>
+      <ul class="plainlist">
+        <li><b>Signing in:</b> you sign in on flyaiworld.com in your browser; the app receives only your public address and the pet key.</li>
+        <li><b>Your fly's data:</b> the app reads your fly's public figures, its trades and the public market calls.</li>
+        <li><b>Chat:</b> the messages you send your fly and its replies are stored with your wallet address, so the chat is there next time. To answer, your message and your fly's settings and recent activity are sent to an AI model provider (through OpenRouter). Changes it suggests happen only if you approve them.</li>
+        <li><b>The game coach (only when you use it):</b> when you ask for a hint or turn Coach mode on, the app sends pictures of the one game window you picked, with that window's title and program name, to our coach server. The server has AI models (through OpenRouter) read the picture and rank the choices, sends back one suggestion, and drops the picture: pictures and what was on screen are never stored. We keep a usage record: your wallet address, the time, the game's program name and the cost of the AI calls, to count free hints and Coach-mode hours and to price the service.</li>
+        <li><b>Finding your game:</b> to find the game window by itself, the app lists your open windows' titles and program names on your computer and matches them against a list of games it downloads from us. That list of your windows never leaves your computer. When a game is new to us, its name may be looked up on the web, once, to learn how to coach it.</li>
+        <li><b>The Coach pass:</b> it's bought on flyaiworld.com with a transfer from your own wallet on Robinhood Chain. That transfer is public on the blockchain; we record which wallet paid and for which period.</li>
+      </ul>
+      <p>IP addresses are used only to limit abuse and aren't stored by us. Our hosting providers (Fly.io for the servers, Vercel for the website) may keep standard connection logs of their own.</p>
+    </div>
+
+    <div class="card pad">
+      <h3>What we never collect</h3>
+      <p>No screenshots of your whole screen, no windows other than the game you picked, no keystrokes or clicks, no files, no browsing history, no contacts, no location, no seed phrase or private key and no payment card details. The coach never sends input to your game or reads its memory.</p>
+    </div>
+
+    <div class="card pad">
+      <h3>Who sees what</h3>
+      <ul class="plainlist">
+        <li><b>Public:</b> wallet addresses and fly figures already public on the blockchain and on flyaiworld.com's leaderboards.</li>
+        <li><b>Service providers:</b> AI model providers through OpenRouter process chat messages and coach pictures to answer them; Fly.io and Vercel host our servers and site; Supabase hosts our database.</li>
+        <li><b>Nobody else:</b> we don't sell or share data with third parties, and use it only to run Fly Pet, count usage and prevent abuse.</li>
+      </ul>
+    </div>
+
+    <div class="card pad">
+      <h3>Your choices</h3>
+      <ul class="plainlist">
+        <li>The game coach does nothing until you ask for a hint or turn Coach mode on, and stops when you turn it off.</li>
+        <li>Sign out in the app, or uninstall it, to remove its settings and key from your computer.</li>
+        <li>To have your chat and usage records deleted from our server, contact us with your wallet address. Records on a public blockchain can't be deleted by anyone.</li>
+        <li>Fly Pet isn't meant for children under 13.</li>
+      </ul>
+    </div>
+
+    <div class="card pad">
+      <h3>Contact</h3>
+      <p>Message <a href="https://x.com/flydotai" target="_blank" rel="noopener">@flydotai on X</a>, ask in our <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>, or open an issue on <a href="https://github.com/alextitonis/fly.ai/issues" target="_blank" rel="noopener">GitHub</a>. If this policy changes, this page changes with it, and the date above is updated.</p>
+    </div>
+  </div>
+</section>
+
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="/flypet">Fly Pet</a>
+      <a href="/privacy">fly.ai compute privacy</a>
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <p>Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261114a"></script>
+</body>
+</html>

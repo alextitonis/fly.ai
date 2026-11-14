@@ -251,7 +251,9 @@ function handleCalls() {
     return shell.openExternal(url);
   });
   // no login items on Linux: the settings window hides the box when this says null
-  ipcMain.handle("autostart-get", () => (process.platform === "linux" ? null : app.getLoginItemSettings().openAtLogin));
+  // the Microsoft Store version (process.windowsStore): Windows itself starts it (the package's StartupTask; the user
+  // turns it off in Task Manager > Startup apps), so the box is hidden there too
+  ipcMain.handle("autostart-get", () => (process.platform === "linux" || process.windowsStore ? null : app.getLoginItemSettings().openAtLogin));
   ipcMain.on("autostart-set", (_e, on: boolean) => app.setLoginItemSettings({ openAtLogin: !!on }));
 }
 

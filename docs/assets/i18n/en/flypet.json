@@ -9,7 +9,10 @@
     "win": "Download for Windows",
     "mac": "macOS: soon",
     "linux": "Linux: soon",
-    "note": "Windows may warn that the app isn't signed yet: click \"More info\", then \"Run anyway\". The code is open source on GitHub."
+    "note": "The Microsoft Store version is signed by Microsoft and updates itself. The .exe from GitHub isn't signed yet: if Windows warns, click \"More info\", then \"Run anyway\". Windows 10 and 11; macOS and Linux soon.",
+    "store": "Get it from Microsoft Store",
+    "exe": "Download .exe",
+    "code": "Source code"
   },
   "f": {
     "desk": {

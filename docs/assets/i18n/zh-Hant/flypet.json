@@ -9,7 +9,10 @@
     "win": "下載 Windows 版",
     "mac": "macOS：即將推出",
     "linux": "Linux：即將推出",
-    "note": "Windows 可能會提示應用程式還沒有簽名：點擊「其他資訊」，再點擊「仍要執行」。程式碼在 GitHub 上開源。"
+    "note": "Microsoft Store 版本由 Microsoft 簽署並自動更新。GitHub 上的 .exe 還沒有簽署：如果 Windows 提示，點擊「其他資訊」，再點擊「仍要執行」。支援 Windows 10 和 11；macOS 和 Linux 即將推出。",
+    "store": "從 Microsoft Store 取得",
+    "exe": "下載 .exe",
+    "code": "原始碼"
   },
   "f": {
     "desk": {

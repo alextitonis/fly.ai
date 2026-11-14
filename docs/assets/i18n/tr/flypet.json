@@ -9,7 +9,10 @@
     "win": "Windows için indir",
     "mac": "macOS: yakında",
     "linux": "Linux: yakında",
-    "note": "Windows uygulamanın henüz imzalı olmadığını söyleyebilir: \"Ek bilgi\"ye, sonra \"Yine de çalıştır\"a tıkla. Kod GitHub'da açık kaynak."
+    "note": "Microsoft Store sürümü Microsoft tarafından imzalanır ve kendini günceller. GitHub'daki .exe henüz imzalı değil: Windows uyarırsa \"Ek bilgi\"ye, sonra \"Yine de çalıştır\"a tıkla. Windows 10 ve 11; macOS ve Linux yakında.",
+    "store": "Microsoft Store'dan al",
+    "exe": ".exe indir",
+    "code": "Kaynak kodu"
   },
   "f": {
     "desk": {
