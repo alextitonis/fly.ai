@@ -1833,6 +1833,8 @@
     "milestoneLeft": "{left}명 남음",
     "milestoneHint": "새 트레이더가 올 때마다 이 바가 올라갑니다.",
     "milestoneInvite": "추천 링크로 친구 초대하기",
+    "filterAll": "전체",
+    "filterLabel": "보기",
     "wallets": "Fly Wallet",
     "holders": "소유자 {n}명",
     "deposited": "입금액",

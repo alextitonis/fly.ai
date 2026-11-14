@@ -1835,6 +1835,8 @@
     "milestoneLeft": "{left} kaldı",
     "milestoneHint": "Her yeni trader bu çubuğu ilerletir.",
     "milestoneInvite": "Referans bağlantınla bir arkadaşını davet et",
+    "filterAll": "Tümü",
+    "filterLabel": "Göster",
     "wallets": "Fly Wallet",
     "holders": "{n} sahip",
     "deposited": "Yatırılan",

@@ -1833,6 +1833,8 @@
     "milestoneLeft": "还差 {left} 位",
     "milestoneHint": "每位新交易者都会推动这个进度条。",
     "milestoneInvite": "用你的推荐链接邀请朋友",
+    "filterAll": "全部",
+    "filterLabel": "显示",
     "wallets": "Fly Wallet",
     "holders": "{n} 位主人",
     "deposited": "存入",

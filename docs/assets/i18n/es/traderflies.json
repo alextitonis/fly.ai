@@ -1835,6 +1835,8 @@
     "milestoneLeft": "faltan {left}",
     "milestoneHint": "Cada trader nuevo hace avanzar esta barra.",
     "milestoneInvite": "Invita a un amigo con tu enlace de referido",
+    "filterAll": "Todos",
+    "filterLabel": "Mostrar",
     "wallets": "Fly Wallets",
     "holders": "{n} dueños",
     "deposited": "Depositado",
