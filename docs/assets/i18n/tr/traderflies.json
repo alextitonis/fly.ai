@@ -632,6 +632,15 @@
       "desk": "Fly Desk",
       "parts": "{n} parça",
       "notMining": "Madencilik ödemeleri ayrı alınır ve bu listede yer almaz."
+    },
+    "pot": {
+      "title": "Ortaklar havuzu",
+      "est": "Bu haftaki payın (tahmini)",
+      "pays": "Ödeme: {when}",
+      "auto": "Talep edecek bir şey yok: payın hafta bitince $FLYAI olarak cüzdanına otomatik gönderilir.",
+      "owed": "{amount} cüzdanına gönderiliyor",
+      "notNow": "Ortak NFT'lerin şu an sayılmıyor: kazanmaya devam etmek için 200k $FLYAI tut (stake edilen sayılır).",
+      "see": "Ortaklar havuzunu gör"
     }
   },
   "odds": {

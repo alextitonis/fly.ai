@@ -632,6 +632,15 @@
       "desk": "Fly Desk",
       "parts": "{n} partes",
       "notMining": "Los pagos de minería se reclaman aparte y no están en esta lista."
+    },
+    "pot": {
+      "title": "Bote de socios",
+      "est": "Tu parte esta semana (estimación)",
+      "pays": "Se paga el {when}",
+      "auto": "No hay nada que reclamar: tu parte se envía a tu billetera en $FLYAI automáticamente al terminar la semana.",
+      "owed": "Se están enviando {amount} a tu billetera",
+      "notNow": "Tus NFT de socios no cuentan ahora: mantén 200k $FLYAI (lo stakeado cuenta) para seguir ganando.",
+      "see": "Ver el bote de socios"
     }
   },
   "odds": {

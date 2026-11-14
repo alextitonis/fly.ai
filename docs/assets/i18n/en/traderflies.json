@@ -632,6 +632,15 @@
       "desk": "Fly Desk",
       "parts": "{n} parts",
       "notMining": "Mining payouts are claimed separately and are not in this list."
+    },
+    "pot": {
+      "title": "Partners pot",
+      "est": "Your share this week (estimate)",
+      "pays": "Pays out {when}",
+      "auto": "Nothing to claim: your share is sent to your wallet in $FLYAI automatically when the week ends.",
+      "owed": "{amount} is being sent to your wallet",
+      "notNow": "Your partner NFTs aren't counting right now: hold 200k $FLYAI (staked counts) to keep earning.",
+      "see": "See the Partners pot"
     }
   },
   "odds": {
