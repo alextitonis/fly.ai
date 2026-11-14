@@ -10,7 +10,8 @@
       "market": "Pazar",
       "partners": "Ortaklar",
       "more": "Daha fazla",
-      "build": "Geliştirici ve ortaklar"
+      "build": "Geliştirici ve ortaklar",
+      "flypet": "Fly Pet"
     },
     "home": {
       "label": "Ana sayfa"
@@ -351,6 +352,14 @@
     "ambassadors": {
       "label": "Elçiler",
       "desc": "fly.ai'yi kendi dilinde temsil et"
+    },
+    "flypetDownload": {
+      "label": "İndir",
+      "desc": "Masaüstündeki sinek: sohbet, uyarılar, oyun koçu"
+    },
+    "coachPass": {
+      "label": "Koç pası",
+      "desc": "Koç modu: sineğin tüm oturum boyunca koçluk yapar"
     }
   },
   "footer": {

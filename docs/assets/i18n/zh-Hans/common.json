@@ -10,7 +10,8 @@
       "market": "市场",
       "partners": "合作伙伴",
       "more": "更多",
-      "build": "开发与合作伙伴"
+      "build": "开发与合作伙伴",
+      "flypet": "Fly Pet"
     },
     "home": {
       "label": "首页"
@@ -351,6 +352,14 @@
     "ambassadors": {
       "label": "大使",
       "desc": "用你的语言代表 fly.ai"
+    },
+    "flypetDownload": {
+      "label": "下载",
+      "desc": "桌面上的苍蝇：聊天、提醒、游戏教练"
+    },
+    "coachPass": {
+      "label": "教练通行证",
+      "desc": "教练模式：苍蝇全程为你当教练"
     }
   },
   "footer": {

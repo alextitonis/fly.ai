@@ -10,7 +10,8 @@
       "market": "Mercado",
       "partners": "Socios",
       "more": "Más",
-      "build": "Desarrollo y socios"
+      "build": "Desarrollo y socios",
+      "flypet": "Fly Pet"
     },
     "home": {
       "label": "Inicio"
@@ -351,6 +352,14 @@
     "ambassadors": {
       "label": "Embajadores",
       "desc": "Representa a fly.ai en tu idioma"
+    },
+    "flypetDownload": {
+      "label": "Descargar",
+      "desc": "La mosca en tu escritorio: chat, alertas, entrenador de juegos"
+    },
+    "coachPass": {
+      "label": "Pase de entrenador",
+      "desc": "Modo entrenador: tu mosca te entrena toda la sesión"
     }
   },
   "footer": {

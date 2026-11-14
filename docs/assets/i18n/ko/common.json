@@ -10,7 +10,8 @@
       "market": "마켓",
       "partners": "파트너",
       "more": "더 보기",
-      "build": "개발 및 파트너"
+      "build": "개발 및 파트너",
+      "flypet": "Fly Pet"
     },
     "home": {
       "label": "홈"
@@ -351,6 +352,14 @@
     "ambassadors": {
       "label": "앰배서더",
       "desc": "당신의 언어로 fly.ai를 대표하세요"
+    },
+    "flypetDownload": {
+      "label": "다운로드",
+      "desc": "바탕화면의 파리: 대화, 알림, 게임 코치"
+    },
+    "coachPass": {
+      "label": "코치 패스",
+      "desc": "코치 모드: 파리가 세션 내내 코치해요"
     }
   },
   "footer": {

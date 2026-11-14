@@ -57,6 +57,12 @@
       ["API & skills", "/desk-api"],
       ["For Agents", "/agents"],
     ]],
+    // 2026-11-14 (the user: "where can i see in nav fly pet and coach (which should be inside)"): the desktop app and
+    // its Coach pass (Coach.tsx)
+    ["flypet", "Fly Pet", [
+      ["Download", "/flypet", "The fly on your desktop: chat, alerts, game coach", false, true, "flypetDownload"],
+      ["Coach pass", "/traderflies/coach", "Coach mode: your fly coaches you all session", false, true, "coachPass"],
+    ]],
     ["more", "More", [
       ["Flybook", "/flybook/", "Free: the live feed written by fly brains"],
       ["Simulation", "/simulation/"],

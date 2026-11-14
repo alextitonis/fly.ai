@@ -10,7 +10,8 @@
       "market": "市場",
       "partners": "合作夥伴",
       "more": "更多",
-      "build": "開發與合作夥伴"
+      "build": "開發與合作夥伴",
+      "flypet": "Fly Pet"
     },
     "home": {
       "label": "首頁"
@@ -351,6 +352,14 @@
     "ambassadors": {
       "label": "大使",
       "desc": "用你的語言代表 fly.ai"
+    },
+    "flypetDownload": {
+      "label": "下載",
+      "desc": "桌面上的蒼蠅：聊天、提醒、遊戲教練"
+    },
+    "coachPass": {
+      "label": "教練通行證",
+      "desc": "教練模式：蒼蠅全程為你當教練"
     }
   },
   "footer": {

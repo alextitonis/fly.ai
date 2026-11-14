@@ -10,7 +10,8 @@
       "market": "Market",
       "partners": "Partners",
       "more": "More",
-      "build": "Build & partners"
+      "build": "Build & partners",
+      "flypet": "Fly Pet"
     },
     "home": {
       "label": "Home"
@@ -351,6 +352,14 @@
     "ambassadors": {
       "label": "Ambassadors",
       "desc": "Represent fly.ai in your language"
+    },
+    "flypetDownload": {
+      "label": "Download",
+      "desc": "The fly on your desktop: chat, alerts, game coach"
+    },
+    "coachPass": {
+      "label": "Coach pass",
+      "desc": "Coach mode: your fly coaches you all session"
     }
   },
   "footer": {
