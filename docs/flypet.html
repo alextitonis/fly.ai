@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="flypet">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="flypet.title">Fly Pet: your fly on your desktop</title>
+<meta name="description" content="Fly Pet: a tiny fly that lives on your desktop. It chats with you, tells you what your Trader Fly is doing, shares alpha calls, and coaches you in your games.">
+<meta property="og:title" content="Fly Pet">
+<meta property="og:description" content="A tiny fly on your desktop: chat, trade alerts, alpha calls and a game coach.">
+<meta property="og:image" content="https://flyaiworld.com/assets/og/referrals.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/flypet">
+<meta property="og:url" content="https://flyaiworld.com/flypet">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .pet-hero { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+  .pet-hero img { width: 160px; height: 160px; image-rendering: pixelated; }
+  .pet-dl { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .pet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .pet-grid .card h3 { margin-top: 0; }
+  .pet-video { width: 100%; max-width: 560px; border-radius: 16px; border: 1px solid var(--line, #222); display: block; margin: 0 auto; }
+  .pet-steps { display: grid; gap: 8px; padding-left: 20px; }
+  @media (max-width: 640px) { .pet-hero { grid-template-columns: 1fr; } .pet-hero img { width: 120px; height: 120px; } }
+</style>
+</head>
+<body>
+<nav aria-label="Main"></nav>
+<!-- Fly Pet (flypet/, 2026-11-14): the download page. The installers come from the GitHub release the flypet workflow
+     makes for a flypet-v* tag (fixed names, so releases/latest/download/... always points at the newest). Nothing here
+     about the Coach pass's price: it isn't set yet. -->
+<header class="pagehead">
+  <div class="wrap pet-hero">
+    <div>
+      <p class="eyebrow" data-i18n="flypet.head.eyebrow">Free desktop app</p>
+      <h1 data-i18n="flypet.head.title">Fly Pet</h1>
+      <p class="lede" data-i18n="flypet.head.lede">A tiny fly that lives on your desktop. It chats with you, tells you what your Trader Fly is doing, shares alpha calls, and coaches you in your games.</p>
+      <div class="pet-dl">
+        <a class="btn" href="https://github.com/alextitonis/fly.ai/releases/latest/download/FlyPet-Setup.exe" data-i18n="flypet.dl.win">Download for Windows</a>
+        <a class="btn ghost" href="https://github.com/alextitonis/fly.ai/releases/latest/download/FlyPet.dmg" data-i18n="flypet.dl.mac">macOS</a>
+        <a class="btn ghost" href="https://github.com/alextitonis/fly.ai/releases/latest/download/FlyPet.AppImage" data-i18n="flypet.dl.linux">Linux</a>
+      </div>
+      <p class="fine" data-i18n="flypet.dl.note">Windows may warn that the app isn't signed yet: click "More info", then "Run anyway". The code is open source on GitHub.</p>
+    </div>
+    <img src="assets/flypet/fly.gif" alt="" width="160" height="160">
+  </div>
+</header>
+
+<section class="firstsec">
+  <div class="wrap">
+    <div class="pet-grid">
+      <div class="card pad"><h3 data-i18n="flypet.f.desk.t">It lives on your desktop</h3>
+        <p data-i18n="flypet.f.desk.p">A small fly that walks around near where you put it, stays on top of your windows, sleeps at night and waves good morning. Grab it, toss it, feed it.</p></div>
+      <div class="card pad"><h3 data-i18n="flypet.f.chat.t">Chat with your fly</h3>
+        <p data-i18n="flypet.f.chat.p">Click the fly and talk to your Trader Fly or partner NFT: ask why it traded, tell it what to change. It only suggests: nothing changes until you approve it.</p></div>
+      <div class="card pad"><h3 data-i18n="flypet.f.alerts.t">Trades and price alerts</h3>
+        <p data-i18n="flypet.f.alerts.p">It reacts to its own buys and sells, gains and losses, and big $FLYAI moves, with a bubble and a notification if you want one.</p></div>
+      <div class="card pad"><h3 data-i18n="flypet.f.alpha.t">Alpha calls</h3>
+        <p data-i18n="flypet.f.alpha.p">The same calls as our Discord, right in its chat, with Watch, Chart and Copy buttons.</p></div>
+      <div class="card pad"><h3 data-i18n="flypet.f.coach.t">Game coach</h3>
+        <p data-i18n="flypet.f.coach.p">Playing a game? Your fly finds it by itself and, when a pick, shop or level-up opens, tells you the best choice with its odds. Free hints every day; Coach mode watches all session with the Coach pass.</p></div>
+      <div class="card pad"><h3 data-i18n="flypet.f.safe.t">Safe by design</h3>
+        <p data-i18n="flypet.f.safe.p">You sign in with your wallet on flyaiworld.com: the app gets a pet key that can chat and change your fly's settings, never move money, and never asks for a seed phrase. The coach only looks at the one game window, and never touches your game.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="flypet.coach.eyebrow">Game coach</p>
+    <h2 data-i18n="flypet.coach.title">It suggests. You make every move.</h2>
+    <video class="pet-video" src="assets/flypet/coach.mp4" autoplay muted loop playsinline preload="metadata"></video>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 data-i18n="flypet.start.title">Get started</h2>
+    <ol class="pet-steps">
+      <li data-i18n="flypet.start.s1">Download and open Fly Pet. The fly appears at the bottom of your screen.</li>
+      <li data-i18n="flypet.start.s2">Click Connect and approve in your browser on flyaiworld.com.</li>
+      <li data-i18n="flypet.start.s3">Pick which of your flies (or partner NFTs) lives on your desktop.</li>
+      <li data-i18n="flypet.start.s4">Click the fly to chat. Playing a game? Tap "Coach mode" in its chat, or press Alt+Shift+C for a hint.</li>
+    </ol>
+    <p class="fine" data-i18n="flypet.start.close">To close it: right-click the fly, or use its icon in the system tray.</p>
+  </div>
+</section>
+
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="/start">Start here: buy $FLYAI</a>
+      <a href="/press">Press kit</a>
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261114a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+</body>
+</html>

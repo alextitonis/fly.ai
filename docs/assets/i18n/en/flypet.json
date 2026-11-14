@@ -1,0 +1,52 @@
+{
+  "title": "Fly Pet: your fly on your desktop",
+  "head": {
+    "eyebrow": "Free desktop app",
+    "title": "Fly Pet",
+    "lede": "A tiny fly that lives on your desktop. It chats with you, tells you what your Trader Fly is doing, shares alpha calls, and coaches you in your games."
+  },
+  "dl": {
+    "win": "Download for Windows",
+    "mac": "macOS",
+    "linux": "Linux",
+    "note": "Windows may warn that the app isn't signed yet: click \"More info\", then \"Run anyway\". The code is open source on GitHub."
+  },
+  "f": {
+    "desk": {
+      "t": "It lives on your desktop",
+      "p": "A small fly that walks around near where you put it, stays on top of your windows, sleeps at night and waves good morning. Grab it, toss it, feed it."
+    },
+    "chat": {
+      "t": "Chat with your fly",
+      "p": "Click the fly and talk to your Trader Fly or partner NFT: ask why it traded, tell it what to change. It only suggests: nothing changes until you approve it."
+    },
+    "alerts": {
+      "t": "Trades and price alerts",
+      "p": "It reacts to its own buys and sells, gains and losses, and big $FLYAI moves, with a bubble and a notification if you want one."
+    },
+    "alpha": {
+      "t": "Alpha calls",
+      "p": "The same calls as our Discord, right in its chat, with Watch, Chart and Copy buttons."
+    },
+    "coach": {
+      "t": "Game coach",
+      "p": "Playing a game? Your fly finds it by itself and, when a pick, shop or level-up opens, tells you the best choice with its odds. Free hints every day; Coach mode watches all session with the Coach pass."
+    },
+    "safe": {
+      "t": "Safe by design",
+      "p": "You sign in with your wallet on flyaiworld.com: the app gets a pet key that can chat and change your fly's settings, never move money, and never asks for a seed phrase. The coach only looks at the one game window, and never touches your game."
+    }
+  },
+  "coach": {
+    "eyebrow": "Game coach",
+    "title": "It suggests. You make every move."
+  },
+  "start": {
+    "title": "Get started",
+    "s1": "Download and open Fly Pet. The fly appears at the bottom of your screen.",
+    "s2": "Click Connect and approve in your browser on flyaiworld.com.",
+    "s3": "Pick which of your flies (or partner NFTs) lives on your desktop.",
+    "s4": "Click the fly to chat. Playing a game? Tap \"Coach mode\" in its chat, or press Alt+Shift+C for a hint.",
+    "close": "To close it: right-click the fly, or use its icon in the system tray."
+  }
+}

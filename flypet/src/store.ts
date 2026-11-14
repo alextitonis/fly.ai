@@ -174,3 +174,14 @@ async function coachCall<T>(path: string, body?: unknown): Promise<T> {
 export const coachMe = () => coachCall<CoachMe>("/me");
 export const coachHint = (body: { image: string; mode: "hint" | "watch"; process?: string | null; title?: string; question?: string;
   note?: string; lang?: string; session?: string; session_s?: number }) => coachCall<CoachAnswer>("/hint", body);
+/** what the coach looks for to find the game window by itself: names and patterns only (matched on this PC) */
+export interface CoachGames { games: { id: string; name: string | null; process: string[]; title: string | null }[];
+  learned: { id: string; name: string | null; key: string }[] }
+let gamesCache: { at: number; v: CoachGames } | null = null;
+export async function coachGames(): Promise<CoachGames> {
+  if (gamesCache && Date.now() - gamesCache.at < 10 * 60_000) return gamesCache.v;
+  const res = await fetch(COACH_SERVER + "/games", { signal: AbortSignal.timeout(20_000) });
+  if (!res.ok) throw new Error(`the coach said ${res.status}`);
+  gamesCache = { at: Date.now(), v: await res.json() as CoachGames };
+  return gamesCache.v;
+}

@@ -254,7 +254,10 @@
     },
     "more": {
       "title": "Hacia dónde va",
-      "funds": "Cómputo para experimentos más grandes, que el cerebro aprenda como una mosca real, comprobar si el cableado real es especial, y nuevos mundos y sentidos. Todo se publica en código abierto."
+      "funds": "Cómputo para experimentos más grandes, que el cerebro aprenda como una mosca real, comprobar si el cableado real es especial, y nuevos mundos y sentidos. Todo se publica en código abierto.",
+      "pet": "Fly Pet",
+      "petText": "Una mosquita en tu escritorio: chatea con tu Trader Fly, alertas de trades y precio, alpha calls y un entrenador de juegos que te dice la mejor elección.",
+      "petGo": "Consigue Fly Pet →"
     },
     "lede2": "El token detrás de fly.ai: cerebros reales de mosca de la fruta, 166,700 neuronas cada uno, que operan desde sus propias carteras y dirigen el Fly Desk. Código abierto.",
     "flies": {

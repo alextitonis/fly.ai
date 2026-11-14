@@ -193,6 +193,19 @@ try {
   check("an epoch", (await api("/api/partners/testers/pool/epochs/1", null)).json.payable === 10
     && (await api("/api/partners/testers/pool/epochs/2", null)).status === 404);
 
+  // ---- feeding a partner NFT's pot share into its wallet (2026-11-14): only an NFT of yours that counts in the pot
+  const BULLA = 1_000_000_007, OTHER = 1_000_000_009;
+  await PG.pg.run(`insert into mine.vault_public (key, value, updated_at) values ('p_partners:pool:holders', ?::text::jsonb, now())
+    on conflict (key) do update set value = excluded.value`, JSON.stringify({ holders: { [alice.address.toLowerCase()]: { tokens: [BULLA], qualifies: true } } }));
+  let fd = await api(`/api/partners-pool/feed/${alice.address}`, null);
+  check("feed: off at first", fd.status === 200 && fd.json.tokens.length === 1 && fd.json.tokens[0].fly === BULLA && fd.json.tokens[0].on === false, JSON.stringify(fd.json));
+  check("feed: needs a sign-in", (await api("/api/partners-pool/feed", null, { fly: BULLA, on: true })).status === 401);
+  check("feed: not someone else's NFT", (await api("/api/partners-pool/feed", b, { fly: BULLA, on: true })).status === 403);
+  check("feed: not an NFT outside the pot", (await api("/api/partners-pool/feed", a, { fly: OTHER, on: true })).status === 403);
+  fd = await api("/api/partners-pool/feed", a, { fly: BULLA, on: true });
+  check("feed: the owner turns it on", fd.status === 200 && fd.json.tokens[0].on === true, JSON.stringify(fd.json));
+  check("feed: and off", (await api("/api/partners-pool/feed", a, { fly: BULLA, on: false })).json.tokens[0].on === false);
+
   // ---- a sale, then the admin switches it off
   owner[7] = bob.address;
   await sleep(1100);

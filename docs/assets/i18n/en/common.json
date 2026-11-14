@@ -519,7 +519,9 @@
     "bn_piedpiper": "Bring 10 real referrals.",
     "b_ambassador": "Ambassador",
     "bn_ambassador": "Invited only: given to fly.ai's ambassadors.",
-    "s_quest": "Daily quests"
+    "s_quest": "Daily quests",
+    "s_partners": "Partner NFTs trading",
+    "h_partners": "<b>Partner NFTs</b>: 10 XP a day for each partner NFT (Bullas, Enjoyoors, Waifus, RUYUI...) whose own wallet is trading, like an active fly."
   },
   "flychat": {
     "title": "Fly #{id}",

@@ -11,7 +11,7 @@
 // in a worker (coachworker.ts); nothing runs while the user is away; the app reads its own CPU and slows the looking down
 // (1 s → 2 s → 5 s) when it works too hard. Frames go to the coach server only, and it doesn't keep them.
 import { t } from "./i18n.ts";
-import { CoachRefused, coachHint, prefs, SignedOut, type CoachAnswer, type CoachSource } from "./store.ts";
+import { CoachRefused, coachGames, coachHint, prefs, setPrefs, SignedOut, type CoachAnswer, type CoachGames, type CoachSource } from "./store.ts";
 
 const native = window.flyNative;
 const TINY_W = 64, TINY_H = 36, SEND_MAX = 1280;
@@ -21,7 +21,40 @@ const LOAD_MS = 10_000, IDLE_S = 120;
 const WATCH_GAP_MS = 20_000;                        // the server's own gap too
 const CHANGED = 14, SETTLED = 2.5, BLACK = 4;       // mean difference / brightness on 0-255
 
-export interface CoachHooks { say(text: string): void; note(text: string): void; think(on: boolean): void }
+export interface CoachHooks { say(text: string): void; note(text: string): void; think(on: boolean): void; state?(on: boolean): void }
+
+// ---- finding the game window by itself (2026-11-14, the user: "shouldn't it automatically select?") -----------------------
+// The open windows (program, title, install folder: main.ts coach-detect) against the coach's game list, here on the PC:
+//   3  a game the coach knows (its program, or a learned one's key)    2  a known game's title pattern
+//   1  a program installed in a game library (Steam, Epic, Riot, Battle.net, GOG, Xbox, EA, Ubisoft)
+// The best wins; nothing found: the picker, once.
+const GAME_DIRS = /\\steamapps\\common\\|\\epic games\\|\\riot games\\|battle\.net|\\gog galaxy\\games\\|\\gog games\\|\\xboxgames\\|\\ea games\\|ubisoft game launcher\\games|\\games\\/i;
+const LAUNCHERS = /^(steam|steamwebhelper|epicgameslauncher|riotclientux|riotclientservices|battle\.net|galaxyclient|eadesktop|origin|upc|ubisoftconnect|xboxapp|gamebar|launcher)\.exe$/i;
+type Win = { id: string; name: string; process: string | null; path: string | null };
+const learnKey = (process: string | null, title: string) => {
+  const proc = (process ?? "").trim().toLowerCase();
+  if (proc) return proc;
+  const ttl = title.trim().toLowerCase().replace(/[\d.]+/g, "").replace(/\s+/g, " ").replace(/^[\s\-|:]+|[\s\-|:]+$/g, "");
+  return ttl.length >= 3 ? `title:${ttl}` : null;
+};
+export function pickGame(wins: Win[], list: CoachGames): { win: Win; name: string | null } | null {
+  let best: { win: Win; name: string | null; score: number } | null = null;
+  for (const w of wins) {
+    const proc = (w.process ?? "").toLowerCase(), title = w.name.toLowerCase();
+    let score = 0, name: string | null = null;
+    for (const g of list.games) {
+      if (proc && g.process.includes(proc)) { score = 3; name = g.name; break; }
+      if (g.title && score < 2) { try { if (new RegExp(g.title).test(title)) { score = 2; name = g.name; } } catch { /* a bad pattern */ } }
+    }
+    if (score < 3) {
+      const key = learnKey(w.process, w.name), l = key ? list.learned.find((x) => x.key === key) : null;
+      if (l) { score = 3; name = l.name; }
+    }
+    if (!score && w.path && GAME_DIRS.test(w.path) && !LAUNCHERS.test(proc)) score = 1;
+    if (score && (!best || score > best.score)) best = { win: w, name, score };
+  }
+  return best ? { win: best.win, name: best.name } : null;
+}
 export interface Coach { toggle(): void; hint(question?: string): void; isOn(): boolean; picked(): boolean }
 
 export function setupCoach(hooks: CoachHooks): Coach {
@@ -30,8 +63,27 @@ export function setupCoach(hooks: CoachHooks): Coach {
   let prev: Uint8ClampedArray | null = null, base: Uint8ClampedArray | null = null, firstLook = false, blackRun = 0, toldBlack = false;
   let lastSent = 0, session = "", sessionAt = 0, pending: "on" | "hint" | null = null, pendingQ: string | undefined;
   const tiny = new OffscreenCanvas(TINY_W, TINY_H).getContext("2d", { willReadFrequently: true })!;
-  let worker: Worker | null = null, jobs = 0;
+  let worker: Worker | null = null, jobs = 0, sentToPass = false;
   const waiting = new Map<number, (r: { jpeg?: string; error?: string }) => void>();
+
+  /** the game window, found by itself (and saved, like a pick): true when there is one to look at */
+  async function ensureSource(tell: boolean): Promise<boolean> {
+    if (native?.coachDetect) {
+      try {
+        const found = pickGame(await native.coachDetect(), await coachGames());
+        if (found) {
+          const src: CoachSource = { id: found.win.id, name: found.win.name, process: found.win.process };
+          if (src.id !== prefs().coachSource?.id) {
+            pickedId = src.id;                                  // our own pick: the storage listener leaves it be
+            setPrefs({ coachSource: src });
+            if (tell) hooks.say(t("c.found", { game: (found.name ?? found.win.name).slice(0, 40) }));
+          }
+          return true;
+        }
+      } catch (e) { console.error("coach detect:", e); }
+    }
+    return !!prefs().coachSource && !!(await findSource());
+  }
 
   // ---- the window stream ----------------------------------------------------------------------------------------------
   async function findSource(): Promise<CoachSource | null> {
@@ -55,7 +107,7 @@ export function setupCoach(hooks: CoachHooks): Coach {
         video.muted = true;
         video.srcObject = stream;
         await video.play();
-        stream.getVideoTracks()[0]?.addEventListener("ended", () => { close(); if (on) { stop(); hooks.say(t("c.lost")); } });
+        stream.getVideoTracks()[0]?.addEventListener("ended", () => { close(); if (on) { stop(true); void start(); } });
         return true;
       } catch (e) {
         console.error("coach stream:", e);
@@ -142,6 +194,8 @@ export function setupCoach(hooks: CoachHooks): Coach {
         // no pass for Coach mode, testing only, the day's free hints used: say why, once; watching stops
         if (mode === "watch" || e.status === 403) stop();
         hooks.say(e.message);
+        // no pass or its hours used: the page to get one, once a session (it isn't a link in the bubble)
+        if (e.status === 402 && !sentToPass) { sentToPass = true; void native?.openUrl("https://www.flyaiworld.com/traderflies/coach"); }
       } else if (mode === "hint") hooks.say(t("c.failed"));
       console.error("coach:", e);
       return null;
@@ -165,30 +219,32 @@ export function setupCoach(hooks: CoachHooks): Coach {
 
   // ---- on / off ----------------------------------------------------------------------------------------------------------
   async function start() {
-    if (!prefs().coachSource) { pending = "on"; native?.openPanel("coach"); return; }
+    if (!(await ensureSource(true))) { pending = "on"; hooks.say(t("c.notFound")); native?.openPanel("coach"); return; }
     if (!(await open())) { pending = "on"; hooks.say(t("c.lost")); native?.openPanel("coach"); return; }
     on = true;
     session = Math.random().toString(36).slice(2, 12);
     sessionAt = Date.now();
     prev = base = null; firstLook = true; blackRun = 0; toldBlack = false; level = 0;
     native?.coachState(true);
+    hooks.state?.(true);
     hooks.say(t("c.on", { game: prefs().coachSource!.name.slice(0, 40) }));
     void checkLoad();
     loadTimer = window.setInterval(() => void checkLoad(), LOAD_MS);
     timer = window.setTimeout(() => void look(), 1500);
   }
-  function stop() {
+  function stop(quiet = false) {
     const was = on;
     on = false;
     clearTimeout(timer); clearInterval(loadTimer);
     close();
     worker?.terminate(); worker = null;
     native?.coachState(false);
-    if (was) hooks.say(t("c.off"));
+    hooks.state?.(false);
+    if (was && !quiet) hooks.say(t("c.off"));
   }
   async function hint(question?: string) {
     if (inFlight) return;
-    if (!prefs().coachSource) { pending = "hint"; pendingQ = question; native?.openPanel("coach"); return; }
+    if (!stream && !(await ensureSource(false))) { pending = "hint"; pendingQ = question; hooks.say(t("c.notFound")); native?.openPanel("coach"); return; }
     const had = !!stream;
     if (!(await open()) || !(await waitFrame())) { hooks.say(t("c.lost")); pending = "hint"; pendingQ = question; native?.openPanel("coach"); return; }
     await send("hint", question);

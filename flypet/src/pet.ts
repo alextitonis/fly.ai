@@ -228,7 +228,7 @@ const TALK_W = 380, TALK_H = 630;
 const talkBox = document.getElementById("talk") as HTMLDivElement;
 let talking = false;
 const talk = setupTalk(talkBox, { onClose: () => closeTalk(), onSignedOut: () => { closeTalk(); native?.openPanel(); },
-  coach: (q?: string) => coach.hint(q) });
+  coach: (q?: string) => coach.hint(q), coachMode: () => coach.toggle(), coachOn: () => coach.isOn() });
 // the game coach (src/coach.ts): looks at the picked game window, suggests in the bubble and in the chat
 const coach = setupCoach({
   say: (text) => {
@@ -237,6 +237,7 @@ const coach = setupCoach({
   },
   note: (text) => { addNote({ at: Date.now(), text, mood: "wave", fly: null }); talk.refresh(); },
   think: (on) => { if (on) sayCoach(t("c.thinking"), 20_000); },
+  state: () => talk.refresh(),
 });
 const inside = (e: HTMLElement, cx: number, cy: number) => {
   if (e.hidden) return false;

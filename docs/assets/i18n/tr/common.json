@@ -519,7 +519,9 @@
     "bn_piedpiper": "10 gerçek referans getir.",
     "b_ambassador": "Elçi",
     "bn_ambassador": "Yalnızca davetle: fly.ai elçilerine verilir.",
-    "s_quest": "Günlük görevler"
+    "s_quest": "Günlük görevler",
+    "s_partners": "İşlem yapan ortak NFT'ler",
+    "h_partners": "<b>Ortak NFT'ler</b>: kendi cüzdanı işlem yapan her ortak NFT (Bullas, Enjoyoors, Waifus, RUYUI...) için günde 10 XP, aktif bir sinek gibi."
   },
   "flychat": {
     "title": "Sinek #{id}",

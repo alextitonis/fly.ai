@@ -458,7 +458,7 @@
   "ppot": {
     "tabDesk": "Fly Desk",
     "tabPartners": "Partners",
-    "note": "One pot for every partner collection's trading NFTs, apart from the Fly Desk. An NFT counts while its own wallet has money in it and its owner holds 200,000 $FLYAI. Only what the pot makes on top of what it started with is paid: 95% to the holders by the hours their NFTs were trading, in $FLYAI, sent straight to their wallets.",
+    "note": "One pot for every partner collection's trading NFTs, apart from the Fly Desk. An NFT counts while its own wallet has money in it and its owner holds 200,000 $FLYAI. Only what the pot makes on top of what it started with is paid: 95% to the holders by the hours their NFTs were trading (with the same staking boost as Trader Flies), in $FLYAI, claimable every Sunday with the Fly Desk payout.",
     "past": "Past weeks",
     "sum": "Started with {funded}. On track to pay {holders} to the holders of {n} trading partner NFTs ({owners} holders) at the end of this week, {date}.",
     "starting": "The Partners pot is starting: its numbers show here once it's funded and has run its first bar.",

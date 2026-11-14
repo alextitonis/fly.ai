@@ -635,10 +635,13 @@
       "title": "파트너 풀",
       "est": "이번 주 내 몫 (예상)",
       "pays": "지급: {when}",
-      "auto": "청구할 필요 없음: 주가 끝나면 내 몫이 $FLYAI로 지갑에 자동 전송됩니다.",
+      "auto": "매주 일요일 Fly Desk 지급과 함께 지급돼요: 위에서 청구하세요 (청구 또는 청구 후 스테이킹). 스테이커는 Trader Fly 보유자와 같은 부스트를 받아요.",
       "owed": "{amount}이(가) 지갑으로 전송 중입니다",
       "notNow": "지금은 파트너 NFT가 집계되지 않습니다: 계속 받으려면 $FLYAI 200k를 보유하세요 (스테이킹 포함).",
-      "see": "파트너 풀 보기"
+      "see": "파트너 풀 보기",
+      "feed": "먹이 주기",
+      "feedHint": "먹이를 주면 이 NFT의 주간 몫이 청구 대신 NFT 자체 거래 지갑으로 바로 들어가요.",
+      "feedTitle": "NFT에 먹이 주기"
     }
   },
   "odds": {
@@ -2233,7 +2236,7 @@
     "claimLink": "클레임",
     "boardLink": "리더보드에서 {name} 지갑 순위 보기 →",
     "chat": "대화하기",
-    "potShare": "거래 중인 {name} NFT가 파트너 풀에서 수익을 받아요: NFT 자체 지갑에 자금이 있고 소유자가 {hold} $FLYAI를 보유해야 해요. 모든 파트너 컬렉션을 위한 하나의 풀로, 매주 수익을 $FLYAI로 지갑에 바로 지급해요.",
+    "potShare": "거래 중인 {name} NFT가 파트너 풀에서 수익을 받아요: NFT 자체 지갑에 자금이 있고 소유자가 {hold} $FLYAI를 보유해야 해요. 모든 파트너 컬렉션을 위한 하나의 풀로, 수익은 매주 일요일 Fly Desk 지급과 함께 청구할 수 있어요 (청구 또는 청구 후 스테이킹), 같은 스테이킹 부스트 포함.",
     "potLink": "파트너 풀 보기",
     "activatedN": "지금 거래 중인 {name} NFT"
   },
@@ -2644,5 +2647,34 @@
     "lvHow": "입금된 파리는 하루 10 XP, 거래당 5 XP, 수익 $1당 20 XP를 얻어요. 손실로 XP가 줄지는 않아요. 레벨은 표시용이며 스쿼드 점수에 합산돼요.",
     "howGet": "얻는 방법",
     "titlesNote": "칭호는 표시용이에요: 지급액은 바뀌지 않아요."
+  },
+  "coach": {
+    "title": "Fly Pet 코치",
+    "lede": "코치 모드: 파리가 세션 내내 게임을 지켜보다가 선택할 때가 오면 확률과 함께 말해줘요. 제안만 해요: 플레이는 직접 하세요. 무료 힌트(하루 3번)는 아무것도 필요 없어요.",
+    "getPet": "Fly Pet 받기 →",
+    "yours": "내 코치 패스",
+    "none": "패스 없음",
+    "active": "활성",
+    "left": "{hours}시간 남음",
+    "until": "이번 달: {hours}시간, {date}까지",
+    "queued": "다음 달도 결제됨, {date}까지",
+    "passTitle": "코치 패스",
+    "passText": "{days}일 동안 코치 모드 {hours}시간. 사용 중에 다시 사면 다음 달이 추가돼요.",
+    "topupTitle": "충전",
+    "topupText": "이번 달 +{hours}시간.",
+    "payUsdg": "{amount} USDG 결제",
+    "payFlyai": "{amount} $FLYAI 결제",
+    "confirmPass": "코치 패스({hours}시간)에 {what}를 결제할까요? Robinhood Chain의 내 지갑에서 보내요.",
+    "confirmTopup": "이번 달 {hours}시간 추가에 {what}를 결제할까요? Robinhood Chain의 내 지갑에서 보내요.",
+    "paying": "지갑에서 결제를 확인하세요…",
+    "checking": "결제됨: 체인에서 확인 중…",
+    "slow": "결제는 됐지만 아직 확인되지 않았어요. 1분 후 새로고침하세요 (tx {tx}).",
+    "done": "완료: 코치 모드가 {date}까지 켜졌어요 ({hours}시간). Fly Pet 채팅에서 켜세요.",
+    "stakeTitle": "스테이커는 더 싸게",
+    "stakeYours": "{off}% 할인 적용됨: {staked} $FLYAI 스테이킹.",
+    "stakeNone": "$FLYAI를 스테이킹하면 더 싸요:",
+    "tier": "{min} 스테이킹: {off}% 할인",
+    "stakeLink": "$FLYAI 스테이킹 →",
+    "free": "무료 힌트: Fly Pet에서 Alt+Shift+C, 하루 3번."
   }
 }

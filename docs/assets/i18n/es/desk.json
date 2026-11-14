@@ -458,7 +458,7 @@
   "ppot": {
     "tabDesk": "Fly Desk",
     "tabPartners": "Socios",
-    "note": "Un fondo para los NFT que operan de todas las colecciones socias, aparte del Fly Desk. Un NFT cuenta mientras su propia wallet tiene fondos y su dueño tiene 200.000 $FLYAI. Solo se paga lo que el fondo gana por encima de lo que empezó: 95% a los holders según las horas que sus NFT estuvieron operando, en $FLYAI, enviado directo a sus wallets.",
+    "note": "Un fondo para los NFT que operan de todas las colecciones socias, aparte del Fly Desk. Un NFT cuenta mientras su propia wallet tiene fondos y su dueño tiene 200.000 $FLYAI. Solo se paga lo que el fondo gana por encima de lo que empezó: 95% a los holders según las horas que sus NFT estuvieron operando (con el mismo bonus por stake que los Trader Flies), en $FLYAI, reclamable cada domingo con el pago del Fly Desk.",
     "past": "Semanas anteriores",
     "sum": "Empezó con {funded}. En camino de pagar {holders} a los holders de {n} NFT socios que operan ({owners} holders) al final de esta semana, {date}.",
     "starting": "El fondo de Socios está empezando: sus cifras aparecerán aquí cuando tenga fondos y haya hecho su primer ciclo.",

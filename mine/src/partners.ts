@@ -659,6 +659,27 @@ export function createPartners(d: PartnersDeps) {
     return [...out].map(([chat, funded]) => ({ chat, funded }));
   }
 
+  // ---- feeding a partner NFT's pot share into its own wallet (mine.partner_feed; flytrade/vaults/allpool.py reads it) ----
+  async function potTokens(wallet: string): Promise<number[]> {
+    const h = await pg.one<{ h: any }>("select value->'holders'->? as h from mine.vault_public where key = 'p_partners:pool:holders'", wallet);
+    return ((h?.h?.tokens ?? []) as unknown[]).map(Number).filter((n) => Number.isFinite(n));
+  }
+  async function feedOf(wallet: string) {
+    const tokens = await potTokens(wallet);
+    const on = new Set((await pg.all<{ desk_id: string }>(
+      'select desk_id::text as desk_id from mine.partner_feed where "on" and owner = ?', wallet)).map((r) => Number(r.desk_id)));
+    return { tokens: tokens.map((fly) => ({ fly, on: on.has(fly) })) };
+  }
+  async function setFeed(req: IncomingMessage, body: any) {
+    const me = (await d.sessionWallet(req)).toLowerCase();
+    const fly = Number(body?.fly), on = body?.on === true;
+    if (!Number.isSafeInteger(fly) || fly < 1_000_000_000) throw new HttpError(400, "which partner NFT?");
+    if (!(await potTokens(me)).includes(fly)) throw new HttpError(403, "only an NFT of yours that counts in the Partners pot");
+    await pg.run(`insert into mine.partner_feed (desk_id, owner, "on", updated_at) values (?, ?, ?, now())
+      on conflict (desk_id) do update set owner = excluded.owner, "on" = excluded."on", updated_at = now()`, fly, me, on);
+    return feedOf(me);
+  }
+
   // ---- routes ----------------------------------------------------------------------------------------------------
   async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promise<boolean> {
     const p = url.pathname;
@@ -686,6 +707,11 @@ export function createPartners(d: PartnersDeps) {
         const h = await pg.one<{ h: any }>("select value->'holders'->? as h from mine.vault_public where key = 'p_partners:pool:holders'",
           m[1].toLowerCase());
         return d.send(res, 200, { address: addressOf(m[1]), pool: poolPart(h?.h ?? null) }), true;
+      }
+      // feeding (2026-11-14, the user: partners "should be able to claim & stake and also feed"): which of a wallet's
+      // NFTs in the pot have feeding on - their weekly share goes into the NFT's own wallet instead of the claim
+      if ((m = /^\/api\/partners-pool\/feed\/(0x[0-9a-fA-F]{40})$/.exec(p))) {
+        return d.send(res, 200, await feedOf(m[1].toLowerCase())), true;
       }
       if ((m = /^\/api\/partners-pool\/epochs\/(\d{1,5})$/.exec(p))) {
         const e = await publicOf(`p_partners:pool:epoch:${Number(m[1])}`);
@@ -720,6 +746,7 @@ export function createPartners(d: PartnersDeps) {
       }
     }
     if (req.method === "POST") {
+      if (p === "/api/partners-pool/feed") return d.send(res, 200, await setFeed(req, await d.readJson(req))), true;
       if ((m = /^\/api\/admin\/partners\/([^/]+)$/.exec(p))) { d.adminOnly(req); return d.send(res, 200, await adminSave(m[1], await d.readJson(req))), true; }
       if ((m = /^\/api\/partners\/([a-z][a-z0-9]{1,19})\/token\/(\d{1,7})\/setup$/.exec(p))) {
         const pa = await partnerOf(m[1]);

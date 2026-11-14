@@ -637,10 +637,13 @@
       "title": "Ortaklar havuzu",
       "est": "Bu haftaki payın (tahmini)",
       "pays": "Ödeme: {when}",
-      "auto": "Talep edecek bir şey yok: payın hafta bitince $FLYAI olarak cüzdanına otomatik gönderilir.",
+      "auto": "Her pazar Fly Desk ödemesiyle ödenir: yukarıdan talep et (Talep et veya Talep et ve stake et). Stake edenler Trader Fly sahipleriyle aynı bonusu alır.",
       "owed": "{amount} cüzdanına gönderiliyor",
       "notNow": "Ortak NFT'lerin şu an sayılmıyor: kazanmaya devam etmek için 200k $FLYAI tut (stake edilen sayılır).",
-      "see": "Ortaklar havuzunu gör"
+      "see": "Ortaklar havuzunu gör",
+      "feed": "Besle",
+      "feedHint": "Beslemek, bu NFT'nin haftalık payını talep yerine doğrudan kendi işlem cüzdanına koyar.",
+      "feedTitle": "NFT'lerini besle"
     }
   },
   "odds": {
@@ -2235,7 +2238,7 @@
     "claimLink": "Talep et",
     "boardLink": "{name} cüzdanlarının sıralamasını liderlik tablosunda gör →",
     "chat": "Onunla sohbet et",
-    "potShare": "İşlem yapan {name} NFT'leri Ortaklar havuzundan kazanır: NFT'nin kendi cüzdanında para olmalı ve sahibi {hold} $FLYAI tutmalı. Tüm ortak koleksiyonlar için tek havuz; kârını her hafta $FLYAI olarak doğrudan cüzdanına öder.",
+    "potShare": "İşlem yapan {name} NFT'leri Ortaklar havuzundan kazanır: NFT'nin kendi cüzdanında para olmalı ve sahibi {hold} $FLYAI tutmalı. Tüm ortak koleksiyonlar için tek havuz; kârı her pazar Fly Desk ödemesiyle talep edilebilir (Talep et veya Talep et ve stake et), aynı stake bonusuyla.",
     "potLink": "Ortaklar havuzunu gör",
     "activatedN": "Şu an işlem yapan {name} NFT'leri"
   },
@@ -2646,5 +2649,34 @@
     "lvHow": "Fonlu bir sinek günde 10 XP, işlem başına 5 ve her $1 kâr için 20 XP kazanır. Zarar asla XP düşürmez. Seviyeler gösterim içindir ve takım puanına eklenir.",
     "howGet": "Nasıl alınır",
     "titlesNote": "Unvanlar gösterim içindir: ödemeleri değiştirmez."
+  },
+  "coach": {
+    "title": "Fly Pet Koçu",
+    "lede": "Koç modu: sineğin tüm oturum boyunca oyununu izler ve bir seçim olduğunda olasılığıyla söyler. Sadece önerir: her hamleyi sen yaparsın. Ücretsiz ipuçları (günde 3) için bir şey gerekmez.",
+    "getPet": "Fly Pet'i al →",
+    "yours": "Koç pasın",
+    "none": "Pas yok",
+    "active": "Aktif",
+    "left": "{hours} saat kaldı",
+    "until": "Bu ay: {hours} saat, {date} tarihine kadar",
+    "queued": "Sonraki ayın ödendi, {date} tarihine kadar",
+    "passTitle": "Koç pası",
+    "passText": "{days} gün boyunca {hours} saat koç modu. Biri sürerken tekrar almak bir sonraki ayı ekler.",
+    "topupTitle": "Ek saat",
+    "topupText": "Bu ay için +{hours} saat.",
+    "payUsdg": "{amount} USDG öde",
+    "payFlyai": "{amount} $FLYAI öde",
+    "confirmPass": "Koç pası ({hours} saat) için {what} ödensin mi? Robinhood Chain'deki cüzdanından gönderilir.",
+    "confirmTopup": "Bu ay {hours} saat daha için {what} ödensin mi? Robinhood Chain'deki cüzdanından gönderilir.",
+    "paying": "Ödemeyi cüzdanında onayla…",
+    "checking": "Ödendi: zincirde kontrol ediliyor…",
+    "slow": "Ödeme gitti ama henüz kontrol edilmedi. Bir dakika sonra yenile (tx {tx}).",
+    "done": "Tamam: koç modu {date} tarihine kadar açık ({hours} saat). Fly Pet sohbetinde aç.",
+    "stakeTitle": "Stake edenler daha az öder",
+    "stakeYours": "%{off} indirimin uygulandı: {staked} $FLYAI stake edilmiş.",
+    "stakeNone": "Daha az ödemek için $FLYAI stake et:",
+    "tier": "{min} stake: %{off} indirim",
+    "stakeLink": "$FLYAI stake et →",
+    "free": "Ücretsiz ipuçları: Fly Pet'te Alt+Shift+C'ye bas, günde 3."
   }
 }

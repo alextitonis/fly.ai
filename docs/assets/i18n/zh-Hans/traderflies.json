@@ -635,10 +635,13 @@
       "title": "合作伙伴奖池",
       "est": "你本周的份额（预估）",
       "pays": "发放时间 {when}",
-      "auto": "无需领取：本周结束时，你的份额会自动以 $FLYAI 发送到你的钱包。",
+      "auto": "每周日随 Fly Desk 一起发放：在上方领取（领取或领取并质押）。质押者获得与 Trader Fly 持有人相同的加成。",
       "owed": "{amount} 正在发送到你的钱包",
       "notNow": "你的合作伙伴 NFT 目前不计入：持有 20 万 $FLYAI（质押也算）即可继续获得收益。",
-      "see": "查看合作伙伴奖池"
+      "see": "查看合作伙伴奖池",
+      "feed": "喂养",
+      "feedHint": "开启喂养后，这个 NFT 的每周份额会直接进入它自己的交易钱包，而不是等你领取。",
+      "feedTitle": "喂养你的 NFT"
     }
   },
   "odds": {
@@ -2233,7 +2236,7 @@
     "claimLink": "领取",
     "boardLink": "在排行榜上查看 {name} 钱包排名 →",
     "chat": "和它聊天",
-    "potShare": "正在交易的 {name} NFT 可从合作伙伴奖池获得收益：NFT 自己的钱包里有资金，且持有人持有 {hold} $FLYAI。所有合作伙伴系列共用一个奖池，每周以 $FLYAI 直接把利润发到你的钱包。",
+    "potShare": "正在交易的 {name} NFT 可从合作伙伴奖池获得收益：NFT 自己的钱包里有资金，且持有人持有 {hold} $FLYAI。所有合作伙伴系列共用一个奖池，利润每周日随 Fly Desk 一起领取（领取或领取并质押），享有相同的质押加成。",
     "potLink": "查看合作伙伴资金池",
     "activatedN": "个 {name} NFT 正在交易"
   },
@@ -2644,5 +2647,34 @@
     "lvHow": "有资金的苍蝇每天得 10 XP，每笔交易 5 XP，每 $1 收益 20 XP。亏损不会扣 XP。等级仅供展示，并计入你的小队分数。",
     "howGet": "如何获得",
     "titlesNote": "称号仅供展示，不影响分红。"
+  },
+  "coach": {
+    "title": "Fly Pet 教练",
+    "lede": "教练模式：你的苍蝇全程看着你的游戏，出现选择时告诉你最佳选择和概率。它只给建议：每一步都由你来走。免费提示（每天 3 次）无需任何东西。",
+    "getPet": "获取 Fly Pet →",
+    "yours": "你的教练通行证",
+    "none": "没有通行证",
+    "active": "有效",
+    "left": "剩余 {hours} 小时",
+    "until": "本月：{hours} 小时，至 {date}",
+    "queued": "下个月已付款，至 {date}",
+    "passTitle": "教练通行证",
+    "passText": "{days} 天内 {hours} 小时教练模式。在有效期内再次购买会续上下个月。",
+    "topupTitle": "加时",
+    "topupText": "本月 +{hours} 小时。",
+    "payUsdg": "支付 {amount} USDG",
+    "payFlyai": "支付 {amount} $FLYAI",
+    "confirmPass": "为教练通行证（{hours} 小时）支付 {what}？将从你在 Robinhood Chain 上的钱包发送。",
+    "confirmTopup": "为本月再加 {hours} 小时支付 {what}？将从你在 Robinhood Chain 上的钱包发送。",
+    "paying": "请在钱包中确认付款…",
+    "checking": "已付款：正在链上核对…",
+    "slow": "付款已发出但还没核对完成。一分钟后刷新（tx {tx}）。",
+    "done": "完成：教练模式有效至 {date}（{hours} 小时）。在 Fly Pet 的聊天里打开它。",
+    "stakeTitle": "质押者更便宜",
+    "stakeYours": "已享 {off}% 折扣：质押了 {staked} $FLYAI。",
+    "stakeNone": "质押 $FLYAI 可以更便宜：",
+    "tier": "质押 {min}：{off}% 折扣",
+    "stakeLink": "质押 $FLYAI →",
+    "free": "免费提示：在 Fly Pet 中按 Alt+Shift+C，每天 3 次。"
   }
 }

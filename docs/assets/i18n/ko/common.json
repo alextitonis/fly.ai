@@ -519,7 +519,9 @@
     "bn_piedpiper": "실제 추천 10명을 데려오세요.",
     "b_ambassador": "앰배서더",
     "bn_ambassador": "초대 전용: fly.ai 앰배서더에게 주어집니다.",
-    "s_quest": "일일 퀘스트"
+    "s_quest": "일일 퀘스트",
+    "s_partners": "거래 중인 파트너 NFT",
+    "h_partners": "<b>파트너 NFT</b>: 자체 지갑이 거래 중인 파트너 NFT(Bullas, Enjoyoors, Waifus, RUYUI...) 하나당 하루 10 XP, 활성 파리처럼."
   },
   "flychat": {
     "title": "플라이 #{id}",

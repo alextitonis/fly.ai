@@ -254,7 +254,10 @@
     },
     "more": {
       "title": "Nereye gidiyor",
-      "funds": "Daha büyük deneyler için işlem gücü, beynin gerçek bir sinek gibi öğrenmesi, gerçek bağlantıların özel olup olmadığının sınanması, yeni dünyalar ve duyular. Hepsi açık kaynak olarak yayımlanır."
+      "funds": "Daha büyük deneyler için işlem gücü, beynin gerçek bir sinek gibi öğrenmesi, gerçek bağlantıların özel olup olmadığının sınanması, yeni dünyalar ve duyular. Hepsi açık kaynak olarak yayımlanır.",
+      "pet": "Fly Pet",
+      "petText": "Masaüstünde küçük bir sinek: Trader Fly'ınla sohbet, işlem ve fiyat uyarıları, alpha call'lar ve en iyi seçimi söyleyen bir oyun koçu.",
+      "petGo": "Fly Pet'i al →"
     },
     "lede2": "fly.ai'nin arkasındaki token: her biri 166,700 nöronlu gerçek meyve sineği beyinleri, kendi cüzdanlarından işlem yapar ve Fly Desk'i yürütür. Açık kaynak.",
     "flies": {

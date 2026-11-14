@@ -35,7 +35,7 @@
     connectX: "Connect your X account above to earn XP for your posts.", seasonEnds: "XP counts toward the airdrop.",
     seasonOver: "Season 1 is over. XP counted toward the airdrop.",
     s_hold: "Holding $FLYAI", s_flies: "Active flies", s_deposits: "Fly wallet deposits", s_feed: "Feeding the Fly Desk", s_market: "Marketplace trades",
-    s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_bug: "Bugs found", s_badges: "Badges", s_ambassador: "Ambassador", s_refquest: "Referral quests", s_quest: "Daily quests",
+    s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_bug: "Bugs found", s_badges: "Badges", s_ambassador: "Ambassador", s_partners: "Partner NFTs trading", s_refquest: "Referral quests", s_quest: "Daily quests",
     account: "Your account", badgesBtn: "🏅 Badges", referralsBtn: "Referrals",
     log: "XP log", logBefore: "everything up to {date}", noLog: "Nothing logged yet.", logTx: "tx", logPost: "post",
     s_boost: "2x XP bonus", s_penalty: "2x XP: sells and withdrawals", logBoost: "{mult}x",
@@ -56,13 +56,14 @@
     h_referrals: "<b>Referrals</b>: +10% of the XP of everyone you bring who becomes a real referral.",
     h_refquest: "<b>Referral quests</b>: one-off XP at 1, 3, 5, 10 and 25 real referrals: 25, 50, 100, 250 and 500.",
     h_ambassador: "<b>Ambassadors</b>: 50 XP a day while you hold the Ambassador badge.",
+    h_partners: "<b>Partner NFTs</b>: 10 XP a day for each partner NFT (Bullas, Enjoyoors, Waifus, RUYUI...) whose own wallet is trading, like an active fly.",
     h_x: "<b>X</b>: 50 XP for connecting your account, 20 XP for each post about fly.ai, up to 5 a day (counted automatically overnight).",
     h_telegram: "<b>Telegram</b>: 50 XP while your connected account is in the fly.ai group (checked daily).",
     h_flybook: "<b>Flybook</b>: 5 XP a day you like, comment, poke or caption (for holders and fly owners).",
     h_boost: "<b>2x XP windows</b>: some days the team doubles XP for buys, deposits, feeding, trades, breeding and pass burns. Sells and withdrawals cost double then too, and a sell within 3 days after takes the bonus back.",
     h_foot: "Team wallets and fly wallets aren't ranked. Levels: level 1 at 50 XP, 2 at 200, 3 at 450, 10 at 5,000.",
   };
-  const HELP = ["hold", "flies", "streak", "deposits", "feed", "market", "buy", "claimstake", "breed", "passburn", "bug", "badges", "referrals", "refquest", "ambassador", "x", "telegram", "flybook", "boost"];
+  const HELP = ["hold", "flies", "partners", "streak", "deposits", "feed", "market", "buy", "claimstake", "breed", "passburn", "bug", "badges", "referrals", "refquest", "ambassador", "x", "telegram", "flybook", "boost"];
 
   function t(key, vars) {
     let v = window.flyI18n ? window.flyI18n.t("common.xp." + key, vars) : null;

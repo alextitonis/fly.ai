@@ -637,10 +637,13 @@
       "title": "Partners pot",
       "est": "Your share this week (estimate)",
       "pays": "Pays out {when}",
-      "auto": "Nothing to claim: your share is sent to your wallet in $FLYAI automatically when the week ends.",
+      "auto": "Paid every Sunday with the Fly Desk payout: claim it above (Claim or Claim & stake). Stakers get the same boost as Trader Fly holders.",
       "owed": "{amount} is being sent to your wallet",
       "notNow": "Your partner NFTs aren't counting right now: hold 200k $FLYAI (staked counts) to keep earning.",
-      "see": "See the Partners pot"
+      "see": "See the Partners pot",
+      "feed": "Feed it",
+      "feedHint": "Feeding puts this NFT's weekly share straight into its own trading wallet instead of the claim.",
+      "feedTitle": "Feed your NFTs"
     }
   },
   "odds": {
@@ -2235,7 +2238,7 @@
     "claimLink": "Claim",
     "boardLink": "See how {name} wallets rank on the leaderboard →",
     "chat": "Chat with it",
-    "potShare": "Trading {name} NFTs earn from the Partners pot: the NFT's own wallet has money in it and its owner holds {hold} $FLYAI. One pot for every partner collection, paying out its profits each week in $FLYAI, straight to your wallet.",
+    "potShare": "Trading {name} NFTs earn from the Partners pot: the NFT's own wallet has money in it and its owner holds {hold} $FLYAI. One pot for every partner collection; its profits are claimable every Sunday with the Fly Desk payout (Claim or Claim & stake), with the same staking boost.",
     "potLink": "See the Partners pot",
     "activatedN": "{name} NFTs trading right now"
   },
@@ -2646,5 +2649,34 @@
     "lvHow": "A funded fly earns 10 XP a day, 5 per trade and 20 per $1 of profit. Losses never take XP away. Levels are for show and add up to your squad score.",
     "howGet": "How to get it",
     "titlesNote": "Titles are for show: they don't change payouts."
+  },
+  "coach": {
+    "title": "Fly Pet Coach",
+    "lede": "Coach mode: your fly watches your game all session and speaks up when there's a choice to make, with its odds. It only suggests: you make every move. Free hints (3 a day) need nothing.",
+    "getPet": "Get Fly Pet →",
+    "yours": "Your Coach pass",
+    "none": "No pass",
+    "active": "Active",
+    "left": "{hours} h left",
+    "until": "This month: {hours} h, until {date}",
+    "queued": "Your next month is paid, until {date}",
+    "passTitle": "Coach pass",
+    "passText": "{hours} hours of Coach mode for {days} days. Buying again while one runs adds the next month.",
+    "topupTitle": "Top-up",
+    "topupText": "+{hours} hours for this month.",
+    "payUsdg": "Pay {amount} USDG",
+    "payFlyai": "Pay {amount} $FLYAI",
+    "confirmPass": "Pay {what} for the Coach pass ({hours} hours)? It's sent from your wallet on Robinhood Chain.",
+    "confirmTopup": "Pay {what} for {hours} more hours this month? It's sent from your wallet on Robinhood Chain.",
+    "paying": "Confirm the payment in your wallet…",
+    "checking": "Paid: checking it on chain…",
+    "slow": "The payment went through but isn't checked yet. Refresh in a minute (tx {tx}).",
+    "done": "Done: Coach mode is on until {date} ({hours} h). Turn it on in Fly Pet's chat.",
+    "stakeTitle": "Stakers pay less",
+    "stakeYours": "Your {off}% off is applied: {staked} $FLYAI staked.",
+    "stakeNone": "Stake $FLYAI to pay less:",
+    "tier": "{min} staked: {off}% off",
+    "stakeLink": "Stake $FLYAI →",
+    "free": "Free hints: press Alt+Shift+C in Fly Pet, 3 a day."
   }
 }

@@ -14,6 +14,8 @@
  *   pass burn    100 XP a FlightPass sent to 0x0 or 0x…dEaD
  *   badges       claimed soulbound badges by rarity: common 25, uncommon 100, rare 250, legendary 500
  *   ambassador   50 a day while the wallet holds the Ambassador badge (#12, 2026-11-09: "also EXP from that badge")
+ *   partners     10 a day for each partner NFT TRADING that day (2026-11-14, the user: "activated partnered nfts to give
+ *                exp like the flies ... only if trading"): its own wallet active and with money in it (mine.xp_partner_days)
  *   referrals    +10% of each real referral's XP (src/referrals.ts: $20+ in Fly Wallets for 7 days)
  *   X            50 once for a linked account (src/xlink.ts); 20 for each post from it about fly.ai, up to 5 a UTC day
  *                (found nightly; 2026-11-09 the user: "count more than 1 post if the user made that day")
@@ -79,7 +81,7 @@ export const RATES = {
   per10kFlyai: 1, marketUsdg: 0.5, marketOther: 20,
   claimStake: 50, claimStakeMs: 3_600_000, breed: 500, passBurn: 100,
   badge: { common: 25, uncommon: 100, rare: 250, legendary: 500 } as Record<string, number>,
-  ambassadorDay: 50,
+  ambassadorDay: 50, partnerPerDay: 10, partnerMinUsd: 1,
   referral: 0.1, xConnect: 50, tgMember: 50, share: 20, shareMax: 5, flybookDay: 5, levelBase: 50,
 } as const;
 
@@ -519,6 +521,7 @@ export function createXp(d: {
       await shares().catch((err) => console.error(`xp shares: ${err instanceof Error ? err.message : err}`));
       await classify();
       await snapshot();
+      await partnerDays().catch((err) => console.error(`xp partner days: ${err instanceof Error ? err.message : err}`));
       await rounds();
       await notify();
       await boostNotes();
@@ -529,12 +532,30 @@ export function createXp(d: {
     }
   }
 
+  /** Today's trading partner NFTs per holder (the Partners pot's rule: the NFT's own wallet active - its holder holds the
+   * 200k - with at least RATES.partnerMinUsd in it), kept as the day's highest count. */
+  async function partnerDays() {
+    const t = now();
+    if (t < cfg.start || t > cfg.end) return;
+    const rows = await pg.all<{ wallet: string; n: number }>(`select lower(value->>'holder') as wallet,
+        sum(jsonb_array_length(coalesce(value->'flies', '[]'::jsonb)))::int as n
+      from mine.vault_public
+      where (left(key, 8) = 'vault:p_' or left(key, 12) = 'vault:ruyui:') and left(key, 22) <> 'vault:p_partners_pool:'
+        and value->>'holder' is not null and (value->>'active')::boolean and coalesce((value->>'value')::float8, 0) >= ?
+      group by 1`, RATES.partnerMinUsd);
+    const keep = rows.filter((r) => r.n > 0 && /^0x[0-9a-f]{40}$/.test(r.wallet) && !cfg.exclude.includes(r.wallet));
+    if (!keep.length) return;
+    await pg.run(`insert into mine.xp_partner_days (wallet, day, n)
+      select wallet, ?::date, n from jsonb_to_recordset(?::text::jsonb) as r(wallet text, n int)
+      on conflict (wallet, day) do update set n = greatest(xp_partner_days.n, excluded.n)`, new Date(t).toISOString().slice(0, 10), JSON.stringify(keep));
+  }
+
   /** Everyone's XP right now, by source. Read from the tables each minute. */
   let cache: { at: number; rows: Map<string, Row>; ranked: Row[]; windows: Map<string, WindowResult[]> } | null = null;
   async function compute() {
     if (cache && now() - cache.at < CACHE_MS) return cache;
     const t = Math.min(now(), cfg.end), endIso = Number.isFinite(cfg.end) ? iso(cfg.end) : "9999-12-31T00:00:00.000Z";   // postgres.js dates can't be "infinity"
-    const [holders, events, deposits, principal, links, tg, refs, badges, flyWallets, flybook] = await Promise.all([
+    const [holders, events, deposits, principal, links, tg, refs, badges, flyWallets, flybook, partnerDayRows] = await Promise.all([
       pg.all<HolderRow>("select wallet, liquid::text, staked::text, locked::text, flies, at, hold_xp, fly_xp, streak_since from mine.xp_holders"),
       pg.all<{ wallet: string; source: string; xp: number }>("select wallet, source, sum(xp)::float8 as xp from mine.xp_events where at <= ? group by 1, 2", endIso),
       pg.all<{ wallet: string; usd: number }>(`select lower(holder) as wallet, sum(usd)::float8 as usd from mine.vault_moves
@@ -556,6 +577,8 @@ export function createXp(d: {
           union all select user_id, created_at::date from public.pokes
           union all select author, created_at::date from public.captions
         ) a join public.profiles p on p.id = a.user_id where p.wallet is not null and a.d <= ?::date group by 1`, endIso).catch(() => []),
+      pg.all<{ wallet: string; n: number }>("select wallet, sum(n)::int as n from mine.xp_partner_days where day <= ?::date group by 1",
+        (endIso ?? "9999-12-31").slice(0, 10)).catch(() => []),
     ]);
     const rows = new Map<string, Row>();
     const row = (w: string) => rows.get(w) ?? rows.set(w, { wallet: w, xp: 0, level: 0, sources: {}, flies: 0, active: false, streakWeeks: 0 }).get(w)!;
@@ -584,6 +607,7 @@ export function createXp(d: {
     const badgeWallets = mineBadges.size;
     for (const [w, ids] of mineBadges) add(w, "badges", badgeXp(ids, held, badgeWallets));
     // the Ambassador badge (#12): a day's XP for each day held, counting the day it was granted
+    for (const pd of partnerDayRows) add(pd.wallet, "partners", pd.n * RATES.partnerPerDay);   // trading partner NFT-days
     for (const b of badges) if (b.badge === 12) add(b.wallet, "ambassador", Math.max(0, Math.floor((t - new Date(b.at).getTime()) / 86_400_000) + 1) * RATES.ambassadorDay);
     // Flybook days only for wallets that hold or own a fly: the free part can't earn on its own
     for (const f of flybook) if (rows.get(f.wallet)?.sources.hold || rows.get(f.wallet)?.flies) add(f.wallet, "flybook", f.days * RATES.flybookDay);

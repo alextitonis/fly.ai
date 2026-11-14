@@ -254,7 +254,10 @@
     },
     "more": {
       "title": "Where it's going",
-      "funds": "Compute for bigger experiments, letting the brain learn like a real fly, testing whether real wiring is special, and new worlds and senses. All of it ships open source."
+      "funds": "Compute for bigger experiments, letting the brain learn like a real fly, testing whether real wiring is special, and new worlds and senses. All of it ships open source.",
+      "pet": "Fly Pet",
+      "petText": "A tiny fly on your desktop: chat with your Trader Fly, trade and price alerts, alpha calls, and a game coach that tells you the best pick.",
+      "petGo": "Get Fly Pet →"
     },
     "lede2": "The token behind fly.ai: real fruit fly brains, 166,700 neurons each, that trade from their own wallets and run the Fly Desk. Open source.",
     "flies": {

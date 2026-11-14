@@ -519,7 +519,9 @@
     "bn_piedpiper": "帶來 10 位真實推薦。",
     "b_ambassador": "大使",
     "bn_ambassador": "僅限邀請：授予 fly.ai 大使。",
-    "s_quest": "每日任務"
+    "s_quest": "每日任務",
+    "s_partners": "交易中的合作夥伴 NFT",
+    "h_partners": "<b>合作夥伴 NFT</b>：每個自己錢包正在交易的合作夥伴 NFT（Bullas、Enjoyoors、Waifus、RUYUI…）每天 10 XP，和活躍的蒼蠅一樣。"
   },
   "flychat": {
     "title": "蒼蠅 #{id}",

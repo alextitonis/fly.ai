@@ -356,6 +356,31 @@ try {
   clock += 120_000;                                       // (past the 60 s board cache)
   const kp = await xp2.profile(K) as any;
   check("Solana-only fly: its deposit earns deposit XP", kp.sources?.deposits === 500, JSON.stringify(kp.sources));
+
+  // ---- trading partner NFTs earn like flies (2026-11-14): 10 a day each, only while their own wallet trades ----
+  const P = addr(0xb9), Q = addr(0xba);
+  const put = (key: string, v: unknown) => pg.run(`insert into mine.vault_public (key, value) values (?, ?::text::jsonb)
+    on conflict (key) do update set value = excluded.value`, key, JSON.stringify(v));
+  await put("vault:p_bullas:0xb1", { holder: P, active: true, value: 25, flies: [7, 8] });            // 2 trading
+  await put("vault:ruyui:0xb2", { holder: P, active: true, value: 5, flies: [3] });                   // 1 trading
+  await put("vault:p_bullas:0xb3", { holder: Q, active: false, value: 50, flies: [9] });              // not active
+  await put("vault:p_enjoyoors:0xb4", { holder: Q, active: true, value: 0.2, flies: [1] });           // no money
+  await put("vault:p_partners_pool:0xb5", { holder: Q, active: true, value: 900, flies: [] });        // the pot itself
+  await xp2.tick();
+  clock += 120_000;
+  let pp = await xp2.profile(P) as any;
+  check("partner XP: 10 a day per trading NFT", pp.sources?.partners === 30, JSON.stringify(pp.sources));
+  check("partner XP: not active or no money earns nothing", !((await xp2.profile(Q)) as any).sources?.partners);
+  await xp2.tick();                                        // the same day again: counted once
+  clock += 120_000;
+  pp = await xp2.profile(P) as any;
+  check("partner XP: a day counts once", pp.sources?.partners === 30, JSON.stringify(pp.sources));
+  clock += DAY;                                           // the next day, one Bulla sold
+  await put("vault:p_bullas:0xb1", { holder: P, active: true, value: 25, flies: [7] });
+  await xp2.tick();
+  clock += 120_000;
+  pp = await xp2.profile(P) as any;
+  check("partner XP: day two adds that day's count", pp.sources?.partners === 50, JSON.stringify(pp.sources));
 } finally {
   await PG.stop();
 }

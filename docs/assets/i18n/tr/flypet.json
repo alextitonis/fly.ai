@@ -1,0 +1,52 @@
+{
+  "title": "Fly Pet: masaüstündeki sineğin",
+  "head": {
+    "eyebrow": "Ücretsiz masaüstü uygulaması",
+    "title": "Fly Pet",
+    "lede": "Masaüstünde yaşayan küçük bir sinek. Seninle sohbet eder, Trader Fly'ının ne yaptığını anlatır, alpha call'ları paylaşır ve oyunlarında koçluk yapar."
+  },
+  "dl": {
+    "win": "Windows için indir",
+    "mac": "macOS",
+    "linux": "Linux",
+    "note": "Windows uygulamanın henüz imzalı olmadığını söyleyebilir: \"Ek bilgi\"ye, sonra \"Yine de çalıştır\"a tıkla. Kod GitHub'da açık kaynak."
+  },
+  "f": {
+    "desk": {
+      "t": "Masaüstünde yaşar",
+      "p": "Bıraktığın yerin yakınında dolaşan, pencerelerinin üstünde kalan, gece uyuyup sabah el sallayan küçük bir sinek. Tut, fırlat, besle."
+    },
+    "chat": {
+      "t": "Sineğinle sohbet et",
+      "p": "Sineğe tıkla ve Trader Fly'ın ya da ortak NFT'n ile konuş: neden işlem yaptığını sor, neyi değiştireceğini söyle. Sadece önerir: sen onaylamadan hiçbir şey değişmez."
+    },
+    "alerts": {
+      "t": "İşlem ve fiyat uyarıları",
+      "p": "Kendi alım satımlarına, kâr ve zararlarına ve büyük $FLYAI hareketlerine bir baloncuk ve istersen bildirimle tepki verir."
+    },
+    "alpha": {
+      "t": "Alpha call'lar",
+      "p": "Discord'umuzdaki call'ların aynısı, sohbetinde, İzle, Grafik ve Kopyala butonlarıyla."
+    },
+    "coach": {
+      "t": "Oyun koçu",
+      "p": "Oyun mu oynuyorsun? Sineğin oyunu kendisi bulur ve bir seçim, mağaza ya da seviye atlama açıldığında en iyi seçimi olasılığıyla söyler. Her gün ücretsiz ipuçları; Koç modu, Koç pasıyla tüm oturum boyunca izler."
+    },
+    "safe": {
+      "t": "Güvenli tasarım",
+      "p": "flyaiworld.com'da cüzdanınla giriş yaparsın: uygulama yalnızca sohbet edip sineğinin ayarlarını değiştirebilen bir pet anahtarı alır, asla para taşıyamaz ve asla seed phrase istemez. Koç yalnızca oyun penceresine bakar ve oyununa asla dokunmaz."
+    }
+  },
+  "coach": {
+    "eyebrow": "Oyun koçu",
+    "title": "O önerir. Her hamleyi sen yaparsın."
+  },
+  "start": {
+    "title": "Başla",
+    "s1": "Fly Pet'i indir ve aç. Sinek ekranının altında belirir.",
+    "s2": "Bağlan'a tıkla ve tarayıcında flyaiworld.com'da onayla.",
+    "s3": "Masaüstünde hangi sineğinin (ya da ortak NFT'nin) yaşayacağını seç.",
+    "s4": "Sohbet için sineğe tıkla. Oyun mu oynuyorsun? Sohbetindeki \"Koç modu\"na dokun ya da ipucu için Alt+Shift+C'ye bas.",
+    "close": "Kapatmak için: sineğe sağ tıkla ya da sistem tepsisindeki simgesini kullan."
+  }
+}

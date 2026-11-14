@@ -519,7 +519,9 @@
     "bn_piedpiper": "Trae 10 referidos reales.",
     "b_ambassador": "Embajador",
     "bn_ambassador": "Solo por invitación: para los embajadores de fly.ai.",
-    "s_quest": "Misiones diarias"
+    "s_quest": "Misiones diarias",
+    "s_partners": "NFT socios operando",
+    "h_partners": "<b>NFT socios</b>: 10 XP al día por cada NFT socio (Bullas, Enjoyoors, Waifus, RUYUI...) cuya propia wallet está operando, como una mosca activa."
   },
   "flychat": {
     "title": "Mosca #{id}",

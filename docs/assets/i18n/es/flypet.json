@@ -1,0 +1,52 @@
+{
+  "title": "Fly Pet: tu mosca en tu escritorio",
+  "head": {
+    "eyebrow": "App de escritorio gratis",
+    "title": "Fly Pet",
+    "lede": "Una pequeña mosca que vive en tu escritorio. Chatea contigo, te cuenta qué hace tu Trader Fly, comparte alpha calls y te entrena en tus juegos."
+  },
+  "dl": {
+    "win": "Descargar para Windows",
+    "mac": "macOS",
+    "linux": "Linux",
+    "note": "Windows puede avisar que la app aún no está firmada: haz clic en \"Más información\" y luego en \"Ejecutar de todas formas\". El código es abierto en GitHub."
+  },
+  "f": {
+    "desk": {
+      "t": "Vive en tu escritorio",
+      "p": "Una mosquita que camina cerca de donde la dejas, se queda encima de tus ventanas, duerme de noche y saluda por la mañana. Agárrala, lánzala, aliméntala."
+    },
+    "chat": {
+      "t": "Chatea con tu mosca",
+      "p": "Haz clic en la mosca y habla con tu Trader Fly o NFT socio: pregúntale por qué operó, dile qué cambiar. Solo sugiere: nada cambia hasta que lo apruebes."
+    },
+    "alerts": {
+      "t": "Alertas de trades y precio",
+      "p": "Reacciona a sus compras y ventas, ganancias y pérdidas, y grandes movimientos de $FLYAI, con una burbuja y una notificación si quieres."
+    },
+    "alpha": {
+      "t": "Alpha calls",
+      "p": "Las mismas calls que en nuestro Discord, en su chat, con botones de Seguir, Gráfico y Copiar."
+    },
+    "coach": {
+      "t": "Entrenador de juegos",
+      "p": "¿Jugando? Tu mosca encuentra el juego sola y, cuando se abre una elección, tienda o subida de nivel, te dice la mejor opción con sus probabilidades. Pistas gratis cada día; el modo entrenador mira toda la sesión con el pase de entrenador."
+    },
+    "safe": {
+      "t": "Segura por diseño",
+      "p": "Inicias sesión con tu wallet en flyaiworld.com: la app recibe una clave de mascota que puede chatear y cambiar la configuración de tu mosca, nunca mover dinero, y nunca pide una frase semilla. El entrenador solo mira la ventana del juego y nunca toca tu juego."
+    }
+  },
+  "coach": {
+    "eyebrow": "Entrenador de juegos",
+    "title": "Sugiere. Tú haces cada jugada."
+  },
+  "start": {
+    "title": "Empieza",
+    "s1": "Descarga y abre Fly Pet. La mosca aparece abajo en tu pantalla.",
+    "s2": "Haz clic en Conectar y aprueba en tu navegador en flyaiworld.com.",
+    "s3": "Elige cuál de tus moscas (o NFT socios) vive en tu escritorio.",
+    "s4": "Haz clic en la mosca para chatear. ¿Jugando? Toca \"Modo entrenador\" en su chat, o pulsa Alt+Shift+C para una pista.",
+    "close": "Para cerrarla: clic derecho en la mosca, o usa su icono en la bandeja del sistema."
+  }
+}

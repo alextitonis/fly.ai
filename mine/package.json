@@ -38,6 +38,7 @@
     "test:tg": "node --disable-warning=ExperimentalWarning src/tgtest.ts",
     "test:agents": "node --disable-warning=ExperimentalWarning src/agentstest.ts",
     "test:follow": "node --disable-warning=ExperimentalWarning src/followtest.ts",
+    "test:coach": "node --disable-warning=ExperimentalWarning src/coachpasstest.ts",
     "test:feedrop": "node --disable-warning=ExperimentalWarning src/feedroptest.ts",
     "test:scan": "node --disable-warning=ExperimentalWarning src/scantest.ts",
     "test:deskchat": "node --disable-warning=ExperimentalWarning src/deskchattest.ts",

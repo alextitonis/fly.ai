@@ -54,6 +54,7 @@ import { createTeam } from "./team.ts";
 import { blockscoutTransfers, createDeskChat, TEAM as CHAT_TEAM_WALLETS } from "./deskchat.ts";
 import { buyWeekConfig, createBuyWeek } from "./buyweek.ts";
 import { createFlyChat, openRouter } from "./flychat.ts";
+import { coachConfig, createCoachPass } from "./coachpass.ts";
 import { createPet, flyOwners, petWalletOf } from "./pet.ts";
 import { createHunt } from "./hunt.ts";
 import { badgeConfig, createBadges } from "./badges.ts";
@@ -4223,6 +4224,10 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && p.startsWith("/api/flychat/")) {
     if (await flyChat.route(req, res, url)) return;
   }
+  // the Fly Pet Coach pass (src/coachpass.ts): quote, pay, pass status
+  if (req.method !== "OPTIONS" && p.startsWith("/api/coach/")) {
+    if (await coachPass.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p === "/api/desk-chat" || p === "/api/desk-chat/me")) {
     if (await deskChat.route(req, res, url)) return;
   }
@@ -4672,6 +4677,12 @@ const flyChat = createFlyChat({
   rpc: CLAIMS.rpc,                                   // checking a chat pack's burn
 });
 if (USER) flyChat.start();
+// the Fly Pet Coach pass (src/coachpass.ts, flytrade/COACH-PLAN.md): USDG or $FLYAI checked on chain, stakers pay less
+const coachPass = createCoachPass({
+  pg, HttpError, send, readJson, cfg: coachConfig(process.env), rpc: CLAIMS.rpc,
+  flyaiUsd: async () => (await flyaiPrice()).usd,
+  stakeOf: async (w) => (STAKING.contract ? Number(fromWei(await readStake(STAKING.rpc, STAKING.contract, w, STAKING.lock))) : 0),
+});
 // Follow a fly (src/follow.ts, flytrade/UTILITY-PLAN.md): a week's pass to copy another fly, paid in $FLYAI to its owner
 const follow = createFollow({
   pg, HttpError, send, readJson, sessionWallet: sessionAddress, rpc: CLAIMS.rpc,

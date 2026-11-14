@@ -637,10 +637,13 @@
       "title": "Bote de socios",
       "est": "Tu parte esta semana (estimación)",
       "pays": "Se paga el {when}",
-      "auto": "No hay nada que reclamar: tu parte se envía a tu billetera en $FLYAI automáticamente al terminar la semana.",
+      "auto": "Se paga cada domingo con el pago del Fly Desk: reclámalo arriba (Reclamar o Reclamar y stakear). Quien stakea recibe el mismo bonus que los holders de Trader Flies.",
       "owed": "Se están enviando {amount} a tu billetera",
       "notNow": "Tus NFT de socios no cuentan ahora: mantén 200k $FLYAI (lo stakeado cuenta) para seguir ganando.",
-      "see": "Ver el bote de socios"
+      "see": "Ver el bote de socios",
+      "feed": "Alimentarlo",
+      "feedHint": "Alimentar pone la parte semanal de este NFT directamente en su propia wallet de trading en vez de reclamarla.",
+      "feedTitle": "Alimenta tus NFT"
     }
   },
   "odds": {
@@ -2235,7 +2238,7 @@
     "claimLink": "Reclamar",
     "boardLink": "Mira cómo se clasifican las carteras de {name} en la tabla →",
     "chat": "Chatear con él",
-    "potShare": "Los NFT {name} que operan ganan del fondo de Socios: la wallet del propio NFT tiene fondos y su dueño tiene {hold} $FLYAI. Un fondo para todas las colecciones socias que reparte sus ganancias cada semana en $FLYAI, directo a tu wallet.",
+    "potShare": "Los NFT {name} que operan ganan del fondo de Socios: la wallet del propio NFT tiene fondos y su dueño tiene {hold} $FLYAI. Un fondo para todas las colecciones socias; sus ganancias se reclaman cada domingo con el pago del Fly Desk (Reclamar o Reclamar y stakear), con el mismo bonus por stake.",
     "potLink": "Ver el fondo de Socios",
     "activatedN": "NFT de {name} operando ahora mismo"
   },
@@ -2646,5 +2649,34 @@
     "lvHow": "Una mosca con fondos gana 10 XP al día, 5 por operación y 20 por cada $1 de ganancia. Las pérdidas nunca quitan XP. Los niveles son de muestra y suman a la puntuación de tu escuadrón.",
     "howGet": "Cómo conseguirlo",
     "titlesNote": "Los títulos son de muestra: no cambian los pagos."
+  },
+  "coach": {
+    "title": "Entrenador de Fly Pet",
+    "lede": "Modo entrenador: tu mosca mira tu juego toda la sesión y habla cuando hay una elección, con sus probabilidades. Solo sugiere: tú haces cada jugada. Las pistas gratis (3 al día) no necesitan nada.",
+    "getPet": "Consigue Fly Pet →",
+    "yours": "Tu pase de entrenador",
+    "none": "Sin pase",
+    "active": "Activo",
+    "left": "Quedan {hours} h",
+    "until": "Este mes: {hours} h, hasta el {date}",
+    "queued": "Tu próximo mes está pagado, hasta el {date}",
+    "passTitle": "Pase de entrenador",
+    "passText": "{hours} horas de modo entrenador durante {days} días. Comprar otra vez mientras uno está activo añade el mes siguiente.",
+    "topupTitle": "Recarga",
+    "topupText": "+{hours} horas para este mes.",
+    "payUsdg": "Pagar {amount} USDG",
+    "payFlyai": "Pagar {amount} $FLYAI",
+    "confirmPass": "¿Pagar {what} por el pase de entrenador ({hours} horas)? Se envía desde tu wallet en Robinhood Chain.",
+    "confirmTopup": "¿Pagar {what} por {hours} horas más este mes? Se envía desde tu wallet en Robinhood Chain.",
+    "paying": "Confirma el pago en tu wallet…",
+    "checking": "Pagado: comprobándolo en la cadena…",
+    "slow": "El pago se hizo pero aún no se ha comprobado. Actualiza en un minuto (tx {tx}).",
+    "done": "Listo: el modo entrenador está activo hasta el {date} ({hours} h). Actívalo en el chat de Fly Pet.",
+    "stakeTitle": "Quien stakea paga menos",
+    "stakeYours": "Tu {off}% de descuento está aplicado: {staked} $FLYAI en stake.",
+    "stakeNone": "Haz stake de $FLYAI para pagar menos:",
+    "tier": "{min} en stake: {off}% de descuento",
+    "stakeLink": "Stakea $FLYAI →",
+    "free": "Pistas gratis: pulsa Alt+Shift+C en Fly Pet, 3 al día."
   }
 }

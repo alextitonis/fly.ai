@@ -1,7 +1,7 @@
 {
   "name": "flypet",
   "private": true,
-  "version": "0.2.1",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,6 +22,12 @@
   },
   "description": "Fly Pet: a tiny fly that lives on your desktop",
   "author": "fly.ai",
+  "homepage": "https://www.flyaiworld.com/flypet",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alextitonis/fly.ai.git",
+    "directory": "flypet"
+  },
   "main": "dist-electron/main.cjs",
   "build": {
     "appId": "com.flyaiworld.flypet",
@@ -44,7 +50,7 @@
     },
     "nsis": {
       "oneClick": true,
-      "artifactName": "FlyPet-Setup-${version}.${ext}"
+      "artifactName": "FlyPet-Setup.${ext}"
     },
     "mac": {
       "target": {
@@ -52,7 +58,7 @@
         "arch": "universal"
       },
       "category": "public.app-category.entertainment",
-      "artifactName": "FlyPet-${version}.${ext}",
+      "artifactName": "FlyPet.${ext}",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "entitlements": "build/entitlements.mac.plist",
@@ -64,7 +70,7 @@
         "deb"
       ],
       "category": "Game",
-      "artifactName": "FlyPet-${version}.${ext}"
+      "artifactName": "FlyPet.${ext}"
     }
   }
 }

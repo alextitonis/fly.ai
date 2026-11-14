@@ -215,6 +215,19 @@ function handleCalls() {
     execFile("tasklist", ["/v", "/fo", "csv", "/nh", "/fi", `WINDOWTITLE eq ${title.replace(/"/g, "")}`], { timeout: 8000, windowsHide: true },
       (err, out) => resolve(err ? null : (/^"([^"]+\.exe)"/im.exec(out)?.[1] ?? null)));
   }));
+  // finding the game by itself (2026-11-14, the user: "shouldn't it automatically select?"): the capturable windows with
+  // their program name and install folder - one PowerShell call when Coach mode starts or a hint is asked, never in a
+  // loop. The matching is done in the page (src/coach.ts) against the coach's game list: titles stay on this PC.
+  ipcMain.handle("coach-detect", async () => {
+    const own = new Set(BrowserWindow.getAllWindows().map((w) => w.getMediaSourceId()));
+    const sources = (await desktopCapturer.getSources({ types: ["window"], thumbnailSize: { width: 0, height: 0 }, fetchWindowIcons: false }))
+      .filter((s) => !own.has(s.id) && s.name);
+    const procs = await windowPrograms();
+    return sources.map((s) => {
+      const p = procs.find((x) => x.t === s.name);
+      return { id: s.id, name: s.name, process: p ? `${p.p}.exe` : null, path: p?.f ?? null };
+    });
+  });
   // how hard the whole app works (percent of one core, all its processes) and how long the user has been away
   ipcMain.handle("coach-load", () => ({
     cpu: app.getAppMetrics().reduce((s, m) => s + (m.cpu?.percentCPUUsage ?? 0), 0),
@@ -240,6 +253,24 @@ function handleCalls() {
   // no login items on Linux: the settings window hides the box when this says null
   ipcMain.handle("autostart-get", () => (process.platform === "linux" ? null : app.getLoginItemSettings().openAtLogin));
   ipcMain.on("autostart-set", (_e, on: boolean) => app.setLoginItemSettings({ openAtLogin: !!on }));
+}
+
+/** Windows: every program with a window - its name, its window's title and where it is installed (Get-Process). Elsewhere
+ * nothing: the coach then goes by the window titles alone. A program run as admin may hide its folder: name only. */
+function windowPrograms(): Promise<{ p: string; t: string; f: string | null }[]> {
+  if (process.platform !== "win32") return Promise.resolve([]);
+  const ps = "[Console]::OutputEncoding=[Text.Encoding]::UTF8; Get-Process | Where-Object { $_.MainWindowTitle } | " +
+    "ForEach-Object { [pscustomobject]@{ p = $_.ProcessName; t = $_.MainWindowTitle; f = $(try { $_.Path } catch { $null }) } } | ConvertTo-Json -Compress";
+  return new Promise((resolve) => {
+    execFile("powershell.exe", ["-NoProfile", "-NonInteractive", "-Command", ps], { timeout: 12_000, windowsHide: true, encoding: "utf8", maxBuffer: 4 << 20 },
+      (err, out) => {
+        if (err) return resolve([]);
+        try {
+          const j = JSON.parse(String(out).trim() || "[]");
+          resolve((Array.isArray(j) ? j : [j]).filter((x) => x && x.p && x.t));
+        } catch { resolve([]); }
+      });
+  });
 }
 
 if (!app.requestSingleInstanceLock()) app.quit();

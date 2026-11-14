@@ -458,7 +458,7 @@
   "ppot": {
     "tabDesk": "Fly Desk",
     "tabPartners": "Ortaklar",
-    "note": "Fly Desk'ten ayrı, tüm ortak koleksiyonların işlem yapan NFT'leri için tek havuz. Bir NFT, kendi cüzdanında para olduğu ve sahibi 200.000 $FLYAI tuttuğu sürece sayılır. Havuzun başlangıcının üstüne kazandığı ödenir: %95'i NFT'lerin işlem yaptığı saatlere göre sahiplerine, $FLYAI olarak doğrudan cüzdanlarına.",
+    "note": "Fly Desk'ten ayrı, tüm ortak koleksiyonların işlem yapan NFT'leri için tek havuz. Bir NFT, kendi cüzdanında para olduğu ve sahibi 200.000 $FLYAI tuttuğu sürece sayılır. Havuzun başlangıcının üstüne kazandığı ödenir: %95'i NFT'lerin işlem yaptığı saatlere göre (Trader Fly'larla aynı stake bonusuyla) $FLYAI olarak, her pazar Fly Desk ödemesiyle talep edilebilir.",
     "past": "Geçmiş haftalar",
     "sum": "{funded} ile başladı. Bu haftanın sonunda, {date}, işlem yapan {n} ortak NFT'nin sahiplerine ({owners} sahip) {holders} ödemeye gidiyor.",
     "starting": "Ortaklar havuzu başlıyor: fonlanıp ilk turunu yaptığında rakamları burada görünecek.",

@@ -510,7 +510,7 @@
     if (!profileJs) {
       profileJs = new Promise((ok) => {
         const tag = document.createElement("script");
-        tag.src = NAV_SRC ? new URL("flyprofile.js?v=20261111a", NAV_SRC).href : "/assets/flyprofile.js?v=20261111a";
+        tag.src = NAV_SRC ? new URL("flyprofile.js?v=20261114a", NAV_SRC).href : "/assets/flyprofile.js?v=20261114a";
         tag.onload = ok;
         tag.onerror = ok;
         (document.body || document.head).append(tag);
