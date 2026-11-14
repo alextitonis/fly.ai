@@ -34,7 +34,7 @@ const open = (url: string) => (native ? native.openUrl(url) : (window.open(url),
 
 export interface Talk { open(what?: string): void; close(): void; isOpen(): boolean; refresh(): void }
 
-export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSignedOut: () => void }): Talk {
+export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSignedOut: () => void; coach?: (question?: string) => void }): Talk {
   let feed: FlyFeed | null = null, calls: AlphaCall[] = [], msgs: ChatMsg[] = [], me: ChatMe | null = null;
   let wait = 0, busy = false, localId = -1, isOpen = false, timer = 0, deskTimer = 0;
 
@@ -249,6 +249,9 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
     const ask = (key: Key) => () => void send(t(key));
     const paused = feed?.settings?.trading === false;
     chipsRow.replaceChildren(
+      // the game coach (src/coach.ts): what's typed is the question about the game on screen; empty = "what should I do?"
+      ...(hooks.coach ? [el("button", { class: "tk-chip", type: "button", title: t("c.chipHint"),
+        onclick: () => { const q = input.value.trim(); input.value = ""; hooks.coach!(q || undefined); } }, t("c.chip"))] : []),
       el("button", { class: "tk-chip", type: "button", onclick: ask("p.askDoing") }, t("p.qDoing")),
       el("button", { class: "tk-chip", type: "button", onclick: ask("p.askWant") }, t("p.qWant")),
       el("button", { class: "tk-chip", type: "button", onclick: () => { watchBox.hidden = !watchBox.hidden; if (!watchBox.hidden) watchInput.focus(); } }, t("p.qWatch")),

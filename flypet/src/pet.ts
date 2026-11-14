@@ -4,6 +4,7 @@ import { t } from "./i18n.ts";
 import { FEED_LINES, asleepAt, daysTogether, paceTarget, readFlies, readPrice, type Fly, type Mood, type Reaction } from "./mood.ts";
 import { addNote, applyLang, flyFeed, prefs, priceSamples, publicFeed, seenOf, setPrefs, setPriceSamples, setSeen, signedIn, walletFeed } from "./store.ts";
 import { setupTalk } from "./talk.ts";
+import { setupCoach } from "./coach.ts";
 
 const native = window.flyNative;                    // vite in a plain browser has no window to move
 const fly = document.getElementById("fly") as HTMLImageElement;
@@ -29,6 +30,13 @@ function play(next: Mood) {
 let bubbleTimer = 0;
 function say(text: string, ms = REACTION_MS) {
   if (prefs().quiet || !prefs().bubbles) return;
+  bubble.textContent = text;
+  bubble.classList.add("on");
+  clearTimeout(bubbleTimer);
+  bubbleTimer = window.setTimeout(() => bubble.classList.remove("on"), ms);
+}
+// the coach's tips (src/coach.ts) show even when the fly is told to be quiet: the player turned the coach on to hear them
+function sayCoach(text: string, ms = 9_000) {
   bubble.textContent = text;
   bubble.classList.add("on");
   clearTimeout(bubbleTimer);
@@ -219,7 +227,17 @@ function pass(through: boolean) {
 const TALK_W = 380, TALK_H = 630;
 const talkBox = document.getElementById("talk") as HTMLDivElement;
 let talking = false;
-const talk = setupTalk(talkBox, { onClose: () => closeTalk(), onSignedOut: () => { closeTalk(); native?.openPanel(); } });
+const talk = setupTalk(talkBox, { onClose: () => closeTalk(), onSignedOut: () => { closeTalk(); native?.openPanel(); },
+  coach: (q?: string) => coach.hint(q) });
+// the game coach (src/coach.ts): looks at the picked game window, suggests in the bubble and in the chat
+const coach = setupCoach({
+  say: (text) => {
+    sayCoach(text);
+    if (!talking && (state === "idle" || state === "walking")) { state = "acting"; busyUntil = Date.now() + 2500; play("wave"); }
+  },
+  note: (text) => { addNote({ at: Date.now(), text, mood: "wave", fly: null }); talk.refresh(); },
+  think: (on) => { if (on) sayCoach(t("c.thinking"), 20_000); },
+});
 const inside = (e: HTMLElement, cx: number, cy: number) => {
   if (e.hidden) return false;
   const r = e.getBoundingClientRect();
@@ -294,6 +312,7 @@ async function start() {
   bubble.addEventListener("click", () => openTalk());
   native?.onQuiet((on) => { setPrefs({ quiet: on }); });
   native?.onFeed(feed);
+  native?.onCoach((what) => { if (what === "toggle") coach.toggle(); else coach.hint(); });
 
   // in a dev browser: flypet.react("rugged", "...") acts anything out
   if (import.meta.env.DEV) Object.assign(window, { flypet: { react: (m: Mood, text: string) => react({ mood: m, text, notify: false }), feed } });

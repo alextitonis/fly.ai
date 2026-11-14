@@ -56,6 +56,11 @@
       .call .ca { font: 11px ui-monospace, monospace; color: var(--mute); overflow-wrap: anywhere; }
       .stats { display: flex; gap: 12px; font-size: 12px; color: var(--mute); }
       .watchbox { display: flex; gap: 8px; padding: 8px 14px 0; background: var(--panel); }
+      .wins { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+      .win { display: grid; gap: 6px; padding: 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; color: #fff; text-align: left; font: 12px/1.3 inherit; cursor: pointer; }
+      .win:hover, .win.on { border-color: var(--mint); }
+      .win img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; background: #000; }
+      .win span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     </style>
   </head>
   <body>
@@ -74,6 +79,16 @@
       <div class="list" id="pickList"></div>
       <p class="mute" id="pickNote"></p>
       <p><button class="plain small" id="signOut1" data-t="p.signOut"></button></p>
+    </section>
+
+    <!-- the game coach: which window to look at (src/coach.ts). Only this window is ever captured -->
+    <section class="step" id="stepCoach" hidden>
+      <h1 data-t="c.pickTitle"></h1>
+      <p class="mute" data-t="c.pickText"></p>
+      <input type="text" id="coachNote" maxlength="300" />
+      <div class="wins" id="coachList"></div>
+      <p class="mute" id="coachMsg"></p>
+      <p><button class="plain small" id="coachRefresh" data-t="c.refresh"></button></p>
     </section>
 
     <!-- 3. the fly: what it does, a chat, the alpha calls -->

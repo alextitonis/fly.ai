@@ -27,4 +27,10 @@ contextBridge.exposeInMainWorld("flyNative", {
   onOpen: (fn: (what: string) => void) => ipcRenderer.on("open", (_e, what) => fn(String(what ?? ""))),
   closePanel: () => ipcRenderer.send("panel-close"),
   onPanel: (fn: (what: string) => void) => ipcRenderer.on("panel", (_e, what) => fn(String(what ?? ""))),
+  // the game coach: pick a window, its process name, the app's load; "toggle" / "hint" from the menu and the hotkey
+  coachSources: () => ipcRenderer.invoke("coach-sources"),
+  coachProcess: (title: string) => ipcRenderer.invoke("coach-process", title),
+  coachLoad: () => ipcRenderer.invoke("coach-load"),
+  coachState: (on: boolean) => ipcRenderer.send("coach-state", on),
+  onCoach: (fn: (what: string) => void) => ipcRenderer.on("coach", (_e, what) => fn(String(what ?? ""))),
 });

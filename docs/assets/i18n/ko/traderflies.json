@@ -2233,9 +2233,9 @@
     "claimLink": "클레임",
     "boardLink": "리더보드에서 {name} 지갑 순위 보기 →",
     "chat": "대화하기",
-    "potShare": "활성화된 {name} NFT(소유자가 {hold} $FLYAI 보유)는 파트너 풀에서 수익을 받습니다: 모든 파트너 컬렉션을 위한 하나의 풀로, 매주 수익을 $FLYAI로 지갑에 바로 지급합니다.",
+    "potShare": "거래 중인 {name} NFT가 파트너 풀에서 수익을 받아요: NFT 자체 지갑에 자금이 있고 소유자가 {hold} $FLYAI를 보유해야 해요. 모든 파트너 컬렉션을 위한 하나의 풀로, 매주 수익을 $FLYAI로 지갑에 바로 지급해요.",
     "potLink": "파트너 풀 보기",
-    "activatedN": "개의 {name} NFT가 현재 활성화됨"
+    "activatedN": "지금 거래 중인 {name} NFT"
   },
   "fights": {
     "title": "로봇 격투",

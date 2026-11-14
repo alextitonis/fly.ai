@@ -23,8 +23,11 @@ export interface Prefs {
   petToken: string | null;     // the pet's sign-in (mine src/pet.ts): chat + a fly's settings only, 30 days
   petTokenUntil: number;
   fly: number | null;          // the fly (or partner NFT, by its chat id) that lives on the desktop
+  coachSource: CoachSource | null;   // the game window the coach looks at (picked in the pet's window)
+  coachNote: string;           // what the player told the coach about their run (optional)
 }
-const DEFAULTS = (): Prefs => ({ name: "Fly", born: Date.now(), wallet: null, flies: null, bubbles: true, notifications: true, minUsd: 0, quiet: false, homeX: null, lang: null, mineOn: false, mineAnyTime: false, minerToken: null, petToken: null, petTokenUntil: 0, fly: null });
+export interface CoachSource { id: string; name: string; process: string | null }
+const DEFAULTS = (): Prefs => ({ name: "Fly", born: Date.now(), wallet: null, flies: null, bubbles: true, notifications: true, minUsd: 0, quiet: false, homeX: null, lang: null, mineOn: false, mineAnyTime: false, minerToken: null, petToken: null, petTokenUntil: 0, fly: null, coachSource: null, coachNote: "" });
 
 function load<T>(key: string, fallback: T): T {
   try {
@@ -147,3 +150,27 @@ export const chatWatch = (id: number, token: string, card?: number) => authed(`/
 /** a fly wallet's settings: the Trader Fly's, or the partner NFT's under its partner (who) */
 export const saveSettings = (wallet: string, settings: unknown, who: Who | null) =>
   authed(who ? `/api/partners/${who.partner}/wallet/${wallet}/settings` : `/api/vaults/${wallet}/settings`, who ? { settings } : { settings, chain: "robinhood" });
+
+// ---- the game coach (flytrade/COACH-PLAN.md): its own server; frames go there and nowhere else, and aren't kept -------
+export const COACH_SERVER: string = (import.meta.env?.VITE_FLYPET_COACH as string | undefined) || "https://flyai-x402.fly.dev/coach";
+export interface CoachMe { wallet: string; pass: boolean; open: boolean; free_left: number | null; watch_ok: boolean }
+export interface CoachAnswer { say: string | null; options?: { text: string; why: string; p: number | null }[]; by?: string | null;
+  game?: string | null; profile?: string; screen?: string | null; free_left?: number | null; skipped?: string }
+export class CoachRefused extends Error { constructor(msg: string, public status: number) { super(msg); } }
+async function coachCall<T>(path: string, body?: unknown): Promise<T> {
+  const token = prefs().petToken;
+  if (!token) throw new SignedOut("signed out");
+  const res = await fetch(COACH_SERVER + path, {
+    method: body === undefined ? "GET" : "POST",
+    headers: { ...(body === undefined ? {} : { "content-type": "application/json" }), "x-flyai-pet": token },
+    body: body === undefined ? undefined : JSON.stringify(body),
+    signal: AbortSignal.timeout(60_000),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (res.status === 401) { setPrefs({ petToken: null, petTokenUntil: 0 }); throw new SignedOut(json.detail ?? "signed out"); }
+  if (!res.ok) throw new CoachRefused(json.detail ?? `the coach said ${res.status}`, res.status);
+  return json as T;
+}
+export const coachMe = () => coachCall<CoachMe>("/me");
+export const coachHint = (body: { image: string; mode: "hint" | "watch"; process?: string | null; title?: string; question?: string;
+  note?: string; lang?: string; session?: string; session_s?: number }) => coachCall<CoachAnswer>("/hint", body);

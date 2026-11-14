@@ -28,5 +28,10 @@ interface Window {
     onOpen(fn: (what: string) => void): void;
     closePanel(): void;
     onPanel?(fn: (what: string) => void): void;
+    coachSources(): Promise<{ id: string; name: string; thumb: string }[]>;
+    coachProcess(title: string): Promise<string | null>;
+    coachLoad(): Promise<{ cpu: number; idle: number }>;
+    coachState(on: boolean): void;
+    onCoach(fn: (what: string) => void): void;
   };
 }

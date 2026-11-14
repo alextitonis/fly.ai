@@ -1,10 +1,11 @@
 // The native side: a small transparent window that only catches the mouse over the character, a tray menu and a settings
 // window. Everything else lives in the pages (src/); they reach this file only through preload.ts.
+import { execFile } from "node:child_process";
 import { writeFile } from "node:fs/promises";
 import { join, normalize, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 import { setLang, t, type Lang } from "../src/i18n.ts";
-import { BrowserWindow, Menu, Notification, Tray, app, dialog, ipcMain, nativeImage, net, powerMonitor, protocol, screen, shell } from "electron";
+import { BrowserWindow, Menu, Notification, Tray, app, desktopCapturer, dialog, globalShortcut, ipcMain, nativeImage, net, powerMonitor, protocol, screen, shell } from "electron";
 
 const PET_SIZE = 300, CURSOR_MS = 50, ON_TOP_MS = 2_000;
 const DIST = join(app.getAppPath(), "dist");
@@ -12,7 +13,8 @@ const LINKS = /^https:\/\/(www\.flyaiworld\.com|flyai-mine\.fly\.dev)\/|^https:\
 const IDLE_S = 120, COMPUTE_MS = 5000;
 
 let pet: BrowserWindow, settings: BrowserWindow | null = null, panel: BrowserWindow | null = null, tray: Tray;   // kept here so they aren't garbage collected
-let hidden = false, quiet = false;
+let hidden = false, quiet = false, coachOn = false;
+const COACH_KEY = "Alt+Shift+C";   // the coach's hotkey (one hint); not Ctrl+Alt, which is AltGr on Turkish and Spanish keyboards
 interface ComputeState { phase: "off" | "waiting" | "loading" | "running" | "error"; jobs: number; perMinute: number; engine: string }
 
 // the pages load from app:// rather than file://, which can't fetch avatar.json or read a GIF's pixels
@@ -92,6 +94,10 @@ function menu() {
   return Menu.buildFromTemplate([
     { label: t("menu.open"), click: () => pet.webContents.send("open", "") },
     { label: t("menu.alpha"), click: () => pet.webContents.send("open", "alpha") },
+    { type: "separator" },
+    { label: t("menu.coach"), type: "checkbox", checked: coachOn, click: () => pet.webContents.send("coach", "toggle") },
+    { label: t("menu.coachAsk"), accelerator: COACH_KEY, registerAccelerator: false, click: () => pet.webContents.send("coach", "hint") },
+    { label: t("menu.coachPick"), click: () => showPanel("coach") },
     { type: "separator" },
     { label: t("menu.feed"), click: () => pet.webContents.send("feed") },
     { label: t("menu.hide"), type: "checkbox", checked: hidden, click: (item) => setHidden(item.checked) },
@@ -194,6 +200,30 @@ function handleCalls() {
   ipcMain.on("panel", (_e, what: string) => showPanel(typeof what === "string" ? what : ""));
   ipcMain.on("panel-close", () => { panel?.close(); pet.webContents.send("open", ""); });   // picked: the chat opens on the fly
   ipcMain.on("quit", () => app.quit());
+  // ---- the game coach (flytrade/COACH-PLAN.md): the pet only looks; it never sends input to a game ----------------
+  // the open windows to pick the game from, with small thumbnails: only while the picker is open, never in a loop
+  ipcMain.handle("coach-sources", async () => {
+    const own = new Set(BrowserWindow.getAllWindows().map((w) => w.getMediaSourceId()));
+    const list = await desktopCapturer.getSources({ types: ["window"], thumbnailSize: { width: 240, height: 135 }, fetchWindowIcons: false });
+    return list.filter((s) => !own.has(s.id) && s.name && !s.thumbnail.isEmpty())
+      .map((s) => ({ id: s.id, name: s.name, thumb: s.thumbnail.toDataURL() }));
+  });
+  // the picked window's process name, as Task Manager shows it (Windows: tasklist, once per pick) - the coach matches its
+  // tuned games on it. Elsewhere none: the server goes by the window title
+  ipcMain.handle("coach-process", (_e, title: string) => new Promise<string | null>((resolve) => {
+    if (process.platform !== "win32" || typeof title !== "string" || !title) return resolve(null);
+    execFile("tasklist", ["/v", "/fo", "csv", "/nh", "/fi", `WINDOWTITLE eq ${title.replace(/"/g, "")}`], { timeout: 8000, windowsHide: true },
+      (err, out) => resolve(err ? null : (/^"([^"]+\.exe)"/im.exec(out)?.[1] ?? null)));
+  }));
+  // how hard the whole app works (percent of one core, all its processes) and how long the user has been away
+  ipcMain.handle("coach-load", () => ({
+    cpu: app.getAppMetrics().reduce((s, m) => s + (m.cpu?.percentCPUUsage ?? 0), 0),
+    idle: powerMonitor.getSystemIdleTime(),
+  }));
+  ipcMain.on("coach-state", (_e, on: boolean) => {
+    coachOn = !!on;
+    tray?.setContextMenu(menu());
+  });
   ipcMain.on("lang", (_e, lang: Lang) => {
     setLang(lang);
     tray?.setContextMenu(menu());
@@ -228,5 +258,7 @@ else {
     createTray();
     watchCursor();
     setInterval(computeTick, COMPUTE_MS);
+    globalShortcut.register(COACH_KEY, () => pet.webContents.send("coach", "hint"));   // false if another app holds it
   });
+  app.on("will-quit", () => globalShortcut.unregisterAll());
 }

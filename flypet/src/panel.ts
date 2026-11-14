@@ -36,10 +36,12 @@ function words() {
   document.querySelectorAll<HTMLElement>("[data-t]").forEach((x) => { x.textContent = t(x.dataset.t as Key); });
   $<HTMLInputElement>("chatInput").placeholder = t("p.say");
   $<HTMLInputElement>("watchInput").placeholder = t("p.watchPrompt");
+  $<HTMLInputElement>("coachNote").placeholder = t("c.note");
 }
 
 // ---- which step ---------------------------------------------------------------------------------------------------
-function show(step: "connect" | "pick" | "fly") {
+function show(step: "connect" | "pick" | "fly" | "coach") {
+  $("stepCoach").hidden = step !== "coach";
   $("stepConnect").hidden = step !== "connect";
   $("stepPick").hidden = step !== "pick";
   $("stepFly").hidden = step !== "fly";
@@ -47,6 +49,7 @@ function show(step: "connect" | "pick" | "fly") {
 function route() {
   const p = prefs();
   if (!signedIn(p)) { show("connect"); return; }
+  if (coachPick) { show("coach"); void fillCoach(); return; }
   if (p.fly == null) { show("pick"); void fillPick(); return; }
   // picked: its chat opens on the fly itself (src/talk.ts) and this window goes away
   if (native) { native.closePanel(); return; }
@@ -123,6 +126,28 @@ async function fillPick() {
     clearTimeout(slow);
   }
 }
+
+// ---- the game coach's window (src/coach.ts): the open windows, pick the game ---------------------------------------
+let coachPick = location.hash === "#coach";
+async function fillCoach() {
+  const list = $("coachList"), msg = $("coachMsg"), note = $<HTMLInputElement>("coachNote");
+  note.value = prefs().coachNote ?? "";
+  if (!native) { msg.textContent = t("c.appOnly"); return; }
+  list.replaceChildren(el("p", { class: "mute" }, t("p.loading")));
+  const wins = await native.coachSources().catch(() => []);
+  const had = prefs().coachSource?.name;
+  list.replaceChildren(...wins.map((w) => el("button", { class: `win${w.name === had ? " on" : ""}`, type: "button", title: w.name,
+    onclick: async () => {
+      msg.textContent = "…";
+      const process = await native.coachProcess(w.name).catch(() => null);
+      setPrefs({ coachSource: { id: w.id, name: w.name, process }, coachNote: note.value.trim().slice(0, 300) });
+      coachPick = false;
+      window.close();
+    } }, el("img", { src: w.thumb, alt: "" }), el("span", {}, w.name))));
+  msg.textContent = wins.length ? "" : t("c.noWindows");
+}
+$("coachRefresh").addEventListener("click", () => void fillCoach());
+$<HTMLInputElement>("coachNote").addEventListener("change", (e) => setPrefs({ coachNote: (e.target as HTMLInputElement).value.trim().slice(0, 300) }));
 
 // ---- 3. the fly ---------------------------------------------------------------------------------------------------
 let feed: FlyFeed | null = null;
@@ -351,5 +376,5 @@ window.addEventListener("storage", () => { words(); });
 setInterval(() => { if (!$("stepFly").hidden) { void loadFly(); if (tab === "chat") void loadChat(); } }, FLY_MS);
 setInterval(() => { if (!$("stepFly").hidden && tab === "chat" && msgs.some((m) => m.desk?.pending)) void loadChat(); }, CHAT_MS);
 setInterval(() => { if (!$("stepFly").hidden && tab === "alpha") void loadAlpha(); }, ALPHA_MS);
-native?.onPanel?.((what: string) => { if (what === "pick") setPrefs({ fly: null }); route(); });
+native?.onPanel?.((what: string) => { if (what === "pick") setPrefs({ fly: null }); coachPick = what === "coach"; route(); });
 if (location.hash === "#pick") { setPrefs({ fly: null }); route(); }
