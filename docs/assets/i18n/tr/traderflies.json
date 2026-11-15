@@ -1751,13 +1751,17 @@
       "long": "long",
       "short": "short",
       "flat": "Şu an pozisyon yok: son kontrolde kurala uyan bir şey çıkmadı.",
-      "howDaily": "Her gün her piyasanın 30 günlük trendine bakar ve onunla long ya da short açar. Korku ve Açgözlülük, fonlama oranı ve piyasa havası yeni bir pozisyonu durdurabilir. Aleyhine %6 giden pozisyonu stop kapatır.",
-      "howWeekly": "Her hafta her piyasanın 20 günlük trendine bakar ve onunla long ya da short açar. Korku ve Açgözlülük, VIX, fonlama oranı, bilanço tarihleri ve piyasa havası yeni bir pozisyonu durdurabilir. Aleyhine %4–6 giden pozisyonu stop kapatır.",
+      "howDaily": "Her gün her piyasanın 30 günlük trendine bakar ve onunla long ya da short açar. Korku ve Açgözlülük, fonlama oranı ve piyasa havası yeni bir pozisyonu durdurabilir. Aleyhine %6 giden pozisyonu stop kapatır. Ayrıca her piyasanın haberlerini 2 saatte bir okur: önemli bir haber (ETF kararı, hack, düzenleme, bilanço, Fed kararı) yönünü hemen belirler; iyi haberde long, kötü haberde short açar ve habere ters düşen pozisyonu kapatır.",
+      "howWeekly": "Her hafta her piyasanın 20 günlük trendine bakar ve onunla long ya da short açar. Korku ve Açgözlülük, VIX, fonlama oranı, bilanço tarihleri ve piyasa havası yeni bir pozisyonu durdurabilir. Aleyhine %4–6 giden pozisyonu stop kapatır. Ayrıca her piyasanın haberlerini 2 saatte bir okur: önemli bir haber (ETF kararı, hack, düzenleme, bilanço, Fed kararı) yönünü hemen belirler; iyi haberde long, kötü haberde short açar ve habere ters düşen pozisyonu kapatır.",
       "recent": "Son işlemler",
       "save": "Piyasaları kaydet",
       "saved": "Kaydedildi. Bir sonraki kontrol bunları kullanır.",
       "auto": "Sinek parayı kendisi taşır: açınca cüzdanın dörtte birini hemen koyar (en az $11). 2 gün işlem bulamazsa cüzdanın %10'unu (en az $22) hazır tutar, kalanını geri gönderir; kapatınca hepsi geri gelir.",
-      "needs": "200.000 $FLYAI (cüzdan, stake veya kilitli) ve cüzdanda en az $11 serbest USDG gerekir. Kilitli yatırım bonusu olmamalı."
+      "needs": "200.000 $FLYAI (cüzdan, stake veya kilitli) ve cüzdanda en az $11 serbest USDG gerekir. Kilitli yatırım bonusu olmamalı.",
+      "news": {
+        "up": "{symbol} haberleri: yükseliş",
+        "down": "{symbol} haberleri: düşüş"
+      }
     },
     "agent": "AI ajanı #{id}",
     "agentHint": "Bu sineğin zincir üstü AI ajan kimliği: Robinhood Chain'deki ERC-8004 ajan kaydına kendi cüzdanından kaydoldu.",

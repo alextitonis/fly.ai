@@ -1751,13 +1751,17 @@
       "long": "long",
       "short": "short",
       "flat": "No positions right now: nothing met the rule at its last check.",
-      "howDaily": "Each day it checks every market's 30-day trend and goes long or short with it. Fear & Greed, funding and market mood can hold back a new position. A stop closes a position that moves 6% against it.",
-      "howWeekly": "Each week it checks every market's 20-day trend and goes long or short with it. Fear & Greed, VIX, funding, earnings dates and market mood can hold back a new position. A stop closes a position that moves 4–6% against it.",
+      "howDaily": "Each day it checks every market's 30-day trend and goes long or short with it. Fear & Greed, funding and market mood can hold back a new position. A stop closes a position that moves 6% against it. It also reads the news on every market every 2 hours: hard news (an ETF decision, a hack, regulation, earnings, a Fed move) sets its side right away, long on good news and short on bad, and closes a position the news goes against.",
+      "howWeekly": "Each week it checks every market's 20-day trend and goes long or short with it. Fear & Greed, VIX, funding, earnings dates and market mood can hold back a new position. A stop closes a position that moves 4–6% against it. It also reads the news on every market every 2 hours: hard news (an ETF decision, a hack, regulation, earnings, a Fed move) sets its side right away, long on good news and short on bad, and closes a position the news goes against.",
       "recent": "Recent trades",
       "save": "Save markets",
       "saved": "Saved. The next check uses them.",
       "auto": "The fly moves the money itself: turning on puts a quarter of the wallet in right away (at least $11). After 2 days with nothing to trade it keeps 10% of the wallet ready (at least $22) and sends the rest back; turning off brings it all home.",
-      "needs": "Needs 200,000 $FLYAI held (wallet, staked or locked) and at least $11 of free USDG in the wallet. No locked deposit bonus."
+      "needs": "Needs 200,000 $FLYAI held (wallet, staked or locked) and at least $11 of free USDG in the wallet. No locked deposit bonus.",
+      "news": {
+        "up": "News on {symbol}: bullish",
+        "down": "News on {symbol}: bearish"
+      }
     },
     "agent": "AI agent #{id}",
     "agentHint": "This fly's on-chain AI agent ID: it registered itself from its own wallet in the ERC-8004 agent registry on Robinhood Chain.",

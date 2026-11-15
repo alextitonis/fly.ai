@@ -1751,13 +1751,17 @@
       "long": "largo",
       "short": "corto",
       "flat": "Sin posiciones ahora: nada cumplió la regla en su última revisión.",
-      "howDaily": "Cada día revisa la tendencia de 30 días de cada mercado y va largo o corto con ella. El índice de miedo y codicia, la financiación y el ánimo del mercado pueden frenar una posición nueva. Un stop cierra la posición si se mueve un 6 % en contra.",
-      "howWeekly": "Cada semana revisa la tendencia de 20 días de cada mercado y va largo o corto con ella. El índice de miedo y codicia, el VIX, la financiación, las fechas de resultados y el ánimo del mercado pueden frenar una posición nueva. Un stop la cierra si se mueve un 4–6 % en contra.",
+      "howDaily": "Cada día revisa la tendencia de 30 días de cada mercado y va largo o corto con ella. El índice de miedo y codicia, la financiación y el ánimo del mercado pueden frenar una posición nueva. Un stop cierra la posición si se mueve un 6 % en contra. También lee las noticias de cada mercado cada 2 horas: una noticia dura (un ETF, un hackeo, regulación, resultados, la Fed) fija su lado al momento, largo con buenas noticias y corto con malas, y cierra una posición que la noticia contradice.",
+      "howWeekly": "Cada semana revisa la tendencia de 20 días de cada mercado y va largo o corto con ella. El índice de miedo y codicia, el VIX, la financiación, las fechas de resultados y el ánimo del mercado pueden frenar una posición nueva. Un stop la cierra si se mueve un 4–6 % en contra. También lee las noticias de cada mercado cada 2 horas: una noticia dura (un ETF, un hackeo, regulación, resultados, la Fed) fija su lado al momento, largo con buenas noticias y corto con malas, y cierra una posición que la noticia contradice.",
       "recent": "Operaciones recientes",
       "save": "Guardar mercados",
       "saved": "Guardado. La próxima revisión los usa.",
       "auto": "La mosca mueve el dinero sola: al activarlo pone una cuarta parte de la billetera de inmediato (al menos $11). Tras 2 días sin nada que operar guarda el 10% de la billetera listo (al menos $22) y devuelve el resto; al desactivarlo vuelve todo.",
-      "needs": "Necesita 200.000 $FLYAI (billetera, en stake o bloqueados) y al menos $11 de USDG libre en la billetera. Sin bono de depósito bloqueado."
+      "needs": "Necesita 200.000 $FLYAI (billetera, en stake o bloqueados) y al menos $11 de USDG libre en la billetera. Sin bono de depósito bloqueado.",
+      "news": {
+        "up": "Noticias de {symbol}: alcistas",
+        "down": "Noticias de {symbol}: bajistas"
+      }
     },
     "agent": "Agente IA #{id}",
     "agentHint": "El ID de agente de IA en cadena de esta mosca: se registró desde su propia billetera en el registro de agentes ERC-8004 de Robinhood Chain.",
