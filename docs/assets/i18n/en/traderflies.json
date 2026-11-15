@@ -1721,13 +1721,13 @@
       "risk": "1x, no leverage: each position is at most its share of what you put in. Shorts lose when prices rise. Money here is separate from the wallet's other trading.",
       "turnOn": "Turn on Perps",
       "turnOff": "Turn off and bring it home",
-      "turnedOn": "Perps is on. The fly moves money in when its rule finds a trade.",
+      "turnedOn": "Perps is on. Its share of the wallet is moving in now, and it starts trading as soon as it lands.",
       "turnedOff": "Off. It closes its positions and sends the money home.",
       "asked": "Asked. The fly does it within about 5 minutes…",
       "failed": "That didn't go through.",
       "status": {
         "off": "off",
-        "waiting": "waiting for money",
+        "waiting": "money on its way in",
         "trading": "trading",
         "closing": "closing",
         "home": "on its way home"
@@ -1756,7 +1756,8 @@
       "recent": "Recent trades",
       "save": "Save markets",
       "saved": "Saved. The next check uses them.",
-      "auto": "The fly moves the money itself: when its rule finds trades it puts up to a quarter of the wallet in, and after 2 days with nothing to trade it brings it all back to the wallet."
+      "auto": "The fly moves the money itself: turning on puts a quarter of the wallet in right away (at least $11). After 2 days with nothing to trade it keeps 10% of the wallet ready (at least $22) and sends the rest back; turning off brings it all home.",
+      "needs": "Needs 200,000 $FLYAI held (wallet, staked or locked) and at least $11 of free USDG in the wallet. No locked deposit bonus."
     },
     "agent": "AI agent #{id}",
     "agentHint": "This fly's on-chain AI agent ID: it registered itself from its own wallet in the ERC-8004 agent registry on Robinhood Chain.",

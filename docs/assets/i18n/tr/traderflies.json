@@ -1721,13 +1721,13 @@
       "risk": "1x, kaldıraç yok: her pozisyon en fazla koyduğun paranın kendi payı kadardır. Fiyatlar yükselirse short'lar kaybeder. Buradaki para cüzdanın diğer işlemlerinden ayrıdır.",
       "turnOn": "Perp'leri aç",
       "turnOff": "Kapat ve parayı geri getir",
-      "turnedOn": "Perp'ler açık. Kuralı bir işlem bulduğunda sinek para aktarır.",
+      "turnedOn": "Perps açık. Cüzdandaki payı şimdi aktarılıyor ve ulaşır ulaşmaz işleme başlıyor.",
       "turnedOff": "Kapalı. Pozisyonlarını kapatır ve parayı geri gönderir.",
       "asked": "İstendi. Sinek bunu yaklaşık 5 dakika içinde yapar…",
       "failed": "Olmadı.",
       "status": {
         "off": "kapalı",
-        "waiting": "para bekliyor",
+        "waiting": "para yolda",
         "trading": "işlemde",
         "closing": "kapatılıyor",
         "home": "cüzdana dönüyor"
@@ -1756,7 +1756,8 @@
       "recent": "Son işlemler",
       "save": "Piyasaları kaydet",
       "saved": "Kaydedildi. Bir sonraki kontrol bunları kullanır.",
-      "auto": "Parayı sinek kendisi taşır: kuralı işlem bulduğunda cüzdanın en fazla dörtte birini koyar, 2 gün işlem yapacak bir şey olmazsa hepsini cüzdana geri getirir."
+      "auto": "Sinek parayı kendisi taşır: açınca cüzdanın dörtte birini hemen koyar (en az $11). 2 gün işlem bulamazsa cüzdanın %10'unu (en az $22) hazır tutar, kalanını geri gönderir; kapatınca hepsi geri gelir.",
+      "needs": "200.000 $FLYAI (cüzdan, stake veya kilitli) ve cüzdanda en az $11 serbest USDG gerekir. Kilitli yatırım bonusu olmamalı."
     },
     "agent": "AI ajanı #{id}",
     "agentHint": "Bu sineğin zincir üstü AI ajan kimliği: Robinhood Chain'deki ERC-8004 ajan kaydına kendi cüzdanından kaydoldu.",

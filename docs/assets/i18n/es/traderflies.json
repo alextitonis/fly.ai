@@ -1721,13 +1721,13 @@
       "risk": "1x, sin apalancamiento: cada posición es como mucho su parte de lo que metes. Los cortos pierden cuando los precios suben. Este dinero va aparte del resto del trading de la billetera.",
       "turnOn": "Activar perpetuos",
       "turnOff": "Apagar y traer el dinero",
-      "turnedOn": "Perpetuos activado. La mosca mete dinero cuando su regla encuentra una operación.",
+      "turnedOn": "Perps está activo. Su parte de la billetera está entrando ahora y empieza a operar en cuanto llega.",
       "turnedOff": "Apagado. Cierra sus posiciones y devuelve el dinero.",
       "asked": "Pedido. La mosca lo hace en unos 5 minutos…",
       "failed": "No se pudo hacer.",
       "status": {
         "off": "apagado",
-        "waiting": "esperando dinero",
+        "waiting": "dinero en camino",
         "trading": "operando",
         "closing": "cerrando",
         "home": "volviendo a la billetera"
@@ -1756,7 +1756,8 @@
       "recent": "Operaciones recientes",
       "save": "Guardar mercados",
       "saved": "Guardado. La próxima revisión los usa.",
-      "auto": "La mosca mueve el dinero sola: cuando su regla encuentra operaciones mete hasta una cuarta parte de la billetera, y tras 2 días sin nada que operar lo devuelve todo a la billetera."
+      "auto": "La mosca mueve el dinero sola: al activarlo pone una cuarta parte de la billetera de inmediato (al menos $11). Tras 2 días sin nada que operar guarda el 10% de la billetera listo (al menos $22) y devuelve el resto; al desactivarlo vuelve todo.",
+      "needs": "Necesita 200.000 $FLYAI (billetera, en stake o bloqueados) y al menos $11 de USDG libre en la billetera. Sin bono de depósito bloqueado."
     },
     "agent": "Agente IA #{id}",
     "agentHint": "El ID de agente de IA en cadena de esta mosca: se registró desde su propia billetera en el registro de agentes ERC-8004 de Robinhood Chain.",
