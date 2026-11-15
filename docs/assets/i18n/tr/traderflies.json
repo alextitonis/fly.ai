@@ -1875,7 +1875,8 @@
     "movedUp": "24 saatte {n} yükseldi",
     "movedDown": "24 saatte {n} düştü",
     "holdingNote": "\"tutuyor\" = sinek henüz hiçbir şey satmadı. Yeni bir cüzdan başta küçük bir eksi gösterir: her alım havuz ücreti ve gas öder, bu yüzden açık pozisyonlar maliyetlerinin biraz altında başlar. Yükselince ya da satılınca döner.",
-    "maxDrop": "Maks. düşüş"
+    "maxDrop": "Maks. düşüş",
+    "pctTip": "Bu cüzdana yatırılan tüm paraya (sonradan çekilen yatırımlar dahil) göre kâr yüzdesi."
   },
   "utility": {
     "title": "Bir Trader Fly ne yapar",

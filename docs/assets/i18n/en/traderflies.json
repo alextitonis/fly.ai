@@ -1875,7 +1875,8 @@
     "movedUp": "up {n} in 24 h",
     "movedDown": "down {n} in 24 h",
     "holdingNote": "\"holding\" = the fly hasn't sold anything yet. A fresh wallet shows a small minus at first: every buy pays the pool fee and gas, so open positions start a little under what they cost. It turns when they rise or sell.",
-    "maxDrop": "Max drop"
+    "maxDrop": "Max drop",
+    "pctTip": "Profit as a % of all the money ever put into this wallet, including deposits that were later withdrawn."
   },
   "utility": {
     "title": "What a Trader Fly does",

@@ -1875,7 +1875,8 @@
     "movedUp": "sube {n} en 24 h",
     "movedDown": "baja {n} en 24 h",
     "holdingNote": "\"manteniendo\" = la mosca aún no ha vendido nada. Una billetera nueva muestra al principio un pequeño negativo: cada compra paga la comisión del pool y el gas, así que las posiciones abiertas empiezan un poco por debajo de su costo. Cambia cuando suben o se venden.",
-    "maxDrop": "Caída máx."
+    "maxDrop": "Caída máx.",
+    "pctTip": "Ganancia como % de todo el dinero que se ha puesto en esta billetera, incluidos los depósitos retirados después."
   },
   "utility": {
     "title": "Qué hace una Trader Fly",
