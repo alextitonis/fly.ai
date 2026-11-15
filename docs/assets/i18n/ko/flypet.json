@@ -1,13 +1,13 @@
 {
   "title": "Fly Pet: 바탕화면 위의 내 파리",
   "head": {
-    "eyebrow": "무료 데스크톱 앱",
+    "eyebrow": "무료 데스크톱 앱 · 현재 Windows 전용",
     "title": "Fly Pet",
     "lede": "바탕화면에 사는 작은 파리. 대화하고, 내 Trader Fly가 무엇을 하는지 알려주고, 알파 콜을 공유하고, 게임을 코치해 줘요."
   },
   "dl": {
     "win": "Windows용 다운로드",
-    "mac": "macOS: 곧",
+    "mac": "현재 Windows 전용 · macOS와 Linux는 곧",
     "linux": "Linux: 곧",
     "note": "Microsoft Store 버전은 Microsoft가 서명하고 자동으로 업데이트돼요. GitHub의 .exe는 아직 서명되지 않았어요: Windows가 경고하면 \"추가 정보\"를 누른 다음 \"실행\"을 누르세요. Windows 10, 11 지원; macOS와 Linux는 곧.",
     "store": "Microsoft Store에서 받기",

@@ -1,13 +1,13 @@
 {
   "title": "Fly Pet: masaüstündeki sineğin",
   "head": {
-    "eyebrow": "Ücretsiz masaüstü uygulaması",
+    "eyebrow": "Ücretsiz masaüstü uygulaması · şimdilik yalnızca Windows",
     "title": "Fly Pet",
     "lede": "Masaüstünde yaşayan küçük bir sinek. Seninle sohbet eder, Trader Fly'ının ne yaptığını anlatır, alpha call'ları paylaşır ve oyunlarında koçluk yapar."
   },
   "dl": {
     "win": "Windows için indir",
-    "mac": "macOS: yakında",
+    "mac": "Şimdilik yalnızca Windows · macOS ve Linux yakında",
     "linux": "Linux: yakında",
     "note": "Microsoft Store sürümü Microsoft tarafından imzalanır ve kendini günceller. GitHub'daki .exe henüz imzalı değil: Windows uyarırsa \"Ek bilgi\"ye, sonra \"Yine de çalıştır\"a tıkla. Windows 10 ve 11; macOS ve Linux yakında.",
     "store": "Microsoft Store'dan al",

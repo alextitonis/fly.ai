@@ -1,13 +1,13 @@
 {
   "title": "Fly Pet：你桌面上的苍蝇",
   "head": {
-    "eyebrow": "免费桌面应用",
+    "eyebrow": "免费桌面应用 · 目前仅支持 Windows",
     "title": "Fly Pet",
     "lede": "一只住在你桌面上的小苍蝇。它会和你聊天，告诉你你的 Trader Fly 在做什么，分享 alpha 信号，还会在你玩游戏时当教练。"
   },
   "dl": {
     "win": "下载 Windows 版",
-    "mac": "macOS：即将推出",
+    "mac": "目前仅支持 Windows · macOS 和 Linux 即将推出",
     "linux": "Linux：即将推出",
     "note": "Microsoft Store 版本由 Microsoft 签名并自动更新。GitHub 上的 .exe 还没有签名：如果 Windows 提示，点击\"更多信息\"，再点击\"仍要运行\"。支持 Windows 10 和 11；macOS 和 Linux 即将推出。",
     "store": "从 Microsoft Store 获取",

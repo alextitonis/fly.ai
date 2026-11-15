@@ -1,13 +1,13 @@
 {
   "title": "Fly Pet：你桌面上的蒼蠅",
   "head": {
-    "eyebrow": "免費桌面應用程式",
+    "eyebrow": "免費桌面應用 · 目前僅支援 Windows",
     "title": "Fly Pet",
     "lede": "一隻住在你桌面上的小蒼蠅。它會和你聊天，告訴你你的 Trader Fly 在做什麼，分享 alpha 訊號，還會在你玩遊戲時當教練。"
   },
   "dl": {
     "win": "下載 Windows 版",
-    "mac": "macOS：即將推出",
+    "mac": "目前僅支援 Windows · macOS 和 Linux 即將推出",
     "linux": "Linux：即將推出",
     "note": "Microsoft Store 版本由 Microsoft 簽署並自動更新。GitHub 上的 .exe 還沒有簽署：如果 Windows 提示，點擊「其他資訊」，再點擊「仍要執行」。支援 Windows 10 和 11；macOS 和 Linux 即將推出。",
     "store": "從 Microsoft Store 取得",

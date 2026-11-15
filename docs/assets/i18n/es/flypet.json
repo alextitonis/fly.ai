@@ -1,13 +1,13 @@
 {
   "title": "Fly Pet: tu mosca en tu escritorio",
   "head": {
-    "eyebrow": "App de escritorio gratis",
+    "eyebrow": "App de escritorio gratis · solo Windows por ahora",
     "title": "Fly Pet",
     "lede": "Una pequeña mosca que vive en tu escritorio. Chatea contigo, te cuenta qué hace tu Trader Fly, comparte alpha calls y te entrena en tus juegos."
   },
   "dl": {
     "win": "Descargar para Windows",
-    "mac": "macOS: pronto",
+    "mac": "Solo Windows por ahora · macOS y Linux pronto",
     "linux": "Linux: pronto",
     "note": "La versión de Microsoft Store está firmada por Microsoft y se actualiza sola. El .exe de GitHub aún no está firmado: si Windows avisa, haz clic en \"Más información\" y luego en \"Ejecutar de todas formas\". Windows 10 y 11; macOS y Linux pronto.",
     "store": "Consíguelo en Microsoft Store",

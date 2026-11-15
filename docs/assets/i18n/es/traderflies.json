@@ -2660,7 +2660,7 @@
   "coach": {
     "title": "Entrenador de Fly Pet",
     "lede": "Modo entrenador: tu mosca mira tu juego toda la sesión y habla cuando hay una elección, con sus probabilidades. Solo sugiere: tú haces cada jugada. Las pistas gratis (3 al día) no necesitan nada.",
-    "getPet": "Consigue Fly Pet →",
+    "getPet": "Consigue Fly Pet (solo Windows por ahora) →",
     "yours": "Tu pase de entrenador",
     "none": "Sin pase",
     "active": "Activo",

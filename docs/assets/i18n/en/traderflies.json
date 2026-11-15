@@ -2660,7 +2660,7 @@
   "coach": {
     "title": "Fly Pet Coach",
     "lede": "Coach mode: your fly watches your game all session and speaks up when there's a choice to make, with its odds. It only suggests: you make every move. Free hints (3 a day) need nothing.",
-    "getPet": "Get Fly Pet →",
+    "getPet": "Get Fly Pet (Windows only for now) →",
     "yours": "Your Coach pass",
     "none": "No pass",
     "active": "Active",
