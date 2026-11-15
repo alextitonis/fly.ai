@@ -544,7 +544,8 @@ export function createVaults(d: VaultsDeps) {
    */
   async function feed(chain: string) {
     const prefix = chain === "robinhood" ? "vault:" : `vault:${chain}:`;
-    const rows = await pg.all<{ fly_id: number; value: any }>(`select w.fly_id, p.value from mine.vault_ledger l
+    // (the P&L chart's 15 min and day series stay on each fly's own view: every fly's would double this read, 2026-11-15)
+    const rows = await pg.all<{ fly_id: number; value: any }>(`select w.fly_id, p.value - 'pnl' as value from mine.vault_ledger l
       join mine.vault_wallets w on lower(w.address) = lower(l.wallet)
       join mine.vault_public p on p.key = ?::text || w.address
       where l.chain = ? and l.holder is not null and w.fly_id is not null`, prefix, chain);

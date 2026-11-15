@@ -15,6 +15,7 @@
  *   payroll   claimed 8 Fly Desk payouts            nobody yet
  *   recruiter 1 real referral (src/referrals.ts: $20+ in Fly Wallets for 7 days, or a desk payout)     1 wallet on 11-01
  *   piedpiper 10 real referrals, the first referral tier     nobody yet
+ *   champion  won a bracket of the weekly Fly League (src/league.ts, 2026-11-15)
  *   ambassador invited only (2026-11-09, flytrade/AMBASSADOR-PLAN.md): never claimable, the dev wallet grants it with
  *             FlyBadges.grant and revokes it when an ambassador stops
  *
@@ -67,6 +68,8 @@ export const BADGES = [
   { id: 1, key: "larva" }, { id: 2, key: "lord" }, { id: 3, key: "diamond" }, { id: 4, key: "og" }, { id: 5, key: "flyowner" },
   { id: 6, key: "swarm" }, { id: 7, key: "queen" }, { id: 8, key: "payday" }, { id: 9, key: "payroll" },
   { id: 10, key: "recruiter" }, { id: 11, key: "piedpiper" }, { id: 12, key: "ambassador" },
+  // 2026-11-15: a Fly League bracket won (src/league.ts books it into badge_earned when a week closes)
+  { id: 13, key: "champion" },
 ] as const;
 /** how many flies a wallet has to keep for cfg.flyDays, the badge, and its clock's field and column */
 const FLY_LEVELS = [
@@ -395,7 +398,7 @@ export function createBadges(d: {
       queen: { days: daysSince(row?.since_fly50), need: cfg.flyDays },
       payday: { payouts: paid?.n ?? 0, need: 4 }, payroll: { payouts: paid?.n ?? 0, need: 8 },
       recruiter: { referrals: referred?.n ?? 0, need: 1 }, piedpiper: { referrals: referred?.n ?? 0, need: 10 },
-      ambassador: null,
+      ambassador: null, champion: null,
     };
     const out = cfg.exclude.includes(wallet);
     const badges = BADGES.map((b, i) => {

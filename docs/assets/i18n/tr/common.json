@@ -259,7 +259,20 @@
       "todayPostNight": "Gece sayılır: bağlı X hesabından her gönderi (yanıtlar hariç) +20 XP, günde en fazla 5, bu görev ertesi sabah tamamlanır",
       "todayRefTitle": "Davet görevleri",
       "todayRefQuest": "{n} gerçek davet getir",
-      "todayRefHint": "Her biri bir kez. Bir arkadaş Fly Cüzdanlarında 7 gün $20+ tuttuğunda sayılır."
+      "todayRefHint": "Her biri bir kez. Bir arkadaş Fly Cüzdanlarında 7 gün $20+ tuttuğunda sayılır.",
+      "jTitle": "Başlarken",
+      "jHint": "Her biri bir kez. Her adım sineğinin gerçekten işlem yapmasını sağlar.",
+      "j_hold": "200.000 $FLYAI tut (cüzdan, stake veya kilitli)",
+      "j_own": "Bir Trader Fly veya ortak NFT'ye sahip ol",
+      "j_fund": "Sineğinin cüzdanına $5+ koy",
+      "j_trade": "Sineğinin ilk işlemini gör",
+      "j_claim": "Haftalık ödemeyi al ve stake et",
+      "jAll": "5'i de tamam",
+      "kTitle": "İçeride tut",
+      "kHint": "Para çekmeden sinek cüzdanlarında ${usd}+. Para çekmek sayımı sıfırlar.",
+      "kDays": "{n} gün içeride",
+      "kNow": "Şimdi: ${usd} içeride, {d} gün",
+      "kNone": "Şimdi: henüz içeride para yok"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -528,9 +541,11 @@
     "bn_piedpiper": "10 gerçek referans getir.",
     "b_ambassador": "Elçi",
     "bn_ambassador": "Yalnızca davetle: fly.ai elçilerine verilir.",
-    "s_quest": "Günlük görevler",
+    "s_quest": "Görevler",
     "s_partners": "İşlem yapan ortak NFT'ler",
-    "h_partners": "<b>Ortak NFT'ler</b>: kendi cüzdanı işlem yapan her ortak NFT (Bullas, Enjoyoors, Waifus, RUYUI...) için günde 10 XP, aktif bir sinek gibi."
+    "h_partners": "<b>Ortak NFT'ler</b>: kendi cüzdanı işlem yapan her ortak NFT (Bullas, Enjoyoors, Waifus, RUYUI...) için günde 10 XP, aktif bir sinek gibi.",
+    "b_champion": "Lig Şampiyonu",
+    "bn_champion": "Haftalık Fly League'de bir grubu kazan"
   },
   "flychat": {
     "title": "Sinek #{id}",

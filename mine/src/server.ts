@@ -60,6 +60,7 @@ import { createHunt } from "./hunt.ts";
 import { badgeConfig, createBadges } from "./badges.ts";
 import { createXp, xpConfig } from "./xp.ts";
 import { createQuests } from "./quests.ts";
+import { createLeague } from "./league.ts";
 import { createTgLink } from "./tglink.ts";
 import { createAgents } from "./agents.ts";
 import { createFollow } from "./follow.ts";
@@ -4205,6 +4206,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p === "/api/badges" || p.startsWith("/api/badges/"))) {
     if (await badges.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p === "/api/league" || p.startsWith("/api/league/"))) {
+    if (await league.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p.startsWith("/api/xp/") || p === "/api/admin/xp/round" || p === "/api/admin/xp/boost" || p === "/api/admin/xp/bug")) {
     if (await quests.route(req, res, url)) return;
     if (await xp.route(req, res, url)) return;
@@ -4583,6 +4587,8 @@ const partners = createPartners({
   rpcUrl: env("VAULT_RPC", CLAIMS.rpc),
   env: process.env,
   walletLog: (w) => vaults.walletLog(w),
+  // staked + locked $FLYAI count toward a partner NFT's 200k, as for Trader Flies (2026-11-15)
+  stakedOf: async (w) => (STAKING.contract ? readStake(STAKING.rpc, STAKING.contract, w, STAKING.lock) : 0n),
 });
 // nicknames for the leaderboards (src/profiles.ts): set by the signed-in wallet, read by anyone
 // the desk's payout tree for the bell's Sunday claim reminder (profiles.claimRow): one read per 10 minutes, shared
@@ -4716,6 +4722,9 @@ if (USER) xp.start();
 const xpCfg = xpConfig(process.env);
 const quests = createQuests({ pg, end: xpCfg.end, exclude: xpCfg.exclude, on: xpCfg.on, HttpError, send, readJson, sessionWallet: sessionAddress, rpc: CLAIMS.rpc });
 if (USER) quests.start();
+// the Fly League (src/league.ts): every funded Fly Wallet's week, ranked by bracket; XP + the champion badge, $ prizes listed only
+const league = createLeague({ pg, exclude: xpCfg.exclude, on: xpCfg.on, HttpError, send, env: process.env });
+if (USER) league.start();
 // Connect Telegram (src/tglink.ts): the Login Widget's signed answer, and the bot's word on group membership (XP)
 const tgLink = createTgLink({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, env: process.env });
 if (USER) tgLink.start();

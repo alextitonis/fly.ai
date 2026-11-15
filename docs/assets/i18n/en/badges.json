@@ -88,6 +88,10 @@
     "ambassador": {
       "name": "Ambassador",
       "need": "Invited only: given to fly.ai's ambassadors."
+    },
+    "champion": {
+      "name": "League Champion",
+      "need": "Win a bracket of the weekly Fly League (your fly wallet's best week for its size)."
     }
   },
   "share": {

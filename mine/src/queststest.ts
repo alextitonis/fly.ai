@@ -4,7 +4,7 @@
  * buy), the all-3 bonus, no double booking, the season end, and the XP showing up in xp_events.
  *   npm run test:quests
  */
-import { checkIn, createQuests, dayOf, GROUPS, listsOf, pick, QUESTS, questAt, REF_QUESTS, standing, type Streak } from "./quests.ts";
+import { checkIn, createQuests, dayOf, GROUPS, keepReached, listsOf, pick, QUESTS, questAt, REF_QUESTS, standing, type Streak } from "./quests.ts";
 import { createAmbassadors } from "./ambassadors.ts";
 import { FLYAI } from "./burns.ts";
 import { startPg } from "./pgtest.ts";
@@ -146,7 +146,7 @@ for (const want of ["topup", "swap", "claimstake"]) {
     await pg.run("insert into mine.xp_events (wallet, source, ref, xp, at) values (?, ?, ?, 1, ?)", w, swapped === "swap" ? "buy" : swapped, `test:dup:${w}`, new Date(clock).toISOString());
   }
   await Q.today(w); await Q.tick();
-  const paid = Number((await pg.one<{ n: number }>("select count(*)::int as n from mine.xp_events where wallet = ? and source = 'quest' and ref not like '%:all'", w))!.n);
+  const paid = Number((await pg.one<{ n: number }>("select count(*)::int as n from mine.xp_events where wallet = ? and source = 'quest' and ref like 'quest:%' and ref not like '%:all'", w))!.n);
   check("one quest per group pays", paid === 1, `${paid}`);
 }
 
@@ -303,6 +303,34 @@ check("nothing after the season ends", (err as HttpError)?.status === 409 && (aw
   check("not an ambassador before the badge", !(await A.isAmbassador(rw)));
   await pg.run("insert into mine.badge_claims (wallet, badge, at) values (?, 12, now())", rw);
   check("badge #12 makes an ambassador", await A.isAmbassador(rw) && (await A.list()).ambassadors.some((x: any) => x.wallet === rw && x.lang === "other"));
+}
+
+// getting started + keep it in (2026-11-15): one-off XP, open before the 10k gate, a withdrawal restarts the keep count
+{
+  check("keep milestones: 7/30/90, then every 30", JSON.stringify(keepReached(6)) === "[]" && keepReached(95).length === 3
+    && JSON.stringify(keepReached(150).map(([n]) => n)) === "[7,30,90,120,150]");
+  const w = addr(0xd001), fw = addr(0xd002);
+  const t0 = await Q.today(w);
+  check("a newcomer sees the 5 steps, none done, no XP", t0.journey.steps.length === 5 && t0.journey.steps.every((s) => !s.done) && !t0.eligible
+    && t0.keep.days === null);
+  const ago = (d: number) => new Date(clock - d * 86_400_000).toISOString();
+  await pg.run("insert into mine.xp_holders (wallet, liquid, staked, locked, flies) values (?, 100000e18, 100000e18, 0, 1)", w);
+  await pg.run("insert into mine.vault_ledger (wallet, chain, holder, principal_usd) values (?, 'robinhood', ?, 40)", fw, w);
+  await pg.run("insert into mine.vault_moves (wallet, chain, kind, holder, token, amount, usd, at) values (?, 'robinhood', 'deposit', ?, 'USDG', '40', 40, ?)", fw, w, ago(31));
+  await pg.run("insert into mine.vault_trades (vault, book, tag, mode, symbol, side, usd, status) values (?, 'b', 'brain', 'live', 'X', 'buy', 5, 'filled')", fw);
+  const t1 = await Q.today(w);
+  const xpOf = async (like: string) => Number((await pg.one<{ x: number }>("select coalesce(sum(xp), 0)::float8 as x from mine.xp_events where wallet = ? and ref like ?", w, like))!.x);
+  check("hold (staked counts) + own + fund + trade done, claim not; 150 XP", t1.journey.steps.filter((s) => s.done).map((s) => s.id).join() === "hold,own,fund,trade"
+    && !t1.journey.all_done && (await xpOf("journey:%")) === 150, JSON.stringify(t1.journey));
+  check("31 days kept: 7 and 30 pay 200", t1.keep.days === 31 && t1.keep.quests.filter((q) => q.done).length === 2 && (await xpOf("keep:%")) === 200, JSON.stringify(t1.keep));
+  await pg.run("insert into mine.xp_events (wallet, source, ref, xp, at) values (?, 'claimstake', ?, 50, ?)", w, `test:cs:${w}`, ago(0));
+  await Q.today(w); await Q.today(w);
+  { const jx = await xpOf("journey:%"); check("claim + all-5 bonus, each once", jx === 25 + 25 + 50 + 50 + 50 + 100, String(jx)); }
+  await pg.run("insert into mine.vault_moves (wallet, chain, kind, holder, token, amount, usd, at) values (?, 'robinhood', 'withdraw', ?, 'USDG', '5', 5, ?)", fw, w, ago(2));
+  const t2 = await Q.today(w);
+  check("a withdrawal restarts the count; paid milestones stay paid", t2.keep.days === 2 && t2.keep.quests[1].done && (await xpOf("keep:%")) === 200);
+  const tt = await Q2.today(team);
+  check("team wallets book no getting-started XP", Number((await pg.one<{ n: number }>("select count(*)::int as n from mine.xp_events where wallet = ? and ref like 'journey:%'", team))!.n) === 0 && !!tt.journey);
 }
 
 await PG.stop();

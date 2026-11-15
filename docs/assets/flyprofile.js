@@ -27,7 +27,7 @@
     b_payday: "Payday", bn_payday: "Claim 4 Fly Desk payouts.",
     b_payroll: "On Payroll", bn_payroll: "Claim 8 Fly Desk payouts.",
     b_recruiter: "Recruiter", bn_recruiter: "Bring 1 real referral: $20+ in Fly Wallets for 7 days, or a Fly Desk payout.",
-    b_piedpiper: "Pied Piper", bn_piedpiper: "Bring 10 real referrals.",
+    b_piedpiper: "Pied Piper", bn_piedpiper: "Bring 10 real referrals.", b_champion: "League Champion", bn_champion: "Win a bracket of the weekly Fly League.",
     b_ambassador: "Ambassador", bn_ambassador: "Invited only: given to fly.ai's ambassadors.",
     badges: "Badges", noBadges: "No badges yet", sources: "Where the XP comes from", noXp: "No XP yet", refCode: "Referral code",
     board: "XP leaderboard", share: "Share on X", shareHint: "Post about fly.ai (@flydotai, $FLYAI or fly.ai) from your linked X account: posts are counted overnight, +20 XP for each one (not replies), up to 5 a day.",
@@ -35,7 +35,7 @@
     connectX: "Connect your X account above to earn XP for your posts.", seasonEnds: "XP counts toward the airdrop.",
     seasonOver: "Season 1 is over. XP counted toward the airdrop.",
     s_hold: "Holding $FLYAI", s_flies: "Active flies", s_deposits: "Fly wallet deposits", s_feed: "Feeding the Fly Desk", s_market: "Marketplace trades",
-    s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_bug: "Bugs found", s_badges: "Badges", s_ambassador: "Ambassador", s_partners: "Partner NFTs trading", s_refquest: "Referral quests", s_quest: "Daily quests",
+    s_buy: "Swap box buys", s_claimstake: "Claim and stake", s_breed: "Breeding", s_passburn: "FlightPass burns", s_bug: "Bugs found", s_badges: "Badges", s_ambassador: "Ambassador", s_partners: "Partner NFTs trading", s_refquest: "Referral quests", s_quest: "Quests",
     account: "Your account", badgesBtn: "🏅 Badges", referralsBtn: "Referrals",
     log: "XP log", logBefore: "everything up to {date}", noLog: "Nothing logged yet.", logTx: "tx", logPost: "post",
     s_boost: "2x XP bonus", s_penalty: "2x XP: sells and withdrawals", logBoost: "{mult}x",
@@ -80,7 +80,7 @@
   /** 2026-11-11 (a holder asked what the icons mean): each badge is a button; a tap (or hover) shows its name and how
    * to get it under the row, the same words as the Badges page. */
   const BADGE_KEY = { 1: "larva", 2: "lord", 3: "diamond", 4: "og", 5: "flyowner", 6: "swarm", 7: "queen", 8: "payday", 9: "payroll",
-    10: "recruiter", 11: "piedpiper", 12: "ambassador" };   // the token ids (mine src/badges.ts)
+    10: "recruiter", 11: "piedpiper", 12: "ambassador", 13: "champion" };   // the token ids (mine src/badges.ts)
   function badgeRow(ids) {
     const info = el("p", { className: "flyprof-msg flyprof-binfo", textContent: t("badgeTap") });
     let on = null;

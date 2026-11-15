@@ -259,7 +259,20 @@
       "todayPostNight": "Counted overnight: every post from your connected X (not replies) is +20 XP, up to 5 a day, and ticks this quest the next morning",
       "todayRefTitle": "Referral quests",
       "todayRefQuest": "Bring {n} real referral(s)",
-      "todayRefHint": "One time each. A friend counts once they keep $20+ in Fly Wallets for 7 days."
+      "todayRefHint": "One time each. A friend counts once they keep $20+ in Fly Wallets for 7 days.",
+      "jTitle": "Getting started",
+      "jHint": "One time each. Every step is something that makes your fly actually trade.",
+      "j_hold": "Hold 200,000 $FLYAI (wallet, staked or locked)",
+      "j_own": "Own a Trader Fly or a partner NFT",
+      "j_fund": "Put $5+ into your fly's wallet",
+      "j_trade": "See your fly make its first trade",
+      "j_claim": "Claim and stake a weekly payout",
+      "jAll": "All 5 done",
+      "kTitle": "Keep it in",
+      "kHint": "${usd}+ in your fly wallets with no withdrawal. A withdrawal starts the count again.",
+      "kDays": "{n} days kept in",
+      "kNow": "Now: ${usd} in, {d} days",
+      "kNone": "Now: nothing kept in yet"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -528,9 +541,11 @@
     "bn_piedpiper": "Bring 10 real referrals.",
     "b_ambassador": "Ambassador",
     "bn_ambassador": "Invited only: given to fly.ai's ambassadors.",
-    "s_quest": "Daily quests",
+    "s_quest": "Quests",
     "s_partners": "Partner NFTs trading",
-    "h_partners": "<b>Partner NFTs</b>: 10 XP a day for each partner NFT (Bullas, Enjoyoors, Waifus, RUYUI...) whose own wallet is trading, like an active fly."
+    "h_partners": "<b>Partner NFTs</b>: 10 XP a day for each partner NFT (Bullas, Enjoyoors, Waifus, RUYUI...) whose own wallet is trading, like an active fly.",
+    "b_champion": "League Champion",
+    "bn_champion": "Win a bracket of the weekly Fly League"
   },
   "flychat": {
     "title": "Fly #{id}",

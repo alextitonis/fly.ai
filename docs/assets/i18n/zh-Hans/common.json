@@ -259,7 +259,20 @@
       "todayPostNight": "夜间统计：已绑定 X 账号的每条帖子（回复除外）+20 XP，每天最多 5 条，次日早上此任务打勾",
       "todayRefTitle": "推荐任务",
       "todayRefQuest": "带来 {n} 个有效推荐",
-      "todayRefHint": "每项只奖励一次。朋友在 Fly 钱包中保持 $20+ 达 7 天即算有效。"
+      "todayRefHint": "每项只奖励一次。朋友在 Fly 钱包中保持 $20+ 达 7 天即算有效。",
+      "jTitle": "新手任务",
+      "jHint": "每项一次。每一步都让你的苍蝇真正开始交易。",
+      "j_hold": "持有 200,000 $FLYAI（钱包、质押或锁仓）",
+      "j_own": "拥有一只 Trader Fly 或合作 NFT",
+      "j_fund": "给苍蝇钱包存入 $5 以上",
+      "j_trade": "看到苍蝇的第一笔交易",
+      "j_claim": "领取并质押一次每周分红",
+      "jAll": "5 项全部完成",
+      "kTitle": "长期持有",
+      "kHint": "苍蝇钱包里保持 ${usd} 以上且不提现。提现会重新计算。",
+      "kDays": "保持 {n} 天",
+      "kNow": "当前：${usd}，{d} 天",
+      "kNone": "当前：还没有存入"
     },
     "terminal": {
       "label": "Fly 终端",
@@ -528,9 +541,11 @@
     "bn_piedpiper": "带来 10 位真实推荐。",
     "b_ambassador": "大使",
     "bn_ambassador": "仅限邀请：授予 fly.ai 大使。",
-    "s_quest": "每日任务",
+    "s_quest": "任务",
     "s_partners": "交易中的合作伙伴 NFT",
-    "h_partners": "<b>合作伙伴 NFT</b>：每个自己钱包正在交易的合作伙伴 NFT（Bullas、Enjoyoors、Waifus、RUYUI…）每天 10 XP，和活跃的苍蝇一样。"
+    "h_partners": "<b>合作伙伴 NFT</b>：每个自己钱包正在交易的合作伙伴 NFT（Bullas、Enjoyoors、Waifus、RUYUI…）每天 10 XP，和活跃的苍蝇一样。",
+    "b_champion": "联赛冠军",
+    "bn_champion": "赢得每周 Fly League 的一个组别"
   },
   "flychat": {
     "title": "苍蝇 #{id}",

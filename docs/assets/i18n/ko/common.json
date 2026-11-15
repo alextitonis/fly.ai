@@ -259,7 +259,20 @@
       "todayPostNight": "밤사이 집계: 연결된 X의 모든 글(답글 제외)이 +20 XP, 하루 최대 5개, 다음 날 아침 이 퀘스트가 체크됩니다",
       "todayRefTitle": "추천 퀘스트",
       "todayRefQuest": "유효 추천 {n}명 데려오기",
-      "todayRefHint": "각각 한 번만. 친구가 Fly 지갑에 $20 이상을 7일간 유지하면 인정됩니다."
+      "todayRefHint": "각각 한 번만. 친구가 Fly 지갑에 $20 이상을 7일간 유지하면 인정됩니다.",
+      "jTitle": "시작하기",
+      "jHint": "각 1회. 모든 단계가 파리가 실제로 트레이딩하게 만듭니다.",
+      "j_hold": "$FLYAI 200,000개 보유 (지갑, 스테이킹, 락업)",
+      "j_own": "Trader Fly 또는 파트너 NFT 보유",
+      "j_fund": "파리 지갑에 $5 이상 입금",
+      "j_trade": "파리의 첫 거래 확인",
+      "j_claim": "주간 보상 받고 스테이킹",
+      "jAll": "5개 모두 완료",
+      "kTitle": "계속 넣어두기",
+      "kHint": "출금 없이 파리 지갑에 ${usd} 이상. 출금하면 다시 시작됩니다.",
+      "kDays": "{n}일 유지",
+      "kNow": "현재: ${usd}, {d}일",
+      "kNone": "현재: 아직 넣어둔 금액 없음"
     },
     "terminal": {
       "label": "Fly 터미널",
@@ -528,9 +541,11 @@
     "bn_piedpiper": "실제 추천 10명을 데려오세요.",
     "b_ambassador": "앰배서더",
     "bn_ambassador": "초대 전용: fly.ai 앰배서더에게 주어집니다.",
-    "s_quest": "일일 퀘스트",
+    "s_quest": "퀘스트",
     "s_partners": "거래 중인 파트너 NFT",
-    "h_partners": "<b>파트너 NFT</b>: 자체 지갑이 거래 중인 파트너 NFT(Bullas, Enjoyoors, Waifus, RUYUI...) 하나당 하루 10 XP, 활성 파리처럼."
+    "h_partners": "<b>파트너 NFT</b>: 자체 지갑이 거래 중인 파트너 NFT(Bullas, Enjoyoors, Waifus, RUYUI...) 하나당 하루 10 XP, 활성 파리처럼.",
+    "b_champion": "리그 챔피언",
+    "bn_champion": "주간 Fly League에서 한 구간 우승"
   },
   "flychat": {
     "title": "플라이 #{id}",

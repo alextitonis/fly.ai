@@ -88,6 +88,10 @@
     "ambassador": {
       "name": "앰배서더",
       "need": "초대 전용: fly.ai 앰배서더에게 주어집니다."
+    },
+    "champion": {
+      "name": "리그 챔피언",
+      "need": "주간 Fly League에서 한 구간 우승 (같은 규모 중 최고의 한 주)."
     }
   },
   "share": {

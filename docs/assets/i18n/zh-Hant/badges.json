@@ -88,6 +88,10 @@
     "ambassador": {
       "name": "大使",
       "need": "僅限邀請：授予 fly.ai 大使。"
+    },
+    "champion": {
+      "name": "聯賽冠軍",
+      "need": "贏得每週 Fly League 的一個組別（同規模錢包中本週表現最好）。"
     }
   },
   "share": {

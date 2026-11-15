@@ -259,7 +259,20 @@
       "todayPostNight": "Se cuenta por la noche: cada post de tu X conectada (no respuestas) da +20 XP, hasta 5 al día, y marca esta misión a la mañana siguiente",
       "todayRefTitle": "Misiones de referidos",
       "todayRefQuest": "Trae {n} referido(s) real(es)",
-      "todayRefHint": "Una vez cada una. Un amigo cuenta cuando mantiene $20+ en Fly Wallets durante 7 días."
+      "todayRefHint": "Una vez cada una. Un amigo cuenta cuando mantiene $20+ en Fly Wallets durante 7 días.",
+      "jTitle": "Primeros pasos",
+      "jHint": "Una vez cada uno. Cada paso hace que tu mosca opere de verdad.",
+      "j_hold": "Ten 200.000 $FLYAI (wallet, staking o bloqueados)",
+      "j_own": "Ten una Trader Fly o un NFT socio",
+      "j_fund": "Pon $5+ en la wallet de tu mosca",
+      "j_trade": "Ve la primera operación de tu mosca",
+      "j_claim": "Reclama y haz staking de un pago semanal",
+      "jAll": "Los 5 hechos",
+      "kTitle": "Mantenlo dentro",
+      "kHint": "${usd}+ en tus wallets de moscas sin retirar. Un retiro reinicia la cuenta.",
+      "kDays": "{n} días dentro",
+      "kNow": "Ahora: ${usd} dentro, {d} días",
+      "kNone": "Ahora: nada dentro todavía"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -528,9 +541,11 @@
     "bn_piedpiper": "Trae 10 referidos reales.",
     "b_ambassador": "Embajador",
     "bn_ambassador": "Solo por invitación: para los embajadores de fly.ai.",
-    "s_quest": "Misiones diarias",
+    "s_quest": "Misiones",
     "s_partners": "NFT socios operando",
-    "h_partners": "<b>NFT socios</b>: 10 XP al día por cada NFT socio (Bullas, Enjoyoors, Waifus, RUYUI...) cuya propia wallet está operando, como una mosca activa."
+    "h_partners": "<b>NFT socios</b>: 10 XP al día por cada NFT socio (Bullas, Enjoyoors, Waifus, RUYUI...) cuya propia wallet está operando, como una mosca activa.",
+    "b_champion": "Campeón de la Liga",
+    "bn_champion": "Gana una categoría de la Fly League semanal"
   },
   "flychat": {
     "title": "Mosca #{id}",

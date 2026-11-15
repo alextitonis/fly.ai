@@ -1,0 +1,7 @@
+{
+  "name": "League Champion",
+  "description": "Won a bracket of the weekly Fly League: its fly wallet had the best week of its size. Soulbound: stays with the wallet that earned it.",
+  "image": "https://flyaiworld.com/assets/badges/13.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [{ "trait_type": "Type", "value": "Fly League" }, { "trait_type": "Soulbound", "value": "Yes" }]
+}

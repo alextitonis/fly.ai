@@ -54,6 +54,30 @@ export const QUEST_RATES = { checkin: 2, quest: 2, allDone: 4, milestones: { 7: 
 /** Referral quests (2026-11-09, the user: "add referral quests, just not in the daily"): one-off XP the first time a
  *  wallet reaches each count of REAL referrals (referrals.ts: $20+ in Fly Wallets for 7 days, or a desk payout). */
 export const REF_QUESTS: [number, number][] = [[1, 25], [3, 50], [5, 100], [10, 250], [25, 500]];
+/**
+ * Getting started and "keep it in" (2026-11-15, the user: gamify the trading itself - "yeah", "ok" to an onboarding chain
+ * and keep quests first). One-off XP like the referral quests, booked as source 'quest' (no migration), refs
+ * "journey:<wallet>:<step>" and "keep:<wallet>:<days>"; open to every signed-in wallet (the steps ARE how a newcomer
+ * gets to the 10k gate), team wallets and an ended season earn nothing.
+ *   journey  hold 200k $FLYAI (wallet, staked or locked: xp_holders) · own a Trader Fly or a funded partner NFT wallet ·
+ *            first deposit of $5+ · its wallet's first filled trade · first payout claimed and staked (or fed) · all 5 +100
+ *   keep     $KEEP_USD+ still in your fly wallets, KEEP days since the first deposit with no withdrawal since (a
+ *            withdrawal starts the count again); after the last, every 30 days more pays KEEP_EVERY
+ */
+export const JOURNEY: { id: string; xp: number }[] = [
+  { id: "hold", xp: 25 }, { id: "own", xp: 25 }, { id: "fund", xp: 50 }, { id: "trade", xp: 50 }, { id: "claim", xp: 50 }];
+export const JOURNEY_ALL = 100;
+export const JOURNEY_HOLD = 200_000n * 10n ** 18n;
+export const KEEP: [number, number][] = [[7, 50], [30, 150], [90, 300]];
+export const KEEP_EVERY = 100;
+export const KEEP_USD = 20;
+/** the keep milestones reached after `days` kept in: the listed ones, then every 30 days past the last */
+export function keepReached(days: number): [number, number][] {
+  const out = KEEP.filter(([n]) => days >= n);
+  const last = KEEP[KEEP.length - 1][0];
+  for (let n = last + 30; n <= days; n += 30) out.push([n, KEEP_EVERY]);
+  return out;
+}
 export const GROUPS = ["visit", "social", "move"] as const;
 export type Group = (typeof GROUPS)[number];
 /** the lists before QUESTS_FROM (each day's picks stay as they were) */
@@ -123,6 +147,8 @@ export type Today = {
   paid: { burn_flyai: number; max: number; used: number; token: string; burn_fn: "burn" };
   rates: { checkin: number; quest: number; all: number; milestones: Record<number, number> };
   referrals: { real: number; quests: { need: number; xp: number; done: boolean }[] };
+  journey: { steps: { id: string; xp: number; done: boolean }[]; all_xp: number; all_done: boolean };
+  keep: { usd: number; days: number | null; min_usd: number; quests: { days: number; xp: number; done: boolean }[] };
 };
 
 export function createQuests(d: {
@@ -283,6 +309,51 @@ export function createQuests(d: {
       paid: { burn_flyai: QUEST_RATES.rerollBurn, max: QUEST_RATES.paidMax, used: buys.length, token: FLYAI, burn_fn: "burn" },
       rates: { checkin: QUEST_RATES.checkin, quest: QUEST_RATES.quest, all: QUEST_RATES.allDone, milestones: QUEST_RATES.milestones },
       referrals: { real, quests: REF_QUESTS.map(([need, xp]) => ({ need, xp, done: refDone.has(`refquest:${wallet}:${need}`) })) },
+      ...(await journey(wallet)),
+    };
+  }
+
+  /** where the wallet is on the getting-started steps and how long its money has stayed in; books what's newly done */
+  async function journey(wallet: string): Promise<Pick<Today, "journey" | "keep">> {
+    const yes = (sql: string, ...args: Arg[]) => pg.one(sql, ...args).then((r) => !!r).catch(() => false);
+    const [held, owns, funded, traded, claimed, money] = await Promise.all([
+      pg.one<{ held: string }>("select (liquid + staked + locked)::text as held from mine.xp_holders where wallet = ?", wallet)
+        .then((h) => !!h && BigInt(h.held.split(".")[0]) >= JOURNEY_HOLD).catch(() => false),
+      yes(`select 1 from mine.xp_holders where wallet = ? and flies > 0
+        union all select 1 from mine.vault_ledger where lower(holder) = ? and (left(chain, 2) = 'p_' or chain = 'ruyui') limit 1`, wallet, wallet),
+      yes("select 1 from mine.vault_moves where kind in ('deposit', 'sol_deposit') and lower(holder) = ? and usd >= 5 limit 1", wallet),
+      yes(`select 1 from mine.vault_trades t join mine.vault_ledger l on lower(l.wallet) = lower(t.vault)
+        where lower(l.holder) = ? and t.status = 'filled' and t.side in ('buy', 'sell') limit 1`, wallet),
+      yes("select 1 from mine.xp_events where wallet = ? and source in ('claimstake', 'feed') limit 1", wallet),
+      pg.one<{ usd: number; first: string | null; last_out: string | null }>(`select
+          (select coalesce(sum(principal_usd), 0)::float8 from mine.vault_ledger where lower(holder) = ?) as usd,
+          (select min(at)::text from mine.vault_moves where kind in ('deposit', 'sol_deposit') and lower(holder) = ?) as first,
+          (select max(at)::text from mine.vault_moves where kind in ('withdraw', 'sol_withdraw') and lower(holder) = ?) as last_out`,
+        wallet, wallet, wallet).catch(() => null),
+    ]);
+    const done: Record<string, boolean> = { hold: held, own: owns, fund: funded, trade: traded, claim: claimed };
+    const usd = money?.usd ?? 0;
+    const since = money?.first ? Math.max(Date.parse(money.first), money.last_out ? Date.parse(money.last_out) : 0) : null;
+    const days = since != null && usd >= KEEP_USD ? Math.floor((now() - since) / DAY_MS) : null;
+    const books = !(!on || ended() || d.exclude.includes(wallet));
+    const at = new Date(now()).toISOString();
+    const put = (ref: string, xp: number) => pg.run("insert into mine.xp_events (wallet, source, ref, xp, at) values (?, 'quest', ?, ?, ?) on conflict (ref) do nothing",
+      wallet, ref, xp, at).catch(() => null);
+    if (books) {
+      for (const s of JOURNEY) if (done[s.id]) await put(`journey:${wallet}:${s.id}`, s.xp);
+      if (JOURNEY.every((s) => done[s.id])) await put(`journey:${wallet}:all`, JOURNEY_ALL);
+      for (const [n, xp] of keepReached(days ?? -1)) await put(`keep:${wallet}:${n}`, xp);
+    }
+    // what's booked (a step stays done once paid, even if, say, the $FLYAI is sold later)
+    const paid = new Set((await pg.all<{ ref: string }>("select ref from mine.xp_events where wallet = ? and (ref like ? or ref like ?)",
+      wallet, `journey:${wallet}:%`, `keep:${wallet}:%`).catch(() => [] as { ref: string }[])).map((x) => x.ref));
+    const keepShown = [...KEEP, ...keepReached(days ?? -1).filter(([n]) => n > KEEP[KEEP.length - 1][0])];
+    const nextEvery = Math.max(KEEP[KEEP.length - 1][0], ...keepShown.map(([n]) => n)) + 30;
+    return {
+      journey: { steps: JOURNEY.map((s) => ({ ...s, done: done[s.id] || paid.has(`journey:${wallet}:${s.id}`) })), all_xp: JOURNEY_ALL,
+        all_done: paid.has(`journey:${wallet}:all`) || JOURNEY.every((s) => done[s.id]) },
+      keep: { usd: Math.round(usd * 100) / 100, days, min_usd: KEEP_USD,
+        quests: [...keepShown, [nextEvery, KEEP_EVERY] as [number, number]].map(([n, xp]) => ({ days: n, xp, done: paid.has(`keep:${wallet}:${n}`) })) },
     };
   }
 

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="League Champion badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#06140f" stroke="#5ef2cc" stroke-width="10"/>
+  <path d="M176 150h160v54c0 50-36 88-80 88s-80-38-80-88z" fill="#5ef2cc"/>
+  <path d="M176 168h-34c0 40 18 66 44 74M336 168h34c0 40-18 66-44 74" fill="none" stroke="#5ef2cc" stroke-width="12" stroke-linecap="round"/>
+  <rect x="240" y="290" width="32" height="46" fill="#5ef2cc"/>
+  <rect x="196" y="334" width="120" height="26" rx="8" fill="#5ef2cc"/>
+  <g fill="#06140f">
+    <ellipse cx="256" cy="214" rx="13" ry="26"/>
+    <circle cx="256" cy="182" r="11"/>
+    <ellipse cx="233" cy="208" rx="22" ry="8" transform="rotate(-28 233 208)" fill-opacity=".7"/>
+    <ellipse cx="279" cy="208" rx="22" ry="8" transform="rotate(28 279 208)" fill-opacity=".7"/>
+  </g>
+  <path d="M158 396l98 34 98-34" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#fff"><circle cx="146" cy="120" r="7"/><circle cx="372" cy="112" r="9"/><circle cx="392" cy="300" r="6"/><circle cx="118" cy="292" r="6"/></g>
+</svg>

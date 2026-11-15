@@ -33,6 +33,9 @@ export interface PartnersDeps {
   env: NodeJS.ProcessEnv;
   /** a wallet's log by address (src/vaults.ts walletLog): the Partners pot's trades */
   walletLog?: (wallet: string) => Promise<any>;
+  /** a holder's $FLYAI staked in FlyStaking + locked in FlyLock, in base units (2026-11-15, the user: for partners "staking
+   *  etc should count or locked", as for Trader Flies); left out = the wallet balance alone */
+  stakedOf?: (wallet: string) => Promise<bigint>;
 }
 
 const FLYAI = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C";
@@ -251,9 +254,12 @@ export function createPartners(d: PartnersDeps) {
   async function ethWei(wallet: string): Promise<bigint> {
     return BigInt(await rpc(d.rpcUrl, "eth_getBalance", [wallet, "latest"]) as string);
   }
+  /** the holding rule's $FLYAI: in the wallet, plus staked and locked (a failed stake read counts as none) */
   async function flyaiOf(wallet: string): Promise<number> {
-    const ret = await rpc(d.rpcUrl, "eth_call", [{ to: FLYAI, data: `${selector("balanceOf(address)")}${word(wallet)}` }, "latest"]) as string;
-    return Number(BigInt(ret) / 10n ** 14n) / 10_000;
+    const [ret, staked] = await Promise.all([
+      rpc(d.rpcUrl, "eth_call", [{ to: FLYAI, data: `${selector("balanceOf(address)")}${word(wallet)}` }, "latest"]) as Promise<string>,
+      d.stakedOf ? d.stakedOf(wallet).catch(() => 0n) : Promise.resolve(0n)]);
+    return Number((BigInt(ret) + staked) / 10n ** 14n) / 10_000;
   }
 
   // ---- the desk's tables --------------------------------------------------------------------------------------

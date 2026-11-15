@@ -88,6 +88,10 @@
     "ambassador": {
       "name": "Elçi",
       "need": "Yalnızca davetle: fly.ai elçilerine verilir."
+    },
+    "champion": {
+      "name": "Lig Şampiyonu",
+      "need": "Haftalık Fly League'de bir grubu kazan (cüzdanının boyutuna göre en iyi haftası)."
     }
   },
   "share": {

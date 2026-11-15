@@ -88,6 +88,10 @@
     "ambassador": {
       "name": "Embajador",
       "need": "Solo por invitación: para los embajadores de fly.ai."
+    },
+    "champion": {
+      "name": "Campeón de la Liga",
+      "need": "Gana una categoría de la Fly League semanal (la mejor semana de tu wallet para su tamaño)."
     }
   },
   "share": {

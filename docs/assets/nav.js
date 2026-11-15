@@ -103,7 +103,7 @@
       signInHint: "Sign in at the top right ↗", signIn: "Sign in", myFlies: "My flies", leaderboard: "Leaderboard", nickname: "Nickname", nickHint: "3-20 letters",
       save: "Save", saved: "Saved", compute: "Compute & balance", signOut: "Sign out",
       search: "Search", searchHint: "Apps, #fly, people", openFly: "Open the fly", flies: "Flies", noResults: "Nothing found", notifications: "Notifications", nothingYet: "Nothing yet: fund a fly or play a game", bought: "bought", sold: "sold", colosseum: "Colosseum", place: "place {n}", finished: "finished", payout: "Payout", deskClaim: "Fly Desk payout to claim", claimBy: "claim by {t}", b_nickname: "Named", b_funded: "Funded a fly", b_profit: "In profit", b_trader: "10+ trades", b_gladiator: "Gladiator", b_champion: "Champion", b_player: "Player", b_regular: "Regular",
-      chats: "Chats", badgesBtn: "🏅 Badges", xpBtn: "⭐ XP & profile", xpChip: "Your XP level, streak and profile", xpLevel: "Lv {n}", levelUp: "Level {n}!", levelUpText: "You reached XP level {n}. It counts toward the airdrop.", levelUpSee: "See your profile", xpSoon: "+{n} XP soon", close: "Close", todayTitle: "Today", todayResets: "New day in {h} h {m} min", todayEnded: "The season is over: no more check-ins or quests.", todayGate: "Hold {n} $FLYAI or a Trader Fly to check in and do quests.", todayBuy: "Buy $FLYAI", todayStreak: "days in a row · best {best}", todayFreezeTip: "Streak freezes: one for every 7 days in a row, up to 2. A missed day uses one instead of breaking your streak.", todayNext: "Next bonus: day {n}, +{xp} XP", todayChecked: "Checked in ✓", todayCheckin: "Check in · +{xp} XP", todayMilestone: "{n} days in a row! +{xp} XP", todayFreezeUsed: "A streak freeze covered {n} missed day(s).", todayQuests: "Today's quests", todayReroll: "Swap this quest (once a day)", todaySwap: "Swap", todaySwapAsk: "Swap \"{q}\" for another quest? You get one swap a day.", todayLag: "Ticks a few minutes after you do it", todayAll: "All 3 done", todayProfile: "Your profile", todayRules: "How quests work", q_fly: "Open one of your flies", q_squads: "Look at the Squads board", q_xp: "Visit the XP page", q_flybook: "Like, comment or poke on Flybook", q_flychat: "Send your fly a message in Fly chat", q_rate: "Rate a fly", q_topup: "Top up a fly with $10 or more", q_swap: "Buy $FLYAI in the swap box", q_claimstake: "Claim and stake your payout", q_market: "Buy or sell on the Fly Market", q_leaderboard: "Check the leaderboard", q_desk: "Look at the Fly Desk", q_feed: "Feed the Fly Desk", q_xpost: "Post a meme or anything about fly.ai on X", todayBurnTip: "Burn {n} $FLYAI for a new quest in this slot, even if it's done", todayBurnAsk: "Burn {n} $FLYAI for a new quest instead of \"{q}\"? It works even if that one is done, and the new one pays XP again.", todayBurnWallet: "Confirm the burn in your wallet…", todayBurnWait: "Waiting for the burn to go through…", todayBurnDone: "🔥 Burned. Here's your new quest.", todayBurnLeft: "🔥 New quests for a burn: {n} of {max} left today", todayRefTitle: "Referral quests", todayRefQuest: "Bring {n} real referral(s)", todayRefHint: "One time each. A friend counts once they keep $20+ in Fly Wallets for 7 days.", todayPostNight: "Counted overnight: every post from your connected X (not replies) is +20 XP, up to 5 a day, and ticks this quest the next morning", profileBtn: "👤 Profile", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
+      chats: "Chats", badgesBtn: "🏅 Badges", xpBtn: "⭐ XP & profile", xpChip: "Your XP level, streak and profile", xpLevel: "Lv {n}", levelUp: "Level {n}!", levelUpText: "You reached XP level {n}. It counts toward the airdrop.", levelUpSee: "See your profile", xpSoon: "+{n} XP soon", close: "Close", todayTitle: "Today", todayResets: "New day in {h} h {m} min", todayEnded: "The season is over: no more check-ins or quests.", todayGate: "Hold {n} $FLYAI or a Trader Fly to check in and do quests.", todayBuy: "Buy $FLYAI", todayStreak: "days in a row · best {best}", todayFreezeTip: "Streak freezes: one for every 7 days in a row, up to 2. A missed day uses one instead of breaking your streak.", todayNext: "Next bonus: day {n}, +{xp} XP", todayChecked: "Checked in ✓", todayCheckin: "Check in · +{xp} XP", todayMilestone: "{n} days in a row! +{xp} XP", todayFreezeUsed: "A streak freeze covered {n} missed day(s).", todayQuests: "Today's quests", todayReroll: "Swap this quest (once a day)", todaySwap: "Swap", todaySwapAsk: "Swap \"{q}\" for another quest? You get one swap a day.", todayLag: "Ticks a few minutes after you do it", todayAll: "All 3 done", todayProfile: "Your profile", todayRules: "How quests work", q_fly: "Open one of your flies", q_squads: "Look at the Squads board", q_xp: "Visit the XP page", q_flybook: "Like, comment or poke on Flybook", q_flychat: "Send your fly a message in Fly chat", q_rate: "Rate a fly", q_topup: "Top up a fly with $10 or more", q_swap: "Buy $FLYAI in the swap box", q_claimstake: "Claim and stake your payout", q_market: "Buy or sell on the Fly Market", q_leaderboard: "Check the leaderboard", q_desk: "Look at the Fly Desk", q_feed: "Feed the Fly Desk", q_xpost: "Post a meme or anything about fly.ai on X", todayBurnTip: "Burn {n} $FLYAI for a new quest in this slot, even if it's done", todayBurnAsk: "Burn {n} $FLYAI for a new quest instead of \"{q}\"? It works even if that one is done, and the new one pays XP again.", todayBurnWallet: "Confirm the burn in your wallet…", todayBurnWait: "Waiting for the burn to go through…", todayBurnDone: "🔥 Burned. Here's your new quest.", todayBurnLeft: "🔥 New quests for a burn: {n} of {max} left today", todayRefTitle: "Referral quests", jTitle: "Getting started", jHint: "One time each. Every step is something that makes your fly actually trade.", j_hold: "Hold 200,000 $FLYAI (wallet, staked or locked)", j_own: "Own a Trader Fly or a partner NFT", j_fund: "Put $5+ into your fly's wallet", j_trade: "See your fly make its first trade", j_claim: "Claim and stake a weekly payout", jAll: "All 5 done", kTitle: "Keep it in", kHint: "${usd}+ in your fly wallets with no withdrawal. A withdrawal starts the count again.", kDays: "{n} days kept in", kNow: "Now: ${usd} in, {d} days", kNone: "Now: nothing kept in yet", todayRefQuest: "Bring {n} real referral(s)", todayRefHint: "One time each. A friend counts once they keep $20+ in Fly Wallets for 7 days.", todayPostNight: "Counted overnight: every post from your connected X (not replies) is +20 XP, up to 5 a day, and ticks this quest the next morning", profileBtn: "👤 Profile", whatsNew: "New", referrals: "Referrals", refBy: "Referred by", refHint: "A friend's code or nickname", refSet: "Set", refLocked: "Set for good", refJoined: "You joined through {name}'s link",
       xLabel: "X account", connectX: "Connect X", unlinkX: "Unlink", x_linked: "X connected", x_denied: "Cancelled on X",
       tgLabel: "Telegram", tgIn: "In the fly.ai group · +50 XP", tgOut: "Not in the group yet", tgJoin: "Join the group", tgCheck: "Check again",
       x_expired: "That took too long, try again", x_taken: "That X account is linked to another wallet", x_failed: "X didn't answer, try again" };
@@ -516,7 +516,7 @@
     if (!profileJs) {
       profileJs = new Promise((ok) => {
         const tag = document.createElement("script");
-        tag.src = NAV_SRC ? new URL("flyprofile.js?v=20261114a", NAV_SRC).href : "/assets/flyprofile.js?v=20261114a";
+        tag.src = NAV_SRC ? new URL("flyprofile.js?v=20261115b", NAV_SRC).href : "/assets/flyprofile.js?v=20261115b";
         tag.onload = ok;
         tag.onerror = ok;
         (document.body || document.head).append(tag);
@@ -745,7 +745,8 @@
   async function loadToday() { return keepToday(await todayCall("/api/xp/today")); }
   function markDot(t) {
     const d = document.querySelector("nav .xpc-dot");
-    if (d) d.hidden = !(t && t.eligible && !t.ended && (!t.checked_in || !t.all_done));
+    // (also a newcomer with getting-started steps left, 2026-11-15: those steps are what gets them to the quests)
+    if (d) d.hidden = !(t && !t.ended && ((t.eligible && (!t.checked_in || !t.all_done)) || (!t.eligible && t.journey && !t.journey.all_done)));
   }
   /** a visit quest done on this page: told to the server once a day per quest (it ignores ones that aren't today's) */
   const seenHere = new Set();   // visit quests this page load reported: re-told after a swap / burn brings one in
@@ -798,6 +799,29 @@
         const a = h("a", "td-buy", L("todayBuy")); a.href = "/token#buy";
         box.append(p, a);
       }
+      // getting started (2026-11-15, quests.ts JOURNEY): one-off XP for each step to a fly that trades; shown first
+      // until all 5 are done, then at the bottom
+      const journey = () => {
+        const j = t.journey;
+        if (!j || !j.steps || !j.steps.length) return null;
+        const hrefs = { hold: "/start", own: "/traderflies/market", fund: "/traderflies/", trade: "/traderflies/", claim: "/traderflies/claim" };
+        const wrap = h("div", "td-journey");
+        wrap.append(h("h4", "td-sub", L("jTitle")));
+        const jl = h("ul", "td-quests td-refq");
+        for (const s of j.steps) {
+          const li = h("li", s.done ? "done" : "");
+          const a = h("a", "td-q", L("j_" + s.id)); a.href = hrefs[s.id] || "/traderflies/";
+          li.append(h("span", "td-tick", s.done ? "✓" : "○"), a, h("small", "td-xp", `+${s.xp} XP`));
+          jl.append(li);
+        }
+        const all = h("li", j.all_done ? "done" : "");
+        all.append(h("span", "td-tick", j.all_done ? "✓" : "🎁"), h("span", "td-q", L("jAll")), h("small", "td-xp", `+${j.all_xp} XP`));
+        jl.append(all);
+        wrap.append(jl, h("small", "td-reset", L("jHint")));
+        return wrap;
+      };
+      const jBox = journey();
+      if (jBox && !t.journey.all_done) box.append(jBox);
       // the check-in and the streak
       const card = h("div", "td-check");
       const st = h("div", "td-streak");
@@ -881,6 +905,20 @@
       ul.append(all);
       box.append(ul);
       if (t.paid && t.eligible && !t.ended) box.append(h("small", "td-reset", L("todayBurnLeft").replace("{n}", Math.max(0, t.paid.max - t.paid.used)).replace("{max}", t.paid.max)));
+      // keep it in (2026-11-15): one-off XP for money left in the fly wallets 7 / 30 / 90 days, then every 30 (quests.ts)
+      if (t.keep && t.keep.quests && t.keep.quests.length) {
+        box.append(h("h4", "td-sub", L("kTitle")));
+        const kl = h("ul", "td-quests td-refq");
+        for (const q of t.keep.quests) {
+          const li = h("li", q.done ? "done" : "");
+          const a = h("a", "td-q", L("kDays").replace("{n}", q.days)); a.href = "/traderflies/";
+          li.append(h("span", "td-tick", q.done ? "✓" : "🏦"), a,
+            h("small", "td-xp", q.done ? `+${q.xp} XP` : `${Math.min(t.keep.days ?? 0, q.days)}/${q.days} · +${q.xp} XP`));
+          kl.append(li);
+        }
+        box.append(kl, h("small", "td-reset", (t.keep.days == null ? L("kNone") : L("kNow").replace("{usd}", Math.round(t.keep.usd)).replace("{d}", t.keep.days))
+          + " · " + L("kHint").replace("{usd}", t.keep.min_usd)));
+      }
       // referral quests (2026-11-09): one-off XP at 1, 3, 5, 10 and 25 real referrals, not part of the daily three
       if (t.referrals && t.referrals.quests && t.referrals.quests.length) {
         box.append(h("h4", "td-sub", L("todayRefTitle")));
@@ -894,6 +932,7 @@
         }
         box.append(rl, h("small", "td-reset", L("todayRefHint")));
       }
+      if (jBox && t.journey.all_done) box.append(jBox);
       const foot = h("div", "td-foot");
       const prof = h("button", "td-link", L("todayProfile")); prof.type = "button";
       prof.addEventListener("click", () => {
