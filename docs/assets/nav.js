@@ -748,15 +748,24 @@
     if (d) d.hidden = !(t && t.eligible && !t.ended && (!t.checked_in || !t.all_done));
   }
   /** a visit quest done on this page: told to the server once a day per quest (it ignores ones that aren't today's) */
+  const seenHere = new Set();   // visit quests this page load reported: re-told after a swap / burn brings one in
+  const revisit = () => { for (const q of seenHere) visitQuest(q); };
   async function visitQuest(quest) {
     const s = session();
     if (!s) return;
+    seenHere.add(quest);
     const key = `flyai.visit.${s.wallet.toLowerCase()}.${new Date().toISOString().slice(0, 10)}.${quest}`;
-    try { if (sessionStorage.getItem(key)) return; sessionStorage.setItem(key, "1"); } catch {}
+    try { if (sessionStorage.getItem(key)) return; } catch {}
+    // 2026-11-15: remembered only once the server shows it done. Before, a visit made while the quest wasn't (yet) one of
+    // today's (before a swap / burn brought it in, or a failed call) was remembered, and the quest never ticked that day.
+    if (todayCopy && !todayCopy.quests.some((q) => q.id === quest && !q.done)) return;   // not an open quest today: no call
     try {
       const v = await todayCall("/api/xp/quest/visit", { quest });
       if (v) { keepToday(v.today); if (v.gained > 0) xpGain(v.gained); }
-    } catch { /* not today's, or signed out */ }
+      if (v && v.today && v.today.quests && v.today.quests.some((q) => q.id === quest && q.done)) {
+        try { sessionStorage.setItem(key, "1"); } catch {}
+      }
+    } catch { /* signed out, or the server said no */ }
   }
   const qText = (id) => L(`q_${id}`);
   function openToday() {
@@ -850,7 +859,7 @@
                 catch (err) { last = err; if (!/mined/.test(String(err.message))) break; await new Promise((r) => setTimeout(r, 3000)); }
               }
               if (!v) throw last || new Error("try again");
-              keepToday(v.today); draw(v.today, L("todayBurnDone"));
+              keepToday(v.today); draw(v.today, L("todayBurnDone")); revisit();
             } catch (err) { draw(todayCopy, String(err.message || err)); }
           });
           li.append(b);
@@ -860,7 +869,7 @@
           r.addEventListener("click", async () => {
             if (!confirm(L("todaySwapAsk").replace("{q}", qText(q.id)))) return;
             r.disabled = true;
-            try { const v = await todayCall("/api/xp/quest/reroll", { group: q.group }); keepToday(v.today); draw(v.today); }
+            try { const v = await todayCall("/api/xp/quest/reroll", { group: q.group }); keepToday(v.today); draw(v.today); revisit(); }
             catch (err) { draw(todayCopy, String(err.message || err)); }
           });
           li.append(r);
