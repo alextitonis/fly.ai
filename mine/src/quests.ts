@@ -182,7 +182,15 @@ export function createQuests(d: {
         // routes carry no fee leg the scan can see; xp.ts boxBuys books those from now on, this covers the scan's lag)
         return (await yes("select 1 from mine.xp_events where wallet = ? and source = 'buy' and at >= ? and at < ? limit 1", wallet, from, to))
           || yes("select 1 from mine.swap_events where wallet = ? and step = 'success' and at >= ? and at < ? limit 1", wallet, from, to);
-      case "claimstake": case "market": case "feed":
+      case "claimstake":
+        // 2026-11-15 (the user, on a holder whose 4 flies all feed): a payout fed into the flies (the settlement's
+        // creditFeed -> TraderFly Fed -> a "feed" XP event, Sunday) is that wallet's claim. A claimer has the 24 h
+        // claim window, so a fed payout counts on its day and the next.
+        return (await yes("select 1 from mine.xp_events where wallet = ? and source = 'claimstake' and at >= ? and at < ? limit 1",
+          wallet, from, to))
+          || yes("select 1 from mine.xp_events where wallet = ? and source = 'feed' and at >= ? and at < ? limit 1",
+            wallet, new Date(Date.parse(from) - DAY_MS).toISOString(), to);
+      case "market": case "feed":
         return yes("select 1 from mine.xp_events where wallet = ? and source = ? and at >= ? and at < ? limit 1",
           wallet, quest, from, to);
       case "xpost":       // the post's own time, so a post made before a paid reroll doesn't count for it

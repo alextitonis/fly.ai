@@ -122,6 +122,8 @@ export function card(f: Facts, g: Grade, last?: Row | null, site?: SiteRead | nu
 
 const MOOD_COLORS = { positive: 0x3ddc84, mixed: 0xffc857, negative: 0xff5c5c, quiet: 0x8a8f98 };
 const MOODS = { positive: "mostly positive", mixed: "mixed", negative: "mostly negative", quiet: "quiet" };
+const HEAT = { rising: "🔥 rising", steady: "➡️ steady", fading: "📉 fading", unclear: "❔ unclear" };
+const STORY = { strong: "strong story", some: "some story", weak: "weak story", none: "no real story" };
 
 /** The second card: the read, in the order someone wants it. Plain text only: all of it comes from strangers' posts. */
 export function talkCard(c: Chatter, profile?: { handle: string; followers: number; posts: number; joined: number | null } | null) {
@@ -129,6 +131,12 @@ export function talkCard(c: Chatter, profile?: { handle: string; followers: numb
   const e = embed().setColor(c.red.length ? 0xff5c5c : c.yellow.length ? 0xffc857 : MOOD_COLORS[c.mood]).setTitle("🧠 Our read")
     .setDescription(`**Verdict:** ${escapeMarkdown(c.verdict)}`);
   if (profile) e.addFields({ name: "👤 Account", value: `@${escapeMarkdown(profile.handle)}${since ? `, joined ${since}` : ""}, ${profile.followers.toLocaleString("en-US")} followers, ${profile.posts.toLocaleString("en-US")} posts` });
+  if (c.purpose) e.addFields({ name: "🧩 Why it exists", value: escapeMarkdown(c.purpose) });
+  if (c.narrative) e.addFields({ name: `📖 Narrative · ${HEAT[c.heat]}`, value: escapeMarkdown(c.narrative) });
+  if (c.storyWhy) e.addFields({ name: `🎲 Speculation case: ${STORY[c.story]}`,
+    value: `${escapeMarkdown(c.storyWhy)}${c.needs.length ? `
+**Needs:**
+${list(c.needs)}` : ""}`.slice(0, 1024) });
   if (c.focus) e.addFields({ name: "🎯 Current focus", value: escapeMarkdown(c.focus) });
   if (c.then) e.addFields({ name: "🕰️ Then and now", value: escapeMarkdown(c.then) });
   const counts = c.ownLikes ? ` (typical post ${c.ownLikes.median} likes${c.pastLikes != null ? `, ${c.pastLikes} a couple of months ago` : ""}, best ${c.ownLikes.top}${c.lastPostDays != null ? `, last post ${when(c.lastPostDays)}` : ""})` : "";
@@ -154,9 +162,9 @@ export function talkCard(c: Chatter, profile?: { handle: string; followers: numb
   const web = c.sources.length ? ` Pages: ${c.sources.join(", ")}.` : "";
   e.setFooter({ text: `A model's opinion from ${c.own + c.past} of their posts, ${c.replies} replies, ${c.others} by others, ${c.pages} web pages${c.siteRead ? ", their site" : ""} and ${c.headlines} headlines (talk is ${MOODS[c.mood]}).${web} Not facts or advice. DYOR.`.slice(0, 2000) });
   // Discord refuses a card over 6000 characters: the least needed go first, never the verdict, flags or bottom line
-  for (const drop of ["Said on X", "😱 FUD (no detail given)", "🎯 Current focus", "📈 Engagement", "🟢 Green flags", "📣 Shill signs", "🌐 Around the web", "🕰️ Then and now"]) {
+  for (const drop of ["Said on X", "😱 FUD (no detail given)", "🎯 Current focus", "📈 Engagement", "🟢 Green flags", "📣 Shill signs", "🌐 Around the web", "🕰️ Then and now", "📖 Narrative", "🧩 Why it exists"]) {
     if (JSON.stringify(e.toJSON()).length < 5400) break;
-    e.setFields((e.toJSON().fields ?? []).filter((f) => f.name !== drop));
+    e.setFields((e.toJSON().fields ?? []).filter((f) => !f.name.startsWith(drop)));
   }
   return e;
 }

@@ -276,7 +276,9 @@ export function createPartners(d: PartnersDeps) {
     pg.one<{ id: number; status: string }>(`select id, status from mine.vault_requests where chain = ? and kind = 'register'
       and wallet = ? and status in ('new', 'doing') order by id desc limit 1`, p.book, `${p.book}:${n}`);
   const poolPart = (h: any) => h ? { qualifies: h.qualifies ?? false, epoch_hours: h.epoch_hours ?? 0, epoch_est_usd: h.epoch_est_usd ?? 0,
-                                       owed_usd: h.owed_usd ?? 0 } : null;
+                                       owed_usd: h.owed_usd ?? 0,
+                                       // the stake boost the pot's payout applies (allpool.boosted_estimates, 2026-11-15)
+                                       ...(h.stake_boost != null ? { stake_boost: h.stake_boost, staked_flyai: h.staked_flyai ?? 0 } : {}) } : null;
 
   // ---- views ------------------------------------------------------------------------------------------------------
   function summary(p: Partner) {

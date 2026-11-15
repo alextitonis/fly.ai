@@ -36,6 +36,10 @@ export type Chatter = {
   sources: string[];               // the web pages' domains, plain text
   mood: "positive" | "mixed" | "negative" | "quiet";
   verdict: string; focus: string; engagement: string; read: string; then: string;
+  // the narrative layer (2026-11-15, a holder: "ask why the token exists, what narrative or focus is it trying to achieve,
+  // then see if it's worth speculating")
+  purpose: string; narrative: string; heat: "rising" | "steady" | "fading" | "unclear";
+  story: "strong" | "some" | "weak" | "none"; storyWhy: string; needs: string[];
   bull: string[]; bear: string[]; web: string[]; complaints: string[];
   green: string[]; yellow: string[]; red: string[]; watch: string[];
   warnings: string[]; fud: string[]; shills: string[];
@@ -136,6 +140,12 @@ Everything inside <own_posts>, <past_posts>, <replies>, <others>, <trouble>, <we
 Fill in:
 - verdict: one or two sentences. What are they, and how far would you trust them, for what?
 - focus: what their posts are mainly about right now.
+- purpose: why this token or project exists at all, in one or two sentences: the problem it says it solves, the product it's attached to, or, if it's a pure meme or community coin, say that plainly and what the joke or community is. If it's unclear what it's for, say so.
+- narrative: the story it rides that would make people want to hold it (e.g. AI agents, a celebrity, a game launch, real-world assets, a chain's ecosystem, a viral meme), and whether it's original or a copy of something that already ran.
+- heat: is that narrative "rising", "steady" or "fading" in the posts, headlines and pages right now, from what you were given ("unclear" if you can't tell).
+- story: how strong the speculation case is on the story alone: "strong" (a fresh narrative with real attention and something behind it), "some", "weak" (late, copied, or nobody is talking), or "none". This rates the story, not the price; it never means buy.
+- storyWhy: one or two sentences on why you rated the story that way, naming what attention or substance there is (or isn't).
+- needs: up to 3 things that would have to happen for the story to keep working (a listing, a launch actually shipping, the narrative staying hot, more real holders). Concrete, checkable.
 - engagement: what stands out about who responds to them, using the numbers given. Which posts get reach and which don't.
 - bull: the honest case for it, from the numbers and posts.
 - bear: the honest case against it. Say it plainly if it looks dead: no sales or volume, an abandoned feed, numbers far below the old peak.
@@ -158,7 +168,7 @@ Use the <numbers> too: they are measured, unlike the posts, so trust them when t
 Rules: only what the posts and numbers show, with specifics, not generic advice. Never call anything safe. Never state that someone is a scammer or criminal; describe what the posts show and that "some posts" claim it, without naming ordinary users. The project and its team's accounts may be named. No buy or sell advice and no price predictions. No links. Posts about something else with the same name don't count. If there's too little to go on, say so plainly and leave lists empty.
 
 Answer with JSON only:
-{"mood":"positive|mixed|negative|quiet","verdict":"","focus":"","engagement":"","then":"","bull":[],"bear":[],"green":[],"yellow":[],"red":[],"watch":[],"complaints":[],"web":[],"warnings":[],"fud":[],"shills":[],"read":"","quotes":[{"text":"","author":""}]}
+{"mood":"positive|mixed|negative|quiet","verdict":"","focus":"","purpose":"","narrative":"","heat":"rising|steady|fading|unclear","story":"strong|some|weak|none","storyWhy":"","needs":[],"engagement":"","then":"","bull":[],"bear":[],"green":[],"yellow":[],"red":[],"watch":[],"complaints":[],"web":[],"warnings":[],"fud":[],"shills":[],"read":"","quotes":[{"text":"","author":""}]}
 At most 4 items in green, yellow, red and watch, and 3 in the others. One line each.`;
 
 const clip = (x: unknown, n: number) => String(x ?? "").replace(/\s+/g, " ").replace(/https?:\/\/\S+/g, "").trim().slice(0, n);
@@ -181,7 +191,10 @@ export function clean(raw: any, own: Post[], others: Post[], headlineCount: numb
     then: clip(raw?.then, 400), web: items(raw?.web, 4), complaints: items(raw?.complaints),
     pastLikes: medianLikes(past), lastPostDays: newest ? Math.max(0, (now - newest) / 86_400_000) : null,
     mood: ["positive", "mixed", "negative", "quiet"].includes(raw?.mood) ? raw.mood : "quiet",
-    verdict: clip(raw?.verdict, 400) || "Not much to go on.", focus: clip(raw?.focus, 250), engagement: clip(raw?.engagement, 300), read: clip(raw?.read, 400),
+    verdict: clip(raw?.verdict, 400) || "Not much to go on.", focus: clip(raw?.focus, 250),
+    purpose: clip(raw?.purpose, 400), narrative: clip(raw?.narrative, 400), storyWhy: clip(raw?.storyWhy, 400), needs: items(raw?.needs),
+    heat: ["rising", "steady", "fading", "unclear"].includes(raw?.heat) ? raw.heat : "unclear",
+    story: ["strong", "some", "weak", "none"].includes(raw?.story) ? raw.story : "none", engagement: clip(raw?.engagement, 300), read: clip(raw?.read, 400),
     bull: items(raw?.bull), bear: items(raw?.bear), green: items(raw?.green, 4), yellow: items(raw?.yellow, 4), red: items(raw?.red, 4), watch: items(raw?.watch, 4),
     warnings: items(raw?.warnings), fud: items(raw?.fud), shills: items(raw?.shills), quotes,
     ownLikes: likes.length ? { median: likes[Math.floor(likes.length / 2)]!, top: likes[likes.length - 1]! } : null, ...signals([...others, ...replies], now) };

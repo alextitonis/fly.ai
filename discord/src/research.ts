@@ -56,7 +56,7 @@ export type XProfile = { handle: string; name: string; followers: number; posts:
 const DRIED_USD = 10_000;              // a day's volume: above this, a slower month is just a slower month
 const CHAIN_KEY: Record<string, string> = { robinhood: "", base: "base", bsc: "bsc", arbitrum: "arbitrum", ethereum: "ethereum", solana: "solana" };   // what screen() can check
 
-type DexPair = { chainId: string; url: string; priceUsd?: string; liquidity?: { usd?: number }; pairCreatedAt?: number;
+type DexPair = { chainId: string; url: string; pairAddress?: string; priceUsd?: string; liquidity?: { usd?: number }; pairCreatedAt?: number;
   baseToken: { address: string; name: string; symbol: string };
   info?: { imageUrl?: string; websites?: { url: string }[]; socials?: { type: string; url: string }[] } };
 
@@ -81,7 +81,10 @@ export async function findToken(query: string): Promise<{ pair: DexPair; copies:
   const d = await json(`https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(query)}`).catch(() => null);
   const pairs: DexPair[] = d?.pairs ?? [];
   if (!pairs.length) return null;
-  const q = query.toLowerCase().replace(/^\$/, "");
+  let q = query.toLowerCase().replace(/^\$/, "");
+  // a pasted POOL address (2026-11-15, a holder's Meteora pool link said "couldn't find it"): it means that pool's token
+  const viaPool = pairs.find((p) => p.pairAddress?.toLowerCase() === q);
+  if (viaPool) q = viaPool.baseToken.address.toLowerCase();
   const exact = pairs.filter((p) => [p.baseToken.address, p.baseToken.symbol, p.baseToken.name].some((x) => x.toLowerCase() === q));
   const pool = exact.length ? exact : ADDRESS.test(query) ? [] : [];
   if (!pool.length) return null;   // a loose search hit is some other project: better "not found" than the wrong token's numbers
