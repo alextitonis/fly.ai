@@ -643,7 +643,8 @@
       "see": "Ver el bote de socios",
       "feed": "Alimentarlo",
       "feedHint": "Alimentar pone la parte semanal de este NFT directamente en su propia wallet de trading en vez de reclamarla.",
-      "feedTitle": "Alimenta tus NFT"
+      "feedTitle": "Alimenta tus NFT",
+      "boost": "Incluye tu bonus de staking ×{x}"
     }
   },
   "odds": {

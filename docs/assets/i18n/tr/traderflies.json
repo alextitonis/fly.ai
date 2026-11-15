@@ -643,7 +643,8 @@
       "see": "Ortaklar havuzunu gör",
       "feed": "Besle",
       "feedHint": "Beslemek, bu NFT'nin haftalık payını talep yerine doğrudan kendi işlem cüzdanına koyar.",
-      "feedTitle": "NFT'lerini besle"
+      "feedTitle": "NFT'lerini besle",
+      "boost": "×{x} staking bonusun dahil"
     }
   },
   "odds": {

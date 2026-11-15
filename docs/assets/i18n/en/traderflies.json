@@ -643,7 +643,8 @@
       "see": "See the Partners pot",
       "feed": "Feed it",
       "feedHint": "Feeding puts this NFT's weekly share straight into its own trading wallet instead of the claim.",
-      "feedTitle": "Feed your NFTs"
+      "feedTitle": "Feed your NFTs",
+      "boost": "Includes your ×{x} staking boost"
     }
   },
   "odds": {

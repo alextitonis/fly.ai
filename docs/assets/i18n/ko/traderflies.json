@@ -641,7 +641,8 @@
       "see": "파트너 풀 보기",
       "feed": "먹이 주기",
       "feedHint": "먹이를 주면 이 NFT의 주간 몫이 청구 대신 NFT 자체 거래 지갑으로 바로 들어가요.",
-      "feedTitle": "NFT에 먹이 주기"
+      "feedTitle": "NFT에 먹이 주기",
+      "boost": "스테이킹 보너스 ×{x} 포함"
     }
   },
   "odds": {
