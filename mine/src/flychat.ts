@@ -173,7 +173,12 @@ export function mergeSettings(base: any, changes: any): any {
   if (ch.elysium && typeof ch.elysium === "object" && typeof ch.elysium.on === "boolean") out.elysium = ch.elysium.on ? { on: true } : { on: false, off: true };
   // Zero (2026-11-10, flytrade/ZERO-PLAN.md): the same set-up before its 11-30 launch; opt-in only, no style default
   if (ch.zero && typeof ch.zero === "object" && typeof ch.zero.on === "boolean") out.zero = { on: ch.zero.on };
-  if (Object.keys(ch).some((k) => k !== "elysium" && k !== "zero")) out.starter = "custom";
+  // an edited style stays shown as the style it came from ("from", 2026-11-16: the site lost the owner's highlight);
+  // pausing / resuming is not a style edit
+  if (Object.keys(ch).some((k) => k !== "elysium" && k !== "zero" && k !== "trading")) {
+    if (out.starter && out.starter !== "custom") out.from = out.starter;
+    out.starter = "custom";
+  }
   return out;
 }
 
@@ -182,11 +187,11 @@ export function shortcut(text: string, settings: any): { text: string; card: Car
   const s = text.trim().toLowerCase().replace(/[.!]+$/, "");
   if (/^(pause|stop trading|stop)$/.test(s) && settings?.trading !== false) {
     return { text: "Pause trading? I'll keep what I hold and open nothing new.",
-             card: { kind: "settings", summary: "Pause trading", before: settings, after: { ...settings, trading: false, starter: "custom" } } };
+             card: { kind: "settings", summary: "Pause trading", before: settings, after: { ...settings, trading: false } } };
   }
   if (/^(resume|start trading|start|unpause)$/.test(s) && settings?.trading === false) {
     return { text: "Start trading again?",
-             card: { kind: "settings", summary: "Resume trading", before: settings, after: { ...settings, trading: true, starter: "custom" } } };
+             card: { kind: "settings", summary: "Resume trading", before: settings, after: { ...settings, trading: true } } };
   }
   return null;
 }
@@ -204,7 +209,8 @@ export function cardOf(tool: { name: string; args: any }, settings: any, starter
                         ...(settings?.zero ? { zero: settings.zero } : {}) } : settings;
     const after = mergeSettings(base, a.changes);
     if (st && !a.changes) after.starter = st.id;
-    if (JSON.stringify(after) === JSON.stringify({ ...settings, starter: after.starter })) return "nothing would change";
+    if (JSON.stringify(after) === JSON.stringify({ ...settings, starter: after.starter, ...("from" in after ? { from: after.from } : {}) }))
+      return "nothing would change";
     return { kind: "settings", summary: String(a.summary ?? "").slice(0, 160) || "Change settings", before: settings, after };
   }
   if (tool.name === "withdraw") {
