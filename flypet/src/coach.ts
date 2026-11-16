@@ -183,7 +183,7 @@ export function setupCoach(hooks: CoachHooks): Coach {
       const jpeg = await encode(await createImageBitmap(video!));
       const src = prefs().coachSource;
       const r = await coachHint({ image: jpeg, mode, process: src?.process, title: src?.name, question, note: prefs().coachNote || undefined,
-        lang: prefs().lang ?? navigator.language, ...(mode === "watch" ? { session, session_s: Math.round((Date.now() - sessionAt) / 1000) } : {}) });
+        lang: prefs().lang ?? navigator.language, share: prefs().coachShare === true, ...(mode === "watch" ? { session, session_s: Math.round((Date.now() - sessionAt) / 1000) } : {}) });
       if (r.say) { hooks.say(r.say); hooks.note(`🎮 ${r.say}`); }
       else if (mode === "hint") hooks.say(t("c.nothing"));
       if (mode === "hint" && r.free_left != null) hooks.note(`🎮 ${t("c.freeLeft", { n: r.free_left })}`);

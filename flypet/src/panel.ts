@@ -6,7 +6,7 @@
 //   3. the fly: its log, a chat (cards approved here: settings and watch lists only; money moves open the site), the alpha calls
 import { t, type Key } from "./i18n.ts";
 import {
-  alphaCalls, applyLang, chatAnswer, chatRead, chatSend, chatWatch, claimLink, flyFeed, inbox, newLink, prefs, saveSettings,
+  alphaCalls, applyLang, chatAnswer, coachForget, chatRead, chatSend, chatWatch, claimLink, flyFeed, inbox, newLink, prefs, saveSettings,
   setPrefs, signedIn, SignedOut, type AlphaCall, type ChatMe, type ChatMsg, type FlyFeed, type InboxRow, type Who,
 } from "./store.ts";
 
@@ -132,6 +132,7 @@ let coachPick = location.hash === "#coach";
 async function fillCoach() {
   const list = $("coachList"), msg = $("coachMsg"), note = $<HTMLInputElement>("coachNote");
   note.value = prefs().coachNote ?? "";
+  $<HTMLInputElement>("coachShare").checked = prefs().coachShare === true;
   if (!native) { msg.textContent = t("c.appOnly"); return; }
   list.replaceChildren(el("p", { class: "mute" }, t("p.loading")));
   const wins = await native.coachSources().catch(() => []);
@@ -147,6 +148,14 @@ async function fillCoach() {
   msg.textContent = wins.length ? "" : t("c.noWindows");
 }
 $("coachRefresh").addEventListener("click", () => void fillCoach());
+// "Help train the coach" (flytrade/COACH-PLAN.md, Tier 2): off until switched on; the delete button works either way
+$<HTMLInputElement>("coachShare").addEventListener("change", (e) => setPrefs({ coachShare: (e.target as HTMLInputElement).checked }));
+$("coachForget").addEventListener("click", async () => {
+  const msg = $("coachMsg");
+  msg.textContent = "…";
+  try { await coachForget(); msg.textContent = t("c.forgot"); }
+  catch (e) { msg.textContent = e instanceof SignedOut ? t("c.forgetSignIn") : (e as Error).message; }
+});
 $<HTMLInputElement>("coachNote").addEventListener("change", (e) => setPrefs({ coachNote: (e.target as HTMLInputElement).value.trim().slice(0, 300) }));
 
 // ---- 3. the fly ---------------------------------------------------------------------------------------------------

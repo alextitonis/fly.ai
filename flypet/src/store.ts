@@ -25,9 +25,10 @@ export interface Prefs {
   fly: number | null;          // the fly (or partner NFT, by its chat id) that lives on the desktop
   coachSource: CoachSource | null;   // the game window the coach looks at (picked in the pet's window)
   coachNote: string;           // what the player told the coach about their run (optional)
+  coachShare: boolean;         // "Help train the coach": share what the coach reads (never frames) - off until switched on
 }
 export interface CoachSource { id: string; name: string; process: string | null }
-const DEFAULTS = (): Prefs => ({ name: "Fly", born: Date.now(), wallet: null, flies: null, bubbles: true, notifications: true, minUsd: 0, quiet: false, homeX: null, lang: null, mineOn: false, mineAnyTime: false, minerToken: null, petToken: null, petTokenUntil: 0, fly: null, coachSource: null, coachNote: "" });
+const DEFAULTS = (): Prefs => ({ name: "Fly", born: Date.now(), wallet: null, flies: null, bubbles: true, notifications: true, minUsd: 0, quiet: false, homeX: null, lang: null, mineOn: false, mineAnyTime: false, minerToken: null, petToken: null, petTokenUntil: 0, fly: null, coachSource: null, coachNote: "", coachShare: false });
 
 function load<T>(key: string, fallback: T): T {
   try {
@@ -157,11 +158,11 @@ export interface CoachMe { wallet: string; pass: boolean; open: boolean; free_le
 export interface CoachAnswer { say: string | null; options?: { text: string; why: string; p: number | null }[]; by?: string | null;
   game?: string | null; profile?: string; screen?: string | null; free_left?: number | null; skipped?: string }
 export class CoachRefused extends Error { constructor(msg: string, public status: number) { super(msg); } }
-async function coachCall<T>(path: string, body?: unknown): Promise<T> {
+async function coachCall<T>(path: string, body?: unknown, method?: "DELETE"): Promise<T> {
   const token = prefs().petToken;
   if (!token) throw new SignedOut("signed out");
   const res = await fetch(COACH_SERVER + path, {
-    method: body === undefined ? "GET" : "POST",
+    method: method ?? (body === undefined ? "GET" : "POST"),
     headers: { ...(body === undefined ? {} : { "content-type": "application/json" }), "x-flyai-pet": token },
     body: body === undefined ? undefined : JSON.stringify(body),
     signal: AbortSignal.timeout(60_000),
@@ -173,7 +174,9 @@ async function coachCall<T>(path: string, body?: unknown): Promise<T> {
 }
 export const coachMe = () => coachCall<CoachMe>("/me");
 export const coachHint = (body: { image: string; mode: "hint" | "watch"; process?: string | null; title?: string; question?: string;
-  note?: string; lang?: string; session?: string; session_s?: number }) => coachCall<CoachAnswer>("/hint", body);
+  note?: string; lang?: string; session?: string; session_s?: number; share?: boolean }) => coachCall<CoachAnswer>("/hint", body);
+/** "Delete what I shared": every training record of this wallet on the coach server */
+export const coachForget = () => coachCall<{ deleted: boolean }>("/records", undefined, "DELETE");
 /** what the coach looks for to find the game window by itself: names and patterns only (matched on this PC) */
 export interface CoachGames { games: { id: string; name: string | null; process: string[]; title: string | null }[];
   learned: { id: string; name: string | null; key: string }[] }
