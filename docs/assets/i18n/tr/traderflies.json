@@ -1164,7 +1164,7 @@
   "wallet": {
     "watch": {
       "title": "Sineğinin her zaman izlediği tokenler",
-      "text": "$FLYAI her zaman listede. Robinhood Chain, Base, BNB Chain veya Arbitrum'da adresle 5 token daha ekle: beyin ve seçenekler onları her zaman görür ve işlem yapabilir.",
+      "text": "$FLYAI her zaman listede. Robinhood Chain, Base, BNB Chain veya Arbitrum'da adresle 5 tokene kadar ekle: sineğin bunları alır, her birinin bir kısmını tutar ve kalanını düşüşlerde işlem yapar. Listede token varken beyin yalnızca bunlara ve $FLYAI'ye bakar.",
         "away": "Base, BNB Chain veya Arbitrum'daki tokenler sineğinin dolarlarıyla Relay üzerinden (işlem başına en az $25) ya da BNB Chain'deki BNB'siyle alınır, aynı yolla geri satılır.",
         "suggested": "Ekibin önerileri:",
         "solana": "Solana tokenleri sineğinin SOL'üyle alınır (Solana'yı aç ve kartından SOL ekle), asla dolarlarıyla değil.",
@@ -1174,6 +1174,7 @@
       "aria": "İzlenecek token adresi",
       "add": "Token ekle",
       "full": "En fazla bu kadar: {n} token.",
+      "picks": {"title": "Sineğin bunlarla nasıl işlem yapar", "bnb_pct": "Kullanabileceği BNB", "base_pct": "Her tokende tutulan", "dip_pct": "Şu kadar düşüşte daha al", "take_profit_pct": "Kâr al", "stop_pct": "Stop"},
       "risk": "Eklediğin tokenler $FLYAI gibi güvenilir sayılır: rug kontrolü yok (havuz büyüklüğü, havuz yaşı, GoPlus). Biri rug olursa sineğin ondaki payını kaybedebilir."
     },
     "fundTextAway": "{native} veya {sym}, en az $5. {native} işlem nakdine ({sym}) dönüşür.",
@@ -2094,6 +2095,7 @@
   },
   "help": {
     "watch": "Sineğin normal listesinin yanında her zaman baktığı tokenler. Diğer tokenlerin geçtiği güvenlik kontrollerini atlarlar, bu yüzden sadece güvendiğin tokenleri ekle.",
+    "picks": "Sineğin eklediğin her tokeni alır ve bir kısmını tutar, 24 saatlik ortalamasının altına düşünce daha alır ve o fazlayı kâr alda veya stopta satar. \"Kullanabileceği BNB\", sineğinin BNB Chain'deki BNB'sinin oradaki tokenlere ne kadarının gidebileceğidir.",
     "market": {
       "memes": "Robinhood Chain'deki meme coinler ve yeni tokenlar. En büyük dalgalanma, en büyük risk.",
       "majors": "ETH ve BTC gibi büyük coinler. Memelerden daha az hareket eder.",

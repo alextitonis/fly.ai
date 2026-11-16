@@ -1162,7 +1162,7 @@
   "wallet": {
     "watch": {
       "title": "플라이가 항상 지켜보는 토큰",
-      "text": "$FLYAI는 항상 목록에 있습니다. Robinhood Chain, Base, BNB Chain 또는 Arbitrum의 토큰을 주소로 최대 5개 더 추가하세요: 브레인과 옵션이 항상 보고 거래할 수 있습니다.",
+      "text": "$FLYAI는 항상 목록에 있습니다. Robinhood Chain, Base, BNB Chain, Arbitrum의 토큰을 주소로 5개까지 추가하세요. 플라이가 이를 매수해 일부는 보유하고 나머지는 하락 때 거래합니다. 하나라도 있으면 브레인은 이 토큰들과 $FLYAI만 봅니다.",
         "away": "Base, BNB Chain, Arbitrum 토큰은 플라이의 달러로 Relay를 통해(거래당 최소 $25) 또는 BNB Chain의 BNB로 매수하고, 같은 방식으로 매도합니다.",
         "suggested": "팀 추천:",
         "solana": "Solana 토큰은 플라이의 SOL로만 매수합니다(Solana를 켜고 카드에서 SOL을 추가하세요). 달러로는 사지 않습니다.",
@@ -1172,6 +1172,7 @@
       "aria": "지켜볼 토큰 주소",
       "add": "토큰 추가",
       "full": "최대 {n}개입니다.",
+      "picks": {"title": "플라이가 이 토큰들을 거래하는 방법", "bnb_pct": "사용할 수 있는 BNB", "base_pct": "토큰마다 보유", "dip_pct": "하락 시 추가 매수", "take_profit_pct": "익절", "stop_pct": "손절"},
       "risk": "추가한 토큰은 $FLYAI처럼 신뢰됩니다: 러그 검사(풀 크기, 풀 나이, GoPlus)가 없습니다. 그중 하나가 러그되면 플라이가 보유한 만큼 잃을 수 있습니다."
     },
     "fundTextAway": "{native} 또는 {sym}, 최소 $5. {native}는 거래용 현금({sym})으로 바뀝니다.",
@@ -2092,6 +2093,7 @@
   },
   "help": {
     "watch": "평소 목록 외에 플라이가 항상 보는 토큰. 다른 토큰이 거치는 안전 검사를 건너뛰므로 믿을 수 있는 토큰만 추가하세요.",
+    "picks": "플라이는 추가한 토큰을 모두 매수해 일부를 보유하고, 24시간 평균 아래로 떨어지면 더 사고 그 추가분은 익절이나 손절에서 팝니다. \"사용할 수 있는 BNB\"는 플라이가 BNB Chain에 가진 BNB 중 그곳 토큰에 쓸 수 있는 비율입니다.",
     "market": {
       "memes": "Robinhood Chain의 밈코인과 새 토큰. 가장 큰 변동과 가장 큰 위험.",
       "majors": "ETH, BTC 같은 대형 코인. 밈보다 덜 움직입니다.",

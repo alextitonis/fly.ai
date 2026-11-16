@@ -1164,7 +1164,7 @@
   "wallet": {
     "watch": {
       "title": "Tokens your fly always watches",
-      "text": "$FLYAI is always on the list. Add up to 5 more tokens by address, on Robinhood Chain, Base, BNB Chain or Arbitrum: the brain and the options always see them and can trade them.",
+      "text": "$FLYAI is always on the list. Add up to 5 tokens by address, on Robinhood Chain, Base, BNB Chain or Arbitrum: your fly buys them, keeps part of each and trades the rest on dips. While you have any, the brain looks only at these and $FLYAI.",
         "away": "Tokens on Base, BNB Chain or Arbitrum are bought with your fly's dollars through Relay (at least $25 a trade), or with its BNB on BNB Chain, and sold back the same way.",
         "suggested": "Suggested by the team:",
         "solana": "Solana tokens are bought with your fly's SOL (switch Solana on and add SOL on its card), never with its dollars.",
@@ -1174,6 +1174,7 @@
       "aria": "Token address to watch",
       "add": "Add token",
       "full": "That's the most: {n} tokens.",
+      "picks": {"title": "How your fly trades these", "bnb_pct": "BNB it may use", "base_pct": "Kept in each token", "dip_pct": "Buy more on a dip of", "take_profit_pct": "Take profit at", "stop_pct": "Stop at"},
       "risk": "Tokens you add are trusted like $FLYAI: no rug checks (pool size, pool age, GoPlus). If one of them rugs, your fly can lose what it holds of it."
     },
     "fundTextAway": "{native} or {sym}, $5 at least. {native} becomes trading cash ({sym}).",
@@ -2094,6 +2095,7 @@
   },
   "help": {
     "watch": "Tokens the fly always looks at, besides its usual list. They skip the safety checks other tokens go through, so only add tokens you trust.",
+    "picks": "Your fly buys every token you add and keeps part of it, buys more when it dips under its 24 h average and sells that extra at the take-profit or the stop. \"BNB it may use\" is how much of the BNB your fly holds on BNB Chain can go into tokens there.",
     "market": {
       "memes": "Meme coins and new tokens on Robinhood Chain. The biggest swings and the biggest risk.",
       "majors": "Large coins like ETH and BTC. They move less than memes.",

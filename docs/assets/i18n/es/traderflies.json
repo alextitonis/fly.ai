@@ -1164,7 +1164,7 @@
   "wallet": {
     "watch": {
       "title": "Tokens que tu mosca siempre vigila",
-      "text": "$FLYAI siempre está en la lista. Añade hasta 5 tokens más por dirección, en Robinhood Chain, Base, BNB Chain o Arbitrum: el cerebro y las opciones siempre los ven y pueden operarlos.",
+      "text": "$FLYAI siempre está en la lista. Añade hasta 5 tokens por dirección, en Robinhood Chain, Base, BNB Chain o Arbitrum: tu mosca los compra, guarda una parte de cada uno y opera el resto en las caídas. Mientras tengas alguno, el cerebro solo mira estos y $FLYAI.",
         "away": "Los tokens en Base, BNB Chain o Arbitrum se compran con los dólares de tu mosca a través de Relay (mínimo $25 por operación), o con su BNB en BNB Chain, y se venden de vuelta igual.",
         "suggested": "Sugeridos por el equipo:",
         "solana": "Los tokens de Solana se compran con el SOL de tu mosca (activa Solana y añade SOL en su tarjeta), nunca con sus dólares.",
@@ -1174,6 +1174,7 @@
       "aria": "Dirección del token a vigilar",
       "add": "Añadir token",
       "full": "Ese es el máximo: {n} tokens.",
+      "picks": {"title": "Cómo opera tu mosca estos tokens", "bnb_pct": "BNB que puede usar", "base_pct": "Guardado en cada token", "dip_pct": "Comprar más en una caída de", "take_profit_pct": "Tomar ganancias en", "stop_pct": "Stop en"},
       "risk": "Los tokens que añades se tratan como $FLYAI: sin controles anti-rug (tamaño del pool, antigüedad, GoPlus). Si uno hace rug, tu mosca puede perder lo que tenga de él."
     },
     "fundTextAway": "{native} o {sym}, $5 como mínimo. {native} se convierte en efectivo para operar ({sym}).",
@@ -2094,6 +2095,7 @@
   },
   "help": {
     "watch": "Tokens que la mosca siempre mira, además de su lista habitual. Se saltan los controles de seguridad de los demás tokens, así que añade solo tokens en los que confíes.",
+    "picks": "Tu mosca compra cada token que añades y guarda una parte, compra más cuando cae bajo su media de 24 h y vende ese extra en la toma de ganancias o el stop. \"BNB que puede usar\" es cuánto del BNB que tu mosca tiene en BNB Chain puede ir a tokens de allí.",
     "market": {
       "memes": "Memecoins y tokens nuevos en Robinhood Chain. Los mayores movimientos y el mayor riesgo.",
       "majors": "Monedas grandes como ETH y BTC. Se mueven menos que los memes.",

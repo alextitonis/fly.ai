@@ -1162,7 +1162,7 @@
   "wallet": {
     "watch": {
       "title": "你的蒼蠅一直關注的代幣",
-      "text": "$FLYAI 始終在列表中。可按地址再新增最多 5 個代幣，支援 Robinhood Chain、Base、BNB Chain 或 Arbitrum：大腦和各選項始終能看到並交易它們。",
+      "text": "$FLYAI 一直在清單上。依地址新增最多 5 個代幣（Robinhood Chain、Base、BNB Chain 或 Arbitrum）：你的蒼蠅會買入它們，每個留一部分，其餘在下跌時交易。只要清單裡有代幣，大腦只看這些和 $FLYAI。",
         "away": "Base、BNB Chain 或 Arbitrum 上的代幣用蒼蠅的美元透過 Relay 買入（每筆至少 $25），或用它在 BNB Chain 上的 BNB 買入，賣出時原路返回。",
         "suggested": "團隊推薦：",
         "solana": "Solana 代幣只用蒼蠅的 SOL 買入（開啟 Solana 並在其卡片上新增 SOL），絕不動用美元。",
@@ -1172,6 +1172,7 @@
       "aria": "要關注的代幣地址",
       "add": "新增代幣",
       "full": "已達上限：{n} 個代幣。",
+      "picks": {"title": "蒼蠅怎麼交易這些代幣", "bnb_pct": "可用的 BNB", "base_pct": "每個代幣保留", "dip_pct": "下跌多少時加碼", "take_profit_pct": "停利", "stop_pct": "停損"},
       "risk": "你新增的代幣會像 $FLYAI 一樣被信任：不做防跑路檢查（池子規模、池子年齡、GoPlus）。如果其中一個跑路，你的蒼蠅可能損失所持有的部分。"
     },
     "fundTextAway": "{native} 或 {sym}，至少 $5。{native} 會換成交易現金（{sym}）。",
@@ -2092,6 +2093,7 @@
   },
   "help": {
     "watch": "除了一般清單外，蒼蠅一直關注的代幣。它們跳過其他代幣要經過的安全檢查，所以只新增你信任的代幣。",
+    "picks": "蒼蠅會買入你新增的每個代幣並保留一部分，跌破 24 小時均價時加碼，加碼部分在停利或停損時賣出。「可用的 BNB」是蒼蠅在 BNB Chain 上的 BNB 中可以用來買那裡代幣的比例。",
     "market": {
       "memes": "Robinhood Chain 上的 meme 幣和新代幣。波動最大，風險也最大。",
       "majors": "ETH、BTC 等大幣。波動比 meme 小。",
