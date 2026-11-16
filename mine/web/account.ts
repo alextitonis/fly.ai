@@ -70,6 +70,9 @@ const PAY_CHAINS = [
   // 2026-10-07 (the user: buy $FLYAI with BERA from Berachain): Relay quotes BERA / USDC there into $FLYAI
   { chain_id: 80094, chain_name: "Berachain", rpc: "https://rpc.berachain.com", explorer: "https://berascan.com",
     native: { name: "BERA", symbol: "BERA" } },
+  // 2026-11-16 (the user: deposit via BNB): BNB, USDT or USDC on BNB Chain
+  { chain_id: 56, chain_name: "BNB Smart Chain", rpc: "https://bsc-rpc.publicnode.com", explorer: "https://bscscan.com",
+    native: { name: "BNB", symbol: "BNB" } },
 ];
 
 let kitLoad: Promise<Kit> | null = null;

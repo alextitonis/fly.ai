@@ -66,11 +66,11 @@
   const DIRECT_EDGE_BPS = 30n;                          // a USDG buy needing new approvals goes direct only this much better
   const MINE = (window.flyNav && window.flyNav.MINE_API) || "https://flyai-mine.fly.dev";
   // gas on the chain paid from (wei): under this a USDC payment there needs Relay's gasless permit, or coin first
-  const GAS_MIN = { 8453: 3n * 10n ** 13n, 42161: 3n * 10n ** 13n, 1: 6n * 10n ** 14n, 80094: 10n ** 16n, 4326: 3n * 10n ** 13n };
+  const GAS_MIN = { 8453: 3n * 10n ** 13n, 42161: 3n * 10n ** 13n, 1: 6n * 10n ** 14n, 80094: 10n ** 16n, 4326: 3n * 10n ** 13n, 56: 3n * 10n ** 14n };
   const SOLANA = 792703809;                             // Relay's id for it
   const SOL_PREVIEW = "HHTEVaETWsabcpHK7zcS7xzqqGhWKKTcfLd93boP4HjN";   // Solana quotes before a wallet is connected
   const SOL_KEEP = 10n ** 7n;                           // Max on SOL leaves 0.01 SOL for fees
-  const CHAIN_NAMES = { 8453: "Base", 42161: "Arbitrum", 1: "Ethereum", 80094: "Berachain", 4326: "MegaETH", [SOLANA]: "Solana" };
+  const CHAIN_NAMES = { 8453: "Base", 42161: "Arbitrum", 1: "Ethereum", 80094: "Berachain", 4326: "MegaETH", 56: "BNB Chain", [SOLANA]: "Solana" };
   // the chains a visitor can pay from: their coin and their USDC (public RPCs for the balance line)
   const ORIGINS = {
     4663: { rpc: RPC, explorer: EXPLORER, pay: PAY },
@@ -92,11 +92,18 @@
                    USDm: { address: "0xfafddbb3fc7688494971a79cc65dca3ef82079e7", decimals: 18 } },
             add: { chainName: "MegaETH", rpcUrls: ["https://mainnet.megaeth.com/rpc"], blockExplorerUrls: ["https://megaeth.blockscout.com"],
                    nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 } } },
+    // 2026-11-16 (the user: "deposit via bnb"): BNB, USDT or USDC on BNB Chain (its USDT/USDC have 18 decimals)
+    56: { rpc: "https://bsc-rpc.publicnode.com", explorer: "https://bscscan.com",
+          pay: { USDT: { address: "0x55d398326f99059fF775485246999027B3197955", decimals: 18 },
+                 USDC: { address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", decimals: 18 },
+                 BNB: { address: "0x0000000000000000000000000000000000000000", decimals: 18 } },
+          add: { chainName: "BNB Smart Chain", rpcUrls: ["https://bsc-dataseed.binance.org"], blockExplorerUrls: ["https://bscscan.com"],
+                 nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 } } },
     [SOLANA]: { explorer: "https://solscan.io",
                 pay: { SOL: { address: "11111111111111111111111111111111", decimals: 9 },
                        USDC: { address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", decimals: 6 } } },
   };
-  const NATIVE_SYMS = ["ETH", "BERA", "SOL"];                  // a chain's own coin: no approve, its balance by eth_getBalance
+  const NATIVE_SYMS = ["ETH", "BERA", "SOL", "BNB"];                  // a chain's own coin: no approve, its balance by eth_getBalance
   const isNative = (sym) => NATIVE_SYMS.includes(sym);
   const APPROVE = "0x095ea7b3";
   const allowedCache = {};
