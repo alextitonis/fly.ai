@@ -1034,6 +1034,9 @@ function register(req: IncomingMessage, body: any) {
 // The extension can't reach a browser wallet, so it gets a one-time link code and opens /compute/connect#code,
 // where the user signs in a normal tab; the code stands in for the miner's token there.
 const SIGN_IN_TTL_MS = 10 * 60_000;
+// a link code waits longer: the tab it opens may first need a wallet set up in that browser (2026-11-16: a Fly Pet
+// user set one up in Edge, then hit "expired"). It only links a wallet the user signs in with, to that one miner.
+const LINK_TTL_MS = 2 * 60 * 60_000;
 const PENDING_MAX = 10_000;
 const linkCodes = new Map<string, { miner: string; expires: number }>();
 const nonces = new Map<string, { miner: string; address: string; message: string; code: string | null; expires: number }>();
@@ -1054,7 +1057,7 @@ function originOf(req: IncomingMessage): URL {
 function link(req: IncomingMessage, miner: string) {
   prune(linkCodes);
   const code = randomBytes(16).toString("hex");
-  const expires = Date.now() + SIGN_IN_TTL_MS;
+  const expires = Date.now() + LINK_TTL_MS;
   linkCodes.set(code, { miner, expires });
   return { code, url: `${originOf(req).origin}/compute/connect#${code}`, expires_at: expires };
 }
@@ -1063,7 +1066,7 @@ function link(req: IncomingMessage, miner: string) {
 function signInMiner(req: IncomingMessage, code: unknown): { miner: string; code: string | null } {
   if (typeof code === "string" && code) {
     const entry = linkCodes.get(code);
-    if (!entry || entry.expires < Date.now()) throw new HttpError(410, "this link has expired; open Connect wallet again from the extension");
+    if (!entry || entry.expires < Date.now()) throw new HttpError(410, "this link has expired; press Connect wallet (Link wallet for payouts in Fly Pet) again for a new one");
     return { miner: entry.miner, code };
   }
   return { miner: minerOf(req), code: null };
