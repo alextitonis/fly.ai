@@ -17,7 +17,12 @@
     "macBtn": "Descargar para Mac",
     "linuxBtn": "Linux (.AppImage)",
     "debBtn": "Linux (.deb)",
-    "macNote": "Mac: la app aún no está firmada por Apple. La primera vez, haz clic derecho en Fly Pet en Aplicaciones y elige Abrir. Para el coach de juegos, permite la Grabación de pantalla cuando lo pida. Linux: haz ejecutable el .AppImage o instala el .deb. En Mac y Linux, elige tú la ventana del juego para el coach (la detección automática es solo para Windows)."
+    "macNote": "Mac: la app aún no está firmada por Apple, así que la primera vez macOS la bloquea (ver abajo). Para el coach de juegos, permite la Grabación de pantalla cuando lo pida. Linux: haz ejecutable el .AppImage o instala el .deb. En Mac y Linux, elige tú la ventana del juego para el coach (la detección automática es solo para Windows).",
+    "macHelpT": "¿Mac dice que no puede comprobar si Fly Pet tiene malware y no lo abre?",
+    "macHelp1": "Haz doble clic en Fly Pet en Aplicaciones y pulsa <b>OK</b> en el aviso.",
+    "macHelp2": "Abre <b>Ajustes del Sistema → Privacidad y seguridad</b> y baja hasta “Se ha bloqueado Fly Pet”.",
+    "macHelp3": "Pulsa <b>Abrir igualmente</b> e introduce la contraseña del Mac. A partir de ahí se abre con normalidad.",
+    "macHelpTerm": "O pega esto en Terminal (también arregla “Fly Pet está dañado”):"
   },
   "f": {
     "desk": {

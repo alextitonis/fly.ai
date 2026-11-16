@@ -17,7 +17,12 @@
     "macBtn": "下載 Mac 版",
     "linuxBtn": "Linux (.AppImage)",
     "debBtn": "Linux (.deb)",
-    "macNote": "Mac：此應用程式尚未經過 Apple 簽署。第一次請在「應用程式」中右鍵點選 Fly Pet 並選擇「打開」。使用遊戲教練時，請在詢問時允許「螢幕錄製」。Linux：為 .AppImage 加上執行權限，或安裝 .deb。在 Mac 和 Linux 上請自行為教練選擇遊戲視窗（自動偵測僅支援 Windows）。"
+    "macNote": "Mac：此應用程式尚未經過 Apple 簽署，所以第一次開啟時 macOS 會阻擋（見下方）。使用遊戲教練時，請在詢問時允許「螢幕錄製」。Linux：為 .AppImage 加上執行權限，或安裝 .deb。在 Mac 和 Linux 上請自行為教練選擇遊戲視窗（自動偵測僅支援 Windows）。",
+    "macHelpT": "Mac 顯示無法檢查 Fly Pet 是否含有惡意軟體、無法打開？",
+    "macHelp1": "在「應用程式」中按兩下 Fly Pet，然後在警告中按一下<b>完成</b>。",
+    "macHelp2": "打開<b>系統設定 → 隱私權與安全性</b>，向下捲動到「已阻擋 Fly Pet」。",
+    "macHelp3": "按一下<b>強制打開</b>並輸入 Mac 密碼。之後即可正常打開。",
+    "macHelpTerm": "或將下面這行貼到「終端機」（也能解決「Fly Pet 已損毀」）："
   },
   "f": {
     "desk": {

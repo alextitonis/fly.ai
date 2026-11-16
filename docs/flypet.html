@@ -29,6 +29,10 @@
   .pet-grid .card h3 { margin-top: 0; }
   .pet-video { width: 100%; max-width: 560px; border-radius: 16px; border: 1px solid var(--line, #222); display: block; margin: 0 auto; }
   .pet-steps { display: grid; gap: 8px; padding-left: 20px; }
+  .pet-mac { margin-top: 12px; border: 1px solid var(--line, #222); border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+  .pet-mac summary { cursor: pointer; font-weight: 600; }
+  .pet-mac pre { margin: 8px 0 0; padding: 10px 12px; border-radius: 8px; background: rgba(127,127,127,.12); overflow-x: auto; white-space: pre; }
+  .pet-mac code { font-family: var(--mono, ui-monospace, monospace); font-size: 13px; user-select: all; }
   @media (max-width: 640px) { .pet-hero { grid-template-columns: 1fr; } .pet-hero img { width: 120px; height: 120px; } }
 </style>
 </head>
@@ -57,7 +61,19 @@
         <a class="btn ghost" href="/pet-mobile" data-i18n="flypet.dl.phone">On your phone</a>
       </div>
       <p class="fine" data-i18n="flypet.dl.note">The Microsoft Store version is signed by Microsoft and updates itself. The .exe from GitHub isn't signed yet: if Windows warns, click "More info", then "Run anyway".</p>
-      <p class="fine" data-i18n="flypet.dl.macNote">Mac: the app isn't signed by Apple yet. The first time, right-click Fly Pet in Applications and pick Open. For the game coach, allow Screen Recording when asked. Linux: make the .AppImage executable, or install the .deb. On Mac and Linux, pick the game window for the coach yourself (auto-detect is Windows only).</p>
+      <p class="fine" data-i18n="flypet.dl.macNote">Mac: the app isn't signed by Apple yet, so the first time macOS blocks it (see below). For the game coach, allow Screen Recording when asked. Linux: make the .AppImage executable, or install the .deb. On Mac and Linux, pick the game window for the coach yourself (auto-detect is Windows only).</p>
+      <!-- 2026-11-16: unsigned Mac build. Right-click > Open stopped working in macOS 15, so the Open Anyway steps + the
+           quarantine command; drop this once the Apple secrets in flypet/SIGNING.md are set and a signed release is out -->
+      <details class="pet-mac">
+        <summary data-i18n="flypet.dl.macHelpT">Mac says it can't check Fly Pet for malware and won't open it?</summary>
+        <ol class="pet-steps">
+          <li data-i18n-html="flypet.dl.macHelp1">Double-click Fly Pet in Applications, then click <b>Done</b> on the warning.</li>
+          <li data-i18n-html="flypet.dl.macHelp2">Open <b>System Settings → Privacy &amp; Security</b> and scroll down to “Fly Pet was blocked”.</li>
+          <li data-i18n-html="flypet.dl.macHelp3">Click <b>Open Anyway</b> and enter your Mac password. From then on it opens normally.</li>
+        </ol>
+        <p data-i18n="flypet.dl.macHelpTerm">Or paste this in Terminal (it also fixes “Fly Pet is damaged”):</p>
+        <pre><code>xattr -dr com.apple.quarantine "/Applications/Fly Pet.app"</code></pre>
+      </details>
     </div>
     <img src="assets/flypet/fly.gif" alt="" width="160" height="160">
   </div>

@@ -17,7 +17,12 @@
     "macBtn": "Download for Mac",
     "linuxBtn": "Linux (.AppImage)",
     "debBtn": "Linux (.deb)",
-    "macNote": "Mac: the app isn't signed by Apple yet. The first time, right-click Fly Pet in Applications and pick Open. For the game coach, allow Screen Recording when asked. Linux: make the .AppImage executable, or install the .deb. On Mac and Linux, pick the game window for the coach yourself (auto-detect is Windows only)."
+    "macNote": "Mac: the app isn't signed by Apple yet, so the first time macOS blocks it (see below). For the game coach, allow Screen Recording when asked. Linux: make the .AppImage executable, or install the .deb. On Mac and Linux, pick the game window for the coach yourself (auto-detect is Windows only).",
+    "macHelpT": "Mac says it can't check Fly Pet for malware and won't open it?",
+    "macHelp1": "Double-click Fly Pet in Applications, then click <b>Done</b> on the warning.",
+    "macHelp2": "Open <b>System Settings → Privacy &amp; Security</b> and scroll down to “Fly Pet was blocked”.",
+    "macHelp3": "Click <b>Open Anyway</b> and enter your Mac password. From then on it opens normally.",
+    "macHelpTerm": "Or paste this in Terminal (it also fixes “Fly Pet is damaged”):"
   },
   "f": {
     "desk": {

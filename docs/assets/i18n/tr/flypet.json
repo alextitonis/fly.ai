@@ -17,7 +17,12 @@
     "macBtn": "Mac için indir",
     "linuxBtn": "Linux (.AppImage)",
     "debBtn": "Linux (.deb)",
-    "macNote": "Mac: uygulama henüz Apple tarafından imzalı değil. İlk seferde Uygulamalar'da Fly Pet'e sağ tıklayıp Aç'ı seç. Oyun koçu için istendiğinde Ekran Kaydı'na izin ver. Linux: .AppImage'ı çalıştırılabilir yap ya da .deb'i kur. Mac ve Linux'ta koç için oyun penceresini kendin seç (otomatik algılama yalnızca Windows'ta)."
+    "macNote": "Mac: uygulama henüz Apple tarafından imzalı değil, bu yüzden ilk seferde macOS onu engeller (aşağıya bak). Oyun koçu için istendiğinde Ekran Kaydı'na izin ver. Linux: .AppImage'ı çalıştırılabilir yap ya da .deb'i kur. Mac ve Linux'ta koç için oyun penceresini kendin seç (otomatik algılama yalnızca Windows'ta).",
+    "macHelpT": "Mac, Fly Pet'te kötü amaçlı yazılım olup olmadığını denetleyemediğini söyleyip açmıyor mu?",
+    "macHelp1": "Uygulamalar'da Fly Pet'e çift tıkla, ardından uyarıda <b>Bitti</b>'ye bas.",
+    "macHelp2": "<b>Sistem Ayarları → Gizlilik ve Güvenlik</b>'i aç ve “Fly Pet engellendi” satırına kadar kaydır.",
+    "macHelp3": "<b>Yine de Aç</b>'a bas ve Mac parolanı gir. Bundan sonra normal açılır.",
+    "macHelpTerm": "Ya da bunu Terminal'e yapıştır (“Fly Pet hasarlı” hatasını da çözer):"
   },
   "f": {
     "desk": {

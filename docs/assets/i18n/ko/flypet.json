@@ -17,7 +17,12 @@
     "macBtn": "Mac용 다운로드",
     "linuxBtn": "Linux (.AppImage)",
     "debBtn": "Linux (.deb)",
-    "macNote": "Mac: 앱이 아직 Apple 서명을 받지 않았습니다. 처음에는 응용 프로그램에서 Fly Pet을 우클릭하고 열기를 선택하세요. 게임 코치를 쓰려면 요청 시 화면 기록을 허용하세요. Linux: .AppImage에 실행 권한을 주거나 .deb를 설치하세요. Mac과 Linux에서는 코치용 게임 창을 직접 고르세요(자동 감지는 Windows 전용)."
+    "macNote": "Mac: 앱이 아직 Apple 서명을 받지 않아 처음에는 macOS가 실행을 막습니다(아래 참고). 게임 코치를 쓰려면 요청 시 화면 기록을 허용하세요. Linux: .AppImage에 실행 권한을 주거나 .deb를 설치하세요. Mac과 Linux에서는 코치용 게임 창을 직접 고르세요(자동 감지는 Windows 전용).",
+    "macHelpT": "Mac에서 Fly Pet의 악성 코드 여부를 확인할 수 없다며 열리지 않나요?",
+    "macHelp1": "응용 프로그램에서 Fly Pet을 더블 클릭한 뒤 경고에서 <b>완료</b>를 누르세요.",
+    "macHelp2": "<b>시스템 설정 → 개인정보 보호 및 보안</b>을 열고 “Fly Pet이(가) 차단되었습니다”까지 내려가세요.",
+    "macHelp3": "<b>그래도 열기</b>를 누르고 Mac 암호를 입력하세요. 이후에는 정상적으로 열립니다.",
+    "macHelpTerm": "또는 터미널에 다음을 붙여 넣으세요(“Fly Pet이 손상되었습니다”도 해결됩니다):"
   },
   "f": {
     "desk": {
