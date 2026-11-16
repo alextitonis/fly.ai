@@ -1,0 +1,65 @@
+{
+  "title": "Telefonunda Fly Pet",
+  "head": {
+    "eyebrow": "Ücretsiz · iPhone ve Android",
+    "title": "Telefonunda Fly Pet",
+    "lede": "Sineğinle sohbet et; işlem yaptığında, para hareket ettiğinde, yanıt verdiğinde ve alpha call'larda bildirim al."
+  },
+  "install": {
+    "title": "Ana ekranına ekle",
+    "done": "Yüklendi. Uygulamayı kullanıyorsun.",
+    "ios": "Safari'de:",
+    "ios1": "Paylaş düğmesine dokun (oklu kare).",
+    "ios2": "\"Ana Ekrana Ekle\"ye, ardından \"Ekle\"ye dokun.",
+    "ios3": "Fly Pet'i ana ekranından aç ve 2. adıma dön.",
+    "iosWhy": "iPhone'da bildirimler yalnızca ana ekran uygulamasından çalışır.",
+    "inapp": "Bir cüzdanın tarayıcısındasın; burada uygulama yüklenemez. Bu sayfayı Safari'de (iPhone) veya Chrome'da (Android) aç.",
+    "copy": "Bağlantıyı kopyala",
+    "android": "Yükle'ye dokun ya da Chrome menüsünde (⋮) \"Uygulamayı yükle\" / \"Ana ekrana ekle\"ye dokun.",
+    "button": "Fly Pet'i yükle",
+    "desktop": "Bu sayfayı telefonunda aç: flyaiworld.com/pet-mobile. Bilgisayarda masaüstü Fly Pet'i kullan.",
+    "desktopLink": "Masaüstü Fly Pet"
+  },
+  "sign": {
+    "title": "Cüzdanınla giriş yap",
+    "out": "Web sitesiyle aynı giriş. Sineğinin parası buradan asla hareket etmez.",
+    "button": "Giriş yap",
+    "in": "Giriş yapılan hesap"
+  },
+  "push": {
+    "title": "Bildirimleri aç",
+    "need": "Önce 1. ve 2. adımları tamamla.",
+    "nosupport": "Bu tarayıcı bildirim alamaz. iPhone'da Fly Pet'i ana ekranından aç (1. adım).",
+    "blocked": "Bu site için bildirimler engelli. Telefon ayarlarından izin ver, sonra geri dön.",
+    "on": "Bildirimleri aç",
+    "test": "Test gönder",
+    "off": "Bu telefonda kapat"
+  },
+  "kind": {
+    "trades": "İşlemler",
+    "tradesHint": "Sineğin bir şey aldı ya da sattı",
+    "money": "Para giriş ve çıkışları",
+    "moneyHint": "Yatırımlar, çekimler, iadeler ve bonuslar",
+    "chat": "Sohbet yanıtları",
+    "chatHint": "Sineğin sana yanıt verdi",
+    "alpha": "Alpha call'lar",
+    "alphaHint": "Discord'umuzdaki call'ların aynısı (günde birkaç tane)"
+  },
+  "msg": {
+    "saved": "Kaydedildi.",
+    "sent": "Gönderildi. Birkaç saniye içinde görünmeli.",
+    "fail": "Olmadı. Tekrar dene.",
+    "off": "Bu telefonda bildirimler kapalı.",
+    "serverOff": "Bildirimler henüz açılmadı. Yakında tekrar bak."
+  },
+  "chat": {
+    "title": "Sineğinle sohbet et",
+    "p": "Ne yaptığını, neden işlem yaptığını sor ya da neyi değiştireceğini söyle. Yalnızca önerir: sen onaylayana kadar hiçbir şey değişmez.",
+    "open": "Sohbeti aç",
+    "flies": "Sineklerim"
+  },
+  "alpha": {
+    "title": "Son alpha call'lar",
+    "note": "Bunlar call, tavsiye değil: tokeni her zaman kendin kontrol et."
+  }
+}

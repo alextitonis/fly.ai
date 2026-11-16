@@ -61,6 +61,8 @@
     // its Coach pass (Coach.tsx)
     ["flypet", "Fly Pet", [
       ["Download", "/flypet", "The fly on your desktop: chat, alerts, game coach", false, true, "flypetDownload"],
+      // 2026-11-16: the phone version (pet-mobile.html: chat + notifications, add to home screen)
+      ["On your phone", "/pet-mobile", "Chat and trade alerts on your phone", false, true, "flypetPhone"],
       ["Coach pass", "/traderflies/coach", "Coach mode: your fly coaches you all session", false, true, "coachPass"],
     ]],
     ["more", "More", [

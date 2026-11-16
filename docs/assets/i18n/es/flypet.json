@@ -12,7 +12,8 @@
     "note": "La versión de Microsoft Store está firmada por Microsoft y se actualiza sola. El .exe de GitHub aún no está firmado: si Windows avisa, haz clic en \"Más información\" y luego en \"Ejecutar de todas formas\". Windows 10 y 11; macOS y Linux pronto.",
     "store": "Consíguelo en Microsoft Store",
     "exe": "Descargar .exe",
-    "code": "Código fuente"
+    "code": "Código fuente",
+    "phone": "En tu móvil"
   },
   "f": {
     "desk": {

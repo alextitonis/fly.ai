@@ -1,0 +1,65 @@
+{
+  "title": "手机上的 Fly Pet",
+  "head": {
+    "eyebrow": "免费 · iPhone 和 Android",
+    "title": "手机上的 Fly Pet",
+    "lede": "和你的苍蝇聊天，并在它交易、资金变动、回复你以及有 alpha 推荐时收到通知。"
+  },
+  "install": {
+    "title": "添加到主屏幕",
+    "done": "已安装，你正在使用应用。",
+    "ios": "在 Safari 中：",
+    "ios1": "点击分享按钮（带箭头的方框）。",
+    "ios2": "点击“添加到主屏幕”，然后点“添加”。",
+    "ios3": "从主屏幕打开 Fly Pet，然后回到第 2 步。",
+    "iosWhy": "在 iPhone 上，只有从主屏幕打开的应用才能收到通知。",
+    "inapp": "你正在钱包的内置浏览器中，无法安装应用。请在 Safari（iPhone）或 Chrome（Android）中打开此页面。",
+    "copy": "复制链接",
+    "android": "点击安装，或在 Chrome 菜单（⋮）中点“安装应用” / “添加到主屏幕”。",
+    "button": "安装 Fly Pet",
+    "desktop": "请在手机上打开此页面：flyaiworld.com/pet-mobile。电脑上请使用桌面版 Fly Pet。",
+    "desktopLink": "桌面版 Fly Pet"
+  },
+  "sign": {
+    "title": "用钱包登录",
+    "out": "与网站相同的登录方式。这里永远不会动用你苍蝇的资金。",
+    "button": "登录",
+    "in": "已登录："
+  },
+  "push": {
+    "title": "开启通知",
+    "need": "请先完成第 1 和第 2 步。",
+    "nosupport": "此浏览器无法接收通知。在 iPhone 上，请从主屏幕打开 Fly Pet（第 1 步）。",
+    "blocked": "此网站的通知已被阻止。请在手机设置中允许后再回来。",
+    "on": "开启通知",
+    "test": "发送测试",
+    "off": "在此手机上关闭"
+  },
+  "kind": {
+    "trades": "交易",
+    "tradesHint": "你的苍蝇买入或卖出了",
+    "money": "资金进出",
+    "moneyHint": "充值、提现、退款和奖励",
+    "chat": "聊天回复",
+    "chatHint": "你的苍蝇回复了你",
+    "alpha": "Alpha 推荐",
+    "alphaHint": "与我们 Discord 相同的推荐（每天几条）"
+  },
+  "msg": {
+    "saved": "已保存。",
+    "sent": "已发送，几秒内应会出现。",
+    "fail": "没有成功，请重试。",
+    "off": "此手机上的通知已关闭。",
+    "serverOff": "通知功能尚未开启，请稍后再来。"
+  },
+  "chat": {
+    "title": "和你的苍蝇聊天",
+    "p": "问它在做什么、为什么交易，或告诉它要改什么。它只会建议：在你批准之前什么都不会改变。",
+    "open": "打开聊天",
+    "flies": "我的苍蝇"
+  },
+  "alpha": {
+    "title": "最新 alpha 推荐",
+    "note": "仅为推荐，不是建议：请务必自行核实代币。"
+  }
+}

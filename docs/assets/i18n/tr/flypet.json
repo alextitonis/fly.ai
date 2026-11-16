@@ -12,7 +12,8 @@
     "note": "Microsoft Store sürümü Microsoft tarafından imzalanır ve kendini günceller. GitHub'daki .exe henüz imzalı değil: Windows uyarırsa \"Ek bilgi\"ye, sonra \"Yine de çalıştır\"a tıkla. Windows 10 ve 11; macOS ve Linux yakında.",
     "store": "Microsoft Store'dan al",
     "exe": ".exe indir",
-    "code": "Kaynak kodu"
+    "code": "Kaynak kodu",
+    "phone": "Telefonunda"
   },
   "f": {
     "desk": {

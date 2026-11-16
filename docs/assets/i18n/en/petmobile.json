@@ -1,0 +1,65 @@
+{
+  "title": "Fly Pet on your phone",
+  "head": {
+    "eyebrow": "Free · iPhone and Android",
+    "title": "Fly Pet on your phone",
+    "lede": "Chat with your fly, and get a notification when it trades, when money moves, when it replies, and for alpha calls."
+  },
+  "install": {
+    "title": "Add it to your home screen",
+    "done": "Installed. You're using the app.",
+    "ios": "In Safari:",
+    "ios1": "Tap the Share button (the square with an arrow).",
+    "ios2": "Tap \"Add to Home Screen\", then \"Add\".",
+    "ios3": "Open Fly Pet from your home screen and come back to step 2.",
+    "iosWhy": "On iPhone, notifications only work from the home screen app.",
+    "inapp": "You're in a wallet's browser, which can't install apps. Open this page in Safari (iPhone) or Chrome (Android).",
+    "copy": "Copy the link",
+    "android": "Tap Install, or in Chrome's menu (⋮) tap \"Install app\" / \"Add to Home screen\".",
+    "button": "Install Fly Pet",
+    "desktop": "Open this page on your phone: flyaiworld.com/pet-mobile. On a computer, get the desktop Fly Pet instead.",
+    "desktopLink": "Desktop Fly Pet"
+  },
+  "sign": {
+    "title": "Sign in with your wallet",
+    "out": "The same sign-in as the website. Your fly's money never moves from here.",
+    "button": "Sign in",
+    "in": "Signed in as"
+  },
+  "push": {
+    "title": "Turn on notifications",
+    "need": "Do steps 1 and 2 first.",
+    "nosupport": "This browser can't get notifications. On iPhone, open Fly Pet from your home screen (step 1).",
+    "blocked": "Notifications are blocked for this site. Allow them in your phone's settings, then come back.",
+    "on": "Turn on notifications",
+    "test": "Send a test",
+    "off": "Turn off on this phone"
+  },
+  "kind": {
+    "trades": "Trades",
+    "tradesHint": "Your fly bought or sold something",
+    "money": "Money in and out",
+    "moneyHint": "Deposits, withdrawals, refunds and bonuses",
+    "chat": "Chat replies",
+    "chatHint": "Your fly answered you",
+    "alpha": "Alpha calls",
+    "alphaHint": "The same calls as our Discord (a few a day)"
+  },
+  "msg": {
+    "saved": "Saved.",
+    "sent": "Sent. It should show in a few seconds.",
+    "fail": "That didn't work. Try again.",
+    "off": "Notifications are off on this phone.",
+    "serverOff": "Notifications aren't switched on yet. Check back soon."
+  },
+  "chat": {
+    "title": "Chat with your fly",
+    "p": "Ask what it's doing, why it traded, or tell it what to change. It only suggests: nothing changes until you approve.",
+    "open": "Open chat",
+    "flies": "My flies"
+  },
+  "alpha": {
+    "title": "Latest alpha calls",
+    "note": "Calls, not advice: always check the token yourself."
+  }
+}

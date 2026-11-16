@@ -370,6 +370,10 @@
       "label": "Descargar",
       "desc": "La mosca en tu escritorio: chat, alertas, entrenador de juegos"
     },
+    "flypetPhone": {
+      "label": "En tu móvil",
+      "desc": "Chat y alertas de operaciones en tu móvil"
+    },
     "coachPass": {
       "label": "Pase de entrenador",
       "desc": "Modo entrenador: tu mosca te entrena toda la sesión"

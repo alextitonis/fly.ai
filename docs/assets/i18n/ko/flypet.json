@@ -12,7 +12,8 @@
     "note": "Microsoft Store 버전은 Microsoft가 서명하고 자동으로 업데이트돼요. GitHub의 .exe는 아직 서명되지 않았어요: Windows가 경고하면 \"추가 정보\"를 누른 다음 \"실행\"을 누르세요. Windows 10, 11 지원; macOS와 Linux는 곧.",
     "store": "Microsoft Store에서 받기",
     "exe": ".exe 다운로드",
-    "code": "소스 코드"
+    "code": "소스 코드",
+    "phone": "휴대폰에서"
   },
   "f": {
     "desk": {

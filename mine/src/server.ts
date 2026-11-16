@@ -56,6 +56,7 @@ import { buyWeekConfig, createBuyWeek } from "./buyweek.ts";
 import { createFlyChat, openRouter } from "./flychat.ts";
 import { coachConfig, createCoachPass } from "./coachpass.ts";
 import { createPet, flyOwners, petWalletOf } from "./pet.ts";
+import { createPush, TICK_MS as PUSH_TICK_MS } from "./push.ts";
 import { createHunt } from "./hunt.ts";
 import { badgeConfig, createBadges } from "./badges.ts";
 import { createXp, xpConfig } from "./xp.ts";
@@ -4228,6 +4229,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && p.startsWith("/api/pet/")) {
     if (await pet.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && p.startsWith("/api/push/")) {
+    if (await push.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && p.startsWith("/api/flychat/")) {
     if (await flyChat.route(req, res, url)) return;
   }
@@ -4671,6 +4675,18 @@ const pet = createPet({
   petSecret: PET_SECRET, partnerView: (id) => partners.chatView(id),
   flyLog: (fly) => vaults.flyLog(fly), walletLog: (w) => vaults.walletLog(w), isAdmin,
 });
+// phone notifications for the Fly Pet mobile page (src/push.ts, docs/pet-mobile.html, 2026-11-16): off without VAPID keys
+const VAPID = process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY
+  ? { pub: process.env.VAPID_PUBLIC_KEY, priv: process.env.VAPID_PRIVATE_KEY, subject: process.env.VAPID_SUBJECT ?? "https://www.flyaiworld.com/pet-mobile" } : null;
+const push = createPush({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, keys: VAPID });
+if (VAPID && process.env.PUSH_OFF !== "1") {
+  let pushBusy = false;
+  setInterval(() => {
+    if (pushBusy) return;
+    pushBusy = true;
+    void push.tick().catch((err) => console.error(`push: ${err instanceof Error ? err.message : err}`)).finally(() => { pushBusy = false; });
+  }, PUSH_TICK_MS).unref();
+}
 const flyChat = createFlyChat({
   pg, HttpError, send, readJson, sessionWallet: sessionOrPet,   // the site's session or Fly Pet's token
   flyView: (fly) => vaults.flyView(fly), flyLog: (fly) => vaults.flyLog(fly),

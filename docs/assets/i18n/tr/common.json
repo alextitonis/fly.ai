@@ -370,6 +370,10 @@
       "label": "İndir",
       "desc": "Masaüstündeki sinek: sohbet, uyarılar, oyun koçu"
     },
+    "flypetPhone": {
+      "label": "Telefonunda",
+      "desc": "Telefonunda sohbet ve işlem bildirimleri"
+    },
     "coachPass": {
       "label": "Koç pası",
       "desc": "Koç modu: sineğin tüm oturum boyunca koçluk yapar"

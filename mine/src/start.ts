@@ -30,7 +30,9 @@ let stopping = false, running = 0;
  */
 /** The research summaries: worked out for 45 s at a time, in a process of their own. */
 const RESEARCH_PATHS = /^\/api\/experiments$/;
-const USER_PATHS = /^\/api\/(flightpass|roulette|slots|race|arena|session|vaults|profiles?|admin\/vaults|admin\/flightpass|admin\/roulette|admin\/slots|admin\/race|admin\/arena)(\/|$)|^\/api\/balance\/(deposit|withdraw-request)$/;
+// link + auth (2026-11-16): link codes and sign-in nonces live in one process's memory, and /api/session/link (here)
+// spends a code /api/link made - made on the mining side, every Fly Pet / extension link answered "expired"
+const USER_PATHS = /^\/api\/(flightpass|roulette|slots|race|arena|session|link|auth|vaults|profiles?|admin\/vaults|admin\/flightpass|admin\/roulette|admin\/slots|admin\/race|admin\/arena)(\/|$)|^\/api\/balance\/(deposit|withdraw-request)$/;
 /**
  * Pages and read-only views anyone can open, served by the user side too (2026-09-29: "the hashing power rankings
  * page takes a long time to load and often freezes" - /api/month and even /api/stake-config took 4-12 s behind the

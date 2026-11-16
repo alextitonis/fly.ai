@@ -370,6 +370,10 @@
       "label": "Download",
       "desc": "The fly on your desktop: chat, alerts, game coach"
     },
+    "flypetPhone": {
+      "label": "On your phone",
+      "desc": "Chat and trade alerts on your phone"
+    },
     "coachPass": {
       "label": "Coach pass",
       "desc": "Coach mode: your fly coaches you all session"

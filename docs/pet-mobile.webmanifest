@@ -1,0 +1,15 @@
+{
+  "name": "Fly Pet",
+  "short_name": "Fly Pet",
+  "description": "Your Trader Fly on your phone: chat, trade and money alerts, alpha calls.",
+  "id": "/pet-mobile",
+  "start_url": "/pet-mobile",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    { "src": "/assets/pet/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/pet/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="petmobile">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-i18n="petmobile.title">Fly Pet on your phone</title>
+<meta name="description" content="Fly Pet on your phone: chat with your Trader Fly and get a notification when it trades, when money moves, when it replies, and for alpha calls.">
+<meta property="og:title" content="Fly Pet on your phone">
+<meta property="og:description" content="Chat with your fly and get its trade, money and alpha alerts on your phone.">
+<meta property="og:image" content="https://flyaiworld.com/assets/og/referrals.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/pet-mobile">
+<link rel="manifest" href="/pet-mobile.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Fly Pet">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" href="/assets/pet/icon-192.png">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .pm-hero { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; }
+  .pm-hero img { width: 120px; height: 120px; image-rendering: pixelated; }
+  .pm-steps { display: grid; gap: 12px; }
+  .pm-step { display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start; padding: 16px; border: 1px solid var(--line, #222);
+             border-radius: 14px; background: var(--panel, #0b0c0c); }
+  .pm-step.done { border-color: var(--mint, #5ef2cc); }
+  .pm-num { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 700;
+            border: 1px solid var(--line, #333); color: var(--muted, #9ba5a1); }
+  .pm-step.done .pm-num { background: var(--mint, #5ef2cc); border-color: var(--mint, #5ef2cc); color: #000; }
+  .pm-step h3 { margin: 4px 0 6px; font-size: 17px; }
+  .pm-step p { margin: 4px 0; }
+  .pm-step .btn { margin-top: 8px; }
+  .pm-ios { display: grid; gap: 6px; padding-left: 18px; margin: 6px 0 0; }
+  .pm-toggles { display: grid; gap: 6px; margin-top: 10px; }
+  .pm-toggle { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 10px 12px;
+               border: 1px solid var(--line, #222); border-radius: 10px; cursor: pointer; }
+  .pm-toggle small { display: block; color: var(--muted, #9ba5a1); font-size: 12px; }
+  .pm-toggle input { width: 42px; height: 24px; appearance: none; border-radius: 999px; background: var(--line, #333); position: relative;
+                     cursor: pointer; transition: background .15s; margin: 0; }
+  .pm-toggle input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%;
+                            background: #fff; transition: left .15s; }
+  .pm-toggle input:checked { background: var(--mint, #5ef2cc); }
+  .pm-toggle input:checked::after { left: 21px; }
+  .pm-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .pm-alpha { display: grid; gap: 8px; }
+  .pm-call { padding: 10px 12px; border: 1px solid var(--line, #222); border-radius: 10px; }
+  .pm-call b { margin-right: 6px; }
+  .pm-call small { color: var(--muted, #9ba5a1); }
+  .pm-msg { min-height: 1.2em; }
+  [hidden] { display: none !important; }
+  @media (max-width: 640px) { .pm-hero { grid-template-columns: 1fr auto; } .pm-hero img { width: 84px; height: 84px; } }
+</style>
+</head>
+<body>
+<nav aria-label="Main"></nav>
+<!-- Fly Pet on phones (2026-11-16, the user: the pet "for mobile ... without coach just chat and notifications", option A:
+     an installable page, no app store). Install it (Add to Home Screen), sign in, turn notifications on and choose which
+     (mine/src/push.ts sends them; pet-sw.js shows them); the chat is the site's own (nav.js flyNav.chat). -->
+<header class="pagehead">
+  <div class="wrap pm-hero">
+    <div>
+      <p class="eyebrow" data-i18n="petmobile.head.eyebrow">Free · iPhone and Android</p>
+      <h1 data-i18n="petmobile.head.title">Fly Pet on your phone</h1>
+      <p class="lede" data-i18n="petmobile.head.lede">Chat with your fly, and get a notification when it trades, when money moves, when it replies, and for alpha calls.</p>
+    </div>
+    <img id="pm-fly" src="assets/pet/idle.gif" alt="" width="120" height="120">
+  </div>
+</header>
+
+<section class="firstsec">
+  <div class="wrap">
+    <div class="pm-steps">
+
+      <!-- 1. install -->
+      <div class="pm-step" id="st-install">
+        <span class="pm-num">1</span>
+        <div>
+          <h3 data-i18n="petmobile.install.title">Add it to your home screen</h3>
+          <p id="in-done" hidden data-i18n="petmobile.install.done">Installed. You're using the app.</p>
+          <div id="in-ios" hidden>
+            <p data-i18n="petmobile.install.ios">In Safari:</p>
+            <ol class="pm-ios">
+              <li data-i18n="petmobile.install.ios1">Tap the Share button (the square with an arrow).</li>
+              <li data-i18n="petmobile.install.ios2">Tap "Add to Home Screen", then "Add".</li>
+              <li data-i18n="petmobile.install.ios3">Open Fly Pet from your home screen and come back to step 2.</li>
+            </ol>
+            <p class="fine" data-i18n="petmobile.install.iosWhy">On iPhone, notifications only work from the home screen app.</p>
+          </div>
+          <div id="in-inapp" hidden>
+            <p data-i18n="petmobile.install.inapp">You're in a wallet's browser, which can't install apps. Open this page in Safari (iPhone) or Chrome (Android).</p>
+            <button type="button" class="btn sm ghost" id="in-copy" data-i18n="petmobile.install.copy">Copy the link</button>
+          </div>
+          <div id="in-android" hidden>
+            <p data-i18n="petmobile.install.android">Tap Install, or in Chrome's menu (⋮) tap "Install app" / "Add to Home screen".</p>
+            <button type="button" class="btn sm" id="in-btn" hidden data-i18n="petmobile.install.button">Install Fly Pet</button>
+          </div>
+          <div id="in-desktop" hidden>
+            <p data-i18n="petmobile.install.desktop">Open this page on your phone: flyaiworld.com/pet-mobile. On a computer, get the desktop Fly Pet instead.</p>
+            <a class="btn sm ghost" href="/flypet" data-i18n="petmobile.install.desktopLink">Desktop Fly Pet</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. sign in -->
+      <div class="pm-step" id="st-sign">
+        <span class="pm-num">2</span>
+        <div>
+          <h3 data-i18n="petmobile.sign.title">Sign in with your wallet</h3>
+          <p id="sg-out" data-i18n="petmobile.sign.out">The same sign-in as the website. Your fly's money never moves from here.</p>
+          <button type="button" class="btn sm" id="sg-btn" data-nav-signin data-i18n="petmobile.sign.button">Sign in</button>
+          <p id="sg-in" hidden><span data-i18n="petmobile.sign.in">Signed in as</span> <code id="sg-who"></code></p>
+        </div>
+      </div>
+
+      <!-- 3. notifications -->
+      <div class="pm-step" id="st-push">
+        <span class="pm-num">3</span>
+        <div>
+          <h3 data-i18n="petmobile.push.title">Turn on notifications</h3>
+          <p id="pu-need" hidden data-i18n="petmobile.push.need">Do steps 1 and 2 first.</p>
+          <p id="pu-nosupport" hidden data-i18n="petmobile.push.nosupport">This browser can't get notifications. On iPhone, open Fly Pet from your home screen (step 1).</p>
+          <p id="pu-blocked" hidden data-i18n="petmobile.push.blocked">Notifications are blocked for this site. Allow them in your phone's settings, then come back.</p>
+          <button type="button" class="btn sm" id="pu-on" hidden data-i18n="petmobile.push.on">Turn on notifications</button>
+          <div id="pu-set" hidden>
+            <div class="pm-toggles">
+              <label class="pm-toggle"><span><span data-i18n="petmobile.kind.trades">Trades</span><small data-i18n="petmobile.kind.tradesHint">Your fly bought or sold something</small></span>
+                <input type="checkbox" data-kind="trades"></label>
+              <label class="pm-toggle"><span><span data-i18n="petmobile.kind.money">Money in and out</span><small data-i18n="petmobile.kind.moneyHint">Deposits, withdrawals, refunds and bonuses</small></span>
+                <input type="checkbox" data-kind="money"></label>
+              <label class="pm-toggle"><span><span data-i18n="petmobile.kind.chat">Chat replies</span><small data-i18n="petmobile.kind.chatHint">Your fly answered you</small></span>
+                <input type="checkbox" data-kind="chat"></label>
+              <label class="pm-toggle"><span><span data-i18n="petmobile.kind.alpha">Alpha calls</span><small data-i18n="petmobile.kind.alphaHint">The same calls as our Discord (a few a day)</small></span>
+                <input type="checkbox" data-kind="alpha"></label>
+            </div>
+            <div class="pm-row" style="margin-top:10px">
+              <button type="button" class="btn sm ghost" id="pu-test" data-i18n="petmobile.push.test">Send a test</button>
+              <button type="button" class="btn sm ghost" id="pu-off" data-i18n="petmobile.push.off">Turn off on this phone</button>
+            </div>
+          </div>
+          <p class="fine pm-msg" id="pu-msg" aria-live="polite"></p>
+          <span hidden id="t-saved" data-i18n="petmobile.msg.saved">Saved.</span>
+          <span hidden id="t-sent" data-i18n="petmobile.msg.sent">Sent. It should show in a few seconds.</span>
+          <span hidden id="t-fail" data-i18n="petmobile.msg.fail">That didn't work. Try again.</span>
+          <span hidden id="t-offmsg" data-i18n="petmobile.msg.off">Notifications are off on this phone.</span>
+          <span hidden id="t-serveroff" data-i18n="petmobile.msg.serverOff">Notifications aren't switched on yet. Check back soon.</span>
+        </div>
+      </div>
+
+      <!-- 4. chat -->
+      <div class="pm-step" id="st-chat">
+        <span class="pm-num">4</span>
+        <div>
+          <h3 data-i18n="petmobile.chat.title">Chat with your fly</h3>
+          <p data-i18n="petmobile.chat.p">Ask what it's doing, why it traded, or tell it what to change. It only suggests: nothing changes until you approve.</p>
+          <div class="pm-row">
+            <button type="button" class="btn sm" id="ch-open" data-i18n="petmobile.chat.open">Open chat</button>
+            <a class="btn sm ghost" href="/traderflies/" data-i18n="petmobile.chat.flies">My flies</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="alpha">
+  <div class="wrap">
+    <h2 data-i18n="petmobile.alpha.title">Latest alpha calls</h2>
+    <p class="fine" data-i18n="petmobile.alpha.note">Calls, not advice: always check the token yourself.</p>
+    <div class="pm-alpha" id="al-list"><p class="fine">…</p></div>
+  </div>
+</section>
+
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="/start">Start here: buy $FLYAI</a>
+      <a href="/press">Press kit</a>
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script>window.flyaiLiveSession = true;</script>
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261116a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script src="assets/pet-mobile.js?v=20261116a"></script>
+</body>
+</html>

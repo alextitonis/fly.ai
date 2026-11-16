@@ -12,7 +12,8 @@
     "note": "The Microsoft Store version is signed by Microsoft and updates itself. The .exe from GitHub isn't signed yet: if Windows warns, click \"More info\", then \"Run anyway\". Windows 10 and 11; macOS and Linux soon.",
     "store": "Get it from Microsoft Store",
     "exe": "Download .exe",
-    "code": "Source code"
+    "code": "Source code",
+    "phone": "On your phone"
   },
   "f": {
     "desk": {

@@ -51,6 +51,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://flyaiworld.com/pet-mobile</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://flyaiworld.com/changelog</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

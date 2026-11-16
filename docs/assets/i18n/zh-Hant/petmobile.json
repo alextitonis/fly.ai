@@ -1,0 +1,65 @@
+{
+  "title": "手機上的 Fly Pet",
+  "head": {
+    "eyebrow": "免費 · iPhone 和 Android",
+    "title": "手機上的 Fly Pet",
+    "lede": "和你的蒼蠅聊天，並在它交易、資金變動、回覆你以及有 alpha 推薦時收到通知。"
+  },
+  "install": {
+    "title": "加入主畫面",
+    "done": "已安裝，你正在使用應用程式。",
+    "ios": "在 Safari 中：",
+    "ios1": "點選分享按鈕（帶箭頭的方框）。",
+    "ios2": "點選「加入主畫面」，然後點「新增」。",
+    "ios3": "從主畫面開啟 Fly Pet，然後回到第 2 步。",
+    "iosWhy": "在 iPhone 上，只有從主畫面開啟的應用程式才能收到通知。",
+    "inapp": "你正在錢包的內建瀏覽器中，無法安裝應用程式。請在 Safari（iPhone）或 Chrome（Android）中開啟此頁面。",
+    "copy": "複製連結",
+    "android": "點選安裝，或在 Chrome 選單（⋮）中點「安裝應用程式」/「加到主畫面」。",
+    "button": "安裝 Fly Pet",
+    "desktop": "請在手機上開啟此頁面：flyaiworld.com/pet-mobile。電腦上請使用桌面版 Fly Pet。",
+    "desktopLink": "桌面版 Fly Pet"
+  },
+  "sign": {
+    "title": "用錢包登入",
+    "out": "與網站相同的登入方式。這裡永遠不會動用你蒼蠅的資金。",
+    "button": "登入",
+    "in": "已登入："
+  },
+  "push": {
+    "title": "開啟通知",
+    "need": "請先完成第 1 和第 2 步。",
+    "nosupport": "此瀏覽器無法接收通知。在 iPhone 上，請從主畫面開啟 Fly Pet（第 1 步）。",
+    "blocked": "此網站的通知已被封鎖。請在手機設定中允許後再回來。",
+    "on": "開啟通知",
+    "test": "傳送測試",
+    "off": "在此手機上關閉"
+  },
+  "kind": {
+    "trades": "交易",
+    "tradesHint": "你的蒼蠅買入或賣出了",
+    "money": "資金進出",
+    "moneyHint": "存入、提領、退款和獎勵",
+    "chat": "聊天回覆",
+    "chatHint": "你的蒼蠅回覆了你",
+    "alpha": "Alpha 推薦",
+    "alphaHint": "與我們 Discord 相同的推薦（每天幾則）"
+  },
+  "msg": {
+    "saved": "已儲存。",
+    "sent": "已傳送，幾秒內應會出現。",
+    "fail": "沒有成功，請重試。",
+    "off": "此手機上的通知已關閉。",
+    "serverOff": "通知功能尚未開啟，請稍後再來。"
+  },
+  "chat": {
+    "title": "和你的蒼蠅聊天",
+    "p": "問它在做什麼、為什麼交易，或告訴它要改什麼。它只會建議：在你批准之前什麼都不會改變。",
+    "open": "開啟聊天",
+    "flies": "我的蒼蠅"
+  },
+  "alpha": {
+    "title": "最新 alpha 推薦",
+    "note": "僅為推薦，不是建議：請務必自行核實代幣。"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "title": "Fly Pet en tu móvil",
+  "head": {
+    "eyebrow": "Gratis · iPhone y Android",
+    "title": "Fly Pet en tu móvil",
+    "lede": "Chatea con tu mosca y recibe una notificación cuando opera, cuando se mueve dinero, cuando responde y con las alpha calls."
+  },
+  "install": {
+    "title": "Añádela a tu pantalla de inicio",
+    "done": "Instalada. Estás usando la app.",
+    "ios": "En Safari:",
+    "ios1": "Toca el botón Compartir (el cuadrado con una flecha).",
+    "ios2": "Toca \"Añadir a pantalla de inicio\" y luego \"Añadir\".",
+    "ios3": "Abre Fly Pet desde tu pantalla de inicio y vuelve al paso 2.",
+    "iosWhy": "En iPhone, las notificaciones solo funcionan desde la app de la pantalla de inicio.",
+    "inapp": "Estás en el navegador de una billetera, que no puede instalar apps. Abre esta página en Safari (iPhone) o Chrome (Android).",
+    "copy": "Copiar el enlace",
+    "android": "Toca Instalar, o en el menú de Chrome (⋮) toca \"Instalar app\" / \"Añadir a pantalla de inicio\".",
+    "button": "Instalar Fly Pet",
+    "desktop": "Abre esta página en tu móvil: flyaiworld.com/pet-mobile. En un ordenador, usa el Fly Pet de escritorio.",
+    "desktopLink": "Fly Pet de escritorio"
+  },
+  "sign": {
+    "title": "Inicia sesión con tu billetera",
+    "out": "El mismo inicio de sesión que la web. El dinero de tu mosca nunca se mueve desde aquí.",
+    "button": "Iniciar sesión",
+    "in": "Sesión iniciada como"
+  },
+  "push": {
+    "title": "Activa las notificaciones",
+    "need": "Haz primero los pasos 1 y 2.",
+    "nosupport": "Este navegador no puede recibir notificaciones. En iPhone, abre Fly Pet desde tu pantalla de inicio (paso 1).",
+    "blocked": "Las notificaciones están bloqueadas para este sitio. Permítelas en los ajustes del móvil y vuelve.",
+    "on": "Activar notificaciones",
+    "test": "Enviar una prueba",
+    "off": "Desactivar en este móvil"
+  },
+  "kind": {
+    "trades": "Operaciones",
+    "tradesHint": "Tu mosca compró o vendió algo",
+    "money": "Entradas y salidas de dinero",
+    "moneyHint": "Depósitos, retiros, reembolsos y bonos",
+    "chat": "Respuestas del chat",
+    "chatHint": "Tu mosca te respondió",
+    "alpha": "Alpha calls",
+    "alphaHint": "Las mismas calls que en nuestro Discord (unas pocas al día)"
+  },
+  "msg": {
+    "saved": "Guardado.",
+    "sent": "Enviado. Debería aparecer en unos segundos.",
+    "fail": "No funcionó. Inténtalo de nuevo.",
+    "off": "Las notificaciones están desactivadas en este móvil.",
+    "serverOff": "Las notificaciones aún no están activadas. Vuelve pronto."
+  },
+  "chat": {
+    "title": "Chatea con tu mosca",
+    "p": "Pregúntale qué hace, por qué operó o dile qué cambiar. Solo sugiere: nada cambia hasta que lo apruebes.",
+    "open": "Abrir chat",
+    "flies": "Mis moscas"
+  },
+  "alpha": {
+    "title": "Últimas alpha calls",
+    "note": "Son calls, no consejos: revisa siempre el token tú mismo."
+  }
+}
