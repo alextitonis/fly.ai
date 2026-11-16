@@ -23,6 +23,14 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
+      # npm's optional-dependency bug (npm/cli#4828): the lock was made on Windows, so rollup's own binary for this system
+      # is missing - put it in (2026-11-16, the first macOS / Linux builds failed on it)
+      - name: rollup for this system
+        shell: bash
+        run: |
+          V=$(node -p "require('rollup/package.json').version")
+          case "$RUNNER_OS" in Linux) P=linux-x64-gnu;; macOS) P=darwin-arm64;; Windows) P=win32-x64-msvc;; esac
+          npm install --no-save "@rollup/rollup-$P@$V"
       - run: npm test
       - name: Windows signing tool
         if: matrix.os == 'windows-latest'

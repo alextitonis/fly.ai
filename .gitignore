@@ -43,6 +43,7 @@ flybook/supabase/.branches/
 # Python packaging
 dist/
 build/
+!flypet/build/   # Fly Pet's icons, Mac entitlements, signing + Store helpers: the CI builds need them (2026-11-16)
 *.egg-info/
 
 # every env file stays local (only the example is committed)
