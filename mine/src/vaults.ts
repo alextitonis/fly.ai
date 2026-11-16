@@ -353,7 +353,9 @@ export function createVaults(d: VaultsDeps) {
     const chain = chainOf(body?.chain);
     const symbol = String(body?.symbol ?? "").trim();
     const pct = Number(body?.pct ?? 100);
-    if (!/^[A-Za-z0-9$._-]{1,24}$/.test(symbol)) throw new HttpError(400, "which token?");
+    // another chain's token ("bsc:慌啥子嘛", "solana:WIF") and tickers in any script (2026-11-16: a holder's Chinese-named
+    // BNB Chain token answered "which token?")
+    if (!/^(?:[a-z]{2,12}:)?[\p{L}\p{N}$._-]{1,32}$/u.test(symbol)) throw new HttpError(400, "which token?");
     if (!Number.isInteger(pct) || pct < 1 || pct > 100) throw new HttpError(400, "pct is 1..100");
     const led = await ledgerOf(wallet, chain);
     if (!led?.holder || led.holder.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can sell its positions");
