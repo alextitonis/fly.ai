@@ -609,6 +609,15 @@
     "buyWallet": "지갑에서 소각을 확인하세요…",
     "buyWaiting": "체인을 기다리는 중…",
     "buyDone": "+{n}개 메시지",
-    "nftPage": "NFT 페이지"
+    "nftPage": "NFT 페이지",
+    "act": {
+      "buy": "{sym} 매수 · {usd}",
+      "sell": "{sym} 매도 · {usd}",
+      "deposit": "입금 · {usd}",
+      "withdraw": "출금 완료 · {usd}",
+      "refund": "환불 · {usd}",
+      "grant": "보너스 · {usd}",
+      "release": "지급 완료 · {usd}"
+    }
   }
 }

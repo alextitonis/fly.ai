@@ -609,6 +609,15 @@
     "buyWallet": "在钱包中确认销毁…",
     "buyWaiting": "等待链上确认…",
     "buyDone": "+{n} 条消息",
-    "nftPage": "NFT 页面"
+    "nftPage": "NFT 页面",
+    "act": {
+      "buy": "买入 {sym} · {usd}",
+      "sell": "卖出 {sym} · {usd}",
+      "deposit": "资金到账 · {usd}",
+      "withdraw": "已提现 · {usd}",
+      "refund": "退款到账 · {usd}",
+      "grant": "奖励到账 · {usd}",
+      "release": "已支付 · {usd}"
+    }
   }
 }

@@ -108,3 +108,23 @@ export function paceTarget(home: number, x: number, random: number, min: number,
 export const daysTogether = (born: number, now: number) => Math.floor((now - born) / 86_400_000);
 
 export const asleepAt = (hour: number) => hour >= 23 || hour < 7;
+
+/**
+ * Money in and out of the followed fly (2026-11-16, the user: the pet should show "the buys, sells etc" as notifications
+ * and messages): deposits, withdrawals, refunds and bonuses from its log (mine pet.ts flyFeed: type "move"), each a
+ * reaction with a notification. The first look only takes the baseline (no replay of old moves). last: the newest
+ * move already told, null before the first look.
+ */
+export const MONEY_KINDS = ["deposit", "withdraw", "refund", "grant", "release"] as const;
+export function moneyMoves(last: number | null, log: { at: number; type: string; kind?: string; usd?: number | null }[], notify: boolean):
+    { last: number; reactions: Reaction[] } {
+  const moves = log.filter((r) => r.type === "move" && (MONEY_KINDS as readonly string[]).includes(String(r.kind)));
+  const newest = Math.max(last ?? 0, ...moves.map((r) => r.at));
+  if (last == null) return { last: newest, reactions: [] };
+  const key: Record<string, Key> = { deposit: "moneyIn", withdraw: "moneyOut", release: "moneyOut", refund: "refundIn", grant: "bonusIn" };
+  const reactions = moves.filter((r) => r.at > last).sort((a, b) => a.at - b.at).map((r) => {
+    const out = r.kind === "withdraw" || r.kind === "release";
+    return { mood: (out ? "sad" : "happy") as Mood, text: t(key[String(r.kind)]!, { usd: money(Math.abs(Number(r.usd) || 0)) }), notify, kind: "money" as const };
+  });
+  return { last: newest, reactions };
+}

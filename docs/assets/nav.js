@@ -541,7 +541,7 @@
     if (!chatJs) {
       chatJs = new Promise((ok) => {
         const tag = document.createElement("script");
-        tag.src = NAV_SRC ? new URL("flychat.js?v=20261113a", NAV_SRC).href : "/assets/flychat.js?v=20261113a";
+        tag.src = NAV_SRC ? new URL("flychat.js?v=20261116a", NAV_SRC).href : "/assets/flychat.js?v=20261116a";
         tag.onload = ok;
         tag.onerror = ok;
         (document.body || document.head).append(tag);

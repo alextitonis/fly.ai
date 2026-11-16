@@ -14,6 +14,33 @@ const IDLE_S = 120, COMPUTE_MS = 5000;
 
 let pet: BrowserWindow, settings: BrowserWindow | null = null, panel: BrowserWindow | null = null, tray: Tray;   // kept here so they aren't garbage collected
 let hidden = false, quiet = false, coachOn = false;
+// updates (2026-11-16, the user: "a function to update the app or show there is an update"): the newest GitHub release
+// (tag flypet-v<x.y.z>) against this app's version, at start and every UPDATE_MS. A newer one: a notice from the fly, one
+// system notification per version, and "Update to v..." at the top of its menu, which opens the download (the Microsoft
+// Store's own page for the Store version, which updates itself)
+const RELEASES = "https://api.github.com/repos/alextitonis/fly.ai/releases/latest";
+const UPDATE_PAGE = "https://www.flyaiworld.com/flypet", STORE_PAGE = "ms-windows-store://pdp/?productid=9MZXQ4T6R3FC";
+const UPDATE_MS = 6 * 3_600_000;
+let update: string | null = null;
+const parts = (v: string) => v.split(".").map((n) => Number(n) || 0);
+export function newerVersion(a: string, b: string): boolean {
+  const x = parts(a), y = parts(b);
+  for (let i = 0; i < 3; i++) if ((x[i] ?? 0) !== (y[i] ?? 0)) return (x[i] ?? 0) > (y[i] ?? 0);
+  return false;
+}
+async function checkUpdate() {
+  try {
+    const r = await net.fetch(RELEASES, { headers: { "User-Agent": "FlyPet", Accept: "application/vnd.github+json" } });
+    if (!r.ok) return;
+    const v = String(((await r.json()) as { tag_name?: string }).tag_name ?? "").replace(/^flypet-v/, "");
+    if (!/^\d+\.\d+\.\d+$/.test(v) || !newerVersion(v, app.getVersion()) || update === v) return;
+    update = v;
+    tray?.setContextMenu(menu());
+    pet?.webContents.send("update", v);
+    if (Notification.isSupported()) new Notification({ title: "Fly Pet", body: t("updateReady", { v }) }).show();
+  } catch { /* offline: the next check */ }
+}
+function getUpdate() { void shell.openExternal(process.windowsStore ? STORE_PAGE : UPDATE_PAGE); }
 const COACH_KEY = "Alt+Shift+C";   // the coach's hotkey (one hint); not Ctrl+Alt, which is AltGr on Turkish and Spanish keyboards
 interface ComputeState { phase: "off" | "waiting" | "loading" | "running" | "error"; jobs: number; perMinute: number; engine: string }
 
@@ -92,6 +119,7 @@ function showPanel(what = "") {
 // the same menu from the tray and from right-clicking the fly: Windows 11 tucks a new tray icon away under its ^ arrow
 function menu() {
   return Menu.buildFromTemplate([
+    ...(update ? [{ label: t("menu.update", { v: update }), click: getUpdate }, { type: "separator" as const }] : []),
     { label: t("menu.open"), click: () => pet.webContents.send("open", "") },
     { label: t("menu.alpha"), click: () => pet.webContents.send("open", "alpha") },
     { type: "separator" },
@@ -289,6 +317,8 @@ else {
     handleCalls();
     createPet();
     createTray();
+    setTimeout(() => void checkUpdate(), 30_000);
+    setInterval(() => void checkUpdate(), UPDATE_MS);
     watchCursor();
     setInterval(computeTick, COMPUTE_MS);
     globalShortcut.register(COACH_KEY, () => pet.webContents.send("coach", "hint"));   // false if another app holds it

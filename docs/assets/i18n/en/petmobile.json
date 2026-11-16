@@ -8,7 +8,7 @@
   "install": {
     "title": "Add it to your home screen",
     "done": "Installed. You're using the app.",
-    "ios": "In Safari:",
+    "ios": "In Safari (not your wallet's browser):",
     "ios1": "Tap the Share button (the square with an arrow).",
     "ios2": "Tap \"Add to Home Screen\", then \"Add\".",
     "ios3": "Open Fly Pet from your home screen and come back to step 2.",
@@ -24,7 +24,8 @@
     "title": "Sign in with your wallet",
     "out": "The same sign-in as the website. Your fly's money never moves from here.",
     "button": "Sign in",
-    "in": "Signed in as"
+    "in": "Signed in as",
+    "ios": "On iPhone, the home screen app has its own sign-in: sign in again here. After you approve in your wallet app, switch back to Fly Pet yourself."
   },
   "push": {
     "title": "Turn on notifications",
@@ -33,7 +34,9 @@
     "blocked": "Notifications are blocked for this site. Allow them in your phone's settings, then come back.",
     "on": "Turn on notifications",
     "test": "Send a test",
-    "off": "Turn off on this phone"
+    "off": "Turn off on this phone",
+    "iosFirst": "On iPhone, notifications only work in the Fly Pet app on your home screen. Add it with step 1 (Share, then \"Add to Home Screen\"), open it from your home screen, and turn them on there.",
+    "after": "Tap \"Send a test\": a notification should show within a few seconds, even with the app closed. After that they come by themselves (the server checks every minute)."
   },
   "kind": {
     "trades": "Trades",
@@ -61,5 +64,24 @@
   "alpha": {
     "title": "Latest alpha calls",
     "note": "Calls, not advice: always check the token yourself."
+  },
+  "help": {
+    "title": "Not getting notifications?",
+    "safari": "iPhone: add it from Safari and open it from the home screen icon, not from Safari or a wallet's browser.",
+    "ios": "iPhone needs iOS 16.4 or newer (Settings, General, About).",
+    "settings": "Check Settings, Notifications, Fly Pet is allowed, and that Focus or Do Not Disturb is off.",
+    "again": "Still nothing? Tap \"Turn off on this phone\", then turn them on again."
+  },
+  "act": {
+    "title": "What your flies did",
+    "note": "Buys and sells of the last 24 hours. Tap one to see that fly.",
+    "signin": "Sign in (step 2) to see your flies here.",
+    "none": "No trades in the last 24 hours.",
+    "bought": "bought",
+    "sold": "sold"
+  },
+  "update": {
+    "ready": "A new version of Fly Pet is ready.",
+    "button": "Refresh"
   }
 }

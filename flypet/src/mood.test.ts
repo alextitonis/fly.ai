@@ -1,5 +1,6 @@
 // npm test
 import assert from "node:assert/strict";
+import { moneyMoves } from "./mood.ts";
 import { LANGS, STRINGS, detectLang, setLang, t, type Lang } from "./i18n.ts";
 import { NO_SEEN, PACE_PX, dayMood, paceTarget, readFlies, readPrice, tradeReaction, type Fly, type Trade } from "./mood.ts";
 
@@ -98,5 +99,19 @@ setLang("tr");
 assert.equal(t("up", { usd: "$1.00" }), "$1.00 kazandık!");
 assert.equal(tradeReaction(1, trade(1, "buy"), true).text, "#1 $5.00 karşılığında ANY aldı");
 setLang("en");
+
+// money in and out (2026-11-16): the first look is a baseline; then each new deposit / withdrawal is a notified reaction
+{
+  const log = [{ at: 100, type: "move", kind: "deposit", usd: 20 }, { at: 50, type: "trade", side: "buy" }];
+  const first = moneyMoves(null, log, true);
+  assert.equal(first.reactions.length, 0);
+  assert.equal(first.last, 100);
+  const next = moneyMoves(first.last, [{ at: 200, type: "move", kind: "withdraw", usd: -12.5 }, { at: 150, type: "move", kind: "refund", usd: 1 },
+    { at: 160, type: "move", kind: "gas_advance", usd: 0.1 }, ...log], true);
+  assert.deepEqual(next.reactions.map((r) => r.text), ["refund in: $1.00", "money out: $12.50"]);
+  assert.ok(next.reactions.every((r) => r.notify && r.kind === "money"));
+  assert.equal(next.last, 200);
+  assert.equal(moneyMoves(next.last, log, true).reactions.length, 0);
+}
 
 console.log("all passed");

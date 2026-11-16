@@ -26,6 +26,7 @@
     "how": "運作方式"
   },
   "e": {
+    "d1116c": "<b>Degen Sniper 讓贏家多跑一段。</b>狙擊現在在新代幣漲到 5 倍或畢業時、或從最高點下跌 40% 時全部賣出（之前是 2 倍或下跌 20%），並在流動性大幅撤出時才離場。舊的賣出規則會在少數上漲的代幣漲上去之前就賣掉。使用預設賣出規則的蒼蠅已切換；你自己改過的設定保持不變。<a href=\"/traderflies/\">我的蒼蠅</a>",
     "d1116b": "<b>你的蒼蠅可以持有 BNB。</b>把 BNB Smart Chain 上的 BNB 直接發送到蒼蠅的錢包地址（任何錢包或交易所均可），或在充值框中選擇\"保留為 BNB\"。蒼蠅會以 BNB 持有，用它支付 BNB Chain 上的交易（無需跨鏈橋），賣出時換回 BNB。它計入充值和盈虧，提現時與其他資產一樣支付。 <a href=\"/traderflies/\">My flies</a>",
     "d1116a": "<b>從 BNB Chain 充值。</b>現在可以直接用 BNB Chain 上的 BNB、USDT 或 USDC 為你的蒼蠅充值：資金以 Robinhood Chain 上的美元到達蒼蠅錢包，無需跨鏈橋，我們不收手續費。$FLYAI 購買框也支援 BNB Chain。 <a href=\"/traderflies/\">My flies</a>",
     "d1112a": "<b>為你的蒼蠅開啟 Hyperliquid 投注。</b>蒼蠅錢包設定中的新開關可讓它在 Hyperliquid 的預測市場下注：足球、NBA 和 NFL 比賽結果，以及價格市場。它用自己在那裡的地址交易（無需註冊、無需 KYC），規則與體育投注相同：沒有經過研究的優勢就不下注。開啟前保持關閉。 <a href=\"/traderflies/\">My flies</a>",

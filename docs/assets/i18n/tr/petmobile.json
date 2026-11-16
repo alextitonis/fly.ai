@@ -8,7 +8,7 @@
   "install": {
     "title": "Ana ekranına ekle",
     "done": "Yüklendi. Uygulamayı kullanıyorsun.",
-    "ios": "Safari'de:",
+    "ios": "Safari'de (cüzdanının tarayıcısında değil):",
     "ios1": "Paylaş düğmesine dokun (oklu kare).",
     "ios2": "\"Ana Ekrana Ekle\"ye, ardından \"Ekle\"ye dokun.",
     "ios3": "Fly Pet'i ana ekranından aç ve 2. adıma dön.",
@@ -24,7 +24,8 @@
     "title": "Cüzdanınla giriş yap",
     "out": "Web sitesiyle aynı giriş. Sineğinin parası buradan asla hareket etmez.",
     "button": "Giriş yap",
-    "in": "Giriş yapılan hesap"
+    "in": "Giriş yapılan hesap",
+    "ios": "iPhone'da ana ekran uygulamasının kendi girişi var: burada tekrar giriş yap. Cüzdan uygulamasında onayladıktan sonra Fly Pet'e kendin geri dön."
   },
   "push": {
     "title": "Bildirimleri aç",
@@ -33,7 +34,9 @@
     "blocked": "Bu site için bildirimler engelli. Telefon ayarlarından izin ver, sonra geri dön.",
     "on": "Bildirimleri aç",
     "test": "Test gönder",
-    "off": "Bu telefonda kapat"
+    "off": "Bu telefonda kapat",
+    "iosFirst": "iPhone'da bildirimler yalnızca ana ekrandaki Fly Pet uygulamasında çalışır. 1. adımla ekle (Paylaş, sonra \"Ana Ekrana Ekle\"), ana ekrandan aç ve bildirimleri orada aç.",
+    "after": "\"Test gönder\"e dokun: uygulama kapalıyken bile birkaç saniye içinde bir bildirim görünmeli. Sonrasında kendiliğinden gelir (sunucu her dakika kontrol eder)."
   },
   "kind": {
     "trades": "İşlemler",
@@ -61,5 +64,24 @@
   "alpha": {
     "title": "Son alpha call'lar",
     "note": "Bunlar call, tavsiye değil: tokeni her zaman kendin kontrol et."
+  },
+  "help": {
+    "title": "Bildirim gelmiyor mu?",
+    "safari": "iPhone: Safari'den ekle ve Safari'den ya da bir cüzdan tarayıcısından değil, ana ekran simgesinden aç.",
+    "ios": "iPhone'da iOS 16.4 veya üstü gerekir (Ayarlar, Genel, Hakkında).",
+    "settings": "Ayarlar, Bildirimler, Fly Pet'e izin verildiğini ve Odak ya da Rahatsız Etmeyin'in kapalı olduğunu kontrol et.",
+    "again": "Hâlâ gelmiyor mu? \"Bu telefonda kapat\"a dokun, sonra tekrar aç."
+  },
+  "act": {
+    "title": "Sineklerin ne yaptı",
+    "note": "Son 24 saatin alım ve satımları. Bir tanesine dokunarak o sineği gör.",
+    "signin": "Sineklerini burada görmek için giriş yap (2. adım).",
+    "none": "Son 24 saatte işlem yok.",
+    "bought": "aldı",
+    "sold": "sattı"
+  },
+  "update": {
+    "ready": "Fly Pet'in yeni sürümü hazır.",
+    "button": "Yenile"
   }
 }

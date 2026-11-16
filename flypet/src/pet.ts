@@ -1,7 +1,7 @@
 // The pet's window: plays the avatar's GIFs, walks along the bottom of the screen, can be grabbed and tossed, and acts out
 // what the feeds say (gains, losses, buys and sells). See mood.ts for what makes it react.
 import { t } from "./i18n.ts";
-import { FEED_LINES, asleepAt, daysTogether, paceTarget, readFlies, readPrice, type Fly, type Mood, type Reaction } from "./mood.ts";
+import { FEED_LINES, asleepAt, daysTogether, moneyMoves, paceTarget, readFlies, readPrice, type Fly, type Mood, type Reaction } from "./mood.ts";
 import { addNote, applyLang, flyFeed, prefs, priceSamples, publicFeed, seenOf, setPrefs, setPriceSamples, setSeen, signedIn, walletFeed } from "./store.ts";
 import { setupTalk } from "./talk.ts";
 import { setupCoach } from "./coach.ts";
@@ -74,6 +74,10 @@ async function pollFlies() {
       const f = await flyFeed(p.fly);
       if (f.fly) {
         const name = f.who ? `${f.who.name} #${f.who.token}` : null;
+        // its money in and out (deposits, withdrawals, refunds, bonuses), told and notified like its trades
+        const mkey = `money:${p.fly}`, m = moneyMoves(seenOf(mkey).profit ?? null, f.log ?? [], true);
+        setSeen(mkey, { lastAt: {}, profit: m.last });
+        m.reactions.forEach(react);
         return follow(`fly:${p.fly}`, [f.fly], true, name ? () => name : undefined);
       }
     }
@@ -90,6 +94,8 @@ function follow(key: string, flies: Fly[], notifyTrades: boolean, who?: (id: num
   setSeen(key, seen);
   reactions.forEach(react);
 }
+// a newer Fly Pet (electron/main.ts checkUpdate): the fly says so, and it stays in its chat
+native?.onUpdate?.((v) => react({ mood: "happy", text: t("updateReady", { v }), notify: false, kind: "money" }));
 async function pollPrice() {
   try {
     const { flyai_usd } = await publicFeed();

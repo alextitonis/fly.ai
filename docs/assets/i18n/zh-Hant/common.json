@@ -609,6 +609,15 @@
     "buyWallet": "在錢包中確認銷毀…",
     "buyWaiting": "等待鏈上確認…",
     "buyDone": "+{n} 則訊息",
-    "nftPage": "NFT 頁面"
+    "nftPage": "NFT 頁面",
+    "act": {
+      "buy": "買入 {sym} · {usd}",
+      "sell": "賣出 {sym} · {usd}",
+      "deposit": "資金到帳 · {usd}",
+      "withdraw": "已提領 · {usd}",
+      "refund": "退款到帳 · {usd}",
+      "grant": "獎勵到帳 · {usd}",
+      "release": "已支付 · {usd}"
+    }
   }
 }

@@ -43,6 +43,8 @@
       watchNote: "Your fly trades watched tokens without its rug filters, so the risk is yours. The Fly Desk checks it too and may add it for every fly if it looks good.",
       moneyNote: "This moves money. It goes through the normal withdrawal rules (the profit fee applies)." },
     status: { approved: "Done", declined: "Declined", failed: "Didn't go through", pending: "" },
+    act: { buy: "Bought {sym} · {usd}", sell: "Sold {sym} · {usd}", deposit: "Money in · {usd}", withdraw: "Withdrawal sent · {usd}",
+      refund: "Refund in · {usd}", grant: "Bonus in · {usd}", release: "Paid out · {usd}" },
   };
   let TEXT = EN;
   const get = (obj, path) => path.split(".").reduce((o, k) => (o && o[k] !== undefined ? o[k] : undefined), obj);
@@ -146,7 +148,7 @@
 
   // ---- state ----
   const S = { open: false, fly: null, inbox: null, inboxErr: "", msgs: [], me: null, view: null, who: null, starters: [], err: "", busy: false,
-    wait: 0, doing: null, draft: "", localId: -1, loadSeq: 0 };
+    wait: 0, doing: null, draft: "", localId: -1, loadSeq: 0, act: [] };
   let root = null, timer = null, deskTimer = null, inboxAt = 0;
 
   async function loadInbox(force) {
@@ -172,7 +174,30 @@
     for (const b of document.querySelectorAll(".chat-n")) { b.hidden = !n; b.textContent = n > 9 ? "9+" : String(n); }
   }
 
+  /** What the fly did (2026-11-16, the user: the pet "should be showing as notifications/messages the buys, sells etc"):
+   *  its filled trades and money moves of the last ACT_DAYS, from the public fly log (mine pet.ts), shown between the
+   *  chat's messages as its own short lines. Not stored in the chat; a failed read just leaves them out. */
+  const ACT_DAYS = 3, ACT_MAX = 40, ACT_MOVES = ["deposit", "withdraw", "refund", "grant", "release"];
+  async function loadActivity(fly) {
+    try {
+      const r = await fetch(`${NAV.MINE_READ || API}/api/pet/fly/${fly}`);
+      if (!r.ok) return;
+      const j = await r.json(), since = Date.now() - ACT_DAYS * 86_400_000;
+      const money = (n) => `$${Math.abs(Number(n) || 0).toFixed(2)}`;
+      const sym = (x) => String(x || "").replace(/^[a-z0-9]+:/i, "").split(".")[0];
+      const rows = (j.log || []).filter((x) => x.at >= since && ((x.type === "trade" && x.status === "filled" && !["earn", "gas", "cash"].includes(x.tag))
+        || (x.type === "move" && ACT_MOVES.includes(x.kind)))).slice(0, ACT_MAX);
+      if (S.fly !== fly) return;
+      S.act = rows.map((x) => {
+        if (x.type === "move") return { at: x.at, act: true, text: `${x.kind === "withdraw" || x.kind === "release" ? "📤" : "💰"} ${t(`act.${x.kind}`, { usd: money(x.usd) })}` };
+        const pnl = x.side !== "buy" && x.pnl_pct != null ? ` · ${x.pnl_pct >= 0 ? "+" : ""}${Number(x.pnl_pct).toFixed(1)}%` : "";
+        return { at: x.at, act: true, text: `${x.side === "buy" ? "🟢" : "🔴"} ${t(x.side === "buy" ? "act.buy" : "act.sell", { sym: sym(x.symbol), usd: money(x.usd) })}${pnl}` };
+      });
+      render();
+    } catch { /* offline: the chat works without them */ }
+  }
   async function loadChat(fly) {
+    void loadActivity(fly);
     const my = ++S.loadSeq;
     try {
       // a partner NFT's view path needs who it is: from the inbox, else after the chat's own read
@@ -335,7 +360,7 @@
     document.documentElement.classList.remove("flychat-full");
   }
   function enter(fly) {
-    if (S.fly !== fly) { S.msgs = []; S.me = null; S.view = null; S.who = null; S.err = ""; S.draft = ""; S.wait = 0; }
+    if (S.fly !== fly) { S.msgs = []; S.act = []; S.me = null; S.view = null; S.who = null; S.err = ""; S.draft = ""; S.wait = 0; }
     S.fly = fly; S.focus = true; tab.set(LAST_KEY, String(fly));
     markSeen(fly);
     render();
@@ -371,7 +396,8 @@
     const prevTop = list ? list.scrollTop : 0;
     const msgs = el("div", { class: "fcm-list" },
       !S.msgs.length ? el("p", { class: "fcm-hello" }, t("hello")) : null,
-      S.msgs.map((m) => el("div", { class: `fcm-msg ${m.role}${m.sending ? " sending" : ""}` }, el("p", null, m.text), m.card ? cardView(m) : null)),
+      [...S.msgs, ...S.act].sort((a, b) => a.at - b.at).map((m) => m.act ? el("div", { class: "fcm-msg fly fcm-act" }, el("p", null, m.text))
+        : el("div", { class: `fcm-msg ${m.role}${m.sending ? " sending" : ""}` }, el("p", null, m.text), m.card ? cardView(m) : null)),
       S.msgs.some((m) => m.sending) ? el("div", { class: "fcm-msg fly fcm-typing", "aria-label": "…" }, el("p", null, el("i"), el("i"), el("i"))) : null);
     const chips = el("div", { class: "fcm-quick" }, quicks().map(([label, s]) => el("button", { type: "button", class: "fcm-chip", onclick: () => quick(label, s) }, label)));
     fill(root, head(label(S.fly), true), msgs, chips,
@@ -496,6 +522,7 @@ html.flychat-full body { overflow: hidden; }
 .fcm-msg.user p { background: var(--mint, #5ef2cc); color: #000; border-bottom-right-radius: 4px; }
 .fcm-msg.fly p { background: var(--panel-2, #121514); border-bottom-left-radius: 4px; }
 .fcm-msg.sending p { opacity: .7; }
+.fcm-act p { background: transparent !important; border: 1px dashed var(--line, #2a2e2d); color: var(--muted, #9ba5a1); font-size: 12.5px; padding: 5px 10px; }
 .fcm-typing p { display: flex; gap: 4px; padding: 11px 12px; }
 .fcm-typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--muted, #9ba5a1); animation: fcm-dot 1s infinite ease-in-out; }
 .fcm-typing i:nth-child(2) { animation-delay: .15s; } .fcm-typing i:nth-child(3) { animation-delay: .3s; }

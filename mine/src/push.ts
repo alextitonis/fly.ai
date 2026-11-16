@@ -93,16 +93,16 @@ export function notesFor(prefs: Prefs, ev: { trades: Trade[]; moves: Move[]; cha
     const t = ev.trades[0]!;
     out.push(ev.trades.length === 1
       ? { kind: "trades", title: `${flyName(t.fly)} ${t.side === "buy" ? "bought" : "sold"} ${sym(t.symbol)}`, body: `${usd(t.usd)} ${t.side}`.trim(),
-          url: t.fly ? `/traderflies/fly?id=${t.fly}` : page, tag: "trades" }
+          url: `${page}#activity`, tag: "trades" }
       : { kind: "trades", title: `${ev.trades.length} new trades`, body: ev.trades.slice(0, 4).map((x) => `${x.side} ${sym(x.symbol)} ${usd(x.usd)}`).join(" · "),
-          url: "/traderflies/", tag: "trades" });
+          url: `${page}#activity`, tag: "trades" });
   }
   if (prefs.money && ev.moves.length) {
     const word: Record<string, string> = { deposit: "Money in", withdraw: "Withdrawal sent", refund: "Refund in", grant: "Bonus in", release: "Paid out" };
     const m = ev.moves[0]!;
     out.push(ev.moves.length === 1
-      ? { kind: "money", title: `${word[m.kind] ?? m.kind}: ${usd(m.usd)}`.replace(/: $/, ""), body: flyName(m.fly), url: m.fly ? `/traderflies/fly?id=${m.fly}` : "/traderflies/", tag: "money" }
-      : { kind: "money", title: `${ev.moves.length} money moves`, body: ev.moves.slice(0, 4).map((x) => `${word[x.kind] ?? x.kind} ${usd(x.usd)}`).join(" · "), url: "/traderflies/", tag: "money" });
+      ? { kind: "money", title: `${word[m.kind] ?? m.kind}: ${usd(m.usd)}`.replace(/: $/, ""), body: flyName(m.fly), url: `${page}#activity`, tag: "money" }
+      : { kind: "money", title: `${ev.moves.length} money moves`, body: ev.moves.slice(0, 4).map((x) => `${word[x.kind] ?? x.kind} ${usd(x.usd)}`).join(" · "), url: `${page}#activity`, tag: "money" });
   }
   if (prefs.chat && ev.chats.length) {
     const c = ev.chats[ev.chats.length - 1]!;

@@ -21,6 +21,7 @@ contextBridge.exposeInMainWorld("flyNative", {
   onCursor: (fn: (c: { x: number; y: number; inside: boolean }) => void) => ipcRenderer.on("cursor", (_e, c) => fn(c)),
   onQuiet: (fn: (on: boolean) => void) => ipcRenderer.on("quiet", (_e, on) => fn(on)),
   onFeed: (fn: () => void) => ipcRenderer.on("feed", () => fn()),
+  onUpdate: (fn: (v: string) => void) => ipcRenderer.on("update", (_e, v) => fn(v)),
   openPanel: (what?: string) => ipcRenderer.send("panel", what ?? ""),
   frame: (x: number, y: number, w: number, h: number) => ipcRenderer.send("frame", x, y, w, h),
   petFocus: (on: boolean) => ipcRenderer.send("pet-focus", on),

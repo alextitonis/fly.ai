@@ -54,6 +54,14 @@
   .pm-call b { margin-right: 6px; }
   .pm-call small { color: var(--muted, #9ba5a1); }
   .pm-msg { min-height: 1.2em; }
+  .pm-act { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: baseline; color: inherit; text-decoration: none; }
+  .pm-act small { color: var(--muted, #9ba5a1); white-space: nowrap; }
+  .pm-help { margin-top: 8px; }
+  .pm-help summary { cursor: pointer; color: var(--muted, #9ba5a1); font-size: 13px; }
+  .pm-help ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; font-size: 13px; color: var(--muted, #9ba5a1); }
+  .pm-update { position: sticky; top: 0; z-index: 40; display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap;
+               padding: 10px 16px; background: var(--mint, #5ef2cc); color: #000; font-weight: 600; }
+  .pm-update .btn { background: #000; color: #fff; border-color: #000; }
   [hidden] { display: none !important; }
   @media (max-width: 640px) { .pm-hero { grid-template-columns: 1fr auto; } .pm-hero img { width: 84px; height: 84px; } }
 </style>
@@ -63,6 +71,10 @@
 <!-- Fly Pet on phones (2026-11-16, the user: the pet "for mobile ... without coach just chat and notifications", option A:
      an installable page, no app store). Install it (Add to Home Screen), sign in, turn notifications on and choose which
      (mine/src/push.ts sends them; pet-sw.js shows them); the chat is the site's own (nav.js flyNav.chat). -->
+<div class="pm-update" id="pm-update" hidden role="status">
+  <span data-i18n="petmobile.update.ready">A new version of Fly Pet is ready.</span>
+  <button type="button" class="btn sm" id="pm-reload" data-i18n="petmobile.update.button">Refresh</button>
+</div>
 <header class="pagehead">
   <div class="wrap pm-hero">
     <div>
@@ -85,7 +97,7 @@
           <h3 data-i18n="petmobile.install.title">Add it to your home screen</h3>
           <p id="in-done" hidden data-i18n="petmobile.install.done">Installed. You're using the app.</p>
           <div id="in-ios" hidden>
-            <p data-i18n="petmobile.install.ios">In Safari:</p>
+            <p data-i18n="petmobile.install.ios">In Safari (not your wallet's browser):</p>
             <ol class="pm-ios">
               <li data-i18n="petmobile.install.ios1">Tap the Share button (the square with an arrow).</li>
               <li data-i18n="petmobile.install.ios2">Tap "Add to Home Screen", then "Add".</li>
@@ -116,6 +128,7 @@
           <p id="sg-out" data-i18n="petmobile.sign.out">The same sign-in as the website. Your fly's money never moves from here.</p>
           <button type="button" class="btn sm" id="sg-btn" data-nav-signin data-i18n="petmobile.sign.button">Sign in</button>
           <p id="sg-in" hidden><span data-i18n="petmobile.sign.in">Signed in as</span> <code id="sg-who"></code></p>
+          <p class="fine" id="sg-ios" hidden data-i18n="petmobile.sign.ios">On iPhone, the home screen app has its own sign-in: sign in again here. After you approve in your wallet app, switch back to Fly Pet yourself.</p>
         </div>
       </div>
 
@@ -125,6 +138,7 @@
         <div>
           <h3 data-i18n="petmobile.push.title">Turn on notifications</h3>
           <p id="pu-need" hidden data-i18n="petmobile.push.need">Do steps 1 and 2 first.</p>
+          <p id="pu-iosfirst" hidden data-i18n="petmobile.push.iosFirst">On iPhone, notifications only work in the Fly Pet app on your home screen. Add it with step 1 (Share, then "Add to Home Screen"), open it from your home screen, and turn them on there.</p>
           <p id="pu-nosupport" hidden data-i18n="petmobile.push.nosupport">This browser can't get notifications. On iPhone, open Fly Pet from your home screen (step 1).</p>
           <p id="pu-blocked" hidden data-i18n="petmobile.push.blocked">Notifications are blocked for this site. Allow them in your phone's settings, then come back.</p>
           <button type="button" class="btn sm" id="pu-on" hidden data-i18n="petmobile.push.on">Turn on notifications</button>
@@ -139,12 +153,22 @@
               <label class="pm-toggle"><span><span data-i18n="petmobile.kind.alpha">Alpha calls</span><small data-i18n="petmobile.kind.alphaHint">The same calls as our Discord (a few a day)</small></span>
                 <input type="checkbox" data-kind="alpha"></label>
             </div>
+            <p class="fine" data-i18n="petmobile.push.after">Tap "Send a test": a notification should show within a few seconds, even with the app closed. After that they come by themselves (the server checks every minute).</p>
             <div class="pm-row" style="margin-top:10px">
               <button type="button" class="btn sm ghost" id="pu-test" data-i18n="petmobile.push.test">Send a test</button>
               <button type="button" class="btn sm ghost" id="pu-off" data-i18n="petmobile.push.off">Turn off on this phone</button>
             </div>
           </div>
           <p class="fine pm-msg" id="pu-msg" aria-live="polite"></p>
+          <details class="pm-help">
+            <summary data-i18n="petmobile.help.title">Not getting notifications?</summary>
+            <ul>
+              <li data-i18n="petmobile.help.safari">iPhone: add it from Safari and open it from the home screen icon, not from Safari or a wallet's browser.</li>
+              <li data-i18n="petmobile.help.ios">iPhone needs iOS 16.4 or newer (Settings, General, About).</li>
+              <li data-i18n="petmobile.help.settings">Check Settings, Notifications, Fly Pet is allowed, and that Focus or Do Not Disturb is off.</li>
+              <li data-i18n="petmobile.help.again">Still nothing? Tap "Turn off on this phone", then turn them on again.</li>
+            </ul>
+          </details>
           <span hidden id="t-saved" data-i18n="petmobile.msg.saved">Saved.</span>
           <span hidden id="t-sent" data-i18n="petmobile.msg.sent">Sent. It should show in a few seconds.</span>
           <span hidden id="t-fail" data-i18n="petmobile.msg.fail">That didn't work. Try again.</span>
@@ -166,6 +190,18 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="activity">
+  <div class="wrap">
+    <h2 data-i18n="petmobile.act.title">What your flies did</h2>
+    <p class="fine" data-i18n="petmobile.act.note">Buys and sells of the last 24 hours. Tap one to see that fly.</p>
+    <p class="fine" id="ac-out" data-i18n="petmobile.act.signin">Sign in (step 2) to see your flies here.</p>
+    <p class="fine" id="ac-none" hidden data-i18n="petmobile.act.none">No trades in the last 24 hours.</p>
+    <div class="pm-alpha" id="ac-list"></div>
+    <span hidden id="t-bought" data-i18n="petmobile.act.bought">bought</span>
+    <span hidden id="t-sold" data-i18n="petmobile.act.sold">sold</span>
   </div>
 </section>
 
@@ -196,8 +232,8 @@
 
 <script>window.flyaiLiveSession = true;</script>
 <script src="assets/site.js"></script>
-<script src="assets/nav.js?v=20261116a"></script>
+<script src="assets/nav.js?v=20261116b"></script>
 <script type="module" src="assets/i18n/page.js"></script>
-<script src="assets/pet-mobile.js?v=20261116a"></script>
+<script src="assets/pet-mobile.js?v=20261116e"></script>
 </body>
 </html>

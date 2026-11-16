@@ -609,6 +609,15 @@
     "buyWallet": "Yakmayı cüzdanında onayla…",
     "buyWaiting": "Zincir bekleniyor…",
     "buyDone": "+{n} mesaj",
-    "nftPage": "NFT sayfası"
+    "nftPage": "NFT sayfası",
+    "act": {
+      "buy": "{sym} aldı · {usd}",
+      "sell": "{sym} sattı · {usd}",
+      "deposit": "Para geldi · {usd}",
+      "withdraw": "Çekim gönderildi · {usd}",
+      "refund": "İade geldi · {usd}",
+      "grant": "Bonus geldi · {usd}",
+      "release": "Ödendi · {usd}"
+    }
   }
 }

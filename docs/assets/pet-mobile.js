@@ -120,6 +120,63 @@
     }).join("") : '<p class="fine">—</p>';
   }).catch(function () { $("al-list").innerHTML = '<p class="fine">—</p>'; });
 
+  // ---- what the flies did (2026-11-16, the user: the pet should show the buys, sells "as notifications/messages"): the
+  // signed-in wallet's flies' filled trades of the last day (mine pet.ts walletFeed), newest first; trade and money
+  // notifications open this list (#activity)
+  function ago(at) {
+    var m = Math.max(1, Math.round((Date.now() - at) / 60000));
+    return m < 60 ? m + "m" : Math.round(m / 60) + "h";
+  }
+  var actFor = null;
+  function loadActivity() {
+    var s = session();
+    show("ac-out", !s);
+    if (!s) { $("ac-list").innerHTML = ""; show("ac-none", false); actFor = null; return; }
+    if (actFor === s.wallet) return;
+    actFor = s.wallet;
+    fetch(READ() + "/api/pet/wallet/" + s.wallet).then(function (r) { return r.json(); }).then(function (j) {
+      var rows = [];
+      (j.flies || []).forEach(function (f) {
+        (f.trades || []).forEach(function (tr) { rows.push({ fly: f.id, at: tr.at, symbol: tr.symbol, side: tr.side, usd: tr.usd, pnl: tr.pnl_pct }); });
+      });
+      rows.sort(function (a, b) { return b.at - a.at; });
+      rows = rows.slice(0, 40);
+      show("ac-none", !rows.length);
+      var sym = function (x) { return String(x || "").replace(/^[a-z0-9]+:/i, "").split(".")[0]; };
+      $("ac-list").innerHTML = rows.map(function (r) {
+        var pnl = r.side !== "buy" && r.pnl != null ? " · " + (r.pnl >= 0 ? "+" : "") + Number(r.pnl).toFixed(1) + "%" : "";
+        return '<a class="pm-call pm-act" href="/traderflies/fly?id=' + r.fly + '"><span>' + (r.side === "buy" ? "🟢" : "🔴") + " Fly #" + r.fly + " "
+          + esc(word(r.side === "buy" ? "t-bought" : "t-sold")) + " <b>" + esc(sym(r.symbol)) + "</b> · $" + Math.abs(Number(r.usd) || 0).toFixed(2) + pnl
+          + "</span><small>" + ago(r.at) + "</small></a>";
+      }).join("");
+    }).catch(function () { actFor = null; });
+  }
+
+  // ---- a newer version (2026-11-16, the user: "show there is an update"): the page is never cached, but an app left open
+  // in the background keeps the copy it loaded. Every UPDATE_MS and on coming back, the live page's script version is
+  // compared with this one's; a newer one shows the bar, Refresh reloads (and refreshes the service worker)
+  var UPDATE_MS = 10 * 60 * 1000;
+  var mine = (function () {
+    var tag = document.querySelector('script[src*="pet-mobile.js"]');
+    var m = tag && /[?&]v=([\w-]+)/.exec(tag.getAttribute("src") || "");
+    return m ? m[1] : null;
+  })();
+  var lastCheck = 0;
+  function checkUpdate() {
+    if (!mine || Date.now() - lastCheck < 60 * 1000) return;
+    lastCheck = Date.now();
+    fetch("/pet-mobile", { cache: "no-store" }).then(function (r) { return r.ok ? r.text() : ""; }).then(function (html) {
+      var m = /pet-mobile\.js\?v=([\w-]+)/.exec(html);
+      if (m && m[1] !== mine) show("pm-update", true);
+    }).catch(function () {});
+  }
+  $("pm-reload").addEventListener("click", function () {
+    var go = function () { location.reload(); };
+    if (reg) reg.update().then(go, go); else go();
+  });
+  setInterval(checkUpdate, UPDATE_MS);
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) checkUpdate(); });
+
   // ---- the steps' state
   function render() {
     var s = session();
@@ -132,13 +189,16 @@
     $("st-install").classList.toggle("done", installed);
 
     show("sg-out", !s); show("sg-btn", !s); show("sg-in", !!s);
+    show("sg-ios", ios && standalone && !s);
     if (s) $("sg-who").textContent = s.wallet.slice(0, 6) + "…" + s.wallet.slice(-4);
     $("st-sign").classList.toggle("done", !!s);
 
     var perm = pushable ? Notification.permission : "unsupported";
     var on = !!(sub && prefs);
-    show("pu-need", !s);
-    show("pu-nosupport", !!s && !pushable);
+    show("pu-need", !s && !(ios && !standalone));
+    var iosTab = ios && !standalone;                  // Safari tab on iPhone: push only exists in the home-screen app
+    show("pu-iosfirst", iosTab);
+    show("pu-nosupport", !!s && !pushable && !iosTab);
     show("pu-blocked", !!s && pushable && perm === "denied");
     show("pu-on", !!s && pushable && perm !== "denied" && !on);
     show("pu-set", !!s && on);
@@ -146,7 +206,9 @@
     $("st-push").classList.toggle("done", on);
     $("st-chat").classList.toggle("done", false);
   }
-  window.addEventListener("flyai-session", function () { loadSub().then(render); });
+  window.addEventListener("flyai-session", function () { loadSub().then(render); loadActivity(); });
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) { actFor = null; loadActivity(); } });
+  loadActivity();
   loadSub().then(function () {
     render();
     var c = new URLSearchParams(location.search).get("chat");

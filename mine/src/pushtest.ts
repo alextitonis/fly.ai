@@ -56,7 +56,7 @@ const u = (s: string) => Buffer.from(s, "base64url");
     alpha: [{ symbol: "GTA6", chain: "solana", head: "GTA VI week" }] };
   const n = notesFor(PREFS_DEFAULT, ev, "/pet-mobile");
   check("one note a kind, alpha off by default", n.map((x) => x.kind).join() === "trades,chat", n.map((x) => x.kind).join());
-  check("trade wording", n[0]!.title === "Fly #12 bought AERO" && n[0]!.body === "$25.00 buy" && n[0]!.url === "/traderflies/fly?id=12");
+  check("trade wording", n[0]!.title === "Fly #12 bought AERO" && n[0]!.body === "$25.00 buy" && n[0]!.url === "/pet-mobile#activity");
   const all = notesFor({ ...PREFS_DEFAULT, alpha: true }, { ...ev, trades: [ev.trades[0]!, { ...ev.trades[0]!, side: "sell", symbol: "ZIG" }] }, "/pet-mobile");
   check("several trades are one summary", all[0]!.title === "2 new trades" && all.some((x) => x.kind === "alpha" && x.title === "Alpha: GTA6 (solana)"));
   check("prefs are cleaned", JSON.stringify(cleanPrefs({ trades: false, alpha: "yes", evil: true })) === JSON.stringify({ ...PREFS_DEFAULT, trades: false }));

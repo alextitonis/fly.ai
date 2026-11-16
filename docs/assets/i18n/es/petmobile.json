@@ -8,7 +8,7 @@
   "install": {
     "title": "Añádela a tu pantalla de inicio",
     "done": "Instalada. Estás usando la app.",
-    "ios": "En Safari:",
+    "ios": "En Safari (no en el navegador de tu billetera):",
     "ios1": "Toca el botón Compartir (el cuadrado con una flecha).",
     "ios2": "Toca \"Añadir a pantalla de inicio\" y luego \"Añadir\".",
     "ios3": "Abre Fly Pet desde tu pantalla de inicio y vuelve al paso 2.",
@@ -24,7 +24,8 @@
     "title": "Inicia sesión con tu billetera",
     "out": "El mismo inicio de sesión que la web. El dinero de tu mosca nunca se mueve desde aquí.",
     "button": "Iniciar sesión",
-    "in": "Sesión iniciada como"
+    "in": "Sesión iniciada como",
+    "ios": "En iPhone, la app de la pantalla de inicio tiene su propio inicio de sesión: inicia sesión de nuevo aquí. Después de aprobar en tu app de billetera, vuelve tú a Fly Pet."
   },
   "push": {
     "title": "Activa las notificaciones",
@@ -33,7 +34,9 @@
     "blocked": "Las notificaciones están bloqueadas para este sitio. Permítelas en los ajustes del móvil y vuelve.",
     "on": "Activar notificaciones",
     "test": "Enviar una prueba",
-    "off": "Desactivar en este móvil"
+    "off": "Desactivar en este móvil",
+    "iosFirst": "En iPhone, las notificaciones solo funcionan en la app Fly Pet de tu pantalla de inicio. Añádela con el paso 1 (Compartir y luego \"Añadir a pantalla de inicio\"), ábrela desde ahí y actívalas allí.",
+    "after": "Toca \"Enviar una prueba\": debería aparecer una notificación en unos segundos, incluso con la app cerrada. Después llegan solas (el servidor revisa cada minuto)."
   },
   "kind": {
     "trades": "Operaciones",
@@ -61,5 +64,24 @@
   "alpha": {
     "title": "Últimas alpha calls",
     "note": "Son calls, no consejos: revisa siempre el token tú mismo."
+  },
+  "help": {
+    "title": "¿No recibes notificaciones?",
+    "safari": "iPhone: añádela desde Safari y ábrela desde el icono de la pantalla de inicio, no desde Safari ni desde el navegador de una billetera.",
+    "ios": "iPhone necesita iOS 16.4 o posterior (Ajustes, General, Información).",
+    "settings": "Revisa que en Ajustes, Notificaciones, Fly Pet esté permitido y que Concentración o No molestar esté desactivado.",
+    "again": "¿Sigue sin funcionar? Toca \"Desactivar en este móvil\" y vuelve a activarlas."
+  },
+  "act": {
+    "title": "Qué hicieron tus moscas",
+    "note": "Compras y ventas de las últimas 24 horas. Toca una para ver esa mosca.",
+    "signin": "Inicia sesión (paso 2) para ver tus moscas aquí.",
+    "none": "Sin operaciones en las últimas 24 horas.",
+    "bought": "compró",
+    "sold": "vendió"
+  },
+  "update": {
+    "ready": "Hay una versión nueva de Fly Pet.",
+    "button": "Actualizar"
   }
 }

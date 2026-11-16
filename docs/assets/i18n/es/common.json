@@ -609,6 +609,15 @@
     "buyWallet": "Confirma la quema en tu billetera…",
     "buyWaiting": "Esperando a la cadena…",
     "buyDone": "+{n} mensajes",
-    "nftPage": "Página del NFT"
+    "nftPage": "Página del NFT",
+    "act": {
+      "buy": "Compró {sym} · {usd}",
+      "sell": "Vendió {sym} · {usd}",
+      "deposit": "Dinero entrante · {usd}",
+      "withdraw": "Retiro enviado · {usd}",
+      "refund": "Reembolso · {usd}",
+      "grant": "Bono · {usd}",
+      "release": "Pagado · {usd}"
+    }
   }
 }

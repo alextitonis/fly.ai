@@ -1592,7 +1592,7 @@
       },
       "degen_sniper": {
         "title": "Degen Sniper",
-        "blurb": "Yüksek risk: Robinhood Chain ve Solana'da (SOL eklenince) yeni tokenları çıkıştan dakikalar sonra alır, Base, BNB ve Arbitrum'da genç tokenları alır. Hızlı satar: 2x'te hepsini, ya da öncesinde zirveden %20 düşüşte hepsini. Yeni tokenların çoğu batar; birkaçı uçar."
+        "blurb": "Yüksek risk: Robinhood Chain ve Solana'da (SOL eklenince) yeni tokenları çıkıştan dakikalar sonra alır, Base, BNB ve Arbitrum'da genç tokenları alır. Kazananları koşturur: 5x'te ya da mezun olunca hepsini, veya zirveden %40 düşüşte hepsini satar. Yeni tokenların çoğu batar; birkaçı uçar."
       },
       "longs_shorts": {
         "title": "Long ve Short",
