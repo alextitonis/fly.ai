@@ -2677,7 +2677,7 @@
   "coach": {
     "title": "Fly Pet 教练",
     "lede": "教练模式：你的苍蝇全程看着你的游戏，出现选择时告诉你最佳选择和概率。它只给建议：每一步都由你来走。免费提示（每天 3 次）无需任何东西。",
-    "getPet": "获取 Fly Pet（目前仅支持 Windows）→",
+    "getPet": "获取 Fly Pet（Windows、Mac、Linux）→",
     "yours": "你的教练通行证",
     "none": "没有通行证",
     "active": "有效",

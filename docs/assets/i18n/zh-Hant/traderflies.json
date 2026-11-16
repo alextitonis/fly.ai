@@ -2677,7 +2677,7 @@
   "coach": {
     "title": "Fly Pet 教練",
     "lede": "教練模式：你的蒼蠅全程看著你的遊戲，出現選擇時告訴你最佳選擇和機率。它只給建議：每一步都由你來走。免費提示（每天 3 次）無需任何東西。",
-    "getPet": "取得 Fly Pet（目前僅支援 Windows）→",
+    "getPet": "取得 Fly Pet（Windows、Mac、Linux）→",
     "yours": "你的教練通行證",
     "none": "沒有通行證",
     "active": "有效",

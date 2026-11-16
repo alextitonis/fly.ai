@@ -1,7 +1,7 @@
 {
   "title": "Fly Pet: masaüstündeki sineğin",
   "head": {
-    "eyebrow": "Ücretsiz masaüstü uygulaması · şimdilik yalnızca Windows",
+    "eyebrow": "Ücretsiz masaüstü uygulaması · Windows, macOS ve Linux",
     "title": "Fly Pet",
     "lede": "Masaüstünde yaşayan küçük bir sinek. Seninle sohbet eder, Trader Fly'ının ne yaptığını anlatır, alpha call'ları paylaşır ve oyunlarında koçluk yapar."
   },
@@ -9,11 +9,15 @@
     "win": "Windows için indir",
     "mac": "Şimdilik yalnızca Windows · macOS ve Linux yakında",
     "linux": "Linux: yakında",
-    "note": "Microsoft Store sürümü Microsoft tarafından imzalanır ve kendini günceller. GitHub'daki .exe henüz imzalı değil: Windows uyarırsa \"Ek bilgi\"ye, sonra \"Yine de çalıştır\"a tıkla. Windows 10 ve 11; macOS ve Linux yakında.",
+    "note": "Microsoft Store sürümü Microsoft tarafından imzalıdır ve kendini günceller. GitHub'daki .exe henüz imzalı değil: Windows uyarırsa \"Ek bilgi\"ye, sonra \"Yine de çalıştır\"a tıkla.",
     "store": "Microsoft Store'dan al",
     "exe": ".exe indir",
     "code": "Kaynak kodu",
-    "phone": "Telefonunda"
+    "phone": "Telefonunda",
+    "macBtn": "Mac için indir",
+    "linuxBtn": "Linux (.AppImage)",
+    "debBtn": "Linux (.deb)",
+    "macNote": "Mac: uygulama henüz Apple tarafından imzalı değil. İlk seferde Uygulamalar'da Fly Pet'e sağ tıklayıp Aç'ı seç. Oyun koçu için istendiğinde Ekran Kaydı'na izin ver. Linux: .AppImage'ı çalıştırılabilir yap ya da .deb'i kur. Mac ve Linux'ta koç için oyun penceresini kendin seç (otomatik algılama yalnızca Windows'ta)."
   },
   "f": {
     "desk": {

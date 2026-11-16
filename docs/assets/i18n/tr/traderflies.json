@@ -2679,7 +2679,7 @@
   "coach": {
     "title": "Fly Pet Koçu",
     "lede": "Koç modu: sineğin tüm oturum boyunca oyununu izler ve bir seçim olduğunda olasılığıyla söyler. Sadece önerir: her hamleyi sen yaparsın. Ücretsiz ipuçları (günde 3) için bir şey gerekmez.",
-    "getPet": "Fly Pet'i edin (şimdilik yalnızca Windows) →",
+    "getPet": "Fly Pet'i edin (Windows, Mac, Linux) →",
     "yours": "Koç pasın",
     "none": "Pas yok",
     "active": "Aktif",

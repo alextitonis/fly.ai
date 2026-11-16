@@ -40,7 +40,7 @@
 <header class="pagehead">
   <div class="wrap pet-hero">
     <div>
-      <p class="eyebrow" data-i18n="flypet.head.eyebrow">Free desktop app · Windows only for now</p>
+      <p class="eyebrow" data-i18n="flypet.head.eyebrow">Free desktop app · Windows, macOS and Linux</p>
       <h1 data-i18n="flypet.head.title">Fly Pet</h1>
       <p class="lede" data-i18n="flypet.head.lede">A tiny fly that lives on your desktop. It chats with you, tells you what your Trader Fly is doing, shares alpha calls, and coaches you in your games.</p>
       <div class="pet-dl">
@@ -48,11 +48,16 @@
              updates itself), the installer on GitHub, or the source -->
         <a class="btn" href="https://apps.microsoft.com/detail/9MZXQ4T6R3FC" target="_blank" rel="noopener" data-i18n="flypet.dl.store">Get it from Microsoft Store</a>
         <a class="btn ghost" href="https://github.com/alextitonis/fly.ai/releases/latest/download/FlyPet-Setup.exe" data-i18n="flypet.dl.exe">Download .exe</a>
+        <!-- macOS and Linux (2026-11-16): built by the flypet workflow, attached to the release by hand -->
+        <a class="btn ghost" href="https://github.com/alextitonis/fly.ai/releases/latest/download/FlyPet.dmg" data-i18n="flypet.dl.macBtn">Download for Mac</a>
+        <a class="btn ghost" href="https://github.com/alextitonis/fly.ai/releases/latest/download/FlyPet.AppImage" data-i18n="flypet.dl.linuxBtn">Linux (.AppImage)</a>
+        <a class="btn ghost" href="https://github.com/alextitonis/fly.ai/releases/latest/download/FlyPet.deb" data-i18n="flypet.dl.debBtn">Linux (.deb)</a>
         <a class="btn ghost" href="https://github.com/alextitonis/fly.ai/tree/main/flypet" target="_blank" rel="noopener" data-i18n="flypet.dl.code">Source code</a>
         <!-- 2026-11-16: the phone version (pet-mobile.html: chat + notifications, installable, no store) -->
         <a class="btn ghost" href="/pet-mobile" data-i18n="flypet.dl.phone">On your phone</a>
       </div>
-      <p class="fine" data-i18n="flypet.dl.note">The Microsoft Store version is signed by Microsoft and updates itself. The .exe from GitHub isn't signed yet: if Windows warns, click "More info", then "Run anyway". Windows 10 and 11; macOS and Linux soon.</p>
+      <p class="fine" data-i18n="flypet.dl.note">The Microsoft Store version is signed by Microsoft and updates itself. The .exe from GitHub isn't signed yet: if Windows warns, click "More info", then "Run anyway".</p>
+      <p class="fine" data-i18n="flypet.dl.macNote">Mac: the app isn't signed by Apple yet. The first time, right-click Fly Pet in Applications and pick Open. For the game coach, allow Screen Recording when asked. Linux: make the .AppImage executable, or install the .deb. On Mac and Linux, pick the game window for the coach yourself (auto-detect is Windows only).</p>
     </div>
     <img src="assets/flypet/fly.gif" alt="" width="160" height="160">
   </div>

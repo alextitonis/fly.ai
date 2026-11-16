@@ -1,7 +1,7 @@
 {
   "title": "Fly Pet: tu mosca en tu escritorio",
   "head": {
-    "eyebrow": "App de escritorio gratis · solo Windows por ahora",
+    "eyebrow": "App de escritorio gratis · Windows, macOS y Linux",
     "title": "Fly Pet",
     "lede": "Una pequeña mosca que vive en tu escritorio. Chatea contigo, te cuenta qué hace tu Trader Fly, comparte alpha calls y te entrena en tus juegos."
   },
@@ -9,11 +9,15 @@
     "win": "Descargar para Windows",
     "mac": "Solo Windows por ahora · macOS y Linux pronto",
     "linux": "Linux: pronto",
-    "note": "La versión de Microsoft Store está firmada por Microsoft y se actualiza sola. El .exe de GitHub aún no está firmado: si Windows avisa, haz clic en \"Más información\" y luego en \"Ejecutar de todas formas\". Windows 10 y 11; macOS y Linux pronto.",
+    "note": "La versión de Microsoft Store está firmada por Microsoft y se actualiza sola. El .exe de GitHub aún no está firmado: si Windows avisa, haz clic en \"Más información\" y luego en \"Ejecutar de todas formas\".",
     "store": "Consíguelo en Microsoft Store",
     "exe": "Descargar .exe",
     "code": "Código fuente",
-    "phone": "En tu móvil"
+    "phone": "En tu móvil",
+    "macBtn": "Descargar para Mac",
+    "linuxBtn": "Linux (.AppImage)",
+    "debBtn": "Linux (.deb)",
+    "macNote": "Mac: la app aún no está firmada por Apple. La primera vez, haz clic derecho en Fly Pet en Aplicaciones y elige Abrir. Para el coach de juegos, permite la Grabación de pantalla cuando lo pida. Linux: haz ejecutable el .AppImage o instala el .deb. En Mac y Linux, elige tú la ventana del juego para el coach (la detección automática es solo para Windows)."
   },
   "f": {
     "desk": {

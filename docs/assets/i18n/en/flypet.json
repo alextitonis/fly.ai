@@ -1,7 +1,7 @@
 {
   "title": "Fly Pet: your fly on your desktop",
   "head": {
-    "eyebrow": "Free desktop app · Windows only for now",
+    "eyebrow": "Free desktop app · Windows, macOS and Linux",
     "title": "Fly Pet",
     "lede": "A tiny fly that lives on your desktop. It chats with you, tells you what your Trader Fly is doing, shares alpha calls, and coaches you in your games."
   },
@@ -9,11 +9,15 @@
     "win": "Download for Windows",
     "mac": "Windows only for now · macOS and Linux soon",
     "linux": "Linux: soon",
-    "note": "The Microsoft Store version is signed by Microsoft and updates itself. The .exe from GitHub isn't signed yet: if Windows warns, click \"More info\", then \"Run anyway\". Windows 10 and 11; macOS and Linux soon.",
+    "note": "The Microsoft Store version is signed by Microsoft and updates itself. The .exe from GitHub isn't signed yet: if Windows warns, click \"More info\", then \"Run anyway\".",
     "store": "Get it from Microsoft Store",
     "exe": "Download .exe",
     "code": "Source code",
-    "phone": "On your phone"
+    "phone": "On your phone",
+    "macBtn": "Download for Mac",
+    "linuxBtn": "Linux (.AppImage)",
+    "debBtn": "Linux (.deb)",
+    "macNote": "Mac: the app isn't signed by Apple yet. The first time, right-click Fly Pet in Applications and pick Open. For the game coach, allow Screen Recording when asked. Linux: make the .AppImage executable, or install the .deb. On Mac and Linux, pick the game window for the coach yourself (auto-detect is Windows only)."
   },
   "f": {
     "desk": {

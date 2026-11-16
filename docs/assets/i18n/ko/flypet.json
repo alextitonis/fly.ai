@@ -1,7 +1,7 @@
 {
   "title": "Fly Pet: 바탕화면 위의 내 파리",
   "head": {
-    "eyebrow": "무료 데스크톱 앱 · 현재 Windows 전용",
+    "eyebrow": "무료 데스크톱 앱 · Windows, macOS, Linux",
     "title": "Fly Pet",
     "lede": "바탕화면에 사는 작은 파리. 대화하고, 내 Trader Fly가 무엇을 하는지 알려주고, 알파 콜을 공유하고, 게임을 코치해 줘요."
   },
@@ -9,11 +9,15 @@
     "win": "Windows용 다운로드",
     "mac": "현재 Windows 전용 · macOS와 Linux는 곧",
     "linux": "Linux: 곧",
-    "note": "Microsoft Store 버전은 Microsoft가 서명하고 자동으로 업데이트돼요. GitHub의 .exe는 아직 서명되지 않았어요: Windows가 경고하면 \"추가 정보\"를 누른 다음 \"실행\"을 누르세요. Windows 10, 11 지원; macOS와 Linux는 곧.",
+    "note": "Microsoft Store 버전은 Microsoft가 서명하며 자동으로 업데이트됩니다. GitHub의 .exe는 아직 서명되지 않았습니다. Windows가 경고하면 \"추가 정보\"를 누른 뒤 \"실행\"을 누르세요.",
     "store": "Microsoft Store에서 받기",
     "exe": ".exe 다운로드",
     "code": "소스 코드",
-    "phone": "휴대폰에서"
+    "phone": "휴대폰에서",
+    "macBtn": "Mac용 다운로드",
+    "linuxBtn": "Linux (.AppImage)",
+    "debBtn": "Linux (.deb)",
+    "macNote": "Mac: 앱이 아직 Apple 서명을 받지 않았습니다. 처음에는 응용 프로그램에서 Fly Pet을 우클릭하고 열기를 선택하세요. 게임 코치를 쓰려면 요청 시 화면 기록을 허용하세요. Linux: .AppImage에 실행 권한을 주거나 .deb를 설치하세요. Mac과 Linux에서는 코치용 게임 창을 직접 고르세요(자동 감지는 Windows 전용)."
   },
   "f": {
     "desk": {
