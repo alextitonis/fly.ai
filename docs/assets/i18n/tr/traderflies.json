@@ -1164,7 +1164,7 @@
   "wallet": {
     "watch": {
       "title": "Sineğinin her zaman izlediği tokenler",
-      "text": "$FLYAI her zaman listede. Robinhood Chain, Base, BNB Chain veya Arbitrum'da adresle 5 tokene kadar ekle: sineğin bunları alır, her birinin bir kısmını tutar ve kalanını düşüşlerde işlem yapar. Listede token varken beyin yalnızca bunlara ve $FLYAI'ye bakar.",
+      "text": "$FLYAI her zaman listede. Robinhood Chain, Base, BNB Chain veya Arbitrum'da adresle 5 tokene kadar ekle (cüzdan $100'ı geçince 10, $500'ı geçince 15): sineğin bunları alır, her birinin bir kısmını tutar ve kalanını düşüşlerde işlem yapar. Listede token varken beyin yalnızca bunlara ve $FLYAI'ye bakar.",
         "away": "Base, BNB Chain veya Arbitrum'daki tokenler sineğinin dolarlarıyla Relay üzerinden (işlem başına en az $25) ya da BNB Chain'deki BNB'siyle alınır, aynı yolla geri satılır.",
         "suggested": "Ekibin önerileri:",
         "solana": "Solana tokenleri sineğinin SOL'üyle alınır (Solana'yı aç ve kartından SOL ekle), asla dolarlarıyla değil.",
@@ -1701,6 +1701,11 @@
       "arbitrum": "Arbitrum"
     },
     "maker": {
+      "chain": "Zincir",
+      "chains": {"robinhood": "Robinhood Chain (GIGA DEX)", "bsc": "BNB Chain (PancakeSwap)", "solana": "Solana (Orca)"},
+      "add": "+ Piyasa yapıcı ekle",
+      "remove": "Kaldır",
+      "soon": "yakında",
       "title": "Piyasa yap",
       "text": "Sineğin, seçtiğin cüzdan payıyla bir tokenin USDG karşısındaki GIGA DEX havuzuna likidite sağlar: fiyatın etrafında, fiyat hareket ettikçe yeniden ortalanan ve havuzun işlem ücretlerini toplayan bir bant (Fly Maker'ın Sabit bandı).",
       "on": "Bu token için piyasa yap",

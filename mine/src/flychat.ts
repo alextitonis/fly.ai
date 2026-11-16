@@ -46,7 +46,7 @@ const PAGE = 40;
 const E18 = 10n ** 18n;
 const ADDRESS = /^0x[0-9a-f]{40}$/;
 const FLYAI = "0x0088ce7905025c4b5ea1d49ab6179b6aaadb3b9c";
-export const WATCH_MAX = 5;
+export const WATCH_MAX = 15;   // the document's most; the desk counts what the wallet's size allows (wsettings.watch_limit, 2026-11-16)
 /** chat ids from here up are partner NFTs (partners.ts CHAT_SPAN): Trader Flies stay far below */
 export const PARTNER_IDS = 1_000_000_000;
 const CHAINS = ["robinhood", "base", "bsc", "arbitrum"];

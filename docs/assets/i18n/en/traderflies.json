@@ -1164,7 +1164,7 @@
   "wallet": {
     "watch": {
       "title": "Tokens your fly always watches",
-      "text": "$FLYAI is always on the list. Add up to 5 tokens by address, on Robinhood Chain, Base, BNB Chain or Arbitrum: your fly buys them, keeps part of each and trades the rest on dips. While you have any, the brain looks only at these and $FLYAI.",
+      "text": "$FLYAI is always on the list. Add up to 5 tokens (10 once the wallet is over $100, 15 over $500) by address, on Robinhood Chain, Base, BNB Chain or Arbitrum: your fly buys them, keeps part of each and trades the rest on dips. While you have any, the brain looks only at these and $FLYAI.",
         "away": "Tokens on Base, BNB Chain or Arbitrum are bought with your fly's dollars through Relay (at least $25 a trade), or with its BNB on BNB Chain, and sold back the same way.",
         "suggested": "Suggested by the team:",
         "solana": "Solana tokens are bought with your fly's SOL (switch Solana on and add SOL on its card), never with its dollars.",
@@ -1701,6 +1701,11 @@
       "arbitrum": "Arbitrum"
     },
     "maker": {
+      "chain": "Chain",
+      "chains": {"robinhood": "Robinhood Chain (GIGA DEX)", "bsc": "BNB Chain (PancakeSwap)", "solana": "Solana (Orca)"},
+      "add": "+ Add a maker",
+      "remove": "Remove",
+      "soon": "soon",
       "title": "Make a market",
       "text": "Your fly provides liquidity for one token on its GIGA DEX pool against USDG, with the share of the wallet you choose: a band around the price that re-centers as the price moves and collects the pool's trading fees (Fly Maker's Steady band).",
       "on": "Make a market for this token",

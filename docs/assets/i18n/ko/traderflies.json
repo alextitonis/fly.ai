@@ -1162,7 +1162,7 @@
   "wallet": {
     "watch": {
       "title": "플라이가 항상 지켜보는 토큰",
-      "text": "$FLYAI는 항상 목록에 있습니다. Robinhood Chain, Base, BNB Chain, Arbitrum의 토큰을 주소로 5개까지 추가하세요. 플라이가 이를 매수해 일부는 보유하고 나머지는 하락 때 거래합니다. 하나라도 있으면 브레인은 이 토큰들과 $FLYAI만 봅니다.",
+      "text": "$FLYAI는 항상 목록에 있습니다. Robinhood Chain, Base, BNB Chain, Arbitrum의 토큰을 주소로 5개까지 추가하세요 (지갑이 $100를 넘으면 10개, $500를 넘으면 15개). 플라이가 이를 매수해 일부는 보유하고 나머지는 하락 때 거래합니다. 하나라도 있으면 브레인은 이 토큰들과 $FLYAI만 봅니다.",
         "away": "Base, BNB Chain, Arbitrum 토큰은 플라이의 달러로 Relay를 통해(거래당 최소 $25) 또는 BNB Chain의 BNB로 매수하고, 같은 방식으로 매도합니다.",
         "suggested": "팀 추천:",
         "solana": "Solana 토큰은 플라이의 SOL로만 매수합니다(Solana를 켜고 카드에서 SOL을 추가하세요). 달러로는 사지 않습니다.",
@@ -1699,6 +1699,11 @@
       "arbitrum": "Arbitrum"
     },
     "maker": {
+      "chain": "체인",
+      "chains": {"robinhood": "Robinhood Chain (GIGA DEX)", "bsc": "BNB Chain (PancakeSwap)", "solana": "Solana (Orca)"},
+      "add": "+ 마켓 메이커 추가",
+      "remove": "삭제",
+      "soon": "곧",
       "title": "마켓 메이킹",
       "text": "당신의 파리가 선택한 지갑 비율로 한 토큰의 USDG 대비 GIGA DEX 풀에 유동성을 공급합니다: 가격 주변의 밴드가 가격이 움직이면 다시 중앙에 맞춰지고 풀의 거래 수수료를 모읍니다 (Fly Maker의 스테디 밴드).",
       "on": "이 토큰의 마켓 메이킹",

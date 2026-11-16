@@ -1164,7 +1164,7 @@
   "wallet": {
     "watch": {
       "title": "Tokens que tu mosca siempre vigila",
-      "text": "$FLYAI siempre está en la lista. Añade hasta 5 tokens por dirección, en Robinhood Chain, Base, BNB Chain o Arbitrum: tu mosca los compra, guarda una parte de cada uno y opera el resto en las caídas. Mientras tengas alguno, el cerebro solo mira estos y $FLYAI.",
+      "text": "$FLYAI siempre está en la lista. Añade hasta 5 tokens (10 cuando la billetera supera $100, 15 sobre $500) por dirección, en Robinhood Chain, Base, BNB Chain o Arbitrum: tu mosca los compra, guarda una parte de cada uno y opera el resto en las caídas. Mientras tengas alguno, el cerebro solo mira estos y $FLYAI.",
         "away": "Los tokens en Base, BNB Chain o Arbitrum se compran con los dólares de tu mosca a través de Relay (mínimo $25 por operación), o con su BNB en BNB Chain, y se venden de vuelta igual.",
         "suggested": "Sugeridos por el equipo:",
         "solana": "Los tokens de Solana se compran con el SOL de tu mosca (activa Solana y añade SOL en su tarjeta), nunca con sus dólares.",
@@ -1701,6 +1701,11 @@
       "arbitrum": "Arbitrum"
     },
     "maker": {
+      "chain": "Cadena",
+      "chains": {"robinhood": "Robinhood Chain (GIGA DEX)", "bsc": "BNB Chain (PancakeSwap)", "solana": "Solana (Orca)"},
+      "add": "+ Añadir un market maker",
+      "remove": "Quitar",
+      "soon": "pronto",
       "title": "Crear mercado",
       "text": "Tu mosca aporta liquidez a un token en su pool de GIGA DEX contra USDG, con la parte de la billetera que elijas: una banda alrededor del precio que se recentra cuando el precio se mueve y cobra las comisiones del pool (la Banda estable de Fly Maker).",
       "on": "Crear mercado para este token",

@@ -1162,7 +1162,7 @@
   "wallet": {
     "watch": {
       "title": "你的苍蝇一直关注的代币",
-      "text": "$FLYAI 一直在列表上。按地址添加最多 5 个代币（Robinhood Chain、Base、BNB Chain 或 Arbitrum）：你的苍蝇会买入它们，每个留一部分，其余在下跌时交易。只要列表里有代币，大脑只看这些和 $FLYAI。",
+      "text": "$FLYAI 一直在列表上。按地址添加最多 5 个代币（钱包超过 $100 时 10 个，超过 $500 时 15 个）（Robinhood Chain、Base、BNB Chain 或 Arbitrum）：你的苍蝇会买入它们，每个留一部分，其余在下跌时交易。只要列表里有代币，大脑只看这些和 $FLYAI。",
         "away": "Base、BNB Chain 或 Arbitrum 上的代币用苍蝇的美元通过 Relay 买入（每笔至少 $25），或用它在 BNB Chain 上的 BNB 买入，卖出时原路返回。",
         "suggested": "团队推荐：",
         "solana": "Solana 代币只用苍蝇的 SOL 买入（开启 Solana 并在其卡片上添加 SOL），绝不动用美元。",
@@ -1699,6 +1699,11 @@
       "arbitrum": "Arbitrum"
     },
     "maker": {
+      "chain": "链",
+      "chains": {"robinhood": "Robinhood Chain (GIGA DEX)", "bsc": "BNB Chain (PancakeSwap)", "solana": "Solana (Orca)"},
+      "add": "+ 添加做市",
+      "remove": "移除",
+      "soon": "即将推出",
       "title": "做市",
       "text": "你的苍蝇用你选择的钱包比例，为一个代币在 GIGA DEX 的 USDG 池中提供流动性：围绕价格的区间，价格移动时重新居中，并收取池子的交易手续费（Fly Maker 的稳定区间）。",
       "on": "为这个代币做市",
