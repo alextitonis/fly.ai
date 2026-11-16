@@ -22,7 +22,7 @@
     "@webgpu/types": "^0.1.72"
   },
   "description": "Fly Pet: a tiny fly that lives on your desktop",
-  "author": "fly.ai",
+  "author": { "name": "fly.ai", "email": "alex@flyaiworld.com" },
   "homepage": "https://www.flyaiworld.com/flypet",
   "repository": {
     "type": "git",
@@ -71,6 +71,7 @@
         "deb"
       ],
       "category": "Game",
+      "maintainer": "fly.ai <alex@flyaiworld.com>",
       "artifactName": "FlyPet.${ext}"
     },
     "appx": {

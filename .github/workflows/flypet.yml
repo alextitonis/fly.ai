@@ -43,7 +43,14 @@ jobs:
           Expand-Archive CodeSignTool.zip -DestinationPath "$env:RUNNER_TEMP\codesign"
           $dir = (Get-ChildItem "$env:RUNNER_TEMP\codesign" -Recurse -Filter CodeSignTool.bat | Select-Object -First 1).DirectoryName
           "CODE_SIGN_TOOL_DIR=$dir" >> $env:GITHUB_ENV
-      - run: npm run dist
+      # an empty secret is "not set": electron-builder read CSC_LINK="" as a file path (2026-11-16, the first macOS build)
+      - name: npm run dist
+        shell: bash
+        run: |
+          for v in CSC_LINK CSC_KEY_PASSWORD APPLE_ID APPLE_APP_SPECIFIC_PASSWORD APPLE_TEAM_ID ESIGNER_USERNAME ESIGNER_PASSWORD ESIGNER_CREDENTIAL_ID ESIGNER_TOTP_SECRET; do
+            [ -z "${!v}" ] && unset "$v"
+          done
+          npm run dist
         env:
           ESIGNER_USERNAME: ${{ secrets.ESIGNER_USERNAME }}
           ESIGNER_PASSWORD: ${{ secrets.ESIGNER_PASSWORD }}
