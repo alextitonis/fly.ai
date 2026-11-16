@@ -1166,6 +1166,8 @@
       "title": "Sineğinin her zaman izlediği tokenler",
       "text": "$FLYAI her zaman listede. Robinhood Chain, Base, BNB Chain veya Arbitrum'da adresle 5 token daha ekle: beyin ve seçenekler onları her zaman görür ve işlem yapabilir.",
         "away": "Base, BNB Chain veya Arbitrum'daki tokenler sineğinin dolarlarıyla Relay üzerinden (işlem başına en az $25) ya da BNB Chain'deki BNB'siyle alınır, aynı yolla geri satılır.",
+        "suggested": "Ekibin önerileri:",
+        "solana": "Solana tokenleri sineğinin SOL'üyle alınır (Solana'yı aç ve kartından SOL ekle), asla dolarlarıyla değil.",
       "flyai": "$FLYAI ev tokenidir: her sinek onu izler, kaldırılamaz.",
       "always": "her zaman",
       "remove": "Bu tokeni kaldır",

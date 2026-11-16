@@ -1164,6 +1164,8 @@
       "title": "你的蒼蠅一直關注的代幣",
       "text": "$FLYAI 始終在列表中。可按地址再新增最多 5 個代幣，支援 Robinhood Chain、Base、BNB Chain 或 Arbitrum：大腦和各選項始終能看到並交易它們。",
         "away": "Base、BNB Chain 或 Arbitrum 上的代幣用蒼蠅的美元透過 Relay 買入（每筆至少 $25），或用它在 BNB Chain 上的 BNB 買入，賣出時原路返回。",
+        "suggested": "團隊推薦：",
+        "solana": "Solana 代幣只用蒼蠅的 SOL 買入（開啟 Solana 並在其卡片上新增 SOL），絕不動用美元。",
       "flyai": "$FLYAI 是平台代幣：每隻蒼蠅都會關注，無法移除。",
       "always": "始終",
       "remove": "移除這個代幣",

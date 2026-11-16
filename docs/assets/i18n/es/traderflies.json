@@ -1166,6 +1166,8 @@
       "title": "Tokens que tu mosca siempre vigila",
       "text": "$FLYAI siempre está en la lista. Añade hasta 5 tokens más por dirección, en Robinhood Chain, Base, BNB Chain o Arbitrum: el cerebro y las opciones siempre los ven y pueden operarlos.",
         "away": "Los tokens en Base, BNB Chain o Arbitrum se compran con los dólares de tu mosca a través de Relay (mínimo $25 por operación), o con su BNB en BNB Chain, y se venden de vuelta igual.",
+        "suggested": "Sugeridos por el equipo:",
+        "solana": "Los tokens de Solana se compran con el SOL de tu mosca (activa Solana y añade SOL en su tarjeta), nunca con sus dólares.",
       "flyai": "$FLYAI es el token de la casa: todas las moscas lo vigilan y no se puede quitar.",
       "always": "siempre",
       "remove": "Quitar este token",
