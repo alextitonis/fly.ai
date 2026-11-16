@@ -1525,6 +1525,7 @@
       "min_age_hours": "이보다 오래됨",
       "max_age_hours": "이보다 새로움",
       "max_tax_pct": "세금 최대",
+      "max_meme_pct": "밈 최대",
       "goplus": "GoPlus가 깨끗하다고 본 토큰만"
     },
     "exits": "브레인 거래의 청산",
@@ -2175,6 +2176,7 @@
       "min_age_hours": "생긴 지 이 시간보다 짧은 토큰은 건너뜁니다.",
       "max_age_hours": "생긴 지 이 시간보다 오래된 토큰은 건너뜁니다.",
       "max_tax_pct": "매수나 매도에 이 %보다 많이 떼는 토큰은 건너뜁니다.",
+      "max_meme_pct": "밈을 지갑의 이 %까지로 제한합니다. 비우면 제한 없음 (Safe Majors와 Just earn은 25% 유지). 관심 토큰은 포함되지 않습니다.",
       "goplus": "GoPlus 보안 검사가 경고하는 토큰은 건너뜁니다: 허니팟, 숨은 발행, 소유자 장난."
     },
     "exit": {

@@ -1525,6 +1525,7 @@
       "min_age_hours": "上線超過",
       "max_age_hours": "上線未滿",
       "max_tax_pct": "稅率最多",
+      "max_meme_pct": "Meme 最多",
       "goplus": "只選 GoPlus 檢測安全的代幣"
     },
     "exits": "大腦交易的出場",
@@ -2175,6 +2176,7 @@
       "min_age_hours": "上線不到這麼多小時的代幣跳過。",
       "max_age_hours": "上線超過這麼多小時的代幣跳過。",
       "max_tax_pct": "買賣收稅超過這個 % 的代幣跳過。",
+      "max_meme_pct": "Meme 最多佔錢包的這個 %。留空：不設上限（Safe Majors 和 Just earn 保持 25%）。你關注的代幣不計入。",
       "goplus": "跳過 GoPlus 安全掃描標記的代幣：貔貅盤、隱藏增發、專案方後門。"
     },
     "exit": {

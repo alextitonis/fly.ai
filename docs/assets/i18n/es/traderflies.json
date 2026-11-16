@@ -1527,6 +1527,7 @@
       "min_age_hours": "Más antiguo que",
       "max_age_hours": "Más nuevo que",
       "max_tax_pct": "Impuesto máximo",
+      "max_meme_pct": "Memes como máximo",
       "goplus": "Solo tokens que GoPlus da por limpios"
     },
     "exits": "Salidas para las operaciones del cerebro",
@@ -2177,6 +2178,7 @@
       "min_age_hours": "Salta tokens con menos horas de vida que esto.",
       "max_age_hours": "Salta tokens con más horas de vida que esto.",
       "max_tax_pct": "Salta tokens que cobran más de este % al comprar o vender.",
+      "max_meme_pct": "Limita los memes a este % de la billetera. Vacío: sin límite (Safe Majors y Just earn mantienen 25%). Los tokens que vigilas no cuentan.",
       "goplus": "Salta tokens que el escaneo de seguridad de GoPlus marca: honeypots, mints ocultos, trucos del dueño."
     },
     "exit": {

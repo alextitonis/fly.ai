@@ -1527,6 +1527,7 @@
       "min_age_hours": "Şundan eski",
       "max_age_hours": "Şundan yeni",
       "max_tax_pct": "Vergi en fazla",
+      "max_meme_pct": "Memeler en fazla",
       "goplus": "Yalnızca GoPlus'ın temiz bulduğu token'lar"
     },
     "exits": "Beynin işlemleri için çıkışlar",
@@ -2177,6 +2178,7 @@
       "min_age_hours": "Bu kadar saatten genç tokenleri atlar.",
       "max_age_hours": "Bu kadar saatten yaşlı tokenleri atlar.",
       "max_tax_pct": "Alım veya satımda bu %'den fazla kesen tokenleri atlar.",
+      "max_meme_pct": "Memeleri cüzdanın bu %'si ile sınırlar. Boş: sınır yok (Safe Majors ve Just earn %25'te kalır). İzlediğin tokenler sayılmaz.",
       "goplus": "GoPlus güvenlik taramasının işaretlediği tokenleri atlar: honeypot, gizli basım, sahip hileleri."
     },
     "exit": {

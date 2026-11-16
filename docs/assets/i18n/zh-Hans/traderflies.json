@@ -1525,6 +1525,7 @@
       "min_age_hours": "上线超过",
       "max_age_hours": "上线不超过",
       "max_tax_pct": "税率至多",
+      "max_meme_pct": "Meme 至多",
       "goplus": "只选 GoPlus 检测安全的代币"
     },
     "exits": "大脑交易的退出设置",
@@ -2175,6 +2176,7 @@
       "min_age_hours": "上线不到这么多小时的代币跳过。",
       "max_age_hours": "上线超过这么多小时的代币跳过。",
       "max_tax_pct": "买卖收税超过这个 % 的代币跳过。",
+      "max_meme_pct": "Meme 最多占钱包的这个 %。留空：不设上限（Safe Majors 和 Just earn 保持 25%）。你关注的代币不计入。",
       "goplus": "跳过 GoPlus 安全扫描标记的代币：貔貅盘、隐藏增发、项目方后门。"
     },
     "exit": {

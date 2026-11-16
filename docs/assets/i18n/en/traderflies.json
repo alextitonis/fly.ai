@@ -1527,6 +1527,7 @@
       "min_age_hours": "Older than",
       "max_age_hours": "Younger than",
       "max_tax_pct": "Tax at most",
+      "max_meme_pct": "Memes at most",
       "goplus": "Only tokens GoPlus finds clean"
     },
     "exits": "Exits for the brain's trades",
@@ -2177,6 +2178,7 @@
       "min_age_hours": "Skips tokens younger than this many hours.",
       "max_age_hours": "Skips tokens older than this many hours.",
       "max_tax_pct": "Skips tokens that take more than this % on a buy or sell.",
+      "max_meme_pct": "Caps memes at this % of the wallet. Empty: no cap (Safe Majors and Just earn keep 25%). Tokens you watch don't count.",
       "goplus": "Skips tokens GoPlus's security scan flags: honeypots, hidden mints, owner tricks."
     },
     "exit": {
