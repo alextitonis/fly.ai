@@ -1162,7 +1162,8 @@
   "wallet": {
     "watch": {
       "title": "你的苍蝇一直关注的代币",
-      "text": "$FLYAI 始终在列表中。可按地址再添加最多 5 个 Robinhood Chain 代币：大脑和选项会一直看到并可以交易它们。",
+      "text": "$FLYAI 始终在列表中。可按地址再添加最多 5 个代币，支持 Robinhood Chain、Base、BNB Chain 或 Arbitrum：大脑和各选项始终能看到并交易它们。",
+        "away": "Base、BNB Chain 或 Arbitrum 上的代币用苍蝇的美元通过 Relay 买入（每笔至少 $25），或用它在 BNB Chain 上的 BNB 买入，卖出时原路返回。",
       "flyai": "$FLYAI 是平台代币：每只苍蝇都会关注，无法移除。",
       "always": "始终",
       "remove": "移除这个代币",
