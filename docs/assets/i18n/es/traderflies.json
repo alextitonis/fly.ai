@@ -1182,7 +1182,14 @@
         "take_profit_pct": "Tomar ganancias en",
         "stop_pct": "Stop en",
         "avg_hours": "Promedio de (horas, menos = más operaciones)",
-        "max_buy_usd": "Máximo por compra"
+        "max_buy_usd": "Máximo por compra",
+        "mode": "Modo",
+        "modeSwing": "Swing: compra caídas, vende rebotes",
+        "modeGrid": "Grid: opera a menudo dentro de un rango de precio",
+        "swingText": "Mantiene una parte de cada token y compra más cuando cae bajo su promedio, vendiendo esa parte en la toma de ganancias o el stop.",
+        "gridText": "Divide el dinero de cada token en lotes sobre líneas de precio separadas un paso alrededor del precio inicial. Cada línea que el precio cruza bajando compra un lote, cada línea que cruza subiendo vende uno, con cerca de un paso de ganancia cada vez, revisado cada 30 segundos. Sobre el rango vende todo y sube el rango tras una hora; el stop bajo la línea más baja vende todo. En Base y Arbitrum cada lote es de al menos $25 (la compra mínima de Relay).",
+        "grid_levels": "Líneas en el rango",
+        "grid_step_pct": "Paso entre líneas"
       },
       "risk": "Los tokens que añades se tratan como $FLYAI: sin controles anti-rug (tamaño del pool, antigüedad, GoPlus). Si uno hace rug, tu mosca puede perder lo que tenga de él."
     },
@@ -1907,11 +1914,11 @@
     "holdingNote": "\"manteniendo\" = la mosca aún no ha vendido nada. Una billetera nueva muestra al principio un pequeño negativo: cada compra paga la comisión del pool y el gas, así que las posiciones abiertas empiezan un poco por debajo de su costo. Cambia cuando suben o se venden.",
     "maxDrop": "Caída máx.",
     "pctTip": "Ganancia como % de todo el dinero que se ha puesto en esta billetera, incluidos los depósitos retirados después.",
-    "trendTitle": "Ganancia de todas las wallets",
+    "trendTitle": "Ganancia de todas las wallets, desde el inicio",
     "pace": "Ritmo:",
     "perDay": "/día",
-    "in30": "30 días a este ritmo:",
-    "trendNote": "La ganancia de cada wallet mostrada, sumada hora a hora. La línea discontinua sigue el ritmo medio de los últimos 7 días; la banda sombreada es la oscilación habitual. Es una proyección, no una promesa: los mercados cambian."
+    "in30": "En 30 días a este ritmo:",
+    "trendNote": "La ganancia total de todas las wallets mostradas, hora a hora durante los últimos 7 días. La línea discontinua sigue el ritmo medio de los últimos 7 días. Es una proyección, no una promesa: los mercados cambian."
   },
   "utility": {
     "title": "Qué hace una Trader Fly",
@@ -2753,7 +2760,6 @@
     "cantRead": "No se pudo cargar el P&L de esta mosca; inténtalo pronto.",
     "projTag": "a este ritmo",
     "projBy": "Para el {when}, a este ritmo",
-    "projRange": "probable {lo} a {hi}",
     "projNote": "proyección, no una promesa"
   },
   "league": {

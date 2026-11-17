@@ -142,20 +142,21 @@
       return;
     }
     // where the pot heads at its current pace (2026-11-17, the user: "a projections line too ... future projection
-    // according to current stats"): the shown bars' average step carried a third of the span ahead, ± one spread of the
-    // steps × √steps as a band. Same model as the leaderboard's (flytrade/web/src/PnlChart.tsx projectOf). Not a promise.
+    // according to current stats"): the shown bars' average step carried a third of the span ahead. Same model as the
+    // leaderboard's (flytrade/web/src/PnlChart.tsx projectOf). No band and no line while the pace is flat or down (the user:
+    // "don't show like minus posibility that's not good for marketing"). Not a promise.
     const proj = (() => {
       const v = lines[0].data, ix = v.map((_, i) => i).filter((i) => v[i] != null);
       if (lines[0].key !== "pot" || ix.length < 6) return null;
       const inc = ix.slice(1).map((i, k) => (v[i] - v[ix[k]]) / (i - ix[k]));
       const drift = inc.reduce((a, b) => a + b, 0) / inc.length;
-      const sd = Math.sqrt(inc.reduce((a, b) => a + (b - drift) ** 2, 0) / Math.max(1, inc.length - 1));
+      if (!(drift > 0)) return null;
       const last = ix[ix.length - 1], steps = Math.max(1, Math.round((n - 1) / 3));
-      const mid = v[last] + drift * steps, band = sd * Math.sqrt(steps);
+      const mid = v[last] + drift * steps;
       const dt = (Date.parse(s.times[n - 1]) - Date.parse(s.times[0])) / (n - 1);
-      return { from: last, steps, mid, lo: mid - band, hi: mid + band, at: new Date(Date.parse(s.times[n - 1]) + dt * steps).toISOString() };
+      return { from: last, steps, mid, at: new Date(Date.parse(s.times[n - 1]) + dt * steps).toISOString() };
     })();
-    const all = lines.flatMap((l) => l.data).concat([start], proj ? [proj.lo, proj.hi] : []).filter((v) => v != null);
+    const all = lines.flatMap((l) => l.data).concat([start], proj ? [proj.mid] : []).filter((v) => v != null);
     let lo = Math.min(...all), hi = Math.max(...all);
     const pad = (hi - lo) * 0.08 || (ret ? 0.5 : Math.max(1, hi * 0.01));
     lo -= pad; hi += pad;
@@ -183,9 +184,8 @@
     if (proj) {
       const x0 = x(proj.from), y0 = y(lines[0].data[proj.from]), x1 = x(n - 1 + proj.steps);
       el("line", { x1: x(n - 1), x2: x(n - 1), y1: m.t, y2: H - m.b, stroke: "var(--line-2)", "stroke-width": 1 }, svg);
-      el("path", { d: `M${x0},${y0} L${x1},${y(proj.hi)} L${x1},${y(proj.lo)} Z`, fill: "var(--s-pot)", "fill-opacity": 0.1, stroke: "none" }, svg);
       el("path", { d: `M${x0},${y0} L${x1},${y(proj.mid)}`, fill: "none", stroke: "var(--s-pot)", "stroke-width": 2, "stroke-dasharray": "6 5", "vector-effect": "non-scaling-stroke" }, svg);
-      el("text", { x: x1 - 4, y: Math.max(m.t + 10, y(proj.hi) - 6), "text-anchor": "end", class: "proj-lbl" }, svg)
+      el("text", { x: x1 - 4, y: Math.max(m.t + 10, y(proj.mid) - 8), "text-anchor": "end", class: "proj-lbl" }, svg)
         .textContent = fmt(proj.mid, ret ? 1 : 0);
     }
     // hover
@@ -201,7 +201,6 @@
         cross.setAttribute("visibility", "hidden"); dots.forEach((d) => d.setAttribute("visibility", "hidden"));
         tip.innerHTML = `<div class="t">${esc(t("pot.projBy", { when: time(proj.at) }))}</div>` +
           `<div class="row"><span><i style="background:var(--s-pot)"></i> ${esc(t("pot.seriesTrend"))}</span><b>${esc(fmt(proj.mid, 2))}</b></div>` +
-          `<div class="row"><span>${esc(t("pot.projRange"))}</span><b>${esc(fmt(proj.lo, 2))} – ${esc(fmt(proj.hi, 2))}</b></div>` +
           `<div class="row"><span>${esc(t("pot.projNote"))}</span></div>`;
         tip.hidden = false;
         tip.style.left = Math.max(80, r.width - 90) + "px";

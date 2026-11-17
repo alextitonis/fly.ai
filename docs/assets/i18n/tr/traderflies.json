@@ -1182,7 +1182,14 @@
         "take_profit_pct": "Kâr al",
         "stop_pct": "Stop",
         "avg_hours": "Ortalama süresi (saat, kısa = daha çok işlem)",
-        "max_buy_usd": "Alım başına en fazla"
+        "max_buy_usd": "Alım başına en fazla",
+        "mode": "Mod",
+        "modeSwing": "Swing: düşüşte al, yükselişte sat",
+        "modeGrid": "Grid: bir fiyat aralığında sık işlem",
+        "swingText": "Her tokenin bir kısmını tutar, ortalamasının altına düştüğünde daha fazla alır ve o kısmı kâr al veya stop seviyesinde satar.",
+        "gridText": "Her tokenin parasını, başlangıç fiyatı etrafında birer adım aralıklı fiyat çizgilerindeki lotlara böler. Fiyatın aşağı geçtiği her çizgi bir lot alır, yukarı geçtiği her çizgi bir lot satar; her seferinde yaklaşık bir adım kâr, 30 saniyede bir kontrol edilir. Aralığın üstünde her şeyi satar ve bir saat sonra aralığı yukarı taşır; en alt çizginin altındaki stop her şeyi satar. Base ve Arbitrum'da her lot en az $25'dır (Relay'in en düşük alımı).",
+        "grid_levels": "Aralıktaki çizgi sayısı",
+        "grid_step_pct": "Çizgiler arası adım"
       },
       "risk": "Eklediğin tokenler $FLYAI gibi güvenilir sayılır: rug kontrolü yok (havuz büyüklüğü, havuz yaşı, GoPlus). Biri rug olursa sineğin ondaki payını kaybedebilir."
     },
@@ -1907,11 +1914,11 @@
     "holdingNote": "\"tutuyor\" = sinek henüz hiçbir şey satmadı. Yeni bir cüzdan başta küçük bir eksi gösterir: her alım havuz ücreti ve gas öder, bu yüzden açık pozisyonlar maliyetlerinin biraz altında başlar. Yükselince ya da satılınca döner.",
     "maxDrop": "Maks. düşüş",
     "pctTip": "Bu cüzdana yatırılan tüm paraya (sonradan çekilen yatırımlar dahil) göre kâr yüzdesi.",
-    "trendTitle": "Tüm cüzdanların kârı",
+    "trendTitle": "Tüm cüzdanların toplam kârı",
     "pace": "Hız:",
     "perDay": "/gün",
-    "in30": "Bu hızla 30 gün:",
-    "trendNote": "Gösterilen her cüzdanın kârı saat saat toplandı. Kesikli çizgi son 7 günün ortalama hızını ileri taşır; gölgeli bant olağan dalgalanmadır. Bu bir tahmin, söz değil: piyasalar değişir."
+    "in30": "Bu hızla 30 gün sonra:",
+    "trendNote": "Gösterilen tüm cüzdanların başlangıçtan bu yana kârı, son 7 gün saat saat. Kesikli çizgi son 7 günün ortalama hızını ileri taşır. Bu bir tahmin, söz değil: piyasalar değişir."
   },
   "utility": {
     "title": "Bir Trader Fly ne yapar",
@@ -2753,7 +2760,6 @@
     "cantRead": "Bu sineğin K/Z'si yüklenemedi; birazdan tekrar dene.",
     "projTag": "bu hızla",
     "projBy": "{when} itibarıyla, bu hızla",
-    "projRange": "muhtemelen {lo} ile {hi} arası",
     "projNote": "tahmin, söz değil"
   },
   "league": {

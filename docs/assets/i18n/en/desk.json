@@ -55,7 +55,6 @@
     "median": "Median fly",
     "seriesTrend": "At this pace",
     "projBy": "By {when}, at this pace",
-    "projRange": "Likely range",
     "projNote": "projection, not a promise"
   },
   "stats": {
