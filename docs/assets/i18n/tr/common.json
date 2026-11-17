@@ -574,7 +574,9 @@
       "pause": "Duraklat",
       "resume": "Devam et",
       "careful": "Daha temkinli",
-      "bolder": "Daha cesur"
+      "bolder": "Daha cesur",
+      "fastSwing": "Hızlı swing",
+      "grid": "Grid işlem"
     },
     "status": {
       "approved": "Tamam",

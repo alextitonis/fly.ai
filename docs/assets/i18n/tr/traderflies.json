@@ -1189,7 +1189,18 @@
         "swingText": "Her tokenin bir kısmını tutar, ortalamasının altına düştüğünde daha fazla alır ve o kısmı kâr al veya stop seviyesinde satar.",
         "gridText": "Her tokenin parasını, başlangıç fiyatı etrafında birer adım aralıklı fiyat çizgilerindeki lotlara böler. Fiyatın aşağı geçtiği her çizgi bir lot alır, yukarı geçtiği her çizgi bir lot satar; her seferinde yaklaşık bir adım kâr, 30 saniyede bir kontrol edilir. Aralığın üstünde her şeyi satar ve bir saat sonra aralığı yukarı taşır; en alt çizginin altındaki stop her şeyi satar. Base ve Arbitrum'da her lot en az $25'dır (Relay'in en düşük alımı).",
         "grid_levels": "Aralıktaki çizgi sayısı",
-        "grid_step_pct": "Çizgiler arası adım"
+        "grid_step_pct": "Çizgiler arası adım",
+        "presets": "Hazır ayarlar:",
+        "preset": {
+          "steady": "Sakin",
+          "steadyNote": "Swing: %70 tutar, 24 saatlik ortalamanın %4 altındaki düşüşleri alır, +%15 kâr alır",
+          "fast": "Hızlı swing",
+          "fastNote": "Swing: %40 tutar, 4 saatlik ortalamanın %2 altındaki düşüşleri alır, +%6 kâr, stop %10",
+          "grid": "Grid",
+          "gridNote": "%3 aralıklı 10 çizgi: her %3 harekette bir işlem",
+          "tight_grid": "Sık grid",
+          "tight_gridNote": "%2 aralıklı 20 çizgi, stop %10: en çok işlem"
+        }
       },
       "risk": "Eklediğin tokenler $FLYAI gibi güvenilir sayılır: rug kontrolü yok (havuz büyüklüğü, havuz yaşı, GoPlus). Biri rug olursa sineğin ondaki payını kaybedebilir."
     },
@@ -1918,7 +1929,7 @@
     "pace": "Hız:",
     "perDay": "/gün",
     "in30": "Bu hızla 30 gün sonra:",
-    "trendNote": "Gösterilen tüm cüzdanların başlangıçtan bu yana kârı, son 7 gün saat saat. Kesikli çizgi son 7 günün ortalama hızını ileri taşır. Bu bir tahmin, söz değil: piyasalar değişir."
+    "trendNote": "Gösterilen tüm cüzdanların başlangıçtan bu yana kârı, saat saat. Kesikli çizgi seçilen dönemin ortalama hızını ileri taşır. Bu bir tahmin, söz değil: piyasalar değişir."
   },
   "utility": {
     "title": "Bir Trader Fly ne yapar",

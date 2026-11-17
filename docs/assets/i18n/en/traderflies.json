@@ -1189,7 +1189,18 @@
         "swingText": "Keeps part of each token and buys more when it dips under its average, selling that part at the take-profit or the stop.",
         "gridText": "Splits each token's money into lots on price lines a step apart around the price it starts at. Every line the price falls through buys a lot, every line it rises back through sells one, about one step of profit each time, checked every 30 seconds. Above the range it sells everything and moves the range up after an hour; the stop below the lowest line sells everything. On Base and Arbitrum each lot is at least $25 (Relay's least buy).",
         "grid_levels": "Lines in the range",
-        "grid_step_pct": "Step between lines"
+        "grid_step_pct": "Step between lines",
+        "presets": "Presets:",
+        "preset": {
+          "steady": "Steady",
+          "steadyNote": "Swing: keeps 70%, buys 4% dips under the 24 h average, takes +15%",
+          "fast": "Fast swing",
+          "fastNote": "Swing: keeps 40%, buys 2% dips under the 4 h average, takes +6%, stop 10%",
+          "grid": "Grid",
+          "gridNote": "10 lines 3% apart: a trade every 3% move",
+          "tight_grid": "Tight grid",
+          "tight_gridNote": "20 lines 2% apart, stop 10%: the most trades"
+        }
       },
       "risk": "Tokens you add are trusted like $FLYAI: no rug checks (pool size, pool age, GoPlus). If one of them rugs, your fly can lose what it holds of it."
     },
@@ -1918,7 +1929,7 @@
     "pace": "Pace:",
     "perDay": "/day",
     "in30": "In 30 days at this pace:",
-    "trendNote": "All shown wallets' all-time profit, hour by hour over the last 7 days. The dashed line carries the last 7 days' average pace forward. A projection, not a promise: markets change."
+    "trendNote": "All shown wallets' all-time profit, hour by hour. The dashed line carries the chosen period's average pace forward. A projection, not a promise: markets change."
   },
   "utility": {
     "title": "What a Trader Fly does",

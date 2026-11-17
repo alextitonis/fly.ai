@@ -1189,7 +1189,18 @@
         "swingText": "Mantiene una parte de cada token y compra más cuando cae bajo su promedio, vendiendo esa parte en la toma de ganancias o el stop.",
         "gridText": "Divide el dinero de cada token en lotes sobre líneas de precio separadas un paso alrededor del precio inicial. Cada línea que el precio cruza bajando compra un lote, cada línea que cruza subiendo vende uno, con cerca de un paso de ganancia cada vez, revisado cada 30 segundos. Sobre el rango vende todo y sube el rango tras una hora; el stop bajo la línea más baja vende todo. En Base y Arbitrum cada lote es de al menos $25 (la compra mínima de Relay).",
         "grid_levels": "Líneas en el rango",
-        "grid_step_pct": "Paso entre líneas"
+        "grid_step_pct": "Paso entre líneas",
+        "presets": "Ajustes rápidos:",
+        "preset": {
+          "steady": "Estable",
+          "steadyNote": "Swing: mantiene 70%, compra caídas de 4% bajo el promedio de 24 h, toma +15%",
+          "fast": "Swing rápido",
+          "fastNote": "Swing: mantiene 40%, compra caídas de 2% bajo el promedio de 4 h, toma +6%, stop 10%",
+          "grid": "Grid",
+          "gridNote": "10 líneas a 3%: una operación cada movimiento de 3%",
+          "tight_grid": "Grid estrecho",
+          "tight_gridNote": "20 líneas a 2%, stop 10%: el máximo de operaciones"
+        }
       },
       "risk": "Los tokens que añades se tratan como $FLYAI: sin controles anti-rug (tamaño del pool, antigüedad, GoPlus). Si uno hace rug, tu mosca puede perder lo que tenga de él."
     },
@@ -1918,7 +1929,7 @@
     "pace": "Ritmo:",
     "perDay": "/día",
     "in30": "En 30 días a este ritmo:",
-    "trendNote": "La ganancia total de todas las wallets mostradas, hora a hora durante los últimos 7 días. La línea discontinua sigue el ritmo medio de los últimos 7 días. Es una proyección, no una promesa: los mercados cambian."
+    "trendNote": "La ganancia total de todas las wallets mostradas, hora a hora. La línea discontinua sigue el ritmo medio del periodo elegido. Es una proyección, no una promesa: los mercados cambian."
   },
   "utility": {
     "title": "Qué hace una Trader Fly",

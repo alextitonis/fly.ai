@@ -54,6 +54,20 @@ const MARKETS = ["memes", "majors", "stocks", "polymarket"];
 const EARN_MODES = ["off", "idle", "share", "only"];
 // "snipe" (2026-11-05): the sniper the owner can switch on - "launch" is the retired one, kept so an old one can be edited
 const OPTION_IDS = ["core", "poly", "trend", "dip", "momentum", "flush", "fresh", "reversal", "house", "launch", "snipe", "copy", "track", "fomo"];
+/** a watch entry: a Robinhood Chain address, or "<chain>:<address>" on another chain (vaults vwatch.py) */
+const ENTRY = /^((base|bsc|arbitrum):)?0x[0-9a-f]{40}$/;
+// the picks' settings (vaults wsettings PICKS_BOUNDS, 2026-11-17: grid mode + average window + most per buy)
+const PICKS_BOUNDS: Record<string, [number, number]> = {
+  bnb_pct: [0, 100], base_pct: [0, 100], dip_pct: [1, 50], take_profit_pct: [1, 500], stop_pct: [1, 95],
+  avg_hours: [1, 168], max_buy_usd: [5, 250], grid_levels: [2, 40], grid_step_pct: [0.5, 20] };
+/** ready-made ways to trade the picks (2026-11-17, the user: "presets for easier use"); the site's buttons are the same */
+export const PICKS_PRESETS: Record<string, Record<string, number | string>> = {
+  steady: { mode: "swing", base_pct: 70, dip_pct: 4, take_profit_pct: 15, stop_pct: 15, avg_hours: 24 },
+  fast: { mode: "swing", base_pct: 40, dip_pct: 2, take_profit_pct: 6, stop_pct: 10, avg_hours: 4 },
+  grid: { mode: "grid", grid_levels: 10, grid_step_pct: 3, stop_pct: 15 },
+  tight_grid: { mode: "grid", grid_levels: 20, grid_step_pct: 2, stop_pct: 10 } };
+const MAKER_CHAINS = ["robinhood", "bsc", "solana"];
+const MAKERS_MAX = 3;
 
 export type Card =
   | { kind: "settings"; summary: string; before: any; after: any }
@@ -88,8 +102,9 @@ export const TOOLS = [
     }, required: ["usd", "to_chain"] } } },
   { type: "function", function: {
     name: "watch_token",
-    description: "Propose adding a Robinhood Chain token (0x address) to the tokens this fly always watches (max 5). It is also sent to the Fly Desk for its rug checks. Watched tokens skip the fly's rug filters, so say so.",
-    parameters: { type: "object", properties: { address: { type: "string" } }, required: ["address"] } } },
+    description: "Propose adding a token (0x address) to the tokens this fly always watches and trades (its picks): on Robinhood Chain, Base, BNB Chain or Arbitrum. Up to 5 (10 once the wallet is over $100, 15 over $500). It is also sent to the Fly Desk for its rug checks. Watched tokens skip the fly's rug filters, so say so.",
+    parameters: { type: "object", properties: { address: { type: "string" },
+      chain: { type: "string", enum: CHAINS, description: "the token's chain, robinhood unless said" } }, required: ["address"] } } },
 ];
 
 const FLY_WHO = "You are a Trader Fly: a fly whose real brain (a fruit-fly connectome) trades the owner's wallet on Robinhood Chain (also Base, BNB, Arbitrum and sports bets).";
@@ -111,6 +126,8 @@ filters {min_liquidity, max_tax_pct, min_mcap, max_mcap, min_age_hours, max_age_
 brain {on, share_pct}, earn {mode: off|idle|share|only, share_pct} (lending idle cash; only = all cash lent, no trading), options [{id, on, share_pct, params}] (parts: core basket, poly = sports bets, trend, house = $FLYAI dips, copy, track, snipe = new launches...).
 elysium {on} (bool): Elysium, Hyperliquid's new chain (HYPE for gas), live since November 9. On by default for Degen Sniper. Trades only once the owner sends HYPE on Elysium to the fly's own address; with snipe on it snipes Elysium's new launches ($5 max each, 3 open, sold fast), else it just holds the HYPE. Money out is slow (HYPE to the owner's address on Elysium, the official bridge takes days). New chain, high risk.
 zero {on} (bool): Zero, LayerZero's own new chain (ZRO for gas), launching November 30. Off unless the owner turns it on; it is only a set-up for now: nothing trades or moves there before the launch. After it the owner adds ZRO on Zero to the fly's own address; with snipe on it snipes Zero's new launches (small, sold fast), else it holds the ZRO. New chain, high risk.
+picks {mode: swing|grid, preset, bnb_pct, max_buy_usd, stop_pct; swing: base_pct, dip_pct, take_profit_pct, avg_hours; grid: grid_levels 2..40, grid_step_pct 0.5..20}: how the fly trades its watched tokens. swing keeps base_pct of each and buys dips dip_pct under its avg_hours average, selling that part at take_profit_pct (of what the dip part cost) or stop_pct. grid splits each token's money into lots on grid_levels price lines grid_step_pct apart: a lot bought every line the price falls through, sold one line up (about one step of profit each round trip), checked every 30 seconds - for owners who want frequent trades; a step under Relay's costs (~1-4% on Base/Arbitrum memes) loses money, so suggest steps of 2%+ there. preset (instead of the numbers): steady (swing 70% base, 4% dip, 15% take, 24 h), fast (swing 40% base, 2% dip, 6% take, 10% stop, 4 h average), grid (10 lines 3% apart), tight_grid (20 lines 2% apart, 10% stop).
+makers [{on, chain: robinhood|bsc|solana, token, share_pct 5..100, width_pct 1..50}] (at most 3, given whole): market makers that put share_pct of the wallet into the token's pool (GIGA DEX / PancakeSwap v3 / Orca) for fees; a token with no pool has its dips and tops traded with the picks settings instead.
 snipe params: usd_per_launch 5..100, max_open 1..20, tp_x (sell at this multiple), tp_part 1..100 (% sold there; 100 = all), fall_pct 0..90 (sell all this % under the top, 0 = off), stop_pct, drain_pct, max_hold_hours, sol 0|1 (also Solana launches, from the fly's SOL). It needs 200,000 $FLYAI held.
 Ready-made setups (starter ids): {starters}.`;
 
@@ -167,6 +184,32 @@ export function mergeSettings(base: any, changes: any): any {
     });
     out.options = next;
   }
+  // the picks (2026-11-17, the user: "you can do these with chat ... presets for easier use"): a preset or the numbers
+  if (ch.picks && typeof ch.picks === "object" && !Array.isArray(ch.picks)) {
+    const pk = { ...(out.picks ?? {}) };
+    const pre = PICKS_PRESETS[String(ch.picks.preset ?? "")];
+    if (pre) Object.assign(pk, pre);
+    if (ch.picks.mode === "swing" || ch.picks.mode === "grid") pk.mode = ch.picks.mode;
+    for (const [k, [lo, hi]] of Object.entries(PICKS_BOUNDS)) {
+      const v = num(ch.picks[k], lo, hi);
+      if (v !== undefined) pk[k] = v;
+    }
+    out.picks = pk;
+  }
+  // the makers (vaults vmaker.py): the whole list, at most MAKERS_MAX
+  if (Array.isArray(ch.makers)) {
+    const had: any[] = Array.isArray(out.makers) ? out.makers : (out.maker ? [out.maker] : []);
+    out.makers = ch.makers.slice(0, MAKERS_MAX).filter((m: any) => m && typeof m === "object").map((m: any, i: number) => {
+      const was = had[i] ?? {};
+      const chain = MAKER_CHAINS.includes(m.chain) ? m.chain : (was.chain ?? "robinhood");
+      const tok = typeof m.token === "string" ? m.token.trim() : was.token ?? "";
+      const token = chain === "solana" ? tok : tok.toLowerCase();
+      return { ...was, on: typeof m.on === "boolean" ? m.on : was.on ?? true, chain, token,
+               share_pct: num(m.share_pct, 5, 100) ?? was.share_pct ?? 25, ...(num(m.width_pct, 1, 50) !== undefined
+                 ? { width_pct: num(m.width_pct, 1, 50) } : {}) };
+    }).filter((m: any) => m.token && (m.chain === "solana" ? /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(m.token) : ADDRESS.test(m.token)));
+    delete out.maker;
+  }
   // Elysium (2026-11-06, flytrade/ELYSIUM-PLAN.md): the set-up before its 11-09 launch; it isn't a style, so switching it
   // alone keeps the starter
   // off is explicit (2026-11-09): a Degen Sniper wallet is on Elysium unless its owner turned it off (velysium.is_on)
@@ -175,7 +218,7 @@ export function mergeSettings(base: any, changes: any): any {
   if (ch.zero && typeof ch.zero === "object" && typeof ch.zero.on === "boolean") out.zero = { on: ch.zero.on };
   // an edited style stays shown as the style it came from ("from", 2026-11-16: the site lost the owner's highlight);
   // pausing / resuming is not a style edit
-  if (Object.keys(ch).some((k) => k !== "elysium" && k !== "zero" && k !== "trading")) {
+  if (Object.keys(ch).some((k) => !["elysium", "zero", "trading", "picks", "makers"].includes(k))) {   // (not a style)
     if (out.starter && out.starter !== "custom") out.from = out.starter;
     out.starter = "custom";
   }
@@ -225,8 +268,11 @@ export function cardOf(tool: { name: string; args: any }, settings: any, starter
     return { kind: "move", usd, chain, to_chain: a.to_chain };
   }
   if (tool.name === "watch_token") {
-    const t = String(a.address ?? "").trim().toLowerCase();
-    if (!ADDRESS.test(t) || !BigInt(t)) return "that isn't a token address";
+    const addr = String(a.address ?? "").trim().toLowerCase();
+    if (!ADDRESS.test(addr) || !BigInt(addr)) return "that isn't a token address";
+    const chain = CHAINS.includes(a.chain) ? a.chain : "robinhood";
+    if (partner && chain !== "robinhood") return "this wallet trades on Robinhood Chain only";
+    const t = chain === "robinhood" ? addr : `${chain}:${addr}`;
     if (t === FLYAI) return "$FLYAI is always watched";
     const w: string[] = settings?.watch ?? [];
     if (w.includes(t)) return "it already watches that token";
@@ -555,7 +601,7 @@ export function createFlyChat(d: {
   async function watch(req: IncomingMessage, fly: number, body: any) {
     const me = (await d.sessionWallet(req)).toLowerCase();
     const token = String(body?.token ?? "").trim().toLowerCase();
-    if (!ADDRESS.test(token) || token === FLYAI) throw new HttpError(400, "bad token address");
+    if (!ENTRY.test(token) || token === FLYAI) throw new HttpError(400, "bad token address");
     const { view } = await access(fly, me);
     const label = view.who ? `${view.who.name} #${view.who.token}` : `Fly #${fly}`;
     const cardId = Number(body?.card) || null;

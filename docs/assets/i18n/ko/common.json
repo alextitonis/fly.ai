@@ -574,7 +574,9 @@
       "pause": "일시정지",
       "resume": "재개",
       "careful": "더 신중하게",
-      "bolder": "더 과감하게"
+      "bolder": "더 과감하게",
+      "fastSwing": "빠른 스윙",
+      "grid": "그리드 거래"
     },
     "status": {
       "approved": "완료",

@@ -574,7 +574,9 @@
       "pause": "暫停",
       "resume": "恢復",
       "careful": "更謹慎",
-      "bolder": "更大膽"
+      "bolder": "更大膽",
+      "fastSwing": "快速波段",
+      "grid": "網格交易"
     },
     "status": {
       "approved": "已完成",

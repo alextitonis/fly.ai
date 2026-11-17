@@ -23,6 +23,9 @@
   // chat packs (2026-11-05, flytrade/UTILITY-PLAN.md): past the free messages, a pack is bought by burning $FLYAI
   const ACCOUNT_JS = "/compute/mine/web/account.js";
   const FLYAI = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C", CHAIN = 4663;
+  const PICKS_PRESETS = {
+    fast: { mode: "swing", base_pct: 40, dip_pct: 2, take_profit_pct: 6, stop_pct: 10, avg_hours: 4 },
+    grid: { mode: "grid", grid_levels: 10, grid_step_pct: 3, stop_pct: 15 } };
   const NETS = { robinhood: "Robinhood Chain", base: "Base", arbitrum: "Arbitrum", bsc: "BNB Chain", polygon: "Polymarket", solana: "Solana" };
   const EN = {
     chats: "Chats", chatsAria: "Your fly chats", title: "Fly #{id}", close: "Close", back: "Back to chats", flyPage: "Fly page", nftPage: "NFT page",
@@ -38,7 +41,7 @@
     needHold: "Put money in this fly's wallet or hold 200k $FLYAI to chat.", cantLoad: "Couldn't load the chat",
     quickAsk: "{what}? Here's what changes:", approve: "Approve", decline: "Decline", desk: "Fly Desk:",
     deskPending: "Sent to the Fly Desk for its rug checks…",
-    q: { earn: "Only lending", letItFly: "Let it fly", safe: "Play safe", stocks: "Stocks", pause: "Pause", resume: "Resume", careful: "More careful", bolder: "Bolder" },
+    q: { earn: "Only lending", letItFly: "Let it fly", safe: "Play safe", stocks: "Stocks", pause: "Pause", resume: "Resume", careful: "More careful", bolder: "Bolder", fastSwing: "Fast swing", grid: "Grid trading" },
     cardText: { withdraw: "Withdraw {pct}% on {chain}", move: "Move ${usd} from {from} to {to}", watch: "Always watch this token",
       watchNote: "Your fly trades watched tokens without its rug filters, so the risk is yours. The Fly Desk checks it too and may add it for every fly if it looks good.",
       moneyNote: "This moves money. It goes through the normal withdrawal rules (the profit fee applies)." },
@@ -271,6 +274,9 @@
       s.trading ? [t("q.pause"), { ...s, trading: false, starter: "custom" }] : [t("q.resume"), { ...s, trading: true, starter: "custom" }],
       [t("q.careful"), s.risk > 1 ? { ...s, risk: s.risk - 1, starter: "custom" } : null],
       [t("q.bolder"), s.risk < 5 ? { ...s, risk: s.risk + 1, starter: "custom" } : null],
+      // the picks' presets (2026-11-17, the user: "presets for easier use"; mine flychat.ts PICKS_PRESETS), once it watches tokens
+      [t("q.fastSwing"), (s.watch || []).length ? { ...s, picks: { ...(s.picks || {}), ...PICKS_PRESETS.fast } } : null],
+      [t("q.grid"), (s.watch || []).length ? { ...s, picks: { ...(s.picks || {}), ...PICKS_PRESETS.grid } } : null],
     ].filter(([, x]) => x);
   }
   function quick(label, after) {

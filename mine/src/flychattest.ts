@@ -39,6 +39,20 @@ check("merge: options by id, params kept, unknown ids dropped", m.options.length
   check("merge: the chat sets the fly up for Elysium and the style stays", e.elysium?.on === true && e.starter === "let_it_fly", JSON.stringify(e));
   const k = cardOf({ name: "change_settings", args: { summary: "Just earn", starter: "just_earn" } }, { ...SETTINGS, elysium: { on: true } }, STARTERS);
   check("card: picking a setup keeps the Elysium set-up", typeof k !== "string" && k.after.elysium?.on === true, JSON.stringify(k)); }
+{ const g = mergeSettings(SETTINGS, { picks: { preset: "grid" } });   // 2026-11-17: picks presets + grid by chat
+  check("merge: a picks preset sets grid mode and the style stays", g.picks?.mode === "grid" && g.picks.grid_levels === 10
+    && g.picks.grid_step_pct === 3 && g.starter === "let_it_fly", JSON.stringify(g));
+  const f = mergeSettings(SETTINGS, { picks: { preset: "fast", grid_step_pct: 99, avg_hours: 2 } });
+  check("merge: a preset then the owner's numbers, clamped", f.picks.mode === "swing" && f.picks.avg_hours === 2
+    && f.picks.grid_step_pct === 20 && f.picks.take_profit_pct === 6, JSON.stringify(f.picks));
+  const m = mergeSettings(SETTINGS, { makers: [{ chain: "bsc", token: "0x" + "AB".repeat(20), share_pct: 30 },
+    { chain: "solana", token: "So11111111111111111111111111111111111111112" }, { chain: "bsc", token: "nope" }, { chain: "bsc" }] });
+  check("merge: makers by chat, at most 3, bad tokens dropped", m.makers.length === 2 && m.makers[0].token === "0x" + "ab".repeat(20)
+    && m.makers[0].share_pct === 30 && m.makers[1].chain === "solana" && m.starter === "let_it_fly", JSON.stringify(m.makers));
+  const w = cardOf({ name: "watch_token", args: { address: "0x" + "cd".repeat(20), chain: "bsc" } }, SETTINGS, []);
+  check("card: a BNB Chain token to watch", typeof w !== "string" && w.kind === "watch" && w.token === "bsc:0x" + "cd".repeat(20), JSON.stringify(w));
+  const pw = cardOf({ name: "watch_token", args: { address: "0x" + "cd".repeat(20), chain: "bsc" } }, SETTINGS, [], true);
+  check("card: a partner wallet watches Robinhood Chain only", typeof pw === "string", JSON.stringify(pw)); }
 { const e = mergeSettings(SETTINGS, { zero: { on: true } });
   check("merge: the chat sets the fly up for Zero and the style stays", e.zero?.on === true && e.starter === "let_it_fly", JSON.stringify(e));
   const k = cardOf({ name: "change_settings", args: { summary: "Just earn", starter: "just_earn" } }, { ...SETTINGS, zero: { on: true } }, STARTERS);
@@ -61,9 +75,9 @@ check("card: move under $5 / to the same chain refused",
 const TOKEN = `0x${"ab".repeat(20)}`;
 c = cardOf({ name: "watch_token", args: { address: TOKEN.toUpperCase().replace("0X", "0x") } }, SETTINGS, STARTERS);
 check("card: watch a token (lower-cased)", typeof c !== "string" && c.kind === "watch" && c.token === TOKEN);
-check("card: FLYAI / a 6th token refused",
+check("card: FLYAI / a 16th token refused",
   typeof cardOf({ name: "watch_token", args: { address: "0x0088ce7905025c4b5ea1d49ab6179b6aaadb3b9c" } }, SETTINGS, STARTERS) === "string" &&
-  typeof cardOf({ name: "watch_token", args: { address: TOKEN } }, { ...SETTINGS, watch: [1, 2, 3, 4, 5].map(addr) }, STARTERS) === "string");
+  typeof cardOf({ name: "watch_token", args: { address: TOKEN } }, { ...SETTINGS, watch: Array.from({ length: 15 }, (_, i) => addr(i + 1)) }, STARTERS) === "string");
 check("context: numbers and log lines", /profit \$1\.5/.test(context({ fly: 7, settings: SETTINGS, stats: { value: 11.5, principal: 10, profit: 1.5,
   profit_pct: 15, trades: 3, active: true, wallet: [] } }, { rows: [{ at: NOW, type: "trade", status: "refused", side: "buy", symbol: "PEPE", usd: 5, why: "rug screen" }] })));
 

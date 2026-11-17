@@ -574,7 +574,9 @@
       "pause": "Pausar",
       "resume": "Reanudar",
       "careful": "Más prudente",
-      "bolder": "Más audaz"
+      "bolder": "Más audaz",
+      "fastSwing": "Swing rápido",
+      "grid": "Trading en grid"
     },
     "status": {
       "approved": "Hecho",
