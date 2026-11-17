@@ -1759,7 +1759,9 @@
       },
       "bandTitle": "Ajustes de la banda",
       "swingLine": "Maker {sym}: {usd} en cartera, operando sus caídas y subidas",
-      "swingWhy": "no hay pool donde aportar liquidez, así que compra en las caídas y vende en las subidas; entra en un pool cuando exista"
+      "swingWhy": "no hay pool donde aportar liquidez, así que compra en las caídas y vende en las subidas; entra en un pool cuando exista",
+      "gridLine": "Maker {sym}: {usd} en cartera · trading en grid, líneas a {step}%",
+      "gridWhy": "no hay pool donde aportar liquidez, así que compra cuando el precio cruza cada línea bajando y vende cuando la cruza subiendo. Cada operación cuesta cerca de {cost}% ida y vuelta, así que las líneas están al menos al doble"
     },
     "chartTitle": "Valor en los últimos 7 días",
     "brainTitle": "Qué tiene cada parte de su cerebro",
@@ -1883,7 +1885,8 @@
     "sell": "Vender",
     "sellPct": "Vender el {pct}% de {sym}",
     "sellNote": "Vender: tu fly lo vende a dólares en su próximo ciclo (hasta 15 minutos). Su cerebro puede volver a comprar más tarde si el token le sigue gustando. $FLYAI nunca se vende por debajo de lo que costó.",
-    "sellAsked": "Vendiendo el {pct}% de {sym} en el próximo ciclo (hasta 15 minutos)."
+    "sellAsked": "Vendiendo el {pct}% de {sym} en el próximo ciclo (hasta 15 minutos).",
+    "withdrawnIn": "{usd} retirado"
   },
   "profile": {
     "title": "Tu perfil",

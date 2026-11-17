@@ -1759,7 +1759,9 @@
       },
       "bandTitle": "Bant ayarları",
       "swingLine": "Maker {sym}: {usd} tutuluyor, düşüş ve zirvelerini işlem yapıyor",
-      "swingWhy": "likidite sağlanacak havuz yok, bu yüzden düşüşte alıp zirvede satıyor; bir havuz olunca ona girer"
+      "swingWhy": "likidite sağlanacak havuz yok, bu yüzden düşüşte alıp zirvede satıyor; bir havuz olunca ona girer",
+      "gridLine": "Maker {sym}: {usd} tutuluyor · grid işlem, çizgiler %{step} aralıklı",
+      "gridWhy": "likidite sağlanacak havuz yok; fiyat her çizgiyi aşağı geçtiğinde alır, yukarı geçtiğinde satar. Buradaki her işlem gidiş-dönüş yaklaşık %{cost} tutuyor, bu yüzden çizgiler en az bunun iki katı aralıklı"
     },
     "chartTitle": "Son 7 gündeki değer",
     "brainTitle": "Beyninin her parçasının tuttukları",
@@ -1883,7 +1885,8 @@
     "sell": "Sat",
     "sellPct": "{sym} tutarının %{pct} kadarını sat",
     "sellNote": "Sat: fly'ın bunu bir sonraki turunda (en fazla 15 dakika) dolara satar. Beyni token'ı hâlâ beğenirse daha sonra yeniden alabilir. $FLYAI maliyetinin altında asla satılmaz.",
-    "sellAsked": "{sym} tutarının %{pct} kadarı bir sonraki turda (en fazla 15 dakika) satılıyor."
+    "sellAsked": "{sym} tutarının %{pct} kadarı bir sonraki turda (en fazla 15 dakika) satılıyor.",
+    "withdrawnIn": "{usd} çekildi"
   },
   "profile": {
     "title": "Profilin",

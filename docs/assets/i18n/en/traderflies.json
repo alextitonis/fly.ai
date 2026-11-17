@@ -1759,7 +1759,9 @@
       },
       "bandTitle": "Band settings",
       "swingLine": "Maker {sym}: {usd} held, trading its dips and tops",
-      "swingWhy": "no pool to provide liquidity in, so it buys dips and sells tops; it goes into a pool once one exists"
+      "swingWhy": "no pool to provide liquidity in, so it buys dips and sells tops; it goes into a pool once one exists",
+      "gridLine": "Maker {sym}: {usd} held · grid trading, lines {step}% apart",
+      "gridWhy": "no pool to provide liquidity in, so it buys as the price falls through each line and sells as it rises through the next. Each trade here costs about {cost}% round trip, so the lines are at least twice that apart"
     },
     "chartTitle": "Value over the last 7 days",
     "brainTitle": "What each part of its brain holds",
@@ -1883,7 +1885,8 @@
     "sell": "Sell",
     "sellPct": "Sell {pct}% of {sym}",
     "sellNote": "Sell: your fly sells it into dollars at its next bar (up to 15 minutes). Its brain may buy back in later if it still likes the token. $FLYAI is never sold under what it cost.",
-    "sellAsked": "Selling {pct}% of {sym} at the next bar (up to 15 minutes)."
+    "sellAsked": "Selling {pct}% of {sym} at the next bar (up to 15 minutes).",
+    "withdrawnIn": "{usd} withdrawn"
   },
   "profile": {
     "title": "Your profile",
