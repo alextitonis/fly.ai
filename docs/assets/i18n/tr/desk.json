@@ -498,6 +498,15 @@
     "thSide": "Yön",
     "thWhy": "Neden",
     "noHoldings": "Henüz yok.",
-    "noTrades": "Henüz işlem yok."
+    "noTrades": "Henüz işlem yok.",
+    "scoreTitle": "Partner karnesi",
+    "scoreNote": "Hangi topluluklar gerçekten işlem yapıyor: kendi cüzdanı şu anda çalışan NFT'ler ve son 7 ile 30 günde kaçının yeni başladığı.",
+    "thCommunity": "Topluluk",
+    "thLive": "Şu an işlemde",
+    "thHoldersNow": "Sahipler",
+    "thNew7": "Yeni · 7 gün",
+    "thNew30": "Yeni · 30 gün",
+    "scoreSince": "yeniler {date} tarihinden beri sayılıyor",
+    "scoreEmpty": "Henüz veri yok."
   }
 }

@@ -498,6 +498,15 @@
     "thSide": "Side",
     "thWhy": "Why",
     "noHoldings": "Nothing yet.",
-    "noTrades": "No trades yet."
+    "noTrades": "No trades yet.",
+    "scoreTitle": "Partner scorecard",
+    "scoreNote": "Which communities are actually trading: NFTs whose own wallet is live right now, and how many went live in the last 7 and 30 days.",
+    "thCommunity": "Community",
+    "thLive": "Trading now",
+    "thHoldersNow": "Holders",
+    "thNew7": "New · 7 days",
+    "thNew30": "New · 30 days",
+    "scoreSince": "counting new ones since {date}",
+    "scoreEmpty": "No numbers yet."
   }
 }

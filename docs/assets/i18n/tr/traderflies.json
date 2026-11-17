@@ -1162,6 +1162,7 @@
     "oddsSpeed": "Acelen mi var? $FLYAI yakarak kuluçkayı atla: kalan saat başına {usd}, hepsi yakılır."
   },
   "wallet": {
+    "picksTrade": "Seçtiklerin",
     "watch": {
       "title": "Sineğinin her zaman izlediği tokenler",
       "text": "$FLYAI her zaman listede. Robinhood Chain, Base, BNB Chain veya Arbitrum'da adresle 5 tokene kadar ekle (cüzdan $100'ı geçince 10, $500'ı geçince 15): sineğin bunları alır, her birinin bir kısmını tutar ve kalanını düşüşlerde işlem yapar. Listede token varken beyin yalnızca bunlara ve $FLYAI'ye bakar.",
@@ -2031,7 +2032,9 @@
     "post": "{name} kendi gerçek sinek beyniyle işlem yaparak {pct} ({span}) kârda 🪰🧠",
     "postTrade": "{name} az önce {what} işlemini {pct} ile kapattı 🪰🧠",
     "inProfit": "Kârda",
-    "inLoss": "Zararda"
+    "inLoss": "Zararda",
+    "cta": "200 bin $FLYAI tut · senin yerine işlem yapan bir sinek al",
+    "refNote": "Bağlantıda {code} referans kodun var: bu karttan katılan her yeni kişi senin referansın sayılır."
   },
   "follow": {
     "on": "Takip ediliyor",

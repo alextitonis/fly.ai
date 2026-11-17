@@ -498,6 +498,15 @@
     "thSide": "방향",
     "thWhy": "이유",
     "noHoldings": "아직 없습니다.",
-    "noTrades": "아직 거래가 없습니다."
+    "noTrades": "아직 거래가 없습니다.",
+    "scoreTitle": "파트너 스코어카드",
+    "scoreNote": "실제로 거래 중인 커뮤니티: 자체 지갑이 지금 가동 중인 NFT 수와 최근 7일·30일 동안 새로 가동된 수입니다.",
+    "thCommunity": "커뮤니티",
+    "thLive": "거래 중",
+    "thHoldersNow": "보유자",
+    "thNew7": "신규 · 7일",
+    "thNew30": "신규 · 30일",
+    "scoreSince": "{date}부터 신규 집계",
+    "scoreEmpty": "아직 데이터가 없습니다."
   }
 }

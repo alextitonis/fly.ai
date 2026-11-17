@@ -1160,6 +1160,7 @@
     "oddsSpeed": "着急？销毁 $FLYAI 跳过孵化：剩余每小时 {usd}，全部销毁。"
   },
   "wallet": {
+    "picksTrade": "你的精选",
     "watch": {
       "title": "你的苍蝇一直关注的代币",
       "text": "$FLYAI 一直在列表上。按地址添加最多 5 个代币（钱包超过 $100 时 10 个，超过 $500 时 15 个）（Robinhood Chain、Base、BNB Chain 或 Arbitrum）：你的苍蝇会买入它们，每个留一部分，其余在下跌时交易。只要列表里有代币，大脑只看这些和 $FLYAI。",
@@ -2029,7 +2030,9 @@
     "post": "{name} 用自己真实的苍蝇大脑交易，{span}收益 {pct} 🪰🧠",
     "postTrade": "{name} 刚以 {pct} 平仓 {what} 🪰🧠",
     "inProfit": "盈利中",
-    "inLoss": "亏损中"
+    "inLoss": "亏损中",
+    "cta": "持有 20 万 $FLYAI · 领一只替你交易的苍蝇",
+    "refNote": "链接里带有你的推荐码 {code}：通过这张卡加入的新用户都算你的推荐。"
   },
   "follow": {
     "on": "已关注",

@@ -498,6 +498,15 @@
     "thSide": "Lado",
     "thWhy": "Por qué",
     "noHoldings": "Nada todavía.",
-    "noTrades": "Aún no hay operaciones."
+    "noTrades": "Aún no hay operaciones.",
+    "scoreTitle": "Marcador de socios",
+    "scoreNote": "Qué comunidades operan de verdad: NFT cuya propia wallet está activa ahora mismo, y cuántas se activaron en los últimos 7 y 30 días.",
+    "thCommunity": "Comunidad",
+    "thLive": "Operando ahora",
+    "thHoldersNow": "Holders",
+    "thNew7": "Nuevos · 7 días",
+    "thNew30": "Nuevos · 30 días",
+    "scoreSince": "nuevos contados desde el {date}",
+    "scoreEmpty": "Aún no hay datos."
   }
 }

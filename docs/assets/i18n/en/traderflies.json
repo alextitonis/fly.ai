@@ -1162,6 +1162,7 @@
     "oddsSpeed": "In a hurry? Skip the incubation by burning $FLYAI: {usd} per hour left, all of it burned."
   },
   "wallet": {
+    "picksTrade": "Your picks",
     "watch": {
       "title": "Tokens your fly always watches",
       "text": "$FLYAI is always on the list. Add up to 5 tokens (10 once the wallet is over $100, 15 over $500) by address, on Robinhood Chain, Base, BNB Chain or Arbitrum: your fly buys them, keeps part of each and trades the rest on dips. While you have any, the brain looks only at these and $FLYAI.",
@@ -2031,7 +2032,9 @@
     "post": "{name} is up {pct} ({span}) trading on its own real fly brain 🪰🧠",
     "postTrade": "{name} just closed {what} at {pct} 🪰🧠",
     "inProfit": "In profit",
-    "inLoss": "In the red"
+    "inLoss": "In the red",
+    "cta": "Hold 200k $FLYAI · get a fly that trades for you",
+    "refNote": "Your referral code {code} is in the link: anyone new who joins from this card counts as your referral."
   },
   "follow": {
     "on": "Following",

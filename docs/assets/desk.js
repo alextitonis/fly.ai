@@ -1018,7 +1018,9 @@
     chart: "The Partners pot", holdings: "What it holds", trades: "Its trades", holders: "This week's holders",
     thToken: "Token", thAmount: "Amount", thPrice: "Price", thValue: "Value", thPnl: "P&L",
     thTime: "Time", thSide: "Side", thWhy: "Why", noHoldings: "Nothing yet.", noTrades: "No trades yet.",
-    seriesValue: "Pot", seriesBase: "What it started with" };
+    seriesValue: "Pot", seriesBase: "What it started with",
+    scoreTitle: "Partner scorecard", thCommunity: "Community", thLive: "Trading now", thHoldersNow: "Holders", thNew7: "New · 7 days",
+    thNew30: "New · 30 days", scoreSince: "counting new ones since {date}", scoreEmpty: "No numbers yet." };
   const potSay = (k, vars) => {
     const v = t("ppot." + k, vars);
     if (!/(^|\.)ppot\./.test(v)) return v;
@@ -1043,6 +1045,23 @@
     const [pot, hold, stats, log] = await Promise.all([getJson(POT_API), getJson(POT_API + "/holders"),
       getJson(POT_API + "/stats"), getJson(POT_API + "/log")]);
     renderPot(pot, hold, stats, log);
+    renderScore(await getJson(SCORE_API));
+  }
+  // the partner scorecard (2026-11-17, mine /api/activations/scorecard): Trader Flies first, then each partner
+  const SCORE_API = "https://flyai-mine.fly.dev/api/activations/scorecard";
+  function renderScore(sc) {
+    const el = $("pp-score");
+    if (!el) return;
+    const books = (sc && sc.books) || [];
+    const n = (x) => esc(nf(0).format(x || 0));
+    const plus = (x) => (x > 0 ? `<b class="up">+${n(x)}</b>` : `<span class="dim">0</span>`);
+    el.innerHTML = `<thead><tr><th>${esc(potSay("thCommunity"))}</th><th class="r">${esc(potSay("thLive"))}</th><th class="r">${esc(potSay("thHoldersNow"))}</th>` +
+      `<th class="r">${esc(potSay("thNew7"))}</th><th class="r">${esc(potSay("thNew30"))}</th></tr></thead><tbody>` +
+      (books.length ? books.map((b) => `<tr><td class="strong">${esc(b.name)}</td><td class="r">${n(b.live)}</td><td class="r">${n(b.holders)}</td>` +
+        `<td class="r">${plus(b.new_7d)}</td><td class="r">${plus(b.new_30d)}</td></tr>`).join("")
+        : `<tr class="empty"><td colspan="5">${esc(potSay("scoreEmpty"))}</td></tr>`) + "</tbody>";
+    const since = $("pp-score-since");
+    if (since) since.textContent = sc && sc.since ? potSay("scoreSince", { date: new Date(sc.since).toLocaleDateString(lang(), { day: "numeric", month: "short" }) }) : "";
   }
   const potPrice = (n) => (n == null ? "—" : n >= 1 ? usd(n) : "$" + Number(n).toPrecision(3));
   const potPct = (x) => (x > 0 ? "+" : "") + nf(2).format(x) + "%";

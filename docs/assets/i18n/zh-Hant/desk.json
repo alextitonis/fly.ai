@@ -498,6 +498,15 @@
     "thSide": "方向",
     "thWhy": "原因",
     "noHoldings": "暫無。",
-    "noTrades": "暫無交易。"
+    "noTrades": "暫無交易。",
+    "scoreTitle": "合作夥伴記分卡",
+    "scoreNote": "哪些社群在真正交易：自身錢包目前在運行的 NFT，以及最近 7 天和 30 天內新上線的數量。",
+    "thCommunity": "社群",
+    "thLive": "正在交易",
+    "thHoldersNow": "持有人",
+    "thNew7": "新增 · 7 天",
+    "thNew30": "新增 · 30 天",
+    "scoreSince": "自 {date} 起統計新增",
+    "scoreEmpty": "暫無資料。"
   }
 }

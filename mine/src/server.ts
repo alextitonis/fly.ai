@@ -49,6 +49,7 @@ import { createProfiles } from "./profiles.ts";
 import { createXLink } from "./xlink.ts";
 import { createReferrals } from "./referrals.ts";
 import { createAmbassadors } from "./ambassadors.ts";
+import { createActivations } from "./activations.ts";
 import { createBounties } from "./bounties.ts";
 import { createTeam } from "./team.ts";
 import { blockscoutTransfers, createDeskChat, TEAM as CHAT_TEAM_WALLETS } from "./deskchat.ts";
@@ -4195,6 +4196,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p === "/api/ambassadors" || p.startsWith("/api/ambassadors/"))) {
     if (await ambassadors.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && p.startsWith("/api/activations/")) {
+    if (await activations.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p === "/api/team" || p.startsWith("/api/team/"))) {
     if (await team.route(req, res, url)) return;
   }
@@ -4617,6 +4621,16 @@ const referrals = createReferrals({ pg, HttpError, send, readJson, sessionWallet
 if (USER) referrals.start();
 // ambassadors (src/ambassadors.ts, 2026-11-09): badge #12 holders, the application form, the admin list
 const ambassadors = createAmbassadors({ pg, HttpError, send, readJson, sessionWallet: sessionAddress, isAdmin });
+// activations (src/activations.ts, 2026-11-17): when each fly / partner NFT wallet first went live -> PostHog
+// fly_activated + the public partner scorecard. POSTHOG_KEY is the site's public project key (docs/assets/analytics.js).
+const activations = createActivations({
+  pg, send,
+  posthog: process.env.POSTHOG_OFF === "1" ? null : {
+    key: process.env.POSTHOG_KEY ?? "phc_vBKCMpUSN5zQsoKFiCuyubVCXME5TirLTScsBkWxNncD",
+    host: process.env.POSTHOG_HOST ?? "https://us.i.posthog.com",
+  },
+});
+if (USER) activations.start();
 // team reports (src/team.ts, 2026-11-11): allowlisted wallets post what they did on the hidden /team page
 // admin = the dev wallet only (the user, 11-11: "visible only to the dev wallet no other"); TEAM_ADMINS overrides
 const team = createTeam({

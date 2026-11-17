@@ -30,6 +30,7 @@
     "test:team": "node --disable-warning=ExperimentalWarning src/teamtest.ts",
     "test:referrals": "node --disable-warning=ExperimentalWarning src/referralstest.ts",
     "test:xlink": "node --disable-warning=ExperimentalWarning src/xlinktest.ts",
+    "test:activations": "node --disable-warning=ExperimentalWarning src/activationstest.ts",
     "test:gta": "node --disable-warning=ExperimentalWarning src/gtatest.ts",
     "test:badges": "node --disable-warning=ExperimentalWarning src/badgestest.ts",
     "test:xp": "node --disable-warning=ExperimentalWarning src/xptest.ts",

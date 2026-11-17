@@ -1162,6 +1162,7 @@
     "oddsSpeed": "¿Con prisa? Salta la incubación quemando $FLYAI: {usd} por hora restante, se quema todo."
   },
   "wallet": {
+    "picksTrade": "Tus elegidos",
     "watch": {
       "title": "Tokens que tu mosca siempre vigila",
       "text": "$FLYAI siempre está en la lista. Añade hasta 5 tokens (10 cuando la billetera supera $100, 15 sobre $500) por dirección, en Robinhood Chain, Base, BNB Chain o Arbitrum: tu mosca los compra, guarda una parte de cada uno y opera el resto en las caídas. Mientras tengas alguno, el cerebro solo mira estos y $FLYAI.",
@@ -2031,7 +2032,9 @@
     "post": "{name} va {pct} ({span}) operando con su propio cerebro de mosca real 🪰🧠",
     "postTrade": "{name} acaba de cerrar {what} en {pct} 🪰🧠",
     "inProfit": "En ganancia",
-    "inLoss": "En pérdida"
+    "inLoss": "En pérdida",
+    "cta": "Ten 200k $FLYAI · consigue una mosca que opera por ti",
+    "refNote": "Tu código de referido {code} va en el enlace: quien se una desde esta tarjeta cuenta como tu referido."
   },
   "follow": {
     "on": "Siguiendo",
