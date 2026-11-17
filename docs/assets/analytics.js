@@ -12,7 +12,7 @@
  * - Browser "Do Not Track" is respected.
  */
 (function () {
-  const POSTHOG_KEY = "";                                  // phc_... (empty = analytics off)
+  const POSTHOG_KEY = "phc_vBKCMpUSN5zQsoKFiCuyubVCXME5TirLTScsBkWxNncD";   // empty = analytics off
   const POSTHOG_HOST = "https://us.i.posthog.com";         // EU project: https://eu.i.posthog.com
   const SESSION_KEY = "flyai.compute.session";            // the site's one wallet session (nav.js, mine/web/account.ts)
 

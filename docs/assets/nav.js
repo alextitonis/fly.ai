@@ -11,7 +11,7 @@
   // PostHog analytics for every page that has this nav (2026-11-17, analytics.js: off until its key is set)
   if (!document.querySelector('script[src*="/analytics.js"]')) {
     const a = document.createElement("script");
-    a.src = "/assets/analytics.js?v=20261117a";
+    a.src = "/assets/analytics.js?v=20261117b";
     a.async = true;
     document.head.appendChild(a);
   }
