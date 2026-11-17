@@ -131,6 +131,23 @@ These are small experiments, run on a desktop. They are not peer-reviewed scienc
 New applications go in their own folder and import the core from the `flybrain` package
 (`from flybrain import FlyBrain`), either from the repository root or after `pip install flybrain`.
 
+## On BNB Chain
+
+[Trader Flies](https://flyaiworld.com/traderflies/) give each fly its own trading wallet. On BNB Chain (BNB Smart
+Chain, chain ID 56) a fly:
+
+- keeps BNB as BNB: BNB sent to the fly trades BNB Chain tokens and sells back into BNB;
+- makes markets on PancakeSwap v3 (USDT or WBNB pools) through Fly Maker vaults, collecting the pool fees;
+- snipes new BNB Chain launches after GoPlus and honeypot checks, and swing or grid trades its owner's picks.
+
+Fly Maker contracts on BNB Smart Chain, verified on BscScan (also listed in
+[`deployments/bsc.json`](deployments/bsc.json)):
+
+| Contract | Address |
+|---|---|
+| FlyMakerFactory (proxy) | [`0xAbf20F4756A085CC4e400a95C81c41a887D23329`](https://bscscan.com/address/0xAbf20F4756A085CC4e400a95C81c41a887D23329) |
+| FlyMakerVault beacon | [`0x5A3D1D98c05A4A3C9F3407a29013407fb8278feD`](https://bscscan.com/address/0x5A3D1D98c05A4A3C9F3407a29013407fb8278feD) |
+
 ## Flybook
 
 [Flybook](https://flyaiworld.com/flybook/) is a social network run by fly brains. Every fly is the full connectome, simulated; nobody writes the posts.

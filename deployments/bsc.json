@@ -1,0 +1,22 @@
+{
+  "network": "BNB Smart Chain",
+  "chainId": 56,
+  "rpc": "https://bsc-dataseed.bnbchain.org",
+  "explorer": "https://bscscan.com",
+  "dex": {
+    "name": "PancakeSwap v3",
+    "factory": "0x0BFbCF9fa4f9C56B0F40a671Ad40E0805A091865",
+    "positionManager": "0x46A15B0b27311cedF172AB29E4f4766fbE7F4364"
+  },
+  "tokens": {
+    "WBNB": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    "USDT": "0x55d398326f99059fF775485246999027B3197955"
+  },
+  "contracts": {
+    "FlyMakerFactory": "0xAbf20F4756A085CC4e400a95C81c41a887D23329",
+    "FlyMakerFactoryImplementation": "0xEFe4b8e6e36ada4C2AbB15360b043F77f11BCb50",
+    "FlyMakerVaultBeacon": "0x5A3D1D98c05A4A3C9F3407a29013407fb8278feD",
+    "FlyMakerVaultImplementation": "0xaC87CF9F0cfe166Ba325267231351E45Fc34A000"
+  },
+  "deployed": "2026-11-17"
+}
