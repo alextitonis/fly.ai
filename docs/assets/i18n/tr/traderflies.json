@@ -1165,16 +1165,25 @@
     "watch": {
       "title": "Sineğinin her zaman izlediği tokenler",
       "text": "$FLYAI her zaman listede. Robinhood Chain, Base, BNB Chain veya Arbitrum'da adresle 5 tokene kadar ekle (cüzdan $100'ı geçince 10, $500'ı geçince 15): sineğin bunları alır, her birinin bir kısmını tutar ve kalanını düşüşlerde işlem yapar. Listede token varken beyin yalnızca bunlara ve $FLYAI'ye bakar.",
-        "away": "Base, BNB Chain veya Arbitrum'daki tokenler sineğinin dolarlarıyla Relay üzerinden (işlem başına en az $25) ya da BNB Chain'deki BNB'siyle alınır, aynı yolla geri satılır.",
-        "suggested": "Ekibin önerileri:",
-        "solana": "Solana tokenleri sineğinin SOL'üyle alınır (Solana'yı aç ve kartından SOL ekle), asla dolarlarıyla değil.",
+      "away": "Base, BNB Chain veya Arbitrum'daki tokenler sineğinin dolarlarıyla Relay üzerinden (işlem başına en az $25) ya da BNB Chain'deki BNB'siyle alınır, aynı yolla geri satılır.",
+      "suggested": "Ekibin önerileri:",
+      "solana": "Solana tokenleri sineğinin SOL'üyle alınır (Solana'yı aç ve kartından SOL ekle), asla dolarlarıyla değil.",
       "flyai": "$FLYAI ev tokenidir: her sinek onu izler, kaldırılamaz.",
       "always": "her zaman",
       "remove": "Bu tokeni kaldır",
       "aria": "İzlenecek token adresi",
       "add": "Token ekle",
       "full": "En fazla bu kadar: {n} token.",
-      "picks": {"title": "Sineğin bunlarla nasıl işlem yapar", "bnb_pct": "Kullanabileceği BNB", "base_pct": "Her tokende tutulan", "dip_pct": "Şu kadar düşüşte daha al", "take_profit_pct": "Kâr al", "stop_pct": "Stop"},
+      "picks": {
+        "title": "Sineğin bunlarla nasıl işlem yapar",
+        "bnb_pct": "Kullanabileceği BNB",
+        "base_pct": "Her tokende tutulan",
+        "dip_pct": "Şu kadar düşüşte daha al",
+        "take_profit_pct": "Kâr al",
+        "stop_pct": "Stop",
+        "avg_hours": "Ortalama süresi (saat, kısa = daha çok işlem)",
+        "max_buy_usd": "Alım başına en fazla"
+      },
       "risk": "Eklediğin tokenler $FLYAI gibi güvenilir sayılır: rug kontrolü yok (havuz büyüklüğü, havuz yaşı, GoPlus). Biri rug olursa sineğin ondaki payını kaybedebilir."
     },
     "fundTextAway": "{native} veya {sym}, en az $5. {native} işlem nakdine ({sym}) dönüşür.",
@@ -1702,7 +1711,11 @@
     },
     "maker": {
       "chain": "Zincir",
-      "chains": {"robinhood": "Robinhood Chain (GIGA DEX)", "bsc": "BNB Chain (PancakeSwap)", "solana": "Solana (Orca)"},
+      "chains": {
+        "robinhood": "Robinhood Chain (GIGA DEX)",
+        "bsc": "BNB Chain (PancakeSwap)",
+        "solana": "Solana (Orca)"
+      },
       "add": "+ Piyasa yapıcı ekle",
       "remove": "Kaldır",
       "soon": "yakında",
@@ -1726,7 +1739,9 @@
         "deployed_pct": "Bantta (maker parasının %'si)",
         "collect_hours": "Ücretleri topla (saatte bir)"
       },
-      "bandTitle": "Bant ayarları"
+      "bandTitle": "Bant ayarları",
+      "swingLine": "Maker {sym}: {usd} tutuluyor, düşüş ve zirvelerini işlem yapıyor",
+      "swingWhy": "likidite sağlanacak havuz yok, bu yüzden düşüşte alıp zirvede satıyor; bir havuz olunca ona girer"
     },
     "chartTitle": "Son 7 gündeki değer",
     "brainTitle": "Beyninin her parçasının tuttukları",

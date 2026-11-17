@@ -1163,16 +1163,25 @@
     "watch": {
       "title": "你的蒼蠅一直關注的代幣",
       "text": "$FLYAI 一直在清單上。依地址新增最多 5 個代幣（錢包超過 $100 時 10 個，超過 $500 時 15 個）（Robinhood Chain、Base、BNB Chain 或 Arbitrum）：你的蒼蠅會買入它們，每個留一部分，其餘在下跌時交易。只要清單裡有代幣，大腦只看這些和 $FLYAI。",
-        "away": "Base、BNB Chain 或 Arbitrum 上的代幣用蒼蠅的美元透過 Relay 買入（每筆至少 $25），或用它在 BNB Chain 上的 BNB 買入，賣出時原路返回。",
-        "suggested": "團隊推薦：",
-        "solana": "Solana 代幣只用蒼蠅的 SOL 買入（開啟 Solana 並在其卡片上新增 SOL），絕不動用美元。",
+      "away": "Base、BNB Chain 或 Arbitrum 上的代幣用蒼蠅的美元透過 Relay 買入（每筆至少 $25），或用它在 BNB Chain 上的 BNB 買入，賣出時原路返回。",
+      "suggested": "團隊推薦：",
+      "solana": "Solana 代幣只用蒼蠅的 SOL 買入（開啟 Solana 並在其卡片上新增 SOL），絕不動用美元。",
       "flyai": "$FLYAI 是平台代幣：每隻蒼蠅都會關注，無法移除。",
       "always": "始終",
       "remove": "移除這個代幣",
       "aria": "要關注的代幣地址",
       "add": "新增代幣",
       "full": "已達上限：{n} 個代幣。",
-      "picks": {"title": "蒼蠅怎麼交易這些代幣", "bnb_pct": "可用的 BNB", "base_pct": "每個代幣保留", "dip_pct": "下跌多少時加碼", "take_profit_pct": "停利", "stop_pct": "停損"},
+      "picks": {
+        "title": "蒼蠅怎麼交易這些代幣",
+        "bnb_pct": "可用的 BNB",
+        "base_pct": "每個代幣保留",
+        "dip_pct": "下跌多少時加碼",
+        "take_profit_pct": "停利",
+        "stop_pct": "停損",
+        "avg_hours": "均價週期（小時，越短交易越多）",
+        "max_buy_usd": "單筆最多買入"
+      },
       "risk": "你新增的代幣會像 $FLYAI 一樣被信任：不做防跑路檢查（池子規模、池子年齡、GoPlus）。如果其中一個跑路，你的蒼蠅可能損失所持有的部分。"
     },
     "fundTextAway": "{native} 或 {sym}，至少 $5。{native} 會換成交易現金（{sym}）。",
@@ -1700,7 +1709,11 @@
     },
     "maker": {
       "chain": "鏈",
-      "chains": {"robinhood": "Robinhood Chain (GIGA DEX)", "bsc": "BNB Chain (PancakeSwap)", "solana": "Solana (Orca)"},
+      "chains": {
+        "robinhood": "Robinhood Chain (GIGA DEX)",
+        "bsc": "BNB Chain (PancakeSwap)",
+        "solana": "Solana (Orca)"
+      },
       "add": "+ 新增做市",
       "remove": "移除",
       "soon": "即將推出",
@@ -1724,7 +1737,9 @@
         "deployed_pct": "放入區間（做市資金的 %）",
         "collect_hours": "每隔多久收取手續費（小時）"
       },
-      "bandTitle": "區間設定"
+      "bandTitle": "區間設定",
+      "swingLine": "做市 {sym}：持有 {usd}，正在低買高賣",
+      "swingWhy": "沒有可提供流動性的池子，所以它在下跌時買入、上漲時賣出；有池子後會自動進入池子"
     },
     "chartTitle": "最近 7 天的價值",
     "brainTitle": "大腦各部分持有的資產",

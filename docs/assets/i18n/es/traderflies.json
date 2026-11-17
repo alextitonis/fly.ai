@@ -1165,16 +1165,25 @@
     "watch": {
       "title": "Tokens que tu mosca siempre vigila",
       "text": "$FLYAI siempre está en la lista. Añade hasta 5 tokens (10 cuando la billetera supera $100, 15 sobre $500) por dirección, en Robinhood Chain, Base, BNB Chain o Arbitrum: tu mosca los compra, guarda una parte de cada uno y opera el resto en las caídas. Mientras tengas alguno, el cerebro solo mira estos y $FLYAI.",
-        "away": "Los tokens en Base, BNB Chain o Arbitrum se compran con los dólares de tu mosca a través de Relay (mínimo $25 por operación), o con su BNB en BNB Chain, y se venden de vuelta igual.",
-        "suggested": "Sugeridos por el equipo:",
-        "solana": "Los tokens de Solana se compran con el SOL de tu mosca (activa Solana y añade SOL en su tarjeta), nunca con sus dólares.",
+      "away": "Los tokens en Base, BNB Chain o Arbitrum se compran con los dólares de tu mosca a través de Relay (mínimo $25 por operación), o con su BNB en BNB Chain, y se venden de vuelta igual.",
+      "suggested": "Sugeridos por el equipo:",
+      "solana": "Los tokens de Solana se compran con el SOL de tu mosca (activa Solana y añade SOL en su tarjeta), nunca con sus dólares.",
       "flyai": "$FLYAI es el token de la casa: todas las moscas lo vigilan y no se puede quitar.",
       "always": "siempre",
       "remove": "Quitar este token",
       "aria": "Dirección del token a vigilar",
       "add": "Añadir token",
       "full": "Ese es el máximo: {n} tokens.",
-      "picks": {"title": "Cómo opera tu mosca estos tokens", "bnb_pct": "BNB que puede usar", "base_pct": "Guardado en cada token", "dip_pct": "Comprar más en una caída de", "take_profit_pct": "Tomar ganancias en", "stop_pct": "Stop en"},
+      "picks": {
+        "title": "Cómo opera tu mosca estos tokens",
+        "bnb_pct": "BNB que puede usar",
+        "base_pct": "Guardado en cada token",
+        "dip_pct": "Comprar más en una caída de",
+        "take_profit_pct": "Tomar ganancias en",
+        "stop_pct": "Stop en",
+        "avg_hours": "Promedio de (horas, menos = más operaciones)",
+        "max_buy_usd": "Máximo por compra"
+      },
       "risk": "Los tokens que añades se tratan como $FLYAI: sin controles anti-rug (tamaño del pool, antigüedad, GoPlus). Si uno hace rug, tu mosca puede perder lo que tenga de él."
     },
     "fundTextAway": "{native} o {sym}, $5 como mínimo. {native} se convierte en efectivo para operar ({sym}).",
@@ -1702,7 +1711,11 @@
     },
     "maker": {
       "chain": "Cadena",
-      "chains": {"robinhood": "Robinhood Chain (GIGA DEX)", "bsc": "BNB Chain (PancakeSwap)", "solana": "Solana (Orca)"},
+      "chains": {
+        "robinhood": "Robinhood Chain (GIGA DEX)",
+        "bsc": "BNB Chain (PancakeSwap)",
+        "solana": "Solana (Orca)"
+      },
       "add": "+ Añadir un market maker",
       "remove": "Quitar",
       "soon": "pronto",
@@ -1726,7 +1739,9 @@
         "deployed_pct": "En la banda (% del dinero del maker)",
         "collect_hours": "Cobrar comisiones cada (horas)"
       },
-      "bandTitle": "Ajustes de la banda"
+      "bandTitle": "Ajustes de la banda",
+      "swingLine": "Maker {sym}: {usd} en cartera, operando sus caídas y subidas",
+      "swingWhy": "no hay pool donde aportar liquidez, así que compra en las caídas y vende en las subidas; entra en un pool cuando exista"
     },
     "chartTitle": "Valor en los últimos 7 días",
     "brainTitle": "Qué tiene cada parte de su cerebro",

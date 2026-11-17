@@ -1163,16 +1163,25 @@
     "watch": {
       "title": "플라이가 항상 지켜보는 토큰",
       "text": "$FLYAI는 항상 목록에 있습니다. Robinhood Chain, Base, BNB Chain, Arbitrum의 토큰을 주소로 5개까지 추가하세요 (지갑이 $100를 넘으면 10개, $500를 넘으면 15개). 플라이가 이를 매수해 일부는 보유하고 나머지는 하락 때 거래합니다. 하나라도 있으면 브레인은 이 토큰들과 $FLYAI만 봅니다.",
-        "away": "Base, BNB Chain, Arbitrum 토큰은 플라이의 달러로 Relay를 통해(거래당 최소 $25) 또는 BNB Chain의 BNB로 매수하고, 같은 방식으로 매도합니다.",
-        "suggested": "팀 추천:",
-        "solana": "Solana 토큰은 플라이의 SOL로만 매수합니다(Solana를 켜고 카드에서 SOL을 추가하세요). 달러로는 사지 않습니다.",
+      "away": "Base, BNB Chain, Arbitrum 토큰은 플라이의 달러로 Relay를 통해(거래당 최소 $25) 또는 BNB Chain의 BNB로 매수하고, 같은 방식으로 매도합니다.",
+      "suggested": "팀 추천:",
+      "solana": "Solana 토큰은 플라이의 SOL로만 매수합니다(Solana를 켜고 카드에서 SOL을 추가하세요). 달러로는 사지 않습니다.",
       "flyai": "$FLYAI는 하우스 토큰입니다: 모든 플라이가 지켜보며 뺄 수 없습니다.",
       "always": "항상",
       "remove": "이 토큰 빼기",
       "aria": "지켜볼 토큰 주소",
       "add": "토큰 추가",
       "full": "최대 {n}개입니다.",
-      "picks": {"title": "플라이가 이 토큰들을 거래하는 방법", "bnb_pct": "사용할 수 있는 BNB", "base_pct": "토큰마다 보유", "dip_pct": "하락 시 추가 매수", "take_profit_pct": "익절", "stop_pct": "손절"},
+      "picks": {
+        "title": "플라이가 이 토큰들을 거래하는 방법",
+        "bnb_pct": "사용할 수 있는 BNB",
+        "base_pct": "토큰마다 보유",
+        "dip_pct": "하락 시 추가 매수",
+        "take_profit_pct": "익절",
+        "stop_pct": "손절",
+        "avg_hours": "평균 기간 (시간, 짧을수록 거래 증가)",
+        "max_buy_usd": "1회 최대 매수액"
+      },
       "risk": "추가한 토큰은 $FLYAI처럼 신뢰됩니다: 러그 검사(풀 크기, 풀 나이, GoPlus)가 없습니다. 그중 하나가 러그되면 플라이가 보유한 만큼 잃을 수 있습니다."
     },
     "fundTextAway": "{native} 또는 {sym}, 최소 $5. {native}는 거래용 현금({sym})으로 바뀝니다.",
@@ -1700,7 +1709,11 @@
     },
     "maker": {
       "chain": "체인",
-      "chains": {"robinhood": "Robinhood Chain (GIGA DEX)", "bsc": "BNB Chain (PancakeSwap)", "solana": "Solana (Orca)"},
+      "chains": {
+        "robinhood": "Robinhood Chain (GIGA DEX)",
+        "bsc": "BNB Chain (PancakeSwap)",
+        "solana": "Solana (Orca)"
+      },
       "add": "+ 마켓 메이커 추가",
       "remove": "삭제",
       "soon": "곧",
@@ -1724,7 +1737,9 @@
         "deployed_pct": "밴드에 (메이커 자금의 %)",
         "collect_hours": "수수료 수령 주기 (시간)"
       },
-      "bandTitle": "밴드 설정"
+      "bandTitle": "밴드 설정",
+      "swingLine": "메이커 {sym}: {usd} 보유, 저점 매수·고점 매도 중",
+      "swingWhy": "유동성을 공급할 풀이 없어 저점에 사고 고점에 팝니다. 풀이 생기면 풀에 들어갑니다"
     },
     "chartTitle": "최근 7일 가치",
     "brainTitle": "뇌의 각 부분이 보유한 것",

@@ -8,6 +8,14 @@
  * hover), and closes it on an outside click or Escape. i18n.js translates the links by where they go.
  */
 (function () {
+  // PostHog analytics for every page that has this nav (2026-11-17, analytics.js: off until its key is set)
+  if (!document.querySelector('script[src*="/analytics.js"]')) {
+    const a = document.createElement("script");
+    a.src = "/assets/analytics.js?v=20261117a";
+    a.async = true;
+    document.head.appendChild(a);
+  }
+
   // [label, href, desc] for a link; [menu id, label, items, right-aligned?] for a menu
   // 2026-10-03 (the user, "make Fly AI feel like one product"): every app under Apps - the Colosseum and Trader Flies
   // too, not as separate top-level worlds - and the account menu on the right of every page
