@@ -52,7 +52,11 @@
     "modeReturn": "Getiri %",
     "modeUsd": "Fon ($)",
     "best": "En iyi sinek",
-    "median": "Medyan sinek"
+    "median": "Medyan sinek",
+    "seriesTrend": "Bu hızla",
+    "projBy": "{when} itibarıyla, bu hızla",
+    "projRange": "Muhtemel aralık",
+    "projNote": "tahmin, söz değil"
   },
   "stats": {
     "high24": "24s en yüksek",

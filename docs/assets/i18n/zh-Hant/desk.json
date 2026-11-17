@@ -52,7 +52,11 @@
     "modeReturn": "報酬率 %",
     "modeUsd": "資金池（美元）",
     "best": "最佳果蠅",
-    "median": "中位數果蠅"
+    "median": "中位數果蠅",
+    "seriesTrend": "按此速度",
+    "projBy": "到 {when}，按此速度",
+    "projRange": "可能範圍",
+    "projNote": "預測，不是承諾"
   },
   "stats": {
     "high24": "24小時最高",

@@ -141,11 +141,26 @@
       el("text", { x: W / 2, y: H / 2, "text-anchor": "middle", class: "empty" }, svg).textContent = t("pot.none");
       return;
     }
-    const all = lines.flatMap((l) => l.data).concat([start]).filter((v) => v != null);
+    // where the pot heads at its current pace (2026-11-17, the user: "a projections line too ... future projection
+    // according to current stats"): the shown bars' average step carried a third of the span ahead, ± one spread of the
+    // steps × √steps as a band. Same model as the leaderboard's (flytrade/web/src/PnlChart.tsx projectOf). Not a promise.
+    const proj = (() => {
+      const v = lines[0].data, ix = v.map((_, i) => i).filter((i) => v[i] != null);
+      if (lines[0].key !== "pot" || ix.length < 6) return null;
+      const inc = ix.slice(1).map((i, k) => (v[i] - v[ix[k]]) / (i - ix[k]));
+      const drift = inc.reduce((a, b) => a + b, 0) / inc.length;
+      const sd = Math.sqrt(inc.reduce((a, b) => a + (b - drift) ** 2, 0) / Math.max(1, inc.length - 1));
+      const last = ix[ix.length - 1], steps = Math.max(1, Math.round((n - 1) / 3));
+      const mid = v[last] + drift * steps, band = sd * Math.sqrt(steps);
+      const dt = (Date.parse(s.times[n - 1]) - Date.parse(s.times[0])) / (n - 1);
+      return { from: last, steps, mid, lo: mid - band, hi: mid + band, at: new Date(Date.parse(s.times[n - 1]) + dt * steps).toISOString() };
+    })();
+    const all = lines.flatMap((l) => l.data).concat([start], proj ? [proj.lo, proj.hi] : []).filter((v) => v != null);
     let lo = Math.min(...all), hi = Math.max(...all);
     const pad = (hi - lo) * 0.08 || (ret ? 0.5 : Math.max(1, hi * 0.01));
     lo -= pad; hi += pad;
-    const x = (i) => m.l + (i / (n - 1)) * (W - m.l - m.r);
+    const nEnd = n - 1 + (proj ? proj.steps : 0);
+    const x = (i) => m.l + (i / nEnd) * (W - m.l - m.r);
     const y = (v) => m.t + (1 - (v - lo) / (hi - lo)) * (H - m.t - m.b);
     const grid = el("g", { class: "grid" }, svg), axis = el("g", { class: "axis" }, svg);
     for (const v of niceTicks(lo, hi, H < 280 ? 4 : 5)) {
@@ -165,6 +180,14 @@
       l.data.forEach((v, i) => { if (v != null) d += (d ? "L" : "M") + x(i).toFixed(1) + "," + y(v).toFixed(1); });
       el("path", { d, fill: "none", stroke: l.color, "stroke-width": l.w, "stroke-linejoin": "round", "vector-effect": "non-scaling-stroke" }, svg);
     }
+    if (proj) {
+      const x0 = x(proj.from), y0 = y(lines[0].data[proj.from]), x1 = x(n - 1 + proj.steps);
+      el("line", { x1: x(n - 1), x2: x(n - 1), y1: m.t, y2: H - m.b, stroke: "var(--line-2)", "stroke-width": 1 }, svg);
+      el("path", { d: `M${x0},${y0} L${x1},${y(proj.hi)} L${x1},${y(proj.lo)} Z`, fill: "var(--s-pot)", "fill-opacity": 0.1, stroke: "none" }, svg);
+      el("path", { d: `M${x0},${y0} L${x1},${y(proj.mid)}`, fill: "none", stroke: "var(--s-pot)", "stroke-width": 2, "stroke-dasharray": "6 5", "vector-effect": "non-scaling-stroke" }, svg);
+      el("text", { x: x1 - 4, y: Math.max(m.t + 10, y(proj.hi) - 6), "text-anchor": "end", class: "proj-lbl" }, svg)
+        .textContent = fmt(proj.mid, ret ? 1 : 0);
+    }
     // hover
     const cross = el("line", { y1: m.t, y2: H - m.b, stroke: "var(--line-2)", visibility: "hidden" }, svg);
     const dots = lines.map((l) => el("circle", { r: 3.5, fill: l.color, visibility: "hidden" }, svg));
@@ -173,7 +196,19 @@
     const move = (ev) => {
       const r = svg.getBoundingClientRect();
       const px = ((ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left) * (W / r.width);
-      const i = Math.max(0, Math.min(n - 1, Math.round(((px - m.l) / (W - m.l - m.r)) * (n - 1))));
+      const fi = Math.round(((px - m.l) / (W - m.l - m.r)) * nEnd);
+      if (proj && fi > n - 1 + proj.steps / 2) {
+        cross.setAttribute("visibility", "hidden"); dots.forEach((d) => d.setAttribute("visibility", "hidden"));
+        tip.innerHTML = `<div class="t">${esc(t("pot.projBy", { when: time(proj.at) }))}</div>` +
+          `<div class="row"><span><i style="background:var(--s-pot)"></i> ${esc(t("pot.seriesTrend"))}</span><b>${esc(fmt(proj.mid, 2))}</b></div>` +
+          `<div class="row"><span>${esc(t("pot.projRange"))}</span><b>${esc(fmt(proj.lo, 2))} – ${esc(fmt(proj.hi, 2))}</b></div>` +
+          `<div class="row"><span>${esc(t("pot.projNote"))}</span></div>`;
+        tip.hidden = false;
+        tip.style.left = Math.max(80, r.width - 90) + "px";
+        tip.style.top = Math.max(0, (y(proj.mid) / H) * r.height - 12) + "px";
+        return;
+      }
+      const i = Math.max(0, Math.min(n - 1, fi));
       cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible");
       lines.forEach((l, k) => {
         const v = l.data[i];
@@ -193,7 +228,8 @@
     svg.addEventListener("mouseleave", leave);
     svg.addEventListener("touchend", leave);
     $("legend").innerHTML = lines.map((l) => `<li><i style="background:${l.color}"></i>${esc(l.label)}</li>`).join("") +
-      `<li><i class="dash"></i>${esc(t("pot.seriesStart"))} ${ret ? "" : usd(start, 0)}</li>`;
+      `<li><i class="dash"></i>${esc(t("pot.seriesStart"))} ${ret ? "" : usd(start, 0)}</li>` +
+      (proj ? `<li title="${esc(t("pot.projNote"))}"><i class="dash proj"></i>${esc(t("pot.seriesTrend"))}</li>` : "");
   }
 
   function spark(vals, color) {

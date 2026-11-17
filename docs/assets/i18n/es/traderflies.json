@@ -1906,7 +1906,12 @@
     "movedDown": "baja {n} en 24 h",
     "holdingNote": "\"manteniendo\" = la mosca aún no ha vendido nada. Una billetera nueva muestra al principio un pequeño negativo: cada compra paga la comisión del pool y el gas, así que las posiciones abiertas empiezan un poco por debajo de su costo. Cambia cuando suben o se venden.",
     "maxDrop": "Caída máx.",
-    "pctTip": "Ganancia como % de todo el dinero que se ha puesto en esta billetera, incluidos los depósitos retirados después."
+    "pctTip": "Ganancia como % de todo el dinero que se ha puesto en esta billetera, incluidos los depósitos retirados después.",
+    "trendTitle": "Ganancia de todas las wallets",
+    "pace": "Ritmo:",
+    "perDay": "/día",
+    "in30": "30 días a este ritmo:",
+    "trendNote": "La ganancia de cada wallet mostrada, sumada hora a hora. La línea discontinua sigue el ritmo medio de los últimos 7 días; la banda sombreada es la oscilación habitual. Es una proyección, no una promesa: los mercados cambian."
   },
   "utility": {
     "title": "Qué hace una Trader Fly",
@@ -2745,7 +2750,11 @@
     "noDays": "Los puntos diarios empiezan hoy; vuelve mañana.",
     "filling": "Los puntos de 15 minutos aún se están llenando: por ahora, por horas.",
     "open": "Abrir el gráfico de P&L y el calendario",
-    "cantRead": "No se pudo cargar el P&L de esta mosca; inténtalo pronto."
+    "cantRead": "No se pudo cargar el P&L de esta mosca; inténtalo pronto.",
+    "projTag": "a este ritmo",
+    "projBy": "Para el {when}, a este ritmo",
+    "projRange": "probable {lo} a {hi}",
+    "projNote": "proyección, no una promesa"
   },
   "league": {
     "tab": "Fly League",

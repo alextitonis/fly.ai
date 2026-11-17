@@ -1906,7 +1906,12 @@
     "movedDown": "24 saatte {n} düştü",
     "holdingNote": "\"tutuyor\" = sinek henüz hiçbir şey satmadı. Yeni bir cüzdan başta küçük bir eksi gösterir: her alım havuz ücreti ve gas öder, bu yüzden açık pozisyonlar maliyetlerinin biraz altında başlar. Yükselince ya da satılınca döner.",
     "maxDrop": "Maks. düşüş",
-    "pctTip": "Bu cüzdana yatırılan tüm paraya (sonradan çekilen yatırımlar dahil) göre kâr yüzdesi."
+    "pctTip": "Bu cüzdana yatırılan tüm paraya (sonradan çekilen yatırımlar dahil) göre kâr yüzdesi.",
+    "trendTitle": "Tüm cüzdanların kârı",
+    "pace": "Hız:",
+    "perDay": "/gün",
+    "in30": "Bu hızla 30 gün:",
+    "trendNote": "Gösterilen her cüzdanın kârı saat saat toplandı. Kesikli çizgi son 7 günün ortalama hızını ileri taşır; gölgeli bant olağan dalgalanmadır. Bu bir tahmin, söz değil: piyasalar değişir."
   },
   "utility": {
     "title": "Bir Trader Fly ne yapar",
@@ -2745,7 +2750,11 @@
     "noDays": "Günlük noktalar bugün başlıyor; yarın tekrar bak.",
     "filling": "15 dakikalık noktalar hâlâ doluyor: şimdilik saatlik.",
     "open": "K/Z grafiğini ve takvimi aç",
-    "cantRead": "Bu sineğin K/Z'si yüklenemedi; birazdan tekrar dene."
+    "cantRead": "Bu sineğin K/Z'si yüklenemedi; birazdan tekrar dene.",
+    "projTag": "bu hızla",
+    "projBy": "{when} itibarıyla, bu hızla",
+    "projRange": "muhtemelen {lo} ile {hi} arası",
+    "projNote": "tahmin, söz değil"
   },
   "league": {
     "tab": "Fly League",

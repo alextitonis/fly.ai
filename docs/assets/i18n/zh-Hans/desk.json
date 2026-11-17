@@ -52,7 +52,11 @@
     "modeReturn": "回报率 %",
     "modeUsd": "资金池（美元）",
     "best": "最佳果蝇",
-    "median": "中位数果蝇"
+    "median": "中位数果蝇",
+    "seriesTrend": "按此速度",
+    "projBy": "到 {when}，按此速度",
+    "projRange": "可能范围",
+    "projNote": "预测，不是承诺"
   },
   "stats": {
     "high24": "24小时最高",

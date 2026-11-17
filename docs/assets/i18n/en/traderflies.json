@@ -1906,7 +1906,12 @@
     "movedDown": "down {n} in 24 h",
     "holdingNote": "\"holding\" = the fly hasn't sold anything yet. A fresh wallet shows a small minus at first: every buy pays the pool fee and gas, so open positions start a little under what they cost. It turns when they rise or sell.",
     "maxDrop": "Max drop",
-    "pctTip": "Profit as a % of all the money ever put into this wallet, including deposits that were later withdrawn."
+    "pctTip": "Profit as a % of all the money ever put into this wallet, including deposits that were later withdrawn.",
+    "trendTitle": "All wallets' profit",
+    "pace": "Pace:",
+    "perDay": "/day",
+    "in30": "30 days at this pace:",
+    "trendNote": "Every shown wallet's profit added up hour by hour. The dashed line carries the last 7 days' average pace forward; the shaded band is the usual swing around it. A projection, not a promise: markets change."
   },
   "utility": {
     "title": "What a Trader Fly does",
@@ -2745,7 +2750,11 @@
     "noDays": "Daily points start today; check back tomorrow.",
     "filling": "15-minute points are still filling in: hourly ones for now.",
     "open": "Open the P&L chart and calendar",
-    "cantRead": "Couldn't load this fly's P&L; try again soon."
+    "cantRead": "Couldn't load this fly's P&L; try again soon.",
+    "projTag": "at this pace",
+    "projBy": "By {when}, at this pace",
+    "projRange": "likely {lo} to {hi}",
+    "projNote": "projection, not a promise"
   },
   "league": {
     "tab": "Fly League",
