@@ -4583,13 +4583,6 @@ const vaults = createVaults({
   isAdminToken: isAdmin, admins: (process.env.BOUNTY_ADMINS ?? "").split(","),
 });
 if (USER) vaults.start();
-// RUYUI (src/ruyui.ts, flytrade/RUYUI-PLAN.md): Ruyui Studios' NFTs on our wallets and pool, for their own front-end
-const ruyui = createRuyui({
-  pg, adminOnly, HttpError, send, readJson,
-  sessionWallet: sessionAddress,
-  rpcUrl: env("VAULT_RPC", CLAIMS.rpc),
-  env: process.env,
-});
 // partners' NFTs on our wallets and shared pots, on our site (src/partners.ts, flytrade/PARTNERS.md): one mine.partners
 // row each, no deploy to add one
 const partners = createPartners({
@@ -4601,6 +4594,8 @@ const partners = createPartners({
   // staked + locked $FLYAI count toward a partner NFT's 200k, as for Trader Flies (2026-11-15)
   stakedOf: async (w) => (STAKING.contract ? readStake(STAKING.rpc, STAKING.contract, w, STAKING.lock) : 0n),
 });
+// RUYUI's own API for Ruyui's site (src/ruyui.ts): since 2026-11-18 an alias over the partners' (RUYUI is a partner row)
+const ruyui = createRuyui({ pg, adminOnly, HttpError, send, partners });
 // nicknames for the leaderboards (src/profiles.ts): set by the signed-in wallet, read by anyone
 // the desk's payout tree for the bell's Sunday claim reminder (profiles.claimRow): one read per 10 minutes, shared
 const DESK_PUBLIC = env("DESK_PUBLIC_URL", "https://flytrade-desk.fly.dev/public");

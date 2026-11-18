@@ -91,7 +91,7 @@ try {
       ...process.env, PORT: String(PORT), MINE_DB: DB, MINE_PG_URL: PG.url, VERIFIERS: "1", CANARY_POOL: "0", CANARY_RATE: "0",
       AUDITS: "0", OPEN_TARGET: "50", ADMIN_TOKEN: ADMIN, CLAIM_CHAIN_ID: "31337", CLAIM_CHAIN_NAME: "none",
       CLAIM_RPC: "http://127.0.0.1:9", CLAIM_EXPLORER: "http://localhost", SEED_PAID: "0", ARENA_ON: "0",
-      RUYUI_ON: "1", RUYUI_OWNER_TTL_SEC: "1", VAULT_RPC: rpcUrl, ETHEREUM_RPC: rpcUrl, VAULT_PERPS: "1", RUYUI_POOL_ON: "1", PARTNER_ORIGINS: `${PARTNER}, https://other.example/`,
+      PARTNER_OWNER_TTL_SEC: "1", VAULT_RPC: rpcUrl, ETHEREUM_RPC: rpcUrl, VAULT_PERPS: "1", PARTNER_ORIGINS: `${PARTNER}, https://other.example/`,
     },
     stdio: ["ignore", "ignore", "inherit"],
   });
@@ -100,6 +100,11 @@ try {
     if (i > 120) throw new Error("server didn't start");
     await sleep(500);
   }
+  // RUYUI is a partner row since 2026-11-18 (/api/ruyui/* is an alias over /api/partners/ruyui/*)
+  const saveRow = await api("/api/admin/partners/ruyui", null, { name: "RUYUI", on: true, config: { collection: { chain: "ethereum", chain_id: 1,
+    rpc: rpcUrl, contract: RUYUI, first_id: 1, last_id: 7000 }, fee_bps: 400, partner_fee_to: null, hold_flyai: 200000, wallets: { on: true },
+    pool: { on: false } } }, { authorization: `Bearer ${ADMIN}` });
+  check("the RUYUI partner row", saveRow.status === 200 && saveRow.json.saved.book === "ruyui", JSON.stringify(saveRow.json));
   owner[7] = alice.address; owner[8] = alice.address;
   flyai[alice.address.toLowerCase()] = 250_000n * WEI;
   flyai[bob.address.toLowerCase()] = 10n * WEI;
@@ -120,7 +125,7 @@ try {
   const cfg = (await api("/api/ruyui/config", null)).json;
   check("config: the collection, deposits, hold, fee, pool", cfg.on === true && cfg.collection.chain_id === 1 && cfg.collection.chain === "ethereum" && cfg.features?.perps === true
     && cfg.collection.contract.toLowerCase() === RUYUI && cfg.wallets.chain_id === 4663 && cfg.wallets.fee.profit_bps === 400
-    && cfg.hold.amount === 200000 && cfg.hold.staked_counts === false && cfg.pool.fee_bps === 400
+    && cfg.hold.amount === 200000 && cfg.hold.staked_counts === true && cfg.pool.on === false
     && cfg.wallets.deposit.map((x: any) => x.symbol).join(",") === "ETH,USDG" && cfg.wallets.gas.min_eth === 0.00005, JSON.stringify(cfg));
 
   const t7 = (await api("/api/ruyui/token/7", null)).json;
@@ -181,7 +186,7 @@ try {
   check("one at a time", (await api(`/api/ruyui/wallet/${W7}/withdraw`, a, { bps: 5000 })).status === 409);
   await PG.pg.run("update mine.vault_requests set status = 'done' where id = ?", w.json.id);
   owner[7] = bob.address;
-  await sleep(1100);                                         // (the views cache owners RUYUI_OWNER_TTL_SEC)
+  await sleep(1100);                                         // (the views cache owners PARTNER_OWNER_TTL_SEC)
   check("sold on Ethereum: owner_changed until the desk closes it", (await api("/api/ruyui/token/7", null)).json.status === "owner_changed");
   await PG.pg.run("update mine.vault_ledger set closing = true where wallet = ?", W7);
   check("no withdrawal while a sold RUYUI is paid out", (await api(`/api/ruyui/wallet/${W7}/withdraw`, a, { bps: 5000 })).status === 409);
@@ -197,8 +202,7 @@ try {
     JSON.stringify({ epoch: 1, payable: 10 }));
   check("leaderboard", (await api("/api/ruyui/leaderboard", null)).json.all[0].vault === W7);
   check("the wallet's stats", (await api(`/api/ruyui/wallet/${W7}`, null)).json.stats?.value === 103);
-  check("the pool", (await api("/api/ruyui/pool", null)).json.excess === 12.5);
-  check("an epoch", (await api("/api/ruyui/pool/epochs/1", null)).json.payable === 10 && (await api("/api/ruyui/pool/epochs/2", null)).status === 404);
+  check("the old pool is off", (await api("/api/ruyui/pool", null)).json.mode === "off" && (await api("/api/ruyui/pool/epochs/1", null)).status === 404);
   const h = (await api(`/api/ruyui/holder/${alice.address}`, null)).json;
   // (#7 went to bob above: alice holds #8 on Ethereum, no wallet yet; her money is still in #7's, closing)
   check("a holder: tokens, wallets, the pool", h.flyai === 250000 && h.hold.ok === true && JSON.stringify(h.tokens) === "[8]"

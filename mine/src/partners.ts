@@ -163,12 +163,18 @@ export function createPartners(d: PartnersDeps) {
   };
 
   // ---- the partners table ------------------------------------------------------------------------------------
+  // when each was added (2026-11-18, the user: RUYUI "should be last as last one added"): config.added_ms, set on a new
+  // row by adminSave; the rows from before it carry their dates here
+  const ADDED: Record<string, number> = { bullas: Date.UTC(2026, 9, 7), enjoyoors: Date.UTC(2026, 10, 10), waifus: Date.UTC(2026, 10, 13),
+                                          ruyui: Date.UTC(2026, 10, 18) };
+  const addedAt = (r: { id: string; config: any }) => Number(r.config?.added_ms ?? ADDED[r.id] ?? Number.MAX_SAFE_INTEGER);
   let table: { at: number; all: Map<string, Partner>; loading?: Promise<Map<string, Partner>> } = { at: 0, all: new Map() };
   async function partners(fresh = false): Promise<Map<string, Partner>> {
     if (!fresh && table.at && Date.now() - table.at < PARTNERS_TTL_MS) return table.all;
     table.loading ??= (async () => {
       try {
-        const rows = await pg.all<{ id: string; name: string; on: boolean; config: any }>('select id, name, "on", config from mine.partners');
+        const rows = (await pg.all<{ id: string; name: string; on: boolean; config: any }>('select id, name, "on", config from mine.partners'))
+          .sort((a, b) => addedAt(a) - addedAt(b));   // the order they were added: lists, menus, the leaderboard's tabs
         const all = new Map<string, Partner>();
         for (const r of rows) {
           try { all.set(r.id, parsePartner(r)); } catch (err) { console.error(`partner ${r.id} skipped: ${(err as Error).message}`); }
@@ -521,6 +527,7 @@ export function createPartners(d: PartnersDeps) {
     if (!ID.test(id)) throw new HttpError(400, "id: 2-20 lowercase letters/digits, starting with a letter");
     const old = await pg.one<any>('select name, "on", config from mine.partners where id = ?', id);
     const row = { id, name: String(body?.name ?? old?.name ?? id), on: body?.on ?? old?.on ?? false, config: body?.config ?? old?.config };
+    if (row.config && !old && row.config.added_ms == null && !ADDED[id]) row.config = { ...row.config, added_ms: Date.now() };
     if (!row.config) throw new HttpError(400, "config is required for a new partner");
     let p: Partner;
     try { p = parsePartner(row); } catch (err) { throw new HttpError(400, (err as Error).message); }
@@ -797,5 +804,7 @@ export function createPartners(d: PartnersDeps) {
     return out;
   }
 
-  return { route, partners, followWallet, followCandidates, chatView, chatWho, chatMine };
+  return { route, partners, followWallet, followCandidates, chatView, chatWho, chatMine,
+           /** a partner's config view (/api/partners/<id>/config), for src/ruyui.ts's alias */
+           configOf: async (id: string) => config(await partnerOf(id)) };
 }
