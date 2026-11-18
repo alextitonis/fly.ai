@@ -261,6 +261,7 @@
   // a bet with no name yet (it left the list before the desk kept names, 2026-10-15) never shows its long market id
   const nameOf = (sym) => (LABELS[sym] ? short(LABELS[sym]) : /^(azuro|poly):/.test(String(sym)) ? t("chains.sportsBet") : chainOf(sym)[1]);
   const chainOf = (sym) => {
+    if (String(sym) === "BNB") return ["bsc", "BNB"];   // the kept BNB (vaults/vbnb.py) is on BNB Chain, unprefixed
     const m = /^([a-z]+):(.+)$/.exec(String(sym));
     return m && CHAIN_NAMES[m[1]] ? [m[1], m[2]] : ["robinhood", String(sym)];
   };
@@ -1110,7 +1111,7 @@
     // what it holds (vpublish's wallet rows: symbol, qty, price, value, pnl_pct)
     const rowsH = ((stats && stats.wallet) || []).filter((r) => (r.value || 0) >= 0.01).sort((a, c) => (c.value || 0) - (a.value || 0));
     set("pp-holdings", `<thead><tr><th>${esc(potSay("thToken"))}</th><th class="r">${esc(potSay("thAmount"))}</th><th class="r">${esc(potSay("thPrice"))}</th><th class="r">${esc(potSay("thValue"))}</th><th class="r">${esc(potSay("thPnl"))}</th></tr></thead><tbody>` +
-      (rowsH.length ? rowsH.map((r) => `<tr><td class="strong">${esc(r.label || r.symbol)}</td><td class="r mono">${esc(nf(r.qty >= 1000 ? 0 : 4).format(r.qty || 0))}</td>` +
+      (rowsH.length ? rowsH.map((r) => `<tr><td class="strong">${esc(r.label || nameOf(r.symbol))}${chainTag(chainOf(r.symbol)[0])}</td><td class="r mono">${esc(nf(r.qty >= 1000 ? 0 : 4).format(r.qty || 0))}</td>` +
         `<td class="r">${esc(potPrice(r.price))}</td><td class="r">${esc(usd(r.value))}</td>` +
         `<td class="r">${r.pnl_pct == null ? "—" : `<span class="${r.pnl_pct >= 0 ? "up" : "down"}">${esc(potPct(r.pnl_pct))}</span>`}</td></tr>`).join("")
         : `<tr class="empty"><td colspan="5">${esc(potSay("noHoldings"))}</td></tr>`) + "</tbody>");
@@ -1119,7 +1120,7 @@
     const tm = (ms) => new Date(ms).toLocaleString(lang(), { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
     set("pp-trades", `<thead><tr><th>${esc(potSay("thTime"))}</th><th>${esc(potSay("thSide"))}</th><th>${esc(potSay("thToken"))}</th><th class="r">${esc(potSay("thValue"))}</th><th>${esc(potSay("thWhy"))}</th></tr></thead><tbody>` +
       (tr.length ? tr.map((r) => `<tr><td>${esc(tm(r.at))}</td><td class="${r.side === "buy" ? "up" : "down"}">${esc(r.side)}</td>` +
-        `<td class="strong">${esc(r.symbol)}</td><td class="r">${esc(usd(r.usd))}</td><td class="dim">${esc(r.why || "")}</td></tr>`).join("")
+        `<td class="strong">${esc(nameOf(r.symbol))}${chainTag(chainOf(r.symbol)[0])}</td><td class="r">${esc(usd(r.usd))}</td><td class="dim">${esc(r.why || "")}</td></tr>`).join("")
         : `<tr class="empty"><td colspan="5">${esc(potSay("noTrades"))}</td></tr>`) + "</tbody>");
     // this week's holders: everyone qualifying now (hours are added once an hour), with what they're on track for
     const rows = Object.entries((hold && hold.holders) || {}).map(([w, x]) => ({ w, n: (x.tokens || []).length, hours: x.epoch_hours || 0,
