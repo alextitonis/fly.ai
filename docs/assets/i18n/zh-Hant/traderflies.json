@@ -2854,6 +2854,7 @@
   },
   "onramp": {
     "button": "用銀行卡或 Apple Pay 購買 ${usd} USDC",
-    "note": "會到你自己在 Base 上的錢包；然後在上方選擇 Base 和 USDC 發送給你的蒼蠅。"
+    "note": "會到你在 Base 上的錢包；然後用「從其他鏈」（Base，USDC）存入這裡。",
+    "connect": "連接錢包即可用銀行卡或 Apple Pay 購買 USDC。"
   }
 }

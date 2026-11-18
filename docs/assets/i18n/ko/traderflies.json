@@ -2854,6 +2854,7 @@
   },
   "onramp": {
     "button": "카드 또는 Apple Pay로 ${usd} USDC 구매",
-    "note": "Base의 내 지갑으로 들어옵니다. 그다음 위에서 Base와 USDC를 골라 플라이에게 보내세요."
+    "note": "Base의 내 지갑으로 들어옵니다. 그다음 \"다른 체인에서\"(Base, USDC)로 여기에 입금하세요.",
+    "connect": "카드나 Apple Pay로 USDC를 사려면 지갑을 연결하세요."
   }
 }

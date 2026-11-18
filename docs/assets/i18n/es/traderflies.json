@@ -2856,6 +2856,7 @@
   },
   "onramp": {
     "button": "Compra ${usd} en USDC con tarjeta o Apple Pay",
-    "note": "Llega a tu propia cartera en Base; luego elige Base y USDC arriba para enviarlo a tu mosca."
+    "note": "Llega a tu cartera en Base; luego deposítalo aquí con \"Desde otra cadena\" (Base, USDC).",
+    "connect": "Conecta tu cartera para comprar USDC con tarjeta o Apple Pay."
   }
 }

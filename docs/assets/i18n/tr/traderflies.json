@@ -2856,6 +2856,7 @@
   },
   "onramp": {
     "button": "Kart ya da Apple Pay ile ${usd} USDC al",
-    "note": "Base'teki kendi cüzdanına gelir; sonra yukarıdan Base ve USDC'yi seçip sineğine gönder."
+    "note": "Base'teki kendi cüzdanına gelir; sonra \"Başka bir zincirden\" (Base, USDC) ile buraya yatır.",
+    "connect": "Kart ya da Apple Pay ile USDC almak için cüzdanını bağla."
   }
 }
