@@ -1,13 +1,20 @@
 # Sugar to feeding (Shiu et al. 2024) on MaleCNS: results
 
 Notebook: [`sugar_feeding.ipynb`](sugar_feeding.ipynb) (executed, outputs saved). All numbers:
-[`sugar_feeding_numbers.csv`](sugar_feeding_numbers.csv). Issue #41.
+[`sugar_feeding_numbers.csv`](sugar_feeding_numbers.csv). Issue #41, PR #65 (revised after review).
 
-**Result.** With flybrain's default parameters, driving the MaleCNS sugar GRNs (5–50 Hz) does not change
-MN9, and bitter GRNs can't serve as a control because they already fire at their 50 Hz ceiling at rest. With
-one documented switch, `sensory_input=False`, the paper's pattern appears in direction: sugar raises MN9 in a
-graded way, bitter slightly lowers it, a shuffled brain does nothing. The effect is small, though: +2 Hz at
-50 Hz input, against +23 Hz when MN9's own top inputs are driven.
+**Result.**
+* With flybrain's default parameters, driving the MaleCNS sugar GRNs (5–50 Hz) does not change MN9. Bitter
+  GRNs can't serve as a control there, because they already fire at their 50 Hz ceiling at rest.
+* With one documented switch, `sensory_input=False`, sugar raises MN9 in a graded way. This survives a Holm
+  correction across all 77 tests from 20 Hz input up. Bitter's slight suppression of MN9 survives BH only at
+  some levels and never Holm.
+* With `sensory_input=False` and 5 ms steps, at the paper's 100 Hz input, MN9 reaches 0.050 of the maximum
+  it can reach in this model (the positive control's 99.70 Hz). Shiu et al. calibrated their model to ~0.8
+  at that input.
+* The shuffled brain shows no consistent sugar effect. On the default brain, one of its six tested levels
+  (40 Hz) is significant under BH, not Holm; with `sensory_input=False`, none is. But MN9 rests 2.6–4.2×
+  faster there, so it isn't a like-for-like control.
 
 ## What Shiu et al. did
 
@@ -88,127 +95,272 @@ Could not match, or only partly:
   389 self-loops were dropped and repeated pairs merged (25,582,938 → 25,494,871 connections).
 * **Positive control.** MN9 R's five strongest excitatory inputs (DNge062, CB0553, CB0493, CB0893, DNge080;
   all left), driven at the same rates.
+* **Statistics.** Every paired Wilcoxon test is one member of a single family of **77**: 76 tests (each
+  input group × rate above 0 Hz, on every brain, positive controls included) plus one post hoc test of
+  contralateral vs ipsilateral change (added after seeing the first results). Holm (family-wise error) and Benjamini–Hochberg (false discovery rate)
+  are applied across all 77. They are written out in the notebook and checked against the worked example in
+  Benjamini & Hochberg (1995); statsmodels isn't a dependency. The CSV has `p_holm` and `q_bh`. Of the 77
+  tests, 41 are below 0.05 raw, 36 under BH and 22 under Holm; 15 of those 22 are positive-control rows.
+* **Verified downloads.** Both annotation files are checked against a fixed sha256. On a mismatch the
+  notebook deletes the file and stops, so the next run downloads it again. The MaleCNS feather's Google Cloud
+  Storage path has no version in it, so the hash is what pins it:
+  `2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2`. The FlyWire TSV is at a pinned commit:
+  `b214970b55d2fbe0853bba536fdcb9e28730f4eb7ab06f600491df795da683cd`.
+
+## Claims and whether they survive correction
+
+| claim | key test | p | p_holm | q_bh | survives |
+|---|---|---|---|---|---|
+| default brain: sugar doesn't move MN9 | sugar L, 50 Hz: −0.05 ± 0.20 | 0.80 | 1 | 0.89 | (null) |
+| `sensory_input=False`: sugar raises MN9 | sugar L, 50 Hz: +2.00 ± 0.22 | 8e-05 | 0.0052 | 0.00035 | Holm |
+| onset level, `sensory_input=False` | 20 Hz: +1.00 ± 0.21 (lowest level surviving Holm) | 0.00059 | 0.033 | 0.0021 | Holm |
+| | 10 Hz: +0.40 ± 0.15 (the raw onset) | 0.030 | 1 | 0.060 | neither |
+| bitter suppresses MN9 (`sensory_input=False`) | 10, 20, 40 Hz: −0.50, −0.50, −0.60 | 0.015–0.016 | 0.69–0.70 | 0.035 | BH only |
+| | 30, 50 Hz: −0.50, −0.45 | 0.035, 0.038 | 1 | 0.067, 0.071 | neither |
+| contra > ipsi (`sensory_input=False`, 50 Hz) | +2.00 vs +1.05; difference +0.95 ± 0.28 | 0.0044 | 0.21 | 0.012 | BH only |
+| Shiu's GRN mix (default) | 50 Hz: +0.70 ± 0.15 | 0.00092 | 0.051 | 0.0031 | BH only |
+| | 40 Hz: +0.55 ± 0.18 | 0.016 | 0.70 | 0.035 | BH only |
+| sugar R → MN9 L (default) | 40 Hz: +0.50 ± 0.14 | 0.0057 | 0.28 | 0.015 | BH only |
+| | 30, 50 Hz: +0.40, +0.55 | 0.025, 0.031 | 1 | 0.052, 0.060 | neither |
+| dt = 5 ms, default brain | sugar 200 Hz: +1.00 ± 0.26 | 0.016 | 0.70 | 0.035 | BH only |
+| dt = 5 ms + `sensory_input=False` | sugar 50, 100, 200 Hz: +2.15, +3.55, +5.85 | 7e-05–0.00011 | 0.0051–0.0063 | ≤0.00042 | Holm |
+| shuffled brain, default | 40 Hz: +0.50 ± 0.15 | 0.011 | 0.53 | 0.028 | BH only |
+| shuffled brain, `sensory_input=False` | none below 0.05 raw (50 Hz: +0.25 ± 0.20) | 0.25 | 1 | 0.38 | (null) |
+
+The dt = 5 ms sweep on the default brain has 10 seeds. Its smallest possible Wilcoxon p is 0.002, so none of
+its rows can survive Holm across 77 tests, not even the positive control (p_holm 0.11, q_bh 0.0054). Every
+20-seed positive-control row survives Holm.
 
 ## Numbers
 
-Contralateral MN9, 20 seeds per level. "Paired change" = extra MN9 spikes in 1 s vs the same seed at 0 Hz,
-mean ± SE (Wilcoxon p). Full table, including ipsilateral MN9 and the achieved input rates, in the CSV.
+Contralateral MN9. "Paired change" = extra MN9 spikes in 1 s vs the same seed at 0 Hz, mean ± SE. "survives"
+uses the 77-test family: Holm = p_holm < 0.05; BH only = q_bh < 0.05 but not Holm; neither = raw p < 0.05
+only; – = not significant raw. The full table, including ipsilateral MN9 and the achieved input rates, is in
+the CSV.
 
-### Default parameters (no parameter changed)
+At rest, default brain: sugar GRNs 3.0 Hz, **bitter GRNs 50.0 Hz** (the ceiling), MN9 1.8 Hz (L and R).
+At rest, `sensory_input=False`: sugar GRNs 0.3 Hz, bitter GRNs 0.2 Hz, MN9 2.2 Hz L / 1.6 Hz R.
 
-At rest: sugar GRNs 3.0 Hz, **bitter GRNs 50.0 Hz** (the ceiling), MN9 1.8 Hz (L and R).
+**Default parameters**
 
-| input | 0 Hz | 5 | 10 | 20 | 30 | 40 | 50 Hz |
+| input | rate (Hz) | MN9 contra Hz (mean ± SD) | paired change (mean ± SE) | p | p_holm | q_bh | survives |
 |---|---|---|---|---|---|---|---|
-| sugar L: MN9 Hz (mean ± SD) | 2.10 ± 0.79 | 1.95 ± 1.00 | 1.90 ± 0.91 | 1.95 ± 0.94 | 2.25 ± 1.12 | 2.20 ± 0.89 | 2.05 ± 0.94 |
-| sugar L: paired change | – | −0.15 ± 0.15 | −0.20 ± 0.14 | −0.15 ± 0.17 | +0.15 ± 0.18 | +0.10 ± 0.19 | −0.05 ± 0.20 (p 0.80) |
-| bitter L: MN9 Hz | 2.10 ± 0.79 | 2.10 ± 0.79 | 2.10 ± 0.79 | 2.05 ± 0.76 | 2.05 ± 0.76 | 2.00 ± 0.65 | 2.00 ± 0.65 |
-| bitter L: paired change | – | +0.00 | +0.00 | −0.05 ± 0.05 | −0.05 ± 0.05 | −0.10 ± 0.07 | −0.10 ± 0.07 (p 0.42) |
-| sugar L, shuffled brain: MN9 Hz | 8.75 ± 0.72 | 8.95 ± 0.76 | 9.00 ± 0.65 | 9.00 ± 0.79 | 9.05 ± 0.83 | 9.25 ± 0.79 | 8.75 ± 0.72 |
-| sugar L, shuffled: paired change | – | +0.20 ± 0.17 | +0.25 ± 0.16 | +0.25 ± 0.19 | +0.30 ± 0.18 | +0.50 ± 0.15 | +0.00 ± 0.16 (p 1.0) |
-| MN9's top-5 inputs: MN9 Hz | 2.10 ± 0.79 | 5.35 ± 0.81 | 8.25 ± 1.02 | 13.55 ± 1.28 | 18.45 ± 1.19 | 22.90 ± 1.02 | 25.00 ± 0.32 |
-| LB3b+c+d+LB4b L: paired change | – | −0.15 ± 0.13 | +0.10 ± 0.18 | +0.25 ± 0.14 | +0.25 ± 0.14 | +0.55 ± 0.18 | +0.70 ± 0.15 (p 0.0009) |
-| sugar R → MN9 L: paired change | – | +0.10 ± 0.12 | +0.30 ± 0.13 | +0.20 ± 0.16 | +0.40 ± 0.15 | +0.50 ± 0.14 | +0.55 ± 0.22 (p 0.03) |
+| sugar L | 0 | 2.10 ± 0.79 | – |  |  |  |  |
+| sugar L | 5 | 1.95 ± 1.00 | -0.15 ± 0.15 | 0.36 | 1 | 0.49 | – |
+| sugar L | 10 | 1.90 ± 0.91 | -0.20 ± 0.14 | 0.2 | 1 | 0.32 | – |
+| sugar L | 20 | 1.95 ± 0.94 | -0.15 ± 0.17 | 0.39 | 1 | 0.52 | – |
+| sugar L | 30 | 2.25 ± 1.12 | +0.15 ± 0.18 | 0.5 | 1 | 0.62 | – |
+| sugar L | 40 | 2.20 ± 0.89 | +0.10 ± 0.19 | 0.7 | 1 | 0.81 | – |
+| sugar L | 50 | 2.05 ± 0.94 | -0.05 ± 0.20 | 0.8 | 1 | 0.89 | – |
+| bitter L | 0 | 2.10 ± 0.79 | – |  |  |  |  |
+| bitter L | 5 | 2.10 ± 0.79 | +0.00 ± 0.00 | 1 | 1 | 1 | – |
+| bitter L | 10 | 2.10 ± 0.79 | +0.00 ± 0.00 | 1 | 1 | 1 | – |
+| bitter L | 20 | 2.05 ± 0.76 | -0.05 ± 0.05 | 0.68 | 1 | 0.79 | – |
+| bitter L | 30 | 2.05 ± 0.76 | -0.05 ± 0.05 | 0.68 | 1 | 0.79 | – |
+| bitter L | 40 | 2.00 ± 0.65 | -0.10 ± 0.07 | 0.42 | 1 | 0.54 | – |
+| bitter L | 50 | 2.00 ± 0.65 | -0.10 ± 0.07 | 0.42 | 1 | 0.54 | – |
+| LB3b+c+d+LB4b L | 0 | 2.10 ± 0.79 | – |  |  |  |  |
+| LB3b+c+d+LB4b L | 5 | 1.95 ± 1.00 | -0.15 ± 0.13 | 0.32 | 1 | 0.45 | – |
+| LB3b+c+d+LB4b L | 10 | 2.20 ± 1.11 | +0.10 ± 0.18 | 0.42 | 1 | 0.54 | – |
+| LB3b+c+d+LB4b L | 20 | 2.35 ± 1.04 | +0.25 ± 0.14 | 0.12 | 1 | 0.21 | – |
+| LB3b+c+d+LB4b L | 30 | 2.35 ± 0.67 | +0.25 ± 0.14 | 0.12 | 1 | 0.21 | – |
+| LB3b+c+d+LB4b L | 40 | 2.65 ± 0.99 | +0.55 ± 0.18 | 0.016 | 0.7 | 0.035 | BH only |
+| LB3b+c+d+LB4b L | 50 | 2.80 ± 0.83 | +0.70 ± 0.15 | 0.00092 | 0.051 | 0.0031 | BH only |
+| sugar R | 0 | 1.45 ± 1.00 | – |  |  |  |  |
+| sugar R | 5 | 1.55 ± 1.00 | +0.10 ± 0.12 | 0.49 | 1 | 0.62 | – |
+| sugar R | 10 | 1.75 ± 1.02 | +0.30 ± 0.13 | 0.077 | 1 | 0.14 | – |
+| sugar R | 20 | 1.65 ± 1.09 | +0.20 ± 0.16 | 0.31 | 1 | 0.44 | – |
+| sugar R | 30 | 1.85 ± 0.93 | +0.40 ± 0.15 | 0.025 | 1 | 0.052 | neither |
+| sugar R | 40 | 1.95 ± 1.10 | +0.50 ± 0.14 | 0.0057 | 0.28 | 0.015 | BH only |
+| sugar R | 50 | 2.00 ± 1.17 | +0.55 ± 0.22 | 0.031 | 1 | 0.06 | neither |
 
-Fraction of runs where MN9 fired at all: 0.80–1.00 in every row of this table (0.65–1.00 with
-`sensory_input=False`; per row in the CSV), because MN9 fires from noise at ~2 Hz. So it can't tell
-conditions apart, and the paired change is the measure to read. The bitter GRNs' achieved rate is 50 Hz at every level, so the bitter sweep
-adds no input.
+*Positive control (default), MN9 contra Hz:* 0 Hz → 2.10, 5 Hz → 5.35, 10 Hz → 8.25, 20 Hz → 13.55, 30 Hz → 18.45, 40 Hz → 22.90, 50 Hz → 25.00. Largest p_holm 0.0052, largest q_bh 0.00035.
 
-### `sensory_input=False` (one parameter changed; the table above is "before")
+**Default parameters, shuffled brain**
 
-At rest: sugar GRNs 0.3 Hz, bitter GRNs 0.2 Hz, MN9 2.2 Hz L / 1.6 Hz R.
-
-| input | 0 Hz | 5 | 10 | 20 | 30 | 40 | 50 Hz |
+| input | rate (Hz) | MN9 contra Hz (mean ± SD) | paired change (mean ± SE) | p | p_holm | q_bh | survives |
 |---|---|---|---|---|---|---|---|
-| sugar L: MN9 Hz (mean ± SD) | 1.55 ± 0.76 | 1.85 ± 0.75 | 1.95 ± 0.89 | 2.55 ± 0.94 | 2.90 ± 1.17 | 3.25 ± 1.07 | 3.55 ± 0.94 |
-| sugar L: paired change | – | +0.30 ± 0.16 (p 0.12) | +0.40 ± 0.15 (p 0.03) | +1.00 ± 0.21 (p 0.0006) | +1.35 ± 0.22 (p 0.0002) | +1.70 ± 0.19 (p 9e-5) | +2.00 ± 0.22 (p 8e-5) |
-| sugar L: runs above matched 0 Hz run | – | 0.35 | 0.40 | 0.65 | 0.80 | 0.90 | 0.95 |
-| bitter L: MN9 Hz | 1.55 ± 0.76 | 1.50 ± 1.05 | 1.05 ± 0.83 | 1.05 ± 0.83 | 1.05 ± 0.94 | 0.95 ± 0.89 | 1.10 ± 0.91 |
-| bitter L: paired change | – | −0.05 ± 0.18 | −0.50 ± 0.17 (p 0.016) | −0.50 ± 0.17 (p 0.016) | −0.50 ± 0.20 (p 0.035) | −0.60 ± 0.20 (p 0.015) | −0.45 ± 0.18 (p 0.038) |
-| sugar L, shuffled brain: MN9 Hz | 4.05 ± 0.89 | 4.10 ± 0.72 | 4.10 ± 0.85 | 4.15 ± 0.75 | 4.00 ± 0.56 | 4.25 ± 0.72 | 4.30 ± 0.57 |
-| sugar L, shuffled: paired change | – | +0.05 ± 0.17 | +0.05 ± 0.17 | +0.10 ± 0.19 | −0.05 ± 0.18 | +0.20 ± 0.16 | +0.25 ± 0.20 (p 0.25) |
-| MN9's top-5 inputs: MN9 Hz | 1.55 ± 0.76 | 4.75 ± 1.02 | 8.00 ± 1.21 | 13.60 ± 1.19 | 18.60 ± 0.99 | 23.00 ± 0.73 | 24.90 ± 0.31 |
+| sugar L, shuffled brain | 0 | 8.75 ± 0.72 | – |  |  |  |  |
+| sugar L, shuffled brain | 5 | 8.95 ± 0.76 | +0.20 ± 0.17 | 0.26 | 1 | 0.39 | – |
+| sugar L, shuffled brain | 10 | 9.00 ± 0.65 | +0.25 ± 0.16 | 0.15 | 1 | 0.24 | – |
+| sugar L, shuffled brain | 20 | 9.00 ± 0.79 | +0.25 ± 0.19 | 0.3 | 1 | 0.44 | – |
+| sugar L, shuffled brain | 30 | 9.05 ± 0.83 | +0.30 ± 0.18 | 0.14 | 1 | 0.22 | – |
+| sugar L, shuffled brain | 40 | 9.25 ± 0.79 | +0.50 ± 0.15 | 0.011 | 0.53 | 0.028 | BH only |
+| sugar L, shuffled brain | 50 | 8.75 ± 0.72 | +0.00 ± 0.16 | 1 | 1 | 1 | – |
 
-### `dt=0.005` (one parameter changed, otherwise default; 10 seeds)
+**`sensory_input=False`**
 
-Lets input reach the paper's 100–200 Hz.
+| input | rate (Hz) | MN9 contra Hz (mean ± SD) | paired change (mean ± SE) | p | p_holm | q_bh | survives |
+|---|---|---|---|---|---|---|---|
+| sugar L | 0 | 1.55 ± 0.76 | – |  |  |  |  |
+| sugar L | 5 | 1.85 ± 0.75 | +0.30 ± 0.16 | 0.12 | 1 | 0.2 | – |
+| sugar L | 10 | 1.95 ± 0.89 | +0.40 ± 0.15 | 0.03 | 1 | 0.06 | neither |
+| sugar L | 20 | 2.55 ± 0.94 | +1.00 ± 0.21 | 0.00059 | 0.033 | 0.0021 | Holm |
+| sugar L | 30 | 2.90 ± 1.17 | +1.35 ± 0.22 | 0.00016 | 0.0092 | 0.00059 | Holm |
+| sugar L | 40 | 3.25 ± 1.07 | +1.70 ± 0.19 | 8.5e-05 | 0.0052 | 0.00035 | Holm |
+| sugar L | 50 | 3.55 ± 0.94 | +2.00 ± 0.22 | 8e-05 | 0.0052 | 0.00035 | Holm |
+| bitter L | 0 | 1.55 ± 0.76 | – |  |  |  |  |
+| bitter L | 5 | 1.50 ± 1.05 | -0.05 ± 0.18 | 0.92 | 1 | 0.99 | – |
+| bitter L | 10 | 1.05 ± 0.83 | -0.50 ± 0.17 | 0.016 | 0.7 | 0.035 | BH only |
+| bitter L | 20 | 1.05 ± 0.83 | -0.50 ± 0.17 | 0.016 | 0.7 | 0.035 | BH only |
+| bitter L | 30 | 1.05 ± 0.94 | -0.50 ± 0.20 | 0.035 | 1 | 0.067 | neither |
+| bitter L | 40 | 0.95 ± 0.89 | -0.60 ± 0.20 | 0.015 | 0.69 | 0.035 | BH only |
+| bitter L | 50 | 1.10 ± 0.91 | -0.45 ± 0.18 | 0.038 | 1 | 0.071 | neither |
+| sugar L: contra extra minus ipsi extra | 50 |  | +0.95 ± 0.28 | 0.0044 | 0.21 | 0.012 | BH only |
 
-| input | 0 Hz | 25 | 50 | 100 | 150 | 200 Hz |
-|---|---|---|---|---|---|---|
-| sugar L: MN9 Hz | 3.9 ± 0.57 | 4.0 ± 0.47 | 4.1 ± 0.74 | 4.1 ± 0.32 | 4.5 ± 0.53 | 4.9 ± 0.57 |
-| sugar L: paired change | – | +0.10 ± 0.23 | +0.20 ± 0.25 | +0.20 ± 0.20 (p 0.62) | +0.60 ± 0.22 (p 0.06) | +1.00 ± 0.26 (p 0.016) |
-| MN9's top-5 inputs: MN9 Hz | 3.9 ± 0.57 | 18.8 ± 1.32 | 31.6 ± 1.17 | 56.1 ± 2.23 | 79.4 ± 1.58 | 100.0 ± 0.00 |
+*Positive control (sensory_input=False), MN9 contra Hz:* 0 Hz → 1.55, 5 Hz → 4.75, 10 Hz → 8.00, 20 Hz → 13.60, 30 Hz → 18.60, 40 Hz → 23.00, 50 Hz → 24.90. Largest p_holm 0.0052, largest q_bh 0.00035.
 
-With `sensory_input=True` the sugar GRNs' achieved rate is above the nominal one (e.g. 40 Hz at nominal
-25 Hz), because sensory neurons also excite each other.
+**`sensory_input=False`, shuffled brain**
+
+| input | rate (Hz) | MN9 contra Hz (mean ± SD) | paired change (mean ± SE) | p | p_holm | q_bh | survives |
+|---|---|---|---|---|---|---|---|
+| sugar L, shuffled brain | 0 | 4.05 ± 0.89 | – |  |  |  |  |
+| sugar L, shuffled brain | 5 | 4.10 ± 0.72 | +0.05 ± 0.17 | 0.94 | 1 | 0.99 | – |
+| sugar L, shuffled brain | 10 | 4.10 ± 0.85 | +0.05 ± 0.17 | 0.94 | 1 | 0.99 | – |
+| sugar L, shuffled brain | 20 | 4.15 ± 0.75 | +0.10 ± 0.19 | 0.88 | 1 | 0.97 | – |
+| sugar L, shuffled brain | 30 | 4.00 ± 0.56 | -0.05 ± 0.18 | 0.63 | 1 | 0.76 | – |
+| sugar L, shuffled brain | 40 | 4.25 ± 0.72 | +0.20 ± 0.16 | 0.23 | 1 | 0.36 | – |
+| sugar L, shuffled brain | 50 | 4.30 ± 0.57 | +0.25 ± 0.20 | 0.25 | 1 | 0.38 | – |
+
+**`dt=0.005` (10 seeds)**
+
+| input | rate (Hz) | MN9 contra Hz (mean ± SD) | paired change (mean ± SE) | p | p_holm | q_bh | survives |
+|---|---|---|---|---|---|---|---|
+| sugar L, dt=5 ms | 0 | 3.90 ± 0.57 | – |  |  |  |  |
+| sugar L, dt=5 ms | 25 | 4.00 ± 0.47 | +0.10 ± 0.23 | 1 | 1 | 1 | – |
+| sugar L, dt=5 ms | 50 | 4.10 ± 0.74 | +0.20 ± 0.25 | 0.75 | 1 | 0.85 | – |
+| sugar L, dt=5 ms | 100 | 4.10 ± 0.32 | +0.20 ± 0.20 | 0.62 | 1 | 0.76 | – |
+| sugar L, dt=5 ms | 150 | 4.50 ± 0.53 | +0.60 ± 0.22 | 0.062 | 1 | 0.11 | – |
+| sugar L, dt=5 ms | 200 | 4.90 ± 0.57 | +1.00 ± 0.26 | 0.016 | 0.7 | 0.035 | BH only |
+
+*Positive control (dt=0.005), MN9 contra Hz:* 0 Hz → 3.90, 25 Hz → 18.80, 50 Hz → 31.60, 100 Hz → 56.10, 150 Hz → 79.40, 200 Hz → 100.00. Largest p_holm 0.11, largest q_bh 0.0054.
+
+**`sensory_input=False` and `dt=0.005` (20 seeds)**
+
+| input | rate (Hz) | MN9 contra Hz (mean ± SD) | paired change (mean ± SE) | p | p_holm | q_bh | survives |
+|---|---|---|---|---|---|---|---|
+| sugar L, dt=5 ms | 0 | 1.45 ± 0.89 | – |  |  |  |  |
+| sugar L, dt=5 ms | 50 | 3.60 ± 0.94 | +2.15 ± 0.26 | 0.00011 | 0.0063 | 0.00042 | Holm |
+| sugar L, dt=5 ms | 100 | 5.00 ± 0.73 | +3.55 ± 0.22 | 7.2e-05 | 0.0051 | 0.00035 | Holm |
+| sugar L, dt=5 ms | 200 | 7.30 ± 0.57 | +5.85 ± 0.21 | 7.1e-05 | 0.0051 | 0.00035 | Holm |
+
+*Positive control (sensory_input=False, dt=0.005), MN9 contra Hz:* 0 Hz → 1.45, 50 Hz → 31.40, 100 Hz → 56.55, 200 Hz → 99.70. Largest p_holm 0.0052, largest q_bh 0.00035.
+
+Family: 77 tests. Below 0.05: raw 41, Holm 22, BH 36.
+
+### Shuffled brain: a different regime
+
+MN9 at rest (the 0 Hz level, mean of 20 seeds), contralateral / ipsilateral:
+
+| brain | real | shuffled | ratio |
+|---|---|---|---|
+| default | 2.10 / 1.45 Hz | 8.75 / 5.00 Hz | 4.2× / 3.4× |
+| `sensory_input=False` | 1.55 / 1.90 Hz | 4.05 / 5.85 Hz | 2.6× / 3.1× |
+
+On the default brain the shuffled sweep is flat except at 40 Hz: +0.50 ± 0.15, p 0.011, p_holm 0.53, q_bh
+0.028. That level survives BH, not Holm; its neighbours (30 Hz +0.30, p 0.14; 50 Hz +0.00, p 1.0) are not
+significant. So the shuffle shows no consistent sugar effect, and it is not a clean null. It also runs MN9 at
+a 2.6–4.2× higher resting rate than the real brain. So it shows that random wiring with the same degrees
+doesn't carry sugar to MN9 in a consistent way. It doesn't show that the real brain's MN9 would behave the
+same at its own baseline.
+
+### Fraction of maximum at the paper's rates (`sensory_input=False`, `dt=0.005`)
+
+Two parameters changed. At 100 Hz sugar, MN9 fires at 5.00 Hz (rest 1.45 Hz). The positive control (MN9's
+top-5 excitatory inputs) reaches 99.70 Hz at 200 Hz input, the highest MN9 rate in that sweep. So 100 Hz
+sugar gives **0.050** of that maximum (**0.036** measured above rest). Shiu et al. calibrated W_syn to give
+~0.8 of MN9's maximum at 100 Hz sugar, about 16× more. Sugar input at the paper's rates does drive MN9 here,
+and every level survives Holm, but weakly.
 
 ### Where the sugar signal goes
 
-Default brain, 50 Hz sugar input: **116 neurons** respond reliably (mean ≥ +1 spike and higher in at least 18
-of 20 seeds). 76 of them are one synapse from the sugar GRNs, 38 are two away and 2 are three away. The
-strongest are SEZ local neurons (GNG215, GNG228, GNG038, GNG452, GNG232, GNG254 ...), other labellar GRNs
-(LB3d, LB2d, reached through GRN–GRN synapses) and the descending neuron DNg67. MN9 is two synapses from the
-sugar GRNs but is not among the responders.
+**`sensory_input=False`, 50 Hz sugar (the brain with a sugar → MN9 effect).** 242 neurons respond reliably
+(mean ≥ +1 spike, and higher in at least 18 of 20 seeds): 96 at one synapse from the sugar GRNs, 141 at two,
+5 at three. **MN9 is among them** (two synapses away). Strongest responders:
+
+| type | side | superclass | hop | extra spikes |
+|---|---|---|---|---|
+| GNG215 | L | cb_intrinsic | 1 | 24.7 |
+| ANXXX462a | L | ascending_neuron | 1 | 24.0 |
+| GNG038 | L | cb_intrinsic | 1 | 23.6 |
+| GNG229 | L | cb_intrinsic | 1 | 23.0 |
+| GNG175 | L | cb_intrinsic | 1 | 22.4 |
+| GNG038 | R | cb_intrinsic | 1 | 20.7 |
+| GNG452 (2 neurons) | L | cb_intrinsic | 1 | 18.6 |
+| GNG228 | L | cb_intrinsic | 1 | 17.2 |
+| GNG254 | L | cb_intrinsic | 1 | 15.2 |
+| GNG042 | L | cb_intrinsic | 1 | 15.2 |
+| DNg67 | L / R | descending_neuron | 1 | 11.2 / 9.2 |
+
+No sensory neuron is among the strongest responders: `sensory_input=False` removes the synapses onto
+sensory neurons, so there's no GRN-to-GRN spread.
+
+**Default brain, 50 Hz sugar (no sugar → MN9 effect, for comparison).** 116 neurons respond (76 / 38 / 2 at
+one / two / three synapses), and MN9 is not among them. The strongest are GNG215, ANXXX462a, an untyped
+sensory neuron, and other labellar GRNs: LB2d (2 neurons) and LB3d (5 neurons), reached through
+sensory-to-sensory synapses. After them come GNG228, GNG038 and GNG452.
 
 ## Plots
 
 ![MN9 vs input rate](sugar_feeding_mn9.png)
 
-![dt = 5 ms](sugar_feeding_mn9_dt5ms.png)
+![dt = 5 ms, with and without sensory input](sugar_feeding_mn9_dt5ms.png)
 
 ## Comparison with the paper
 
 | question | Shiu et al. (FlyWire) | MaleCNS, default | MaleCNS, `sensory_input=False` |
 |---|---|---|---|
-| does sugar drive MN9? | yes; ~80% of max at 100 Hz by calibration | no (5–50 Hz); +1 Hz at 200 Hz with dt = 5 ms | yes in direction, weakly: +2 Hz at 50 Hz (MN9 can reach 25 Hz) |
-| from what input rate? | not stated in the text (Fig. 1d) | – | first significant at 10 Hz (+0.4, p 0.03), clear from 20 Hz |
-| does bitter drive MN9? | no; bitter suppresses sugar-driven MN9 | not testable (bitter GRNs saturated at rest) | no; slight suppression of spontaneous MN9 (−0.5 Hz) |
-| shuffled connectome | 1 of 100 shuffles activates MN9 | no sugar effect | no sugar effect |
-| contralateral MN9 | contralateral > ipsilateral (Fig. 1c) | – | contralateral +2.00 vs ipsilateral +1.05 at 50 Hz |
+| does sugar drive MN9? | yes; ~0.8 of max at 100 Hz by calibration | no (5–50 Hz); at dt = 5 ms, +1.0 at 200 Hz (BH only) | yes, survives Holm from 20 Hz; at dt = 5 ms, 0.050 of max at 100 Hz |
+| from what input rate? | not stated in the text (Fig. 1d) | – | 20 Hz after Holm (10 Hz raw only) |
+| does bitter drive MN9? | no; bitter suppresses sugar-driven MN9 | not testable (bitter GRNs saturated at rest) | no; slight suppression of spontaneous MN9, BH only at 3 of 6 levels |
+| shuffled connectome | 1 of 100 shuffles activates MN9 | no consistent effect (40 Hz: BH only); MN9 rests 4.2× faster | no effect; MN9 rests 2.6× faster |
+| contralateral MN9 | contralateral > ipsilateral (Fig. 1c) | – | +2.00 vs +1.05 at 50 Hz, BH only |
 
-Where MaleCNS agrees: the sign of the sugar effect and bitter effect, the contralateral bias, and the null
-result on a shuffled brain, all with `sensory_input=False`. Where it differs: the size of the effect (small
-against what MN9 can do), and with the default `sensory_input=True` the pathway doesn't show at all.
+Where MaleCNS agrees, with `sensory_input=False`: sugar drives MN9 up, with a graded response that survives
+Holm, and bitter does not drive it. Where it differs: the size of the effect (0.050 of max vs ~0.8), and
+with the default `sensory_input=True` nothing shows. The bitter suppression and the contralateral bias
+point the paper's way but survive BH only.
 
 ## Limits
 
-* The models differ in more than the connectome. flybrain uses 20 ms steps, no synaptic delay or time
-  constant, inputs normalised per neuron, and tonic drive plus noise; its parameters were set on visual
-  escape and steering. Shiu et al. tuned their one free parameter on this sugar → MN9 readout. A weak response
-  here is a statement about this model on this connectome, not about the fly.
+* The models differ in more than the connectome. flybrain uses 20 ms steps (5 ms in the dt sweeps), no
+  synaptic delay or time constant, inputs normalised per neuron, and tonic drive plus noise; its parameters
+  were set on visual escape and steering. Shiu et al. tuned their one free parameter on this sugar → MN9
+  readout. A weak response here is a statement about this model on this connectome, not about the fly.
+* "Fraction of max" uses the positive control's highest MN9 rate as the maximum. That isn't the same
+  maximum Shiu et al. used (their MN9's own maximum firing).
 * Sugar GRNs are identified by FlyWire morphological type and modality (LB3b/LB3c), not by receptor
   expression. Shiu's mixed composition (LB3b+c+d+LB4b) does a little better on the default brain (+0.70 at
-  50 Hz vs −0.05 for LB3b+c), but is still small.
+  50 Hz, BH only) but is still small.
 * Input is forced spikes at a set probability per step, not Brian2 Poisson synaptic input. The +5 V kick size
   is a choice; it only needs to exceed threshold.
-* One shuffle (degree-preserving, seed 41), not 100, and not the paper's shuffle method.
-* `sensory_input=False` and `dt=0.005` were each tried once, as one-parameter changes. Nothing was searched or
-  tuned. The bitter + sugar co-activation of the paper's Fig. 3a was not run.
-* The untested idea that the saturated bitter GRNs (and other sensory loops) mask the sugar effect in the
-  default brain fits the before/after difference but was not tested on its own.
-* Results are bit-identical on a rerun on the same machine. numba's parallel sum depends on the thread count,
-  so a machine with a different number of threads may give different individual spikes (the statistics
-  should hold).
+* One shuffle (degree-preserving, seed 41), not 100, and not the paper's shuffle method. MN9 rests faster on it.
+* The correction family is every test in this notebook. A narrower, pre-registered family (say, only the
+  `sensory_input=False` sugar sweep) would be less strict. The family is fixed here so that nothing is
+  picked after seeing the results.
+* The bitter + sugar co-activation of the paper's Fig. 3a was not run.
+* Results are bit-identical on reruns on the same machine. numba's parallel sum depends on the thread count,
+  so a machine with a different number of threads gives different individual spikes. A Linux rerun of the
+  first commit (2 threads) kept every conclusion except the default sugar R row at 50 Hz (p 0.087 there,
+  0.031 here), which doesn't survive correction here either.
 
 ## Rerun
 
 Hardware: Apple M4 (10 cores, 10 numba threads), 16 GB, macOS 27.2.1, CPU only. Python 3.11.14,
 flybrain 0.1.1 (PyPI), numpy 2.4.6, scipy 1.17.1, numba 0.68.1, pandas 3.1.1, pyarrow 26.0.1,
-matplotlib 3.11.2. Runtime: about 8 minutes for the whole notebook (7.6, 7.9 and 8.1 min on three runs), plus
-about a minute for the first-time downloads.
+matplotlib 3.11.2. Runtime: about 15–23 minutes for the whole notebook (14.7, 18.5 and 22.6 min wall time on three runs; it varies on this machine), plus about a minute for the first-time downloads.
 
 ```bash
 python3.11 -m venv venv && source venv/bin/activate
 pip install flybrain pandas pyarrow matplotlib nbconvert ipykernel
 flybrain download          # ~260 MB into ~/fly-data (or $FLY_DATA)
-cd notebooks
-jupyter nbconvert --to notebook --execute --inplace sugar_feeding.ipynb --ExecutePreprocessor.timeout=3600
+jupyter nbconvert --to notebook --execute --inplace notebooks/sugar_feeding.ipynb --ExecutePreprocessor.timeout=3600
 ```
 
-The notebook also downloads the MaleCNS annotation table (14.5 MB) and the FlyWire annotations (31.7 MB) into
-`$FLY_DATA/annotations`. Seeds: brain noise `reset(seed)` with seeds 0–19 (0–9 for dt = 5 ms); stimulus
-`default_rng([41, seed])`; shuffle `default_rng(41)`. `SUGAR_SEEDS=2` in the environment gives a quick
-smoke run.
+The command works from the repository root or from `notebooks/` (there, use `sugar_feeding.ipynb`). Outputs
+always land in `notebooks/`. The notebook also downloads the MaleCNS annotation table (14.5 MB) and the
+FlyWire annotations (31.7 MB) into `$FLY_DATA/annotations`, and checks both hashes. Seeds: brain noise
+`reset(seed)` with seeds 0–19 (0–9 for the default-brain dt = 5 ms sweep); stimulus `default_rng([41, seed])`;
+shuffle `default_rng(41)`. `SUGAR_SEEDS=2` in the environment gives a quick smoke run.
 
 Coding agent: Claude Code (Claude Opus 5.5).
