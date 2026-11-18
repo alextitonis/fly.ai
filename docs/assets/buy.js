@@ -640,9 +640,26 @@
     if (wallet) q.set("walletAddress", wallet);
     return "https://meldcrypto.com/?" + q.toString();
   }
+  // after a card purchase the box is set up for the swap (buy $FLYAI with USDG on Robinhood Chain) and watches the
+  // wallet: when the USDG lands, it says so - one tap on Buy swaps it (2026-11-18, the user: "then swap inside")
+  let cardWatch = null;
+  function setVal(id, v) { const el = $(id); if (el && el.value !== v) { el.value = v; el.dispatchEvent(new Event("change")); } }
+  function watchCard() {
+    setVal("buy-dir", "buy"); setVal("buy-from", "4663"); setVal("buy-pay", "USDG");
+    if (cardWatch || !wallet) return;
+    const start = Date.now(), before = bal;
+    cardWatch = setInterval(async () => {
+      if (Date.now() - start > 45 * 60 * 1000) { clearInterval(cardWatch); cardWatch = null; return; }
+      await loadBalance().catch(() => {});
+      if (bal != null && before != null && bal > before && $("buy-pay").value === "USDG") {
+        clearInterval(cardWatch); cardWatch = null;
+        msg(t("cardArrived"), "ok");
+      }
+    }, 20000);
+  }
   document.addEventListener("click", (e) => {
     const a = e.target && e.target.closest && e.target.closest("#buy-card");
-    if (a) a.href = cardUrl();
+    if (a) { a.href = cardUrl(); watchCard(); }
   }, true);
 
   async function connect() {
