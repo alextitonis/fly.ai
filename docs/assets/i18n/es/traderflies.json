@@ -2859,6 +2859,8 @@
     "note": "En Transak, elige BNB en la red BNB Chain y pega la dirección de tu mosca. Llega directo a tu mosca, que lo guarda como BNB y opera con él. Dirección de tu mosca:",
     "connect": "Conecta tu cartera para comprar USDC con tarjeta o Apple Pay.",
     "copy": "Copiar dirección",
-    "copied": "Dirección copiada."
+    "copied": "Dirección copiada.",
+    "appkitNote": "Paga con tarjeta o Apple Pay: el BNB va directo a tu mosca en BNB Chain, que lo guarda como BNB y opera con él. Puedes cambiar el monto en el pago.",
+    "other": "O compra en el sitio de Transak y envíalo directo a tu mosca"
   }
 }
