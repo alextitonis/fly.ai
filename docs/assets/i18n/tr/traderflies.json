@@ -2856,12 +2856,7 @@
   },
   "onramp": {
     "button": "Kart ya da Apple Pay ile al",
-    "note": "Transak'ta BNB Chain ağında BNB seç ve sineğinin adresini yapıştır. Doğrudan sineğine gelir; sinek onu BNB olarak tutar ve onunla işlem yapar. Sineğinin adresi:",
-    "connect": "Kart ya da Apple Pay ile USDC almak için cüzdanını bağla.",
-    "copy": "Adresi kopyala",
-    "copied": "Adres kopyalandı.",
     "appkitNote": "Kart ya da Apple Pay ile öde: BNB doğrudan BNB Chain'deki sineğine gider; sinek onu BNB olarak tutar ve onunla işlem yapar. Tutarı ödeme ekranında değiştirebilirsin.",
-    "other": "Ya da Transak sitesinden al ve doğrudan sineğine gönder",
     "lands": {
       "usdg": "Kart ya da Apple Pay ile öde: USDG doğrudan Robinhood Chain'deki sineğine gider. Tutarı ödeme ekranında değiştirebilirsin.",
       "eth": "Kart ya da Apple Pay ile öde: ETH doğrudan Robinhood Chain'deki sineğine gider.",

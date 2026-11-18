@@ -2856,12 +2856,7 @@
   },
   "onramp": {
     "button": "Buy with card or Apple Pay",
-    "note": "On Transak, choose BNB on the BNB Chain network and paste your fly's address. It lands straight in your fly, which keeps it as BNB and trades with it. Your fly's address:",
-    "connect": "Connect your wallet to buy USDC with a card or Apple Pay.",
-    "copy": "Copy fly address",
-    "copied": "Your fly's address is copied.",
     "appkitNote": "Pay by card or Apple Pay: the BNB goes straight into your fly on BNB Chain, which keeps it as BNB and trades with it. You can change the amount in the checkout.",
-    "other": "Or buy on Transak's site and send it straight to your fly",
     "lands": {
       "usdg": "Pay by card or Apple Pay: USDG goes straight into your fly on Robinhood Chain. You can change the amount in the checkout.",
       "eth": "Pay by card or Apple Pay: ETH goes straight into your fly on Robinhood Chain.",

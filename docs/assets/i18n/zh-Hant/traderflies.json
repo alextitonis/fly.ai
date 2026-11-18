@@ -2854,12 +2854,7 @@
   },
   "onramp": {
     "button": "用銀行卡或 Apple Pay 購買",
-    "note": "在 Transak 上選擇 BNB Chain 網路的 BNB，並貼上你蒼蠅的地址。它會直接到你的蒼蠅，蒼蠅以 BNB 持有並用它交易。你蒼蠅的地址：",
-    "connect": "連接錢包即可用銀行卡或 Apple Pay 購買 USDC。",
-    "copy": "複製地址",
-    "copied": "地址已複製。",
     "appkitNote": "用銀行卡或 Apple Pay 付款：BNB 會直接進入你蒼蠅在 BNB Chain 上的錢包，蒼蠅以 BNB 持有並用它交易。可在付款頁修改金額。",
-    "other": "或在 Transak 網站購買並直接發送給你的蒼蠅",
     "lands": {
       "usdg": "用銀行卡或 Apple Pay 付款：USDG 直接進入你蒼蠅在 Robinhood Chain 上的錢包。可在付款頁修改金額。",
       "eth": "用銀行卡或 Apple Pay 付款：ETH 直接進入你蒼蠅在 Robinhood Chain 上的錢包。",
