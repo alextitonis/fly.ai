@@ -223,7 +223,18 @@
     "recordText": "{fights} 戰 {wins} 勝，{titles} 座冠軍",
     "openColosseum": "進入 Fly Colosseum",
     "noPotions": "還沒有永久藥水。",
-    "cantRead": "無法從鏈上讀取這隻蒼蠅，請重試。"
+    "cantRead": "無法從鏈上讀取這隻蒼蠅，請重試。",
+    "sales": {
+      "title": "成交紀錄",
+      "last": "上次成交價 {amount}",
+      "none": "從未在我們的市場成交",
+      "cantRead": "暫時無法讀取成交紀錄，請稍後再試。",
+      "price": "價格",
+      "from": "賣家",
+      "to": "買家",
+      "date": "日期",
+      "note": "僅顯示 Trader Flies 市場的成交，其他市場的成交不在此列。"
+    }
   },
   "lb": {
     "tab": "頂級交易者",

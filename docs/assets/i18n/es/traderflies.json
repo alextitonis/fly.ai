@@ -225,7 +225,18 @@
     "recordText": "{wins} victorias en {fights} combates, {titles} títulos",
     "openColosseum": "Abrir el Fly Colosseum",
     "noPotions": "Aún no tienes pociones para siempre.",
-    "cantRead": "No se pudo leer esta mosca de la cadena; inténtalo de nuevo."
+    "cantRead": "No se pudo leer esta mosca de la cadena; inténtalo de nuevo.",
+    "sales": {
+      "title": "Historial de ventas",
+      "last": "última venta por {amount}",
+      "none": "nunca se vendió en nuestro mercado",
+      "cantRead": "No se pudieron leer las ventas ahora. Prueba de nuevo en un minuto.",
+      "price": "Precio",
+      "from": "Vendedor",
+      "to": "Comprador",
+      "date": "Fecha",
+      "note": "Ventas en el mercado de Trader Flies. Las ventas en otros mercados no aparecen."
+    }
   },
   "lb": {
     "tab": "Mejores traders",

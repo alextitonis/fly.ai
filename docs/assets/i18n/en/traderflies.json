@@ -225,7 +225,18 @@
     "recordText": "{wins} wins in {fights} fights, {titles} titles",
     "openColosseum": "Open the Fly Colosseum",
     "noPotions": "No potions for good yet.",
-    "cantRead": "Couldn't read this fly from the chain; try again."
+    "cantRead": "Couldn't read this fly from the chain; try again.",
+    "sales": {
+      "title": "Sales history",
+      "last": "last sold for {amount}",
+      "none": "never sold on our market",
+      "cantRead": "Couldn't read the sales right now. Try again in a minute.",
+      "price": "Price",
+      "from": "Seller",
+      "to": "Buyer",
+      "date": "Date",
+      "note": "Sales on the Trader Flies market. Sales on other marketplaces aren't listed."
+    }
   },
   "lb": {
     "tab": "Top traders",

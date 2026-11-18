@@ -223,7 +223,18 @@
     "recordText": "{fights}전 {wins}승, 타이틀 {titles}회",
     "openColosseum": "Fly Colosseum 열기",
     "noPotions": "아직 영구 포션이 없어요.",
-    "cantRead": "체인에서 이 파리를 읽지 못했습니다. 다시 시도하세요."
+    "cantRead": "체인에서 이 파리를 읽지 못했습니다. 다시 시도하세요.",
+    "sales": {
+      "title": "판매 내역",
+      "last": "최근 판매가 {amount}",
+      "none": "우리 마켓에서 판매된 적 없음",
+      "cantRead": "지금은 판매 내역을 불러올 수 없습니다. 잠시 후 다시 시도하세요.",
+      "price": "가격",
+      "from": "판매자",
+      "to": "구매자",
+      "date": "날짜",
+      "note": "Trader Flies 마켓의 판매 내역입니다. 다른 마켓플레이스의 판매는 표시되지 않습니다."
+    }
   },
   "lb": {
     "tab": "탑 트레이더",

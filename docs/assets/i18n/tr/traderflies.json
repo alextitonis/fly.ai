@@ -225,7 +225,18 @@
     "recordText": "{fights} dövüşte {wins} galibiyet, {titles} şampiyonluk",
     "openColosseum": "Fly Colosseum'u aç",
     "noPotions": "Henüz kalıcı iksir yok.",
-    "cantRead": "Bu sinek zincirden okunamadı; tekrar dene."
+    "cantRead": "Bu sinek zincirden okunamadı; tekrar dene.",
+    "sales": {
+      "title": "Satış geçmişi",
+      "last": "son satış {amount}",
+      "none": "pazarımızda hiç satılmadı",
+      "cantRead": "Satışlar şu anda okunamadı. Bir dakika sonra tekrar dene.",
+      "price": "Fiyat",
+      "from": "Satıcı",
+      "to": "Alıcı",
+      "date": "Tarih",
+      "note": "Trader Flies pazarındaki satışlar. Diğer pazar yerlerindeki satışlar listelenmez."
+    }
   },
   "lb": {
     "tab": "En iyi traderlar",
