@@ -72,28 +72,31 @@ costs 1.2–1.5× one fly on CPU and 1.1–1.6× one fly on this GPU. Measured w
 
 ### Is the real wiring a better reservoir than random networks?
 
-`python scripts/bench_reservoir.py` runs three tasks — memory capacity, the 8×8 digit
-classification with the encoding of `notebooks/reservoir.ipynb`, and blob-position classification
-through `flybrain.eyes` — on the connectome and on three controls built from it (the same weights
-shuffled between neuron pairs, a degree-preserving rewiring, and an Erdős–Rényi graph with the same
-neurons and connections), with the same input neurons, readout population, trace settings and
-seeds for every network. Readouts are `flybrain.reservoir`'s.
+`python scripts/bench_reservoir.py` runs two tasks — the 8×8 digit classification with the
+encoding of `notebooks/reservoir.ipynb`, and blob-position classification through `flybrain.eyes`
+— on the connectome and on three controls built from it: the same weights shuffled between
+neuron pairs, a degree-preserving rewiring, and an Erdős–Rényi graph. All three controls are
+edge-matched (each has exactly the connectome's 25,088,107 connections, with no self-loops and no
+duplicate pairs; the Erdős–Rényi postsynaptic targets are drawn only among the rows the loaded
+connectome itself delivers input to) and strength-matched (every neuron's total input strength as
+in the connectome); the script prints nnz per network so the edge counts are checked on every
+run. The same input neurons, readout population, trace settings and seeds are used for every
+network. Readouts are `flybrain.reservoir`'s.
 
 | task | connectome | weight-shuffle | rewired | Erdős–Rényi | winner |
 |---|---|---|---|---|---|
-| memory capacity | 0.093 ± 0.042 | 0.069 ± 0.012 | 0.095 ± 0.035 | **0.106 ± 0.024** | Erdős–Rényi |
-| digits (600) | 0.497 ± 0.038 | 0.348 ± 0.034 | 0.325 ± 0.045 | **0.546 ± 0.030** | Erdős–Rényi |
-| eye position (L/C/R) | 0.347 ± 0.115 | 0.453 ± 0.054 | 0.329 ± 0.064 | **0.653 ± 0.064** | Erdős–Rényi |
+| digits (600) | 0.497 ± 0.038 | 0.348 ± 0.034 | 0.323 ± 0.039 | **0.548 ± 0.025** | Erdős–Rényi |
+| eye position (L/C/R) | 0.347 ± 0.115 | 0.453 ± 0.054 | 0.302 ± 0.046 | **0.578 ± 0.057** | Erdős–Rényi |
 
-Mean ± sd over seeds 0–4. The Erdős–Rényi control has the best mean on all three tasks (5/5
-seeds on eye position, 4/5 on the others), so on this evidence the real wiring is **not** a
-better generic reservoir than random networks of the same size — consistent with
-`notebooks/reservoir.ipynb`, where the connectome's Kenyon-cell readout scores chance while
-random wirings score far above it. Whatever the real wiring buys, it is not reservoir quality on
-these tasks. Measured with flybrain 0.1.1 on a 12-thread Apple-Silicon CPU; three full runs
-(two in the development environment, one from a fresh `pip install` in a clean virtualenv) took
-7 min 43 s, 18 min 25 s and 8 min 44 s — machine load varying — and printed identical numbers
-every time.
+Mean ± sd over seeds 0–4. The Erdős–Rényi control has the best mean on both tasks — best on
+every seed for eye position (5/5) and on 4/5 seeds for digits (seed 2: connectome 0.536 > 0.523)
+— so on this evidence the real wiring is **not** a better generic reservoir than random
+networks of the same size. The connectome's eye-position score is itself close to the 3-class
+chance level (0.333), consistent with `notebooks/reservoir.ipynb`, where the connectome's
+Kenyon-cell readout scores chance while random wirings score far above it. Whatever the real
+wiring buys, it is not reservoir quality on these tasks. Measured with flybrain 0.1.1 on a
+12-thread Apple-Silicon CPU; two full runs from a fresh `pip install` in a clean virtualenv
+(24 min 49 s and 30 min 51 s — machine load varying) printed identical numbers every time.
 
 ## Credits and license
 
