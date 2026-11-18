@@ -2827,5 +2827,35 @@
     "how2": "Puan = haftalık kâr ÷ cüzdanın ortalama boyutu, eksi {w} × haftanın en kötü düşüşü. İstikrar şansı yener.",
     "how3": "Gruplar cüzdanın ortalama boyutuna göre: küçükler küçüklerle yarışır. Sıralamada her sahibin en iyi sineği sayılır.",
     "how4": "Her grupta ilk 3: {p} XP (1. olan soulbound Şampiyon rozetini de alır). İlk %10'un geri kalanı: {top} XP. Haftayı artıda bitiren her cüzdan: {green} XP."
+  },
+  "skip": {
+    "nothing": "Orada satılacak bir şey kalmadı",
+    "edge": "Fazla sakin: genelde %{move} hareket ediyor, %{rt} işlem maliyetinin {x} katından az",
+    "flyaiCost": "$FLYAI tutuluyor: yalnızca maliyetinin üstünde satılır",
+    "paused": "{h} saatte {n} zarar kesmeden sonra mola ({left} saat kaldı)",
+    "tooSmallKind": "{kind} için çok küçük: ${min} altı, ücretler yer",
+    "late": "Çok geç: son bir saatte zaten %{p} yükseldi",
+    "autoOff": "Bu bölüm duraklatıldı: son {n} işlemde ${usd} kaybetti",
+    "dust": "Satmak için çok küçük",
+    "minBuy": "Oradaki alım için ${min} alt sınırının altında",
+    "worseQuote": "Teklif edilen fiyat piyasadan %{p} kötüydü",
+    "exitsOnly": "Şimdilik yalnızca satış: son zirvesinin altında",
+    "overShare": "Cüzdanın %{p} fazlası tek tür tokende olurdu",
+    "marketOff": "Bu piyasa, bu sineğin ayarlarında kapalı",
+    "rugFacts": "Güvenlik kontrolü: bu token hakkında henüz yeterli bilgi yok",
+    "honeypot": "Güvenlik kontrolü: token deneme satışında başarısız oldu",
+    "fullHand": "Tutabileceği kadar tokeni zaten tutuyor",
+    "tokenCap": "Bu tokenden payını zaten tutuyor",
+    "smallPool": "Havuzu güvenle almak için çok küçük",
+    "soldRecently": "Yakın zamanda satıldı: henüz geri alınmıyor",
+    "noTradeBand": "Yeni alındı: hareket işlem maliyetini geçene kadar bekliyor",
+    "sharedLoss": "Diğer sinekler bunda yeni kaybetti: bir süre alım yok",
+    "closeOnly": "Yalnızca satış: gereken $FLYAI altında ya da işlem kapalı",
+    "noRoute": "Şu an işlem için yol yok: yakında tekrar denenecek",
+    "farFeed": "Son fiyatı piyasadan çok uzaktı: bekleniyor"
+  },
+  "onramp": {
+    "button": "Kart ya da Apple Pay ile ${usd} USDC al",
+    "note": "Base'teki kendi cüzdanına gelir; sonra yukarıdan Base ve USDC'yi seçip sineğine gönder."
   }
 }

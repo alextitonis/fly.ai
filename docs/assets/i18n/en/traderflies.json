@@ -2827,5 +2827,35 @@
     "how2": "Score = profit this week ÷ the wallet's average size, minus {w} × its worst drop of the week. Steady beats lucky.",
     "how3": "Brackets go by the wallet's average size, so small wallets compete with small wallets. Each owner's best fly counts for the places.",
     "how4": "Top 3 each bracket: {p} XP (1st also gets the soulbound Champion badge). Rest of the top 10%: {top} XP. Any wallet that finished the week up: {green} XP."
+  },
+  "skip": {
+    "nothing": "Nothing left to sell there",
+    "edge": "Too quiet: it usually moves {move}%, less than {x}× its {rt}% trading cost",
+    "flyaiCost": "Keeping $FLYAI: it's only sold above what it cost",
+    "paused": "Taking a break after {n} stop-losses in {h} h ({left} h left)",
+    "tooSmallKind": "Too small for a {kind}: under ${min}, fees would eat it",
+    "late": "Too late: already up {p}% in the last hour",
+    "autoOff": "This part is paused: it lost ${usd} on its last {n} trades",
+    "dust": "Too small to sell",
+    "minBuy": "Under the ${min} minimum for a buy there",
+    "worseQuote": "The price offered was {p}% worse than the market",
+    "exitsOnly": "Only selling for now: it's down from its recent high",
+    "overShare": "That would put over {p}% of the wallet in one kind of token",
+    "marketOff": "That market is switched off in this fly's settings",
+    "rugFacts": "Safety check: not enough facts about this token yet",
+    "honeypot": "Safety check: the token failed a test sale",
+    "fullHand": "Already holding as many tokens as it may",
+    "tokenCap": "Already holds its share of this token",
+    "smallPool": "Its pool is too small to buy safely",
+    "soldRecently": "Sold recently: not buying it back yet",
+    "noTradeBand": "Just bought: waiting until the move beats its trading costs",
+    "sharedLoss": "Other flies just lost money on it: no buys for a while",
+    "closeOnly": "Only selling: below the $FLYAI it needs, or trading is off",
+    "noRoute": "No route to trade it right now: trying again soon",
+    "farFeed": "Its last price was too far off the market: waiting"
+  },
+  "onramp": {
+    "button": "Buy ${usd} of USDC with card or Apple Pay",
+    "note": "It arrives in your own wallet on Base; then pick Base and USDC above to send it to your fly."
   }
 }
