@@ -628,6 +628,23 @@
     $("buy-go").textContent = onSol() ? (solAddr() ? t("buy") : t("connectSol")) : !wallet ? t("connect") : selling() ? t("sell") : t("buy");
   };
 
+  // card / Apple Pay (2026-11-18, the user: "buy flyai ... with card ... for the user itself"): Meld's checkout (the one Reown
+  // AppKit opens; its public key, our Reown project) sells USDG on Robinhood Chain to the buyer's own wallet, which this
+  // box then swaps for $FLYAI. No wallet connected: Meld asks for the address.
+  const MELD_KEY = "WXETMuFUQmqqybHuRkSgxv:25B8LJHSfpG6LVjR2ytU5Cwh7Z4Sch2ocoU", REOWN_PROJECT = "cef28742a48f04534ae188bccd21c43a";
+  function cardUrl() {
+    const n = Number((($("buy-amount") && $("buy-amount").value) || "").replace(",", "."));
+    const usd = $("buy-pay") && $("buy-pay").value === "USDG" && n >= 20 && n <= 20000 ? Math.round(n) : 100;
+    const q = new URLSearchParams({ publicKey: MELD_KEY, destinationCurrencyCode: "USDG_ROBINHOOD", sourceAmount: String(usd),
+      sourceCurrencyCode: "USD", externalCustomerId: REOWN_PROJECT });
+    if (wallet) q.set("walletAddress", wallet);
+    return "https://meldcrypto.com/?" + q.toString();
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target && e.target.closest && e.target.closest("#buy-card");
+    if (a) a.href = cardUrl();
+  }, true);
+
   async function connect() {
     const a = await loadAcct();
     if (a) {                                            // the nav's sign-in: its picker, its session
