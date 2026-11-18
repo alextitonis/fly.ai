@@ -188,3 +188,30 @@ export async function coachGames(): Promise<CoachGames> {
   gamesCache = { at: Date.now(), v: await res.json() as CoachGames };
   return gamesCache.v;
 }
+
+// ---- expeditions (mine src/expeditions.ts, EXPEDITIONS-PLAN.md, 2026-11-18): timed trips on the server's clock --------
+export type ExpSlot = "hat" | "wings" | "trail" | "bubble" | "acc" | "junk";
+export type ExpRarity = "common" | "uncommon" | "rare" | "legendary";
+export type Names6 = [string, string, string, string, string, string];
+export interface ExpItem { id: string; slot: ExpSlot; rarity: ExpRarity; places: string[] | "any"; set?: string; glyph: string;
+  colors?: { bg: string; ink: string }; names: Names6 }
+export interface ExpPlace { id: string; level: number; lengths: number[]; risk: number; names: Names6; open: boolean }
+export interface ExpTrip { id: number; fly: number; place: string; minutes: number; started_at: number; ends_at: number; done: boolean }
+export interface ExpStats { pow: number; grd: number; vit: number; fury: number }
+export interface ExpView {
+  on: boolean; places: ExpPlace[]; items: ExpItem[]; sets: { id: string; names: Names6 }[]; slots: ExpSlot[];
+  me: { pet_xp: number; level: number; level_xp: number; next_xp: number; equipped: Partial<Record<ExpSlot, string>>; sets: string[];
+    bag: { item: string; n: number }[]; stamina: { max: number; used: number; left: number; streak: number }; trip: ExpTrip | null };
+  stats: ExpStats | null;
+}
+export interface ExpClaim { trip: number; place: string; green: boolean; swatted: boolean; items: string[]; pet_xp: number; xp: number;
+  level: number; leveled: boolean; opened: string[] }
+export const expRead = (fly: number | null) => authed<ExpView>(`/api/pet/exp${fly != null ? `?fly=${fly}` : ""}`);
+export const expStart = (fly: number, place: string, minutes: number) =>
+  authed<{ trip: ExpTrip; green: boolean }>("/api/pet/exp/start", { fly, place, minutes });
+export const expClaim = () => authed<ExpClaim>("/api/pet/exp/claim", {});
+export const expEquip = (slot: ExpSlot, item: string | null) => authed<{ equipped: Partial<Record<ExpSlot, string>>; sets: string[] }>("/api/pet/exp/equip", { slot, item });
+export const expRecycle = (item: string, n: number) => authed<{ left: number; pet_xp: number; level: number; leveled: boolean }>("/api/pet/exp/recycle", { item, n });
+/** the last view, so the fly wears its things at start before the server answers */
+export const expCached = (): ExpView | null => load("exp", { v: null as ExpView | null }).v;
+export const setExpCached = (v: ExpView | null) => save("exp", { v });

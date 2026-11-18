@@ -998,5 +998,5 @@ export function createArena(d: ArenaDeps) {
     return false;
   }
 
-  return { route, start, config, CFG, on, autoEnter, passStatus, passFlies, passBuy };
+  return { route, start, config, CFG, on, autoEnter, passStatus, passFlies, passBuy, traitsOf };
 }

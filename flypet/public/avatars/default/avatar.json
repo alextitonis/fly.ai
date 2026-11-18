@@ -14,5 +14,6 @@
     "sleep": "sleep.gif",
     "eat": "eat.gif",
     "wave": "wave.gif"
-  }
+  },
+  "anchors": { "head": [74, 12], "wingL": [34, 66], "wingR": [124, 66], "hand": [46, 118], "feet": [80, 150] }
 }

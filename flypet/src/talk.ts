@@ -10,6 +10,7 @@ import {
   alphaCalls, chatAnswer, chatRead, chatSend, chatWatch, flyFeed, notes, prefs, saveSettings, SignedOut,
   type AlphaCall, type ChatMe, type ChatMsg, type FlyFeed, type LogRow,
 } from "./store.ts";
+import type { Expeditions } from "./expeditions.ts";
 
 const native = window.flyNative;
 const SITE = "https://www.flyaiworld.com";
@@ -35,9 +36,9 @@ const open = (url: string) => (native ? native.openUrl(url) : (window.open(url),
 export interface Talk { open(what?: string): void; close(): void; isOpen(): boolean; refresh(): void }
 
 export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSignedOut: () => void; coach?: (question?: string) => void;
-  coachMode?: () => void; coachOn?: () => boolean }): Talk {
+  coachMode?: () => void; coachOn?: () => boolean; exp?: Expeditions }): Talk {
   let feed: FlyFeed | null = null, calls: AlphaCall[] = [], msgs: ChatMsg[] = [], me: ChatMe | null = null;
-  let wait = 0, busy = false, localId = -1, isOpen = false, timer = 0, deskTimer = 0;
+  let wait = 0, busy = false, localId = -1, isOpen = false, timer = 0, deskTimer = 0, expOpen = false;
 
   // ---- the frame: header, stream, quick buttons, a watch box, the input -------------------------------------------
   const avatar = el("span", { class: "tk-av" }, "🪰");
@@ -55,7 +56,7 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
     el("header", { class: "tk-head" }, avatar, el("span", { class: "tk-grow" }, name, el("br"), stats),
       el("button", { class: "tk-x", type: "button", title: t("p.changeFly"), onclick: () => { hooks.onClose(); native?.openPanel("pick"); } }, "⇄"),
       el("button", { class: "tk-x", type: "button", title: t("p.close"), onclick: () => hooks.onClose() }, "×")),
-    stream, chipsRow, watchBox, form, note);
+    stream, ...(hooks.exp ? [hooks.exp.box] : []), chipsRow, watchBox, form, note);
   input.addEventListener("keydown", (e) => { if (e.key === "Escape") hooks.onClose(); });
 
   const signedOut = (e: unknown) => {
@@ -246,10 +247,23 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
     watchCard(v);
   }
   watchInput.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); watchFromBox(); } });
+  /** the Expeditions card (src/expeditions.ts) in place of the stream, or back to the chat */
+  function showExp(on: boolean) {
+    if (!hooks.exp) return;
+    expOpen = on;
+    stream.hidden = on; form.hidden = on; hooks.exp.box.hidden = !on;
+    if (on) { watchBox.hidden = true; hooks.exp.render(); void hooks.exp.load(); } else setTimeout(() => input.focus(), 50);
+    chips();
+  }
   function chips() {
     const ask = (key: Key) => () => void send(t(key));
     const paused = feed?.settings?.trading === false;
+    if (expOpen) {
+      chipsRow.replaceChildren(el("button", { class: "tk-chip on", type: "button", onclick: () => showExp(false) }, t("x.chat")));
+      return;
+    }
     chipsRow.replaceChildren(
+      ...(hooks.exp ? [el("button", { class: "tk-chip", type: "button", onclick: () => showExp(true) }, t("x.chip"))] : []),
       // the game coach (src/coach.ts): what's typed is the question about the game on screen; empty = "what should I do?"
       ...(hooks.coach ? [el("button", { class: "tk-chip", type: "button", title: t("c.chipHint"),
         onclick: () => { const q = input.value.trim(); input.value = ""; hooks.coach!(q || undefined); } }, t("c.chip"))] : []),
@@ -268,16 +282,17 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
     watchInput.placeholder = t("p.watchPrompt");
   }
   return {
-    open() {
+    open(what?: string) {
       isOpen = true;
       box.hidden = false;
       words();
       render(true);
       void refresh(true);
+      showExp(what === "exp");
       clearInterval(timer); clearInterval(deskTimer);
       timer = window.setInterval(() => void refresh(), REFRESH_MS);
       deskTimer = window.setInterval(() => { if (msgs.some((m) => m.desk?.pending)) void loadChat().then(() => render()); }, DESK_MS);
-      setTimeout(() => input.focus(), 50);
+      if (!expOpen) setTimeout(() => input.focus(), 50);
     },
     close() {
       isOpen = false;
@@ -285,6 +300,6 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
       clearInterval(timer); clearInterval(deskTimer);
     },
     isOpen: () => isOpen,
-    refresh: () => { if (isOpen) render(); },
+    refresh: () => { if (isOpen) { render(); hooks.exp?.render(); } },
   };
 }

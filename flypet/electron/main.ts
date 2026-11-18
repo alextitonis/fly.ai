@@ -122,6 +122,7 @@ function menu() {
     ...(update ? [{ label: t("menu.update", { v: update }), click: getUpdate }, { type: "separator" as const }] : []),
     { label: t("menu.open"), click: () => pet.webContents.send("open", "") },
     { label: t("menu.alpha"), click: () => pet.webContents.send("open", "alpha") },
+    { label: t("menu.exp"), click: () => pet.webContents.send("open", "exp") },
     { type: "separator" },
     { label: t("menu.coach"), type: "checkbox", checked: coachOn, click: () => pet.webContents.send("coach", "toggle") },
     { label: t("menu.coachAsk"), accelerator: COACH_KEY, registerAccelerator: false, click: () => pet.webContents.send("coach", "hint") },

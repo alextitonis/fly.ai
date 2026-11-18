@@ -5,9 +5,12 @@ import { FEED_LINES, asleepAt, daysTogether, moneyMoves, paceTarget, readFlies, 
 import { addNote, applyLang, flyFeed, prefs, priceSamples, publicFeed, seenOf, setPrefs, setPriceSamples, setSeen, signedIn, walletFeed } from "./store.ts";
 import { setupTalk } from "./talk.ts";
 import { setupCoach } from "./coach.ts";
+import { nameOf, setupExpeditions, span } from "./expeditions.ts";
+import type { ExpView } from "./store.ts";
 
 const native = window.flyNative;                    // vite in a plain browser has no window to move
 const fly = document.getElementById("fly") as HTMLImageElement;
+const look = document.getElementById("look") as HTMLDivElement;      // the fly + what it wears (mirrored together)
 const bubble = document.getElementById("bubble") as HTMLDivElement;
 
 const W = 300, H = 300, SPRITE = 160;
@@ -16,7 +19,9 @@ const WALK_PX = 1.6, GRAVITY = 1.1, BOUNCE = 0.35;
 const REACTION_MS = 5_000, QUEUE_MAX = 6;
 
 // ---- the avatar: a folder of GIFs named by public/avatars/<id>/avatar.json; a mood it doesn't have plays idle ----
-let avatar = { base: "avatars/default/", moods: {} as Partial<Record<Mood, string>> };
+type Anchors = Record<"head" | "wingL" | "wingR" | "hand" | "feet", [number, number]>;
+let avatar = { base: "avatars/default/", moods: {} as Partial<Record<Mood, string>>,
+  anchors: { head: [74, 12], wingL: [34, 66], wingR: [124, 66], hand: [46, 118], feet: [80, 150] } as Anchors };
 let mood: Mood = "idle", plays = 0;
 function play(next: Mood) {
   const file = avatar.moods[next] ?? avatar.moods.idle;
@@ -129,7 +134,7 @@ function setHome(at: number) {
 function tick() {
   const now = Date.now();
   nextReaction(now);
-  if (talking) return;                                 // it stays put under its chat
+  if (talking || away) return;                         // it stays put under its chat; away on a trip, nothing to move
   if (state === "falling") {
     vy += GRAVITY; x = clampX(x + vx); y += vy;
     if (y >= groundY()) {
@@ -150,7 +155,7 @@ function tick() {
     else if (prefs().quiet || Math.random() < 0.4) restUntil = now + 8000 + Math.random() * 20000;
     else {
       targetX = paceTarget(home, x, Math.random(), clampX(-Infinity), clampX(Infinity));
-      fly.classList.toggle("left", targetX < x);
+      look.classList.toggle("left", targetX < x);
       state = "walking";
       play("walk");
     }
@@ -204,6 +209,7 @@ let drawHit: ImageData | null = null;
 const probe = document.createElement("canvas");
 probe.width = probe.height = SPRITE;
 function overFly(cx: number, cy: number): boolean {
+  if (away) return false;
   const r = fly.getBoundingClientRect();
   const px = Math.floor(cx - r.left), py = Math.floor(cy - r.top);
   if (px < 0 || py < 0 || px >= SPRITE || py >= SPRITE) return false;
@@ -213,7 +219,7 @@ function overFly(cx: number, cy: number): boolean {
     c.imageSmoothingEnabled = false;
     try { c.drawImage(fly, 0, 0, SPRITE, SPRITE); drawHit = c.getImageData(0, 0, SPRITE, SPRITE); } catch { return true; }
   }
-  const sx = fly.classList.contains("left") ? SPRITE - 1 - px : px;
+  const sx = look.classList.contains("left") ? SPRITE - 1 - px : px;
   // a few pixels of slack, so thin legs and antennae can be grabbed
   for (let dy = -3; dy <= 3; dy += 3) for (let dx = -3; dx <= 3; dx += 3) {
     const qx = sx + dx, qy = py + dy;
@@ -233,8 +239,91 @@ function pass(through: boolean) {
 const TALK_W = 380, TALK_H = 630;
 const talkBox = document.getElementById("talk") as HTMLDivElement;
 let talking = false;
+// ---- expeditions (src/expeditions.ts): what it wears, and trips on the server's clock ---------------------------------
+const wingsBox = document.getElementById("wings") as HTMLDivElement, wearBox = document.getElementById("wear") as HTMLDivElement;
+const awayTag = document.getElementById("away") as HTMLDivElement, gift = document.getElementById("gift") as HTMLDivElement;
+let away = false, trailGlyph: string | null = null;
+const lootWaiting = () => { const tr = expeditions.view()?.me.trip; return !!tr && tr.ends_at <= Date.now(); };
+const glyphAt = (g: string, [ax, ay]: [number, number], small = false) => {
+  const e = document.createElement("span");
+  e.className = `wear-g${small ? " sm" : ""}`;
+  e.textContent = g;
+  e.style.left = `${ax}px`; e.style.top = `${ay}px`;
+  return e;
+};
+/** put on what it wears: hat on the head, wings behind, an extra by its hand, the bubble's colors, a set's glow */
+function dress(v: ExpView | null) {
+  const eq = v?.me.equipped ?? {}, item = (id?: string) => (id ? v?.items.find((i) => i.id === id) : undefined);
+  const a = avatar.anchors, hat = item(eq.hat), wings = item(eq.wings), acc = item(eq.acc), bub = item(eq.bubble);
+  wingsBox.replaceChildren(...(wings ? [glyphAt(wings.glyph, a.wingL), glyphAt(wings.glyph, a.wingR)] : []));
+  wearBox.replaceChildren(...[hat && glyphAt(hat.glyph, a.head), acc && glyphAt(acc.glyph, a.hand, true)].filter((n): n is HTMLSpanElement => !!n));
+  trailGlyph = item(eq.trail)?.glyph ?? null;
+  bubble.classList.toggle("skin", !!bub?.colors);
+  if (bub?.colors) { bubble.style.setProperty("--bub-bg", bub.colors.bg); bubble.style.setProperty("--bub-ink", bub.colors.ink); }
+  look.classList.toggle("set", (v?.me.sets.length ?? 0) > 0);
+}
+/** its trail: a few glyphs left behind it while it walks (CSS only, gone in a second) */
+setInterval(() => {
+  if (!trailGlyph || away || talking || state !== "walking") return;
+  const e = document.createElement("span"), toLeft = look.classList.contains("left");
+  e.className = "trail";
+  e.textContent = trailGlyph;
+  e.style.left = `${W / 2 + (toLeft ? 40 : -56)}px`;
+  e.style.setProperty("--dx", `${toLeft ? 24 : -24}px`);
+  document.getElementById("stage")!.append(e);
+  setTimeout(() => e.remove(), 1300);
+}, 380);
+
+const placeName = (v: ExpView | null, id: string) => { const p = v?.places.find((x) => x.id === id); return p ? nameOf(p.names) : id; };
+const NOTIFIED = "expBack";
+/** away while a trip runs; back (a gift over its head, one notification) once it ends */
+function syncTrip(v: ExpView | null) {
+  const tr = v?.me.trip ?? null, out = !!tr && tr.ends_at > Date.now();
+  if (out && !away) {
+    away = true;
+    if (state === "walking" || state === "falling" || state === "held") { vx = vy = 0; y = groundY(); place(); state = "idle"; }
+    document.body.classList.add("away");
+  } else if (!out && away) {
+    away = false;
+    document.body.classList.remove("away");
+    look.classList.remove("leaving");
+    look.classList.add("landing");
+    setTimeout(() => look.classList.remove("landing"), 800);
+    if (tr) { state = "acting"; busyUntil = Date.now() + 3000; play("happy"); }
+  }
+  awayTag.hidden = !out;
+  if (out) awayTag.textContent = `🧭 ${placeName(v, tr!.place)} · ${span(tr!.ends_at - Date.now())}`;
+  gift.hidden = !(tr && !out);
+  if (tr && !out) {
+    let told: number | null = null;
+    try { told = Number(localStorage.getItem(NOTIFIED)) || null; } catch { /* private */ }
+    if (told !== tr.id) {
+      try { localStorage.setItem(NOTIFIED, String(tr.id)); } catch { /* private */ }
+      const where = placeName(v, tr.place);
+      say(t("x.backBubble", { place: where }), 8000);
+      notify(t("x.backNote", { place: where }));
+      addNote({ at: Date.now(), text: t("x.backNote", { place: where }), mood: "happy", fly: prefs().fly });
+    }
+  }
+}
+const expeditions = setupExpeditions({
+  changed: (v) => { dress(v); syncTrip(v); },
+  left: (where, ms) => {
+    // it flies up and away; the chat closes so you see it go
+    closeTalk();
+    say(t("x.leftBubble", { place: placeName(expeditions.view(), where), time: span(ms) }), 5000);
+    play("wave");
+    away = true;                                       // still for the take-off; the pill shows once it's gone
+    look.classList.add("leaving");
+    setTimeout(() => { away = false; look.classList.remove("leaving"); syncTrip(expeditions.view()); }, 1200);
+  },
+  claimed: () => { gift.hidden = true; talk.refresh(); },
+  onSignedOut: () => { closeTalk(); native?.openPanel(); },
+});
+// the countdown on the pill, and the moment it's back
+setInterval(() => { if (expeditions.view()?.me.trip && !look.classList.contains("leaving")) syncTrip(expeditions.view()); }, 1000);
 const talk = setupTalk(talkBox, { onClose: () => closeTalk(), onSignedOut: () => { closeTalk(); native?.openPanel(); },
-  coach: (q?: string) => coach.hint(q), coachMode: () => coach.toggle(), coachOn: () => coach.isOn() });
+  coach: (q?: string) => coach.hint(q), coachMode: () => coach.toggle(), coachOn: () => coach.isOn(), exp: expeditions });
 // the game coach (src/coach.ts): looks at the picked game window, suggests in the bubble and in the chat
 const coach = setupCoach({
   say: (text) => {
@@ -250,9 +339,10 @@ const inside = (e: HTMLElement, cx: number, cy: number) => {
   const r = e.getBoundingClientRect();
   return cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom;
 };
-function openTalk() {
+function openTalk(what?: string) {
   if (!signedIn() || prefs().fly == null) { native?.openPanel(); return; }
-  if (talking) { talk.open(); return; }
+  if (!what && lootWaiting()) what = "exp";           // back from a trip: its finds first
+  if (talking) { talk.open(what); return; }
   talking = true;
   if (state === "walking" || state === "falling" || state === "held") { vx = vy = 0; y = groundY(); }
   state = "acting"; busyUntil = Date.now() + 1500;
@@ -261,7 +351,7 @@ function openTalk() {
   document.body.classList.add("talking");
   native?.frame(x + W / 2 - TALK_W / 2, y + H - TALK_H, TALK_W, TALK_H);
   native?.petFocus(true);
-  talk.open();
+  talk.open(what);
 }
 function closeTalk() {
   if (!talking) return;
@@ -285,7 +375,8 @@ async function start() {
   window.addEventListener("storage", applyPrefs);
   const res = await fetch("avatars/default/avatar.json");
   const a = await res.json();
-  avatar = { base: "avatars/default/", moods: a.moods };
+  avatar = { base: "avatars/default/", moods: a.moods, anchors: { ...avatar.anchors, ...(a.anchors ?? {}) } };
+  dress(expeditions.view());                         // the last look kept, before the server answers
   play("wave");
   fly.addEventListener("load", () => { drawHit = null; });
 
@@ -308,14 +399,23 @@ async function start() {
   let followed = prefs().fly;
   window.addEventListener("storage", () => { if (prefs().fly !== followed) { followed = prefs().fly; void pollFlies(); } });
   setInterval(() => { void pollFlies(); }, POLL_MS);
+  // expeditions: read at start, when the fly changes, and every few minutes (one small read)
+  const expLoad = () => { if (signedIn() && prefs().fly != null) void expeditions.load(); };
+  setTimeout(expLoad, 2500);
+  setInterval(expLoad, 5 * 60_000);
+  let expFly = prefs().fly;
+  window.addEventListener("storage", () => { if (prefs().fly !== expFly) { expFly = prefs().fly; expLoad(); } });
+  awayTag.addEventListener("click", () => openTalk("exp"));
+  gift.addEventListener("click", () => openTalk("exp"));
   setInterval(() => { void pollPrice(); }, PRICE_MS);
   setInterval(() => { void measure(); }, 60_000);
 
   native?.onCursor((c) => {
     if (grab) return pass(false);
-    pass(!(c.inside && (overFly(c.x, c.y) || inside(talkBox, c.x, c.y) || (bubble.classList.contains("on") && inside(bubble, c.x, c.y)))));
+    pass(!(c.inside && (overFly(c.x, c.y) || inside(talkBox, c.x, c.y) || (bubble.classList.contains("on") && inside(bubble, c.x, c.y))
+      || inside(awayTag, c.x, c.y) || inside(gift, c.x, c.y))));
   });
-  native?.onOpen(() => openTalk());
+  native?.onOpen((what) => openTalk(what === "exp" ? "exp" : undefined));
   bubble.addEventListener("click", () => openTalk());
   native?.onQuiet((on) => { setPrefs({ quiet: on }); });
   native?.onFeed(feed);

@@ -363,7 +363,7 @@ export async function apifySearch(token: string, actor: string, since: string): 
 
 export type Sources = Record<string, number>;
 /** sources booked one by one in mine.xp_events; the rest accrue and are logged by the day */
-export const EVENT_SOURCES = ["market", "buy", "breed", "feed", "claimstake", "passburn", "share", "checkin", "quest"];
+export const EVENT_SOURCES = ["market", "buy", "breed", "feed", "claimstake", "passburn", "share", "checkin", "quest", "expedition"];
 
 /** The day-by-day gains from end-of-day totals (oldest first): each day minus the day before, events left out. */
 export function dailyGains(days: { day: string; sources: Sources }[]) {
@@ -753,7 +753,7 @@ export function createXp(d: {
   const LABELS: Record<string, string> = { bug: "a bug you found", market: "a marketplace trade", buy: "a swap-box buy", breed: "breeding", feed: "feeding the Fly Desk",
     claimstake: "claim and stake", passburn: "a FlightPass burn", share: "your X post", checkin: "your daily check-in", quest: "daily quests" };
   /** small daily XP that the bell doesn't announce one by one (src/quests.ts sends its own note on streak milestones) */
-  const QUIET = ["checkin", "quest"];
+  const QUIET = ["checkin", "quest", "expedition"];
   /** Level-ups and new one-off XP into the bell. The first run only remembers where everyone is. */
   async function notify() {
     const c = await compute();

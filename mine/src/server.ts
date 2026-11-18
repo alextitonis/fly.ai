@@ -62,6 +62,7 @@ import { createHunt } from "./hunt.ts";
 import { badgeConfig, createBadges } from "./badges.ts";
 import { createXp, xpConfig } from "./xp.ts";
 import { createQuests } from "./quests.ts";
+import { createExpeditions } from "./expeditions.ts";
 import { createLeague } from "./league.ts";
 import { createTgLink } from "./tglink.ts";
 import { createAgents } from "./agents.ts";
@@ -4231,6 +4232,7 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
     if (await tgLink.route(req, res, url)) return;
   }
   if (req.method !== "OPTIONS" && p.startsWith("/api/pet/")) {
+    if (await expeditions.route(req, res, url)) return;
     if (await pet.route(req, res, url)) return;
   }
   if (req.method !== "OPTIONS" && p.startsWith("/api/push/")) {
@@ -4495,7 +4497,7 @@ const sessionAddress = async (req: IncomingMessage) => (await sessionOf(req)).wa
 // Fly Pet's token (src/pet.ts, 2026-11-13): the desktop pet signs in for its chat. Taken ONLY on these routes - the fly chat
 // and saving a fly wallet's settings - and never on withdrawals, moves, sales or transfers (those stay on the site).
 const PET_SECRET = ADMIN_TOKEN ? createHash("sha256").update(`flypet-token:${ADMIN_TOKEN}`).digest() : null;
-const PET_ROUTES = [/^\/api\/flychat\//, /^\/api\/vaults\/0x[0-9a-fA-F]{40}\/settings$/,
+const PET_ROUTES = [/^\/api\/flychat\//, /^\/api\/pet\/exp(\/|$)/, /^\/api\/vaults\/0x[0-9a-fA-F]{40}\/settings$/,
   /^\/api\/partners\/[a-z][a-z0-9]{1,19}\/wallet\/0x[0-9a-fA-F]{40}\/settings$/];
 const sessionOrPet = async (req: IncomingMessage) => {
   const token = req.headers["x-flyai-pet"];
@@ -4750,6 +4752,23 @@ if (USER) xp.start();
 const xpCfg = xpConfig(process.env);
 const quests = createQuests({ pg, end: xpCfg.end, exclude: xpCfg.exclude, on: xpCfg.on, HttpError, send, readJson, sessionWallet: sessionAddress, rpc: CLAIMS.rpc });
 if (USER) quests.start();
+// Fly Pet expeditions (src/expeditions.ts, flypet/EXPEDITIONS-PLAN.md, 2026-11-18): timed trips for cosmetic items; the
+// fly chat's owner rule, the arena's trait stats, a green day = one more roll, season XP into xp_events
+const expeditions = createExpeditions({
+  pg, HttpError, send, readJson, sessionWallet: sessionOrPet,
+  mayUse: async (fly, w) => {
+    try { await flyChat.access(fly, w.toLowerCase()); return true; }
+    catch { return fly < 1_000_000_000 && (await pet.ownedBy(w)).includes(fly); }   // a fly with no wallet yet: its owner
+  },
+  traitsOf: async (fly) => (arena.CFG.contract ? (await arena.traitsOf([fly]))[0] ?? null : null),
+  profit24h: async (fly) => {
+    if (fly >= 1_000_000_000) return (await partners.chatView(fly))?.stats?.profit_24h ?? null;
+    const row = await pg.one<{ value: any }>(`select p.value from mine.vault_wallets w join mine.vault_public p on p.key = 'vault:' || w.address
+      where w.fly_id = ?`, fly);
+    return row?.value?.profit_24h ?? null;
+  },
+  xp: { on: xpCfg.on, end: xpCfg.end }, on: process.env.EXPEDITIONS_ON !== "0",
+});
 // the Fly League (src/league.ts): every funded Fly Wallet's week, ranked by bracket; XP + the champion badge, $ prizes listed only
 const league = createLeague({ pg, exclude: xpCfg.exclude, on: xpCfg.on, HttpError, send, env: process.env });
 if (USER) league.start();
