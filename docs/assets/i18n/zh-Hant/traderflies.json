@@ -2853,7 +2853,7 @@
     "farFeed": "上次價格離市場太遠：等待中"
   },
   "onramp": {
-    "button": "用銀行卡或 Apple Pay 購買 ${usd} USDC",
+    "button": "用銀行卡或 Apple Pay 購買 USDC",
     "note": "會到你在 Base 上的錢包；然後用「從其他鏈」（Base，USDC）存入這裡。",
     "connect": "連接錢包即可用銀行卡或 Apple Pay 購買 USDC。"
   }

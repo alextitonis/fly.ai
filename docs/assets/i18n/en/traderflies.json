@@ -2855,7 +2855,7 @@
     "farFeed": "Its last price was too far off the market: waiting"
   },
   "onramp": {
-    "button": "Buy ${usd} of USDC with card or Apple Pay",
+    "button": "Buy USDC with card or Apple Pay",
     "note": "It arrives in your own wallet on Base; then deposit it here with \"From another chain\" (Base, USDC).",
     "connect": "Connect your wallet to buy USDC with a card or Apple Pay."
   }

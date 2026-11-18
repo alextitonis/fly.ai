@@ -2855,7 +2855,7 @@
     "farFeed": "Son fiyatı piyasadan çok uzaktı: bekleniyor"
   },
   "onramp": {
-    "button": "Kart ya da Apple Pay ile ${usd} USDC al",
+    "button": "Kart ya da Apple Pay ile USDC al",
     "note": "Base'teki kendi cüzdanına gelir; sonra \"Başka bir zincirden\" (Base, USDC) ile buraya yatır.",
     "connect": "Kart ya da Apple Pay ile USDC almak için cüzdanını bağla."
   }

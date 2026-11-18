@@ -2855,7 +2855,7 @@
     "farFeed": "Su último precio estaba demasiado lejos del mercado: esperando"
   },
   "onramp": {
-    "button": "Compra ${usd} en USDC con tarjeta o Apple Pay",
+    "button": "Comprar USDC con tarjeta o Apple Pay",
     "note": "Llega a tu cartera en Base; luego deposítalo aquí con \"Desde otra cadena\" (Base, USDC).",
     "connect": "Conecta tu cartera para comprar USDC con tarjeta o Apple Pay."
   }
