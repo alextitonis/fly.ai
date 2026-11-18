@@ -1822,7 +1822,10 @@
       "news": {
         "up": "{symbol} 新聞：利多",
         "down": "{symbol} 新聞：利空"
-      }
+      },
+      "close": "平倉",
+      "closeAsk": "現在以市價平掉 {{symbol}} 的{{side}}倉位？",
+      "closed": "已平倉。資金留在 Perps 中，供蒼蠅下次交易。"
     },
     "agent": "AI 代理 #{id}",
     "agentHint": "這隻蒼蠅的鏈上 AI 代理編號：它用自己的錢包在 Robinhood Chain 的 ERC-8004 代理註冊表中完成了註冊。",

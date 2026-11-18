@@ -1824,7 +1824,10 @@
       "news": {
         "up": "{symbol} haberleri: yükseliş",
         "down": "{symbol} haberleri: düşüş"
-      }
+      },
+      "close": "Kapat",
+      "closeAsk": "{{symbol}} {{side}} pozisyonu şimdi piyasa fiyatından kapatılsın mı?",
+      "closed": "Kapatıldı. Para, sineğin bir sonraki işlemi için Perps'te kalır."
     },
     "agent": "AI ajanı #{id}",
     "agentHint": "Bu sineğin zincir üstü AI ajan kimliği: Robinhood Chain'deki ERC-8004 ajan kaydına kendi cüzdanından kaydoldu.",

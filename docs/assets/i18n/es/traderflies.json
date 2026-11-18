@@ -1824,7 +1824,10 @@
       "news": {
         "up": "Noticias de {symbol}: alcistas",
         "down": "Noticias de {symbol}: bajistas"
-      }
+      },
+      "close": "Cerrar",
+      "closeAsk": "¿Cerrar ahora la posición {{side}} de {{symbol}} a precio de mercado?",
+      "closed": "Cerrada. El dinero se queda en Perps para la próxima operación de la mosca."
     },
     "agent": "Agente IA #{id}",
     "agentHint": "El ID de agente de IA en cadena de esta mosca: se registró desde su propia billetera en el registro de agentes ERC-8004 de Robinhood Chain.",

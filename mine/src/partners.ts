@@ -506,7 +506,12 @@ export function createPartners(d: PartnersDeps) {
       if (markets !== undefined && !["crypto", "stocks", "both"].includes(markets)) throw new HttpError(400, "markets is crypto, stocks or both");
       if (action === "on" || action === "set") { kind = `perp_${action}`; params = markets ? { markets } : {}; }
       else if (action === "off") kind = "perp_off";
-      else throw new HttpError(400, "action is on, set or off");
+      else if (action === "close") {                    // one position closed by its holder (2026-11-18)
+        const symbol = String(body?.symbol ?? "");
+        if (!/^[A-Z0-9]{1,16}$/.test(symbol)) throw new HttpError(400, "symbol is the position's market");
+        kind = "perp_close"; params = { symbol };
+      }
+      else throw new HttpError(400, "action is on, set, off or close");
     }
     if (!who || who.toLowerCase() !== me.toLowerCase()) throw new HttpError(403, "only the wallet's holder can do this");
     const like = what === "perps" ? "perp\\_%" : `${pre}\\_%`;

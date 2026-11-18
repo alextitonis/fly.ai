@@ -1822,7 +1822,10 @@
       "news": {
         "up": "{symbol} 뉴스: 강세",
         "down": "{symbol} 뉴스: 약세"
-      }
+      },
+      "close": "청산",
+      "closeAsk": "{{symbol}} {{side}} 포지션을 지금 시장가로 청산할까요?",
+      "closed": "청산했습니다. 자금은 다음 거래를 위해 Perps에 남아 있습니다."
     },
     "agent": "AI 에이전트 #{id}",
     "agentHint": "이 파리의 온체인 AI 에이전트 ID: 자신의 지갑으로 Robinhood Chain의 ERC-8004 에이전트 레지스트리에 직접 등록했습니다.",

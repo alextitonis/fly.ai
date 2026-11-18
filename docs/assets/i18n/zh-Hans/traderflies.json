@@ -1822,7 +1822,10 @@
       "news": {
         "up": "{symbol} 新闻：利好",
         "down": "{symbol} 新闻：利空"
-      }
+      },
+      "close": "平仓",
+      "closeAsk": "现在以市价平掉 {{symbol}} 的{{side}}仓位？",
+      "closed": "已平仓。资金留在 Perps 中，供苍蝇下次交易。"
     },
     "agent": "AI 代理 #{id}",
     "agentHint": "这只苍蝇的链上 AI 代理编号：它用自己的钱包在 Robinhood Chain 的 ERC-8004 代理注册表中完成了注册。",

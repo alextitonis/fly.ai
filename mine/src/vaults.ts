@@ -527,9 +527,15 @@ export function createVaults(d: VaultsDeps) {
       params = markets ? { markets } : {};
     } else if (action === "off") {
       kind = "perp_off";
+    } else if (action === "close") {
+      // one position closed by its holder (2026-11-18, the user: "sell option for perps ... like we have for the tokens")
+      const symbol = String(body?.symbol ?? "");
+      if (!/^[A-Z0-9]{1,16}$/.test(symbol)) throw new HttpError(400, "symbol is the position's market");
+      kind = "perp_close";
+      params = { symbol };
     } else {
       // (no in / out: the fly moves its Perps money itself, by its rule - the user, 2026-11-03)
-      throw new HttpError(400, "action is on, set or off");
+      throw new HttpError(400, "action is on, set, off or close");
     }
     const open = await pg.one<{ id: number }>(`select id from mine.vault_requests where wallet = ? and chain = 'robinhood'
       and kind like 'perp\\_%' and status in ('new', 'doing')`, wallet);

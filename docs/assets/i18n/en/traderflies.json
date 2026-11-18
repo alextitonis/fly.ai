@@ -1824,7 +1824,10 @@
       "news": {
         "up": "News on {symbol}: bullish",
         "down": "News on {symbol}: bearish"
-      }
+      },
+      "close": "Close",
+      "closeAsk": "Close the {{side}} {{symbol}} position now at the market price?",
+      "closed": "Closed. The money stays in Perps for the fly's next trade."
     },
     "agent": "AI agent #{id}",
     "agentHint": "This fly's on-chain AI agent ID: it registered itself from its own wallet in the ERC-8004 agent registry on Robinhood Chain.",
