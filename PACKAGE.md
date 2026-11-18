@@ -90,8 +90,10 @@ seeds on eye position, 4/5 on the others), so on this evidence the real wiring i
 better generic reservoir than random networks of the same size — consistent with
 `notebooks/reservoir.ipynb`, where the connectome's Kenyon-cell readout scores chance while
 random wirings score far above it. Whatever the real wiring buys, it is not reservoir quality on
-these tasks. Measured with flybrain 0.1.1 on a 12-thread Apple-Silicon CPU (2 × 8 min, identical
-across two reruns).
+these tasks. Measured with flybrain 0.1.1 on a 12-thread Apple-Silicon CPU; three full runs
+(two in the development environment, one from a fresh `pip install` in a clean virtualenv) took
+7 min 43 s, 18 min 25 s and 8 min 44 s — machine load varying — and printed identical numbers
+every time.
 
 ## Credits and license
 
