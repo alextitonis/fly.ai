@@ -991,7 +991,7 @@
     if (active.length) $("pay-sum").innerHTML += " " + esc(t("pay.partners", { list: new Intl.ListFormat(lang(), { type: "conjunction" }).format(active) }));
     const nftName = (f) => (f.partner === "ruyui" ? `RUYUI #${f.token}` : f.partner === "enjoyoors" ? `Enjoyoors #${f.token}` : f.partner === "waifus" ? `Waifus #${f.token}` : f.partner === "bullas"
       ? (f.token >= 1_000_000 ? `Booga Bullas #${f.token - 1_000_000}` : `Bullas #${f.token}`) : `Trader Fly #${f.fly}`);
-    const nftHref = (f) => (f.partner === "ruyui" ? "" : f.partner === "bullas" || f.partner === "enjoyoors" || f.partner === "waifus" ? `/traderflies/partner?p=${f.partner}` : `/traderflies/fly?id=${encodeURIComponent(f.fly)}`);
+    const nftHref = (f) => (f.partner === "bullas" || f.partner === "ruyui" || f.partner === "enjoyoors" || f.partner === "waifus" ? `/traderflies/partner?p=${f.partner}` : `/traderflies/fly?id=${encodeURIComponent(f.fly)}`);
     const nftCell = (f) => (nftHref(f) ? `<a href="${nftHref(f)}">${esc(nftName(f))}</a>` : esc(nftName(f)));
     const rows = p.flies;
     $("pay-tbl").innerHTML = `<thead><tr><th>${esc(t("pay.thFly"))}</th><th>${esc(t("pay.thHolder"))}</th><th class="r">${esc(t("pay.thWeight"))}</th><th class="r">${esc(t("pay.thActive"))}</th><th class="r">${esc(t("pay.thStake"))}</th><th class="r">${esc(t("pay.thShare"))}</th><th class="r">${esc(t("pay.thUsd"))}</th></tr></thead><tbody>` +

@@ -115,7 +115,9 @@ export function parsePartner(row: { id: string; name: string; on: boolean; confi
     throw new Error(`chat.id_base must be a multiple of ${CHAT_SPAN} (the desk's partnerflies.BASES)`);
   }
   return {
-    id, name: String(row.name || id), on: !!row.on, book: `p_${id}`,
+    id, name: String(row.name || id), on: !!row.on,
+    // RUYUI keeps its own records from before it was a partner row (flytrade/vaults/ruyui.py BOOK "ruyui", 2026-11-18)
+    book: id === "ruyui" ? "ruyui" : `p_${id}`,
     collection: { chain: String(col.chain ?? ""), chain_id: Number(col.chain_id ?? 0), rpc: String(col.rpc),
                   contract: checksumAddress(String(col.contract)), first_id: first, last_id: last,
                   ...(col.explorer ? { explorer: String(col.explorer) } : {}),

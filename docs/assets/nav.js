@@ -84,6 +84,7 @@
       ["Bullas", "/traderflies/partner?p=bullas", undefined, false, false, "traderflies_partner"],   // partner collections (2026-10-07), each its own page (Partner.tsx)
       ["Enjoyoors", "/traderflies/partner?p=enjoyoors", undefined, false, false, "enjoyoors"],        // 2026-11-10, MegaETH
       ["Waifus", "/traderflies/partner?p=waifus", undefined, false, false, "waifus"],                 // 2026-11-13, Robinhood Chain
+      ["RUYUI", "/traderflies/partner?p=ruyui", undefined, false, false, "ruyui"],                    // 2026-11-18, Ethereum
     ], true],
   ];
   // the one action on every page (the brief: "a persistent Buy $FLYAI action"; the wallet is asked for only there)
