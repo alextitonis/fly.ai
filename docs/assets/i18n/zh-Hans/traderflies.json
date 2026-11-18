@@ -2853,8 +2853,10 @@
     "farFeed": "上次价格离市场太远：等待中"
   },
   "onramp": {
-    "button": "用银行卡或 Apple Pay 购买 USDC",
-    "note": "会到你在 Base 上的钱包；然后用“从其他链”（Base，USDC）存入这里。",
-    "connect": "连接钱包即可用银行卡或 Apple Pay 购买 USDC。"
+    "button": "用银行卡或 Apple Pay 购买",
+    "note": "在 Transak 上选择 BNB Chain 网络的 BNB，并粘贴你苍蝇的地址。它会直接到你的苍蝇，苍蝇以 BNB 持有并用它交易。你苍蝇的地址：",
+    "connect": "连接钱包即可用银行卡或 Apple Pay 购买 USDC。",
+    "copy": "复制地址",
+    "copied": "地址已复制。"
   }
 }

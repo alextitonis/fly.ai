@@ -2855,8 +2855,10 @@
     "farFeed": "Son fiyatı piyasadan çok uzaktı: bekleniyor"
   },
   "onramp": {
-    "button": "Kart ya da Apple Pay ile USDC al",
-    "note": "Base'teki kendi cüzdanına gelir; sonra \"Başka bir zincirden\" (Base, USDC) ile buraya yatır.",
-    "connect": "Kart ya da Apple Pay ile USDC almak için cüzdanını bağla."
+    "button": "Kart ya da Apple Pay ile al",
+    "note": "Transak'ta BNB Chain ağında BNB seç ve sineğinin adresini yapıştır. Doğrudan sineğine gelir; sinek onu BNB olarak tutar ve onunla işlem yapar. Sineğinin adresi:",
+    "connect": "Kart ya da Apple Pay ile USDC almak için cüzdanını bağla.",
+    "copy": "Adresi kopyala",
+    "copied": "Adres kopyalandı."
   }
 }

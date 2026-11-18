@@ -2855,8 +2855,10 @@
     "farFeed": "Su último precio estaba demasiado lejos del mercado: esperando"
   },
   "onramp": {
-    "button": "Comprar USDC con tarjeta o Apple Pay",
-    "note": "Llega a tu cartera en Base; luego deposítalo aquí con \"Desde otra cadena\" (Base, USDC).",
-    "connect": "Conecta tu cartera para comprar USDC con tarjeta o Apple Pay."
+    "button": "Comprar con tarjeta o Apple Pay",
+    "note": "En Transak, elige BNB en la red BNB Chain y pega la dirección de tu mosca. Llega directo a tu mosca, que lo guarda como BNB y opera con él. Dirección de tu mosca:",
+    "connect": "Conecta tu cartera para comprar USDC con tarjeta o Apple Pay.",
+    "copy": "Copiar dirección",
+    "copied": "Dirección copiada."
   }
 }

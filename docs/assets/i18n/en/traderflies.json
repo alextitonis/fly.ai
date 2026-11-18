@@ -2855,8 +2855,10 @@
     "farFeed": "Its last price was too far off the market: waiting"
   },
   "onramp": {
-    "button": "Buy USDC with card or Apple Pay",
-    "note": "It arrives in your own wallet on Base; then deposit it here with \"From another chain\" (Base, USDC).",
-    "connect": "Connect your wallet to buy USDC with a card or Apple Pay."
+    "button": "Buy with card or Apple Pay",
+    "note": "On Transak, choose BNB on the BNB Chain network and paste your fly's address. It lands straight in your fly, which keeps it as BNB and trades with it. Your fly's address:",
+    "connect": "Connect your wallet to buy USDC with a card or Apple Pay.",
+    "copy": "Copy fly address",
+    "copied": "Your fly's address is copied."
   }
 }

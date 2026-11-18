@@ -2853,8 +2853,10 @@
     "farFeed": "마지막 가격이 시장과 너무 달랐음: 대기 중"
   },
   "onramp": {
-    "button": "카드 또는 Apple Pay로 USDC 구매",
-    "note": "Base의 내 지갑으로 들어옵니다. 그다음 \"다른 체인에서\"(Base, USDC)로 여기에 입금하세요.",
-    "connect": "카드나 Apple Pay로 USDC를 사려면 지갑을 연결하세요."
+    "button": "카드 또는 Apple Pay로 구매",
+    "note": "Transak에서 BNB Chain 네트워크의 BNB를 고르고 플라이 주소를 붙여 넣으세요. 플라이에게 바로 들어가며, 플라이는 BNB로 보유하고 거래합니다. 플라이 주소:",
+    "connect": "카드나 Apple Pay로 USDC를 사려면 지갑을 연결하세요.",
+    "copy": "주소 복사",
+    "copied": "주소를 복사했습니다."
   }
 }
