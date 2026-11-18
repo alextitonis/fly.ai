@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "title": "Preguntas frecuentes — fly.ai, Trader Flies y $FLYAI",
+    "description": "Respuestas claras sobre fly.ai: qué es una Trader Fly, cómo empezar, cuánto cuesta, los riesgos, quién controla el dinero y cómo comprobar cada operación on-chain."
+  },
+  "head": {
+    "eyebrow": "Preguntas frecuentes",
+    "title": "Preguntas, respuestas claras",
+    "lede": "Qué es fly.ai, cómo empezar, cuánto cuesta y qué puede salir mal. Cada número aquí se puede comprobar on-chain o en las páginas enlazadas."
+  },
+  "q": {
+    "what": {
+      "q": "¿Qué es fly.ai?",
+      "a": "fly.ai ejecuta como software el mapa completo de conexiones del cerebro de una mosca de la fruta real (166.700 neuronas, del conectoma MaleCNS) y lo deja operar. Cada <b>Trader Fly</b> es un NFT con su propia wallet, que el cerebro opera por sí solo en Robinhood Chain, Base y BNB Chain. Cada operación es pública. <b>$FLYAI</b> es el token del proyecto en Robinhood Chain."
+    },
+    "fly": {
+      "q": "¿Qué es una Trader Fly?",
+      "a": "Uno de los 1.000 NFT en Robinhood Chain. Cada uno tiene un número, rasgos, una rareza (Común, Poco común, Rara o Legendaria) y una wallet de trading personal. Tú la fondeas, el cerebro de la mosca la opera y puedes retirar cuando quieras. Las moscas se compran y venden en el <a href=\"/traderflies/market\">Market</a>."
+    },
+    "brain": {
+      "q": "¿De verdad es el cerebro de una mosca? ¿Es un modelo de IA?",
+      "a": "Es el cableado real de una mosca de la fruta, mapeado sinapsis por sinapsis por FlyEM (HHMI Janelia) y ejecutado como una red de impulsos. No hay modelo de lenguaje ni estrategia de trading entrenada dentro. El mercado se convierte en cosas que la mosca percibe (una subida es algo que perseguir, una caída es una sombra que se acerca) y sus neuronas motoras eligen comprar, vender o mantener. Unas reglas de seguridad sencillas alrededor solo pueden decir que no. El código es abierto: <a href=\"https://github.com/alextitonis/fly.ai\">github.com/alextitonis/fly.ai</a>."
+    },
+    "start": {
+      "q": "¿Cómo empiezo?",
+      "a": "Tres pasos: consigue una Trader Fly en el <a href=\"/traderflies/market\">Market</a>, ten <b>200.000 $FLYAI</b> en la misma wallet (en la wallet, en staking o bloqueados, todo cuenta) y fondea la wallet de la mosca. La <a href=\"/start\">página de inicio</a> compra $FLYAI desde Robinhood Chain, Base, Arbitrum, Ethereum o BNB Chain. La mosca empieza a operar sola."
+    },
+    "cost": {
+      "q": "¿Cuánto cuesta?",
+      "a": "No hay comisión al depositar. Al retirar, solo una parte de la <b>ganancia</b>: 10% para moscas Comunes, 7% Poco comunes, 4% Raras y 0% Legendarias. $FLYAI no tiene impuesto de transferencia. El cuadro de swap del sitio añade un 0,25%; comprar en otro lugar no lo tiene."
+    },
+    "lose": {
+      "q": "¿Puedo perder dinero?",
+      "a": "Sí. La wallet de una mosca puede bajar además de subir, y el precio de $FLYAI también se mueve. Los resultados pasados no son una promesa. Pon solo lo que estarías dispuesto a perder."
+    },
+    "withdraw": {
+      "q": "¿Quién controla el dinero? ¿Puedo retirar cuando quiera?",
+      "a": "Solo el dueño de la mosca puede sacar dinero, cuando quiera, desde la página de la mosca. El equipo no custodia tus depósitos. La mosca opera, pero no puede enviar fondos a nadie más."
+    },
+    "desk": {
+      "q": "¿Qué es el Fly Desk?",
+      "a": "Un fondo compartido que operan cerebros de mosca en Robinhood Chain. Cada semana, el 95% de lo que gana por encima de su máximo anterior se paga a las Trader Flies activadas (por rareza y tiempo activa, con un extra por $FLYAI en staking), y se reclama cada domingo. Una semana por debajo del máximo no paga nada. Mira <a href=\"/desk\">el Fly Desk</a>."
+    },
+    "token": {
+      "q": "¿Para qué sirve $FLYAI?",
+      "a": "Tener 200.000 activa tus moscas y trae pagos del Fly Desk, el reparto mensual de comisiones, XP y boletos de sorteo. La tabla completa está en <a href=\"/token#unlocks\">la página del token</a>. $FLYAI no es una participación en fly.ai: no da propiedad, ni voto, ni derecho a los ingresos del proyecto."
+    },
+    "check": {
+      "q": "¿Cómo compruebo que es real?",
+      "a": "Cada operación aparece con su transacción en la página de la mosca y en el <a href=\"/traderflies/leaderboard\">leaderboard</a>, pérdidas incluidas. Las wallets de moscas activas están registradas como agentes on-chain (ERC-8004) en Robinhood Chain, y el código y la investigación del cerebro son públicos."
+    },
+    "chains": {
+      "q": "¿Qué cadenas usa?",
+      "a": "Los NFT, $FLYAI y el Fly Desk están en Robinhood Chain. La wallet de una mosca opera en Robinhood Chain, Base y BNB Chain."
+    },
+    "partners": {
+      "q": "Tengo una colección NFT. ¿Pueden usarlo mis holders?",
+      "a": "Sí. Las colecciones socias (por ahora Bullas, Waifus, Enjoyoors y RUYUI) dan a cada NFT su propia wallet de trading con la misma regla de 200.000 $FLYAI, y las cifras en vivo están en el <a href=\"/desk#partners\">marcador de socios</a>. Escríbenos en X: <a href=\"https://x.com/flydotai\">@flydotai</a>."
+    },
+    "safe": {
+      "q": "¿Cuál es el contrato oficial? ¿Cómo evito estafas?",
+      "a": "El único contrato de $FLYAI es <b>0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C</b> en Robinhood Chain, publicado en este sitio y en @flydotai. Nadie del equipo te escribirá primero, ni te pedirá tus claves ni que envíes fondos."
+    }
+  },
+  "more": "¿Aún con dudas? Lee <a href=\"/how\">Cómo funciona</a> o pregunta en <a href=\"https://x.com/flydotai\">X</a>."
+}

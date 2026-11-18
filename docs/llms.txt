@@ -1,20 +1,30 @@
 # fly.ai
 
-> The complete wiring of a real fruit fly's brain — 166,700 neurons and 25.6 million
-> connections from the MaleCNS connectome — running as a spiking network, untrained,
-> playing an online fighting game and living in a 3-D world. $FLYAI is the token that
-> funds it. Everything is open source under MIT.
+> fly.ai runs the complete wiring of a real fruit fly's brain (166,700 neurons and 25.6 million
+> connections from the MaleCNS connectome) as software, and lets it trade. Each Trader Fly is an
+> NFT with its own on-chain wallet that the brain trades by itself on Robinhood Chain, Base and
+> BNB Chain, with every trade public. $FLYAI is the project's token on Robinhood Chain. The brain
+> and the research are open source under MIT.
 
-fly.ai takes the connectome of a male *Drosophila melanogaster*, mapped synapse by synapse
-under an electron microscope by FlyEM (HHMI Janelia), and runs it as leaky integrate-and-fire
-neurons. Nothing inside the brain is trained or hand-written. Only two things are built by
-hand: the **encoder** that injects the world into sensory neuron populations, and the
-**readout** that turns descending and motor neuron firing rates into actions. Results are
-published whether they support the approach or not.
+## What fly.ai is (November 2026)
+
+- **Trader Flies**: a 1,000-NFT collection on Robinhood Chain (`0x18d4D831cA89672126172B73bA05f5A318ad5A72`, sold out; flies are bought and sold on the Market). Every fly has its own wallet. The owner funds it (USDG or ETH) and can withdraw at any time; the fly's brain picks the trades. Every trade is listed with its transaction on the fly's page (`/traderflies/fly?id=N`). Fly wallets can lose money.
+- **Activation**: a fly trades while its owner holds 200,000 $FLYAI in the same wallet (wallet, staked in FlyStaking, or locked in FlyLock all count). Partner NFT collections (Bullas, Waifus, Enjoyoors, RUYUI) get the same per-NFT wallets under the same rule.
+- **Fees**: none on deposits. On withdrawal, a share of the profit only: 10% for Common flies, 7% Uncommon, 4% Rare, 0% Legendary. $FLYAI itself has no transfer tax.
+- **Fly Desk** (`/desk`): one shared pot traded by fly brains on Robinhood Chain. Each week 95% of its profit above its previous high is paid to activated Trader Flies (by rarity and time active, with a staking boost: 1M staked = 1.5x, 2M = 2x, 5M = 3x, 10M+ = 4x), claimable every Sunday. Weeks below the high pay nothing.
+- **On-chain agents**: active fly wallets register themselves as ERC-8004 agents on Robinhood Chain's Identity Registry (`0x8004A169FB4a3325136EB29fA0ceB6D2e539a432`); 145 had on 18 November 2026 (list: https://flyai-mine.fly.dev/api/agents).
+- **Live numbers**: the partner scorecard on `/desk#partners` shows how many fly and partner wallets are trading now (139 Trader Flies on 18 November 2026) and how many started in the last 7 and 30 days. JSON: https://flyai-mine.fly.dev/api/activations/scorecard
+- **What $FLYAI unlocks** (`/token#unlocks`): activation, Fly Desk payouts, the monthly fee drop, XP toward a discretionary airdrop, and raffle tickets. $FLYAI is not a share of fly.ai: no ownership, no vote, no claim on the project's earnings.
+- **Start**: `/start` buys $FLYAI (USDG, ETH or NVDA on Robinhood Chain, or from Base, Arbitrum, Ethereum and BNB Chain through Relay). `/how` explains every part in plain words. `/faq` answers the common questions.
 
 ## Pages
 
-- [Home](https://flyaiworld.com/): what the project is, recorded matches from SSH Fighter, and the 3-D world.
+- [Home](https://flyaiworld.com/): what fly.ai is, the latest real trade by a fly, and the token's status and contract.
+- [FAQ](https://flyaiworld.com/faq): plain answers: what a Trader Fly is, how to start, what it costs, the risks, and how to check everything on chain.
+- [How it works](https://flyaiworld.com/how): the fly brain, the NFTs and their wallets, the shared pots, partners and fees, in plain words.
+- [Start](https://flyaiworld.com/start): buy $FLYAI from any supported chain and activate a fly.
+- [Fly Desk](https://flyaiworld.com/desk): the shared pot, its live trades, this week's payout and the partner scorecard.
+- [Leaderboard](https://flyaiworld.com/traderflies/leaderboard): every fly wallet's results (24 h, 7 days, all time), wins and losses.
 - [Research](https://flyaiworld.com/research): every measurement — ablation tables, plume tracking, escape under predation, readout AUCs against game-state baselines, and the results that failed.
 - [For agents](https://flyaiworld.com/agents): Claude skills that run the real connectome. fly-mode (github.com/alextitonis/fly.ai/tree/main/skills/fly-mode) makes Claude act like a fruit fly: the message becomes a sense (looming threat, taste, a fly moving past, wind, touch, smell) via a hand-written keyword table, that sense is stimulated in the MaleCNS v1.0 connectome with `pip install flybrain`, and the behaviour neurons (escape, wing motor neurons, grooming, steering, walking) decide the reply. Install: copy skills/fly-mode to ~/.claude/skills. The script prints JSON any agent can use. flyai-compute (github.com/alextitonis/fly.ai/tree/main/skills/flyai-compute) lets Claude Code run jobs on fly.ai compute (connectome sweeps, or WebAssembly/WGSL programs) and pay for them: it quotes, creates the order only after the user agrees, hands over a pay link (/compute/jobs?pay=<id>, $FLYAI from the user's own wallet, no keys handled), then downloads results; its scripts/flyai.mjs (Node 18+, no deps) works from any agent.
 - [Bounties](https://flyaiworld.com/bounties): paid $FLYAI bounties for memes, videos, bots, research, art and bug reports. Contests (anyone enters, the team picks winners) and apply bounties (apply, one builder is picked, they hand in the final). Sign in with a wallet; one X account per wallet; payouts sent by hand from the team wallet and listed with their transaction.

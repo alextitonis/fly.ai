@@ -381,6 +381,10 @@
     "coachPass": {
       "label": "Coach pass",
       "desc": "Coach mode: your fly coaches you all session"
+    },
+    "faq": {
+      "label": "FAQ",
+      "desc": "Plain answers: start, costs, risks"
     }
   },
   "footer": {

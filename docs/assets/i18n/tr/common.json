@@ -381,6 +381,10 @@
     "coachPass": {
       "label": "Koç pası",
       "desc": "Koç modu: sineğin tüm oturum boyunca koçluk yapar"
+    },
+    "faq": {
+      "label": "SSS",
+      "desc": "Net cevaplar: başlangıç, maliyet, riskler"
     }
   },
   "footer": {

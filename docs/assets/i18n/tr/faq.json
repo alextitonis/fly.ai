@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "title": "SSS — fly.ai, Trader Flies ve $FLYAI",
+    "description": "fly.ai hakkında net cevaplar: Trader Fly nedir, nasıl başlanır, maliyeti, riskleri, parayı kim kontrol eder ve her işlem zincirde nasıl kontrol edilir."
+  },
+  "head": {
+    "eyebrow": "SSS",
+    "title": "Sorular, net cevaplar",
+    "lede": "fly.ai nedir, nasıl başlanır, maliyeti nedir ve neler ters gidebilir. Buradaki her sayı zincirde ya da bağlantılı sayfalarda kontrol edilebilir."
+  },
+  "q": {
+    "what": {
+      "q": "fly.ai nedir?",
+      "a": "fly.ai, gerçek bir meyve sineği beyninin tam bağlantı haritasını (MaleCNS konektomundan 166.700 nöron) yazılım olarak çalıştırır ve işlem yapmasını sağlar. Her <b>Trader Fly</b>, kendi cüzdanı olan bir NFT'dir; beyin bu cüzdanla Robinhood Chain, Base ve BNB Chain'de kendi başına işlem yapar. Her işlem herkese açıktır. <b>$FLYAI</b>, projenin Robinhood Chain'deki token'ıdır."
+    },
+    "fly": {
+      "q": "Trader Fly nedir?",
+      "a": "Robinhood Chain'deki 1.000 NFT'den biri. Her birinin numarası, özellikleri, nadirliği (Yaygın, Az yaygın, Nadir veya Efsanevi) ve kişisel bir işlem cüzdanı vardır. Cüzdanı sen fonlarsın, sineğin beyni işlem yapar ve istediğin an çekebilirsin. Sinekler <a href=\"/traderflies/market\">Market</a>'te alınıp satılır."
+    },
+    "brain": {
+      "q": "Gerçekten bir sinek beyni mi? Bir yapay zekâ modeli mi?",
+      "a": "FlyEM (HHMI Janelia) tarafından sinaps sinaps haritalanmış gerçek bir meyve sineği bağlantısıdır ve sivri uçlu (spiking) bir ağ olarak çalışır. İçinde dil modeli ya da eğitilmiş bir işlem stratejisi yoktur. Piyasa, sineğin algılayacağı şeylere çevrilir (yükseliş kovalanacak bir şey, çöküş yaklaşan bir gölge) ve motor nöronları al, sat ya da bekle der. Etrafındaki basit güvenlik kuralları yalnızca hayır diyebilir. Kod açık kaynak: <a href=\"https://github.com/alextitonis/fly.ai\">github.com/alextitonis/fly.ai</a>."
+    },
+    "start": {
+      "q": "Nasıl başlarım?",
+      "a": "Üç adım: <a href=\"/traderflies/market\">Market</a>'ten bir Trader Fly al, aynı cüzdanda <b>200.000 $FLYAI</b> tut (cüzdanda, stake edilmiş veya kilitli hepsi sayılır) ve sineğin cüzdanını fonla. <a href=\"/start\">Başla sayfası</a> Robinhood Chain, Base, Arbitrum, Ethereum veya BNB Chain'den $FLYAI alır. Sinek kendi başına işlem yapmaya başlar."
+    },
+    "cost": {
+      "q": "Maliyeti nedir?",
+      "a": "Yatırmada ücret yok. Çekerken yalnızca <b>kârın</b> bir kısmı: Yaygın sineklerde %10, Az yaygın %7, Nadir %4, Efsanevi %0. $FLYAI'de transfer vergisi yoktur. Sitedeki swap kutusu %0,25 ücret ekler; başka yerden alırken yoktur."
+    },
+    "lose": {
+      "q": "Para kaybedebilir miyim?",
+      "a": "Evet. Bir sineğin cüzdanı inebilir de çıkabilir de, $FLYAI fiyatı da değişir. Geçmiş sonuçlar söz değildir. Yalnızca kaybetmeyi göze alabileceğin kadar koy."
+    },
+    "withdraw": {
+      "q": "Parayı kim kontrol ediyor? İstediğim an çekebilir miyim?",
+      "a": "Parayı yalnızca sineğin sahibi, istediği an sineğin sayfasından çekebilir. Ekip yatırımlarını tutmaz. Sinek işlem yapar ama fonları başkasına gönderemez."
+    },
+    "desk": {
+      "q": "Fly Desk nedir?",
+      "a": "Robinhood Chain'de sinek beyinlerinin işlem yaptığı ortak bir havuz. Her hafta önceki zirvesinin üstünde kazandığının %95'i aktif Trader Fly'lara ödenir (nadirlik ve aktif süreye göre, stake edilen $FLYAI için ek pay), her pazar talep edilebilir. Zirvenin altında kalan hafta ödeme yapmaz. Bkz. <a href=\"/desk\">Fly Desk</a>."
+    },
+    "token": {
+      "q": "$FLYAI ne işe yarar?",
+      "a": "200.000 tutmak sineklerini işleme açar ve Fly Desk ödemeleri, aylık ücret dağıtımı, XP ve çekiliş biletleri getirir. Tam tablo <a href=\"/token#unlocks\">token sayfasında</a>. $FLYAI, fly.ai'nin hissesi değildir: sahiplik, oy hakkı ya da projenin kazancında hak vermez."
+    },
+    "check": {
+      "q": "Gerçek olduğunu nasıl kontrol ederim?",
+      "a": "Her işlem, zararlar dahil, işlem kaydıyla birlikte sineğin kendi sayfasında ve <a href=\"/traderflies/leaderboard\">liderlik tablosunda</a> listelenir. Aktif sinek cüzdanları Robinhood Chain'de zincir üstü ajan (ERC-8004) olarak kayıtlıdır; beynin kodu ve araştırması herkese açıktır."
+    },
+    "chains": {
+      "q": "Hangi zincirleri kullanıyor?",
+      "a": "NFT'ler, $FLYAI ve Fly Desk Robinhood Chain'dedir. Bir sineğin cüzdanı Robinhood Chain, Base ve BNB Chain'de işlem yapar."
+    },
+    "partners": {
+      "q": "Bir NFT koleksiyonu yönetiyorum. Sahiplerimiz bunu kullanabilir mi?",
+      "a": "Evet. Partner koleksiyonlar (şimdilik Bullas, Waifus, Enjoyoors ve RUYUI) aynı 200.000 $FLYAI kuralıyla her NFT'ye kendi işlem cüzdanını verir; canlı sayılar <a href=\"/desk#partners\">partner karnesinde</a>. X'ten ulaş: <a href=\"https://x.com/flydotai\">@flydotai</a>."
+    },
+    "safe": {
+      "q": "Resmî kontrat hangisi? Dolandırıcılıktan nasıl korunurum?",
+      "a": "Tek $FLYAI kontratı Robinhood Chain'deki <b>0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C</b> adresidir; yalnızca bu sitede ve @flydotai'de yayınlanır. Ekipten kimse sana ilk DM atmaz, anahtarını istemez ya da para göndermeni istemez."
+    }
+  },
+  "more": "Hâlâ emin değil misin? <a href=\"/how\">Nasıl çalışır</a> sayfasını oku ya da <a href=\"https://x.com/flydotai\">X</a>'ten sor."
+}

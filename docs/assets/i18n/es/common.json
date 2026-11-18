@@ -381,6 +381,10 @@
     "coachPass": {
       "label": "Pase de entrenador",
       "desc": "Modo entrenador: tu mosca te entrena toda la sesión"
+    },
+    "faq": {
+      "label": "Preguntas frecuentes",
+      "desc": "Respuestas claras: empezar, costes, riesgos"
     }
   },
   "footer": {

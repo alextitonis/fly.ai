@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "title": "FAQ — fly.ai, Trader Flies and $FLYAI",
+    "description": "Plain answers about fly.ai: what a Trader Fly is, how to start, what it costs, the risks, who controls the money, and how to check every trade on chain."
+  },
+  "head": {
+    "eyebrow": "FAQ",
+    "title": "Questions, answered plainly",
+    "lede": "What fly.ai is, how to start, what it costs and what can go wrong. Every number here can be checked on chain or on the linked pages."
+  },
+  "q": {
+    "what": {
+      "q": "What is fly.ai?",
+      "a": "fly.ai runs the complete wiring map of a real fruit fly's brain (166,700 neurons, from the MaleCNS connectome) as software and lets it trade. Each <b>Trader Fly</b> is an NFT with its own wallet that the brain trades by itself on Robinhood Chain, Base and BNB Chain. Every trade is public. <b>$FLYAI</b> is the project's token on Robinhood Chain."
+    },
+    "fly": {
+      "q": "What is a Trader Fly?",
+      "a": "One of 1,000 NFTs on Robinhood Chain. Each has a number, traits, a rarity (Common, Uncommon, Rare or Legendary) and a personal trading wallet. You fund the wallet, the fly's brain trades it, and you can withdraw at any time. Flies are bought and sold on the <a href=\"/traderflies/market\">Market</a>."
+    },
+    "brain": {
+      "q": "Is it really a fly's brain? Is it an AI model?",
+      "a": "It is the real wiring of a fruit fly, mapped synapse by synapse by FlyEM (HHMI Janelia), run as a spiking network. There is no language model and no trained trading strategy inside it. Markets are turned into things a fly senses (a pump is something to chase, a crash is a looming shadow) and its motor neurons pick buy, sell or hold. Plain safety rules sit around it and can only say no. The code is open source: <a href=\"https://github.com/alextitonis/fly.ai\">github.com/alextitonis/fly.ai</a>."
+    },
+    "start": {
+      "q": "How do I start?",
+      "a": "Three steps: get a Trader Fly on the <a href=\"/traderflies/market\">Market</a>, hold <b>200,000 $FLYAI</b> in the same wallet (in the wallet, staked or locked all count), and fund the fly's wallet. The <a href=\"/start\">Start page</a> buys $FLYAI from Robinhood Chain, Base, Arbitrum, Ethereum or BNB Chain. The fly starts trading on its own."
+    },
+    "cost": {
+      "q": "What does it cost?",
+      "a": "No fee on deposits. When you withdraw, a share of the <b>profit</b> only: 10% for Common flies, 7% for Uncommon, 4% for Rare and 0% for Legendary. $FLYAI has no transfer tax. The site's swap box adds a 0.25% fee; buying elsewhere has none."
+    },
+    "lose": {
+      "q": "Can I lose money?",
+      "a": "Yes. A fly's wallet can go down as well as up, and $FLYAI's price moves too. Past results are not a promise. Only put in what you would be fine losing."
+    },
+    "withdraw": {
+      "q": "Who controls the money? Can I withdraw any time?",
+      "a": "Only the fly's owner can take money out, at any time, from the fly's page. The team does not hold your deposits. The fly trades but cannot send funds to anyone else."
+    },
+    "desk": {
+      "q": "What is the Fly Desk?",
+      "a": "One shared pot traded by fly brains on Robinhood Chain. Each week, 95% of what it makes above its previous high is paid to activated Trader Flies (by rarity and time active, with a boost for staked $FLYAI), claimable every Sunday. A week below the high pays nothing. See <a href=\"/desk\">the Fly Desk</a>."
+    },
+    "token": {
+      "q": "What is $FLYAI for?",
+      "a": "Holding 200,000 switches your flies on, and it brings Fly Desk payouts, the monthly fee drop, XP and raffle tickets. The full table is on <a href=\"/token#unlocks\">the token page</a>. $FLYAI is not a share of fly.ai: no ownership, no vote and no claim on the project's earnings."
+    },
+    "check": {
+      "q": "How can I check that it is real?",
+      "a": "Every trade is listed with its transaction on the fly's own page and on the <a href=\"/traderflies/leaderboard\">leaderboard</a>, losses included. Active fly wallets are registered as on-chain agents (ERC-8004) on Robinhood Chain, and the brain's code and research are public."
+    },
+    "chains": {
+      "q": "Which chains does it use?",
+      "a": "The NFTs, $FLYAI and the Fly Desk live on Robinhood Chain. A fly's wallet trades on Robinhood Chain, Base and BNB Chain."
+    },
+    "partners": {
+      "q": "I run an NFT collection. Can my holders use this?",
+      "a": "Yes. Partner collections (Bullas, Waifus, Enjoyoors and RUYUI so far) give each NFT its own trading wallet under the same 200,000 $FLYAI rule, and the live counts are on the <a href=\"/desk#partners\">partner scorecard</a>. Reach out on X: <a href=\"https://x.com/flydotai\">@flydotai</a>."
+    },
+    "safe": {
+      "q": "What is the official contract? How do I avoid scams?",
+      "a": "The only $FLYAI contract is <b>0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C</b> on Robinhood Chain, shown on this site and on @flydotai. Nobody from the team will DM you first, ask for your keys or ask you to send funds."
+    }
+  },
+  "more": "Still unsure? Read <a href=\"/how\">How it works</a> or ask on <a href=\"https://x.com/flydotai\">X</a>."
+}

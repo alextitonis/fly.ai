@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "title": "常见问题 — fly.ai、Trader Flies 和 $FLYAI",
+    "description": "关于 fly.ai 的直白回答：什么是 Trader Fly、如何开始、费用、风险、谁控制资金，以及如何在链上核实每笔交易。"
+  },
+  "head": {
+    "eyebrow": "常见问题",
+    "title": "直白回答你的问题",
+    "lede": "fly.ai 是什么、如何开始、费用多少、可能出什么问题。这里的每个数字都能在链上或链接页面中核实。"
+  },
+  "q": {
+    "what": {
+      "q": "什么是 fly.ai？",
+      "a": "fly.ai 把一只真实果蝇大脑的完整线路图（166,700 个神经元，来自 MaleCNS 连接组）作为软件运行，并让它交易。每只 <b>Trader Fly</b> 都是一个拥有自己钱包的 NFT，由大脑在 Robinhood Chain、Base 和 BNB Chain 上自行交易。每一笔交易都公开。<b>$FLYAI</b> 是项目在 Robinhood Chain 上的代币。"
+    },
+    "fly": {
+      "q": "什么是 Trader Fly？",
+      "a": "Robinhood Chain 上 1,000 个 NFT 之一。每只都有编号、特征、稀有度（普通、少见、稀有或传说）和一个个人交易钱包。你为钱包充值，苍蝇的大脑负责交易，你随时可以提取。苍蝇在<a href=\"/traderflies/market\">市场</a>上买卖。"
+    },
+    "brain": {
+      "q": "这真的是苍蝇的大脑吗？是 AI 模型吗？",
+      "a": "这是一只果蝇的真实线路，由 FlyEM（HHMI Janelia）逐个突触绘制，以脉冲网络运行。里面没有语言模型，也没有训练出来的交易策略。市场被转换成苍蝇能感知的东西（上涨是要追的目标，崩盘是逼近的阴影），由它的运动神经元选择买入、卖出或持有。外面有简单的安全规则，只能说“不”。代码开源：<a href=\"https://github.com/alextitonis/fly.ai\">github.com/alextitonis/fly.ai</a>。"
+    },
+    "start": {
+      "q": "我该怎么开始？",
+      "a": "三步：在<a href=\"/traderflies/market\">市场</a>上获得一只 Trader Fly，在同一钱包中持有 <b>200,000 $FLYAI</b>（钱包里、质押或锁定的都算），然后为苍蝇的钱包充值。<a href=\"/start\">开始页面</a>可以从 Robinhood Chain、Base、Arbitrum、Ethereum 或 BNB Chain 购买 $FLYAI。苍蝇会自行开始交易。"
+    },
+    "cost": {
+      "q": "费用是多少？",
+      "a": "充值不收费。提取时只收取<b>利润</b>的一部分：普通 10%、少见 7%、稀有 4%、传说 0%。$FLYAI 没有转账税。网站的兑换框收取 0.25% 费用；在其他地方购买则没有。"
+    },
+    "lose": {
+      "q": "我会亏钱吗？",
+      "a": "会。苍蝇的钱包可能上涨也可能下跌，$FLYAI 的价格也会波动。过去的结果不代表承诺。只投入你能承受损失的钱。"
+    },
+    "withdraw": {
+      "q": "谁控制资金？我能随时提取吗？",
+      "a": "只有苍蝇的持有者可以随时从苍蝇页面取出资金。团队不保管你的存款。苍蝇可以交易，但不能把资金转给其他人。"
+    },
+    "desk": {
+      "q": "什么是 Fly Desk？",
+      "a": "一个由苍蝇大脑在 Robinhood Chain 上交易的共享资金池。每周，它超出前高部分的 95% 会派发给已激活的 Trader Fly（按稀有度和活跃时间，质押 $FLYAI 有加成），每周日可领取。低于前高的一周没有派发。详见 <a href=\"/desk\">Fly Desk</a>。"
+    },
+    "token": {
+      "q": "$FLYAI 有什么用？",
+      "a": "持有 200,000 会让你的苍蝇开始交易，并带来 Fly Desk 派发、每月手续费分配、XP 和抽奖券。完整表格在<a href=\"/token#unlocks\">代币页面</a>。$FLYAI 不是 fly.ai 的股份：没有所有权、没有投票权，也不享有项目收入。"
+    },
+    "check": {
+      "q": "我怎么核实它是真的？",
+      "a": "每笔交易及其交易哈希都列在苍蝇自己的页面和<a href=\"/traderflies/leaderboard\">排行榜</a>上，亏损也一样。活跃的苍蝇钱包在 Robinhood Chain 上注册为链上代理（ERC-8004），大脑的代码和研究都是公开的。"
+    },
+    "chains": {
+      "q": "用的是哪些链？",
+      "a": "NFT、$FLYAI 和 Fly Desk 都在 Robinhood Chain 上。苍蝇的钱包在 Robinhood Chain、Base 和 BNB Chain 上交易。"
+    },
+    "partners": {
+      "q": "我运营一个 NFT 系列，我的持有者能用吗？",
+      "a": "可以。合作系列（目前有 Bullas、Waifus、Enjoyoors 和 RUYUI）在同样的 200,000 $FLYAI 规则下为每个 NFT 提供自己的交易钱包，实时数量见<a href=\"/desk#partners\">合作伙伴记分卡</a>。请在 X 上联系：<a href=\"https://x.com/flydotai\">@flydotai</a>。"
+    },
+    "safe": {
+      "q": "官方合约是什么？如何避免诈骗？",
+      "a": "唯一的 $FLYAI 合约是 Robinhood Chain 上的 <b>0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C</b>，只在本站和 @flydotai 上公布。团队成员不会主动私信你、索要你的私钥或让你转账。"
+    }
+  },
+  "more": "还不确定？阅读<a href=\"/how\">运作方式</a>，或在 <a href=\"https://x.com/flydotai\">X</a> 上提问。"
+}
