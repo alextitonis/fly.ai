@@ -2861,6 +2861,12 @@
     "copy": "Adresi kopyala",
     "copied": "Adres kopyalandı.",
     "appkitNote": "Kart ya da Apple Pay ile öde: BNB doğrudan BNB Chain'deki sineğine gider; sinek onu BNB olarak tutar ve onunla işlem yapar. Tutarı ödeme ekranında değiştirebilirsin.",
-    "other": "Ya da Transak sitesinden al ve doğrudan sineğine gönder"
+    "other": "Ya da Transak sitesinden al ve doğrudan sineğine gönder",
+    "lands": {
+      "usdg": "Kart ya da Apple Pay ile öde: USDG doğrudan Robinhood Chain'deki sineğine gider. Tutarı ödeme ekranında değiştirebilirsin.",
+      "eth": "Kart ya da Apple Pay ile öde: ETH doğrudan Robinhood Chain'deki sineğine gider.",
+      "bnb": "Kart ya da Apple Pay ile öde: BNB doğrudan BNB Chain'deki sineğine gider; sinek onu BNB olarak tutar ve onunla işlem yapar.",
+      "sol": "Kart ya da Apple Pay ile öde: SOL doğrudan sineğinin Solana cüzdanına gider."
+    }
   }
 }

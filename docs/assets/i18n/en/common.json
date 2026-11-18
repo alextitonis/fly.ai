@@ -294,6 +294,10 @@
       "label": "Waifus",
       "desc": "Waifus NFTs: their own trading wallets"
     },
+    "ruyui": {
+      "label": "RUYUI",
+      "desc": "RUYUI NFTs: their own trading wallets"
+    },
     "newTag": "New",
     "fights": {
       "label": "Robot Fights",

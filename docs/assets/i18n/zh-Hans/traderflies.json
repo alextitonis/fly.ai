@@ -2859,6 +2859,12 @@
     "copy": "复制地址",
     "copied": "地址已复制。",
     "appkitNote": "用银行卡或 Apple Pay 付款：BNB 会直接进入你苍蝇在 BNB Chain 上的钱包，苍蝇以 BNB 持有并用它交易。可在付款页修改金额。",
-    "other": "或在 Transak 网站购买并直接发送给你的苍蝇"
+    "other": "或在 Transak 网站购买并直接发送给你的苍蝇",
+    "lands": {
+      "usdg": "用银行卡或 Apple Pay 付款：USDG 直接进入你苍蝇在 Robinhood Chain 上的钱包。可在付款页修改金额。",
+      "eth": "用银行卡或 Apple Pay 付款：ETH 直接进入你苍蝇在 Robinhood Chain 上的钱包。",
+      "bnb": "用银行卡或 Apple Pay 付款：BNB 直接进入你苍蝇在 BNB Chain 上的钱包，苍蝇以 BNB 持有并用它交易。",
+      "sol": "用银行卡或 Apple Pay 付款：SOL 直接进入你苍蝇的 Solana 钱包。"
+    }
   }
 }

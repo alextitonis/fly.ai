@@ -2859,6 +2859,12 @@
     "copy": "주소 복사",
     "copied": "주소를 복사했습니다.",
     "appkitNote": "카드나 Apple Pay로 결제하면 BNB가 BNB Chain의 플라이에게 바로 들어가고, 플라이는 BNB로 보유하며 거래합니다. 결제 화면에서 금액을 바꿀 수 있습니다.",
-    "other": "또는 Transak 사이트에서 사서 플라이에게 바로 보내기"
+    "other": "또는 Transak 사이트에서 사서 플라이에게 바로 보내기",
+    "lands": {
+      "usdg": "카드나 Apple Pay로 결제하면 USDG가 Robinhood Chain의 플라이에게 바로 들어갑니다. 결제 화면에서 금액을 바꿀 수 있습니다.",
+      "eth": "카드나 Apple Pay로 결제하면 ETH가 Robinhood Chain의 플라이에게 바로 들어갑니다.",
+      "bnb": "카드나 Apple Pay로 결제하면 BNB가 BNB Chain의 플라이에게 바로 들어가며, 플라이는 BNB로 보유하고 거래합니다.",
+      "sol": "카드나 Apple Pay로 결제하면 SOL이 플라이의 Solana 지갑으로 바로 들어갑니다."
+    }
   }
 }

@@ -2861,6 +2861,12 @@
     "copy": "Copiar dirección",
     "copied": "Dirección copiada.",
     "appkitNote": "Paga con tarjeta o Apple Pay: el BNB va directo a tu mosca en BNB Chain, que lo guarda como BNB y opera con él. Puedes cambiar el monto en el pago.",
-    "other": "O compra en el sitio de Transak y envíalo directo a tu mosca"
+    "other": "O compra en el sitio de Transak y envíalo directo a tu mosca",
+    "lands": {
+      "usdg": "Paga con tarjeta o Apple Pay: el USDG va directo a tu mosca en Robinhood Chain. Puedes cambiar el monto en el pago.",
+      "eth": "Paga con tarjeta o Apple Pay: el ETH va directo a tu mosca en Robinhood Chain.",
+      "bnb": "Paga con tarjeta o Apple Pay: el BNB va directo a tu mosca en BNB Chain, que lo guarda como BNB y opera con él.",
+      "sol": "Paga con tarjeta o Apple Pay: el SOL va directo a la cartera Solana de tu mosca."
+    }
   }
 }

@@ -294,6 +294,10 @@
       "label": "Waifus",
       "desc": "Waifus NFT：各自的交易钱包"
     },
+    "ruyui": {
+      "label": "RUYUI",
+      "desc": "RUYUI NFT：各自的交易钱包"
+    },
     "newTag": "新",
     "fights": {
       "label": "机器人格斗",
