@@ -142,8 +142,31 @@ export function createActivations(d: ActivationsDeps) {
     return value;
   }
 
+  /**
+   * Quest platforms' task check (2026-11-18): "does this wallet have a fly (or partner NFT) trading?" - live now, and
+   * live for at least `days` (first went live that long ago). Always HTTP 200; one answer in every platform's shape:
+   * TaskOn {result:{isValid}}, Intract/QuestN-style {data:{result}}, plus plain fields. ?address= (TaskOn) or ?wallet=.
+   */
+  async function check(url: URL) {
+    const w = String(url.searchParams.get("address") ?? url.searchParams.get("wallet") ?? "").trim().toLowerCase();
+    const days = Math.max(0, Math.min(90, Number(url.searchParams.get("days") ?? 0) || 0));
+    let ok = false, live = 0, since: number | null = null;
+    if (/^0x[0-9a-f]{40}$/.test(w)) {
+      const r = await pg.one<{ live: number; since: number | null }>(
+        "select count(*)::int as live, min(first_ms)::float8 as since from mine.activations where holder = ? and live", w);
+      live = Number(r?.live ?? 0);
+      since = r?.since != null ? Number(r.since) : null;
+      ok = live > 0 && since != null && now() - since >= days * DAY;
+    }
+    return { result: { isValid: ok }, data: { result: ok }, activated: ok, live, since, days, error: null };
+  }
+
   async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promise<boolean> {
     if (req.method === "GET" && url.pathname === "/api/activations/scorecard") return d.send(res, 200, await scorecard()), true;
+    if (req.method === "GET" && url.pathname === "/api/activations/check") {
+      const out = await check(url).catch(() => ({ result: { isValid: false }, data: { result: false }, activated: false, live: 0, since: null, days: 0, error: "unavailable" }));
+      return d.send(res, 200, out), true;
+    }
     return false;
   }
 

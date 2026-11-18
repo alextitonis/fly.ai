@@ -63,6 +63,25 @@ try {
   check("scorecard: Trader Flies first", board.books[0].book === "fly");
   check("scorecard: fly seeded, not counted as new", fly?.live === 0 && fly?.new_7d === 0, JSON.stringify(fly));
   check("scorecard: waifus live 1, new 1, new holder 1", w?.live === 1 && w?.holders === 1 && w?.new_7d === 1 && w?.new_holders_30d === 1, JSON.stringify(w));
+
+  // the quest platforms' check: GET /api/activations/check?address=..., always 200, every platform's shape
+  const ask = async (q: string) => {
+    let body: any = null, status = 0;
+    const res = { } as any;
+    const sender = (_r: unknown, s: number, b: unknown) => { status = s; body = b; };
+    const a2 = createActivations({ pg, send: sender as any });
+    await a2.route({ method: "GET" } as any, res, new URL(`http://x/api/activations/check?${q}`));
+    return { status, body };
+  };
+  const yes = await ask(`address=${H2.toUpperCase().replace("0X", "0x")}`);
+  check("check: a wallet with a live partner NFT passes (any case)", yes.status === 200 && yes.body.result.isValid === true
+    && yes.body.data.result === true && yes.body.live === 1, JSON.stringify(yes.body));
+  const stopped = await ask(`wallet=${H1}`);
+  check("check: a wallet whose fly stopped fails", stopped.body.result.isValid === false, JSON.stringify(stopped.body));
+  const junk = await ask("address=nope");
+  check("check: a bad address fails with 200", junk.status === 200 && junk.body.result.isValid === false);
+  const young = await ask(`address=${H2}&days=7`);
+  check("check: days=7 fails for one that went live just now", young.body.result.isValid === false && young.body.live === 1);
 } finally {
   await stop();
 }

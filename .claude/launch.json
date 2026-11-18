@@ -110,6 +110,18 @@
         "8790"
       ],
       "port": 8790
+    },
+    {
+      "name": "docs-static",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8095",
+        "--directory",
+        "docs"
+      ],
+      "port": 8095
     }
   ]
 }

@@ -152,7 +152,7 @@ Deploy order (when built): migration → mine deploy → pet release (exe + Stor
 3. No fly and no partner NFT: **can't play** — same as the pet today (pick a fly or partner NFT first).
 4. Season XP from trips (2 a trip, max 6/day): **yes**.
 
-## Phase 2 + art + toys + perching (2026-11-18, BUILT, not deployed / not released)
+## Phase 2 + art + toys + perching (2026-11-18, SHIPPED: mine v258, site pushed, pet 0.7.0 released)
 
 The user: "3. can we generate maybe the art?, add the 4 too, 5 too" + "Also window perching"; art "Draw pixel art in code".
 

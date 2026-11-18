@@ -1,6 +1,10 @@
 # fly.ai Discord bot
 
 TypeScript on Node 22 (run directly, no build), [discord.js](https://discord.js.org) v14, one small machine on fly.io.
+
+The same machine also runs fly.ai's Virtuals ACP agent (flytrade/acp, merged 2026-11-18 to save a machine):
+`start.mjs` starts both, each restarts alone if it dies. Deploy with `bash discord/deploy.sh` (Git Bash): it stages
+flytrade/acp into the image. `ACP=0` (a secret or env) turns the agent off and leaves the bot running.
 Commands start with `!` (e.g. `!help`).
 
 ## Discord setup (once)
@@ -83,6 +87,7 @@ Words after the command come in as `args` (`!roll 2 6` → `["2", "6"]`). `!help
 cd discord
 fly apps create flyai-discord --org personal
 fly secrets set DISCORD_TOKEN=... -a flyai-discord
-fly deploy --ha=false     # one machine; two would answer every command twice
+cd ..
+bash discord/deploy.sh    # stages flytrade/acp in; one machine (--ha=false): two would answer every command twice
 fly logs -a flyai-discord
 ```
