@@ -737,3 +737,16 @@
 .press .press-sw { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-2); border: 1px solid var(--line); color: var(--text); border-radius: 999px; padding: 6px 12px 6px 6px; cursor: pointer; font: 500 13px var(--sans); }
 .press .press-sw span { width: 22px; height: 22px; border-radius: 50%; background: var(--sw); border: 1px solid var(--line-2, var(--line)); }
 @media (max-width: 560px) { .press .press-facts > div { grid-template-columns: 1fr; gap: 2px; } }
+
+/* 2026-11-18 home first screen: the hook, one live trade, one button (index.html .hh-hook / .hh-live / .hh-cta) */
+.home .hh-hook { margin: 0 0 14px; font: 700 clamp(34px, 4.6vw, 56px)/1.05 var(--display); letter-spacing: -.02em; max-width: 620px; }
+.home .hh-live { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0 0 18px; padding: 10px 14px; max-width: 560px;
+  border: 1px solid rgba(94,242,204,.28); border-radius: 14px; background: rgba(94,242,204,.05); color: var(--text); text-decoration: none; }
+.home .hh-live:hover { border-color: rgba(94,242,204,.55); }
+.home .hh-live-tag { display: inline-flex; align-items: center; gap: 6px; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--mint); }
+.home .hh-live-tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 8px var(--mint); }
+.home .hh-live-text { font: 500 15px var(--sans); }
+.home .hh-live-text .up { color: var(--mint); } .home .hh-live-text .down { color: var(--red, #ff5a52); }
+.home .hh-live-text small { color: var(--dim); font-size: 13px; margin-left: 6px; }
+.home .hh-cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 22px; }
+.home .hh-cta .btn { min-height: 46px; padding-inline: 22px; font-size: 15px; }

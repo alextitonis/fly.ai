@@ -1008,7 +1008,7 @@
     try { force = new URLSearchParams(location.search).has("welcome"); seen = !!localStorage.getItem("flyai.welcome.seen"); } catch { return; }
     if (!force && (seen || session() || window.top !== window || navigator.webdriver || /^\/(start|onepager)(\.html)?\/?$/.test(location.pathname))) return;   // (the one-pager: a link sent to people, 2026-11-06)
     const s = document.createElement("script");
-    s.src = NAV_SRC ? new URL("welcome.js?v=20261027a", NAV_SRC).href : "/assets/welcome.js?v=20261027a";
+    s.src = NAV_SRC ? new URL("welcome.js?v=20261118a", NAV_SRC).href : "/assets/welcome.js?v=20261118a";
     (document.body || document.head).append(s);
   }
   function pendingRef() {

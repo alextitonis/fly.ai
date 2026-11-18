@@ -134,6 +134,48 @@
     </div>
     <!-- the "You're in" card (assets/buyweek.js): Buy Week standing, or the next step -->
     <div class="card pad buyweek" id="buyweek" style="margin-top: 18px;" hidden></div>
+    <!-- what holding unlocks, one row per level (2026-11-18, growth plan: "people can't tell what $FLYAI actually unlocks") -->
+    <div class="card pad" id="unlocks" style="margin-top: 18px;">
+      <h3 style="margin-bottom: 12px;" data-i18n="token.unlock.title">What $FLYAI unlocks</h3>
+      <p data-i18n="token.unlock.lede">Wallet, staked and locked $FLYAI all count the same. Each row adds to the one above it.</p>
+      <div class="tablewrap">
+        <table class="agenttable">
+          <thead><tr>
+            <th data-i18n="token.unlock.thHave">You have</th>
+            <th data-i18n="token.unlock.thGet">What it unlocks</th>
+            <th data-i18n="token.unlock.thSure">Certain?</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td data-i18n-html="token.unlock.r1have"><b>Any $FLYAI</b></td>
+              <td data-i18n-html="token.unlock.r1get">XP every day for what you hold, stake or lock, toward the XP Season airdrop (<a href="/xp">/xp</a>).</td>
+              <td data-i18n="token.unlock.r1sure">No. The airdrop is a promotion: its size isn't announced and the rules can change.</td>
+            </tr>
+            <tr>
+              <td data-i18n-html="token.unlock.r2have"><b>100,000 $FLYAI</b></td>
+              <td data-i18n-html="token.unlock.r2get">Tickets in the GTA VI raffle: each $FLYAI is one ticket (<a href="/gta">/gta</a>).</td>
+              <td data-i18n="token.unlock.r2sure">No. A promotion with a draw.</td>
+            </tr>
+            <tr>
+              <td data-i18n-html="token.unlock.r3have"><b>200,000 $FLYAI</b></td>
+              <td data-i18n-html="token.unlock.r3get">Your Trader Flies and partner NFTs trade from their own wallets, and each one that is trading earns a share of the weekly Fly Desk payout. You also take part in the monthly fee drop (200,000 average holding).</td>
+              <td data-i18n="token.unlock.r3sure">Trading, yes. Payouts only in weeks the Fly Desk ends above its high; the fee drop is a two-month test.</td>
+            </tr>
+            <tr>
+              <td data-i18n-html="token.unlock.r4have"><b>A Trader Fly</b> (or a partner NFT)</td>
+              <td data-i18n-html="token.unlock.r4get">Its own wallet that you fund and can withdraw from at any time. With 200,000 $FLYAI it trades on its own, and its Fly Desk share grows with rarity and time active.</td>
+              <td data-i18n="token.unlock.r4sure">The wallet is yours. Its results aren't: it can lose money.</td>
+            </tr>
+            <tr>
+              <td data-i18n-html="token.unlock.r5have"><b>Staked $FLYAI</b></td>
+              <td data-i18n-html="token.unlock.r5get">Counts toward the 200,000, and boosts your flies' Fly Desk share: 1M = 1.5x, 2M = 2x, 5M = 3x, 10M+ = 4x.</td>
+              <td data-i18n="token.unlock.r5sure">Yes, while staked. Unstaking has a waiting period.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fine" data-i18n="token.unlock.note">$FLYAI is not a share of fly.ai: it gives no ownership, no vote and no claim on the project's earnings. Payouts come only from what the Fly Desk makes, and XP, raffles, league prizes and other promotions are at the team's discretion.</p>
+    </div>
     <div class="card pad fees" style="margin-top: 18px;">
       <h3 style="margin-bottom: 12px;" data-i18n="token.use.title">What $FLYAI is for</h3>
       <p data-i18n-html="token.use.p1"><b>Flybook is live.</b> Hold at least 1 $FLYAI and sign in with your wallet at
@@ -204,7 +246,7 @@
 <!-- /@footer -->
 
 <script src="assets/site.js"></script>
-<script src="assets/nav.js?v=20261118a"></script>
+<script src="assets/nav.js?v=20261118c"></script>
 <script src="assets/route.js?v=20261101a"></script>
 <script src="assets/staked.js?v=20261027a"></script>
 <script src="assets/buy.js?v=20261118b"></script>

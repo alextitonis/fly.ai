@@ -275,6 +275,15 @@
       "c2t": "Sahibi 200,000 $FLYAI tuttuğu sürece bir sinek aktiftir. Aktif sinekler her haftanın ödemesini paylaşır.",
       "c3": "Daha fazlası için stake et",
       "c3t": "Stake edilen $FLYAI payını 4×'e kadar büyütür ve 200,000'e sayılır."
-    }
+    },
+    "hook": "Gerçek bir meyve sineği beyni kendi cüzdanıyla işlem yapıyor.",
+    "hookLede": "Bilim insanları bir meyve sineğinin 166.700 nöronunun hepsini haritaladı. fly.ai bu haritayı yazılım olarak çalıştırıyor ve Robinhood Chain'de gerçek işlemleri ona seçtiriyor; her işlem herkese açık. <b>$FLYAI</b> onun token'ı.",
+    "liveTag": "Son gerçek işlem",
+    "watch": "Bir sineğin işlemlerini izle",
+    "buyCta": "$FLYAI al",
+    "liveAgo": "{t} önce",
+    "liveBought": "Sinek #{n}, {usd} karşılığında {sym} aldı",
+    "liveSold": "Sinek #{n}, {sym} sattı: {pct}",
+    "liveSoldPlain": "Sinek #{n}, {usd} karşılığında {sym} sattı"
   }
 }

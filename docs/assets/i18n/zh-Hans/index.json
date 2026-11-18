@@ -275,6 +275,15 @@
       "c2t": "持有人持有 200,000 $FLYAI 时苍蝇即为活跃。活跃苍蝇分享每周收益。",
       "c3": "质押获得更多",
       "c3t": "质押的 $FLYAI 让你的份额最多变为 4×，并计入 200,000。"
-    }
+    },
+    "hook": "一只真实果蝇的大脑，在用自己的钱包交易。",
+    "hookLede": "科学家绘制了一只果蝇全部 166,700 个神经元。fly.ai 把这张图谱作为软件运行，让它在 Robinhood Chain 上挑选真实的交易，每一笔都公开可查。<b>$FLYAI</b> 是它的代币。",
+    "liveTag": "最新真实交易",
+    "watch": "看一只苍蝇交易",
+    "buyCta": "购买 $FLYAI",
+    "liveAgo": "{t}前",
+    "liveBought": "苍蝇 #{n} 买入 {sym}，{usd}",
+    "liveSold": "苍蝇 #{n} 卖出 {sym}，{pct}",
+    "liveSoldPlain": "苍蝇 #{n} 卖出 {sym}，{usd}"
   }
 }

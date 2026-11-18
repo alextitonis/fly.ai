@@ -7,28 +7,21 @@
 (function () {
   const SEEN_KEY = "flyai.welcome.seen";
   const LANGS = ["en", "zh-Hans", "zh-Hant", "ko", "tr", "es"];   // i18n.js LANGUAGES
+  // 2026-11-18 (PostHog: 75% of new visitors left after one screen, most without scrolling): three lines, not a page,
+  // and it no longer covers the first screen - it waits for a scroll past it or a second page (see the bottom)
   const EN = {
     eyebrow: "New here?",
-    title: "fly.ai in 30 seconds",
-    brain: "Scientists mapped every neuron in a real fruit fly's brain: <b>166,700 neurons</b> and <b>25.6 million connections</b>. fly.ai runs that map as software. Nobody trained it or wrote its rules: it reacts the way its wiring makes it react.",
-    doesTitle: "What the brain does here",
-    d1: "<b>Lives in a 3-D world.</b> Flies forage, follow smells and dodge spiders. Free to watch.",
-    d2: "<b>Trades.</b> A Trader Fly is an NFT with its own wallet. Its brain picks the trades, and every trade is public.",
-    d3: "<b>Talks.</b> On Flybook the flies post, chat and battle. Free to join.",
-    tokenTitle: "And $FLYAI?",
-    token: "It's the token that runs fly.ai. Hold <b>200,000 $FLYAI</b> (in your wallet or staked) and every Trader Fly in that wallet switches on: it shares the Fly Desk's payout, every Sunday.",
-    levelsTitle: "Start at any level",
-    l1: "<b>Watch</b><small>$0, no wallet</small>",
-    l2: "<b>Hold</b><small>Buy some $FLYAI</small>",
-    l3: "<b>Trader Fly</b><small>A fly + 200k $FLYAI</small>",
+    title: "fly.ai in 3 lines",
+    l1: "Scientists mapped every neuron of a real fruit fly: <b>166,700 neurons</b>. fly.ai runs that map as software.",
+    l2: "A <b>Trader Fly</b> is an NFT with its own wallet. The brain picks its trades, and every trade is public.",
+    l3: "Hold <b>200,000 $FLYAI</b> and your flies trade and share the Fly Desk's weekly payout.",
     risk: "Only put in what you'd be fine losing. The only real $FLYAI contract is below. Nobody from the team will DM you first.",
+    watch: "Watch a fly trade",
     buy: "Buy $FLYAI",
-    how: "How it works",
     look: "Just look around",
     close: "Close",
   };
   const CONTRACT = "0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C";
-  const ICONS = ["🌍", "📈", "💬"];
 
   function lang() {
     let l = "en";
@@ -70,6 +63,8 @@
 .fw-panel h3 { margin: 18px 0 8px; font: 600 15px var(--display, Outfit, system-ui, sans-serif); color: var(--text, #f4f7f6); }
 .fw-panel p { margin: 0; color: var(--muted, #9ba5a1); }
 .fw-panel b { color: var(--text, #f4f7f6); font-weight: 600; }
+.fw-lines { margin: 0; padding-left: 20px; display: grid; gap: 8px; color: var(--muted, #9ba5a1); }
+.fw-lines li::marker { color: var(--mint, #5ef2cc); font-weight: 600; }
 .fw-does { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .fw-does li { display: flex; gap: 10px; align-items: flex-start; color: var(--muted, #9ba5a1); }
 .fw-does li span { flex: none; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 9px; background: rgba(94,242,204,.08); font-size: 15px; }
@@ -115,17 +110,11 @@ body.fw-open { overflow: hidden; }
   <button type="button" class="fw-x" aria-label="${w.close}">×</button>
   <p class="fw-eye">${w.eyebrow}</p>
   <h2 id="fw-title">${w.title}</h2>
-  <p>${w.brain}</p>
-  <h3>${w.doesTitle}</h3>
-  <ul class="fw-does">${["d1", "d2", "d3"].map((k, i) => `<li><span aria-hidden="true">${ICONS[i]}</span><div>${w[k]}</div></li>`).join("")}</ul>
-  <h3>${w.tokenTitle}</h3>
-  <p>${w.token}</p>
-  <h3>${w.levelsTitle}</h3>
-  <div class="fw-levels">${["l1", "l2", "l3"].map((k) => `<div>${w[k]}</div>`).join("")}</div>
+  <ol class="fw-lines">${["l1", "l2", "l3"].map((k) => `<li>${w[k]}</li>`).join("")}</ol>
   <p class="fw-risk">${w.risk}<code class="fw-ca">${CONTRACT}</code></p>
   <div class="fw-act">
-    <a class="fw-buy" href="${href("/start")}">${w.buy}</a>
-    <a href="${href("/how")}">${w.how}</a>
+    <a class="fw-buy" href="${href("/traderflies/leaderboard")}">${w.watch}</a>
+    <a href="${href("/start")}">${w.buy}</a>
     <button type="button" class="fw-look">${w.look}</button>
   </div>
 </div>`;
@@ -145,6 +134,22 @@ body.fw-open { overflow: hidden; }
     try { localStorage.setItem(SEEN_KEY, String(Date.now())); } catch {}
   }
 
-  if (document.readyState === "complete") setTimeout(show, 600);
-  else window.addEventListener("load", () => setTimeout(show, 600), { once: true });
+  // when: ?welcome at once; else on this browser's second page, or once the visitor scrolls past the first screen
+  const PAGES_KEY = "flyai.welcome.pages";
+  let pages = 1, forced = false;
+  try {
+    forced = new URLSearchParams(location.search).has("welcome");
+    pages = Number(sessionStorage.getItem(PAGES_KEY) || 0) + 1;
+    sessionStorage.setItem(PAGES_KEY, String(pages));
+  } catch {}
+  let shown = false;
+  const once = () => { if (!shown) { shown = true; window.removeEventListener("scroll", onScroll); void show(); } };
+  const onScroll = () => { if (window.scrollY > window.innerHeight * 0.9) once(); };
+  const arm = () => {
+    if (forced) setTimeout(once, 600);
+    else if (pages >= 2) setTimeout(once, 1500);
+    else window.addEventListener("scroll", onScroll, { passive: true });
+  };
+  if (document.readyState === "complete") arm();
+  else window.addEventListener("load", arm, { once: true });
 })();

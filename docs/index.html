@@ -70,9 +70,19 @@
   <div class="wrap">
     <div class="hh-copy">
       <p class="eyebrow" data-i18n="index.home.eyebrow">Live on Robinhood Chain</p>
-      <h1 class="hh-title"><span class="ticker"><span>$</span>FLYAI</span></h1>
-      <p class="hh-lede" data-i18n="index.home.lede2">The token behind fly.ai: real fruit fly brains, 166,700 neurons each, that trade from
-        their own wallets and run the Fly Desk. Open source.</p>
+      <!-- 2026-11-18 (PostHog: 75% of new visitors left after one screen, most without scrolling): the first screen
+           leads with what fly.ai is and one real trade, then one button; the token's status and contract follow -->
+      <h1 class="hh-hook" data-i18n="index.home.hook">A real fruit-fly brain trades its own wallet.</h1>
+      <p class="hh-lede" data-i18n-html="index.home.hookLede">Scientists mapped all 166,700 neurons of a fruit fly. fly.ai runs that map
+        as software and lets it pick real trades on Robinhood Chain, every one of them public. <b>$FLYAI</b> is its token.</p>
+      <a class="hh-live" id="hh-live" href="/traderflies/leaderboard" hidden>
+        <span class="hh-live-tag"><i aria-hidden="true"></i><span data-i18n="index.home.liveTag">Latest real trade</span></span>
+        <span class="hh-live-text" id="hh-live-text"></span>
+      </a>
+      <div class="hh-cta">
+        <a class="btn red" id="hh-watch" href="/traderflies/leaderboard" data-i18n="index.home.watch">Watch a fly trade</a>
+        <a class="btn" href="/start" data-i18n="index.home.buyCta">Buy $FLYAI</a>
+      </div>
       <dl class="tstat">
         <div><dt data-i18n="index.home.status">Status</dt><dd class="live"><i aria-hidden="true"></i><span data-i18n="common.words.live">live</span></dd></div>
         <div><dt data-i18n="index.hero.k9">chain</dt><dd>Robinhood Chain</dd></div>
@@ -315,11 +325,11 @@
 <!-- /@footer -->
 
 <script src="assets/site.js"></script>
-<script src="assets/nav.js?v=20261118a"></script>
+<script src="assets/nav.js?v=20261118c"></script>
 <script src="assets/route.js?v=20261101a"></script>
 <script src="assets/staked.js?v=20261027a"></script>
 <script src="assets/buy.js?v=20261118b"></script>
 <script type="module" src="assets/i18n/page.js"></script>
-<script type="module" src="assets/home.js"></script>
+<script type="module" src="assets/home.js?v=20261118a"></script>
 </body>
 </html>

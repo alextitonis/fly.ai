@@ -275,6 +275,15 @@
       "c2t": "Una mosca está activa mientras su dueño tenga 200,000 $FLYAI. Las moscas activas comparten el pago de cada semana.",
       "c3": "Staking para más",
       "c3t": "El $FLYAI en staking agranda tu parte, hasta 4×, y cuenta para los 200,000."
-    }
+    },
+    "hook": "Un cerebro real de mosca de la fruta opera con su propia wallet.",
+    "hookLede": "Los científicos mapearon las 166.700 neuronas de una mosca de la fruta. fly.ai ejecuta ese mapa como software y lo deja elegir operaciones reales en Robinhood Chain, todas públicas. <b>$FLYAI</b> es su token.",
+    "liveTag": "Última operación real",
+    "watch": "Ver operar a una mosca",
+    "buyCta": "Comprar $FLYAI",
+    "liveAgo": "hace {t}",
+    "liveBought": "La mosca #{n} compró {sym} por {usd}",
+    "liveSold": "La mosca #{n} vendió {sym} a {pct}",
+    "liveSoldPlain": "La mosca #{n} vendió {sym} por {usd}"
   }
 }

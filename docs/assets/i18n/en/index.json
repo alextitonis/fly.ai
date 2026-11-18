@@ -275,6 +275,15 @@
       "c2t": "A fly is active while its holder holds 200,000 $FLYAI. Active flies share each week's payout.",
       "c3": "Stake for more",
       "c3t": "Staked $FLYAI makes your slice bigger, up to 4×, and counts toward the 200,000."
-    }
+    },
+    "hook": "A real fruit-fly brain trades its own wallet.",
+    "hookLede": "Scientists mapped all 166,700 neurons of a fruit fly. fly.ai runs that map as software and lets it pick real trades on Robinhood Chain, every one of them public. <b>$FLYAI</b> is its token.",
+    "liveTag": "Latest real trade",
+    "watch": "Watch a fly trade",
+    "buyCta": "Buy $FLYAI",
+    "liveAgo": "{t} ago",
+    "liveBought": "Fly #{n} bought {sym} for {usd}",
+    "liveSold": "Fly #{n} sold {sym} at {pct}",
+    "liveSoldPlain": "Fly #{n} sold {sym} for {usd}"
   }
 }
