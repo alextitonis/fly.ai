@@ -17,7 +17,7 @@ Most fixes are the same grammar point: in Turkish, a noun used to describe anoth
 | trail_juice | Juice drips | Meyve suyu damlası | Meyve suyu damlaları | "drips" is plural |
 | trail_ants | Ant parade | Karınca geçidi | Karınca alayı | "geçit" reads as a passage; "karınca alayı" is the usual phrase for a line of ants |
 | hat_bag | Paper bag hat | Kese kağıdı şapka | Kese kâğıdından şapka | "made of a paper bag"; also the standard spelling kâğıt |
-| acc_ring | Ring pull ring | Kapak halkası yüzük | Kutu halkası yüzük | a ring pull is the can's ring (kutu halkası), not a cap's |
+| acc_ring | Ring pull ring | Kapak halkası yüzük | Kutu halkasından yüzük | a ring pull is the can's ring (kutu halkası), not a cap's; "-dan" (made of) as in hat_bag |
 | hat_sun | Picnic sun hat | Piknik hasır şapka | Hasır piknik şapkası | natural word order and suffix |
 
 Checked by a native Turkish speaker (the PR author).
