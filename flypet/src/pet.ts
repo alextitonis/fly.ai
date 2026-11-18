@@ -5,7 +5,7 @@ import { FEED_LINES, asleepAt, daysTogether, moneyMoves, paceTarget, readFlies, 
 import { addNote, applyLang, flyFeed, prefs, priceSamples, publicFeed, seenOf, setPrefs, setPriceSamples, setSeen, signedIn, walletFeed } from "./store.ts";
 import { setupTalk } from "./talk.ts";
 import { setupCoach } from "./coach.ts";
-import { nameOf, setupExpeditions, span } from "./expeditions.ts";
+import { itemArt, nameOf, setupExpeditions, span } from "./expeditions.ts";
 import type { ExpView } from "./store.ts";
 
 const native = window.flyNative;                    // vite in a plain browser has no window to move
@@ -115,12 +115,12 @@ async function pollPrice() {
 type State = "idle" | "walking" | "acting" | "sleeping" | "held" | "falling";
 let state: State = "idle";
 let x = 0, y = 0, vx = 0, vy = 0, targetX = 0, restUntil = 0;
-let floor = { left: 0, right: 1920, bottom: 1080 };
+let floor = { left: 0, right: 1920, top: 0, bottom: 1080 };
 
 async function measure() {
   if (!native) return;
   const a = await native.workArea();
-  floor = { left: a.x, right: a.x + a.width, bottom: a.y + a.height };
+  floor = { left: a.x, right: a.x + a.width, top: a.y, bottom: a.y + a.height };
 }
 const place = () => native?.place(x, y);
 const clampX = (v: number) => Math.min(floor.right - W / 2 - SPRITE / 2, Math.max(floor.left - W / 2 + SPRITE / 2, v));
@@ -134,7 +134,11 @@ function setHome(at: number) {
 function tick() {
   const now = Date.now();
   nextReaction(now);
-  if (talking || away) return;                         // it stays put under its chat; away on a trip, nothing to move
+  if (talking || away || game) return;                 // it stays put under its chat; away on a trip or in the swat game, nothing here
+  if (perched && state === "idle") {                   // on a window: it sits, then hops down after a while
+    if (now >= perched.until) { perched = null; state = "falling"; vx = (Math.random() - 0.5) * 6; vy = -3; play("fall"); }
+    return;
+  }
   if (state === "falling") {
     vy += GRAVITY; x = clampX(x + vx); y += vy;
     if (y >= groundY()) {
@@ -150,6 +154,10 @@ function tick() {
     else { x += Math.sign(d) * WALK_PX; place(); }
   } else if (state === "sleeping") {
     if (!asleepAt(new Date().getHours())) { state = "idle"; restUntil = now + 1000; play("wave"); say(t("gm", { day: daysTogether(prefs().born, now) + 1 })); }
+  } else if (state === "idle" && now >= restUntil && !focusUntil && tryPerch(now)) {
+    // it flew up onto the window in front (sitting on your windows)
+  } else if (state === "idle" && now >= restUntil && focusUntil) {
+    restUntil = now + 5000;                            // focus time: it stays put and keeps you company
   } else if (state === "idle" && now >= restUntil) {
     if (asleepAt(new Date().getHours())) { state = "sleeping"; play("sleep"); }
     else if (prefs().quiet || Math.random() < 0.4) restUntil = now + 8000 + Math.random() * 20000;
@@ -170,13 +178,14 @@ fly.addEventListener("contextmenu", (e) => {
 });
 fly.addEventListener("pointerdown", (e) => {
   if (e.button !== 0) return;
+  if (game) { swatHit(); return; }                     // the swat game: a click is a swat, not a grab
   fly.setPointerCapture(e.pointerId);
   grab = { dx: e.screenX - x, dy: e.screenY - y, startX: e.screenX, startY: e.screenY, moved: false, lastX: e.screenX, lastY: e.screenY, lastAt: Date.now() };
 });
 fly.addEventListener("pointermove", (e) => {
   if (!grab) return;
   if (!grab.moved && Math.hypot(e.screenX - grab.startX, e.screenY - grab.startY) < 4) return;
-  if (!grab.moved) { if (talking) closeTalk(); grab.moved = true; state = "held"; play("held"); }
+  if (!grab.moved) { if (talking) closeTalk(); perched = null; grab.moved = true; state = "held"; play("held"); }
   const at = Date.now(), dt = Math.max(1, at - grab.lastAt);
   vx = ((e.screenX - grab.lastX) / dt) * FRAME_MS;
   vy = ((e.screenY - grab.lastY) / dt) * FRAME_MS;
@@ -201,6 +210,113 @@ function feed() {
   state = "acting"; busyUntil = Date.now() + 3000;
   play("eat");
   say(t(FEED_LINES[Math.floor(Math.random() * FEED_LINES.length)]), 3000);
+  if (signedIn() && prefs().fly != null) void expeditions.feed();   // once a UTC day it's worth a little pet XP
+}
+
+// ---- the swat game (2026-11-18): 20 seconds, the fly darts around the screen, every click on it counts ---------------
+const SWAT_MS = 20_000, BEST = "swatBest";
+let game: { until: number; score: number; timer: number } | null = null;
+function swatGame() {
+  if (game || away) return;
+  closeTalk();
+  perched = null;
+  game = { until: Date.now() + SWAT_MS, score: 0, timer: 0 };
+  sayCoach(t("g.start"), 2500);
+  game.timer = window.setTimeout(hop, 1200);
+}
+function hop() {
+  if (!game) return;
+  if (Date.now() >= game.until) { endGame(); return; }
+  const spanY = Math.max(0, groundY() - floor.top - 40);
+  x = clampX(floor.left + Math.random() * (floor.right - floor.left - W));
+  y = groundY() - Math.random() * Math.min(spanY, 600);
+  look.classList.toggle("left", Math.random() < 0.5);
+  place(); play("walk");
+  // faster as the seconds run out
+  const left = (game.until - Date.now()) / SWAT_MS;
+  game.timer = window.setTimeout(hop, 450 + 600 * left);
+}
+function swatHit() {
+  if (!game) return;
+  game.score++;
+  play("rugged");
+  sayCoach(`💥 ${game.score}`, 700);
+  clearTimeout(game.timer);
+  game.timer = window.setTimeout(hop, 250);
+}
+function endGame() {
+  if (!game) return;
+  const score = game.score;
+  clearTimeout(game.timer);
+  game = null;
+  let best = 0;
+  try { best = Number(localStorage.getItem(BEST)) || 0; } catch { /* private */ }
+  if (score > best) { try { localStorage.setItem(BEST, String(score)); } catch { /* private */ } }
+  x = home; y = groundY(); place();
+  state = "acting"; busyUntil = Date.now() + 3000; play(score > best ? "moon" : "happy");
+  sayCoach(score > best && best > 0 ? t("g.newBest", { n: score }) : t("g.score", { n: score, best: Math.max(best, score) }), 5000);
+}
+
+// ---- focus time (2026-11-18): 25 minutes where it sits still beside you; it cheers when the time is up ---------------
+const FOCUS_MS = 25 * 60_000;
+let focusUntil = 0;
+const focusTag = document.getElementById("focus") as HTMLDivElement;
+function focusStart() {
+  if (away || game) return;
+  closeTalk();
+  perched = null;
+  focusUntil = Date.now() + FOCUS_MS;
+  if (state === "walking") { state = "idle"; play("idle"); }
+  sayCoach(t("f.on"), 4000);
+  focusShow();
+}
+function focusShow() {
+  focusTag.hidden = !focusUntil || talking;
+  if (focusUntil) {
+    const s = Math.max(0, Math.ceil((focusUntil - Date.now()) / 1000));
+    focusTag.textContent = t("f.left", { time: `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}` });
+  }
+}
+function focusStop(done: boolean) {
+  if (!focusUntil) return;
+  focusUntil = 0;
+  focusShow();
+  if (!done) { say(t("f.stop"), 2500); return; }
+  const key = `focus:${new Date().toISOString().slice(0, 10)}`;
+  let n = 1;
+  try { n = (Number(localStorage.getItem(key)) || 0) + 1; localStorage.setItem(key, String(n)); } catch { /* private */ }
+  state = "acting"; busyUntil = Date.now() + 4000; play("moon");
+  sayCoach(t("f.done", { n }), 8000);
+  notify(t("f.done", { n }));
+}
+setInterval(() => { if (focusUntil) { if (Date.now() >= focusUntil) focusStop(true); else focusShow(); } }, 1000);
+focusTag.addEventListener("click", () => focusStop(false));
+
+// ---- sitting on your windows (2026-11-18, Windows): now and then it flies up onto the title bar of the window in front;
+// when you move that window (or switch to another) it falls off and lands back on the ground --------------------------
+type Win = { id: string; x: number; y: number; width: number; height: number };
+let front: Win | null = null, perched: (Win & { until: number }) | null = null;
+function tryPerch(now: number): boolean {
+  const w = front;
+  if (!w || !prefs().perch || prefs().quiet || talking || away || game || Math.random() > 0.3) return false;
+  if (w.y - H + 8 < floor.top || w.width < SPRITE + 40) return false;      // no room above it (maximized-like) or too small
+  x = clampX(w.x + 20 + Math.random() * Math.max(0, w.width - SPRITE - 40) - (W - SPRITE) / 2);
+  y = w.y - H + 6;                                       // its feet on the window's top edge
+  perched = { ...w, until: now + 45_000 + Math.random() * 75_000 };
+  place();
+  state = "acting"; busyUntil = now + 1500; play("wave");
+  return true;
+}
+function onFront(w: Win | null) {
+  const was = front;
+  front = w;
+  if (!perched) return;
+  const moved = !w || w.id !== perched.id || Math.abs(w.x - perched.x) > 3 || Math.abs(w.y - perched.y) > 3;
+  if (moved && (was?.id === perched.id || !w)) {
+    // its window moved or went away: it buzzes off and falls to the ground
+    perched = null;
+    state = "falling"; vx = (Math.random() - 0.5) * 8; vy = -5; play("fall");
+  }
 }
 
 // A transparent window still catches clicks, so it lets them through except over the fly's own pixels. The native side
@@ -242,32 +358,32 @@ let talking = false;
 // ---- expeditions (src/expeditions.ts): what it wears, and trips on the server's clock ---------------------------------
 const wingsBox = document.getElementById("wings") as HTMLDivElement, wearBox = document.getElementById("wear") as HTMLDivElement;
 const awayTag = document.getElementById("away") as HTMLDivElement, gift = document.getElementById("gift") as HTMLDivElement;
-let away = false, trailGlyph: string | null = null;
+let away = false, trailItem: { id: string; glyph: string } | null = null;
 const lootWaiting = () => { const tr = expeditions.view()?.me.trip; return !!tr && tr.ends_at <= Date.now(); };
-const glyphAt = (g: string, [ax, ay]: [number, number], small = false) => {
-  const e = document.createElement("span");
-  e.className = `wear-g${small ? " sm" : ""}`;
-  e.textContent = g;
+/** an item's pixel art pinned at an anchor of the sprite */
+const artAt = (it: { id: string; glyph: string }, [ax, ay]: [number, number], px: number, flip = false) => {
+  const e = itemArt(it, px);
+  e.classList.add("wear-g");
   e.style.left = `${ax}px`; e.style.top = `${ay}px`;
+  if (flip) e.style.transform = "translate(-50%, -50%) scaleX(-1)";
   return e;
 };
 /** put on what it wears: hat on the head, wings behind, an extra by its hand, the bubble's colors, a set's glow */
 function dress(v: ExpView | null) {
   const eq = v?.me.equipped ?? {}, item = (id?: string) => (id ? v?.items.find((i) => i.id === id) : undefined);
   const a = avatar.anchors, hat = item(eq.hat), wings = item(eq.wings), acc = item(eq.acc), bub = item(eq.bubble);
-  wingsBox.replaceChildren(...(wings ? [glyphAt(wings.glyph, a.wingL), glyphAt(wings.glyph, a.wingR)] : []));
-  wearBox.replaceChildren(...[hat && glyphAt(hat.glyph, a.head), acc && glyphAt(acc.glyph, a.hand, true)].filter((n): n is HTMLSpanElement => !!n));
-  trailGlyph = item(eq.trail)?.glyph ?? null;
+  wingsBox.replaceChildren(...(wings ? [artAt(wings, a.wingL, 44, true), artAt(wings, a.wingR, 44)] : []));
+  wearBox.replaceChildren(...[hat && artAt(hat, a.head, 44), acc && artAt(acc, a.hand, 30)].filter((n): n is HTMLElement => !!n));
+  trailItem = item(eq.trail) ?? null;
   bubble.classList.toggle("skin", !!bub?.colors);
   if (bub?.colors) { bubble.style.setProperty("--bub-bg", bub.colors.bg); bubble.style.setProperty("--bub-ink", bub.colors.ink); }
   look.classList.toggle("set", (v?.me.sets.length ?? 0) > 0);
 }
 /** its trail: a few glyphs left behind it while it walks (CSS only, gone in a second) */
 setInterval(() => {
-  if (!trailGlyph || away || talking || state !== "walking") return;
-  const e = document.createElement("span"), toLeft = look.classList.contains("left");
-  e.className = "trail";
-  e.textContent = trailGlyph;
+  if (!trailItem || away || talking || state !== "walking") return;
+  const e = itemArt(trailItem, 20), toLeft = look.classList.contains("left");
+  e.classList.add("trail");
   e.style.left = `${W / 2 + (toLeft ? 40 : -56)}px`;
   e.style.setProperty("--dx", `${toLeft ? 24 : -24}px`);
   document.getElementById("stage")!.append(e);
@@ -318,6 +434,12 @@ const expeditions = setupExpeditions({
     setTimeout(() => { away = false; look.classList.remove("leaving"); syncTrip(expeditions.view()); }, 1200);
   },
   claimed: () => { gift.hidden = true; talk.refresh(); },
+  fed: (xp) => {
+    state = "acting"; busyUntil = Date.now() + 3000; play("eat");
+    say(xp > 0 ? t("x.fedSay", { n: xp }) : t(FEED_LINES[Math.floor(Math.random() * FEED_LINES.length)]), 3000);
+  },
+  swat: () => swatGame(),
+  focus: () => focusStart(),
   onSignedOut: () => { closeTalk(); native?.openPanel(); },
 });
 // the countdown on the pill, and the moment it's back
@@ -413,12 +535,18 @@ async function start() {
   native?.onCursor((c) => {
     if (grab) return pass(false);
     pass(!(c.inside && (overFly(c.x, c.y) || inside(talkBox, c.x, c.y) || (bubble.classList.contains("on") && inside(bubble, c.x, c.y))
-      || inside(awayTag, c.x, c.y) || inside(gift, c.x, c.y))));
+      || inside(awayTag, c.x, c.y) || inside(gift, c.x, c.y) || inside(focusTag, c.x, c.y))));
   });
   native?.onOpen((what) => openTalk(what === "exp" ? "exp" : undefined));
   bubble.addEventListener("click", () => openTalk());
   native?.onQuiet((on) => { setPrefs({ quiet: on }); });
   native?.onFeed(feed);
+  // sitting on your windows: the native watcher runs only while the setting is on (Windows)
+  native?.onPerch?.((w) => onFront(w));
+  let perchOn: boolean | null = null;
+  const perchSync = () => { const on = prefs().perch !== false && !prefs().quiet; if (on !== perchOn) { perchOn = on; native?.perch?.(on); if (!on) { front = null; perched = null; } } };
+  perchSync();
+  window.addEventListener("storage", perchSync);
   native?.onCoach((what) => { if (what === "toggle") coach.toggle(); else coach.hint(); });
 
   // in a dev browser: flypet.react("rugged", "...") acts anything out

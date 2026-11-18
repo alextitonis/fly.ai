@@ -29,7 +29,8 @@
   "tabs": {
     "season": "Sezon",
     "round": "Çekiliş",
-    "quests": "Günlük görevler"
+    "quests": "Günlük görevler",
+    "pet": "Fly Pet"
   },
   "round": {
     "title0": "Ödül turu",
@@ -60,5 +61,18 @@
     "board": "En uzun check-in serileri",
     "empty": "Henüz seri yok. Başlamak için check-in yap.",
     "days": "{n} gün"
+  },
+  "pet": {
+    "title": "Fly Pet keşifleri",
+    "note": "Masaüstü evcil hayvanından sineğini keşfe gönder: giymek için şapka, kanat, iz ve balon getirir. Biten her keşif 2 XP (günde en fazla 6).",
+    "get": "Fly Pet'i indir",
+    "streaks": "En uzun keşif serileri",
+    "rares": "Bu haftanın nadir buluntuları",
+    "levels": "En yüksek evcil seviyeleri",
+    "empty": "Bu hafta henüz keşif yok. İlk sen ol!",
+    "days": "{n} gün",
+    "points": "{n} puan",
+    "level": "seviye {n}",
+    "week": "Bu hafta {n} keşif bitti"
   }
 }

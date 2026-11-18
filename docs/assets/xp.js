@@ -35,18 +35,36 @@ $("xp-help").addEventListener("click", () => { help(); });
 
 // the tabs: the season's board, the giveaway round (#giveaway) or the daily quests (#quests, 2026-11-06)
 function tab(name) {
-  for (const n of ["season", "round", "quests"]) {
+  for (const n of ["season", "round", "quests", "pet"]) {
     $(`xp-tab-${n}`).classList.toggle("on", n === name);
     $(`xp-tab-${n}`).setAttribute("aria-selected", String(n === name));
     $(`xp-panel-${n}`).hidden = n !== name;
   }
-  history.replaceState(history.state, "", name === "round" ? "#giveaway" : name === "quests" ? "#quests" : location.pathname + location.search);
+  history.replaceState(history.state, "", name === "round" ? "#giveaway" : name === "quests" ? "#quests" : name === "pet" ? "#flypet" : location.pathname + location.search);
+  if (name === "pet") drawPet().catch(() => {});
   if (name === "round") drawRound().catch((err) => msg(String(err?.message || err), "err"));
   if (name === "quests") drawStreaks().catch(() => {});
 }
 $("xp-tab-season").addEventListener("click", () => tab("season"));
 $("xp-tab-round").addEventListener("click", () => tab("round"));
 $("xp-tab-quests").addEventListener("click", () => tab("quests"));
+$("xp-tab-pet").addEventListener("click", () => tab("pet"));
+// Fly Pet expeditions (mine/src/expeditions.ts board, 2026-11-18): streaks going, rare finds this week, pet levels
+async function drawPet() {
+  const b = await fetch(`${READ}/api/pet/exp/board`).then((r) => r.json());
+  const all = [...(b.streaks || []), ...(b.rares || []), ...(b.levels || [])].map((r) => r.wallet);
+  const names = all.length && NAV?.names ? await NAV.names([...new Set(all)]).catch(() => ({})) : {};
+  const mine = session()?.wallet.toLowerCase();
+  const rows = (list, value) => list.map((r, i) => el("li", { class: `xp-row xp-srow${r.wallet === mine ? " me" : ""}` },
+    el("span", { class: "xp-rank" }, i < 3 ? ["🥇", "🥈", "🥉"][i] : `#${i + 1}`),
+    el("a", { class: "xp-who", href: "#", title: r.wallet, "data-fly-profile": r.wallet }, names[r.wallet] || short(r.wallet)),
+    el("span", { class: "xp-xp" }, value(r))));
+  $("xp-pet-streaks").replaceChildren(...rows(b.streaks || [], (r) => `🔥 ${t("xp.pet.days", { n: r.streak })}`));
+  $("xp-pet-rares").replaceChildren(...rows(b.rares || [], (r) => `✨ ${t("xp.pet.points", { n: r.points })}`));
+  $("xp-pet-levels").replaceChildren(...rows(b.levels || [], (r) => `🪰 ${t("xp.pet.level", { n: r.level })}`));
+  $("xp-pet-week").textContent = t("xp.pet.week", { n: fmt(b.trips || 0) });
+  $("xp-pet-empty").hidden = !!(b.streaks?.length || b.levels?.length);
+}
 // the Today panel is nav.js's (check-in, streak, the 3 quests); signed out, the sign-in instead
 $("xp-today").addEventListener("click", () => { if (session() && NAV?.xp?.openToday) NAV.xp.openToday(); else document.querySelector("[data-nav-signin], nav .acct-in")?.click(); });
 async function drawStreaks() {
@@ -135,6 +153,7 @@ async function draw() {
 try {
   if (location.hash === "#giveaway") tab("round");
   else if (location.hash === "#quests") tab("quests");
+  else if (location.hash === "#flypet") tab("pet");
   await draw();
 } catch (err) {
   msg(String(err?.message || err), "err");

@@ -151,3 +151,31 @@ Deploy order (when built): migration → mine deploy → pet release (exe + Stor
 2. $FLYAI speed-up burn: **yes**, phase 2 as planned.
 3. No fly and no partner NFT: **can't play** — same as the pet today (pick a fly or partner NFT first).
 4. Season XP from trips (2 a trip, max 6/day): **yes**.
+
+## Phase 2 + art + toys + perching (2026-11-18, BUILT, not deployed / not released)
+
+The user: "3. can we generate maybe the art?, add the 4 too, 5 too" + "Also window perching"; art "Draw pixel art in code".
+
+- **Art**: 35 sprites, 16x16 drawn as character maps, saved 32x32 in `flypet/public/items/<id>.png` (the generator
+  script lives outside the repo; the PNGs are the source now). The pet shows the PNG, falling back to the glyph.
+- **Speed-up**: `POST /api/pet/exp/speedup { tx }`: a $FLYAI `burn()` brings the trip in flight home. $0.25 per hour left
+  (rounded up), priced at $FLYAI's price, a burn of 90%+ counts, 2 a UTC day. The pet shows the price and opens
+  `/flypet-boost` (docs/flypet-boost.html + assets/flypet-boost.js + i18n flypetboost.json x6), where the site session burns.
+- **Weekly swarm**: claimed trips of the UTC week (from Monday); tiers 300 / 1,000 / 3,000 give Swarm medal / Swarm wings /
+  Swarm crown to every wallet that claimed a trip that week (given on its next read or claim).
+- **Share card**: "Save a card" on a reveal with a rare or legendary find (or a swarm reward): 1200x630 PNG.
+- **Board**: public `GET /api/pet/exp/board`; /xp has a "Fly Pet" tab (#flypet) with streaks, rare finds, levels.
+- **Toys**: Feed (5 pet XP once a UTC day; also from the tray's Feed), Swat game (20 s, best kept on the PC),
+  Focus 25 min (the fly sits still, a pill counts down, a cheer + notification at the end, count per day kept on the PC).
+- **Window perching** (Windows): setting "Sit on my windows" (on by default). A PowerShell loop in the main process reads
+  the front window's box every 0.7 s while it's on; the fly sometimes flies onto its top edge, falls off when it moves,
+  hops down after 45-120 s. Never reads window contents or sends input.
+- Migration `20261118140000_mine_pet_expeditions2.sql` (pet_speedups, pet_swarm_rewards, pet_state.feed_day).
+
+Checked: mine test:expeditions (phase 2 included), xp, quests, pet; both type-checks; pet card/art/feed/trip/speed-up
+button/reveal/swat/focus in the browser pane with a mocked server; /xp tab and /flypet-boost (signed out) on the docs
+server. NOT checked: window perching in the real app (no Electron run), the signed-in burn on /flypet-boost against
+the live server, the share card's file save.
+
+Deploy order: migration 2 -> mine deploy -> docs push (xp tab + /flypet-boost) -> pet 0.7.0 release.
+

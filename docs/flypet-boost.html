@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="flypetboost">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-i18n="flypetboost.title">Bring your fly home now</title>
+<meta name="description" content="Fly Pet expeditions: burn a little $FLYAI to bring your fly home right away.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/flypet-boost">
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .fb-hero { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; }
+  .fb-hero img { width: 120px; height: 120px; image-rendering: pixelated; }
+  .fb-card { display: grid; gap: 12px; max-width: 560px; padding: 20px; border: 1px solid var(--line, #222); border-radius: 14px; background: var(--panel, #0b0c0c); }
+  .fb-trip { font-size: 18px; font-weight: 600; }
+  .fb-msg { min-height: 1.2em; }
+  .fb-msg.err { color: #ff8d8d; }
+  .fb-msg.ok { color: var(--mint, #5ef2cc); }
+  [hidden] { display: none !important; }
+  @media (max-width: 640px) { .fb-hero img { width: 84px; height: 84px; } }
+</style>
+</head>
+<body>
+<nav aria-label="Main"></nav>
+<!-- Fly Pet expeditions, the speed-up (2026-11-18, flypet/EXPEDITIONS-PLAN.md phase 2; mine/src/expeditions.ts): the pet
+     holds no key, so its "Bring me home now" opens this page: sign in, burn the shown $FLYAI with burn(), and the server
+     checks the burn and brings the trip in flight home. -->
+<header class="pagehead">
+  <div class="wrap fb-hero">
+    <div>
+      <p class="eyebrow">Fly Pet</p>
+      <h1 data-i18n="flypetboost.title">Bring your fly home now</h1>
+      <p class="lede" data-i18n="flypetboost.lede">Your fly is on an expedition in Fly Pet. Burn a little $FLYAI and it's back right away with its finds.</p>
+    </div>
+    <img src="assets/pet/idle.gif" alt="" width="120" height="120">
+  </div>
+</header>
+
+<section class="firstsec">
+  <div class="wrap">
+    <div class="fb-card">
+      <div id="fb-out">
+        <p data-i18n="flypetboost.signin">Sign in with the wallet your pet uses.</p>
+        <button type="button" class="btn red" data-nav-signin data-i18n="flypetboost.button">Sign in</button>
+      </div>
+      <p id="fb-none" hidden data-i18n="flypetboost.none">Your fly isn't on a trip right now. Send it out from Fly Pet (🧭 Expeditions).</p>
+      <div id="fb-trip" hidden>
+        <p class="fb-trip" id="fb-where"></p>
+        <p id="fb-price"></p>
+        <p class="fine" id="fb-limit"></p>
+        <button type="button" class="btn red" id="fb-go" data-i18n="flypetboost.go">🔥 Burn and bring it home</button>
+      </div>
+      <p class="fb-msg" id="fb-msg" role="status" aria-live="polite"></p>
+      <p class="fine" data-i18n="flypetboost.note">The $FLYAI is burned (sent to 0x0) and gone for good. $0.25 per hour left, priced when you open this page.</p>
+    </div>
+  </div>
+</section>
+
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="/start">Start here: buy $FLYAI</a>
+      <a href="/press">Press kit</a>
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script>window.flyaiLiveSession = true;</script>
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261118a"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script type="module" src="assets/flypet-boost.js?v=20261118a"></script>
+</body>
+</html>

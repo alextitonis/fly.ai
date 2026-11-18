@@ -1,0 +1,16 @@
+{
+  "title": "Sineğini hemen eve getir",
+  "lede": "Sineğin Fly Pet'te keşifte. Biraz $FLYAI yak, buluntularıyla hemen dönsün.",
+  "signin": "Evcil hayvanının kullandığı cüzdanla giriş yap.",
+  "button": "Giriş yap",
+  "none": "Sineğin şu an keşifte değil. Fly Pet'ten gönder (🧭 Keşifler).",
+  "out": "{place} keşfinde · {time} sonra döner",
+  "price": "Hemen dönmesi için {n} $FLYAI (yaklaşık ${usd}) yak.",
+  "go": "🔥 Yak ve eve getir",
+  "limit": "Bugün {max} hızlandırmanın {left} tanesi kaldı.",
+  "used": "Bugünlük hızlandırma bitti: kendi kendine dönecek.",
+  "wallet": "Yakmayı cüzdanında onayla…",
+  "wait": "Yakmanın zincire işlenmesi bekleniyor…",
+  "done": "Döndü! Ne bulduğunu görmek için Fly Pet'i aç.",
+  "note": "$FLYAI yakılır (0x0'a gönderilir) ve sonsuza dek gider. Kalan saat başına $0.25, bu sayfayı açtığındaki fiyatla."
+}

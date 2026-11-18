@@ -23,12 +23,17 @@
       body.away #look { visibility: hidden; }
       #away { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); padding: 6px 12px; border-radius: 999px; background: #1a1a1a; color: #fff;
         border: 1px solid #2f2f2f; font: 600 12px "Segoe UI", system-ui, sans-serif; white-space: nowrap; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.4); }
-      #away[hidden], #gift[hidden] { display: none; }
+      #away[hidden], #gift[hidden], #focus[hidden] { display: none; }
+      #focus { position: absolute; left: 50%; bottom: 126px; margin-left: 36px; padding: 4px 10px; border-radius: 999px; background: #7cf5c4; color: #06140e;
+        font: 700 12px "Segoe UI", system-ui, sans-serif; white-space: nowrap; cursor: pointer; }
+      .xp-art { image-rendering: pixelated; vertical-align: middle; }
+      .wear-g.xp-art { position: absolute; }
       #gift { position: absolute; left: 50%; bottom: 150px; margin-left: 34px; font-size: 22px; cursor: pointer; animation: xp-bob 1.2s ease-in-out infinite; }
       @keyframes xp-bob { 50% { transform: translateY(-5px); } }
       .trail { position: absolute; bottom: 8px; font-size: 16px; pointer-events: none; animation: xp-trail 1.2s ease-out forwards; }
       @keyframes xp-trail { from { opacity: .9; transform: translate(0, 0) scale(1); } to { opacity: 0; transform: translate(var(--dx), -18px) scale(.6); } }
-      body.talking #gift, body.talking #away { display: none; }
+      body.talking #gift, body.talking #away, body.talking #focus { display: none; }
+      .trail.xp-art { width: 20px; height: 20px; }
       #fly:active { cursor: grabbing; }
       /* a bubble skin (an item): its colors */
       #bubble.skin { background: var(--bub-bg); color: var(--bub-ink); border-color: var(--bub-bg); }
@@ -109,6 +114,12 @@
       .xp-glyph { font-size: 16px; font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif; }
       .xp-glyph.big { font-size: 24px; }
       .xp-finds { display: flex; flex-wrap: wrap; gap: 6px; }
+      .xp-swarm { display: grid; gap: 4px; padding: 8px 9px; border: 1px solid #2a2a2a; border-radius: 12px; background: #101010; }
+      .xp-tier { opacity: .35; } .xp-tier.on { opacity: 1; }
+      .xp-toys { gap: 6px; }
+      .xp-toys .tk-chip { font-size: 12px; }
+      .xp-toys .tk-chip:disabled { opacity: .5; cursor: default; }
+      .xp-tile .xp-art { display: block; margin: 0 auto; }
       .xp-find { display: inline-flex; gap: 5px; align-items: center; padding: 4px 8px; border: 1px solid; border-radius: 999px; font-size: 12px; }
       #bubble::after { content: ""; position: absolute; left: 18px; bottom: -6px; width: 10px; height: 10px; background: #1a1a1a; border: solid #2f2f2f; border-width: 0 1px 1px 0; transform: rotate(45deg); }
     </style>
@@ -120,6 +131,7 @@
       <div id="look"><div id="wings"></div><img id="fly" alt="" draggable="false" /><div id="wear"></div></div>
       <div id="gift" hidden>🎁</div>
       <div id="away" hidden></div>
+      <div id="focus" hidden></div>
     </div>
     <script type="module" src="/src/pet.ts"></script>
   </body>

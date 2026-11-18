@@ -87,6 +87,10 @@ export const ITEMS: Item[] = [
   { id: "wings_leaf", slot: "wings", rarity: "rare", places: ["compost"], set: "compost", glyph: "🍂", names: ["Autumn wings", "秋叶翅膀", "秋葉翅膀", "가을 날개", "Sonbahar kanatlar", "Alas de otoño"] },
   { id: "trail_spores", slot: "trail", rarity: "rare", places: ["compost"], set: "compost", glyph: "🌀", names: ["Spore swirl", "孢子漩涡", "孢子漩渦", "포자 소용돌이", "Spor girdabı", "Remolino de esporas"] },
   { id: "trail_firefly", slot: "trail", rarity: "legendary", places: ["compost"], glyph: "💫", names: ["Firefly trail", "萤火虫轨迹", "螢火蟲軌跡", "반딧불 자취", "Ateşböceği izi", "Estela de luciérnagas"] },
+  // the weekly swarm's rewards (never from a roll): for wallets that took part when the week's swarm reaches a tier
+  { id: "acc_swarm1", slot: "acc", rarity: "uncommon", places: [], glyph: "🥉", names: ["Swarm medal", "蜂群奖章", "蜂群獎章", "떼 메달", "Sürü madalyası", "Medalla del enjambre"] },
+  { id: "wings_swarm2", slot: "wings", rarity: "rare", places: [], glyph: "🪽", names: ["Swarm wings", "蜂群翅膀", "蜂群翅膀", "떼 날개", "Sürü kanatları", "Alas del enjambre"] },
+  { id: "hat_swarm3", slot: "hat", rarity: "legendary", places: [], glyph: "👑", names: ["Swarm crown", "蜂群王冠", "蜂群王冠", "떼 왕관", "Sürü tacı", "Corona del enjambre"] },
 ];
 
 export const SETS: { id: string; names: Names }[] = [
@@ -97,3 +101,9 @@ export const SETS: { id: string; names: Names }[] = [
 
 /** pet XP for recycling one item, by rarity */
 export const RECYCLE_XP: Record<Rarity, number> = { common: 3, uncommon: 10, rare: 30, legendary: 100 };
+
+/** The weekly swarm (UTC weeks from Monday): every claimed trip of the week counts; reaching a tier gives its item to
+ *  every wallet that claimed a trip that week. */
+export const SWARM_TIERS: { trips: number; item: string }[] = [
+  { trips: 300, item: "acc_swarm1" }, { trips: 1000, item: "wings_swarm2" }, { trips: 3000, item: "hat_swarm3" },
+];

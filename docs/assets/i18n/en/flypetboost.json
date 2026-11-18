@@ -1,0 +1,16 @@
+{
+  "title": "Bring your fly home now",
+  "lede": "Your fly is on an expedition in Fly Pet. Burn a little $FLYAI and it's back right away with its finds.",
+  "signin": "Sign in with the wallet your pet uses.",
+  "button": "Sign in",
+  "none": "Your fly isn't on a trip right now. Send it out from Fly Pet (🧭 Expeditions).",
+  "out": "Out at the {place} · back in {time}",
+  "price": "Burn {n} $FLYAI (about ${usd}) to bring it home now.",
+  "go": "🔥 Burn and bring it home",
+  "limit": "{left} of {max} speed-ups left today.",
+  "used": "No speed-ups left today: it comes home on its own.",
+  "wallet": "Confirm the burn in your wallet…",
+  "wait": "Waiting for the burn to land…",
+  "done": "It's home! Open Fly Pet to see what it found.",
+  "note": "The $FLYAI is burned (sent to 0x0) and gone for good. $0.25 per hour left, priced when you open this page."
+}

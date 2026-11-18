@@ -29,7 +29,8 @@
   "tabs": {
     "season": "Temporada",
     "round": "Sorteo",
-    "quests": "Misiones diarias"
+    "quests": "Misiones diarias",
+    "pet": "Fly Pet"
   },
   "round": {
     "title0": "Ronda de premios",
@@ -60,5 +61,18 @@
     "board": "Rachas de check-in más largas",
     "empty": "Aún no hay rachas. Haz check-in para empezar una.",
     "days": "{n} días"
+  },
+  "pet": {
+    "title": "Expediciones de Fly Pet",
+    "note": "Manda a tu mosca de viaje desde la mascota de escritorio: vuelve con sombreros, alas, estelas y burbujas para ponerse. Cada viaje terminado da 2 XP (6 al día como máximo).",
+    "get": "Descargar Fly Pet",
+    "streaks": "Rachas de viajes más largas",
+    "rares": "Hallazgos raros esta semana",
+    "levels": "Niveles de mascota más altos",
+    "empty": "Aún no hay viajes esta semana. ¡Sé el primero!",
+    "days": "{n} días",
+    "points": "{n} pts",
+    "level": "nivel {n}",
+    "week": "{n} viajes terminados esta semana"
   }
 }

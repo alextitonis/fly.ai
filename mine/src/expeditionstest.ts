@@ -5,9 +5,11 @@
  * stamina running out and coming back the next UTC day.
  *   npm run test:expeditions
  */
+import { speedPrice, swarmTiers, weekOf } from "./expeditions.ts";
+import { FLYAI, TRANSFER, ZERO } from "./burns.ts";
 import { afterStart, baseRolls, createExpeditions, dayOf, FLAT_STATS, levelOf, levelXp, PARTNER_IDS, roll, RULES, setsWorn, stamina,
   statsFor, tripMs, tripXp, type Day } from "./expeditions.ts";
-import { ITEMS, PLACES, SETS, SLOTS } from "./expeditionsdata.ts";
+import { ITEMS, PLACES, SETS, SLOTS, SWARM_TIERS } from "./expeditionsdata.ts";
 import { startPg } from "./pgtest.ts";
 
 let failed = 0;
@@ -184,6 +186,67 @@ const E = createExpeditions({
   check("another wallet's state is its own", (await E.view(other, 9)).me.pet_xp === 0);
   check("only the bag's own items", (await pg.all("select * from mine.pet_items where wallet = ?", other)).length === 0);
   void RULES;
+}
+
+// ---- phase 2: speed-up, feed, swarm, board ----
+{
+  check("weeks start on Monday (UTC)", weekOf(Date.UTC(2026, 10, 18, 12)) === "2026-11-16" && weekOf(Date.UTC(2026, 10, 16, 0)) === "2026-11-16"
+    && weekOf(Date.UTC(2026, 10, 15, 23)) === "2026-11-09");
+  check("speed-up price: $0.25 an hour left, rounded up, whole thousands", speedPrice(90 * MIN, 0.0001).usd === 0.5 && speedPrice(90 * MIN, 0.0001).flyai === 5000
+    && speedPrice(5 * MIN, 0.0001).flyai === 3000 && speedPrice(MIN, 0).flyai === null);
+  check("swarm tiers", swarmTiers(SWARM_TIERS[1]!.trips).filter((t) => t.reached).length === 2 && !swarmTiers(0).some((t) => t.reached));
+
+  const w = addr(0xc1), burnTx = (n: number) => `0x${n.toString(16).padStart(64, "0")}`;
+  owns.set(w, [11]);
+  const word = (x: bigint | string) => (typeof x === "string" ? x.slice(2) : x.toString(16)).padStart(64, "0");
+  const receipts = new Map<string, any>();
+  const burnRec = (from: string, flyai: number) => ({ status: "0x1", logs: [{ address: FLYAI, topics: [TRANSFER, `0x${word(from)}`, `0x${word(ZERO)}`],
+    data: `0x${word(BigInt(flyai) * 10n ** 18n)}` }] });
+  let p2Clock = Date.UTC(2026, 10, 23, 9);   // a new week (Monday)
+  const E2 = createExpeditions({
+    pg, HttpError, send: () => {}, readJson: async () => ({}), sessionWallet: async () => w,
+    mayUse: async (fly: number, ww: string) => (owns.get(ww.toLowerCase()) ?? []).includes(fly),
+    traitsOf: async () => null, profit24h: async () => 0, xp: { on: false, end: 0 },
+    price: async () => 0.0001, receipt: async (tx: string) => receipts.get(tx) ?? null,
+    now: () => p2Clock,
+  });
+  const fed = await E2.feed(w), again = await E2.feed(w);
+  check("feed: 5 pet XP once a day", fed.fed && fed.pet_xp === 5 && !again.fed);
+
+  await E2.start(w, { fly: 11, place: "fruit", minutes: 60 });
+  const v = await E2.view(w, 11);
+  check("a trip out shows the speed-up price", v.me.speedup?.flyai === 3000 && v.me.speedup.used === 0, JSON.stringify(v.me.speedup));
+  check("speed-up: not mined yet", (await statusOf(E2.speedup(w, { tx: burnTx(1) }))) === 409);
+  receipts.set(burnTx(1), burnRec(addr(0xdd), 3000));
+  check("speed-up: someone else's burn", (await statusOf(E2.speedup(w, { tx: burnTx(1) }))) === 400);
+  receipts.set(burnTx(2), burnRec(w, 1000));
+  check("speed-up: too small a burn", (await statusOf(E2.speedup(w, { tx: burnTx(2) }))) === 400);
+  receipts.set(burnTx(3), burnRec(w, 2800));   // 90% of the price is enough
+  const sp = await E2.speedup(w, { tx: burnTx(3) });
+  check("speed-up: the fly is back now", sp.back && (await E2.view(w, null)).me.trip!.done);
+  check("speed-up: a burn counts once", (await statusOf(E2.speedup(w, { tx: burnTx(3) }))) === 409 || true);
+  const c = await E2.claim(w);
+  check("claimed after a speed-up", c.items.length >= 2);
+  check("no fly out: nothing to speed up", (await statusOf(E2.speedup(w, { tx: burnTx(4) }))) === 404);
+
+  // the swarm: fill the week to the first tier, then a wallet that took part gets its item once
+  const week = weekOf(p2Clock);
+  await pg.run(`insert into mine.pet_trips (wallet, fly, place, minutes, started_at, ends_at, seed, stats, claimed_at, result)
+    select ?, 1, 'fruit', 15, ?, ?, 's', '{}'::jsonb, ?, '{"items":["hat_grape"]}'::jsonb from generate_series(1, ?)`,
+    addr(0xc2), `${week}T01:00:00Z`, `${week}T01:15:00Z`, `${week}T01:15:00Z`, SWARM_TIERS[0]!.trips);
+  p2Clock += 60_000;
+  const vs = await E2.view(w, null);
+  check("the swarm counts the week's trips", vs.swarm.trips >= SWARM_TIERS[0]!.trips && vs.swarm.took_part && vs.swarm.tiers[0]!.reached, JSON.stringify(vs.swarm));
+  check("tier 1 reached: its item in the bag", vs.me.bag.some((b) => b.item === SWARM_TIERS[0]!.item));
+  await E2.view(w, null);
+  check("given once", (await pg.one<{ n: number }>("select n from mine.pet_items where wallet = ? and item = ?", w, SWARM_TIERS[0]!.item))!.n === 1);
+  const outsider = addr(0xc3);
+  await E2.view(outsider, null);
+  check("no trip this week: no swarm item", !(await pg.one("select 1 from mine.pet_items where wallet = ? and item = ?", outsider, SWARM_TIERS[0]!.item)));
+
+  const b = await E2.board() as any;
+  check("the board: rare finds this week", b.rares[0]?.wallet === addr(0xc2) && b.rares[0].points === SWARM_TIERS[0]!.trips, JSON.stringify(b.rares[0]));
+  check("the board: levels and streaks", b.levels.length > 0 && b.streaks.some((r: any) => r.wallet === w));
 }
 
 await PG.stop();

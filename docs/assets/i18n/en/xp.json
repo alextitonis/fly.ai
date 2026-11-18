@@ -29,7 +29,8 @@
   "tabs": {
     "season": "Season",
     "round": "Giveaway",
-    "quests": "Daily quests"
+    "quests": "Daily quests",
+    "pet": "Fly Pet"
   },
   "round": {
     "title0": "Giveaway round",
@@ -60,5 +61,18 @@
     "board": "Longest check-in streaks",
     "empty": "No streaks yet. Check in to start one.",
     "days": "{n} days"
+  },
+  "pet": {
+    "title": "Fly Pet expeditions",
+    "note": "Send your fly on trips from the desktop pet: it brings back hats, wings, trails and bubbles to wear. Every finished trip gives 2 XP (6 a day at most).",
+    "get": "Get Fly Pet",
+    "streaks": "Longest trip streaks",
+    "rares": "Rare finds this week",
+    "levels": "Highest pet levels",
+    "empty": "No trips yet this week. Be the first!",
+    "days": "{n} days",
+    "points": "{n} pts",
+    "level": "level {n}",
+    "week": "{n} trips finished this week"
   }
 }

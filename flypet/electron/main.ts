@@ -1,6 +1,6 @@
 // The native side: a small transparent window that only catches the mouse over the character, a tray menu and a settings
 // window. Everything else lives in the pages (src/); they reach this file only through preload.ts.
-import { execFile } from "node:child_process";
+import { execFile, spawn, type ChildProcess } from "node:child_process";
 import { writeFile } from "node:fs/promises";
 import { join, normalize, sep } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -229,6 +229,7 @@ function handleCalls() {
   ipcMain.on("panel", (_e, what: string) => showPanel(typeof what === "string" ? what : ""));
   ipcMain.on("panel-close", () => { panel?.close(); pet.webContents.send("open", ""); });   // picked: the chat opens on the fly
   ipcMain.on("quit", () => app.quit());
+  ipcMain.on("perch", (_e, on: boolean) => perchWatch(!!on));
   // ---- the game coach (flytrade/COACH-PLAN.md): the pet only looks; it never sends input to a game ----------------
   // the open windows to pick the game from, with small thumbnails: only while the picker is open, never in a loop
   ipcMain.handle("coach-sources", async () => {
@@ -324,5 +325,58 @@ else {
     setInterval(computeTick, COMPUTE_MS);
     globalShortcut.register(COACH_KEY, () => pet.webContents.send("coach", "hint"));   // false if another app holds it
   });
-  app.on("will-quit", () => globalShortcut.unregisterAll());
+  app.on("will-quit", () => { globalShortcut.unregisterAll(); perchWatch(false); });
+}
+
+// ---- sitting on your windows (2026-11-18, flypet/EXPEDITIONS-PLAN.md; the user: "Also window perching") -------------------
+// Windows only: one small PowerShell loop reads the window in front (its box, process and class) every 0.7 s while the
+// setting is on, and the pet hears its box in screen DIPs - or null for the desktop, the taskbar, our own windows, a
+// minimized or maximized window. It only reads where a window is: never its contents, never any input.
+const PERCH_PS = `
+Add-Type @"
+using System; using System.Text; using System.Runtime.InteropServices;
+public class FlyW {
+  [StructLayout(LayoutKind.Sequential)] public struct Box { public int L; public int T; public int R; public int B; }
+  [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
+  [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out Box b);
+  [DllImport("user32.dll")] public static extern int GetWindowThreadProcessId(IntPtr h, out int p);
+  [DllImport("user32.dll")] public static extern bool IsZoomed(IntPtr h);
+  [DllImport("user32.dll")] public static extern bool IsIconic(IntPtr h);
+  [DllImport("user32.dll", CharSet = CharSet.Unicode)] public static extern int GetClassName(IntPtr h, StringBuilder s, int n);
+}
+"@
+while ($true) {
+  $h = [FlyW]::GetForegroundWindow(); $b = New-Object FlyW+Box; [void][FlyW]::GetWindowRect($h, [ref]$b)
+  $p = 0; [void][FlyW]::GetWindowThreadProcessId($h, [ref]$p); $c = New-Object System.Text.StringBuilder 64; [void][FlyW]::GetClassName($h, $c, 64)
+  [Console]::Out.WriteLine("$h|$p|$($b.L)|$($b.T)|$($b.R)|$($b.B)|$([int][FlyW]::IsZoomed($h))|$([int][FlyW]::IsIconic($h))|$c")
+  Start-Sleep -Milliseconds 700
+}`;
+const PERCH_SKIP = new Set(["Progman", "WorkerW", "Shell_TrayWnd", "Shell_SecondaryTrayWnd", "NotifyIconOverflowWindow", "Windows.UI.Core.CoreWindow"]);
+let perchProc: ChildProcess | null = null, perchLast = "";
+function perchWatch(on: boolean) {
+  if (!on || process.platform !== "win32") {
+    perchProc?.kill(); perchProc = null; perchLast = "";
+    return;
+  }
+  if (perchProc) return;
+  const ps = spawn("powershell.exe", ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-Command", PERCH_PS], { windowsHide: true });
+  perchProc = ps;
+  let buf = "";
+  ps.stdout?.setEncoding("utf8");
+  ps.stdout?.on("data", (chunk: string) => {
+    buf += chunk;
+    let i: number;
+    while ((i = buf.indexOf("\n")) >= 0) {
+      const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1);
+      const [hwnd, pid, l, t_, r, b, zoomed, iconic, cls] = line.split("|");
+      const box = { x: Number(l), y: Number(t_), width: Number(r) - Number(l), height: Number(b) - Number(t_) };
+      const skip = !hwnd || Number(pid) === process.pid || zoomed === "1" || iconic === "1" || PERCH_SKIP.has(cls ?? "")
+        || !(box.width >= 240 && box.height >= 120) || [box.x, box.y, box.width, box.height].some((n) => !Number.isFinite(n));
+      const dip = skip ? null : screen.screenToDipRect(null, box);
+      const msg = dip ? { id: hwnd, x: dip.x, y: dip.y, width: dip.width, height: dip.height } : null;
+      const key = JSON.stringify(msg);
+      if (key !== perchLast && pet && !pet.isDestroyed()) { perchLast = key; pet.webContents.send("perch", msg); }
+    }
+  });
+  ps.on("exit", () => { if (perchProc === ps) perchProc = null; });
 }

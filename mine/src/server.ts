@@ -4768,6 +4768,13 @@ const expeditions = createExpeditions({
     return row?.value?.profit_24h ?? null;
   },
   xp: { on: xpCfg.on, end: xpCfg.end }, on: process.env.EXPEDITIONS_ON !== "0",
+  // phase 2: the speed-up's $FLYAI price and its burn's receipt (the same chain read as quest rerolls)
+  price: async () => (await flyaiPrice()).usd,
+  receipt: async (tx) => {
+    const r = await fetch(CLAIMS.rpc, { method: "POST", signal: AbortSignal.timeout(15_000), headers: { "content-type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_getTransactionReceipt", params: [tx] }) });
+    return ((await r.json()) as { result?: any }).result ?? null;
+  },
 });
 // the Fly League (src/league.ts): every funded Fly Wallet's week, ranked by bracket; XP + the champion badge, $ prizes listed only
 const league = createLeague({ pg, exclude: xpCfg.exclude, on: xpCfg.on, HttpError, send, env: process.env });

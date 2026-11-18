@@ -35,4 +35,8 @@ contextBridge.exposeInMainWorld("flyNative", {
   coachLoad: () => ipcRenderer.invoke("coach-load"),
   coachState: (on: boolean) => ipcRenderer.send("coach-state", on),
   onCoach: (fn: (what: string) => void) => ipcRenderer.on("coach", (_e, what) => fn(String(what ?? ""))),
+  // sitting on your windows (Windows only): start / stop the watcher, and the box of the window in front (or null)
+  perch: (on: boolean) => ipcRenderer.send("perch", on),
+  onPerch: (fn: (w: { id: string; x: number; y: number; width: number; height: number } | null) => void) => ipcRenderer.on("perch", (_e, w) => fn(w ?? null)),
+  platform: process.platform,
 });

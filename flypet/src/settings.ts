@@ -8,6 +8,7 @@ const native = window.flyNative;
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
 const nameBox = $<HTMLInputElement>("name"), minUsd = $<HTMLInputElement>("minUsd");
+const perch = $<HTMLInputElement>("perch");
 const bubbles = $<HTMLInputElement>("bubbles"), notifications = $<HTMLInputElement>("notifications"), autostart = $<HTMLInputElement>("autostart");
 const connect = $<HTMLButtonElement>("connect"), note = $("connectNote");
 const langBox = $<HTMLSelectElement>("lang");
@@ -33,6 +34,9 @@ function fillBasics() {
   nameBox.value = p.name;
   minUsd.value = String(p.minUsd);
   bubbles.checked = p.bubbles;
+  perch.checked = p.perch !== false;
+  $("perchRow").hidden = !!window.flyNative && window.flyNative.platform !== "win32";   // the watcher is Windows only
+  $("perchRow").title = t("set.perchHelp");
   notifications.checked = p.notifications;
 }
 nameBox.addEventListener("input", () => {
@@ -41,6 +45,7 @@ nameBox.addEventListener("input", () => {
 });
 minUsd.addEventListener("input", () => setPrefs({ minUsd: Math.max(0, Number(minUsd.value) || 0) }));
 bubbles.addEventListener("change", () => setPrefs({ bubbles: bubbles.checked }));
+perch.addEventListener("change", () => setPrefs({ perch: perch.checked }));
 notifications.addEventListener("change", () => setPrefs({ notifications: notifications.checked }));
 
 const signed = (n: number) => `${n >= 0 ? "+" : "-"}$${Math.abs(n).toFixed(2)}`;

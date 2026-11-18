@@ -1,0 +1,16 @@
+{
+  "title": "Trae a tu mosca a casa ya",
+  "lede": "Tu mosca está de expedición en Fly Pet. Quema un poco de $FLYAI y vuelve enseguida con sus hallazgos.",
+  "signin": "Inicia sesión con la billetera que usa tu mascota.",
+  "button": "Iniciar sesión",
+  "none": "Tu mosca no está de viaje ahora. Mándala desde Fly Pet (🧭 Expediciones).",
+  "out": "De viaje en: {place} · vuelve en {time}",
+  "price": "Quema {n} $FLYAI (unos ${usd}) para traerla ya.",
+  "go": "🔥 Quemar y traerla",
+  "limit": "Quedan {left} de {max} aceleraciones hoy.",
+  "used": "No quedan aceleraciones hoy: volverá sola.",
+  "wallet": "Confirma la quema en tu billetera…",
+  "wait": "Esperando a que la quema llegue a la cadena…",
+  "done": "¡Ya está en casa! Abre Fly Pet para ver lo que encontró.",
+  "note": "El $FLYAI se quema (se envía a 0x0) y desaparece para siempre. $0.25 por hora restante, al precio de cuando abres esta página."
+}

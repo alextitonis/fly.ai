@@ -26,9 +26,10 @@ export interface Prefs {
   coachSource: CoachSource | null;   // the game window the coach looks at (picked in the pet's window)
   coachNote: string;           // what the player told the coach about their run (optional)
   coachShare: boolean;         // "Help train the coach": share what the coach reads (never frames) - off until switched on
+  perch: boolean;              // sit on the window in front now and then (Windows; 2026-11-18)
 }
 export interface CoachSource { id: string; name: string; process: string | null }
-const DEFAULTS = (): Prefs => ({ name: "Fly", born: Date.now(), wallet: null, flies: null, bubbles: true, notifications: true, minUsd: 0, quiet: false, homeX: null, lang: null, mineOn: false, mineAnyTime: false, minerToken: null, petToken: null, petTokenUntil: 0, fly: null, coachSource: null, coachNote: "", coachShare: false });
+const DEFAULTS = (): Prefs => ({ name: "Fly", born: Date.now(), wallet: null, flies: null, bubbles: true, notifications: true, minUsd: 0, quiet: false, homeX: null, lang: null, mineOn: false, mineAnyTime: false, minerToken: null, petToken: null, petTokenUntil: 0, fly: null, coachSource: null, coachNote: "", coachShare: false, perch: true });
 
 function load<T>(key: string, fallback: T): T {
   try {
@@ -201,16 +202,19 @@ export interface ExpStats { pow: number; grd: number; vit: number; fury: number 
 export interface ExpView {
   on: boolean; places: ExpPlace[]; items: ExpItem[]; sets: { id: string; names: Names6 }[]; slots: ExpSlot[];
   me: { pet_xp: number; level: number; level_xp: number; next_xp: number; equipped: Partial<Record<ExpSlot, string>>; sets: string[];
-    bag: { item: string; n: number }[]; stamina: { max: number; used: number; left: number; streak: number }; trip: ExpTrip | null };
+    bag: { item: string; n: number }[]; stamina: { max: number; used: number; left: number; streak: number }; trip: ExpTrip | null;
+    fed_today?: boolean; speedup?: { usd: number; flyai: number | null; max: number; used: number } | null };
+  swarm?: { week: string; trips: number; tiers: { tier: number; trips: number; item: string; reached: boolean }[]; took_part: boolean };
   stats: ExpStats | null;
 }
-export interface ExpClaim { trip: number; place: string; green: boolean; swatted: boolean; items: string[]; pet_xp: number; xp: number;
+export interface ExpClaim { trip: number; place: string; green: boolean; swatted: boolean; items: string[]; swarm?: string[]; pet_xp: number; xp: number;
   level: number; leveled: boolean; opened: string[] }
 export const expRead = (fly: number | null) => authed<ExpView>(`/api/pet/exp${fly != null ? `?fly=${fly}` : ""}`);
 export const expStart = (fly: number, place: string, minutes: number) =>
   authed<{ trip: ExpTrip; green: boolean }>("/api/pet/exp/start", { fly, place, minutes });
 export const expClaim = () => authed<ExpClaim>("/api/pet/exp/claim", {});
 export const expEquip = (slot: ExpSlot, item: string | null) => authed<{ equipped: Partial<Record<ExpSlot, string>>; sets: string[] }>("/api/pet/exp/equip", { slot, item });
+export const expFeed = () => authed<{ fed: boolean; pet_xp: number; level: number; leveled?: boolean }>("/api/pet/exp/feed", {});
 export const expRecycle = (item: string, n: number) => authed<{ left: number; pet_xp: number; level: number; leveled: boolean }>("/api/pet/exp/recycle", { item, n });
 /** the last view, so the fly wears its things at start before the server answers */
 export const expCached = (): ExpView | null => load("exp", { v: null as ExpView | null }).v;

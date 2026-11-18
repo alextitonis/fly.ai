@@ -24,13 +24,28 @@
  *   POST /api/pet/exp/equip { slot, item }  item null takes it off
  *   POST /api/pet/exp/recycle { item, n }   pet XP for items (junk, spares)
  *
- * Tables in flybook/supabase/migrations/20261118130000_mine_pet_expeditions.sql. Off with EXPEDITIONS_ON=0.
+ * Phase 2 (2026-11-18, the user: "add the 4 too, 5 too"):
+ *   speed-up   a $FLYAI burn (burn(), like quest rerolls) brings the trip in flight home now: $0.25 per hour left (rounded
+ *              up), priced at $FLYAI's price when asked, 2 a UTC day. The pet holds no key, so the burn is made on the site
+ *              (docs/flypet-boost.html) with the site's session; the pet shows the price and opens that page.
+ *   swarm      every claimed trip of the UTC week (from Monday) counts; at each SWARM_TIERS tier, every wallet that
+ *              claimed a trip that week gets that tier's item (given when it next reads or claims).
+ *   feed       once a UTC day, a little pet XP (the pet's Feed).
+ *   board      public: the longest streaks going, the most rare finds this week, the highest pet levels (the /xp page).
+ *
+ *   POST /api/pet/exp/speedup { tx }        the burn transaction for the trip in flight
+ *   POST /api/pet/exp/feed
+ *   GET  /api/pet/exp/board                 public
+ *
+ * Tables in flybook/supabase/migrations/20261118130000_mine_pet_expeditions.sql and 20261118140000_mine_pet_expeditions2.sql.
+ * Off with EXPEDITIONS_ON=0.
  */
 import { createHash, randomBytes } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Pg, Q } from "./pg.ts";
 import { statsOf, type Stats, type Traits } from "../../world/src/arena/stats.ts";
-import { ITEMS, PLACES, RARITIES, RECYCLE_XP, SETS, SLOTS, type Item, type Place, type Rarity, type Slot } from "./expeditionsdata.ts";
+import { ITEMS, PLACES, RARITIES, RECYCLE_XP, SETS, SLOTS, SWARM_TIERS, type Item, type Place, type Rarity, type Slot } from "./expeditionsdata.ts";
+import { burnedBy, FLYAI, type Receipt } from "./burns.ts";
 
 const DAY_MS = 86_400_000;
 export const PARTNER_IDS = 1_000_000_000;
@@ -45,12 +60,23 @@ export const RULES = {
   xpPerMinute: 1 / 3,                       // pet XP: 15 min = 5, 1 h = 20, 8 h = 160
   levelBase: 25,
   seasonXp: 2, seasonXpDay: 6,
+  speedUsdPerHour: 0.25, speedMax: 2, speedSlack: 0.9,   // a burn of 90% of the price still counts (the price moves)
+  feedXp: 5,
 };
 const byId = new Map(ITEMS.map((i) => [i.id, i]));
 const placeOf = (id: unknown) => PLACES.find((p) => p.id === id);
 
 // ---- the rules, pure -----------------------------------------------------------------------------------------------
 export const dayOf = (ms: number) => new Date(ms).toISOString().slice(0, 10);
+/** the UTC Monday a week starts */
+export const weekOf = (ms: number) => dayOf(ms - ((new Date(ms).getUTCDay() + 6) % 7) * DAY_MS);
+/** the speed-up's price for this much time left: $0.25 an hour, rounded up, in whole thousands of $FLYAI */
+export function speedPrice(msLeft: number, flyaiUsd: number) {
+  const hours = Math.max(1, Math.ceil(msLeft / 3_600_000)), usd = hours * RULES.speedUsdPerHour;
+  return { usd, flyai: flyaiUsd > 0 ? Math.ceil(usd / flyaiUsd / 1000) * 1000 : null };
+}
+/** the swarm tiers reached by a week's trips */
+export const swarmTiers = (trips: number) => SWARM_TIERS.map((t, i) => ({ tier: i + 1, trips: t.trips, item: t.item, reached: trips >= t.trips }));
 export const levelOf = (xp: number) => 1 + Math.floor(Math.sqrt(Math.max(0, xp) / RULES.levelBase));
 /** pet XP where a level starts */
 export const levelXp = (level: number) => RULES.levelBase * (level - 1) ** 2;
@@ -130,11 +156,16 @@ export interface ExpDeps {
   /** the fly's profit over the last 24 h, USD (null: unknown) */
   profit24h: (fly: number) => Promise<number | null>;
   xp: { on: boolean; end: number };
+  /** $FLYAI in USD (the speed-up's price) */
+  price?: () => Promise<number>;
+  /** a mined transaction's receipt (the speed-up's burn) */
+  receipt?: (tx: string) => Promise<Receipt>;
   on?: boolean;
   now?: () => number;
 }
 
-type StateRow = { pet_xp: number; equipped: Record<string, string>; day: string | null; used: number; streak: number; last_day: string | null };
+type StateRow = { pet_xp: number; equipped: Record<string, string>; day: string | null; used: number; streak: number; last_day: string | null;
+  feed_day?: string | null };
 type TripRow = { id: number; fly: number; place: string; minutes: number; started_at: number; ends_at: number; seed: string; green: boolean; stats: Stats };
 
 export function createExpeditions(d: ExpDeps) {
@@ -143,7 +174,7 @@ export function createExpeditions(d: ExpDeps) {
   const on = d.on ?? true;
 
   const stateOf = async (q: Q, w: string): Promise<StateRow> => (await q.one<StateRow>(
-    "select pet_xp, equipped, day::text as day, used, streak, last_day::text as last_day from mine.pet_state where wallet = ?", w))
+    "select pet_xp, equipped, day::text as day, used, streak, last_day::text as last_day, feed_day::text as feed_day from mine.pet_state where wallet = ?", w))
     ?? { pet_xp: 0, equipped: {}, day: null, used: 0, streak: 0, last_day: null };
   const tripOf = (q: Q, w: string) => q.one<TripRow>(`select id::int as id, fly::float8 as fly, place, minutes, seed, green, stats,
     (extract(epoch from started_at) * 1000)::float8 as started_at, (extract(epoch from ends_at) * 1000)::float8 as ends_at
@@ -163,7 +194,47 @@ export function createExpeditions(d: ExpDeps) {
   const tripView = (t: TripRow | undefined) => (t ? { id: t.id, fly: t.fly, place: t.place, minutes: t.minutes, started_at: t.started_at,
     ends_at: t.ends_at, done: t.ends_at <= now() } : null);
 
+  // ---- the weekly swarm ----
+  let swarmCache: { at: number; week: string; trips: number } | null = null;
+  async function swarmTrips(q: Q = pg) {
+    const week = weekOf(now());
+    if (swarmCache && swarmCache.week === week && now() - swarmCache.at < 30_000) return swarmCache.trips;
+    const r = await q.one<{ n: number }>("select count(*)::int as n from mine.pet_trips where claimed_at >= ?::date", week);
+    swarmCache = { at: now(), week, trips: r?.n ?? 0 };
+    return swarmCache.trips;
+  }
+  /** a wallet that claimed a trip this week gets each reached tier's item once */
+  async function grantSwarm(q: Q, w: string, trips: number) {
+    const week = weekOf(now());
+    const reached = swarmTiers(trips).filter((t) => t.reached);
+    if (!reached.length) return [];
+    if (!(await q.one("select 1 from mine.pet_trips where wallet = ? and claimed_at >= ?::date limit 1", w, week))) return [];
+    const got: string[] = [];
+    for (const t of reached) {
+      const n = await q.run(`insert into mine.pet_swarm_rewards (wallet, week, tier, item) values (?, ?::date, ?, ?)
+        on conflict do nothing`, w, week, t.tier, t.item);
+      if (n) {
+        await q.run(`insert into mine.pet_items (wallet, item, n) values (?, ?, 1) on conflict (wallet, item) do update set n = mine.pet_items.n + 1`, w, t.item);
+        got.push(t.item);
+      }
+    }
+    return got;
+  }
+  async function swarmView(w: string) {
+    const week = weekOf(now()), trips = await swarmTrips();
+    const mine = !!(await pg.one("select 1 from mine.pet_trips where wallet = ? and claimed_at >= ?::date limit 1", w, week));
+    return { week, trips, tiers: swarmTiers(trips), took_part: mine };
+  }
+  async function speedView(w: string, t: TripRow | undefined) {
+    if (!t || t.ends_at <= now()) return null;
+    const used = (await pg.one<{ n: number }>("select count(*)::int as n from mine.pet_speedups where wallet = ? and at >= ?::date", w, dayOf(now())))?.n ?? 0;
+    const usd = d.price ? await d.price().catch(() => 0) : 0;
+    return { ...speedPrice(t.ends_at - now(), usd), max: RULES.speedMax, used, token: FLYAI, burn_fn: "burn" };
+  }
+
   async function view(w: string, fly: number | null) {
+    const trips = await swarmTrips();
+    if (on) await pg.tx((q) => grantSwarm(q, w, trips), `pet:${w}`).catch(() => []);
     const [s, trip, bag] = await Promise.all([stateOf(pg, w), tripOf(pg, w), bagOf(pg, w)]);
     const level = levelOf(s.pet_xp);
     return {
@@ -171,7 +242,9 @@ export function createExpeditions(d: ExpDeps) {
       places: PLACES.map((p) => ({ id: p.id, level: p.level, lengths: p.lengths, risk: p.risk, names: p.names, open: level >= p.level })),
       items: ITEMS, sets: SETS, slots: SLOTS,
       me: { pet_xp: s.pet_xp, level, level_xp: levelXp(level), next_xp: levelXp(level + 1), equipped: s.equipped, sets: setsWorn(s.equipped),
-        bag, stamina: stamina(s, dayOf(now())), trip: tripView(trip) },
+        bag, stamina: stamina(s, dayOf(now())), trip: tripView(trip), fed_today: s.feed_day === dayOf(now()),
+        speedup: await speedView(w, trip) },
+      swarm: await swarmView(w),
       stats: fly != null ? await statsOfFly(fly) : null,
     };
   }
@@ -231,7 +304,9 @@ export function createExpeditions(d: ExpDeps) {
         }
       }
       const level = levelOf(before.pet_xp + r.pet_xp);
-      return { trip: t.id, place: t.place, green: t.green, swatted: r.swatted, items: r.items, pet_xp: r.pet_xp, xp, level,
+      swarmCache = null;
+      const swarm = await grantSwarm(q, w, await swarmTrips(q));
+      return { trip: t.id, place: t.place, green: t.green, swatted: r.swatted, items: r.items, swarm, pet_xp: r.pet_xp, xp, level,
         leveled: level > levelOf(before.pet_xp), opened: PLACES.filter((p) => p.level > levelOf(before.pet_xp) && p.level <= level).map((p) => p.id) };
     }, `pet:${w}`);
   }
@@ -276,9 +351,77 @@ export function createExpeditions(d: ExpDeps) {
     }, `pet:${w}`);
   }
 
+  /** a $FLYAI burn brings the trip in flight home now */
+  async function speedup(w: string, body: any) {
+    if (!on) throw new HttpError(503, "expeditions are off for now");
+    const tx = String(body?.tx ?? "").toLowerCase();
+    if (!/^0x[0-9a-f]{64}$/.test(tx)) throw new HttpError(400, "the burn transaction, please");
+    if (!d.receipt || !d.price) throw new HttpError(503, "speed-ups are off for now");
+    const t = await tripOf(pg, w);
+    if (!t) throw new HttpError(404, "your fly isn't out");
+    if (t.ends_at <= now()) throw new HttpError(409, "your fly is already back");
+    if (await pg.one("select 1 from mine.pet_speedups where tx = ?", tx)) throw new HttpError(409, "that burn was used already");
+    const sv = await speedView(w, t);
+    if (sv && sv.used >= RULES.speedMax) throw new HttpError(429, `${RULES.speedMax} speed-ups a day at most: more tomorrow`);
+    const rec = await d.receipt(tx);
+    if (!rec) throw new HttpError(409, "that transaction isn't mined yet: try again in a moment");
+    if (rec.status !== "0x1") throw new HttpError(400, "that transaction failed on chain");
+    const burned = burnedBy(rec, w);
+    const need = sv?.flyai ?? null;
+    if (need == null) throw new HttpError(503, "no $FLYAI price right now: try again in a moment");
+    if (burned < BigInt(Math.floor(need * RULES.speedSlack)) * 10n ** 18n) {
+      throw new HttpError(400, `no burn of ${need.toLocaleString("en-US")} $FLYAI from your wallet in that transaction`);
+    }
+    return pg.tx(async (q) => {
+      const ok = await q.run(`insert into mine.pet_speedups (tx, wallet, trip, burned_wei, at) values (?, ?, ?, ?, ?) on conflict (tx) do nothing`,
+        tx, w, t.id, burned.toString(), new Date(now()).toISOString());
+      if (ok !== 1) throw new HttpError(409, "that burn was used already");
+      await q.run("update mine.pet_trips set ends_at = ? where id = ? and claimed_at is null", new Date(now()).toISOString(), t.id);
+      return { trip: t.id, back: true };
+    }, `pet:${w}`);
+  }
+
+  async function feed(w: string) {
+    return pg.tx(async (q) => {
+      const s = await stateOf(q, w), today = dayOf(now());
+      if (s.feed_day === today) return { fed: false, pet_xp: 0, level: levelOf(s.pet_xp) };
+      await q.run(`insert into mine.pet_state (wallet, pet_xp, feed_day) values (?, ?, ?::date)
+        on conflict (wallet) do update set pet_xp = mine.pet_state.pet_xp + excluded.pet_xp, feed_day = excluded.feed_day`, w, RULES.feedXp, today);
+      const xp = s.pet_xp + RULES.feedXp;
+      return { fed: true, pet_xp: RULES.feedXp, level: levelOf(xp), leveled: levelOf(xp) > levelOf(s.pet_xp) };
+    }, `pet:${w}`);
+  }
+
+  /** the public board: streaks going, rare finds this week, pet levels (10 each), kept a minute */
+  let boardCache: { at: number; v: unknown } | null = null;
+  async function board() {
+    if (boardCache && now() - boardCache.at < 60_000) return boardCache.v;
+    const today = dayOf(now()), yesterday = dayOf(now() - DAY_MS), week = weekOf(now());
+    const [streaks, levels, trips] = await Promise.all([
+      pg.all<{ wallet: string; streak: number; pet_xp: number }>(`select wallet, streak, pet_xp from mine.pet_state
+        where last_day >= ?::date order by streak desc, pet_xp desc limit 10`, yesterday),
+      pg.all<{ wallet: string; pet_xp: number }>("select wallet, pet_xp from mine.pet_state where pet_xp > 0 order by pet_xp desc limit 10"),
+      pg.all<{ wallet: string; result: any }>("select wallet, result from mine.pet_trips where claimed_at >= ?::date", week),
+    ]);
+    const rares = new Map<string, number>();
+    for (const t of trips) for (const id of t.result?.items ?? []) {
+      const r = byId.get(id)?.rarity;
+      if (r === "rare" || r === "legendary") rares.set(t.wallet, (rares.get(t.wallet) ?? 0) + (r === "legendary" ? 3 : 1));
+    }
+    const v = {
+      week, trips: trips.length, today,
+      streaks: streaks.map((r) => ({ wallet: r.wallet, streak: r.streak, level: levelOf(r.pet_xp) })),
+      rares: [...rares].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([wallet, points]) => ({ wallet, points })),
+      levels: levels.map((r) => ({ wallet: r.wallet, level: levelOf(r.pet_xp), pet_xp: r.pet_xp })),
+    };
+    boardCache = { at: now(), v };
+    return v;
+  }
+
   async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promise<boolean> {
     const p = url.pathname;
     if (p !== "/api/pet/exp" && !p.startsWith("/api/pet/exp/")) return false;
+    if (req.method === "GET" && p === "/api/pet/exp/board") return d.send(res, 200, await board()), true;
     const w = (await d.sessionWallet(req)).toLowerCase();
     if (req.method === "GET" && p === "/api/pet/exp") {
       const f = url.searchParams.get("fly");
@@ -290,9 +433,11 @@ export function createExpeditions(d: ExpDeps) {
       if (p === "/api/pet/exp/claim") return d.send(res, 200, await claim(w)), true;
       if (p === "/api/pet/exp/equip") return d.send(res, 200, await equip(w, body)), true;
       if (p === "/api/pet/exp/recycle") return d.send(res, 200, await recycle(w, body)), true;
+      if (p === "/api/pet/exp/speedup") return d.send(res, 200, await speedup(w, body)), true;
+      if (p === "/api/pet/exp/feed") return d.send(res, 200, await feed(w)), true;
     }
     return false;
   }
 
-  return { route, view, start, claim, equip, recycle };
+  return { route, view, start, claim, equip, recycle, speedup, feed, board };
 }

@@ -56,6 +56,7 @@
       <button class="xp-tab on" type="button" role="tab" id="xp-tab-season" aria-selected="true" data-i18n="xp.tabs.season">Season</button>
       <button class="xp-tab" type="button" role="tab" id="xp-tab-round" aria-selected="false" data-i18n="xp.tabs.round">Giveaway</button>
       <button class="xp-tab" type="button" role="tab" id="xp-tab-quests" aria-selected="false" data-i18n="xp.tabs.quests">Daily quests</button>
+      <button class="xp-tab" type="button" role="tab" id="xp-tab-pet" aria-selected="false" data-i18n="xp.tabs.pet">Fly Pet</button>
     </div>
     <!-- daily check-in and quests (2026-11-06, mine/src/quests.ts): the rules, the Today panel, the longest streaks -->
     <div id="xp-panel-quests" class="xp-panel" hidden>
@@ -74,6 +75,27 @@
         <p class="xp-msg" id="xp-streaks-empty" hidden data-i18n="xp.quests.empty">No streaks yet. Check in to start one.</p>
         <ol class="xp-rows" id="xp-streaks"></ol>
       </div>
+    </div>
+    <div id="xp-panel-pet" class="xp-panel" hidden>
+      <div class="card pad">
+        <h3 data-i18n="xp.pet.title">Fly Pet expeditions</h3>
+        <p data-i18n="xp.pet.note">Send your fly on trips from the desktop pet: it brings back hats, wings, trails and bubbles to wear. Every finished trip gives 2 XP (6 a day at most).</p>
+        <p class="xp-season" id="xp-pet-week"></p>
+        <a class="btn red" href="/flypet" data-i18n="xp.pet.get">Get Fly Pet</a>
+      </div>
+      <div class="card pad xp-board">
+        <div class="xp-board-top"><h3 data-i18n="xp.pet.streaks">Longest trip streaks</h3></div>
+        <ol class="xp-rows" id="xp-pet-streaks"></ol>
+      </div>
+      <div class="card pad xp-board">
+        <div class="xp-board-top"><h3 data-i18n="xp.pet.rares">Rare finds this week</h3></div>
+        <ol class="xp-rows" id="xp-pet-rares"></ol>
+      </div>
+      <div class="card pad xp-board">
+        <div class="xp-board-top"><h3 data-i18n="xp.pet.levels">Highest pet levels</h3></div>
+        <ol class="xp-rows" id="xp-pet-levels"></ol>
+      </div>
+      <p class="xp-msg" id="xp-pet-empty" hidden data-i18n="xp.pet.empty">No trips yet this week. Be the first!</p>
     </div>
     <div id="xp-panel-round" class="xp-panel" hidden>
       <div class="card pad xp-note">
@@ -126,6 +148,6 @@
 <script src="assets/site.js"></script>
 <script src="assets/nav.js?v=20261118a"></script>
 <script type="module" src="assets/i18n/page.js"></script>
-<script type="module" src="assets/xp.js?v=20261110a"></script>
+<script type="module" src="assets/xp.js?v=20261118a"></script>
 </body>
 </html>
