@@ -105,6 +105,10 @@
   const REF_KEY = "flyai.ref";                             // a referral link's code, kept until sign-in (keepRef)
   const ACCOUNT_JS = "/compute/mine/web/account.js";       // the shared sign-in (built from mine/web)
   const MINE_API = "https://flyai-mine.fly.dev";
+  // 2026-11-18: up here, not beside visitQuest - wireAccount runs it while the page loads (a /desk or /xp visit),
+  // and these weren't set yet: 'Cannot access seenHere before initialization', so no visit quest ever counted
+  let todayCopy = null;
+  const seenHere = new Set();   // visit quests this page load reported: re-told after a swap / burn brings one in
   // public reads (leaderboards, fly views, partner pots, stats) through our own domain: vercel.json rewrites /mapi/* to
   // the mine server and Vercel's edge keeps each answer ~30 s (its s-maxage), so a crowd of visitors is one request
   // (2026-10-07). Signed-in calls and writes keep going to MINE_API directly.
@@ -736,7 +740,6 @@
     xpost: "https://x.com/intent/post?text=" + encodeURIComponent("@flydotai $FLYAI ") };
   const QUEST_ICON = { fly: "🪰", squads: "🛡️", xp: "⭐", flybook: "💬", flychat: "🗨️", rate: "⭐", topup: "💵", swap: "🔁", claimstake: "🏦", market: "🏷️",
     leaderboard: "🏆", desk: "📈", feed: "🍯", xpost: "😂" };
-  let todayCopy = null;
   async function todayCall(path, body) {
     const s = session();
     if (!s) return null;
@@ -762,7 +765,6 @@
     if (d) d.hidden = !(t && !t.ended && ((t.eligible && (!t.checked_in || !t.all_done)) || (!t.eligible && t.journey && !t.journey.all_done)));
   }
   /** a visit quest done on this page: told to the server once a day per quest (it ignores ones that aren't today's) */
-  const seenHere = new Set();   // visit quests this page load reported: re-told after a swap / burn brings one in
   const revisit = () => { for (const q of seenHere) visitQuest(q); };
   async function visitQuest(quest) {
     const s = session();
