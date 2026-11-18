@@ -5,7 +5,8 @@ import { FEED_LINES, asleepAt, daysTogether, moneyMoves, paceTarget, readFlies, 
 import { addNote, applyLang, flyFeed, prefs, priceSamples, publicFeed, seenOf, setPrefs, setPriceSamples, setSeen, signedIn, walletFeed } from "./store.ts";
 import { setupTalk } from "./talk.ts";
 import { setupCoach } from "./coach.ts";
-import { itemArt, nameOf, setupExpeditions, span } from "./expeditions.ts";
+import { itemArt, setupExpeditions } from "./expeditions.ts";
+import { clock, focusDay, focusLeft, FOCUS_MS, H, hopSpot, landing, nameOf, nextHop, perchHold, perchSpot, span, SPRITE, swatEnd, SWAT_MS, W, windowMoved, type Win } from "./logic.ts";
 import type { ExpView } from "./store.ts";
 
 const native = window.flyNative;                    // vite in a plain browser has no window to move
@@ -13,9 +14,8 @@ const fly = document.getElementById("fly") as HTMLImageElement;
 const look = document.getElementById("look") as HTMLDivElement;      // the fly + what it wears (mirrored together)
 const bubble = document.getElementById("bubble") as HTMLDivElement;
 
-const W = 300, H = 300, SPRITE = 160;
 const POLL_MS = 60_000, PRICE_MS = 5 * 60_000, FRAME_MS = 33;
-const WALK_PX = 1.6, GRAVITY = 1.1, BOUNCE = 0.35;
+const WALK_PX = 1.6, GRAVITY = 1.1;
 const REACTION_MS = 5_000, QUEUE_MAX = 6;
 
 // ---- the avatar: a folder of GIFs named by public/avatars/<id>/avatar.json; a mood it doesn't have plays idle ----
@@ -143,7 +143,8 @@ function tick() {
     vy += GRAVITY; x = clampX(x + vx); y += vy;
     if (y >= groundY()) {
       y = groundY();
-      if (vy > 6) { vy = -vy * BOUNCE; vx *= 0.6; } else { vx = vy = 0; state = "idle"; restUntil = now + 1500; setHome(x); play("idle"); }
+      const b = landing(vx, vy);
+      if (b) { vx = b.vx; vy = b.vy; } else { vx = vy = 0; state = "idle"; restUntil = now + 1500; setHome(x); play("idle"); }
     }
     place();
   } else if (state === "acting") {
@@ -214,7 +215,7 @@ function feed() {
 }
 
 // ---- the swat game (2026-11-18): 20 seconds, the fly darts around the screen, every click on it counts ---------------
-const SWAT_MS = 20_000, BEST = "swatBest";
+const BEST = "swatBest";
 let game: { until: number; score: number; timer: number } | null = null;
 function swatGame() {
   if (game || away) return;
@@ -226,15 +227,13 @@ function swatGame() {
 }
 function hop() {
   if (!game) return;
-  if (Date.now() >= game.until) { endGame(); return; }
-  const spanY = Math.max(0, groundY() - floor.top - 40);
-  x = clampX(floor.left + Math.random() * (floor.right - floor.left - W));
-  y = groundY() - Math.random() * Math.min(spanY, 600);
+  const delay = nextHop(game.until, Date.now());
+  if (delay == null) { endGame(); return; }              // the 20 seconds ran out mid-hop
+  const at = hopSpot(floor, Math.random(), Math.random());
+  x = at.x; y = at.y;
   look.classList.toggle("left", Math.random() < 0.5);
   place(); play("walk");
-  // faster as the seconds run out
-  const left = (game.until - Date.now()) / SWAT_MS;
-  game.timer = window.setTimeout(hop, 450 + 600 * left);
+  game.timer = window.setTimeout(hop, delay);
 }
 function swatHit() {
   if (!game) return;
@@ -251,14 +250,14 @@ function endGame() {
   game = null;
   let best = 0;
   try { best = Number(localStorage.getItem(BEST)) || 0; } catch { /* private */ }
+  const end = swatEnd(score, best);
   if (score > best) { try { localStorage.setItem(BEST, String(score)); } catch { /* private */ } }
   x = home; y = groundY(); place();
-  state = "acting"; busyUntil = Date.now() + 3000; play(score > best ? "moon" : "happy");
-  sayCoach(score > best && best > 0 ? t("g.newBest", { n: score }) : t("g.score", { n: score, best: Math.max(best, score) }), 5000);
+  state = "acting"; busyUntil = Date.now() + 3000; play(end.mood);
+  sayCoach(end.newBest ? t("g.newBest", { n: score }) : t("g.score", { n: score, best: end.best }), 5000);
 }
 
 // ---- focus time (2026-11-18): 25 minutes where it sits still beside you; it cheers when the time is up ---------------
-const FOCUS_MS = 25 * 60_000;
 let focusUntil = 0;
 const focusTag = document.getElementById("focus") as HTMLDivElement;
 function focusStart() {
@@ -272,17 +271,14 @@ function focusStart() {
 }
 function focusShow() {
   focusTag.hidden = !focusUntil || talking;
-  if (focusUntil) {
-    const s = Math.max(0, Math.ceil((focusUntil - Date.now()) / 1000));
-    focusTag.textContent = t("f.left", { time: `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}` });
-  }
+  if (focusUntil) focusTag.textContent = t("f.left", { time: clock(focusLeft(focusUntil, Date.now())) });
 }
 function focusStop(done: boolean) {
   if (!focusUntil) return;
   focusUntil = 0;
   focusShow();
   if (!done) { say(t("f.stop"), 2500); return; }
-  const key = `focus:${new Date().toISOString().slice(0, 10)}`;
+  const key = focusDay(Date.now());
   let n = 1;
   try { n = (Number(localStorage.getItem(key)) || 0) + 1; localStorage.setItem(key, String(n)); } catch { /* private */ }
   state = "acting"; busyUntil = Date.now() + 4000; play("moon");
@@ -294,15 +290,14 @@ focusTag.addEventListener("click", () => focusStop(false));
 
 // ---- sitting on your windows (2026-11-18, Windows): now and then it flies up onto the title bar of the window in front;
 // when you move that window (or switch to another) it falls off and lands back on the ground --------------------------
-type Win = { id: string; x: number; y: number; width: number; height: number };
 let front: Win | null = null, perched: (Win & { until: number }) | null = null;
 function tryPerch(now: number): boolean {
   const w = front;
   if (!w || !prefs().perch || prefs().quiet || talking || away || game || Math.random() > 0.3) return false;
-  if (w.y - H + 8 < floor.top || w.width < SPRITE + 40) return false;      // no room above it (maximized-like) or too small
-  x = clampX(w.x + 20 + Math.random() * Math.max(0, w.width - SPRITE - 40) - (W - SPRITE) / 2);
-  y = w.y - H + 6;                                       // its feet on the window's top edge
-  perched = { ...w, until: now + 45_000 + Math.random() * 75_000 };
+  const at = perchSpot(w, floor, Math.random());
+  if (!at) return false;
+  x = at.x; y = at.y;
+  perched = { ...w, until: perchHold(now, Math.random()) };
   place();
   state = "acting"; busyUntil = now + 1500; play("wave");
   return true;
@@ -311,8 +306,7 @@ function onFront(w: Win | null) {
   const was = front;
   front = w;
   if (!perched) return;
-  const moved = !w || w.id !== perched.id || Math.abs(w.x - perched.x) > 3 || Math.abs(w.y - perched.y) > 3;
-  if (moved && (was?.id === perched.id || !w)) {
+  if (windowMoved(perched, w) && (was?.id === perched.id || !w)) {
     // its window moved or went away: it buzzes off and falls to the ground
     perched = null;
     state = "falling"; vx = (Math.random() - 0.5) * 8; vy = -5; play("fall");

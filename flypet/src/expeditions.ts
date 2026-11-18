@@ -2,10 +2,11 @@
 // back with things to wear. The trip runs on the server's clock: here there's only a countdown, so it costs this PC
 // nothing. This module draws the Expeditions card inside the fly's chat panel (talk.ts) and tells the pet (pet.ts) when
 // the fly leaves, comes back, or puts something on.
-import { currentLang, LANGS, t, type Key } from "./i18n.ts";
+import { t, type Key } from "./i18n.ts";
+import { nameOf, span, tripState } from "./logic.ts";
 import {
   expCached, expClaim, expEquip, expFeed, expRead, expRecycle, expStart, prefs, setExpCached, SignedOut,
-  type ExpClaim, type ExpItem, type ExpSlot, type ExpView, type Names6,
+  type ExpClaim, type ExpItem, type ExpSlot, type ExpView,
 } from "./store.ts";
 
 const RECYCLE_XP = { common: 3, uncommon: 10, rare: 30, legendary: 100 } as const;
@@ -32,13 +33,6 @@ const el = <K extends keyof HTMLElementTagNameMap>(tag: K, props: Record<string,
   e.append(...kids.filter((k): k is Node | string => k != null && k !== false));
   return e;
 };
-/** a name in the app's language (the data keeps them in LANGS order) */
-export const nameOf = (names: Names6) => names[Object.keys(LANGS).indexOf(currentLang())] ?? names[0];
-/** 15m, 1h, 1h 20m */
-export function span(ms: number): string {
-  const m = Math.max(1, Math.ceil(ms / 60_000)), h = Math.floor(m / 60), r = m % 60;
-  return h ? (r ? `${t("x.hour", { n: h })} ${t("x.min", { n: r })}` : t("x.hour", { n: h })) : t("x.min", { n: m });
-}
 const length = (minutes: number) => (minutes % 60 ? t("x.min", { n: minutes }) : t("x.hour", { n: minutes / 60 }));
 
 export interface Expeditions {
@@ -167,14 +161,13 @@ export function setupExpeditions(hooks: {
   }
   function trip() {
     const tr = v!.me.trip!;
-    const left = tr.ends_at - Date.now(), done = left <= 0;
-    const pct = Math.min(100, Math.round(((Date.now() - tr.started_at) / Math.max(1, tr.ends_at - tr.started_at)) * 100));
+    const s = tripState(tr, Date.now());
     return el("div", { class: "tk-card xp-trip" },
-      el("b", {}, done ? t("x.back", { place: placeName(tr.place) }) : t("x.away", { place: placeName(tr.place) })),
-      done ? el("button", { class: "tk-btn", type: "button", disabled: busy, onclick: () => void claim() }, t("x.open"))
-        : el("div", {}, el("div", { class: "xp-bar" }, el("i", { style: `width:${pct}%` })), el("span", { class: "tk-mute xp-left" }, t("x.backIn", { time: span(left) }))),
+      el("b", {}, s.done ? t("x.back", { place: placeName(tr.place) }) : t("x.away", { place: placeName(tr.place) })),
+      s.done ? el("button", { class: "tk-btn", type: "button", disabled: busy, onclick: () => void claim() }, t("x.open"))
+        : el("div", {}, el("div", { class: "xp-bar" }, el("i", { style: `width:${s.pct}%` })), el("span", { class: "tk-mute xp-left" }, t("x.backIn", { time: span(s.left) }))),
       // phase 2: bring it home now with a $FLYAI burn, made on the site (the pet holds no key)
-      !done && v!.me.speedup && v!.me.speedup.flyai != null && v!.me.speedup.used < v!.me.speedup.max
+      !s.done && v!.me.speedup && v!.me.speedup.flyai != null && v!.me.speedup.used < v!.me.speedup.max
         ? el("div", { class: "tk-actions" }, el("button", { class: "tk-btn sm plain", type: "button", onclick: () => void openUrl(`${SITE}/flypet-boost`) },
             t("x.speed", { n: v!.me.speedup.flyai.toLocaleString() })),
           el("span", { class: "tk-mute" }, t("x.speedNote", { left: v!.me.speedup.max - v!.me.speedup.used, max: v!.me.speedup.max })))
@@ -264,11 +257,11 @@ export function setupExpeditions(hooks: {
   setInterval(() => {
     const tr = v?.me.trip;
     if (box.hidden || !tr) return;
-    const left = tr.ends_at - Date.now(), done = left <= 0;
-    if (done !== wasDone) { wasDone = done; render(); return; }
+    const s = tripState(tr, Date.now());
+    if (s.done !== wasDone) { wasDone = s.done; render(); return; }
     const txt = box.querySelector(".xp-left"), bar = box.querySelector<HTMLElement>(".xp-trip .xp-bar i");
-    if (txt) txt.textContent = t("x.backIn", { time: span(left) });
-    if (bar) bar.style.width = `${Math.min(100, Math.round(((Date.now() - tr.started_at) / Math.max(1, tr.ends_at - tr.started_at)) * 100))}%`;
+    if (txt) txt.textContent = t("x.backIn", { time: span(s.left) });
+    if (bar) bar.style.width = `${s.pct}%`;
   }, 1000);
 
   return { box, view: () => v, load, render, feed: feedIt };
