@@ -32,8 +32,8 @@ $("start-connect").addEventListener("click", async () => {
   catch (e) { console.warn(e); }
 });
 
-/** The first screen's "latest real trade" (2026-11-18): the newest filled trade among the four busiest fly wallets of
- * the last 24 h (mine /api/vaults/leaderboard + each one's /log), win or loss, with its fly linked. "Watch a fly trade"
+/** The first screen's "latest real trade" (2026-11-18): the newest filled buy or sell of any fly (mine
+ * /api/vaults/feed: each fly's recent trades), win or loss, with its fly linked. "Watch a fly trade"
  * opens that fly. Nothing shows if the reads fail (the box stays hidden). */
 const SKIP_WHY = /^(funding|earn|fee|refund|withdraw|deposit|top.?up|rebalance)/i;
 const tr = (k, vars, en) => {
@@ -48,12 +48,16 @@ const ago = (ms) => {   // "54 minutes ago" in the page's language (Intl), "{t} 
   catch { return tr("index.home.liveAgo", { t: `${n} ${unit}s` }, "{t} ago"); }
 };
 async function liveTrade() {
-  const board = await fetch(`${API}/api/vaults/leaderboard`).then((r) => r.json());
-  const busy = (board.h24 || []).filter((r) => r.active && r.flies?.length).sort((a, b) => (b.trades || 0) - (a.trades || 0)).slice(0, 4);
-  const logs = await Promise.all(busy.map((r) => fetch(`${API}/api/vaults/fly/${r.flies[0]}/log`).then((x) => x.json())
-    .then((j) => (j.rows || []).map((t) => ({ ...t, fly: r.flies[0] }))).catch(() => [])));
-  const t = logs.flat().filter((x) => x.type === "trade" && x.status === "filled" && /^[\x20-\x7e]+$/.test(shortSym(x.symbol || ""))
-    && !SKIP_WHY.test(x.why || "") && (x.side === "buy" || x.side === "sell")).sort((a, b) => b.at - a.at)[0];
+  // every fly's recent trades in one read (2026-11-19: the four flies with the most trades ALL-TIME were read, so it
+  // kept showing #805's trade from 15 hours earlier while other flies traded minutes ago)
+  const feed = await fetch(`${API}/api/vaults/feed`).then((r) => r.json());
+  const all = [];
+  for (const [fly, f] of Object.entries(feed.flies || {})) {
+    for (const x of f.recent || []) all.push({ ...x, fly: Number(fly), at: Number(x.at) * 1000 });
+  }
+  const t = all.filter((x) => (x.side === "buy" || x.side === "sell") && x.tag !== "earn" && x.tag !== "manual"
+    && !/^(hip4|azuro|poly):/.test(x.symbol || "") && /^[\x20-\x7e]+$/.test(shortSym(x.symbol || ""))
+    && !SKIP_WHY.test(x.why || "")).sort((a, b) => b.at - a.at)[0];
   if (!t) return;
   // token symbols are chosen by whoever deploys the token: escaped before they reach innerHTML
   const esc = (x) => String(x).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
