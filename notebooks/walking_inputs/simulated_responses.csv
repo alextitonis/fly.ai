@@ -1,0 +1,1409 @@
+stimulus,n_cells,set,why,readout,side,base_hz,delta_hz,sd_hz,z,call,direct_weight
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,MDN,L,0.19,3.31,0.51,25.9,up,0.04841
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,MDN,R,0.44,1.94,0.51,15.1,up,0.02733
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNa01,L,0.56,0.12,0.62,0.8,none,0.00016
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNa01,R,0.56,0.0,0.52,0.0,none,0.00015
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNa02,L,0.56,0.0,0.52,0.0,none,0.00025
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNa02,R,0.19,0.06,0.25,1.0,none,0.00037
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNg13,L,0.5,-0.31,0.6,-2.1,none,0.0
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNg13,R,1.38,-0.12,0.5,-1.0,none,0.00016
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNp09,L,0.69,0.0,0.73,0.0,none,0.0
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNp09,R,0.62,-0.19,0.4,-1.9,none,0.0
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNb05,L,17.69,-0.19,1.33,-0.6,none,0.0
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNb06,L,0.5,0.19,0.54,1.4,none,0.0
+DNpe023 R,1,candidate,direct+ MDN L; direct+ MDN R,DNb06,R,0.31,0.12,0.62,0.8,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,MDN,R,0.44,-0.09,0.2,-1.9,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNa01,L,0.56,-0.06,0.44,-0.6,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNa01,R,0.56,0.06,0.57,0.4,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNa02,L,0.56,0.06,0.44,0.6,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNg13,L,0.5,-0.06,0.25,-1.0,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNg13,R,1.38,-0.12,0.5,-1.0,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNg100,L,0.12,0.12,0.34,1.5,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNp09,L,0.69,-0.06,0.44,-0.6,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNp09,R,0.62,-0.06,0.44,-0.6,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNb05,L,17.69,-0.31,1.4,-0.9,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNb06,L,0.5,-0.06,0.44,-0.6,none,0.0
+DNpe023 R,1,random control,direct+ MDN L; direct+ MDN R,DNb06,R,0.31,0.0,0.52,0.0,none,0.0
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,MDN,L,0.19,1.34,0.83,6.5,up,0.03025
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,MDN,R,0.44,3.84,0.54,28.5,up,0.04397
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNa01,L,0.56,-0.06,0.57,-0.4,none,0.0
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNa01,R,0.56,-0.12,0.5,-1.0,none,0.0
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNa02,L,0.56,0.38,0.5,3.0,none,0.00063
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNa02,R,0.19,-0.12,0.34,-1.5,none,0.00041
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNg13,L,0.5,0.06,0.25,1.0,none,0.00032
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNg13,R,1.38,-0.75,0.77,-3.9,none,0.0
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNg100,R,0.06,0.06,0.25,1.0,none,5e-05
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNp09,L,0.69,-0.12,0.62,-0.8,none,0.0
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNp09,R,0.62,0.12,0.5,1.0,none,0.00042
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNb05,L,17.69,-0.19,1.38,-0.5,none,0.0
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNb06,L,0.5,-0.19,0.4,-1.9,none,0.0
+DNpe023 L,1,candidate,direct+ MDN L; direct+ MDN R,DNb06,R,0.31,-0.06,0.25,-1.0,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,MDN,L,0.19,-0.03,0.12,-1.0,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,MDN,R,0.44,0.03,0.12,1.0,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNa01,L,0.56,0.12,0.5,1.0,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNa01,R,0.56,-0.12,0.5,-1.0,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNa02,L,0.56,0.0,0.0,0.0,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNg13,L,0.5,0.19,0.4,1.9,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNg13,R,1.38,-0.12,0.34,-1.5,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNp09,L,0.69,0.0,0.37,0.0,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNp09,R,0.62,-0.12,0.34,-1.5,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNb05,L,17.69,-0.12,0.89,-0.6,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNb06,L,0.5,0.0,0.37,0.0,none,0.0
+DNpe023 L,1,random control,direct+ MDN L; direct+ MDN R,DNb06,R,0.31,0.0,0.52,0.0,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,MDN,L,0.19,1.0,0.58,6.9,up,0.02969
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,MDN,R,0.44,0.44,0.48,3.7,none,0.01221
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNa01,L,0.56,0.94,0.77,4.9,none,0.00145
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNa02,L,0.56,0.12,0.5,1.0,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNa02,R,0.19,0.06,0.44,0.6,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNg13,L,0.5,0.31,0.6,2.1,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNg13,R,1.38,-0.31,0.48,-2.6,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNp09,L,0.69,-0.25,0.68,-1.5,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNp09,R,0.62,-0.12,0.5,-1.0,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNb05,L,17.69,-0.19,0.91,-0.8,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNb06,L,0.5,-0.19,0.4,-1.9,none,0.0
+"LAL160,LAL161 R",2,candidate,direct+ MDN L,DNb06,R,0.31,0.0,0.52,0.0,none,0.0
+"LAL160,LAL161 R",2,random control,direct+ MDN L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+"LAL160,LAL161 R",2,random control,direct+ MDN L,MDN,R,0.44,0.03,0.29,0.4,none,0.0
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNa01,L,0.56,-0.06,0.44,-0.6,none,0.0
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNa01,R,0.56,-0.06,0.44,-0.6,none,0.0
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNa02,L,0.56,0.12,0.5,1.0,none,-8e-05
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNa02,R,0.19,-0.06,0.25,-1.0,none,-0.00203
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNg13,L,0.5,0.12,0.5,1.0,none,0.0
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNg13,R,1.38,-0.19,0.66,-1.1,none,0.0
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNg100,R,0.06,0.06,0.25,1.0,none,0.0
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNp09,L,0.69,0.06,0.68,0.4,none,-0.00024
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNp09,R,0.62,0.06,0.44,0.6,none,0.0
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNb05,L,17.69,-0.44,1.09,-1.6,none,-0.0003
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNb06,L,0.5,0.0,0.37,0.0,none,0.0
+"LAL160,LAL161 R",2,random control,direct+ MDN L,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+CB0095 R,1,candidate,direct- MDN L,MDN,L,0.19,-0.19,0.31,-2.4,none,-0.04419
+CB0095 R,1,candidate,direct- MDN L,MDN,R,0.44,-0.28,0.31,-3.6,none,-0.02808
+CB0095 R,1,candidate,direct- MDN L,DNa01,L,0.56,-0.06,0.25,-1.0,none,-0.0004
+CB0095 R,1,candidate,direct- MDN L,DNa01,R,0.56,0.12,0.62,0.8,none,0.0
+CB0095 R,1,candidate,direct- MDN L,DNa02,L,0.56,0.19,0.4,1.9,none,-4e-05
+CB0095 R,1,candidate,direct- MDN L,DNa02,R,0.19,0.0,0.0,0.0,none,0.0
+CB0095 R,1,candidate,direct- MDN L,DNg13,L,0.5,0.06,0.25,1.0,none,0.0
+CB0095 R,1,candidate,direct- MDN L,DNg13,R,1.38,-0.12,0.72,-0.7,none,0.0
+CB0095 R,1,candidate,direct- MDN L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+CB0095 R,1,candidate,direct- MDN L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+CB0095 R,1,candidate,direct- MDN L,DNp09,L,0.69,-0.12,0.34,-1.5,none,0.0
+CB0095 R,1,candidate,direct- MDN L,DNp09,R,0.62,-0.19,0.4,-1.9,none,0.0
+CB0095 R,1,candidate,direct- MDN L,DNb05,L,17.69,-0.38,1.02,-1.5,none,0.0
+CB0095 R,1,candidate,direct- MDN L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+CB0095 R,1,candidate,direct- MDN L,DNb06,L,0.5,0.12,0.34,1.5,none,0.0
+CB0095 R,1,candidate,direct- MDN L,DNb06,R,0.31,0.06,0.44,0.6,none,0.0
+CB0095 R,1,random control,direct- MDN L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+CB0095 R,1,random control,direct- MDN L,MDN,R,0.44,0.0,0.18,0.0,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNa01,L,0.56,-0.06,0.25,-1.0,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNg13,L,0.5,0.12,0.34,1.5,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNg13,R,1.38,0.12,0.72,0.7,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNp09,L,0.69,0.0,0.63,0.0,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNp09,R,0.62,0.0,0.63,0.0,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNb05,L,17.69,-0.12,1.2,-0.4,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNb06,L,0.5,-0.06,0.44,-0.6,none,0.0
+CB0095 R,1,random control,direct- MDN L,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,MDN,L,0.19,0.12,0.39,1.3,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,MDN,R,0.44,0.22,0.31,2.8,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNa01,L,0.56,0.56,0.96,2.3,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNa01,R,0.56,-0.25,0.58,-1.7,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNa02,R,0.19,1.0,0.82,4.9,up,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNg13,L,0.5,0.56,0.51,4.4,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNg13,R,1.38,1.44,0.73,7.9,up,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNg100,L,0.12,0.25,0.45,2.2,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNg100,R,0.06,0.19,0.4,1.9,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNp09,L,0.69,-0.69,0.79,-3.5,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNp09,R,0.62,14.12,0.34,165.4,up,0.11908
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNb05,L,17.69,-0.69,1.2,-2.3,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNb06,L,0.5,0.25,0.68,1.5,none,0.0
+LC9 R,115,candidate,two-step MDN L; two-step MDN R,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+LC9 R,115,random control,two-step MDN L; two-step MDN R,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+LC9 R,115,random control,two-step MDN L; two-step MDN R,MDN,R,0.44,0.06,0.31,0.8,none,0.0
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNa01,L,0.56,0.12,0.62,0.8,none,0.0
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNa01,R,0.56,0.12,0.5,1.0,none,0.00015
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNa02,L,0.56,0.25,0.45,2.2,none,0.0
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNa02,R,0.19,0.81,0.83,3.9,none,0.0
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNg13,L,0.5,0.31,0.48,2.6,none,0.0
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNg13,R,1.38,0.25,0.58,1.7,none,0.0
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNg100,L,0.12,0.12,0.34,1.5,none,0.0
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNp09,L,0.69,-0.25,0.58,-1.7,none,0.00048
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNp09,R,0.62,0.31,0.48,2.6,none,0.00098
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNb05,L,17.69,0.88,1.45,2.4,none,0.00303
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNb05,R,21.19,0.0,0.0,0.0,none,0.00305
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNb06,L,0.5,0.06,0.57,0.4,none,0.0
+LC9 R,115,random control,two-step MDN L; two-step MDN R,DNb06,R,0.31,0.19,0.54,1.4,none,0.0
+DNge127 L,1,candidate,two-step MDN L,MDN,L,0.19,0.03,0.22,0.6,none,0.0
+DNge127 L,1,candidate,two-step MDN L,MDN,R,0.44,0.22,0.36,2.4,none,0.0
+DNge127 L,1,candidate,two-step MDN L,DNa01,L,0.56,0.0,0.52,0.0,none,0.0
+DNge127 L,1,candidate,two-step MDN L,DNa01,R,0.56,0.0,0.52,0.0,none,-7e-05
+DNge127 L,1,candidate,two-step MDN L,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+DNge127 L,1,candidate,two-step MDN L,DNa02,R,0.19,0.06,0.25,1.0,none,0.0
+DNge127 L,1,candidate,two-step MDN L,DNg13,L,0.5,0.12,0.34,1.5,none,0.0
+DNge127 L,1,candidate,two-step MDN L,DNg13,R,1.38,-0.19,0.75,-1.0,none,-0.00016
+DNge127 L,1,candidate,two-step MDN L,DNg100,L,0.12,0.06,0.25,1.0,none,-0.0001
+DNge127 L,1,candidate,two-step MDN L,DNg100,R,0.06,0.0,0.0,0.0,none,-0.0001
+DNge127 L,1,candidate,two-step MDN L,DNp09,L,0.69,-0.12,0.5,-1.0,none,0.0
+DNge127 L,1,candidate,two-step MDN L,DNp09,R,0.62,-0.12,0.34,-1.5,none,0.0
+DNge127 L,1,candidate,two-step MDN L,DNb05,L,17.69,-0.19,1.05,-0.7,none,0.0
+DNge127 L,1,candidate,two-step MDN L,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+DNge127 L,1,candidate,two-step MDN L,DNb06,L,0.5,0.0,0.63,0.0,none,0.0
+DNge127 L,1,candidate,two-step MDN L,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+DNge127 L,1,random control,two-step MDN L,MDN,L,0.19,-0.06,0.31,-0.8,none,0.0
+DNge127 L,1,random control,two-step MDN L,MDN,R,0.44,-0.03,0.12,-1.0,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNa01,L,0.56,0.0,0.63,0.0,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNa01,R,0.56,0.19,0.66,1.1,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNg13,L,0.5,0.19,0.54,1.4,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNg13,R,1.38,-0.12,0.62,-0.8,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNp09,L,0.69,-0.06,0.44,-0.6,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNp09,R,0.62,0.0,0.37,0.0,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNb05,L,17.69,-0.5,1.1,-1.8,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNb06,L,0.5,0.0,0.63,0.0,none,0.0
+DNge127 L,1,random control,two-step MDN L,DNb06,R,0.31,-0.12,0.5,-1.0,none,0.0
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,MDN,L,0.19,0.22,0.48,1.8,none,0.01509
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,MDN,R,0.44,1.53,0.69,8.8,up,0.02411
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNa01,L,0.56,-0.19,0.4,-1.9,none,0.0
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNa01,R,0.56,0.0,0.37,0.0,none,0.0
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNa02,L,0.56,0.06,0.44,0.6,none,0.00021
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNa02,R,0.19,0.56,0.63,3.6,none,0.00612
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNg13,L,0.5,-0.19,0.4,-1.9,none,0.0
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNg13,R,1.38,0.0,0.52,0.0,none,0.0
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNg100,L,0.12,-0.06,0.25,-1.0,none,0.0
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNp09,L,0.69,0.0,0.37,0.0,none,0.0
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNp09,R,0.62,0.19,0.54,1.4,none,0.0
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNb05,L,17.69,0.0,1.26,0.0,none,0.0
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNb06,L,0.5,-0.06,0.44,-0.6,none,0.0
+"LAL171,LAL172 L",2,candidate,direct+ MDN R,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,MDN,L,0.19,0.0,0.32,0.0,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,MDN,R,0.44,0.09,0.27,1.4,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNa01,L,0.56,0.0,0.37,0.0,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNa01,R,0.56,-0.06,0.44,-0.6,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNa02,R,0.19,0.0,0.0,0.0,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNg13,L,0.5,0.25,0.45,2.2,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNg13,R,1.38,0.0,0.52,0.0,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNp09,L,0.69,-0.12,0.34,-1.5,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNp09,R,0.62,0.0,0.63,0.0,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNb05,L,17.69,-0.25,1.24,-0.8,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNb06,L,0.5,0.0,0.37,0.0,none,0.0
+"LAL171,LAL172 L",2,random control,direct+ MDN R,DNb06,R,0.31,-0.06,0.25,-1.0,none,0.0
+AN_multi_41 L,1,candidate,direct- MDN R,MDN,L,0.19,-0.12,0.29,-1.7,none,-0.01568
+AN_multi_41 L,1,candidate,direct- MDN R,MDN,R,0.44,-0.41,0.27,-6.0,none,-0.04384
+AN_multi_41 L,1,candidate,direct- MDN R,DNa01,L,0.56,0.19,0.54,1.4,none,0.0
+AN_multi_41 L,1,candidate,direct- MDN R,DNa01,R,0.56,0.06,0.44,0.6,none,-0.00067
+AN_multi_41 L,1,candidate,direct- MDN R,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+AN_multi_41 L,1,candidate,direct- MDN R,DNa02,R,0.19,0.0,0.0,0.0,none,-4e-05
+AN_multi_41 L,1,candidate,direct- MDN R,DNg13,L,0.5,0.12,0.34,1.5,none,0.0
+AN_multi_41 L,1,candidate,direct- MDN R,DNg13,R,1.38,-0.06,0.57,-0.4,none,0.0
+AN_multi_41 L,1,candidate,direct- MDN R,DNg100,L,0.12,0.0,0.0,0.0,none,-5e-05
+AN_multi_41 L,1,candidate,direct- MDN R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+AN_multi_41 L,1,candidate,direct- MDN R,DNp09,L,0.69,-0.06,0.57,-0.4,none,0.0
+AN_multi_41 L,1,candidate,direct- MDN R,DNp09,R,0.62,-0.12,0.34,-1.5,none,0.0
+AN_multi_41 L,1,candidate,direct- MDN R,DNb05,L,17.69,-0.19,0.83,-0.9,none,0.0
+AN_multi_41 L,1,candidate,direct- MDN R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+AN_multi_41 L,1,candidate,direct- MDN R,DNb06,L,0.5,0.0,0.37,0.0,none,0.0
+AN_multi_41 L,1,candidate,direct- MDN R,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+AN_multi_41 L,1,random control,direct- MDN R,MDN,L,0.19,-0.09,0.27,-1.4,none,0.00037
+AN_multi_41 L,1,random control,direct- MDN R,MDN,R,0.44,0.09,0.33,1.1,none,0.0
+AN_multi_41 L,1,random control,direct- MDN R,DNa01,L,0.56,0.06,0.44,0.6,none,0.0
+AN_multi_41 L,1,random control,direct- MDN R,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+AN_multi_41 L,1,random control,direct- MDN R,DNa02,L,0.56,0.25,0.45,2.2,none,0.0
+AN_multi_41 L,1,random control,direct- MDN R,DNa02,R,0.19,0.31,0.6,2.1,none,0.00348
+AN_multi_41 L,1,random control,direct- MDN R,DNg13,L,0.5,0.12,0.34,1.5,none,0.0
+AN_multi_41 L,1,random control,direct- MDN R,DNg13,R,1.38,0.12,0.62,0.8,none,0.0
+AN_multi_41 L,1,random control,direct- MDN R,DNg100,L,0.12,0.06,0.44,0.6,none,0.00054
+AN_multi_41 L,1,random control,direct- MDN R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+AN_multi_41 L,1,random control,direct- MDN R,DNp09,L,0.69,0.0,0.37,0.0,none,0.0
+AN_multi_41 L,1,random control,direct- MDN R,DNp09,R,0.62,-0.19,0.54,-1.4,none,0.0
+AN_multi_41 L,1,random control,direct- MDN R,DNb05,L,17.69,-0.25,1.13,-0.9,none,0.0
+AN_multi_41 L,1,random control,direct- MDN R,DNb05,R,21.19,-0.06,0.25,-1.0,none,6e-05
+AN_multi_41 L,1,random control,direct- MDN R,DNb06,L,0.5,0.0,0.37,0.0,none,0.0
+AN_multi_41 L,1,random control,direct- MDN R,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+DNge127 R,1,candidate,two-step MDN R,MDN,L,0.19,0.09,0.27,1.4,none,0.0
+DNge127 R,1,candidate,two-step MDN R,MDN,R,0.44,0.28,0.31,3.6,none,0.0
+DNge127 R,1,candidate,two-step MDN R,DNa01,L,0.56,0.0,0.37,0.0,none,0.0
+DNge127 R,1,candidate,two-step MDN R,DNa01,R,0.56,0.06,0.57,0.4,none,0.0
+DNge127 R,1,candidate,two-step MDN R,DNa02,L,0.56,0.12,0.5,1.0,none,0.0
+DNge127 R,1,candidate,two-step MDN R,DNa02,R,0.19,0.0,0.0,0.0,none,0.0
+DNge127 R,1,candidate,two-step MDN R,DNg13,L,0.5,0.06,0.25,1.0,none,-0.00048
+DNge127 R,1,candidate,two-step MDN R,DNg13,R,1.38,0.0,0.73,0.0,none,0.0
+DNge127 R,1,candidate,two-step MDN R,DNg100,L,0.12,0.0,0.0,0.0,none,-5e-05
+DNge127 R,1,candidate,two-step MDN R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+DNge127 R,1,candidate,two-step MDN R,DNp09,L,0.69,0.0,0.52,0.0,none,0.0
+DNge127 R,1,candidate,two-step MDN R,DNp09,R,0.62,0.0,0.37,0.0,none,0.0
+DNge127 R,1,candidate,two-step MDN R,DNb05,L,17.69,0.25,1.06,0.9,none,0.0
+DNge127 R,1,candidate,two-step MDN R,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+DNge127 R,1,candidate,two-step MDN R,DNb06,L,0.5,0.06,0.68,0.4,none,0.0
+DNge127 R,1,candidate,two-step MDN R,DNb06,R,0.31,-0.06,0.25,-1.0,none,0.0
+DNge127 R,1,random control,two-step MDN R,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0
+DNge127 R,1,random control,two-step MDN R,MDN,R,0.44,0.0,0.18,0.0,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNa01,L,0.56,-0.06,0.44,-0.6,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNa02,R,0.19,0.12,0.5,1.0,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNg13,L,0.5,0.12,0.34,1.5,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNg13,R,1.38,-0.19,0.66,-1.1,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNp09,L,0.69,-0.19,0.4,-1.9,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNp09,R,0.62,-0.06,0.25,-1.0,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNb05,L,17.69,-0.31,1.08,-1.2,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNb06,L,0.5,-0.12,0.5,-1.0,none,0.0
+DNge127 R,1,random control,two-step MDN R,DNb06,R,0.31,0.06,0.44,0.6,none,0.0
+VES007 L,1,candidate,direct+ DNa01 L,MDN,L,0.19,0.25,0.45,2.2,none,0.01482
+VES007 L,1,candidate,direct+ DNa01 L,MDN,R,0.44,0.31,0.31,4.0,none,0.00952
+VES007 L,1,candidate,direct+ DNa01 L,DNa01,L,0.56,5.25,0.77,27.1,up,0.036
+VES007 L,1,candidate,direct+ DNa01 L,DNa01,R,0.56,-0.25,0.45,-2.2,none,0.0
+VES007 L,1,candidate,direct+ DNa01 L,DNa02,L,0.56,0.06,0.25,1.0,none,0.00271
+VES007 L,1,candidate,direct+ DNa01 L,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+VES007 L,1,candidate,direct+ DNa01 L,DNg13,L,0.5,0.38,0.5,3.0,none,0.00143
+VES007 L,1,candidate,direct+ DNa01 L,DNg13,R,1.38,-0.12,0.34,-1.5,none,0.0
+VES007 L,1,candidate,direct+ DNa01 L,DNg100,L,0.12,0.0,0.0,0.0,none,5e-05
+VES007 L,1,candidate,direct+ DNa01 L,DNg100,R,0.06,0.06,0.25,1.0,none,0.0001
+VES007 L,1,candidate,direct+ DNa01 L,DNp09,L,0.69,-0.25,0.58,-1.7,none,0.00012
+VES007 L,1,candidate,direct+ DNa01 L,DNp09,R,0.62,-0.12,0.34,-1.5,none,0.0
+VES007 L,1,candidate,direct+ DNa01 L,DNb05,L,17.69,-0.5,1.15,-1.7,none,0.0
+VES007 L,1,candidate,direct+ DNa01 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+VES007 L,1,candidate,direct+ DNa01 L,DNb06,L,0.5,0.12,0.34,1.5,none,0.0
+VES007 L,1,candidate,direct+ DNa01 L,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,MDN,L,0.19,-0.06,0.31,-0.8,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,MDN,R,0.44,0.0,0.32,0.0,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNa01,L,0.56,-0.19,0.54,-1.4,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNa01,R,0.56,0.06,0.57,0.4,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNa02,L,0.56,0.25,0.45,2.2,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNa02,R,0.19,0.06,0.25,1.0,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNg13,L,0.5,0.12,0.5,1.0,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNg13,R,1.38,-0.19,0.75,-1.0,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNg100,R,0.06,0.06,0.25,1.0,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNp09,L,0.69,-0.12,0.34,-1.5,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNp09,R,0.62,0.06,0.57,0.4,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNb05,L,17.69,-0.19,1.11,-0.7,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNb06,L,0.5,-0.06,0.44,-0.6,none,0.0
+VES007 L,1,random control,direct+ DNa01 L,DNb06,R,0.31,-0.12,0.34,-1.5,none,0.0
+CB4105 R,4,candidate,direct+ DNa01 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+CB4105 R,4,candidate,direct+ DNa01 L,MDN,R,0.44,-0.06,0.25,-1.0,none,0.0
+CB4105 R,4,candidate,direct+ DNa01 L,DNa01,L,0.56,4.06,0.57,28.3,up,0.02363
+CB4105 R,4,candidate,direct+ DNa01 L,DNa01,R,0.56,-0.06,0.57,-0.4,none,0.0
+CB4105 R,4,candidate,direct+ DNa01 L,DNa02,L,0.56,0.19,0.54,1.4,none,0.00038
+CB4105 R,4,candidate,direct+ DNa01 L,DNa02,R,0.19,0.0,0.0,0.0,none,0.0
+CB4105 R,4,candidate,direct+ DNa01 L,DNg13,L,0.5,3.44,0.63,21.9,up,0.01417
+CB4105 R,4,candidate,direct+ DNa01 L,DNg13,R,1.38,-0.06,0.57,-0.4,none,0.0
+CB4105 R,4,candidate,direct+ DNa01 L,DNg100,L,0.12,1.06,0.77,5.5,up,0.0152
+CB4105 R,4,candidate,direct+ DNa01 L,DNg100,R,0.06,0.5,0.73,2.7,none,0.01167
+CB4105 R,4,candidate,direct+ DNa01 L,DNp09,L,0.69,0.0,0.63,0.0,none,0.0
+CB4105 R,4,candidate,direct+ DNa01 L,DNp09,R,0.62,-0.06,0.57,-0.4,none,0.0
+CB4105 R,4,candidate,direct+ DNa01 L,DNb05,L,17.69,0.0,1.03,0.0,none,0.0
+CB4105 R,4,candidate,direct+ DNa01 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+CB4105 R,4,candidate,direct+ DNa01 L,DNb06,L,0.5,0.06,0.44,0.6,none,0.0
+CB4105 R,4,candidate,direct+ DNa01 L,DNb06,R,0.31,0.0,0.52,0.0,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,MDN,R,0.44,0.03,0.22,0.6,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNa01,L,0.56,-0.06,0.44,-0.6,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNa01,R,0.56,-0.12,0.5,-1.0,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNa02,L,0.56,0.06,0.25,1.0,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNa02,R,0.19,0.06,0.44,0.6,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNg13,L,0.5,0.12,0.5,1.0,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNg13,R,1.38,-0.06,0.57,-0.4,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNp09,L,0.69,-0.12,0.34,-1.5,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNp09,R,0.62,-0.12,0.5,-1.0,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNb05,L,17.69,-0.19,1.22,-0.6,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNb06,L,0.5,0.06,0.25,1.0,none,0.0
+CB4105 R,4,random control,direct+ DNa01 L,DNb06,R,0.31,0.19,0.4,1.9,none,0.0
+VES074 R,1,candidate,direct+ DNa01 L,MDN,L,0.19,-0.03,0.22,-0.6,none,0.00058
+VES074 R,1,candidate,direct+ DNa01 L,MDN,R,0.44,-0.06,0.25,-1.0,none,0.00038
+VES074 R,1,candidate,direct+ DNa01 L,DNa01,L,0.56,4.31,0.6,28.7,up,0.02282
+VES074 R,1,candidate,direct+ DNa01 L,DNa01,R,0.56,-0.31,0.48,-2.6,none,0.0
+VES074 R,1,candidate,direct+ DNa01 L,DNa02,L,0.56,0.5,0.63,3.2,none,0.00488
+VES074 R,1,candidate,direct+ DNa01 L,DNa02,R,0.19,0.06,0.44,0.6,none,0.0
+VES074 R,1,candidate,direct+ DNa01 L,DNg13,L,0.5,0.81,0.66,5.0,none,0.00048
+VES074 R,1,candidate,direct+ DNa01 L,DNg13,R,1.38,-0.06,0.57,-0.4,none,0.00016
+VES074 R,1,candidate,direct+ DNa01 L,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+VES074 R,1,candidate,direct+ DNa01 L,DNg100,R,0.06,0.0,0.0,0.0,none,5e-05
+VES074 R,1,candidate,direct+ DNa01 L,DNp09,L,0.69,-0.06,0.57,-0.4,none,0.0
+VES074 R,1,candidate,direct+ DNa01 L,DNp09,R,0.62,-0.06,0.44,-0.6,none,0.0
+VES074 R,1,candidate,direct+ DNa01 L,DNb05,L,17.69,-0.31,1.14,-1.1,none,0.0
+VES074 R,1,candidate,direct+ DNa01 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+VES074 R,1,candidate,direct+ DNa01 L,DNb06,L,0.5,-0.12,0.5,-1.0,none,0.0
+VES074 R,1,candidate,direct+ DNa01 L,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,MDN,R,0.44,0.0,0.18,0.0,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNa01,L,0.56,-0.06,0.25,-1.0,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNa01,R,0.56,-0.06,0.57,-0.4,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNa02,R,0.19,0.06,0.25,1.0,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNg13,L,0.5,0.12,0.34,1.5,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNg13,R,1.38,-0.12,0.34,-1.5,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNp09,L,0.69,-0.25,0.58,-1.7,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNp09,R,0.62,-0.19,0.4,-1.9,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNb05,L,17.69,0.06,0.93,0.3,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNb06,L,0.5,-0.06,0.25,-1.0,none,0.0
+VES074 R,1,random control,direct+ DNa01 L,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+LT51 L,11,candidate,direct- DNa01 L,MDN,L,0.19,-0.19,0.31,-2.4,none,-0.02541
+LT51 L,11,candidate,direct- DNa01 L,MDN,R,0.44,-0.03,0.22,-0.6,none,-0.01257
+LT51 L,11,candidate,direct- DNa01 L,DNa01,L,0.56,-0.56,0.73,-3.1,none,-0.03552
+LT51 L,11,candidate,direct- DNa01 L,DNa01,R,0.56,0.12,0.5,1.0,none,0.0
+LT51 L,11,candidate,direct- DNa01 L,DNa02,L,0.56,-0.19,0.4,-1.9,none,-0.00647
+LT51 L,11,candidate,direct- DNa01 L,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+LT51 L,11,candidate,direct- DNa01 L,DNg13,L,0.5,0.06,0.25,1.0,none,-0.0008
+LT51 L,11,candidate,direct- DNa01 L,DNg13,R,1.38,-0.19,0.66,-1.1,none,0.0
+LT51 L,11,candidate,direct- DNa01 L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+LT51 L,11,candidate,direct- DNa01 L,DNg100,R,0.06,0.0,0.0,0.0,none,-5e-05
+LT51 L,11,candidate,direct- DNa01 L,DNp09,L,0.69,0.06,0.44,0.6,none,0.0
+LT51 L,11,candidate,direct- DNa01 L,DNp09,R,0.62,-0.06,0.25,-1.0,none,0.0
+LT51 L,11,candidate,direct- DNa01 L,DNb05,L,17.69,-0.12,1.09,-0.5,none,-0.00012
+LT51 L,11,candidate,direct- DNa01 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+LT51 L,11,candidate,direct- DNa01 L,DNb06,L,0.5,-0.12,0.5,-1.0,none,0.0
+LT51 L,11,candidate,direct- DNa01 L,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+LT51 L,11,random control,direct- DNa01 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+LT51 L,11,random control,direct- DNa01 L,MDN,R,0.44,0.06,0.25,1.0,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNa01,L,0.56,0.0,0.0,0.0,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNa02,L,0.56,0.06,0.25,1.0,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNa02,R,0.19,0.25,0.58,1.7,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNg13,L,0.5,0.0,0.52,0.0,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNg13,R,1.38,0.0,0.52,0.0,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNp09,L,0.69,-0.12,0.34,-1.5,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNp09,R,0.62,0.12,0.34,1.5,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNb05,L,17.69,-0.25,1.06,-0.9,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNb06,L,0.5,-0.06,0.25,-1.0,none,0.0
+LT51 L,11,random control,direct- DNa01 L,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+LPC1 R,109,candidate,two-step DNa01 L,MDN,L,0.19,0.0,0.37,0.0,none,0.0
+LPC1 R,109,candidate,two-step DNa01 L,MDN,R,0.44,0.19,0.36,2.1,none,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNa01,L,0.56,1.56,0.73,8.6,up,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNa01,R,0.56,0.5,0.73,2.7,none,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNa02,L,0.56,0.5,0.52,3.9,none,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNa02,R,0.19,0.06,0.44,0.6,none,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNg13,L,0.5,2.12,0.81,10.5,up,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNg13,R,1.38,1.06,0.93,4.6,up,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNg100,L,0.12,1.0,0.73,5.5,up,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNg100,R,0.06,0.56,0.63,3.6,none,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNp09,L,0.69,-0.25,0.45,-2.2,none,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNp09,R,0.62,-0.44,0.63,-2.8,none,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNb05,L,17.69,-0.31,1.08,-1.2,none,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNb06,L,0.5,0.06,0.77,0.3,none,0.0
+LPC1 R,109,candidate,two-step DNa01 L,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+LPC1 R,109,random control,two-step DNa01 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+LPC1 R,109,random control,two-step DNa01 L,MDN,R,0.44,-0.09,0.27,-1.4,none,0.0
+LPC1 R,109,random control,two-step DNa01 L,DNa01,L,0.56,0.31,0.79,1.6,none,0.00121
+LPC1 R,109,random control,two-step DNa01 L,DNa01,R,0.56,0.12,0.5,1.0,none,0.00015
+LPC1 R,109,random control,two-step DNa01 L,DNa02,L,0.56,0.06,0.44,0.6,none,0.0
+LPC1 R,109,random control,two-step DNa01 L,DNa02,R,0.19,0.0,0.37,0.0,none,0.00029
+LPC1 R,109,random control,two-step DNa01 L,DNg13,L,0.5,0.44,0.63,2.8,none,0.00016
+LPC1 R,109,random control,two-step DNa01 L,DNg13,R,1.38,0.38,0.62,2.4,none,0.0
+LPC1 R,109,random control,two-step DNa01 L,DNg100,L,0.12,0.19,0.4,1.9,none,0.0
+LPC1 R,109,random control,two-step DNa01 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LPC1 R,109,random control,two-step DNa01 L,DNp09,L,0.69,-0.19,0.66,-1.1,none,0.0
+LPC1 R,109,random control,two-step DNa01 L,DNp09,R,0.62,0.38,0.72,2.1,none,0.00619
+LPC1 R,109,random control,two-step DNa01 L,DNb05,L,17.69,-0.44,0.96,-1.8,none,0.0003
+LPC1 R,109,random control,two-step DNa01 L,DNb05,R,21.19,0.06,0.25,1.0,none,0.00831
+LPC1 R,109,random control,two-step DNa01 L,DNb06,L,0.5,-0.19,0.54,-1.4,none,0.0
+LPC1 R,109,random control,two-step DNa01 L,DNb06,R,0.31,0.12,0.62,0.8,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,MDN,L,0.19,-0.06,0.31,-0.8,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,MDN,R,0.44,-0.25,0.26,-3.9,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNa01,L,0.56,1.12,0.62,7.3,up,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNa01,R,0.56,-0.44,0.51,-3.4,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNa02,L,0.56,0.12,0.62,0.8,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNa02,R,0.19,0.06,0.44,0.6,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNg13,L,0.5,0.62,0.72,3.5,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNg13,R,1.38,-0.06,0.57,-0.4,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNg100,L,0.12,0.0,0.37,0.0,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNp09,L,0.69,-0.06,0.68,-0.4,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNp09,R,0.62,-0.12,0.34,-1.5,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNb05,L,17.69,0.25,1.0,1.0,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNb05,R,21.19,23.31,0.79,117.6,up,0.13651
+LPLC4 R,49,candidate,two-step DNa01 L,DNb06,L,0.5,-0.12,0.5,-1.0,none,0.0
+LPLC4 R,49,candidate,two-step DNa01 L,DNb06,R,0.31,0.5,0.82,2.4,none,0.0
+LPLC4 R,49,random control,two-step DNa01 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+LPLC4 R,49,random control,two-step DNa01 L,MDN,R,0.44,-0.09,0.2,-1.9,none,0.0
+LPLC4 R,49,random control,two-step DNa01 L,DNa01,L,0.56,0.25,0.45,2.2,none,0.0
+LPLC4 R,49,random control,two-step DNa01 L,DNa01,R,0.56,0.06,0.57,0.4,none,0.0
+LPLC4 R,49,random control,two-step DNa01 L,DNa02,L,0.56,0.19,0.4,1.9,none,8e-05
+LPLC4 R,49,random control,two-step DNa01 L,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+LPLC4 R,49,random control,two-step DNa01 L,DNg13,L,0.5,0.5,0.63,3.2,none,0.0
+LPLC4 R,49,random control,two-step DNa01 L,DNg13,R,1.38,0.0,0.63,0.0,none,0.0
+LPLC4 R,49,random control,two-step DNa01 L,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+LPLC4 R,49,random control,two-step DNa01 L,DNg100,R,0.06,0.06,0.25,1.0,none,0.0
+LPLC4 R,49,random control,two-step DNa01 L,DNp09,L,0.69,0.06,0.57,0.4,none,0.00167
+LPLC4 R,49,random control,two-step DNa01 L,DNp09,R,0.62,-0.19,0.4,-1.9,none,0.00014
+LPLC4 R,49,random control,two-step DNa01 L,DNb05,L,17.69,0.06,1.12,0.2,none,-0.0003
+LPLC4 R,49,random control,two-step DNa01 L,DNb05,R,21.19,-0.06,0.25,-1.0,none,-0.00017
+LPLC4 R,49,random control,two-step DNa01 L,DNb06,L,0.5,-0.06,0.68,-0.4,none,0.0
+LPLC4 R,49,random control,two-step DNa01 L,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+VES007 R,1,candidate,direct+ DNa01 R,MDN,L,0.19,0.16,0.35,1.8,none,0.00686
+VES007 R,1,candidate,direct+ DNa01 R,MDN,R,0.44,0.72,0.36,7.9,none,0.01381
+VES007 R,1,candidate,direct+ DNa01 R,DNa01,L,0.56,-0.19,0.54,-1.4,none,0.0
+VES007 R,1,candidate,direct+ DNa01 R,DNa01,R,0.56,4.44,0.73,24.4,up,0.03366
+VES007 R,1,candidate,direct+ DNa01 R,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+VES007 R,1,candidate,direct+ DNa01 R,DNa02,R,0.19,-0.19,0.4,-1.9,none,0.0019
+VES007 R,1,candidate,direct+ DNa01 R,DNg13,L,0.5,0.06,0.44,0.6,none,0.0
+VES007 R,1,candidate,direct+ DNa01 R,DNg13,R,1.38,-0.12,0.62,-0.8,none,0.00128
+VES007 R,1,candidate,direct+ DNa01 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+VES007 R,1,candidate,direct+ DNa01 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+VES007 R,1,candidate,direct+ DNa01 R,DNp09,L,0.69,0.0,0.37,0.0,none,0.0
+VES007 R,1,candidate,direct+ DNa01 R,DNp09,R,0.62,-0.19,0.4,-1.9,none,0.0
+VES007 R,1,candidate,direct+ DNa01 R,DNb05,L,17.69,-0.31,1.08,-1.2,none,0.0
+VES007 R,1,candidate,direct+ DNa01 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+VES007 R,1,candidate,direct+ DNa01 R,DNb06,L,0.5,0.0,0.37,0.0,none,0.0
+VES007 R,1,candidate,direct+ DNa01 R,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,MDN,R,0.44,0.03,0.12,1.0,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNa01,L,0.56,-0.06,0.44,-0.6,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNa01,R,0.56,-0.12,0.5,-1.0,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNg13,L,0.5,0.06,0.57,0.4,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNg13,R,1.38,-0.06,0.44,-0.6,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNp09,L,0.69,-0.12,0.5,-1.0,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNp09,R,0.62,0.0,0.37,0.0,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNb05,L,17.69,-0.25,1.06,-0.9,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNb06,L,0.5,0.06,0.44,0.6,none,0.0
+VES007 R,1,random control,direct+ DNa01 R,DNb06,R,0.31,-0.12,0.5,-1.0,none,0.0
+VES074 L,1,candidate,direct+ DNa01 R,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0002
+VES074 L,1,candidate,direct+ DNa01 R,MDN,R,0.44,0.0,0.32,0.0,none,0.00058
+VES074 L,1,candidate,direct+ DNa01 R,DNa01,L,0.56,-0.31,0.48,-2.6,none,0.0
+VES074 L,1,candidate,direct+ DNa01 R,DNa01,R,0.56,4.25,0.45,38.0,up,0.02399
+VES074 L,1,candidate,direct+ DNa01 R,DNa02,L,0.56,0.06,0.57,0.4,none,0.0
+VES074 L,1,candidate,direct+ DNa01 R,DNa02,R,0.19,0.44,0.63,2.8,none,0.00588
+VES074 L,1,candidate,direct+ DNa01 R,DNg13,L,0.5,0.31,0.48,2.6,none,0.0
+VES074 L,1,candidate,direct+ DNa01 R,DNg13,R,1.38,0.56,0.73,3.1,none,0.00032
+VES074 L,1,candidate,direct+ DNa01 R,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+VES074 L,1,candidate,direct+ DNa01 R,DNg100,R,0.06,0.0,0.0,0.0,none,5e-05
+VES074 L,1,candidate,direct+ DNa01 R,DNp09,L,0.69,-0.12,0.5,-1.0,none,0.0
+VES074 L,1,candidate,direct+ DNa01 R,DNp09,R,0.62,0.12,0.34,1.5,none,0.0
+VES074 L,1,candidate,direct+ DNa01 R,DNb05,L,17.69,-0.25,0.86,-1.2,none,0.0
+VES074 L,1,candidate,direct+ DNa01 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+VES074 L,1,candidate,direct+ DNa01 R,DNb06,L,0.5,0.0,0.63,0.0,none,0.0
+VES074 L,1,candidate,direct+ DNa01 R,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,MDN,R,0.44,0.16,0.35,1.8,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,DNa01,L,0.56,0.0,0.52,0.0,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,DNa01,R,0.56,0.0,0.63,0.0,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,DNg13,L,0.5,0.19,0.4,1.9,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,DNg13,R,1.38,-0.12,0.62,-0.8,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,DNg100,L,0.12,0.12,0.34,1.5,none,0.0039
+VES074 L,1,random control,direct+ DNa01 R,DNg100,R,0.06,0.25,0.45,2.2,none,0.00411
+VES074 L,1,random control,direct+ DNa01 R,DNp09,L,0.69,-0.12,0.34,-1.5,none,0.00012
+VES074 L,1,random control,direct+ DNa01 R,DNp09,R,0.62,0.25,0.58,1.7,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,DNb05,L,17.69,-0.94,1.06,-3.5,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,DNb06,L,0.5,-0.19,0.4,-1.9,none,0.0
+VES074 L,1,random control,direct+ DNa01 R,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+CB4101 L,4,candidate,direct+ DNa01 R,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+CB4101 L,4,candidate,direct+ DNa01 R,MDN,R,0.44,-0.06,0.25,-1.0,none,0.0
+CB4101 L,4,candidate,direct+ DNa01 R,DNa01,L,0.56,-0.12,0.34,-1.5,none,0.0
+CB4101 L,4,candidate,direct+ DNa01 R,DNa01,R,0.56,3.94,0.57,27.5,up,0.02219
+CB4101 L,4,candidate,direct+ DNa01 R,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+CB4101 L,4,candidate,direct+ DNa01 R,DNa02,R,0.19,0.12,0.34,1.5,none,4e-05
+CB4101 L,4,candidate,direct+ DNa01 R,DNg13,L,0.5,0.19,0.54,1.4,none,0.0
+CB4101 L,4,candidate,direct+ DNa01 R,DNg13,R,1.38,0.06,0.68,0.4,none,0.00048
+CB4101 L,4,candidate,direct+ DNa01 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.00058
+CB4101 L,4,candidate,direct+ DNa01 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.00035
+CB4101 L,4,candidate,direct+ DNa01 R,DNp09,L,0.69,-0.06,0.25,-1.0,none,0.0
+CB4101 L,4,candidate,direct+ DNa01 R,DNp09,R,0.62,-0.19,0.4,-1.9,none,0.0
+CB4101 L,4,candidate,direct+ DNa01 R,DNb05,L,17.69,-0.25,1.06,-0.9,none,0.0
+CB4101 L,4,candidate,direct+ DNa01 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+CB4101 L,4,candidate,direct+ DNa01 R,DNb06,L,0.5,-0.06,0.25,-1.0,none,0.0
+CB4101 L,4,candidate,direct+ DNa01 R,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,MDN,R,0.44,0.06,0.25,1.0,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNa01,L,0.56,-0.12,0.34,-1.5,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNa01,R,0.56,0.06,0.57,0.4,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNa02,L,0.56,0.25,0.45,2.2,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNg13,L,0.5,0.19,0.4,1.9,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNg13,R,1.38,-0.06,0.57,-0.4,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNp09,L,0.69,-0.25,0.45,-2.2,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNp09,R,0.62,0.06,0.44,0.6,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNb05,L,17.69,-0.38,1.02,-1.5,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNb06,L,0.5,-0.06,0.57,-0.4,none,0.0
+CB4101 L,4,random control,direct+ DNa01 R,DNb06,R,0.31,-0.12,0.5,-1.0,none,0.0
+LT51 R,11,candidate,direct- DNa01 R,MDN,L,0.19,-0.12,0.29,-1.7,none,-0.01364
+LT51 R,11,candidate,direct- DNa01 R,MDN,R,0.44,-0.38,0.22,-6.7,none,-0.01588
+LT51 R,11,candidate,direct- DNa01 R,DNa01,L,0.56,0.19,0.54,1.4,none,0.0
+LT51 R,11,candidate,direct- DNa01 R,DNa01,R,0.56,-0.56,0.73,-3.1,none,-0.03201
+LT51 R,11,candidate,direct- DNa01 R,DNa02,L,0.56,0.25,0.45,2.2,none,0.0
+LT51 R,11,candidate,direct- DNa01 R,DNa02,R,0.19,-0.19,0.4,-1.9,none,-0.00683
+LT51 R,11,candidate,direct- DNa01 R,DNg13,L,0.5,0.25,0.45,2.2,none,0.0
+LT51 R,11,candidate,direct- DNa01 R,DNg13,R,1.38,-0.44,0.73,-2.4,none,-0.00144
+LT51 R,11,candidate,direct- DNa01 R,DNg100,L,0.12,0.06,0.25,1.0,none,-5e-05
+LT51 R,11,candidate,direct- DNa01 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LT51 R,11,candidate,direct- DNa01 R,DNp09,L,0.69,-0.19,0.54,-1.4,none,0.0
+LT51 R,11,candidate,direct- DNa01 R,DNp09,R,0.62,-0.06,0.44,-0.6,none,0.0
+LT51 R,11,candidate,direct- DNa01 R,DNb05,L,17.69,-0.44,1.09,-1.6,none,0.0
+LT51 R,11,candidate,direct- DNa01 R,DNb05,R,21.19,-0.06,0.25,-1.0,none,-0.00011
+LT51 R,11,candidate,direct- DNa01 R,DNb06,L,0.5,0.06,0.57,0.4,none,0.0
+LT51 R,11,candidate,direct- DNa01 R,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+LT51 R,11,random control,direct- DNa01 R,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0
+LT51 R,11,random control,direct- DNa01 R,MDN,R,0.44,0.06,0.17,1.5,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNa01,L,0.56,0.0,0.52,0.0,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNa02,L,0.56,0.12,0.34,1.5,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNg13,L,0.5,0.25,0.45,2.2,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNg13,R,1.38,0.0,0.63,0.0,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNp09,L,0.69,0.12,0.5,1.0,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNp09,R,0.62,-0.06,0.44,-0.6,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNb05,L,17.69,-0.19,1.17,-0.6,none,0.00107
+LT51 R,11,random control,direct- DNa01 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNb06,L,0.5,-0.06,0.25,-1.0,none,0.0
+LT51 R,11,random control,direct- DNa01 R,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+LPC1 L,115,candidate,two-step DNa01 R,MDN,L,0.19,0.06,0.25,1.0,none,0.0
+LPC1 L,115,candidate,two-step DNa01 R,MDN,R,0.44,0.12,0.34,1.5,none,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNa01,L,0.56,0.5,0.63,3.2,none,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNa01,R,0.56,1.81,0.66,11.1,up,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNa02,L,0.56,0.19,0.54,1.4,none,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNa02,R,0.19,0.31,0.6,2.1,none,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNg13,L,0.5,1.12,0.72,6.3,up,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNg13,R,1.38,1.5,0.82,7.3,up,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNg100,L,0.12,0.88,0.81,4.3,none,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNg100,R,0.06,1.0,0.89,4.5,up,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNp09,L,0.69,-0.69,0.79,-3.5,none,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNp09,R,0.62,-0.19,0.54,-1.4,none,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNb05,L,17.69,-0.06,1.29,-0.2,none,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNb06,L,0.5,-0.06,0.57,-0.4,none,0.0
+LPC1 L,115,candidate,two-step DNa01 R,DNb06,R,0.31,0.0,0.52,0.0,none,0.0
+LPC1 L,115,random control,two-step DNa01 R,MDN,L,0.19,0.0,0.18,0.0,none,0.0
+LPC1 L,115,random control,two-step DNa01 R,MDN,R,0.44,-0.06,0.31,-0.8,none,0.0
+LPC1 L,115,random control,two-step DNa01 R,DNa01,L,0.56,0.12,0.62,0.8,none,0.0
+LPC1 L,115,random control,two-step DNa01 R,DNa01,R,0.56,0.12,0.72,0.7,none,0.0
+LPC1 L,115,random control,two-step DNa01 R,DNa02,L,0.56,0.38,0.5,3.0,none,0.00096
+LPC1 L,115,random control,two-step DNa01 R,DNa02,R,0.19,0.06,0.44,0.6,none,0.00021
+LPC1 L,115,random control,two-step DNa01 R,DNg13,L,0.5,0.25,0.45,2.2,none,0.0
+LPC1 L,115,random control,two-step DNa01 R,DNg13,R,1.38,0.06,0.57,0.4,none,0.0
+LPC1 L,115,random control,two-step DNa01 R,DNg100,L,0.12,0.12,0.34,1.5,none,0.0
+LPC1 L,115,random control,two-step DNa01 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LPC1 L,115,random control,two-step DNa01 R,DNp09,L,0.69,-0.12,0.34,-1.5,none,0.0074
+LPC1 L,115,random control,two-step DNa01 R,DNp09,R,0.62,0.25,0.68,1.5,none,0.00661
+LPC1 L,115,random control,two-step DNa01 R,DNb05,L,17.69,0.81,1.22,2.7,none,0.00339
+LPC1 L,115,random control,two-step DNa01 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.00356
+LPC1 L,115,random control,two-step DNa01 R,DNb06,L,0.5,0.12,0.5,1.0,none,0.0
+LPC1 L,115,random control,two-step DNa01 R,DNb06,R,0.31,0.19,0.54,1.4,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,MDN,L,0.19,-0.03,0.22,-0.6,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,MDN,R,0.44,-0.03,0.29,-0.4,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNa01,L,0.56,-0.12,0.34,-1.5,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNa01,R,0.56,0.94,0.68,5.5,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNa02,L,0.56,0.25,0.45,2.2,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNa02,R,0.19,0.12,0.72,0.7,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNg13,L,0.5,0.31,0.6,2.1,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNg13,R,1.38,-0.06,0.57,-0.4,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNg100,L,0.12,-0.06,0.25,-1.0,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNp09,L,0.69,-0.31,0.6,-2.1,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNp09,R,0.62,-0.06,0.57,-0.4,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNb05,L,17.69,11.62,1.09,42.7,up,0.13648
+LPLC4 L,48,candidate,two-step DNa01 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNb06,L,0.5,0.06,0.68,0.4,none,0.0
+LPLC4 L,48,candidate,two-step DNa01 R,DNb06,R,0.31,0.31,0.6,2.1,none,0.0
+LPLC4 L,48,random control,two-step DNa01 R,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0
+LPLC4 L,48,random control,two-step DNa01 R,MDN,R,0.44,0.0,0.26,0.0,none,0.0
+LPLC4 L,48,random control,two-step DNa01 R,DNa01,L,0.56,0.06,0.44,0.6,none,0.0
+LPLC4 L,48,random control,two-step DNa01 R,DNa01,R,0.56,-0.06,0.44,-0.6,none,0.0
+LPLC4 L,48,random control,two-step DNa01 R,DNa02,L,0.56,0.12,0.5,1.0,none,0.0
+LPLC4 L,48,random control,two-step DNa01 R,DNa02,R,0.19,0.38,0.5,3.0,none,0.00083
+LPLC4 L,48,random control,two-step DNa01 R,DNg13,L,0.5,0.06,0.44,0.6,none,0.0
+LPLC4 L,48,random control,two-step DNa01 R,DNg13,R,1.38,0.0,0.63,0.0,none,0.0
+LPLC4 L,48,random control,two-step DNa01 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+LPLC4 L,48,random control,two-step DNa01 R,DNg100,R,0.06,0.06,0.25,1.0,none,0.0
+LPLC4 L,48,random control,two-step DNa01 R,DNp09,L,0.69,0.06,0.44,0.6,none,0.0
+LPLC4 L,48,random control,two-step DNa01 R,DNp09,R,0.62,0.25,0.58,1.7,none,0.00155
+LPLC4 L,48,random control,two-step DNa01 R,DNb05,L,17.69,0.06,1.12,0.2,none,0.00071
+LPLC4 L,48,random control,two-step DNa01 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.00351
+LPLC4 L,48,random control,two-step DNa01 R,DNb06,L,0.5,0.31,0.7,1.8,none,0.0
+LPLC4 L,48,random control,two-step DNa01 R,DNb06,R,0.31,-0.12,0.34,-1.5,none,0.0
+AN03A008 L,1,candidate,direct+ DNa02 L,MDN,L,0.19,0.0,0.26,0.0,none,0.00573
+AN03A008 L,1,candidate,direct+ DNa02 L,MDN,R,0.44,0.0,0.32,0.0,none,0.00324
+AN03A008 L,1,candidate,direct+ DNa02 L,DNa01,L,0.56,0.12,0.62,0.8,none,0.00048
+AN03A008 L,1,candidate,direct+ DNa02 L,DNa01,R,0.56,-0.19,0.66,-1.1,none,0.0
+AN03A008 L,1,candidate,direct+ DNa02 L,DNa02,L,0.56,5.19,0.66,31.7,up,0.03093
+AN03A008 L,1,candidate,direct+ DNa02 L,DNa02,R,0.19,0.0,0.0,0.0,none,0.0
+AN03A008 L,1,candidate,direct+ DNa02 L,DNg13,L,0.5,0.06,0.25,1.0,none,0.00016
+AN03A008 L,1,candidate,direct+ DNa02 L,DNg13,R,1.38,-0.25,0.77,-1.3,none,0.0
+AN03A008 L,1,candidate,direct+ DNa02 L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+AN03A008 L,1,candidate,direct+ DNa02 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+AN03A008 L,1,candidate,direct+ DNa02 L,DNp09,L,0.69,-0.06,0.44,-0.6,none,0.00024
+AN03A008 L,1,candidate,direct+ DNa02 L,DNp09,R,0.62,-0.06,0.25,-1.0,none,0.0
+AN03A008 L,1,candidate,direct+ DNa02 L,DNb05,L,17.69,-0.25,0.93,-1.1,none,0.0
+AN03A008 L,1,candidate,direct+ DNa02 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+AN03A008 L,1,candidate,direct+ DNa02 L,DNb06,L,0.5,0.0,0.37,0.0,none,0.0
+AN03A008 L,1,candidate,direct+ DNa02 L,DNb06,R,0.31,0.06,0.44,0.6,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,MDN,R,0.44,0.0,0.0,0.0,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNa01,L,0.56,0.12,0.62,0.8,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNa01,R,0.56,0.06,0.57,0.4,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNa02,L,0.56,0.12,0.5,1.0,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNg13,L,0.5,0.06,0.25,1.0,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNg13,R,1.38,-0.12,0.62,-0.8,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNp09,L,0.69,-0.12,0.5,-1.0,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNp09,R,0.62,-0.06,0.57,-0.4,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNb05,L,17.69,-0.06,1.12,-0.2,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNb06,L,0.5,0.06,0.25,1.0,none,0.0
+AN03A008 L,1,random control,direct+ DNa02 L,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,MDN,L,0.19,0.16,0.35,1.8,none,0.01191
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,MDN,R,0.44,0.06,0.31,0.8,none,0.00572
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNa01,L,0.56,0.06,0.44,0.6,none,0.00016
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNa01,R,0.56,-0.44,0.51,-3.4,none,0.0
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNa02,L,0.56,4.25,0.58,29.4,up,0.02104
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNg13,L,0.5,1.25,0.58,8.7,up,0.0051
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNg13,R,1.38,-0.38,0.62,-2.4,none,0.0
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNp09,L,0.69,0.06,0.44,0.6,none,0.00048
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNp09,R,0.62,0.06,0.44,0.6,none,0.0
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNb05,L,17.69,-0.31,1.2,-1.0,none,0.0
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNb06,L,0.5,0.06,0.57,0.4,none,0.0
+"LAL028,LAL029 L",6,candidate,direct+ DNa02 L,DNb06,R,0.31,0.06,0.44,0.6,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,MDN,R,0.44,0.0,0.37,0.0,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNa01,L,0.56,-0.06,0.25,-1.0,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNa01,R,0.56,-0.06,0.57,-0.4,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNa02,L,0.56,0.12,0.5,1.0,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNg13,L,0.5,0.06,0.44,0.6,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNg13,R,1.38,-0.12,0.5,-1.0,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNp09,L,0.69,-0.19,0.66,-1.1,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNp09,R,0.62,0.06,0.57,0.4,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNb05,L,17.69,0.12,1.26,0.4,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNb06,L,0.5,-0.12,0.5,-1.0,none,0.0
+"LAL028,LAL029 L",6,random control,direct+ DNa02 L,DNb06,R,0.31,-0.12,0.34,-1.5,none,0.0
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,MDN,L,0.19,0.03,0.22,0.6,none,0.0
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,MDN,R,0.44,0.09,0.42,0.9,none,0.0
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNa01,L,0.56,0.0,0.52,0.0,none,0.0
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNa01,R,0.56,0.19,0.54,1.4,none,0.0
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNa02,L,0.56,3.62,0.62,23.4,up,0.01774
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNa02,R,0.19,0.12,0.5,1.0,none,0.0012
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNg13,L,0.5,0.81,0.66,5.0,none,0.00016
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNg13,R,1.38,-0.12,0.5,-1.0,none,0.0
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNg100,L,0.12,0.25,0.45,2.2,none,0.00404
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNg100,R,0.06,0.12,0.34,1.5,none,0.00203
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNp09,L,0.69,-0.19,0.4,-1.9,none,0.0
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNp09,R,0.62,0.0,0.63,0.0,none,0.0
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNb05,L,17.69,-0.38,0.96,-1.6,none,0.0
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNb06,L,0.5,0.0,0.82,0.0,none,0.0
+AN_IPS_GNG_7 L,6,candidate,direct+ DNa02 L,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,MDN,R,0.44,0.09,0.33,1.1,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNa01,L,0.56,0.06,0.44,0.6,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNa01,R,0.56,0.06,0.57,0.4,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNa02,L,0.56,0.0,0.52,0.0,none,-4e-05
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNg13,L,0.5,0.25,0.45,2.2,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNg13,R,1.38,-0.19,0.66,-1.1,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNg100,R,0.06,0.06,0.25,1.0,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNp09,L,0.69,-0.19,0.66,-1.1,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNp09,R,0.62,-0.12,0.34,-1.5,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNb05,L,17.69,-0.12,1.15,-0.4,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNb06,L,0.5,0.06,0.44,0.6,none,0.0
+AN_IPS_GNG_7 L,6,random control,direct+ DNa02 L,DNb06,R,0.31,0.0,0.52,0.0,none,0.0
+"VES051,VES052 L",4,candidate,direct- DNa02 L,MDN,L,0.19,-0.09,0.27,-1.4,none,-0.00453
+"VES051,VES052 L",4,candidate,direct- DNa02 L,MDN,R,0.44,-0.03,0.29,-0.4,none,-0.00743
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNa01,L,0.56,-0.56,0.73,-3.1,none,-0.03215
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNa01,R,0.56,0.19,0.75,1.0,none,0.0
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNa02,L,0.56,-0.56,0.51,-4.4,none,-0.02504
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNa02,R,0.19,0.06,0.25,1.0,none,0.0
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNg13,L,0.5,0.06,0.25,1.0,none,-0.00048
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNg13,R,1.38,0.0,0.63,0.0,none,0.0
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNp09,L,0.69,-0.19,0.54,-1.4,none,-0.00072
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNp09,R,0.62,0.0,0.37,0.0,none,0.0
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNb05,L,17.69,-0.06,1.06,-0.2,none,0.0
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNb06,L,0.5,0.0,0.52,0.0,none,0.0
+"VES051,VES052 L",4,candidate,direct- DNa02 L,DNb06,R,0.31,-0.06,0.25,-1.0,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,MDN,R,0.44,0.06,0.25,1.0,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNa01,L,0.56,0.0,0.52,0.0,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNa01,R,0.56,0.12,0.34,1.5,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNa02,L,0.56,0.12,0.34,1.5,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNg13,L,0.5,0.19,0.4,1.9,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNg13,R,1.38,-0.19,0.54,-1.4,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNp09,L,0.69,-0.06,0.44,-0.6,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNp09,R,0.62,-0.12,0.34,-1.5,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNb05,L,17.69,-0.19,1.22,-0.6,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNb06,L,0.5,0.06,0.44,0.6,none,0.0
+"VES051,VES052 L",4,random control,direct- DNa02 L,DNb06,R,0.31,0.0,0.52,0.0,none,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,MDN,L,0.19,-0.06,0.31,-0.8,none,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,MDN,R,0.44,-0.12,0.22,-2.2,none,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNa01,L,0.56,0.38,0.62,2.4,none,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNa01,R,0.56,0.06,0.44,0.6,none,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNa02,L,0.56,5.31,0.7,30.2,up,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNg13,L,0.5,3.06,0.68,18.0,up,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNg13,R,1.38,2.5,0.82,12.2,up,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNp09,L,0.69,-0.06,0.68,-0.4,none,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNp09,R,0.62,-0.25,0.58,-1.7,none,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNb05,L,17.69,0.0,1.1,0.0,none,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNb06,L,0.5,2.19,1.11,7.9,up,0.0
+LC10a L,135,candidate,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNb06,R,0.31,1.06,0.85,5.0,up,0.0
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,MDN,L,0.19,-0.03,0.34,-0.4,none,0.0
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,MDN,R,0.44,0.0,0.32,0.0,none,-0.00019
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNa01,L,0.56,0.06,0.44,0.6,none,-0.00024
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNa02,L,0.56,0.12,0.5,1.0,none,-0.00196
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNa02,R,0.19,0.19,0.54,1.4,none,0.00029
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNg13,L,0.5,0.44,0.51,3.4,none,0.0
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNg13,R,1.38,0.19,0.66,1.1,none,0.0
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNg100,L,0.12,0.12,0.34,1.5,none,0.0
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNp09,L,0.69,0.62,0.72,3.5,none,0.00454
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNp09,R,0.62,-0.12,0.62,-0.8,none,0.00155
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNb05,L,17.69,0.5,0.89,2.2,none,0.00255
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.00215
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNb06,L,0.5,-0.06,0.57,-0.4,none,0.0
+LC10a L,135,random control,two-step DNa02 L; two-step DNg13 L; two-step DNg13 R,DNb06,R,0.31,0.44,0.51,3.4,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,MDN,L,0.19,-0.09,0.33,-1.1,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,MDN,R,0.44,-0.06,0.17,-1.5,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNa01,L,0.56,0.5,0.82,2.4,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNa01,R,0.56,-0.06,0.57,-0.4,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNa02,L,0.56,3.69,0.6,24.5,up,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNa02,R,0.19,-0.12,0.34,-1.5,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNg13,L,0.5,2.06,0.77,10.7,up,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNg13,R,1.38,0.81,0.66,5.0,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNp09,L,0.69,0.06,0.44,0.6,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNp09,R,0.62,0.0,0.37,0.0,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNb05,L,17.69,-0.31,1.25,-1.0,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNb06,L,0.5,0.38,0.62,2.4,none,0.0
+LC10d L,108,candidate,two-step DNa02 L,DNb06,R,0.31,0.31,0.6,2.1,none,0.0
+LC10d L,108,random control,two-step DNa02 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+LC10d L,108,random control,two-step DNa02 L,MDN,R,0.44,-0.03,0.12,-1.0,none,0.0
+LC10d L,108,random control,two-step DNa02 L,DNa01,L,0.56,0.06,0.57,0.4,none,0.0
+LC10d L,108,random control,two-step DNa02 L,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+LC10d L,108,random control,two-step DNa02 L,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+LC10d L,108,random control,two-step DNa02 L,DNa02,R,0.19,0.31,0.7,1.8,none,0.00025
+LC10d L,108,random control,two-step DNa02 L,DNg13,L,0.5,0.38,0.5,3.0,none,0.0
+LC10d L,108,random control,two-step DNa02 L,DNg13,R,1.38,0.25,0.58,1.7,none,0.0
+LC10d L,108,random control,two-step DNa02 L,DNg100,L,0.12,0.12,0.34,1.5,none,-0.00039
+LC10d L,108,random control,two-step DNa02 L,DNg100,R,0.06,0.0,0.0,0.0,none,-0.00015
+LC10d L,108,random control,two-step DNa02 L,DNp09,L,0.69,0.19,0.54,1.4,none,0.00573
+LC10d L,108,random control,two-step DNa02 L,DNp09,R,0.62,0.06,0.68,0.4,none,0.0
+LC10d L,108,random control,two-step DNa02 L,DNb05,L,17.69,0.12,1.26,0.4,none,0.00048
+LC10d L,108,random control,two-step DNa02 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.00119
+LC10d L,108,random control,two-step DNa02 L,DNb06,L,0.5,-0.06,0.57,-0.4,none,0.0
+LC10d L,108,random control,two-step DNa02 L,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+AN03A008 R,1,candidate,direct+ DNa02 R,MDN,L,0.19,0.06,0.4,0.6,none,0.0058
+AN03A008 R,1,candidate,direct+ DNa02 R,MDN,R,0.44,0.22,0.31,2.8,none,0.00657
+AN03A008 R,1,candidate,direct+ DNa02 R,DNa01,L,0.56,-0.12,0.62,-0.8,none,0.0
+AN03A008 R,1,candidate,direct+ DNa02 R,DNa01,R,0.56,0.19,0.66,1.1,none,0.0015
+AN03A008 R,1,candidate,direct+ DNa02 R,DNa02,L,0.56,0.0,0.52,0.0,none,0.0
+AN03A008 R,1,candidate,direct+ DNa02 R,DNa02,R,0.19,4.81,0.91,21.1,up,0.02967
+AN03A008 R,1,candidate,direct+ DNa02 R,DNg13,L,0.5,0.06,0.44,0.6,none,0.0
+AN03A008 R,1,candidate,direct+ DNa02 R,DNg13,R,1.38,-0.25,0.58,-1.7,none,0.00032
+AN03A008 R,1,candidate,direct+ DNa02 R,DNg100,L,0.12,-0.06,0.25,-1.0,none,0.0
+AN03A008 R,1,candidate,direct+ DNa02 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+AN03A008 R,1,candidate,direct+ DNa02 R,DNp09,L,0.69,-0.06,0.44,-0.6,none,0.0
+AN03A008 R,1,candidate,direct+ DNa02 R,DNp09,R,0.62,0.0,0.52,0.0,none,0.0
+AN03A008 R,1,candidate,direct+ DNa02 R,DNb05,L,17.69,-0.06,1.18,-0.2,none,0.0
+AN03A008 R,1,candidate,direct+ DNa02 R,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+AN03A008 R,1,candidate,direct+ DNa02 R,DNb06,L,0.5,-0.12,0.34,-1.5,none,0.0
+AN03A008 R,1,candidate,direct+ DNa02 R,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,MDN,L,0.19,-0.06,0.31,-0.8,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,MDN,R,0.44,0.12,0.43,1.2,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNa01,L,0.56,-0.06,0.25,-1.0,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNa01,R,0.56,0.06,0.57,0.4,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNa02,L,0.56,0.12,0.5,1.0,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNg13,L,0.5,0.0,0.0,0.0,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNg13,R,1.38,-0.12,0.62,-0.8,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNg100,L,0.12,-0.06,0.25,-1.0,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNg100,R,0.06,0.06,0.25,1.0,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNp09,L,0.69,0.0,0.37,0.0,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNp09,R,0.62,0.0,0.63,0.0,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNb05,L,17.69,-0.5,1.03,-1.9,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNb06,L,0.5,0.25,0.45,2.2,none,0.0
+AN03A008 R,1,random control,direct+ DNa02 R,DNb06,R,0.31,0.0,0.52,0.0,none,0.0
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,MDN,L,0.19,0.09,0.27,1.4,none,0.00897
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,MDN,R,0.44,0.72,0.36,7.9,none,0.01359
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNa01,L,0.56,-0.19,0.4,-1.9,none,0.0
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNa01,R,0.56,0.06,0.77,0.3,none,0.00075
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNa02,L,0.56,0.0,0.37,0.0,none,0.0
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNa02,R,0.19,4.19,0.54,30.8,up,0.02313
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNg13,L,0.5,-0.31,0.6,-2.1,none,0.0
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNg13,R,1.38,1.5,0.73,8.2,up,0.00896
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNp09,L,0.69,0.06,0.44,0.6,none,0.0
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNp09,R,0.62,0.38,0.5,3.0,none,0.00028
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNb05,L,17.69,-0.06,1.34,-0.2,none,0.0
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNb05,R,21.19,-0.12,0.34,-1.5,none,0.0
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNb06,L,0.5,0.0,0.63,0.0,none,0.0
+"LAL028,LAL029 R",7,candidate,direct+ DNa02 R,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,MDN,R,0.44,-0.06,0.25,-1.0,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNa01,L,0.56,0.06,0.25,1.0,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNa01,R,0.56,0.19,0.75,1.0,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNa02,R,0.19,0.06,0.25,1.0,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNg13,L,0.5,0.12,0.34,1.5,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNg13,R,1.38,-0.12,0.62,-0.8,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNp09,L,0.69,-0.12,0.34,-1.5,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNp09,R,0.62,-0.06,0.25,-1.0,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNb05,L,17.69,-0.19,1.22,-0.6,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNb06,L,0.5,0.12,0.5,1.0,none,0.0
+"LAL028,LAL029 R",7,random control,direct+ DNa02 R,DNb06,R,0.31,-0.12,0.5,-1.0,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,MDN,L,0.19,-0.12,0.29,-1.7,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,MDN,R,0.44,-0.09,0.2,-1.9,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNa01,L,0.56,-0.31,0.48,-2.6,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNa01,R,0.56,0.31,0.79,1.6,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNa02,L,0.56,-0.5,0.52,-3.9,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNa02,R,0.19,3.12,0.62,20.2,up,0.01572
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNg13,L,0.5,-0.25,0.45,-2.2,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNg13,R,1.38,1.5,0.52,11.6,up,0.00016
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNp09,L,0.69,-0.06,0.25,-1.0,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNp09,R,0.62,-0.06,0.25,-1.0,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNb05,L,17.69,-0.38,1.15,-1.3,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNb06,L,0.5,0.19,0.66,1.1,none,0.0
+PFL3 L,12,candidate,direct+ DNa02 R; literature DNa02,DNb06,R,0.31,0.12,0.5,1.0,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,MDN,L,0.19,-0.06,0.31,-0.8,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,MDN,R,0.44,-0.09,0.2,-1.9,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNa01,L,0.56,-0.06,0.57,-0.4,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNa02,L,0.56,0.12,0.5,1.0,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNg13,L,0.5,0.19,0.4,1.9,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNg13,R,1.38,0.0,0.63,0.0,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNg100,R,0.06,0.06,0.25,1.0,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNp09,L,0.69,-0.06,0.44,-0.6,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNp09,R,0.62,-0.06,0.57,-0.4,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNb05,L,17.69,-0.06,1.48,-0.2,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNb06,L,0.5,-0.12,0.5,-1.0,none,0.0
+PFL3 L,12,random control,direct+ DNa02 R; literature DNa02,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+"VES051,VES052 R",4,candidate,direct- DNa02 R,MDN,L,0.19,-0.06,0.17,-1.5,none,-0.00387
+"VES051,VES052 R",4,candidate,direct- DNa02 R,MDN,R,0.44,-0.25,0.26,-3.9,none,-0.01244
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNa01,L,0.56,0.06,0.44,0.6,none,0.0
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNa01,R,0.56,-0.56,0.73,-3.1,none,-0.03029
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNa02,L,0.56,0.12,0.34,1.5,none,0.0
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNa02,R,0.19,-0.19,0.4,-1.9,none,-0.02586
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNg13,L,0.5,0.38,0.62,2.4,none,0.0
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNg13,R,1.38,-0.19,0.75,-1.0,none,0.0
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNp09,L,0.69,-0.06,0.68,-0.4,none,0.0
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNp09,R,0.62,-0.12,0.5,-1.0,none,0.0
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNb05,L,17.69,-0.38,1.15,-1.3,none,0.0
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNb06,L,0.5,0.25,0.45,2.2,none,0.0
+"VES051,VES052 R",4,candidate,direct- DNa02 R,DNb06,R,0.31,0.12,0.34,1.5,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,MDN,L,0.19,-0.06,0.31,-0.8,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,MDN,R,0.44,0.0,0.26,0.0,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNa01,L,0.56,0.0,0.52,0.0,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNa02,L,0.56,0.06,0.25,1.0,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNg13,L,0.5,0.19,0.4,1.9,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNg13,R,1.38,-0.25,0.68,-1.5,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNg100,R,0.06,0.06,0.25,1.0,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNp09,L,0.69,-0.12,0.62,-0.8,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNp09,R,0.62,0.0,0.37,0.0,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNb05,L,17.69,-0.31,0.95,-1.3,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNb06,L,0.5,-0.19,0.54,-1.4,none,0.0
+"VES051,VES052 R",4,random control,direct- DNa02 R,DNb06,R,0.31,0.0,0.52,0.0,none,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,MDN,L,0.19,-0.12,0.22,-2.2,none,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,MDN,R,0.44,0.0,0.26,0.0,none,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNa01,L,0.56,-0.12,0.5,-1.0,none,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNa01,R,0.56,0.56,0.63,3.6,none,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNa02,L,0.56,-0.06,0.44,-0.6,none,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNa02,R,0.19,4.81,0.4,47.8,up,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNg13,L,0.5,2.25,0.68,13.2,up,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNg13,R,1.38,3.69,0.79,18.6,up,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNg100,L,0.12,0.12,0.34,1.5,none,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNg100,R,0.06,0.19,0.4,1.9,none,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNp09,L,0.69,-0.38,0.72,-2.1,none,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNp09,R,0.62,0.88,0.81,4.3,none,0.00914
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNb05,L,17.69,-0.31,1.08,-1.2,none,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNb06,L,0.5,2.06,0.85,9.7,up,0.0
+LC10a R,140,candidate,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNb06,R,0.31,0.88,0.81,4.3,none,0.0
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,MDN,R,0.44,0.09,0.27,1.4,none,-0.0002
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNa01,L,0.56,0.25,0.45,2.2,none,0.0
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNa01,R,0.56,-0.12,0.62,-0.8,none,-0.00135
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNa02,L,0.56,0.31,0.48,2.6,none,0.0
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNa02,R,0.19,-0.06,0.44,-0.6,none,-0.00087
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNg13,L,0.5,0.25,0.58,1.7,none,0.0
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNg13,R,1.38,-0.06,0.57,-0.4,none,-0.00032
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNg100,R,0.06,0.06,0.25,1.0,none,0.0
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNp09,L,0.69,-0.12,0.5,-1.0,none,0.0031
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNp09,R,0.62,-0.38,0.72,-2.1,none,0.00112
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNb05,L,17.69,-0.44,1.36,-1.3,none,0.00101
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.00334
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNb06,L,0.5,-0.5,0.63,-3.2,none,0.0
+LC10a R,140,random control,two-step DNa02 R; two-step DNg13 L; two-step DNg13 R,DNb06,R,0.31,0.06,0.68,0.4,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,MDN,L,0.19,-0.03,0.22,-0.6,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,MDN,R,0.44,0.09,0.2,1.9,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNa01,L,0.56,-0.06,0.57,-0.4,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNa01,R,0.56,0.44,0.63,2.8,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNa02,L,0.56,-0.12,0.5,-1.0,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNa02,R,0.19,2.56,0.81,12.6,up,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNg13,L,0.5,0.62,0.62,4.0,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNg13,R,1.38,1.44,0.89,6.4,up,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNg100,L,0.12,0.12,0.34,1.5,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNp09,L,0.69,0.0,0.63,0.0,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNp09,R,0.62,0.19,0.66,1.1,none,0.00619
+LC10d R,106,candidate,two-step DNa02 R,DNb05,L,17.69,-0.12,1.26,-0.4,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNb06,L,0.5,0.56,0.51,4.4,none,0.0
+LC10d R,106,candidate,two-step DNa02 R,DNb06,R,0.31,0.5,0.52,3.9,none,0.0
+LC10d R,106,random control,two-step DNa02 R,MDN,L,0.19,-0.06,0.31,-0.8,none,0.0
+LC10d R,106,random control,two-step DNa02 R,MDN,R,0.44,-0.03,0.22,-0.6,none,-0.00039
+LC10d R,106,random control,two-step DNa02 R,DNa01,L,0.56,0.25,0.58,1.7,none,0.0
+LC10d R,106,random control,two-step DNa02 R,DNa01,R,0.56,-0.12,0.5,-1.0,none,-0.00067
+LC10d R,106,random control,two-step DNa02 R,DNa02,L,0.56,0.25,0.45,2.2,none,8e-05
+LC10d R,106,random control,two-step DNa02 R,DNa02,R,0.19,0.38,0.5,3.0,none,0.00112
+LC10d R,106,random control,two-step DNa02 R,DNg13,L,0.5,0.56,0.63,3.6,none,0.0
+LC10d R,106,random control,two-step DNa02 R,DNg13,R,1.38,0.25,0.45,2.2,none,0.0
+LC10d R,106,random control,two-step DNa02 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+LC10d R,106,random control,two-step DNa02 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LC10d R,106,random control,two-step DNa02 R,DNp09,L,0.69,-0.31,0.6,-2.1,none,0.00072
+LC10d R,106,random control,two-step DNa02 R,DNp09,R,0.62,0.0,0.63,0.0,none,0.00084
+LC10d R,106,random control,two-step DNa02 R,DNb05,L,17.69,2.06,1.18,7.0,up,0.00831
+LC10d R,106,random control,two-step DNa02 R,DNb05,R,21.19,0.31,0.48,2.6,none,0.00645
+LC10d R,106,random control,two-step DNa02 R,DNb06,L,0.5,0.31,0.48,2.6,none,-0.00057
+LC10d R,106,random control,two-step DNa02 R,DNb06,R,0.31,0.25,0.58,1.7,none,0.0
+CB0244 L,1,candidate,direct+ DNg13 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0002
+CB0244 L,1,candidate,direct+ DNg13 L,MDN,R,0.44,-0.19,0.25,-3.0,none,0.00019
+CB0244 L,1,candidate,direct+ DNg13 L,DNa01,L,0.56,0.62,0.81,3.1,none,0.00627
+CB0244 L,1,candidate,direct+ DNg13 L,DNa01,R,0.56,-0.06,0.68,-0.4,none,0.0
+CB0244 L,1,candidate,direct+ DNg13 L,DNa02,L,0.56,0.12,0.5,1.0,none,0.00021
+CB0244 L,1,candidate,direct+ DNg13 L,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+CB0244 L,1,candidate,direct+ DNg13 L,DNg13,L,0.5,5.12,0.62,33.1,up,0.02659
+CB0244 L,1,candidate,direct+ DNg13 L,DNg13,R,1.38,-0.25,0.58,-1.7,none,0.0
+CB0244 L,1,candidate,direct+ DNg13 L,DNg100,L,0.12,0.69,0.6,4.6,none,0.01208
+CB0244 L,1,candidate,direct+ DNg13 L,DNg100,R,0.06,0.38,0.62,2.4,none,0.0089
+CB0244 L,1,candidate,direct+ DNg13 L,DNp09,L,0.69,-0.06,0.44,-0.6,none,0.0
+CB0244 L,1,candidate,direct+ DNg13 L,DNp09,R,0.62,0.0,0.0,0.0,none,0.0
+CB0244 L,1,candidate,direct+ DNg13 L,DNb05,L,17.69,-0.5,1.03,-1.9,none,0.0
+CB0244 L,1,candidate,direct+ DNg13 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+CB0244 L,1,candidate,direct+ DNg13 L,DNb06,L,0.5,0.0,0.52,0.0,none,0.0
+CB0244 L,1,candidate,direct+ DNg13 L,DNb06,R,0.31,0.06,0.44,0.6,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,MDN,R,0.44,0.0,0.32,0.0,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNa01,L,0.56,0.06,0.44,0.6,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNa01,R,0.56,0.12,0.62,0.8,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNa02,L,0.56,0.12,0.5,1.0,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNg13,L,0.5,0.19,0.54,1.4,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNg13,R,1.38,-0.12,0.5,-1.0,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNp09,L,0.69,-0.06,0.44,-0.6,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNp09,R,0.62,0.0,0.52,0.0,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNb05,L,17.69,1.81,1.91,3.8,up,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNb05,R,21.19,1.12,0.81,5.6,up,0.00045
+CB0244 L,1,random control,direct+ DNg13 L,DNb06,L,0.5,-0.19,0.54,-1.4,none,0.0
+CB0244 L,1,random control,direct+ DNg13 L,DNb06,R,0.31,0.06,0.44,0.6,none,0.0
+CB0362 L,1,candidate,direct+ DNg13 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+CB0362 L,1,candidate,direct+ DNg13 L,MDN,R,0.44,-0.12,0.29,-1.7,none,0.00038
+CB0362 L,1,candidate,direct+ DNg13 L,DNa01,L,0.56,0.19,0.66,1.1,none,0.00088
+CB0362 L,1,candidate,direct+ DNg13 L,DNa01,R,0.56,-0.12,0.62,-0.8,none,0.0
+CB0362 L,1,candidate,direct+ DNg13 L,DNa02,L,0.56,0.19,0.4,1.9,none,0.00129
+CB0362 L,1,candidate,direct+ DNg13 L,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+CB0362 L,1,candidate,direct+ DNg13 L,DNg13,L,0.5,4.44,0.51,34.6,up,0.02484
+CB0362 L,1,candidate,direct+ DNg13 L,DNg13,R,1.38,-0.31,0.6,-2.1,none,0.0
+CB0362 L,1,candidate,direct+ DNg13 L,DNg100,L,0.12,0.06,0.25,1.0,none,0.00015
+CB0362 L,1,candidate,direct+ DNg13 L,DNg100,R,0.06,0.06,0.25,1.0,none,0.0
+CB0362 L,1,candidate,direct+ DNg13 L,DNp09,L,0.69,0.0,0.37,0.0,none,0.0
+CB0362 L,1,candidate,direct+ DNg13 L,DNp09,R,0.62,-0.12,0.34,-1.5,none,0.0
+CB0362 L,1,candidate,direct+ DNg13 L,DNb05,L,17.69,-0.38,1.15,-1.3,none,0.0
+CB0362 L,1,candidate,direct+ DNg13 L,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+CB0362 L,1,candidate,direct+ DNg13 L,DNb06,L,0.5,0.12,0.5,1.0,none,0.0
+CB0362 L,1,candidate,direct+ DNg13 L,DNb06,R,0.31,-0.12,0.34,-1.5,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,MDN,L,0.19,-0.06,0.31,-0.8,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,MDN,R,0.44,0.09,0.27,1.4,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,DNa01,L,0.56,0.0,0.37,0.0,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,DNa01,R,0.56,-0.12,0.34,-1.5,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,DNa02,L,0.56,0.25,0.45,2.2,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,DNg13,L,0.5,-0.06,0.44,-0.6,none,-0.00271
+CB0362 L,1,random control,direct+ DNg13 L,DNg13,R,1.38,-0.06,0.77,-0.3,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,DNp09,L,0.69,-0.12,0.5,-1.0,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,DNp09,R,0.62,0.0,0.37,0.0,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,DNb05,L,17.69,-0.31,1.25,-1.0,none,-0.00012
+CB0362 L,1,random control,direct+ DNg13 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,DNb06,L,0.5,0.06,0.25,1.0,none,0.0
+CB0362 L,1,random control,direct+ DNg13 L,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+DNg97 R,1,candidate,direct+ DNg13 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+DNg97 R,1,candidate,direct+ DNg13 L,MDN,R,0.44,0.03,0.39,0.3,none,0.00019
+DNg97 R,1,candidate,direct+ DNg13 L,DNa01,L,0.56,-0.12,0.5,-1.0,none,0.00048
+DNg97 R,1,candidate,direct+ DNg13 L,DNa01,R,0.56,-0.12,0.34,-1.5,none,7e-05
+DNg97 R,1,candidate,direct+ DNg13 L,DNa02,L,0.56,0.12,0.5,1.0,none,0.0
+DNg97 R,1,candidate,direct+ DNg13 L,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+DNg97 R,1,candidate,direct+ DNg13 L,DNg13,L,0.5,4.5,0.63,28.5,up,0.02229
+DNg97 R,1,candidate,direct+ DNg13 L,DNg13,R,1.38,-0.12,0.72,-0.7,none,0.0
+DNg97 R,1,candidate,direct+ DNg13 L,DNg100,L,0.12,0.12,0.34,1.5,none,0.00322
+DNg97 R,1,candidate,direct+ DNg13 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.00252
+DNg97 R,1,candidate,direct+ DNg13 L,DNp09,L,0.69,0.06,0.44,0.6,none,0.0
+DNg97 R,1,candidate,direct+ DNg13 L,DNp09,R,0.62,0.0,0.52,0.0,none,0.0
+DNg97 R,1,candidate,direct+ DNg13 L,DNb05,L,17.69,-0.31,1.14,-1.1,none,0.0
+DNg97 R,1,candidate,direct+ DNg13 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+DNg97 R,1,candidate,direct+ DNg13 L,DNb06,L,0.5,0.19,0.54,1.4,none,0.0
+DNg97 R,1,candidate,direct+ DNg13 L,DNb06,R,0.31,0.0,0.52,0.0,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,MDN,L,0.19,-0.06,0.17,-1.5,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,MDN,R,0.44,0.03,0.22,0.6,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNa01,L,0.56,-0.06,0.44,-0.6,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNa01,R,0.56,0.06,0.44,0.6,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNa02,L,0.56,0.25,0.45,2.2,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNa02,R,0.19,0.0,0.0,0.0,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNg13,L,0.5,0.25,0.45,2.2,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNg13,R,1.38,-0.12,0.72,-0.7,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNp09,L,0.69,-0.19,0.4,-1.9,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNp09,R,0.62,0.06,0.57,0.4,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNb05,L,17.69,-0.19,0.91,-0.8,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNb06,L,0.5,0.06,0.44,0.6,none,0.0
+DNg97 R,1,random control,direct+ DNg13 L,DNb06,R,0.31,0.0,0.52,0.0,none,0.0
+VES200m L,6,candidate,direct- DNg13 L,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0
+VES200m L,6,candidate,direct- DNg13 L,MDN,R,0.44,0.0,0.26,0.0,none,-0.00019
+VES200m L,6,candidate,direct- DNg13 L,DNa01,L,0.56,-0.12,0.34,-1.5,none,-0.0008
+VES200m L,6,candidate,direct- DNg13 L,DNa01,R,0.56,-0.12,0.34,-1.5,none,0.0
+VES200m L,6,candidate,direct- DNg13 L,DNa02,L,0.56,-0.06,0.44,-0.6,none,-0.00109
+VES200m L,6,candidate,direct- DNg13 L,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+VES200m L,6,candidate,direct- DNg13 L,DNg13,L,0.5,-0.5,0.73,-2.7,none,-0.02659
+VES200m L,6,candidate,direct- DNg13 L,DNg13,R,1.38,-0.06,0.57,-0.4,none,-0.00016
+VES200m L,6,candidate,direct- DNg13 L,DNg100,L,0.12,0.0,0.0,0.0,none,-5e-05
+VES200m L,6,candidate,direct- DNg13 L,DNg100,R,0.06,0.0,0.0,0.0,none,-0.00025
+VES200m L,6,candidate,direct- DNg13 L,DNp09,L,0.69,-0.12,0.72,-0.7,none,0.0
+VES200m L,6,candidate,direct- DNg13 L,DNp09,R,0.62,-0.25,0.45,-2.2,none,-0.00155
+VES200m L,6,candidate,direct- DNg13 L,DNb05,L,17.69,-0.19,1.17,-0.6,none,0.0
+VES200m L,6,candidate,direct- DNg13 L,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+VES200m L,6,candidate,direct- DNg13 L,DNb06,L,0.5,0.12,0.5,1.0,none,0.0
+VES200m L,6,candidate,direct- DNg13 L,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+VES200m L,6,random control,direct- DNg13 L,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0
+VES200m L,6,random control,direct- DNg13 L,MDN,R,0.44,-0.03,0.29,-0.4,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNa01,L,0.56,0.0,0.52,0.0,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNa01,R,0.56,0.06,0.57,0.4,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNg13,L,0.5,0.06,0.25,1.0,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNg13,R,1.38,-0.19,0.75,-1.0,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNp09,L,0.69,-0.12,0.5,-1.0,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNp09,R,0.62,-0.12,0.34,-1.5,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNb05,L,17.69,0.06,1.39,0.2,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNb06,L,0.5,0.0,0.37,0.0,none,0.0
+VES200m L,6,random control,direct- DNg13 L,DNb06,R,0.31,-0.12,0.5,-1.0,none,0.0
+CB0244 R,1,candidate,direct+ DNg13 R,MDN,L,0.19,-0.09,0.27,-1.4,none,0.00037
+CB0244 R,1,candidate,direct+ DNg13 R,MDN,R,0.44,0.0,0.26,0.0,none,0.0
+CB0244 R,1,candidate,direct+ DNg13 R,DNa01,L,0.56,-0.25,0.45,-2.2,none,0.0
+CB0244 R,1,candidate,direct+ DNg13 R,DNa01,R,0.56,1.5,0.63,9.5,up,0.01095
+CB0244 R,1,candidate,direct+ DNg13 R,DNa02,L,0.56,0.12,0.34,1.5,none,0.0
+CB0244 R,1,candidate,direct+ DNg13 R,DNa02,R,0.19,0.19,0.4,1.9,none,0.00033
+CB0244 R,1,candidate,direct+ DNg13 R,DNg13,L,0.5,0.19,0.54,1.4,none,0.0
+CB0244 R,1,candidate,direct+ DNg13 R,DNg13,R,1.38,4.5,0.82,22.0,up,0.02511
+CB0244 R,1,candidate,direct+ DNg13 R,DNg100,L,0.12,0.44,0.51,3.4,none,0.01023
+CB0244 R,1,candidate,direct+ DNg13 R,DNg100,R,0.06,0.44,0.63,2.8,none,0.01133
+CB0244 R,1,candidate,direct+ DNg13 R,DNp09,L,0.69,-0.06,0.44,-0.6,none,0.0
+CB0244 R,1,candidate,direct+ DNg13 R,DNp09,R,0.62,0.12,0.5,1.0,none,0.0
+CB0244 R,1,candidate,direct+ DNg13 R,DNb05,L,17.69,-0.06,1.0,-0.3,none,0.0
+CB0244 R,1,candidate,direct+ DNg13 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+CB0244 R,1,candidate,direct+ DNg13 R,DNb06,L,0.5,-0.06,0.57,-0.4,none,0.0
+CB0244 R,1,candidate,direct+ DNg13 R,DNb06,R,0.31,-0.19,0.4,-1.9,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,MDN,R,0.44,-0.06,0.25,-1.0,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNa01,L,0.56,0.06,0.57,0.4,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNa01,R,0.56,0.0,0.63,0.0,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNg13,L,0.5,0.12,0.5,1.0,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNg13,R,1.38,-0.19,0.66,-1.1,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNp09,L,0.69,0.0,0.37,0.0,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNp09,R,0.62,-0.06,0.57,-0.4,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNb05,L,17.69,-0.44,1.36,-1.3,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNb06,L,0.5,-0.06,0.44,-0.6,none,0.0
+CB0244 R,1,random control,direct+ DNg13 R,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+CB0362 R,1,candidate,direct+ DNg13 R,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0
+CB0362 R,1,candidate,direct+ DNg13 R,MDN,R,0.44,-0.06,0.25,-1.0,none,0.0006
+CB0362 R,1,candidate,direct+ DNg13 R,DNa01,L,0.56,0.0,0.37,0.0,none,0.0
+CB0362 R,1,candidate,direct+ DNg13 R,DNa01,R,0.56,0.12,0.81,0.6,none,0.00045
+CB0362 R,1,candidate,direct+ DNg13 R,DNa02,L,0.56,0.06,0.25,1.0,none,0.0
+CB0362 R,1,candidate,direct+ DNg13 R,DNa02,R,0.19,0.19,0.4,1.9,none,0.00128
+CB0362 R,1,candidate,direct+ DNg13 R,DNg13,L,0.5,-0.06,0.44,-0.6,none,0.0
+CB0362 R,1,candidate,direct+ DNg13 R,DNg13,R,1.38,4.06,0.68,23.9,up,0.02511
+CB0362 R,1,candidate,direct+ DNg13 R,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+CB0362 R,1,candidate,direct+ DNg13 R,DNg100,R,0.06,0.0,0.0,0.0,none,5e-05
+CB0362 R,1,candidate,direct+ DNg13 R,DNp09,L,0.69,-0.25,0.58,-1.7,none,0.0
+CB0362 R,1,candidate,direct+ DNg13 R,DNp09,R,0.62,0.0,0.37,0.0,none,0.0
+CB0362 R,1,candidate,direct+ DNg13 R,DNb05,L,17.69,-0.44,1.26,-1.4,none,0.0
+CB0362 R,1,candidate,direct+ DNg13 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+CB0362 R,1,candidate,direct+ DNg13 R,DNb06,L,0.5,-0.12,0.5,-1.0,none,0.0
+CB0362 R,1,candidate,direct+ DNg13 R,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,MDN,L,0.19,-0.06,0.31,-0.8,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,MDN,R,0.44,0.03,0.22,0.6,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNa01,L,0.56,-0.06,0.25,-1.0,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNa02,L,0.56,0.12,0.34,1.5,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNg13,L,0.5,0.06,0.25,1.0,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNg13,R,1.38,-0.19,0.75,-1.0,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNp09,L,0.69,-0.19,0.4,-1.9,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNp09,R,0.62,0.0,0.52,0.0,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNb05,L,17.69,-0.19,0.83,-0.9,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNb05,R,21.19,-0.12,0.34,-1.5,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNb06,L,0.5,0.0,0.52,0.0,none,0.0
+CB0362 R,1,random control,direct+ DNg13 R,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+DNpe027 R,1,candidate,direct+ DNg13 R,MDN,L,0.19,-0.09,0.27,-1.4,none,0.0
+DNpe027 R,1,candidate,direct+ DNg13 R,MDN,R,0.44,-0.12,0.22,-2.2,none,0.0
+DNpe027 R,1,candidate,direct+ DNg13 R,DNa01,L,0.56,-0.12,0.34,-1.5,none,0.0
+DNpe027 R,1,candidate,direct+ DNg13 R,DNa01,R,0.56,-0.06,0.57,-0.4,none,0.0
+DNpe027 R,1,candidate,direct+ DNg13 R,DNa02,L,0.56,-0.06,0.44,-0.6,none,0.0
+DNpe027 R,1,candidate,direct+ DNg13 R,DNa02,R,0.19,0.0,0.0,0.0,none,4e-05
+DNpe027 R,1,candidate,direct+ DNg13 R,DNg13,L,0.5,0.0,0.37,0.0,none,0.0
+DNpe027 R,1,candidate,direct+ DNg13 R,DNg13,R,1.38,3.81,0.75,20.3,up,0.01951
+DNpe027 R,1,candidate,direct+ DNg13 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+DNpe027 R,1,candidate,direct+ DNg13 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0001
+DNpe027 R,1,candidate,direct+ DNg13 R,DNp09,L,0.69,-0.12,0.5,-1.0,none,0.0
+DNpe027 R,1,candidate,direct+ DNg13 R,DNp09,R,0.62,0.0,0.52,0.0,none,0.00014
+DNpe027 R,1,candidate,direct+ DNg13 R,DNb05,L,17.69,-0.06,1.06,-0.2,none,0.0
+DNpe027 R,1,candidate,direct+ DNg13 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+DNpe027 R,1,candidate,direct+ DNg13 R,DNb06,L,0.5,0.0,0.52,0.0,none,0.0
+DNpe027 R,1,candidate,direct+ DNg13 R,DNb06,R,0.31,0.12,0.5,1.0,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,MDN,L,0.19,-0.03,0.12,-1.0,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,MDN,R,0.44,0.09,0.2,1.9,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNa01,L,0.56,0.06,0.25,1.0,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNa01,R,0.56,-0.12,0.5,-1.0,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNa02,L,0.56,0.12,0.34,1.5,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNa02,R,0.19,-0.06,0.25,-1.0,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNg13,L,0.5,0.06,0.44,0.6,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNg13,R,1.38,-0.25,0.68,-1.5,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNp09,L,0.69,-0.12,0.5,-1.0,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNp09,R,0.62,0.0,0.37,0.0,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNb05,L,17.69,-0.19,0.75,-1.0,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNb06,L,0.5,-0.06,0.25,-1.0,none,0.0
+DNpe027 R,1,random control,direct+ DNg13 R,DNb06,R,0.31,-0.12,0.34,-1.5,none,0.0
+VES200m R,6,candidate,direct- DNg13 R,MDN,L,0.19,-0.03,0.22,-0.6,none,-0.00094
+VES200m R,6,candidate,direct- DNg13 R,MDN,R,0.44,0.03,0.29,0.4,none,-0.00079
+VES200m R,6,candidate,direct- DNg13 R,DNa01,L,0.56,0.0,0.52,0.0,none,0.0
+VES200m R,6,candidate,direct- DNg13 R,DNa01,R,0.56,0.06,0.44,0.6,none,-0.00022
+VES200m R,6,candidate,direct- DNg13 R,DNa02,L,0.56,0.12,0.5,1.0,none,0.0
+VES200m R,6,candidate,direct- DNg13 R,DNa02,R,0.19,-0.06,0.25,-1.0,none,-0.00103
+VES200m R,6,candidate,direct- DNg13 R,DNg13,L,0.5,0.25,0.58,1.7,none,0.0
+VES200m R,6,candidate,direct- DNg13 R,DNg13,R,1.38,-1.38,0.72,-7.7,down,-0.03103
+VES200m R,6,candidate,direct- DNg13 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+VES200m R,6,candidate,direct- DNg13 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+VES200m R,6,candidate,direct- DNg13 R,DNp09,L,0.69,-0.06,0.44,-0.6,none,-0.00036
+VES200m R,6,candidate,direct- DNg13 R,DNp09,R,0.62,-0.06,0.25,-1.0,none,-0.00014
+VES200m R,6,candidate,direct- DNg13 R,DNb05,L,17.69,0.06,1.12,0.2,none,0.0
+VES200m R,6,candidate,direct- DNg13 R,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+VES200m R,6,candidate,direct- DNg13 R,DNb06,L,0.5,-0.06,0.57,-0.4,none,0.0
+VES200m R,6,candidate,direct- DNg13 R,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+VES200m R,6,random control,direct- DNg13 R,MDN,L,0.19,-0.03,0.34,-0.4,none,0.0
+VES200m R,6,random control,direct- DNg13 R,MDN,R,0.44,0.03,0.34,0.4,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNa01,L,0.56,0.0,0.52,0.0,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNa01,R,0.56,0.12,0.62,0.8,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNa02,L,0.56,0.0,0.37,0.0,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNg13,L,0.5,0.25,0.68,1.5,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNg13,R,1.38,-0.12,0.62,-0.8,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNp09,L,0.69,0.0,0.73,0.0,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNp09,R,0.62,-0.12,0.5,-1.0,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNb05,L,17.69,-0.5,0.82,-2.4,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNb06,L,0.5,-0.06,0.44,-0.6,none,0.0
+VES200m R,6,random control,direct- DNg13 R,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+LC16 L,88,candidate,literature MDN,MDN,L,0.19,0.09,0.27,1.4,none,0.0
+LC16 L,88,candidate,literature MDN,MDN,R,0.44,0.09,0.2,1.9,none,0.0
+LC16 L,88,candidate,literature MDN,DNa01,L,0.56,0.06,0.68,0.4,none,0.0
+LC16 L,88,candidate,literature MDN,DNa01,R,0.56,0.25,0.58,1.7,none,0.0
+LC16 L,88,candidate,literature MDN,DNa02,L,0.56,0.12,0.5,1.0,none,0.0
+LC16 L,88,candidate,literature MDN,DNa02,R,0.19,0.0,0.0,0.0,none,0.0
+LC16 L,88,candidate,literature MDN,DNg13,L,0.5,0.12,0.5,1.0,none,0.0
+LC16 L,88,candidate,literature MDN,DNg13,R,1.38,-0.12,0.81,-0.6,none,0.0
+LC16 L,88,candidate,literature MDN,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+LC16 L,88,candidate,literature MDN,DNg100,R,0.06,0.06,0.25,1.0,none,0.0
+LC16 L,88,candidate,literature MDN,DNp09,L,0.69,0.19,0.54,1.4,none,0.0
+LC16 L,88,candidate,literature MDN,DNp09,R,0.62,0.0,0.37,0.0,none,0.0
+LC16 L,88,candidate,literature MDN,DNb05,L,17.69,-0.38,1.26,-1.2,none,0.0
+LC16 L,88,candidate,literature MDN,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+LC16 L,88,candidate,literature MDN,DNb06,L,0.5,0.06,0.77,0.3,none,0.0
+LC16 L,88,candidate,literature MDN,DNb06,R,0.31,0.06,0.44,0.6,none,0.0
+LC16 L,88,random control,literature MDN,MDN,L,0.19,-0.03,0.22,-0.6,none,0.0
+LC16 L,88,random control,literature MDN,MDN,R,0.44,0.06,0.25,1.0,none,0.0
+LC16 L,88,random control,literature MDN,DNa01,L,0.56,0.12,0.34,1.5,none,0.00024
+LC16 L,88,random control,literature MDN,DNa01,R,0.56,0.25,0.58,1.7,none,0.0003
+LC16 L,88,random control,literature MDN,DNa02,L,0.56,0.44,0.51,3.4,none,0.00013
+LC16 L,88,random control,literature MDN,DNa02,R,0.19,0.12,0.5,1.0,none,0.0
+LC16 L,88,random control,literature MDN,DNg13,L,0.5,0.25,0.45,2.2,none,0.0
+LC16 L,88,random control,literature MDN,DNg13,R,1.38,-0.06,0.77,-0.3,none,0.00064
+LC16 L,88,random control,literature MDN,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+LC16 L,88,random control,literature MDN,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+LC16 L,88,random control,literature MDN,DNp09,L,0.69,-0.31,0.6,-2.1,none,0.00048
+LC16 L,88,random control,literature MDN,DNp09,R,0.62,1.0,0.82,4.9,up,0.00225
+LC16 L,88,random control,literature MDN,DNb05,L,17.69,-0.06,1.29,-0.2,none,0.00077
+LC16 L,88,random control,literature MDN,DNb05,R,21.19,0.0,0.0,0.0,none,0.00305
+LC16 L,88,random control,literature MDN,DNb06,L,0.5,0.31,0.79,1.6,none,0.00341
+LC16 L,88,random control,literature MDN,DNb06,R,0.31,0.06,0.57,0.4,none,0.00267
+PFL3 R,12,candidate,literature DNa02,MDN,L,0.19,-0.12,0.29,-1.7,none,0.0
+PFL3 R,12,candidate,literature DNa02,MDN,R,0.44,-0.31,0.25,-5.0,none,0.0
+PFL3 R,12,candidate,literature DNa02,DNa01,L,0.56,0.31,0.7,1.8,none,0.0
+PFL3 R,12,candidate,literature DNa02,DNa01,R,0.56,-0.19,0.75,-1.0,none,0.0
+PFL3 R,12,candidate,literature DNa02,DNa02,L,0.56,3.62,0.5,29.0,up,0.01486
+PFL3 R,12,candidate,literature DNa02,DNa02,R,0.19,-0.19,0.4,-1.9,none,0.0
+PFL3 R,12,candidate,literature DNa02,DNg13,L,0.5,1.88,0.89,8.5,up,0.00032
+PFL3 R,12,candidate,literature DNa02,DNg13,R,1.38,-0.44,0.63,-2.8,none,0.0
+PFL3 R,12,candidate,literature DNa02,DNg100,L,0.12,0.06,0.25,1.0,none,0.0
+PFL3 R,12,candidate,literature DNa02,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+PFL3 R,12,candidate,literature DNa02,DNp09,L,0.69,-0.12,0.62,-0.8,none,0.0
+PFL3 R,12,candidate,literature DNa02,DNp09,R,0.62,-0.12,0.5,-1.0,none,0.0
+PFL3 R,12,candidate,literature DNa02,DNb05,L,17.69,-0.25,1.06,-0.9,none,0.0
+PFL3 R,12,candidate,literature DNa02,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+PFL3 R,12,candidate,literature DNa02,DNb06,L,0.5,-0.19,0.4,-1.9,none,0.0
+PFL3 R,12,candidate,literature DNa02,DNb06,R,0.31,0.0,0.37,0.0,none,0.0
+PFL3 R,12,random control,literature DNa02,MDN,L,0.19,-0.09,0.27,-1.4,none,-0.00018
+PFL3 R,12,random control,literature DNa02,MDN,R,0.44,-0.03,0.12,-1.0,none,-0.0014
+PFL3 R,12,random control,literature DNa02,DNa01,L,0.56,0.12,0.5,1.0,none,-0.00113
+PFL3 R,12,random control,literature DNa02,DNa01,R,0.56,0.0,0.37,0.0,none,-0.00075
+PFL3 R,12,random control,literature DNa02,DNa02,L,0.56,0.19,0.4,1.9,none,0.0
+PFL3 R,12,random control,literature DNa02,DNa02,R,0.19,0.06,0.44,0.6,none,0.0
+PFL3 R,12,random control,literature DNa02,DNg13,L,0.5,0.12,0.34,1.5,none,0.0
+PFL3 R,12,random control,literature DNa02,DNg13,R,1.38,-0.19,0.75,-1.0,none,0.0
+PFL3 R,12,random control,literature DNa02,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+PFL3 R,12,random control,literature DNa02,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+PFL3 R,12,random control,literature DNa02,DNp09,L,0.69,-0.12,0.62,-0.8,none,0.0
+PFL3 R,12,random control,literature DNa02,DNp09,R,0.62,0.0,0.37,0.0,none,0.00028
+PFL3 R,12,random control,literature DNa02,DNb05,L,17.69,-0.31,1.45,-0.9,none,0.0
+PFL3 R,12,random control,literature DNa02,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+PFL3 R,12,random control,literature DNa02,DNb06,L,0.5,0.06,0.57,0.4,none,0.0
+PFL3 R,12,random control,literature DNa02,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+DNp09 L,1,candidate,literature DNa02,MDN,L,0.19,-0.03,0.22,-0.6,none,0.00056
+DNp09 L,1,candidate,literature DNa02,MDN,R,0.44,0.06,0.36,0.7,none,0.00057
+DNp09 L,1,candidate,literature DNa02,DNa01,L,0.56,-0.12,0.34,-1.5,none,0.0
+DNp09 L,1,candidate,literature DNa02,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+DNp09 L,1,candidate,literature DNa02,DNa02,L,0.56,0.31,0.48,2.6,none,0.00188
+DNp09 L,1,candidate,literature DNa02,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+DNp09 L,1,candidate,literature DNa02,DNg13,L,0.5,0.06,0.25,1.0,none,0.0
+DNp09 L,1,candidate,literature DNa02,DNg13,R,1.38,-0.25,0.58,-1.7,none,0.0
+DNp09 L,1,candidate,literature DNa02,DNg100,L,0.12,0.0,0.0,0.0,none,0.0001
+DNp09 L,1,candidate,literature DNa02,DNg100,R,0.06,0.0,0.0,0.0,none,0.00025
+DNp09 L,1,candidate,literature DNa02,DNp09,L,0.69,47.62,1.09,175.1,up,0.0
+DNp09 L,1,candidate,literature DNa02,DNp09,R,0.62,0.06,0.25,1.0,none,0.0
+DNp09 L,1,candidate,literature DNa02,DNb05,L,17.69,-0.31,1.3,-1.0,none,0.0
+DNp09 L,1,candidate,literature DNa02,DNb05,R,21.19,0.0,0.0,0.0,none,0.0
+DNp09 L,1,candidate,literature DNa02,DNb06,L,0.5,-0.12,0.62,-0.8,none,0.0
+DNp09 L,1,candidate,literature DNa02,DNb06,R,0.31,-0.06,0.44,-0.6,none,0.0
+DNp09 L,1,random control,literature DNa02,MDN,L,0.19,-0.06,0.31,-0.8,none,0.0
+DNp09 L,1,random control,literature DNa02,MDN,R,0.44,0.09,0.27,1.4,none,0.0
+DNp09 L,1,random control,literature DNa02,DNa01,L,0.56,0.0,0.37,0.0,none,0.0
+DNp09 L,1,random control,literature DNa02,DNa01,R,0.56,0.0,0.52,0.0,none,0.0
+DNp09 L,1,random control,literature DNa02,DNa02,L,0.56,0.12,0.34,1.5,none,0.0
+DNp09 L,1,random control,literature DNa02,DNa02,R,0.19,0.0,0.37,0.0,none,0.0
+DNp09 L,1,random control,literature DNa02,DNg13,L,0.5,0.12,0.5,1.0,none,0.0
+DNp09 L,1,random control,literature DNa02,DNg13,R,1.38,-0.12,0.62,-0.8,none,0.0
+DNp09 L,1,random control,literature DNa02,DNg100,L,0.12,0.0,0.0,0.0,none,0.0
+DNp09 L,1,random control,literature DNa02,DNg100,R,0.06,0.0,0.0,0.0,none,0.0
+DNp09 L,1,random control,literature DNa02,DNp09,L,0.69,-0.12,0.62,-0.8,none,0.0
+DNp09 L,1,random control,literature DNa02,DNp09,R,0.62,-0.19,0.4,-1.9,none,0.0
+DNp09 L,1,random control,literature DNa02,DNb05,L,17.69,-0.06,1.0,-0.3,none,0.0
+DNp09 L,1,random control,literature DNa02,DNb05,R,21.19,-0.06,0.25,-1.0,none,0.0
+DNp09 L,1,random control,literature DNa02,DNb06,L,0.5,-0.12,0.62,-0.8,none,0.0
+DNp09 L,1,random control,literature DNa02,DNb06,R,0.31,-0.06,0.25,-1.0,none,0.0
