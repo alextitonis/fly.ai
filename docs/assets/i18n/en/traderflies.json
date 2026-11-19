@@ -1901,7 +1901,19 @@
     "sellPct": "Sell {pct}% of {sym}",
     "sellNote": "Sell: your fly sells it into dollars at its next bar (up to 15 minutes). Its brain may buy back in later if it still likes the token. $FLYAI is never sold under what it cost.",
     "sellAsked": "Selling {pct}% of {sym} at the next bar (up to 15 minutes).",
-    "withdrawnIn": "{usd} withdrawn"
+    "withdrawnIn": "{usd} withdrawn",
+    "pool": {
+      "title": "Fly Pool",
+      "tag": "pool",
+      "tip": "Your share of the Fly Pool: small flies' money traded together",
+      "about": "Small flies trade together as one big wallet: each owns its share of everything the pool holds, and its trades show here as your own. Automatic: flies under $25 on Let it fly join. A withdrawal brings your part home first.",
+      "choice": "Fly Pool:",
+      "auto": "Automatic (under $25)",
+      "on": "In the pool",
+      "off": "Out of the pool",
+      "line": "In the Fly Pool: {{pct}}% of it, worth {{usd}}. Its holdings and trades below are your share.",
+      "home": "{{usd}} on its way home"
+    }
   },
   "profile": {
     "title": "Your profile",

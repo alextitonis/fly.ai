@@ -1901,7 +1901,19 @@
     "sellPct": "Vender el {pct}% de {sym}",
     "sellNote": "Vender: tu fly lo vende a dólares en su próximo ciclo (hasta 15 minutos). Su cerebro puede volver a comprar más tarde si el token le sigue gustando. $FLYAI nunca se vende por debajo de lo que costó.",
     "sellAsked": "Vendiendo el {pct}% de {sym} en el próximo ciclo (hasta 15 minutos).",
-    "withdrawnIn": "{usd} retirado"
+    "withdrawnIn": "{usd} retirado",
+    "pool": {
+      "title": "Fly Pool",
+      "tag": "pool",
+      "tip": "Tu parte del Fly Pool: el dinero de las moscas pequeñas operado junto",
+      "about": "Las moscas pequeñas operan juntas como una gran billetera: cada una posee su parte de todo lo que tiene el pool, y sus operaciones aparecen aquí como tuyas. Automático: se unen las moscas de menos de $25 en Let it fly. Un retiro trae primero tu parte.",
+      "choice": "Fly Pool:",
+      "auto": "Automático (menos de $25)",
+      "on": "En el pool",
+      "off": "Fuera del pool",
+      "line": "En el Fly Pool: {{pct}}% de él, vale {{usd}}. Sus tenencias y operaciones de abajo son tu parte.",
+      "home": "{{usd}} en camino de vuelta"
+    }
   },
   "profile": {
     "title": "Tu perfil",

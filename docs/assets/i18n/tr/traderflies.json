@@ -1901,7 +1901,19 @@
     "sellPct": "{sym} tutarının %{pct} kadarını sat",
     "sellNote": "Sat: fly'ın bunu bir sonraki turunda (en fazla 15 dakika) dolara satar. Beyni token'ı hâlâ beğenirse daha sonra yeniden alabilir. $FLYAI maliyetinin altında asla satılmaz.",
     "sellAsked": "{sym} tutarının %{pct} kadarı bir sonraki turda (en fazla 15 dakika) satılıyor.",
-    "withdrawnIn": "{usd} çekildi"
+    "withdrawnIn": "{usd} çekildi",
+    "pool": {
+      "title": "Fly Pool",
+      "tag": "havuz",
+      "tip": "Fly Pool'daki payın: küçük sineklerin parası birlikte işlem görür",
+      "about": "Küçük sinekler tek büyük cüzdan gibi birlikte işlem yapar: her biri havuzdaki her şeyden kendi payına sahiptir ve işlemleri burada seninki gibi görünür. Otomatik: Let it fly'daki 25$ altı sinekler katılır. Çekim, önce payını geri getirir.",
+      "choice": "Fly Pool:",
+      "auto": "Otomatik (25$ altı)",
+      "on": "Havuzda",
+      "off": "Havuz dışında",
+      "line": "Fly Pool'da: %{{pct}} payın, değeri {{usd}}. Aşağıdaki varlıklar ve işlemler senin payın.",
+      "home": "{{usd}} geri dönüyor"
+    }
   },
   "profile": {
     "title": "Profilin",

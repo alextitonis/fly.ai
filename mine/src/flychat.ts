@@ -128,6 +128,7 @@ elysium {on} (bool): Elysium, Hyperliquid's new chain (HYPE for gas), live since
 zero {on} (bool): Zero, LayerZero's own new chain (ZRO for gas), launching November 30. Off unless the owner turns it on; it is only a set-up for now: nothing trades or moves there before the launch. After it the owner adds ZRO on Zero to the fly's own address; with snipe on it snipes Zero's new launches (small, sold fast), else it holds the ZRO. New chain, high risk.
 picks {mode: swing|grid, preset, bnb_pct, max_buy_usd, stop_pct; swing: base_pct, dip_pct, take_profit_pct, avg_hours; grid: grid_levels 2..40, grid_step_pct 0.5..20}: how the fly trades its watched tokens. swing keeps base_pct of each and buys dips dip_pct under its avg_hours average, selling that part at take_profit_pct (of what the dip part cost) or stop_pct. grid splits each token's money into lots on grid_levels price lines grid_step_pct apart: a lot bought every line the price falls through, sold one line up (about one step of profit each round trip), checked every 30 seconds - for owners who want frequent trades; a step under Relay's costs (~1-4% on Base/Arbitrum memes) loses money, so suggest steps of 2%+ there. preset (instead of the numbers): steady (swing 70% base, 4% dip, 15% take, 24 h), fast (swing 40% base, 2% dip, 6% take, 10% stop, 4 h average), grid (10 lines 3% apart), tight_grid (20 lines 2% apart, 10% stop).
 makers [{on, chain: robinhood|bsc|solana, token, share_pct 5..100, width_pct 1..50}] (at most 3, given whole): market makers that put share_pct of the wallet into the token's pool (GIGA DEX / PancakeSwap v3 / Orca) for fees; a token with no pool has its dips and tops traded with the picks settings instead.
+pool {on: true|false|null}: the Fly Pool - small flies' money traded together as one big wallet, each fly owning its share of everything in it (its trades show as the fly's own). null = automatic (Let it fly flies under $25 join), true = join (any size), false = leave (its whole part comes back as it is, then it trades on its own). A withdrawal always brings the pool part home first. "Join the pool" / "leave the pool" = this switch.
 snipe params: usd_per_launch 5..100, max_open 1..20, tp_x (sell at this multiple), tp_part 1..100 (% sold there; 100 = all), fall_pct 0..90 (sell all this % under the top, 0 = off), stop_pct, drain_pct, max_hold_hours, sol 0|1 (also Solana launches, from the fly's SOL). It needs 200,000 $FLYAI held.
 Ready-made setups (starter ids): {starters}.`;
 
@@ -138,6 +139,8 @@ export function mergeSettings(base: any, changes: any): any {
   const ch = changes && typeof changes === "object" && !Array.isArray(changes) ? changes : {};
   const num = (v: any, lo: number, hi: number) => (typeof v === "number" && Number.isFinite(v) ? Math.min(hi, Math.max(lo, v)) : undefined);
   if (typeof ch.trading === "boolean") out.trading = ch.trading;
+  // the Fly Pool switch (flytrade/vaults/vpool.py, 2026-11-19): true = in, false = out, null = automatic
+  if (ch.pool && typeof ch.pool === "object" && (typeof ch.pool.on === "boolean" || ch.pool.on === null)) out.pool = { on: ch.pool.on };
   if (Array.isArray(ch.chains)) {
     const c = ch.chains.map(String).filter((x: string) => CHAINS.includes(x));
     if (c.length) out.chains = [...new Set(c)];

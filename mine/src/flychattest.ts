@@ -35,6 +35,10 @@ check("merge: options by id, params kept, unknown ids dropped", m.options.length
 { const sn = mergeSettings(SETTINGS, { options: [{ id: "snipe", on: true, share_pct: 30, params: { fall_pct: 15, tp_part: 100, sol: 1 } }] });
   const o = sn.options.find((x: any) => x.id === "snipe");
   check("merge: the chat can switch the sniper on and set its drop, take and Solana", !!o && o.params.fall_pct === 15 && o.params.tp_part === 100 && o.params.sol === 1, JSON.stringify(o)); }
+{ const p1 = mergeSettings(SETTINGS, { pool: { on: false } }), p2 = mergeSettings(SETTINGS, { pool: { on: null } }),
+        p3 = mergeSettings(SETTINGS, { pool: { on: "yes" } });
+  check("merge: the chat switches the Fly Pool off / back to automatic, nonsense ignored",
+    p1.pool?.on === false && p2.pool?.on === null && p3.pool === SETTINGS.pool, JSON.stringify([p1.pool, p2.pool, p3.pool])); }
 { const e = mergeSettings(SETTINGS, { elysium: { on: true } });
   check("merge: the chat sets the fly up for Elysium and the style stays", e.elysium?.on === true && e.starter === "let_it_fly", JSON.stringify(e));
   const k = cardOf({ name: "change_settings", args: { summary: "Just earn", starter: "just_earn" } }, { ...SETTINGS, elysium: { on: true } }, STARTERS);

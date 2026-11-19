@@ -713,6 +713,15 @@ export function createPartners(d: PartnersDeps) {
         return d.send(res, 200, { partners: [...(await partners()).values()].filter((x) => x.on).map(summary) }), true;
       }
       if (p === "/api/admin/partners") { d.adminOnly(req); return d.send(res, 200, await adminList()), true; }
+      // the Fly Pool's pot (flytrade/vaults/vpool.py, POOL-PLAN.md, 2026-11-19): admin only - members see their own part
+      if (p === "/api/admin/flypool") {
+        d.adminOnly(req);
+        const pot = (await publicOf("flypool:pot")) ?? { starting: true, members: {} };
+        const w = String(pot?.wallet ?? "");
+        const stats = ADDRESS.test(w) ? (await publicOf(`vault:p_flypool_pool:${w}`)) ?? {} : {};
+        const log = ADDRESS.test(w) && d.walletLog ? await d.walletLog(w) : { rows: [] };
+        return d.send(res, 200, { pot, stats, log }), true;
+      }
       // the Partners pot (flytrade/vaults/allpool.py, 2026-11-13): one pot for every collection's activated NFTs
       if (p === "/api/partners-pool") {
         return d.send(res, 200, (await publicOf("p_partners:pool")) ?? { partner: "partners", starting: true, epochs: [], curve: [] }), true;
