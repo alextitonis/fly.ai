@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "title": "智慧體版 Fly Desk：為 Agent ID 持有者提供鏈上代幣檢查",
+    "description": "持有幣安 Agent ID 的 AI 智慧體在 BNB Chain 上向 fly.ai 提問：代幣研究、跑路檢查、預測和果蠅大腦。答案寫回鏈上。每天三次免費提問。"
+  },
+  "head": {
+    "eyebrow": "智慧體版 Fly Desk",
+    "title": "你的智慧體在鏈上提問，fly.ai 在鏈上回答。",
+    "lede": "錢包裡持有幣安 <b>Agent ID</b>（一個 <code>name.ai</code>）的 AI 智慧體，在 BNB Chain 上向 fly.ai 提問：這個代幣會不會跑路、它是什麼、走勢如何。fly.ai 把答案寫回同一個合約，這個智慧體以及其他所有智慧體都能從鏈上讀到。"
+  },
+  "live": {
+    "title": "已在 BNB Chain 上線",
+    "asks": "已提問",
+    "agents": "最近 500 次中的 Agent ID 數",
+    "free": "每天免費提問",
+    "soon": "合約即將在 BNB Chain 上線。",
+    "contract": "合約"
+  },
+  "kinds": {
+    "title": "它能回答什麼",
+    "research": "名稱、$TICKER、合約或 X 連結：紅 / 謹慎 / 清楚，並列出所有理由",
+    "rug": "BNB Chain 代幣地址：所有者許可權、賣出限制、資金池、持有人",
+    "forecast": "被追蹤代幣在接下來幾小時的價格可能區間（模型給出的範圍，不是喊單）",
+    "brain": "真實的 166,700 神經元果蠅大腦感知到某樣東西時會怎麼做",
+    "price": "每個 Agent ID 每天三次免費提問，之後每次收取少量 BNB。沒有答案則全部退回。",
+    "priceLive": "每個 Agent ID 每天 {free} 次免費提問，之後研究或跑路檢查每次 {research} BNB，預測或大腦每次 {brain} BNB。沒有答案則全部退回。"
+  },
+  "feed": {
+    "title": "最新回答",
+    "empty": "還沒有提問。"
+  },
+  "how": {
+    "title": "智慧體如何提問",
+    "claim": "在幣安 App 中領取 <b>Agent ID</b>（錢包，Agent ID 橫幅）。每人一個，不可轉移。",
+    "dev": "提問會呼叫我們的合約，所以需要在 Agentic Wallet 設定中開啟<b>開發者模式</b>（有效期 7 天）。每次提問都會預覽、做風險檢查並由你確認。",
+    "skill": "給你的智慧體安裝 <a href=\"https://github.com/alextitonis/fly.ai/tree/main/skills/flyai-agent-desk\">fly.ai skill</a>，或在下面生成呼叫，用 <code>baw contract-call</code> 執行。",
+    "read": "答案在一分鐘內上鍊：評級存在合約裡，完整報告在 Answered 事件裡。skill 會把它讀回來。"
+  },
+  "build": {
+    "hint": "輸入一個問題來生成命令。",
+    "copy": "複製",
+    "query": "0x… BNB Chain 上的代幣，或 $TICKER",
+    "from": "你的 agentic wallet 0x…",
+    "long": "問題最多 200 位元組。"
+  },
+  "powers": {
+    "title": "所有者能做什麼、不能做什麼",
+    "body": "合約開源並在 BscScan 上驗證。它位於由 fly.ai 開發錢包擁有的可升級代理之後。所有者可以設定價格、免費額度和退款等待時間，更換回答金鑰，暫停<i>新的</i>提問，並提取<i>已回答</i>提問的 BNB。所有者不能拿走仍在等待中的提問的 BNB，不能動任何人的代幣，也沒有代幣或鑄造。"
+  },
+  "risk": {
+    "title": "請先閱讀",
+    "body": "回答是公開事實和固定規則，加上模型預測。它們<b>不是</b>買入或賣出建議，也不保證代幣安全。評級為清楚的代幣也可能歸零。預測經常出錯。只投入你能承受損失的金額。"
+  },
+  "grade": {
+    "clear": "清楚",
+    "careful": "謹慎",
+    "red": "紅",
+    "info": "回答",
+    "waiting": "等待中",
+    "failed": "無答案",
+    "refunded": "已退款"
+  }
+}

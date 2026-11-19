@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" data-i18n-ns="agentid">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="agentid.meta.title">Fly Desk for agents: on-chain token checks for Agent ID holders</title>
+<meta name="description" content="AI agents with a Binance Agent ID ask fly.ai on BNB Chain: token research, rug checks, forecasts and the fly brain. The answer is written back on chain. Three free asks a day." data-i18n-attr="content:agentid.meta.description">
+<meta property="og:title" content="Fly Desk for agents by fly.ai">
+<meta property="og:description" content="Your agent asks on BNB Chain, fly.ai answers on chain. Rug checks and token research for Agent ID holders.">
+<meta property="og:image" content="https://flyaiworld.com/assets/og/scan.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@flydotai">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://flyaiworld.com/agent-id">
+<meta property="og:url" content="https://flyaiworld.com/agent-id">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fly.ai">
+<meta name="twitter:image" content="https://flyaiworld.com/assets/og/scan.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Fly Desk for agents: on-chain token checks for Agent ID holders",
+  "url": "https://flyaiworld.com/agent-id",
+  "inLanguage": "en",
+  "isPartOf": { "@type": "WebSite", "name": "fly.ai", "url": "https://flyaiworld.com/" },
+  "publisher": { "@type": "Organization", "name": "fly.ai", "url": "https://flyaiworld.com/", "logo": "https://flyaiworld.com/assets/logo.webp" },
+  "description": "AI agents with a Binance Agent ID ask fly.ai on BNB Chain: token research, rug checks, forecasts and the fly brain. The answer is written back on chain.",
+  "image": "https://flyaiworld.com/assets/og/scan.jpg"
+}
+</script>
+<script src="assets/i18n/boot.js"></script>
+<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/agent-id.css?v=20261119a">
+</head>
+<body>
+
+<nav aria-label="Main"></nav>
+<header class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="agentid.head.eyebrow">Fly Desk for agents</p>
+    <h1 data-i18n="agentid.head.title">Your agent asks on chain. fly.ai answers on chain.</h1>
+    <p class="lede" data-i18n-html="agentid.head.lede">An AI agent whose wallet holds a Binance <b>Agent ID</b> (a <code>name.ai</code>) asks fly.ai a question on BNB Chain: is this token a rug, what is it, where is it heading. fly.ai writes the answer back to the same contract, so the agent, and every other agent, can read it from the chain.</p>
+  </div>
+</header>
+
+<section class="firstsec aid">
+  <div class="wrap">
+    <div class="grid2 aid-stats">
+      <div class="card pad">
+        <span class="num" data-i18n="agentid.live.title">Live on BNB Chain</span>
+        <div class="aid-figs">
+          <div><b id="aid-asks">–</b><span data-i18n="agentid.live.asks">questions asked</span></div>
+          <div><b id="aid-agents">–</b><span data-i18n="agentid.live.agents">Agent IDs in the last 500</span></div>
+          <div><b id="aid-free">–</b><span data-i18n="agentid.live.free">free asks a day</span></div>
+        </div>
+        <p class="aid-muted" id="aid-contract"><span data-i18n="agentid.live.soon">The contract goes live on BNB Chain soon.</span></p>
+      </div>
+      <div class="card pad">
+        <span class="num" data-i18n="agentid.kinds.title">What it answers</span>
+        <ul class="aid-kinds">
+          <li><b>0 · research</b> <span data-i18n="agentid.kinds.research">a name, $TICKER, contract or X link: red / careful / clear, with every reason</span></li>
+          <li><b>1 · rug</b> <span data-i18n="agentid.kinds.rug">a BNB Chain token address: owner powers, sell blocks, pools, holders</span></li>
+          <li><b>2 · forecast</b> <span data-i18n="agentid.kinds.forecast">where a tracked token's price may go in the next hours (a model's range, not a call)</span></li>
+          <li><b>3 · brain</b> <span data-i18n="agentid.kinds.brain">what the real 166,700-neuron fly brain does when it senses something</span></li>
+        </ul>
+        <p class="aid-muted" id="aid-prices" data-i18n="agentid.kinds.price">Three free asks a day per Agent ID, then a small BNB fee per ask. No answer means everything goes back.</p>
+      </div>
+    </div>
+
+    <div class="card pad aid-feed">
+      <h3 data-i18n="agentid.feed.title">Latest answers</h3>
+      <ul class="aid-list" id="aid-feed"><li class="aid-muted" data-i18n="agentid.feed.empty">No questions yet.</li></ul>
+    </div>
+
+    <div class="card pad aid-how">
+      <h3 data-i18n="agentid.how.title">How an agent asks</h3>
+      <ol>
+        <li data-i18n-html="agentid.how.claim">Claim an <b>Agent ID</b> in the Binance app (Wallet, the Agent ID banner). One per person, it can't be moved.</li>
+        <li data-i18n-html="agentid.how.dev">Asking calls our contract, so turn on <b>Developer Mode</b> in the Agentic Wallet settings (it lasts 7 days). Every ask is previewed, risk-checked and confirmed by you.</li>
+        <li data-i18n-html="agentid.how.skill">Give your agent the <a href="https://github.com/alextitonis/fly.ai/tree/main/skills/flyai-agent-desk">fly.ai skill</a>, or build the call below and run it with <code>baw contract-call</code>.</li>
+        <li data-i18n="agentid.how.read">The answer lands on chain in under a minute: the grade in the contract, the full report in the Answered event. The skill reads it back.</li>
+      </ol>
+
+      <div class="aid-build">
+        <div class="aid-row">
+          <select id="aid-kind" aria-label="Kind">
+            <option value="1">1 · rug</option>
+            <option value="0">0 · research</option>
+            <option value="2">2 · forecast</option>
+            <option value="3">3 · brain</option>
+          </select>
+          <input id="aid-query" spellcheck="false" placeholder="0x… token on BNB Chain, or a $TICKER" data-i18n-attr="placeholder:agentid.build.query" aria-label="Question">
+          <input id="aid-from" spellcheck="false" placeholder="your agentic wallet 0x…" data-i18n-attr="placeholder:agentid.build.from" aria-label="Agentic wallet">
+        </div>
+        <pre class="aid-cmd" id="aid-cmd" data-i18n="agentid.build.hint">Type a question to build the command.</pre>
+        <button class="btn" type="button" id="aid-copy" data-i18n="agentid.build.copy">Copy</button>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card pad">
+        <h3 data-i18n="agentid.powers.title">What the owner can and can't do</h3>
+        <p data-i18n-html="agentid.powers.body">The contract is open source and verified on BscScan. It sits behind an upgradeable proxy owned by the fly.ai dev wallet. The owner can set prices, the free quota and the refund wait, change the answering key, pause <i>new</i> asks, and withdraw BNB from <i>answered</i> asks. The owner can't take BNB from asks still waiting, can't move anyone's tokens, and there is no token or minting.</p>
+      </div>
+      <div class="card pad notreal">
+        <h3 data-i18n="agentid.risk.title">Read this first</h3>
+        <p data-i18n-html="agentid.risk.body">Answers are public facts and fixed rules, plus model forecasts. They are <b>not</b> a buy or sell call and not a promise that a token is safe. A clear grade can still go to zero. Forecasts are often wrong. Never put in more than you'd be fine losing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- @footer -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="/start">Start here: buy $FLYAI</a>
+      <a href="/press">Press kit</a>
+      <a href="https://x.com/flydotai" target="_blank" rel="noopener">X @flydotai</a>
+      <a href="https://discord.gg/2KqfZs4aK8" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/+Cs5zp1zmD5NjMmI1" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://github.com/alextitonis/fly.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alextitonis/fly.ai/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p>Connectome data: MaleCNS v1.0 by FlyEM (HHMI Janelia) and collaborators, used under CC BY 4.0. Code MIT licensed.</p>
+  </div>
+</footer>
+<!-- /@footer -->
+
+<script src="assets/site.js"></script>
+<script src="assets/nav.js?v=20261118e"></script>
+<script type="module" src="assets/i18n/page.js"></script>
+<script type="module" src="assets/agent-id.js?v=20261119b"></script>
+</body>
+</html>
