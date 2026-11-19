@@ -95,24 +95,26 @@ of those readouts is also scored with its training labels permuted.
 
 | task | connectome | weight-shuffle | rewired | Erdős–Rényi | winner |
 |---|---|---|---|---|---|
-| digits (600) | 0.497 ± 0.038 | 0.348 ± 0.034 | 0.329 ± 0.023 | 0.548 ± 0.025 | Erdős–Rényi |
-| eye position (L/C/R) | 0.347 ± 0.115 | 0.453 ± 0.054 | 0.347 ± 0.051 | 0.578 ± 0.057 | Erdős–Rényi |
+| digits (600) | 0.497 ± 0.038 | 0.348 ± 0.034 | 0.329 ± 0.023 | 0.548 ± 0.025 | none robust (ER ahead 4/5, p ≈ 0.13) |
+| eye position (L/C/R) | 0.347 ± 0.115 (at chance; beats shuffled-label baseline on 1/5 seeds) | 0.453 ± 0.054 | 0.347 ± 0.051 | 0.578 ± 0.057 | Erdős–Rényi |
 
 Mean ± sample sd over seeds 0–4. On digits the connectome beats weight-shuffle on 5/5 seeds
 (+0.111, +0.137, +0.183, +0.209, +0.105; paired t=7.31, two-sided p=0.002) and beats rewired
 on 5/5 (+0.118, +0.170, +0.176, +0.190, +0.183; paired t=13.03, two-sided p=0.000 at three
 decimals). Erdős–Rényi is the only control ahead of the connectome, on 4/5 seeds, by +0.137,
-+0.033, -0.013, +0.013, +0.085 (paired t=1.90, two-sided p=0.131). That margin is not robust.
-Weight-shuffle keeps the pairs and scrambles the weights, and it falls from 0.497 to 0.348, so
-on digits the weight arrangement on the real pairs matters.
++0.033, -0.013, +0.013, +0.085 (paired t=1.90, two-sided p=0.131). That margin is not robust,
+so the winner cell reads none robust (ER ahead 4/5, p ≈ 0.13). The cell's p ≈ 0.13 is that
+printed p=0.131. Weight-shuffle keeps the pairs and scrambles the weights, and it falls from
+0.497 to 0.348, so on digits the weight arrangement on the real pairs matters.
 
 On eye position there are 45 test samples. Analytic 3-class chance is 0.333, se 0.070. The
 connectome and the rewired network both score 0.347, inside that band. The shuffled-label
 baseline scored connectome 0.373 ± 0.067, weight-shuffle 0.302 ± 0.095, rewired 0.289 ± 0.016
-and Erdős–Rényi 0.373 ± 0.102. The connectome's 0.347 is below its own baseline mean, and its
-real score is lower than that permutation on 4/5 seeds, so the eye readout does not beat a
-label shuffle. Erdős–Rényi beats the connectome on 5/5 seeds (+0.333, +0.244,
-+0.111, +0.244, +0.222; paired t=6.50, two-sided p=0.003).
+and Erdős–Rényi 0.373 ± 0.102. The connectome scores at chance on eye position. It beats its
+shuffled-label baseline on only 1/5 seeds (seed 2: 0.533 vs 0.333; the other four are lower:
+0.244 vs 0.289, 0.289 vs 0.378, 0.378 vs 0.467, 0.289 vs 0.400). Erdős–Rényi beats the
+connectome on 5/5 seeds (+0.333, +0.244, +0.111, +0.244, +0.222; paired t=6.50, two-sided
+p=0.003).
 
 Measured with flybrain 0.1.1, Python 3.12.4, scikit-learn 1.9.1, numpy 2.5.5, scipy 1.18.1 and
 numba 0.68.1 on a 12-thread Apple-Silicon CPU. One run of this revision took 33 min 47 s
