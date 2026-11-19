@@ -8,7 +8,7 @@
     "build": "tsc --noEmit && vite build && esbuild electron/main.ts electron/preload.ts --bundle --platform=node --external:electron --format=cjs --outdir=dist-electron --out-extension:.js=.cjs --log-level=warning",
     "start": "npm run build && electron .",
     "dist": "npm run build && electron-builder --publish never",
-    "test": "node --disable-warning=ExperimentalWarning src/mood.test.ts",
+    "test": "node --disable-warning=ExperimentalWarning src/mood.test.ts && node --disable-warning=ExperimentalWarning src/logic.test.ts",
     "preview": "vite preview --port 1421 --strictPort",
     "store": "npm run build && node build/store.cjs"
   },

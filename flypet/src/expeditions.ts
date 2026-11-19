@@ -2,7 +2,8 @@
 // back with things to wear. The trip runs on the server's clock: here there's only a countdown, so it costs this PC
 // nothing. This module draws the Expeditions card inside the fly's chat panel (talk.ts) and tells the pet (pet.ts) when
 // the fly leaves, comes back, or puts something on.
-import { currentLang, LANGS, t, type Key } from "./i18n.ts";
+import { t, type Key } from "./i18n.ts";
+import { nameOf, span, tripState } from "./logic.ts";
 import {
   expCached, expClaim, expEquip, expFeed, expRead, expRecycle, expStart, prefs, setExpCached, SignedOut,
   type ExpClaim, type ExpItem, type ExpSlot, type ExpView, type Names6,
@@ -32,13 +33,8 @@ const el = <K extends keyof HTMLElementTagNameMap>(tag: K, props: Record<string,
   e.append(...kids.filter((k): k is Node | string => k != null && k !== false));
   return e;
 };
-/** a name in the app's language (the data keeps them in LANGS order) */
-export const nameOf = (names: Names6) => names[Object.keys(LANGS).indexOf(currentLang())] ?? names[0];
-/** 15m, 1h, 1h 20m */
-export function span(ms: number): string {
-  const m = Math.max(1, Math.ceil(ms / 60_000)), h = Math.floor(m / 60), r = m % 60;
-  return h ? (r ? `${t("x.hour", { n: h })} ${t("x.min", { n: r })}` : t("x.hour", { n: h })) : t("x.min", { n: m });
-}
+// nameOf and span live in logic.ts (pure, tested); kept exported from here for the other modules
+export { nameOf, span };
 const length = (minutes: number) => (minutes % 60 ? t("x.min", { n: minutes }) : t("x.hour", { n: minutes / 60 }));
 
 export interface Expeditions {
@@ -167,8 +163,7 @@ export function setupExpeditions(hooks: {
   }
   function trip() {
     const tr = v!.me.trip!;
-    const left = tr.ends_at - Date.now(), done = left <= 0;
-    const pct = Math.min(100, Math.round(((Date.now() - tr.started_at) / Math.max(1, tr.ends_at - tr.started_at)) * 100));
+    const { left, done, pct } = tripState(tr, Date.now());
     return el("div", { class: "tk-card xp-trip" },
       el("b", {}, done ? t("x.back", { place: placeName(tr.place) }) : t("x.away", { place: placeName(tr.place) })),
       done ? el("button", { class: "tk-btn", type: "button", disabled: busy, onclick: () => void claim() }, t("x.open"))
@@ -264,11 +259,11 @@ export function setupExpeditions(hooks: {
   setInterval(() => {
     const tr = v?.me.trip;
     if (box.hidden || !tr) return;
-    const left = tr.ends_at - Date.now(), done = left <= 0;
+    const { left, done, pct } = tripState(tr, Date.now());
     if (done !== wasDone) { wasDone = done; render(); return; }
     const txt = box.querySelector(".xp-left"), bar = box.querySelector<HTMLElement>(".xp-trip .xp-bar i");
     if (txt) txt.textContent = t("x.backIn", { time: span(left) });
-    if (bar) bar.style.width = `${Math.min(100, Math.round(((Date.now() - tr.started_at) / Math.max(1, tr.ends_at - tr.started_at)) * 100))}%`;
+    if (bar) bar.style.width = `${pct}%`;
   }, 1000);
 
   return { box, view: () => v, load, render, feed: feedIt };
