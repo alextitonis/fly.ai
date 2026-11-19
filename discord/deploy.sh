@@ -36,6 +36,6 @@ trap 'rm -rf "$STAGE" 2>/dev/null || true' EXIT
 cp "$HERE"/{Dockerfile,fly.toml,package.json,package-lock.json,start.mjs} "$STAGE/"
 cp -r "$HERE/src" "$STAGE/src"
 mkdir -p "$STAGE/acp"
-cp "$ROOT"/flytrade/acp/{offerings.json,provider.mjs,register.mjs,agentcity.mjs} "$STAGE/acp/"
+cp "$ROOT"/flytrade/acp/{offerings.json,provider.mjs,register.mjs,agentcity.mjs,services.mjs,agentdesk.mjs} "$STAGE/acp/"
 fly deploy "$STAGE" -c "$STAGE/fly.toml" --remote-only --ha=false "$@"
 echo "deployed $APP - check: fly logs -a $APP (logged in as ..., agent fly.ai ...)"

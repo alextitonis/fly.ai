@@ -6,7 +6,8 @@ import { contractCheck, holderCheck, screen, type Verdict } from "./screen.ts";
 import { codeOf, coinOf, domainAgeDays, flow, hostOf, launchesBy, oursOn, poolsOf, priceHistory, promoOf, tokenInfo, websiteOf,
   type Code, type Coin, type Flow, type Launches, type Ours, type Pool, type PriceHistory, type Promo, type TokenInfo } from "./sources.ts";
 
-export type Target = { kind: "token" | "x" | "site" | "nft"; value: string };   // nft: an OpenSea slug, or "chain:0x…"
+export type Target = { kind: "token" | "x" | "site" | "nft"; value: string;   // nft: an OpenSea slug, or "chain:0x…"
+  chain?: string };   // a DexScreener chain id the asker means (the BNB Chain agent desk: "bsc"); none = any chain
 
 const DOMAIN = /\b((?:[a-z0-9-]+\.)+(?:com|io|ai|xyz|app|fun|finance|org|net|gg|co|lol|money|dev|meme|exchange|trade|fi|me|so|sh|tech|site|online))\b(\/\S*)?/i;
 const ADDRESS = /0x[0-9a-fA-F]{40}/;
@@ -77,7 +78,15 @@ export async function readX(handle: string): Promise<XProfile | null> {
 }
 
 /** The token a name, ticker or address means: an exact match first, deepest pool. `copies`: other tokens wearing that ticker. */
-export async function findToken(query: string): Promise<{ pair: DexPair; copies: number } | null> {
+export async function findToken(query: string, chain?: string): Promise<{ pair: DexPair; copies: number } | null> {
+  // an address on a named chain: that token's own pools there (a search lists ~30 pairs and can miss the deep ones:
+  // 2026-11-19 CAKE's BNB Chain address came back as a $799/day pool)
+  if (chain && ADDRESS.test(query)) {
+    const own: DexPair[] = await json(`https://api.dexscreener.com/tokens/v1/${chain}/${ADDRESS.exec(query)![0]}`).catch(() => null) ?? [];
+    const q = ADDRESS.exec(query)![0].toLowerCase();
+    const mine = (Array.isArray(own) ? own : []).filter((p) => p.baseToken?.address?.toLowerCase() === q);
+    if (mine.length) return { pair: [...mine].sort((a, b) => (b.liquidity?.usd ?? 0) - (a.liquidity?.usd ?? 0))[0]!, copies: 0 };
+  }
   const d = await json(`https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(query)}`).catch(() => null);
   const pairs: DexPair[] = d?.pairs ?? [];
   if (!pairs.length) return null;
@@ -90,8 +99,9 @@ export async function findToken(query: string): Promise<{ pair: DexPair; copies:
   if (!pool.length) return null;   // a loose search hit is some other project: better "not found" than the wrong token's numbers
   const deepest = [...pool].sort((a, b) => (b.liquidity?.usd ?? 0) - (a.liquidity?.usd ?? 0))[0]!;
   // a ticker here usually means the Robinhood token, unless a copy elsewhere is a different league (asked for PEPE, that's Ethereum's)
-  const home = pool.filter((p) => p.chainId === "robinhood").sort((a, b) => (b.liquidity?.usd ?? 0) - (a.liquidity?.usd ?? 0))[0];
-  const best = home && (deepest.liquidity?.usd ?? 0) < Math.max(home.liquidity?.usd ?? 0, 1_000) * 100 ? home : deepest;
+  const home = pool.filter((p) => p.chainId === (chain || "robinhood")).sort((a, b) => (b.liquidity?.usd ?? 0) - (a.liquidity?.usd ?? 0))[0];
+  // a named chain wins outright (fake pools elsewhere report billions: a "$2.5B" Solana CAKE on 2026-11-19)
+  const best = home && (chain || (deepest.liquidity?.usd ?? 0) < Math.max(home.liquidity?.usd ?? 0, 1_000) * 100) ? home : deepest;
   const others = new Set(pool.map((p) => p.baseToken.address.toLowerCase()));
   others.delete(best.baseToken.address.toLowerCase());
   return { pair: best, copies: others.size };
@@ -151,7 +161,7 @@ export async function gather(t: Target): Promise<Facts> {
   if (t.kind === "x") facts.x = await readX(t.value);
   const inBio = facts.x ? ADDRESS.exec(facts.x.bio)?.[0] : null;
   const query = t.kind === "token" ? t.value : inBio ?? null;
-  const found = query ? await findToken(query) : null;
+  const found = query ? await findToken(query, t.chain) : null;
   // a contract no DEX knows may be an NFT collection's
   if (!found && t.kind === "token" && ADDRESS.test(t.value) && process.env.OPENSEA_API_KEY) {
     const nft = await collectionOfContract(ADDRESS.exec(t.value)![0]);
@@ -277,7 +287,20 @@ export function grade(f: Facts, now = Date.now()): Grade {
   const bad: string[] = [], careful: string[] = [], good: string[] = [], notes: string[] = [];
   const v = f.verdict;
   if (f.token) {
-    if (v && !v.ok && !v.failed) bad.push(...v.why);
+    if (v && !v.ok && !v.failed) {
+      // The filter reads DexScreener's pools; GeckoTerminal's (f.deep.pools) can show the real trading. An old, CoinGecko-
+      // listed coin with many holders is past what the filter's limits are for: its "top 10" are its staking/burn
+      // contracts and "can mint" is its emissions contract (2026-11-19: CAKE on BNB Chain came back red on all three).
+      const pools = f.deep?.pools ?? [];
+      const traded = pools.reduce((n, p) => n + (p.vol24 || 0), 0) >= 50_000;
+      const established = traded && !!f.deep?.info?.coin && (f.deep?.info?.holders ?? 0) >= 100_000
+        && (f.token.ageH ?? 0) >= 365 * 24 && pools.reduce((n, p) => n + (p.liq || 0), 0) >= 1_000_000;
+      for (const w of v.why) {
+        if (traded && /traded in 24h$/.test(w)) continue;
+        if (established && /^(top 10 wallets hold|owner can mint)/.test(w)) careful.push(`${w[0]!.toUpperCase()}${w.slice(1)} (an established coin: usually its staking, burn or emissions contracts)`);
+        else bad.push(w);
+      }
+    }
     if (v?.failed) careful.push("The scam checks couldn't finish, so nothing is known about its contract");
     if (!v) careful.push(`Contract and holder checks don't cover ${f.token.chain}`);
     if (v?.contractClean) good.push("No owner powers or sell blocks found in the contract");

@@ -1,4 +1,4 @@
-// One machine, two programs (2026-11-18, to save a machine): the Discord bot (src/index.ts) and fly.ai's Virtuals ACP
+// One machine, three programs (2026-11-18, to save a machine): the Discord bot (src/index.ts) and fly.ai's Virtuals ACP
 // provider agent (acp/provider.mjs, source in flytrade/acp, staged into the image by deploy.sh). Each runs as its own
 // child; when one dies it alone restarts after 10 s, the other keeps running.
 // The agent keeps its state in its own folder on the volume (ACP_DATA, default /data/acp-agent), so its files never
@@ -47,3 +47,10 @@ else {
   // so `fly ssh console` runs of the acp CLI see the same sign-in.
   run("acp", provider, { DATA_DIR: ACP_DATA, HOME: ACP_DATA });
 }
+
+// Fly Desk for agents (acp/agentdesk.mjs, 2026-11-19): answers Agent ID holders' asks on BNB Chain. Off unless its
+// secrets AGENTDESK_ADDRESS + AGENTDESK_OPERATOR_KEY are set; AGENTDESK=0 turns it off. State in /data/agentdesk.json.
+const desk = join(HERE, "acp", "agentdesk.mjs");
+if (process.env.AGENTDESK === "0") log("AGENTDESK=0: the agent desk is off");
+else if (!process.env.AGENTDESK_ADDRESS || !process.env.AGENTDESK_OPERATOR_KEY) log("agent desk not set up (AGENTDESK_ADDRESS / AGENTDESK_OPERATOR_KEY): off");
+else if (existsSync(desk)) run("agentdesk", desk, {});
