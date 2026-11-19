@@ -1,0 +1,2 @@
+# Shell scripts keep LF line endings on every checkout (core.autocrlf on Windows turned deploy.sh into CRLF: "set: pipefail" errors)
+*.sh text eol=lf
