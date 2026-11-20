@@ -4950,7 +4950,7 @@ const server = createServer(async (req, res) => {
 });
 // a job takes seconds between claim and submit; Node's 5 s default closes the idle connection just as
 // the miner reuses it
-void startFlyverse({ sessionWallet, key: () => flyChatKey });
+void startFlyverse({ sessionWallet, key: () => flyChatKey, isAmbassador: (w) => ambassadors.isAmbassador(w) });
 server.keepAliveTimeout = 65_000;
 server.headersTimeout = 66_000;
 server.listen(PORT);
