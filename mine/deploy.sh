@@ -32,6 +32,7 @@ if [ -d "$ROOT/flyverse/server" ]; then
   mkdir -p "$STAGE/flyverse/src" "$STAGE/flyverse/public/models" "$STAGE/flyverse/data"
   cp -r "$ROOT"/flyverse/server "$STAGE/flyverse/"
   cp "$ROOT"/flyverse/src/spec.ts "$ROOT"/flyverse/src/assets.ts "$ROOT"/flyverse/src/textures.ts "$STAGE/flyverse/src/"
+  mkdir -p "$STAGE/flyverse/src/games" && cp "$ROOT"/flyverse/src/games/samples.ts "$STAGE/flyverse/src/games/"
   cp "$ROOT"/flyverse/public/models/catalog.json "$STAGE/flyverse/public/models/"
   [ -d "$ROOT/flyverse/data/textures" ] && cp -r "$ROOT"/flyverse/data/textures "$STAGE/flyverse/data/"
 fi
