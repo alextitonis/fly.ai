@@ -37,7 +37,7 @@ the machine gets slow.
 | `python drone/gestures.py record` / `live` | Records your hands on a webcam; reads them live. **Neither has been run on a real camera yet** | about 5 min to record |
 | `python drone/novel.py --seed 7101` | Does it notice a colour it wasn't trained on? `--fly --train A --seed 7301` is the flight, firing events | bench several minutes, flight 1-2 min |
 | `python drone/predict.py bench` / `fly --mode one_predict --seed 7601` | One camera: does the brain remember where the target went, and does a predictor on top help? `--mode one\|one_predict\|two\|two_predict\|four`, `--rewire`, `--out clip.mp4` records a video to post (drones only, no brain panel) | bench several minutes, flight 1-2 min |
-| `python drone/avoid.py screen` / `run --mode turn --seed 7801` | Which neurons answer a pillar on one side; flying straight at a pillar. `--mode blind\|stop\|turn`, `--rewire` | several minutes each |
+| `python drone/avoid.py screen` / `dose` / `run --mode turn --seed 7801` | Which neurons answer a pillar on one side; jump vs turn across drive strengths (bench); flying straight at a pillar. `--mode blind\|stop\|turn`, `--rewire`, `--threat-max 0.15 --loom-max 0.2` | several minutes each |
 | `python drone/hear.py --seed 5051` | Sound on the bench: which ear channels drive what | about 12 min |
 | `python drone/chirp.py fly --mode sound --seed 8951` / `codes --seed 9101` / `score` | Sound in flight (`--mode sound\|silent\|mirror`, `--rewire`, `--noise`), pulsed chirps on the bench, score the flight test | flight run 1-3 min, bench about 20 min |
 | `python drone/fire.py clips --seed 9201` / `--dry` | Fire on real footage in `runs/clips/forest/`, with no colour step. Missed, see Results | about 10 min |
@@ -514,6 +514,32 @@ So this is a safe drone, not yet one that goes around things. The wiring rule is
 | Turn, scrambled wiring | 3% | 3% | 93% |
 
 GETS_PAST misses (48%, rule 60; +12 points over not turning, -5 to +28). SAFE misses (37%, rule 25; 15 fewer than blind, -3 to +32). WIRING passes (+45). A goal does end the wandering, but on a head-on approach these neurons make at best a small difference. Hits in this test are head-on by design, and it's the same test as above, so forest flights with few trees dead ahead aren't contradicted.
+
+**Capped drive: 2 of 3 rules, the third exactly on its line (2026-11-19).** `python drone/avoid.py dose --seed 7401` (bench, no flight) drives one side's LPLC2 or LC4 at nine levels. LC4 at 0.05-0.15 V already turns DNg01/DNa07/DNae004 away from the pillar (over the dead zone in 42-86% of half-second windows), while the pilot's jump rule never fires; it fires from about 0.2 V (LPLC2 from about 0.4 V). Pillars had been driving LC4 up to 0.8 V, so a close pillar fired a jump on every look: that's the stall. This matches `notebooks/escape_response.ipynb`, where DNp01 is nearly all-or-nothing above ~0.03 V/step on the whole LC4 + LPLC2 population. `--threat-max 0.15 --loom-max 0.2` keep a pillar's drive in the turning range (ours: the caps; the turning is the connectome's). With sensory feedback off the bench jumps more at low drive, so the default brain stays. No goal, no cooldown. Rules fixed first (`runs/avoid/test3/RULES.md`), fresh seeds 9971-9974, 15 trials each:
+
+| Mode | Hit | Passed | Neither |
+|---|---|---|---|
+| Turn, capped | 3% | 60% | 37% |
+| Turn, uncapped (as before) | 0% | 40% | 60% |
+| Blind to pillars | 27% | 62% | 12% |
+| Turn, capped, scrambled wiring | 0% | 0% | 100% |
+
+GETS_PAST: 60% and +20 points over uncapped (+3 to +37), exactly on both lines; `score.py` prints MISS only because 36/60 - 24/60 is 0.1999... in floating point, so call it borderline, not a pass. SAFE passes (3% hits vs blind 27%, interval +12 to +35). WIRING passes (+60). So the caps make it get past as often as flying blind while hitting a ninth as often. It still stops short in 37% of trials (seed 9971 alone passed only 4 of 15).
+
+**Caps with the goal: dropped on development seeds (2026-11-19, no test).** Adding the goal 2.5 m past the pillar (through LC10a) to the capped drive made it hit: yield 0.8 m 10 hits in 30 trials (seeds 7751-7752, same with a 2 s cooldown), yield 1.2 m 7 in 24, turn gain 1.2 10 in 24 (seeds 7751-7754). LC10a is a chase signal, and with the turn-away drive capped it wins and pulls the drone into a pillar that sits on the goal's line. No fresh seeds were spent. The next try carries the goal through PFL3, the central complex's goal neurons, instead (PLAN.md 8.3).
+
+**Goal through PFL3, or a weaker goal: 1 of 3 rules (2026-11-19).** `python drone/avoid.py goalbench --seed 7401` (bench) drives PFL3 or LC10a on one side. PFL3 turns the drone the expected way (PFL3 R turns it left), but weaker than LC10a and lopsided (DNa02 left-minus-right +1.4 vs -0.5 spikes per half second at 0.8 V), and like LC10a it also drives the turn-away neurons, so it isn't a separate route. On development seeds the goal through PFL3 still hit 6 of 24; LC10a turned down to 0.3 V hit 1 of 24, so that went to the test (`--goal --yield-near 0.8 --goal-volts 0.3` with the caps). Rules fixed first (`runs/avoid/test4/RULES.md`), fresh seeds 9981-9984, 15 trials each:
+
+| Mode, capped drive | Hit | Passed | Neither |
+|---|---|---|---|
+| Turn, weak goal | 25% | 70% | 5% |
+| Turn, no goal | 0% | 70% | 30% |
+| Blind to pillars, weak goal | 25% | 68% | 7% |
+| Turn, weak goal, scrambled wiring | 0% | 0% | 100% |
+
+GETS_PAST misses (+0 points over no goal), SAFE misses (25% hits, the same as blind), WIRING passes (+70). The development seeds' 1 hit in 24 didn't hold. With a goal straight past a pillar, the drone hits as often as when it can't see the pillar at all, so the goal, not the brain, decides head-on approaches. Without a goal the capped drive is the best setting so far: 70% passed and no hits in 60 trials here (60% and 3% in test 3).
+
+**Brake (in progress, 2026-11-19).** `python drone/avoid.py brakebench --seed 7401` (bench): DNpe023 on both sides drives MDN, the pilot's brake, smoothly (0.2 / 0.4 / 0.8 V: 0.35 / 0.13 / 0 m/s) without changing steering, turn-away or jumps. `--brake-volts V` lets a pillar close ahead drive it (ours, scaled by distance like LC4). Development flights on new seeds 7755-7756 only so far, 12 trials each, weak goal: 4 hits without the brake, 2 with 0.4 V, 2 with 0.8 V. Too few to call; not tested.
 
 Free flights among pillars can't answer this: on development seeds it rarely hits one even blind, since it trails a leader who keeps clear. Those runs hint that the stop has a
 cost: with 16 pillars it's stopped 45-52% of the time when it sees them and 17-20% blind, and within 1 m 32-46% against 62-78%. That's two seeds, not a tested result. Pillars are found

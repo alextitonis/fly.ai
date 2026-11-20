@@ -57,6 +57,9 @@ class FollowSenses(Senses):
         super().__init__(brain)
         self.leader_size = None
         self.pillars: list = []                        # camera: (bearing, size) last look, matched by bearing
+        # most volts a pillar adds to LPLC2 / LC4 per step. CAP by default; avoid.py --loom-max / --threat-max lower them into the
+        # range where the turn-away DNs answer but DNp01 doesn't jump yet (avoid.py dose, PLAN.md 8.1)
+        self.loom_cap = self.threat_cap = CAP
 
     def inject(self, things: list[Thing], wind=None, match_pillars: bool = False) -> list:
         leader = next((t for t in things if t.kind == "leader"), None)
@@ -73,9 +76,9 @@ class FollowSenses(Senses):
                 size = was[0] + SMOOTH * (t.size - was[0]) if was else t.size
                 growth = max(0.0, size - was[0]) if was and size > NEAR_SIZE else 0.0
                 side = "L" if t.bearing > 0 else "R"
-                drive[f"loom{side}"] = max(drive[f"loom{side}"], min(CAP, growth * LOOM_GAIN))
+                drive[f"loom{side}"] = max(drive[f"loom{side}"], min(self.loom_cap, growth * LOOM_GAIN))
                 if t.distance < THREAT_NEAR and abs(t.bearing) < np.radians(70):
-                    drive[f"threat{side}"] = max(drive[f"threat{side}"], CAP * (1 - t.distance / THREAT_NEAR))
+                    drive[f"threat{side}"] = max(drive[f"threat{side}"], self.threat_cap * (1 - t.distance / THREAT_NEAR))
                 now.append((t.bearing, size))
             self.pillars = now
         if leader is not None:
