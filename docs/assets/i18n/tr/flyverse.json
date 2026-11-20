@@ -10,7 +10,8 @@
     "hill": "Tepe",
     "deathmatch": "Ölüm maçı",
     "stomp": "Ezme",
-    "tag": "Ebelemece"
+    "tag": "Ebelemece",
+    "horror": "Korku"
   },
   "home": {
     "eyebrow": "Flyverse Maker · erken test",
@@ -186,7 +187,32 @@
     "tip_ask": "💛 Beğendin mi? Yapımcıya bahşiş ver (doğrudan cüzdanına) {tips}",
     "tipped": "Teşekkürler! {amount} bahşiş verdin. 💛",
     "tip_failed": "Bahşiş gönderilemedi",
-    "mute": "Ses aç/kapat"
+    "mute": "Ses aç/kapat",
+    "scared": "SENİ YAKALADI",
+    "exit_locked": "🚪 Önce tüm sayfaları bul ({n} kaldı)",
+    "exit_open": "🚪 Çıkış açıldı!",
+    "top": "👑 #1: {name} · {score}",
+    "race_top": "👻 #1 ile yarış",
+    "watch_top": "▶ #1'i izle",
+    "watching": "▶ {name} oyununu izliyorsun",
+    "watch_end": "{name} oyunuydu",
+    "watch_again": "↻ Tekrar izle",
+    "video": "🎬 Video yap",
+    "recording": "🎬 Oyunun kaydediliyor…",
+    "video_title": "Oyunun video olarak",
+    "video_tip": "Kaydet, sonra oyunun bağlantısıyla X'te veya TikTok'ta paylaş.",
+    "download": "Videoyu kaydet",
+    "video_failed": "Bu tarayıcı video kaydedemiyor",
+    "build": "🪰 Değiştir",
+    "build_ph": "Etrafındaki bölümü değiştir… (örn. buraya bir rampa ekle)",
+    "build_busy": "🪰 İnşa ediliyor…",
+    "build_done": "🪰 Bitti! {n} değişiklik",
+    "build_none": "🪰 Hiçbir şey değişmedi, başka şekilde söylemeyi dene",
+    "build_label": "İnşaatçı sinekle konuş",
+    "boss": "👑 Patron",
+    "boss_hit": "İsabet! {hp} kaldı",
+    "boss_down": "👑 Patron yenildi! +500",
+    "boss_charge": "Saldırıya geçiyor!"
   },
   "pay": {
     "waiting": "Ödemenin geçmesi bekleniyor…",
@@ -271,7 +297,9 @@
     "tree": "Ağaç",
     "rock": "Kaya",
     "flower": "Çiçek",
-    "mushroom": "Mantar"
+    "mushroom": "Mantar",
+    "stalker": "Takipçi",
+    "boss": "Patron böcek"
   },
   "wins": {
     "flag": "Bayrağa ulaş",
@@ -281,7 +309,8 @@
     "waves": "Dalgaları yen",
     "hill": "Bölgeyi tut",
     "frags": "En çok isabet",
-    "tag": "Ebelemece"
+    "tag": "Ebelemece",
+    "boss": "Patronu yen"
   },
   "grounds": {
     "void": "Hiçbir şey (gökyüzü)",
@@ -435,7 +464,11 @@
     "stop_moving": "Hareketi durdur",
     "delete": "Sil",
     "more": "⚙ Parçalar ve ayarlar",
-    "less": "▾ Ayarları gizle"
+    "less": "▾ Ayarları gizle",
+    "toon": "Çizgi film görünümü (dış hatlar, düz gölgeler)",
+    "dark": "Karanlık (sinek el feneri taşır)",
+    "unlock": "Çıkış sadece tüm altınlar alınınca açılır",
+    "hp": "Can puanı"
   },
   "misc": {
     "no_reach": "Şu an oyun yapıcıya ulaşılamıyor",
@@ -508,5 +541,46 @@
     "image": "Resmi kaydet",
     "image_tip": "Resmi kaydet ve gönderine ekle.",
     "close": "Kapat"
+  },
+  "goals": {
+    "title": "Görevler",
+    "nohit": "Hasar almadan bitir",
+    "allcoins": "Tüm altınları al",
+    "allgems": "Tüm mücevherleri bul",
+    "time": "{n} saniyenin altında bitir",
+    "stomps": "{n} böcek ez",
+    "points": "{n} puan topla",
+    "earned": "★ {total} görevden {got} tanesi",
+    "none_yet": "Görevler: {list}",
+    "add": "+ Görev ekle",
+    "remove": "Kaldır",
+    "card": "☆ {n}",
+    "new": "Yeni yıldız: {goal}!"
+  },
+  "stages": {
+    "title": "Bölümler",
+    "add": "➕ Bölüm ekle",
+    "remove": "Bu bölümü kaldır",
+    "n": "Bölüm {n}",
+    "pill": "Bölüm {n}/{total}",
+    "cleared": "Bölüm {n} geçildi!",
+    "next": "Sonraki bölüm ▶",
+    "prompt": "“{title}” oyununun {n}. bölümü: aynı oyunun bir sonraki seviyesi, daha zor, aynı tema ve dünya, yeni bir düzen. {more}",
+    "boss_chip": "👑 Patron savaşı ekle",
+    "boss_prompt": "Bir patron savaşı ekle: rotanın sonunda yuvarlak bir arena ve bir patron (kind boss, hp 6 ile 10 arası), etrafında birkaç kalp, ve kazanma şartını boss yap."
+  },
+  "skin": {
+    "title": "Sineğin",
+    "colours": "Renkler",
+    "hat": "Şapka",
+    "h_none": "Yok",
+    "h_cap": "Kep",
+    "h_crown": "Taç",
+    "h_party": "Parti şapkası",
+    "h_tophat": "Silindir şapka",
+    "h_halo": "Hale",
+    "h_bow": "Fiyonk",
+    "h_horns": "Boynuzlar",
+    "note": "Sineğin her oyunda bunu giyer."
   }
 }

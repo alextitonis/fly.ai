@@ -10,7 +10,8 @@
     "hill": "Colina",
     "deathmatch": "Combate a muerte",
     "stomp": "Pisotón",
-    "tag": "Pilla-pilla"
+    "tag": "Pilla-pilla",
+    "horror": "Terror"
   },
   "home": {
     "eyebrow": "Flyverse Maker · prueba temprana",
@@ -186,7 +187,32 @@
     "tip_ask": "💛 ¿Te gustó? Deja una propina al creador (directo a su wallet) {tips}",
     "tipped": "¡Gracias! Diste una propina de {amount}. 💛",
     "tip_failed": "La propina no se completó",
-    "mute": "Sonido sí/no"
+    "mute": "Sonido sí/no",
+    "scared": "TE ATRAPÓ",
+    "exit_locked": "🚪 Primero encuentra todas las páginas (quedan {n})",
+    "exit_open": "🚪 ¡La salida está abierta!",
+    "top": "👑 #1: {name} · {score}",
+    "race_top": "👻 Competir contra el #1",
+    "watch_top": "▶ Ver al #1",
+    "watching": "▶ Viendo la partida de {name}",
+    "watch_end": "Esa fue la partida de {name}",
+    "watch_again": "↻ Ver otra vez",
+    "video": "🎬 Hacer un vídeo",
+    "recording": "🎬 Grabando tu partida…",
+    "video_title": "Tu partida en vídeo",
+    "video_tip": "Guárdalo y publícalo en X o TikTok con el enlace al juego.",
+    "download": "Guardar vídeo",
+    "video_failed": "Este navegador no puede grabar vídeo",
+    "build": "🪰 Cambiar",
+    "build_ph": "Cambia el nivel a tu alrededor… (p. ej. añade una rampa aquí)",
+    "build_busy": "🪰 Construyendo…",
+    "build_done": "🪰 ¡Hecho! {n} cambios",
+    "build_none": "🪰 No cambió nada, prueba a decirlo de otra forma",
+    "build_label": "Habla con la mosca constructora",
+    "boss": "👑 Jefe",
+    "boss_hit": "¡Golpe! Le quedan {hp}",
+    "boss_down": "👑 ¡Jefe derrotado! +500",
+    "boss_charge": "¡Está cargando!"
   },
   "pay": {
     "waiting": "Esperando a que se complete el pago…",
@@ -271,7 +297,9 @@
     "tree": "Árbol",
     "rock": "Roca",
     "flower": "Flor",
-    "mushroom": "Seta"
+    "mushroom": "Seta",
+    "stalker": "Acechador",
+    "boss": "Escarabajo jefe"
   },
   "wins": {
     "flag": "Llegar a la bandera",
@@ -281,7 +309,8 @@
     "waves": "Superar las oleadas",
     "hill": "Mantener la zona",
     "frags": "Más impactos",
-    "tag": "Pilla-pilla"
+    "tag": "Pilla-pilla",
+    "boss": "Vencer al jefe"
   },
   "grounds": {
     "void": "Nada (cielo)",
@@ -435,7 +464,11 @@
     "stop_moving": "Dejar de moverse",
     "delete": "Borrar",
     "more": "⚙ Piezas y ajustes",
-    "less": "▾ Ocultar ajustes"
+    "less": "▾ Ocultar ajustes",
+    "toon": "Estilo dibujo animado (contornos, sombreado plano)",
+    "dark": "Oscuro (la mosca lleva linterna)",
+    "unlock": "La salida solo se abre con todas las monedas",
+    "hp": "Puntos de vida"
   },
   "misc": {
     "no_reach": "Ahora no se puede conectar con el creador de juegos",
@@ -508,5 +541,46 @@
     "image": "Guardar imagen",
     "image_tip": "Guarda la imagen y añádela a tu publicación.",
     "close": "Cerrar"
+  },
+  "goals": {
+    "title": "Retos",
+    "nohit": "Terminar sin recibir daño",
+    "allcoins": "Coger todas las monedas",
+    "allgems": "Encontrar todas las gemas",
+    "time": "Terminar en menos de {n} s",
+    "stomps": "Aplastar {n} escarabajos",
+    "points": "Conseguir {n} puntos",
+    "earned": "★ {got} de {total} retos",
+    "none_yet": "Retos: {list}",
+    "add": "+ Añadir un reto",
+    "remove": "Quitar",
+    "card": "☆ {n}",
+    "new": "Nueva estrella: ¡{goal}!"
+  },
+  "stages": {
+    "title": "Fases",
+    "add": "➕ Añadir una fase",
+    "remove": "Quitar esta fase",
+    "n": "Fase {n}",
+    "pill": "Fase {n}/{total}",
+    "cleared": "¡Fase {n} superada!",
+    "next": "Siguiente fase ▶",
+    "prompt": "Fase {n} de “{title}”: el siguiente nivel del mismo juego, más difícil, mismo tema y mundo, distribución nueva. {more}",
+    "boss_chip": "👑 Añadir un jefe final",
+    "boss_prompt": "Añade un combate contra un jefe: una arena redonda al final del recorrido con un jefe (kind boss, hp de 6 a 10), algunos corazones alrededor, y cambia la victoria a boss."
+  },
+  "skin": {
+    "title": "Tu mosca",
+    "colours": "Colores",
+    "hat": "Sombrero",
+    "h_none": "Ninguno",
+    "h_cap": "Gorra",
+    "h_crown": "Corona",
+    "h_party": "Gorro de fiesta",
+    "h_tophat": "Sombrero de copa",
+    "h_halo": "Aureola",
+    "h_bow": "Lazo",
+    "h_horns": "Cuernos",
+    "note": "Tu mosca lleva esto en todos los juegos."
   }
 }

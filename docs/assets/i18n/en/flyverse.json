@@ -10,7 +10,8 @@
     "hill": "Hill",
     "deathmatch": "Deathmatch",
     "stomp": "Stomp",
-    "tag": "Tag"
+    "tag": "Tag",
+    "horror": "Horror"
   },
   "home": {
     "eyebrow": "Flyverse Maker · early test",
@@ -186,7 +187,32 @@
     "tip_ask": "💛 Liked it? Tip the creator (straight to their wallet) {tips}",
     "tipped": "Thank you! You tipped {amount}. 💛",
     "tip_failed": "The tip didn't go through",
-    "mute": "Sound on/off"
+    "mute": "Sound on/off",
+    "scared": "IT GOT YOU",
+    "exit_locked": "🚪 Find all the pages first ({n} left)",
+    "exit_open": "🚪 The exit is open!",
+    "top": "👑 #1: {name} · {score}",
+    "race_top": "👻 Race #1",
+    "watch_top": "▶ Watch #1",
+    "watching": "▶ Watching {name}'s run",
+    "watch_end": "That was {name}'s run",
+    "watch_again": "↻ Watch again",
+    "video": "🎬 Make a video",
+    "recording": "🎬 Recording your run…",
+    "video_title": "Your run as a video",
+    "video_tip": "Save it, then post it on X or TikTok with the link to the game.",
+    "download": "Save video",
+    "video_failed": "This browser can't record video",
+    "build": "🪰 Change",
+    "build_ph": "Change the level around you… (e.g. add a ramp here)",
+    "build_busy": "🪰 Building…",
+    "build_done": "🪰 Done! {n} changes",
+    "build_none": "🪰 Nothing changed, try saying it another way",
+    "build_label": "Talk to the builder fly",
+    "boss": "👑 Boss",
+    "boss_hit": "Hit! {hp} left",
+    "boss_down": "👑 Boss beaten! +500",
+    "boss_charge": "It's charging!"
   },
   "pay": {
     "waiting": "Waiting for the payment to go through…",
@@ -271,7 +297,9 @@
     "tree": "Tree",
     "rock": "Rock",
     "flower": "Flower",
-    "mushroom": "Mushroom"
+    "mushroom": "Mushroom",
+    "stalker": "Stalker",
+    "boss": "Boss beetle"
   },
   "wins": {
     "flag": "Reach the flag",
@@ -281,7 +309,8 @@
     "waves": "Beat the waves",
     "hill": "Hold the zone",
     "frags": "Most hits",
-    "tag": "Tag"
+    "tag": "Tag",
+    "boss": "Beat the boss"
   },
   "grounds": {
     "void": "Nothing (sky)",
@@ -435,7 +464,11 @@
     "stop_moving": "Stop moving",
     "delete": "Delete",
     "more": "⚙ Pieces & settings",
-    "less": "▾ Hide settings"
+    "less": "▾ Hide settings",
+    "toon": "Cartoon look (outlines, flat shading)",
+    "dark": "Dark (the fly carries a flashlight)",
+    "unlock": "Exit opens only after all coins are taken",
+    "hp": "Hit points"
   },
   "misc": {
     "no_reach": "Can't reach the game maker right now",
@@ -508,5 +541,46 @@
     "image": "Save picture",
     "image_tip": "Save the picture and add it to your post.",
     "close": "Close"
+  },
+  "skin": {
+    "title": "Your fly",
+    "colours": "Colours",
+    "hat": "Hat",
+    "h_none": "None",
+    "h_cap": "Cap",
+    "h_crown": "Crown",
+    "h_party": "Party hat",
+    "h_tophat": "Top hat",
+    "h_halo": "Halo",
+    "h_bow": "Bow",
+    "h_horns": "Horns",
+    "note": "Your fly wears this in every game."
+  },
+  "goals": {
+    "title": "Challenges",
+    "nohit": "Finish without getting hurt",
+    "allcoins": "Take every coin",
+    "allgems": "Find every gem",
+    "time": "Finish in under {n} s",
+    "stomps": "Squash {n} beetles",
+    "points": "Score {n} points",
+    "earned": "★ {got} of {total} challenges",
+    "none_yet": "Challenges: {list}",
+    "add": "+ Add a challenge",
+    "remove": "Remove",
+    "card": "☆ {n}",
+    "new": "New star: {goal}!"
+  },
+  "stages": {
+    "title": "Stages",
+    "add": "➕ Add a stage",
+    "remove": "Remove this stage",
+    "n": "Stage {n}",
+    "pill": "Stage {n}/{total}",
+    "cleared": "Stage {n} cleared!",
+    "next": "Next stage ▶",
+    "prompt": "Stage {n} of “{title}”: the next level of the same game, harder, same theme and world, new layout. {more}",
+    "boss_chip": "👑 Add a boss fight",
+    "boss_prompt": "Add a boss fight: a round arena at the end of the route with a boss (kind boss, hp 6 to 10), a few hearts around it, and change the win to boss."
   }
 }

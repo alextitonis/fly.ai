@@ -10,7 +10,8 @@
     "hill": "佔領山頭",
     "deathmatch": "死鬥",
     "stomp": "踩踏",
-    "tag": "捉迷藏"
+    "tag": "捉迷藏",
+    "horror": "恐怖"
   },
   "home": {
     "eyebrow": "Flyverse Maker · 早期測試",
@@ -182,7 +183,32 @@
     "tip_ask": "💛 喜歡嗎？打賞作者（直接到對方錢包）{tips}",
     "tipped": "謝謝！你打賞了 {amount}。💛",
     "tip_failed": "打賞沒有成功",
-    "mute": "聲音開/關"
+    "mute": "聲音開/關",
+    "scared": "被抓到了",
+    "exit_locked": "🚪 先找到所有書頁（還剩 {n} 張）",
+    "exit_open": "🚪 出口開啟了！",
+    "top": "👑 第一名：{name} · {score}",
+    "race_top": "👻 挑戰第一名",
+    "watch_top": "▶ 觀看第一名",
+    "watching": "▶ 正在觀看 {name} 的紀錄",
+    "watch_end": "這是 {name} 的紀錄",
+    "watch_again": "↻ 再看一次",
+    "video": "🎬 生成影片",
+    "recording": "🎬 正在錄製你的遊戲過程…",
+    "video_title": "你的遊戲影片",
+    "video_tip": "儲存後，連同遊戲連結發到 X 或 TikTok。",
+    "download": "儲存影片",
+    "video_failed": "這個瀏覽器無法錄製影片",
+    "build": "🪰 修改",
+    "build_ph": "修改你周圍的關卡…（例如：在這裡加一個斜坡）",
+    "build_busy": "🪰 建造中…",
+    "build_done": "🪰 完成！{n} 處修改",
+    "build_none": "🪰 什麼都沒改，換個說法試試",
+    "build_label": "和建造蒼蠅說話",
+    "boss": "👑 首領",
+    "boss_hit": "命中！還剩 {hp}",
+    "boss_down": "👑 首領被打敗了！+500",
+    "boss_charge": "它衝過來了！"
   },
   "pay": {
     "waiting": "正在等待付款完成…",
@@ -267,7 +293,9 @@
     "tree": "樹",
     "rock": "石頭",
     "flower": "花",
-    "mushroom": "蘑菇"
+    "mushroom": "蘑菇",
+    "stalker": "潛行者",
+    "boss": "甲蟲首領"
   },
   "wins": {
     "flag": "到達旗子",
@@ -277,7 +305,8 @@
     "waves": "擊退所有波次",
     "hill": "佔領區域",
     "frags": "命中最多",
-    "tag": "捉迷藏"
+    "tag": "捉迷藏",
+    "boss": "打敗首領"
   },
   "grounds": {
     "void": "無（天空）",
@@ -428,7 +457,11 @@
     "stop_moving": "停止移動",
     "delete": "刪除",
     "more": "⚙ 物件和設定",
-    "less": "▾ 收起設定"
+    "less": "▾ 收起設定",
+    "toon": "卡通風格（描邊、平塗光影）",
+    "dark": "黑暗（蒼蠅帶著手電筒）",
+    "unlock": "拿完所有金幣出口才會開啟",
+    "hp": "生命值"
   },
   "misc": {
     "no_reach": "現在連不上游戲製作器",
@@ -497,5 +530,46 @@
     "image": "儲存圖片",
     "image_tip": "儲存圖片並加到你的帖子裡。",
     "close": "關閉"
+  },
+  "goals": {
+    "title": "挑戰",
+    "nohit": "不受傷完成",
+    "allcoins": "拿到所有金幣",
+    "allgems": "找到所有寶石",
+    "time": "{n} 秒內完成",
+    "stomps": "踩扁 {n} 只甲蟲",
+    "points": "得到 {n} 分",
+    "earned": "★ 完成 {got}/{total} 個挑戰",
+    "none_yet": "挑戰：{list}",
+    "add": "+ 新增挑戰",
+    "remove": "移除",
+    "card": "☆ {n}",
+    "new": "新星：{goal}！"
+  },
+  "stages": {
+    "title": "關卡",
+    "add": "➕ 新增關卡",
+    "remove": "刪除這一關",
+    "n": "第 {n} 關",
+    "pill": "第 {n}/{total} 關",
+    "cleared": "第 {n} 關透過！",
+    "next": "下一關 ▶",
+    "prompt": "“{title}”的第 {n} 關：同一個遊戲的下一關，更難，主題和世界相同，換一個佈局。{more}",
+    "boss_chip": "👑 新增首領戰",
+    "boss_prompt": "新增一場首領戰：在路線終點放一個圓形競技場和一個首領（kind boss，hp 6 到 10），周圍放幾顆愛心，並把勝利條件改為 boss。"
+  },
+  "skin": {
+    "title": "你的蒼蠅",
+    "colours": "顏色",
+    "hat": "帽子",
+    "h_none": "無",
+    "h_cap": "棒球帽",
+    "h_crown": "王冠",
+    "h_party": "派對帽",
+    "h_tophat": "禮帽",
+    "h_halo": "光環",
+    "h_bow": "蝴蝶結",
+    "h_horns": "角",
+    "note": "你的蒼蠅在每個遊戲裡都是這個樣子。"
   }
 }

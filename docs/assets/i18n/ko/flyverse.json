@@ -10,7 +10,8 @@
     "hill": "언덕 점령",
     "deathmatch": "데스매치",
     "stomp": "밟기",
-    "tag": "술래잡기"
+    "tag": "술래잡기",
+    "horror": "공포"
   },
   "home": {
     "eyebrow": "Flyverse Maker · 초기 테스트",
@@ -182,7 +183,32 @@
     "tip_ask": "💛 마음에 들었나요? 제작자에게 팁을 보내세요(지갑으로 바로) {tips}",
     "tipped": "감사합니다! {amount}을 팁으로 보냈어요. 💛",
     "tip_failed": "팁이 전송되지 않았어요",
-    "mute": "소리 켜기/끄기"
+    "mute": "소리 켜기/끄기",
+    "scared": "잡혔다",
+    "exit_locked": "🚪 먼저 페이지를 모두 찾으세요(남은 {n}개)",
+    "exit_open": "🚪 출구가 열렸어요!",
+    "top": "👑 1위: {name} · {score}",
+    "race_top": "👻 1위와 경주",
+    "watch_top": "▶ 1위 보기",
+    "watching": "▶ {name}님의 플레이 보는 중",
+    "watch_end": "{name}님의 플레이였어요",
+    "watch_again": "↻ 다시 보기",
+    "video": "🎬 영상 만들기",
+    "recording": "🎬 플레이를 녹화하는 중…",
+    "video_title": "내 플레이 영상",
+    "video_tip": "저장한 뒤 게임 링크와 함께 X나 TikTok에 올리세요.",
+    "download": "영상 저장",
+    "video_failed": "이 브라우저는 영상을 녹화할 수 없어요",
+    "build": "🪰 바꾸기",
+    "build_ph": "주변 레벨을 바꿔 보세요… (예: 여기에 경사로 추가)",
+    "build_busy": "🪰 만드는 중…",
+    "build_done": "🪰 완료! {n}개 변경",
+    "build_none": "🪰 바뀐 게 없어요. 다르게 말해 보세요",
+    "build_label": "빌더 파리에게 말하기",
+    "boss": "👑 보스",
+    "boss_hit": "명중! {hp} 남음",
+    "boss_down": "👑 보스 격파! +500",
+    "boss_charge": "돌진해요!"
   },
   "pay": {
     "waiting": "결제 처리를 기다리는 중…",
@@ -267,7 +293,9 @@
     "tree": "나무",
     "rock": "바위",
     "flower": "꽃",
-    "mushroom": "버섯"
+    "mushroom": "버섯",
+    "stalker": "추적자",
+    "boss": "보스 딱정벌레"
   },
   "wins": {
     "flag": "깃발에 도착",
@@ -277,7 +305,8 @@
     "waves": "웨이브 모두 물리치기",
     "hill": "구역 점령",
     "frags": "최다 명중",
-    "tag": "술래잡기"
+    "tag": "술래잡기",
+    "boss": "보스 물리치기"
   },
   "grounds": {
     "void": "없음(하늘)",
@@ -428,7 +457,11 @@
     "stop_moving": "움직임 멈추기",
     "delete": "삭제",
     "more": "⚙ 조각 및 설정",
-    "less": "▾ 설정 숨기기"
+    "less": "▾ 설정 숨기기",
+    "toon": "카툰 스타일(윤곽선, 단순한 음영)",
+    "dark": "어둠(파리가 손전등을 들어요)",
+    "unlock": "코인을 모두 모아야 출구가 열려요",
+    "hp": "체력"
   },
   "misc": {
     "no_reach": "지금은 게임 메이커에 연결할 수 없어요",
@@ -497,5 +530,46 @@
     "image": "사진 저장",
     "image_tip": "사진을 저장해서 게시물에 추가하세요.",
     "close": "닫기"
+  },
+  "goals": {
+    "title": "도전 과제",
+    "nohit": "다치지 않고 완주",
+    "allcoins": "코인 모두 모으기",
+    "allgems": "보석 모두 찾기",
+    "time": "{n}초 안에 완주",
+    "stomps": "딱정벌레 {n}마리 밟기",
+    "points": "{n}점 얻기",
+    "earned": "★ 도전 과제 {total}개 중 {got}개",
+    "none_yet": "도전 과제: {list}",
+    "add": "+ 도전 과제 추가",
+    "remove": "삭제",
+    "card": "☆ {n}",
+    "new": "새 별: {goal}!"
+  },
+  "stages": {
+    "title": "스테이지",
+    "add": "➕ 스테이지 추가",
+    "remove": "이 스테이지 삭제",
+    "n": "스테이지 {n}",
+    "pill": "스테이지 {n}/{total}",
+    "cleared": "스테이지 {n} 클리어!",
+    "next": "다음 스테이지 ▶",
+    "prompt": "“{title}”의 스테이지 {n}: 같은 게임의 다음 레벨, 더 어렵게, 같은 테마와 세계, 새로운 구성. {more}",
+    "boss_chip": "👑 보스전 추가",
+    "boss_prompt": "보스전을 추가해 주세요: 경로 끝에 둥근 경기장과 보스(kind boss, hp 6~10), 주변에 하트 몇 개, 그리고 승리 조건을 boss로 바꿔 주세요."
+  },
+  "skin": {
+    "title": "내 파리",
+    "colours": "색상",
+    "hat": "모자",
+    "h_none": "없음",
+    "h_cap": "모자",
+    "h_crown": "왕관",
+    "h_party": "파티 모자",
+    "h_tophat": "실크햇",
+    "h_halo": "후광",
+    "h_bow": "리본",
+    "h_horns": "뿔",
+    "note": "내 파리는 모든 게임에서 이 모습이에요."
   }
 }
