@@ -14,9 +14,9 @@ let handler: Handler | null = null;
 
 /** the closed test: the dev wallet and the user's personal wallet unless FLYVERSE_WALLETS says otherwise */
 const DEFAULT_WALLETS = "0x625862521777e19ad54ce6c7abed9ca54d6589ea,0xae92d64584e7f8e54995c362eaa8d7949fac8b1b";
-/** early testers: let in like ambassadors (5 new games a day); FLYVERSE_TESTERS replaces this list. They get an
- * early-tester badge + some XP later. */
-const DEFAULT_TESTERS = "0xe3b79b727a642496cd2a7ac3ed7ea2899dae7a84";
+/** the first early testers, put in Flyverse's database on start; more are added from the page by the team
+ * (FLYVERSE_TESTERS replaces this seed). They get an early-tester badge + some XP later. */
+const DEFAULT_TESTERS = "0xe3b79b727a642496cd2a7ac3ed7ea2899dae7a84,0x672f28a7c84528e277623a70c90600d6efca4362";
 
 export async function startFlyverse(deps: {
   sessionWallet: (req: IncomingMessage) => Promise<{ wallet: string } | null>;
@@ -53,16 +53,17 @@ export async function startFlyverse(deps: {
       dbFile: path.join(data, "fv.db"),
       dailyUsd: Number(process.env.FLYVERSE_DAILY_USD ?? 3),
       createsPerDay: Number(process.env.FLYVERSE_CREATES_PER_DAY ?? 5),
+      testers,
       gate: async (req: IncomingMessage) => {
         const s = await deps.sessionWallet(req);
         if (!s) return { ok: false, why: "Sign in on fly.ai first" };
         const w = s.wallet.toLowerCase();
         if (wallets.includes(w)) return { ok: true, wallet: w, team: true };
-        return testers.includes(w) || (await isAmb(w)) ? { ok: true, wallet: w } : { ok: false, wallet: w, why: "This wallet isn't on the test list" };
+        return (await isAmb(w)) ? { ok: true, wallet: w } : { ok: false, wallet: w, why: "This wallet isn't on the test list" };
       },
       log: (msg: string) => console.log(msg),
     });
-    console.log(`flyverse: on for ${wallets.length} team wallet(s), ${testers.length} tester(s)${ambassadors ? " + ambassadors" : ""}, data in ${data}`);
+    console.log(`flyverse: on for ${wallets.length} team wallet(s) + testers (database)${ambassadors ? " + ambassadors" : ""}, data in ${data}`);
   } catch (e) {
     console.log(`flyverse: off (${e instanceof Error ? e.message.slice(0, 120) : e})`);
   }
