@@ -204,7 +204,7 @@
     "build_busy": "🪰 建造中…",
     "build_done": "🪰 完成！{n} 處修改",
     "build_none": "🪰 什麼都沒改，換個說法試試",
-    "build_label": "和建造蒼蠅說話",
+    "build_label": "和建造蒼蠅說話（T）",
     "boss": "👑 首領",
     "boss_hit": "命中！還剩 {hp}",
     "boss_down": "👑 首領被打敗了！+500",

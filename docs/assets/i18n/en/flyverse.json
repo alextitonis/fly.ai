@@ -208,7 +208,7 @@
     "build_busy": "🪰 Building…",
     "build_done": "🪰 Done! {n} changes",
     "build_none": "🪰 Nothing changed, try saying it another way",
-    "build_label": "Talk to the builder fly",
+    "build_label": "Talk to the builder fly (T)",
     "boss": "👑 Boss",
     "boss_hit": "Hit! {hp} left",
     "boss_down": "👑 Boss beaten! +500",

@@ -208,7 +208,7 @@
     "build_busy": "🪰 İnşa ediliyor…",
     "build_done": "🪰 Bitti! {n} değişiklik",
     "build_none": "🪰 Hiçbir şey değişmedi, başka şekilde söylemeyi dene",
-    "build_label": "İnşaatçı sinekle konuş",
+    "build_label": "İnşaatçı sinekle konuş (T)",
     "boss": "👑 Patron",
     "boss_hit": "İsabet! {hp} kaldı",
     "boss_down": "👑 Patron yenildi! +500",

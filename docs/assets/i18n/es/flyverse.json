@@ -208,7 +208,7 @@
     "build_busy": "🪰 Construyendo…",
     "build_done": "🪰 ¡Hecho! {n} cambios",
     "build_none": "🪰 No cambió nada, prueba a decirlo de otra forma",
-    "build_label": "Habla con la mosca constructora",
+    "build_label": "Habla con la mosca constructora (T)",
     "boss": "👑 Jefe",
     "boss_hit": "¡Golpe! Le quedan {hp}",
     "boss_down": "👑 ¡Jefe derrotado! +500",

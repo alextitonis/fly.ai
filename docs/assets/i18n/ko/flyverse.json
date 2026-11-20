@@ -204,7 +204,7 @@
     "build_busy": "🪰 만드는 중…",
     "build_done": "🪰 완료! {n}개 변경",
     "build_none": "🪰 바뀐 게 없어요. 다르게 말해 보세요",
-    "build_label": "빌더 파리에게 말하기",
+    "build_label": "빌더 파리에게 말하기 (T)",
     "boss": "👑 보스",
     "boss_hit": "명중! {hp} 남음",
     "boss_down": "👑 보스 격파! +500",
