@@ -14,6 +14,9 @@ let handler: Handler | null = null;
 
 /** the closed test: the dev wallet and the user's personal wallet unless FLYVERSE_WALLETS says otherwise */
 const DEFAULT_WALLETS = "0x625862521777e19ad54ce6c7abed9ca54d6589ea,0xae92d64584e7f8e54995c362eaa8d7949fac8b1b";
+/** early testers: let in like ambassadors (5 new games a day); FLYVERSE_TESTERS replaces this list. They get an
+ * early-tester badge + some XP later. */
+const DEFAULT_TESTERS = "0xe3b79b727a642496cd2a7ac3ed7ea2899dae7a84";
 
 export async function startFlyverse(deps: {
   sessionWallet: (req: IncomingMessage) => Promise<{ wallet: string } | null>;
@@ -24,6 +27,7 @@ export async function startFlyverse(deps: {
   const list = (process.env.FLYVERSE_WALLETS ?? DEFAULT_WALLETS).toLowerCase();
   if (list === "off") return;
   const wallets = list.split(",").map((s) => s.trim()).filter(Boolean);
+  const testers = (process.env.FLYVERSE_TESTERS ?? DEFAULT_TESTERS).toLowerCase().split(",").map((s) => s.trim()).filter(Boolean);
   const ambassadors = process.env.FLYVERSE_AMBASSADORS !== "off" && deps.isAmbassador ? deps.isAmbassador : null;
   // badge lookups are cached a few minutes (every Flyverse call checks the gate)
   const ambCache = new Map<string, { ok: boolean; at: number }>();
@@ -54,11 +58,11 @@ export async function startFlyverse(deps: {
         if (!s) return { ok: false, why: "Sign in on fly.ai first" };
         const w = s.wallet.toLowerCase();
         if (wallets.includes(w)) return { ok: true, wallet: w, team: true };
-        return (await isAmb(w)) ? { ok: true, wallet: w } : { ok: false, wallet: w, why: "This wallet isn't on the test list" };
+        return testers.includes(w) || (await isAmb(w)) ? { ok: true, wallet: w } : { ok: false, wallet: w, why: "This wallet isn't on the test list" };
       },
       log: (msg: string) => console.log(msg),
     });
-    console.log(`flyverse: on for ${wallets.length} wallet(s)${ambassadors ? " + ambassadors" : ""}, data in ${data}`);
+    console.log(`flyverse: on for ${wallets.length} team wallet(s), ${testers.length} tester(s)${ambassadors ? " + ambassadors" : ""}, data in ${data}`);
   } catch (e) {
     console.log(`flyverse: off (${e instanceof Error ? e.message.slice(0, 120) : e})`);
   }
