@@ -4950,7 +4950,11 @@ const server = createServer(async (req, res) => {
 });
 // a job takes seconds between claim and submit; Node's 5 s default closes the idle connection just as
 // the miner reuses it
-void startFlyverse({ sessionWallet, key: () => flyChatKey, isAmbassador: (w) => ambassadors.isAmbassador(w) });
+void startFlyverse({
+  sessionWallet, key: () => flyChatKey, isAmbassador: (w) => ambassadors.isAmbassador(w),
+  // creators hear about plays, likes, reviews and tips in the site's 🔔 (mine.notices)
+  notify: async (wallet, text, href) => { await pg.run("insert into mine.notices (wallet, text, href) values (?, ?, ?)", wallet.toLowerCase(), text.slice(0, 240), href); },
+});
 server.keepAliveTimeout = 65_000;
 server.headersTimeout = 66_000;
 server.listen(PORT);

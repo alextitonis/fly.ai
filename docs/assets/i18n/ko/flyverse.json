@@ -1,5 +1,17 @@
 {
-  "types": { "parkour": "파쿠르", "coins": "코인", "race": "레이스", "survive": "생존", "maze": "미로", "shooter": "슈팅", "zombies": "좀비", "hill": "언덕 점령", "deathmatch": "데스매치", "stomp": "밟기", "tag": "술래잡기" },
+  "types": {
+    "parkour": "파쿠르",
+    "coins": "코인",
+    "race": "레이스",
+    "survive": "생존",
+    "maze": "미로",
+    "shooter": "슈팅",
+    "zombies": "좀비",
+    "hill": "언덕 점령",
+    "deathmatch": "데스매치",
+    "stomp": "밟기",
+    "tag": "술래잡기"
+  },
   "home": {
     "eyebrow": "Flyverse Maker · 초기 테스트",
     "title": "게임을 입력하세요. 바로 플레이.",
@@ -28,7 +40,9 @@
     "nothing": "일치하는 게임이 없어요. 다른 단어나 유형을 시도해 보세요.",
     "nothing_q": "“{q}”와 일치하는 게임이 없어요. 다른 단어나 유형을 시도해 보세요.",
     "delete_confirm": "이 게임을 삭제할까요? 모든 기기에서 사라집니다.",
-    "plays_week": { "other": "▶ 이번 주 {count}회 플레이" },
+    "plays_week": {
+      "other": "▶ 이번 주 {count}회 플레이"
+    },
     "play": "플레이",
     "edit": "편집",
     "remix": "리믹스",
@@ -73,7 +87,12 @@
     "sign_in": "오른쪽 위에서 테스트 지갑으로 로그인하면 들어올 수 있어요.",
     "check_again": "다시 확인"
   },
-  "by": { "by": "제작: {who}", "remix": "제작: {who} · {by}님의 “{title}” 리믹스", "someone": "누군가", "you": "나" },
+  "by": {
+    "by": "제작: {who}",
+    "remix": "제작: {who} · {by}님의 “{title}” 리믹스",
+    "someone": "누군가",
+    "you": "나"
+  },
   "play": {
     "checkpoint": "체크포인트!",
     "turret": "포탑 파괴! +30",
@@ -144,19 +163,26 @@
     "like_word": "좋아요",
     "back_editor": "에디터로 돌아가기",
     "edit": "편집",
-    "reviews": { "other": "리뷰 {count}개" },
+    "reviews": {
+      "other": "리뷰 {count}개"
+    },
     "your_review": "내 리뷰(언제든 수정 가능)",
     "rate": "이 게임 평가하기",
     "stars_label": "별점",
-    "stars_n": { "other": "별 {count}개" },
+    "stars_n": {
+      "other": "별 {count}개"
+    },
     "few_words": "한마디(선택)",
     "update": "수정",
     "send": "보내기",
     "thanks_review": "감사해요! {reviews} 평균 {avg} ★",
-    "tips_so_far": { "other": "지금까지 팁 {count}개" },
+    "tips_so_far": {
+      "other": "지금까지 팁 {count}개"
+    },
     "tip_ask": "💛 마음에 들었나요? 제작자에게 팁을 보내세요(지갑으로 바로) {tips}",
     "tipped": "감사합니다! {amount}을 팁으로 보냈어요. 💛",
-    "tip_failed": "팁이 전송되지 않았어요"
+    "tip_failed": "팁이 전송되지 않았어요",
+    "mute": "소리 켜기/끄기"
   },
   "pay": {
     "waiting": "결제 처리를 기다리는 중…",
@@ -206,16 +232,80 @@
     "hill": "언덕에 딱정벌레 더|점프 패드 추가|언덕을 더 높게|주변에 용암 추가"
   },
   "kinds": {
-    "model": "모델", "block": "블록", "ramp": "경사로", "platform": "발판", "wall": "벽", "pillar": "기둥", "disc": "원형 발판", "stairs": "계단", "arch": "아치", "hill": "언덕",
-    "coin": "코인", "gem": "보석", "spike": "가시", "lava": "용암", "bounce": "점프 패드", "speed": "스피드 패드", "checkpoint": "체크포인트", "flag": "깃발", "enemy": "딱정벌레",
-    "target": "표적", "turret": "포탑", "spawner": "좀비 둥지", "heart": "하트", "key": "열쇠", "door": "문", "zone": "점령 구역",
-    "swatter": "파리채", "sticky": "끈끈한 바닥", "conveyor": "컨베이어", "fan": "선풍기", "hammer": "망치", "switch": "스위치",
-    "tree": "나무", "rock": "바위", "flower": "꽃", "mushroom": "버섯"
+    "model": "모델",
+    "block": "블록",
+    "ramp": "경사로",
+    "platform": "발판",
+    "wall": "벽",
+    "pillar": "기둥",
+    "disc": "원형 발판",
+    "stairs": "계단",
+    "arch": "아치",
+    "hill": "언덕",
+    "coin": "코인",
+    "gem": "보석",
+    "spike": "가시",
+    "lava": "용암",
+    "bounce": "점프 패드",
+    "speed": "스피드 패드",
+    "checkpoint": "체크포인트",
+    "flag": "깃발",
+    "enemy": "딱정벌레",
+    "target": "표적",
+    "turret": "포탑",
+    "spawner": "좀비 둥지",
+    "heart": "하트",
+    "key": "열쇠",
+    "door": "문",
+    "zone": "점령 구역",
+    "swatter": "파리채",
+    "sticky": "끈끈한 바닥",
+    "conveyor": "컨베이어",
+    "fan": "선풍기",
+    "hammer": "망치",
+    "switch": "스위치",
+    "tree": "나무",
+    "rock": "바위",
+    "flower": "꽃",
+    "mushroom": "버섯"
   },
-  "wins": { "flag": "깃발에 도착", "coins": "코인 모두 모으기", "survive": "생존", "targets": "표적 모두 맞히기", "waves": "웨이브 모두 물리치기", "hill": "구역 점령", "frags": "최다 명중", "tag": "술래잡기" },
-  "grounds": { "void": "없음(하늘)", "lava": "용암", "water": "물", "clouds": "구름 바다", "toxic": "독성 슬라임", "grass": "잔디(단단함)", "sand": "모래(단단함)", "snow": "눈(단단함)" },
-  "weathers": { "none": "없음", "rain": "비", "snow": "눈", "leaves": "낙엽", "embers": "불씨", "fireflies": "반딧불이", "bubbles": "거품", "petals": "꽃잎" },
-  "cams": { "third": "파리 뒤에서", "chase": "추적 카메라", "top": "탑다운", "side": "횡스크롤", "first": "1인칭" },
+  "wins": {
+    "flag": "깃발에 도착",
+    "coins": "코인 모두 모으기",
+    "survive": "생존",
+    "targets": "표적 모두 맞히기",
+    "waves": "웨이브 모두 물리치기",
+    "hill": "구역 점령",
+    "frags": "최다 명중",
+    "tag": "술래잡기"
+  },
+  "grounds": {
+    "void": "없음(하늘)",
+    "lava": "용암",
+    "water": "물",
+    "clouds": "구름 바다",
+    "toxic": "독성 슬라임",
+    "grass": "잔디(단단함)",
+    "sand": "모래(단단함)",
+    "snow": "눈(단단함)"
+  },
+  "weathers": {
+    "none": "없음",
+    "rain": "비",
+    "snow": "눈",
+    "leaves": "낙엽",
+    "embers": "불씨",
+    "fireflies": "반딧불이",
+    "bubbles": "거품",
+    "petals": "꽃잎"
+  },
+  "cams": {
+    "third": "파리 뒤에서",
+    "chase": "추적 카메라",
+    "top": "탑다운",
+    "side": "횡스크롤",
+    "first": "1인칭"
+  },
   "edit": {
     "hi": "안녕하세요! 어떤 게임을 만들지 말해 주세요 👇",
     "hint_start": "조각을 클릭하고 무엇을 바꿀지 말하거나, 새로운 걸 요청하세요.",
@@ -233,7 +323,9 @@
     "built_but": "만들었지만 {problem}. 🔧 고치기를 누르세요.",
     "done_create": "완성! 조각 {n}개. ▶ 플레이를 눌러 해 보세요.",
     "fixed": "고쳤어요! 이제 플레이할 수 있어요.",
-    "done_changes": { "other": "완료: {count}개 변경. 더 원하는 게 있나요?" },
+    "done_changes": {
+      "other": "완료: {count}개 변경. 더 원하는 게 있나요?"
+    },
     "no_change": "아무것도 바꾸지 않았어요. 다르게 말해 볼래요?",
     "failed": "{error}. 다시 해 볼까요?",
     "didnt_work": "잘 되지 않았어요",
@@ -256,7 +348,9 @@
     "play": "▶ 플레이",
     "working": "🪰 빌더 파리가 작업 중…",
     "empty": "비어 있어요: 빌더 파리에게 무엇을 만들지 말해 주세요",
-    "problems": { "other": "⚠ 문제 {count}개: {text}" },
+    "problems": {
+      "other": "⚠ 문제 {count}개: {text}"
+    },
     "playable": "✓ 플레이 가능해 보여요",
     "hint_touch": "조각을 탭해서 선택하고, 화살표를 끌어서 옮기세요.",
     "hint_mouse": "조각을 클릭해 선택 · 화살표를 끌어 이동 · Del 삭제 · Ctrl+D 복사",
@@ -287,7 +381,9 @@
     "ground_h": "지면 높이",
     "weather": "날씨",
     "clouds": "하늘의 구름",
-    "pieces": { "other": "조각 {count}개" },
+    "pieces": {
+      "other": "조각 {count}개"
+    },
     "new_here": "새 조각은 카메라가 보는 곳에 놓여요.",
     "models": "모델",
     "search_models": "모델 검색: 나무, 집, 배…",
@@ -330,7 +426,76 @@
     "jump_h": "점프 높이",
     "copy": "복사",
     "stop_moving": "움직임 멈추기",
-    "delete": "삭제"
+    "delete": "삭제",
+    "more": "⚙ 조각 및 설정",
+    "less": "▾ 설정 숨기기"
   },
-  "misc": { "no_reach": "지금은 게임 메이커에 연결할 수 없어요", "maker_error": "게임 메이커 오류 {code}", "jump": "점프", "fire": "발사", "dash": "대시" }
+  "misc": {
+    "no_reach": "지금은 게임 메이커에 연결할 수 없어요",
+    "maker_error": "게임 메이커 오류 {code}",
+    "jump": "점프",
+    "fire": "발사",
+    "dash": "대시"
+  },
+  "start": {
+    "surprise": "🎲 아무거나",
+    "themes_label": "세계 고르기:",
+    "th_pirate": "🏴‍☠️ 해적",
+    "th_space": "🚀 우주",
+    "th_castle": "🏰 성",
+    "th_kitchen": "🍰 부엌",
+    "th_haunted": "👻 유령",
+    "th_forest": "🌲 숲",
+    "th_candy": "🍭 사탕",
+    "th_ice": "❄️ 얼음",
+    "w_pirate": "배와 보물이 있는 해적 만",
+    "w_space": "달 위의 우주 정거장",
+    "w_castle": "탑이 있는 중세 성",
+    "w_kitchen": "음식으로 가득한 거대한 부엌",
+    "w_haunted": "밤의 유령 묘지",
+    "w_forest": "강이 흐르는 깊은 숲",
+    "w_candy": "달콤한 사탕 나라",
+    "w_ice": "얼어붙은 얼음섬",
+    "lay": "오르는 파쿠르|코인 찾기|빠른 레이스|좀비 생존|스위치 퍼즐|나선 탑 오르기|미로|언덕 쟁탈전",
+    "twist": "흔들리는 망치|차오르는 용암|높은 곳으로 가는 상승 기류|거대한 파리채|스위치로 나타나는 숨은 다리|컨베이어 벨트|끈적한 꿀 함정|사방에 딱정벌레",
+    "template": "{world}에서 펼쳐지는 {layout}, {twist} 포함",
+    "how": "이렇게 해요",
+    "how1": "<b>게임을 한 줄로 설명하세요</b>. 아이디어가 필요하면 🎲를 누르세요.",
+    "how2": "<b>빌더 파리가 몇 초 만에 만들어요</b>. 아무 조각이나 클릭해서 수정을 요청하세요.",
+    "how3": "<b>▶ 플레이를 누르고</b> 공유하세요. 친구들이 플레이하고, 평가하고, 팁을 줄 수 있어요.",
+    "got_it": "알겠어요"
+  },
+  "creator": {
+    "title": "{name}님의 게임",
+    "games": {
+      "other": "게임 {count}개"
+    },
+    "plays": {
+      "other": "플레이 {count}회"
+    },
+    "players": {
+      "other": "플레이어 {count}명"
+    },
+    "likes": "♥ {n}",
+    "rating": "★ {avg} ({n})",
+    "tips": {
+      "other": "팁 {count}개"
+    },
+    "none": "아직 게임이 없어요.",
+    "back": "← 모든 게임",
+    "you": "내 페이지"
+  },
+  "share": {
+    "share": "↗ 공유",
+    "title": "“{title}” 공유",
+    "text": "Flyverse에서 한 문장으로 게임을 만들었어요: {title} 🪰",
+    "text_play": "{title}에서 내 기록을 깰 수 있나요? 🪰",
+    "copy": "링크 복사",
+    "copied": "복사됨!",
+    "x": "X에 게시",
+    "more": "공유…",
+    "image": "사진 저장",
+    "image_tip": "사진을 저장해서 게시물에 추가하세요.",
+    "close": "닫기"
+  }
 }

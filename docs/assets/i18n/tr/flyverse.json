@@ -1,5 +1,17 @@
 {
-  "types": { "parkour": "Parkur", "coins": "Altın", "race": "Yarış", "survive": "Hayatta kal", "maze": "Labirent", "shooter": "Nişancı", "zombies": "Zombiler", "hill": "Tepe", "deathmatch": "Ölüm maçı", "stomp": "Ezme", "tag": "Ebelemece" },
+  "types": {
+    "parkour": "Parkur",
+    "coins": "Altın",
+    "race": "Yarış",
+    "survive": "Hayatta kal",
+    "maze": "Labirent",
+    "shooter": "Nişancı",
+    "zombies": "Zombiler",
+    "hill": "Tepe",
+    "deathmatch": "Ölüm maçı",
+    "stomp": "Ezme",
+    "tag": "Ebelemece"
+  },
   "home": {
     "eyebrow": "Flyverse Maker · erken test",
     "title": "Bir oyun yaz. Oyna.",
@@ -28,7 +40,10 @@
     "nothing": "Eşleşen bir şey yok. Başka bir kelime veya tür dene.",
     "nothing_q": "“{q}” ile eşleşen bir şey yok. Başka bir kelime veya tür dene.",
     "delete_confirm": "Bu oyun silinsin mi? Tüm cihazlardan kalkar.",
-    "plays_week": { "one": "▶ bu hafta {count} oynanma", "other": "▶ bu hafta {count} oynanma" },
+    "plays_week": {
+      "one": "▶ bu hafta {count} oynanma",
+      "other": "▶ bu hafta {count} oynanma"
+    },
     "play": "Oyna",
     "edit": "Düzenle",
     "remix": "Remix",
@@ -73,7 +88,12 @@
     "sign_in": "Girmek için sağ üstten bir test cüzdanıyla giriş yap.",
     "check_again": "Tekrar kontrol et"
   },
-  "by": { "by": "{who} tarafından", "remix": "{who} tarafından · {by} yapımı “{title}” remix'i", "someone": "biri", "you": "Sen" },
+  "by": {
+    "by": "{who} tarafından",
+    "remix": "{who} tarafından · {by} yapımı “{title}” remix'i",
+    "someone": "biri",
+    "you": "Sen"
+  },
   "play": {
     "checkpoint": "Kontrol noktası!",
     "turret": "Taret düştü! +30",
@@ -144,19 +164,29 @@
     "like_word": "Beğen",
     "back_editor": "Editöre dön",
     "edit": "Düzenle",
-    "reviews": { "one": "{count} yorum", "other": "{count} yorum" },
+    "reviews": {
+      "one": "{count} yorum",
+      "other": "{count} yorum"
+    },
     "your_review": "Yorumun (istediğin zaman değiştir)",
     "rate": "Bu oyunu puanla",
     "stars_label": "Yıldızlar",
-    "stars_n": { "one": "{count} yıldız", "other": "{count} yıldız" },
+    "stars_n": {
+      "one": "{count} yıldız",
+      "other": "{count} yıldız"
+    },
     "few_words": "Birkaç kelime (isteğe bağlı)",
     "update": "Güncelle",
     "send": "Gönder",
     "thanks_review": "Teşekkürler! {reviews} ile ortalama {avg} ★",
-    "tips_so_far": { "one": "şimdiye kadar {count} bahşiş", "other": "şimdiye kadar {count} bahşiş" },
+    "tips_so_far": {
+      "one": "şimdiye kadar {count} bahşiş",
+      "other": "şimdiye kadar {count} bahşiş"
+    },
     "tip_ask": "💛 Beğendin mi? Yapımcıya bahşiş ver (doğrudan cüzdanına) {tips}",
     "tipped": "Teşekkürler! {amount} bahşiş verdin. 💛",
-    "tip_failed": "Bahşiş gönderilemedi"
+    "tip_failed": "Bahşiş gönderilemedi",
+    "mute": "Ses aç/kapat"
   },
   "pay": {
     "waiting": "Ödemenin geçmesi bekleniyor…",
@@ -206,16 +236,80 @@
     "hill": "Tepede daha çok böcek|Zıplama pedleri ekle|Tepeyi yükselt|Etrafına lav ekle"
   },
   "kinds": {
-    "model": "Model", "block": "Blok", "ramp": "Rampa", "platform": "Platform", "wall": "Duvar", "pillar": "Sütun", "disc": "Yuvarlak platform", "stairs": "Merdiven", "arch": "Kemer", "hill": "Tepe",
-    "coin": "Altın", "gem": "Mücevher", "spike": "Dikenler", "lava": "Lav", "bounce": "Zıplama pedi", "speed": "Hız pedi", "checkpoint": "Kontrol noktası", "flag": "Bayrak", "enemy": "Böcek",
-    "target": "Hedef", "turret": "Taret", "spawner": "Zombi yuvası", "heart": "Kalp", "key": "Anahtar", "door": "Kapı", "zone": "Tepe bölgesi",
-    "swatter": "Sinek raketi", "sticky": "Yapışkan zemin", "conveyor": "Konveyör", "fan": "Vantilatör", "hammer": "Çekiç", "switch": "Düğme",
-    "tree": "Ağaç", "rock": "Kaya", "flower": "Çiçek", "mushroom": "Mantar"
+    "model": "Model",
+    "block": "Blok",
+    "ramp": "Rampa",
+    "platform": "Platform",
+    "wall": "Duvar",
+    "pillar": "Sütun",
+    "disc": "Yuvarlak platform",
+    "stairs": "Merdiven",
+    "arch": "Kemer",
+    "hill": "Tepe",
+    "coin": "Altın",
+    "gem": "Mücevher",
+    "spike": "Dikenler",
+    "lava": "Lav",
+    "bounce": "Zıplama pedi",
+    "speed": "Hız pedi",
+    "checkpoint": "Kontrol noktası",
+    "flag": "Bayrak",
+    "enemy": "Böcek",
+    "target": "Hedef",
+    "turret": "Taret",
+    "spawner": "Zombi yuvası",
+    "heart": "Kalp",
+    "key": "Anahtar",
+    "door": "Kapı",
+    "zone": "Tepe bölgesi",
+    "swatter": "Sinek raketi",
+    "sticky": "Yapışkan zemin",
+    "conveyor": "Konveyör",
+    "fan": "Vantilatör",
+    "hammer": "Çekiç",
+    "switch": "Düğme",
+    "tree": "Ağaç",
+    "rock": "Kaya",
+    "flower": "Çiçek",
+    "mushroom": "Mantar"
   },
-  "wins": { "flag": "Bayrağa ulaş", "coins": "Tüm altınları topla", "survive": "Hayatta kal", "targets": "Tüm hedefleri vur", "waves": "Dalgaları yen", "hill": "Bölgeyi tut", "frags": "En çok isabet", "tag": "Ebelemece" },
-  "grounds": { "void": "Hiçbir şey (gökyüzü)", "lava": "Lav", "water": "Su", "clouds": "Bulut denizi", "toxic": "Zehirli balçık", "grass": "Çimen (sağlam)", "sand": "Kum (sağlam)", "snow": "Kar (sağlam)" },
-  "weathers": { "none": "Yok", "rain": "Yağmur", "snow": "Kar", "leaves": "Yapraklar", "embers": "Kıvılcımlar", "fireflies": "Ateş böcekleri", "bubbles": "Kabarcıklar", "petals": "Taç yaprakları" },
-  "cams": { "third": "Sineğin arkasından", "chase": "Takip kamerası", "top": "Yukarıdan", "side": "Yandan kaydırmalı", "first": "Birinci şahıs" },
+  "wins": {
+    "flag": "Bayrağa ulaş",
+    "coins": "Tüm altınları topla",
+    "survive": "Hayatta kal",
+    "targets": "Tüm hedefleri vur",
+    "waves": "Dalgaları yen",
+    "hill": "Bölgeyi tut",
+    "frags": "En çok isabet",
+    "tag": "Ebelemece"
+  },
+  "grounds": {
+    "void": "Hiçbir şey (gökyüzü)",
+    "lava": "Lav",
+    "water": "Su",
+    "clouds": "Bulut denizi",
+    "toxic": "Zehirli balçık",
+    "grass": "Çimen (sağlam)",
+    "sand": "Kum (sağlam)",
+    "snow": "Kar (sağlam)"
+  },
+  "weathers": {
+    "none": "Yok",
+    "rain": "Yağmur",
+    "snow": "Kar",
+    "leaves": "Yapraklar",
+    "embers": "Kıvılcımlar",
+    "fireflies": "Ateş böcekleri",
+    "bubbles": "Kabarcıklar",
+    "petals": "Taç yaprakları"
+  },
+  "cams": {
+    "third": "Sineğin arkasından",
+    "chase": "Takip kamerası",
+    "top": "Yukarıdan",
+    "side": "Yandan kaydırmalı",
+    "first": "Birinci şahıs"
+  },
   "edit": {
     "hi": "Selam! Hangi oyunu yapayım, söyle 👇",
     "hint_start": "Bir parçaya tıkla ve neyi değiştireceğimi söyle ya da yeni bir şey iste.",
@@ -233,7 +327,10 @@
     "built_but": "Yaptım ama {problem}. 🔧 Düzelt'e dokun.",
     "done_create": "Bitti! {n} parça. Denemek için ▶ Oyna'ya bas.",
     "fixed": "Düzeldi! Artık oynanabilir.",
-    "done_changes": { "one": "Bitti: {count} değişiklik. Başka bir şey ister misin?", "other": "Bitti: {count} değişiklik. Başka bir şey ister misin?" },
+    "done_changes": {
+      "one": "Bitti: {count} değişiklik. Başka bir şey ister misin?",
+      "other": "Bitti: {count} değişiklik. Başka bir şey ister misin?"
+    },
     "no_change": "Hiçbir şeyi değiştirmedim. Başka bir şekilde söylemeyi dener misin?",
     "failed": "{error}. Tekrar denensin mi?",
     "didnt_work": "Olmadı",
@@ -256,7 +353,10 @@
     "play": "▶ Oyna",
     "working": "🪰 İnşaatçı sinek çalışıyor…",
     "empty": "Boş: inşaatçı sineğe ne yapacağını söyle",
-    "problems": { "one": "⚠ {count} sorun: {text}", "other": "⚠ {count} sorun: {text}" },
+    "problems": {
+      "one": "⚠ {count} sorun: {text}",
+      "other": "⚠ {count} sorun: {text}"
+    },
     "playable": "✓ Oynanabilir görünüyor",
     "hint_touch": "Seçmek için bir parçaya dokun, taşımak için okları sürükle.",
     "hint_mouse": "Seçmek için bir parçaya tıkla · taşımak için okları sürükle · Del siler · Ctrl+D kopyalar",
@@ -287,7 +387,10 @@
     "ground_h": "Zemin yüksekliği",
     "weather": "Hava",
     "clouds": "Gökyüzünde bulutlar",
-    "pieces": { "one": "{count} parça", "other": "{count} parça" },
+    "pieces": {
+      "one": "{count} parça",
+      "other": "{count} parça"
+    },
     "new_here": "Yeni parçalar kameranın baktığı yere konur.",
     "models": "Modeller",
     "search_models": "Model ara: ağaç, ev, gemi…",
@@ -330,7 +433,80 @@
     "jump_h": "Zıplama yüksekliği",
     "copy": "Kopyala",
     "stop_moving": "Hareketi durdur",
-    "delete": "Sil"
+    "delete": "Sil",
+    "more": "⚙ Parçalar ve ayarlar",
+    "less": "▾ Ayarları gizle"
   },
-  "misc": { "no_reach": "Şu an oyun yapıcıya ulaşılamıyor", "maker_error": "Oyun yapıcı hatası {code}", "jump": "Zıpla", "fire": "Ateş", "dash": "Atıl" }
+  "misc": {
+    "no_reach": "Şu an oyun yapıcıya ulaşılamıyor",
+    "maker_error": "Oyun yapıcı hatası {code}",
+    "jump": "Zıpla",
+    "fire": "Ateş",
+    "dash": "Atıl"
+  },
+  "start": {
+    "surprise": "🎲 Şaşırt beni",
+    "themes_label": "Bir dünya seç:",
+    "th_pirate": "🏴‍☠️ Korsan",
+    "th_space": "🚀 Uzay",
+    "th_castle": "🏰 Kale",
+    "th_kitchen": "🍰 Mutfak",
+    "th_haunted": "👻 Perili",
+    "th_forest": "🌲 Orman",
+    "th_candy": "🍭 Şeker",
+    "th_ice": "❄️ Buz",
+    "w_pirate": "gemiler ve hazineyle dolu bir korsan koyunda",
+    "w_space": "aydaki bir uzay istasyonunda",
+    "w_castle": "kuleleri olan bir orta çağ kalesinde",
+    "w_kitchen": "yiyecek dolu dev bir mutfakta",
+    "w_haunted": "gece perili bir mezarlıkta",
+    "w_forest": "nehirli derin bir ormanda",
+    "w_candy": "tatlı bir şeker diyarında",
+    "w_ice": "donmuş buz adalarında",
+    "lay": "Tırmanmalı bir parkur|Bir altın avı|Hızlı bir yarış|Bir zombi hayatta kalma oyunu|Bir düğme bulmacası|Spiral bir kule tırmanışı|Bir labirent|Bir tepe savaşı",
+    "twist": "sallanan çekiçler|yükselen lav|yükseklere çıkaran rüzgârlar|dev sinek raketleri|düğmeyle ortaya çıkan gizli köprüler|konveyör bantları|yapışkan bal tuzakları|her yerde böcekler",
+    "template": "{world} {layout}, içinde {twist}",
+    "how": "Nasıl çalışır",
+    "how1": "<b>Bir oyunu tek satırda anlat</b> ya da fikir için 🎲'a dokun.",
+    "how2": "<b>İnşaatçı sinek saniyeler içinde yapar</b>. Herhangi bir parçaya tıkla ve değişiklik iste.",
+    "how3": "<b>▶ Oyna'ya bas</b>, sonra paylaş. Arkadaşların oynayabilir, puanlayabilir ve sana bahşiş verebilir.",
+    "got_it": "Anladım"
+  },
+  "creator": {
+    "title": "{name} adlı yapımcının oyunları",
+    "games": {
+      "one": "{count} oyun",
+      "other": "{count} oyun"
+    },
+    "plays": {
+      "one": "{count} oynanma",
+      "other": "{count} oynanma"
+    },
+    "players": {
+      "one": "{count} oyuncu",
+      "other": "{count} oyuncu"
+    },
+    "likes": "♥ {n}",
+    "rating": "★ {avg} ({n})",
+    "tips": {
+      "one": "{count} bahşiş",
+      "other": "{count} bahşiş"
+    },
+    "none": "Henüz oyun yok.",
+    "back": "← Tüm oyunlar",
+    "you": "Bu sensin"
+  },
+  "share": {
+    "share": "↗ Paylaş",
+    "title": "“{title}” paylaş",
+    "text": "Flyverse'te tek cümleyle bir oyun yaptım: {title} 🪰",
+    "text_play": "{title} oyununda rekorumu geçebilir misin? 🪰",
+    "copy": "Bağlantıyı kopyala",
+    "copied": "Kopyalandı!",
+    "x": "X'te paylaş",
+    "more": "Paylaş…",
+    "image": "Resmi kaydet",
+    "image_tip": "Resmi kaydet ve gönderine ekle.",
+    "close": "Kapat"
+  }
 }

@@ -1,5 +1,17 @@
 {
-  "types": { "parkour": "跑酷", "coins": "收集金币", "race": "竞速", "survive": "生存", "maze": "迷宫", "shooter": "射击", "zombies": "僵尸", "hill": "占领山头", "deathmatch": "死斗", "stomp": "踩踏", "tag": "捉迷藏" },
+  "types": {
+    "parkour": "跑酷",
+    "coins": "收集金币",
+    "race": "竞速",
+    "survive": "生存",
+    "maze": "迷宫",
+    "shooter": "射击",
+    "zombies": "僵尸",
+    "hill": "占领山头",
+    "deathmatch": "死斗",
+    "stomp": "踩踏",
+    "tag": "捉迷藏"
+  },
   "home": {
     "eyebrow": "Flyverse Maker · 早期测试",
     "title": "写一句话，玩一个游戏。",
@@ -28,7 +40,9 @@
     "nothing": "没有匹配的游戏。换个词或类型试试。",
     "nothing_q": "没有与“{q}”匹配的游戏。换个词或类型试试。",
     "delete_confirm": "删除这个游戏？它会从所有设备上消失。",
-    "plays_week": { "other": "▶ 本周 {count} 次游玩" },
+    "plays_week": {
+      "other": "▶ 本周 {count} 次游玩"
+    },
     "play": "开玩",
     "edit": "编辑",
     "remix": "改编",
@@ -73,7 +87,12 @@
     "sign_in": "请在右上角用测试钱包登录后进入。",
     "check_again": "重新检查"
   },
-  "by": { "by": "作者：{who}", "remix": "作者：{who} · 改编自 {by} 的“{title}”", "someone": "某人", "you": "你" },
+  "by": {
+    "by": "作者：{who}",
+    "remix": "作者：{who} · 改编自 {by} 的“{title}”",
+    "someone": "某人",
+    "you": "你"
+  },
   "play": {
     "checkpoint": "检查点！",
     "turret": "炮塔被摧毁！+30",
@@ -144,19 +163,26 @@
     "like_word": "点赞",
     "back_editor": "返回编辑器",
     "edit": "编辑",
-    "reviews": { "other": "{count} 条评价" },
+    "reviews": {
+      "other": "{count} 条评价"
+    },
     "your_review": "你的评价（随时可改）",
     "rate": "给这个游戏打分",
     "stars_label": "星级",
-    "stars_n": { "other": "{count} 星" },
+    "stars_n": {
+      "other": "{count} 星"
+    },
     "few_words": "说几句（可选）",
     "update": "更新",
     "send": "发送",
     "thanks_review": "谢谢！{reviews}，平均 {avg} ★",
-    "tips_so_far": { "other": "已有 {count} 次打赏" },
+    "tips_so_far": {
+      "other": "已有 {count} 次打赏"
+    },
     "tip_ask": "💛 喜欢吗？打赏作者（直接到对方钱包）{tips}",
     "tipped": "谢谢！你打赏了 {amount}。💛",
-    "tip_failed": "打赏没有成功"
+    "tip_failed": "打赏没有成功",
+    "mute": "声音开/关"
   },
   "pay": {
     "waiting": "正在等待付款完成…",
@@ -206,16 +232,80 @@
     "hill": "山上更多甲虫|加弹跳板|山更高|周围加熔岩"
   },
   "kinds": {
-    "model": "模型", "block": "方块", "ramp": "斜坡", "platform": "平台", "wall": "墙", "pillar": "柱子", "disc": "圆形平台", "stairs": "楼梯", "arch": "拱门", "hill": "山丘",
-    "coin": "金币", "gem": "宝石", "spike": "尖刺", "lava": "熔岩", "bounce": "弹跳板", "speed": "加速板", "checkpoint": "检查点", "flag": "旗子", "enemy": "甲虫",
-    "target": "靶子", "turret": "炮塔", "spawner": "僵尸巢穴", "heart": "爱心", "key": "钥匙", "door": "门", "zone": "占领区",
-    "swatter": "苍蝇拍", "sticky": "黏地板", "conveyor": "传送带", "fan": "风扇", "hammer": "锤子", "switch": "开关",
-    "tree": "树", "rock": "石头", "flower": "花", "mushroom": "蘑菇"
+    "model": "模型",
+    "block": "方块",
+    "ramp": "斜坡",
+    "platform": "平台",
+    "wall": "墙",
+    "pillar": "柱子",
+    "disc": "圆形平台",
+    "stairs": "楼梯",
+    "arch": "拱门",
+    "hill": "山丘",
+    "coin": "金币",
+    "gem": "宝石",
+    "spike": "尖刺",
+    "lava": "熔岩",
+    "bounce": "弹跳板",
+    "speed": "加速板",
+    "checkpoint": "检查点",
+    "flag": "旗子",
+    "enemy": "甲虫",
+    "target": "靶子",
+    "turret": "炮塔",
+    "spawner": "僵尸巢穴",
+    "heart": "爱心",
+    "key": "钥匙",
+    "door": "门",
+    "zone": "占领区",
+    "swatter": "苍蝇拍",
+    "sticky": "黏地板",
+    "conveyor": "传送带",
+    "fan": "风扇",
+    "hammer": "锤子",
+    "switch": "开关",
+    "tree": "树",
+    "rock": "石头",
+    "flower": "花",
+    "mushroom": "蘑菇"
   },
-  "wins": { "flag": "到达旗子", "coins": "收集所有金币", "survive": "生存", "targets": "击中所有靶子", "waves": "击退所有波次", "hill": "占领区域", "frags": "命中最多", "tag": "捉迷藏" },
-  "grounds": { "void": "无（天空）", "lava": "熔岩", "water": "水", "clouds": "云海", "toxic": "毒液", "grass": "草地（实地）", "sand": "沙地（实地）", "snow": "雪地（实地）" },
-  "weathers": { "none": "无", "rain": "雨", "snow": "雪", "leaves": "落叶", "embers": "火星", "fireflies": "萤火虫", "bubbles": "泡泡", "petals": "花瓣" },
-  "cams": { "third": "苍蝇身后", "chase": "追逐视角", "top": "俯视", "side": "横版", "first": "第一人称" },
+  "wins": {
+    "flag": "到达旗子",
+    "coins": "收集所有金币",
+    "survive": "生存",
+    "targets": "击中所有靶子",
+    "waves": "击退所有波次",
+    "hill": "占领区域",
+    "frags": "命中最多",
+    "tag": "捉迷藏"
+  },
+  "grounds": {
+    "void": "无（天空）",
+    "lava": "熔岩",
+    "water": "水",
+    "clouds": "云海",
+    "toxic": "毒液",
+    "grass": "草地（实地）",
+    "sand": "沙地（实地）",
+    "snow": "雪地（实地）"
+  },
+  "weathers": {
+    "none": "无",
+    "rain": "雨",
+    "snow": "雪",
+    "leaves": "落叶",
+    "embers": "火星",
+    "fireflies": "萤火虫",
+    "bubbles": "泡泡",
+    "petals": "花瓣"
+  },
+  "cams": {
+    "third": "苍蝇身后",
+    "chase": "追逐视角",
+    "top": "俯视",
+    "side": "横版",
+    "first": "第一人称"
+  },
   "edit": {
     "hi": "嗨！告诉我要做什么游戏 👇",
     "hint_start": "点一个物件告诉我要改什么，或者提出新的想法。",
@@ -233,7 +323,9 @@
     "built_but": "建好了，但是 {problem}。点 🔧 修复。",
     "done_create": "完成！共 {n} 个物件。点 ▶ 开玩试试。",
     "fixed": "修好了！现在可以玩了。",
-    "done_changes": { "other": "完成：{count} 处修改。还想要什么吗？" },
+    "done_changes": {
+      "other": "完成：{count} 处修改。还想要什么吗？"
+    },
     "no_change": "我什么都没改。换个说法试试？",
     "failed": "{error}。再试一次？",
     "didnt_work": "没有成功",
@@ -256,7 +348,9 @@
     "play": "▶ 开玩",
     "working": "🪰 建造苍蝇正在工作…",
     "empty": "空的：告诉建造苍蝇要做什么",
-    "problems": { "other": "⚠ {count} 个问题：{text}" },
+    "problems": {
+      "other": "⚠ {count} 个问题：{text}"
+    },
     "playable": "✓ 看起来可以玩",
     "hint_touch": "点一个物件来选中，拖动箭头来移动。",
     "hint_mouse": "点击物件选中 · 拖动箭头移动 · Del 删除 · Ctrl+D 复制",
@@ -287,7 +381,9 @@
     "ground_h": "地面高度",
     "weather": "天气",
     "clouds": "天空中的云",
-    "pieces": { "other": "{count} 个物件" },
+    "pieces": {
+      "other": "{count} 个物件"
+    },
     "new_here": "新物件会放在镜头看着的位置。",
     "models": "模型",
     "search_models": "搜索模型：树、房子、船…",
@@ -330,7 +426,76 @@
     "jump_h": "弹跳高度",
     "copy": "复制",
     "stop_moving": "停止移动",
-    "delete": "删除"
+    "delete": "删除",
+    "more": "⚙ 物件和设置",
+    "less": "▾ 收起设置"
   },
-  "misc": { "no_reach": "现在连不上游戏制作器", "maker_error": "游戏制作器出错 {code}", "jump": "跳跃", "fire": "射击", "dash": "冲刺" }
+  "misc": {
+    "no_reach": "现在连不上游戏制作器",
+    "maker_error": "游戏制作器出错 {code}",
+    "jump": "跳跃",
+    "fire": "射击",
+    "dash": "冲刺"
+  },
+  "start": {
+    "surprise": "🎲 随便来一个",
+    "themes_label": "选个世界：",
+    "th_pirate": "🏴‍☠️ 海盗",
+    "th_space": "🚀 太空",
+    "th_castle": "🏰 城堡",
+    "th_kitchen": "🍰 厨房",
+    "th_haunted": "👻 鬼屋",
+    "th_forest": "🌲 森林",
+    "th_candy": "🍭 糖果",
+    "th_ice": "❄️ 冰雪",
+    "w_pirate": "有船和宝藏的海盗湾",
+    "w_space": "月球上的太空站",
+    "w_castle": "有高塔的中世纪城堡",
+    "w_kitchen": "堆满食物的巨大厨房",
+    "w_haunted": "夜晚闹鬼的墓地",
+    "w_forest": "有河流的深林",
+    "w_candy": "甜蜜的糖果乐园",
+    "w_ice": "冰封的冰岛",
+    "lay": "跑酷攀登|金币寻宝|极速竞速|僵尸生存|开关谜题|螺旋塔攀登|迷宫|山头争夺",
+    "twist": "摆动的锤子|上涨的熔岩|通往高处的上升气流|巨大的苍蝇拍|按开关才出现的隐藏桥|传送带|黏糊糊的蜂蜜陷阱|到处都是甲虫",
+    "template": "在{world}里的{layout}，还有{twist}",
+    "how": "怎么玩",
+    "how1": "<b>用一句话描述游戏</b>，或点 🎲 获取灵感。",
+    "how2": "<b>建造苍蝇几秒内就建好</b>。点任意物件，提出修改。",
+    "how3": "<b>点 ▶ 开玩</b>，然后分享。朋友可以玩、评分、打赏你。",
+    "got_it": "知道了"
+  },
+  "creator": {
+    "title": "{name} 的游戏",
+    "games": {
+      "other": "{count} 个游戏"
+    },
+    "plays": {
+      "other": "{count} 次游玩"
+    },
+    "players": {
+      "other": "{count} 位玩家"
+    },
+    "likes": "♥ {n}",
+    "rating": "★ {avg}（{n}）",
+    "tips": {
+      "other": "{count} 次打赏"
+    },
+    "none": "还没有游戏。",
+    "back": "← 所有游戏",
+    "you": "我的主页"
+  },
+  "share": {
+    "share": "↗ 分享",
+    "title": "分享“{title}”",
+    "text": "我在 Flyverse 用一句话做了个游戏：{title} 🪰",
+    "text_play": "你能打破我在 {title} 的纪录吗？🪰",
+    "copy": "复制链接",
+    "copied": "已复制！",
+    "x": "发到 X",
+    "more": "分享…",
+    "image": "保存图片",
+    "image_tip": "保存图片并加到你的帖子里。",
+    "close": "关闭"
+  }
 }

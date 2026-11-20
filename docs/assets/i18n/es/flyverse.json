@@ -1,5 +1,17 @@
 {
-  "types": { "parkour": "Parkour", "coins": "Monedas", "race": "Carrera", "survive": "Supervivencia", "maze": "Laberinto", "shooter": "Disparos", "zombies": "Zombis", "hill": "Colina", "deathmatch": "Combate a muerte", "stomp": "Pisotón", "tag": "Pilla-pilla" },
+  "types": {
+    "parkour": "Parkour",
+    "coins": "Monedas",
+    "race": "Carrera",
+    "survive": "Supervivencia",
+    "maze": "Laberinto",
+    "shooter": "Disparos",
+    "zombies": "Zombis",
+    "hill": "Colina",
+    "deathmatch": "Combate a muerte",
+    "stomp": "Pisotón",
+    "tag": "Pilla-pilla"
+  },
   "home": {
     "eyebrow": "Flyverse Maker · prueba temprana",
     "title": "Escribe un juego. Juégalo.",
@@ -28,7 +40,10 @@
     "nothing": "Nada coincide. Prueba otra palabra o tipo.",
     "nothing_q": "Nada coincide con “{q}”. Prueba otra palabra o tipo.",
     "delete_confirm": "¿Borrar este juego? Desaparece de todos los dispositivos.",
-    "plays_week": { "one": "▶ {count} partida esta semana", "other": "▶ {count} partidas esta semana" },
+    "plays_week": {
+      "one": "▶ {count} partida esta semana",
+      "other": "▶ {count} partidas esta semana"
+    },
     "play": "Jugar",
     "edit": "Editar",
     "remix": "Remix",
@@ -73,7 +88,12 @@
     "sign_in": "Inicia sesión arriba a la derecha con una wallet de prueba para entrar.",
     "check_again": "Comprobar de nuevo"
   },
-  "by": { "by": "de {who}", "remix": "de {who} · remix de “{title}” de {by}", "someone": "alguien", "you": "Tú" },
+  "by": {
+    "by": "de {who}",
+    "remix": "de {who} · remix de “{title}” de {by}",
+    "someone": "alguien",
+    "you": "Tú"
+  },
   "play": {
     "checkpoint": "¡Punto de control!",
     "turret": "¡Torreta destruida! +30",
@@ -144,19 +164,29 @@
     "like_word": "Me gusta",
     "back_editor": "Volver al editor",
     "edit": "Editar",
-    "reviews": { "one": "{count} reseña", "other": "{count} reseñas" },
+    "reviews": {
+      "one": "{count} reseña",
+      "other": "{count} reseñas"
+    },
     "your_review": "Tu reseña (cámbiala cuando quieras)",
     "rate": "Valora este juego",
     "stars_label": "Estrellas",
-    "stars_n": { "one": "{count} estrella", "other": "{count} estrellas" },
+    "stars_n": {
+      "one": "{count} estrella",
+      "other": "{count} estrellas"
+    },
     "few_words": "Unas palabras (opcional)",
     "update": "Actualizar",
     "send": "Enviar",
     "thanks_review": "¡Gracias! {avg} ★ de {reviews}",
-    "tips_so_far": { "one": "{count} propina hasta ahora", "other": "{count} propinas hasta ahora" },
+    "tips_so_far": {
+      "one": "{count} propina hasta ahora",
+      "other": "{count} propinas hasta ahora"
+    },
     "tip_ask": "💛 ¿Te gustó? Deja una propina al creador (directo a su wallet) {tips}",
     "tipped": "¡Gracias! Diste una propina de {amount}. 💛",
-    "tip_failed": "La propina no se completó"
+    "tip_failed": "La propina no se completó",
+    "mute": "Sonido sí/no"
   },
   "pay": {
     "waiting": "Esperando a que se complete el pago…",
@@ -206,16 +236,80 @@
     "hill": "Más escarabajos en la colina|Añade trampolines|Haz la colina más alta|Añade lava alrededor"
   },
   "kinds": {
-    "model": "Modelo", "block": "Bloque", "ramp": "Rampa", "platform": "Plataforma", "wall": "Muro", "pillar": "Pilar", "disc": "Plataforma redonda", "stairs": "Escaleras", "arch": "Arco", "hill": "Colina",
-    "coin": "Moneda", "gem": "Gema", "spike": "Pinchos", "lava": "Lava", "bounce": "Trampolín", "speed": "Potenciador de velocidad", "checkpoint": "Punto de control", "flag": "Bandera", "enemy": "Escarabajo",
-    "target": "Diana", "turret": "Torreta", "spawner": "Nido de zombis", "heart": "Corazón", "key": "Llave", "door": "Puerta", "zone": "Zona de colina",
-    "swatter": "Matamoscas", "sticky": "Suelo pegajoso", "conveyor": "Cinta transportadora", "fan": "Ventilador", "hammer": "Martillo", "switch": "Interruptor",
-    "tree": "Árbol", "rock": "Roca", "flower": "Flor", "mushroom": "Seta"
+    "model": "Modelo",
+    "block": "Bloque",
+    "ramp": "Rampa",
+    "platform": "Plataforma",
+    "wall": "Muro",
+    "pillar": "Pilar",
+    "disc": "Plataforma redonda",
+    "stairs": "Escaleras",
+    "arch": "Arco",
+    "hill": "Colina",
+    "coin": "Moneda",
+    "gem": "Gema",
+    "spike": "Pinchos",
+    "lava": "Lava",
+    "bounce": "Trampolín",
+    "speed": "Potenciador de velocidad",
+    "checkpoint": "Punto de control",
+    "flag": "Bandera",
+    "enemy": "Escarabajo",
+    "target": "Diana",
+    "turret": "Torreta",
+    "spawner": "Nido de zombis",
+    "heart": "Corazón",
+    "key": "Llave",
+    "door": "Puerta",
+    "zone": "Zona de colina",
+    "swatter": "Matamoscas",
+    "sticky": "Suelo pegajoso",
+    "conveyor": "Cinta transportadora",
+    "fan": "Ventilador",
+    "hammer": "Martillo",
+    "switch": "Interruptor",
+    "tree": "Árbol",
+    "rock": "Roca",
+    "flower": "Flor",
+    "mushroom": "Seta"
   },
-  "wins": { "flag": "Llegar a la bandera", "coins": "Coger todas las monedas", "survive": "Sobrevivir", "targets": "Acertar todas las dianas", "waves": "Superar las oleadas", "hill": "Mantener la zona", "frags": "Más impactos", "tag": "Pilla-pilla" },
-  "grounds": { "void": "Nada (cielo)", "lava": "Lava", "water": "Agua", "clouds": "Mar de nubes", "toxic": "Limo tóxico", "grass": "Hierba (sólido)", "sand": "Arena (sólido)", "snow": "Nieve (sólido)" },
-  "weathers": { "none": "Ninguno", "rain": "Lluvia", "snow": "Nieve", "leaves": "Hojas", "embers": "Brasas", "fireflies": "Luciérnagas", "bubbles": "Burbujas", "petals": "Pétalos" },
-  "cams": { "third": "Detrás de la mosca", "chase": "Cámara de persecución", "top": "Vista cenital", "side": "Desplazamiento lateral", "first": "Primera persona" },
+  "wins": {
+    "flag": "Llegar a la bandera",
+    "coins": "Coger todas las monedas",
+    "survive": "Sobrevivir",
+    "targets": "Acertar todas las dianas",
+    "waves": "Superar las oleadas",
+    "hill": "Mantener la zona",
+    "frags": "Más impactos",
+    "tag": "Pilla-pilla"
+  },
+  "grounds": {
+    "void": "Nada (cielo)",
+    "lava": "Lava",
+    "water": "Agua",
+    "clouds": "Mar de nubes",
+    "toxic": "Limo tóxico",
+    "grass": "Hierba (sólido)",
+    "sand": "Arena (sólido)",
+    "snow": "Nieve (sólido)"
+  },
+  "weathers": {
+    "none": "Ninguno",
+    "rain": "Lluvia",
+    "snow": "Nieve",
+    "leaves": "Hojas",
+    "embers": "Brasas",
+    "fireflies": "Luciérnagas",
+    "bubbles": "Burbujas",
+    "petals": "Pétalos"
+  },
+  "cams": {
+    "third": "Detrás de la mosca",
+    "chase": "Cámara de persecución",
+    "top": "Vista cenital",
+    "side": "Desplazamiento lateral",
+    "first": "Primera persona"
+  },
   "edit": {
     "hi": "¡Hola! Dime qué juego construir 👇",
     "hint_start": "Haz clic en una pieza y dime qué cambiar, o pide algo nuevo.",
@@ -233,7 +327,10 @@
     "built_but": "Construido, pero {problem}. Toca 🔧 Arreglarlo.",
     "done_create": "¡Listo! {n} piezas. Pulsa ▶ Jugar para probarlo.",
     "fixed": "¡Arreglado! Ya se puede jugar.",
-    "done_changes": { "one": "Hecho: {count} cambio. ¿Quieres algo más?", "other": "Hecho: {count} cambios. ¿Quieres algo más?" },
+    "done_changes": {
+      "one": "Hecho: {count} cambio. ¿Quieres algo más?",
+      "other": "Hecho: {count} cambios. ¿Quieres algo más?"
+    },
     "no_change": "No cambié nada. ¿Lo dices de otra forma?",
     "failed": "{error}. ¿Lo intentamos otra vez?",
     "didnt_work": "No funcionó",
@@ -256,7 +353,10 @@
     "play": "▶ Jugar",
     "working": "🪰 La mosca constructora está trabajando…",
     "empty": "Vacío: dile a la mosca constructora qué hacer",
-    "problems": { "one": "⚠ {count} problema: {text}", "other": "⚠ {count} problemas: {text}" },
+    "problems": {
+      "one": "⚠ {count} problema: {text}",
+      "other": "⚠ {count} problemas: {text}"
+    },
     "playable": "✓ Parece jugable",
     "hint_touch": "Toca una pieza para seleccionarla, arrastra las flechas para moverla.",
     "hint_mouse": "Haz clic en una pieza para seleccionarla · arrastra las flechas para mover · Supr borra · Ctrl+D copia",
@@ -287,7 +387,10 @@
     "ground_h": "Altura del suelo",
     "weather": "Clima",
     "clouds": "Nubes en el cielo",
-    "pieces": { "one": "{count} pieza", "other": "{count} piezas" },
+    "pieces": {
+      "one": "{count} pieza",
+      "other": "{count} piezas"
+    },
     "new_here": "Las piezas nuevas aparecen donde mira la cámara.",
     "models": "Modelos",
     "search_models": "Buscar modelos: árbol, casa, barco…",
@@ -330,7 +433,80 @@
     "jump_h": "Altura del salto",
     "copy": "Copiar",
     "stop_moving": "Dejar de moverse",
-    "delete": "Borrar"
+    "delete": "Borrar",
+    "more": "⚙ Piezas y ajustes",
+    "less": "▾ Ocultar ajustes"
   },
-  "misc": { "no_reach": "Ahora no se puede conectar con el creador de juegos", "maker_error": "Error del creador de juegos {code}", "jump": "Saltar", "fire": "Disparar", "dash": "Impulso" }
+  "misc": {
+    "no_reach": "Ahora no se puede conectar con el creador de juegos",
+    "maker_error": "Error del creador de juegos {code}",
+    "jump": "Saltar",
+    "fire": "Disparar",
+    "dash": "Impulso"
+  },
+  "start": {
+    "surprise": "🎲 Sorpréndeme",
+    "themes_label": "Elige un mundo:",
+    "th_pirate": "🏴‍☠️ Piratas",
+    "th_space": "🚀 Espacio",
+    "th_castle": "🏰 Castillo",
+    "th_kitchen": "🍰 Cocina",
+    "th_haunted": "👻 Encantado",
+    "th_forest": "🌲 Bosque",
+    "th_candy": "🍭 Caramelo",
+    "th_ice": "❄️ Hielo",
+    "w_pirate": "una cala pirata con barcos y tesoros",
+    "w_space": "una estación espacial en la luna",
+    "w_castle": "un castillo medieval con torres",
+    "w_kitchen": "una cocina gigante llena de comida",
+    "w_haunted": "un cementerio encantado de noche",
+    "w_forest": "un bosque profundo con ríos",
+    "w_candy": "un mundo de caramelo",
+    "w_ice": "islas de hielo congeladas",
+    "lay": "Un parkour escalando|Una búsqueda de monedas por|Una carrera rápida por|Una supervivencia zombi en|Un puzzle de interruptores en|Una subida en espiral en|Un laberinto por|Una batalla por la colina en",
+    "twist": "martillos que se balancean|lava que sube|corrientes de aire hacia lo alto|matamoscas gigantes|puentes ocultos que aparecen con interruptores|cintas transportadoras|trampas de miel pegajosa|escarabajos por todas partes",
+    "template": "{layout} {world}, con {twist}",
+    "how": "Cómo funciona",
+    "how1": "<b>Describe un juego</b> en una línea, o toca 🎲 para una idea.",
+    "how2": "<b>La mosca constructora lo hace</b> en segundos. Haz clic en cualquier pieza y pide cambios.",
+    "how3": "<b>Pulsa ▶ Jugar</b> y compártelo. Tus amigos pueden jugar, valorarlo y darte propinas.",
+    "got_it": "Entendido"
+  },
+  "creator": {
+    "title": "Juegos de {name}",
+    "games": {
+      "one": "{count} juego",
+      "other": "{count} juegos"
+    },
+    "plays": {
+      "one": "{count} partida",
+      "other": "{count} partidas"
+    },
+    "players": {
+      "one": "{count} jugador",
+      "other": "{count} jugadores"
+    },
+    "likes": "♥ {n}",
+    "rating": "★ {avg} ({n})",
+    "tips": {
+      "one": "{count} propina",
+      "other": "{count} propinas"
+    },
+    "none": "Aún no hay juegos.",
+    "back": "← Todos los juegos",
+    "you": "Este eres tú"
+  },
+  "share": {
+    "share": "↗ Compartir",
+    "title": "Compartir “{title}”",
+    "text": "Hice un juego con una sola frase en Flyverse: {title} 🪰",
+    "text_play": "¿Puedes superar mi partida en {title}? 🪰",
+    "copy": "Copiar enlace",
+    "copied": "¡Copiado!",
+    "x": "Publicar en X",
+    "more": "Compartir…",
+    "image": "Guardar imagen",
+    "image_tip": "Guarda la imagen y añádela a tu publicación.",
+    "close": "Cerrar"
+  }
 }

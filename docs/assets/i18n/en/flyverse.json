@@ -185,7 +185,8 @@
     },
     "tip_ask": "💛 Liked it? Tip the creator (straight to their wallet) {tips}",
     "tipped": "Thank you! You tipped {amount}. 💛",
-    "tip_failed": "The tip didn't go through"
+    "tip_failed": "The tip didn't go through",
+    "mute": "Sound on/off"
   },
   "pay": {
     "waiting": "Waiting for the payment to go through…",
@@ -432,7 +433,9 @@
     "jump_h": "Jump height",
     "copy": "Copy",
     "stop_moving": "Stop moving",
-    "delete": "Delete"
+    "delete": "Delete",
+    "more": "⚙ Pieces & settings",
+    "less": "▾ Hide settings"
   },
   "misc": {
     "no_reach": "Can't reach the game maker right now",
@@ -440,5 +443,70 @@
     "jump": "Jump",
     "fire": "Fire",
     "dash": "Dash"
+  },
+  "start": {
+    "surprise": "🎲 Surprise me",
+    "themes_label": "Pick a world:",
+    "th_pirate": "🏴‍☠️ Pirate",
+    "th_space": "🚀 Space",
+    "th_castle": "🏰 Castle",
+    "th_kitchen": "🍰 Kitchen",
+    "th_haunted": "👻 Haunted",
+    "th_forest": "🌲 Forest",
+    "th_candy": "🍭 Candy",
+    "th_ice": "❄️ Ice",
+    "w_pirate": "a pirate cove with ships and treasure",
+    "w_space": "a space station on the moon",
+    "w_castle": "a medieval castle with towers",
+    "w_kitchen": "a giant kitchen full of food",
+    "w_haunted": "a haunted graveyard at night",
+    "w_forest": "a deep forest with rivers",
+    "w_candy": "a candy land of sweets",
+    "w_ice": "frozen ice islands",
+    "lay": "A parkour climb up|A coin hunt across|A fast race through|A zombie survival in|A switch puzzle in|A spiral tower climb in|A maze through|A hill battle on",
+    "twist": "swinging hammers|rising lava|fan updrafts to high places|giant fly swatters|hidden bridges that appear with switches|conveyor belts|sticky honey traps|beetles everywhere",
+    "template": "{layout} {world}, with {twist}",
+    "how": "How it works",
+    "how1": "<b>Describe a game</b> in one line, or tap 🎲 for an idea.",
+    "how2": "<b>The builder fly builds it</b> in seconds. Click any piece and ask for changes.",
+    "how3": "<b>Press ▶ Play</b>, then share it. Friends can play, rate and tip you.",
+    "got_it": "Got it"
+  },
+  "creator": {
+    "title": "{name}'s games",
+    "games": {
+      "one": "{count} game",
+      "other": "{count} games"
+    },
+    "plays": {
+      "one": "{count} play",
+      "other": "{count} plays"
+    },
+    "players": {
+      "one": "{count} player",
+      "other": "{count} players"
+    },
+    "likes": "♥ {n}",
+    "rating": "★ {avg} ({n})",
+    "tips": {
+      "one": "{count} tip",
+      "other": "{count} tips"
+    },
+    "none": "No games yet.",
+    "back": "← All games",
+    "you": "This is you"
+  },
+  "share": {
+    "share": "↗ Share",
+    "title": "Share “{title}”",
+    "text": "I made a game with one sentence on Flyverse: {title} 🪰",
+    "text_play": "Can you beat my run on {title}? 🪰",
+    "copy": "Copy link",
+    "copied": "Copied!",
+    "x": "Post on X",
+    "more": "Share…",
+    "image": "Save picture",
+    "image_tip": "Save the picture and add it to your post.",
+    "close": "Close"
   }
 }

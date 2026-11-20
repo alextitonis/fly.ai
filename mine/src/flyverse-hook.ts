@@ -16,13 +16,15 @@ let handler: Handler | null = null;
 const DEFAULT_WALLETS = "0x625862521777e19ad54ce6c7abed9ca54d6589ea,0xae92d64584e7f8e54995c362eaa8d7949fac8b1b";
 /** the first early testers, put in Flyverse's database on start; more are added from the page by the team
  * (FLYVERSE_TESTERS replaces this seed). They get an early-tester badge + some XP later. */
-const DEFAULT_TESTERS = "0xe3b79b727a642496cd2a7ac3ed7ea2899dae7a84,0x672f28a7c84528e277623a70c90600d6efca4362";
+const DEFAULT_TESTERS = "0xe3b79b727a642496cd2a7ac3ed7ea2899dae7a84,0x672f28a7c84528e277623a70c90600d6efca4362,0x9aae1f57700e3202cddeb6b7aa761f9b175e5983,0x9150cd0c6f080065f0188116e43cfd51913af278";
 
 export async function startFlyverse(deps: {
   sessionWallet: (req: IncomingMessage) => Promise<{ wallet: string } | null>;
   key: () => string;
   /** ambassadors (badge #12) are in the test too */
   isAmbassador?: (wallet: string) => Promise<boolean>;
+  /** a note in someone's site 🔔 */
+  notify?: (wallet: string, text: string, href: string) => Promise<void>;
 }) {
   const list = (process.env.FLYVERSE_WALLETS ?? DEFAULT_WALLETS).toLowerCase();
   if (list === "off") return;
@@ -54,6 +56,7 @@ export async function startFlyverse(deps: {
       dailyUsd: Number(process.env.FLYVERSE_DAILY_USD ?? 3),
       createsPerDay: Number(process.env.FLYVERSE_CREATES_PER_DAY ?? 5),
       testers,
+      notify: deps.notify,
       gate: async (req: IncomingMessage) => {
         const s = await deps.sessionWallet(req);
         if (!s) return { ok: false, why: "Sign in on fly.ai first" };
