@@ -14,6 +14,8 @@ COPY mine/package.json mine/package-lock.json mine/
 RUN cd mine && npm ci --omit=dev
 COPY mine/src mine/src
 COPY mine/web mine/web
+# Flyverse Maker (closed test): shipped by deploy.sh from the private flyverse/ folder, may be empty
+COPY flyverse flyverse
 
 ARG GIT_SHA=unknown
 ENV GIT_SHA=$GIT_SHA PORT=8080 MINE_DB=/data/mine.db TRUST_PROXY=1

@@ -32,7 +32,8 @@ let stopping = false, running = 0;
 const RESEARCH_PATHS = /^\/api\/experiments$/;
 // link + auth (2026-11-16): link codes and sign-in nonces live in one process's memory, and /api/session/link (here)
 // spends a code /api/link made - made on the mining side, every Fly Pet / extension link answered "expired"
-const USER_PATHS = /^\/api\/(flightpass|roulette|slots|race|arena|session|link|auth|vaults|profiles?|admin\/vaults|admin\/flightpass|admin\/roulette|admin\/slots|admin\/race|admin\/arena)(\/|$)|^\/api\/balance\/(deposit|withdraw-request)$/;
+// fv (2026-11-20): Flyverse Maker; its multiplayer rooms live in one process's memory, so all of it goes here
+const USER_PATHS = /^\/api\/(fv|flightpass|roulette|slots|race|arena|session|link|auth|vaults|profiles?|admin\/vaults|admin\/flightpass|admin\/roulette|admin\/slots|admin\/race|admin\/arena)(\/|$)|^\/api\/balance\/(deposit|withdraw-request)$/;
 /**
  * Pages and read-only views anyone can open, served by the user side too (2026-09-29: "the hashing power rankings
  * page takes a long time to load and often freezes" - /api/month and even /api/stake-config took 4-12 s behind the

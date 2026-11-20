@@ -44,6 +44,7 @@ import { createSlots } from "./slots.ts";
 import { createArena } from "./arena.ts";
 import { createVaults } from "./vaults.ts";
 import { createRuyui } from "./ruyui.ts";
+import { flyverseRoute, startFlyverse } from "./flyverse-hook.ts";
 import { createPartners } from "./partners.ts";
 import { createProfiles } from "./profiles.ts";
 import { createXLink } from "./xlink.ts";
@@ -4938,6 +4939,7 @@ const server = createServer(async (req, res) => {
   try {
     const url = new URL(req.url ?? "/", "http://local");
     if (await lighterRelay(req, res, url)) return;      // the wallets' signed Perps calls (src/lighterrelay.ts)
+    if (await flyverseRoute(req, res, url)) return;     // Flyverse Maker closed test (src/flyverse-hook.ts)
     markEdge(req, res, url.pathname);
     await route(req, res, url);
   } catch (err) {
@@ -4948,6 +4950,7 @@ const server = createServer(async (req, res) => {
 });
 // a job takes seconds between claim and submit; Node's 5 s default closes the idle connection just as
 // the miner reuses it
+void startFlyverse({ sessionWallet, key: () => flyChatKey });
 server.keepAliveTimeout = 65_000;
 server.headersTimeout = 66_000;
 server.listen(PORT);

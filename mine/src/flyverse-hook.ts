@@ -1,0 +1,50 @@
+/**
+ * Flyverse Maker closed test (2026-11-20): the game maker's server calls (/api/fv/*: AI builder, textures,
+ * multiplayer matchmaker). The code lives in the separate flyverse/ folder that deploy.sh ships next to mine;
+ * without it (or with FLYVERSE_WALLETS=off) these routes are simply off and answer 404 like any unknown path.
+ * Only the listed wallets (signed in on fly.ai) get in; textures and spend are kept in /data/flyverse.
+ */
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import type { IncomingMessage, ServerResponse } from "node:http";
+
+type Handler = (req: IncomingMessage, res: ServerResponse, url: URL) => Promise<boolean>;
+let handler: Handler | null = null;
+
+/** the closed test: the dev wallet and the user's personal wallet unless FLYVERSE_WALLETS says otherwise */
+const DEFAULT_WALLETS = "0x625862521777e19ad54ce6c7abed9ca54d6589ea,0xae92d64584e7f8e54995c362eaa8d7949fac8b1b";
+
+export async function startFlyverse(deps: { sessionWallet: (req: IncomingMessage) => Promise<{ wallet: string } | null>; key: () => string }) {
+  const list = (process.env.FLYVERSE_WALLETS ?? DEFAULT_WALLETS).toLowerCase();
+  if (list === "off") return;
+  const wallets = list.split(",").map((s) => s.trim()).filter(Boolean);
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../flyverse");
+  const data = process.env.FLYVERSE_DATA ?? (process.env.MINE_DB ? path.join(path.dirname(process.env.MINE_DB), "flyverse") : path.join(root, "data", "mine"));
+  const spec = path.join(root, "server", "routes.ts");
+  try {
+    const m = await import(/* not in the public repo */ new URL("file:///" + spec.replace(/\\/g, "/").replace(/^\//, "")).href);
+    handler = m.createFlyverse({
+      key: deps.key,
+      texDir: path.join(data, "textures"),
+      texSeedDir: path.join(root, "data", "textures"),
+      modelsCatalog: path.join(root, "public", "models", "catalog.json"),
+      spendFile: path.join(data, "spend.json"),
+      dbFile: path.join(data, "fv.db"),
+      dailyUsd: Number(process.env.FLYVERSE_DAILY_USD ?? 3),
+      gate: async (req: IncomingMessage) => {
+        const s = await deps.sessionWallet(req);
+        if (!s) return { ok: false, why: "Sign in on fly.ai first" };
+        const w = s.wallet.toLowerCase();
+        return wallets.includes(w) ? { ok: true, wallet: w } : { ok: false, wallet: w, why: "This wallet isn't on the test list" };
+      },
+      log: (msg: string) => console.log(msg),
+    });
+    console.log(`flyverse: on for ${wallets.length} wallet(s), data in ${data}`);
+  } catch (e) {
+    console.log(`flyverse: off (${e instanceof Error ? e.message.slice(0, 120) : e})`);
+  }
+}
+
+export function flyverseRoute(req: IncomingMessage, res: ServerResponse, url: URL): Promise<boolean> {
+  return handler && url.pathname.startsWith("/api/fv/") ? handler(req, res, url) : Promise.resolve(false);
+}

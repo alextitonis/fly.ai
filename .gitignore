@@ -64,4 +64,5 @@ flytrade/
 # private game repo (its own git)
 game/
 flyborne/
+/flyverse/
 /.codex-deploy-20261102

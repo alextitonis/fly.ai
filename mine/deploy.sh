@@ -25,6 +25,16 @@ cp "$ROOT"/world/src/arena/game.ts "$ROOT"/world/src/arena/readout.ts "$ROOT"/wo
 cp -r "$ROOT"/world/public/connectome "$STAGE/world/public/"
 cp "$ROOT"/mine/package.json "$ROOT"/mine/package-lock.json "$ROOT"/mine/Dockerfile "$ROOT"/mine/fly.toml "$STAGE/mine/"
 cp -r "$ROOT"/mine/src "$ROOT"/mine/web "$STAGE/mine/"
+# Flyverse Maker closed test (2026-11-20): its server code lives in the private flyverse/ folder (not in git);
+# ship it when it's here, else an empty folder and the /api/fv routes stay off
+mkdir -p "$STAGE/flyverse"
+if [ -d "$ROOT/flyverse/server" ]; then
+  mkdir -p "$STAGE/flyverse/src" "$STAGE/flyverse/public/models" "$STAGE/flyverse/data"
+  cp -r "$ROOT"/flyverse/server "$STAGE/flyverse/"
+  cp "$ROOT"/flyverse/src/spec.ts "$ROOT"/flyverse/src/assets.ts "$ROOT"/flyverse/src/textures.ts "$STAGE/flyverse/src/"
+  cp "$ROOT"/flyverse/public/models/catalog.json "$STAGE/flyverse/public/models/"
+  [ -d "$ROOT/flyverse/data/textures" ] && cp -r "$ROOT"/flyverse/data/textures "$STAGE/flyverse/data/"
+fi
 
 SHA="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || echo unknown)"
 git -C "$ROOT" diff --quiet HEAD -- mine world/src/connectome.ts world/src/rng.ts world/src/roulette world/src/slots world/src/race world/src/arena 2>/dev/null \
