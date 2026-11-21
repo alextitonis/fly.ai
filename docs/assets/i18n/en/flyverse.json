@@ -24,7 +24,7 @@
     "ex5": "A glowing night maze with gems hidden in dead ends",
     "eg": "e.g. {text}",
     "make": "Make it",
-    "left": "{left} of {limit} new games left today · changing your games is unlimited",
+    "left": "{left} of {limit} new games left today · up to {changes} changes a day",
     "none_left": "That's your {limit} new games for today. You can still change your games; new ones tomorrow (03:00 TRT).",
     "your_games": "Your games",
     "browse": "Browse games",

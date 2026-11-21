@@ -24,7 +24,7 @@
     "ex5": "Un laberinto nocturno brillante con gemas escondidas en callejones sin salida",
     "eg": "p. ej. {text}",
     "make": "Crear",
-    "left": "Te quedan {left} de {limit} juegos nuevos hoy · cambiar tus juegos es ilimitado",
+    "left": "Te quedan {left} de {limit} juegos nuevos hoy · hasta {changes} cambios al día",
     "none_left": "Ya hiciste tus {limit} juegos nuevos de hoy. Puedes seguir cambiando tus juegos; nuevos mañana (03:00 TRT).",
     "your_games": "Tus juegos",
     "browse": "Explorar juegos",

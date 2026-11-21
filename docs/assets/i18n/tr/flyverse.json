@@ -24,7 +24,7 @@
     "ex5": "Çıkmaz sokaklarda mücevherler saklı, parlayan bir gece labirenti",
     "eg": "örn. {text}",
     "make": "Oluştur",
-    "left": "Bugün {limit} yeni oyundan {left} hakkın kaldı · oyunlarını değiştirmek sınırsız",
+    "left": "Bugün {limit} yeni oyundan {left} hakkın kaldı · günde en fazla {changes} değişiklik",
     "none_left": "Bugünkü {limit} yeni oyun hakkını kullandın. Oyunlarını değiştirmeye devam edebilirsin; yenileri yarın (03:00 TRT).",
     "your_games": "Oyunların",
     "browse": "Oyunlara göz at",
