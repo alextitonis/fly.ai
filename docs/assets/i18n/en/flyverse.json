@@ -599,7 +599,10 @@
     "planning_edit": "Let me plan that change first…",
     "eyebrow_edit": "📝 The plan for this change",
     "do_it": "Do it ▶",
-    "skip_edit": "Just do it"
+    "skip_edit": "Just do it",
+    "change_failed": "Couldn't rework the plan just now: I kept your line in it. Build it, or try the change again.",
+    "reworking": "Reworking the plan around your line…",
+    "yours": "Your line: the builders follow it as you wrote it"
   },
   "pub": {
     "eyebrow_new": "Publish",

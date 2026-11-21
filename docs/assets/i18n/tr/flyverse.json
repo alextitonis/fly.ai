@@ -599,7 +599,10 @@
     "planning_edit": "Önce bu değişikliği planlayayım…",
     "eyebrow_edit": "📝 Bu değişikliğin planı",
     "do_it": "Yap ▶",
-    "skip_edit": "Plansız yap"
+    "skip_edit": "Plansız yap",
+    "change_failed": "Planı şu an yeniden düzenleyemedim: senin satırını içinde tuttum. İnşa et ya da değişikliği tekrar dene.",
+    "reworking": "Plan senin satırına göre yeniden düzenleniyor…",
+    "yours": "Senin satırın: inşaatçılar onu yazdığın gibi uygular"
   },
   "pub": {
     "eyebrow_new": "Yayınla",

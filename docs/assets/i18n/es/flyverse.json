@@ -599,7 +599,10 @@
     "planning_edit": "Primero voy a planear ese cambio…",
     "eyebrow_edit": "📝 El plan para este cambio",
     "do_it": "Hazlo ▶",
-    "skip_edit": "Hazlo sin plan"
+    "skip_edit": "Hazlo sin plan",
+    "change_failed": "No pude rehacer el plan ahora mismo: dejé tu línea en él. Constrúyelo o prueba el cambio otra vez.",
+    "reworking": "Rehaciendo el plan con tu línea…",
+    "yours": "Tu línea: los constructores la siguen tal como la escribiste"
   },
   "pub": {
     "eyebrow_new": "Publicar",
