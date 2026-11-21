@@ -26,6 +26,7 @@
     "how": "运作方式"
   },
   "e": {
+    "d1121a": "<b>行情不好时的永续合约。</b>市场走弱时，果蝇现在可以在 Lighter 上做空 BTC、ETH 和美股（1 倍，不借贷，每个仓位都有止损）。使用“Let it fly”且资金在 $44 以上的果蝇，以及 Fly Pool 和 Partners pot，都已开启永续合约；在下跌行情中最多可使用钱包的 40%。你可以随时在果蝇的设置中关闭。<a href=\"/traderflies/\">我的果蝇</a>",
     "d1116c": "<b>Degen Sniper 让赢家多跑一段。</b>狙击现在在新代币涨到 5 倍或毕业时、或从最高点下跌 40% 时全部卖出（之前是 2 倍或下跌 20%），并在流动性大幅撤出时才离场。旧的卖出规则会在少数上涨的代币涨上去之前就卖掉。使用预设卖出规则的苍蝇已切换；你自己改过的设置保持不变。<a href=\"/traderflies/\">我的苍蝇</a>",
     "d1116b": "<b>你的苍蝇可以持有 BNB。</b>把 BNB Smart Chain 上的 BNB 直接发送到苍蝇的钱包地址（任何钱包或交易所均可），或在充值框中选择\"保留为 BNB\"。苍蝇会以 BNB 持有，用它支付 BNB Chain 上的交易（无需跨链桥），卖出时换回 BNB。它计入充值和盈亏，提现时与其他资产一样支付。 <a href=\"/traderflies/\">My flies</a>",
     "d1116a": "<b>从 BNB Chain 充值。</b>现在可以直接用 BNB Chain 上的 BNB、USDT 或 USDC 为你的苍蝇充值：资金以 Robinhood Chain 上的美元到达苍蝇钱包，无需跨链桥，我们不收手续费。$FLYAI 购买框也支持 BNB Chain。 <a href=\"/traderflies/\">My flies</a>",
