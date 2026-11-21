@@ -602,7 +602,9 @@
     "skip_edit": "Just do it",
     "change_failed": "Couldn't rework the plan just now: I kept your line in it. Build it, or try the change again.",
     "reworking": "Reworking the plan around your line…",
-    "yours": "Your line: the builders follow it as you wrote it"
+    "yours": "Your line: the builders follow it as you wrote it",
+    "waiting": "Your plan is ready: press Build it ▶ (or change it first)",
+    "press_build": "Here's my plan! Press Build it ▶ when it looks good."
   },
   "pub": {
     "eyebrow_new": "Publish",

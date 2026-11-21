@@ -602,7 +602,9 @@
     "skip_edit": "Hazlo sin plan",
     "change_failed": "No pude rehacer el plan ahora mismo: dejé tu línea en él. Constrúyelo o prueba el cambio otra vez.",
     "reworking": "Rehaciendo el plan con tu línea…",
-    "yours": "Tu línea: los constructores la siguen tal como la escribiste"
+    "yours": "Tu línea: los constructores la siguen tal como la escribiste",
+    "waiting": "Tu plan está listo: pulsa Constrúyelo ▶ (o cámbialo antes)",
+    "press_build": "¡Este es mi plan! Pulsa Constrúyelo ▶ cuando te guste."
   },
   "pub": {
     "eyebrow_new": "Publicar",

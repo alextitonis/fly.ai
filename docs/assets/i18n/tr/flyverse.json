@@ -602,7 +602,9 @@
     "skip_edit": "Plansız yap",
     "change_failed": "Planı şu an yeniden düzenleyemedim: senin satırını içinde tuttum. İnşa et ya da değişikliği tekrar dene.",
     "reworking": "Plan senin satırına göre yeniden düzenleniyor…",
-    "yours": "Senin satırın: inşaatçılar onu yazdığın gibi uygular"
+    "yours": "Senin satırın: inşaatçılar onu yazdığın gibi uygular",
+    "waiting": "Planın hazır: İnşa et ▶'e bas (ya da önce değiştir)",
+    "press_build": "İşte planım! Beğenince İnşa et ▶'e bas."
   },
   "pub": {
     "eyebrow_new": "Yayınla",
