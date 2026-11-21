@@ -272,7 +272,10 @@
       "kHint": "蒼蠅錢包裡保持 ${usd} 以上且不提領。提領會重新計算。",
       "kDays": "保持 {n} 天",
       "kNow": "目前：${usd}，{d} 天",
-      "kNone": "目前：還沒有存入"
+      "kNone": "目前：還沒有存入",
+      "b_fvtester": "測試者",
+      "b_fvcreator": "創作者",
+      "b_fvace": "高手"
     },
     "terminal": {
       "label": "Fly 終端",
@@ -557,7 +560,13 @@
     "s_partners": "交易中的合作夥伴 NFT",
     "h_partners": "<b>合作夥伴 NFT</b>：每個自己錢包正在交易的合作夥伴 NFT（Bullas、Enjoyoors、Waifus、RUYUI…）每天 10 XP，和活躍的蒼蠅一樣。",
     "b_champion": "聯賽冠軍",
-    "bn_champion": "贏得每週 Fly League 的一個組別"
+    "bn_champion": "贏得每週 Fly League 的一個組別",
+    "b_fvtester": "Flyverse 測試者",
+    "bn_fvtester": "在 Flyverse 封閉測試期間參與測試",
+    "b_fvcreator": "Flyverse 創作者",
+    "bn_fvcreator": "做出一個有 25 位真實玩家玩過的 Flyverse 遊戲（或在 Fly Jam 進入前 3）",
+    "b_fvace": "Flyverse 高手",
+    "bn_fvace": "贏下一次 Flyverse 每日挑戰，或在別人的 5 個遊戲裡排名第 1"
   },
   "flychat": {
     "title": "蒼蠅 #{id}",

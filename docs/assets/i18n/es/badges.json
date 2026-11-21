@@ -92,6 +92,18 @@
     "champion": {
       "name": "Campeón de la Liga",
       "need": "Gana una categoría de la Fly League semanal (la mejor semana de tu wallet para su tamaño)."
+    },
+    "fvtester": {
+      "name": "Tester de Flyverse",
+      "need": "Prueba Flyverse mientras es una prueba cerrada."
+    },
+    "fvcreator": {
+      "name": "Creador de Flyverse",
+      "need": "Haz un juego de Flyverse que jueguen 25 jugadores reales (o queda top 3 en una Fly Jam)."
+    },
+    "fvace": {
+      "name": "As de Flyverse",
+      "need": "Gana un reto diario de Flyverse, o sé el n.º 1 en 5 juegos de otras personas."
     }
   },
   "share": {

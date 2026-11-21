@@ -272,7 +272,10 @@
       "kHint": "Para çekmeden sinek cüzdanlarında ${usd}+. Para çekmek sayımı sıfırlar.",
       "kDays": "{n} gün içeride",
       "kNow": "Şimdi: ${usd} içeride, {d} gün",
-      "kNone": "Şimdi: henüz içeride para yok"
+      "kNone": "Şimdi: henüz içeride para yok",
+      "b_fvtester": "Testçi",
+      "b_fvcreator": "Yaratıcı",
+      "b_fvace": "As"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -557,7 +560,13 @@
     "s_partners": "İşlem yapan ortak NFT'ler",
     "h_partners": "<b>Ortak NFT'ler</b>: kendi cüzdanı işlem yapan her ortak NFT (Bullas, Enjoyoors, Waifus, RUYUI...) için günde 10 XP, aktif bir sinek gibi.",
     "b_champion": "Lig Şampiyonu",
-    "bn_champion": "Haftalık Fly League'de bir grubu kazan"
+    "bn_champion": "Haftalık Fly League'de bir grubu kazan",
+    "b_fvtester": "Flyverse Testçisi",
+    "bn_fvtester": "Flyverse kapalı testteyken test et",
+    "b_fvcreator": "Flyverse Yaratıcısı",
+    "bn_fvcreator": "25 gerçek oyuncunun oynadığı bir Flyverse oyunu yap (ya da bir Fly Jam'de ilk 3'e gir)",
+    "b_fvace": "Flyverse Ası",
+    "bn_fvace": "Bir Flyverse günlük meydan okumasını kazan ya da başkalarının 5 oyununda 1. ol"
   },
   "flychat": {
     "title": "Sinek #{id}",

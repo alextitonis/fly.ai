@@ -92,6 +92,18 @@
     "champion": {
       "name": "League Champion",
       "need": "Win a bracket of the weekly Fly League (your fly wallet's best week for its size)."
+    },
+    "fvtester": {
+      "name": "Flyverse Tester",
+      "need": "Test Flyverse while it's a closed test."
+    },
+    "fvcreator": {
+      "name": "Flyverse Creator",
+      "need": "Make a Flyverse game 25 real players play (or place top 3 in a Fly Jam)."
+    },
+    "fvace": {
+      "name": "Flyverse Ace",
+      "need": "Win a Flyverse daily challenge, or be #1 on 5 other people's games."
     }
   },
   "share": {

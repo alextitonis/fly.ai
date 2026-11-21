@@ -92,6 +92,18 @@
     "champion": {
       "name": "리그 챔피언",
       "need": "주간 Fly League에서 한 구간 우승 (같은 규모 중 최고의 한 주)."
+    },
+    "fvtester": {
+      "name": "Flyverse 테스터",
+      "need": "Flyverse 비공개 테스트에 참여하기."
+    },
+    "fvcreator": {
+      "name": "Flyverse 크리에이터",
+      "need": "실제 플레이어 25명이 플레이한 Flyverse 게임 만들기 (또는 Fly Jam 3위 안에 들기)."
+    },
+    "fvace": {
+      "name": "Flyverse 에이스",
+      "need": "Flyverse 일일 챌린지 우승, 또는 다른 사람 게임 5개에서 1위."
     }
   },
   "share": {

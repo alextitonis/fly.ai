@@ -1,0 +1,16 @@
+{
+  "name": "Flyverse Creator",
+  "description": "Made a Flyverse game that 25 real players played, or placed top 3 in a weekly Fly Jam. Soulbound: stays with the wallet that earned it.",
+  "image": "https://flyaiworld.com/assets/badges/15.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Flyverse"
+    },
+    {
+      "trait_type": "Soulbound",
+      "value": "Yes"
+    }
+  ]
+}

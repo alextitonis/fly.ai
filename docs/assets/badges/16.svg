@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Flyverse Ace badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#06140f" stroke="#5ef2cc" stroke-width="10"/>
+  <!-- a gold star with a fly, and a #1 ribbon -->
+  <path d="M256 104l38 78 86 12-62 60 15 86-77-41-77 41 15-86-62-60 86-12z" fill="#5ef2cc"/>
+  <g fill="#06140f">
+    <ellipse cx="256" cy="254" rx="13" ry="26"/>
+    <circle cx="256" cy="222" r="11"/>
+    <ellipse cx="233" cy="248" rx="22" ry="8" transform="rotate(-28 233 248)" fill-opacity=".7"/>
+    <ellipse cx="279" cy="248" rx="22" ry="8" transform="rotate(28 279 248)" fill-opacity=".7"/>
+  </g>
+  <path d="M196 362h120v52l-60-22-60 22z" fill="#fff"/>
+  <text x="256" y="396" text-anchor="middle" font-family="Outfit, system-ui, sans-serif" font-weight="800" font-size="30" fill="#06140f">#1</text>
+  <g fill="#fff"><circle cx="146" cy="120" r="7"/><circle cx="372" cy="112" r="9"/><circle cx="392" cy="300" r="6"/><circle cx="118" cy="292" r="6"/></g>
+</svg>

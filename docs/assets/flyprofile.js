@@ -28,6 +28,7 @@
     b_payroll: "On Payroll", bn_payroll: "Claim 8 Fly Desk payouts.",
     b_recruiter: "Recruiter", bn_recruiter: "Bring 1 real referral: $20+ in Fly Wallets for 7 days, or a Fly Desk payout.",
     b_piedpiper: "Pied Piper", bn_piedpiper: "Bring 10 real referrals.", b_champion: "League Champion", bn_champion: "Win a bracket of the weekly Fly League.",
+    b_fvtester: "Flyverse Tester", bn_fvtester: "Test Flyverse while it's a closed test.", b_fvcreator: "Flyverse Creator", bn_fvcreator: "Make a Flyverse game 25 real players play (or place top 3 in a Fly Jam).", b_fvace: "Flyverse Ace", bn_fvace: "Win a Flyverse daily challenge, or be #1 on 5 other people's games.",
     b_ambassador: "Ambassador", bn_ambassador: "Invited only: given to fly.ai's ambassadors.",
     badges: "Badges", noBadges: "No badges yet", sources: "Where the XP comes from", noXp: "No XP yet", refCode: "Referral code",
     board: "XP leaderboard", share: "Share on X", shareHint: "Post about fly.ai (@flydotai, $FLYAI or fly.ai) from your linked X account: posts are counted overnight, +20 XP for each one (not replies), up to 5 a day.",
@@ -80,7 +81,7 @@
   /** 2026-11-11 (a holder asked what the icons mean): each badge is a button; a tap (or hover) shows its name and how
    * to get it under the row, the same words as the Badges page. */
   const BADGE_KEY = { 1: "larva", 2: "lord", 3: "diamond", 4: "og", 5: "flyowner", 6: "swarm", 7: "queen", 8: "payday", 9: "payroll",
-    10: "recruiter", 11: "piedpiper", 12: "ambassador", 13: "champion" };   // the token ids (mine src/badges.ts)
+    10: "recruiter", 11: "piedpiper", 12: "ambassador", 13: "champion", 14: "fvtester", 15: "fvcreator", 16: "fvace" };   // the token ids (mine src/badges.ts)
   function badgeRow(ids) {
     const info = el("p", { className: "flyprof-msg flyprof-binfo", textContent: t("badgeTap") });
     let on = null;

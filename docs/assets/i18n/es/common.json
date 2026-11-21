@@ -272,7 +272,10 @@
       "kHint": "${usd}+ en tus wallets de moscas sin retirar. Un retiro reinicia la cuenta.",
       "kDays": "{n} días dentro",
       "kNow": "Ahora: ${usd} dentro, {d} días",
-      "kNone": "Ahora: nada dentro todavía"
+      "kNone": "Ahora: nada dentro todavía",
+      "b_fvtester": "Tester",
+      "b_fvcreator": "Creador",
+      "b_fvace": "As"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -557,7 +560,13 @@
     "s_partners": "NFT socios operando",
     "h_partners": "<b>NFT socios</b>: 10 XP al día por cada NFT socio (Bullas, Enjoyoors, Waifus, RUYUI...) cuya propia wallet está operando, como una mosca activa.",
     "b_champion": "Campeón de la Liga",
-    "bn_champion": "Gana una categoría de la Fly League semanal"
+    "bn_champion": "Gana una categoría de la Fly League semanal",
+    "b_fvtester": "Tester de Flyverse",
+    "bn_fvtester": "Prueba Flyverse mientras es una prueba cerrada",
+    "b_fvcreator": "Creador de Flyverse",
+    "bn_fvcreator": "Haz un juego de Flyverse que jueguen 25 jugadores reales (o queda top 3 en una Fly Jam)",
+    "b_fvace": "As de Flyverse",
+    "bn_fvace": "Gana un reto diario de Flyverse, o sé el n.º 1 en 5 juegos de otras personas"
   },
   "flychat": {
     "title": "Mosca #{id}",

@@ -236,7 +236,7 @@ try {
   check("the ambassador badge is invite-only: never claimable", s.ambassador === "invite" && (await states(DEV)).ambassador === "invite", JSON.stringify(s));
   held.set(`${A}:12`, 1n);
   check("a granted ambassador badge shows as held", (await states(A)).ambassador === "held");
-  check("the public view has all thirteen and their claim counts", sent.at(-1)!.body.badges.length === 13 && sent.at(-1)!.body.badges[0].claimed === 7);
+  check("the public view has all sixteen and their claim counts", sent.at(-1)!.body.badges.length === 16 && sent.at(-1)!.body.badges[0].claimed === 7);
 
   const off = createBadges({ pg, chain, cfg: badgeConfig({}), HttpError, send: (_r, status, body) => { sent.push({ status, body }); }, sessionWallet: async () => session });
   await off.route({ method: "GET", headers: {} } as any, res, new URL("http://x/api/badges/me"));

@@ -92,6 +92,18 @@
     "champion": {
       "name": "聯賽冠軍",
       "need": "贏得每週 Fly League 的一個組別（同規模錢包中本週表現最好）。"
+    },
+    "fvtester": {
+      "name": "Flyverse 測試者",
+      "need": "在 Flyverse 封閉測試期間參與測試."
+    },
+    "fvcreator": {
+      "name": "Flyverse 創作者",
+      "need": "做出一個有 25 位真實玩家玩過的 Flyverse 遊戲（或在 Fly Jam 進入前 3）."
+    },
+    "fvace": {
+      "name": "Flyverse 高手",
+      "need": "贏下一次 Flyverse 每日挑戰，或在別人的 5 個遊戲裡排名第 1."
     }
   },
   "share": {

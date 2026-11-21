@@ -1,0 +1,16 @@
+{
+  "name": "Flyverse Ace",
+  "description": "Won a Flyverse daily challenge, or held #1 on the leaderboards of 5 other people's games. Soulbound: stays with the wallet that earned it.",
+  "image": "https://flyaiworld.com/assets/badges/16.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Flyverse"
+    },
+    {
+      "trait_type": "Soulbound",
+      "value": "Yes"
+    }
+  ]
+}

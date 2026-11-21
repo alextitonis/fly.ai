@@ -25,6 +25,9 @@ export async function startFlyverse(deps: {
   isAmbassador?: (wallet: string) => Promise<boolean>;
   /** a note in someone's site 🔔 */
   notify?: (wallet: string, text: string, href: string) => Promise<void>;
+  /** Flyverse quests and milestones as fly.ai XP (source "quest"), and the Flyverse badges (#14-16) */
+  awardXp?: (wallet: string, xp: number, ref: string) => Promise<void>;
+  earnBadge?: (wallet: string, badge: string) => Promise<void>;
 }) {
   const list = (process.env.FLYVERSE_WALLETS ?? DEFAULT_WALLETS).toLowerCase();
   if (list === "off") return;
@@ -56,7 +59,12 @@ export async function startFlyverse(deps: {
       dailyUsd: Number(process.env.FLYVERSE_DAILY_USD ?? 3),
       createsPerDay: Number(process.env.FLYVERSE_CREATES_PER_DAY ?? 5),
       testers,
+      teamWallets: wallets,
       notify: deps.notify,
+      awardXp: deps.awardXp,
+      earnBadge: deps.earnBadge,
+      // the early-tester badge is handed out while the test is closed (FLYVERSE_TESTER_BADGE=off once it opens)
+      testerBadge: process.env.FLYVERSE_TESTER_BADGE !== "off",
       gate: async (req: IncomingMessage) => {
         const s = await deps.sessionWallet(req);
         if (!s) return { ok: false, why: "Sign in on fly.ai first" };

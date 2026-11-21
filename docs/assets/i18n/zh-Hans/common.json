@@ -272,7 +272,10 @@
       "kHint": "苍蝇钱包里保持 ${usd} 以上且不提现。提现会重新计算。",
       "kDays": "保持 {n} 天",
       "kNow": "当前：${usd}，{d} 天",
-      "kNone": "当前：还没有存入"
+      "kNone": "当前：还没有存入",
+      "b_fvtester": "测试者",
+      "b_fvcreator": "创作者",
+      "b_fvace": "高手"
     },
     "terminal": {
       "label": "Fly 终端",
@@ -557,7 +560,13 @@
     "s_partners": "交易中的合作伙伴 NFT",
     "h_partners": "<b>合作伙伴 NFT</b>：每个自己钱包正在交易的合作伙伴 NFT（Bullas、Enjoyoors、Waifus、RUYUI…）每天 10 XP，和活跃的苍蝇一样。",
     "b_champion": "联赛冠军",
-    "bn_champion": "赢得每周 Fly League 的一个组别"
+    "bn_champion": "赢得每周 Fly League 的一个组别",
+    "b_fvtester": "Flyverse 测试者",
+    "bn_fvtester": "在 Flyverse 封闭测试期间参与测试",
+    "b_fvcreator": "Flyverse 创作者",
+    "bn_fvcreator": "做出一个有 25 位真实玩家玩过的 Flyverse 游戏（或在 Fly Jam 进入前 3）",
+    "b_fvace": "Flyverse 高手",
+    "bn_fvace": "赢下一次 Flyverse 每日挑战，或在别人的 5 个游戏里排名第 1"
   },
   "flychat": {
     "title": "苍蝇 #{id}",

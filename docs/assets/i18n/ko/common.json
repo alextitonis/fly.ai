@@ -272,7 +272,10 @@
       "kHint": "출금 없이 파리 지갑에 ${usd} 이상. 출금하면 다시 시작됩니다.",
       "kDays": "{n}일 유지",
       "kNow": "현재: ${usd}, {d}일",
-      "kNone": "현재: 아직 넣어둔 금액 없음"
+      "kNone": "현재: 아직 넣어둔 금액 없음",
+      "b_fvtester": "테스터",
+      "b_fvcreator": "크리에이터",
+      "b_fvace": "에이스"
     },
     "terminal": {
       "label": "Fly 터미널",
@@ -557,7 +560,13 @@
     "s_partners": "거래 중인 파트너 NFT",
     "h_partners": "<b>파트너 NFT</b>: 자체 지갑이 거래 중인 파트너 NFT(Bullas, Enjoyoors, Waifus, RUYUI...) 하나당 하루 10 XP, 활성 파리처럼.",
     "b_champion": "리그 챔피언",
-    "bn_champion": "주간 Fly League에서 한 구간 우승"
+    "bn_champion": "주간 Fly League에서 한 구간 우승",
+    "b_fvtester": "Flyverse 테스터",
+    "bn_fvtester": "Flyverse 비공개 테스트에 참여하기",
+    "b_fvcreator": "Flyverse 크리에이터",
+    "bn_fvcreator": "실제 플레이어 25명이 플레이한 Flyverse 게임 만들기 (또는 Fly Jam 3위 안에 들기)",
+    "b_fvace": "Flyverse 에이스",
+    "bn_fvace": "Flyverse 일일 챌린지 우승, 또는 다른 사람 게임 5개에서 1위"
   },
   "flychat": {
     "title": "플라이 #{id}",

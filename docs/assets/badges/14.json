@@ -1,0 +1,16 @@
+{
+  "name": "Flyverse Tester",
+  "description": "One of the first players to test Flyverse, fly.ai's AI 3D game maker, while it was a closed test. Soulbound: stays with the wallet that earned it.",
+  "image": "https://flyaiworld.com/assets/badges/14.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Flyverse"
+    },
+    {
+      "trait_type": "Soulbound",
+      "value": "Yes"
+    }
+  ]
+}

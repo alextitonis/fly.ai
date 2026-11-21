@@ -92,6 +92,18 @@
     "champion": {
       "name": "Lig Şampiyonu",
       "need": "Haftalık Fly League'de bir grubu kazan (cüzdanının boyutuna göre en iyi haftası)."
+    },
+    "fvtester": {
+      "name": "Flyverse Testçisi",
+      "need": "Flyverse kapalı testteyken test et."
+    },
+    "fvcreator": {
+      "name": "Flyverse Yaratıcısı",
+      "need": "25 gerçek oyuncunun oynadığı bir Flyverse oyunu yap (ya da bir Fly Jam'de ilk 3'e gir)."
+    },
+    "fvace": {
+      "name": "Flyverse Ası",
+      "need": "Bir Flyverse günlük meydan okumasını kazan ya da başkalarının 5 oyununda 1. ol."
     }
   },
   "share": {

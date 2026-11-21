@@ -272,7 +272,10 @@
       "kHint": "${usd}+ in your fly wallets with no withdrawal. A withdrawal starts the count again.",
       "kDays": "{n} days kept in",
       "kNow": "Now: ${usd} in, {d} days",
-      "kNone": "Now: nothing kept in yet"
+      "kNone": "Now: nothing kept in yet",
+      "b_fvtester": "Tester",
+      "b_fvcreator": "Creator",
+      "b_fvace": "Ace"
     },
     "terminal": {
       "label": "Fly Terminal",
@@ -557,7 +560,13 @@
     "s_partners": "Partner NFTs trading",
     "h_partners": "<b>Partner NFTs</b>: 10 XP a day for each partner NFT (Bullas, Enjoyoors, Waifus, RUYUI...) whose own wallet is trading, like an active fly.",
     "b_champion": "League Champion",
-    "bn_champion": "Win a bracket of the weekly Fly League"
+    "bn_champion": "Win a bracket of the weekly Fly League",
+    "b_fvtester": "Flyverse Tester",
+    "bn_fvtester": "Test Flyverse while it's a closed test",
+    "b_fvcreator": "Flyverse Creator",
+    "bn_fvcreator": "Make a Flyverse game 25 real players play (or place top 3 in a Fly Jam)",
+    "b_fvace": "Flyverse Ace",
+    "bn_fvace": "Win a Flyverse daily challenge, or be #1 on 5 other people's games"
   },
   "flychat": {
     "title": "Fly #{id}",

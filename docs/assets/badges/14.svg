@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Flyverse Tester badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#06140f" stroke="#5ef2cc" stroke-width="10"/>
+  <!-- a test flask with a fly inside -->
+  <path d="M222 120h68M232 120v72l-62 118c-10 20 4 42 26 42h120c22 0 36-22 26-42l-62-118v-72" fill="none" stroke="#5ef2cc" stroke-width="14" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M190 280h132l26 50c6 12-2 22-14 22H178c-12 0-20-10-14-22z" fill="#5ef2cc"/>
+  <g fill="#06140f">
+    <ellipse cx="256" cy="318" rx="13" ry="26"/>
+    <circle cx="256" cy="286" r="11"/>
+    <ellipse cx="233" cy="312" rx="22" ry="8" transform="rotate(-28 233 312)" fill-opacity=".7"/>
+    <ellipse cx="279" cy="312" rx="22" ry="8" transform="rotate(28 279 312)" fill-opacity=".7"/>
+  </g>
+  <g fill="#5ef2cc"><circle cx="300" cy="236" r="9"/><circle cx="214" cy="250" r="6"/><circle cx="262" cy="206" r="5"/></g>
+  <text x="256" y="420" text-anchor="middle" font-family="Outfit, system-ui, sans-serif" font-weight="800" font-size="40" fill="#fff" letter-spacing="4">BETA</text>
+  <g fill="#fff"><circle cx="146" cy="120" r="7"/><circle cx="372" cy="112" r="9"/><circle cx="392" cy="300" r="6"/><circle cx="118" cy="292" r="6"/></g>
+</svg>
