@@ -212,7 +212,8 @@
     "boss": "👑 Boss",
     "boss_hit": "Hit! {hp} left",
     "boss_down": "👑 Boss beaten! +500",
-    "boss_charge": "It's charging!"
+    "boss_charge": "It's charging!",
+    "run_refused": "This run couldn't be checked, so it isn't on the board."
   },
   "pay": {
     "waiting": "Waiting for the payment to go through…",
@@ -669,7 +670,16 @@
     "th_wallet": "Wallet",
     "mark_paid": "Mark paid",
     "paid_confirm": "Sent it? Mark it paid.",
-    "none_owed": "Nothing owed right now."
+    "none_owed": "Nothing owed right now.",
+    "pack_n": "Builds in a pack",
+    "pack_price": "Pack price (FLYAI, 0 = not for sale)",
+    "pack_note": "Players get 2 free new games a day; past that they can buy a pack, paid to {to}.",
+    "reports": "Reports",
+    "rep_review": "review: “{text}”",
+    "hide": "Hide",
+    "dismiss": "Leave it",
+    "hide_confirm": "Hide it from everyone? (you can show it again later)",
+    "no_reports": "No open reports."
   },
   "npc": {
     "next": "E: next",
@@ -805,5 +815,16 @@
     "n_fvcreator": "{have}/{need} real players on your best game (or a Fly Jam top 3)",
     "n_fvace": "{have}/{need} games where you're #1 (or win a daily challenge)",
     "earned": "Earned: claim it on your badges page ✓"
+  },
+  "builds": {
+    "extra": "+{n} bought builds left.",
+    "buy": "Get {n} more builds for {price}"
+  },
+  "report": {
+    "game": "⚑ Report",
+    "review": "Report this review",
+    "ask_game": "What's wrong with this game? (the team will look)",
+    "ask_review": "What's wrong with this review? (the team will look)",
+    "thanks": "Thanks, the team will take a look."
   }
 }

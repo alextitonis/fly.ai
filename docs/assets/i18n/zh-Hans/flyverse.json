@@ -208,7 +208,8 @@
     "boss": "👑 首领",
     "boss_hit": "命中！还剩 {hp}",
     "boss_down": "👑 首领被打败了！+500",
-    "boss_charge": "它冲过来了！"
+    "boss_charge": "它冲过来了！",
+    "run_refused": "这次成绩没能通过校验，所以没有上榜。"
   },
   "pay": {
     "waiting": "正在等待付款完成…",
@@ -680,7 +681,16 @@
     "th_wallet": "钱包",
     "mark_paid": "标记已发放",
     "paid_confirm": "发了吗？标记为已发放。",
-    "none_owed": "目前没有待发放。"
+    "none_owed": "目前没有待发放。",
+    "pack_n": "每包建造次数",
+    "pack_price": "每包价格（FLYAI，0 = 不出售）",
+    "pack_note": "玩家每天可免费做 2 个新游戏；之后可以购买建造包，付款给 {to}。",
+    "reports": "举报",
+    "rep_review": "评价：“{text}”",
+    "hide": "隐藏",
+    "dismiss": "保留",
+    "hide_confirm": "对所有人隐藏？（之后可以再显示）",
+    "no_reports": "没有待处理的举报。"
   },
   "npc": {
     "next": "E：下一句",
@@ -816,5 +826,16 @@
     "n_fvcreator": "你最好的游戏有 {have}/{need} 位真实玩家（或在 Fly Jam 进前 3）",
     "n_fvace": "你排第 1 的游戏 {have}/{need} 个（或赢下一次每日挑战）",
     "earned": "已获得：去徽章页面领取 ✓"
+  },
+  "builds": {
+    "extra": "还剩 {n} 次购买的建造。",
+    "buy": "用 {price} 再买 {n} 次建造"
+  },
+  "report": {
+    "game": "⚑ 举报",
+    "review": "举报这条评价",
+    "ask_game": "这个游戏有什么问题？（团队会查看）",
+    "ask_review": "这条评价有什么问题？（团队会查看）",
+    "thanks": "谢谢，团队会查看。"
   }
 }

@@ -208,7 +208,8 @@
     "boss": "👑 보스",
     "boss_hit": "명중! {hp} 남음",
     "boss_down": "👑 보스 격파! +500",
-    "boss_charge": "돌진해요!"
+    "boss_charge": "돌진해요!",
+    "run_refused": "이 기록은 확인되지 않아 순위표에 오르지 않았어요."
   },
   "pay": {
     "waiting": "결제 처리를 기다리는 중…",
@@ -680,7 +681,16 @@
     "th_wallet": "지갑",
     "mark_paid": "지급 완료",
     "paid_confirm": "보냈나요? 지급 완료로 표시할게요.",
-    "none_owed": "지금은 지급할 것이 없어요."
+    "none_owed": "지금은 지급할 것이 없어요.",
+    "pack_n": "팩당 제작 횟수",
+    "pack_price": "팩 가격 (FLYAI, 0 = 판매 안 함)",
+    "pack_note": "플레이어는 하루에 새 게임 2개를 무료로 만들고, 그 이상은 {to}(으)로 지급하는 팩을 살 수 있어요.",
+    "reports": "신고",
+    "rep_review": "리뷰: “{text}”",
+    "hide": "숨기기",
+    "dismiss": "그대로 두기",
+    "hide_confirm": "모두에게서 숨길까요? (나중에 다시 보이게 할 수 있어요)",
+    "no_reports": "열린 신고가 없어요."
   },
   "npc": {
     "next": "E: 다음",
@@ -816,5 +826,16 @@
     "n_fvcreator": "최고 게임의 실제 플레이어 {have}/{need}명 (또는 Fly Jam 3위 안)",
     "n_fvace": "1위인 게임 {have}/{need}개 (또는 일일 챌린지 우승)",
     "earned": "획득: 배지 페이지에서 받으세요 ✓"
+  },
+  "builds": {
+    "extra": "구매한 제작 {n}회 남음.",
+    "buy": "{price}에 제작 {n}회 더 받기"
+  },
+  "report": {
+    "game": "⚑ 신고",
+    "review": "이 리뷰 신고",
+    "ask_game": "이 게임에 어떤 문제가 있나요? (팀이 확인해요)",
+    "ask_review": "이 리뷰에 어떤 문제가 있나요? (팀이 확인해요)",
+    "thanks": "고마워요, 팀이 확인할게요."
   }
 }

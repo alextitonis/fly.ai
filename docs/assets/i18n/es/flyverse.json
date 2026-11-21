@@ -212,7 +212,8 @@
     "boss": "👑 Jefe",
     "boss_hit": "¡Golpe! Le quedan {hp}",
     "boss_down": "👑 ¡Jefe derrotado! +500",
-    "boss_charge": "¡Está cargando!"
+    "boss_charge": "¡Está cargando!",
+    "run_refused": "No se pudo comprobar esta partida, así que no entra en la tabla."
   },
   "pay": {
     "waiting": "Esperando a que se complete el pago…",
@@ -691,7 +692,16 @@
     "th_wallet": "Cartera",
     "mark_paid": "Marcar pagado",
     "paid_confirm": "¿Enviado? Márcalo como pagado.",
-    "none_owed": "Ahora mismo no se debe nada."
+    "none_owed": "Ahora mismo no se debe nada.",
+    "pack_n": "Construcciones por paquete",
+    "pack_price": "Precio del paquete (FLYAI, 0 = no está a la venta)",
+    "pack_note": "Cada jugador tiene 2 juegos nuevos gratis al día; después puede comprar un paquete, pagado a {to}.",
+    "reports": "Denuncias",
+    "rep_review": "reseña: «{text}»",
+    "hide": "Ocultar",
+    "dismiss": "Dejarlo",
+    "hide_confirm": "¿Ocultarlo para todos? (puedes volver a mostrarlo)",
+    "no_reports": "No hay denuncias abiertas."
   },
   "npc": {
     "next": "E: siguiente",
@@ -827,5 +837,16 @@
     "n_fvcreator": "{have}/{need} jugadores reales en tu mejor juego (o top 3 en una Fly Jam)",
     "n_fvace": "{have}/{need} juegos donde eres el n.º 1 (o gana un reto diario)",
     "earned": "Conseguida: reclámala en tu página de insignias ✓"
+  },
+  "builds": {
+    "extra": "Te quedan {n} construcciones compradas.",
+    "buy": "Consigue {n} construcciones más por {price}"
+  },
+  "report": {
+    "game": "⚑ Denunciar",
+    "review": "Denunciar esta reseña",
+    "ask_game": "¿Qué tiene de malo este juego? (el equipo lo revisará)",
+    "ask_review": "¿Qué tiene de malo esta reseña? (el equipo lo revisará)",
+    "thanks": "Gracias, el equipo lo revisará."
   }
 }

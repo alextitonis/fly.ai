@@ -493,5 +493,5 @@ export function createQuests(d: {
     setInterval(() => void tick().catch((err) => console.error(`quests: ${err instanceof Error ? err.message : err}`)), everyMs).unref();
   }
 
-  return { route, start, tick, today, checkin, visit, reroll, settle, streaks, buyReroll };
+  return { route, start, tick, today, checkin, visit, reroll, settle, streaks, buyReroll, eligible };
 }

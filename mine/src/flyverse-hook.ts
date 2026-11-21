@@ -27,6 +27,8 @@ export async function startFlyverse(deps: {
   notify?: (wallet: string, text: string, href: string) => Promise<void>;
   /** Flyverse quests and milestones as fly.ai XP (source "quest"), and the Flyverse badges (#14-16) */
   awardXp?: (wallet: string, xp: number, ref: string) => Promise<void>;
+  /** fly.ai's rule for earning XP (10k FLYAI or a Trader Fly) */
+  xpEligible?: (wallet: string) => Promise<boolean>;
   earnBadge?: (wallet: string, badge: string) => Promise<void>;
 }) {
   const list = (process.env.FLYVERSE_WALLETS ?? DEFAULT_WALLETS).toLowerCase();
@@ -56,8 +58,13 @@ export async function startFlyverse(deps: {
       modelsCatalog: path.join(root, "public", "models", "catalog.json"),
       spendFile: path.join(data, "spend.json"),
       dbFile: path.join(data, "fv.db"),
-      dailyUsd: Number(process.env.FLYVERSE_DAILY_USD ?? 3),
-      createsPerDay: Number(process.env.FLYVERSE_CREATES_PER_DAY ?? 5),
+      // AI budget for everyone together, and the free new games a wallet gets a day (more can be bought)
+      dailyUsd: Number(process.env.FLYVERSE_DAILY_USD ?? 15),
+      createsPerDay: Number(process.env.FLYVERSE_CREATES_PER_DAY ?? 2),
+      changesPerDay: Number(process.env.FLYVERSE_CHANGES_PER_DAY ?? 40),
+      // bought builds are paid to the dev wallet (the first team wallet)
+      payTo: process.env.FLYVERSE_PAY_TO ?? wallets[0],
+      xpEligible: deps.xpEligible,
       testers,
       teamWallets: wallets,
       notify: deps.notify,

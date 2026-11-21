@@ -4956,6 +4956,8 @@ void startFlyverse({
   notify: async (wallet, text, href) => { await pg.run("insert into mine.notices (wallet, text, href) values (?, ?, ?)", wallet.toLowerCase(), text.slice(0, 240), href); },
   // Flyverse quests + milestones book XP like the site's quests (source 'quest', refs "fv:..."), once per ref
   awardXp: async (wallet, xp, ref) => { await pg.run("insert into mine.xp_events (wallet, source, ref, xp, at) values (?, 'quest', ?, ?, now()) on conflict (ref) do nothing", wallet.toLowerCase(), ref.slice(0, 200), xp); },
+  // only wallets that can earn XP elsewhere on fly.ai (10k FLYAI or a fly) earn it in Flyverse and count in jams
+  xpEligible: (wallet) => quests.eligible(wallet.toLowerCase()),
   // Flyverse badges (#14 fvtester, #15 fvcreator, #16 fvace): earned here, claimed on /badges like the others
   earnBadge: async (wallet, badge) => { await pg.run("insert into mine.badge_earned (wallet, badge, earned_at) values (?, ?, now()) on conflict do nothing", wallet.toLowerCase(), badge); },
 });

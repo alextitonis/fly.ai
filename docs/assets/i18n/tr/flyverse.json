@@ -212,7 +212,8 @@
     "boss": "👑 Patron",
     "boss_hit": "İsabet! {hp} kaldı",
     "boss_down": "👑 Patron yenildi! +500",
-    "boss_charge": "Saldırıya geçiyor!"
+    "boss_charge": "Saldırıya geçiyor!",
+    "run_refused": "Bu koşu doğrulanamadı, bu yüzden tabloda yok."
   },
   "pay": {
     "waiting": "Ödemenin geçmesi bekleniyor…",
@@ -691,7 +692,16 @@
     "th_wallet": "Cüzdan",
     "mark_paid": "Ödendi işaretle",
     "paid_confirm": "Gönderildi mi? Ödendi olarak işaretle.",
-    "none_owed": "Şu anda borç yok."
+    "none_owed": "Şu anda borç yok.",
+    "pack_n": "Paketteki yapım hakkı",
+    "pack_price": "Paket fiyatı (FLYAI, 0 = satışta değil)",
+    "pack_note": "Oyuncular günde 2 yeni oyunu ücretsiz yapar; sonrası için {to} adresine ödenen bir paket alabilirler.",
+    "reports": "Bildirimler",
+    "rep_review": "yorum: “{text}”",
+    "hide": "Gizle",
+    "dismiss": "Bırak",
+    "hide_confirm": "Herkesten gizlensin mi? (sonra yeniden gösterebilirsin)",
+    "no_reports": "Açık bildirim yok."
   },
   "npc": {
     "next": "E: sonraki",
@@ -827,5 +837,16 @@
     "n_fvcreator": "en iyi oyununda {have}/{need} gerçek oyuncu (ya da bir Fly Jam'de ilk 3)",
     "n_fvace": "1. olduğun {have}/{need} oyun (ya da bir günlük meydan okuma kazan)",
     "earned": "Kazanıldı: rozetler sayfanda al ✓"
+  },
+  "builds": {
+    "extra": "{n} satın alınmış yapım hakkın kaldı.",
+    "buy": "{price} ile {n} yapım hakkı daha al"
+  },
+  "report": {
+    "game": "⚑ Bildir",
+    "review": "Bu yorumu bildir",
+    "ask_game": "Bu oyunun sorunu ne? (ekip bakacak)",
+    "ask_review": "Bu yorumun sorunu ne? (ekip bakacak)",
+    "thanks": "Teşekkürler, ekip bakacak."
   }
 }
