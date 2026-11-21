@@ -86,6 +86,7 @@
       ["Bullas", "/traderflies/partner?p=bullas", undefined, false, false, "traderflies_partner"],   // partner collections (2026-10-07), each its own page (Partner.tsx)
       ["Enjoyoors", "/traderflies/partner?p=enjoyoors", undefined, false, false, "enjoyoors"],        // 2026-11-10, MegaETH
       ["Waifus", "/traderflies/partner?p=waifus", undefined, false, false, "waifus"],                 // 2026-11-13, Robinhood Chain
+      ["Bad Bunnz", "/traderflies/partner?p=badbunnz", undefined, false, false, "badbunnz"],         // 2026-11-21, Ethereum
       ["RUYUI", "/traderflies/partner?p=ruyui", undefined, false, false, "ruyui"],                    // 2026-11-18, Ethereum
     ], true],
   ];
