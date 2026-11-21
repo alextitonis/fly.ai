@@ -132,7 +132,8 @@ export function parsePartner(row: { id: string; name: string; on: boolean; confi
 
 /** A partner NFT's chat id = its desk id (flytrade/desk/partnerflies.py BASES), far above any Trader Fly id. */
 export const CHAT_SPAN = 1_000_000_000;
-export const CHAT_BASES: Record<string, number> = { bullas: 1_000_000_000, ruyui: 2_000_000_000, enjoyoors: 3_000_000_000, waifus: 4_000_000_000 };
+export const CHAT_BASES: Record<string, number> = { bullas: 1_000_000_000, ruyui: 2_000_000_000, enjoyoors: 3_000_000_000, waifus: 4_000_000_000,
+  badbunnz: 5_000_000_000 };
 
 const word = (v: bigint | number | string) =>
   typeof v === "string" ? v.replace(/^0x/, "").toLowerCase().padStart(64, "0") : BigInt(v).toString(16).padStart(64, "0");
@@ -157,6 +158,7 @@ export function createPartners(d: PartnersDeps) {
   const OWNER_TTL_MS = Number(d.env.PARTNER_OWNER_TTL_SEC ?? "30") * 1000;
   // a whole collection's owners (a holder's NFTs), read again after this
   const OWNERS_TTL_MS = Number(d.env.PARTNER_OWNERS_TTL_SEC ?? "600") * 1000;
+  const RESWEEP_MIN_MS = 60_000;    // a holder seen holding what the last sweep missed re-sweeps at most this often
   const addressOf = (raw: string) => {
     if (!ADDRESS.test(raw)) throw new HttpError(400, "bad address");
     return checksumAddress(raw);
@@ -257,7 +259,24 @@ export function createPartners(d: PartnersDeps) {
         s.loading.catch((err) => console.error(`partner ${p.id} owners sweep: ${(err as Error)?.message ?? err}`));
       }
     }
-    return { tokens: s.byOwner?.get(holder.toLowerCase()) ?? [], at: s.at };
+    const tokens = s.byOwner?.get(holder.toLowerCase()) ?? [];
+    // a holder the last sweep shows with none, who holds some on chain now (2026-11-21: a Bad Bunnz bought minutes
+    // after a sweep stayed invisible for up to OWNERS_TTL_MS - "i can't see them"): one balanceOf per collection, and
+    // a fresh sweep at once, at most every RESWEEP_MIN_MS per collection
+    if (!tokens.length && s.byOwner && !s.loading && Date.now() - s.at >= RESWEEP_MIN_MS) {
+      try {
+        let holds = false;
+        for (const part of partsOf(p)) {
+          const ret = await rpc(p.collection.rpc, "eth_call", [{ to: part.contract, data: `${selector("balanceOf(address)")}${word(holder)}` }, "latest"]) as string;
+          if (ret && ret.length >= 66 && BigInt(ret) > 0n) { holds = true; break; }
+        }
+        if (holds) {
+          s.at = 0;
+          return await tokensOf(p, holder);
+        }
+      } catch { /* (the last sweep answers) */ }
+    }
+    return { tokens, at: s.at };
   }
   async function ethWei(wallet: string): Promise<bigint> {
     return BigInt(await rpc(d.rpcUrl, "eth_getBalance", [wallet, "latest"]) as string);
