@@ -886,5 +886,32 @@
     "terms": "Tips, unlocks and skins go straight to the creator's wallet, so fly.ai can't refund them. The site's <a href=\"/terms.html\">Terms</a> apply too.",
     "publish": "By publishing you confirm it's your own work (no copied characters, names or levels) and follows the <a href=\"#rules\" target=\"_blank\">rules</a>.",
     "cut": "fly.ai takes {pct}% of unlocks and skins; tips go to the creator in full."
+  },
+  "breeds": {
+    "label": "Kind",
+    "beetle": "Beetle",
+    "wasp": "Wasp",
+    "spider": "Spider",
+    "snail": "Snail",
+    "frog": "Frog",
+    "snapper": "Snapping plant",
+    "spiky": "Spiky caterpillar",
+    "bomber": "Bomb beetle",
+    "zombie": "Zombie beetles",
+    "n_beetle": "Walks its path. Jump on it.",
+    "n_wasp": "Hovers, then dives at you.",
+    "n_spider": "Hangs on a thread and drops on whoever walks under.",
+    "n_snail": "Hides in its shell when stomped, and throws you high.",
+    "n_frog": "Leaps at you when you're near.",
+    "n_snapper": "Stands still, opens wide, then snaps all around.",
+    "n_spiky": "Don't jump on it! Dash, shoot or go round.",
+    "n_bomber": "Runs at you and blows up.",
+    "n_nest": "What comes out of the nest.",
+    "boss_beetle": "Beetle king",
+    "boss_wasp": "Wasp queen",
+    "boss_toad": "Toad king",
+    "boss_n_beetle": "Chases, charges and calls beetles.",
+    "boss_n_wasp": "Circles and shoots stings; jump on her when she's stuck in the ground.",
+    "boss_n_toad": "Leaps onto you and shakes the ground: be in the air when he lands."
   }
 }

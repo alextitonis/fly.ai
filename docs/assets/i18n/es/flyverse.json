@@ -908,5 +908,32 @@
     "terms": "Las propinas, desbloqueos y skins van directos a la wallet del creador, así que fly.ai no puede devolverlos. También se aplican los <a href=\"/terms.html\">Términos</a> del sitio.",
     "publish": "Al publicar confirmas que es obra tuya (sin personajes, nombres ni niveles copiados) y que sigue las <a href=\"#rules\" target=\"_blank\">reglas</a>.",
     "cut": "fly.ai se queda el {pct}% de los desbloqueos y skins; las propinas van íntegras al creador."
+  },
+  "breeds": {
+    "label": "Tipo",
+    "beetle": "Escarabajo",
+    "wasp": "Avispa",
+    "spider": "Araña",
+    "snail": "Caracol",
+    "frog": "Rana",
+    "snapper": "Planta mordedora",
+    "spiky": "Oruga espinosa",
+    "bomber": "Escarabajo bomba",
+    "zombie": "Escarabajos zombi",
+    "n_beetle": "Sigue su camino. Salta encima.",
+    "n_wasp": "Flota y luego se lanza en picado.",
+    "n_spider": "Cuelga de un hilo y cae sobre quien pasa debajo.",
+    "n_snail": "Si la pisas se esconde en su concha y te lanza muy alto.",
+    "n_frog": "Salta hacia ti cuando estás cerca.",
+    "n_snapper": "No se mueve: abre la boca y muerde a su alrededor.",
+    "n_spiky": "¡No saltes encima! Embiste, dispara o rodéala.",
+    "n_bomber": "Corre hacia ti y explota.",
+    "n_nest": "Lo que sale del nido.",
+    "boss_beetle": "Rey escarabajo",
+    "boss_wasp": "Reina avispa",
+    "boss_toad": "Rey sapo",
+    "boss_n_beetle": "Persigue, embiste y llama escarabajos.",
+    "boss_n_wasp": "Da vueltas y dispara aguijones; salta encima cuando se clava en el suelo.",
+    "boss_n_toad": "Salta sobre ti y sacude el suelo: estate en el aire cuando caiga."
   }
 }

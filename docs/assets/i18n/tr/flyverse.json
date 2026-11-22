@@ -908,5 +908,32 @@
     "terms": "Bahşişler, kilit açmalar ve görünümler doğrudan yapımcının cüzdanına gider, bu yüzden fly.ai iade edemez. Sitenin <a href=\"/terms.html\">Şartları</a> da geçerlidir.",
     "publish": "Yayınlayarak bunun kendi işin olduğunu (kopya karakter, ad veya bölüm yok) ve <a href=\"#rules\" target=\"_blank\">kurallara</a> uyduğunu onaylarsın.",
     "cut": "fly.ai kilit açma ve görünümlerden %{pct} alır; bahşişlerin tamamı yapımcıya gider."
+  },
+  "breeds": {
+    "label": "Tür",
+    "beetle": "Böcek",
+    "wasp": "Yaban arısı",
+    "spider": "Örümcek",
+    "snail": "Salyangoz",
+    "frog": "Kurbağa",
+    "snapper": "Kapan bitki",
+    "spiky": "Dikenli tırtıl",
+    "bomber": "Bomba böceği",
+    "zombie": "Zombi böcekler",
+    "n_beetle": "Yolunda yürür. Üstüne zıpla.",
+    "n_wasp": "Havada durur, sonra sana dalar.",
+    "n_spider": "İpte asılır, altından geçenin üstüne düşer.",
+    "n_snail": "Üstüne basınca kabuğuna saklanır ve seni yukarı fırlatır.",
+    "n_frog": "Yaklaşınca sana doğru sıçrar.",
+    "n_snapper": "Yerinde durur, ağzını açar ve çevresini ısırır.",
+    "n_spiky": "Üstüne zıplama! Atıl, ateş et ya da etrafından dolaş.",
+    "n_bomber": "Sana koşar ve patlar.",
+    "n_nest": "Yuvadan çıkanlar.",
+    "boss_beetle": "Böcek kralı",
+    "boss_wasp": "Arı kraliçesi",
+    "boss_toad": "Kurbağa kralı",
+    "boss_n_beetle": "Kovalar, hücum eder ve böcek çağırır.",
+    "boss_n_wasp": "Tepende döner, iğne atar; yere saplanınca üstüne zıpla.",
+    "boss_n_toad": "Üstüne sıçrar ve yeri sarsar: inerken havada ol."
   }
 }
