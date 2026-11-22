@@ -24,7 +24,7 @@
     "ex5": "發光的夜間迷宮，死衚衕裡藏著寶石",
     "eg": "例如：{text}",
     "make": "生成",
-    "left": "今天還能新建 {left}/{limit} 個遊戲 · 每天最多修改 {changes} 次",
+    "left": "今天還可以做 {left} 個新遊戲（共 {limit} 個）",
     "none_left": "今天的 {limit} 個新遊戲已用完。你仍然可以修改遊戲；明天（03:00 TRT）可以再新建。",
     "your_games": "我的遊戲",
     "browse": "瀏覽遊戲",
@@ -216,7 +216,10 @@
     "no_wallet": "找不到錢包：請先登入 fly.ai",
     "confirm": "請在錢包中確認…",
     "checking": "正在核對付款…",
-    "check_failed": "無法核對付款"
+    "check_failed": "無法核對付款",
+    "sign_in": "請先在 fly.ai 登入（首頁右上角），再付款",
+    "other_wallet": "你的錢包應用當前地址和登入的地址不同。切換後再試。",
+    "later": "已付款，但現在連不上伺服器。記錄已儲存，下次開啟 Flyverse 時會計入。"
   },
   "party": {
     "stomped_by": "被 {name} 踩中了！",
@@ -689,13 +692,15 @@
     "none_owed": "目前沒有待發放。",
     "pack_n": "每包建造次數",
     "pack_price": "每包價格（FLYAI，0 = 不出售）",
-    "pack_note": "玩家每天可免費做 2 個新遊戲；之後可以購買建造包，付款給 {to}。",
+    "pack_note": "玩家每天有 2 個免費新遊戲和 15 次免費修改；超出後可以購買，付款到 {to}。",
     "reports": "舉報",
     "rep_review": "評價：“{text}”",
     "hide": "隱藏",
     "dismiss": "保留",
     "hide_confirm": "對所有人隱藏？（之後可以再顯示）",
-    "no_reports": "沒有待處理的舉報。"
+    "no_reports": "沒有待處理的舉報。",
+    "cpack_n": "每包修改次數",
+    "cpack_price": "包價格（FLYAI，0 = 不出售）"
   },
   "npc": {
     "next": "E：下一句",
@@ -834,13 +839,55 @@
   },
   "builds": {
     "extra": "還剩 {n} 次購買的建造。",
-    "buy": "用 {price} 再買 {n} 次建造"
+    "buy": "用 {price} 再買 {n} 次建造",
+    "buy_changes": "用 {price} 再買 {n} 次修改",
+    "changes_left": "今天還有 {left} 次免費修改（共 {limit} 次）",
+    "changes_extra": "另有 {n} 次已購修改。",
+    "used_up": "今天的免費次數用完了",
+    "no_changes": "你已用完今天的 {n} 次免費修改。明天會有新的（03:00 TRT）。",
+    "no_builds": "你已做完今天的 {n} 個免費新遊戲。明天會有新的（03:00 TRT）。",
+    "budget": "今天所有人的免費 AI 額度都用完了。03:00 TRT 重新開始。",
+    "note": "手動移動、新增和修改部件始終免費。已購的修改不會過期。"
   },
   "report": {
     "game": "⚑ 舉報",
     "review": "舉報這條評價",
-    "ask_game": "這個遊戲有什麼問題？（團隊會檢視）",
-    "ask_review": "這條評價有什麼問題？（團隊會檢視）",
-    "thanks": "謝謝，團隊會檢視。"
+    "ask_game": "這個遊戲有什麼問題？",
+    "ask_review": "這條評價有什麼問題？",
+    "thanks": "謝謝，團隊會檢視。",
+    "kind": "是什麼問題？",
+    "k_copied": "抄襲了別的遊戲",
+    "k_offensive": "令人反感",
+    "k_spam": "垃圾內容或詐騙",
+    "k_broken": "無法正常玩",
+    "k_other": "其他",
+    "more_ph": "簡單說明（可選）",
+    "copied_note": "請說明它抄襲了哪個遊戲，有連結請附上。",
+    "send": "提交舉報"
+  },
+  "open": {
+    "eyebrow": "Flyverse Maker",
+    "sign_in": "登入",
+    "sign_in_build": "登入後就能做自己的遊戲。玩遊戲不需要登入。",
+    "sign_in_hold": "登入後就能做自己的遊戲（需持有 10,000 $FLYAI 或一隻 Trader Fly）。玩遊戲不需要登入。",
+    "sign_in_score": "在首頁右上角登入，成績就能上榜並獲得 XP。",
+    "sign_in_do": "請先在首頁右上角登入。",
+    "hold_title": "目前只有 fly.ai 持有者可以製作遊戲",
+    "hold": "要製作遊戲，請在此錢包持有 10,000 <a href=\"/token.html\">$FLYAI</a> 或一隻 Trader Fly。剛買的？等 5 分鐘。玩遊戲對所有人開放。"
+  },
+  "rules": {
+    "title": "規則",
+    "lede": "很短，對所有人都一樣。",
+    "r1": "<b>做你自己的。</b>任何型別都可以。不要抄襲別的遊戲的角色、名字、關卡、標誌、美術或音樂。",
+    "r2": "<b>只用你有權使用的圖片。</b>你加的圖片只用來決定顏色和氛圍。",
+    "r3": "<b>內容要得體。</b>不得有色情、仇恨或違法內容，也不得未經同意使用真實人物。",
+    "r4": "<b>禁止詐騙。</b>絕不要向玩家索要金鑰、密碼，或在 Flyverse 之外收錢。",
+    "r5": "<b>公平遊戲。</b>不得刷遊玩、點贊、評價或分數。作弊得來的 Jam 成績不算。",
+    "r6": "<b>釋出即公開。</b>任何人都可以玩和改編你的遊戲，改編會註明你的作品。你隨時可以取消釋出。",
+    "r7": "<b>和朋友一起玩</b>時電腦會直接相連，同一房間的玩家能看到彼此的網路地址。",
+    "copy_title": "有遊戲抄襲了你的作品？",
+    "copy": "開啟它的頁面，點“舉報”，選擇“抄襲了別的遊戲”，並附上原作連結。也可以在 <a href=\"https://discord.gg/2KqfZs4aK8\" target=\"_blank\" rel=\"noopener\">Discord</a> 或 <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">X</a> 上聯絡我們。團隊會檢視，並隱藏違反規則的遊戲。",
+    "terms": "打賞、解鎖和皮膚的付款直接進入創作者的錢包，fly.ai 無法退款。網站的<a href=\"/terms.html\">條款</a>同樣適用。",
+    "publish": "釋出即表示這是你自己的作品（沒有抄襲角色、名字或關卡），並遵守<a href=\"#rules\" target=\"_blank\">規則</a>。"
   }
 }

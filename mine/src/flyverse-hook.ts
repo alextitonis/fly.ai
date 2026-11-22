@@ -46,6 +46,8 @@ export async function startFlyverse(deps: {
     ambCache.set(w, { ok, at: Date.now() });
     return ok;
   };
+  const open = process.env.FLYVERSE_PUBLIC === "1";
+  const buildRule = (["holders", "all", "listed"] as const).find((r) => r === process.env.FLYVERSE_BUILD) ?? "holders";
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../flyverse");
   const data = process.env.FLYVERSE_DATA ?? (process.env.MINE_DB ? path.join(path.dirname(process.env.MINE_DB), "flyverse") : path.join(root, "data", "mine"));
   const spec = path.join(root, "server", "routes.ts");
@@ -61,8 +63,11 @@ export async function startFlyverse(deps: {
       // AI budget for everyone together, and the free new games a wallet gets a day (more can be bought)
       dailyUsd: Number(process.env.FLYVERSE_DAILY_USD ?? 15),
       createsPerDay: Number(process.env.FLYVERSE_CREATES_PER_DAY ?? 2),
-      changesPerDay: Number(process.env.FLYVERSE_CHANGES_PER_DAY ?? 40),
-      // bought builds are paid to the dev wallet (the first team wallet)
+      changesPerDay: Number(process.env.FLYVERSE_CHANGES_PER_DAY ?? 15),
+      // open to everyone to play (FLYVERSE_PUBLIC=1); who builds: FLYVERSE_BUILD = holders (10k FLYAI or a fly, the
+      // default), all, or listed (team, testers, ambassadors)
+      buildRule: open ? buildRule : undefined,
+      // bought builds and changes are paid to the dev wallet (the first team wallet)
       payTo: process.env.FLYVERSE_PAY_TO ?? wallets[0],
       xpEligible: deps.xpEligible,
       testers,
@@ -70,17 +75,19 @@ export async function startFlyverse(deps: {
       notify: deps.notify,
       awardXp: deps.awardXp,
       earnBadge: deps.earnBadge,
-      // the early-tester badge is handed out while the test is closed (FLYVERSE_TESTER_BADGE=off once it opens)
-      testerBadge: process.env.FLYVERSE_TESTER_BADGE !== "off",
+      // the early-tester badge is handed out while the test is closed (never once it's open)
+      testerBadge: !open && process.env.FLYVERSE_TESTER_BADGE !== "off",
       gate: async (req: IncomingMessage) => {
         const s = await deps.sessionWallet(req);
-        if (!s) return { ok: false, why: "Sign in on fly.ai first" };
+        if (!s) return open ? { ok: true, anon: true } : { ok: false, why: "Sign in on fly.ai first" };
         const w = s.wallet.toLowerCase();
         if (wallets.includes(w)) return { ok: true, wallet: w, team: true };
+        if (open) return { ok: true, wallet: w, listed: await isAmb(w) };
         return (await isAmb(w)) ? { ok: true, wallet: w } : { ok: false, wallet: w, why: "This wallet isn't on the test list" };
       },
       log: (msg: string) => console.log(msg),
     });
+    if (open) console.log(`flyverse: OPEN to everyone to play; building: ${buildRule}`);
     console.log(`flyverse: on for ${wallets.length} team wallet(s) + testers (database)${ambassadors ? " + ambassadors" : ""}, data in ${data}`);
   } catch (e) {
     console.log(`flyverse: off (${e instanceof Error ? e.message.slice(0, 120) : e})`);

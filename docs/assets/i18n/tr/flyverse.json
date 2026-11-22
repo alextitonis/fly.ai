@@ -24,7 +24,7 @@
     "ex5": "Çıkmaz sokaklarda mücevherler saklı, parlayan bir gece labirenti",
     "eg": "örn. {text}",
     "make": "Oluştur",
-    "left": "Bugün {limit} yeni oyundan {left} hakkın kaldı · günde en fazla {changes} değişiklik",
+    "left": "Bugün {limit} yeni oyundan {left} tanesi kaldı",
     "none_left": "Bugünkü {limit} yeni oyun hakkını kullandın. Oyunlarını değiştirmeye devam edebilirsin; yenileri yarın (03:00 TRT).",
     "your_games": "Oyunların",
     "browse": "Oyunlara göz at",
@@ -220,7 +220,10 @@
     "no_wallet": "Cüzdan bulunamadı: önce fly.ai'ye giriş yap",
     "confirm": "Cüzdanında onayla…",
     "checking": "Ödeme kontrol ediliyor…",
-    "check_failed": "Ödeme kontrol edilemedi"
+    "check_failed": "Ödeme kontrol edilemedi",
+    "sign_in": "Önce fly.ai'de giriş yap (ana sayfada sağ üst), sonra öde",
+    "other_wallet": "Cüzdan uygulaman, giriş yaptığından farklı bir adreste. Değiştirip tekrar dene.",
+    "later": "Ödendi ama şu an sunucuya ulaşılamıyor. Kaydedildi, Flyverse'i bir daha açtığında sayılacak."
   },
   "party": {
     "stomped_by": "{name} seni ezdi!",
@@ -700,13 +703,15 @@
     "none_owed": "Şu anda borç yok.",
     "pack_n": "Paketteki yapım hakkı",
     "pack_price": "Paket fiyatı (FLYAI, 0 = satışta değil)",
-    "pack_note": "Oyuncular günde 2 yeni oyunu ücretsiz yapar; sonrası için {to} adresine ödenen bir paket alabilirler.",
+    "pack_note": "Oyuncular günde 2 yeni oyun ve 15 değişiklik alır; sonrasında paket alabilirler, ödeme {to} adresine gider.",
     "reports": "Bildirimler",
     "rep_review": "yorum: “{text}”",
     "hide": "Gizle",
     "dismiss": "Bırak",
     "hide_confirm": "Herkesten gizlensin mi? (sonra yeniden gösterebilirsin)",
-    "no_reports": "Açık bildirim yok."
+    "no_reports": "Açık bildirim yok.",
+    "cpack_n": "Paketteki değişiklik",
+    "cpack_price": "Paket fiyatı (FLYAI, 0 = satılık değil)"
   },
   "npc": {
     "next": "E: sonraki",
@@ -845,13 +850,55 @@
   },
   "builds": {
     "extra": "{n} satın alınmış yapım hakkın kaldı.",
-    "buy": "{price} ile {n} yapım hakkı daha al"
+    "buy": "{price} ile {n} yapım hakkı daha al",
+    "buy_changes": "{price} karşılığında {n} değişiklik daha al",
+    "changes_left": "Bugün {limit} ücretsiz değişiklikten {left} tanesi kaldı",
+    "changes_extra": "+{n} satın alınmış değişiklik.",
+    "used_up": "Bugünkü ücretsizler bitti",
+    "no_changes": "Bugünkü {n} ücretsiz değişikliği kullandın. Yenileri yarın (03:00 TRT).",
+    "no_builds": "Bugünkü {n} ücretsiz yeni oyunu yaptın. Yenileri yarın (03:00 TRT).",
+    "budget": "Bugünün ücretsiz yapay zeka bütçesi herkes için bitti. 03:00 TRT'de yeniden başlar.",
+    "note": "Parçaları elle taşımak, eklemek ve değiştirmek her zaman ücretsiz. Satın alınan değişikliklerin süresi dolmaz."
   },
   "report": {
     "game": "⚑ Bildir",
     "review": "Bu yorumu bildir",
-    "ask_game": "Bu oyunun sorunu ne? (ekip bakacak)",
-    "ask_review": "Bu yorumun sorunu ne? (ekip bakacak)",
-    "thanks": "Teşekkürler, ekip bakacak."
+    "ask_game": "Bu oyunda sorun ne?",
+    "ask_review": "Bu yorumda sorun ne?",
+    "thanks": "Teşekkürler, ekip bakacak.",
+    "kind": "Sorun ne?",
+    "k_copied": "Başka bir oyunu kopyalıyor",
+    "k_offensive": "Rahatsız edici",
+    "k_spam": "Spam veya dolandırıcılık",
+    "k_broken": "Çalışmıyor",
+    "k_other": "Başka bir şey",
+    "more_ph": "Birkaç kelime (isteğe bağlı)",
+    "copied_note": "Hangi oyunu kopyaladığını, varsa bağlantısıyla yaz.",
+    "send": "Gönder"
+  },
+  "open": {
+    "eyebrow": "Flyverse Maker",
+    "sign_in": "Giriş yap",
+    "sign_in_build": "Kendi oyunlarını yapmak için giriş yap. Oynamak için gerekmez.",
+    "sign_in_hold": "Kendi oyunlarını yapmak için giriş yap (10.000 $FLYAI veya Trader Fly tutan cüzdanlar için). Oynamak için gerekmez.",
+    "sign_in_score": "Koşularının tabloya girmesi ve XP kazanmak için ana sayfada (sağ üst) giriş yap.",
+    "sign_in_do": "Bunun için ana sayfada (sağ üst) giriş yap.",
+    "hold_title": "Oyun yapmak şimdilik fly.ai sahiplerine açık",
+    "hold": "Oyun yapmak için bu cüzdanda 10.000 <a href=\"/token.html\">$FLYAI</a> veya bir Trader Fly tut. Yeni mi aldın? 5 dakika bekle. Oynamak herkese açık."
+  },
+  "rules": {
+    "title": "Kurallar",
+    "lede": "Kısa ve herkes için aynı.",
+    "r1": "<b>Kendin yap.</b> Her tür olur. Başka bir oyunun karakterlerini, adlarını, bölümlerini, logolarını, çizimlerini veya müziğini kopyalama.",
+    "r2": "<b>Yalnızca kullanabileceğin resimleri kullan.</b> Eklediğin resim sadece renkleri ve havayı belirler.",
+    "r3": "<b>Düzgün olsun.</b> Cinsel, nefret içeren veya yasa dışı bir şey ve izni olmayan gerçek kişiler olmasın.",
+    "r4": "<b>Dolandırıcılık yok.</b> Oyunculardan asla anahtar, şifre veya Flyverse dışında para isteme.",
+    "r5": "<b>Adil oyna.</b> Sahte oynama, beğeni, yorum veya skor yok. Hileli jam sonuçları sayılmaz.",
+    "r6": "<b>Yayınlamak herkese açıktır.</b> Herkes oyununu oynayabilir ve remixleyebilir; remix senin oyununu belirtir. İstediğin zaman yayından kaldırabilirsin.",
+    "r7": "<b>Arkadaşlarla oynamak</b> bilgisayarları doğrudan bağlar, bu yüzden odadaki oyuncular birbirinin ağ adresini görebilir.",
+    "copy_title": "Bir oyun seninkini mi kopyalıyor?",
+    "copy": "Sayfasını aç, Bildir'e bas ve “Başka bir oyunu kopyalıyor”u seç, orijinalin bağlantısını ekle. Bize <a href=\"https://discord.gg/2KqfZs4aK8\" target=\"_blank\" rel=\"noopener\">Discord</a> veya <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">X</a> üzerinden de yazabilirsin. Ekip bakar ve bu kuralları bozan oyunları gizler.",
+    "terms": "Bahşişler, kilit açmalar ve görünümler doğrudan yapımcının cüzdanına gider, bu yüzden fly.ai iade edemez. Sitenin <a href=\"/terms.html\">Şartları</a> da geçerlidir.",
+    "publish": "Yayınlayarak bunun kendi işin olduğunu (kopya karakter, ad veya bölüm yok) ve <a href=\"#rules\" target=\"_blank\">kurallara</a> uyduğunu onaylarsın."
   }
 }

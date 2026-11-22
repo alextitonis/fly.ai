@@ -24,7 +24,7 @@
     "ex5": "A glowing night maze with gems hidden in dead ends",
     "eg": "e.g. {text}",
     "make": "Make it",
-    "left": "{left} of {limit} new games left today · up to {changes} changes a day",
+    "left": "{left} of {limit} new games left today",
     "none_left": "That's your {limit} new games for today. You can still change your games; new ones tomorrow (03:00 TRT).",
     "your_games": "Your games",
     "browse": "Browse games",
@@ -220,7 +220,10 @@
     "no_wallet": "No wallet found: sign in on fly.ai first",
     "confirm": "Confirm in your wallet…",
     "checking": "Checking the payment…",
-    "check_failed": "The payment couldn't be checked"
+    "check_failed": "The payment couldn't be checked",
+    "sign_in": "Sign in on fly.ai first (top right of the home page), then pay",
+    "other_wallet": "Your wallet app is on another address than the one you signed in with. Switch it, then try again.",
+    "later": "Paid, but the server can't be reached right now. It's kept and counted the next time you open Flyverse."
   },
   "party": {
     "stomped_by": "Stomped by {name}!",
@@ -678,13 +681,15 @@
     "none_owed": "Nothing owed right now.",
     "pack_n": "Builds in a pack",
     "pack_price": "Pack price (FLYAI, 0 = not for sale)",
-    "pack_note": "Players get 2 free new games a day; past that they can buy a pack, paid to {to}.",
+    "pack_note": "Players get 2 free new games and 15 free changes a day; past that they can buy packs, paid to {to}.",
     "reports": "Reports",
     "rep_review": "review: “{text}”",
     "hide": "Hide",
     "dismiss": "Leave it",
     "hide_confirm": "Hide it from everyone? (you can show it again later)",
-    "no_reports": "No open reports."
+    "no_reports": "No open reports.",
+    "cpack_n": "Changes in a pack",
+    "cpack_price": "Pack price (FLYAI, 0 = not for sale)"
   },
   "npc": {
     "next": "E: next",
@@ -823,13 +828,55 @@
   },
   "builds": {
     "extra": "+{n} bought builds left.",
-    "buy": "Get {n} more builds for {price}"
+    "buy": "Get {n} more builds for {price}",
+    "buy_changes": "Get {n} more changes for {price}",
+    "changes_left": "{left} of {limit} free changes left today",
+    "changes_extra": "+{n} bought changes left.",
+    "used_up": "That's it for today's free ones",
+    "no_changes": "You've used today's {n} free changes. New ones tomorrow (03:00 TRT).",
+    "no_builds": "You've made today's {n} free new games. New ones tomorrow (03:00 TRT).",
+    "budget": "Today's free AI budget is used up for everyone. It starts again at 03:00 TRT.",
+    "note": "Moving, adding and changing pieces by hand is always free. Bought changes don't expire."
   },
   "report": {
     "game": "⚑ Report",
     "review": "Report this review",
-    "ask_game": "What's wrong with this game? (the team will look)",
-    "ask_review": "What's wrong with this review? (the team will look)",
-    "thanks": "Thanks, the team will take a look."
+    "ask_game": "What's wrong with this game?",
+    "ask_review": "What's wrong with this review?",
+    "thanks": "Thanks, the team will take a look.",
+    "kind": "What is it?",
+    "k_copied": "It copies another game",
+    "k_offensive": "Offensive",
+    "k_spam": "Spam or a scam",
+    "k_broken": "It's broken",
+    "k_other": "Something else",
+    "more_ph": "A few words (optional)",
+    "copied_note": "Please say which game it copies, with a link if you have one.",
+    "send": "Send report"
+  },
+  "open": {
+    "eyebrow": "Flyverse Maker",
+    "sign_in": "Sign in",
+    "sign_in_build": "Sign in to make your own games. Playing needs no sign-in.",
+    "sign_in_hold": "Sign in to make your own games (for wallets holding 10,000 $FLYAI or a Trader Fly). Playing needs no sign-in.",
+    "sign_in_score": "Sign in on the home page (top right) to get your runs on the board and earn XP.",
+    "sign_in_do": "Sign in on the home page (top right) for that.",
+    "hold_title": "Building is for fly.ai holders right now",
+    "hold": "To make games, hold 10,000 <a href=\"/token.html\">$FLYAI</a> or a Trader Fly in this wallet. Just bought? Give it 5 minutes. Playing is open to everyone."
+  },
+  "rules": {
+    "title": "Rules",
+    "lede": "Short, and the same for everyone.",
+    "r1": "<b>Make your own.</b> Any genre is fine. Don't copy another game's characters, names, levels, logos, art or music.",
+    "r2": "<b>Only use pictures you may use.</b> A picture you add only sets colours and mood.",
+    "r3": "<b>Keep it decent.</b> Nothing sexual, hateful or illegal, and no real people without their OK.",
+    "r4": "<b>No scams.</b> Never ask players for keys, passwords or money outside Flyverse.",
+    "r5": "<b>Play fair.</b> No fake plays, likes, reviews or scores. Jam results that were cheated don't count.",
+    "r6": "<b>Publishing is public.</b> Everyone can play your game and remix it; the remix names yours. You can unpublish any time.",
+    "r7": "<b>Playing with friends</b> connects your computers directly, so players in a room can see each other's network address.",
+    "copy_title": "Is a game copying yours?",
+    "copy": "Open its page, press Report and choose “It copies another game”, with a link to the original. You can also write to us on <a href=\"https://discord.gg/2KqfZs4aK8\" target=\"_blank\" rel=\"noopener\">Discord</a> or <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">X</a>. The team looks at it and hides games that break these rules.",
+    "terms": "Tips, unlocks and skins go straight to the creator's wallet, so fly.ai can't refund them. The site's <a href=\"/terms.html\">Terms</a> apply too.",
+    "publish": "By publishing you confirm it's your own work (no copied characters, names or levels) and follows the <a href=\"#rules\" target=\"_blank\">rules</a>."
   }
 }

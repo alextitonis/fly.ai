@@ -24,7 +24,7 @@
     "ex5": "Un laberinto nocturno brillante con gemas escondidas en callejones sin salida",
     "eg": "p. ej. {text}",
     "make": "Crear",
-    "left": "Te quedan {left} de {limit} juegos nuevos hoy · hasta {changes} cambios al día",
+    "left": "Te quedan {left} de {limit} juegos nuevos hoy",
     "none_left": "Ya hiciste tus {limit} juegos nuevos de hoy. Puedes seguir cambiando tus juegos; nuevos mañana (03:00 TRT).",
     "your_games": "Tus juegos",
     "browse": "Explorar juegos",
@@ -220,7 +220,10 @@
     "no_wallet": "No se encontró ninguna wallet: inicia sesión en fly.ai primero",
     "confirm": "Confirma en tu wallet…",
     "checking": "Comprobando el pago…",
-    "check_failed": "No se pudo comprobar el pago"
+    "check_failed": "No se pudo comprobar el pago",
+    "sign_in": "Primero inicia sesión en fly.ai (arriba a la derecha en la página principal) y luego paga",
+    "other_wallet": "Tu app de wallet está en otra dirección que la de tu sesión. Cámbiala e inténtalo de nuevo.",
+    "later": "Pagado, pero ahora no se puede contactar con el servidor. Queda guardado y se contará la próxima vez que abras Flyverse."
   },
   "party": {
     "stomped_by": "¡{name} te pisó!",
@@ -700,13 +703,15 @@
     "none_owed": "Ahora mismo no se debe nada.",
     "pack_n": "Construcciones por paquete",
     "pack_price": "Precio del paquete (FLYAI, 0 = no está a la venta)",
-    "pack_note": "Cada jugador tiene 2 juegos nuevos gratis al día; después puede comprar un paquete, pagado a {to}.",
+    "pack_note": "Los jugadores tienen 2 juegos nuevos y 15 cambios gratis al día; después pueden comprar paquetes, pagados a {to}.",
     "reports": "Denuncias",
     "rep_review": "reseña: «{text}»",
     "hide": "Ocultar",
     "dismiss": "Dejarlo",
     "hide_confirm": "¿Ocultarlo para todos? (puedes volver a mostrarlo)",
-    "no_reports": "No hay denuncias abiertas."
+    "no_reports": "No hay denuncias abiertas.",
+    "cpack_n": "Cambios por paquete",
+    "cpack_price": "Precio del paquete (FLYAI, 0 = no se vende)"
   },
   "npc": {
     "next": "E: siguiente",
@@ -845,13 +850,55 @@
   },
   "builds": {
     "extra": "Te quedan {n} construcciones compradas.",
-    "buy": "Consigue {n} construcciones más por {price}"
+    "buy": "Consigue {n} construcciones más por {price}",
+    "buy_changes": "Consigue {n} cambios más por {price}",
+    "changes_left": "Te quedan {left} de {limit} cambios gratis hoy",
+    "changes_extra": "+{n} cambios comprados.",
+    "used_up": "Se acabaron los gratuitos de hoy",
+    "no_changes": "Has usado los {n} cambios gratis de hoy. Mañana hay más (03:00 TRT).",
+    "no_builds": "Has hecho los {n} juegos nuevos gratis de hoy. Mañana hay más (03:00 TRT).",
+    "budget": "El presupuesto gratis de IA de hoy se ha agotado para todos. Empieza de nuevo a las 03:00 TRT.",
+    "note": "Mover, añadir y cambiar piezas a mano siempre es gratis. Los cambios comprados no caducan."
   },
   "report": {
     "game": "⚑ Denunciar",
     "review": "Denunciar esta reseña",
-    "ask_game": "¿Qué tiene de malo este juego? (el equipo lo revisará)",
-    "ask_review": "¿Qué tiene de malo esta reseña? (el equipo lo revisará)",
-    "thanks": "Gracias, el equipo lo revisará."
+    "ask_game": "¿Qué pasa con este juego?",
+    "ask_review": "¿Qué pasa con esta reseña?",
+    "thanks": "Gracias, el equipo lo revisará.",
+    "kind": "¿Qué pasa?",
+    "k_copied": "Copia otro juego",
+    "k_offensive": "Ofensivo",
+    "k_spam": "Spam o estafa",
+    "k_broken": "No funciona",
+    "k_other": "Otra cosa",
+    "more_ph": "Unas palabras (opcional)",
+    "copied_note": "Di qué juego copia, con un enlace si lo tienes.",
+    "send": "Enviar"
+  },
+  "open": {
+    "eyebrow": "Flyverse Maker",
+    "sign_in": "Iniciar sesión",
+    "sign_in_build": "Inicia sesión para crear tus juegos. Para jugar no hace falta.",
+    "sign_in_hold": "Inicia sesión para crear tus juegos (para wallets con 10.000 $FLYAI o una Trader Fly). Para jugar no hace falta.",
+    "sign_in_score": "Inicia sesión en la página principal (arriba a la derecha) para entrar en la tabla y ganar XP.",
+    "sign_in_do": "Para eso, inicia sesión en la página principal (arriba a la derecha).",
+    "hold_title": "Por ahora, crear es para los holders de fly.ai",
+    "hold": "Para crear juegos, ten 10.000 <a href=\"/token.html\">$FLYAI</a> o una Trader Fly en esta wallet. ¿Acabas de comprar? Espera 5 minutos. Jugar está abierto a todos."
+  },
+  "rules": {
+    "title": "Reglas",
+    "lede": "Cortas e iguales para todos.",
+    "r1": "<b>Haz algo tuyo.</b> Cualquier género vale. No copies personajes, nombres, niveles, logos, arte o música de otro juego.",
+    "r2": "<b>Usa solo imágenes que puedas usar.</b> La imagen que añades solo marca los colores y el ambiente.",
+    "r3": "<b>Con respeto.</b> Nada sexual, de odio o ilegal, ni personas reales sin su permiso.",
+    "r4": "<b>Sin estafas.</b> Nunca pidas a los jugadores claves, contraseñas o dinero fuera de Flyverse.",
+    "r5": "<b>Juega limpio.</b> Sin partidas, me gusta, reseñas ni puntuaciones falsas. Los resultados de jam con trampas no cuentan.",
+    "r6": "<b>Publicar es público.</b> Cualquiera puede jugar tu juego y remezclarlo; la remezcla nombra el tuyo. Puedes retirarlo cuando quieras.",
+    "r7": "<b>Jugar con amigos</b> conecta los ordenadores directamente, así que los jugadores de una sala pueden ver la dirección de red de los demás.",
+    "copy_title": "¿Un juego copia el tuyo?",
+    "copy": "Abre su página, pulsa Reportar y elige «Copia otro juego», con un enlace al original. También puedes escribirnos por <a href=\"https://discord.gg/2KqfZs4aK8\" target=\"_blank\" rel=\"noopener\">Discord</a> o <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">X</a>. El equipo lo revisa y oculta los juegos que rompen estas reglas.",
+    "terms": "Las propinas, desbloqueos y skins van directos a la wallet del creador, así que fly.ai no puede devolverlos. También se aplican los <a href=\"/terms.html\">Términos</a> del sitio.",
+    "publish": "Al publicar confirmas que es obra tuya (sin personajes, nombres ni niveles copiados) y que sigue las <a href=\"#rules\" target=\"_blank\">reglas</a>."
   }
 }
