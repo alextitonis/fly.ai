@@ -73,7 +73,7 @@
     "daily_play": "오늘의 챌린지 플레이",
     "testers": "테스터",
     "testers_team": "팀 전용 · {n}",
-    "testers_note": "테스터는 앰배서더처럼 들어올 수 있어요(하루 새 게임 5개). 추가와 삭제는 바로 적용돼요.",
+    "testers_note": "테스터는 앰배서더처럼 들어올 수 있어요(일주일에 무료 새 게임 2개). 추가와 삭제는 바로 적용돼요.",
     "testers_ph": "0x… 지갑 주소",
     "testers_add": "테스터 추가",
     "th_wallet": "지갑",
@@ -133,7 +133,7 @@
     "cam_top": "탑다운",
     "cam_side": "횡스크롤",
     "cam_first": "1인칭",
-    "locked": "무료 플레이를 사용했어요. 영구 잠금 해제: <b>{price}</b>, 제작자에게 바로 지급돼요.",
+    "locked": "무료 플레이를 사용했어요. 영구 잠금 해제: <b>{price}</b> ({note}).",
     "unlock": "🔓 {price}에 잠금 해제",
     "all_games": "모든 게임",
     "pay_failed": "결제가 완료되지 않았어요",
@@ -219,7 +219,11 @@
     "check_failed": "결제를 확인할 수 없었어요",
     "sign_in": "먼저 fly.ai에 로그인한 뒤(홈 오른쪽 위) 결제하세요",
     "other_wallet": "지갑 앱의 주소가 로그인한 주소와 다릅니다. 바꾼 뒤 다시 시도하세요.",
-    "later": "결제됐지만 지금 서버에 연결할 수 없습니다. 저장해 두었고 다음에 Flyverse를 열 때 반영됩니다."
+    "later": "결제됐지만 지금 서버에 연결할 수 없습니다. 저장해 두었고 다음에 Flyverse를 열 때 반영됩니다.",
+    "approve": "1/2: 지갑에서 정확히 이 금액만 허용하세요…",
+    "approving": "승인을 기다리는 중…",
+    "confirm2": "지갑에서 결제를 확인하세요…",
+    "not_approved": "승인이 완료되지 않아 아무것도 결제되지 않았습니다. 다시 시도하세요."
   },
   "party": {
     "stomped_by": "{name}님에게 밟혔어요!",
@@ -410,7 +414,7 @@
     "p_hover": "호버: 점프를 누르고 있으면 공중에 떠요",
     "multi": "친구와 함께 플레이 가능(최대 4명)",
     "price": "잠금 해제 가격(FLYAI, 0 = 무료)",
-    "price_note": "플레이어는 한 번 무료로 플레이한 뒤, 이 금액을 내고 영구적으로 잠금 해제해요. 내 지갑으로 바로 지급돼요.",
+    "price_note": "플레이어는 한 번 무료로 플레이한 뒤, 이 금액을 내고 영구적으로 잠금 해제해요. {note}",
     "look": "분위기",
     "below": "레벨 아래",
     "ground_h": "지면 높이",
@@ -759,8 +763,8 @@
     "by": "{name}의 공간"
   },
   "earn": {
-    "note_trial": "무료 {left}분 남음, 이후 {price}에 잠금 해제 (제작자에게 바로 지급).",
-    "note_stages": "처음 스테이지는 무료이고, {n}스테이지부터는 {price}에 잠금 해제해야 해요 (제작자에게 바로 지급).",
+    "note_trial": "무료 {left}분 남음, 이후 {price}에 잠금 해제 ({note}).",
+    "note_stages": "처음 스테이지는 무료이고, {n}스테이지부터는 {price}에 잠금 해제해야 해요 ({note}).",
     "trial_over": "무료 {mins}분이 끝났어요",
     "stage_locked": "{n}스테이지는 잠금 해제가 필요해요",
     "skin_from": "이 게임의 파리 스킨: 모든 게임에서 착용",
@@ -773,7 +777,6 @@
     "paid_from": "잠금 해제 시작",
     "paid_whole": "처음부터",
     "paid_stage": "{n}스테이지",
-    "sale_note": "플레이어가 FLYAI로 바로 지급해요. fly.ai는 아무것도 가져가지 않아요.",
     "skin_title": "이 게임의 파리 스킨 판매",
     "skin_name": "스킨 이름",
     "skin_body": "몸통",
@@ -782,7 +785,11 @@
     "skin_price": "가격 (FLYAI, 0 = 판매 안 함)",
     "save": "저장",
     "saved": "저장됨 ✓",
-    "my_skins": "구매한 스킨"
+    "my_skins": "구매한 스킨",
+    "straight": "제작자에게 바로 지급",
+    "cut_player": "제작자 {rest}%, fly.ai {pct}%",
+    "all_yours": "내 지갑으로 바로 지급돼요. fly.ai는 아무것도 가져가지 않아요.",
+    "cut_creator": "{rest}%가 내 지갑으로 바로 지급되고 fly.ai가 {pct}%를 가져가요. 팁은 전부 내 것이에요."
   },
   "friends": {
     "title": "🤝 친구",
@@ -888,6 +895,7 @@
     "copy_title": "내 게임을 베낀 게임이 있나요?",
     "copy": "그 게임 페이지에서 신고를 누르고 “다른 게임을 베꼈어요”를 골라 원작 링크를 적어 주세요. <a href=\"https://discord.gg/2KqfZs4aK8\" target=\"_blank\" rel=\"noopener\">Discord</a>나 <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">X</a>로 알려 주셔도 됩니다. 팀이 확인하고 규칙을 어긴 게임을 숨깁니다.",
     "terms": "팁, 잠금 해제, 스킨 결제는 제작자의 지갑으로 바로 가므로 fly.ai가 환불할 수 없습니다. 사이트의 <a href=\"/terms.html\">이용약관</a>도 적용됩니다.",
-    "publish": "공개하면 직접 만든 작품이며(베낀 캐릭터, 이름, 레벨 없음) <a href=\"#rules\" target=\"_blank\">규칙</a>을 따른다는 데 동의하는 것입니다."
+    "publish": "공개하면 직접 만든 작품이며(베낀 캐릭터, 이름, 레벨 없음) <a href=\"#rules\" target=\"_blank\">규칙</a>을 따른다는 데 동의하는 것입니다.",
+    "cut": "fly.ai는 잠금 해제와 스킨에서 {pct}%를 가져갑니다. 팁은 전액 제작자에게 갑니다."
   }
 }

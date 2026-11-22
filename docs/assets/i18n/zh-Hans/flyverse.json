@@ -73,7 +73,7 @@
     "daily_play": "玩今日挑战",
     "testers": "测试者",
     "testers_team": "仅限团队 · {n}",
-    "testers_note": "测试者和大使一样可以进入（每天 5 个新游戏）。添加或移除立即生效。",
+    "testers_note": "测试者和大使一样可以进入（每周 2 个免费新游戏）。添加或移除立即生效。",
     "testers_ph": "0x… 钱包地址",
     "testers_add": "添加测试者",
     "th_wallet": "钱包",
@@ -133,7 +133,7 @@
     "cam_top": "俯视",
     "cam_side": "横版",
     "cam_first": "第一人称",
-    "locked": "你已经用完免费试玩。永久解锁：<b>{price}</b>，直接付给作者。",
+    "locked": "你已经用完免费试玩。永久解锁：<b>{price}</b>（{note}）。",
     "unlock": "🔓 {price} 解锁",
     "all_games": "所有游戏",
     "pay_failed": "付款没有成功",
@@ -219,7 +219,11 @@
     "check_failed": "无法核对付款",
     "sign_in": "请先在 fly.ai 登录（首页右上角），再付款",
     "other_wallet": "你的钱包应用当前地址和登录的地址不同。切换后再试。",
-    "later": "已付款，但现在连不上服务器。记录已保存，下次打开 Flyverse 时会计入。"
+    "later": "已付款，但现在连不上服务器。记录已保存，下次打开 Flyverse 时会计入。",
+    "approve": "第 1 步（共 2 步）：在钱包中授权正好这个金额…",
+    "approving": "正在等待授权完成…",
+    "confirm2": "在钱包中确认付款…",
+    "not_approved": "授权没有完成，没有付款。请再试一次。"
   },
   "party": {
     "stomped_by": "被 {name} 踩中了！",
@@ -410,7 +414,7 @@
     "p_hover": "悬停：按住跳跃停在空中",
     "multi": "朋友可以一起玩（最多 4 人）",
     "price": "解锁价格（FLYAI，0 = 免费）",
-    "price_note": "玩家可以免费玩一次，之后付这个价格永久解锁。直接付到你的钱包。",
+    "price_note": "玩家可以免费玩一次，之后付这个价格永久解锁。{note}",
     "look": "外观",
     "below": "关卡下方",
     "ground_h": "地面高度",
@@ -759,8 +763,8 @@
     "by": "{name} 的地盘"
   },
   "earn": {
-    "note_trial": "还剩 {left} 分钟免费，之后用 {price} 解锁（直接付给作者）。",
-    "note_stages": "前面的关卡免费；从第 {n} 关开始需要用 {price} 解锁（直接付给作者）。",
+    "note_trial": "还剩 {left} 分钟免费，之后用 {price} 解锁（{note}）。",
+    "note_stages": "前面的关卡免费；从第 {n} 关开始需要用 {price} 解锁（{note}）。",
     "trial_over": "你的 {mins} 分钟免费时间用完了",
     "stage_locked": "第 {n} 关需要解锁",
     "skin_from": "这个游戏的苍蝇皮肤：在所有游戏里都能穿",
@@ -773,7 +777,6 @@
     "paid_from": "从这里开始需要解锁",
     "paid_whole": "一开始",
     "paid_stage": "第 {n} 关",
-    "sale_note": "玩家直接用 FLYAI 付给你，fly.ai 不抽成。",
     "skin_title": "出售这个游戏的苍蝇皮肤",
     "skin_name": "皮肤名称",
     "skin_body": "身体",
@@ -782,7 +785,11 @@
     "skin_price": "价格（FLYAI，0 = 不出售）",
     "save": "保存",
     "saved": "已保存 ✓",
-    "my_skins": "你买的皮肤"
+    "my_skins": "你买的皮肤",
+    "straight": "直接付给作者",
+    "cut_player": "{rest}% 给作者，{pct}% 给 fly.ai",
+    "all_yours": "直接付到你的钱包，fly.ai 不抽成。",
+    "cut_creator": "你得到 {rest}%，直接付到你的钱包；fly.ai 抽成 {pct}%。打赏全部归你。"
   },
   "friends": {
     "title": "🤝 好友",
@@ -888,6 +895,7 @@
     "copy_title": "有游戏抄袭了你的作品？",
     "copy": "打开它的页面，点“举报”，选择“抄袭了别的游戏”，并附上原作链接。也可以在 <a href=\"https://discord.gg/2KqfZs4aK8\" target=\"_blank\" rel=\"noopener\">Discord</a> 或 <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">X</a> 上联系我们。团队会查看，并隐藏违反规则的游戏。",
     "terms": "打赏、解锁和皮肤的付款直接进入创作者的钱包，fly.ai 无法退款。网站的<a href=\"/terms.html\">条款</a>同样适用。",
-    "publish": "发布即表示这是你自己的作品（没有抄袭角色、名字或关卡），并遵守<a href=\"#rules\" target=\"_blank\">规则</a>。"
+    "publish": "发布即表示这是你自己的作品（没有抄袭角色、名字或关卡），并遵守<a href=\"#rules\" target=\"_blank\">规则</a>。",
+    "cut": "fly.ai 从解锁和皮肤中抽成 {pct}%；打赏全部归创作者。"
   }
 }

@@ -13,6 +13,9 @@ type Handler = (req: IncomingMessage, res: ServerResponse, url: URL) => Promise<
 let handler: Handler | null = null;
 
 /** the closed test: the dev wallet and the user's personal wallet unless FLYVERSE_WALLETS says otherwise */
+// FlyTill on Robinhood Chain (flytrade/contracts/src/FlyTill.sol), and when it started
+const DEFAULT_TILL = "0xC969B45268bD7c81ed3e33044817aB1A3c33faC9", DEFAULT_TILL_SINCE = "2026-11-22T20:21:00Z";
+const TILL = /^0x[0-9a-fA-F]{40}$/.exec(process.env.FLYVERSE_TILL ?? DEFAULT_TILL)?.[0] ?? "";
 const DEFAULT_WALLETS = "0x625862521777e19ad54ce6c7abed9ca54d6589ea,0xae92d64584e7f8e54995c362eaa8d7949fac8b1b";
 /** the first early testers, put in Flyverse's database on start; more are added from the page by the team
  * (FLYVERSE_TESTERS replaces this seed). They get an early-tester badge + some XP later. */
@@ -69,6 +72,8 @@ export async function startFlyverse(deps: {
       buildRule: open ? buildRule : undefined,
       // bought builds and changes are paid to the dev wallet (the first team wallet)
       payTo: process.env.FLYVERSE_PAY_TO ?? wallets[0],
+      // unlocks and skins go through the FlyTill contract, which splits off fly.ai's cut (not set: straight to the creator)
+      till: TILL ? { address: TILL, bps: Number(process.env.FLYVERSE_TILL_BPS ?? 1000), since: Date.parse(process.env.FLYVERSE_TILL_SINCE ?? DEFAULT_TILL_SINCE) || 0 } : undefined,
       xpEligible: deps.xpEligible,
       testers,
       teamWallets: wallets,

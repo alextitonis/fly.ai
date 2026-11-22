@@ -74,7 +74,7 @@
     "daily_play": "Jugar el reto del día",
     "testers": "Testers",
     "testers_team": "solo equipo · {n}",
-    "testers_note": "Los testers entran como los embajadores (5 juegos nuevos al día). Añadir o quitar funciona al instante.",
+    "testers_note": "Los testers entran como los embajadores (2 juegos nuevos gratis a la semana). Añadir o quitar funciona al instante.",
     "testers_ph": "0x… dirección de wallet",
     "testers_add": "Añadir tester",
     "th_wallet": "Wallet",
@@ -134,7 +134,7 @@
     "cam_top": "Vista cenital",
     "cam_side": "Desplazamiento lateral",
     "cam_first": "Primera persona",
-    "locked": "Ya usaste tu partida gratis. Desbloquéalo para siempre: <b>{price}</b>, pagado directamente al creador.",
+    "locked": "Ya usaste tu partida gratis. Desbloquéalo para siempre: <b>{price}</b> ({note}).",
     "unlock": "🔓 Desbloquear por {price}",
     "all_games": "Todos los juegos",
     "pay_failed": "El pago no se completó",
@@ -223,7 +223,11 @@
     "check_failed": "No se pudo comprobar el pago",
     "sign_in": "Primero inicia sesión en fly.ai (arriba a la derecha en la página principal) y luego paga",
     "other_wallet": "Tu app de wallet está en otra dirección que la de tu sesión. Cámbiala e inténtalo de nuevo.",
-    "later": "Pagado, pero ahora no se puede contactar con el servidor. Queda guardado y se contará la próxima vez que abras Flyverse."
+    "later": "Pagado, pero ahora no se puede contactar con el servidor. Queda guardado y se contará la próxima vez que abras Flyverse.",
+    "approve": "1 de 2: permite exactamente este precio en tu wallet…",
+    "approving": "Esperando la aprobación…",
+    "confirm2": "Confirma el pago en tu wallet…",
+    "not_approved": "La aprobación no se completó y no se pagó nada. Inténtalo de nuevo."
   },
   "party": {
     "stomped_by": "¡{name} te pisó!",
@@ -416,7 +420,7 @@
     "p_hover": "Flotar: mantén saltar para quedarte en el aire",
     "multi": "Los amigos pueden jugar juntos (hasta 4)",
     "price": "Precio de desbloqueo en FLYAI (0 = gratis)",
-    "price_note": "Los jugadores tienen una partida gratis y luego te pagan esto para desbloquearlo para siempre. Directo a tu wallet.",
+    "price_note": "Los jugadores tienen una partida gratis y luego pagan esto para desbloquearlo para siempre. {note}",
     "look": "Aspecto",
     "below": "Bajo el nivel",
     "ground_h": "Altura del suelo",
@@ -770,8 +774,8 @@
     "by": "El sitio de {name}"
   },
   "earn": {
-    "note_trial": "Te quedan {left} minutos gratis; luego desbloquéalo por {price} (directo a su creador).",
-    "note_stages": "Las primeras fases son gratis; desde la fase {n} hay que desbloquearlo por {price} (directo a su creador).",
+    "note_trial": "Te quedan {left} minutos gratis; luego desbloquéalo por {price} ({note}).",
+    "note_stages": "Las primeras fases son gratis; desde la fase {n} hay que desbloquearlo por {price} ({note}).",
     "trial_over": "Se acabaron tus {mins} minutos gratis",
     "stage_locked": "La fase {n} hay que desbloquearla",
     "skin_from": "una skin de mosca de este juego: llévala en todos los juegos",
@@ -784,7 +788,6 @@
     "paid_from": "Hay que desbloquear desde",
     "paid_whole": "el principio",
     "paid_stage": "la fase {n}",
-    "sale_note": "Los jugadores te pagan directamente en FLYAI; fly.ai no se queda nada.",
     "skin_title": "Vende una skin de mosca de este juego",
     "skin_name": "Nombre de la skin",
     "skin_body": "Cuerpo",
@@ -793,7 +796,11 @@
     "skin_price": "Precio (FLYAI, 0 = no está a la venta)",
     "save": "Guardar",
     "saved": "Guardado ✓",
-    "my_skins": "Skins que compraste"
+    "my_skins": "Skins que compraste",
+    "straight": "directo al creador",
+    "cut_player": "{rest}% para el creador, {pct}% para fly.ai",
+    "all_yours": "Directo a tu wallet; fly.ai no se queda nada.",
+    "cut_creator": "Recibes el {rest}%, directo a tu wallet; fly.ai se queda el {pct}%. Las propinas son todas tuyas."
   },
   "friends": {
     "title": "🤝 Amigos",
@@ -899,6 +906,7 @@
     "copy_title": "¿Un juego copia el tuyo?",
     "copy": "Abre su página, pulsa Reportar y elige «Copia otro juego», con un enlace al original. También puedes escribirnos por <a href=\"https://discord.gg/2KqfZs4aK8\" target=\"_blank\" rel=\"noopener\">Discord</a> o <a href=\"https://x.com/flydotai\" target=\"_blank\" rel=\"noopener\">X</a>. El equipo lo revisa y oculta los juegos que rompen estas reglas.",
     "terms": "Las propinas, desbloqueos y skins van directos a la wallet del creador, así que fly.ai no puede devolverlos. También se aplican los <a href=\"/terms.html\">Términos</a> del sitio.",
-    "publish": "Al publicar confirmas que es obra tuya (sin personajes, nombres ni niveles copiados) y que sigue las <a href=\"#rules\" target=\"_blank\">reglas</a>."
+    "publish": "Al publicar confirmas que es obra tuya (sin personajes, nombres ni niveles copiados) y que sigue las <a href=\"#rules\" target=\"_blank\">reglas</a>.",
+    "cut": "fly.ai se queda el {pct}% de los desbloqueos y skins; las propinas van íntegras al creador."
   }
 }
