@@ -284,6 +284,10 @@
     "liveAgo": "{t} ago",
     "liveBought": "Fly #{n} bought {sym} for {usd}",
     "liveSold": "Fly #{n} sold {sym} at {pct}",
-    "liveSoldPlain": "Fly #{n} sold {sym} for {usd}"
+    "liveSoldPlain": "Fly #{n} sold {sym} for {usd}",
+    "liveLong": "Fly #{n} opened a long on {sym} for {usd}",
+    "liveShort": "Fly #{n} opened a short on {sym} for {usd}",
+    "liveCloseLong": "Fly #{n} closed its {sym} long at {pct}",
+    "liveCloseShort": "Fly #{n} closed its {sym} short at {pct}"
   }
 }

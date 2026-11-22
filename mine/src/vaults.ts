@@ -143,6 +143,22 @@ export function createVaults(d: VaultsDeps) {
     return (await pg.one<Ledger>("select holder, principal_usd, locked_usd, closing from mine.vault_ledger where wallet = ? and chain = ?",
       wallet, chain)) ?? null;
   }
+  /**
+   * The holder's own money still in a wallet (put in less what is locked), counting what our desks parked elsewhere
+   * for it: a Fly Pool join ("pool_in") and a Perps move to Lighter ("move_out" to_chain lighter) lower the ledger's
+   * principal_usd, though the money is still the holder's (2026-11-21: Bad Bunnz #2582's $11 went to Lighter and two
+   * others' $21 into the Fly Pool, so their bonuses waited). Parked = what went there less what came home; a pool_in
+   * written twice counts once by its ticket. A move to another chain is not counted: from there it can be withdrawn.
+   */
+  async function ownMoneyIn(wallet: string, chain: string, led: Ledger): Promise<number> {
+    const r = await pg.one<{ parked: number }>(`
+      with m as (select distinct on (kind, coalesce(detail->>'ticket', id::text)) kind, usd from mine.vault_moves
+                 where lower(wallet) = lower(?) and chain = ? and (kind in ('pool_in', 'pool_home', 'perp_home')
+                   or (kind = 'move_out' and detail->>'to_chain' = 'lighter')))
+      select coalesce(sum(case when kind in ('pool_in', 'move_out') then usd else -usd end), 0)::float8 as parked from m`,
+      wallet, chain);
+    return Number(led.principal_usd) - Number(led.locked_usd) + Math.max(0, Number(r?.parked ?? 0));
+  }
   const publicOf = async (key: string) =>
     (await pg.one<{ value: any }>("select value from mine.vault_public where key = ?", key))?.value ?? null;
   /**
@@ -559,6 +575,17 @@ export function createVaults(d: VaultsDeps) {
       where l.chain = ? and l.holder is not null and w.fly_id is not null`, prefix, chain);
     const flies: Record<number, unknown> = {};
     for (const r of rows) if (r.value) flies[r.fly_id] = r.value;
+    // each fly's last long / short / close on Lighter (vperps.py's public row), in a field of its own: `recent` is the
+    // wallet's own buys and sells (2026-11-22: the home page's latest trade never showed a short)
+    if (chain === "robinhood" && PERPS) {
+      const perp = await pg.all<{ fly_id: number; recent: any }>(`select w.fly_id, p.value->'recent' as recent from mine.vault_public p
+        join mine.vault_wallets w on p.key = 'vault:perps:' || w.address where p.key like 'vault:perps:%' and w.fly_id is not null`);
+      for (const r of perp) {
+        const f = flies[r.fly_id] as Record<string, unknown> | undefined;
+        const done = (Array.isArray(r.recent) ? r.recent : []).filter((t: any) => t?.status === "filled").slice(0, 5);
+        if (f && done.length) f.perps_recent = done.map((t: any) => ({ at: t.at, symbol: t.symbol, side: t.side, usd: t.usd, pnl_pct: t.pnl_pct ?? null, tx: t.tx ?? null }));
+      }
+    }
     // flies whose money is only on Solana (no holder on the Robinhood ledger): the leaderboard's Solana entry and the
     // Solana side's trades and wallet (2026-11-08, the user: My flies, levels and squads didn't count them)
     if (chain === "robinhood" && SOLANA) {
@@ -815,7 +842,7 @@ export function createVaults(d: VaultsDeps) {
       // out, right?"): deposit, qualify, withdraw before the approval, and the bonus would have landed in an empty
       // wallet and unlocked to them 14 days later. Own money = what was put in less what is locked (FlightPass grants).
       // (a manual bonus is a gift: no deposit asked)
-      if (!p.manual && Number(led.principal_usd) - Number(led.locked_usd) < PROMO.minUsd) {
+      if (!p.manual && await ownMoneyIn(p.wallet, p.chain, led) < PROMO.minUsd) {
         await pg.run("update mine.vault_promos set status = 'candidate', error = ? where id = ? and status = 'approved'",
           `their own money in the wallet is under $${PROMO.minUsd} now (withdrawn since qualifying?)`, p.id);
         promoChanged();
@@ -891,7 +918,7 @@ export function createVaults(d: VaultsDeps) {
       if (p.near > 0 || Date.now() - p.qualified_ms < PROMO.settleMs) continue;
       const led = await ledgerOf(p.wallet, p.chain);
       if (!led?.holder || led.holder.toLowerCase() !== p.holder.toLowerCase() || led.closing) continue;
-      if (Number(led.principal_usd) - Number(led.locked_usd) < PROMO.minUsd) continue;
+      if (await ownMoneyIn(p.wallet, p.chain, led) < PROMO.minUsd) continue;
       const stats = await publicOf(statsKey(p.wallet, p.chain));
       if (!stats?.active) continue;                       // under the $FLYAI hold (or trading switched off): not yet
       if (await pg.run(`update mine.vault_promos set status = 'approved', decided_by = 'auto', decided_at = now(), error = null

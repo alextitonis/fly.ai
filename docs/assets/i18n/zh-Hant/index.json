@@ -284,6 +284,10 @@
     "liveAgo": "{t}前",
     "liveBought": "蒼蠅 #{n} 買入 {sym}，{usd}",
     "liveSold": "蒼蠅 #{n} 賣出 {sym}，{pct}",
-    "liveSoldPlain": "蒼蠅 #{n} 賣出 {sym}，{usd}"
+    "liveSoldPlain": "蒼蠅 #{n} 賣出 {sym}，{usd}",
+    "liveLong": "蒼蠅 #{n} 開多 {sym}，{usd}",
+    "liveShort": "蒼蠅 #{n} 開空 {sym}，{usd}",
+    "liveCloseLong": "蒼蠅 #{n} 平多 {sym}，{pct}",
+    "liveCloseShort": "蒼蠅 #{n} 平空 {sym}，{pct}"
   }
 }

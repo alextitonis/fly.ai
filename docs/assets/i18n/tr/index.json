@@ -284,6 +284,10 @@
     "liveAgo": "{t} önce",
     "liveBought": "Sinek #{n}, {usd} karşılığında {sym} aldı",
     "liveSold": "Sinek #{n}, {sym} sattı: {pct}",
-    "liveSoldPlain": "Sinek #{n}, {usd} karşılığında {sym} sattı"
+    "liveSoldPlain": "Sinek #{n}, {usd} karşılığında {sym} sattı",
+    "liveLong": "Sinek #{n}, {usd} ile {sym} long açtı",
+    "liveShort": "Sinek #{n}, {usd} ile {sym} short açtı",
+    "liveCloseLong": "Sinek #{n}, {sym} long pozisyonunu kapattı: {pct}",
+    "liveCloseShort": "Sinek #{n}, {sym} short pozisyonunu kapattı: {pct}"
   }
 }

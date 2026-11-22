@@ -273,9 +273,14 @@ try {
   check("leaderboard", (await api("/api/vaults/leaderboard", null)).json.all[0].vault === W3);
   const v3b = (await api("/api/vaults/fly/3", null)).json;
   check("the stats per chain", v3b.stats?.value === 112.5 && v3b.away[1].stats?.value === 7);
+  // its longs and shorts on Lighter, filled ones only, beside its own trades
+  await PG.pg.run("insert into mine.vault_public (key, value) values (?, ?::text::jsonb)", `vault:perps:${W3}`, JSON.stringify({ recent: [
+    { at: 5, symbol: "BTC", side: "short", usd: 10.08, status: "filled" }, { at: 4, symbol: "ETH", side: "long", usd: 9, status: "refused" },
+    { at: 3, symbol: "ETH", side: "close short", usd: 11.59, status: "filled", pnl_pct: -5.4 }] }));
   // the terminal's feed: every funded fly's stats in one read (fly 3 holds bob's money; fly 4 nobody's)
   const fd = (await api("/api/vaults/feed", null)).json;
   check("the terminal feed", fd.flies?.["3"]?.value === 112.5 && !fd.flies?.["4"] && Object.keys(fd.flies).length === 1, JSON.stringify(fd).slice(0, 120));
+  check("the feed: longs and shorts", JSON.stringify(fd.flies?.["3"]?.perps_recent?.map((t: any) => [t.symbol, t.side, t.pnl_pct])) === JSON.stringify([["BTC", "short", null], ["ETH", "close short", -5.4]]), JSON.stringify(fd.flies?.["3"]?.perps_recent));
   // fly levels and squads (src/flylevels.ts): the same flies, with the moves read from the database
   const lv = await api("/api/vaults/levels", null);
   check("fly levels read", lv.status === 200 && lv.json.flies?.["3"]?.level != null && Array.isArray(lv.json.squads), JSON.stringify(lv.json).slice(0, 160));

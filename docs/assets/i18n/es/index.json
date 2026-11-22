@@ -284,6 +284,10 @@
     "liveAgo": "hace {t}",
     "liveBought": "La mosca #{n} compró {sym} por {usd}",
     "liveSold": "La mosca #{n} vendió {sym} a {pct}",
-    "liveSoldPlain": "La mosca #{n} vendió {sym} por {usd}"
+    "liveSoldPlain": "La mosca #{n} vendió {sym} por {usd}",
+    "liveLong": "La mosca #{n} abrió un largo en {sym} por {usd}",
+    "liveShort": "La mosca #{n} abrió un corto en {sym} por {usd}",
+    "liveCloseLong": "La mosca #{n} cerró su largo en {sym} a {pct}",
+    "liveCloseShort": "La mosca #{n} cerró su corto en {sym} a {pct}"
   }
 }

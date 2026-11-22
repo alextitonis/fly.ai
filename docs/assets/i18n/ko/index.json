@@ -284,6 +284,10 @@
     "liveAgo": "{t} 전",
     "liveBought": "파리 #{n}가 {sym}를 {usd}에 매수",
     "liveSold": "파리 #{n}가 {sym}를 {pct}에 매도",
-    "liveSoldPlain": "파리 #{n}가 {sym}를 {usd}에 매도"
+    "liveSoldPlain": "파리 #{n}가 {sym}를 {usd}에 매도",
+    "liveLong": "파리 #{n}가 {sym} 롱 포지션을 {usd}에 진입",
+    "liveShort": "파리 #{n}가 {sym} 숏 포지션을 {usd}에 진입",
+    "liveCloseLong": "파리 #{n}가 {sym} 롱 포지션을 {pct}에 청산",
+    "liveCloseShort": "파리 #{n}가 {sym} 숏 포지션을 {pct}에 청산"
   }
 }

@@ -284,6 +284,10 @@
     "liveAgo": "{t}前",
     "liveBought": "苍蝇 #{n} 买入 {sym}，{usd}",
     "liveSold": "苍蝇 #{n} 卖出 {sym}，{pct}",
-    "liveSoldPlain": "苍蝇 #{n} 卖出 {sym}，{usd}"
+    "liveSoldPlain": "苍蝇 #{n} 卖出 {sym}，{usd}",
+    "liveLong": "苍蝇 #{n} 开多 {sym}，{usd}",
+    "liveShort": "苍蝇 #{n} 开空 {sym}，{usd}",
+    "liveCloseLong": "苍蝇 #{n} 平多 {sym}，{pct}",
+    "liveCloseShort": "苍蝇 #{n} 平空 {sym}，{pct}"
   }
 }
