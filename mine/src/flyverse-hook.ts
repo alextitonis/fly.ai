@@ -62,7 +62,7 @@ export async function startFlyverse(deps: {
       dbFile: path.join(data, "fv.db"),
       // AI budget for everyone together, and the free new games a wallet gets a day (more can be bought)
       dailyUsd: Number(process.env.FLYVERSE_DAILY_USD ?? 15),
-      createsPerDay: Number(process.env.FLYVERSE_CREATES_PER_DAY ?? 2),
+      createsPerWeek: Number(process.env.FLYVERSE_CREATES_PER_WEEK ?? 2),
       changesPerDay: Number(process.env.FLYVERSE_CHANGES_PER_DAY ?? 15),
       // open to everyone to play (FLYVERSE_PUBLIC=1); who builds: FLYVERSE_BUILD = holders (10k FLYAI or a fly, the
       // default), all, or listed (team, testers, ambassadors)
