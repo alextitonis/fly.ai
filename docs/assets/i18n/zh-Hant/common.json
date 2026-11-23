@@ -392,6 +392,10 @@
     "faq": {
       "label": "常見問題",
       "desc": "直白回答：開始、費用、風險"
+    },
+    "flyverse": {
+      "label": "Flyverse",
+      "desc": "打字就能做 3D 遊戲，免費玩"
     }
   },
   "footer": {

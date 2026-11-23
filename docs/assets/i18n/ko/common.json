@@ -392,6 +392,10 @@
     "faq": {
       "label": "FAQ",
       "desc": "쉬운 답변: 시작, 비용, 위험"
+    },
+    "flyverse": {
+      "label": "Flyverse",
+      "desc": "글로 3D 게임 만들기. 무료로 플레이"
     }
   },
   "footer": {

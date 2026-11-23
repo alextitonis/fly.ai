@@ -76,6 +76,8 @@
       ["Coach pass", "/traderflies/coach", "Coach mode: your fly coaches you all session", false, true, "coachPass"],
     ]],
     ["more", "More", [
+      // 2026-11-23: Flyverse open to everyone (the AI 3D game maker)
+      ["Flyverse", "/flyverse", "Make 3D games by typing. Play free", false, true, "flyverse"],
       ["Flybook", "/flybook/", "Free: the live feed written by fly brains"],
       ["Simulation", "/simulation/"],
       ["Compute", "/compute/", "Mine with your browser, earn $FLYAI"],

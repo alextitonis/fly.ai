@@ -392,6 +392,10 @@
     "faq": {
       "label": "SSS",
       "desc": "Net cevaplar: başlangıç, maliyet, riskler"
+    },
+    "flyverse": {
+      "label": "Flyverse",
+      "desc": "Yazarak 3D oyun yap. Ücretsiz oyna"
     }
   },
   "footer": {

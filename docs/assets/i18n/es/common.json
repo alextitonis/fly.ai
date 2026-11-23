@@ -392,6 +392,10 @@
     "faq": {
       "label": "Preguntas frecuentes",
       "desc": "Respuestas claras: empezar, costes, riesgos"
+    },
+    "flyverse": {
+      "label": "Flyverse",
+      "desc": "Crea juegos 3D escribiendo. Juega gratis"
     }
   },
   "footer": {

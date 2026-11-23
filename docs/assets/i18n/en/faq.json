@@ -53,6 +53,10 @@
       "q": "Which chains does it use?",
       "a": "The NFTs, $FLYAI and the Fly Desk live on Robinhood Chain. A fly's wallet trades on Robinhood Chain, Base and BNB Chain."
     },
+    "flyverse": {
+      "q": "What is Flyverse?",
+      "a": "Flyverse is fly.ai's 3D game maker. Type a game idea and the builder fly makes it while you watch, then change anything by asking. Playing is free in your browser. Building needs 200,000 $FLYAI held (wallet, staked or locked). Every week there is a Fly Jam with $FLYAI prizes. <a href=\"/flyverse\">Open Flyverse</a>"
+    },
     "partners": {
       "q": "I run an NFT collection. Can my holders use this?",
       "a": "Yes. Partner collections (Bullas, Waifus, Enjoyoors and RUYUI so far) give each NFT its own trading wallet under the same 200,000 $FLYAI rule, and the live counts are on the <a href=\"/desk#partners\">partner scorecard</a>. Reach out on X: <a href=\"https://x.com/flydotai\">@flydotai</a>."

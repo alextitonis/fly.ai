@@ -53,6 +53,10 @@
       "q": "Hangi zincirleri kullanıyor?",
       "a": "NFT'ler, $FLYAI ve Fly Desk Robinhood Chain'dedir. Bir sineğin cüzdanı Robinhood Chain, Base ve BNB Chain'de işlem yapar."
     },
+    "flyverse": {
+      "q": "Flyverse nedir?",
+      "a": "Flyverse, fly.ai'ın 3D oyun yapıcısıdır. Bir oyun fikri yaz, inşaatçı sinek sen izlerken onu yapsın; sonra istediğin her şeyi isteyerek değiştir. Oynamak tarayıcında ücretsiz. Oyun yapmak için 200.000 $FLYAI tutman gerekir (cüzdanda, stake'te veya kilitli). Her hafta $FLYAI ödüllü bir Fly Jam var. <a href=\"/flyverse\">Flyverse'ü aç</a>"
+    },
     "partners": {
       "q": "Bir NFT koleksiyonu yönetiyorum. Sahiplerimiz bunu kullanabilir mi?",
       "a": "Evet. Partner koleksiyonlar (şimdilik Bullas, Waifus, Enjoyoors ve RUYUI) aynı 200.000 $FLYAI kuralıyla her NFT'ye kendi işlem cüzdanını verir; canlı sayılar <a href=\"/desk#partners\">partner karnesinde</a>. X'ten ulaş: <a href=\"https://x.com/flydotai\">@flydotai</a>."

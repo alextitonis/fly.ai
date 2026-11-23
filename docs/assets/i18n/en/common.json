@@ -392,6 +392,10 @@
     "faq": {
       "label": "FAQ",
       "desc": "Plain answers: start, costs, risks"
+    },
+    "flyverse": {
+      "label": "Flyverse",
+      "desc": "Make 3D games by typing. Play free"
     }
   },
   "footer": {

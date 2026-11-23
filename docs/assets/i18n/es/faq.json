@@ -53,6 +53,10 @@
       "q": "¿Qué cadenas usa?",
       "a": "Los NFT, $FLYAI y el Fly Desk están en Robinhood Chain. La wallet de una mosca opera en Robinhood Chain, Base y BNB Chain."
     },
+    "flyverse": {
+      "q": "¿Qué es Flyverse?",
+      "a": "Flyverse es el creador de juegos 3D de fly.ai. Escribe una idea de juego y la mosca constructora lo crea mientras miras; luego cambia lo que quieras con solo pedirlo. Jugar es gratis en tu navegador. Para crear necesitas 200.000 $FLYAI (en la wallet, en staking o bloqueados). Cada semana hay una Fly Jam con premios en $FLYAI. <a href=\"/flyverse\">Abrir Flyverse</a>"
+    },
     "partners": {
       "q": "Tengo una colección NFT. ¿Pueden usarlo mis holders?",
       "a": "Sí. Las colecciones socias (por ahora Bullas, Waifus, Enjoyoors y RUYUI) dan a cada NFT su propia wallet de trading con la misma regla de 200.000 $FLYAI, y las cifras en vivo están en el <a href=\"/desk#partners\">marcador de socios</a>. Escríbenos en X: <a href=\"https://x.com/flydotai\">@flydotai</a>."

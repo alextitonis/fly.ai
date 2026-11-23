@@ -53,6 +53,10 @@
       "q": "어떤 체인을 쓰나요?",
       "a": "NFT, $FLYAI, Fly Desk는 Robinhood Chain에 있습니다. 파리의 지갑은 Robinhood Chain, Base, BNB Chain에서 거래합니다."
     },
+    "flyverse": {
+      "q": "Flyverse는 무엇인가요?",
+      "a": "Flyverse는 fly.ai의 3D 게임 메이커입니다. 게임 아이디어를 입력하면 빌더 플라이가 눈앞에서 만들어 주고, 그다음엔 말로 요청해서 무엇이든 바꿀 수 있어요. 플레이는 브라우저에서 무료입니다. 만들려면 $FLYAI 200,000개 보유가 필요합니다(지갑, 스테이킹, 잠금 포함). 매주 $FLYAI 상금이 걸린 Fly Jam이 열립니다. <a href=\"/flyverse\">Flyverse 열기</a>"
+    },
     "partners": {
       "q": "NFT 컬렉션을 운영합니다. 보유자들이 쓸 수 있나요?",
       "a": "네. 파트너 컬렉션(현재 Bullas, Waifus, Enjoyoors, RUYUI)은 같은 $FLYAI 200,000개 규칙으로 NFT마다 거래 지갑을 받으며, 실시간 수치는 <a href=\"/desk#partners\">파트너 스코어카드</a>에 있습니다. X로 연락하세요: <a href=\"https://x.com/flydotai\">@flydotai</a>."
