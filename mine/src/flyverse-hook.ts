@@ -8,6 +8,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { IncomingMessage, ServerResponse } from "node:http";
+import { makeStakeSigner } from "./stakes-sign.ts";
 
 type Handler = (req: IncomingMessage, res: ServerResponse, url: URL) => Promise<boolean>;
 let handler: Handler | null = null;
@@ -16,6 +17,9 @@ let handler: Handler | null = null;
 // FlyTill on Robinhood Chain (flytrade/contracts/src/FlyTill.sol), and when it started
 const DEFAULT_TILL = "0xC969B45268bD7c81ed3e33044817aB1A3c33faC9", DEFAULT_TILL_SINCE = "2026-11-22T20:21:00Z";
 const TILL = /^0x[0-9a-fA-F]{40}$/.exec(process.env.FLYVERSE_TILL ?? DEFAULT_TILL)?.[0] ?? "";
+// FlyStakes (bounties, tournaments, PvP bets; flytrade/contracts/src/FlyStakes.sol): on when FLYVERSE_STAKES (the proxy)
+// and FLYVERSE_STAKES_KEY (the payout signer, the contract's `signer`) are both set
+const STAKES = /^0x[0-9a-fA-F]{40}$/.exec(process.env.FLYVERSE_STAKES ?? "")?.[0] ?? "";
 const DEFAULT_WALLETS = "0x625862521777e19ad54ce6c7abed9ca54d6589ea,0xae92d64584e7f8e54995c362eaa8d7949fac8b1b";
 /** the first early testers, put in Flyverse's database on start; more are added from the page by the team
  * (FLYVERSE_TESTERS replaces this seed). They get an early-tester badge + some XP later. */
@@ -75,6 +79,7 @@ export async function startFlyverse(deps: {
       // bought builds and changes are paid to the dev wallet (the first team wallet)
       payTo: process.env.FLYVERSE_PAY_TO ?? wallets[0],
       // unlocks and skins go through the FlyTill contract, which splits off fly.ai's cut (not set: straight to the creator)
+      stakes: STAKES && process.env.FLYVERSE_STAKES_KEY ? { address: STAKES, signer: makeStakeSigner(process.env.FLYVERSE_STAKES_KEY, STAKES), bps: Number(process.env.FLYVERSE_STAKES_BPS ?? 1000), maxPool: Number(process.env.FLYVERSE_STAKES_MAX ?? 5_000_000) } : undefined,
       till: TILL ? { address: TILL, bps: Number(process.env.FLYVERSE_TILL_BPS ?? 1000), since: Date.parse(process.env.FLYVERSE_TILL_SINCE ?? DEFAULT_TILL_SINCE) || 0 } : undefined,
       xpEligible: deps.xpEligible,
       // building, when open to holders: 200k FLYAI held (staked and locked count); 1M staked: a free new game a day
@@ -97,6 +102,7 @@ export async function startFlyverse(deps: {
       log: (msg: string) => console.log(msg),
     });
     if (open) console.log(`flyverse: OPEN to everyone to play; building: ${buildRule}`);
+    console.log(`flyverse: stakes ${STAKES && process.env.FLYVERSE_STAKES_KEY ? "ON at " + STAKES : "off"}`);
     console.log(`flyverse: on for ${wallets.length} team wallet(s) + testers (database)${ambassadors ? " + ambassadors" : ""}, data in ${data}`);
   } catch (e) {
     console.log(`flyverse: off (${e instanceof Error ? e.message.slice(0, 120) : e})`);
