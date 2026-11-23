@@ -87,7 +87,8 @@
     "not_open": "Henüz açık değil",
     "not_listed": "Bu cüzdan ({wallet}) test listesinde değil.",
     "sign_in": "Girmek için sağ üstten bir test cüzdanıyla giriş yap.",
-    "check_again": "Tekrar kontrol et"
+    "check_again": "Tekrar kontrol et",
+    "left_day": "Bugün 1 ücretsiz yeni oyundan {left} kaldı (1M stake)"
   },
   "by": {
     "by": "{who} tarafından",
@@ -707,7 +708,7 @@
     "none_owed": "Şu anda borç yok.",
     "pack_n": "Paketteki yapım hakkı",
     "pack_price": "Paket fiyatı (FLYAI, 0 = satışta değil)",
-    "pack_note": "Oyuncular haftada 2 ücretsiz yeni oyun ve günde 15 ücretsiz değişiklik alır; sonrasında paket alabilirler, ödeme {to} adresine gider.",
+    "pack_note": "Yapımcılar (200.000 FLYAI) haftada 3 ücretsiz yeni oyun (1M stake: günde bir) ve günde 15 ücretsiz değişiklik alır; sonrasında paket alabilirler, ödeme {to} adresine gider.",
     "reports": "Bildirimler",
     "rep_review": "yorum: “{text}”",
     "hide": "Gizle",
@@ -865,7 +866,8 @@
     "no_changes": "Bugünkü {n} ücretsiz değişikliği kullandın. Yenileri yarın (03:00 TRT).",
     "no_builds": "Bu haftaki {n} ücretsiz yeni oyunu yaptın. Yenileri pazartesi (03:00 TRT).",
     "budget": "Bugünün ücretsiz yapay zeka bütçesi herkes için bitti. 03:00 TRT'de yeniden başlar.",
-    "note": "Parçaları elle taşımak, eklemek ve değiştirmek her zaman ücretsiz. Satın alınan değişikliklerin süresi dolmaz."
+    "note": "Parçaları elle taşımak, eklemek ve değiştirmek her zaman ücretsiz. Satın alınan değişikliklerin süresi dolmaz.",
+    "no_builds_day": "Bugünkü ücretsiz yeni oyununu yaptın. Yarınki 03:00 TRT'de gelir."
   },
   "report": {
     "game": "⚑ Bildir",
@@ -887,11 +889,11 @@
     "eyebrow": "Flyverse Maker",
     "sign_in": "Giriş yap",
     "sign_in_build": "Kendi oyunlarını yapmak için giriş yap. Oynamak için gerekmez.",
-    "sign_in_hold": "Kendi oyunlarını yapmak için giriş yap (10.000 $FLYAI veya Trader Fly tutan cüzdanlar için). Oynamak için gerekmez.",
+    "sign_in_hold": "Kendi oyunlarını yapmak için giriş yap (200.000 $FLYAI tutan cüzdanlar için; stake ve kilitli sayılır). Oynamak için gerekmez.",
     "sign_in_score": "Koşularının tabloya girmesi ve XP kazanmak için ana sayfada (sağ üst) giriş yap.",
     "sign_in_do": "Bunun için ana sayfada (sağ üst) giriş yap.",
     "hold_title": "Oyun yapmak şimdilik fly.ai sahiplerine açık",
-    "hold": "Oyun yapmak için bu cüzdanda 10.000 <a href=\"/token.html\">$FLYAI</a> veya bir Trader Fly tut. Yeni mi aldın? 5 dakika bekle. Oynamak herkese açık."
+    "hold": "Oyun yapmak için 200.000 <a href=\"/token.html\">$FLYAI</a> tut (bu cüzdanda, stake'te veya kilitli). Yeni mi aldın ya da stake ettin? Birkaç dakikada sayılır. Oynamak herkese açık."
   },
   "rules": {
     "title": "Kurallar",
@@ -935,5 +937,35 @@
     "boss_n_beetle": "Kovalar, hücum eder ve böcek çağırır.",
     "boss_n_wasp": "Tepende döner, iğne atar; yere saplanınca üstüne zıpla.",
     "boss_n_toad": "Üstüne sıçrar ve yeri sarsar: inerken havada ol."
+  },
+  "embed": {
+    "button": "</> Yerleştir",
+    "title": "Bu oyunu sitene koy",
+    "note": "Bu kodu herhangi bir sayfaya yapıştır: insanlar orada oynar, küçük bir bağlantı onları fly.ai'ye getirir. Giriş, skorlar ve ödemeler fly.ai'de olur.",
+    "copy": "Kodu kopyala",
+    "try": "Dene",
+    "more": "fly.ai'de daha fazla oyun ↗",
+    "made": "Flyverse ile yapıldı",
+    "full": "Tam ekran",
+    "soon": "Flyverse yakında herkese açılıyor. O zamana kadar bu oyun fly.ai'de oynanır."
+  },
+  "export": {
+    "button": "📦 Oyun dosyaları",
+    "buy": "📦 Oyun dosyalarını al · {price}",
+    "title": "“{title}” oyununu yanına al",
+    "what": "Oynanabilir bir kopya (zip: itch.io'ya HTML oyunu olarak yükle ya da herhangi bir siteye koy) ve oyun dosyası (.flyverse: sakla ya da kendi sürümünü yapmak için Flyverse'te aç). Kopya fly.ai olmadan oynanır; skor tabloları ve ödemeler burada kalır.",
+    "price": "{price} ({note}).",
+    "zip": "Oynanabilir indir (.zip)",
+    "file": "Oyun dosyası (.flyverse)",
+    "done": "İndirildi.",
+    "failed": "Dışa aktarılamadı",
+    "gathering": "Oyun hazırlanıyor…",
+    "models": "Modeller {n}/{total}…",
+    "zipping": "Zip hazırlanıyor…",
+    "sell": "Oyuncular oyun dosyalarını şu fiyata alabilir (FLYAI, 0 = hayır)",
+    "sell_note": "Kendi oyununu aşağıdan her zaman dışa aktarabilirsin. Fiyat koyarsan oyuncular da dosyaların bir kopyasını alabilir (kilit açmalarla aynı paylaşım).",
+    "open": "Dosya aç",
+    "open_note": "Bir .flyverse oyun dosyasını kendi yeni oyunun olarak aç",
+    "bad_file": "Bu bir Flyverse oyun dosyası değil."
   }
 }

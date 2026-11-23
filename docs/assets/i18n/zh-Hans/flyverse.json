@@ -86,7 +86,8 @@
     "not_open": "尚未开放",
     "not_listed": "这个钱包（{wallet}）不在测试名单上。",
     "sign_in": "请在右上角用测试钱包登录后进入。",
-    "check_again": "重新检查"
+    "check_again": "重新检查",
+    "left_day": "今天还剩 {left} 个免费新游戏（共 1 个，质押 1M）"
   },
   "by": {
     "by": "作者：{who}",
@@ -696,7 +697,7 @@
     "none_owed": "目前没有待发放。",
     "pack_n": "每包建造次数",
     "pack_price": "每包价格（FLYAI，0 = 不出售）",
-    "pack_note": "玩家每周有 2 个免费新游戏，每天有 15 次免费修改；超出后可以购买，付款到 {to}。",
+    "pack_note": "创作者（200,000 FLYAI）每周有 3 个免费新游戏（质押 1M：每天一个），每天 15 次免费修改；超出后可以购买，付款到 {to}。",
     "reports": "举报",
     "rep_review": "评价：“{text}”",
     "hide": "隐藏",
@@ -854,7 +855,8 @@
     "no_changes": "你已用完今天的 {n} 次免费修改。明天会有新的（03:00 TRT）。",
     "no_builds": "你已做完本周的 {n} 个免费新游戏。周一会有新的（03:00 TRT）。",
     "budget": "今天所有人的免费 AI 额度都用完了。03:00 TRT 重新开始。",
-    "note": "手动移动、添加和修改部件始终免费。已购的修改不会过期。"
+    "note": "手动移动、添加和修改部件始终免费。已购的修改不会过期。",
+    "no_builds_day": "你已做完今天的免费新游戏。明天的在 03:00 TRT 到来。"
   },
   "report": {
     "game": "⚑ 举报",
@@ -876,11 +878,11 @@
     "eyebrow": "Flyverse Maker",
     "sign_in": "登录",
     "sign_in_build": "登录后就能做自己的游戏。玩游戏不需要登录。",
-    "sign_in_hold": "登录后就能做自己的游戏（需持有 10,000 $FLYAI 或一只 Trader Fly）。玩游戏不需要登录。",
+    "sign_in_hold": "登录后就能做自己的游戏（需持有 200,000 $FLYAI，质押和锁定都算）。玩游戏不需要登录。",
     "sign_in_score": "在首页右上角登录，成绩就能上榜并获得 XP。",
     "sign_in_do": "请先在首页右上角登录。",
     "hold_title": "目前只有 fly.ai 持有者可以制作游戏",
-    "hold": "要制作游戏，请在此钱包持有 10,000 <a href=\"/token.html\">$FLYAI</a> 或一只 Trader Fly。刚买的？等 5 分钟。玩游戏对所有人开放。"
+    "hold": "要制作游戏，请持有 200,000 <a href=\"/token.html\">$FLYAI</a>（此钱包、质押或锁定都算）。刚买或刚质押？几分钟内就会计入。玩游戏对所有人开放。"
   },
   "rules": {
     "title": "规则",
@@ -924,5 +926,35 @@
     "boss_n_beetle": "追赶、冲撞并召唤甲虫。",
     "boss_n_wasp": "在上空盘旋并射出毒刺；她扎进地里时踩她。",
     "boss_n_toad": "跳到你身上并震动地面：他落地时要在空中。"
+  },
+  "embed": {
+    "button": "</> 嵌入",
+    "title": "把这个游戏放到你的网站上",
+    "note": "把这段代码粘贴到任何网页：大家可以直接在那里玩，一个小链接会带他们来 fly.ai。登录、成绩和付款都在 fly.ai 完成。",
+    "copy": "复制代码",
+    "try": "试一下",
+    "more": "在 fly.ai 玩更多游戏 ↗",
+    "made": "用 Flyverse 制作",
+    "full": "全屏",
+    "soon": "Flyverse 即将向所有人开放。在此之前，这个游戏在 fly.ai 上玩。"
+  },
+  "export": {
+    "button": "📦 游戏文件",
+    "buy": "📦 购买游戏文件 · {price}",
+    "title": "带走《{title}》",
+    "what": "一个可以玩的副本（zip：作为 HTML 游戏上传到 itch.io，或放到任何网站上）和游戏文件（.flyverse：保存下来，或在 Flyverse 中打开做你自己的版本）。副本不需要 fly.ai 就能玩；排行榜和付款留在这里。",
+    "price": "{price}（{note}）。",
+    "zip": "下载可玩版本（.zip）",
+    "file": "游戏文件（.flyverse）",
+    "done": "已下载。",
+    "failed": "无法导出",
+    "gathering": "正在准备游戏…",
+    "models": "模型 {n}/{total}…",
+    "zipping": "正在打包 zip…",
+    "sell": "玩家购买游戏文件的价格（FLYAI，0 = 不卖）",
+    "sell_note": "你随时可以在下面导出自己的游戏。设置价格后，玩家也可以购买文件副本（和解锁一样分成）。",
+    "open": "打开文件",
+    "open_note": "把 .flyverse 游戏文件打开为你自己的新游戏",
+    "bad_file": "这不是 Flyverse 游戏文件。"
   }
 }

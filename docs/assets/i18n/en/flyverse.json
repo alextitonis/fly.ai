@@ -87,7 +87,8 @@
     "not_open": "Not open yet",
     "not_listed": "This wallet ({wallet}) isn't on the test list.",
     "sign_in": "Sign in at the top right with a test wallet to get in.",
-    "check_again": "Check again"
+    "check_again": "Check again",
+    "left_day": "{left} of 1 free new game left today (1M staked)"
   },
   "by": {
     "by": "by {who}",
@@ -685,7 +686,7 @@
     "none_owed": "Nothing owed right now.",
     "pack_n": "Builds in a pack",
     "pack_price": "Pack price (FLYAI, 0 = not for sale)",
-    "pack_note": "Players get 2 free new games a week and 15 free changes a day; past that they can buy packs, paid to {to}.",
+    "pack_note": "Builders (200,000 FLYAI) get 3 free new games a week (1M staked: one a day) and 15 free changes a day; past that they can buy packs, paid to {to}.",
     "reports": "Reports",
     "rep_review": "review: “{text}”",
     "hide": "Hide",
@@ -843,7 +844,8 @@
     "no_changes": "You've used today's {n} free changes. New ones tomorrow (03:00 TRT).",
     "no_builds": "You've made this week's {n} free new games. New ones on Monday (03:00 TRT).",
     "budget": "Today's free AI budget is used up for everyone. It starts again at 03:00 TRT.",
-    "note": "Moving, adding and changing pieces by hand is always free. Bought changes don't expire."
+    "note": "Moving, adding and changing pieces by hand is always free. Bought changes don't expire.",
+    "no_builds_day": "You've made today's free new game. Tomorrow's comes at 03:00 TRT."
   },
   "report": {
     "game": "⚑ Report",
@@ -865,11 +867,11 @@
     "eyebrow": "Flyverse Maker",
     "sign_in": "Sign in",
     "sign_in_build": "Sign in to make your own games. Playing needs no sign-in.",
-    "sign_in_hold": "Sign in to make your own games (for wallets holding 10,000 $FLYAI or a Trader Fly). Playing needs no sign-in.",
+    "sign_in_hold": "Sign in to make your own games (for wallets holding 200,000 $FLYAI, staked and locked count). Playing needs no sign-in.",
     "sign_in_score": "Sign in on the home page (top right) to get your runs on the board and earn XP.",
     "sign_in_do": "Sign in on the home page (top right) for that.",
     "hold_title": "Building is for fly.ai holders right now",
-    "hold": "To make games, hold 10,000 <a href=\"/token.html\">$FLYAI</a> or a Trader Fly in this wallet. Just bought? Give it 5 minutes. Playing is open to everyone."
+    "hold": "To make games, hold 200,000 <a href=\"/token.html\">$FLYAI</a> (in this wallet, staked or locked). Just bought or staked? It counts within minutes. Playing is open to everyone."
   },
   "rules": {
     "title": "Rules",
@@ -913,5 +915,35 @@
     "boss_n_beetle": "Chases, charges and calls beetles.",
     "boss_n_wasp": "Circles and shoots stings; jump on her when she's stuck in the ground.",
     "boss_n_toad": "Leaps onto you and shakes the ground: be in the air when he lands."
+  },
+  "embed": {
+    "button": "</> Embed",
+    "title": "Put this game on your website",
+    "note": "Copy this code into any web page: people play right there, and a little link brings them to fly.ai. Signing in, scores and payments happen on fly.ai.",
+    "copy": "Copy code",
+    "try": "Try it",
+    "more": "More games on fly.ai ↗",
+    "made": "Made with Flyverse",
+    "full": "Full screen",
+    "soon": "Flyverse opens to everyone soon. Until then this game plays on fly.ai."
+  },
+  "export": {
+    "button": "📦 Game files",
+    "buy": "📦 Buy the game files · {price}",
+    "title": "Take “{title}” with you",
+    "what": "A playable copy (a zip: upload it to itch.io as an HTML game, or put it on any website) and the game file (.flyverse: keep it, or open it in Flyverse to make your own version). The copy plays without fly.ai; leaderboards and payments stay here.",
+    "price": "{price} ({note}).",
+    "zip": "Download playable (.zip)",
+    "file": "Game file (.flyverse)",
+    "done": "Downloaded.",
+    "failed": "Couldn't export it",
+    "gathering": "Getting the game…",
+    "models": "Models {n}/{total}…",
+    "zipping": "Packing the zip…",
+    "sell": "Players can buy the game files for (FLYAI, 0 = no)",
+    "sell_note": "You can always export your own game below. With a price, players can buy a copy of the files too (same split as unlocks).",
+    "open": "Open file",
+    "open_note": "Open a .flyverse game file as a new game of your own",
+    "bad_file": "That isn't a Flyverse game file."
   }
 }

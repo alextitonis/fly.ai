@@ -4958,6 +4958,24 @@ void startFlyverse({
   awardXp: async (wallet, xp, ref) => { await pg.run("insert into mine.xp_events (wallet, source, ref, xp, at) values (?, 'quest', ?, ?, now()) on conflict (ref) do nothing", wallet.toLowerCase(), ref.slice(0, 200), xp); },
   // only wallets that can earn XP elsewhere on fly.ai (10k FLYAI or a fly) earn it in Flyverse and count in jams
   xpEligible: (wallet) => quests.eligible(wallet.toLowerCase()),
+  // Flyverse building needs 200k FLYAI held (wallet, staked or locked); 1M staked gives a free new game daily. The XP
+  // scan's numbers, and the chain itself when those are short (someone who just bought or staked)
+  holding: async (wallet) => {
+    const w = wallet.toLowerCase(), E = 10n ** 18n;
+    const row = await pg.one<{ liquid: string; staked: string; locked: string }>("select liquid::text, staked::text, locked::text from mine.xp_holders where wallet = ?", w).catch(() => undefined);
+    const big = (v?: string) => BigInt(String(v ?? "0").split(".")[0] || "0");
+    let liquid = big(row?.liquid), staked = big(row?.staked) + big(row?.locked);
+    if (liquid + staked < 200_000n * E || staked < 1_000_000n * E) {
+      const [bal, st] = await Promise.all([
+        fetch(STAKING.rpc, { method: "POST", signal: AbortSignal.timeout(8000), headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call", params: [{ to: STAKING.token, data: "0x70a08231" + w.slice(2).padStart(64, "0") }, "latest"] }) })
+          .then((r) => r.json() as Promise<{ result?: string }>).then((j) => (j.result && j.result !== "0x" ? BigInt(j.result) : 0n)).catch(() => 0n),
+        STAKING.contract ? readStake(STAKING.rpc, STAKING.contract, w, STAKING.lock).catch(() => 0n) : Promise.resolve(0n),
+      ]);
+      if (bal > liquid) liquid = bal;
+      if (st > staked) staked = st;
+    }
+    return { total: Number((liquid + staked) / E), staked: Number(staked / E) };
+  },
   // Flyverse badges (#14 fvtester, #15 fvcreator, #16 fvace): earned here, claimed on /badges like the others
   earnBadge: async (wallet, badge) => { await pg.run("insert into mine.badge_earned (wallet, badge, earned_at) values (?, ?, now()) on conflict do nothing", wallet.toLowerCase(), badge); },
 });

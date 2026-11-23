@@ -32,6 +32,8 @@ export async function startFlyverse(deps: {
   awardXp?: (wallet: string, xp: number, ref: string) => Promise<void>;
   /** fly.ai's rule for earning XP (10k FLYAI or a Trader Fly) */
   xpEligible?: (wallet: string) => Promise<boolean>;
+  /** FLYAI in all (wallet + staked + locked) and staked (+ locked), whole tokens */
+  holding?: (wallet: string) => Promise<{ total: number; staked: number }>;
   earnBadge?: (wallet: string, badge: string) => Promise<void>;
 }) {
   const list = (process.env.FLYVERSE_WALLETS ?? DEFAULT_WALLETS).toLowerCase();
@@ -75,6 +77,8 @@ export async function startFlyverse(deps: {
       // unlocks and skins go through the FlyTill contract, which splits off fly.ai's cut (not set: straight to the creator)
       till: TILL ? { address: TILL, bps: Number(process.env.FLYVERSE_TILL_BPS ?? 1000), since: Date.parse(process.env.FLYVERSE_TILL_SINCE ?? DEFAULT_TILL_SINCE) || 0 } : undefined,
       xpEligible: deps.xpEligible,
+      // building, when open to holders: 200k FLYAI held (staked and locked count); 1M staked: a free new game a day
+      holding: deps.holding,
       testers,
       teamWallets: wallets,
       notify: deps.notify,
