@@ -640,6 +640,10 @@
       "kind": "類型",
       "desk": "Fly Desk",
       "parts": "分 {n} 次",
+      "fed": "餵養了 {flies}",
+      "fedStatus": "已餵養：用於蒼蠅成長",
+      "fedTotal": "至今餵給你的蒼蠅：{amount}",
+      "fedNote": "餵養的份額不需要領取：自動餵養會把它留在蒼蠅裡作為成長（合作 NFT 的份額會進入它自己的錢包）。",
       "notMining": "挖礦獎勵單獨領取，不在此列表中。"
     },
     "pot": {

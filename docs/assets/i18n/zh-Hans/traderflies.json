@@ -640,6 +640,10 @@
       "kind": "类型",
       "desk": "Fly Desk",
       "parts": "分 {n} 次",
+      "fed": "喂养了 {flies}",
+      "fedStatus": "已喂养：用于苍蝇成长",
+      "fedTotal": "至今喂给你的苍蝇：{amount}",
+      "fedNote": "喂养的份额不需要领取：自动喂养会把它留在苍蝇里作为成长（合作 NFT 的份额会进入它自己的钱包）。",
       "notMining": "挖矿奖励单独领取，不在此列表中。"
     },
     "pot": {

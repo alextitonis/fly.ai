@@ -642,6 +642,10 @@
       "kind": "Tipo",
       "desk": "Fly Desk",
       "parts": "{n} partes",
+      "fed": "Alimentó a {flies}",
+      "fedStatus": "Alimentado: hizo crecer la mosca",
+      "fedTotal": "Alimentado a tus moscas hasta ahora: {amount}",
+      "fedNote": "Una parte alimentada no se reclama: la autoalimentación la deja en la mosca como su crecimiento (la de un NFT asociado va a su propia billetera).",
       "notMining": "Los pagos de minería se reclaman aparte y no están en esta lista."
     },
     "pot": {

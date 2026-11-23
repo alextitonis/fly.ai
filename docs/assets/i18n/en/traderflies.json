@@ -642,6 +642,10 @@
       "kind": "Type",
       "desk": "Fly Desk",
       "parts": "{n} parts",
+      "fed": "Fed to {flies}",
+      "fedStatus": "Fed: grew the fly",
+      "fedTotal": "Fed to your flies so far: {amount}",
+      "fedNote": "A fed share is not claimed: auto-feed keeps it in the fly as its growth (a partner NFT's goes into its own wallet).",
       "notMining": "Mining payouts are claimed separately and are not in this list."
     },
     "pot": {

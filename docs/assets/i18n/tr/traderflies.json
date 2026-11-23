@@ -642,6 +642,10 @@
       "kind": "Tür",
       "desk": "Fly Desk",
       "parts": "{n} parça",
+      "fed": "{flies} beslendi",
+      "fedStatus": "Beslendi: sineği büyüttü",
+      "fedTotal": "Şimdiye kadar sineklerine giden besin: {amount}",
+      "fedNote": "Beslenen pay talep edilmez: otomatik besleme onu sineğin büyümesi olarak sinekte tutar (bir partner NFT'ninki kendi cüzdanına gider).",
       "notMining": "Madencilik ödemeleri ayrı alınır ve bu listede yer almaz."
     },
     "pot": {
