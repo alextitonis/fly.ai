@@ -6,6 +6,7 @@
 //   - the alpha calls (the Discord bot's, discord/src/alpha.ts), each with Watch, Chart and Copy
 // with quick buttons (What are you doing? / Need anything? / Watch a token / Pause-Resume) and the box to type in.
 import { t, type Key } from "./i18n.ts";
+import { addWatch } from "./logic.ts";
 import {
   alphaCalls, chatAnswer, chatRead, chatSend, chatWatch, flyFeed, notes, prefs, saveSettings, SignedOut,
   type AlphaCall, type ChatMe, type ChatMsg, type FlyFeed, type LogRow,
@@ -215,7 +216,13 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
       if (m.card.kind === "settings") await saveSettings(fresh.wallet, m.card.after, fresh.who);
       else if (m.card.kind === "watch") {
         const base = fresh.settings ?? {};
-        const watch = [...new Set([...(base.watch ?? []), m.card.token.toLowerCase()])].slice(0, WATCH_MAX);
+        const watch = addWatch(base.watch, m.card.token, WATCH_MAX);
+        if (!watch) {   // the list is already full: say so instead of approving a watch that never happens
+          await tell("failed");
+          mark("failed");
+          note.textContent = t("p.full", { n: WATCH_MAX });
+          return;
+        }
         await saveSettings(fresh.wallet, { ...base, watch }, fresh.who);
         await chatWatch(id, m.card.token, m.local ? undefined : m.id).catch(() => {});
       }
