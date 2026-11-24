@@ -71,6 +71,7 @@ import { createFollow } from "./follow.ts";
 import { multicall } from "./multicall.ts";
 import { createSupply } from "./supply.ts";
 import { createGta, gtaConfig, marketPrices, robinhoodChain } from "./gta.ts";
+import { createTradeboard } from "./tradeboard.ts";
 import { createFeedrop, feedropConfig } from "./feedrop.ts";
 import { createScan, scanConfig, FLYAI as SCAN_FLYAI } from "./scan.ts";
 import { createLaunchpad, launchpadChain } from "./launchpad.ts";
@@ -4249,6 +4250,9 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && (p === "/api/desk-chat" || p === "/api/desk-chat/me")) {
     if (await deskChat.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && p === "/api/tradeboard") {
+    if (await tradeboard.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p.startsWith("/api/gta") || p === "/api/admin/gta")) {
     if (await gta.route(req, res, url)) return;
   }
@@ -4647,6 +4651,9 @@ const gta = createGta({
   admins: (process.env.BOUNTY_ADMINS ?? "").split(","), explorer: "https://robinhoodchain.blockscout.com",
 });
 if (USER && process.env.GTA_OFF !== "1") gta.start();
+// the Trader Flies market's trading leaderboard from Season 5 (src/tradeboard.ts): scored here with the linked-wallet checks
+const tradeboard = createTradeboard({ chain: robinhoodChain(CLAIMS.rpc, null), HttpError, send });
+if (USER && process.env.TRADEBOARD_OFF !== "1") tradeboard.start();
 // the fee drop (src/feedrop.ts, 2026-11-06): the month's Pons fees less 10% split by average holding, paid via FlyLock
 const feedrop = createFeedrop({
   pg, chain: robinhoodChain(CLAIMS.rpc, STAKING.contract, STAKING.lock), cfg: feedropConfig(process.env),

@@ -13,6 +13,7 @@
     "typecheck": "tsc -p tsconfig.json",
     "build:extension": "node --disable-warning=ExperimentalWarning extension/build.ts",
     "test:auth": "node --disable-warning=ExperimentalWarning src/authtest.ts",
+    "test:tradeboard": "node --disable-warning=ExperimentalWarning src/tradeboardtest.ts",
     "test:payouts": "node --disable-warning=ExperimentalWarning src/payouttest.ts",
     "test:contracts": "npm run test:payouts && cd contracts && forge test",
     "test:claims": "node --disable-warning=ExperimentalWarning src/claimtest.ts",
