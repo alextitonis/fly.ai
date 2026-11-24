@@ -248,7 +248,7 @@ function endGame() {
   if (!game) return;
   const kind = game.kind, score = game.score;
   clearTimeout(game.timer);
-  if (kind === "crumb") clearCrumb();                 // the falling crumbs go with it
+  if (kind === "crumb") { clearCrumb(); window.clearTimeout(crumbHardEnd); crumbHardEnd = 0; native?.gameEscape?.(false); }   // the falling crumbs and the Escape shortcut go with it
   game = null;
   const key = kind === "crumb" ? CRUMB_BEST : BEST;
   let best = 0;
@@ -264,6 +264,7 @@ function endGame() {
 const CRUMB_BEST = "crumbBest";
 let crumbs: { el: HTMLButtonElement; y: number }[] = [];
 let crumbFall = 0;
+let crumbHardEnd = 0;   // the round ends at CRUMB_MS even if spawnCrumb hasn't checked yet (it only checks every 500–900 ms)
 function crumbGame() {
   if (game || away) return;
   closeTalk();
@@ -272,6 +273,9 @@ function crumbGame() {
   sayCoach(t("g.crumbStart"), 2500);
   game.timer = window.setTimeout(spawnCrumb, 600);
   crumbFall = window.setInterval(dropCrumbs, 50);
+  native?.gameEscape?.(true);   // the window can't take the keyboard, so Escape reaches the game as a shortcut
+  window.clearTimeout(crumbHardEnd);
+  crumbHardEnd = window.setTimeout(() => { if (game?.kind === "crumb") endGame(); }, CRUMB_MS);
 }
 function spawnCrumb() {
   if (!game) return;
@@ -590,6 +594,9 @@ async function start() {
 
   native?.onCursor((c) => {
     if (grab) return pass(false);
+    // while crumbs fall, the whole window catches clicks: a crumb moves 7 px between cursor polls, so the hit list
+    // can lag it and a click on a crumb that just moved would reach the app behind (issue #59: never send input out)
+    if (game?.kind === "crumb") return pass(false);
     pass(!(c.inside && (overFly(c.x, c.y) || inside(talkBox, c.x, c.y) || (bubble.classList.contains("on") && inside(bubble, c.x, c.y))
       || inside(awayTag, c.x, c.y) || inside(gift, c.x, c.y) || inside(focusTag, c.x, c.y)
       || crumbs.some((cr) => inside(cr.el, c.x, c.y)))));   // a falling crumb catches the click, not the app behind
@@ -598,8 +605,11 @@ async function start() {
   bubble.addEventListener("click", () => openTalk());
   native?.onQuiet((on) => { setPrefs({ quiet: on }); });
   native?.onFeed(feed);
-  // Escape ends the crumb game (issue #59); focus time can't start mid-game, so it never interrupts one
+  // Escape ends the crumb game (issue #59); focus time can't start mid-game, so it never interrupts one. The keydown
+  // listener only fires when the window has the keyboard; the global shortcut (registered while the game runs) covers
+  // the usual case, where the window is focusable: false and never takes focus. Both call endGame; it is idempotent.
   window.addEventListener("keydown", (e) => { if (e.key === "Escape" && game?.kind === "crumb") endGame(); });
+  native?.onGameEscape?.(() => { if (game?.kind === "crumb") endGame(); });
   // sitting on your windows: the native watcher runs only while the setting is on (Windows)
   native?.onPerch?.((w) => onFront(w));
   let perchOn: boolean | null = null;

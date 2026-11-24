@@ -25,6 +25,9 @@ contextBridge.exposeInMainWorld("flyNative", {
   openPanel: (what?: string) => ipcRenderer.send("panel", what ?? ""),
   frame: (x: number, y: number, w: number, h: number) => ipcRenderer.send("frame", x, y, w, h),
   petFocus: (on: boolean) => ipcRenderer.send("pet-focus", on),
+  // a game that can't take the keyboard (the pet window is focusable: false): Escape ends it from anywhere
+  gameEscape: (on: boolean) => ipcRenderer.send("game-escape", on),
+  onGameEscape: (fn: () => void) => ipcRenderer.on("game-escape", () => fn()),
   onOpen: (fn: (what: string) => void) => ipcRenderer.on("open", (_e, what) => fn(String(what ?? ""))),
   closePanel: () => ipcRenderer.send("panel-close"),
   onPanel: (fn: (what: string) => void) => ipcRenderer.on("panel", (_e, what) => fn(String(what ?? ""))),

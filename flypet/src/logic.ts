@@ -30,17 +30,19 @@ export function hopSpot(f: Floor, rx: number, ry: number): { x: number; y: numbe
 export const swatOver = (now: number, until: number) => now >= until;
 /** the wait before the next hop: 1050 ms at the start, 450 ms at the end */
 export const hopDelay = (now: number, until: number) => 450 + 600 * ((until - now) / SWAT_MS);
-/** game over: the best score kept, how it reacts and what it says */
-export function swatEnd(score: number, best: number): { best: number; record: boolean; mood: "moon" | "happy"; line: Key; vars: Record<string, number> } {
+/** game over: the best score kept, how it reacts and what it says — the two games differ only in their lines */
+export function gameEnd(score: number, best: number, recordLine: Key, scoreLine: Key): { best: number; record: boolean; mood: "moon" | "happy"; line: Key; vars: Record<string, number> } {
   const record = score > best;
   return {
     best: Math.max(best, score),
     record,
     mood: record ? "moon" : "happy",
-    line: record && best > 0 ? "g.newBest" : "g.score",
+    line: record && best > 0 ? recordLine : scoreLine,
     vars: record && best > 0 ? { n: score } : { n: score, best: Math.max(best, score) },
   };
 }
+/** game over: the best score kept, how it reacts and what it says */
+export const swatEnd = (score: number, best: number) => gameEnd(score, best, "g.newBest", "g.score");
 
 // ---- the crumb game (issue #59): 30 seconds, crumbs fall inside the pet window, click one to catch it ------------
 export const CRUMB_MS = 30_000;
@@ -59,16 +61,7 @@ export const crumbOver = (now: number, until: number) => now >= until;
 /** the wait before the next crumb: 900 ms at the start, 500 ms at the end */
 export const crumbDelay = (now: number, until: number) => 500 + 400 * ((until - now) / CRUMB_MS);
 /** game over: the best score kept, how it reacts and what it says */
-export function crumbEnd(score: number, best: number): { best: number; record: boolean; mood: "moon" | "happy"; line: Key; vars: Record<string, number> } {
-  const record = score > best;
-  return {
-    best: Math.max(best, score),
-    record,
-    mood: record ? "moon" : "happy",
-    line: record && best > 0 ? "g.crumbNewBest" : "g.crumbScore",
-    vars: record && best > 0 ? { n: score } : { n: score, best: Math.max(best, score) },
-  };
-}
+export const crumbEnd = (score: number, best: number) => gameEnd(score, best, "g.crumbNewBest", "g.crumbScore");
 
 // ---- focus time ------------------------------------------------------------------------------------------------
 export const FOCUS_MS = 25 * 60_000;
