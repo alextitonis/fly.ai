@@ -1559,7 +1559,8 @@
       "fall_pct": "Zirveden düşüşte hepsini sat (%)",
       "sol": "Solana çıkışları da (1 = evet)",
       "pons": "Kazanan cüzdanların aldığı Pons lansmanları (1 = evet)",
-      "bnb": "BNB Chain lansmanları da (1 = evet)"
+      "bnb": "BNB Chain lansmanları da (1 = evet)",
+      "watch": "Boştayken izleme listesi coinleri (1 = evet)"
     },
     "filters": "Meme filtreleri",
     "filtersText": "Yalnızca memeler filtrelenir: büyükler ve hisse token'ları masanın kendi listesidir. Boş = sınır yok.",
@@ -2249,7 +2250,8 @@
       "fall_pct": "Fiyat alımdan beri gördüğü en yüksekten bu % kadar düşünce hepsini satar - kâr almadan önce de. 0 = kapalı.",
       "sol": "1 = sineğinin SOL bakiyesiyle Solana'nın yeni tokenlarını da alır (Solana kartından SOL ekle), aynı çıkışlar.",
       "pons": "1 = son 2 haftada Pons lansmanlarından para kazanan cüzdanlardan en az 2'si alıyorsa, bir Pons lansmanını ilk dakikalarında eğrisinde de alır. Aynı çıkışlarla ya da havuzuna geçtikten hemen sonra satılır.",
-      "bnb": "1 = sineğinin oradaki BNB'siyle BNB Chain'in yeni tokenlerini de alır (önce sineğine BNB gönder) ve yine BNB'ye satar. Aynı çıkışlar."
+      "bnb": "1 = sineğinin oradaki BNB'siyle BNB Chain'in yeni tokenlerini de alır (önce sineğine BNB gönder) ve yine BNB'ye satar. Aynı çıkışlar.",
+      "watch": "1 = 30 dakika boyunca yeni bir lansman bulamazsa, izleme listenden ve ekibin önerilen listesinden yükselen bir coinden küçük bir parça alabilir (aynı çıkışlar). 0 = yalnızca yeni lansmanlar."
     },
     "filter": {
       "min_mcap": "Toplam değeri (piyasa değeri) bundan az olan tokenleri atlar.",
