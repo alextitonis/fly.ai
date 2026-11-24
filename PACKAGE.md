@@ -70,6 +70,56 @@ Batching runs flies side by side but does not make them cheaper here: per fly, a
 costs 1.2–1.5× one fly on CPU and 1.1–1.6× one fly on this GPU. Measured with flybrain
 0.1.0 on Python 3.13. Rows from other machines are welcome.
 
+### Is the real wiring a better reservoir than random networks?
+
+`python scripts/bench_reservoir.py` runs two tasks — the 8×8 digit classification with the
+encoding of `notebooks/reservoir.ipynb`, and blob-position classification through `flybrain.eyes`
+— on the connectome and on three controls built from it: the same weights shuffled between
+neuron pairs, a degree-preserving rewiring, and an Erdős–Rényi graph. All three controls have
+exactly the connectome's 25,088,107 connections and no duplicate pairs. The loaded connectome
+has 65 self-loops; weight-shuffle keeps those pairs, so it has the same 65. Rewiring rejects a
+self-loop when it redraws a collision (every neuron's in-degree is unchanged), and Erdős–Rényi
+never draws one, so those two have none. Erdős–Rényi postsynaptic targets are drawn only among
+the rows the loaded connectome itself delivers input to. The script prints nnz and the self-loop
+count on every seed. Every control is strength-matched (every neuron's total input strength as
+in the connectome). The same input neurons, readout population, trace settings and seeds are
+used for every network. Readouts are `flybrain.reservoir`'s.
+
+The eye-position candidates are the three steps already probed for this slot: step 7 (last
+step the blob is on), step 10 (two steps after it turns off), and step 11 (last step of the
+12-step slot). Seeds 5, 6 and 7, not the reported seeds, pick the one with the largest range
+of the four networks' mean accuracies, so the reported step is where those networks disagreed
+most on the selection seeds. An exact tie takes the earlier step. This run's separations were
+0.1926, 0.4370 and 0.1185, so step 10 was frozen, and seeds 0–4 were scored only there. Each
+of those readouts is also scored with its training labels permuted.
+
+| task | connectome | weight-shuffle | rewired | Erdős–Rényi | winner |
+|---|---|---|---|---|---|
+| digits (600) | 0.497 ± 0.038 | 0.348 ± 0.034 | 0.329 ± 0.023 | 0.548 ± 0.025 | none robust (ER ahead 4/5, p ≈ 0.13) |
+| eye position (L/C/R) | 0.347 ± 0.115 (at chance; beats shuffled-label baseline on 1/5 seeds) | 0.453 ± 0.054 | 0.347 ± 0.051 | 0.578 ± 0.057 | Erdős–Rényi |
+
+Mean ± sample sd over seeds 0–4. On digits the connectome beats weight-shuffle on 5/5 seeds
+(+0.111, +0.137, +0.183, +0.209, +0.105; paired t=7.31, two-sided p=0.002) and beats rewired
+on 5/5 (+0.118, +0.170, +0.176, +0.190, +0.183; paired t=13.03, two-sided p=0.000 at three
+decimals). Erdős–Rényi is the only control ahead of the connectome, on 4/5 seeds, by +0.137,
++0.033, -0.013, +0.013, +0.085 (paired t=1.90, two-sided p=0.131). That margin is not robust,
+so the winner cell reads none robust (ER ahead 4/5, p ≈ 0.13). The cell's p ≈ 0.13 is that
+printed p=0.131. Weight-shuffle keeps the pairs and scrambles the weights, and it falls from
+0.497 to 0.348, so on digits the weight arrangement on the real pairs matters.
+
+On eye position there are 45 test samples. Analytic 3-class chance is 0.333, se 0.070. The
+connectome and the rewired network both score 0.347, inside that band. The shuffled-label
+baseline scored connectome 0.373 ± 0.067, weight-shuffle 0.302 ± 0.095, rewired 0.289 ± 0.016
+and Erdős–Rényi 0.373 ± 0.102. The connectome scores at chance on eye position. It beats its
+shuffled-label baseline on only 1/5 seeds (seed 2: 0.533 vs 0.333; the other four are lower:
+0.244 vs 0.289, 0.289 vs 0.378, 0.378 vs 0.467, 0.289 vs 0.400). Erdős–Rényi beats the
+connectome on 5/5 seeds (+0.333, +0.244, +0.111, +0.244, +0.222; paired t=6.50, two-sided
+p=0.003).
+
+Measured with flybrain 0.1.1, Python 3.12.4, scikit-learn 1.9.1, numpy 2.5.5, scipy 1.18.1 and
+numba 0.68.1 on a 12-thread Apple-Silicon CPU. One run of this revision took 33 min 47 s
+(real 2026.62 s).
+
 ## Credits and license
 
 Code: MIT. The connectome data is MaleCNS v1.0 by FlyEM (HHMI Janelia), the University of
