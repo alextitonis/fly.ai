@@ -5,6 +5,7 @@
 //   2. pick: one of the wallet's flies or partner NFTs (the fly chat's inbox), the one that lives on the desktop
 //   3. the fly: its log, a chat (cards approved here: settings and watch lists only; money moves open the site), the alpha calls
 import { t, type Key } from "./i18n.ts";
+import { addWatch } from "./logic.ts";
 import {
   alphaCalls, applyLang, chatAnswer, coachForget, chatRead, chatSend, chatWatch, claimLink, flyFeed, inbox, newLink, prefs, saveSettings,
   setPrefs, signedIn, SignedOut, type AlphaCall, type ChatMe, type ChatMsg, type FlyFeed, type InboxRow, type Who,
@@ -308,7 +309,13 @@ async function answer(m: ChatMsg, ok: boolean) {
     if (m.card.kind === "settings") await saveSettings(fresh.wallet, m.card.after, fresh.who);
     else if (m.card.kind === "watch") {
       const base = fresh.settings ?? {};
-      const watch = [...new Set([...(base.watch ?? []), m.card.token.toLowerCase()])].slice(0, WATCH_MAX);
+      const watch = addWatch(base.watch, m.card.token, WATCH_MAX);
+      if (!watch) {   // the list is already full: say so instead of approving a watch that never happens
+        await tell("failed");
+        mark("failed");
+        $("chatNote").textContent = t("p.full", { n: WATCH_MAX });
+        return;
+      }
       await saveSettings(fresh.wallet, { ...base, watch }, fresh.who);
       await chatWatch(id, m.card.token, m.local ? undefined : m.id).catch(() => {});
     }

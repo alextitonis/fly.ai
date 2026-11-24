@@ -5,6 +5,7 @@ import {
   FOCUS_MS, H, SPRITE, SWAT_MS, W, clampX, fallsOff, focusClock, focusDay, groundY, hopDelay, hopSpot, landing,
   nameIn, perchSpot, perchUntil, span, swatEnd, swatOver, tripState, type Win,
 } from "./logic.ts";
+import { addWatch } from "./logic.ts";
 import type { Names6 } from "./store.ts";
 
 const floor = { left: 0, right: 1920, top: 0, bottom: 1040 };       // a 1080p screen with a 40 px taskbar
@@ -126,5 +127,18 @@ assert.deepEqual(tripState(trip, 1_000 + 30 * 60_000), { left: 30 * 60_000, done
 assert.deepEqual(tripState(trip, trip.ends_at), { left: 0, done: true, pct: 100 });
 assert.deepEqual(tripState(trip, trip.ends_at + 5_000), { left: -5_000, done: true, pct: 100 }); // never past 100
 assert.equal(tripState({ started_at: 5, ends_at: 5 }, 5).pct, 0);    // a zero-length trip doesn't divide by zero
+
+// ---- the watch list (logic.ts addWatch) ----
+// Approving a "watch this token?" card must add the token, never silently drop it: the old inline merge
+// ([...new Set([...watch, token])].slice(0, 5)) kept the 5 old tokens and threw the new one away, while the card
+// still showed "Done" and the Fly Desk was told the fly "now watches" it.
+const A = "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", B = "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  C = "0xcccccccccccccccccccccccccccccccccccccccc", D = "0xdddddddddddddddddddddddddddddddddddddddd",
+  E = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", F = "0xffffffffffffffffffffffffffffffffffffffff";
+assert.deepEqual(addWatch(undefined, "0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 5), [A]);   // first watch, lowercased
+assert.deepEqual(addWatch([A, B], F, 5), [A, B, F]);
+assert.deepEqual(addWatch([A], "0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 5), [A]);        // already watched: no duplicate
+assert.equal(addWatch([A, B, C, D, E], F, 5), null);                                          // full + a new token: refused, not dropped
+assert.deepEqual(addWatch([A, B, C, D, E], E, 5), [A, B, C, D, E]);                           // full but already watched: fine
 
 console.log("logic tests ok");

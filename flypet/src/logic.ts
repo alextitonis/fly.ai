@@ -83,3 +83,16 @@ export function tripState(trip: { started_at: number; ends_at: number }, now: nu
   const left = trip.ends_at - now;
   return { left, done: left <= 0, pct: Math.min(100, Math.round(((now - trip.started_at) / Math.max(1, trip.ends_at - trip.started_at)) * 100)) };
 }
+
+// ---- the watch list (panel.ts / talk.ts answer()) ------------------------------------------------------------------
+/** the watch list with a token added, or null when the token is new and the list is already full: approving a watch
+ * card must never silently drop the token. The old inline merge ([...new Set([...watch, token])].slice(0, max)) kept
+ * the old tokens and threw the new one away, while the card still showed "Done" and the Fly Desk was told the fly
+ * "now watches" it — and the fly's model can still propose a 6th card, since its own cap is 15, not 5. */
+export function addWatch(watch: string[] | undefined, token: string, max: number): string[] | null {
+  const lower = token.toLowerCase();
+  const have = (watch ?? []).map((x) => x.toLowerCase());
+  if (have.includes(lower)) return watch ?? [];
+  if (have.length >= max) return null;
+  return [...(watch ?? []), lower];
+}
