@@ -35,7 +35,11 @@ function fillBasics() {
   minUsd.value = String(p.minUsd);
   bubbles.checked = p.bubbles;
   perch.checked = p.perch !== false;
-  $("perchRow").hidden = !!window.flyNative && window.flyNative.platform !== "win32";   // the watcher is Windows only
+  // the watcher runs on Windows and on Linux (X11); on macOS the row stays hidden, on Linux without X11 (Wayland,
+  // or xprop missing) it shows disabled and the help says why
+  const plat = window.flyNative?.platform;
+  $("perchRow").hidden = !!window.flyNative && plat !== "win32" && plat !== "linux";
+  perch.disabled = !!window.flyNative && window.flyNative.perchAvailable === false;
   $("perchRow").title = t("set.perchHelp");
   notifications.checked = p.notifications;
 }
