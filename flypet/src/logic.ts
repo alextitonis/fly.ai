@@ -42,6 +42,34 @@ export function swatEnd(score: number, best: number): { best: number; record: bo
   };
 }
 
+// ---- the crumb game (issue #59): 30 seconds, crumbs fall inside the pet window, click one to catch it ------------
+export const CRUMB_MS = 30_000;
+export const CRUMB_SPEED = 140;             // px per second, down the 300 px window
+export const CRUMB_SIZE = 28;               // px across
+/** where a crumb appears: across the window, just above the top edge (rx in [0, 1)) */
+export function crumbSpot(rx: number): { x: number; y: number } {
+  return { x: 4 + rx * (W - CRUMB_SIZE - 8), y: -CRUMB_SIZE };
+}
+/** how far down it has fallen after dt ms */
+export const crumbY = (y0: number, dtMs: number) => y0 + (CRUMB_SPEED * dtMs) / 1000;
+/** it is gone once it reaches the ground (the fly stands on the bottom edge) */
+export const crumbLanded = (y: number) => y >= H - CRUMB_SIZE;
+/** the game is over once its 30 seconds are up */
+export const crumbOver = (now: number, until: number) => now >= until;
+/** the wait before the next crumb: 900 ms at the start, 500 ms at the end */
+export const crumbDelay = (now: number, until: number) => 500 + 400 * ((until - now) / CRUMB_MS);
+/** game over: the best score kept, how it reacts and what it says */
+export function crumbEnd(score: number, best: number): { best: number; record: boolean; mood: "moon" | "happy"; line: Key; vars: Record<string, number> } {
+  const record = score > best;
+  return {
+    best: Math.max(best, score),
+    record,
+    mood: record ? "moon" : "happy",
+    line: record && best > 0 ? "g.crumbNewBest" : "g.crumbScore",
+    vars: record && best > 0 ? { n: score } : { n: score, best: Math.max(best, score) },
+  };
+}
+
 // ---- focus time ------------------------------------------------------------------------------------------------
 export const FOCUS_MS = 25 * 60_000;
 /** the time left on the pill, m:ss, never below 0:00 */

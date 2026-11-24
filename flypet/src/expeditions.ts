@@ -54,6 +54,7 @@ export function setupExpeditions(hooks: {
   claimed: (c: ExpClaim) => void;                  // its finds were opened
   fed: (xp: number) => void;                       // fed (the day's pet XP, 0 if it already ate)
   swat: () => void;                                // the swat game
+  crumb: () => void;                               // the crumb game (issue #59)
   focus: () => void;                               // a 25-minute focus timer
   onSignedOut: () => void;
 }): Expeditions {
@@ -191,6 +192,7 @@ export function setupExpeditions(hooks: {
     return el("div", { class: "tk-actions xp-toys" },
       el("button", { class: "tk-chip", type: "button", disabled: busy || fed, onclick: () => void feedIt() }, fed ? t("x.fed") : t("x.feed", { n: 5 })),
       el("button", { class: "tk-chip", type: "button", disabled: !!v!.me.trip, onclick: () => hooks.swat() }, t("x.swat")),
+      el("button", { class: "tk-chip", type: "button", disabled: !!v!.me.trip, onclick: () => hooks.crumb() }, t("x.crumb")),
       el("button", { class: "tk-chip", type: "button", disabled: !!v!.me.trip, onclick: () => hooks.focus() }, t("x.focus")));
   }
   function revealCard() {

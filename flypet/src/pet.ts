@@ -6,13 +6,14 @@ import { addNote, applyLang, flyFeed, prefs, priceSamples, publicFeed, seenOf, s
 import { setupTalk } from "./talk.ts";
 import { setupCoach } from "./coach.ts";
 import { itemArt, setupExpeditions } from "./expeditions.ts";
-import { FOCUS_MS, H, SPRITE, SWAT_MS, W, clampX as clampTo, fallsOff, focusClock, focusDay, groundY as groundOf, hopDelay, hopSpot, landing, nameOf, perchSpot, perchUntil, span, swatEnd, swatOver, type Win } from "./logic.ts";
+import { CRUMB_MS, CRUMB_SIZE, FOCUS_MS, H, SPRITE, SWAT_MS, W, clampX as clampTo, crumbDelay, crumbEnd, crumbLanded, crumbOver, crumbSpot, crumbY, fallsOff, focusClock, focusDay, groundY as groundOf, hopDelay, hopSpot, landing, nameOf, perchSpot, perchUntil, span, swatEnd, swatOver, type Win } from "./logic.ts";
 import type { ExpView } from "./store.ts";
 
 const native = window.flyNative;                    // vite in a plain browser has no window to move
 const fly = document.getElementById("fly") as HTMLImageElement;
 const look = document.getElementById("look") as HTMLDivElement;      // the fly + what it wears (mirrored together)
 const bubble = document.getElementById("bubble") as HTMLDivElement;
+const stage = document.getElementById("stage") as HTMLDivElement;
 
 const POLL_MS = 60_000, PRICE_MS = 5 * 60_000, FRAME_MS = 33;
 const WALK_PX = 1.6, GRAVITY = 1.1;
@@ -180,7 +181,7 @@ fly.addEventListener("contextmenu", (e) => {
 });
 fly.addEventListener("pointerdown", (e) => {
   if (e.button !== 0) return;
-  if (game) { swatHit(); return; }                     // the swat game: a click is a swat, not a grab
+  if (game) { if (game.kind === "swat") swatHit(); return; }   // the swat game: a click is a swat, not a grab
   fly.setPointerCapture(e.pointerId);
   grab = { dx: e.screenX - x, dy: e.screenY - y, startX: e.screenX, startY: e.screenY, moved: false, lastX: e.screenX, lastY: e.screenY, lastAt: Date.now() };
 });
@@ -217,12 +218,12 @@ function feed() {
 
 // ---- the swat game (2026-11-18): 20 seconds, the fly darts around the screen, every click on it counts ---------------
 const BEST = "swatBest";
-let game: { until: number; score: number; timer: number } | null = null;
+let game: { kind: "swat" | "crumb"; until: number; score: number; timer: number } | null = null;
 function swatGame() {
   if (game || away) return;
   closeTalk();
   perched = null;
-  game = { until: Date.now() + SWAT_MS, score: 0, timer: 0 };
+  game = { kind: "swat", until: Date.now() + SWAT_MS, score: 0, timer: 0 };
   sayCoach(t("g.start"), 2500);
   game.timer = window.setTimeout(hop, 1200);
 }
@@ -245,16 +246,73 @@ function swatHit() {
 }
 function endGame() {
   if (!game) return;
-  const score = game.score;
+  const kind = game.kind, score = game.score;
   clearTimeout(game.timer);
+  if (kind === "crumb") clearCrumb();                 // the falling crumbs go with it
   game = null;
+  const key = kind === "crumb" ? CRUMB_BEST : BEST;
   let best = 0;
-  try { best = Number(localStorage.getItem(BEST)) || 0; } catch { /* private */ }
-  const end = swatEnd(score, best);
-  if (end.record) { try { localStorage.setItem(BEST, String(end.best)); } catch { /* private */ } }
+  try { best = Number(localStorage.getItem(key)) || 0; } catch { /* private */ }
+  const end = kind === "crumb" ? crumbEnd(score, best) : swatEnd(score, best);
+  if (end.record) { try { localStorage.setItem(key, String(end.best)); } catch { /* private */ } }
   x = home; y = groundY(); place();
   state = "acting"; busyUntil = Date.now() + 3000; play(end.mood);
   sayCoach(t(end.line, end.vars), 5000);
+}
+
+// ---- the crumb game (issue #59): 30 seconds, crumbs fall inside the pet window, click one to catch it ---------------
+const CRUMB_BEST = "crumbBest";
+let crumbs: { el: HTMLButtonElement; y: number }[] = [];
+let crumbFall = 0;
+function crumbGame() {
+  if (game || away) return;
+  closeTalk();
+  perched = null;
+  game = { kind: "crumb", until: Date.now() + CRUMB_MS, score: 0, timer: 0 };
+  sayCoach(t("g.crumbStart"), 2500);
+  game.timer = window.setTimeout(spawnCrumb, 600);
+  crumbFall = window.setInterval(dropCrumbs, 50);
+}
+function spawnCrumb() {
+  if (!game) return;
+  if (crumbOver(Date.now(), game.until)) { endGame(); return; }
+  const spot = crumbSpot(Math.random());
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = "crumb";
+  b.textContent = "🍪";
+  b.style.left = `${spot.x}px`;
+  b.style.top = `${spot.y}px`;
+  b.addEventListener("click", () => crumbHit(b));
+  stage.append(b);
+  crumbs.push({ el: b, y: spot.y });
+  // faster as the seconds run out
+  game.timer = window.setTimeout(spawnCrumb, crumbDelay(Date.now(), game.until));
+}
+function dropCrumbs() {
+  if (!game) return;
+  for (const c of [...crumbs]) {
+    c.y = crumbY(c.y, 50);
+    if (crumbLanded(c.y)) { c.el.remove(); crumbs = crumbs.filter((x) => x !== c); continue; }   // missed: it just goes
+    c.el.style.top = `${c.y}px`;
+  }
+}
+function crumbHit(b: HTMLButtonElement) {
+  if (!game) return;
+  const c = crumbs.find((x) => x.el === b);
+  if (!c) return;
+  b.remove();
+  crumbs = crumbs.filter((x) => x !== c);
+  game.score++;
+  play("eat");
+  sayCoach(`🍪 ${game.score}`, 700);
+}
+/** clear the falling crumbs (a game over, or a trip starting mid-game) */
+function clearCrumb() {
+  window.clearInterval(crumbFall);
+  crumbFall = 0;
+  for (const c of crumbs) c.el.remove();
+  crumbs = [];
 }
 
 // ---- focus time (2026-11-18): 25 minutes where it sits still beside you; it cheers when the time is up ---------------
@@ -393,6 +451,7 @@ function syncTrip(v: ExpView | null) {
   const tr = v?.me.trip ?? null, out = !!tr && tr.ends_at > Date.now();
   if (out && !away) {
     away = true;
+    if (game?.kind === "crumb") endGame();             // a trip starting ends the crumb game (issue #59)
     if (state === "walking" || state === "falling" || state === "held") { vx = vy = 0; y = groundY(); place(); state = "idle"; }
     document.body.classList.add("away");
   } else if (!out && away) {
@@ -435,6 +494,7 @@ const expeditions = setupExpeditions({
     say(xp > 0 ? t("x.fedSay", { n: xp }) : t(FEED_LINES[Math.floor(Math.random() * FEED_LINES.length)]), 3000);
   },
   swat: () => swatGame(),
+  crumb: () => crumbGame(),
   focus: () => focusStart(),
   onSignedOut: () => { closeTalk(); native?.openPanel(); },
 });
@@ -531,12 +591,15 @@ async function start() {
   native?.onCursor((c) => {
     if (grab) return pass(false);
     pass(!(c.inside && (overFly(c.x, c.y) || inside(talkBox, c.x, c.y) || (bubble.classList.contains("on") && inside(bubble, c.x, c.y))
-      || inside(awayTag, c.x, c.y) || inside(gift, c.x, c.y) || inside(focusTag, c.x, c.y))));
+      || inside(awayTag, c.x, c.y) || inside(gift, c.x, c.y) || inside(focusTag, c.x, c.y)
+      || crumbs.some((cr) => inside(cr.el, c.x, c.y)))));   // a falling crumb catches the click, not the app behind
   });
   native?.onOpen((what) => openTalk(what === "exp" ? "exp" : undefined));
   bubble.addEventListener("click", () => openTalk());
   native?.onQuiet((on) => { setPrefs({ quiet: on }); });
   native?.onFeed(feed);
+  // Escape ends the crumb game (issue #59); focus time can't start mid-game, so it never interrupts one
+  window.addEventListener("keydown", (e) => { if (e.key === "Escape" && game?.kind === "crumb") endGame(); });
   // sitting on your windows: the native watcher runs only while the setting is on (Windows)
   native?.onPerch?.((w) => onFront(w));
   let perchOn: boolean | null = null;
@@ -545,7 +608,7 @@ async function start() {
   window.addEventListener("storage", perchSync);
   native?.onCoach((what) => { if (what === "toggle") coach.toggle(); else coach.hint(); });
 
-  // in a dev browser: flypet.react("rugged", "...") acts anything out
-  if (import.meta.env.DEV) Object.assign(window, { flypet: { react: (m: Mood, text: string) => react({ mood: m, text, notify: false }), feed } });
+  // in a dev browser: flypet.react("rugged", "...") acts anything out, flypet.crumb() starts the crumb game
+  if (import.meta.env.DEV) Object.assign(window, { flypet: { react: (m: Mood, text: string) => react({ mood: m, text, notify: false }), feed, crumb: () => crumbGame() } });
 }
 void start();
