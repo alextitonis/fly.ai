@@ -19,6 +19,7 @@
       button { padding: 8px 16px; border: 0; border-radius: 999px; background: var(--mint); color: #06140e; font: 600 14px inherit; cursor: pointer; }
       button.plain { background: #1c1c1c; color: #fff; }
       button:disabled { opacity: .55; cursor: default; }
+      button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
       .note { color: var(--mute); font-size: 12px; margin: 8px 0 0; }
       .error { color: #ff8d8d; }
       #flies label { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; }
@@ -76,6 +77,7 @@
     <section>
       <h2 data-t="set.app"></h2>
       <label class="row"><span data-t="set.language"></span> <select id="lang"></select></label>
+      <label class="row" id="lessMotionRow" title=""><span data-t="set.lessMotion"></span> <input id="lessMotion" type="checkbox" /></label>
       <label class="row" id="autostartRow"><span data-t="set.autostart"></span> <input id="autostart" type="checkbox" /></label>
       <p style="margin:10px 0 0"><button class="plain" id="quit" data-t="set.close"></button></p>
     </section>
