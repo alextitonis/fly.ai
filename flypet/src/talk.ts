@@ -40,6 +40,13 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
   let feed: FlyFeed | null = null, calls: AlphaCall[] = [], msgs: ChatMsg[] = [], me: ChatMe | null = null;
   let wait = 0, busy = false, localId = -1, isOpen = false, timer = 0, deskTimer = 0, expOpen = false;
 
+  /** less motion (issue #58): the setting, or the computer's reduced-motion preference; the body class gates the trail, the take-off/landing and the typing dots (index.html) */
+  const motionOff = () => prefs().lessMotion || window.matchMedia("prefers-reduced-motion: reduce").matches;
+  const applyMotion = () => document.body.classList.toggle("less-motion", motionOff());
+  applyMotion();
+  window.addEventListener("storage", applyMotion);
+  window.matchMedia("prefers-reduced-motion: reduce").addEventListener("change", applyMotion);
+
   // ---- the frame: header, stream, quick buttons, a watch box, the input -------------------------------------------
   const avatar = el("span", { class: "tk-av" }, "🪰");
   const name = el("b"), stats = el("span", { class: "tk-mute" });
@@ -54,8 +61,8 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
   const note = el("p", { class: "tk-note" });
   box.replaceChildren(
     el("header", { class: "tk-head" }, avatar, el("span", { class: "tk-grow" }, name, el("br"), stats),
-      el("button", { class: "tk-x", type: "button", title: t("p.changeFly"), onclick: () => { hooks.onClose(); native?.openPanel("pick"); } }, "⇄"),
-      el("button", { class: "tk-x", type: "button", title: t("p.close"), onclick: () => hooks.onClose() }, "×")),
+      el("button", { class: "tk-x", type: "button", title: t("p.changeFly"), "aria-label": t("p.changeFly"), onclick: () => { hooks.onClose(); native?.openPanel("pick"); } }, "⇄"),
+      el("button", { class: "tk-x", type: "button", title: t("p.close"), "aria-label": t("p.close"), onclick: () => hooks.onClose() }, "×")),
     stream, ...(hooks.exp ? [hooks.exp.box] : []), chipsRow, watchBox, form, note);
   input.addEventListener("keydown", (e) => { if (e.key === "Escape") hooks.onClose(); });
 
@@ -255,6 +262,11 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
     if (on) { watchBox.hidden = true; hooks.exp.render(); void hooks.exp.load(); } else setTimeout(() => input.focus(), 50);
     chips();
   }
+  /** Escape anywhere in the panel: back from Expeditions, otherwise close the panel (issue #58) */
+  box.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+    if (expOpen) showExp(false); else hooks.onClose();
+  });
   function chips() {
     const ask = (key: Key) => () => void send(t(key));
     const paused = feed?.settings?.trading === false;
