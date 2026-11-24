@@ -64,7 +64,7 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
       el("button", { class: "tk-x", type: "button", title: t("p.changeFly"), "aria-label": t("p.changeFly"), onclick: () => { hooks.onClose(); native?.openPanel("pick"); } }, "⇄"),
       el("button", { class: "tk-x", type: "button", title: t("p.close"), "aria-label": t("p.close"), onclick: () => hooks.onClose() }, "×")),
     stream, ...(hooks.exp ? [hooks.exp.box] : []), chipsRow, watchBox, form, note);
-  input.addEventListener("keydown", (e) => { if (e.key === "Escape") hooks.onClose(); });
+  input.addEventListener("keydown", (e) => { if (e.key === "Escape") { e.stopPropagation(); hooks.onClose(); } });
 
   const signedOut = (e: unknown) => {
     if (e instanceof SignedOut) { hooks.onSignedOut(); return true; }
