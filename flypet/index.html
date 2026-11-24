@@ -31,6 +31,14 @@
       #gift { position: absolute; left: 50%; bottom: 150px; margin-left: 34px; font-size: 22px; cursor: pointer; animation: xp-bob 1.2s ease-in-out infinite; }
       @keyframes xp-bob { 50% { transform: translateY(-5px); } }
       .trail { position: absolute; bottom: 8px; font-size: 16px; pointer-events: none; animation: xp-trail 1.2s ease-out forwards; }
+      /* the memory game (issue #59): 12 cards in the pet window, flip two to match the item sprites */
+      .mem-grid { position: absolute; left: 50%; top: 6px; transform: translateX(-50%); z-index: 2; display: grid; grid-template-columns: repeat(4, 56px); gap: 6px; }
+      .mem-card { width: 56px; height: 56px; padding: 0; border: 2px solid #2f2f2f; border-radius: 10px; background: #1a1a1a; color: #fff;
+        font-size: 24px; line-height: 1; cursor: pointer; display: grid; place-items: center;
+        font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif; }
+      .mem-card.open { background: #fff; border-color: #7cf5c4; }
+      .mem-card.done { opacity: .45; border-color: #7cf5c4; }
+      .mem-card .xp-art { width: 40px; height: 40px; }
       @keyframes xp-trail { from { opacity: .9; transform: translate(0, 0) scale(1); } to { opacity: 0; transform: translate(var(--dx), -18px) scale(.6); } }
       body.talking #gift, body.talking #away, body.talking #focus { display: none; }
       .trail.xp-art { width: 20px; height: 20px; }
@@ -46,7 +54,7 @@
         font: 500 13px/1.35 "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; text-align: left;
         opacity: 0; transition: opacity .18s, transform .18s; pointer-events: none; cursor: pointer;
       }
-      #bubble.on { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+      #bubble.on { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; z-index: 3; }
       body.talking #bubble { display: none; }
       /* the fly's own chat (src/talk.ts): a panel just above the fly while the window is grown for it */
       #talk { position: absolute; left: 50%; bottom: 166px; transform: translateX(-50%); width: 360px; height: 440px; display: flex; flex-direction: column;

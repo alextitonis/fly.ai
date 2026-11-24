@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { setLang } from "./i18n.ts";
 import {
   FOCUS_MS, H, SPRITE, SWAT_MS, W, clampX, fallsOff, focusClock, focusDay, groundY, hopDelay, hopSpot, landing,
-  nameIn, perchSpot, perchUntil, span, swatEnd, swatOver, tripState, type Win,
+  MEM_ITEMS, MEM_MS, MEM_PAIRS, memDeck, memEnd, memOver, nameIn, perchSpot, perchUntil, span, swatEnd, swatOver, tripState, type Win,
 } from "./logic.ts";
 import type { Names6 } from "./store.ts";
 
@@ -51,6 +51,31 @@ assert.deepEqual(swatEnd(4, 4), { best: 4, record: false, mood: "happy", line: "
 // the first game sets a best without the "new best" line
 assert.deepEqual(swatEnd(5, 0), { best: 5, record: true, mood: "moon", line: "g.score", vars: { n: 5, best: 5 } });
 assert.deepEqual(swatEnd(0, 0), { best: 0, record: false, mood: "happy", line: "g.score", vars: { n: 0, best: 0 } });
+
+// ---- the memory game (issue #59) ----
+assert.equal(MEM_MS, 30_000);
+assert.equal(MEM_PAIRS, 6);
+assert.equal(MEM_ITEMS.length, 6);
+// the deck: 12 cards, each item twice
+const deck = memDeck(MEM_ITEMS, Array.from({ length: 11 }, (_, i) => (i + 1) / 12));
+assert.equal(deck.length, 12);
+for (const it of MEM_ITEMS) assert.equal(deck.filter((d) => d === it.id).length, 2, it.id);
+// the shuffle is fixed by its random picks: all zeros rotate the pairs, all near-ones leave the deck as dealt
+assert.deepEqual(memDeck(MEM_ITEMS, Array(11).fill(0)),
+  ["crumb", "cap", "cap", "peel", "peel", "hat_cherry", "hat_cherry", "hat_mush", "hat_mush", "wings_butterfly", "wings_butterfly", "crumb"]);
+assert.deepEqual(memDeck(MEM_ITEMS, Array(11).fill(0.999)), MEM_ITEMS.flatMap((it) => [it.id, it.id]));
+// the game ending mid-flip: the 30 seconds decide
+const mUntil = 1_000_000 + MEM_MS;
+assert.equal(memOver(mUntil - 1, mUntil), false);
+assert.equal(memOver(mUntil, mUntil), true);
+assert.equal(memOver(mUntil + 250, mUntil), true);
+// game over: the score is pairs matched, out of 6
+assert.deepEqual(memEnd(6, 4), { best: 6, record: true, mood: "moon", line: "g.memNewBest", vars: { n: 6 } });
+assert.deepEqual(memEnd(3, 4), { best: 4, record: false, mood: "happy", line: "g.memScore", vars: { n: 3, best: 4 } });
+assert.deepEqual(memEnd(4, 4), { best: 4, record: false, mood: "happy", line: "g.memScore", vars: { n: 4, best: 4 } });
+// the first game sets a best without the "new best" line
+assert.deepEqual(memEnd(5, 0), { best: 5, record: true, mood: "moon", line: "g.memScore", vars: { n: 5, best: 5 } });
+assert.deepEqual(memEnd(0, 0), { best: 0, record: false, mood: "happy", line: "g.memScore", vars: { n: 0, best: 0 } });
 
 // ---- focus time ----
 assert.equal(FOCUS_MS, 25 * 60_000);

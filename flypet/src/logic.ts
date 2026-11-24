@@ -42,6 +42,41 @@ export function swatEnd(score: number, best: number): { best: number; record: bo
   };
 }
 
+// ---- the memory game (issue #59): 30 seconds, 12 cards in 6 pairs of expedition item sprites, flip two to match ----
+export const MEM_MS = 30_000;
+export const MEM_PAIRS = 6;
+/** the six expedition finds the cards show: their pixel art, or their glyph if the file isn't there */
+export const MEM_ITEMS: { id: string; glyph: string }[] = [
+  { id: "crumb", glyph: "🍞" },
+  { id: "cap", glyph: "🔘" },
+  { id: "peel", glyph: "🍌" },
+  { id: "hat_cherry", glyph: "🍒" },
+  { id: "hat_mush", glyph: "🍄" },
+  { id: "wings_butterfly", glyph: "🦋" },
+];
+/** the deck: each item twice, shuffled — rs supplies the Fisher-Yates picks (11 for 12 cards), so a test can fix the shuffle */
+export function memDeck(items: { id: string; glyph: string }[], rs: number[]): string[] {
+  const deck = items.flatMap((it) => [it.id, it.id]);
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(rs[i - 1] * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  return deck;
+}
+/** the game is over once its 30 seconds are up */
+export const memOver = (now: number, until: number) => now >= until;
+/** game over: the best score kept, how it reacts and what it says (score = pairs matched, out of 6) */
+export function memEnd(score: number, best: number): { best: number; record: boolean; mood: "moon" | "happy"; line: Key; vars: Record<string, number> } {
+  const record = score > best;
+  return {
+    best: Math.max(best, score),
+    record,
+    mood: record ? "moon" : "happy",
+    line: record && best > 0 ? "g.memNewBest" : "g.memScore",
+    vars: record && best > 0 ? { n: score } : { n: score, best: Math.max(best, score) },
+  };
+}
+
 // ---- focus time ------------------------------------------------------------------------------------------------
 export const FOCUS_MS = 25 * 60_000;
 /** the time left on the pill, m:ss, never below 0:00 */

@@ -6,13 +6,14 @@ import { addNote, applyLang, flyFeed, prefs, priceSamples, publicFeed, seenOf, s
 import { setupTalk } from "./talk.ts";
 import { setupCoach } from "./coach.ts";
 import { itemArt, setupExpeditions } from "./expeditions.ts";
-import { FOCUS_MS, H, SPRITE, SWAT_MS, W, clampX as clampTo, fallsOff, focusClock, focusDay, groundY as groundOf, hopDelay, hopSpot, landing, nameOf, perchSpot, perchUntil, span, swatEnd, swatOver, type Win } from "./logic.ts";
+import { FOCUS_MS, H, MEM_ITEMS, MEM_MS, MEM_PAIRS, SPRITE, SWAT_MS, W, clampX as clampTo, fallsOff, focusClock, focusDay, groundY as groundOf, hopDelay, hopSpot, landing, memDeck, memEnd, memOver, nameOf, perchSpot, perchUntil, span, swatEnd, swatOver, type Win } from "./logic.ts";
 import type { ExpView } from "./store.ts";
 
 const native = window.flyNative;                    // vite in a plain browser has no window to move
 const fly = document.getElementById("fly") as HTMLImageElement;
 const look = document.getElementById("look") as HTMLDivElement;      // the fly + what it wears (mirrored together)
 const bubble = document.getElementById("bubble") as HTMLDivElement;
+const stage = document.getElementById("stage") as HTMLDivElement;
 
 const POLL_MS = 60_000, PRICE_MS = 5 * 60_000, FRAME_MS = 33;
 const WALK_PX = 1.6, GRAVITY = 1.1;
@@ -180,7 +181,7 @@ fly.addEventListener("contextmenu", (e) => {
 });
 fly.addEventListener("pointerdown", (e) => {
   if (e.button !== 0) return;
-  if (game) { swatHit(); return; }                     // the swat game: a click is a swat, not a grab
+  if (game) { if (game.kind === "swat") swatHit(); return; }   // the swat game: a click is a swat, not a grab
   fly.setPointerCapture(e.pointerId);
   grab = { dx: e.screenX - x, dy: e.screenY - y, startX: e.screenX, startY: e.screenY, moved: false, lastX: e.screenX, lastY: e.screenY, lastAt: Date.now() };
 });
@@ -217,12 +218,12 @@ function feed() {
 
 // ---- the swat game (2026-11-18): 20 seconds, the fly darts around the screen, every click on it counts ---------------
 const BEST = "swatBest";
-let game: { until: number; score: number; timer: number } | null = null;
+let game: { kind: "swat" | "memory"; until: number; score: number; timer: number } | null = null;
 function swatGame() {
   if (game || away) return;
   closeTalk();
   perched = null;
-  game = { until: Date.now() + SWAT_MS, score: 0, timer: 0 };
+  game = { kind: "swat", until: Date.now() + SWAT_MS, score: 0, timer: 0 };
   sayCoach(t("g.start"), 2500);
   game.timer = window.setTimeout(hop, 1200);
 }
@@ -245,16 +246,79 @@ function swatHit() {
 }
 function endGame() {
   if (!game) return;
-  const score = game.score;
+  const kind = game.kind, score = game.score;
   clearTimeout(game.timer);
+  if (kind === "memory") clearMemory();            // the cards go with it
   game = null;
+  const key = kind === "memory" ? MEM_BEST : BEST;
   let best = 0;
-  try { best = Number(localStorage.getItem(BEST)) || 0; } catch { /* private */ }
-  const end = swatEnd(score, best);
-  if (end.record) { try { localStorage.setItem(BEST, String(end.best)); } catch { /* private */ } }
+  try { best = Number(localStorage.getItem(key)) || 0; } catch { /* private */ }
+  const end = kind === "memory" ? memEnd(score, best) : swatEnd(score, best);
+  if (end.record) { try { localStorage.setItem(key, String(end.best)); } catch { /* private */ } }
   x = home; y = groundY(); place();
   state = "acting"; busyUntil = Date.now() + 3000; play(end.mood);
   sayCoach(t(end.line, end.vars), 5000);
+}
+
+// ---- the memory game (issue #59): 30 seconds, 12 cards in 6 pairs of expedition item sprites, flip two to match ----
+const MEM_BEST = "memoryBest";
+const MEM_BACK = "🪰";                            // face-down, a fly — what the cards hide under
+let memCards: { el: HTMLButtonElement; item: string; matched: boolean; open: boolean }[] = [];
+let memFirst: number | null = null, memLock = false, memFlipTimer = 0;
+function memoryGame() {
+  if (game || away) return;
+  closeTalk();
+  perched = null;
+  game = { kind: "memory", until: Date.now() + MEM_MS, score: 0, timer: 0 };
+  sayCoach(t("g.memStart"), 2500);
+  buildMemory();
+  game.timer = window.setTimeout(() => { if (game?.kind === "memory" && memOver(Date.now(), game.until)) endGame(); }, MEM_MS);
+}
+function buildMemory() {
+  const deck = memDeck(MEM_ITEMS, Array.from({ length: MEM_ITEMS.length * 2 - 1 }, () => Math.random()));
+  const grid = document.createElement("div");
+  grid.className = "mem-grid"; grid.id = "mem-grid";
+  memCards = deck.map((item, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "mem-card"; b.textContent = MEM_BACK;
+    b.addEventListener("click", () => memPick(i));
+    grid.append(b);
+    return { el: b, item, matched: false, open: false };
+  });
+  stage.append(grid);
+}
+function flipCard(c: { el: HTMLButtonElement; item: string; open: boolean }, open: boolean) {
+  c.open = open;
+  c.el.classList.toggle("open", open);
+  if (open) c.el.replaceChildren(itemArt({ id: c.item, glyph: MEM_ITEMS.find((it) => it.id === c.item)?.glyph ?? "?" }, 40));
+  else { c.el.replaceChildren(); c.el.textContent = MEM_BACK; }
+}
+function memPick(i: number) {
+  if (!game || game.kind !== "memory" || memLock) return;
+  const c = memCards[i];
+  if (!c || c.open || c.matched) return;
+  flipCard(c, true);
+  if (memFirst == null) { memFirst = i; return; }
+  const first = memCards[memFirst];
+  memFirst = null;
+  if (first.item === c.item) {
+    first.matched = c.matched = true;
+    first.el.classList.add("done"); c.el.classList.add("done");
+    game.score++;
+    play("eat");
+    sayCoach(`🧠 ${game.score}`, 700);
+    if (game.score === MEM_PAIRS) endGame();      // all six pairs found, before the clock runs out
+  } else {
+    memLock = true;                               // a miss flips back after a beat, so you can see both cards
+    memFlipTimer = window.setTimeout(() => { flipCard(first, false); flipCard(c, false); memLock = false; }, 700);
+  }
+}
+/** clear the cards (a game over, or a trip starting mid-game) */
+function clearMemory() {
+  window.clearTimeout(memFlipTimer);
+  memFlipTimer = 0;
+  document.getElementById("mem-grid")?.remove();
+  memCards = []; memFirst = null; memLock = false;
 }
 
 // ---- focus time (2026-11-18): 25 minutes where it sits still beside you; it cheers when the time is up ---------------
@@ -393,6 +457,7 @@ function syncTrip(v: ExpView | null) {
   const tr = v?.me.trip ?? null, out = !!tr && tr.ends_at > Date.now();
   if (out && !away) {
     away = true;
+    if (game?.kind === "memory") endGame();             // a trip starting ends the memory game (issue #59)
     if (state === "walking" || state === "falling" || state === "held") { vx = vy = 0; y = groundY(); place(); state = "idle"; }
     document.body.classList.add("away");
   } else if (!out && away) {
@@ -435,6 +500,7 @@ const expeditions = setupExpeditions({
     say(xp > 0 ? t("x.fedSay", { n: xp }) : t(FEED_LINES[Math.floor(Math.random() * FEED_LINES.length)]), 3000);
   },
   swat: () => swatGame(),
+  memory: () => memoryGame(),
   focus: () => focusStart(),
   onSignedOut: () => { closeTalk(); native?.openPanel(); },
 });
@@ -531,12 +597,15 @@ async function start() {
   native?.onCursor((c) => {
     if (grab) return pass(false);
     pass(!(c.inside && (overFly(c.x, c.y) || inside(talkBox, c.x, c.y) || (bubble.classList.contains("on") && inside(bubble, c.x, c.y))
-      || inside(awayTag, c.x, c.y) || inside(gift, c.x, c.y) || inside(focusTag, c.x, c.y))));
+      || inside(awayTag, c.x, c.y) || inside(gift, c.x, c.y) || inside(focusTag, c.x, c.y)
+      || memCards.some((mc) => inside(mc.el, c.x, c.y)))));   // a memory card catches the click, not the app behind
   });
   native?.onOpen((what) => openTalk(what === "exp" ? "exp" : undefined));
   bubble.addEventListener("click", () => openTalk());
   native?.onQuiet((on) => { setPrefs({ quiet: on }); });
   native?.onFeed(feed);
+  // Escape ends the memory game (issue #59); focus time can't start mid-game, so it never interrupts one
+  window.addEventListener("keydown", (e) => { if (e.key === "Escape" && game?.kind === "memory") endGame(); });
   // sitting on your windows: the native watcher runs only while the setting is on (Windows)
   native?.onPerch?.((w) => onFront(w));
   let perchOn: boolean | null = null;
@@ -545,7 +614,7 @@ async function start() {
   window.addEventListener("storage", perchSync);
   native?.onCoach((what) => { if (what === "toggle") coach.toggle(); else coach.hint(); });
 
-  // in a dev browser: flypet.react("rugged", "...") acts anything out
-  if (import.meta.env.DEV) Object.assign(window, { flypet: { react: (m: Mood, text: string) => react({ mood: m, text, notify: false }), feed } });
+  // in a dev browser: flypet.react("rugged", "...") acts anything out, flypet.memory() starts the memory game
+  if (import.meta.env.DEV) Object.assign(window, { flypet: { react: (m: Mood, text: string) => react({ mood: m, text, notify: false }), feed, memory: () => memoryGame() } });
 }
 void start();
