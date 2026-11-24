@@ -41,11 +41,11 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
   let wait = 0, busy = false, localId = -1, isOpen = false, timer = 0, deskTimer = 0, expOpen = false;
 
   /** less motion (issue #58): the setting, or the computer's reduced-motion preference; the body class gates the trail, the take-off/landing and the typing dots (index.html) */
-  const motionOff = () => prefs().lessMotion || window.matchMedia("prefers-reduced-motion: reduce").matches;
+  const motionOff = () => prefs().lessMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const applyMotion = () => document.body.classList.toggle("less-motion", motionOff());
   applyMotion();
   window.addEventListener("storage", applyMotion);
-  window.matchMedia("prefers-reduced-motion: reduce").addEventListener("change", applyMotion);
+  window.matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", applyMotion);
 
   // ---- the frame: header, stream, quick buttons, a watch box, the input -------------------------------------------
   const avatar = el("span", { class: "tk-av" }, "🪰");
