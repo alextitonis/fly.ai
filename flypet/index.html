@@ -32,6 +32,19 @@
       @keyframes xp-bob { 50% { transform: translateY(-5px); } }
       .trail { position: absolute; bottom: 8px; font-size: 16px; pointer-events: none; animation: xp-trail 1.2s ease-out forwards; }
       @keyframes xp-trail { from { opacity: .9; transform: translate(0, 0) scale(1); } to { opacity: 0; transform: translate(var(--dx), -18px) scale(.6); } }
+      /* less motion (issue #58): the switch in settings, or the computer's reduced-motion preference; the switch itself lives in talk.ts, which toggles body.less-motion */
+      body.less-motion .trail { display: none; }
+      body.less-motion #look.leaving { transition: none; }
+      body.less-motion #look.landing, body.less-motion #gift { animation: none; }
+      body.less-motion .tk-typing i { animation: none; }
+      body.less-motion .xp-bar i { transition: none; }
+      @media (prefers-reduced-motion: reduce) {
+          .trail { display: none; }
+        #look.leaving { transition: none; }
+        #look.landing, #gift { animation: none; }
+        .tk-typing i { animation: none; }
+        .xp-bar i { transition: none; }
+      }
       body.talking #gift, body.talking #away, body.talking #focus { display: none; }
       .trail.xp-art { width: 20px; height: 20px; }
       #fly:active { cursor: grabbing; }
@@ -89,6 +102,8 @@
       .tk-form { padding-bottom: 4px; }
       .tk-input { flex: 1; min-width: 0; padding: 7px 11px; background: #000; color: #fff; border: 1px solid #2a2a2a; border-radius: 999px; font: inherit; }
       .tk-input:focus { outline: none; border-color: #7cf5c4; }
+      .tk-btn:focus-visible, .tk-chip:focus-visible, .tk-x:focus-visible, .tk-link:focus-visible, .xp-tile:focus-visible { outline: 2px solid #7cf5c4; outline-offset: 2px; }
+      .tk-input:focus-visible { outline: 2px solid #7cf5c4; outline-offset: 0; }
       .tk-note { margin: 0; padding: 2px 14px 9px; color: #9a9a9a; font-size: 11px; min-height: 14px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
       .tk-link { background: none; border: 0; padding: 0; color: #7cf5c4; font: inherit; cursor: pointer; text-decoration: underline; }
       .tk-typing p { display: flex; gap: 4px; padding: 10px 12px; }
