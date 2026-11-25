@@ -232,7 +232,7 @@ export function setupExpeditions(hooks: {
         onclick: () => { tab = s; picked = null; render(); } }, t(`x.slot.${s}` as Key)))),
       items.length ? el("div", { class: "xp-grid" }, ...items.map((i) => el("button", {
         class: `xp-tile${worn(i) ? " worn" : ""}${picked === i.id ? " picked" : ""}`, type: "button", title: nameOf(i.names),
-        "aria-label": `${nameOf(i.names)} — ${t(`x.r.${i.rarity}` as Key)}${worn(i) ? " · worn" : ""}`, "aria-pressed": String(picked === i.id),
+        "aria-label": `${nameOf(i.names)} — ${t(`x.r.${i.rarity}` as Key)}${worn(i) ? " " + t("x.wornLabel" as Key): ""}`, "aria-pressed": String(picked === i.id),
         style: `border-color:${RARITY_COLOR[i.rarity]}`, onclick: () => { picked = picked === i.id ? null : i.id; render(); } },
         glyph(i, true), (has.get(i.id) ?? 0) > 1 ? el("small", {}, `×${has.get(i.id)}`) : null)))
         : el("p", { class: "tk-mute" }, t("x.empty")),
