@@ -126,7 +126,7 @@ const place = () => native?.place(x, y);
 const clampX = (v: number) => clampTo(v, floor);
 const groundY = () => groundOf(floor);
 /** less motion (issue #58): the setting, or the computer's reduced-motion preference — the same check as talk.ts */
-const lessMotion => prefs().lessMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const lessMotion = () => prefs().lessMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let home = 0;
 function setHome(at: number) {
   home = at;
