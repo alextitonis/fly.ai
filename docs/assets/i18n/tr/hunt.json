@@ -1,12 +1,12 @@
 {
   "meta": {
-    "title": "Fly Hunt: beş ipucu, beş Trader Fly",
-    "description": "fly.ai'nin her yerine saklanmış ipuçları. Sırayla çöz: bitiren ilk beş cüzdan birer Trader Fly kazanır."
+    "title": "Noel Baba Avı: beş ipucu, iki hediye",
+    "description": "Noel Baba fly.ai'ye iki ücretsiz hediye sakladı. Beş ipucunu sırayla çöz: bitiren ilk iki cüzdan birer hediye kazanır."
   },
   "head": {
     "eyebrow": "Fly Hunt",
-    "title": "Sineği bul",
-    "lede": "fly.ai'nin her yerine saklanmış beş ipucu. Her cevap bir sonrakini açar. Hepsini ilk çözen beş cüzdan birer Trader Fly kazanır."
+    "title": "Noel Baba Avı",
+    "lede": "Noel Baba fly.ai'ye iki ücretsiz hediye sakladı. Beş ipucu var, her cevap bir sonrakini açar. Hepsini ilk çözen iki cüzdan bir hediye kazanır."
   },
   "status": {
     "loading": "Yükleniyor…",
@@ -26,16 +26,16 @@
     "wrong": "Olmadı. Bu ipucu için bu saat {n} hakkın kaldı.",
     "right": "Doğru! İşte sıradaki ipucu.",
     "lockedOut": "Çok fazla yanlış deneme. {min} dk sonra tekrar dene.",
-    "won": "Sineği buldun! {n}. sıradasın.",
-    "wonNext": "Ekip bitirenleri kontrol ediyor, sonra Trader Fly'ını bu cüzdana gönderiyor. 🔔'ını takip et.",
+    "won": "Noel Baba'nın hediyesini buldun! #{n}. sıradasın.",
+    "wonNext": "Ekip bitirenleri kontrol eder, sonra hediyeni bu cüzdana gönderir. 🔔'yu takip et.",
     "finished": "{n}. sırada bitirdin.",
-    "finishedNext": "Beş ödül daha hızlı avcılara gitti, ama kontrollerde biri elenirse sıradaki bitiren yukarı çıkar."
+    "finishedNext": "İki hediye daha hızlı avcılara gitti; ama kontrolde biri elenirse sıradaki bitiren yukarı çıkar."
   },
   "how": {
     "title": "Nasıl çalışır",
     "clues": "<b>İpuçları.</b> Her ipucu seni fly.ai'de bir yere götürür. Bazı cevaplar canlı verilere göre değişir: av sürerken doğru olan bir cevap yine sayılır.",
     "answers": "<b>Cevaplamak.</b> Büyük/küçük harf, boşluklar ve baştaki # veya $ fark etmez. 10 saniyede bir deneme, ipucu başına saatte beş yanlış deneme.",
-    "prize": "<b>Ödül.</b> Son ipucunu ilk çözen beş cüzdan, o cüzdana gönderilen birer Trader Fly kazanır. İşlem yapması ve Fly Desk ödemelerinden pay alması için onu aktifleştir.",
+    "prize": "<b>Ödül.</b> Son ipucunu ilk çözen iki cüzdan, Noel Baba'dan birer hediye kazanır; hediye o cüzdana gönderilir.",
     "fair": "<b>Adil oyun.</b> Kişi başı bir cüzdan. Bir şey gönderilmeden önce bitirenler kontrol edilir: cüzdan halkaları ve bağlantılı cüzdanlar arasında paylaşılan cevaplar elenir, sıradaki bitiren yukarı çıkar."
   }
 }
