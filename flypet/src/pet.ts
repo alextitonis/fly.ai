@@ -125,6 +125,8 @@ async function measure() {
 const place = () => native?.place(x, y);
 const clampX = (v: number) => clampTo(v, floor);
 const groundY = () => groundOf(floor);
+/** less motion (issue #58): the setting, or the computer's reduced-motion preference — the same check as talk.ts */
+const lessMotion => prefs().lessMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let home = 0;
 function setHome(at: number) {
   home = at;
@@ -136,10 +138,15 @@ function tick() {
   nextReaction(now);
   if (talking || away || game) return;                 // it stays put under its chat; away on a trip or in the swat game, nothing here
   if (perched && state === "idle") {                   // on a window: it sits, then hops down after a while
-    if (now >= perched.until) { perched = null; state = "falling"; vx = (Math.random() - 0.5) * 6; vy = -3; play("fall"); }
+    if (now >= perched.until) {
+      perched = null;
+      if (lessMotion()) { y = groundY(); vx = vy = 0; state = "idle"; restUntil = now + 1500; setHome(x); play("idle"); place(); }
+      else { state = "falling"; vx = (Math.random() - 0.5) * 6; vy = -3; play("fall"); }
+    }
     return;
   }
   if (state === "falling") {
+    if (lessMotion()) { y = groundY(); vx = vy = 0; state = "idle"; restUntil = now + 1500; setHome(x); play("idle"); place(); return; }
     vy += GRAVITY; x = clampX(x + vx); y += vy;
     if (y >= groundY()) {
       y = groundY();
@@ -151,9 +158,12 @@ function tick() {
   } else if (state === "acting") {
     if (now >= busyUntil && !queue.length) { state = "idle"; restUntil = now + 1500; play("idle"); }
   } else if (state === "walking") {
-    const d = targetX - x;
-    if (Math.abs(d) <= WALK_PX) { state = "idle"; restUntil = now + 4000 + Math.random() * 15000; play("idle"); }
-    else { x += Math.sign(d) * WALK_PX; place(); }
+    if (lessMotion()) { state = "idle"; restUntil = now + 5000; play("idle"); }   // the switch stops it mid-walk
+    else {
+      const d = targetX - x;
+      if (Math.abs(d) <= WALK_PX) { state = "idle"; restUntil = now + 4000 + Math.random() * 15000; play("idle"); }
+      else { x += Math.sign(d) * WALK_PX; place(); }
+    }
   } else if (state === "sleeping") {
     if (!asleepAt(new Date().getHours())) { state = "idle"; restUntil = now + 1000; play("wave"); say(t("gm", { day: daysTogether(prefs().born, now) + 1 })); }
   } else if (state === "idle" && now >= restUntil && !focusUntil && tryPerch(now)) {
@@ -162,7 +172,7 @@ function tick() {
     restUntil = now + 5000;                            // focus time: it stays put and keeps you company
   } else if (state === "idle" && now >= restUntil) {
     if (asleepAt(new Date().getHours())) { state = "sleeping"; play("sleep"); }
-    else if (prefs().quiet || Math.random() < 0.4) restUntil = now + 8000 + Math.random() * 20000;
+    else if (prefs().quiet || lessMotion() || Math.random() < 0.4) restUntil = now + 8000 + Math.random() * 20000;
     else {
       targetX = paceTarget(home, x, Math.random(), clampX(-Infinity), clampX(Infinity));
       look.classList.toggle("left", targetX < x);
@@ -200,7 +210,8 @@ fly.addEventListener("pointerup", () => {
   grab = null;
   if (!was) return;
   if (was.moved) {
-    state = "falling"; play("fall");
+    if (lessMotion()) { y = groundY(); vx = vy = 0; state = "idle"; restUntil = Date.now() + 1500; setHome(x); play("idle"); place(); }
+    else { state = "falling"; play("fall"); }
     void measure();
     return;
   }
@@ -229,6 +240,7 @@ function swatGame() {
 function hop() {
   if (!game) return;
   if (swatOver(Date.now(), game.until)) { endGame(); return; }
+  if (lessMotion()) { game.timer = window.setTimeout(hop, 500); return; }   // it stays put: still clickable, still timed
   ({ x, y } = hopSpot(floor, Math.random(), Math.random()));
   look.classList.toggle("left", Math.random() < 0.5);
   place(); play("walk");
@@ -311,7 +323,8 @@ function onFront(w: Win | null) {
   if (fallsOff(perched, was, w)) {
     // its window moved or went away: it buzzes off and falls to the ground
     perched = null;
-    state = "falling"; vx = (Math.random() - 0.5) * 8; vy = -5; play("fall");
+    if (lessMotion()) { y = groundY(); vx = vy = 0; state = "idle"; restUntil = Date.now() + 1500; setHome(x); play("idle"); place(); }
+    else { state = "falling"; vx = (Math.random() - 0.5) * 8; vy = -5; play("fall"); }
   }
 }
 
@@ -427,7 +440,8 @@ const expeditions = setupExpeditions({
     play("wave");
     away = true;                                       // still for the take-off; the pill shows once it's gone
     look.classList.add("leaving");
-    setTimeout(() => { away = false; look.classList.remove("leaving"); syncTrip(expeditions.view()); }, 1200);
+    // less motion: it snaps away at once, so no 1200 ms wait before the trip pill shows
+    setTimeout(() => { away = false; look.classList.remove("leaving"); syncTrip(expeditions.view()); }, lessMotion() ? 0 : 1200);
   },
   claimed: () => { gift.hidden = true; talk.refresh(); },
   fed: (xp) => {
