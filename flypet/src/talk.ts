@@ -6,7 +6,7 @@
 //   - the alpha calls (the Discord bot's, discord/src/alpha.ts), each with Watch, Chart and Copy
 // with quick buttons (What are you doing? / Need anything? / Watch a token / Pause-Resume) and the box to type in.
 import { t, type Key } from "./i18n.ts";
-import { addWatch } from "./logic.ts";
+import { addWatch, watchMax } from "./logic.ts";
 import {
   alphaCalls, chatAnswer, chatRead, chatSend, chatWatch, flyFeed, notes, prefs, saveSettings, SignedOut,
   type AlphaCall, type ChatMe, type ChatMsg, type FlyFeed, type LogRow,
@@ -15,7 +15,7 @@ import type { Expeditions } from "./expeditions.ts";
 
 const native = window.flyNative;
 const SITE = "https://www.flyaiworld.com";
-const WATCH_MAX = 5, REFRESH_MS = 60_000, DESK_MS = 20_000, DAY_MS = 86_400_000;
+const REFRESH_MS = 60_000, DESK_MS = 20_000, DAY_MS = 86_400_000;
 const TRADES_SHOWN = 12, CALLS_SHOWN = 6;
 const ADDRESS = /^0x[0-9a-fA-F]{40}$/;
 
@@ -216,11 +216,12 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
       if (m.card.kind === "settings") await saveSettings(fresh.wallet, m.card.after, fresh.who);
       else if (m.card.kind === "watch") {
         const base = fresh.settings ?? {};
-        const watch = addWatch(base.watch, m.card.token, WATCH_MAX);
+        const max = watchMax(fresh.fly?.value);
+        const watch = addWatch(base.watch, m.card.token, max);
         if (!watch) {   // the list is already full: say so instead of approving a watch that never happens
           await tell("failed");
           mark("failed");
-          note.textContent = t("p.full", { n: WATCH_MAX });
+          note.textContent = t("p.full", { n: max });
           return;
         }
         await saveSettings(fresh.wallet, { ...base, watch }, fresh.who);
@@ -241,7 +242,8 @@ export function setupTalk(box: HTMLElement, hooks: { onClose: () => void; onSign
   function watchCard(token: string) {
     const w: string[] = (feed?.settings?.watch ?? []).map((x: string) => x.toLowerCase());
     if (w.includes(token.toLowerCase())) { note.textContent = t("p.already"); return; }
-    if (w.length >= WATCH_MAX) { note.textContent = t("p.full", { n: WATCH_MAX }); return; }
+    const max = watchMax(feed?.fly?.value);
+    if (w.length >= max) { note.textContent = t("p.full", { n: max }); return; }
     msgs.push({ id: localId--, at: Date.now(), role: "fly", text: t("p.watchAsk"), card: { kind: "watch", token: token.toLowerCase() },
       status: "pending", desk: null, local: true });
     render(true);

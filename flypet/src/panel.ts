@@ -5,7 +5,7 @@
 //   2. pick: one of the wallet's flies or partner NFTs (the fly chat's inbox), the one that lives on the desktop
 //   3. the fly: its log, a chat (cards approved here: settings and watch lists only; money moves open the site), the alpha calls
 import { t, type Key } from "./i18n.ts";
-import { addWatch } from "./logic.ts";
+import { addWatch, watchMax } from "./logic.ts";
 import {
   alphaCalls, applyLang, chatAnswer, coachForget, chatRead, chatSend, chatWatch, claimLink, flyFeed, inbox, newLink, prefs, saveSettings,
   setPrefs, signedIn, SignedOut, type AlphaCall, type ChatMe, type ChatMsg, type FlyFeed, type InboxRow, type Who,
@@ -14,7 +14,7 @@ import {
 const native = window.flyNative;
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const SITE = "https://www.flyaiworld.com";
-const LINK_POLL_MS = 3000, FLY_MS = 60_000, CHAT_MS = 20_000, ALPHA_MS = 120_000, WATCH_MAX = 5;
+const LINK_POLL_MS = 3000, FLY_MS = 60_000, CHAT_MS = 20_000, ALPHA_MS = 120_000;
 const ADDRESS = /^0x[0-9a-fA-F]{40}$/;
 
 const el = <K extends keyof HTMLElementTagNameMap>(tag: K, props: Record<string, any> = {}, ...kids: (Node | string | null | false | undefined)[]) => {
@@ -309,11 +309,12 @@ async function answer(m: ChatMsg, ok: boolean) {
     if (m.card.kind === "settings") await saveSettings(fresh.wallet, m.card.after, fresh.who);
     else if (m.card.kind === "watch") {
       const base = fresh.settings ?? {};
-      const watch = addWatch(base.watch, m.card.token, WATCH_MAX);
+      const max = watchMax(fresh.fly?.value);
+      const watch = addWatch(base.watch, m.card.token, max);
       if (!watch) {   // the list is already full: say so instead of approving a watch that never happens
         await tell("failed");
         mark("failed");
-        $("chatNote").textContent = t("p.full", { n: WATCH_MAX });
+        $("chatNote").textContent = t("p.full", { n: max });
         return;
       }
       await saveSettings(fresh.wallet, { ...base, watch }, fresh.who);
@@ -334,7 +335,8 @@ async function answer(m: ChatMsg, ok: boolean) {
 function watchCard(token: string) {
   const w: string[] = (feed?.settings?.watch ?? []).map((x: string) => x.toLowerCase());
   if (w.includes(token.toLowerCase())) { $("chatNote").textContent = t("p.already"); return; }
-  if (w.length >= WATCH_MAX) { $("chatNote").textContent = t("p.full", { n: WATCH_MAX }); return; }
+  const max = watchMax(feed?.fly?.value);
+  if (w.length >= max) { $("chatNote").textContent = t("p.full", { n: max }); return; }
   msgs.push({ id: localId--, at: Date.now(), role: "fly", text: t("p.watchAsk"), card: { kind: "watch", token: token.toLowerCase() },
     status: "pending", desk: null, local: true });
   setTab("chat");

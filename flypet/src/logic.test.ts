@@ -5,7 +5,7 @@ import {
   FOCUS_MS, H, SPRITE, SWAT_MS, W, clampX, fallsOff, focusClock, focusDay, groundY, hopDelay, hopSpot, landing,
   nameIn, perchSpot, perchUntil, span, swatEnd, swatOver, tripState, type Win,
 } from "./logic.ts";
-import { addWatch } from "./logic.ts";
+import { addWatch, watchMax } from "./logic.ts";
 import type { Names6 } from "./store.ts";
 
 const floor = { left: 0, right: 1920, top: 0, bottom: 1040 };       // a 1080p screen with a 40 px taskbar
@@ -140,5 +140,17 @@ assert.deepEqual(addWatch([A, B], F, 5), [A, B, F]);
 assert.deepEqual(addWatch([A], "0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 5), [A]);        // already watched: no duplicate
 assert.equal(addWatch([A, B, C, D, E], F, 5), null);                                          // full + a new token: refused, not dropped
 assert.deepEqual(addWatch([A, B, C, D, E], E, 5), [A, B, C, D, E]);                           // full but already watched: fine
+
+// The cap follows the fly's value, the desk's tiers: 5, 10 over $100, 15 over $500 (issue #89).
+assert.equal(watchMax(99.99), 5);
+assert.equal(watchMax(100), 5);        // "over $100": exactly $100 is still 5
+assert.equal(watchMax(100.01), 10);
+assert.equal(watchMax(499.99), 10);
+assert.equal(watchMax(500), 10);       // "over $500": exactly $500 is still 10
+assert.equal(watchMax(500.01), 15);
+assert.equal(watchMax(0), 5);
+assert.equal(watchMax(undefined), 5);  // no value known yet: the smallest cap, never a bigger one
+assert.equal(watchMax(null), 5);
+assert.deepEqual(addWatch([A, B, C, D, E], F, watchMax(300)), [A, B, C, D, E, F]);   // a $300 fly's 6th token goes through
 
 console.log("logic tests ok");

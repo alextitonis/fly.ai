@@ -85,6 +85,14 @@ export function tripState(trip: { started_at: number; ends_at: number }, now: nu
 }
 
 // ---- the watch list (panel.ts / talk.ts answer()) ------------------------------------------------------------------
+/** how many tokens a fly may watch, by the fly's value: the desk's tiers (mine flychat's watch_token: 5, 10 once
+ * the wallet is over $100, 15 over $500). The pet already receives the value (FlyFeed.fly.value), so both the
+ * approve path and the local watch card derive the cap from it instead of a flat 5. */
+export function watchMax(value: number | null | undefined): number {
+  if (value != null && value > 500) return 15;
+  if (value != null && value > 100) return 10;
+  return 5;
+}
 /** the watch list with a token added, or null when the token is new and the list is already full: approving a watch
  * card must never silently drop the token. The old inline merge ([...new Set([...watch, token])].slice(0, max)) kept
  * the old tokens and threw the new one away, while the card still showed "Done" and the Fly Desk was told the fly
