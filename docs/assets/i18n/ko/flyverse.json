@@ -845,7 +845,7 @@
     "b_fvace": "Flyverse 에이스",
     "n_fvtester": "비공개 테스트 참가자용",
     "n_fvcreator": "최고 게임의 실제 플레이어 {have}/{need}명 (또는 Fly Jam 3위 안)",
-    "n_fvace": "1위인 게임 {have}/{need}개 (또는 일일 챌린지 우승)",
+    "n_fvace": "{have}/{need} 게임에서 1위 (순위표에 3명 이상, 또는 일일 챌린지 우승)",
     "earned": "획득: 배지 페이지에서 받으세요 ✓"
   },
   "builds": {

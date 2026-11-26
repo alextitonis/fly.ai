@@ -856,7 +856,7 @@
     "b_fvace": "As de Flyverse",
     "n_fvtester": "para los testers de la prueba cerrada",
     "n_fvcreator": "{have}/{need} jugadores reales en tu mejor juego (o top 3 en una Fly Jam)",
-    "n_fvace": "{have}/{need} juegos donde eres el n.º 1 (o gana un reto diario)",
+    "n_fvace": "{have}/{need} juegos donde eres el n.º 1 en una tabla de 3+ jugadores (o gana un reto diario)",
     "earned": "Conseguida: reclámala en tu página de insignias ✓"
   },
   "builds": {

@@ -845,7 +845,7 @@
     "b_fvace": "Flyverse 高手",
     "n_fvtester": "给封闭测试的测试者",
     "n_fvcreator": "你最好的游戏有 {have}/{need} 位真实玩家（或在 Fly Jam 进前 3）",
-    "n_fvace": "你排第 1 的游戏 {have}/{need} 个（或赢下一次每日挑战）",
+    "n_fvace": "{have}/{need} 个游戏排名第一（排行榜至少 3 名玩家，或赢得每日挑战）",
     "earned": "已获得：去徽章页面领取 ✓"
   },
   "builds": {
