@@ -225,6 +225,12 @@ function handleCalls() {
     if (on) pet.focus(); else pet.blur();
     keepOnTop();
   });
+  // a game that can't take the keyboard (the pet window is focusable: false, and closeTalk turns focus off): while a
+  // game runs, Escape is a temporary global shortcut that ends it from anywhere; unregistered when the game ends
+  ipcMain.on("game-escape", (_e, on: boolean) => {
+    if (on) globalShortcut.register("Escape", () => pet.webContents.send("game-escape"));
+    else globalShortcut.unregister("Escape");
+  });
   ipcMain.on("menu", () => menu().popup({ window: pet }));
   ipcMain.on("panel", (_e, what: string) => showPanel(typeof what === "string" ? what : ""));
   ipcMain.on("panel-close", () => { panel?.close(); pet.webContents.send("open", ""); });   // picked: the chat opens on the fly

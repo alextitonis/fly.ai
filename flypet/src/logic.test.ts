@@ -2,7 +2,8 @@
 import assert from "node:assert/strict";
 import { setLang } from "./i18n.ts";
 import {
-  FOCUS_MS, H, SPRITE, SWAT_MS, W, clampX, fallsOff, focusClock, focusDay, groundY, hopDelay, hopSpot, landing,
+  FOCUS_MS, H, SPRITE, SWAT_MS, W, clampX, crumbDelay, crumbEnd, crumbLanded, crumbOver, crumbSpot, crumbY, CRUMB_MS,
+  CRUMB_SIZE, fallsOff, focusClock, focusDay, groundY, hopDelay, hopSpot, landing,
   nameIn, perchSpot, perchUntil, span, swatEnd, swatOver, tripState, type Win,
 } from "./logic.ts";
 import { addWatch } from "./logic.ts";
@@ -52,6 +53,37 @@ assert.deepEqual(swatEnd(4, 4), { best: 4, record: false, mood: "happy", line: "
 // the first game sets a best without the "new best" line
 assert.deepEqual(swatEnd(5, 0), { best: 5, record: true, mood: "moon", line: "g.score", vars: { n: 5, best: 5 } });
 assert.deepEqual(swatEnd(0, 0), { best: 0, record: false, mood: "happy", line: "g.score", vars: { n: 0, best: 0 } });
+
+// ---- the crumb game (issue #59) ----
+assert.equal(CRUMB_MS, 30_000);
+// a crumb spawns across the window, just above the top edge
+for (const rx of [0, 0.5, 0.999]) {
+  const s = crumbSpot(rx);
+  assert.ok(s.x >= 0 && s.x + CRUMB_SIZE <= W, `x=${s.x}`);
+  assert.equal(s.y, -CRUMB_SIZE);
+}
+// it falls 140 px a second
+assert.equal(crumbY(0, 1000), 140);
+assert.equal(crumbY(-28, 500), 42);
+// and is gone once it reaches the ground
+assert.equal(crumbLanded(H - CRUMB_SIZE), true);
+assert.equal(crumbLanded(H - CRUMB_SIZE - 1), false);
+// faster as the seconds run out: 900 ms at the start, 500 ms at the end
+const cUntil = 1_000_000 + CRUMB_MS;
+assert.equal(crumbDelay(1_000_000, cUntil), 900);
+assert.equal(crumbDelay(1_000_000 + CRUMB_MS / 2, cUntil), 700);
+assert.equal(crumbDelay(cUntil, cUntil), 500);
+// the game ending mid-fall: a spawn that fires at or after the end ends the game instead of spawning
+assert.equal(crumbOver(cUntil - 1, cUntil), false);
+assert.equal(crumbOver(cUntil, cUntil), true);
+assert.equal(crumbOver(cUntil + 250, cUntil), true);
+// game over
+assert.deepEqual(crumbEnd(7, 4), { best: 7, record: true, mood: "moon", line: "g.crumbNewBest", vars: { n: 7 } });
+assert.deepEqual(crumbEnd(3, 4), { best: 4, record: false, mood: "happy", line: "g.crumbScore", vars: { n: 3, best: 4 } });
+assert.deepEqual(crumbEnd(4, 4), { best: 4, record: false, mood: "happy", line: "g.crumbScore", vars: { n: 4, best: 4 } });
+// the first game sets a best without the "new best" line
+assert.deepEqual(crumbEnd(5, 0), { best: 5, record: true, mood: "moon", line: "g.crumbScore", vars: { n: 5, best: 5 } });
+assert.deepEqual(crumbEnd(0, 0), { best: 0, record: false, mood: "happy", line: "g.crumbScore", vars: { n: 0, best: 0 } });
 
 // ---- focus time ----
 assert.equal(FOCUS_MS, 25 * 60_000);

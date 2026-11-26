@@ -31,6 +31,9 @@
       #gift { position: absolute; left: 50%; bottom: 150px; margin-left: 34px; font-size: 22px; cursor: pointer; animation: xp-bob 1.2s ease-in-out infinite; }
       @keyframes xp-bob { 50% { transform: translateY(-5px); } }
       .trail { position: absolute; bottom: 8px; font-size: 16px; pointer-events: none; animation: xp-trail 1.2s ease-out forwards; }
+      /* the crumb game (issue #59): crumbs fall inside the pet window, a click catches one */
+      .crumb { position: absolute; z-index: 2; background: none; border: 0; padding: 0; font-size: 26px; line-height: 1; cursor: pointer;
+        font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif; }
       @keyframes xp-trail { from { opacity: .9; transform: translate(0, 0) scale(1); } to { opacity: 0; transform: translate(var(--dx), -18px) scale(.6); } }
       body.talking #gift, body.talking #away, body.talking #focus { display: none; }
       .trail.xp-art { width: 20px; height: 20px; }
