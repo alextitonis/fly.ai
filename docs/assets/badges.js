@@ -9,8 +9,8 @@ const EXPLORER = "https://robinhoodchain.blockscout.com/token/";
 const SESSION_KEY = "flyai.compute.session";
 const IDS = { larva: 1, lord: 2, diamond: 3, og: 4, flyowner: 5, swarm: 6, queen: 7, payday: 8, payroll: 9, recruiter: 10, piedpiper: 11, ambassador: 12, champion: 13, fvtester: 14, fvcreator: 15, fvace: 16,
   boxopener: 17, boxhoarder: 18, jackpot: 19 };
-// the Fly Boxes badges show from the sale start, like the boxes (2026-11-28 10:00 UTC; ?boxes-preview shows them early)
-const BOXES_AT = Date.parse("2026-11-28T10:00:00Z");
+// the Fly Boxes badges show from the sale start, like the boxes (2026-11-28 09:00 UTC; ?boxes-preview shows them early)
+const BOXES_AT = Date.parse("2026-11-28T09:00:00Z");
 const KEYS = Object.keys(IDS).filter((k) => IDS[k] < 17 || Date.now() >= BOXES_AT || /[?&]boxes-preview/.test(location.search));
 if (!window.flyI18n) await new Promise((r) => { addEventListener("i18n:ready", r, { once: true }); setTimeout(r, 3000); });
 

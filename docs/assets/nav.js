@@ -47,8 +47,8 @@
     ["traderflies", "Trader Flies", [
       ["My flies", "/traderflies/", "Your flies, their wallets, what's next", false, false, "myFlies"],
       ["Market", "/traderflies/market", "Buy and sell Trader Flies", false, false, "flyMarket"],
-      // 2026-11-28: Fly Boxes (flytrade/FLYBOXES-PLAN.md), shown from the sale start (10:00 UTC) on its own
-      ...(Date.now() >= Date.parse("2026-11-28T10:00:00Z") || /[?&]boxes-preview/.test(location.search)
+      // 2026-11-28: Fly Boxes (flytrade/FLYBOXES-PLAN.md), shown from the sale start (09:00 UTC, user 11-28) on its own
+      ...(Date.now() >= Date.parse("2026-11-28T09:00:00Z") || /[?&]boxes-preview/.test(location.search)
         ? [["Fly Boxes", "/traderflies/boxes", "Sealed gift boxes, opened on Dec 12", false, true, "flyBoxes"]] : []),
       ["Breed", "/traderflies/breed", "Merge two flies into one"],
       ["Leaderboard", "/traderflies/leaderboard", "Every Fly Wallet's results, live", false, false, "leaderboard"],
