@@ -1087,7 +1087,11 @@
     "reward_had": "Bu bölüm için {amount} $FLYAI'yi zaten aldın. Turun yine de sayılır.",
     "reward_hold": "Bölümü bitirme ödülü için en az 1 $FLYAI tut.",
     "reward_cap": "Bu bölümün ödülleri bitti. Turun yine de sayılır.",
-    "reward_line": "🎁 Sahneyi bitir: {amount} $FLYAI, cüzdan başına bir kez (giriş yapmış ve en az 1 $FLYAI tutan)."
+    "reward_line": "🎁 Sahneyi bitir: {amount} $FLYAI, cüzdan başına bir kez (giriş yapmış ve en az 1 $FLYAI tutan).",
+    "reward_paid": "✅ Bu bölüm için {amount} $FLYAI aldın",
+    "reward_owed": "🎁 Bu bölüm için {amount} $FLYAI kazandın: cüzdanına gönderiliyor",
+    "reward_given": "{cap} ödülün {given} tanesi verildi",
+    "view_tx": "işlemi gör"
   },
   "race": {
     "circuit": "Pist {n}/{total}",

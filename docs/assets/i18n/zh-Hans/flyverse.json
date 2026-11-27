@@ -1076,7 +1076,11 @@
     "reward_had": "你已经拿过本集的 {amount} $FLYAI。你的成绩照样计入。",
     "reward_hold": "持有至少 1 个 $FLYAI 才能领取完成本集的奖励。",
     "reward_cap": "本集奖励已发完。你的成绩照样计入。",
-    "reward_line": "🎁 完成这一幕：{amount} $FLYAI，每个钱包一次（需登录并持有至少 1 个 $FLYAI）。"
+    "reward_line": "🎁 完成这一幕：{amount} $FLYAI，每个钱包一次（需登录并持有至少 1 个 $FLYAI）。",
+    "reward_paid": "✅ 你已领取本集 {amount} $FLYAI",
+    "reward_owed": "🎁 你赢得了本集 {amount} $FLYAI：正在发往你的钱包",
+    "reward_given": "已发 {given} / {cap}",
+    "view_tx": "查看交易"
   },
   "race": {
     "circuit": "赛道 {n}/{total}",

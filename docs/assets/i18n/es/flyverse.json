@@ -1087,7 +1087,11 @@
     "reward_had": "Ya recibiste {amount} $FLYAI por este episodio. Tu partida sigue contando.",
     "reward_hold": "Ten al menos 1 $FLYAI para recibir la recompensa por terminar el episodio.",
     "reward_cap": "Las recompensas de este episodio ya se repartieron. Tu partida sigue contando.",
-    "reward_line": "🎁 Termina la escena: {amount} $FLYAI, una vez por wallet (con sesión iniciada y al menos 1 $FLYAI)."
+    "reward_line": "🎁 Termina la escena: {amount} $FLYAI, una vez por wallet (con sesión iniciada y al menos 1 $FLYAI).",
+    "reward_paid": "✅ Recibiste {amount} $FLYAI por este episodio",
+    "reward_owed": "🎁 Ganaste {amount} $FLYAI por este episodio: van en camino a tu wallet",
+    "reward_given": "{given} de {cap} entregadas",
+    "view_tx": "ver transacción"
   },
   "race": {
     "circuit": "Circuito {n}/{total}",

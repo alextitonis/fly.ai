@@ -1076,7 +1076,11 @@
     "reward_had": "이번 에피소드의 {amount} $FLYAI는 이미 받았어요. 기록은 그대로 반영돼요.",
     "reward_hold": "에피소드 완료 보상을 받으려면 $FLYAI를 1개 이상 보유하세요.",
     "reward_cap": "이번 에피소드 보상이 모두 지급됐어요. 기록은 그대로 반영돼요.",
-    "reward_line": "🎁 장면 완료 시 {amount} $FLYAI, 지갑당 1회 (로그인 + $FLYAI 1개 이상 보유)."
+    "reward_line": "🎁 장면 완료 시 {amount} $FLYAI, 지갑당 1회 (로그인 + $FLYAI 1개 이상 보유).",
+    "reward_paid": "✅ 이번 에피소드 {amount} $FLYAI 받음",
+    "reward_owed": "🎁 이번 에피소드 {amount} $FLYAI 획득: 지갑으로 보내는 중",
+    "reward_given": "{cap}개 중 {given}개 지급",
+    "view_tx": "거래 보기"
   },
   "race": {
     "circuit": "서킷 {n}/{total}",

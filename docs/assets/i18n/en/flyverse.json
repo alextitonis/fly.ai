@@ -1065,7 +1065,11 @@
     "reward_had": "You already got {amount} $FLYAI for this episode. Your run still counts.",
     "reward_hold": "Hold at least 1 $FLYAI to get the reward for finishing the episode.",
     "reward_cap": "The episode's rewards are all given out. Your run still counts.",
-    "reward_line": "🎁 Finish the scene: {amount} $FLYAI, once per wallet (hold at least 1 $FLYAI, signed in)."
+    "reward_line": "🎁 Finish the scene: {amount} $FLYAI, once per wallet (hold at least 1 $FLYAI, signed in).",
+    "reward_paid": "✅ You got {amount} $FLYAI for this episode",
+    "reward_owed": "🎁 You earned {amount} $FLYAI for this episode: it's on its way to your wallet",
+    "reward_given": "{given} of {cap} given",
+    "view_tx": "view transaction"
   },
   "race": {
     "circuit": "Circuit {n}/{total}",
