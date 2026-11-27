@@ -1082,7 +1082,12 @@
     "run_won": "Başardın. Turun gelecek haftanın bölümüne sayılır.",
     "run_lost": "Bu sefer olmadı. Tekrar dene: sadece başarılı turlar sayılır.",
     "back": "Hikâyeye dön",
-    "team_open": "Ekip: ilk bölümü yap"
+    "team_open": "Ekip: ilk bölümü yap",
+    "reward_new": "🎁 Başardın! {amount} $FLYAI senin, hafta sonuna kadar bu cüzdana gönderilecek.",
+    "reward_had": "Bu bölüm için {amount} $FLYAI'yi zaten aldın. Turun yine de sayılır.",
+    "reward_hold": "Bölümü bitirme ödülü için en az 1 $FLYAI tut.",
+    "reward_cap": "Bu bölümün ödülleri bitti. Turun yine de sayılır.",
+    "reward_line": "🎁 Sahneyi bitir: {amount} $FLYAI, cüzdan başına bir kez (giriş yapmış ve en az 1 $FLYAI tutan)."
   },
   "race": {
     "circuit": "Pist {n}/{total}",

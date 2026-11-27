@@ -1071,7 +1071,12 @@
     "run_won": "성공! 기록이 다음 주 에피소드에 반영됩니다.",
     "run_lost": "이번엔 실패. 다시 도전하세요: 성공한 기록만 반영됩니다.",
     "back": "스토리로 돌아가기",
-    "team_open": "팀: 첫 에피소드 만들기"
+    "team_open": "팀: 첫 에피소드 만들기",
+    "reward_new": "🎁 성공! {amount} $FLYAI는 당신 것, 이번 주 안에 이 지갑으로 보내드려요.",
+    "reward_had": "이번 에피소드의 {amount} $FLYAI는 이미 받았어요. 기록은 그대로 반영돼요.",
+    "reward_hold": "에피소드 완료 보상을 받으려면 $FLYAI를 1개 이상 보유하세요.",
+    "reward_cap": "이번 에피소드 보상이 모두 지급됐어요. 기록은 그대로 반영돼요.",
+    "reward_line": "🎁 장면 완료 시 {amount} $FLYAI, 지갑당 1회 (로그인 + $FLYAI 1개 이상 보유)."
   },
   "race": {
     "circuit": "서킷 {n}/{total}",

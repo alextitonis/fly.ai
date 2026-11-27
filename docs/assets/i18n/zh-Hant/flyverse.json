@@ -1071,7 +1071,12 @@
     "run_won": "你成功了。你的成績會計入下週的劇集。",
     "run_lost": "這次沒成功。再試一次：只有成功的成績才會計入。",
     "back": "返回故事",
-    "team_open": "團隊：製作第一集"
+    "team_open": "團隊：製作第一集",
+    "reward_new": "🎁 你成功了！{amount} $FLYAI 歸你，本週結束前發到這個錢包。",
+    "reward_had": "你已經拿過本集的 {amount} $FLYAI。你的成績照樣計入。",
+    "reward_hold": "持有至少 1 個 $FLYAI 才能領取完成本集的獎勵。",
+    "reward_cap": "本集獎勵已發完。你的成績照樣計入。",
+    "reward_line": "🎁 完成這一幕：{amount} $FLYAI，每個錢包一次（需登入並持有至少 1 個 $FLYAI）。"
   },
   "race": {
     "circuit": "賽道 {n}/{total}",

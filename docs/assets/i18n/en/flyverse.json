@@ -1060,7 +1060,12 @@
     "run_won": "You made it. Your run counts toward next week's episode.",
     "run_lost": "Not this time. Try again: only runs that make it count.",
     "back": "Back to the story",
-    "team_open": "Team: make the first story episode"
+    "team_open": "Team: make the first story episode",
+    "reward_new": "🎁 You made it! {amount} $FLYAI is yours, sent to this wallet by the end of the week.",
+    "reward_had": "You already got {amount} $FLYAI for this episode. Your run still counts.",
+    "reward_hold": "Hold at least 1 $FLYAI to get the reward for finishing the episode.",
+    "reward_cap": "The episode's rewards are all given out. Your run still counts.",
+    "reward_line": "🎁 Finish the scene: {amount} $FLYAI, once per wallet (hold at least 1 $FLYAI, signed in)."
   },
   "race": {
     "circuit": "Circuit {n}/{total}",

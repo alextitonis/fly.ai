@@ -1082,7 +1082,12 @@
     "run_won": "Lo lograste. Tu partida cuenta para el episodio de la próxima semana.",
     "run_lost": "Esta vez no. Inténtalo de nuevo: solo cuentan las partidas que lo logran.",
     "back": "Volver a la historia",
-    "team_open": "Equipo: crear el primer episodio"
+    "team_open": "Equipo: crear el primer episodio",
+    "reward_new": "🎁 ¡Lo lograste! {amount} $FLYAI son tuyos, enviados a esta wallet antes de que acabe la semana.",
+    "reward_had": "Ya recibiste {amount} $FLYAI por este episodio. Tu partida sigue contando.",
+    "reward_hold": "Ten al menos 1 $FLYAI para recibir la recompensa por terminar el episodio.",
+    "reward_cap": "Las recompensas de este episodio ya se repartieron. Tu partida sigue contando.",
+    "reward_line": "🎁 Termina la escena: {amount} $FLYAI, una vez por wallet (con sesión iniciada y al menos 1 $FLYAI)."
   },
   "race": {
     "circuit": "Circuito {n}/{total}",
