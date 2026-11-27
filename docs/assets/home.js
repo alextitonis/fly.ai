@@ -63,9 +63,14 @@ async function liveTrade() {
     // longs and shorts (Lighter): "long" | "short" | "close long" | "close short"
     for (const x of f.perps_recent || []) if (PERP[x.side]) all.push({ ...x, perp: true, fly: Number(fly), at: Number(x.at) * 1000 });
   }
-  const t = all.filter((x) => (x.perp || x.side === "buy" || x.side === "sell") && x.tag !== "earn" && x.tag !== "manual"
+  const ok = all.filter((x) => (x.perp || x.side === "buy" || x.side === "sell") && x.tag !== "earn" && x.tag !== "manual"
     && !/^(hip4|azuro|poly):/.test(x.symbol || "") && /^[\x20-\x7e]+$/.test(shortSym(x.symbol || ""))
-    && !SKIP_WHY.test(x.why || "")).sort((a, b) => b.at - a.at)[0];
+    && !SKIP_WHY.test(x.why || "")).sort((a, b) => b.at - a.at);
+  // the wins (2026-11-28, the user: "we shouldn't be showing in the ui such losses ... focus on winnings"): a sale or
+  // close in the red is never shown; the newest win of the last day first, else the newest buy or opened position
+  const closes = (x) => x.side === "sell" || String(x.side).startsWith("close");
+  const won = ok.find((x) => closes(x) && x.pnl_pct != null && Number(x.pnl_pct) > 0 && Date.now() - x.at < 86_400_000);
+  const t = won || ok.find((x) => !closes(x));
   if (!t) return;
   // token symbols are chosen by whoever deploys the token: escaped before they reach innerHTML
   const esc = (x) => String(x).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
