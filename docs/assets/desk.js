@@ -1048,12 +1048,13 @@
     renderPot(pot, hold, stats, log);
     renderScore(await getJson(SCORE_API));
   }
-  // the partner scorecard (2026-11-17, mine /api/activations/scorecard): Trader Flies first, then each partner
+  // the partner scorecard (2026-11-17, mine /api/activations/scorecard): each partner (Trader Flies left out since 11-27)
   const SCORE_API = "https://flyai-mine.fly.dev/api/activations/scorecard";
   function renderScore(sc) {
     const el = $("pp-score");
     if (!el) return;
-    const books = (sc && sc.books) || [];
+    // partners only (2026-11-27, the user: "partners desk shows trader flies"): the Trader Flies row is the Fly Desk's
+    const books = ((sc && sc.books) || []).filter((b) => b.book !== "fly");
     const n = (x) => esc(nf(0).format(x || 0));
     const plus = (x) => (x > 0 ? `<b class="up">+${n(x)}</b>` : `<span class="dim">0</span>`);
     el.innerHTML = `<thead><tr><th>${esc(potSay("thCommunity"))}</th><th class="r">${esc(potSay("thLive"))}</th><th class="r">${esc(potSay("thHoldersNow"))}</th>` +
@@ -1125,7 +1126,8 @@
     // this week's holders: everyone qualifying now (hours are added once an hour), with what they're on track for
     const rows = Object.entries((hold && hold.holders) || {}).map(([w, x]) => ({ w, n: (x.tokens || []).length, hours: x.epoch_hours || 0,
       usd: x.epoch_est_usd || 0, ok: !!x.qualifies }))
-      .filter((r) => r.ok || r.hours > 0 || r.usd > 0).sort((a, c) => c.usd - a.usd || c.hours - a.hours || c.n - a.n).slice(0, 200);
+      // only holders still in (2026-11-27, the user: "shows ... the ones that got withdrawn"): no NFT counted now, not listed
+      .filter((r) => r.ok && r.n > 0).sort((a, c) => c.usd - a.usd || c.hours - a.hours || c.n - a.n).slice(0, 200);
     loadNames(rows.map((r) => r.w));
     const who = (h_) => `<span title="${esc(h_)}">${esc(names[h_] || shortAddr(h_))}</span>`;
     set("pot-holders", `<thead><tr><th>#</th><th>${esc(potSay("thHolder"))}</th><th class="r">${esc(potSay("thNfts"))}</th><th class="r">${esc(potSay("thHours"))}</th><th class="r">${esc(potSay("thUsd"))}</th></tr></thead><tbody>` +
