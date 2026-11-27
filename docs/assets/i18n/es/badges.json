@@ -104,6 +104,18 @@
     "fvace": {
       "name": "As de Flyverse",
       "need": "Gana un reto diario de Flyverse, o sé el n.º 1 en 5 juegos de otras personas."
+    },
+    "boxopener": {
+      "name": "Abrecajas",
+      "need": "Abre una Fly Box."
+    },
+    "boxhoarder": {
+      "name": "Coleccionista de cajas",
+      "need": "Abre 10 Fly Boxes."
+    },
+    "jackpot": {
+      "name": "Premio gordo",
+      "need": "Abre la única Fly Box del premio gordo."
     }
   },
   "share": {

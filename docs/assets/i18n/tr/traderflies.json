@@ -3004,7 +3004,11 @@
       "shareCommon": "@flydotai'de bir Fly Box açtım. Bu sefer olmadı. Sıradaki.",
       "shareWin": "@flydotai'de {tier} bir Fly Box açtım: {what}.",
       "mDiscountStake": "{amount}+ $FLYAI stake edene %{pct} indirim.",
-      "soonTitle": "Noel Baba'nın hediyeleri yakında geliyor"
+      "soonTitle": "Noel Baba'nın hediyeleri yakında geliyor",
+      "jpTitle": "Büyük ikramiye: hepsinin içinde tek bir kutu",
+      "jpWhat": "USDG ödül havuzunun %30'u (şu an {usd}, satılan her kutuyla büyür) + 5.000.000 $FLYAI + nadir bir Trader Fly.",
+      "jpGrows": "satılan her kutuyla büyür",
+      "jpHow": "Hangi kutu olduğunu kimse bilmiyor, biz bile: satış bittiğinde Robinhood Chain'deki gelecek bir bloğun hash'i tüm kutuların ödüllerini karıştırır. Ücretsiz aldığın bir kutu da olabilir."
     },
     "tier": {
       "Jackpot": "Büyük ikramiye",

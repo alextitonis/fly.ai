@@ -7,8 +7,11 @@ const API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearc
 const ACCOUNT_JS = "/compute/mine/web/account.js";
 const EXPLORER = "https://robinhoodchain.blockscout.com/token/";
 const SESSION_KEY = "flyai.compute.session";
-const IDS = { larva: 1, lord: 2, diamond: 3, og: 4, flyowner: 5, swarm: 6, queen: 7, payday: 8, payroll: 9, recruiter: 10, piedpiper: 11, ambassador: 12, champion: 13, fvtester: 14, fvcreator: 15, fvace: 16 };
-const KEYS = Object.keys(IDS);
+const IDS = { larva: 1, lord: 2, diamond: 3, og: 4, flyowner: 5, swarm: 6, queen: 7, payday: 8, payroll: 9, recruiter: 10, piedpiper: 11, ambassador: 12, champion: 13, fvtester: 14, fvcreator: 15, fvace: 16,
+  boxopener: 17, boxhoarder: 18, jackpot: 19 };
+// the Fly Boxes badges show from the sale start, like the boxes (2026-11-28 10:00 UTC; ?boxes-preview shows them early)
+const BOXES_AT = Date.parse("2026-11-28T10:00:00Z");
+const KEYS = Object.keys(IDS).filter((k) => IDS[k] < 17 || Date.now() >= BOXES_AT || /[?&]boxes-preview/.test(location.search));
 if (!window.flyI18n) await new Promise((r) => { addEventListener("i18n:ready", r, { once: true }); setTimeout(r, 3000); });
 
 const $ = (id) => document.getElementById(id);
@@ -47,6 +50,8 @@ const SHARE = {
   fvtester: ["Flyverse Tester", "One of the first testers of Flyverse, fly.ai's AI 3D game maker."],
   fvcreator: ["Flyverse Creator", "Made a Flyverse game 25 real players played (or a Fly Jam top 3)."],
   fvace: ["Flyverse Ace", "Won a Flyverse daily challenge, or held #1 on 5 other people's games."],
+  boxopener: ["Box Opener", "Opened a Fly Box."], boxhoarder: ["Box Hoarder", "Opened 10 Fly Boxes."],
+  jackpot: ["Jackpot", "Opened the one jackpot Fly Box."],
 };
 const shareUrl = (key) => `https://x.com/intent/post?text=${encodeURIComponent(
   `I earned the ${SHARE[key][0]} badge on @flydotai.\n\n${SHARE[key][1]} Soulbound, so it stays with my wallet.\n\nhttps://flyaiworld.com/badges`)}`;

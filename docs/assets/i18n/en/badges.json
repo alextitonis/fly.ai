@@ -104,6 +104,18 @@
     "fvace": {
       "name": "Flyverse Ace",
       "need": "Win a Flyverse daily challenge, or be #1 on 5 other people's games."
+    },
+    "boxopener": {
+      "name": "Box Opener",
+      "need": "Open a Fly Box."
+    },
+    "boxhoarder": {
+      "name": "Box Hoarder",
+      "need": "Open 10 Fly Boxes."
+    },
+    "jackpot": {
+      "name": "Jackpot",
+      "need": "Open the one jackpot Fly Box."
     }
   },
   "share": {

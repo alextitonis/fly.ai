@@ -3002,7 +3002,11 @@
       "shareCommon": "@flydotai에서 Fly Box를 열었어요. 이번엔 꽝. 다음 박스로!",
       "shareWin": "@flydotai에서 {tier} Fly Box를 열었어요: {what}.",
       "mDiscountStake": "$FLYAI {amount}개 이상 스테이킹 시 {pct}% 할인.",
-      "soonTitle": "산타의 선물이 곧 도착합니다"
+      "soonTitle": "산타의 선물이 곧 도착합니다",
+      "jpTitle": "잭팟: 전체 중 단 하나의 박스",
+      "jpWhat": "USDG 상금 풀의 30% (현재 {usd}, 박스가 팔릴 때마다 커집니다) + 5,000,000 $FLYAI + 희귀 Trader Fly.",
+      "jpGrows": "박스가 팔릴 때마다 커집니다",
+      "jpHow": "어느 박스인지는 아무도 모릅니다. 저희도요. 판매가 끝나면 Robinhood Chain의 미래 블록 해시가 모든 박스의 상품을 섞습니다. 무료로 받은 박스일 수도 있습니다."
     },
     "tier": {
       "Jackpot": "잭팟",

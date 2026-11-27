@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Box Opener badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#06140f" stroke="#5ef2cc" stroke-width="10"/>
+  <!-- an opened Fly Box: light pouring up, the lid tipped off -->
+  <path d="M206 250l-26-120h152l-26 120z" fill="#5ef2cc" fill-opacity=".22"/>
+  <path d="M226 250l-12-96h84l-12 96z" fill="#5ef2cc" fill-opacity=".35"/>
+  <rect x="166" y="256" width="180" height="130" rx="10" fill="#0d1f1a" stroke="#5ef2cc" stroke-width="8"/>
+  <rect x="244" y="256" width="24" height="130" fill="#5ef2cc"/>
+  <g transform="rotate(-24 186 214)">
+    <rect x="150" y="196" width="196" height="38" rx="8" fill="#0d1f1a" stroke="#5ef2cc" stroke-width="8"/>
+    <rect x="236" y="196" width="24" height="38" fill="#5ef2cc"/>
+  </g>
+  <g fill="#fff"><circle cx="232" cy="150" r="6"/><circle cx="286" cy="120" r="8"/><circle cx="262" cy="176" r="5"/><circle cx="306" cy="168" r="5"/></g>
+</svg>

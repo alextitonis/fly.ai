@@ -578,7 +578,13 @@
     "b_fvcreator": "Flyverse 크리에이터",
     "bn_fvcreator": "실제 플레이어 25명이 플레이한 Flyverse 게임 만들기 (또는 Fly Jam 3위 안에 들기)",
     "b_fvace": "Flyverse 에이스",
-    "bn_fvace": "Flyverse 일일 챌린지 우승, 또는 다른 사람 게임 5개에서 1위"
+    "bn_fvace": "Flyverse 일일 챌린지 우승, 또는 다른 사람 게임 5개에서 1위",
+    "b_boxopener": "박스 오프너",
+    "bn_boxopener": "Fly Box를 하나 여세요",
+    "b_boxhoarder": "박스 수집가",
+    "bn_boxhoarder": "Fly Box를 10개 여세요",
+    "b_jackpot": "잭팟",
+    "bn_jackpot": "단 하나뿐인 잭팟 Fly Box를 여세요"
   },
   "flychat": {
     "title": "플라이 #{id}",

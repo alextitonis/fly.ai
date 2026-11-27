@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Jackpot badge">
+  <rect width="512" height="512" fill="#000"/>
+  <path d="M256 36l190 110v220L256 476 66 366V146z" fill="#06140f" stroke="#fff4c2" stroke-width="10"/>
+  <!-- the one jackpot box: gold rays behind a Fly Box -->
+  <g stroke="#ffb020" stroke-width="10" stroke-linecap="round">
+    <path d="M256 92v52M162 124l30 40M350 124l-30 40M118 210h48M394 210h-48"/>
+  </g>
+  <rect x="166" y="210" width="180" height="140" rx="10" fill="#1f1806" stroke="#ffb020" stroke-width="8"/>
+  <rect x="154" y="186" width="204" height="40" rx="8" fill="#1f1806" stroke="#ffb020" stroke-width="8"/>
+  <rect x="244" y="186" width="24" height="164" fill="#fff4c2"/>
+  <path d="M256 186c-20-32-54-32-54-10 0 14 32 12 54 10zM256 186c20-32 54-32 54-10 0 14-32 12-54 10z" fill="#fff4c2"/>
+  <path d="M176 384h160v48l-80-22-80 22z" fill="#ffb020"/>
+  <text x="256" y="414" text-anchor="middle" font-family="Outfit, system-ui, sans-serif" font-weight="800" font-size="24" fill="#1f1806">JACKPOT</text>
+</svg>

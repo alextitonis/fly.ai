@@ -104,6 +104,18 @@
     "fvace": {
       "name": "Flyverse Ası",
       "need": "Bir Flyverse günlük meydan okumasını kazan ya da başkalarının 5 oyununda 1. ol."
+    },
+    "boxopener": {
+      "name": "Kutu Açıcı",
+      "need": "Bir Fly Box aç."
+    },
+    "boxhoarder": {
+      "name": "Kutu Koleksiyoncusu",
+      "need": "10 Fly Box aç."
+    },
+    "jackpot": {
+      "name": "Büyük İkramiye",
+      "need": "Tek büyük ikramiye Fly Box'ını aç."
     }
   },
   "share": {

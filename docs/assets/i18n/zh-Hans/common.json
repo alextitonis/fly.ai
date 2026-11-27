@@ -578,7 +578,13 @@
     "b_fvcreator": "Flyverse 创作者",
     "bn_fvcreator": "做出一个有 25 位真实玩家玩过的 Flyverse 游戏（或在 Fly Jam 进入前 3）",
     "b_fvace": "Flyverse 高手",
-    "bn_fvace": "赢下一次 Flyverse 每日挑战，或在别人的 5 个游戏里排名第 1"
+    "bn_fvace": "赢下一次 Flyverse 每日挑战，或在别人的 5 个游戏里排名第 1",
+    "b_boxopener": "开盒者",
+    "bn_boxopener": "打开一个 Fly Box",
+    "b_boxhoarder": "囤盒达人",
+    "bn_boxhoarder": "打开 10 个 Fly Box",
+    "b_jackpot": "头奖",
+    "bn_jackpot": "打开唯一的头奖 Fly Box"
   },
   "flychat": {
     "title": "苍蝇 #{id}",

@@ -104,6 +104,18 @@
     "fvace": {
       "name": "Flyverse 에이스",
       "need": "Flyverse 일일 챌린지 우승, 또는 다른 사람 게임 5개에서 1위."
+    },
+    "boxopener": {
+      "name": "박스 오프너",
+      "need": "Fly Box를 하나 여세요."
+    },
+    "boxhoarder": {
+      "name": "박스 수집가",
+      "need": "Fly Box를 10개 여세요."
+    },
+    "jackpot": {
+      "name": "잭팟",
+      "need": "단 하나뿐인 잭팟 Fly Box를 여세요."
     }
   },
   "share": {

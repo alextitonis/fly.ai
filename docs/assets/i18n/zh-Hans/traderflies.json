@@ -3002,7 +3002,11 @@
       "shareCommon": "我在 @flydotai 开了一个 Fly Box。这次没中，下一个！",
       "shareWin": "我在 @flydotai 开出了一个 {tier} Fly Box：{what}。",
       "mDiscountStake": "质押 {amount}+ $FLYAI 享 {pct}% 折扣。",
-      "soonTitle": "圣诞老人的礼物即将送达"
+      "soonTitle": "圣诞老人的礼物即将送达",
+      "jpTitle": "头奖：全部盒子里只有一个",
+      "jpWhat": "USDG 奖池的 30%（目前 {usd}，每卖出一个盒子都会增加）+ 5,000,000 $FLYAI + 一只稀有 Trader Fly。",
+      "jpGrows": "每卖出一个盒子都会增加",
+      "jpHow": "没有人知道是哪一个，连我们也不知道：销售结束时，Robinhood Chain 上一个未来区块的哈希会打乱所有盒子的奖品。它可能就是你免费拿到的那个。"
     },
     "tier": {
       "Jackpot": "头奖",

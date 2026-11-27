@@ -1,0 +1,16 @@
+{
+  "name": "Box Hoarder",
+  "description": "Opened 10 Fly Boxes. Soulbound: stays with the wallet that earned it.",
+  "image": "https://flyaiworld.com/assets/badges/18.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Fly Boxes"
+    },
+    {
+      "trait_type": "Soulbound",
+      "value": "Yes"
+    }
+  ]
+}

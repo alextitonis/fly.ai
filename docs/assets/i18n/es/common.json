@@ -578,7 +578,13 @@
     "b_fvcreator": "Creador de Flyverse",
     "bn_fvcreator": "Haz un juego de Flyverse que jueguen 25 jugadores reales (o queda top 3 en una Fly Jam)",
     "b_fvace": "As de Flyverse",
-    "bn_fvace": "Gana un reto diario de Flyverse, o sé el n.º 1 en 5 juegos de otras personas"
+    "bn_fvace": "Gana un reto diario de Flyverse, o sé el n.º 1 en 5 juegos de otras personas",
+    "b_boxopener": "Abrecajas",
+    "bn_boxopener": "Abre una Fly Box",
+    "b_boxhoarder": "Coleccionista de cajas",
+    "bn_boxhoarder": "Abre 10 Fly Boxes",
+    "b_jackpot": "Premio gordo",
+    "bn_jackpot": "Abre la única Fly Box del premio gordo"
   },
   "flychat": {
     "title": "Mosca #{id}",

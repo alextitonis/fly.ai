@@ -96,6 +96,13 @@
 <section class="firstsec">
   <div class="wrap">
   <div class="cl" id="cl">
+    <div class="cl-day" data-date="2026-11-28" data-at="2026-11-28T10:00:00Z">
+      <h2 class="cl-date"><time datetime="2026-11-28">2026-11-28</time></h2>
+      <ul>
+        <li data-tag="nfts"><span class="cl-tag cl-nfts" data-i18n="changelog.filter.nfts">Trader Flies</span>
+          <p data-i18n-html="changelog.e.d1128a"><b>Fly Boxes are here.</b> Sealed gift boxes on Robinhood Chain: stakers got theirs free, anyone can mint one for $10 (USDG, ETH or $FLYAI; staking 400k+ takes 20% off) and trade them until Dec 12. Then they open: $FLYAI, USDG from the prize pot, Trader Flies, partner NFTs, or the one jackpot. <a href="/traderflies/boxes">Get a box</a></p></li>
+      </ul>
+    </div>
     <div class="cl-day" data-date="2026-11-24">
       <h2 class="cl-date"><time datetime="2026-11-24">2026-11-24</time></h2>
       <ul>
@@ -671,6 +678,10 @@
   // the filter pills, the dates in the reader's language and the count; runs again once the page's language is in
   (function () {
     var current = "all";
+    // a launch's entry goes in early and shows from its moment (data-at; 2026-11-27, Fly Boxes) - ?boxes-preview shows it
+    document.querySelectorAll(".cl-day[data-at]").forEach(function (d) {
+      if (Date.now() < Date.parse(d.getAttribute("data-at")) && !/[?&]boxes-preview/.test(location.search)) d.remove();
+    });
     function i18n() { return window.flyI18n || null; }
     function dates() {
       var lang = (i18n() && i18n().lang) || "en";

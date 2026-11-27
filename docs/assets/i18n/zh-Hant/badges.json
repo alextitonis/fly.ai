@@ -104,6 +104,18 @@
     "fvace": {
       "name": "Flyverse 高手",
       "need": "贏下一次 Flyverse 每日挑戰，或在別人的 5 個遊戲裡排名第 1."
+    },
+    "boxopener": {
+      "name": "開盒者",
+      "need": "打開一個 Fly Box。"
+    },
+    "boxhoarder": {
+      "name": "囤盒達人",
+      "need": "打開 10 個 Fly Box。"
+    },
+    "jackpot": {
+      "name": "頭獎",
+      "need": "打開唯一的頭獎 Fly Box。"
     }
   },
   "share": {

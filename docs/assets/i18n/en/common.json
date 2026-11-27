@@ -578,7 +578,13 @@
     "b_fvcreator": "Flyverse Creator",
     "bn_fvcreator": "Make a Flyverse game 25 real players play (or place top 3 in a Fly Jam)",
     "b_fvace": "Flyverse Ace",
-    "bn_fvace": "Win a Flyverse daily challenge, or be #1 on 5 other people's games"
+    "bn_fvace": "Win a Flyverse daily challenge, or be #1 on 5 other people's games",
+    "b_boxopener": "Box Opener",
+    "bn_boxopener": "Open a Fly Box",
+    "b_boxhoarder": "Box Hoarder",
+    "bn_boxhoarder": "Open 10 Fly Boxes",
+    "b_jackpot": "Jackpot",
+    "bn_jackpot": "Open the one jackpot Fly Box"
   },
   "flychat": {
     "title": "Fly #{id}",

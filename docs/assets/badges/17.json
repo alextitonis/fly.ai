@@ -1,0 +1,16 @@
+{
+  "name": "Box Opener",
+  "description": "Opened a Fly Box. Soulbound: stays with the wallet that earned it.",
+  "image": "https://flyaiworld.com/assets/badges/17.svg",
+  "external_url": "https://flyaiworld.com/badges",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Fly Boxes"
+    },
+    {
+      "trait_type": "Soulbound",
+      "value": "Yes"
+    }
+  ]
+}

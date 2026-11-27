@@ -578,7 +578,13 @@
     "b_fvcreator": "Flyverse Yaratıcısı",
     "bn_fvcreator": "25 gerçek oyuncunun oynadığı bir Flyverse oyunu yap (ya da bir Fly Jam'de ilk 3'e gir)",
     "b_fvace": "Flyverse Ası",
-    "bn_fvace": "Bir Flyverse günlük meydan okumasını kazan ya da başkalarının 5 oyununda 1. ol"
+    "bn_fvace": "Bir Flyverse günlük meydan okumasını kazan ya da başkalarının 5 oyununda 1. ol",
+    "b_boxopener": "Kutu Açıcı",
+    "bn_boxopener": "Bir Fly Box aç",
+    "b_boxhoarder": "Kutu Koleksiyoncusu",
+    "bn_boxhoarder": "10 Fly Box aç",
+    "b_jackpot": "Büyük İkramiye",
+    "bn_jackpot": "Tek büyük ikramiye Fly Box'ını aç"
   },
   "flychat": {
     "title": "Sinek #{id}",
