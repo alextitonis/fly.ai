@@ -3028,8 +3028,7 @@
       "mDiscountStake": "Stake {amount}+ $FLYAI for {pct}% off.",
       "soonTitle": "Santa's gifts arrive soon",
       "jpTitle": "The jackpot: one box in all",
-      "jpWhat": "30% of the USDG prize pot (now {usd}, it grows with every box sold) + 5,000,000 $FLYAI + a rare Trader Fly.",
-      "jpGrows": "it grows with every box sold",
+      "jpWhat": "30% of the USDG prize pot (now {usd}, it grows with every box sold), plus $FLYAI and a rare Trader Fly. The full prize is announced before opening.",
       "jpHow": "Nobody knows which box it is, not even us: when the sale ends, the hash of a future block on Robinhood Chain shuffles every box's prize. It can be one you got for free."
     },
     "tier": {

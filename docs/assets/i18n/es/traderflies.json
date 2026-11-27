@@ -3006,8 +3006,7 @@
       "mDiscountStake": "Stakea {amount}+ $FLYAI para un {pct}% de descuento.",
       "soonTitle": "Los regalos de Papá Noel llegan pronto",
       "jpTitle": "El premio gordo: una sola caja",
-      "jpWhat": "El 30% del bote en USDG (ahora {usd}, crece con cada caja vendida) + 5.000.000 $FLYAI + una Trader Fly rara.",
-      "jpGrows": "crece con cada caja vendida",
+      "jpWhat": "El 30% del bote en USDG (ahora {usd}, crece con cada caja vendida), más $FLYAI y una Trader Fly rara. El premio completo se anuncia antes de la apertura.",
       "jpHow": "Nadie sabe cuál es, ni siquiera nosotros: cuando termina la venta, el hash de un bloque futuro de Robinhood Chain reparte los premios de todas las cajas. Puede ser una que recibiste gratis."
     },
     "tier": {
