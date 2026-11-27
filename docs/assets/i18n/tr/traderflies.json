@@ -2901,7 +2901,7 @@
       "opensIn": "{time} sonra açılıyor",
       "openUntil": "Yılbaşı gecesine kadar açık",
       "pot": "Ödül havuzu",
-      "jackpot": "Büyük ikramiye (USDG kısmı)",
+      "jackpot": "Büyük ikramiye",
       "soon": "Yakında",
       "sealed": "Mühürlü kutular",
       "tryOpen": "Bir açılış dene",
@@ -3006,7 +3006,7 @@
       "mDiscountStake": "{amount}+ $FLYAI stake edene %{pct} indirim.",
       "soonTitle": "Noel Baba'nın hediyeleri yakında geliyor",
       "jpTitle": "Büyük ikramiye: hepsinin içinde tek bir kutu",
-      "jpWhat": "USDG ödül havuzunun %30'u (şu an {usd}, satılan her kutuyla büyür), ayrıca $FLYAI ve nadir bir Trader Fly. Ödülün tamamı açılıştan önce duyurulur.",
+      "jpWhat": "{usd} + {flyai} $FLYAI ve satılan her kutuyla büyür: her 10$'lık kutunun 4$'ı buraya gider (kutular için ödenen $FLYAI'nin de üçte ikisi). Artı nadir bir Trader Fly.",
       "jpHow": "Hangi kutu olduğunu kimse bilmiyor, biz bile: satış bittiğinde Robinhood Chain'deki gelecek bir bloğun hash'i tüm kutuların ödüllerini karıştırır. Ücretsiz aldığın bir kutu da olabilir."
     },
     "tier": {

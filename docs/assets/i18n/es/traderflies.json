@@ -2901,7 +2901,7 @@
       "opensIn": "Se abren en {time}",
       "openUntil": "abiertas hasta Nochevieja",
       "pot": "Bote de premios",
-      "jackpot": "Premio mayor (parte en USDG)",
+      "jackpot": "Premio gordo",
       "soon": "Pronto",
       "sealed": "Cajas selladas",
       "tryOpen": "Prueba una apertura",
@@ -3006,7 +3006,7 @@
       "mDiscountStake": "Stakea {amount}+ $FLYAI para un {pct}% de descuento.",
       "soonTitle": "Los regalos de Papá Noel llegan pronto",
       "jpTitle": "El premio gordo: una sola caja",
-      "jpWhat": "El 30% del bote en USDG (ahora {usd}, crece con cada caja vendida), más $FLYAI y una Trader Fly rara. El premio completo se anuncia antes de la apertura.",
+      "jpWhat": "{usd} + {flyai} $FLYAI, y crece con cada caja vendida: $4 de cada caja de $10 va al premio (y dos tercios de los $FLYAI pagados por cajas). Más una Trader Fly rara.",
       "jpHow": "Nadie sabe cuál es, ni siquiera nosotros: cuando termina la venta, el hash de un bloque futuro de Robinhood Chain reparte los premios de todas las cajas. Puede ser una que recibiste gratis."
     },
     "tier": {

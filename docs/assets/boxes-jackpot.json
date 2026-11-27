@@ -1,0 +1,5 @@
+{
+  "_note": "Fly Boxes jackpot: what the team sent for it (whole USDG / $FLYAI) - add any later top-up here so it counts in full. The boxes page adds 40/60 of the rest the contract holds (sales: 40% jackpot, 20% other prizes, 40% dev). flytrade/web/src/boxes/Boxes.tsx jackpotOf.",
+  "usdg": 250,
+  "flyai": 1000000
+}
