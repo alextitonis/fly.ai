@@ -396,6 +396,10 @@
     "flyverse": {
       "label": "Flyverse",
       "desc": "Make 3D games by typing. Play free"
+    },
+    "flyBoxes": {
+      "label": "Fly Boxes",
+      "desc": "Sealed gift boxes, opened on Dec 12"
     }
   },
   "footer": {

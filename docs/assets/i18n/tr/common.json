@@ -396,6 +396,10 @@
     "flyverse": {
       "label": "Flyverse",
       "desc": "Yazarak 3D oyun yap. Ücretsiz oyna"
+    },
+    "flyBoxes": {
+      "label": "Fly Boxes",
+      "desc": "Mühürlü hediye kutuları, 12 Aralık'ta açılır"
     }
   },
   "footer": {

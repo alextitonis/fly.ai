@@ -396,6 +396,10 @@
     "flyverse": {
       "label": "Flyverse",
       "desc": "글로 3D 게임 만들기. 무료로 플레이"
+    },
+    "flyBoxes": {
+      "label": "Fly Boxes",
+      "desc": "봉인된 선물 박스, 12월 12일 오픈"
     }
   },
   "footer": {

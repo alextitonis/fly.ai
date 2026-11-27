@@ -396,6 +396,10 @@
     "flyverse": {
       "label": "Flyverse",
       "desc": "打字就能做 3D 游戏，免费玩"
+    },
+    "flyBoxes": {
+      "label": "Fly Boxes",
+      "desc": "密封的礼物盒，12 月 12 日开启"
     }
   },
   "footer": {

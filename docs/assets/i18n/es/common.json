@@ -396,6 +396,10 @@
     "flyverse": {
       "label": "Flyverse",
       "desc": "Crea juegos 3D escribiendo. Juega gratis"
+    },
+    "flyBoxes": {
+      "label": "Fly Boxes",
+      "desc": "Cajas regalo selladas, se abren el 12 de dic"
     }
   },
   "footer": {

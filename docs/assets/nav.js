@@ -47,6 +47,9 @@
     ["traderflies", "Trader Flies", [
       ["My flies", "/traderflies/", "Your flies, their wallets, what's next", false, false, "myFlies"],
       ["Market", "/traderflies/market", "Buy and sell Trader Flies", false, false, "flyMarket"],
+      // 2026-11-28: Fly Boxes (flytrade/FLYBOXES-PLAN.md), shown from the sale start (10:00 UTC) on its own
+      ...(Date.now() >= Date.parse("2026-11-28T10:00:00Z") || /[?&]boxes-preview/.test(location.search)
+        ? [["Fly Boxes", "/traderflies/boxes", "Sealed gift boxes, opened on Dec 12", false, true, "flyBoxes"]] : []),
       ["Breed", "/traderflies/breed", "Merge two flies into one"],
       ["Leaderboard", "/traderflies/leaderboard", "Every Fly Wallet's results, live", false, false, "leaderboard"],
       // 2026-11-07: Brain vs Bots (flytrade/research/brain_vs_bots.py), the user: "put it in the FlyTraders in nav"
@@ -1292,6 +1295,7 @@
         if (!m) continue;
         let at = Date.UTC(now.getUTCFullYear(), Number(m[1]) - 1, Number(m[2]), 12);
         if (at > now.getTime() + 86_400_000) at = Date.UTC(now.getUTCFullYear() - 1, Number(m[1]) - 1, Number(m[2]), 12);
+        if (at > now.getTime()) continue;   // dated later today / tomorrow: not shown yet (2026-11-27, Fly Boxes' entry)
         if (now.getTime() - at > NEWS_DAYS * 86_400_000) continue;
         const b = /<b>(.*?)<\/b>/.exec(html);
         const title = Object.assign(document.createElement("div"), { innerHTML: b ? b[1] : html }).textContent.trim().replace(/[.。]$/, "");
