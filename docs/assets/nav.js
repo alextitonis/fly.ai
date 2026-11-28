@@ -36,8 +36,6 @@
       ["Earn", "/earn", "Lend USDG from your wallet"],   // 2026-10-06: flytrade/EARN-PAGE-PLAN.md
       ["Referrals", "/referrals", "Invite friends, earn from their fees"],   // 2026-10-15 (referrals.js)
       ["Ambassadors", "/ambassadors", "Represent fly.ai in your language", false, true],   // 2026-11-09 (ambassadors.js)
-      // 2026-10-23: "New" for the launch (gta.js, mine/src/gta.ts)
-      ["GTA VI giveaway", "/gta", "Hold 100k $FLYAI, win a copy", false, true],
       // 2026-10-31: soulbound NFTs (badges.js, mine/src/badges.ts, FlyBadges.sol)
       ["Badges", "/badges", "Soulbound badges for holders", false, true],
       // 2026-11-03: XP season 1 (xp.js, flyprofile.js, mine/src/xp.ts)
