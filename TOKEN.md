@@ -14,7 +14,7 @@ repository where the token is described; the rest of the repo is about the fly.
 | launchpad | [Pons](https://www.ponsfamily.com/launchpad/0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C) |
 | explorer | [Blockscout](https://robinhoodchain.blockscout.com/token/0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C) |
 | contract | `0x0088CE7905025c4B5ea1d49aB6179B6aaADB3B9C` |
-| supply | 950,000,000 (1,000,000,000 minted; 50,000,000 burned, see [Burns](#burns)) |
+| supply | 943,395,364 (1,000,000,000 minted; 56,604,636 burned, see [Burns](#burns)) |
 | supply API | live from the chain: [total](https://flyai-mine.fly.dev/api/supply/total), [circulating](https://flyai-mine.fly.dev/api/supply/circulating) (total minus the locker and 0x...dEaD), [details](https://flyai-mine.fly.dev/api/supply) |
 | pair | NVDA (bonding curve, then Uniswap V4) |
 | liquidity | bonding curve -> Uniswap V4; the pool position is locked permanently by Pons |
@@ -220,8 +220,11 @@ address.
 | 7 October 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 3,000,000 FLYAI (0.3% of the original supply): takes the total burned to 40,000,000 | [`0x6bf59cf5…b8f304d459`](https://robinhoodchain.blockscout.com/tx/0x6bf59cf54f436789ac32e4577a10bdfe37b4cd7d0ea126cc0eb21bf8b304d459) |
 | 12 October 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 5,000,000 FLYAI (0.5% of the original supply): takes the total burned to 45,000,000 | [`0xabd34ace…a3a1f29ebb`](https://robinhoodchain.blockscout.com/tx/0xabd34ace3a431267432ea5e747c2abefbb7b2dc6acec69026737cfa3a1f29ebb) |
 | 15 October 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 5,000,000 FLYAI (0.5% of the original supply): takes the total burned to 50,000,000 | [`0x36321d5b…94bd633e4f`](https://robinhoodchain.blockscout.com/tx/0x36321d5b0c5d5334ce81bc925eb205e3cb37ee2533449ba2bd2d0b94bd633e4f) |
+| 9 November 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 1,286,799.19 FLYAI: a buyback, bought on the market and burned in full | [`0x52a12a5c…5c12a008`](https://robinhoodchain.blockscout.com/tx/0x52a12a5c85855074bcaef892f066d8fe1c8a3dd4b19bd7e9b6e4917c5c12a008) |
+| 16 October to 26 November 2026 | app contracts and the dev wallet | 317,836.76 FLYAI in 39 small burns: fly breeding fees, breeding speed-ups and other in-app burns | `Transfer` events to `0x0` on the token |
+| 28 November 2026 | dev wallet `0x625862521777E19Ad54Ce6C7ABeD9Ca54D6589ea` | 5,000,000 FLYAI (0.5% of the original supply) | [`0x85799310…51bdd4248`](https://robinhoodchain.blockscout.com/tx/0x857993108d1cf295ee4d8eb96b294d257f785d7edb6a7b85f8e742551bdd4248) |
 
-**Total burned: 50,000,000 FLYAI (5% of the original supply). Supply now 950,000,000** (on chain `totalSupply` exactly 950,000,000, checked 15 October 2026).
+**Total burned: 56,604,636 FLYAI (5.66% of the original supply). Supply now 943,395,364** (on chain `totalSupply` 943,395,364.05, checked 28 November 2026).
 
 ## Funding the work
 
