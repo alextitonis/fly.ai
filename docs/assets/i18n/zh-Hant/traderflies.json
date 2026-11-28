@@ -3004,7 +3004,7 @@
       "mDiscountStake": "質押 {amount}+ $FLYAI 享 {pct}% 折扣。",
       "soonTitle": "聖誕老人的禮物即將送達",
       "jpTitle": "頭獎：全部盒子裡只有一個",
-      "jpWhat": "{usd} + {flyai} $FLYAI，並且每賣出一個盒子都會增加：每個 $10 的盒子有 $4 進入頭獎（用 $FLYAI 買盒子的，三分之二進入）。另加一隻稀有 Trader Fly。",
+      "jpWhat": "{usd} + {flyai} $FLYAI，外加一隻稀有 Trader Fly。",
       "jpHow": "沒有人知道是哪一個，連我們也不知道：銷售結束時，Robinhood Chain 上一個未來區塊的雜湊會打亂所有盒子的獎品。它可能就是你免費拿到的那個。"
     },
     "tier": {
