@@ -1293,7 +1293,7 @@
       for (const [id, html] of Object.entries((j && j.e) || {})) {
         const m = /^d(\d\d)(\d\d)[a-z]$/.exec(id);
         if (!m) continue;
-        let at = Date.UTC(now.getUTCFullYear(), Number(m[1]) - 1, Number(m[2]), 12);
+        let at = Date.UTC(now.getUTCFullYear(), Number(m[1]) - 1, Number(m[2]), 9);   // 09:00 UTC: a launch entry shows with the launch (11-28, Fly Boxes)
         if (at > now.getTime() + 86_400_000) at = Date.UTC(now.getUTCFullYear() - 1, Number(m[1]) - 1, Number(m[2]), 12);
         if (at > now.getTime()) continue;   // dated later today / tomorrow: not shown yet (2026-11-27, Fly Boxes' entry)
         if (now.getTime() - at > NEWS_DAYS * 86_400_000) continue;
