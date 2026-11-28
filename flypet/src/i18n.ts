@@ -163,6 +163,7 @@ const en = {
     "x.bag": "Bag",
     "x.empty": "Nothing here yet: send me out!",
     "x.wear": "Wear",
+    "x.wornLabel": "· worn",
     "x.takeOff": "Take off",
     "x.recycle": "Recycle (+{n} XP)",
     "x.setOn": "{set} complete ✨",
@@ -206,6 +207,8 @@ const en = {
     "f.stop": "Focus stopped.",
     "set.perch": "Sit on my windows",
     "set.perchHelp": "The fly sometimes lands on the window you're using, and buzzes off when you move it. Windows only.",
+    "set.lessMotion": "Less motion",
+    "set.lessMotionHelp": "Turns off the trail, the take-off and landing animations and the typing dots. Your computer's reduced-motion setting is followed too.",
 };
 export type Key = keyof typeof en;
 
@@ -372,6 +375,7 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "x.bag": "背包",
     "x.empty": "还是空的：派我出去吧！",
     "x.wear": "穿上",
+      "x.wornLabel": "· 已佩戴",
     "x.takeOff": "脱下",
     "x.recycle": "回收（+{n} 经验）",
     "x.setOn": "{set}集齐 ✨",
@@ -415,6 +419,8 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "f.stop": "专注已停止。",
     "set.perch": "停在我的窗口上",
     "set.perchHelp": "苍蝇有时会落在你正在使用的窗口上，移动窗口它就会飞走。仅限 Windows。",
+    "set.lessMotion": "减少动态",
+    "set.lessMotionHelp": "关闭轨迹、起飞和降落动画以及输入提示点。同时遵循系统的减弱动态效果设置。",
   },
   "zh-Hant": {
     "p.typing": "正在輸入",
@@ -577,6 +583,7 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "x.bag": "背包",
     "x.empty": "還是空的：派我出去吧！",
     "x.wear": "穿上",
+      "x.wornLabel": "· 已佩戴",
     "x.takeOff": "脫下",
     "x.recycle": "回收（+{n} 經驗）",
     "x.setOn": "{set}集齊 ✨",
@@ -620,6 +627,8 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "f.stop": "專注已停止。",
     "set.perch": "停在我的視窗上",
     "set.perchHelp": "蒼蠅有時會落在你正在使用的視窗上，移動視窗它就會飛走。僅限 Windows。",
+    "set.lessMotion": "減少動態",
+    "set.lessMotionHelp": "關閉軌跡、起飛和降落動畫以及輸入提示點。同時遵循系統的減弱動態效果設定。",
   },
   ko: {
     "p.typing": "입력 중",
@@ -782,6 +791,7 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "x.bag": "가방",
     "x.empty": "아직 비었어: 탐험 보내줘!",
     "x.wear": "착용",
+      "x.wornLabel": "· 착용 중",
     "x.takeOff": "벗기",
     "x.recycle": "재활용 (+{n} XP)",
     "x.setOn": "{set} 완성 ✨",
@@ -825,6 +835,8 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "f.stop": "집중을 멈췄어요.",
     "set.perch": "내 창 위에 앉기",
     "set.perchHelp": "파리가 가끔 사용 중인 창 위에 앉고, 창을 움직이면 날아가요. Windows 전용.",
+    "set.lessMotion": "움직임 줄이기",
+    "set.lessMotionHelp": "궤적, 이륙 및 착륙 애니메이션과 입력 표시 점을 끕니다. 시스템의 움직임 줄이기 설정도 따릅니다.",
   },
   tr: {
     "p.typing": "yazıyor",
@@ -987,6 +999,7 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "x.bag": "Çanta",
     "x.empty": "Henüz boş: beni keşfe gönder!",
     "x.wear": "Giy",
+      "x.wornLabel": "· takılı",
     "x.takeOff": "Çıkar",
     "x.recycle": "Geri dönüştür (+{n} XP)",
     "x.setOn": "{set} tamam ✨",
@@ -1030,6 +1043,8 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "f.stop": "Odak durduruldu.",
     "set.perch": "Pencerelerime kon",
     "set.perchHelp": "Sinek bazen kullandığın pencerenin üstüne konar, pencereyi taşıyınca uçar gider. Sadece Windows.",
+    "set.lessMotion": "Hareketi azalt",
+    "set.lessMotionHelp": "İzi, kalkış ve iniş animasyonlarını ve yazma göstergesini kapatır. Sistemin hareket azaltma ayarına da uyar.",
   },
   es: {
     "p.typing": "escribiendo",
@@ -1192,6 +1207,7 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "x.bag": "Bolsa",
     "x.empty": "Aún vacía: ¡mándame de expedición!",
     "x.wear": "Poner",
+      "x.wornLabel": "· puesto",
     "x.takeOff": "Quitar",
     "x.recycle": "Reciclar (+{n} XP)",
     "x.setOn": "{set} completo ✨",
@@ -1235,6 +1251,8 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "f.stop": "Enfoque detenido.",
     "set.perch": "Posarse en mis ventanas",
     "set.perchHelp": "La mosca a veces se posa en la ventana que usas y sale volando cuando la mueves. Solo Windows.",
+    "set.lessMotion": "Reducir movimiento",
+    "set.lessMotionHelp": "Desactiva el rastro, las animaciones de despegue y aterrizaje y los puntos de escritura. También respeta el ajuste de reducción de movimiento del sistema.",
   },
 };
 
