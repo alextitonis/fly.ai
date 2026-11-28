@@ -17,6 +17,7 @@ primary_region = "cdg"
   CACHED_PRICE = "5"      # already-settled jobs, ~$0.00025
   POOL_SHARE = "0.8"
   STORE_MAX_MB = "2000"   # buyers' uploads and program outputs, on the 10 GB volume; counted in 4 KB blocks (09-23)
+  SCREEN_JOBS_DAY = "1000000" # new screen jobs per UTC day, let out evenly (was ~8.6M/day, 2026-11-24): the screen is saturated; points split a fixed pool, so pay holds
   PACK_ORDERS = "1"       # finished house orders folded into one pack + results table, separate files deleted (src/pack.worker.ts)
   # Fly Roulette bets (src/roulette.ts; whole tokens): small bets, 10 to 2,000 FLYAI (the biggest win, 10 flies, is 19,000)
   ROULETTE_ON = "1"

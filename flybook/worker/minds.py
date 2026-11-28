@@ -115,6 +115,11 @@ def ensure(mind: dict, fly_id: str, rng: random.Random) -> dict:
     learned.pop("pending", None)
     learned.setdefault("open", [])
     mind.setdefault("memory", [])
+    for m in learned["open"] + mind["memory"]:              # (written before situation() cleaned them)
+        if isinstance(m.get("state"), list):
+            m["state"] = [finite(x) for x in m["state"]]
+        if isinstance(m.get("drive"), dict):
+            m["drive"] = {k: finite(v) if isinstance(v, (int, float)) else v for k, v in m["drive"].items()}
     mind.setdefault("tubes", {})
     mind.setdefault("inherit", base["inherit"])
     stats = mind.setdefault("stats", {})
@@ -136,9 +141,19 @@ def tube(mind: dict, symbol: str) -> float:
     return float(mind["tubes"].get(symbol, 1.0))
 
 
+def finite(x) -> float:
+    """A number for memory: NaN and inf (a token with no history yet has no chop) are 0 - one NaN made a whole desk's
+    state unsavable (2026-11-23, Bullas: its saves failed for hours and a bought ETH was booked as a deposit 4 times)."""
+    try:
+        x = float(x)
+    except (TypeError, ValueError):
+        return 0.0
+    return x if math.isfinite(x) else 0.0
+
+
 def situation(drive: dict, held_share: float) -> list[float]:
     """What the market looked like to the fly, for memory: moves and chop, and how much of it was in coins."""
-    return [drive["target"]["move"], drive["threat"]["move"], drive["wind"]["chop"], held_share]
+    return [finite(drive["target"]["move"]), finite(drive["threat"]["move"]), finite(drive["wind"]["chop"]), finite(held_share)]
 
 
 def recall(mind: dict, state: list[float], action: str, median: bool = False) -> tuple[float | None, int]:
@@ -159,7 +174,9 @@ def recall(mind: dict, state: list[float], action: str, median: bool = False) ->
 
 def open_trade(mind: dict, symbol: str, price: float, action: str, drive: dict, state: list[float]) -> None:
     """Remember a trade until HORIZON rounds have passed, when its own coin decides how it went."""
-    mind["learned"]["open"].append({"symbol": symbol, "price": price, "action": action, "drive": drive, "state": state,
+    drive = {k: finite(v) if isinstance(v, (int, float)) else v for k, v in drive.items()}
+    mind["learned"]["open"].append({"symbol": symbol, "price": price, "action": action, "drive": drive,
+                                    "state": [finite(x) for x in state],
                                     "round": mind["stats"]["rounds"]})
 
 

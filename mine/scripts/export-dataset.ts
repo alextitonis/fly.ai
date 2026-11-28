@@ -14,6 +14,7 @@
  *                          parameters and sha256 of the local connectome files, row counts and sizes, any errors
  *   house/                 local pulls from scripts/pull-house.ts (mine/data/house), only if present; never replay/*
  *   atlas.csv.gz           the sensory -> descending neuron atlas (scripts/atlas.ts), only once pulled
+ *   pairs.csv.gz           two senses at once (scripts/pairs.ts), joined with the atlas: interaction = pair - a - b + control
  *
  * /api/results is worked out in the background on the server and answers `computing: true` until it's ready;
  * this waits up to --wait seconds for it. If an endpoint fails, the rest is still written, meta.json lists the
@@ -28,6 +29,7 @@ import { gunzipSync, gzipSync } from "node:zlib";
 import { cells, cellsWithPrefix, parseMeta } from "../../world/src/connectome.ts";
 import { CHANNELS } from "../src/model.ts";
 import { ATLAS_PREFIX, atlasInputs, foldAtlas } from "./atlas.ts";
+import { foldPairs, pairInputs, PAIRS_PREFIX, withInteraction } from "./pairs.ts";
 
 const arg = (name: string, fallback: string) => {
   const i = process.argv.indexOf(`--${name}`);
@@ -251,11 +253,11 @@ if (existsSync(HOUSE)) {
 }
 
 // ---- the atlas: the server's folded tables if every order has one, else a local pull folded into one table ---------
-/** One table from the per-order tables at /api/house; null until all the atlas orders have theirs. */
-async function atlasFromServer(out: string): Promise<Record<string, unknown> | null> {
+/** One table from the per-order tables at /api/house under a prefix; null until every such order has its table. */
+async function tablesFromServer(prefix: string): Promise<{ text: string; totals: Record<string, unknown> } | null> {
   type Table = { url: string; rows: number; conditions: number; jobs: number; seeds_min: number; seeds_max: number };
   const { orders } = await getJson<{ orders: { label: string; table?: Table }[] }>("/api/house");
-  const parts = orders.filter((o) => o.label?.startsWith(`${ATLAS_PREFIX}/`)).sort((a, b) => a.label.localeCompare(b.label));
+  const parts = orders.filter((o) => o.label?.startsWith(`${prefix}/`)).sort((a, b) => a.label.localeCompare(b.label));
   if (!parts.length || parts.some((o) => !o.table)) return null;
   const chunks: string[] = [];
   for (const [i, o] of parts.entries()) {
@@ -264,10 +266,16 @@ async function atlasFromServer(out: string): Promise<Record<string, unknown> | n
     const text = gunzipSync(Buffer.from(await res.arrayBuffer())).toString("utf8");
     chunks.push(i ? text.slice(text.indexOf("\n") + 1) : text);
   }
-  writeFileSync(out, gzipSync(chunks.join("")));
   const t = parts.map((o) => o.table!);
-  return { source: "server tables", orders: t.length, conditions: t.reduce((a, x) => a + x.conditions, 0), rows: t.reduce((a, x) => a + x.rows, 0), jobs: t.reduce((a, x) => a + x.jobs, 0),
-    seeds_min: Math.min(...t.map((x) => x.seeds_min)), seeds_max: Math.max(...t.map((x) => x.seeds_max)) };
+  return { text: chunks.join(""), totals: { source: "server tables", orders: t.length, conditions: t.reduce((a, x) => a + x.conditions, 0), rows: t.reduce((a, x) => a + x.rows, 0), jobs: t.reduce((a, x) => a + x.jobs, 0),
+    seeds_min: Math.min(...t.map((x) => x.seeds_min)), seeds_max: Math.max(...t.map((x) => x.seeds_max)) } };
+}
+
+async function atlasFromServer(out: string): Promise<Record<string, unknown> | null> {
+  const got = await tablesFromServer(ATLAS_PREFIX);
+  if (!got) return null;
+  writeFileSync(out, gzipSync(got.text));
+  return got.totals;
 }
 
 let atlas: Record<string, unknown> | null = null;
@@ -281,6 +289,30 @@ try {
     console.log(`  atlas.csv.gz: ${atlas.conditions} conditions, ${atlas.rows} rows`);
   }
 } catch (err) { fail("atlas", err); }
+
+// ---- pairs of senses: the server's tables (or a local pull), joined with the atlas for the interaction columns -----
+let pairs: Record<string, unknown> | null = null;
+try {
+  const atlasFile = join(OUT, "atlas.csv.gz");
+  if (existsSync(atlasFile)) {
+    let got = await tablesFromServer(PAIRS_PREFIX);
+    if (!got) {
+      const raw = readFileSync(join(CONNECTOME, "meta.bin"));
+      const buf = raw[0] === 0x1f && raw[1] === 0x8b ? gunzipSync(raw) : raw;
+      const tmp = join(OUT, "pairs.raw.csv.gz");
+      const totals = await foldPairs(HOUSE, tmp, pairInputs(parseMeta(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer)));
+      if (totals) got = { text: gunzipSync(readFileSync(tmp)).toString("utf8"), totals: { source: "local pull", ...totals } };
+      rmSync(tmp, { force: true });
+    }
+    if (got) {
+      const joinedTable = withInteraction(got.text, readFileSync(atlasFile));
+      writeFileSync(join(OUT, "pairs.csv.gz"), gzipSync(joinedTable.text));
+      pairs = { ...got.totals, rows_with_interaction: joinedTable.joined };
+      files["pairs.csv.gz"] = { bytes: statSync(join(OUT, "pairs.csv.gz")).size, rows: joinedTable.rows };
+      console.log(`  pairs.csv.gz: ${got.totals.conditions} conditions, ${joinedTable.rows} rows (${joinedTable.joined} with interaction)`);
+    }
+  }
+} catch (err) { fail("pairs", err); }
 
 // ---- connectome provenance (local files, the same ones the server and miners load) ----------------------------
 let connectome: Record<string, unknown> | null = null;
@@ -333,6 +365,7 @@ writeJson("meta.json", {
   connectome,
   house,
   atlas,
+  pairs,
 });
 
 console.log(`\nwrote ${Object.keys(files).length} files to ${OUT}`);

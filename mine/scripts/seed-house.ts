@@ -15,7 +15,8 @@
  *                reader (graded target / threat / wind drives, with and without PAM reward)
  *   demo/*       example programs (mine/examples) running on real miners: pi, Mandelbrot tiles, TSP restarts
  *   colosseum/*  Fly Colosseum practice fights between random fighters: what each stat point is really worth
- *   atlas/*      every sensory cell type -> every descending neuron (scripts/atlas.ts); only with --only atlas/
+ *   atlas/*      every sensory cell type -> every descending neuron (scripts/atlas.ts), and atlas/pairs-1/* two senses
+ *                at once (scripts/pairs.ts); only with --only atlas/...
  */
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -127,6 +128,8 @@ if (ONLY.startsWith("atlas/")) {
   const { atlasOrders, ATLAS_UNITS } = await import("./atlas.ts");
   const { meta } = loadModel(fileURLToPath(new URL("../../world/public/connectome/", import.meta.url)));
   for (const o of atlasOrders(meta)) ORDERS.push({ label: o.label, spec: () => o.spec, max_parallel: 32, units: ATLAS_UNITS });
+  const { pairsOrders, PAIRS_UNITS } = await import("./pairs.ts");
+  for (const o of pairsOrders(meta)) ORDERS.push({ label: o.label, spec: () => o.spec, max_parallel: 32, units: PAIRS_UNITS });
 }
 
 const existing = new Set(((await (await fetch(`${SERVER}/api/house`)).json()).orders as { label: string }[]).map((o) => o.label));

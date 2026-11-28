@@ -30,7 +30,7 @@ try {
   await put(`vault:${A}`, { active: true, value: 50, holder: H1 });
   await put(`vault:base:${A}`, { active: true, value: 50, holder: H1 });
   await put(`vault:p_bullas_pool:${D}`, { active: true, value: 500, holder: H1 });
-  await put(`vault:p_waifus:${B}`, { active: true, value: 0.5, holder: H2 });   // under $1: not live
+  await put(`vault:p_waifus:${B}`, { active: true, value: 5, holder: H2 });     // a partner NFT under $10: not live
 
   const sent: any[] = [];
   const fake = (async (_url: string, init: any) => { sent.push(...JSON.parse(init.body).batch); return new Response("{}"); }) as typeof fetch;

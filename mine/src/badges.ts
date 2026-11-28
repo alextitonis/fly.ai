@@ -19,6 +19,8 @@
  *   fvtester  an early Flyverse tester (made a game or was let in during the closed test, 2026-11-21)
  *   fvcreator a Flyverse game 25 real players played, or a Fly Jam top 3
  *   fvace     won a Flyverse daily challenge, or #1 on 5 other people's Flyverse games
+ *   boxopener opened a Fly Box; boxhoarder opened 10; jackpot opened THE jackpot box (2026-11-24, booked by
+ *             src/boxprizes.ts from the FlyBoxes Opened events)
  *   ambassador invited only (2026-11-09, flytrade/AMBASSADOR-PLAN.md): never claimable, the dev wallet grants it with
  *             FlyBadges.grant and revokes it when an ambassador stops
  *
@@ -75,6 +77,8 @@ export const BADGES = [
   { id: 13, key: "champion" },
   // 2026-11-21: Flyverse (flyverse/server/routes.ts books them into badge_earned through the mine hook)
   { id: 14, key: "fvtester" }, { id: 15, key: "fvcreator" }, { id: 16, key: "fvace" },
+  // 2026-11-24: Fly Boxes (src/boxprizes.ts books them into badge_earned as boxes are opened)
+  { id: 17, key: "boxopener" }, { id: 18, key: "boxhoarder" }, { id: 19, key: "jackpot" },
 ] as const;
 /** how many flies a wallet has to keep for cfg.flyDays, the badge, and its clock's field and column */
 const FLY_LEVELS = [
@@ -403,7 +407,7 @@ export function createBadges(d: {
       queen: { days: daysSince(row?.since_fly50), need: cfg.flyDays },
       payday: { payouts: paid?.n ?? 0, need: 4 }, payroll: { payouts: paid?.n ?? 0, need: 8 },
       recruiter: { referrals: referred?.n ?? 0, need: 1 }, piedpiper: { referrals: referred?.n ?? 0, need: 10 },
-      ambassador: null, champion: null, fvtester: null, fvcreator: null, fvace: null,
+      ambassador: null, champion: null, fvtester: null, fvcreator: null, fvace: null, boxopener: null, boxhoarder: null, jackpot: null,
     };
     const out = cfg.exclude.includes(wallet);
     const badges = BADGES.map((b, i) => {

@@ -15,7 +15,7 @@ import { DatabaseSync } from "node:sqlite";
 import { parentPort, workerData } from "node:worker_threads";
 import { gunzipSync, gzipSync } from "node:zlib";
 import { parseMeta } from "../../world/src/connectome.ts";
-import { ATLAS_HEADER, ATLAS_PREFIX, atlasInputs, atlasLines, probeTable, readouts, runTotals, type OrderSpec, type Runs } from "./fold.ts";
+import { ATLAS_HEADER, ATLAS_PREFIX, atlasInputs, atlasLines, PAIRS_HEADER, PAIRS_PREFIX, pairLines, probeTable, readouts, runTotals, type OrderSpec, type Runs } from "./fold.ts";
 import { decodePack, PackWriter, readMember } from "./pack.ts";
 import { recordSets, type RecordSet } from "./probe.ts";
 
@@ -98,10 +98,11 @@ if (!writer.placed.length) {
       const c = index % spec.per_seed;
       runs.set(c, [...(runs.get(c) ?? []), u]);
     }
-    const atlas = o.label?.startsWith(`${ATLAS_PREFIX}/`);
-    const { header, lines } = atlas
+    const { header, lines } = o.label?.startsWith(`${ATLAS_PREFIX}/`)
       ? { header: ATLAS_HEADER, lines: atlasLines(spec, groups, runs, atlasInputs(meta)) }
-      : probeTable(spec, groups, runs);
+      : o.label?.startsWith(`${PAIRS_PREFIX}/`)
+        ? { header: PAIRS_HEADER, lines: pairLines(spec, groups, runs, atlasInputs(meta)) }
+        : probeTable(spec, groups, runs);
     const file = gzipSync(`${[header, ...lines].join("\n")}\n`);
     const hash = createHash("sha256").update(file).digest("hex");
     writeFileSync(join(blobsDir, `${hash}.pack.tmp`), file);

@@ -112,18 +112,6 @@
       "port": 8790
     },
     {
-      "name": "docs-static",
-      "runtimeExecutable": "python",
-      "runtimeArgs": [
-        "-m",
-        "http.server",
-        "8095",
-        "--directory",
-        "docs"
-      ],
-      "port": 8095
-    },
-    {
       "name": "flyverse",
       "runtimeExecutable": "npm",
       "runtimeArgs": [
@@ -133,6 +121,27 @@
         "dev"
       ],
       "port": 5193
+    },
+    {
+      "name": "boxes-live",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "set DOCS_URL=http://127.0.0.1:8090&& set VITE_BASE=/traderflies/&& set VITE_FLYBOXES=0x138d71e2B5F92C12B8E18C0EA7327cC28D6F679D&& set VITE_BOXMARKET=0x313B884FfC74152Eb31b98E227553Ca16Fa6017D&& set VITE_FLYBOXES_BLOCK=124047493&& cd flytrade\\web && npx vite --port 5177 --strictPort"
+      ],
+      "port": 5177
+    },
+    {
+      "name": "docs-static",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8095",
+        "--directory",
+        "C:/Users/artif/OneDrive/Desktop/fly/docs"
+      ],
+      "port": 8095
     }
   ]
 }

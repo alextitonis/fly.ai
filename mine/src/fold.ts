@@ -73,6 +73,15 @@ export const ATLAS_HEADER = "input_class,input_type,input_side,input_cells,amoun
 export type Runs = Map<number, Uint16Array[]>;
 export interface OrderSpec { params: { conditions: { name: string; stimuli: any[] }[]; steps: number; bin_steps?: number }; per_seed: number }
 
+/** rest | early | late, delta and its sd over seeds, for one readout group: spikes per neuron per second. */
+function seedStats(g: Readout, list: Uint16Array[], width: number, binSteps: number): number[] {
+  const secs = binSteps * DT_S * g.columns.length;
+  const rate = (u: Uint16Array, bin: number) => { let s = 0; for (const col of g.columns) s += u[bin * width + col]; return s / secs; };
+  const rest = list.map((u) => rate(u, 0)), early = list.map((u) => rate(u, 1)), late = list.map((u) => rate(u, 2));
+  const delta = list.map((_, i) => (early[i] + late[i]) / 2 - rest[i]);
+  return [list.length, r3(mean(rest)), r3(mean(early)), r3(mean(late)), r3(mean(delta)), r3(sd(delta))];
+}
+
 /** One order's atlas rows. Rates are spikes per neuron per second, per seed, then mean and sd over the seeds. */
 export function atlasLines(spec: OrderSpec, groups: Readout[], runs: Runs, inputs: AtlasInput[]): string[] {
   const inputOf = new Map(inputs.map((i) => [`${i.type}\0${i.side}`, i]));
@@ -83,13 +92,28 @@ export function atlasLines(spec: OrderSpec, groups: Readout[], runs: Runs, input
     const st = spec.params.conditions[c].stimuli[0];
     const input = st ? inputOf.get(`${st.types[0]}\0${st.side}`) : null;
     const head = st ? [input?.class ?? "", st.types[0], st.side, input?.cells ?? "", st.amount] : ["none", "none", "", 0, 0];
-    for (const g of groups) {
-      const secs = binSteps * DT_S * g.columns.length;
-      const rate = (u: Uint16Array, bin: number) => { let s = 0; for (const col of g.columns) s += u[bin * width + col]; return s / secs; };
-      const rest = list.map((u) => rate(u, 0)), early = list.map((u) => rate(u, 1)), late = list.map((u) => rate(u, 2));
-      const delta = list.map((_, i) => (early[i] + late[i]) / 2 - rest[i]);
-      lines.push([...head, g.set, g.type, g.side, g.columns.length, list.length, r3(mean(rest)), r3(mean(early)), r3(mean(late)), r3(mean(delta)), r3(sd(delta))].map(csvCell).join(","));
-    }
+    for (const g of groups) lines.push([...head, g.set, g.type, g.side, g.columns.length, ...seedStats(g, list, width, binSteps)].map(csvCell).join(","));
+  }
+  return lines;
+}
+
+/**
+ * Pairs of senses (scripts/pairs.ts): two sensory types driven together, same window and seeds as the atlas, so each
+ * row lines up with the atlas rows of its two inputs alone. The interaction columns are added at export.
+ */
+export const PAIRS_PREFIX = "atlas/pairs-1";
+export const PAIRS_HEADER = "a_class,a_type,a_side,b_class,b_type,b_side,amount,readout_set,readout_type,readout_side,readout_cells,n_seeds,rest_hz,early_hz,late_hz,delta_hz,delta_sd_hz";
+
+export function pairLines(spec: OrderSpec, groups: Readout[], runs: Runs, inputs: AtlasInput[]): string[] {
+  const inputOf = new Map(inputs.map((i) => [`${i.type}\0${i.side}`, i]));
+  const binSteps = spec.params.bin_steps ?? spec.params.steps;
+  const width = groups.reduce((a, g) => a + g.columns.length, 0);
+  const lines: string[] = [];
+  for (const [c, list] of [...runs].sort((a, b) => a[0] - b[0])) {
+    const [a, b] = spec.params.conditions[c].stimuli;
+    const one = (st: any) => (st ? [inputOf.get(`${st.types[0]}\0${st.side}`)?.class ?? "", st.types[0], st.side] : ["none", "none", ""]);
+    const head = [...one(a), ...one(b), a?.amount ?? 0];
+    for (const g of groups) lines.push([...head, g.set, g.type, g.side, g.columns.length, ...seedStats(g, list, width, binSteps)].map(csvCell).join(","));
   }
   return lines;
 }

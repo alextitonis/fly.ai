@@ -39,6 +39,9 @@ export async function startFlyverse(deps: {
   /** FLYAI in all (wallet + staked + locked) and staked (+ locked), whole tokens */
   holding?: (wallet: string) => Promise<{ total: number; staked: number }>;
   earnBadge?: (wallet: string, badge: string) => Promise<void>;
+  /** the weekly story: replies under an episode's X post, and X handles -> linked wallets (mine.x_links) */
+  xReplies?: (postId: string) => Promise<{ id: string; author: string; text: string; at: number }[]>;
+  xWallets?: (handles: string[]) => Promise<Map<string, string>>;
 }) {
   const list = (process.env.FLYVERSE_WALLETS ?? DEFAULT_WALLETS).toLowerCase();
   if (list === "off") return;
@@ -89,6 +92,8 @@ export async function startFlyverse(deps: {
       notify: deps.notify,
       awardXp: deps.awardXp,
       earnBadge: deps.earnBadge,
+      xReplies: deps.xReplies,
+      xWallets: deps.xWallets,
       // the early-tester badge is handed out while the test is closed (never once it's open)
       testerBadge: !open && process.env.FLYVERSE_TESTER_BADGE !== "off",
       gate: async (req: IncomingMessage) => {

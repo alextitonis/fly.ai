@@ -14,7 +14,7 @@ tags:
   - simulation
   - volunteer-computing
 size_categories:
-  - 100K<n<1M
+  - 1M<n<10M
 configs:
   - config_name: screen
     data_files: screen.csv
@@ -23,6 +23,10 @@ configs:
     data_files: tuning_runs.csv
   - config_name: experiments
     data_files: experiments.csv
+  - config_name: atlas
+    data_files: atlas.csv.gz
+  - config_name: pairs
+    data_files: pairs.csv.gz
 ---
 
 # fly.ai Connectome Sensory-to-Motor Screen
@@ -167,6 +171,51 @@ For large orders, the server summarizes a sample of the settled runs, and `runs_
 simulations run in floating point, and the encoding probes describe the integer engine. These summaries are
 computed descriptions, not peer-reviewed results.
 
+### `atlas.csv.gz`: every sensory cell type → every descending neuron (long format)
+
+Each job drives one sensory cell type on one side for 10 s after 5 s at rest, at gain 3 and tonic 0.14, and records
+every descending neuron and wing motor neuron in three 5 s bins. There is one row per input × side × amount × readout
+type × readout side. Jobs are settled by two independent miners returning identical bytes. Sensory types are those whose
+cells are mostly `cb_sensory`, `vnc_sensory`, `sensory_ascending`, `ol_sensory` or `visual_projection`. Untyped cells
+aren't driven, and midline cells of a type (no side) aren't reached.
+
+| column | meaning |
+|---|---|
+| `input_class`, `input_type`, `input_side`, `input_cells` | what was driven; `none` is the undriven control |
+| `amount` | voltage added per step to each driven neuron (threshold = 1) |
+| `readout_set`, `readout_type`, `readout_side`, `readout_cells` | `descending` or `wing`, and the group read |
+| `n_seeds` | seeds averaged (10 when complete) |
+| `rest_hz`, `early_hz`, `late_hz` | spikes per neuron per second in each 5 s bin, mean over seeds |
+| `delta_hz`, `delta_sd_hz` | mean of early and late minus rest, per seed: its mean and sample sd |
+
+Each run starts from rest voltage, so the network is still settling in the rest bin: undriven control rows average
+`delta_hz` +0.07 across readouts. Compare with the `none` rows of the same readout, not with zero. Ten seeds resolve
+about 0.02 Hz per neuron for a single cell over 10 s, so treat small effects with care. Driving a type
+with a constant voltage isn't a natural stimulus (see *Limitations*).
+
+### `pairs.csv.gz`: two senses at once, and how far they are from adding up (long format)
+
+The 60 strongest atlas inputs (`pairs-1.json` in the repository lists them and the rule that picked them: amount 0.4,
+at least 3 descending readouts at z > 5, largest single effect first), every two driven together at amount 0.4:
+1,770 pairs plus one undriven control, 17,710 jobs, each settled by two miners returning identical bytes. Window,
+gain, tonic and seeds are the atlas's own, so every pair lines up seed for seed with the atlas rows of its two inputs
+alone; the control matches the atlas control exactly (962 readouts, difference 0.0). One row per pair × readout group.
+
+| column | meaning |
+|---|---|
+| `a_class`, `a_type`, `a_side`, `b_class`, `b_type`, `b_side` | the two inputs driven; `none` is the control |
+| `amount` | voltage added per step to each driven neuron (0.4 for both) |
+| `readout_set` … `delta_sd_hz` | as in the atlas, for the pair |
+| `a_delta_hz`, `b_delta_hz`, `control_delta_hz` | the atlas's `delta_hz` for each input alone at 0.4, and for the control |
+| `sum_delta_hz` | `a + b - control`: what the pair would do if the two inputs simply added |
+| `interaction_hz` | `delta_hz - sum_delta_hz`: below zero, the pair does less than its parts (saturation, one input damping the other); above zero, more |
+| `interaction_se_hz` | standard error of the interaction, taking the four estimates as independent. They share seeds, so it is on the wide side |
+
+First look (descending readouts, |interaction / se| > 4): 861 of 1.62M rows, in 266 of the 1,770 pairs; 700 are
+below zero and 161 above. The largest is two looming detectors together, LC4 + LPLC2 on the escape neuron DNp04,
+about 13 Hz under the sum on both sides. With 1.6M rows tested, some rows past that cutoff are chance; check a
+finding against its neighbours (the other side, the other readouts of the same type) before leaning on it.
+
 ### `meta.json`
 
 `meta.json` describes the export itself:
@@ -238,7 +287,7 @@ This dataset:
   author       = {{fly.ai}},
   title        = {fly.ai Connectome Sensory-to-Motor Screen},
   year         = {2026},
-  howpublished = {\url{https://huggingface.co/datasets/flyai/connectome-screen}},
+  howpublished = {\url{https://huggingface.co/datasets/alextoti1/connectome-screen}},
   note         = {Simulated on the MaleCNS v1.0 connectome; code at https://github.com/alextitonis/fly.ai}
 }
 ```

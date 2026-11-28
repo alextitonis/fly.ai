@@ -20,7 +20,7 @@
  *
  *   node src/server.ts
  *   env: PORT 8787 · MINE_DB data/mine.db · MINE_PG_URL (required: players and money, src/pg.ts) · CONNECTOME_DIR ../world/public/connectome · VERIFIERS (cores-1, max 4)
- *        AUDITS 3 · CANARY_RATE 0.15 · CANARY_POOL 100000 · MIN_CHECKED 2 · AUDIT_QUEUE_MAX 500 · OPEN_TARGET 3000
+ *        AUDITS 3 · CANARY_RATE 0.15 · CANARY_POOL 100000 · MIN_CHECKED 2 · AUDIT_QUEUE_MAX 500 · OPEN_TARGET 3000 · SCREEN_JOBS_DAY 0 (no limit)
  *        MAX_JOBS 64 · JOB_TTL_MIN 20 · TRUST_PROXY (set behind a proxy)
  */
 import { createHash, randomBytes, randomUUID, timingSafeEqual } from "node:crypto";
@@ -51,6 +51,7 @@ import { createXLink } from "./xlink.ts";
 import { createReferrals } from "./referrals.ts";
 import { createAmbassadors } from "./ambassadors.ts";
 import { createActivations } from "./activations.ts";
+import { CHAINS as BOX_CHAINS, createBoxPrizes, rpcOn } from "./boxprizes.ts";
 import { createBounties } from "./bounties.ts";
 import { createTeam } from "./team.ts";
 import { blockscoutTransfers, createDeskChat, TEAM as CHAT_TEAM_WALLETS } from "./deskchat.ts";
@@ -61,7 +62,7 @@ import { createPet, flyOwners, petWalletOf } from "./pet.ts";
 import { createPush, TICK_MS as PUSH_TICK_MS } from "./push.ts";
 import { createHunt } from "./hunt.ts";
 import { badgeConfig, createBadges } from "./badges.ts";
-import { createXp, xpConfig } from "./xp.ts";
+import { createXp, storyXReplies, xpConfig } from "./xp.ts";
 import { createQuests } from "./quests.ts";
 import { createExpeditions } from "./expeditions.ts";
 import { createLeague } from "./league.ts";
@@ -124,6 +125,12 @@ const CANARY_RATE = Number(env("CANARY_RATE", "0.15"));
 const MIN_CHECKED = Number(env("MIN_CHECKED", "2"));
 const AUDIT_QUEUE_MAX = Number(env("AUDIT_QUEUE_MAX", "500"));
 const OPEN_TARGET = Number(env("OPEN_TARGET", "3000"));
+/**
+ * At most this many new screen jobs a UTC day (0 = no limit), let out evenly over the day so nobody races for them at
+ * midnight. The screen is saturated (2026-11: ~1.5M seeds per condition) and house research goes first either way.
+ * Payouts are a fixed pool split by points, so a smaller screen makes each point worth more, not miners' pay smaller.
+ */
+const SCREEN_JOBS_DAY = Number(env("SCREEN_JOBS_DAY", "0"));
 const CANARY_POOL = Number(env("CANARY_POOL", "100000")); // idle verifiers stop adding known answers here
 /** idle verifiers also work open paid brain jobs (a second answer can be slow with few miners); 0 leaves them to miners */
 const SEED_PAID = env("SEED_PAID", "1") !== "0";
@@ -702,16 +709,35 @@ function transaction<T>(fn: () => T): T {
 // 20 s (89% of the mining thread after the canary fix, 2026-09-29). Only topUp adds rounds, in this one process.
 let nextRound: number | null = null;
 
-/** Keep at least OPEN_TARGET jobs open by adding rounds of the screen. */
+/** Screen jobs SCREEN_JOBS_DAY still lets out right now: its share of the day so far, less what today already added. */
+function screenRoom(now = Date.now()): number {
+  if (!(SCREEN_JOBS_DAY > 0)) return Infinity;
+  const day = Math.floor(now / 86_400_000);
+  const read = (name: string) => one<{ n: number } | undefined>("select n from counters where name = ?", name)?.n ?? 0;
+  const added = read("screen_day") === day ? read("screen_day_jobs") : 0;
+  return Math.floor(SCREEN_JOBS_DAY * ((now % 86_400_000) / 86_400_000)) + PER_ROUND - added;
+}
+
+/** Keep at least OPEN_TARGET jobs open by adding rounds of the screen, within SCREEN_JOBS_DAY. */
 function topUp(): void {
   let open = count("select count(*) as n from tasks indexed by tasks_open_brain where state = 'open' and kind = 'connectome'");
   if (open >= OPEN_TARGET) return;
+  let room = screenRoom();
+  if (room < PER_ROUND) return;
   const insert = db.prepare("insert into tasks (params, units, round, r) values (?, ?, ?, ?)");
   let next = nextRound ??= (one<{ r: number | null }>("select max(round) as r from tasks").r ?? -1) + 1;
   const first = next;
   transaction(() => {
-    for (; open < OPEN_TARGET; next++, open += PER_ROUND) {
+    for (; open < OPEN_TARGET && room >= PER_ROUND; next++, open += PER_ROUND, room -= PER_ROUND) {
       for (const p of round(next)) insert.run(JSON.stringify(p), UNITS, next, Math.random());
+    }
+    if (SCREEN_JOBS_DAY > 0) {
+      const day = Math.floor(Date.now() / 86_400_000);
+      const set = db.prepare("insert into counters (name, n) values (?, ?) on conflict (name) do update set n = excluded.n");
+      const same = (one<{ n: number } | undefined>("select n from counters where name = 'screen_day'")?.n ?? -1) === day;
+      const before = same ? one<{ n: number } | undefined>("select n from counters where name = 'screen_day_jobs'")?.n ?? 0 : 0;
+      set.run("screen_day", day);
+      set.run("screen_day_jobs", before + (next - first) * PER_ROUND);
     }
   });
   nextRound = next;
@@ -4202,6 +4228,10 @@ async function route(req: IncomingMessage, res: ServerResponse, url: URL): Promi
   if (req.method !== "OPTIONS" && p.startsWith("/api/activations/")) {
     if (await activations.route(req, res, url)) return;
   }
+  if (req.method !== "OPTIONS" && (p.startsWith("/api/boxes/") || p.startsWith("/api/admin/boxes/"))) {
+    if (!boxPrizes) return send(res, 404, { error: "Fly Boxes aren't live yet" });
+    if (await boxPrizes.route(req, res, url)) return;
+  }
   if (req.method !== "OPTIONS" && (p === "/api/team" || p.startsWith("/api/team/"))) {
     if (await team.route(req, res, url)) return;
   }
@@ -4633,6 +4663,24 @@ const activations = createActivations({
   },
 });
 if (USER) activations.start();
+// Fly Boxes (src/boxprizes.ts, 2026-11-24): other-chain prizes (Ruyui, Bad Bunnz, Bullas...) sent automatically from
+// the prize wallet when a box is opened, WL spots recorded. Off until FLYBOXES is set; sends only with BOX_PRIZE_KEY.
+const boxPrizes = /^0x[0-9a-fA-F]{40}$/.test(process.env.FLYBOXES ?? "")
+  ? (() => {
+    const urls: Record<string, string> = Object.fromEntries(Object.entries(BOX_CHAINS)
+      .map(([c, v]) => [c, process.env[`BOX_RPC_${c.toUpperCase()}`] ?? v.rpc]));
+    const key = process.env.BOX_PRIZE_KEY;
+    return createBoxPrizes({
+      pg, send, readJson, isAdmin,
+      boxes: process.env.FLYBOXES!, fromBlock: Number(process.env.FLYBOXES_FROM_BLOCK ?? 0),
+      rh: rpcOn(CLAIMS.rpc),
+      chains: Object.fromEntries(Object.entries(urls).map(([c, u]) => [c, rpcOn(u)])),
+      senders: Object.fromEntries(Object.entries(urls).map(([c, u]) => [c, key ? new Relayer(key, u, "BOX_PRIZE_KEY") : null])),
+      jackpotTier: Number(process.env.BOXES_JACKPOT_TIER ?? 0),
+    });
+  })()
+  : null;
+if (USER && boxPrizes) boxPrizes.start();
 // team reports (src/team.ts, 2026-11-11): allowlisted wallets post what they did on the hidden /team page
 // admin = the dev wallet only (the user, 11-11: "visible only to the dev wallet no other"); TEAM_ADMINS overrides
 const team = createTeam({
@@ -4985,6 +5033,15 @@ void startFlyverse({
   },
   // Flyverse badges (#14 fvtester, #15 fvcreator, #16 fvace): earned here, claimed on /badges like the others
   earnBadge: async (wallet, badge) => { await pg.run("insert into mine.badge_earned (wallet, badge, earned_at) values (?, ?, now()) on conflict do nothing", wallet.toLowerCase(), badge); },
+  // the weekly story: replies under an episode's X post (Apify, like the XP share scan; off without APIFY_TOKEN) and the
+  // wallets those X accounts are linked to (Connect X)
+  xReplies: process.env.APIFY_TOKEN ? (postId) => storyXReplies(process.env.APIFY_TOKEN!, process.env.XP_SHARE_ACTOR ?? "kaitoeasyapi~twitter-x-data-tweet-scraper-pay-per-result-cheapest", postId) : undefined,
+  xWallets: async (handles) => {
+    if (!handles.length) return new Map();
+    const list = handles.slice(0, 1000).map((h) => h.toLowerCase());
+    const rows = await pg.all<{ wallet: string; username: string }>(`select wallet, lower(username) as username from mine.x_links where lower(username) in (${list.map(() => "?").join(",")})`, ...list);
+    return new Map(rows.map((r) => [r.username, r.wallet.toLowerCase()]));
+  },
 });
 server.keepAliveTimeout = 65_000;
 server.headersTimeout = 66_000;

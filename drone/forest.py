@@ -412,6 +412,14 @@ def fly(a) -> dict:
     use_cameras(tuple(cameras))
     eyes = FireEyes((0, 0, 0), seed=a.seed)
     turner = TurnAway(brain, AVOID_TYPES, a.avoid_gain)
+    guard = None                                       # PLAN.md 9.4, ours: a brake from the JEPA's look ahead, or the same brake from the pixel step
+    if getattr(a, "guard", "none") == "jepa":
+        from jepa_guard import JepaGuard
+        guard = JepaGuard(brain, a.guard_model, a.guard_volts, a.guard_thr)
+    elif getattr(a, "guard", "none") == "plain":
+        from jepa_guard import PlainBrake
+        guard = PlainBrake(brain, a.guard_volts)
+    travelled, last_p = 0.0, None
     tracker, bus, legs = Tracker(), Events(cooldown=1.0), route()
     ticks = round(brain.dt / sim.dt)
     film = Film(sim, a.out) if a.out else None
@@ -485,7 +493,9 @@ def fly(a) -> dict:
         else:
             d = goal - tracker.pose
             target = Thing("leader", _wrap(float(np.arctan2(d[1], d[0])) - tracker.h), float(np.hypot(*d)), TARGET_SIZE)
-        fired = brain.step(None, senses.inject(trees + [target], match_pillars=True))
+        if guard is not None:
+            guard.trees = trees
+        fired = brain.step(None, senses.inject(trees + [target], match_pillars=True) + (guard.extra(sim) if guard is not None else []))
         pilot.observe(fired)
         cmd = pilot.command(sim.t, sim.pos[2])
         turner.observe(fired)
@@ -501,12 +511,17 @@ def fly(a) -> dict:
         if looking:                                            # holding still for a look is ours too
             cmd["forward"], cmd["yaw_rate"] = 0.0, 0.0
         cmd["forward"] = min(cmd["forward"], a.speed)
+        if guard is not None:
+            guard.record(cmd)
         tracker.move(cmd, brain.dt)
         for _ in range(ticks):
             sim.step(**cmd)
         steps += 1
         stops += cmd["forward"] == 0.0 and not holding and not looking and found_at is None
         drift.append(float(np.hypot(*(sim.pos[:2] - START - tracker.pose))))
+        if last_p is not None and not sim.crashed:
+            travelled += float(np.hypot(*(sim.pos[:2] - last_p)))
+        last_p = sim.pos[:2].copy()
         if sim.plan["fire"] is not None:
             closest_fire = min(closest_fire, float(np.hypot(*(sim.pos[:2] - sim.plan["fire"]))))
             if found_at is not None and found_true is None:
@@ -526,6 +541,9 @@ def fly(a) -> dict:
             sim.data.time = t
             senses.leader_size, senses.pillars, trees, fire = None, [], [], None
             tracker.reset()
+            last_p = None
+            if guard is not None:
+                guard.reset()
             leg, leg_t, last_seen, found_at, found_true = 0, sim.t, None, None, None
             confirmed, flame_ok, look_from, frames, near_min, near_max = False, False, None, None, 99.0, 0.0
         if film:
@@ -545,7 +563,8 @@ def fly(a) -> dict:
             "true_distance": round(found_true, 2) if found_true else None, "first_seen": round(first_seen, 1) if first_seen else None, "closest_fire": round(closest_fire, 2),
             "seconds": round(sim.t, 1), "crashes": crashes, "stopped": round(stops / max(steps, 1), 3), "legs_done": leg, "median_drift": round(float(np.median(drift)), 2), "events": dict(bus.counts), "crash_log": crash_log,
             "leg_at_sight": leg_at_sight, "hold_min": round(near_min, 2) if near_max else None, "hold_max": round(near_max, 2) if near_max else None, "hold_s": round(sim.t - found_at, 1) if found_at else None,
-            "looks": looks, "turned_down": turned_down, "false_call": called_at is not None and not found}
+            "looks": looks, "turned_down": turned_down, "false_call": called_at is not None and not found,
+            "travelled": round(travelled, 1), **(guard.stats() if guard is not None else {"guard": "none"})}
 
 
 def picture(a) -> None:
@@ -616,6 +635,10 @@ def main() -> None:
     f.add_argument("--avoid-gain", type=float, default=0.7, help=f"avoid.py's was {AVOID_GAIN}; 0.7 from seeds 9302-9303")
     f.add_argument("--speed", type=float, default=0.55)
     f.add_argument("--out", default="")
+    f.add_argument("--guard", choices=("none", "jepa", "plain"), default="none", help="PLAN.md 9.4: brake from the JEPA's look ahead, or from the pixel step")
+    f.add_argument("--guard-model", default="cols")
+    f.add_argument("--guard-volts", type=float, default=0.8)
+    f.add_argument("--guard-thr", type=float, default=0.5)
     p = sub.add_parser("picture")
     p.add_argument("--seed", type=int, default=9301)
     p.add_argument("--decoys", action="store_true")

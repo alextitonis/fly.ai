@@ -11,7 +11,7 @@ import { createWriteStream, existsSync, readdirSync, readFileSync } from "node:f
 import { join } from "node:path";
 import { createGzip } from "node:zlib";
 import type { ConnectomeMeta } from "../../world/src/connectome.ts";
-import { ATLAS_HEADER, ATLAS_PREFIX, atlasInputs, atlasLines, readouts, runTotals, type AtlasInput, type Runs } from "../src/fold.ts";
+import { ATLAS_HEADER, ATLAS_PREFIX, atlasInputs, atlasLines, readouts, runTotals, type AtlasInput, type OrderSpec, type Readout, type Runs } from "../src/fold.ts";
 
 export { ATLAS_PREFIX, atlasInputs, readouts, type AtlasInput };
 const AMOUNTS = [0.2, 0.4, 0.8];
@@ -59,15 +59,21 @@ export function atlasOrders(meta: ConnectomeMeta, seeds = SEEDS): { label: strin
  * Fold a pulled atlas (<house>/atlas/sensory-dn-1/pNN/<order id>/) into a gzipped long table, one row per input x side x
  * amount x readout group. Rates are spikes per neuron per second, per seed, then mean and sd over the seeds.
  */
-export async function foldAtlas(house: string, out: string, inputs: AtlasInput[]): Promise<{ orders: number; conditions: number; rows: number; jobs: number; seeds_min: number; seeds_max: number } | null> {
-  const root = join(house, ATLAS_PREFIX);
+export function foldAtlas(house: string, out: string, inputs: AtlasInput[]) {
+  return foldProbeOrders(house, out, ATLAS_PREFIX, ATLAS_HEADER, (spec, groups, runs) => atlasLines(spec, groups, runs, inputs));
+}
+
+/** The same fold for any family of probe orders under one prefix (the atlas, its pairs), with that family's rows. */
+export async function foldProbeOrders(house: string, out: string, prefix: string, header: string,
+  linesOf: (spec: OrderSpec, groups: Readout[], runs: Runs) => string[]): Promise<{ orders: number; conditions: number; rows: number; jobs: number; seeds_min: number; seeds_max: number } | null> {
+  const root = join(house, prefix);
   if (!existsSync(root)) return null;
   const gz = createGzip();
   const file = createWriteStream(out);
   const done = new Promise<void>((resolve, reject) => { file.on("finish", resolve); file.on("error", reject); gz.on("error", reject); });
   gz.pipe(file);
   const write = (line: string) => (gz.write(line) ? Promise.resolve() : new Promise<void>((r) => gz.once("drain", () => r())));
-  await write(`${ATLAS_HEADER}\n`);
+  await write(`${header}\n`);
 
   const totals = { orders: 0, conditions: 0, rows: 0, jobs: 0, seeds_min: Infinity, seeds_max: 0 };
   for (const part of readdirSync(root).sort()) {
@@ -98,7 +104,7 @@ export async function foldAtlas(house: string, out: string, inputs: AtlasInput[]
         totals.seeds_max = Math.max(totals.seeds_max, read.seeds_max);
       }
       // the test's spec has no step counts; the atlas's bins are always BIN_STEPS
-      const lines = atlasLines({ ...order.spec, params: { ...order.spec.params, bin_steps: BIN_STEPS } }, groups, runs, inputs);
+      const lines = linesOf({ ...order.spec, params: { ...order.spec.params, bin_steps: BIN_STEPS } }, groups, runs);
       totals.rows += lines.length;
       if (lines.length) await write(`${lines.join("\n")}\n`);
     }

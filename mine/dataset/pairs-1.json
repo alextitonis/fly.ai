@@ -1,0 +1,489 @@
+{
+ "name": "pairs-1",
+ "made": "2026-11-24",
+ "source": "atlas.csv.gz v1 (export 2026-11-02, huggingface.co/datasets/alextoti1/connectome-screen tag 2026-11)",
+ "rule": "Amount 0.4, descending readouts only. effect = delta_hz minus the undriven control's delta_hz for the same readout; z = effect / (delta_sd_hz / sqrt(n_seeds)), sd floored at 0.02. An input qualifies with at least 3 readouts at z > 5; the 60 with the largest single effect are kept, ties by type then side.",
+ "amount": 0.4,
+ "inputs": [
+  {
+   "type": "LC4",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 55,
+   "max_effect_hz": 24.57,
+   "strong_readouts": 47
+  },
+  {
+   "type": "LC4",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 71,
+   "max_effect_hz": 24.27,
+   "strong_readouts": 62
+  },
+  {
+   "type": "LgLG3",
+   "side": "R",
+   "class": "vnc_sensory",
+   "cells": 84,
+   "max_effect_hz": 17.44,
+   "strong_readouts": 5
+  },
+  {
+   "type": "LgLG3",
+   "side": "L",
+   "class": "vnc_sensory",
+   "cells": 78,
+   "max_effect_hz": 16.595,
+   "strong_readouts": 7
+  },
+  {
+   "type": "LB3",
+   "side": "L",
+   "class": "cb_sensory",
+   "cells": 42,
+   "max_effect_hz": 15.24,
+   "strong_readouts": 42
+  },
+  {
+   "type": "LPLC1",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 66,
+   "max_effect_hz": 15.21,
+   "strong_readouts": 106
+  },
+  {
+   "type": "LB3",
+   "side": "R",
+   "class": "cb_sensory",
+   "cells": 45,
+   "max_effect_hz": 15.06,
+   "strong_readouts": 43
+  },
+  {
+   "type": "LPLC1",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 68,
+   "max_effect_hz": 14.88,
+   "strong_readouts": 99
+  },
+  {
+   "type": "LPLC2",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 91,
+   "max_effect_hz": 14.24,
+   "strong_readouts": 57
+  },
+  {
+   "type": "LPLC2",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 94,
+   "max_effect_hz": 13.13,
+   "strong_readouts": 58
+  },
+  {
+   "type": "LPLC4",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 48,
+   "max_effect_hz": 12.78,
+   "strong_readouts": 56
+  },
+  {
+   "type": "LPLC4",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 49,
+   "max_effect_hz": 12.78,
+   "strong_readouts": 65
+  },
+  {
+   "type": "VSm",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 2,
+   "max_effect_hz": 12.11,
+   "strong_readouts": 20
+  },
+  {
+   "type": "BM_Ant,BM_Fr,BM_FrOr,BM_InOc,BM_Oc,BM_Or,BM_Vib",
+   "side": "L",
+   "class": "cb_sensory",
+   "cells": 39,
+   "max_effect_hz": 11.34,
+   "strong_readouts": 112
+  },
+  {
+   "type": "aMe5",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 25,
+   "max_effect_hz": 11.215,
+   "strong_readouts": 3
+  },
+  {
+   "type": "VSm",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 2,
+   "max_effect_hz": 11.13,
+   "strong_readouts": 18
+  },
+  {
+   "type": "LPC1",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 115,
+   "max_effect_hz": 10.93,
+   "strong_readouts": 50
+  },
+  {
+   "type": "JO-EV1",
+   "side": "L",
+   "class": "cb_sensory",
+   "cells": 31,
+   "max_effect_hz": 10.777,
+   "strong_readouts": 28
+  },
+  {
+   "type": "BM_Ant,BM_Fr,BM_FrOr,BM_InOc,BM_Oc,BM_Or,BM_Vib",
+   "side": "R",
+   "class": "cb_sensory",
+   "cells": 30,
+   "max_effect_hz": 10.69,
+   "strong_readouts": 103
+  },
+  {
+   "type": "LPC1",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 109,
+   "max_effect_hz": 10.68,
+   "strong_readouts": 52
+  },
+  {
+   "type": "BM_InOm",
+   "side": "L",
+   "class": "cb_sensory",
+   "cells": 340,
+   "max_effect_hz": 10.39,
+   "strong_readouts": 102
+  },
+  {
+   "type": "BM_InOm",
+   "side": "R",
+   "class": "cb_sensory",
+   "cells": 405,
+   "max_effect_hz": 10.3,
+   "strong_readouts": 86
+  },
+  {
+   "type": "BM_Taste",
+   "side": "L",
+   "class": "cb_sensory",
+   "cells": 23,
+   "max_effect_hz": 10.05,
+   "strong_readouts": 42
+  },
+  {
+   "type": "SNta02,SNta09",
+   "side": "R",
+   "class": "vnc_sensory",
+   "cells": 122,
+   "max_effect_hz": 9.49,
+   "strong_readouts": 28
+  },
+  {
+   "type": "ENS4",
+   "side": "L",
+   "class": "cb_sensory",
+   "cells": 3,
+   "max_effect_hz": 9.37,
+   "strong_readouts": 5
+  },
+  {
+   "type": "SNta02,SNta09",
+   "side": "L",
+   "class": "vnc_sensory",
+   "cells": 119,
+   "max_effect_hz": 9.23,
+   "strong_readouts": 24
+  },
+  {
+   "type": "LC36",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 16,
+   "max_effect_hz": 8.92,
+   "strong_readouts": 14
+  },
+  {
+   "type": "BM_vOcci_vPoOr",
+   "side": "R",
+   "class": "cb_sensory",
+   "cells": 21,
+   "max_effect_hz": 8.73,
+   "strong_readouts": 29
+  },
+  {
+   "type": "LLPC2",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 125,
+   "max_effect_hz": 8.11,
+   "strong_readouts": 35
+  },
+  {
+   "type": "SNpp23",
+   "side": "L",
+   "class": "vnc_sensory",
+   "cells": 8,
+   "max_effect_hz": 8.11,
+   "strong_readouts": 22
+  },
+  {
+   "type": "LLPC2",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 125,
+   "max_effect_hz": 7.99,
+   "strong_readouts": 44
+  },
+  {
+   "type": "LC36",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 16,
+   "max_effect_hz": 7.93,
+   "strong_readouts": 13
+  },
+  {
+   "type": "SNpp19",
+   "side": "R",
+   "class": "vnc_sensory",
+   "cells": 17,
+   "max_effect_hz": 7.86,
+   "strong_readouts": 21
+  },
+  {
+   "type": "LC9",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 115,
+   "max_effect_hz": 7.81,
+   "strong_readouts": 31
+  },
+  {
+   "type": "LC9",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 104,
+   "max_effect_hz": 7.64,
+   "strong_readouts": 21
+  },
+  {
+   "type": "SNpp19",
+   "side": "L",
+   "class": "vnc_sensory",
+   "cells": 18,
+   "max_effect_hz": 7.52,
+   "strong_readouts": 14
+  },
+  {
+   "type": "SApp08",
+   "side": "R",
+   "class": "sensory_ascending",
+   "cells": 24,
+   "max_effect_hz": 7.461,
+   "strong_readouts": 7
+  },
+  {
+   "type": "SApp09,SApp22",
+   "side": "L",
+   "class": "sensory_ascending",
+   "cells": 35,
+   "max_effect_hz": 7.45,
+   "strong_readouts": 18
+  },
+  {
+   "type": "VS1,VS2,VS3,VS4,VS5,VS6,VS7,VS8",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 9,
+   "max_effect_hz": 7.43,
+   "strong_readouts": 9
+  },
+  {
+   "type": "VST2",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 4,
+   "max_effect_hz": 7.429,
+   "strong_readouts": 18
+  },
+  {
+   "type": "JO-A2",
+   "side": "L",
+   "class": "cb_sensory",
+   "cells": 11,
+   "max_effect_hz": 7.38,
+   "strong_readouts": 4
+  },
+  {
+   "type": "SApp08",
+   "side": "L",
+   "class": "sensory_ascending",
+   "cells": 23,
+   "max_effect_hz": 7.376,
+   "strong_readouts": 7
+  },
+  {
+   "type": "LPT04_HST",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 1,
+   "max_effect_hz": 7.29,
+   "strong_readouts": 7
+  },
+  {
+   "type": "LgLG1b",
+   "side": "R",
+   "class": "vnc_sensory",
+   "cells": 69,
+   "max_effect_hz": 7.28,
+   "strong_readouts": 4
+  },
+  {
+   "type": "JO-EV3",
+   "side": "L",
+   "class": "cb_sensory",
+   "cells": 22,
+   "max_effect_hz": 7.242,
+   "strong_readouts": 28
+  },
+  {
+   "type": "LLPC1",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 143,
+   "max_effect_hz": 7.24,
+   "strong_readouts": 58
+  },
+  {
+   "type": "BM_Taste",
+   "side": "R",
+   "class": "cb_sensory",
+   "cells": 17,
+   "max_effect_hz": 7.02,
+   "strong_readouts": 36
+  },
+  {
+   "type": "SNta33",
+   "side": "R",
+   "class": "vnc_sensory",
+   "cells": 12,
+   "max_effect_hz": 6.97,
+   "strong_readouts": 3
+  },
+  {
+   "type": "SNpp23",
+   "side": "R",
+   "class": "vnc_sensory",
+   "cells": 8,
+   "max_effect_hz": 6.94,
+   "strong_readouts": 17
+  },
+  {
+   "type": "SApp09,SApp22",
+   "side": "R",
+   "class": "sensory_ascending",
+   "cells": 39,
+   "max_effect_hz": 6.83,
+   "strong_readouts": 15
+  },
+  {
+   "type": "H2",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 1,
+   "max_effect_hz": 6.8,
+   "strong_readouts": 6
+  },
+  {
+   "type": "JO-EV6",
+   "side": "L",
+   "class": "cb_sensory",
+   "cells": 14,
+   "max_effect_hz": 6.792,
+   "strong_readouts": 21
+  },
+  {
+   "type": "LPT04_HST",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 1,
+   "max_effect_hz": 6.77,
+   "strong_readouts": 7
+  },
+  {
+   "type": "LC18",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 104,
+   "max_effect_hz": 6.72,
+   "strong_readouts": 40
+  },
+  {
+   "type": "MTe01b",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 25,
+   "max_effect_hz": 6.64,
+   "strong_readouts": 45
+  },
+  {
+   "type": "LLPC1",
+   "side": "R",
+   "class": "visual_projection",
+   "cells": 142,
+   "max_effect_hz": 6.55,
+   "strong_readouts": 66
+  },
+  {
+   "type": "LC29",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 21,
+   "max_effect_hz": 6.47,
+   "strong_readouts": 3
+  },
+  {
+   "type": "H2",
+   "side": "L",
+   "class": "visual_projection",
+   "cells": 1,
+   "max_effect_hz": 6.2,
+   "strong_readouts": 7
+  },
+  {
+   "type": "BM_Vib",
+   "side": "L",
+   "class": "cb_sensory",
+   "cells": 12,
+   "max_effect_hz": 5.97,
+   "strong_readouts": 29
+  },
+  {
+   "type": "TPMN1",
+   "side": "R",
+   "class": "cb_sensory",
+   "cells": 28,
+   "max_effect_hz": 5.93,
+   "strong_readouts": 45
+  }
+ ]
+}

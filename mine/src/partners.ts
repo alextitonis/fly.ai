@@ -51,7 +51,10 @@ const SUGGESTED_GAS_ETH = 0.0005;
 const RULES = ["equal"];                  // flytrade/vaults/ruyuirules.py RULES
 
 type Ledger = { holder: string | null; principal_usd: number; locked_usd: number; closing: boolean };
-export type Extra = { name: string; contract: string; first_id: number; last_id: number; offset: number; image?: string; url?: string; x?: string };
+export type Extra = { name: string; contract: string; first_id: number; last_id: number; offset: number; image?: string; url?: string; x?: string;
+  /** the collection the main one migrates into (2026-11-24, the locked Bad Bunnz 2): an old token at the burn address
+   *  belongs to whoever holds the same number here, and its wallet keeps going (partner.py Partner.successor) */
+  successor?: boolean };
 export type Partner = {
   id: string; name: string; on: boolean; book: string;
   collection: { chain: string; chain_id: number; rpc: string; contract: string; first_id: number; last_id: number;
@@ -94,7 +97,7 @@ export function parsePartner(row: { id: string; name: string; on: boolean; confi
     spans.push([off + f, off + l]);
     extra.push({ name: String(e.name || row.name || id), contract: checksumAddress(String(e.contract)), first_id: f, last_id: l, offset: off,
                  ...(e.image ? { image: String(e.image) } : {}), ...(e.url ? { url: String(e.url) } : {}),
-                 ...(e.x ? { x: String(e.x).replace(/^@/, "") } : {}) });
+                 ...(e.x ? { x: String(e.x).replace(/^@/, "") } : {}), ...(e.successor ? { successor: true } : {}) });
   }
   const feeTo = c.partner_fee_to ?? null;
   if (feeTo !== null && !ADDRESS.test(String(feeTo))) throw new Error("partner_fee_to must be an address or null");
@@ -138,6 +141,9 @@ export const CHAT_BASES: Record<string, number> = { bullas: 1_000_000_000, ruyui
 const word = (v: bigint | number | string) =>
   typeof v === "string" ? v.replace(/^0x/, "").toLowerCase().padStart(64, "0") : BigInt(v).toString(16).padStart(64, "0");
 const ZERO = "0x0000000000000000000000000000000000000000";
+const DEAD = "0x000000000000000000000000000000000000dead";   // a migration's old token (Extra.successor)
+/** The collection the main one migrates into, if any. */
+export const successorOf = (p: Partner): Extra | undefined => p.collection.extra.find((e) => e.successor);
 
 /** Every collection of a partner, the main one first (offset 0). */
 export function partsOf(p: Partner): Extra[] {
@@ -215,6 +221,15 @@ export function createPartners(d: PartnersDeps) {
       const ret = await rpc(p.collection.rpc, "eth_call", [{ to: at.part.contract, data: `${selector("ownerOf(uint256)")}${word(at.token)}` }, "latest"]) as string;
       owner = checksumAddress(`0x${ret.slice(-40)}`);
       if (owner === ZERO) owner = null;
+      const succ = successorOf(p);
+      if (owner && owner.toLowerCase() === DEAD && succ && at.part.offset === 0 && n >= succ.first_id && n <= succ.last_id) {
+        // migrated: the old wallet belongs to whoever holds the same number in the successor (not minted there yet: dead)
+        try {
+          const r2 = await rpc(p.collection.rpc, "eth_call", [{ to: succ.contract, data: `${selector("ownerOf(uint256)")}${word(n)}` }, "latest"]) as string;
+          const o2 = r2 && r2.length >= 66 ? checksumAddress(`0x${r2.slice(-40)}`) : null;
+          if (o2 && o2 !== ZERO && o2.toLowerCase() !== DEAD) owner = o2;
+        } catch { /* not minted there: stays at the burn address */ }
+      }
     } catch (err) {
       if (/revert/i.test(String((err as Error)?.message ?? err))) owner = null;      // burned or never minted
       else throw new HttpError(502, `${p.name}'s chain can't be read right now; try again`);
@@ -246,6 +261,7 @@ export function createPartners(d: PartnersDeps) {
             list.push(ids[k]);
             byOwner.set(o, list);
           });
+          await migrated(p, byOwner);
           s.at = Date.now();
           s.byOwner = byOwner;
           return byOwner;
@@ -277,6 +293,34 @@ export function createPartners(d: PartnersDeps) {
       } catch { /* (the last sweep answers) */ }
     }
     return { tokens, at: s.at };
+  }
+  /** A holder's successor token whose old token (the same number) is at the burn address and has a wallet still theirs
+   *  (no holder yet, or them) is listed as the old id: one NFT, one wallet, the old one keeps going (Extra.successor).
+   *  A successor token with its own wallet already set up stays itself. */
+  async function migrated(p: Partner, byOwner: Map<string, number[]>) {
+    const succ = successorOf(p);
+    const dead = new Set(byOwner.get(DEAD) ?? []);
+    if (!succ || !dead.size) return;
+    const cands: { owner: string; s: number; n: number }[] = [];
+    for (const [owner, list] of byOwner) {
+      if (owner === DEAD) continue;
+      for (const s of list) {
+        const n = s - succ.offset;
+        if (n >= succ.first_id && n <= succ.last_id && dead.has(n)) cands.push({ owner, s, n });
+      }
+    }
+    if (!cands.length) return;
+    const ids = [...new Set(cands.flatMap((c) => [`${p.book}:${c.n}`, `${p.book}:${c.s}`]))];
+    const rows = await pg.all<{ id: string; holder: string | null }>(`select w.id, l.holder from mine.vault_wallets w
+      left join mine.vault_ledger l on l.wallet = w.address and l.chain = ? where w.id = any(?::text[])`, p.book, `{${ids.join(",")}}`);
+    const byId = new Map(rows.map((r) => [r.id, r.holder]));
+    for (const c of cands) {
+      if (byId.has(`${p.book}:${c.s}`) || !byId.has(`${p.book}:${c.n}`)) continue;   // its own wallet / none to carry on
+      const holder = byId.get(`${p.book}:${c.n}`);
+      if (holder && holder.toLowerCase() !== c.owner) continue;                     // the old wallet is someone else's
+      const list = byOwner.get(c.owner)!;
+      list[list.indexOf(c.s)] = c.n;
+    }
   }
   async function ethWei(wallet: string): Promise<bigint> {
     return BigInt(await rpc(d.rpcUrl, "eth_getBalance", [wallet, "latest"]) as string);

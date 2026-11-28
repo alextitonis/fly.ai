@@ -26,6 +26,9 @@ export type ActivationsDeps = {
 
 const KEY = /^vault:(?:(0x[0-9a-fA-F]{40})|p_([a-z][a-z0-9]{1,19}):(0x[0-9a-fA-F]{40})|ruyui:(0x[0-9a-fA-F]{40}))$/;
 const MIN_USD = 1;
+/** a partner NFT's wallet counts from $10, like the Partners pot (flytrade/vaults/allpool.py, 2026-11-27: the user,
+ *  "raise the $1 minimum" - ~$2.50 wallets were most of the "trading" partner NFTs) */
+const PARTNER_MIN_USD = 10;
 const DAY = 86_400_000;
 const NEW_HOLDER_DAYS = 30;
 
@@ -47,14 +50,15 @@ export function createActivations(d: ActivationsDeps) {
 
   /** every unit that is live right now */
   async function liveUnits(): Promise<Unit[]> {
-    const rows = await pg.all<{ key: string; holder: string | null; fly_id: number | null }>(`
-      select p.key, lower(p.value->>'holder') as holder, w.fly_id
+    const rows = await pg.all<{ key: string; holder: string | null; fly_id: number | null; usd: number | null }>(`
+      select p.key, lower(p.value->>'holder') as holder, w.fly_id, coalesce((p.value->>'value')::float8, 0) as usd
       from mine.vault_public p left join mine.vault_wallets w on lower(w.address) = lower(substring(p.key from 7))
       where p.key like 'vault:%' and (p.value->>'active') = 'true'
         and coalesce((p.value->>'value')::float8, 0) >= ?`, MIN_USD);
     const out: Unit[] = [];
     for (const r of rows) {
       const u = unitOf(r.key);
+      if (u && u.book !== "fly" && Number(r.usd ?? 0) < PARTNER_MIN_USD) continue;
       if (u) out.push({ ...u, holder: r.holder, fly_id: u.book === "fly" && r.fly_id != null ? Number(r.fly_id) : null });
     }
     return out;

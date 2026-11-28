@@ -87,3 +87,36 @@ Each run starts from rest voltage, so the network is still settling in the rest 
 about 0.02 Hz per neuron for a single cell over 10 s, so treat small effects with care. Driving a type
 with a constant voltage isn't a natural stimulus (see *Limitations*).
 ```
+
+## Pairs of senses (atlas/pairs-1)
+
+The 60 strongest atlas inputs, every two of them driven together: 1,770 pairs plus one control, 17,710 jobs in 28
+orders (`scripts/pairs.ts`). The inputs are frozen in `dataset/pairs-1.json` with the rule that picked them (amount 0.4,
+at least 3 descending readouts at z > 5, largest single effect first). Same window, gain, tonic and seeds as the atlas,
+both inputs at 0.4, so each pair lines up with the atlas rows of its two inputs alone. Pays 8 points a job, like the atlas.
+
+1. **Deploy the server first** (`bash mine/deploy.sh`; `git status mine/` before, it ships the working tree). Without
+   it, finished pairs orders get the generic probe table instead of the pairs table.
+2. Start them, pilot first:
+
+   ```sh
+   set -a; source mine/.env.local; set +a
+   cd mine
+   npm run seed:house -- --only atlas/pairs-1/ --dry-run   # 28 orders, starts nothing
+   npm run seed:house -- --only atlas/pairs-1/p00          # pilot: 640 jobs
+   npm run seed:house -- --only atlas/pairs-1/             # the rest; started labels are skipped
+   ```
+
+   Check after the pilot: the `nothing` row of p00's table must equal the atlas's control rows (same job, same bytes).
+3. `npm run export:dataset` once all 28 have a table. It writes `pairs.csv.gz`: the server's rows plus
+   `a_delta_hz, b_delta_hz, control_delta_hz, sum_delta_hz` (= a + b - control, what the pair would do if the inputs
+   just added) and `interaction_hz` (= pair - sum) with `interaction_se_hz` (the four estimates taken as independent;
+   they share seeds, so it is on the wide side). Then add a `pairs` config to the card (`data_files: pairs.csv.gz`) and
+   upload as in PUBLISH.md (repo `alextoti1/connectome-screen`).
+
+## The screen's daily cap (SCREEN_JOBS_DAY)
+
+`fly.toml` sets `SCREEN_JOBS_DAY` (new screen jobs per UTC day, let out evenly over the day; 0 = no limit). Before
+2026-11-24 the screen ran ~8.6M jobs a day on conditions that already had ~1.5M seeds each. House orders (the atlas,
+pairs) go first either way. Miners with nothing to claim see "no jobs right now" and retry every 30 s. Points split a
+fixed monthly pool, so a smaller screen makes each point worth more; it doesn't lower what miners are paid in total.

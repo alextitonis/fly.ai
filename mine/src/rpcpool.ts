@@ -15,6 +15,8 @@ export const RPC_FALLBACKS: Record<string, string[]> = {
   "https://api.mainnet.abs.xyz": ["https://abstract.drpc.org", "https://abstract.api.onfinality.io/public"],
   // Ethereum: read only, RUYUI's owners since 2026-11-12 (src/ruyui.ts)
   "https://ethereum-rpc.publicnode.com": ["https://eth.drpc.org", "https://eth.llamarpc.com"],
+  // Berachain: Fly Boxes' Bullas / Booga Bullas prizes are sent here (src/boxprizes.ts, 2026-11-24)
+  "https://rpc.berachain.com": ["https://berachain-rpc.publicnode.com", "https://berachain.drpc.org"],
 };
 
 /** A rate-limit reply (QuickNode -32007 "15/second request limit reached", -32005 "limit exceeded"): try the next RPC. */

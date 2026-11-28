@@ -361,6 +361,19 @@ export async function apifySearch(token: string, actor: string, since: string): 
     .map((t) => ({ id: String(t.id), author: t.author!.userName!, at: Date.parse(t.createdAt!), reply: !!t.isReply }));
 }
 
+/** Replies under one X post (the weekly Flyverse story reads holders' ideas from them). */
+export async function storyXReplies(token: string, actor: string, postId: string): Promise<{ id: string; author: string; text: string; at: number }[]> {
+  if (!/^\d{5,25}$/.test(postId)) return [];
+  const r = await fetch(`https://api.apify.com/v2/acts/${actor}/run-sync-get-dataset-items?token=${token}`, {
+    method: "POST", headers: { "content-type": "application/json" }, signal: AbortSignal.timeout(280_000),
+    body: JSON.stringify({ searchTerms: [`conversation_id:${postId}`], maxItems: 1000, queryType: "Latest" }),
+  });
+  if (!r.ok) throw new Error(`apify ${r.status}`);
+  const items = await r.json() as { id?: string | number; createdAt?: string; text?: string; fullText?: string; author?: { userName?: string } }[];
+  return items.filter((t) => t.author?.userName && Number(t.id) > 0 && String(t.id) !== postId && (t.text || t.fullText))
+    .map((t) => ({ id: String(t.id), author: t.author!.userName!, text: String(t.text ?? t.fullText), at: Date.parse(t.createdAt ?? "") || Date.now() }));
+}
+
 export type Sources = Record<string, number>;
 /** sources booked one by one in mine.xp_events; the rest accrue and are logged by the day */
 export const EVENT_SOURCES = ["market", "buy", "breed", "feed", "claimstake", "passburn", "share", "checkin", "quest", "expedition"];
