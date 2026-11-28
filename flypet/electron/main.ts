@@ -1,6 +1,6 @@
 // The native side: a small transparent window that only catches the mouse over the character, a tray menu and a settings
 // window. Everything else lives in the pages (src/); they reach this file only through preload.ts.
-import { execFile, spawn, type ChildProcess } from "node:child_process";
+import { execFile, execFileSync, spawn, type ChildProcess } from "node:child_process";
 import { writeFile } from "node:fs/promises";
 import { join, normalize, sep } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -230,6 +230,7 @@ function handleCalls() {
   ipcMain.on("panel-close", () => { panel?.close(); pet.webContents.send("open", ""); });   // picked: the chat opens on the fly
   ipcMain.on("quit", () => app.quit());
   ipcMain.on("perch", (_e, on: boolean) => perchWatch(!!on));
+  ipcMain.on("perch-available", (e) => { e.returnValue = perchAvailable(); });
   // ---- the game coach (flytrade/COACH-PLAN.md): the pet only looks; it never sends input to a game ----------------
   // the open windows to pick the game from, with small thumbnails: only while the picker is open, never in a loop
   ipcMain.handle("coach-sources", async () => {
@@ -329,9 +330,13 @@ else {
 }
 
 // ---- sitting on your windows (2026-11-18, flypet/EXPEDITIONS-PLAN.md; the user: "Also window perching") -------------------
-// Windows only: one small PowerShell loop reads the window in front (its box, process and class) every 0.7 s while the
+// Windows: one small PowerShell loop reads the window in front (its box, process and class) every 0.7 s while the
 // setting is on, and the pet hears its box in screen DIPs - or null for the desktop, the taskbar, our own windows, a
-// minimized or maximized window. It only reads where a window is: never its contents, never any input.
+// minimized or maximized window. Linux on X11: the same watch, built from the tools an X11 desktop already has
+// (x11-utils): one long-running `xprop -root -spy _NET_ACTIVE_WINDOW` reports focus changes the moment they happen,
+// and a 0.7 s poll re-reads the front window's box — one xwininfo call a tick (dragging a window doesn't change
+// focus, so the spy alone would miss it). Wayland has no such query, so it stays off, and so does macOS. It only
+// reads where a window is: never its contents, never any input, and the pid is read only to skip our own windows.
 const PERCH_PS = `
 Add-Type @"
 using System; using System.Text; using System.Runtime.InteropServices;
@@ -353,12 +358,113 @@ while ($true) {
 }`;
 const PERCH_SKIP = new Set(["Progman", "WorkerW", "Shell_TrayWnd", "Shell_SecondaryTrayWnd", "NotifyIconOverflowWindow", "Windows.UI.Core.CoreWindow"]);
 let perchProc: ChildProcess | null = null, perchLast = "";
+/** whether perching can run here: Windows always; Linux on X11 with xprop + xwininfo installed (checked once) */
+let perchX11OK: boolean | null = null;
+function perchAvailable(): boolean {
+  if (process.platform === "win32") return true;
+  if (process.platform !== "linux" || !process.env.DISPLAY || process.env.XDG_SESSION_TYPE === "wayland") return false;
+  if (perchX11OK == null) {
+    try { execFileSync("sh", ["-c", "command -v xprop >/dev/null && command -v xwininfo >/dev/null"], { timeout: 5_000 }); perchX11OK = true; }
+    catch { perchX11OK = false; }
+  }
+  return perchX11OK;
+}
+/** screen pixels to DIPs: Electron has no screenToDipRect (only the point form, which needs a window), so scale by
+ * the display the window sits on — on a scale-1 screen this is the box unchanged */
+function toDipRect(box: { x: number; y: number; width: number; height: number }) {
+  const s = screen.getDisplayNearestPoint({ x: box.x, y: box.y }).scaleFactor || 1;
+  return { x: box.x / s, y: box.y / s, width: box.width / s, height: box.height / s };
+}
+/** tell the pet, once per change: the front window's box in DIPs, or null when there is none to sit on */
+function perchEmit(msg: { id: string; x: number; y: number; width: number; height: number } | null) {
+  const key = JSON.stringify(msg);
+  if (key !== perchLast && pet && !pet.isDestroyed()) { perchLast = key; pet.webContents.send("perch", msg); }
+}
+const execFileP = (cmd: string, args: string[]) => new Promise<string>((ok) => {
+  execFile(cmd, args, { timeout: 5_000 }, (err, out) => ok(err ? "" : String(out ?? "")));
+});
+/** the active window's id on X11, or null (0x0 = no window in front) */
+function x11ActiveId(out: string): string | null {
+  const m = out.match(/window id # (0x[0-9a-fA-F]+)/);
+  return m && m[1] !== "0x0" ? m[1]! : null;
+}
+/** a window's box from xwininfo, or null when the output doesn't parse; mapped = the window is on screen */
+function x11Box(out: string): { x: number; y: number; width: number; height: number; mapped: boolean } | null {
+  const num = (re: RegExp) => { const m = out.match(re); return m ? Number(m[1]) : NaN; };
+  const x = num(/Absolute upper-left X:\s+(-?\d+)/), y = num(/Absolute upper-left Y:\s+(-?\d+)/);
+  const width = num(/Width:\s+(\d+)/), height = num(/Height:\s+(\d+)/);
+  if (![x, y, width, height].every(Number.isFinite)) return null;
+  return { x, y, width, height, mapped: /Map State:\s+IsViewable/.test(out) };
+}
+/** a window's pid from xprop, or null when the window doesn't report one (some toolkits don't set it) */
+function x11Pid(out: string): number | null {
+  const m = out.match(/_NET_WM_PID\(CARDINAL\) = (\d+)/);
+  return m ? Number(m[1]) : null;
+}
+let perchSpy: ChildProcess | null = null, perchTimer: NodeJS.Timeout | null = null, perchBusy = false;
+let perchLastId: string | null = null, perchPolls = 0;
+const perchPidCache = new Map<string, number | null>();
+/** read the front window on X11 and tell the pet. full = re-ask who is in front (focus may have changed); otherwise
+ * just re-read the last window's box — a drag moves it without changing focus, and that is one xwininfo call. The
+ * pid is asked once per window and cached (it never changes for a window id; a new id always re-asks, so a reused
+ * id can't serve a stale pid). Skips our own windows, unmapped ones, tiny ones, and ones that fill a whole work
+ * area (maximized-like: the fly has no top edge to sit on). */
+async function perchReadX11(full: boolean) {
+  if (perchBusy) return;
+  perchBusy = true;
+  try {
+    let id = perchLastId;
+    if (full || !id) {
+      id = x11ActiveId(await execFileP("xprop", ["-root", "_NET_ACTIVE_WINDOW"]));
+      if (!id) { perchLastId = null; perchEmit(null); return; }
+      if (id !== perchLastId) {
+        perchLastId = id;
+        perchPidCache.set(id, x11Pid(await execFileP("xprop", ["-id", id, "_NET_WM_PID"])));
+        if (perchPidCache.size > 32) perchPidCache.clear();
+      }
+    }
+    const box = x11Box(await execFileP("xwininfo", ["-id", id]));
+    const pid = perchPidCache.get(id) ?? null;
+    const maximized = !!box && screen.getAllDisplays().some((d) => box.width >= d.workArea.width && box.height >= d.workArea.height);
+    const skip = !box || !box.mapped || pid === process.pid || !(box.width >= 240 && box.height >= 120) || maximized;
+    const dip = skip || !box ? null : toDipRect(box);
+    perchEmit(dip ? { id, x: dip.x, y: dip.y, width: dip.width, height: dip.height } : null);
+  } catch { /* a failed read just skips this tick: the next poll tries again */ } finally { perchBusy = false; }
+}
+function perchWatchLinux() {
+  if (perchSpy || perchTimer) return;
+  const spy = spawn("xprop", ["-root", "-spy", "_NET_ACTIVE_WINDOW"]);
+  perchSpy = spy;
+  let buf = "";
+  spy.stdout?.setEncoding("utf8");
+  spy.stdout?.on("data", (chunk: string) => {
+    buf += chunk;
+    let i: number;
+    while ((i = buf.indexOf("\n")) >= 0) { buf = buf.slice(i + 1); void perchReadX11(true); }
+  });
+  spy.on("exit", () => { if (perchSpy === spy) perchSpy = null; });
+  void perchReadX11(true);
+  perchTimer = setInterval(() => {
+    // a missed spy event heals itself: every 10th tick re-asks who is in front
+    void perchReadX11(++perchPolls % 10 === 0);
+  }, 700);
+}
 function perchWatch(on: boolean) {
-  if (!on || process.platform !== "win32") {
-    perchProc?.kill(); perchProc = null; perchLast = "";
+  if (!on) {
+    perchProc?.kill(); perchProc = null;
+    perchSpy?.kill(); perchSpy = null;
+    if (perchTimer) { clearInterval(perchTimer); perchTimer = null; }
+    perchLast = ""; perchLastId = null;
     return;
   }
-  if (perchProc) return;
+  if (process.platform === "win32") {
+    if (perchProc) return;
+    perchWatchWin();
+    return;
+  }
+  if (process.platform === "linux" && perchAvailable()) perchWatchLinux();
+}
+function perchWatchWin() {
   const ps = spawn("powershell.exe", ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-Command", PERCH_PS], { windowsHide: true });
   perchProc = ps;
   let buf = "";
@@ -372,7 +478,7 @@ function perchWatch(on: boolean) {
       const box = { x: Number(l), y: Number(t_), width: Number(r) - Number(l), height: Number(b) - Number(t_) };
       const skip = !hwnd || Number(pid) === process.pid || zoomed === "1" || iconic === "1" || PERCH_SKIP.has(cls ?? "")
         || !(box.width >= 240 && box.height >= 120) || [box.x, box.y, box.width, box.height].some((n) => !Number.isFinite(n));
-      const dip = skip ? null : screen.screenToDipRect(null, box);
+      const dip = skip ? null : toDipRect(box);
       const msg = dip ? { id: hwnd, x: dip.x, y: dip.y, width: dip.width, height: dip.height } : null;
       const key = JSON.stringify(msg);
       if (key !== perchLast && pet && !pet.isDestroyed()) { perchLast = key; pet.webContents.send("perch", msg); }

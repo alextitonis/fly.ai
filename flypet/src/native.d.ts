@@ -37,6 +37,7 @@ interface Window {
     onCoach(fn: (what: string) => void): void;
     perch?(on: boolean): void;
     onPerch?(fn: (w: { id: string; x: number; y: number; width: number; height: number } | null) => void): void;
+    perchAvailable?: boolean;
     platform?: string;
   };
 }

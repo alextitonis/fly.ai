@@ -205,7 +205,7 @@ const en = {
     "f.done": "Focus done! That's {n} today 🎉",
     "f.stop": "Focus stopped.",
     "set.perch": "Sit on my windows",
-    "set.perchHelp": "The fly sometimes lands on the window you're using, and buzzes off when you move it. Windows only.",
+    "set.perchHelp": "The fly sometimes lands on the window you're using, and buzzes off when you move it. Windows and Linux (X11) only — not on Wayland or macOS.",
 };
 export type Key = keyof typeof en;
 
@@ -414,7 +414,7 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "f.done": "专注完成！今天第 {n} 次 🎉",
     "f.stop": "专注已停止。",
     "set.perch": "停在我的窗口上",
-    "set.perchHelp": "苍蝇有时会落在你正在使用的窗口上，移动窗口它就会飞走。仅限 Windows。",
+    "set.perchHelp": "苍蝇有时会落在你正在使用的窗口上，移动窗口它就会飞走。仅限 Windows 和 Linux（X11），Wayland 和 macOS 不支持。",
   },
   "zh-Hant": {
     "p.typing": "正在輸入",
@@ -619,7 +619,7 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "f.done": "專注完成！今天第 {n} 次 🎉",
     "f.stop": "專注已停止。",
     "set.perch": "停在我的視窗上",
-    "set.perchHelp": "蒼蠅有時會落在你正在使用的視窗上，移動視窗它就會飛走。僅限 Windows。",
+    "set.perchHelp": "蒼蠅有時會落在你正在使用的視窗上，移動視窗它就會飛走。僅限 Windows 和 Linux（X11），Wayland 和 macOS 不支援。",
   },
   ko: {
     "p.typing": "입력 중",
@@ -824,7 +824,7 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "f.done": "집중 완료! 오늘 {n}번째 🎉",
     "f.stop": "집중을 멈췄어요.",
     "set.perch": "내 창 위에 앉기",
-    "set.perchHelp": "파리가 가끔 사용 중인 창 위에 앉고, 창을 움직이면 날아가요. Windows 전용.",
+    "set.perchHelp": "파리가 가끔 사용 중인 창 위에 앉고, 창을 움직이면 날아가요. Windows와 Linux(X11) 전용 — Wayland와 macOS에서는 안 돼요.",
   },
   tr: {
     "p.typing": "yazıyor",
@@ -1029,7 +1029,7 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "f.done": "Odak bitti! Bugün {n}. seans 🎉",
     "f.stop": "Odak durduruldu.",
     "set.perch": "Pencerelerime kon",
-    "set.perchHelp": "Sinek bazen kullandığın pencerenin üstüne konar, pencereyi taşıyınca uçar gider. Sadece Windows.",
+    "set.perchHelp": "Sinek bazen kullandığın pencerenin üstüne konar, pencereyi taşıyınca uçar gider. Sadece Windows ve Linux (X11) — Wayland ve macOS'ta yok.",
   },
   es: {
     "p.typing": "escribiendo",
@@ -1234,7 +1234,7 @@ export const STRINGS: Record<Lang, Record<Key, string>> = {
     "f.done": "¡Enfoque terminado! Van {n} hoy 🎉",
     "f.stop": "Enfoque detenido.",
     "set.perch": "Posarse en mis ventanas",
-    "set.perchHelp": "La mosca a veces se posa en la ventana que usas y sale volando cuando la mueves. Solo Windows.",
+    "set.perchHelp": "La mosca a veces se posa en la ventana que usas y sale volando cuando la mueves. Solo Windows y Linux (X11); no funciona en Wayland ni macOS.",
   },
 };
 
