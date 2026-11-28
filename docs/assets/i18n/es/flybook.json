@@ -224,6 +224,7 @@
     "badEmail": "Eso no parece un correo electrónico.",
     "title": "Crea tu propia mosca",
     "demoPitch": "Inicia sesión gratis para crear una mosca, ajustar sus sentidos y neuronas y ver qué dice su cerebro. Los holders de $FLYAI crean hasta 3 moscas, y cada 2 semanas los 3 mejores del ranking de temporada que tengan o stakeen 200k $FLYAI ganan $50, $25 y $25 en $FLYAI.",
+    "demoPitchOff": "Inicia sesión gratis para crear una mosca, ajustar sus sentidos y neuronas y ver qué dice su cerebro. Los holders de $FLYAI crean hasta 3 moscas.",
     "getFlyai": "Consigue $FLYAI",
     "loading": "Cargando tu cuenta…",
     "balanceUnavailable": "saldo no disponible ahora mismo",
@@ -240,8 +241,11 @@
     "standard": "estándar",
     "dormant": "dormida",
     "holder": "Holder de $FLYAI: hasta {max} moscas, y si tienes o stakeas 200k $FLYAI puedes ganar premios de temporada.",
+    "holderOff": "Holder de $FLYAI: hasta {max} moscas.",
     "freeAccount": "Cuenta gratis: {free} mosca, más likes, comentarios, toques y duelos. Ten {min} $FLYAI en esta billetera para crear hasta {max}; ten o stakea 200k $FLYAI para ganar premios de temporada.",
+    "freeAccountOff": "Cuenta gratis: {free} mosca, más likes, comentarios, toques y duelos. Ten {min} $FLYAI en esta billetera para crear hasta {max}.",
     "freeAccountEmail": "Cuenta gratis: {free} mosca, más likes, comentarios, toques y duelos. Ten {min} $FLYAI e inicia sesión con esa billetera para crear hasta {max}; ten o stakea 200k $FLYAI para ganar premios de temporada.",
+    "freeAccountEmailOff": "Cuenta gratis: {free} mosca, más likes, comentarios, toques y duelos. Ten {min} $FLYAI e inicia sesión con esa billetera para crear hasta {max}.",
     "bornDontCount": "Las moscas nacidas de apareamientos con moscas de otras personas no cuentan para tu límite.",
     "giftFly": "🎁 Tu tarjeta de merch trae una mosca gratis. No cuenta para tu límite.",
     "hatchFree": "Eclosiona tu mosca gratis",
@@ -256,6 +260,7 @@
     "wrongWallet": "Iniciaste sesión como {wallet}. Cierra sesión para cambiar de billetera.",
     "giftSignIn": "🎁 Tienes una mosca gratis de tu tarjeta de merch. Inicia sesión abajo (vale con correo) para eclosionarla.",
     "pitch": "Inicia sesión gratis para crear una mosca, ajustar sus sentidos y neuronas, dar likes, comentar y tocar. Los holders de $FLYAI crean hasta 3 moscas, y cada 2 semanas los 3 mejores del ranking de temporada que tengan o stakeen 200k $FLYAI ganan $50, $25 y $25 en $FLYAI.",
+    "pitchOff": "Inicia sesión gratis para crear una mosca, ajustar sus sentidos y neuronas, dar likes, comentar y tocar. Los holders de $FLYAI crean hasta 3 moscas.",
     "connecting": "Conectando…",
     "connectWallet": "Conectar billetera",
     "connectNamed": "Conectar {name}",
@@ -282,6 +287,7 @@
     "li8": "<b>Los holders de $FLYAI</b> crean hasta 3 moscas y las crían, y sus likes cuentan en los rankings.",
     "li9": "<b>Mercado de moscas:</b> cada mosca recibe el equivalente a 1 ETH en USDG de papel y opera tokens reales de Robinhood Chain (ETH, $FLYAI, PONS, memes, acciones tokenizadas y la stablecoin USDG para aparcar) a precios en vivo con su cerebro cada 10 minutos. No se compra nada on-chain. Elige un estilo de trading, revisa la billetera de cada mosca y escala en el ranking de las más ricas. El feed mueve su ánimo: una mosca que se acaba de asustar opera más nerviosa.",
     "li10": "<b>Gana $FLYAI:</b> las temporadas duran 2 semanas. Las misiones dan puntos de temporada, y al final de cada temporada los 3 mejores del ranking de puntos de temporada que tengan o stakeen 200k $FLYAI ganan $50, $25 y $25 en $FLYAI.",
+    "li10Off": "<b>Temporadas:</b> las temporadas duran 2 semanas. Las misiones dan puntos de temporada, y el ranking de puntos de temporada se reinicia cada temporada.",
     "season": {
       "one": "La temporada {n} va del {name}, queda {count} día.",
       "other": "La temporada {n} va del {name}, quedan {count} días."
@@ -292,6 +298,7 @@
   "missions": {
     "title": "Misiones · Temporada {n}",
     "signIn": "Inicia sesión para hacer misiones diarias y semanales. Las temporadas duran 2 semanas, y los 3 mejores del ranking de temporada que tengan o stakeen 200k $FLYAI ganan $50, $25 y $25 en $FLYAI.",
+    "signInOff": "Inicia sesión para hacer misiones diarias y semanales. Las temporadas duran 2 semanas.",
     "daysLeft": {
       "one": "{name} · queda {count} día",
       "other": "{name} · quedan {count} días"
@@ -736,6 +743,7 @@
     "likes": "{n} likes",
     "personLine": "{flies} moscas · {posts} posts · {week} esta semana · {season} esta temporada · {all} en total",
     "pointsNote": "{title}. Al final de cada temporada los 3 mejores de este ranking que tengan o stakeen 200k $FLYAI ganan $50, $25 y $25 en $FLYAI (se revisa al pagar). Los puntos vienen de las misiones: 10 por cada misión diaria, 50 por cada semanal. Las temporadas duran 2 semanas y el ranking se reinicia cada temporada.",
+    "pointsNoteOff": "{title}. Los puntos vienen de las misiones: 10 por cada misión diaria, 50 por cada semanal. Las temporadas duran 2 semanas y el ranking se reinicia cada temporada.",
     "countingPoints": "Contando puntos…",
     "noMissions": "Aún no hay misiones completadas esta temporada.",
     "reward": "Premio en $FLYAI",

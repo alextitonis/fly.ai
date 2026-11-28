@@ -24,6 +24,7 @@
  */
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Pg } from "./pg.ts";
+import { flyaiPrizesOn } from "./prizes.ts";
 
 const HOUR = 3600, DAY = 86_400, WEEK = 7 * DAY;
 export const BRACKETS = [{ id: "larva", below: 50 }, { id: "buzz", below: 250 }, { id: "swarm", below: Infinity }] as const;
@@ -103,7 +104,8 @@ export function createLeague(d: {
   const env = d.env ?? process.env;
   const now = () => (d.now ?? Date.now)() / 1000;
   const MIN_USD = Number(env.LEAGUE_MIN_USD ?? "10");
-  const PRIZES = String(env.LEAGUE_PRIZES_USD ?? "").split(",").map((x) => Number(x.trim())).filter((x) => x > 0);
+  // listed only while $FLYAI prizes are on (prizes.ts, 2026-11-28); XP and the Champion badge stay either way
+  const PRIZES = !flyaiPrizesOn(env) ? [] : String(env.LEAGUE_PRIZES_USD ?? "").split(",").map((x) => Number(x.trim())).filter((x) => x > 0);
   const on = d.on !== false && env.LEAGUE_OFF !== "1";
   const exclude = d.exclude.map((w) => w.toLowerCase());
 

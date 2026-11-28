@@ -242,6 +242,7 @@
     "tab": "Top traders",
     "title": "Trading leaderboard",
     "text": "Two-week seasons. Your score is the $FLYAI volume you trade on this market, buying and selling. The top 3 win.",
+    "textOff": "Two-week seasons. Your score is the $FLYAI volume you trade on this market, buying and selling.",
     "season": "Season {n}",
     "left": "{d} d {h} h left",
     "ended": "Ended",
@@ -259,7 +260,8 @@
     "rules": "Buys and sells both count, including accepted offers and collection offers. Trades between the same two wallets count at most {max} times a season, and a fly passed back and forth between them counts once. Team wallets don't compete. Winners are checked for wallet rings before the prizes are sent, after each season ends. Only sales of at least {min} $FLYAI count.",
     "rulesNow": "Buys and sells both count, including accepted offers and collection offers. A fly counts again only {hours} h after its last counted sale, whoever trades it. One sale counts for at most {x}x the season's middle price (now {cap} $FLYAI). Trades between the same two wallets count at most {max} times a season, and a fly passed back and forth between them counts once. Team wallets don't compete. Winners are checked for wallet rings before the prizes are sent, after each season ends. Only sales of at least {min} $FLYAI count.",
     "linkedTo": "linked to {w}",
-    "rulesLinked": "From Season 5 the board is scored on our server. Buys and sells both count, including accepted offers and collection offers. A fly counts again only {hours} h after its last counted sale, whoever trades it. One sale counts for at most {x}x the season's middle price (now {cap} $FLYAI). Trades between the same two wallets count at most {max} times a season, and a fly passed back and forth between them counts once. Linked wallets don't score off each other and win only once: wallets are linked when $FLYAI went straight from one to the other outside a sale, or when the same wallet funded them. Team wallets don't compete. Only sales of at least {min} $FLYAI count."
+    "rulesLinked": "From Season 5 the board is scored on our server. Buys and sells both count, including accepted offers and collection offers. A fly counts again only {hours} h after its last counted sale, whoever trades it. One sale counts for at most {x}x the season's middle price (now {cap} $FLYAI). Trades between the same two wallets count at most {max} times a season, and a fly passed back and forth between them counts once. Linked wallets don't score off each other and win only once: wallets are linked when $FLYAI went straight from one to the other outside a sale, or when the same wallet funded them. Team wallets don't compete. Only sales of at least {min} $FLYAI count.",
+    "rulesLinkedOff": "From Season 5 the board is scored on our server. Buys and sells both count, including accepted offers and collection offers. A fly counts again only {hours} h after its last counted sale, whoever trades it. One sale counts for at most {x}x the season's middle price (now {cap} $FLYAI). Trades between the same two wallets count at most {max} times a season, and a fly passed back and forth between them counts once. Linked wallets don't score off each other: wallets are linked when $FLYAI went straight from one to the other outside a sale, or when the same wallet funded them. Team wallets don't compete. Only sales of at least {min} $FLYAI count."
   },
   "market": {
     "view": {

@@ -5,7 +5,7 @@ import {
 } from "./feed";
 import { MemeBoard } from "./Memes";
 import { MerchBoard } from "./Merch";
-import { currentSeason } from "./seasons";
+import { currentSeason, PRIZES_ON, prizeKey } from "./seasons";
 import { Html, t, tAt } from "./i18n";
 
 type FlyRow = FlySettings & {
@@ -207,10 +207,10 @@ function People({ rows, period, setPeriod, viewerId }: {
 function Points({ rows, viewerId, title }: { rows: SeasonRow[] | null; viewerId?: string; title: string }) {
   const ranked = (rows ?? []).filter((r) => r.points > 0).slice(0, 50);
   // rewards go to wallet accounts only (the team checks the 200k $FLYAI held or staked at payout)
-  const rewarded = new Set(ranked.filter((r) => r.has_wallet !== false).slice(0, 3).map((r) => r.user_id));
+  const rewarded = new Set(!PRIZES_ON ? [] : ranked.filter((r) => r.has_wallet !== false).slice(0, 3).map((r) => r.user_id));
   return (
     <>
-      <p className="board-note">{t("flybook.board.pointsNote", { title })}</p>
+      <p className="board-note">{t(prizeKey("flybook.board.pointsNote"), { title })}</p>
       {rows === null && <div className="empty">{t("flybook.board.countingPoints")}</div>}
       {rows !== null && ranked.length === 0 && <div className="empty">{t("flybook.board.noMissions")}</div>}
       {ranked.length > 0 && (

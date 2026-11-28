@@ -24,6 +24,7 @@
  */
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { keccak_256 } from "@noble/hashes/sha3.js";
+import { flyaiPrizesOn } from "./prizes.ts";
 
 export const FLYAI = "0x0088ce7905025c4b5ea1d49ab6179b6aaadb3b9c";
 export const SEASON_ZERO = Date.UTC(2026, 8, 29);      // Season 1 starts Tuesday 2026-09-29 00:00 UTC
@@ -271,7 +272,7 @@ export function createTradeboard(d: {
     const firstOf = new Map<string, string>();
     for (const row of r.rows) if (!firstOf.has(row.root)) firstOf.set(row.root, row.wallet);
     return {
-      season: s, start: seasonStart(s), end: seasonStart(s) + SEASON_MS, prizes: PRIZES, cap: r.cap, sales: r.sales,
+      season: s, start: seasonStart(s), end: seasonStart(s) + SEASON_MS, prizes: flyaiPrizesOn() ? PRIZES : [], cap: r.cap, sales: r.sales,
       dropped_linked: r.droppedLinked, places: r.places,
       rows: r.rows.slice(0, 100).map((x) => ({ wallet: x.wallet, points: Math.round(x.points), trades: x.trades,
         linked: firstOf.get(x.root) !== x.wallet ? firstOf.get(x.root) : undefined })),

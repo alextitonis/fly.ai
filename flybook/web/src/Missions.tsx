@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { loadSeasonBoard, myMissions, type Mission } from "./feed";
-import { currentSeason } from "./seasons";
+import { currentSeason, PRIZES_ON, prizeKey } from "./seasons";
 import { t, tOr } from "./i18n";
 
 /** Daily and weekly missions for the signed-in user, and where they stand this season. */
@@ -28,7 +28,7 @@ export default function Missions({ viewer }: { viewer: { userId: string } | null
     return (
       <section className="card missions">
         <h4>{t("flybook.missions.title", { n: season.number })}</h4>
-        <p>{t("flybook.missions.signIn")}</p>
+        <p>{t(prizeKey("flybook.missions.signIn"))}</p>
       </section>
     );
   }
@@ -41,7 +41,7 @@ export default function Missions({ viewer }: { viewer: { userId: string } | null
         {t("flybook.missions.daysLeft", { name: season.name, count: season.daysLeft })}
         {standing && t("flybook.missions.you", { points: standing.points }) + (standing.rank ? t("flybook.missions.rank", { rank: standing.rank }) : "")}
       </p>
-      <p className="fine reward-line">{t("flybook.missions.reward")}</p>
+      {PRIZES_ON && <p className="fine reward-line">{t("flybook.missions.reward")}</p>}
       {error && <p className="err">{error}</p>}
       {missions === null && !error && <p className="fine">{t("flybook.missions.loading")}</p>}
       {(["daily", "weekly"] as const).map((period) => (

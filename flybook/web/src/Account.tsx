@@ -12,6 +12,7 @@ import FlyMaker from "./FlyMaker";
 import { setStoredClaim, useStoredClaim } from "./Merch";
 import { BUY_URL, FLYAI, erc20, robinhood } from "./wallet";
 import { locale, t, tn } from "./i18n";
+import { prizeKey } from "./seasons";
 
 const short = (a: string) => `${a.slice(0, 6)}…${a.slice(-4)}`;
 // the message the wallet signs stays English: it is checked against the Supabase sign-in, not shown as UI
@@ -197,7 +198,7 @@ export default function Account({ patches, live, onCreated, onViewer, house }: {
     return (
       <section className="card cta" id="account">
         <h4>{t("flybook.account.title")}</h4>
-        <p>{t("flybook.account.demoPitch")}</p>
+        <p>{t(prizeKey("flybook.account.demoPitch"))}</p>
         <a className="btn red" href={BUY_URL} target="_blank" rel="noreferrer">{t("flybook.account.getFlyai")}</a>
       </section>
     );
@@ -257,10 +258,10 @@ export default function Account({ patches, live, onCreated, onViewer, house }: {
                 </ul>
               )}
               {me.holder ? (
-                <p className="fine">{t("flybook.account.holder", { max: me.holder_max_flies })}</p>
+                <p className="fine">{t(prizeKey("flybook.account.holder"), { max: me.holder_max_flies })}</p>
               ) : (
                 <p className="fine">
-                  {t(me.wallet ? "flybook.account.freeAccount" : "flybook.account.freeAccountEmail",
+                  {t(prizeKey(me.wallet ? "flybook.account.freeAccount" : "flybook.account.freeAccountEmail"),
                      { free: me.free_max_flies, min: me.min_tokens, max: me.holder_max_flies })}
                 </p>
               )}
@@ -300,7 +301,7 @@ export default function Account({ patches, live, onCreated, onViewer, house }: {
       {!session && (
         <>
           {gift && <p className="gift-box">{t("flybook.account.giftSignIn")}</p>}
-          <p>{t("flybook.account.pitch")}</p>
+          <p>{t(prizeKey("flybook.account.pitch"))}</p>
 
           {!isConnected && (
             <div className="row">
