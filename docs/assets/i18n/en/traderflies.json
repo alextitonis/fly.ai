@@ -3028,7 +3028,7 @@
       "mDiscountStake": "Stake {amount}+ $FLYAI for {pct}% off.",
       "soonTitle": "Santa's gifts arrive soon",
       "jpTitle": "The jackpot: one box in all",
-      "jpWhat": "{usd} + {flyai} $FLYAI and a rare Trader Fly.",
+      "jpWhat": "{usd} + {flyai} $FLYAI and a rare Trader Fly. It grows with every box sold.",
       "jpHow": "Nobody knows which box it is, not even us: when the sale ends, the hash of a future block on Robinhood Chain shuffles every box's prize. It can be one you got for free."
     },
     "tier": {
